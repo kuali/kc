@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmanage-user-roles>
+    <!-- role with full access -->
+    <role>Administrator</role>
+    <!-- role with read-only access -->
+    <role>User</role>
+</jmanage-user-roles>

@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "./dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+    <!-- ============================================= Form Bean Definitions -->
+
+    <form-beans>
+        <form-bean
+            name="emptyForm"
+            type="org.jmanage.webui.forms.EmptyForm">
+        </form-bean>
+        <form-bean
+            name="loginForm"
+            type="org.jmanage.webui.forms.LoginForm">
+        </form-bean>
+        <form-bean
+            name="mbeanQueryForm"
+            type="org.jmanage.webui.forms.MBeanQueryForm">
+        </form-bean>
+        <form-bean
+            name="applicationForm"
+            type="org.jmanage.webui.forms.ApplicationForm">
+        </form-bean>
+        <form-bean
+            name="wlApplicationForm"
+            type="org.jmanage.webui.forms.WeblogicApplicationForm">
+        </form-bean>
+        <form-bean
+            name="applicationClusterForm"
+            type="org.jmanage.webui.forms.ApplicationClusterForm">
+        </form-bean>
+        <form-bean
+            name="mbeanConfigForm"
+            type="org.jmanage.webui.forms.MBeanConfigForm">
+        </form-bean>
+        <form-bean
+            name="userForm"
+            type="org.jmanage.webui.forms.UserForm">
+        </form-bean>
+        <form-bean
+            name="configureForm"
+            type="org.jmanage.webui.forms.ConfigureForm">
+        </form-bean>
+        <form-bean
+            name="changePasswordForm"
+            type="org.jmanage.webui.forms.ChangePasswordForm">
+        </form-bean>
+        <form-bean
+            name="alertForm"
+            type="org.jmanage.webui.forms.AlertForm">
+        </form-bean>
+        <form-bean
+            name="graphForm"
+            type="org.jmanage.webui.forms.GraphForm">
+        </form-bean>
+        <form-bean
+            name="attributeSelectionForm"
+            type="org.jmanage.webui.forms.AttributeSelectionForm">
+        </form-bean>
+    </form-beans>
+
+    <!-- ====================================== Global Exception Definitions -->
+
+    <global-exceptions>
+        <exception
+            handler="org.jmanage.webui.JManageExceptionHandler"
+            key="ignore"
+            type="java.lang.Exception"/>
+        <exception
+            key="ignore"
+            type="org.jmanage.core.auth.UnAuthorizedAccessException"
+            path="auth.unauthorized" />
+
+    </global-exceptions>
+
+   <!-- ======================================== Global Forward Definitions -->
+
+    <global-forwards>
+        <forward name="unAuthorized" path="/auth/unauthorized.jsp"/>
+        <forward name="login" path="/auth/showLogin.do"/>
+        <forward name="failure" path="common.error"/>
+        <forward name="connectionFailed" path="app.connectionFailed"/>
+    </global-forwards>
+
+    <!-- ======================================== Action Mapping Definitions -->
+
+    <action-mappings type="org.jmanage.webui.JManageActionMapping">
+        <!--== Authentication ===============================================-->
+        <action
+            path="/auth/showLogin"
+            name="loginForm"
+            validate="false"
+            scope="request"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="auth.showLogin">
+        </action>
+        <action
+            path="/auth/login"
+            name="loginForm"
+            validate="true"
+            input="/auth/showLogin.do"
+            scope="request"
+            type="org.jmanage.webui.actions.auth.LoginAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+        <action
+            path="/auth/logout"
+            type="org.jmanage.webui.actions.auth.LogoutAction">
+            <forward name="success" path="/index.jsp"/>
+        </action>
+        <!--== Configuration Management =====================================-->
+        <action
+            path="/config/managedApplications"
+            type="org.jmanage.webui.actions.config.ApplicationListAction">
+            <forward name="success" path="config.managedApplications"/>
+        </action>
+        <action
+            path="/config/showEditApplication"
+            name="applicationForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ShowEditApplicationAction">
+            <forward name="success" path="config.editApplication"/>
+        </action>
+        <action
+            path="/config/editApplication"
+            name="applicationForm"
+            validate="true"
+            input="/config/showEditApplication.do"
+            scope="request"
+            type="org.jmanage.webui.actions.config.EditApplicationAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+        <action
+            path="/config/showAvailableApplications"
+            name="applicationForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ShowAvailableApplicationAction">
+            <forward name="success" path="config.availableApplications"/>
+        </action>
+        <action
+            path="/config/showAddApplication"
+            name="applicationForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ShowAddApplicationAction">
+            <forward name="success" path="config.addApplication"/>
+        </action>
+        <action
+            path="/config/addApplication"
+            name="applicationForm"
+            validate="true"
+            input="/config/showAddApplication.do"
+            scope="request"
+            type="org.jmanage.webui.actions.config.AddApplicationAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+        <action
+            path="/config/deleteApplication"
+            name="applicationForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.config.DeleteApplicationAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+        <action
+            path="/config/showAddMBeanConfig"
+            name="mbeanConfigForm"
+            validate="false"
+            scope="request"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="config.showConfigMBeans" >
+        </action>
+        <action
+            path="/config/addMBeanConfig"
+            name="mbeanConfigForm"
+            scope="request"
+            input="/app/mbeanView.do"
+            type="org.jmanage.webui.actions.config.AddMBeanConfigAction">
+            <forward name="success" path="/app/mbeanView.do"/>
+        </action>
+        <action
+            path="/config/startAddMultiMBeanConfig"
+            name="mbeanConfigForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ShowAddMultiMBeanConfigAction">
+        </action>
+        <action
+            path="/config/addMultiMBeanConfig"
+            name="mbeanConfigForm"
+            scope="request"
+            input="/config/startAddMultiMBeanConfig.do"
+            type="org.jmanage.webui.actions.config.AddMBeanConfigAction">
+            <forward name="success" path="/app/appView.do"/>
+        </action>
+        <action
+            path="/config/removeMBeanConfig"
+            name="mbeanConfigForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.config.RemoveMBeanConfigAction">
+            <forward name="success" path="/app/mbeanView.do"/>
+        </action>
+        <action
+            path="/config/showApplicationCluster"
+            name="applicationClusterForm"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ShowApplicationClusterAction">
+            <forward name="success" path="config.applicationCluster"/>
+        </action>
+        <action
+            path="/config/saveApplicationCluster"
+            name="applicationClusterForm"
+            scope="request"
+            type="org.jmanage.webui.actions.config.SaveApplicationClusterAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+
+        <!--TODO: following 2 action mappings are not used -->
+        <action
+            path="/config/showConfigure"
+            name="configureForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ShowConfigureAction">
+            <forward name="success" path="/config/configure.jsp"/>
+        </action>
+        <action
+            path="/config/configure"
+            name="configureForm"
+            validate="true"
+            input="/config/configure.do"
+            scope="request"
+            type="org.jmanage.webui.actions.config.ConfigureAction">
+            <forward name="success" path="/config/showConfigure.do"/>
+        </action>
+
+        <!--== Application Management =======================================-->
+        <action
+            path="/app/appView"
+            type="org.jmanage.webui.actions.app.AppViewAction">
+            <forward name="application" path="app.appView"/>
+            <forward name="cluster" path="app.clusterView"/>
+        </action>
+        <action
+            path="/app/mbeanList"
+            name="mbeanQueryForm"
+            scope="request"
+            type="org.jmanage.webui.actions.app.MBeanListAction">
+            <forward name="success" path="app.mbeanList"/>
+        </action>
+        <action
+            path="/app/mbeanView"
+            name="mbeanConfigForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.app.ShowMBeanAction">
+            <forward name="success" path="app.mbeanView"/>
+        </action>
+        <action
+            path="/app/updateAttributes"
+            name="emptyForm"
+            scope="request"
+            type="org.jmanage.webui.actions.app.UpdateMBeanAttributesAction">
+            <forward name="success" path="/app/mbeanView.do"/>
+            <forward name="failure" path="/app/mbeanView.do"/>
+        </action>
+        <action
+            path="/app/executeOperation"
+            name="emptyForm"
+            scope="request"
+            type="org.jmanage.webui.actions.app.ExecuteMBeanOperationAction">
+            <forward name="success" path="app.mbeanOperationResult"/>
+        </action>
+        <!-- this action mapping is used by the GraphApplet to get the attribute
+                values -->
+        <action
+            path="/app/fetchAttributeValues"
+            type="org.jmanage.webui.actions.app.MBeanAttributeValuesAction">
+            <forward name="success" path="/app/attributeValues.jsp"/>
+        </action>
+        <action
+            path="/app/graphView"
+            type="org.jmanage.webui.actions.app.GraphViewAction">
+            <forward name="success" path="app.graphView"/>
+        </action>
+        <action
+            path="/app/removeConsoleAlert"
+            type="org.jmanage.webui.actions.app.RemoveConsoleAlertAction">
+            <forward name="success" path="/config/managedApplications.do"/>
+        </action>
+
+
+        <!--== User Management =======================================-->
+        <action
+            path="/config/admin"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="config.admin">
+        </action>
+
+        <action
+            path="/auth/listUsers"
+            type="org.jmanage.webui.actions.auth.ListUsersAction">
+            <forward name="success" path="auth.configuredUsers"/>
+        </action>
+        <action
+            path="/auth/deleteUser"
+            type="org.jmanage.webui.actions.auth.DeleteUserAction">
+            <forward name="success" path="/auth/listUsers.do"/>
+        </action>
+        <action
+            path="/auth/showEditUser"
+            name="userForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.auth.ShowEditUserAction">
+            <forward name="success" path="auth.editUser"/>
+        </action>
+        <action
+            path="/auth/editUser"
+            name="userForm"
+            validate="true"
+            input="/auth/showEditUser.do"
+            scope="request"
+            type="org.jmanage.webui.actions.auth.EditUserAction">
+            <forward name="success" path="/auth/listUsers.do"/>
+        </action>
+        <action
+            path="/auth/showAddUser"
+            name="userForm"
+            validate="false"
+            scope="request"
+            type="org.jmanage.webui.actions.auth.ShowAddUserAction">
+            <forward name="success" path="auth.addUser" />
+        </action>
+        <action
+            path="/auth/addUser"
+            name="userForm"
+            validate="true"
+            input="/auth/showAddUser.do"
+            scope="request"
+            type="org.jmanage.webui.actions.auth.AddUserAction">
+            <forward name="success" path="/auth/listUsers.do"/>
+        </action>
+        <action
+            path="/auth/profile"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="auth.profile">
+        </action>
+        <action
+            path="/auth/showChangePassword"
+            name="changePasswordForm"
+            validate="false"
+            scope="request"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="auth.changePassword">
+        </action>
+        <action
+            path="/auth/changePassword"
+            name="changePasswordForm"
+            validate="true"
+            input="/auth/showChangePassword.do"
+            scope="request"
+            type="org.jmanage.webui.actions.auth.ChangePasswordAction">
+            <forward name="success" path="auth.confirmChangePassword"/>
+        </action>
+        <action
+            path="/auth/showUserActivity"
+            type="org.jmanage.webui.actions.auth.ShowUserActivityAction">
+            <forward name="success" path="auth.userActivity"/>
+        </action>
+
+        <!-- Alerts Config - Begin -->
+        <action
+            path="/config/showSelectAlertSourceType"
+            name="alertForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.alert.ShowSelectAlertSourceTypeAction">
+            <forward name="success" path="config.selectAlertSourceType"/>
+        </action>
+        <action
+            path="/config/selectAlertSourceType"
+            name="alertForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.alert.SelectAlertSourceTypeAction">
+            <forward name="notification" path="/config/showSelectNotification.do"/>
+        </action>
+        <action
+            path="/config/showSelectNotification"
+            name="alertForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.alert.ShowSelectNotificationAction">
+            <forward name="success" path="config.selectNotification"/>
+        </action>
+        <action
+            path="/config/selectNotificationType"
+            name="alertForm"
+            scope="request"
+            validate="false"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/config/showAddAlert.do?alertSourceType=notification">
+        </action>
+        <action
+            path="/config/showAddAlert"
+            name="alertForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.ShowAddAlertAction">
+            <forward name="success" path="config.addAlert"/>
+        </action>
+        <action
+            path="/config/addAlert"
+            name="alertForm"
+            scope="request"
+            validate="true"
+            input="/config/showAddAlert.do"
+            type="org.jmanage.webui.actions.config.AddAlertAction">
+            <forward name="success" path="/app/appView.do"/>
+        </action>
+        <action
+            path="/config/showEditAlert"
+            name="alertForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.ShowEditAlertAction">
+            <forward name="success" path="config.addAlert"/>
+        </action>
+        <action path="/config/deleteAlert"
+                name="alertForm"
+                scope="request"
+                validate="false"
+                type="org.jmanage.webui.actions.config.RemoveAlertAction">
+                <forward name="success" path="/app/appView.do"/>
+        </action>
+        <!-- Alerts Config - End -->
+
+        <action path="/config/showMBeans"
+            name="attributeSelectionForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.ShowMBeanAction">
+            <forward name="success" path="config.showMBeans"/>
+        </action>
+        <action path="/config/showAttributes"
+            name="attributeSelectionForm"
+            scope="request"
+            validate="true"
+            input="/config/showMBeans.do"
+            type="org.jmanage.webui.actions.config.ShowAttributesAction">
+            <forward name="success" path="config.showAttributes"/>
+        </action>
+        <action path="/config/showAttributes-error"
+            name="attributeSelectionForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.ShowAttributesAction">
+            <forward name="success" path="config.showAttributes"/>
+        </action>
+        <action path="/config/selectAttributes"
+            name="attributeSelectionForm"
+            scope="request"
+            validate="true"
+            input="/config/showAttributes-error.do"
+            type="org.jmanage.webui.actions.config.SelectAttributeAction">
+        </action>
+
+        <action path="/config/showAddGraph"
+            name="graphForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.ShowAddGraphAction">
+            <forward name="success" path="config.showAddGraph"/>
+        </action>
+        <action path="/config/addGraph"
+            name="graphForm"
+            scope="request"
+            input="/config/showAddGraph.do"
+            validate="true"
+            type="org.jmanage.webui.actions.config.AddGraphAction">
+            <forward name="success" path="/app/appView.do"/>
+        </action>
+        <action path="/config/showEditGraph"
+            name="graphForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.ShowEditGraphAction">
+            <forward name="success" path="config.showAddGraph"/>
+        </action>
+        <action path="/config/deleteGraph"
+            name="graphForm"
+            scope="request"
+            validate="false"
+            type="org.jmanage.webui.actions.config.RemoveGraphAction">
+            <forward name="success" path="/app/appView.do"/>
+        </action>
+    </action-mappings>
+
+    <!-- ========================================== Controller Configuration -->
+
+    <!--controller
+        processorClass=""/-->
+    <controller
+        processorClass="org.jmanage.webui.JManageRequestProcessor"/>
+
+    <!-- ===================================== Message Resources Definitions -->
+
+    <message-resources parameter="resources.application"/>
+
+
+    <!-- ============================================ Plug Ins Configuration -->
+
+
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/jmanage-validator-rules.xml,/WEB-INF/jmanage-validation.xml"/>
+    </plug-in>
+
+    <!-- ========== Tiles plugin ==========================================  -->
+    <!--
+       This plugin initialize Tiles definition factory. This later can takes some
+           parameters explained here after. The plugin first read parameters from web.xml, then
+           overload them with parameters defined here. All parameters are optional.
+           The plugin should be declared in each struts-config file.
+         - definitions-config: (optional)
+              Specify configuration file names. There can be several comma
+                          separated file names (default: ?? )
+         - moduleAware: (optional - struts1.1)
+              Specify if the Tiles definition factory is module aware. If true (default),
+                              there will be one factory for each Struts module.
+                              If false, there will be one common factory for all module. In this later case,
+                              it is still needed to declare one plugin per module. The factory will be
+                              initialized with parameters found in the first initialized plugin (generally the
+                              one associated with the default module).
+                                true : One factory per module. (default)
+                                false : one single shared factory for all modules
+             - definitions-parser-validate: (optional)
+                  Specify if xml parser should validate the Tiles configuration file.
+                                true : validate. DTD should be specified in file header. (default)
+                                false : no validation
+
+		  Paths found in Tiles definitions are relative to the main context.
+    -->
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config" value="/WEB-INF/jmanage-tiles-defs.xml"/>
+        <set-property property="moduleAware" value="false"/>
+        <set-property property="definitions-parser-validate" value="true"/>
+    </plug-in>
+</struts-config>
