@@ -1,0 +1,101 @@
+<application-type-config>
+
+    <modules>
+        <module
+            id="weblogic"
+            connectionFactory="org.jmanage.core.modules.weblogic.WLServerConnectionFactory">
+            <config class="org.jmanage.core.modules.weblogic.WeblogicApplicationConfig"
+                    displayHost="true"
+                    displayPort="true"
+                    displayURL ="false"
+                    displayUsername="true"
+                    displayPassword="true"/>
+        </module>
+        <module
+            id="jsr160"
+            connectionFactory="org.jmanage.core.modules.jsr160.JSR160ServerConnectionFactory">
+            <config class="org.jmanage.core.modules.jsr160.JSR160ApplicationConfig"
+                    displayHost="false"
+                    displayPort="false"
+                    displayURL ="true"
+                    displayUsername="true"
+                    displayPassword="true"/>
+        </module>
+        <module
+            id="jboss"
+            connectionFactory="org.jmanage.core.modules.jboss.JBossServerConnectionFactory">
+            <config class="org.jmanage.core.modules.jboss.JBossApplicationConfig"
+                    displayHost="true"
+                    displayPort="true"
+                    displayURL ="false"
+                    displayUsername="true"
+                    displayPassword="true"/>
+        </module>
+        <module
+            id="websphere"
+            connectionFactory="org.jmanage.core.modules.websphere.WebSphereServerConnectionFactory">
+            <config class="org.jmanage.core.modules.websphere.WebSphereApplicationConfig"
+                    displayHost="true"
+                    displayPort="true"
+                    displayURL ="false"
+                    displayUsername="true"
+                    displayPassword="true"/>
+        </module>
+        <module
+            id="snmp"
+            connectionFactory="org.jmanage.core.modules.snmp.SNMPAgentConnectionFactory">
+            <config class="org.jmanage.core.modules.snmp.SNMPApplicationConfig"
+                    displayHost="true"
+                    displayPort="true"
+                    displayURL ="false"
+                    displayUsername="false"
+                    displayPassword="false"/>
+        </module>
+    </modules>
+
+    <application-types>
+        <application-type
+            id="weblogic"
+            name="Weblogic"
+            module="weblogic"
+            compatibleJMX="false"
+            defaultHost="localhost"
+            defaultPort="7001"/>
+        <application-type
+            id="jsr160"
+            name="JSR160 Application"
+            module="jsr160"
+            compatibleJMX="true"/>
+        <application-type
+            id="jboss"
+            name="JBoss"
+            module="jboss"
+            compatibleJMX="true"
+            defaultHost="localhost"
+            defaultPort="1099"/>
+        <application-type
+            id="websphere"
+            name="WebSphere"
+            module="websphere"
+            compatibleJMX="false"
+            defaultHost="localhost"
+            defaultPort="8880"/>
+        <application-type
+            id="snmp"
+            name="SNMP Device"
+            module="snmp"
+            compatibleJMX="true"
+            defaultHost="localhost"
+            defaultPort="161"/>
+
+        <!-- to be tested -->
+        <!--
+        <application-type
+            id="weblogic91"
+            name="Weblogic 9.1"
+            module="jsr160"
+            compatibleJMX="true"/> -->
+    </application-types>
+
+
+</application-type-config>

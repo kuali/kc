@@ -1,0 +1,69 @@
+<config>
+	<!-- App specific parameters -->
+	<param name="app.code">kra</param>
+	<param name="app.context.name">${app.code}-${environment}</param>
+	<param name="production.environment.code">PRD</param>
+	<param name="externalizable.help.url">/${app.context.name}/kr/static/help/</param>
+	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
+
+	<!-- Misc parameters -->
+	<param name="institution">iu</param>
+	<param name="version">03/19/2007 01:59 PM</param>
+	<param name="security.directory">/usr/local/rice/</param>
+	<param name="settings.directory">/usr/local/rice/</param>
+
+	<param name="transaction.timeout">3600</param>
+	<param name="memory.monitor.threshold">.85</param>
+	<param name="production.environment.code">prd</param>
+	<param name="maintain.users.locally">true</param>
+
+	<param name="log4j.reload.minutes">5</param>
+	<param name="log4j.settings.path">classpath:log4j.properties</param>
+
+	<param name="workflow.url">http://localhost:8080/${app.context.name}/en</param>
+	<param name="application.url">http://localhost:8080/${app.context.name}</param>
+	<param name="serviceServletUrl">http://localhost:8080/${app.context.name}/remoting/</param>
+
+	<param name="datasource.url">jdbc:oracle:thin:@esdb12-k.uits.indiana.edu:1521:KUALI</param>
+	<param name="datasource.username">KRADEV</param>
+	<param name="datasource.ojb.platform">Oracle9i</param>
+	<param name="datasource.platform">edu.iu.uis.eden.database.platform.OraclePlatform</param>
+	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
+	<param name="datasource.pool.validationQuery">select 1 from dual</param>
+	<param name="datasource.pool.maxWait">30000</param>
+	<param name="datasource.pool.minSize">0</param>
+	<param name="datasource.pool.maxSize">50</param>
+	<param name="datasource.password">ask your team</param>
+
+	<param name="keystore.alias">onestartsharedservices-devandtst</param>
+	<param name="keystore.location">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
+	<param name="keystore.password">s1t0spss!xX-tst</param>
+
+	<param name="dev.mode">true</param>
+	<param name="message.persistence">synchronous</param>
+
+	<!-- XML ingester directories -->
+	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
+	<param name="data.xml.pending.location">${data.xml.root.location}pending</param>
+	<param name="data.xml.loaded.location">${data.xml.root.location}loaded</param>
+	<param name="data.xml.problem.location">${data.xml.root.location}problem</param>
+	<param name="attachment.dir.location">/opt/ears/</param>
+	<param name="data.xml.pollIntervalSecs">30</param>
+	<param name="initialDelaySecs">10</param>
+	<param name="workgroup.url">Workgroup.do</param>
+	<param name="workgroup.report.url">Workgroup.do</param>
+	<param name="user.url">WorkflowUser.do</param>
+	<param name="user.report.url">WorkflowUserReport.do</param>
+
+	<!-- Kuali parameters -->
+	<param name="mail.relay.server">mail.relay.server</param>
+	<param name="mailing.list.batch">mailing.list.batch</param>
+	<param name="encryption.key">7IC64w6ksLU</param>
+	<param name="keystore.alias">kul</param>
+	<param name="keystore.password">kulpass</param>
+
+	<param name="kfsLocator.useAppContext">true</param>
+	<param name="production.environment.code">prd</param>
+</config>

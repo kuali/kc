@@ -1,0 +1,303 @@
+<!--
+Copyright (c) 1999 by BEA WebXpress, Inc. All Rights Reserved.
+
+This is the DTD for the Web application deployment parameters that are specific to the WebLogic server.
+
+-->
+
+
+<!--
+The weblogic-web-app is the root element of the weblogic component of the
+Web application deployment descriptor
+-->
+<!ELEMENT weblogic-web-app (description?, weblogic-version?,
+          security-role-assignment*, reference-descriptor?,
+          session-descriptor?, jsp-descriptor?)>
+
+
+<!--
+The description element is used to provide text describing the parent element.
+
+Used in: weblogic-web-app
+-->
+<!ELEMENT description (#PCDATA)>
+
+
+<!--
+The weblogic-version specifies the version of WebLogic to which
+the weblogic-web-app applies.
+
+Used in: weblogic-web-app
+-->
+<!ELEMENT weblogic-version (#PCDATA)>
+
+
+<!--
+The security-role-assigment declares a mapping between an EJB security role
+and one or more principals in the WebLogic server.
+
+Example:
+   <security-role-assignment>
+     <role-name>
+       PayrollAdmin
+     </role-name>
+     <principal-name>
+       Tanya
+     </principal-name>
+     <principal-name>
+       Fred
+     </principal-name>
+     <principal-name>
+       system
+     </principal-name>
+   </security-role-assignment>
+
+Used in: weblogic-web-app
+-->
+<!ELEMENT security-role-assignment (role-name, principal-name+)>
+
+<!--
+The role-name element contains the name of a security role.
+
+Used in: security-role-assignment
+-->
+<!ELEMENT role-name (#PCDATA)>
+
+
+<!--
+The principal-name element contains the name of a principal.
+
+Used in: security-role-assignment
+-->
+<!ELEMENT principal-name (#PCDATA)>
+
+
+<!--
+The reference-descriptor specifies a list of resource-descriptions and
+the ejb-reference-description that describe the resources used in the application.
+
+ Used in: weblogic-web-app
+
+ Example:
+     <reference-descriptor>
+        <resource-description>
+	  <res-ref-name>
+	    jdbc/EmployeeAppDB
+	  </res-ref-name>
+	  <jndi-name>
+	    weblogic.jdbc.jts.ejbPool
+	  </jndi-name>
+        </resource-description>
+        <resource-description>
+	  <res-ref-name>
+	    jdbc/PersonDB
+	  </res-ref-name>
+	  <jndi-name>
+	    weblogic.jdbc.jts.personPool
+	  </jndi-name>
+        </resource-description>
+        <ejb-reference-description>
+	  <ejb-ref-name>
+	    AdminBean
+	  </ejb-ref-name>
+          <jndi-name>
+	    payroll.AdminBean
+          </jndi-name>
+        </ejb-reference-description>
+     </reference-descriptor>
+-->
+<!ELEMENT reference-descriptor (
+  resource-description*,
+  ejb-reference-description*
+)>
+
+
+<!--
+The ejb-reference-description is used to map the JNDI name in the WebLogic
+server of an EJB that is referenced by the application in an ejb-reference.
+
+ Used in: reference-descriptor
+
+ Example:
+     <ejb-reference-description>
+	<ejb-ref-name>
+	  AdminBean
+	</ejb-ref-name>
+        <jndi-name>
+	  payroll.AdminBean
+        </jndi-name>
+     </ejb-reference-description>
+-->
+<!ELEMENT ejb-reference-description (ejb-ref-name, jndi-name)>
+
+
+<!--
+The ejb-ref-name element contains the name of an EJB reference. The
+EJB reference is an entry in the enterprise bean's environment.
+
+Used in: ejb-reference-description
+
+Example:
+<ejb-ref-name>ejb/EmplRecords</ejb-ref-name>
+
+-->
+<!ELEMENT ejb-ref-name (#PCDATA)>
+
+
+<!--
+This specifies a jndi-name for a bean, resource or reference.
+
+Used in: weblogic-enterprise-bean, reference-descriptor
+-->
+<!ELEMENT jndi-name (#PCDATA)>
+
+
+<!--
+The resource-description is used to map the JNDI name in the WebLogic
+server of a server resource that is used by a bean to an EJB resource
+reference.
+
+ Used in: reference-descriptor
+
+ Example:
+     <resource-description>
+	<res-ref-name>
+	  jdbc/EmployeeAppDB
+	</res-ref-name>
+        <jndi-name>
+	  weblogic.jdbc.jts.ejbPool
+        </jndi-name>
+     </resource-description>
+-->
+<!ELEMENT resource-description (res-ref-name, jndi-name)>
+
+
+<!--
+The res-ref-name element specifies the name of a resource factory
+reference.
+
+Used in: reference-descriptor
+
+-->
+<!ELEMENT res-ref-name (#PCDATA)>
+
+<!--
+The sesson-descriptor specifies a list of session-params
+for servlet sessions.
+
+ Used in: weblogic-web-app
+
+ Example:
+     <session-descriptor>
+       <session-param>
+         <param-name>
+           FOO
+         </param-name>
+         <param-value>
+           BAR
+         </param-value>
+       </session-param>
+     </session-descriptor>
+
+  Valid Param Names:
+    URLRewritingEnabled
+    IDLength
+    CacheSize
+    CookieComment
+    CookieDomain
+    CookieMaxAgeSecs
+    CookieName
+    CookiePath
+    InvalidationIntervalSecs
+    JDBCConnectionTimeoutSecs
+    PersistentStoreDir
+    PersistentStorePool
+    PersistentStoreType
+    SwapIntervalSecs
+    TimeoutSecs
+    ConsoleMainAttribute
+
+-->
+<!ELEMENT session-descriptor (
+  session-param*
+)>
+
+<!--
+The session-param is to define parameters for servlet sessions.
+
+ Used in: session-descriptor
+
+ Example:
+      <session-param>
+        <param-name>
+          FOO
+        </param-name>
+        <param-value>
+          BAR
+        </param-value>
+      </session-param>
+-->
+<!ELEMENT session-param (param-name,param-value)>
+
+<!--
+The jsp-descriptor specifies a list of jsp-params
+for servlet jsps.
+
+ Used in: weblogic-web-app
+
+ Example:
+     <jsp-descriptor>
+       <jsp-param>
+         <param-name>
+           FOO
+         </param-name>
+         <param-value>
+           BAR
+         </param-value>
+       </jsp-param>
+     </jsp-descriptor>
+
+  Valid Param Names:
+    defaultFilename
+    compileCommand
+    workingDir
+    verbose
+    keepgenerated
+    pageCheckSeconds
+
+-->
+<!ELEMENT jsp-descriptor (
+  jsp-param*
+)>
+
+<!--
+The jsp-param is to define parameters for servlet jsps.
+
+ Used in: jsp-descriptor
+
+ Example:
+      <jsp-param>
+        <param-name>
+          FOO
+        </param-name>
+        <param-value>
+          BAR
+        </param-value>
+      </jsp-param>
+-->
+<!ELEMENT jsp-param (param-name,param-value)>
+
+<!--
+This specifies a param-name
+
+Used in: session-param, jsp-param
+-->
+<!ELEMENT param-name (#PCDATA)>
+
+<!--
+This specifies a param-value
+
+Used in: session-param, jsp-param
+-->
+<!ELEMENT param-value (#PCDATA)>
+
