@@ -1,0 +1,107 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" ref="configProperties" />
+	</bean>
+
+	<bean id="config" class="org.kuali.rice.config.spring.ConfigFactoryBean">
+		<property name="configLocations">
+			<list>
+				<value>classpath:META-INF/kra-config.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="configProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="config" />
+		<property name="targetMethod" value="getProperties" />
+	</bean>
+
+	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean" />
+
+	<bean id="dataSource" class="org.kuali.rice.database.XAPoolDataSource">
+		<property name="transactionManager" ref="jotm" />
+		<property name="driverClassName" value="${datasource.driver.name}" />
+		<property name="maxSize" value="${datasource.pool.maxSize}" />
+		<property name="minSize" value="${datasource.pool.minSize}" />
+		<property name="maxWait" value="${datasource.pool.maxWait}" />
+		<property name="validationQuery" value="${datasource.pool.validationQuery}" />
+		<property name="url" value="${datasource.url}" />
+		<property name="username" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
+	</bean>
+
+	<bean id="rice" class="org.kuali.rice.config.RiceConfigurer">
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="jotm" />
+		<property name="userTransaction" ref="jotm" />
+		<property name="rootConfig" ref="config" />
+		<property name="messageEntity" value="KRA" />
+		<property name="properties">
+			<props>
+				<prop key="kew.standalone.server">true</prop>
+			</props>
+		</property>
+		<property name="modules">
+			<list>
+				<bean class="edu.iu.uis.eden.messaging.config.KSBConfigurer">
+					<property name="serviceServletUrl" value="${serviceServletUrl}" />
+				</bean>
+				<bean class="org.kuali.workflow.config.KEWConfigurer">
+					<property name="clientProtocol" value="local" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dbPlatformDao" class="org.kuali.rice.spring.config.KNSDBPlatformFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<import resource="classpath:org/kuali/core/SpringBeans.xml" />
+
+	<bean id="kraAppModule" class="org.kuali.core.KualiModule">
+		<property name="moduleId" value="kra" />
+		<property name="moduleName" value="KRA Application" />
+		<property name="moduleCode" value="KRA" />
+		<property name="moduleUserService" ref="kraUserService" />
+		<property name="moduleAuthorizer">
+			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
+				<property name="packagePrefixes">
+					<list>
+						<value>org.kuali.kra.rice</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="moduleUserRule">
+			<null />
+		</property>
+		<property name="moduleUserPreRules">
+			<null />
+		</property>
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>org/kuali/kra/datadictionary</value>
+			</list>
+		</property>
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>repository.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="kraUserService" class="org.kuali.kra.rice.KraModuleUserService" parent="kualiModuleUserServiceBase" />
+
+	<bean id="kualiGroupService" class="org.kuali.rice.web.RiceGroupServiceImpl">
+		<property name="workflowGroupService">
+			<ref bean="workflowGroupService" />
+		</property>
+		<property name="kualiWorkflowInfo">
+			<ref bean="workflowInfoService" />
+		</property>
+	</bean>
+
+</beans>
