@@ -1,0 +1,22 @@
+<?xml version="1.0" ?> 
+
+<META xmlns="http://www.w3.org/2002/01/P3Pv1">
+
+<POLICY-REFERENCES>
+  <EXPIRY max-age="86400"/>
+
+    <POLICY-REF about="https://onestart.iu.edu/my/w3c/OnestartPolicy1.xml">
+        <INCLUDE>/my/*</INCLUDE>
+        <COOKIE-INCLUDE
+           name="*"
+	   value="*"
+	   domain=".iu.edu"
+           path="/my/*"
+        />
+    </POLICY-REF>
+
+  <HINT scope="https://www.indiana.edu" path="/~onestart/my/w3c/p3p.xml" />
+</POLICY-REFERENCES>
+
+</META>
+

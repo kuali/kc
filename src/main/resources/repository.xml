@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<descriptor-repository version="1.0">
+
+	<descriptor-repository version="1.0">
+		<jdbc-connection-descriptor 
+			jcd-alias="dataSource"
+			default-connection="true" 
+			platform="Oracle9i" 
+			jdbc-level="3.0"
+			useAutoCommit="0">
+			<sequence-manager className="org.apache.ojb.broker.util.sequence.SequenceManagerNextValImpl" />
+			<object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
+		</jdbc-connection-descriptor>
+	</descriptor-repository>
+
+</descriptor-repository>
