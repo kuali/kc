@@ -13,14 +13,16 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp" %>
+<%@ attribute name="url" required="true" %>
+<%@ attribute name="title" required="true" %>
+<%@ attribute name="displayTitle" required="false" %>
+<%@ attribute name="prefix" required="false" %>
 
-<%-- 
-
-This is where application specific (kra) tag includes would go.
-
---%>
-
-<%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>
-<%@ taglib tagdir="/WEB-INF/tags/portal/channel" prefix="channel"%>
+<c:if test="${displayTitle}" >
+  <a class="portal_link" href="${prefix}portal.do?channelTitle=${title}&channelUrl=${url}"  title="${title}">${title}</a>
+</c:if>
+<c:if test="${! displayTitle}" >
+  <a class="portal_link" href="${prefix}portal.do?channelTitle=${title}&channelUrl=${url}" title="${title}"><jsp:doBody/></a>
+</c:if>

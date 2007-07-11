@@ -14,7 +14,14 @@
     </global-forwards>
 
     <action-mappings>
+        <!--  Core Action Mappings -->
+        <action path="/portal" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
 
+        <action path="/index" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
     </action-mappings>
 
     <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
