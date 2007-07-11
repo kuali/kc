@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2006 The Kuali Foundation.
+ Copyright 2006-2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -13,14 +13,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp" %>
-
-<%-- 
-
-This is where application specific (kra) tag includes would go.
-
---%>
-
-<%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>
-<%@ taglib tagdir="/WEB-INF/tags/portal/channel" prefix="channel"%>
+<c:set var="motd" value="<%= (new org.kuali.kfs.lookup.valuefinder.MessageOfTheDayFinder()).getValue() %>" scope="page"/>
+<c:if test="${!empty pageScope.motd}">
+    <channel:portalChannelTop channelTitle="Message Of The Day" />
+    <div class="body">
+        <strong><c:out value="${pageScope.motd}"  /></strong>
+        </div>
+    <channel:portalChannelBottom />
+</c:if>
