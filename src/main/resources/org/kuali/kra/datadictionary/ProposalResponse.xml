@@ -18,48 +18,48 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ActivityType">
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalResponse">
 
         <inquiry>
-            <title>Activity Type</title>
+            <title>Proposal Response</title>
 
-            <inquirySections><inquirySection title="Activity Type"><inquiryFields>
-                <field attributeName="activityTypeCode" forceInquiry="true" />
+            <inquirySections><inquirySection title="Proposal Response"><inquiryFields>
+                <field attributeName="proposalResponseCode" forceInquiry="true" />
                 <field attributeName="description" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Activity Type Lookup</title>
+            <title>Proposal Response Lookup</title>
 			<menubar>
 				<![CDATA[<a href="/SampleRiceClient/index.html">Main</a>]]>
 			</menubar>
-            <instructions>Look up a Activity Type</instructions>
+            <instructions>Look up a Proposal Response</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="activityTypeCode" />
+                    <sortAttribute attributeName="proposalResponseCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="activityTypeCode" required="false" />
+                <lookupField attributeName="proposalResponseCode" required="false" />
                 <lookupField attributeName="description" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="activityTypeCode" forceInquiry="true" />
+                <field attributeName="proposalResponseCode" forceInquiry="true" />
                 <field attributeName="description" forceInquiry="false"/>
             </resultFields>
         </lookup>
 
-        <titleAttribute>activityTypeCode</titleAttribute>
+        <titleAttribute>proposalResponseCode</titleAttribute>
 
         <attributes>
 
-            <attribute name="activityTypeCode">
-                <label>Activity Type</label>
-                <shortLabel>Activity Type</shortLabel>
+            <attribute name="proposalResponseCode">
+                <label>Proposal Response</label>
+                <shortLabel>Proposal Response</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -68,8 +68,8 @@
                     <text size="4" />
                 </control>
 
-                <summary>Activity Type</summary>
-                <description>Activity Type</description>
+                <summary>Proposal Response</summary>
+                <description>Proposal Response</description>
 			</attribute>
 
             <attribute name="description" forceUppercase="false">
