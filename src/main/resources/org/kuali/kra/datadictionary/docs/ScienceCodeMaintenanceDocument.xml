@@ -33,7 +33,7 @@
         </authorizations>
 
         <documentTypeName>ScienceCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>SC</documentTypeCode>
+        <documentTypeCode>SCIC</documentTypeCode>
 
         <label>Science Code Maintenance Document</label>
         <shortLabel>ScienceCodeMaintDoc</shortLabel>
