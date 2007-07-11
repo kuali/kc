@@ -6,6 +6,7 @@
 	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
+	<param name="kr.url">/${app.context.name}/kr</param>
 	<param name="use.clearDatabaseLifecycle">true</param>
 	<param name="use.kewXmlmlDataLoaderLifecycle">true</param>
 	<param name="use.sqlDataLoaderLifecycle">true</param>
