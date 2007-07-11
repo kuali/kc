@@ -14,13 +14,5 @@
  limitations under the License.
 --%>
 
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp" %>
-
-<%-- 
-
-This is where application specific (kra) tag includes would go.
-
---%>
-
-<%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>
-<%@ taglib tagdir="/WEB-INF/tags/portal/channel" prefix="channel"%>
+</body>
+</html>
