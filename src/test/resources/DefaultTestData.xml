@@ -272,7 +272,7 @@
 			<displayName>KULUSER 4</displayName>
 			<givenName>KULUSER</givenName>
 			<lastName>KULUSER</lastName>
-		</user>			
+		</user>
 		<user>
 			<workflowId>fred</workflowId>
 			<emplId>fred</emplId>
@@ -314,7 +314,7 @@
 			<lastName>employee</lastName>
 		</user>
 	</users>
-	<!-- 
+	<!--
 	<workgroups xmlns="ns:workflow/Workgroup" xsi:schemaLocation="ns:workflow/Workgroup resource:Workgroup">
 		<workgroup>
 			<id>2</id>
@@ -449,7 +449,7 @@
 			<postProcessorName>edu.iu.uis.eden.doctype.DocumentTypePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/en/DocumentType.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kra-dev/en/DocumentType.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies />
 			<routePaths>
@@ -472,7 +472,7 @@
 			<postProcessorName>edu.iu.uis.eden.routetemplate.RulePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/en/Rule.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kra-dev/en/Rule.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies />
 			<routePaths>
@@ -496,7 +496,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/en/Workgroup.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kra-dev/en/Workgroup.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>1</routingVersion>
 			<routePaths>
@@ -527,7 +527,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/travelDocument2.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kra-dev/travelDocument2.do?methodToCall=docHandler</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" nextNode="DestinationApproval" />
@@ -554,7 +554,7 @@
 					<ruleTemplate>TravelRequest-AccountRouting</ruleTemplate>
 				</requests>
 			</routeNodes>
-		</documentType>		
+		</documentType>
 		<documentType>
 			<name>TravelAccountDocument</name>
 			<description>Create a New Travel Request</description>
@@ -563,7 +563,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/docHandler.do</docHandler>
+			<docHandler>http://localhost:8080/kra-dev/docHandler.do</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />
@@ -583,7 +583,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/docHandler.do</docHandler>
+			<docHandler>http://localhost:8080/kra-dev/docHandler.do</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />

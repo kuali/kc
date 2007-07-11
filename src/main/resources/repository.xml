@@ -2,17 +2,17 @@
 <descriptor-repository version="1.0">
 
 	<descriptor-repository version="1.0">
-		<jdbc-connection-descriptor 
+		<jdbc-connection-descriptor
 			jcd-alias="dataSource"
-			default-connection="true" 
-			platform="Oracle9i" 
+			default-connection="true"
+			platform="Oracle9i"
 			jdbc-level="3.0"
 			useAutoCommit="0">
 			<sequence-manager className="org.apache.ojb.broker.util.sequence.SequenceManagerNextValImpl" />
 			<object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
 		</jdbc-connection-descriptor>
 	</descriptor-repository>
-	
+
 	<class-descriptor class="org.kuali.kra.bo.ScienceCode" table="SCIENCE_CODE">
 		<field-descriptor name="scienceCode" column="SCIENCE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -21,7 +21,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
-	
+
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ActivityType" table="ACTIVITY_TYPE">
 		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -33,6 +33,15 @@
 	
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalResponse" table="PROPOSAL_RESPONSE">
 		<field-descriptor name="proposalResponseCode" column="PROPOSAL_RESPONSE_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.CarrierType" table="CARRIER_TYPE">
+		<field-descriptor name="carrierTypeCode" column="CARRIER_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
