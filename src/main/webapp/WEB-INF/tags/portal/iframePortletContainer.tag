@@ -13,14 +13,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp" %>
+<%@ attribute name="channelTitle" required="true" %>
+<%@ attribute name="channelUrl" required="true" %>
 
-<%-- 
 
-This is where application specific (kra) tag includes would go.
-
---%>
-
-<%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>
-<%@ taglib tagdir="/WEB-INF/tags/portal/channel" prefix="channel"%>
+<iframe src="${channelUrl}" onload='setFocusedIframeDimensions("iframeportlet", 500, true); setIframeAnchor("iframeportlet")' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: 500px;" title="E-Doc" frameborder="0" height="500" scrolling="auto" width="100%"></iframe>
+                     
