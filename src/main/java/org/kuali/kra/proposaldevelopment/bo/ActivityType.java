@@ -1,29 +1,31 @@
-package org.kuali.kra.bo;
+package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
-public class ScienceCode extends KraPersistableBusinessObjectBase {
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+public class ActivityType extends KraPersistableBusinessObjectBase {
 	
-	private String scienceCode;
+	private Integer activityTypeCode;
 	private String description;
 	
+	public Integer getActivityTypeCode() {
+		return activityTypeCode;
+	}
+	public void setActivityTypeCode(Integer activityTypeCode) {
+		this.activityTypeCode = activityTypeCode;
+	}
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getScienceCode() {
-		return scienceCode;
-	}
-	public void setScienceCode(String scienceCode) {
-		this.scienceCode = scienceCode;
-	}
 
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap propMap = new LinkedHashMap();
-		propMap.put("scienceCode", this.getScienceCode());
+		propMap.put("scienceCode", this.getActivityTypeCode());
 		propMap.put("description", this.getDescription());
 		propMap.put("updateTimestamp", this.getUpdateTimestamp());
 		propMap.put("updateUser", this.getUpdateUser());
