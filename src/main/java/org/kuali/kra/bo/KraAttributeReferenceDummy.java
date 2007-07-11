@@ -20,7 +20,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.AttributeReferenceDummy 
+import org.kuali.core.bo.AttributeReferenceDummy;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiPercent;
 
