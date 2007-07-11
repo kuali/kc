@@ -18,58 +18,58 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ActivityType">
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.CarrierType">
 
         <inquiry>
-            <title>Activity Type</title>
+            <title>Carrier Type</title>
 
-            <inquirySections><inquirySection title="Activity Type"><inquiryFields>
-                <field attributeName="activityTypeCode" forceInquiry="true" />
+            <inquirySections><inquirySection title="Carrier Type"><inquiryFields>
+                <field attributeName="carrierTypeCode" forceInquiry="true" />
                 <field attributeName="description" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Activity Type Lookup</title>
+            <title>Carrier Type Lookup</title>
 			<menubar>
 				<![CDATA[<a href="/kra-dev/index.html">Main</a>]]>
 			</menubar>
-            <instructions>Look up a Activity Type</instructions>
+            <instructions>Look up a Carrier Type</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="activityTypeCode" />
+                    <sortAttribute attributeName="carrierTypeCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="activityTypeCode" required="false" />
+                <lookupField attributeName="carrierTypeCode" required="false" />
                 <lookupField attributeName="description" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="activityTypeCode" forceInquiry="true" />
+                <field attributeName="carrierTypeCode" forceInquiry="true" />
                 <field attributeName="description" forceInquiry="false"/>
             </resultFields>
         </lookup>
 
-        <titleAttribute>activityTypeCode</titleAttribute>
+        <titleAttribute>carrierTypeCode</titleAttribute>
 
         <attributes>
 
-            <attribute name="activityTypeCode">
-                <label>Activity Type</label>
-                <shortLabel>Activity Type</shortLabel>
+            <attribute name="carrierTypeCode">
+                <label>Carrier Type</label>
+                <shortLabel>Carrier Type</shortLabel>
 
                 <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <validationPattern><alphaNumeric /></validationPattern>
 
                 <control>
-                    <text size="4" />
+                    <text size="3" />
                 </control>
 
-                <summary>Activity Type</summary>
-                <description>Activity Type</description>
+                <summary>Carrier Type</summary>
+                <description>Carrier Type</description>
 			</attribute>
 
             <attribute name="description" forceUppercase="false">
