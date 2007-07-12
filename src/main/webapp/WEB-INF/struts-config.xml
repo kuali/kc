@@ -5,6 +5,8 @@
     <data-sources />
   
     <form-beans >
+        <!--  Rice Bean Definitions : This is a bean declared in Rice, but is needed throughout this config -->
+        <form-bean name="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" />
 
     </form-beans>
 
