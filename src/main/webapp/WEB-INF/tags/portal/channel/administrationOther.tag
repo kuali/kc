@@ -23,6 +23,7 @@
   <li>Approval Type</li>
   <li>Comment</li>
   <li>Cost Sharing Type</li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.CreditType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Credit Type</a></li>
   <li>IDC Rate Types</li>
   <li>Notice of Opportunity</li>
   <li>NSF Code</li>
@@ -37,7 +38,7 @@
   <li>Argument Values</li>
   <li>Closeout Type</li>
   <li>Coeus Module Names</li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.Country&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Country</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Country&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Country</a></li>
   <li>EDI Enabled Sponsors</li>
   <li>Investigators Credit Type</li>
   <li>Negotiation Activity Type</li>
