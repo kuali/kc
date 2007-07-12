@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.proposaldevelopment.bo.ScienceCode</businessObjectClass>
+        <businessObjectClass>org.kuali.kra.proposaldevelopment.bo.MailBy</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
@@ -32,23 +32,23 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>ScienceCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>SCIC</documentTypeCode>
+        <documentTypeName>MailByMaintenanceDocument</documentTypeName>
+        <documentTypeCode>MLBY</documentTypeCode>
 
-        <label>Science Code Maintenance Document</label>
-        <shortLabel>ScienceCodeMaintDoc</shortLabel>
+        <label>Mail By Maintenance Document</label>
+        <shortLabel>proposalResponseMaintDoc</shortLabel>
 
-        <summary>Science Code Maintenance Document</summary>
-        <description>Document used to create or update Science Code Reference objects</description>
+        <summary>Mail By Maintenance Document</summary>
+        <description>Document used to create or update Mail By Reference objects</description>
 
         <lockingKeys>
-            <field attributeName="scienceCode" />
+            <field attributeName="mailByCode" />
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Science Codes">
+            <maintainableSection title="Edit Mail Bys">
                 <maintainableItems>
-                    <maintainableField name="scienceCode" required="true" />
+                    <maintainableField name="mailByCode" required="true" />
                     <maintainableField name="description" required="true" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
