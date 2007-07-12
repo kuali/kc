@@ -32,7 +32,7 @@
         <lookup>
             <title>Country Code Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/SampleRiceClient/index.html">Main</a>]]>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
 			</menubar>
             <instructions>Look up a Country Code</instructions>
 
