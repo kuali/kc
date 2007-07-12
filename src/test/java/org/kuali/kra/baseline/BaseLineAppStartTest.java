@@ -28,9 +28,9 @@ public class BaseLineAppStartTest extends KraTestBase {
 
     @Test public void testHomePage() throws Exception {
         final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:9912/kr-dev/");
+        final URL url = new URL("http://localhost:9913/kra-dev/");
         final HtmlPage page = (HtmlPage)webClient.getPage(url);
-        assertEquals("Rice Sample Client", page.getTitleText() );
+        assertEquals("Kuali Portal Index", page.getTitleText() );
     }
     
 }

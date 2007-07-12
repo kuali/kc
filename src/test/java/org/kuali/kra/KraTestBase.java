@@ -27,7 +27,7 @@ public class KraTestBase extends KNSTestCase {
 	
 	@Before
 	public void setUp() throws Exception {
-		setPort(9912);
+		setPort(9913);
 		setContextName("/kra-dev");
 		setRelativeWebappRoot("/src/main/webapp");
 		setSqlFilename("classpath:DefaultTestData.sql");
