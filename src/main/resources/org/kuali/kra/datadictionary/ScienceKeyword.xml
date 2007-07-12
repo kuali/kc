@@ -32,7 +32,7 @@
         <lookup>
             <title>Science Keyword Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/index.html">Main</a>]]>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
 			</menubar>
             <instructions>Look up a Science Keyword</instructions>
 
@@ -87,7 +87,7 @@
                 <description>Description</description>
 			</attribute>
 
-
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
     </businessObject>
