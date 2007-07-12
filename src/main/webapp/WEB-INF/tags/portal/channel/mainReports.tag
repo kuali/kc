@@ -1,5 +1,5 @@
 <%--
- Copyright 2006 The Kuali Foundation.
+ Copyright 2006-2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -15,19 +15,12 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<td class="content" valign="top">
-<%--
-      <channel:messageOfTheDay />
---%>
-      <channel:mainMyStuff />
-      
-</td>
-<td class="content" valign="top">
-      <channel:mainPreAward />
-      <channel:mainPostAward />
-      <channel:mainCompliance />
-</td>
-<td class="content" valign="top">
-      <channel:mainInquiryLookup />
-      <channel:mainReports />
-</td> 
+<channel:portalChannelTop channelTitle="Reports" />
+<div class="body">
+<strong>Person and Workgroup</strong>
+<ul class="chan">
+  <li>Award Reporting Requirements</li>
+  <li>Subcontracting Reports</li>
+</ul>
+</div>
+<channel:portalChannelBottom />
