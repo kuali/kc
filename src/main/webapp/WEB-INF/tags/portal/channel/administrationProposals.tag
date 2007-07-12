@@ -19,6 +19,7 @@
 <div class="body">
 <ul class="chan">
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ActivityType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Activity Type</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.CarrierType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Carrier Type</a></li>
   <li>Reg Type</li>
   <li>Result Type</li>
   <li>Proposal Status</li>
@@ -30,6 +31,7 @@
   <li>Person Document Type</li>
   <li>Proposal Dev Editable Columns</li>
   <li>Proposal Hierarchy Child Type</li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ProposalResponse&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Proposal in Response</a></li>
   <li>Development Status</li>
 </ul>
 
