@@ -32,7 +32,7 @@
         <lookup>
             <title>Activity Type Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/index.html">Main</a>]]>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
 			</menubar>
             <instructions>Look up a Activity Type</instructions>
 
