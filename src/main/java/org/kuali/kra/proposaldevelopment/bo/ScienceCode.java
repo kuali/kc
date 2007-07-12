@@ -1,6 +1,8 @@
-package org.kuali.kra.bo;
+package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ScienceCode extends KraPersistableBusinessObjectBase {
 	

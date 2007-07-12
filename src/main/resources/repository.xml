@@ -13,7 +13,7 @@
 		</jdbc-connection-descriptor>
 	</descriptor-repository>
 
-	<class-descriptor class="org.kuali.kra.bo.ScienceCode" table="SCIENCE_CODE">
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ScienceCode" table="SCIENCE_CODE">
 		<field-descriptor name="scienceCode" column="SCIENCE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
