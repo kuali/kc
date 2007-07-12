@@ -18,58 +18,58 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ScienceCode">
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailBy">
 
         <inquiry>
-            <title>Science Code</title>
+            <title>Mail By</title>
 
-            <inquirySections><inquirySection title="Science Code"><inquiryFields>
-                <field attributeName="scienceCode" forceInquiry="true" />
+            <inquirySections><inquirySection title="Mail By"><inquiryFields>
+                <field attributeName="mailByCode" forceInquiry="true" />
                 <field attributeName="description" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Science Code Lookup</title>
+            <title>Mail By Lookup</title>
 			<menubar>
 				<![CDATA[<a href="/kra-dev/index.html">Main</a>]]>
 			</menubar>
-            <instructions>Look up a Science Code</instructions>
+            <instructions>Look up a Mail By</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="scienceCode" />
+                    <sortAttribute attributeName="mailByCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="scienceCode" required="false" />
+                <lookupField attributeName="mailByCode" required="false" />
                 <lookupField attributeName="description" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="scienceCode" forceInquiry="true" />
+                <field attributeName="mailByCode" forceInquiry="true" />
                 <field attributeName="description" forceInquiry="false"/>
             </resultFields>
         </lookup>
 
-        <titleAttribute>scienceCode</titleAttribute>
+        <titleAttribute>mailByCode</titleAttribute>
 
         <attributes>
 
-            <attribute name="scienceCode">
-                <label>Science Code</label>
-                <shortLabel>Science Code</shortLabel>
+            <attribute name="mailByCode">
+                <label>Mail By</label>
+                <shortLabel>Mail By</shortLabel>
 
-                <maxLength>15</maxLength>
-                <validationPattern><alphaNumeric /></validationPattern>
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
 
                 <control>
-                    <text size="10" />
+                    <text size="4" />
                 </control>
 
-                <summary>Science Code</summary>
-                <description>Science Code</description>
+                <summary>Mail By</summary>
+                <description>Mail By</description>
 			</attribute>
 
             <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
