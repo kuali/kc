@@ -4,9 +4,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class CarrierType extends KraPersistableBusinessObjectBase {
+public class ScienceKeyword extends KraPersistableBusinessObjectBase {
 
-	private String carrierTypeCode;
+	private String scienceKeywordCode;
 	private String description;
 
 	public String getDescription() {
@@ -15,17 +15,17 @@ public class CarrierType extends KraPersistableBusinessObjectBase {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getCarrierTypeCode() {
-		return carrierTypeCode;
+	public String getScienceKeywordCode() {
+		return scienceKeywordCode;
 	}
-	public void setCarrierTypeCode(String carrierTypeCode) {
-		this.carrierTypeCode = carrierTypeCode;
+	public void setScienceKeywordCode(String scienceCode) {
+		this.scienceKeywordCode = scienceCode;
 	}
 
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap propMap = new LinkedHashMap();
-		propMap.put("carrierTypeCode", this.getCarrierTypeCode());
+		propMap.put("scienceKeywordCode", this.getScienceKeywordCode());
 		propMap.put("description", this.getDescription());
 		propMap.put("updateTimestamp", this.getUpdateTimestamp());
 		propMap.put("updateUser", this.getUpdateUser());
