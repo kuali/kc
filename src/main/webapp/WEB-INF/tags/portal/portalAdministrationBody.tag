@@ -20,9 +20,18 @@
 <%--
       <channel:messageOfTheDay />
 --%>
+      <channel:administrationDepartmental />
+      <channel:administrationProposals />
+      <channel:administrationAwards />
 </td>
 <td class="content" valign="top">
 <%--
       <channel:feedbackChannel />
 --%>
+      <channel:administrationConflictOfInterest />
+      <channel:administrationOther />
+</td>
+
+<td class="content" valign="top">
+      <channel:administrationInstitutionalReviewBoard />
 </td>
