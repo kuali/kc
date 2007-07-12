@@ -16,7 +16,8 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <channel:portalChannelTop channelTitle="Other" />
-<stong>Shared</strong>
+<div class="body">
+<strong>Shared</strong>
 <ul class="chan">
   <li>Activity Type</li>
   <li>Approval Type</li>
@@ -30,9 +31,8 @@
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ScienceCode&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Science Code</a></li>
   <li>Special Review</li>
 </ul>
-</div>
 
-<stong>Other</strong>
+<strong>Other</strong>
 <ul class="chan">
   <li>Argument Values</li>
   <li>Closeout Type</li>
