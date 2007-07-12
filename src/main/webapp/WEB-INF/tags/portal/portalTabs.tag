@@ -40,19 +40,7 @@
     </c:if> 
     <c:if test='${selectedTab != "portalAdministrationBody"}'>
         <li class="green"><a class="green" href="portal.do?selectedTab=portalAdministrationBody" title="Administration">Administration</a></li>
-    </c:if>
-
-    <%-- Future Modules --%>
-    <%-- don't show except in test drive and development --%>
-    <c:if test="${ConfigProperties.environment == 'ptd' || ConfigProperties.environment == 'dev' || ConfigProperties.environment == 'dev2'}">
-    <c:if test='${selectedTab == "portalFutureModulesBody"}'>
-        <li class="red"><a class="red" href="portal.do?selectedTab=portalFutureModulesBody" title="Future Modules">Future Modules</a></li>
-    </c:if>
-    <c:if test='${selectedTab != "portalFutureModulesBody"}'>
-        <li class="green"><a class="green" href="portal.do?selectedTab=portalFutureModulesBody" title="Future Modules">Future Modules</a></li>
-    </c:if>
-	</c:if>
-    
+    </c:if>    
     
     </ul>
   </div>
