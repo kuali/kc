@@ -16,31 +16,23 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <channel:portalChannelTop channelTitle="My Stuff" />
- <div class="body">
-    <ul class="chan">
-	      <%--
-	          TODO: these will eventually be portal links like the example below:
-	               <portal:portalLink displayTitle="true" title="Budget Construction Control" url="lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.gl.bo.CashBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" />
-	      --%>
-    </ul>
-
+<div class="body">
 <strong>Proposals </strong>
-
-  <ul class="chan">
-    <li>Proposals in Progress</li>
-    <li>All My Proposals</li>
-  </ul> 
+<ul class="chan">
+  <li>Proposals in Progress</li>
+  <li>All My Proposals</li>
+</ul> 
 
 <strong>Negotiations</strong>
-  <ul class="chan">
-    <li>All My Negotiations</li>
-  </ul>
+<ul class="chan">
+  <li>All My Negotiations</li>
+</ul>
   
 <strong>Awards</strong>
-  <ul class="chan">
-    <li>Awards in Progress</li>
-    <li>All My Awards</li>
-  </ul>
+<ul class="chan">
+  <li>Awards in Progress</li>
+  <li>All My Awards</li>
+</ul>
            
 <strong>IRB Protocols </strong>
 <ul class="chan">
