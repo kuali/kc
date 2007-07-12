@@ -21,7 +21,7 @@
 				WorkflowAdmin
 			</defaultExceptionWorkgroupName>
 			<docHandler>
-				http://localhost:8080/kra-dev/kr/docHandler.do
+				http://localhost:8080/kra-dev/kr/maintenance.do
 			</docHandler>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
