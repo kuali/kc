@@ -58,8 +58,18 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.bo.CreditType" table="CREDIT_TYPE">
+		<field-descriptor name="creditTypeCode" column="CREDIT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="addsToHundred" column="ADDS_TO_HUNDRED" conversion="org.kuali.core.util.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.Country" table="COUNTRY_CODE">
+    <class-descriptor class="org.kuali.kra.bo.Country" table="COUNTRY_CODE">
 		<field-descriptor name="countryCode" column="COUNTRY_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="countryName" column="COUNTRY_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
