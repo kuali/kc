@@ -18,7 +18,6 @@
 <channel:portalChannelTop channelTitle="Institutional Review Board" />
 <div class="body">
 <ul class="chan">
-</ul>
   <li>Affiliation Type</li>
   <li>Batch Correspondence</li>
   <li>Committee Membership Status</li>
@@ -50,5 +49,6 @@
   <li>Submission Type Qualifier</li>
   <li>Unit Correspondents</li>
   <li>Vulnerable Subject Type</li>
+</ul>
 </div>
 <channel:portalChannelBottom />
