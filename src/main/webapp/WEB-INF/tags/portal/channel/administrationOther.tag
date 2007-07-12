@@ -26,10 +26,10 @@
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.CreditType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Credit Type</a></li>
   <li>IDC Rate Types</li>
   <li>Notice of Opportunity</li>
-  <li>NSF Code</li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.NsfCode&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">NSF Code</a></li>
   <li>Person Document Type</li>
   <li>Proposal Type</li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ScienceCode&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Science Code</a></li>
+  <li>Science Code</li>
   <li>Special Review</li>
 </ul>
 
