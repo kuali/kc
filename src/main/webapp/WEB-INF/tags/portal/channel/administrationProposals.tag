@@ -23,7 +23,7 @@
   <li>Reg Type</li>
   <li>Result Type</li>
   <li>Proposal Status</li>
-  <li>Abstract Type</li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.AbstractType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Abstract Type</a></li>
   <li>Budget Category</li>
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.DegreeType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Degree Type</a></li>
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.MailBy&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Mail By</a></li>

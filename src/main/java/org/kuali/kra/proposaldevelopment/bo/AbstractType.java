@@ -4,16 +4,16 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class ActivityType extends KraPersistableBusinessObjectBase {
+public class AbstractType extends KraPersistableBusinessObjectBase {
 	
-	private Integer activityTypeCode;
+	private String abstractTypeCode;
 	private String description;
 	
-	public Integer getActivityTypeCode() {
-		return activityTypeCode;
+	public String getAbstractTypeCode() {
+		return abstractTypeCode;
 	}
-	public void setActivityTypeCode(Integer activityTypeCode) {
-		this.activityTypeCode = activityTypeCode;
+	public void setAbstractTypeCode(String abstractTypeCode) {
+		this.abstractTypeCode = abstractTypeCode;
 	}
 	public String getDescription() {
 		return description;
@@ -25,7 +25,7 @@ public class ActivityType extends KraPersistableBusinessObjectBase {
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap propMap = new LinkedHashMap();
-		propMap.put("activityTypeCode", this.getActivityTypeCode());
+		propMap.put("abstractTypeCode", this.getAbstractTypeCode());
 		propMap.put("description", this.getDescription());
 		propMap.put("updateTimestamp", this.getUpdateTimestamp());
 		propMap.put("updateUser", this.getUpdateUser());
