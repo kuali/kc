@@ -24,9 +24,23 @@
         <action path="/index" name="KualiForm" type="org.kuali.core.web.struts.action.KualiSimpleAction">
             <forward name="basic" path="/portal.jsp" />
         </action>
+
+      <!--  KRA Proposal Development Mapping -->
+      <!--  action path="/proposalDevelopment*" name="ProposalDevelopmentForm" input="/WEB-INF/jsp/ProposalDevelopment{1}.jsp" type="edu.sampleu.travel.web.action.ProposalDevelopment{1}Action"  scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/ProposalDevelopment{1}.jsp" />
+          <forward name="keyPersonnel" path="/WEB-INF/jsp/ProposalDevelopmentKeyPersonnel.jsp" />
+          <forward name="parameters" path="/WEB-INF/jsp/ProposalDevelopmentParameters.jsp" />
+          <forward name="template" path="/WEB-INF/jsp/ProposalDevelopmentTemplate.jsp" />
+          <forward name="notes" path="/WEB-INF/jsp/ProposalDevelopmentNotes.jsp" />
+          <forward name="specialReview" path="/WEB-INF/jsp/ProposalDevelopmentSpecialReview.jsp" />
+          <forward name="abstract" path="/WEB-INF/jsp/ProposalDevelopmentAbstract.jsp" />
+          <forward name="customData" path="/WEB-INF/jsp/ProposalDevelopmentCustomData.jsp" />
+          <forward name="actions" path="/WEB-INF/jsp/ProposalDevelopmentActions.jsp" />
+      </action -->
     </action-mappings>
 
     <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
     <message-resources parameter="ApplicationResources" />
-</struts-config>
 
+    <plug-in className="org.kuali.core.web.struts.pojo.PojoPlugin" />
+</struts-config>
