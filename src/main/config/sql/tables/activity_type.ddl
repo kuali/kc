@@ -1,6 +1,6 @@
 create table activity_type 
 (
-  activity_type_code  number(3) constraint activity_type_n1 not null,
+  activity_type_code  varchar2(3) constraint activity_type_n1 not null,
   description varchar2 (200) constraint activity_type_n2 not null,
   update_timestamp date constraint activity_type_n3 not null,
   update_user varchar2 (8) constraint activity_type_n4 not null,
