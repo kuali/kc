@@ -26,6 +26,7 @@
   <li>Abstract Type</li>
   <li>Budget Category</li>
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.DegreeType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Degree Type</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.MailBy&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Mail By</a></li>
   <li>Narrative Types</li>
   <li>Person Table Editable Columns</li>
   <li>Person Document Type</li>
