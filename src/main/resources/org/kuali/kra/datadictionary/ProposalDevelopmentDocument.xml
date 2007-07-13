@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <transactionalDocument>
+        <documentClass>org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument</documentClass>
+        <businessRulesClass>org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentDocumentRule</businessRulesClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>WorkflowAdmin</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>ProposalDevelopmentDocument</documentTypeName>
+        <documentTypeCode>PRDV</documentTypeCode>
+
+        <label>Proposal Development Document</label>
+        <shortLabel>Prop Dev Doc</shortLabel>
+
+<!-- 
+        <attributes>
+
+			 
+            <attribute name="title">
+                <label>Proposal Title</label>
+                <shortLabel>Title</shortLabel>
+
+                <maxLength>500</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <required>true</required>
+
+                <control>
+                    <textarea rows="3" cols="80" />
+                </control>
+
+                <summary>Proposal title is the title of the propsal.</summary>
+                <description>Yep, it's the title all right...</description>
+			</attribute>
+
+            <attributeReference name="requestedStartDateInitial" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>Start Date</label>
+                <shortLabel>Start Dt</shortLabel>
+
+ 				<required>true</required>
+
+                <summary>The Start Date of the Proposal</summary>
+                <description>Yep, it's when the Proposal begins...</description>
+      		</attributeReference>
+
+            <attributeReference name="requestedEndDateInitial" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>End Date</label>
+                <shortLabel>Endt Dt</shortLabel>
+
+ 				<required>true</required>
+
+                <summary>The End Date of the Proposal</summary>
+                <description>Yep, it's when the Proposal ends...</description>
+      		</attributeReference>
+
+			<attribute name="proposalTypeCode">
+                <label>Proposal Type</label>
+                <shortLabel>Prop Typ</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <alphaNumeric allowWhitespace="true" />
+                </validationPattern>
+
+                <required>true</required>
+
+                <control>
+                    <select valuesFinderClass="edu.sampleu.travel.document.keyvalue.TravelRequestType" />
+                </control>
+
+                <summary>
+                    The Types that the Proposal Could be.
+                </summary>
+                <description>
+                    Isn't it obvious?
+                </description>
+            </attribute>
+
+
+      		<attribute name="activityTypeCode">
+                <label>Activity Type</label>
+                <shortLabel>Actv Typ</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <alphaNumeric allowWhitespace="true" />
+                </validationPattern>
+
+                <required>true</required>
+
+                <control>
+                    <select valuesFinderClass="edu.sampleu.travel.document.keyvalue.ActivityTypeKeyValues" />
+                </control>
+
+                <summary>
+                    The Type that the Activity could be.
+                </summary>
+                <description>
+                    Isn't it obvious?
+                </description>
+            </attribute>
+
+            <attribute name="ownedByUnit">
+                <label>Lead Unit</label>
+                <shortLabel>Lead Unit</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <required>true</required>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>Lead Unit (Owned by Unit)</summary>
+                <description>Lead Unit (Owned by Unit)</description>
+			</attribute>
+
+            <attribute name="organizationId">
+                <label>Organization Id</label>
+                <shortLabel>organizationId</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>organizationId</summary>
+                <description>organizationId</description>
+			</attribute>
+
+			<attribute name="subcontractFlag">
+				<label>Subcontract</label>
+				<shortLabel>Subcontract</shortLabel>
+
+				<maxLength>1</maxLength>
+
+				<control><checkbox /></control>
+
+				<summary>Subcontract Flag</summary>
+				<description>Is the proposal a subcontract</description>
+			</attribute>
+
+            <attribute name="performingOrganizationId">
+                <label>Performing Organization Id</label>
+                <shortLabel>performingOrganizationId</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <required>true</required>
+
+                <control>
+   					<hidden />
+                </control>
+
+                <summary>performingOrganizationId</summary>
+                <description>performingOrganizationId</description>
+			</attribute>
+			
+        </attributes>
+        -->
+
+        <summary>
+            <![CDATA[&nbsp;]]>
+        </summary>
+        <description>Doing it right</description>
+ 		<!--
+        <help securityGroupName="WorkflowAdmin" parameterName="FINANCIAL_HELP_INTERNAL_BILLING" />
+ 		-->
+        <allowsCopy>true</allowsCopy>
+
+        <headerNavigation>
+          <headerNavigationTab>
+            <navigateTo>parameters</navigateTo>
+            <displayName>Parameters</displayName>
+          </headerNavigationTab>
+          <headerNavigationTab>
+            <navigateTo>keyPersonnel</navigateTo>
+            <displayName>Key Personnel</displayName>
+          </headerNavigationTab>
+          <headerNavigationTab>
+            <navigateTo>template</navigateTo>
+            <displayName>Template</displayName>
+          </headerNavigationTab>
+          <headerNavigationTab>
+            <navigateTo>notes</navigateTo>
+            <displayName>Notes</displayName>
+          </headerNavigationTab>
+          <headerNavigationTab>
+            <navigateTo>specialReview</navigateTo>
+            <displayName>Special Review</displayName>
+          </headerNavigationTab>
+          <headerNavigationTab>
+            <navigateTo>abstract</navigateTo>
+            <displayName>Abstract</displayName>
+          </headerNavigationTab>
+          <headerNavigationTab>
+            <navigateTo>customData</navigateTo>
+            <displayName>Custom Data</displayName>
+          </headerNavigationTab>
+          <headerNavigationTab>
+            <navigateTo>actions</navigateTo>
+            <displayName>Actions</displayName>
+          </headerNavigationTab>
+        </headerNavigation>
+
+        <allowsErrorCorrection>false</allowsErrorCorrection>
+    </transactionalDocument>
+</dictionaryEntry>
