@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>StateMaintenanceDocument</name>
+			<description>Create a New State</description>
+			<label>State</label>
+			<postProcessorName>
+				org.kuali.workflow.postprocessor.KualiPostProcessor
+			</postProcessorName>
+			<superUserWorkgroupName>
+				WorkflowAdmin
+			</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>
+				WorkflowAdmin
+			</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>
+				WorkflowAdmin
+			</defaultExceptionWorkgroupName>
+			<docHandler>
+				http://localhost:8080/kra-dev/kr/maintenance.do?methodToCall=docHandler
+			</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="Initiated" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="Initiated">
+					<activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+</data>
