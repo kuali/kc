@@ -50,7 +50,7 @@
   <li>School Code</li>
   <li>Sponsor Contact Type</li>
   <li>Sponsor Type</li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.State&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">State</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.State&returnLocation=../portal.do&hideReturnLink=true&docFormKey=88888888">State</a></li>
   <li>Subcontract Status</li>
   <li>Training</li>
   <li>User Preference Variables</li>
