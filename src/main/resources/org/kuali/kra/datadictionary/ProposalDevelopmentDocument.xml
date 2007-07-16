@@ -221,7 +221,7 @@
             <displayName>Special Review</displayName>
           </headerNavigationTab>
           <headerNavigationTab>
-            <navigateTo>abstract</navigateTo>
+            <navigateTo>abstractPage</navigateTo>
             <displayName>Abstract</displayName>
           </headerNavigationTab>
           <headerNavigationTab>

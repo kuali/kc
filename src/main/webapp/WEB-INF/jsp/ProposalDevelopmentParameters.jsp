@@ -24,11 +24,11 @@
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
-  headerDispatch="save"
-  headerTabActive="parameters">
+  	headerDispatch="save"
+  	headerTabActive="parameters">
   
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kul:panelFooter />
-<kul:documentControls transactionalDocument="false" />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>

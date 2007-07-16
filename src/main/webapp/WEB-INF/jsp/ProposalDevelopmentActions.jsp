@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.KraProposalPrototype.attributes}" />
-
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentActions"
@@ -24,19 +22,9 @@
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
-  headerDispatch="save"
-  headerTabActive="actions">
-  
-  <html:hidden property="document.documentNumber" />
-   <html:hidden property="document.documentHeader.versionNumber" />
-   <html:hidden property="document.objectId" />
-   <html:hidden property="document.documentHeader.documentNumber" />
-   <html:hidden property="document.documentHeader.financialDocumentStatusCode" />
-   <html:hidden property="document.documentHeader.objectId" />
-   <html:hidden property="document.documentHeader.financialDocumentDescription" />
-
- 	<kul:hiddenDocumentFields isTransactionalDocument="false" isFinancialDocument="true" excludePostingYear="true"/>
-
-<center>Under Construction</center>
+  	headerDispatch="save"
+  	headerTabActive="actions">
+	
+	<center>Under Construction</center>
 
 </kul:documentPage>
