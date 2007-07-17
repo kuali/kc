@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.proposaldevelopment.bo.NsfCode</businessObjectClass>
+        <businessObjectClass>org.kuali.kra.bo.NsfCode</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
@@ -42,12 +42,13 @@
         <description>Document used to create or update NSF Code Reference objects</description>
 
         <lockingKeys>
-            <field attributeName="nsfCode" />
+            <field attributeName="nsfSequenceNumber" />
         </lockingKeys>
 
         <maintainableSections>
             <maintainableSection title="Edit NSF Codes">
                 <maintainableItems>
+                	<maintainableField name="nsfSequenceNumber" />
                     <maintainableField name="nsfCode" required="true" />
                     <maintainableField name="description" required="true" />
                     <maintainableField name="versionNumber" />
