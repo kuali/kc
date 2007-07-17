@@ -1,15 +1,21 @@
-package org.kuali.kra.proposaldevelopment.bo;
+package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class NsfCode extends KraPersistableBusinessObjectBase {
 	
+    private Integer nsfSequenceNumber;
 	private String nsfCode;
 	private String description;
 	
-	public String getDescription() {
+    public Integer getNsfSequenceNumber() {
+        return nsfSequenceNumber;
+    }
+    public void setNsfSequenceNumber(Integer nsfSequenceNumber) {
+        this.nsfSequenceNumber = nsfSequenceNumber;
+    }
+    public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
@@ -25,6 +31,7 @@ public class NsfCode extends KraPersistableBusinessObjectBase {
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap propMap = new LinkedHashMap();
+        propMap.put("nsfSequenceNumber", this.getNsfSequenceNumber());
 		propMap.put("nsfCode", this.getNsfCode());
 		propMap.put("description", this.getDescription());
 		propMap.put("updateTimestamp", this.getUpdateTimestamp());

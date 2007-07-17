@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NsfCode">
+    <businessObject businessObjectClass="org.kuali.kra.bo.NsfCode">
 
         <inquiry>
             <title>NSF Code</title>
@@ -56,6 +56,27 @@
         <titleAttribute>nsfCode</titleAttribute>
 
         <attributes>
+        
+        	<attribute name="nsfSequenceNumber">
+                <label>Sequence Number</label>
+                <shortLabel>Sequence Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    The assigned sequence number
+                </description>
+            </attribute>
 
             <attribute name="nsfCode">
                 <label>NSF Code</label>
