@@ -34,13 +34,9 @@ public class ProposalDevelopmentAction extends KualiTransactionalDocumentActionB
         return super.execute(mapping, form, request, response);
     }
     
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
-     */
+    @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        //return mapping.findForward("basic");
-        // save when back-end stuff is done
         return super.save(mapping, form, request, response);
     }
 
