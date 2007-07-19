@@ -19,13 +19,13 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="proposalDevelopmentParameters"
+	htmlFormAction="proposalDevelopmentProposal"
 	documentTypeName="ProposalDevelopmentDocument"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="save"
-  	headerTabActive="parameters">
+  	headerTabActive="proposal">
   
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kul:panelFooter />
