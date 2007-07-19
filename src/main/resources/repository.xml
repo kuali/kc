@@ -12,7 +12,24 @@
 			<object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
 		</jdbc-connection-descriptor>
 	</descriptor-repository>
-
+	
+	<!-- Proposal Development Document and Children -->
+	
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" table="EPS_PROPOSAL">
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" />
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    	
+    	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>
+	</class-descriptor>
+	
+	<!--  Code Tables -->
+	
 	<class-descriptor class="org.kuali.kra.bo.NsfCode" table="NSF_CODES">
 		<field-descriptor name="nsfSequenceNumber" column="NSF_SEQUENCE_NUMBER" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQUENCE_NSF_CODES" autoincrement="true"/>
 		<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR" />

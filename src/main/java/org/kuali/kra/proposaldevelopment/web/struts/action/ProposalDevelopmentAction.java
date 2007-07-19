@@ -39,9 +39,9 @@ public class ProposalDevelopmentAction extends KualiTransactionalDocumentActionB
      */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        return mapping.findForward("basic");
+        //return mapping.findForward("basic");
         // save when back-end stuff is done
-        //return super.save(mapping, form, request, response);
+        return super.save(mapping, form, request, response);
     }
 
     public ActionForward parameters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
