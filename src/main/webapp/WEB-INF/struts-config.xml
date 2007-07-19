@@ -53,7 +53,7 @@
       <action path="/proposalDevelopment*" name="ProposalDevelopmentForm" input="/WEB-INF/jsp/ProposalDevelopment{1}.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopment{1}Action"  scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/ProposalDevelopment{1}.jsp" />
           <forward name="keyPersonnel" path="/WEB-INF/jsp/ProposalDevelopmentKeyPersonnel.jsp" />
-          <forward name="parameters" path="/WEB-INF/jsp/ProposalDevelopmentParameters.jsp" />
+          <forward name="proposal" path="/WEB-INF/jsp/ProposalDevelopmentProposal.jsp" />
           <forward name="template" path="/WEB-INF/jsp/ProposalDevelopmentTemplate.jsp" />
           <forward name="notes" path="/WEB-INF/jsp/ProposalDevelopmentNotes.jsp" />
           <forward name="specialReview" path="/WEB-INF/jsp/ProposalDevelopmentSpecialReview.jsp" />
