@@ -19,7 +19,9 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -32,7 +34,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
-        this.setHeaderNavigationTabs(KNSServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getHeaderTabNavigation());
+        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService("dataDictionaryService");
+        this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
     }
 
     
@@ -51,5 +54,5 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
         super.populate(request);
     }
-
+    
 }
