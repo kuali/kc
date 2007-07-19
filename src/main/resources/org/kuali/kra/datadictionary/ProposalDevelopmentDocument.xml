@@ -202,8 +202,8 @@
 
         <headerNavigation>
           <headerNavigationTab>
-            <navigateTo>parameters</navigateTo>
-            <displayName>Parameters</displayName>
+            <navigateTo>proposal</navigateTo>
+            <displayName>Proposal</displayName>
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>keyPersonnel</navigateTo>

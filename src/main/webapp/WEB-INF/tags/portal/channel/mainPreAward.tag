@@ -22,7 +22,7 @@
   <li>
     <div class="name">Proposal Development</div>
     <div>
-      <a href="proposalDevelopmentParameters.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></a>
+      <a href="proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></a>
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </div>
   </li>

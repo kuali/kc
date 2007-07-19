@@ -40,8 +40,8 @@ public class ProposalDevelopmentAction extends KualiTransactionalDocumentActionB
         return super.save(mapping, form, request, response);
     }
 
-    public ActionForward parameters(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("parameters");
+    public ActionForward proposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("proposal");
     }
     
     public ActionForward keyPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
