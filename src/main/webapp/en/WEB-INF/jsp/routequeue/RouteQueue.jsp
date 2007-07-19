@@ -59,36 +59,52 @@
   <tr>
     <td><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
   	<td>
-  		<table width="100%" border="0" cellpadding="5" cellspacing="0">
+      <table border="0" cellpadding="0" cellspacing="0" class="bord-r-t">
   			<tr>
-  				<td>
-  					Queue Status:<br />
+  				<td class="thnormal" align="right" width="20%">
+  					Queue Status:&nbsp;
+  				</td>
+  				<td class="datacell">
 						<html-el:select property="queueStatus${Constants.ROUTE_QUEUE_FILTER_SUFFIX}">
 							<html-el:option value=""></html-el:option>
 							<html-el:option value="${Constants.ROUTE_QUEUE_QUEUED}"><c:out value="${Constants.ROUTE_QUEUE_QUEUED_LABEL}" /></html-el:option>
 							<html-el:option value="${Constants.ROUTE_QUEUE_ROUTING}"><c:out value="${Constants.ROUTE_QUEUE_ROUTING_LABEL}" /></html-el:option>
 							<html-el:option value="${Constants.ROUTE_QUEUE_EXCEPTION}"><c:out value="${Constants.ROUTE_QUEUE_EXCEPTION_LABEL}" /></html-el:option>
 						</html-el:select>
+						&nbsp;
    				</td>
-   				<td>
-   					IP Number:<br />
+   			</tr>
+   			<tr>
+  				<td class="thnormal" align="right" width="20%">
+  					IP Number:&nbsp;
+  				</td>
+  				<td class="datacell">
    					<html-el:text property="ipNumber${Constants.ROUTE_QUEUE_FILTER_SUFFIX}" size="20" maxlength="15" />
+   					&nbsp;
    				</td>
-   				<td>
-   					Service Name:<br />
+   			</tr>
+   			<tr>
+  				<td class="thnormal" align="right" width="20%">
+   					Service Name:&nbsp;
+  				</td>
+  				<td class="datacell">
    					<html-el:text property="serviceName${Constants.ROUTE_QUEUE_FILTER_SUFFIX}" />
    				</td>
-   				<td>
-   					Message Entity:<br />
+   			</tr>
+   			<tr>
+  				<td class="thnormal" align="right" width="20%">
+   					Message Entity:&nbsp;
+  				</td>
+  				<td class="datacell">
    					<html-el:text property="messageEntity${Constants.ROUTE_QUEUE_FILTER_SUFFIX}" />
    				</td>
-  			</tr>
-  			<tr>
-  				<td>
-  					<html-el:submit property="filterApplied" value="Filter" />
+   			</tr>
+   			<tr>
+  				<td class="thnormal" align="right" width="20%">
+   					&nbsp;
   				</td>
-  				<td colspan="3">
-  					&nbsp;
+  				<td class="datacell">
+  					<html-el:submit property="filterApplied" value="Filter" />
   				</td>
   			</tr>
   		</table>
@@ -97,84 +113,56 @@
   <tr>
   	<td colspan="2">&nbsp;</td>
   </tr>
+</table>
+</html-el:form>
+<table width="100%" border=0 cellspacing=0 cellpadding=0>
   <c:if test="${hasAnyRows}">
   <tr>
     <td><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
     <td>
-      <table width="100%" border="0" cellpadding="3" cellspacing="0" class="bord-r-t">
-        <tr>
-          <th align="center" class="thnormal" width="5%">
-            <div align="center">Route<br>Queue<br>Id&nbsp;</div>
-          </th>
-          <th align="center" class="thnormal" width="5%">
-            <div align="center">Service<br>Name&nbsp;</div>
-          </th>
-          <th align="center" class="thnormal">
-            <div align="center">Message<br>Entity&nbsp;</div>
-          </th>
-          <th align="center" class="thnormal" width="13%">
-            <div align="center">IP Number&nbsp;</div>
-          </th>
-          <th align="center" class="thnormal" width="10%">
-            <div align="center">Queue<br>Status</div>
-          </th>
-          <th align="center" class="thnormal" width="5%">
-            <div align="center">Queue<br>Priority&nbsp;</div>
-          </th>
-          <th align="center" class="thnormal" width="12%">
-            <div align="center">Queue Date&nbsp;</div>
-          </th>
-          <th align="center" class="thnormal" width="5%">
-            <div align="center">Retry<br>Count&nbsp;</div>
-          </th>
-          <th align="center" class="thnormal">
-            <div align="center">Payload&nbsp;</div>
-          </th>
-          <th align="center" class="thnormal">
-            <div align="center">Action&nbsp;</div>
-          </th>        
-        </tr>
-        <c:forEach var="row" items="${RouteQueueForm.routeQueueRows}">
-        <%-- mouseover and mouseout used for highlighting of rows; highlightrow is an empty style class used to identify these particular rows --%>
-        <tr class="highlightrow" onmouseover="this.className = 'over';" onmouseout="this.className = this.className.replace('over', '');">
-          <td class="datacell" width="5%">
-            <c:out value="${row.routeQueueId}" />&nbsp;
-          </td>
-          <td class="datacell" width="5%">
-            <c:out value="${row.serviceName}" />&nbsp;
-          </td>
-          <td class="datacell">
-            <c:out value="${row.messageEntity}" />&nbsp;
-          </td> 
-          <td class="datacell" width="13%">
-            <c:out value="${row.ipNumber}" />&nbsp;
-          </td>       
-          <td class="datacell" width="10%">
-            <c:out value="${row.routeQueueStatusLabel}" />&nbsp;
-          </td>
-          <td class="datacell" width="5%">
-            <c:out value="${row.queuePriority}" />&nbsp;
-          </td>
-          <td class="datacell" width="12%">
-            <fmt:formatDate value="${row.queueDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />
-          </td>
-          <td class="datacell" width="5%">
-            <c:out value="${row.retryCount}" />&nbsp;
-          </td>
-          <td class="datacell">
-          	<a href='RouteQueue.do?methodToCall=viewPayload&routeQueueId=<c:out value="${row.routeQueueId}" />'>View</a>
-          </td> 
-          <td align="center" class="datacell">
-            <div align="center"><a href='RouteQueue.do?methodToCall=edit&routeQueueId=<c:out value="${row.routeQueueId}" />'>Edit&nbsp;</a></div>
-          </td>
-        </tr>
-        </c:forEach>
-      </table>
+
+		  <%-- Table layout of the search results --%>
+		  <display-el:table excludedParams="*" pagesize="${preferences.pageSize}" class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${RouteQueueForm.routeQueueRows}" export="true" id="result" requestURI="RouteQueue.do?methodToCall=start&filterApplied=${filterApplied}&queueStatusFilter=${queueStatusFilter}&ipNumberFilter=${ipNumberFilter}&serviceNameFilter=${serviceNameFilter}&messageEntityFilter=${messageEntityFilter}" defaultsort="1" defaultorder="descending" 
+				decorator="edu.iu.uis.eden.docsearch.web.DocumentSearchDecorator">
+		    <display-el:setProperty name="paging.banner.placement" value="both" />
+		    <display-el:setProperty name="export.banner" value="" />
+		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Route<br />Queue Id</div>" sortProperty="routeQueueId">
+		    	<c:out value="${result.routeQueueId}"/>&nbsp;
+		    </display-el:column>
+		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Service<br />Name</div>" >
+		    	<c:out value="${result.serviceName}"/>&nbsp;
+		    </display-el:column>
+		    <display-el:column style="text-align:center;vertical-align:middle;"  class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Message<br />Entity</div>" >
+		    	<c:out value="${result.messageEntity}"/>&nbsp;
+		    </display-el:column>
+		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>IP Number</div>" >
+		    	<c:out value="${result.ipNumber}"/>&nbsp;
+		    </display-el:column>
+		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Queue<br />Status</div>" >
+		    	<c:out value="${result.routeQueueStatusLabel}"/>&nbsp;
+		    </display-el:column>
+		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Queue<br />Priority</div>" >
+		    	<c:out value="${result.queuePriority}"/>&nbsp;
+		    </display-el:column>
+		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Queue<br />Date</div>" sortProperty="queueDate.time">
+		    	<fmt:formatDate value="${result.queueDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;
+		    </display-el:column>
+		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Retry<br />Count</div>" >
+		    	<c:out value="${result.retryCount}"/>&nbsp;
+		    </display-el:column>
+		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="false" title="<div style='text-align:center;vertical-align:top;'>Actions</div>" >
+		    	<a href='RouteQueue.do?methodToCall=viewPayload&routeQueueId=<c:out value="${result.routeQueueId}" />'>View Payload</a>
+		    	&nbsp;
+		    	<a href='RouteQueue.do?methodToCall=edit&routeQueueId=<c:out value="${result.routeQueueId}" />'>Edit</a>
+		    	&nbsp;
+		    	<a href='RouteQueue.do?methodToCall=quickRequeueMessage&routeQueueId=<c:out value="${result.routeQueueId}" />' onClick="return confirm('Are you sure you want to ReQueue this message?\n\nThe QueueDate will be reset to today, the Status changed to QUEUED, and the Retry set to zero.');">ReQueue</a>
+		    </display-el:column>
+		  </display-el:table>
+
     </td>
   </tr>
   </c:if> 
 </table>
-</html-el:form>
 <jsp:include page="../BackdoorMessage.jsp" flush="true"/>
 </body>
 </html-el:html>

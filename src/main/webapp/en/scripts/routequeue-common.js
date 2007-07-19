@@ -1,4 +1,4 @@
-// RouteQueueEntry.jsp, RouteQueueSummary.jsp
+// RouteQueueEntry.jsp, etc
 
 function submitQueueId(methodToCall, queueId)
 {

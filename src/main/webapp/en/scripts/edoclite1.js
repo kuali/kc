@@ -38,12 +38,13 @@
 
 var nbsp = 160;    // non-breaking space char
 
-var empty_regex = /^\s*$/
+var empty_regex = /^\s*$/;
 
-var field_titles = new Object;
-var field_regexes = new Object;
-var field_errorMessages = new Object;
-var field_validationRequired= new Object;
+var field_titles = new Object();
+var field_regexes = new Object();
+var field_errorMessages = new Object();
+var field_validationRequired= new Object();
+var field_customValidators = new Object();
 
 var field_names = new Array;
 
@@ -73,14 +74,18 @@ function setMessage(fld,     // id of element to display message in
              msgtype, // class to give element ("warn" or "error")
              message) // string to display
 {
+    if (!fld) {
+        return;
+    }
     // setting an empty string can give problems if later set to a
     // non-empty string, so ensure a space present. (For Mozilla and Opera one could
     // simply use a space, but IE demands something more, like a non-breaking space.)
     var dispmessage;
-    if (empty_regex.test(message))
+    if (empty_regex.test(message)) {
         dispmessage = String.fromCharCode(nbsp);
-    else
+    } else {
         dispmessage = message;
+    }
 
     // set the text value of the message
     setTextValue(fld + "_message", dispmessage);
@@ -94,7 +99,7 @@ function setMessage(fld,     // id of element to display message in
     //setClass(fld + "_messageRow", msgtype + "_messageRow");
     setClass(fld + "_message", msgtype + "Message");
     setClass(fld+"_messageHeaderCell",msgtype+"Message");
-};
+}
 
 function getTarget(event) {
     var target;
@@ -112,6 +117,13 @@ function registerHandlers() {
         var fieldName = field_names[i];
         //alert("registering handler for: " + fieldName);
         var element = document.getElementById('edoclite')[fieldName];
+        if (element.length > 1) {
+            // for radio buttons (all share the same name)
+            for (var j = 0; j < element.length; j++) {
+	            element[j].onchange = validate;
+                element[j].onblur = validate;
+            }
+        }
         element.onchange = validate;
         element.onblur = validate;
         if (element.captureEvents) element.captureEvents(Event.CHANGE);
@@ -137,6 +149,17 @@ function register(name, title, regex, message, validationRequired) {
 
     // set the error message for this field
     field_validationRequired[name] = validationRequired == "true";
+
+	// set the custom validator to be false
+    field_customValidators[name] = false;
+}
+
+function register_custom(name, title, messages, validationRequired, validationFunction) {
+    field_names.push(name)
+    field_titles[name] = title;
+    field_errorMessages[name] = messages;
+    field_validationRequired[name] = validationRequired == "true";
+    field_customValidators[name] = validationFunction;
 }
 
 function isValidationRequired(fieldName) {
@@ -155,20 +178,24 @@ function trim(string) {
                  .replace(/\s+$/m, ""); // strip trailing
 }
 
-function isValid(element, regex, required) {
+function isValid(element, regex, required, validator) {
     //alert("isValid: " + element);
     //alert("regex for " + element.name + ": " + regex);
     //alert("element value: '" + element.value + "'");
+	var fieldValue = getFieldValue(fieldInputs);
+    if (validator) {
+        return validator(fieldValue);
+    }
     if (regex == null || regex == "") {
         //alert("no regex for " + element.name);
         if (required) {
             //alert("element value: " + element.value);
-            return element.value != null && trim(element.value).length > 0;
+            return fieldValue != null && trim(fieldValue).length > 0;
         } else {
             return true;
         }
     } else {
-        return element.value.match(regex);
+        return fieldValue.match(regex);
     }
     //return false;
 }
@@ -178,34 +205,82 @@ function validate(event) {
     //alert("validate event: " + event);
     if (!event) var event = window.event;
     // event gives access to the event in all browsers
-    validateField(getTarget(event));
+	var target = getTarget(event);
+	var targetArray = new Array();
+	targetArray[0] = target;
+	var fieldName = getFieldName(targetArray);
+    validateField(getFieldInputs(fieldName), fieldName);
 }
 
-function validateField(target) {
+
+function getFieldValue(fieldInputs) {
+	if (fieldInputs.length > 1) {
+		var type = fieldInputs[0].type;
+		if (type == 'radio' || type == 'checkbox') {
+			for (var i=0; i < fieldInputs.length; i++){
+				if (fieldInputs[i].checked) {
+					return fieldInputs[i].value;
+				}
+			}
+		}
+		throw 'Problem determining field value for inputs, type was: ' + type;
+	}
+	else {
+		return fieldInputs[0].value;
+	}
+}
+
+
+function getFieldName(fieldInputs) {
+	if (fieldInputs.length > 1) {
+		var type = fieldInputs[0].type;
+		if (type == 'radio' || type == 'checkbox') {
+			for (var i=0; i < fieldInputs.length; i++){
+				if (fieldInputs[i].checked) {
+					return fieldInputs[i].name;
+				}
+			}
+		}
+		throw 'Problem determining field name for inputs, type was: ' + type;
+	}
+	else {
+		return fieldInputs[0].name;
+	}
+}
+
+
+function validateField(fieldInputs, fieldName) {
     try {
-        var regex = field_regexes[target.name];
-        var required = isValidationRequired(target.name);
+        if (!field_customValidators[fieldName]) {
+            var regex = field_regexes[fieldName];
+            var required = isValidationRequired(fieldName);
+            var valid = isValid(fieldInputs, regex, required, false);
+        } else {
+            var validator = field_customValidators[fieldNname]
+            var required = isValidationRequired(fieldName);
+            var valid = isValid(fieldInputs, "", required, validator)
+        }
         var message = "";
         var type = "empty";
-        var valid = isValid(target, regex, required);
+
         if (!valid) {
             // set a color instead and then pop up summary alert on submit
             // if there are any fields which fail validation
             // but are required="true" in the bizdata
-            message = field_errorMessages[target.name];
-            var error_element = document.getElementById(target.name + "_message");
+            message = field_errorMessages[fieldName];
+            var error_element = document.getElementById(fieldName + "_message");
             if (error_element == null) {
-                alert("Could not find error element by id: " + target.name + "_message");
+                alert("Could not find error element by id: " + fieldName + "_message");
             } else {
               if (message.length == 0) {
                 if (regex == null || regex == "") {
-                    var title = field_titles[target.name];
+                    var title = field_titles[fieldName];
                     if (title == null) {
-                        title = target.name;
+                        title = fieldName;
                     }
                     message = "field '" + title + "' is required";
                 } else {
-                  message = target.value + " does not match " + regex;
+                  message = getFieldValue(fieldInputs) + " does not match " + regex;
                 }
               }
               if (required) {
@@ -217,49 +292,59 @@ function validateField(target) {
         }
 
     } catch (error) {
-        message = "Error validating target " + target + ": " + error;
+        message = "Error validating target " + fieldInputs + ": " + error;
         type = "error";
-        //alert(message);
         valid = false;
     }
-    setMessage(target.name, type, message);
+    setMessage(fieldName, type, message);
     return valid;
 }
 
 function validateForm() {
-    //alert("validating form");
     var errs = 0;
-//    var form = document.getElementById('edoclite');
-//    for (var i in form.elements) {
-//        var field = form.elements[i];
-//        if (field_validationRequired[field.name] == null) {
-//            //alert("no mapping for field: " + field.name);
-//            continue;
-//        }
-//        //alert("validating field: " + field);
-//        if (!validateField(field)) {
-//            //alert("field " + field.name + " is invalid");
-//            if (isValidationRequired(field.name)) {
-//                errs += 1;
-//                //alert("and was required (errs: " + errs + ")");
-//            }
-//        }
-//    }
-    
     for (var i in field_names) {
         var fieldName = field_names[i];
-        var element = document.getElementById('edoclite')[fieldName];
-        //alert("validating form element: " + element.name);
-        if (!validateField(element)) {
-           // alert("field " + element.name + " is invalid");
-            if (isValidationRequired(element.name)) {
+        var fieldInputs = getFieldInputs(fieldName);
+        // TODO: in the case that there is an error getting the field name or the field name returned by
+        // getFieldName(...) does not match the field name above, we are going to suppress validation
+        // of the field and continue with the next field.
+        //
+        // Currently, this is most likely to happen in the case of a "read only" field.  Because disabled
+        // input fields are not submitted with the form, we added hidden fields in that case so that you
+        // end up with something like the following:
+        //
+        // <input name="myField" type="hidden" value="..."><input name="myField" type="text" value="..." disabled>
+        //
+        // As we can see there are 2 input fields so both are returned by calls to getElementById which
+        // results in getFieldName throwing an error.  Really, all of this javascript needs to be improved but
+        // we need to get this fixed up prior to the 2.2.5 release of KEW and we don't have time to do
+        // a hefty refactoring.
+        try {
+        	var calculatedFieldName = getFieldName(fieldInputs);
+        	if (calculatedFieldName == null || calculatedFieldName != fieldName) {
+        		continue;
+        	}
+        } catch (error) {
+        	continue;
+        }
+        if (!validateField(fieldInputs, fieldName)) {
+            if (isValidationRequired(fieldName)) {
                 errs += 1;
-              //  alert("and was required (errs: " + errs + ")");
             }
         }
     }
-    //alert("validateForm errs: " + errs);
     return errs;
+}
+
+function getFieldInputs(fieldName) {
+    var edocliteForm = document.getElementById('edoclite');
+	var fieldInputs = new Array();
+	for(var i = 0; i < edocliteForm.elements.length; i++) {
+		if(edocliteForm.elements[i].name == fieldName) {
+			fieldInputs[fieldInputs.length] = edocliteForm.elements[i];
+		}
+	}
+	return fieldInputs;
 }
 
 function validateOnSubmit(form) {

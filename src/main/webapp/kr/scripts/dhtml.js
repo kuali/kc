@@ -181,7 +181,10 @@ function clearRecipients(recipientBase) {
 function setRecipientValue(recipientBase, value, isError ) {
     // Trim because leading whitespace from copyright comment interferes with putting value into objectTypeCode input field.
     value = value.toString().trim();
-    var containerHidden = kualiElements[recipientBase];
+    var containerHidden = document.getElementById(recipientBase);
+    if ( !containerHidden ) {
+	    containerHidden = kualiElements[recipientBase];
+    }
     var containerDiv = document.getElementById(recipientBase + divSuffix);
     if (containerDiv) {
 		if (value == '') {

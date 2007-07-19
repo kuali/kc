@@ -16,7 +16,7 @@
 </head>
 <body>
 
-  <html-el:form method="get" action="/Lookup.do" onsubmit="document.forms['LookupForm'].methodToCall.value = 'search';">
+  <html-el:form method="get" action="/Lookup.do">
   <input type="hidden" name="returnLocation"/>
   <input type="hidden" name="quickFinderLookupable"/>
   <html-el:hidden name="LookupForm" property="backLocation" />
@@ -78,8 +78,16 @@
         
         <tr align=center>
           <td height=30 colspan=3 class="thnormal">
+			<html-el:image property="methodToCall.search" value="search"
+						src="images/buttonsmall_search.gif" styleClass="tinybutton"
+						alt="search" title="search" border="0" />&nbsp;&nbsp;<html-el:image
+						property="methodToCall.clearValues" value="clearValues"
+						src="images/buttonsmall_clear.gif" styleClass="tinybutton"
+						alt="clear" title="clear" border="0" />
+<%-- OLD STUFF
               <a href="javascript:clearValues('search', 'LookupForm', 'Lookup.do')" value="Search" style='font-family:verdana,arial,helvetica,sans-serif;font-size:10px;font-weight:bold;background:#cccccc;color:#333399' ><img src="images/buttonsmall_search.gif" alt="search" border=0 align=absmiddle></a>
                &nbsp;&nbsp;<a href="javascript:clearValues('clearValues', 'LookupForm', 'Lookup.do')"><img src="images/buttonsmall_clear.gif" alt="clear" align=absmiddle></a>
+--%>
           </td>
         </tr>
       </table>
@@ -129,7 +137,7 @@
 		<c:forEach items="${workflowLookupable.columns}" var="column">
 			<display-el:column class="datacell" 
 				sortable="${column.sortable}"
-				sortName="${column.propertyName}"
+				sortName="${column.sortName}"
 				title="${column.columnTitle}"
 				property="${column.propertyName}"
 				decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">

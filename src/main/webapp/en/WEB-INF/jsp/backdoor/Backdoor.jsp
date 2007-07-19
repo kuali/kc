@@ -25,18 +25,18 @@
 <jsp:include page="../WorkflowMessages.jsp" flush="true" />
 <c:if test="${BackdoorForm.backdoorLinksBackdoorLogin && BackdoorForm.showBackdoorLogin}">
  	<html-el:form action="Backdoor.do">
-   
+
       	<table>
-            <tr><td>              
+            <tr><td>
             	<html-el:hidden property="targetName"/>
             	<html-el:hidden property="backdoorLinksBackdoorLogin"/>
 				&nbsp;&nbsp;&nbsp;&nbsp;Backdoor Id: &nbsp;&nbsp;<html-el:text property="backdoorId" />&nbsp;&nbsp;<html-el:image src="images/tinybutton-login.gif" align="absmiddle" property="methodToCall.login" tabindex="1"/>&nbsp;&nbsp;
 	            <html-el:image src="images/tinybutton-logout.gif" align="absmiddle" property="methodToCall.logout" tabindex="2"/>
 				</td>
             </tr>
-          
-        </table>       
-    
+
+        </table>
+
     </html-el:form>
     <br>
 </c:if>
@@ -47,11 +47,9 @@
 	<tr>
 		<td><a href="DocumentSearch.do" target="<c:out value="${BackdoorForm.targetName}" />">Document Search</a></td>
 	</tr>
-	<c:if test="${BackdoorForm.isWorkgroupBlanketApprover}">
 	<tr>
 		<td><a href="Lookup.do?lookupableImplServiceName=WorkGroupLookupableImplService" target="<c:out value="${BackdoorForm.targetName}" />">Workgroup</a></td>
 	</tr>
-	</c:if>
 	<tr>
 		<td><a href="Lookup.do?lookupableImplServiceName=RuleBaseValuesLookupableImplService" target="<c:out value="${BackdoorForm.targetName}" />">Rules</a></td>
 	</tr>
@@ -72,7 +70,7 @@
 	<tr>
 		<td><a href="Lookup.do?lookupableImplServiceName=EDocLiteLookupableService" target="<c:out value="${BackdoorForm.targetName}" />">EDocLites</a></td>
 	</tr>
-<%--	
+<%--
 	<c:if test="${BackdoorForm.isWorkflowAdmin}">
 		<tr>
 			<td><a href="Administration.do?methodToCall=administration" target="<c:out value="${BackdoorForm.targetName}" />">Administration</a></td>

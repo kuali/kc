@@ -61,6 +61,10 @@
 						<c:forEach items="${KualiForm.editingMode}" var="mode">
 							<html:hidden property="editingMode(${mode.key})" />
 						</c:forEach>
+						<c:forEach items="${KualiForm.document.newMaintainableObject.inactiveRecordDisplay}" var="inactiveDisplay">
+							<html:hidden property="document.newMaintainableObject.inactiveRecordDisplay(${inactiveDisplay.key})" />
+							<html:hidden property="document.oldMaintainableObject.inactiveRecordDisplay(${inactiveDisplay.key})" />
+						</c:forEach>
 
 						<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
@@ -71,14 +75,12 @@
 	</script>
 	
 
-<%-- Show the information about the business object. --%>
-
+    <%-- Show the information about the business object. --%>
 	<c:forEach items="${FieldSections}" var="section">
-
 	  <%-- call helper tag to look ahead through fields for old to new changes, and highlight tab if so --%>
-          <kul:checkTabHighlight rows="${section.rows}" addHighlighting="${isMaintenance && (Constants.MAINTENANCE_EDIT_ACTION eq KualiForm.maintenanceAction)}" />
+      <kul:checkTabHighlight rows="${section.rows}" addHighlighting="${isMaintenance && (Constants.MAINTENANCE_EDIT_ACTION eq KualiForm.maintenanceAction)}" />
 
-	  <kul:tab tabTitle="${section.sectionTitle}" defaultOpen="true" tabErrorKey="${section.errorKey}" highlightTab="${tabHighlight}"> 
+	  <kul:tab tabTitle="${section.sectionTitle}" defaultOpen="true" tabErrorKey="${section.errorKey}" highlightTab="${tabHighlight}" extraButtonSource="${section.extraButtonSource}" > 
 	    <div class="tab-container" align="center">
 	      <table width="100%" cellpadding=0 cellspacing=0 class="datatable">
 		     <kul:rowDisplay rows="${section.rows}" numberOfColumns="${section.numberOfColumns}" />
@@ -87,9 +89,7 @@
 	  </kul:tab>
 	</c:forEach>
 
-<%-- Put the footer on the page. --%>
-
-
+            <%-- Put the footer on the page. --%>
 			<c:if test="${KualiForm.document.newMaintainableObject.boNotesEnabled}">
 				<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" displayTopicFieldInNotes="${_displayTopicFieldInNotes}"/>
 			</c:if>

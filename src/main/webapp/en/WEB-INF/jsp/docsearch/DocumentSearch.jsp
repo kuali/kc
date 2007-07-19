@@ -1,12 +1,13 @@
 <%@ page import="org.apache.commons.beanutils.BeanUtils" %>
 <%@ page import="edu.iu.uis.eden.lookupable.Column" %>
 <%@ taglib uri="../../tld/struts-html-el.tld" prefix="html-el" %>
+<%@ taglib uri="../../tld/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="../../tld/struts-bean-el.tld" prefix="bean-el" %>
 <%@ taglib uri="../../tld/struts-logic-el.tld" prefix="logic-el"%>
 <%@ taglib uri="../../tld/c.tld" prefix="c" %>
 <%@ taglib uri="../../tld/fmt.tld" prefix="fmt" %>
 <%@ taglib uri="../../tld/displaytag.tld" prefix="display-el" %>
- 
+
 <html-el:html>
 <head>
 <title>
@@ -42,7 +43,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="headercell1">
   <tr>
     <td>
-        <img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;
+        <img src="<bean-el:message key="wflogo"/>" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;
     </td>
     <td width="90%">
       <a href="javascript:setMethod('<c:if test="${DocumentSearchForm.isAdvancedSearch == 'YES'}">basic</c:if><c:if test="${DocumentSearchForm.isAdvancedSearch != 'YES'}">advanced</c:if>');document.forms[0].submit();">
@@ -69,8 +70,8 @@
   <tr>
     <td width="20" height="30">&nbsp;</td>
     <td height="30">
-       <strong><c:if test="${DocumentSearchForm.superUserSearch == 'YES'}">SuperUser </c:if> Search for a Document:</strong>
-       <%-- next line is for using enter key to do search --%>  
+       <strong><c:if test="${DocumentSearchForm.superUserSearch == 'YES'}">SuperUser </c:if> <bean-el:message key="docSearch.DocumentSearch.criteria.label.introduction"/>:</strong>
+       <%-- next line is for using enter key to do search --%>
        <html-el:image property="methodToCall.doDocSearch" src="images/pixel_clear.gif"/>
     </td>
     <td width="20" height="30">&nbsp;</td>
@@ -83,7 +84,7 @@
       <table width="100%" border="0" cellpadding="3" cellspacing="0" class="bord-r-t">
         <tr>
           <th align="right" class="thnormal"  colspan="2">
-            <div align="right">Document Type:</div>
+            <div align="right"><bean-el:message key="docSearch.DocumentSearch.criteria.label.documentType"/>:</div>
           </th>
           <td class="datacell">
             <table border="0" cellspacing="0" cellpadding="1">
@@ -103,7 +104,7 @@
         </tr>
         <tr>
           <th align="right" class="thnormal"  colspan="2" >
-            <p align="right">Initiator Network Id:</p>
+            <p align="right"><bean-el:message key="docSearch.DocumentSearch.criteria.label.initiatorId"/>:</p>
           </th>
           <td nowrap class="datacell">
             <html-el:text name="DocumentSearchForm" property="criteria.initiator" />
@@ -111,9 +112,9 @@
             <bean-el:message key="general.help.initiatorId"/>
           </td>
         </tr>
-        <tr> 
+        <tr>
           <th width="22%" align="right" valign="top" class="thnormal"  colspan="2" >
-            <div align="right">Document Id:</div>
+            <div align="right"><bean-el:message key="docSearch.DocumentSearch.criteria.label.documentId"/>:</div>
           </th>
           <td width="78%" valign="top" class="datacell">
             <html-el:text name="DocumentSearchForm" property="criteria.routeHeaderId" />&nbsp;<bean-el:message key="general.help.routingId"/>
@@ -121,12 +122,12 @@
         </tr>
         <tr>
           <th height="28" align="right" valign="center" class="thnormal"  colspan="2" >
-            <div align="right">Date Created:</div>
+            <div align="right"><bean-el:message key="docSearch.DocumentSearch.criteria.label.dateCreated"/>:</div>
           </th>
           <td valign="top" class="datacell">
             <table width="100" border="0" cellspacing="0" cellpadding="1">
               <tr>
-                <td align="right" nowrap>from:</td>
+                <td align="right" nowrap><bean-el:message key="docSearch.DocumentSearch.criteria.label.from"/>:</td>
                 <td nowrap>
                   <html-el:text name="DocumentSearchForm" property="fromDateCreated" size="10" />
                   <a href="javascript:showCal('fromDateCreated');"><img src="images/cal.gif" width="16" height="16" align="absmiddle" alt="Click Here to pick up the from create date"></a>
@@ -136,7 +137,7 @@
                 </td>
               </tr>
               <tr>
-                <td align="right" nowrap>to:</td>
+                <td align="right" nowrap><bean-el:message key="docSearch.DocumentSearch.criteria.label.to"/>:</td>
                 <td nowrap>
                   <html-el:text name="DocumentSearchForm" property="toDateCreated" size="10" />
                   <a href="javascript:showCal('toDateCreated');"><img src="images/cal.gif" width="16" height="16" align="absmiddle" alt="Click Here to pick up the to create date"></a>
@@ -148,7 +149,7 @@
         <c:import url="DocumentSearchSearchableAttributes.jsp" />
         <tr>
           <th height="28" align="right" valign="center" class="thnormal"  colspan="2" >
-            <div align="right">Name this search (optional):</div>
+            <div align="right"><bean-el:message key="docSearch.DocumentSearch.criteria.label.searchName"/>:</div>
           </th>
           <td valign="center" class="datacell">
             <html-el:text name="DocumentSearchForm" property="criteria.namedSearch" size="60" />&nbsp;<bean-el:message key="general.help.namedSearch"/>
@@ -175,7 +176,7 @@
             </tr>
             <tr>
               <td align="right" nowrap class="thnormal" colspan="2">
-                <div align="right">Initiator Network Id:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.initiatorId"/>:</div>
               </td>
               <td nowrap class="datacell">
                 <html-el:text name="DocumentSearchForm" property="criteria.initiator" size="16" maxlength="30"/>
@@ -183,7 +184,7 @@
                 <bean-el:message key="general.help.initiatorId"/>
               </td>
               <td nowrap class="thnormal">
-                <div align="right"> Viewer NetworkId Id:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.viewerId"/>:</div>
               </td>
               <td nowrap class="datacell">
                 <html-el:text name="DocumentSearchForm" property="criteria.viewer" size="16" maxlength="30"/>
@@ -193,7 +194,7 @@
             </tr>
             <tr>
               <td align="right" nowrap class="thnormal" colspan="2">
-                <div align="right"> Approver Network Id:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.approverId"/>:</div>
               </td>
               <td nowrap class="datacell">
                 <html-el:text name="DocumentSearchForm" property="criteria.approver" size="16" maxlength="30"/>
@@ -201,7 +202,7 @@
                 <bean-el:message key="general.help.approverId"/>
               </td>
 			  <td nowrap class="thnormal">
-                <div align="right"> Workgroup Viewer:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.workgroupViewer"/>:</div>
               </td>
               <td nowrap class="datacell">
 	            <html-el:text name="DocumentSearchForm" property="criteria.workgroupViewerName" size="16" maxlength="30"/>
@@ -211,14 +212,14 @@
 
             <tr>
               <td align="right" nowrap class="thnormal" colspan="2">
-                <div align="right"> Document Id:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.documentId"/>:</div>
               </td>
               <td nowrap class="datacell">
                 <html-el:text name="DocumentSearchForm" property="criteria.routeHeaderId" size="16" maxlength="30" />
                 <bean-el:message key="general.help.routingId"/>
               </td>
               <td nowrap class="thnormal">
-                <div align="right"> Document Route Status:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.documentRouteStatus"/>:</div>
               </td>
               <td nowrap class="datacell">
                 <html-el:select name="DocumentSearchForm" property="criteria.docRouteStatus" style="background: rgb(255, 255, 255) none repeat scroll 0%; font-family: verdana,arial,helvetica,sans-serif; font-size: 10px; -moz-background-clip: initial; -moz-background-inline-policy: initial; -moz-background-origin: initial; color: rgb(51, 51, 153);">
@@ -229,25 +230,25 @@
             </tr>
             <tr>
               <td align="right" nowrap class="thnormal" colspan="2">
-                <div align="right"> Application Document Id:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.applicationDocumentId"/>:</div>
               </td>
               <td nowrap class="datacell">
                 <html-el:text name="DocumentSearchForm" property="criteria.appDocId" size="16" maxlength="30" />
                 <bean-el:message key="general.help.appDocId"/>
               </td>
               <td nowrap class="thnormal">
-                <div align="right"> Document Route Node:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.documentRouteNode"/>:</div>
               </td>
               <td nowrap class="datacell">
-              	<c:choose> 
+              	<c:choose>
              		<c:when test="${empty DocumentSearchForm.criteria.docTypeFullName}">
-						Select a document type.
+						<bean-el:message key="docSearch.DocumentSearch.criteria.label.documentTypeSelect"/>:
                 	</c:when>
                 	<c:otherwise>
 						<html-el:select name="DocumentSearchForm" property="criteria.docRouteNodeId" style="background: rgb(255, 255, 255) none repeat scroll 0%; font-family: verdana,arial,helvetica,sans-serif; font-size: 10px; -moz-background-clip: initial; -moz-background-inline-policy: initial; -moz-background-origin: initial; color: rgb(51, 51, 153);">
 		                  <html-el:options collection="routeNodes" labelProperty="routeNodeName" property="routeNodeId"/>
 		                </html-el:select>
-		                
+
 	                	<html-el:select name="DocumentSearchForm" property="criteria.docRouteNodeLogic" style="background: rgb(255, 255, 255) none repeat scroll 0%; font-family: verdana,arial,helvetica,sans-serif; font-size: 10px; -moz-background-clip: initial; -moz-background-inline-policy: initial; -moz-background-origin: initial; color: rgb(51, 51, 153);">
 		                  <html-el:options collection="qualifierLogic" labelProperty="value" property="key"/>
 		                </html-el:select>
@@ -258,12 +259,12 @@
             </tr>
             <tr>
               <td align="right" nowrap class="thnormal" colspan="2">
-                <div align="right"> Date Last Modified:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.dateLastModified"/>:</div>
               </td>
-              <td nowrap class="datacell"> 
+              <td nowrap class="datacell">
                 <table border="0" cellspacing="0" cellpadding="1">
                   <tr>
-                    <td align="right" nowrap>from:</td>
+                    <td align="right" nowrap><bean-el:message key="docSearch.DocumentSearch.criteria.label.from"/>:</td>
                     <td nowrap>
                       <html-el:text name="DocumentSearchForm" property="fromDateLastModified" size="10"/>
 		              <a href="javascript:showCal('advancedFromDateLastModified');"><img src="images/cal.gif" alt="Click Here to pick up the from date last modified" width="16" height="16" border="0" align="absmiddle"></a>
@@ -273,7 +274,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td align="right" nowrap>to:</td>
+                    <td align="right" nowrap><bean-el:message key="docSearch.DocumentSearch.criteria.label.to"/>:</td>
                     <td nowrap>
                       <html-el:text name="DocumentSearchForm" property="toDateLastModified" size="10" />
                       <a href="javascript:showCal('advancedToDateLastModified');"><img src="images/cal.gif" alt="Click Here to pick up the to date last modified" width="16" height="16" border="0" align="absmiddle"></a>
@@ -282,12 +283,12 @@
                 </table>
               </td>
               <td nowrap class="thnormal">
-                <div align="right"> Date Created:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.dateCreated"/>:</div>
               </td>
-              <td nowrap class="datacell"> 
+              <td nowrap class="datacell">
                   <table border="0" cellspacing="0" cellpadding="1">
                   <tr>
-                    <td align="right" nowrap>from:</td>
+                    <td align="right" nowrap><bean-el:message key="docSearch.DocumentSearch.criteria.label.from"/>:</td>
                     <td nowrap>
                       <html-el:text name="DocumentSearchForm" property="fromDateCreated" size="10" />
                       <a href="javascript:showCal('advancedFromDateCreated');"><img src="images/cal.gif" width="16" height="16" border="0" align="absmiddle" alt="Click Here to pick up the from date created"></a>
@@ -297,7 +298,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td align="right" nowrap>to:</td>
+                    <td align="right" nowrap><bean-el:message key="docSearch.DocumentSearch.criteria.label.to"/>:</td>
                     <td nowrap>
                       <html-el:text name="DocumentSearchForm" property="toDateCreated" size="10" />
                       <a href="javascript:showCal('advancedToDateCreated');"><img src="images/cal.gif" width="16" height="16" border="0" align="absmiddle" alt="Click Here to pick up the to date created"></a>
@@ -307,11 +308,11 @@
               </td>
             </tr>
             <tr>
-              <td align="right" nowrap class="thnormal" colspan="2">Date Finalized:</td>
+              <td align="right" nowrap class="thnormal" colspan="2"><bean-el:message key="docSearch.DocumentSearch.criteria.label.dateFinalized"/>:</td>
               <td nowrap class="datacell">
                   <table border="0" cellspacing="0" cellpadding="1">
                   <tr>
-                    <td align="right" nowrap>from:</td>
+                    <td align="right" nowrap><bean-el:message key="docSearch.DocumentSearch.criteria.label.from"/>:</td>
                     <td nowrap>
                       <html-el:text name="DocumentSearchForm" property="fromDateFinalized" size="10"/>
                       <a href="javascript:showCal('advancedFromDateFinalized');"><img src="images/cal.gif" alt="Click Here to pick up the from date finalized" width="16" height="16" border="0" align="absmiddle"></a>
@@ -321,7 +322,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td align="right" nowrap>to:</td>
+                    <td align="right" nowrap><bean-el:message key="docSearch.DocumentSearch.criteria.label.to"/>:</td>
                     <td nowrap>
                       <html-el:text name="DocumentSearchForm" property="toDateFinalized" size="10"/>
                       <a href="javascript:showCal('advancedToDateFinalized');"><img src="images/cal.gif" alt="Click Here to pick up the to date finalized" width="16" height="16" border="0" align="absmiddle"></a>
@@ -330,12 +331,12 @@
                 </table>
               </td>
               <td nowrap class="thnormal">
-                <div align="right"> Date Approved:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.dateApproved"/>:</div>
               </td>
-              <td nowrap class="datacell"> 
+              <td nowrap class="datacell">
                   <table border="0" cellspacing="0" cellpadding="1">
                   <tr>
-                    <td align="right" nowrap>from:</td>
+                    <td align="right" nowrap><bean-el:message key="docSearch.DocumentSearch.criteria.label.from"/>:</td>
                     <td nowrap>
                       <html-el:text name="DocumentSearchForm" property="fromDateApproved" size="10"/>
                       <a href="javascript:showCal('advancedFromDateApproved');"><img src="images/cal.gif" alt="Click Here to pick up the from date approved" width="16" height="16" border="0" align="absmiddle"></a>
@@ -345,7 +346,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td align="right" nowrap>to:</td>
+                    <td align="right" nowrap><bean-el:message key="docSearch.DocumentSearch.criteria.label.to"/>:</td>
                     <td nowrap>
                       <html-el:text name="DocumentSearchForm" property="toDateApproved" size="10" />
                       <a href="javascript:showCal('advancedToDateApproved');"><img src="images/cal.gif" alt="Click Here to pick up the to date approved" width="16" height="16" border="0" align="absmiddle"></a>
@@ -355,7 +356,7 @@
               </td>
             </tr>
             <tr>
-              <td align="right" nowrap class="thnormal" colspan="2">Document Type:</td>
+              <td align="right" nowrap class="thnormal" colspan="2"><bean-el:message key="docSearch.DocumentSearch.criteria.label.documentType"/>:</td>
               <td class="datacell">
                 <table border="0" cellspacing="0" cellpadding="1">
                   <tr>
@@ -372,7 +373,7 @@
                 </table>
               </td>
               <td nowrap class="thnormal">
-                <div align="right"> Document Title:</div>
+                <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.documentTitle"/>:</div>
               </td>
               <td nowrap class="datacell">
                 <html-el:text name="DocumentSearchForm" property="criteria.docTitle" size="16" maxlength="100" />
@@ -381,7 +382,7 @@
             </tr>
             <c:import url="DocumentSearchSearchableAttributes.jsp" />
             <tr>
-              <td align="right" nowrap class="thnormal" colspan="2">Name this search (optional):</td>
+              <td align="right" nowrap class="thnormal" colspan="2"><bean-el:message key="docSearch.DocumentSearch.criteria.label.searchName"/>:</td>
               <td colspan="3" class="datacell">
                 <html-el:text name="DocumentSearchForm" property="criteria.namedSearch" size="20" />&nbsp;<bean-el:message key="general.help.namedSearch"/>
               </td>
@@ -395,7 +396,7 @@
           </tbody>
         </table>
         <%-- END ADVANCED SEARCH pagesize="100" defaultsort="1" --%>
-	  </c:if>	  
+	  </c:if>
     </td>
   </tr>
   <tr>
@@ -406,69 +407,63 @@
   <tr>
     <td>&nbsp;</td>
       <td>
-  
+
+  <%-- Setup column lables based on ApplicationsResources --%>
+  <bean:define id="documentIdLabel">
+ 	<bean-el:message key="docSearch.DocumentSearch.results.label.routeHeaderId"/>
+  </bean:define>
+  <bean:define id="typeLabel">
+ 	<bean-el:message key="docSearch.DocumentSearch.results.label.docTypeLabel"/>
+  </bean:define>
+  <bean:define id="titleLabel">
+ 	<bean-el:message key="docSearch.DocumentSearch.results.label.documentTitle"/>
+  </bean:define>
+  <bean:define id="routeStatusLabel">
+ 	<bean-el:message key="docSearch.DocumentSearch.results.label.docRouteStatusCodeDesc"/>
+  </bean:define>
+  <bean:define id="initiatorLabel">
+ 	<bean-el:message key="docSearch.DocumentSearch.results.label.initiator"/>
+  </bean:define>
+  <bean:define id="dateCreatedLabel">
+ 	<bean-el:message key="docSearch.DocumentSearch.results.label.dateCreated"/>
+  </bean:define>
+  <bean:define id="routeLogLabel">
+ 	<bean-el:message key="docSearch.DocumentSearch.results.label.routeLog"/>
+  </bean:define>
+
+  <%--
+  <display-el:table class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${reqSearchResults}" pagesize="100" defaultsort="1" sort="external" id="result" requestURI="Lookup.do?methodToCall=viewResults&listKey=${listKey}"
+       decorator="edu.iu.uis.eden.lookupable.LookupDecorator" > --%>
+  <%-- TODO delyea - add external sorting 'sort="external"' --%>
+  <%-- TODO delyea - add in pagesize? --%>
   <%-- Table layout of the search results --%>
- 
-  <display-el:table excludedParams="*" class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${reqSearchResults}" export="true" id="result" requestURI="DocumentSearch.do?methodToCall=viewResults&key=${key}&superUserSearch=${DocumentSearchForm.superUserSearch}&isAdvancedSearch=${DocumentSearchForm.isAdvancedSearch}" pagesize="${preferences.pageSize}" defaultsort="1" defaultorder="descending" 
+  <display-el:table excludedParams="*" class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${reqSearchResults}" export="true" sort="external" id="result" requestURI="DocumentSearch.do?methodToCall=viewResults&key=${key}&superUserSearch=${DocumentSearchForm.superUserSearch}&isAdvancedSearch=${DocumentSearchForm.isAdvancedSearch}" pagesize="${preferences.pageSize}" defaultsort="1" defaultorder="descending"
 		decorator="edu.iu.uis.eden.docsearch.web.DocumentSearchDecorator">
     <display-el:setProperty name="paging.banner.placement" value="both" />
     <display-el:setProperty name="export.banner" value="" />
-    <display-el:column class="datacell" sortable="true" title="Document Id" sortProperty="routeHeaderId">
-       <c:choose>
-	  	  <c:when test="${DocumentSearchForm.superUserSearch == 'YES'}">
-            <a href="SuperUser.do?methodToCall=displaySuperUserDocument&routeHeaderId=<c:out value="${result.routeHeaderId}"/>" <c:if test="${DocumentSearchForm.documentPopup == Constants.DOCUMENT_SEARCH_DOCUMENT_POPUP_VALUE}">target="_blank"</c:if> >
-              <c:out value="${result.routeHeaderId}"/>
-	        </a>
-		  </c:when>
-	  	  <c:otherwise>
-                <a href="<c:url value="${Constants.DOC_HANDLER_REDIRECT_PAGE}" >
-                      <c:param name="docId" value="${result.routeHeaderId}"/>
-                      <c:param name="command" value="displayDocSearchView" />
-                  </c:url>" <c:if test="${DocumentSearchForm.documentPopup == Constants.DOCUMENT_SEARCH_DOCUMENT_POPUP_VALUE}"> target="_blank" </c:if> >
-                  <c:out value="${result.routeHeaderId}"/>
-	            </a>
-		  </c:otherwise>
-       </c:choose>&nbsp;
-    </display-el:column>
-    <display-el:column class="datacell" sortable="true" title="Type" ><c:out value="${result.docTypeLabel}"/>&nbsp;</display-el:column>
-    <display-el:column class="datacell" sortable="true" title="Title" ><c:out value="${result.documentTitle}"/>&nbsp;</display-el:column>
-    <display-el:column class="datacell" sortable="true" title="Route Status" ><c:out value="${result.docRouteStatusCodeDesc}"/>&nbsp;</display-el:column>
-    <display-el:column class="datacell" sortable="true" title="Initiator" sortProperty="initiatorTransposedName">
-      <a href="<c:url value="${UrlResolver.userReportUrl}">
-                 <c:param name="workflowId" value="${result.initiatorWorkflowId}"/>
-                 <c:param name="showEdit" value="no"/>
-                 <c:param name="methodToCall" value="report"/></c:url>" target="_blank"><c:out value="${result.initiatorTransposedName}"/></a>&nbsp;</display-el:column>
-    <display-el:column class="datacell" sortable="true" title="Date Created" sortProperty="dateCreated.time"><fmt:formatDate value="${result.dateCreated}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;</display-el:column>
-
-    <c:set var="colIndex" value="0"/>
-    <c:forEach items="${DocumentSearchForm.searchableAttributeColumns}" var="column">
-        <html-el:hidden property="searchableAttributeColumn[${colIndex}].columnTitle"/>
-        <html-el:hidden property="searchableAttributeColumn[${colIndex}].sortable"/>
-        <html-el:hidden property="searchableAttributeColumn[${colIndex}].propertyName"/>
-        <display-el:column class="datacell" sortable="${column.sortable}" title="${column.columnTitle}">
-            <%
-             Object objectName =  (Object)pageContext.getAttribute("result");
-             Column column = (Column)pageContext.getAttribute("column");
-             Object colObject = BeanUtils.getProperty(objectName,column.getPropertyName());
-             pageContext.setAttribute("colObject",colObject != null ? colObject : "");
-            %>
-            <c:out escapeXml="false" value="${colObject}"  />&nbsp;
-            <c:set var="colIndex" value="${colIndex + 1}"/>
-        </display-el:column>
-        
-    </c:forEach>
-        
-    <display-el:column class="datacell" style="text-align:center" title="Route Log">
-      <a href="<c:url value="RouteLog.do" ><c:param name="routeHeaderId" value="${result.routeHeaderId}"/></c:url>" <c:if test="${DocumentSearchForm.routeLogPopup == Constants.DOCUMENT_SEARCH_ROUTE_LOG_POPUP_VALUE}"> target="_new" </c:if>>
-	    <img alt="Route Log for Document" src="images/my_route_log.gif"/>
-	  </a>
-    </display-el:column>
+		<c:forEach items="${reqSearchResultColumns}" var="column">
+			<display-el:column class="datacell" 
+				sortable="${column.sortable}"
+				sortName="${column.sortName}"
+				title="${column.columnTitle}"
+				property="${column.propertyName}"
+				decorator="edu.iu.uis.eden.docsearch.web.DocumentSearchColumnDecorator">
+			<%--<display-el:column class="datacell" sortable="${column.sortable}" sortName="${column.propertyName}" title="${column.columnTitle}" >
+			    <%
+			     Object objectName =  (Object)pageContext.getAttribute("result");
+			     Column column = (Column)pageContext.getAttribute("column");
+			     Object colObject = BeanUtils.getProperty(objectName,column.getPropertyName());
+			     pageContext.setAttribute("colObject",colObject != null ? colObject : "");
+			    %>
+				<c:out escapeXml="false" value="${colObject}"  />&nbsp;--%>
+			</display-el:column>
+		</c:forEach>
   </display-el:table>
       </td>
       <td>&nbsp;</td>
     </tr>
   </table>
-
+<%--
     <c:set var="colIndex" value="0"/>
     <c:forEach items="${DocumentSearchForm.searchableAttributeColumns}" var="column">
         <html-el:hidden property="searchableAttributeColumn[${colIndex}].columnTitle"/>
@@ -476,10 +471,10 @@
         <html-el:hidden property="searchableAttributeColumn[${colIndex}].propertyName"/>
         <c:set var="colIndex" value="${colIndex + 1}"/>
     </c:forEach>
-  
+--%>
   </html-el:form>
-  
+
   <jsp:include page="../BackdoorMessage.jsp" flush="true"/>
-  
+
 </body>
 </html-el:html>
