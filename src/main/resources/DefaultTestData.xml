@@ -254,16 +254,6 @@
 			<lastName>director</lastName>
 		</user>
 		<user>
-			<workflowId>quickstart</workflowId>
-			<emplId>quickstart</emplId>
-			<authenticationId>quickstart</authenticationId>
-			<uuId>quickstart</uuId>
-			<emailAddress>quickstart@indiana.edu</emailAddress>
-			<displayName>quickstart</displayName>
-			<givenName>quickstart</givenName>
-			<lastName>quickstart</lastName>
-		</user>
-		<user>
 			<workflowId>KULUSER</workflowId>
 			<emplId>KULUSER</emplId>
 			<authenticationId>KULUSER</authenticationId>
@@ -314,23 +304,36 @@
 			<lastName>employee</lastName>
 		</user>
 	</users>
-	<!--
 	<workgroups xmlns="ns:workflow/Workgroup" xsi:schemaLocation="ns:workflow/Workgroup resource:Workgroup">
 		<workgroup>
 			<id>2</id>
-			<workgroupName>WorkflowAdmin</workgroupName>
-			<description>WorkflowAdmin</description>
+			<workgroupName>KUALI_PED</workgroupName>
+			<description>KUALI_PED</description>
 			<members>
-				<authenticationId>user4</authenticationId>
-				<authenticationId>quickstart</authenticationId>
+				<authenticationId>employee</authenticationId>
+			</members>
+		</workgroup>
+		<workgroup>
+			<id>3</id>
+			<workgroupName>KUALI_OPERATIONS</workgroupName>
+			<description>KUALI_OPERATIONS</description>
+			<members>
+				<authenticationId>employee</authenticationId>
+			</members>
+		</workgroup>
+		<workgroup>
+			<id>4</id>
+			<workgroupName>KUALI_ROLE_MAINTENANCE</workgroupName>
+			<description>KUALI_ROLE_MAINTENANCE</description>
+			<members>
+				<authenticationId>employee</authenticationId>
 			</members>
 		</workgroup>
 	</workgroups>
-	 -->
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
 			<name>DestinationAttribute</name>
-			<className>org.kuali.kra.workflow.DestinationRuleAttribute</className>
+			<className>edu.sampleu.travel.workflow.DestinationRuleAttribute</className>
 			<label>Department of Prudence Routing</label>
 			<description>Department of Prudence Routing</description>
 			<messageEntity>TRAVEL</messageEntity>
@@ -338,7 +341,7 @@
 		</ruleAttribute>
 		<ruleAttribute>
 			<name>EmployeeAttribute</name>
-			<className>org.kuali.kra.workflow.EmployeeAttribute</className>
+			<className>edu.sampleu.travel.workflow.EmployeeAttribute</className>
 			<label>Employee Routing</label>
 			<description>Employee Routing</description>
 			<messageEntity>TRAVEL</messageEntity>
@@ -346,7 +349,7 @@
 		</ruleAttribute>
 		<ruleAttribute>
 			<name>AccountAttribute</name>
-			<className>org.kuali.kra.workflow.AccountAttribute</className>
+			<className>edu.sampleu.travel.workflow.AccountAttribute</className>
 			<label>Account Routing</label>
 			<description>Account Routing</description>
 			<messageEntity>TRAVEL</messageEntity>
@@ -449,7 +452,7 @@
 			<postProcessorName>edu.iu.uis.eden.doctype.DocumentTypePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/en/DocumentType.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/en/DocumentType.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies />
 			<routePaths>
@@ -472,7 +475,7 @@
 			<postProcessorName>edu.iu.uis.eden.routetemplate.RulePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/en/Rule.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/en/Rule.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies />
 			<routePaths>
@@ -496,7 +499,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/en/Workgroup.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/en/Workgroup.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>1</routingVersion>
 			<routePaths>
@@ -527,7 +530,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/travelDocument2.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/travelDocument2.do?methodToCall=docHandler</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" nextNode="DestinationApproval" />
@@ -556,14 +559,14 @@
 			</routeNodes>
 		</documentType>
 		<documentType>
-			<name>TravelAccountDocument</name>
+			<name>TravelAccountMaintenanceDocument</name>
 			<description>Create a New Travel Request</description>
 			<label>Travel Request</label>
 			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/docHandler.do</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/docHandler.do</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />
@@ -576,14 +579,14 @@
 			</routeNodes>
 		</documentType>
 		<documentType>
-			<name>TravelFiscalOfficerDocument</name>
+			<name>FiscalOfficerMaintenanceDocument</name>
 			<description>Create a New Travel Fiscal Officer</description>
 			<label>Travel Fiscal Officer</label>
 			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/docHandler.do</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/docHandler.do</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />
@@ -652,7 +655,7 @@
 			<description>Traveler Routing</description>
 			<responsibilities>
 				<responsibility>
-					<role>org.kuali.kra.workflow.EmployeeAttribute!employee</role>
+					<role>edu.sampleu.travel.workflow.EmployeeAttribute!employee</role>
 					<actionRequested>A</actionRequested>
 				</responsibility>
 			</responsibilities>
@@ -663,7 +666,7 @@
 			<description>Supervisor Routing</description>
 			<responsibilities>
 				<responsibility>
-					<role>org.kuali.kra.workflow.EmployeeAttribute!supervisr</role>
+					<role>edu.sampleu.travel.workflow.EmployeeAttribute!supervisr</role>
 					<actionRequested>A</actionRequested>
 				</responsibility>
 			</responsibilities>
@@ -674,7 +677,7 @@
 			<description>Dean/Director Routing</description>
 			<responsibilities>
 				<responsibility>
-					<role>org.kuali.kra.workflow.EmployeeAttribute!director</role>
+					<role>edu.sampleu.travel.workflow.EmployeeAttribute!director</role>
 					<actionRequested>K</actionRequested>
 				</responsibility>
 			</responsibilities>
@@ -685,7 +688,7 @@
 			<description>Fiscal Officer Routing</description>
 			<responsibilities>
 				<responsibility>
-					<role>org.kuali.kra.workflow.AccountAttribute!FO</role>
+					<role>edu.sampleu.travel.workflow.AccountAttribute!FO</role>
 				</responsibility>
 			</responsibilities>
 		</rule>

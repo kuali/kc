@@ -18,23 +18,23 @@
 <channel:portalChannelTop channelTitle="Proposals" />
 <div class="body">
 <ul class="chan">
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ActivityType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Activity Type</a></li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.CarrierType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Carrier Type</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ActivityType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Activity Type</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.CarrierType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Carrier Type</a></li>
   <li>Reg Type</li>
   <li>Result Type</li>
   <li>Proposal Status</li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.AbstractType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Abstract Type</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.AbstractType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Abstract Type</a></li>
   <li>Budget Category</li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.DegreeType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Degree Type</a></li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.MailBy&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Mail By</a></li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.NarrativeType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Narrative Type</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.DegreeType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Degree Type</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.MailBy&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Mail By</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.NarrativeType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Narrative Type</a></li>
   <li>Person Table Editable Columns</li>
   <li>Person Document Type</li>
   <li>Proposal Dev Editable Columns</li>
   <li>Proposal Hierarchy Child Type</li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ProposalResponse&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Proposal in Response</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ProposalResponse&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Proposal in Response</a></li>
   <li>Development Status</li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ScienceKeyword&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Science Keyword</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ScienceKeyword&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Science Keyword</a></li>
 </ul>
 
 </div>

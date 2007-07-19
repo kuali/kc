@@ -46,7 +46,7 @@
                     <td width=200 nowrap background="images/tab-back.gif">
                       <table width="100%" border=0 cellspacing=0 cellpadding=0>
                         <tr>
-                          <td nowrap class="tabtitle"><b>Document ID: <c:out value="${routeHeader.routeHeaderId}" /></b></td>
+                          <td nowrap class="tabtitle"><b><bean-el:message key="routeLog.RouteLog.header.label.documentId"/>: <c:out value="${routeHeader.routeHeaderId}" /></b></td>
                           <td width=100 align=right nowrap>&nbsp;</td>
                         </tr>
                       </table>
@@ -66,12 +66,12 @@
                       </table>
                       <table width="100%" border=0 cellpadding=0 cellspacing=0 class="bord-r-t">
                          <tr>
-		                    <td width="20%" align=right class="thnormal">Document Title</td>
+		                    <td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.documentTitle"/></td>
 		                    <td class="datacell" colspan="3" ><c:out value="${routeHeader.docTitle}" />&nbsp;</td>
-		                    
+
 	                     </tr>
 	                     <tr>
-		                   <td width="20%" align=right class="thnormal">Document Type</td>
+		                   <td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.documentType"/></td>
 		                   <td class="datacell" width="25%">
 			                   <a href="
                						<c:url value="DocumentType.do">
@@ -80,11 +80,11 @@
 									</c:url>"><c:out value="${routeHeader.documentType.label}" />
 								</a>&nbsp;
 		                   &nbsp;</td>
-		                   <td width="20%" align=right class="thnormal">Created</td>
+		                   <td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.created"/></td>
 		                    <td class="datacell" width="25%"><fmt:formatDate value="${routeHeader.createDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;</td>
 		                 </tr>
 	                     <tr>
-		                   <td width="20%" align=right class="thnormal">Initiator</td>
+		                   <td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.initiator"/></td>
 		                   <td class="datacell" width="25%">
 			                   <a href="
                						<c:url value="${UrlResolver.userReportUrl}">
@@ -94,23 +94,23 @@
 									</c:url>"><c:out value="${routeHeader.initiatorUser.displayName}" />
 								</a>&nbsp;
 		                   	</td>
-		                   	<td width="20%" align=right class="thnormal">Last Modified</td>
+		                   	<td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.lastModified"/></td>
 		                   <td class="datacell" width="25%"><fmt:formatDate value="${routeHeader.statusModDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;</td>
-	                     
+
 		                  </tr>
 	                     <tr>
-		                   <td width="20%" align=right class="thnormal">Route Status</td>
+		                   <td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.routeStatus"/></td>
 		                   <td class="datacell" width="25%"><b><c:out value="${routeHeader.routeStatusLabel}" /></b>&nbsp;</td>
-		                    <td width="20%" align=right class="thnormal">Last Approved</td>
+		                    <td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.lastApproved"/></td>
 		                   <td class="datacell" width="25%"><fmt:formatDate value="${routeHeader.approvedDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;</td>
-	                     
+
 		                   </tr>
 	                     <tr>
-		                   <td width="20%" align=right class="thnormal">Route Node(s)</td>
+		                   <td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.routeNodes"/></td>
 		                   <td class="datacell"><c:out value="${routeHeader.currentRouteLevelName}" />&nbsp;</td>
-		                   <td width="20%" align=right class="thnormal">Finalized</td>
+		                   <td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.finalized"/></td>
 		                   <td class="datacell" width="25%"><fmt:formatDate value="${routeHeader.finalizedDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;</td>
-	                     
+
 	                     </tr>
                       </table>
                       <table width="100%" border=0 cellspacing=0 cellpadding=0>
@@ -131,7 +131,7 @@
                     <td width=200 nowrap background="images/tab-back.gif">
                       <table width="100%" border=0 cellspacing=0 cellpadding=0>
                         <tr>
-                          <td nowrap class="tabtitle"><b>Actions Taken</b></td>
+                          <td nowrap class="tabtitle"><b><bean-el:message key="routeLog.RouteLog.actionsTaken.label.actionsTaken"/></b></td>
                         </tr>
                       </table>
                     </td>
@@ -140,34 +140,34 @@
                   </tr>
                 </table>
 
-                <table width="100%" border=0 cellspacing=0 cellpadding=0>  
+                <table width="100%" border=0 cellspacing=0 cellpadding=0>
                   <tr>
                     <td width=8 class="bordercell-left"><img src="images/pixel_clear.gif" alt="" width=8 height=8></td>
                     <td class="headercell4" width="5%">&nbsp;</td>
-                    <td align="center" class="headercell4">Action
+                    <td align="center" class="headercell4"><bean-el:message key="routeLog.RouteLog.actionsTaken.label.action"/>
                     </td>
-                    <td align="center" class="headercell4">Taken By
+                    <td align="center" class="headercell4"><bean-el:message key="routeLog.RouteLog.actionsTaken.label.takenBy"/>
                     </td>
-                    <td align="center" class="headercell4">For Delegator
+                    <td align="center" class="headercell4"><bean-el:message key="routeLog.RouteLog.actionsTaken.label.forDelegator"/>
                     </td>
-                    <td align="center" class="headercell4">Time/Date
+                    <td align="center" class="headercell4"><bean-el:message key="routeLog.RouteLog.actionsTaken.label.timeDate"/>
                     </td>
-                    <td align="center" class="headercell4" width="40%">Annotation
+                    <td align="center" class="headercell4" width="40%"><bean-el:message key="routeLog.RouteLog.actionsTaken.label.annotation"/>
                     </td>
                     <td width=8 class="bordercell-right"><img src="images/pixel_clear.gif" alt="" width=8 height=8></td>
                   </tr>
-                  
+
 					<c:forEach var="actionTaken" items="${routeHeader.actionsTaken}" varStatus="atStatus">
                             <tr class="bord-r-t">
 	                            <td width=8 class="bordercell-left"><img src="images/pixel_clear.gif" alt="" width=8 height=8></td>
 	                          	<td class="headercell4">
 	                          		<c:if test="${! empty actionTaken.actionRequests}">
 	                            	<a id="A<c:out value="${atStatus.count}" />" onclick="rend(this, false)">
-		                              <img src="images/tinybutton-show.gif" alt="show" width=45 height=15 border=0 
+		                              <img src="images/tinybutton-show.gif" alt="show" width=45 height=15 border=0
 		                              align=absmiddle id="F<c:out value="${atStatus.count}" />"></a>
 		                            </c:if>&nbsp;
 		                        </td>
-		                        
+
 		                        <td align="center" class="headercell4">
 	                               <b><c:out value="${actionTaken.actionTakenLabel}" /></b>
 	                            </td>
@@ -200,7 +200,7 @@
 						         </td>
 						         <td width=8 class="bordercell-right"><img src="images/pixel_clear.gif" alt="" width=8 height=8></td>
                             </tr>
-                            
+
                             <tr id="G<c:out value="${atStatus.count}" />" style="display: none;" >
                             	<td width=8 class="bordercell-left"><img src="images/pixel_clear.gif" alt="" width=8 height=8></td>
                             	<td>&nbsp;</td>
@@ -208,10 +208,10 @@
 									<table width="100%" border=0 cellspacing=0 cellpadding=0>
 					                  <tr>
 					                    <td align="center" class="headercell3-b-l" width="5%">&nbsp;</td>
-					  		            <td align="center" width="15%" class="headercell3-b-l">Action</td>
-					  		            <td align="center" width="15%" class="headercell3-b-l">Requested Of</td>
-					  		            <td align="center" width="22%" class="headercell3-b-l">Time/Date</td>
-					  		            <td align="center" width="40%" class="headercell3-b-l">Annotation</td>
+					  		            <td align="center" width="15%" class="headercell3-b-l"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.action"/></td>
+					  		            <td align="center" width="15%" class="headercell3-b-l"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.requestedOf"/></td>
+					  		            <td align="center" width="22%" class="headercell3-b-l"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.timeDate"/></td>
+					  		            <td align="center" width="40%" class="headercell3-b-l"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.annotation"/></td>
 					                  </tr>
 	                              	<c:forEach var="actionRequest" items="${actionTaken.actionRequests}" varStatus="arStatus">
 	                              		<c:if test="${actionRequest.parentActionRequest == null}">
@@ -224,13 +224,13 @@
 										</c:if>
 									</c:forEach>
 									</table>
-                              	</td> 
+                              	</td>
                               	<td width=8 class="bordercell-right"><img src="images/pixel_clear.gif" alt="" width=8 height=8></td>
                             </tr>
-	                </c:forEach>      
+	                </c:forEach>
                 </table>
               </c:if>
-              
+
               <table width="100%" border=0 cellspacing=0 cellpadding=0>
                   <tr>
                     <td width=8 class="bordercell-left"><img src="images/pixel_clear.gif" alt="" width=8 height=8></td>
@@ -241,7 +241,7 @@
                   </tr>
                 </table>
    <%-- Pending Action Requests --%>
-   
+
               <c:if test="${RouteLogForm.pendingActionRequestCount > 0}">
                 <table width="100%" border=0 cellspacing=0 cellpadding=0>
                   <tr>
@@ -264,11 +264,13 @@
 			                <table width="100%" border=0 cellspacing=0 cellpadding=0>
 			                  <tr>
 			                    <td align="center" class="headercell4" width="5%">&nbsp;</td>
-			  		            <td align="center" width="15%" class="headercell4">Action</td>
-			  		            <td align="center" width="15%" class="headercell4">Requested Of</td>
-			  		            <td align="center" width="22%" class="headercell4">Time/Date</td>
-			  		            <td align="center" width="40%" class="headercell4">Annotation</td>
+			  		            <td align="center" width="15%" class="headercell4"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.action"/></td>
+			  		            <td align="center" width="15%" class="headercell4"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.requestedOf"/></td>
+			  		            <td align="center" width="22%" class="headercell4"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.timeDate"/></td>
+			  		            <td align="center" width="40%" class="headercell4"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.annotation"/></td>
 			                  </tr>
+			                  <tr>
+			                  	<td>
 			                        <c:set var="shiftIndex" value="5000" scope="request"/>
 			                        <c:forEach var="actionRequest" items="${RouteLogForm.rootRequests}" varStatus="arStatus">
 			                        	<c:if test="${actionRequest.pending}">
@@ -286,7 +288,7 @@
                 	</tr>
                 </table>
               </c:if>
-	              
+
               <table width="100%" border=0 cellspacing=0 cellpadding=0>
                   <tr>
                     <td width=8 class="bordercell-left"><img src="images/pixel_clear.gif" alt="" width=8 height=8></td>
@@ -295,9 +297,9 @@
                     </td>
                     <td width=8 class="bordercell-right"><img src="images/pixel_clear.gif" alt="" width=8 height=8></td>
                   </tr>
-                </table>	              
+                </table>
 <%-- Future Action Requests --%>
-   
+
               <c:if test="${RouteLogForm.lookFuture}">
                 <table width="100%" border=0 cellspacing=0 cellpadding=0>
                   <tr>
@@ -328,7 +330,7 @@
                   </tr>
                 </table>
                 <table width="100%" border=0 cellspacing=0 cellpadding=0>
-                	
+
                 	<tr>
                 		<td width=8 class="bordercell-left"><img src="images/pixel_clear.gif" alt="" width=8 height=8></td>
                 		<c:choose>
@@ -337,11 +339,13 @@
 					                <table width="100%" border=0 cellspacing=0 cellpadding=0>
 					                  <tr>
 					                    <td align="center" class="headercell4" width="5%">&nbsp;</td>
-					  		            <td align="center" width="15%" class="headercell4">Action</td>
-					  		            <td align="center" width="15%" class="headercell4">Requested Of</td>
-					  		            <td align="center" width="22%" class="headercell4">Time/Date</td>
-					  		            <td align="center" width="40%" class="headercell4">Annotation</td>
+					  		            <td align="center" width="15%" class="headercell4"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.action"/></td>
+					  		            <td align="center" width="15%" class="headercell4"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.requestedOf"/></td>
+					  		            <td align="center" width="22%" class="headercell4"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.timeDate"/></td>
+					  		            <td align="center" width="40%" class="headercell4"><bean-el:message key="routeLog.ActionRequests.actionRequests.label.annotation"/></td>
 					                  </tr>
+					                  <tr>
+					                  	<td>
 					                        <c:set var="shiftIndex" value="6000" scope="request"/>
 					                        <c:forEach var="actionRequest" items="${RouteLogForm.futureRootRequests}" varStatus="arStatus">
 					                        	<c:if test="${actionRequest.pending}">
@@ -362,7 +366,7 @@
 		                </c:choose>
 						<td width=8 class="bordercell-right"><img src="images/pixel_clear.gif" alt="" width=8 height=8></td>
                 	</tr>
-                	
+
                 </table>
               </c:if>
 
@@ -376,7 +380,7 @@
                   </tr>
                 </table>
 
-			   <%-- Page Footer --%>              
+			   <%-- Page Footer --%>
                 <table width="100%" border=0 cellpadding=0 cellspacing=0 background="images/tabfoot-back.gif">
                   <tr>
                     <td><img src="images/tabfoot-left.gif" alt="" width=12 height=14></td>

@@ -117,7 +117,7 @@
 					test="${KualiForm.formKey!='' && KualiForm.hideReturnLink != true && !KualiForm.multipleValues}">
 					<a
 						href='<c:out value="${KualiForm.backLocation}?methodToCall=refresh&docFormKey=${KualiForm.formKey}&anchor=${KualiForm.lookupAnchor}" />' title="return with no value">
-					return with no value </a>
+					return with no value</a>
 				</c:if>
 			</logic-el:present></div>
 			<c:if test="${reqSearchResultsActualSize>0}">
@@ -131,7 +131,7 @@
 				<display:table class="datatable-100" cellspacing="0"
 				requestURIcontext="false" cellpadding="0" name="${reqSearchResults}"
 				id="row" export="true" pagesize="100"
-				requestURI="kr/lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}">
+				requestURI="lookup.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}&searchUsingOnlyPrimaryKeyValues=${KualiForm.searchUsingOnlyPrimaryKeyValues}">
 
 				<c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
           <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.core.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />

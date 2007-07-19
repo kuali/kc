@@ -48,7 +48,18 @@
 		<input type="hidden" id='<c:out value="${userIdFieldName}"/>' name='<c:out value="${userIdFieldName}"/>' value='<c:out value="${userId}"/>' />
 		<c:out value="${userId}" />&nbsp;
 	</c:when>
-
+	<c:when test="${ConfigProperties.rice.user == 'true'}">
+		<input type="text" id='<c:out value="${userIdFieldName}"/>' name='<c:out value="${userIdFieldName}"/>' value='<c:out value="${userId}"/>'
+			size='${DataDictionary.RiceUser.attributes.personUserIdentifier.control.size}' 
+			maxlength='${DataDictionary.RiceUser.attributes.personUserIdentifier.maxLength}' style="${textStyle}"
+			onBlur="loadUserInfo( '${userIdFieldName}', '${universalIdFieldName}', '${userNameFieldName}' );${onblur}" />
+			<kul:lookup boClassName="org.kuali.core.bo.user.RiceUser" 
+						fieldConversions="${fieldConversions}" 
+						lookupParameters="${lookupParameters}" 
+						fieldLabel="${label}" 
+						referencesToRefresh="${referencesToRefresh}"
+						anchor="${currentTabIndex}" />
+	</c:when>
 	<c:otherwise>
 		<input type="text" id='<c:out value="${userIdFieldName}"/>' name='<c:out value="${userIdFieldName}"/>' value='<c:out value="${userId}"/>'
 		size='${DataDictionary.UniversalUser.attributes.personUserIdentifier.control.size}' 
@@ -74,10 +85,10 @@
 	
 <c:if test="${renderOtherFields}">
 	<c:if test="${!empty universalIdFieldName}">
-		<input type="hidden" name="${universalIdFieldName}" value="${universalId}" />
+		<input type="hidden" name="${universalIdFieldName}" id="${universalIdFieldName}" value="${universalId}" />
 	</c:if>
 	<c:if test="${!empty userNameFieldName}">
-		<input type="hidden" name="${userNameFieldName}" value="${userName}" />
+		<input type="hidden" name="${userNameFieldName}" id="${userNameFieldName}" value="${userName}" />
 	</c:if>
 </c:if>
 

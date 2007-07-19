@@ -48,11 +48,6 @@
 <!-- 
 	<tr>
 		<td>
-			Report by document type	<html-el:link href="RoutingReport.do?reportType=documentType">Go</html-el:link>
-		</td>
-	</tr>
-	<tr>
-		<td>
 			Report by template <html-el:link href="RoutingReport.do?reportType=template">Go</html-el:link>
 		</td>
 	</tr>

@@ -15,7 +15,7 @@
   </c:if>
 
     <tr>
-	  <td class="thnormal" width="25%" align="right">Document Id:</td>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.documentId"/>:</td>
 	  <c:if test="${DocumentTypeForm.existingDocumentType != null}">
         <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.routeHeaderId}" />&nbsp;<c:if test="${DocumentTypeForm.existingDocumentType.routeHeaderId != null && DocumentTypeForm.existingDocumentType.routeHeaderId != 0}"><a href="<c:url value="RouteLog.do" ><c:param name="routeHeaderId" value="${DocumentTypeForm.existingDocumentType.routeHeaderId}"/></c:url>">
 	      <img alt="Route Log for Document" src="images/my_route_log.gif"/></a></c:if>
@@ -27,7 +27,7 @@
 	</tr>
 
     <tr>
-	  <td class="thnormal" width="25%" align="right">Document Type Id:</td>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.documentTypeId"/>:</td>
 	  <c:if test="${DocumentTypeForm.existingDocumentType != null}">
         <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.documentTypeId}" />&nbsp;
 	    </td>
@@ -37,7 +37,7 @@
 	</tr>
 
 	<tr>
-	  <td class="thnormal" width="25%" align="right">Previous Version Id:</td>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.previousVersionId"/>:</td>
 	  <c:if test="${DocumentTypeForm.existingDocumentType != null}">
         <td class="datacell">
         	<c:if test="${DocumentTypeForm.existingDocumentType.previousVersionId != 0 && DocumentTypeForm.existingDocumentType.previousVersionId != null
@@ -61,7 +61,7 @@
 	</tr>
 
 	<tr>
-	  <td class="thnormal" width="25%" align="right">Document Type Name:</td>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.documentTypeName"/>:</td>
 	<c:if test="${DocumentTypeForm.existingDocumentType != null}">
 	  <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.name}" />&nbsp;</td>
  	</c:if>
@@ -69,7 +69,7 @@
 	</tr>
 
 	<tr>
-	  <td class="thnormal" width="25%" align="right">Document Type Label:</td>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.documentTypeLabel"/>:</td>
 	<c:if test="${DocumentTypeForm.existingDocumentType != null}">
 	  <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.label}" />&nbsp;</td>
  	</c:if>
@@ -77,7 +77,7 @@
 	</tr>
 
 	<tr>
-	  <td class="thnormal" width="25%" align="right">Parent Document Type Name:</td>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.parentDocumentTypeName"/>:</td>
 	<c:if test="${DocumentTypeForm.existingDocumentType != null}">
 	  <c:choose>
 	   <c:when test="${DocumentTypeForm.existingDocumentType.parentDocType != null}">
@@ -109,7 +109,7 @@
 	</tr>
 
 	<tr>
-	  <td class="thnormal" width="25%" align="right">Superuser Workgroup Name:</td>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.superuserWorkgroupName"/>:</td>
 	<c:if test="${DocumentTypeForm.existingDocumentType != null}">
 	  <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.superUserWorkgroup.groupNameId.nameId}" />&nbsp;</td>
  	</c:if>
@@ -117,7 +117,7 @@
 	</tr>
 
 	<tr>
-	  <td class="thnormal" width="25%" align="right">Blanket Approve Workgroup Name:</td>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.blanketApproveWorkgroupName"/>:</td>
 	<c:if test="${DocumentTypeForm.existingDocumentType != null}">
 	  <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.blanketApproveWorkgroup.groupNameId.nameId}" />&nbsp;</td>
  	</c:if>
@@ -125,7 +125,7 @@
 	</tr>
 
 	<tr>
-	  <td class="thnormal" width="25%" align="right">Postprocessor Name:</td>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.postprocessorName"/>:</td>
 	<c:if test="${DocumentTypeForm.existingDocumentType != null}">
 	  <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.postProcessorName}" />&nbsp;</td>
  	</c:if>
@@ -133,7 +133,7 @@
 	</tr>
 
 	<tr>
-	  <td class="thnormal" width="25%" align="right">DocHandler URL:</td>
+	  <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.docHandlerUrl"/>:</td>
 	<c:if test="${DocumentTypeForm.existingDocumentType != null}">
 	  <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.docHandlerUrl}" />&nbsp;</td>
  	</c:if>
@@ -165,7 +165,7 @@
 	</tr>
 --%>
      <tr>
-	    <td class="thnormal" width="25%" align="right">Document Type Active Indicator:</td>
+	    <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.documentTypeActiveIndicator"/>:</td>
 	    <c:if test="${DocumentTypeForm.existingDocumentType != null}">
 		  <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.docTypeActiveIndicatorDisplayValue}" />&nbsp;</td>
 	    </c:if>
@@ -173,7 +173,7 @@
 	 </tr>
 
 	 <tr>
-	    <td class="thnormal" width="25%" align="right">Description:</td>
+	    <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.description"/>:</td>
 	    <c:if test="${DocumentTypeForm.existingDocumentType != null}">
 	    <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.description}" />&nbsp;</td>
  	    </c:if>
@@ -181,7 +181,7 @@
 	 </tr>
 
      <tr>
-       <td class="thnormal" width="25%" align="right">Default Approve: </td>
+       <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.defaultApprove"/>: </td>
       <c:if test="${DocumentTypeForm.existingDocumentType != null}">
        <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.defaultApprovePolicyDisplayValue}" />&nbsp;</td>
       </c:if>
@@ -189,7 +189,7 @@
      </tr>
 
      <tr>
-       <td class="thnormal" width="25%" align="right">Pre Approve: </td>
+       <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.preApprove"/>: </td>
       <c:if test="${DocumentTypeForm.existingDocumentType != null}">
        <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.preApprovePolicyDisplayValue}" />&nbsp;</td>
       </c:if>
@@ -197,7 +197,7 @@
      </tr>
 
      <tr>
-       <td class="thnormal" width="25%" align="right">Intiator Must Route: </td>
+       <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.initiatorMustRoute"/>: </td>
       <c:if test="${DocumentTypeForm.existingDocumentType != null}">
        <td class="datacell"><c:out value="${DocumentTypeForm.existingDocumentType.initiatorMustRouteDisplayValue}" />&nbsp;</td>
       </c:if>
@@ -205,7 +205,7 @@
      </tr>
 
      <tr>
-        <td class="thnormal" valign="top" width="25%" align="right">Document Type Searchable Attributes: </td>
+        <td class="thnormal" valign="top" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.documentTypeSearchableAttributes"/>:</td>
       <c:if test="${DocumentTypeForm.existingDocumentType != null}">
         <td class="datacell" valign="top">
           <table align="left" border="0" cellpadding="1" cellspacing="1" >
@@ -213,16 +213,16 @@
               <c:when test="${DocumentTypeForm.documentType.searchableAttributesInherited}">
                 <c:forEach var="attribute" items="${DocumentTypeForm.existingDocumentType.parentDocType.documentTypeAttributes}" >
                   <c:set var="searchableAttribute" value="${attribute.ruleAttribute}" />
-                  <tr><td align="right"><strong>Attribute Name:</strong></td><td><c:out value="${searchableAttribute.name}" />&nbsp;</td></tr>
-                  <tr><td align="right"><strong>Class Name:</strong></td><td><c:out value="${searchableAttribute.className}" />&nbsp;</td></tr>
+                  <tr><td align="right"><strong><bean-el:message key="doctype.DocumentTypeDisplay.field.label.attributeName"/>:</strong></td><td><c:out value="${searchableAttribute.name}" />&nbsp;</td></tr>
+                  <tr><td align="right"><strong><bean-el:message key="doctype.DocumentTypeDisplay.field.label.className"/>:</strong></td><td><c:out value="${searchableAttribute.className}" />&nbsp;</td></tr>
                   <tr><td colspan=2>&nbsp;</td></tr>
                 </c:forEach>
               </c:when>
               <c:otherwise>
                 <c:forEach var="attribute" items="${DocumentTypeForm.existingDocumentType.documentTypeAttributes}" >
                   <c:set var="searchableAttribute" value="${attribute.ruleAttribute}" />
-                  <tr><td align="right"><strong>Attribute Name:</strong></td><td><c:out value="${searchableAttribute.name}" />&nbsp;</td></tr>
-                  <tr><td align="right"><strong>Class Name:</strong></td><td><c:out value="${searchableAttribute.className}" />&nbsp;</td></tr>
+                  <tr><td align="right"><strong><bean-el:message key="doctype.DocumentTypeDisplay.field.label.attributeName"/>:</strong></td><td><c:out value="${searchableAttribute.name}" />&nbsp;</td></tr>
+                  <tr><td align="right"><strong><bean-el:message key="doctype.DocumentTypeDisplay.field.label.className"/>:</strong></td><td><c:out value="${searchableAttribute.className}" />&nbsp;</td></tr>
                   <tr><td colspan=2>&nbsp;</td></tr>
                 </c:forEach>
               </c:otherwise>
@@ -237,16 +237,16 @@
 	          <c:when test="${DocumentTypeForm.documentType.searchableAttributesInherited}">
 	            <c:forEach var="attribute" items="${DocumentTypeForm.documentType.parentDocType.documentTypeAttributes}" >
 	              <c:set var="searchableAttribute" value="${attribute.ruleAttribute}" />
-	              <tr><td align="right"><strong>Attribute Name:</strong></td><td><c:out value="${searchableAttribute.name}" />&nbsp;</td></tr>
-	              <tr><td align="right"><strong>Class Name:</strong></td><td><c:out value="${searchableAttribute.className}" />&nbsp;</td></tr>
+	              <tr><td align="right"><strong><bean-el:message key="doctype.DocumentTypeDisplay.field.label.attributeName"/>:</strong></td><td><c:out value="${searchableAttribute.name}" />&nbsp;</td></tr>
+	              <tr><td align="right"><strong><bean-el:message key="doctype.DocumentTypeDisplay.field.label.className"/>:</strong></td><td><c:out value="${searchableAttribute.className}" />&nbsp;</td></tr>
 	              <tr><td colspan=2>&nbsp;</td></tr>
 	            </c:forEach>
 	          </c:when>
 	          <c:otherwise>
 	            <c:forEach var="attribute" items="${DocumentTypeForm.documentType.documentTypeAttributes}" >
 	              <c:set var="searchableAttribute" value="${attribute.ruleAttribute}" />
-	              <tr><td align="right"><strong>Attribute Name:</strong></td><td><c:out value="${searchableAttribute.name}" />&nbsp;</td></tr>
-	              <tr><td align="right"><strong>Class Name:</strong></td><td><c:out value="${searchableAttribute.className}" />&nbsp;</td></tr>
+	              <tr><td align="right"><strong><bean-el:message key="doctype.DocumentTypeDisplay.field.label.attributeName"/>:</strong></td><td><c:out value="${searchableAttribute.name}" />&nbsp;</td></tr>
+	              <tr><td align="right"><strong><bean-el:message key="doctype.DocumentTypeDisplay.field.label.className"/>:</strong></td><td><c:out value="${searchableAttribute.className}" />&nbsp;</td></tr>
 	              <tr><td colspan=2>&nbsp;</td></tr>
 	            </c:forEach>
               </c:otherwise>
@@ -258,7 +258,7 @@
       
 
 	 <tr>
-	  	<td class="thnormal" valign="top" width="25%" align="right">Document Type Route Path: </td>
+	  	<td class="thnormal" valign="top" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.documentTypeRoutePath"/>: </td>
 	  	<td class="datacell" valign="top">
 	  	  To View the Route Path of the Document, Export the Document as XML using the button below.
 	  	</td>
@@ -298,12 +298,12 @@
 
 	<c:if test="${! empty annotation}">
 	  <tr>
-		<td class="thnormal" width="25%" align="right">Annotation:</td>
+		<td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.annotation"/>:</td>
 		<td class="datacell" colspan="2"><c:out value="${annotation}" />&nbsp;</td>
 	  </tr>
 	</c:if>
 	<tr>
-    <td class="thnormal" width="25%" align="right">Xml Config Data</td>
+    <td class="thnormal" width="25%" align="right"><bean-el:message key="doctype.DocumentTypeDisplay.field.label.xmlConfigData"/>:</td>
     <td class="datacell" colspan="2">
       <div style="height: 300px; overflow: auto">
         <pre><c:out value="${DocumentTypeForm.exportedXml}"/></pre>
