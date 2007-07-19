@@ -23,15 +23,28 @@ function loadUserInfo( userIdFieldName, universalIdFieldName, userNameFieldName 
 		var dwrReply = {
 			callback:function(data) {
 			if ( data != null && typeof data == 'object' ) {
-				setRecipientValue( universalIdFieldName, data.personUniversalIdentifier );
-				setRecipientValue( userNameFieldName, data.personName );
+				if ( universalIdFieldName != null && universalIdFieldName != "" ) {
+					setRecipientValue( universalIdFieldName, data.personUniversalIdentifier );
+				}
+				if ( userNameFieldName != null && userNameFieldName != "" ) {
+					setRecipientValue( userNameFieldName, data.personName );
+				}				
 			} else {
-				setRecipientValue( universalIdFieldName, "" );
-				setRecipientValue( userNameFieldName, wrapError( "person not found" ), true );
+				if ( universalIdFieldName != null && universalIdFieldName != "" ) {
+					setRecipientValue( universalIdFieldName, "" );
+				}
+				if ( userNameFieldName != null && userNameFieldName != "" ) {
+					setRecipientValue( userNameFieldName, wrapError( "person not found" ), true );
+				}
 			} },
 			errorHandler:function( errorMessage ) { 
-				setRecipientValue( universalIdFieldName, "" );
-				setRecipientValue( userNameFieldName, wrapError( "person not found" ), true );
+				window.status = errorMessage;
+				if ( universalIdFieldName != null && universalIdFieldName != "" ) {
+					setRecipientValue( universalIdFieldName, "" );
+				}
+				if ( userNameFieldName != null && userNameFieldName != "" ) {
+					setRecipientValue( userNameFieldName, wrapError( "person not found" ), true );
+				}
 			}
 		};
 		UserService.getUniversalUserByAuthenticationUserId( userId, dwrReply );

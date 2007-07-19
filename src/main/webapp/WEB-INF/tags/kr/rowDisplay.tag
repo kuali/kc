@@ -23,6 +23,8 @@
               description="boolean that indicates whether the old and new bar should be skipped" %>
 <%@ attribute name="depth" required="false" 
               description="the recursion depth number" %>
+<%@ attribute name="rowsHidden" required="false"
+              description="boolean that indicates whether the rows should be hidden or all fields are hidden" %>
 
 <c:if test="${empty depth}">
 	<c:set var="depth" value="0" />
@@ -35,7 +37,7 @@
 <c:set var="isInquiry" value="${maintenanceViewMode eq Constants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY}" />
 
 <%-- Is the screen a view of a mantenance document? --%>
-<c:set var="isMaintenance" value="${KualiForm.class.name eq 'org.kuali.kfs.web.struts.form.KfsMaintenanceForm' || maintenanceViewMode eq Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}" />
+<c:set var="isMaintenance" value="${KualiForm.class.name eq 'org.kuali.core.web.struts.form.KualiMaintenanceForm' || maintenanceViewMode eq Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}" />
 
 <%-- Is the screen a lookup? --%>
 <c:set var="isLookup" value="${maintenanceViewMode eq Constants.PARAM_MAINTENANCE_VIEW_MODE_LOOKUP}" />
@@ -60,11 +62,12 @@
 <c:set var="isHeaderDisplayed" value="false" />
 
 <c:forEach items="${rows}" var="row" varStatus="rowVarStatus">
+
+    <c:set var="rowHidden" value="${rowsHidden || row.hidden}" />
 	
 	<tr>
 
 		<c:forEach items="${row.fields}" var="field" varStatus="fieldVarStatus">
-
 			<c:set var="isFieldAContainer" value="${field.fieldType eq field.CONTAINER}" />
 			<c:set var="isFieldAddingToACollection" value="${fn:contains(field.propertyName, 'add.')}" />
 
@@ -75,7 +78,7 @@
 				######################
 				# SHOW THE OLD/NEW BAR
 				###################### --%>
-			<c:if test="${isMaintenance && not skipTheOldNewBar && rowVarStatus.count eq 1 && not isHeaderDisplayed && not isFieldAContainer && not isFieldAddingToACollection && field.fieldType ne field.IMAGE_SUBMIT}">
+			<c:if test="${isMaintenance && not skipTheOldNewBar && not rowHidden &&  rowVarStatus.count eq 1 && not isHeaderDisplayed && not isFieldAContainer && not isFieldAddingToACollection && field.fieldType ne field.IMAGE_SUBMIT}">
 				<%-- For Copy and Edit the Old and New views are shown. 
 				     For all other actions a New bar (row) is shown at the top level only (not in containers). --%>
 				<kul:sectionOldNewBar action="${requestedAction}" colspan="${headerColspan}"  depth="${depth}"/>
@@ -213,12 +216,15 @@
 				</c:when>
 				
 				<c:when test="${isFormReadOnly && isFieldAddingToACollection}">
-				
 					<%-- Don't show anything. --%>
-
 				</c:when>
 				
 				<c:when test="${isFieldAContainer}">
+				  <c:if test="${rowHidden}">
+					<kul:containerRowDisplay rows="${field.containerRows}" numberOfColumns="${isMaintenance ? numberOfColumns : field.numberOfColumnsForCollection}" depth="${depth + 1}" rowsHidden="true"/>
+				  </c:if>
+				  
+				  <c:if test="${!rowHidden}">
 					<td colspan="${headerColspan * 2}" class="tab-subhead" style="${depth eq 0 ? '' : 'padding-top: 20px; padding-bottom: 20px;'} background-color: #E6E6E6;">
 						<%-- Set the width for the collection container. --%>
 						<c:set var="width" value="${depth eq 0 ? '100%' : '85%'}" />
@@ -229,24 +235,36 @@
 							<kul:containerElementSubTabTitle containerField="${field}" isFieldAddingToACollection="${isFieldAddingToACollection}"/>
 						</c:set>
                                              
-                                                <%-- determine whether there are highlighted fields in the container. If so highlight subtab --%>
-                                                <kul:checkTabHighlight rows="${field.containerRows}" addHighlighting="${addHighlighting}" />
+                        <%-- determine whether there are highlighted fields in the container. If so highlight subtab --%>
+                        <kul:checkTabHighlight rows="${field.containerRows}" addHighlighting="${addHighlighting}" />
 
 						<%-- Only show the show/hide button on collection entries that
 						contain data (i.e. those that aren't adding --%>
 						<kul:subtab noShowHideButton="${isFieldAddingToACollection or empty field.containerRows}" subTabTitle="${kfunc:scrubWhitespace(subTabTitle)}" buttonAlt="${kfunc:scrubWhitespace(subTabButtonAlt)}" width="${width}" highlightTab="${tabHighlight}"
 								boClassName="${field.multipleValueLookupClassName}" lookedUpBODisplayName="${field.multipleValueLookupClassLabel}" lookedUpCollectionName="${field.multipleValueLookedUpCollectionName}" >
 							<table style="width: ${width}; text-align: left; margin-left: auto; margin-right: auto;" class="datatable" cellpadding="0" cellspacing="0" align="center">
-
 								<%--<c:out value="numberOfColumns is ${numberOfColumns}, field.numberOfColumnsForCollection is ${field.numberOfColumnsForCollection}<br/>" escapeXml="false" />--%>
-								<kul:rowDisplay rows="${field.containerRows}" numberOfColumns="${isMaintenance ? numberOfColumns : field.numberOfColumnsForCollection}" depth="${depth + 1}"/>
-
+								<kul:containerRowDisplay rows="${field.containerRows}" numberOfColumns="${isMaintenance ? numberOfColumns : field.numberOfColumnsForCollection}" depth="${depth + 1}" />
 							</table>
-
 						</kul:subtab>
-
 					</td>
-						
+				  </c:if>
+				</c:when>
+				
+				<c:when test="${(field.fieldType eq field.HIDDEN) || rowHidden}">
+					<c:if test="${isInquiry}">
+						<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
+							isReadOnly="${isFieldReadOnly}" cellWidth="${cellWidth}" fieldType="${field.fieldType}" 
+							fieldLabel="${field.fieldLabel}" />
+									
+						<td class="grid" width="${cellWidth}">
+							<kul:fieldShowReadOnly field="${field}" addHighlighting="${addHighlighting}" />
+						</td>
+					</c:if>
+			    	<c:if test="${!isFieldReadOnly}"><%-- prevent the field from being written a 2nd time --%>
+						<input type="hidden" name='${field.propertyName}'
+							value='<c:out value="${isFieldSecure ? field.encryptedValue : fieldValue}"/>' />
+					</c:if>
 				</c:when>
 					
 				<c:when test="${field.fieldType eq field.SUB_SECTION_SEPARATOR}">
@@ -621,22 +639,6 @@
 				
 				</c:when>
 					
-				<c:when test="${field.fieldType eq field.HIDDEN}">
-					<c:if test="${isInquiry}">
-						<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
-							isReadOnly="${isFieldReadOnly}" cellWidth="${cellWidth}" fieldType="${field.fieldType}" 
-							fieldLabel="${field.fieldLabel}" />
-									
-						<td class="grid" width="${cellWidth}">
-							<kul:fieldShowReadOnly field="${field}" addHighlighting="${addHighlighting}" />
-						</td>
-					</c:if>
-			    	<c:if test="${!isFieldReadOnly}"><%-- prevent the field from being written a 2nd time --%>
-						<input type="hidden" name='${field.propertyName}'
-							value='<c:out value="${isFieldSecure ? field.encryptedValue : fieldValue}"/>' />
-					</c:if>
-				</c:when>
-					
 				<c:when test="${field.fieldType eq field.LOOKUP_HIDDEN || field.fieldType eq field.LOOKUP_READONLY}">
 			    
 					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
@@ -667,12 +669,18 @@
                     <c:if test="${!isFieldAddingToACollection && isActionEdit}" >
                         <c:set var="imageCellSpan" value="4" />
                     </c:if>
+                    
+                    <c:set var="cellAlign" value="center" />
+                    <c:if test="${!empty field.cellAlign}" >
+                      <c:set var="cellAlign" value="${field.cellAlign}" />
+                    </c:if>  
+                    
                     <c:set var="anchorTabIndex" value="${currentTabIndex}"/>
                     <c:if test="${fn:contains(field.propertyName, Constants.DELETE_LINE_METHOD)}">
                     	<%-- when deleting, we have to anchor back to the top level tab, rather than the sub tab that we were viewing --%>
                     	<c:set var="anchorTabIndex" value="${topLevelTabIndex}"/>
                     </c:if>
-					<th class="grid" colspan="${imageCellSpan}" align="center">
+					<th class="grid" colspan="4" align="${cellAlign}" >
 						<input type="image" 
 							name='${field.propertyName}.${Constants.METHOD_TO_CALL_PARM13_LEFT_DEL}${currentTabIndex}${Constants.METHOD_TO_CALL_PARM13_RIGHT_DEL}.anchor${anchorTabIndex}'
 							src='<c:out value="${fieldValue}"/>'/>

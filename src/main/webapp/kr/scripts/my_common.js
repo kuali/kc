@@ -42,11 +42,11 @@ function getDocHeight(doc) {
 
 function doTheResize() { 
   if (passedFrameName != "" && passedFocusHeight != ""){
-      setFocusedIframeDimensions(passedFrameName, passedFocusHeight);
+      setFocusedIframeDimensions(passedFrameName, passedFocusHeight, false );
   }
 }
 
-function setFocusedIframeDimensions(iframeName, focusHeight) {
+function setFocusedIframeDimensions(iframeName, focusHeight, resetToDefaultWidth ) {
   try {
     passedFrameName = iframeName;
     passedFocusHeight = focusHeight;
@@ -58,19 +58,21 @@ function setFocusedIframeDimensions(iframeName, focusHeight) {
     var iframeEl = document.getElementById? document.getElementById(iframeName): document.all? document.all[iframeName]: null;
   
     if ( iframeEl && iframeWin && iframe_portlet_container_table) {
-      var docHeight = getDocHeight(iframeWin.document);
-     
+      var docHeight = getDocHeight(iframeWin.document);      
+  	  if ( resetToDefaultWidth ) {
+  	    iframe_portlet_container_table.width = "100%";
+  	  }
+  	  var frameScrollWidth = iframeEl.contentWindow.document.documentElement.scrollWidth;
+	  //window.status = frameScrollWidth + "/" + iframe_portlet_container_table.scrollWidth + "/" + iframe_portlet_container_table.width; 
       if (docHeight > 150) {
-        //alert("iframeWin.document.body.offsetWidth: " + iframeWin.document.body.offsetWidth + " iframeWin.document.body.scrollWidth: " + iframeWin.document.body.scrollWidth + " document.body.offsetWidth: " + document.body.offsetWidth);        
-        if (Math.abs(iframeWin.document.body.offsetWidth - iframeWin.document.body.scrollWidth) < 10) {
-          // dont do anything, cuz things are good
-        } else {
-          if (iframeWin.document.body.scrollWidth > iframeWin.document.body.offsetWidth && !((document.body.offsetWidth - 29) > iframe_portlet_container_table.width)) {            
-             iframe_portlet_container_table.width = iframeWin.document.body.scrollWidth + 30;
-          }
-        }
-        if ((document.body.offsetWidth - 20) > iframe_portlet_container_table.width) {
-            iframe_portlet_container_table.width = (document.body.offsetWidth - 20);
+        //console.log( "iframeEl.contentDocument.documentElement.scrollWidth="+iframeEl.contentDocument.documentElement.scrollWidth
+        //			+"\niframe_portlet_container_table.width="+iframe_portlet_container_table.width
+        //			+"\niframe_portlet_container_table.scrollWidth="+iframe_portlet_container_table.scrollWidth );
+        
+        if ( Math.abs( frameScrollWidth - iframe_portlet_container_table.scrollWidth ) > 10 ) {
+        	if ( frameScrollWidth > iframe_portlet_container_table.scrollWidth ) {
+        		iframe_portlet_container_table.width = frameScrollWidth + 30;
+        	}
         }
 
         if ((Math.abs(docHeight - currentHeight)) > 20 ) {
@@ -96,20 +98,15 @@ function setFocusedIframeDimensions(iframeName, focusHeight) {
   }
   catch(err)
   {
-  //  alert(err.description);
+  	window.status = err.description;
   }
 }
 
-window.setInterval(doTheResize,300);
+window.setInterval(doTheResize,500);
 
 function setIframeAnchor(iframeName) {
   var iframeWin = window.frames[iframeName];
   if (iframeWin && iframeWin.location.href.indexOf("#") > -1) {
     iframeWin.location.replace(iframeWin.location);
   }  
-}
-
-
-function ieKeyPress() {
-   return;
 }

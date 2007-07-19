@@ -38,11 +38,6 @@
 		<property name="userTransaction" ref="jotm" />
 		<property name="rootConfig" ref="config" />
 		<property name="messageEntity" value="KRA" />
-		<property name="properties">
-			<props>
-				<prop key="kew.standalone.server">true</prop>
-			</props>
-		</property>
 		<property name="modules">
 			<list>
 				<bean class="edu.iu.uis.eden.messaging.config.KSBConfigurer">
@@ -51,57 +46,28 @@
 				<bean class="org.kuali.workflow.config.KEWConfigurer">
 					<property name="clientProtocol" value="local" />
 				</bean>
+				<bean class="org.kuali.rice.kns.config.KNSConfigurer">
+					<property name="dataDictionaryPackages">
+						<list>
+							<value>org/kuali/kra/datadictionary</value>
+						</list>
+					</property>
+					<property name="databaseRepositoryFilePaths">
+						<list>
+							<value>repository.xml</value>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="dbPlatformDao" class="org.kuali.rice.spring.config.KNSDBPlatformFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+	<bean id="dateTimeService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFacotryBean">
+		<property name="serviceName" value="dateTimeService" />
 	</bean>
 
-	<import resource="classpath:org/kuali/core/SpringBeans.xml" />
-
-	<bean id="kraAppModule" class="org.kuali.core.KualiModule">
-		<property name="moduleId" value="kra" />
-		<property name="moduleName" value="KRA Application" />
-		<property name="moduleCode" value="KRA" />
-		<property name="moduleUserService" ref="kraUserService" />
-		<property name="moduleAuthorizer">
-			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
-				<property name="packagePrefixes">
-					<list>
-						<value>org.kuali.kra.rice</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-		<property name="moduleUserRule">
-			<null />
-		</property>
-		<property name="moduleUserPreRules">
-			<null />
-		</property>
-		<property name="dataDictionaryPackages">
-			<list>
-				<value>org/kuali/kra/datadictionary</value>
-			</list>
-		</property>
-		<property name="databaseRepositoryFilePaths">
-			<list>
-				<value>repository.xml</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="kraUserService" class="org.kuali.kra.rice.KraModuleUserService" parent="kualiModuleUserServiceBase" />
-
-	<bean id="kualiGroupService" class="org.kuali.rice.web.RiceGroupServiceImpl">
-		<property name="workflowGroupService">
-			<ref bean="workflowGroupService" />
-		</property>
-		<property name="kualiWorkflowInfo">
-			<ref bean="workflowInfoService" />
-		</property>
+	<bean id="businessObjectDao" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFacotryBean">
+		<property name="serviceName" value="businessObjectDao" />
 	</bean>
 
 </beans>

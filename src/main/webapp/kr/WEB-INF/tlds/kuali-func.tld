@@ -29,4 +29,27 @@
         <function-signature>java.lang.String scrubWhitespace(java.lang.String)</function-signature>
         <example>&lt;c:out value="${kfunc:scrubWhitespace(stringWithTonsAndTonsOfWhitespaceInItLikeAllTheStringsBuiltInJSP)}"></example>
     </function>
+    
+    <function>
+        <description>Returns the TabState for the given tab key in the action form.</description>
+        <name>getTabState</name>
+        <function-class>org.kuali.core.util.WebUtils</function-class>
+        <function-signature>org.kuali.core.util.TabState getTabState(org.kuali.core.web.struts.form.KualiForm, java.lang.String)</function-signature>
+        <example>&lt;c:set var="tabState" value="${kfunc:getTabState(KualiForm, tabTitle)}"></example>
+    </function>
+    
+    <function>
+        <description>Generates a key from a string that can be used for the tab state key.</description>
+        <name>generateTabKey</name>
+        <function-class>org.kuali.core.util.WebUtils</function-class>
+        <function-signature>java.lang.String generateTabKey(java.lang.String)</function-signature>
+        <example>&lt;c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"></example>
+    </function>
+    <function>
+        <description>Increment tabindex and add a new TabState to the HashMap.</description>
+        <name>incrementTabIndex</name>
+        <function-class>org.kuali.core.util.WebUtils</function-class>
+        <function-signature>void incrementTabIndex(org.kuali.core.web.struts.form.KualiForm, java.lang.String)</function-signature>
+        <example>${kfunc:incrementTabIndex(kualiForm)}</example>
+    </function>
 </taglib>

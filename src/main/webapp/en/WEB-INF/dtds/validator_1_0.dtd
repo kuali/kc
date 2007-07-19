@@ -9,7 +9,6 @@
      "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.0//EN"
      "http://jakarta.apache.org/commons/dtds/validator_1_0.dtd">
 
-    $Id: validator_1_0.dtd,v 1.1 2007-06-17 21:46:34 natjohns Exp $
 -->
 
 
@@ -78,7 +77,7 @@
 
 <!--
      The "form" element defines a set of fields to be validated. The name
-     corresponds to the identifer the application assigns to the form. 
+     corresponds to the identifer the application assigns to the form.
 -->
 <!ELEMENT form    (field+ )>
 <!ATTLIST form    name         CDATA #REQUIRED>
@@ -88,7 +87,7 @@
      The "field" element defines the properties to be validated. In a
      web application, a field would also correspond to a control on
      a HTML form. To validate the properties, the validator works through
-     a JavaBean representation. The field element can accept up to 4 
+     a JavaBean representation. The field element can accept up to 4
      attributes:
 
      property        The property on the JavaBean corresponding to this
