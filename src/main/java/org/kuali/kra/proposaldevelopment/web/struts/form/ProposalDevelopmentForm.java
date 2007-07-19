@@ -35,6 +35,10 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setHeaderNavigationTabs(KNSServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class).getHeaderTabNavigation());
     }
     
+    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+        return (ProposalDevelopmentDocument) this.getDocument();
+    }
+    
     @Override
     public void populate(HttpServletRequest request) {
 
