@@ -18,28 +18,17 @@ package org.kuali.kra.proposaldevelopment.document;
 import java.sql.Timestamp;
 
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-public class ProposalDevelopmentDocument extends TransactionalDocumentBase implements Copyable {
+public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable {
     
     private Integer proposalNumber;
     
-    // TODO Refactor into parent class?
-    private String updateUser;
-    private Timestamp updateTimestamp;
-    
     public ProposalDevelopmentDocument() {
         super();
-    }
-    
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
-        this.setUpdateTimestamp(((DateTimeService) KraServiceLocator.getService("dateTimeService")).getCurrentTimestamp());
-        this.setUpdateUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId().substring(0, 8));
     }
     
     public Integer getProposalNumber() {
@@ -47,19 +36,5 @@ public class ProposalDevelopmentDocument extends TransactionalDocumentBase imple
     }
     public void setProposalNumber(Integer proposalNumber) {
         this.proposalNumber = proposalNumber;
-    }
-
-    public Timestamp getUpdateTimestamp() {
-        return updateTimestamp;
-    }
-    public void setUpdateTimestamp(Timestamp updateTimestamp) {
-        this.updateTimestamp = updateTimestamp;
-    }
-
-    public String getUpdateUser() {
-        return updateUser;
-    }
-    public void setUpdateUser(String updateUser) {
-        this.updateUser = updateUser;
     }
 }
