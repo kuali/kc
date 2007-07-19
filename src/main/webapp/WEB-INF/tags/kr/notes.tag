@@ -108,7 +108,9 @@
         	<html:hidden property="${propPrefix}boNote[${status.index}].noteIdentifier" />
         	<html:hidden property="${propPrefix}boNote[${status.index}].noteTypeCode" />
             <kul:htmlAttributeHeaderCell literalLabel="${status.index + 1}" scope="row"/>
-            <td class="datacell center"><html:hidden write="true" property="${propPrefix}boNote[${status.index}].notePostedTimestamp" />&nbsp;</td>
+            <td class="datacell center">
+            <html:hidden write="true" property="${propPrefix}boNote[${status.index}].notePostedTimestamp" />
+            &nbsp;</td>
 
                         <td class="datacell center"><html:hidden write="true" property="${propPrefix}boNote[${status.index}].authorUniversal.personName" /></td>
 

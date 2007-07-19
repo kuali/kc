@@ -1,39 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.kra</groupId>
 	<artifactId>kra_project</artifactId>
 	<packaging>war</packaging>
 	<name>KRA Project</name>
-	<version>0.1-SNAPSHOT</version>
+	<version>SNAPSHOT-0.1</version>
 	<url>http://kuali.org</url>
-
 	<build>
-		<resources>
-			<resource>
-				<directory>${basedir}/src/main/resources</directory>
-				<includes><include>META-INF/kra-config.xml</include></includes>
-				<filtering>true</filtering>
-			</resource>
-			<resource>
-				<directory>${basedir}/src/main/resources</directory>
-				<excludes><exclude>kra-config.xml</exclude></excludes>
-				<filtering>false</filtering>
-			</resource>
-		</resources>
-		<testResources>
-			<testResource>
-				<directory>${basedir}/src/test/resources</directory>
-				<includes><include>META-INF/kra-test-config.xml</include></includes>
-				<filtering>true</filtering>
-			</testResource>
-			<testResource>
-				<directory>${basedir}/src/test/resources</directory>
-				<excludes><exclude>kra-test-config.xml</exclude></excludes>
-				<filtering>false</filtering>
-			</testResource>		
-		</testResources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -55,23 +29,8 @@
 					<reportFormat>plain</reportFormat>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-clover-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>pre-site</phase>
-						<goals>
-							<goal>instrument</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<licenseLocation>src/main/config/clover/clover.license</licenseLocation>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
-
 	<repositories>
 		<repository>
 			<id>connector</id>
@@ -84,25 +43,18 @@
 			<url>https://onestart.iu.edu/dav/MY/maven-mirror/maven2</url>
 		</repository>
 	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
-			<artifactId>kns</artifactId>
-			<version>M1.1</version>
+			<artifactId>rice-kns</artifactId>
+			<version>0.9</version>
 		</dependency>
 	</dependencies>
-
 	<reporting>
 		<plugins>
 			<plugin>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<artifactId>maven-clover-plugin</artifactId>
-			</plugin>
 		</plugins>
 	</reporting>
-
 </project>
-

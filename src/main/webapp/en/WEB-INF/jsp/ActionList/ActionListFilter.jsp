@@ -57,7 +57,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="bord-r-t">
     <c:if test="${! empty delegators}">
       <tr>
-	    <td class="thnormal">Secondary Delegator Id <bean-el:message key="general.help.delegatorId"/></td>
+	    <td class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.secondaryDelegatorId"/> <bean-el:message key="general.help.delegatorId"/></td>
 	    <td class="datacell">
 		     <html-el:select property="filter.delegatorId">
 			   <html-el:option value="${Constants.DELEGATION_DEFAULT}"><c:out value="${Constants.DELEGATION_DEFAULT}" /></html-el:option>
@@ -70,11 +70,11 @@
       </tr>
     </c:if>
 	<tr>
-		<td class="thnormal">Document Title <bean-el:message key="general.help.documentTitle"/></td>
-		<td class="datacell"><html-el:text property="filter.documentTitle"/>&nbsp;Exclude?<html-el:checkbox property="filter.excludeDocumentTitle"/></td>
+		<td class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.documentTitle"/> <bean-el:message key="general.help.documentTitle"/></td>
+		<td class="datacell"><html-el:text property="filter.documentTitle"/>&nbsp;<bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeDocumentTitle"/></td>
 	</tr>
 	<tr>
-		<td class="thnormal">Document Route Status <bean-el:message key="general.help.routeStatus"/></td>
+		<td class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.documentRouteStatus"/> <bean-el:message key="general.help.routeStatus"/></td>
 		<td class="datacell"><html-el:select property="filter.docRouteStatus">
 			<html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
 			<html-el:option value="${Constants.ROUTE_HEADER_APPROVED_CD}"><c:out value="${Constants.ROUTE_HEADER_APPROVED_LABEL}" /></html-el:option>
@@ -84,10 +84,10 @@
 			<html-el:option value="${Constants.ROUTE_HEADER_PROCESSED_CD}"><c:out value="${Constants.ROUTE_HEADER_PROCESSED_LABEL}" /></html-el:option>
 			<html-el:option value="${Constants.ROUTE_HEADER_SAVED_CD}"><c:out value="${Constants.ROUTE_HEADER_SAVED_LABEL}" /></html-el:option>
 			</html-el:select>
-			&nbsp;Exclude?<html-el:checkbox property="filter.excludeRouteStatus"/></td>
+			&nbsp;<bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeRouteStatus"/></td>
 	</tr>
 	<tr>
-		<td class="thnormal">Action Requested<bean-el:message key="general.help.actionRequested"/></td>
+		<td class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.actionRequested"/><bean-el:message key="general.help.actionRequested"/></td>
 		<td class="datacell"><html-el:select property="filter.actionRequestCd">
 			<html-el:option value="${Constants.ALL_CODE}"><c:out value="${Constants.ALL_CODE}" /></html-el:option>
 			<html-el:option value="${Constants.ACTION_REQUEST_ACKNOWLEDGE_REQ}"><c:out value="${Constants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL}" /></html-el:option>
@@ -95,37 +95,37 @@
 			<html-el:option value="${Constants.ACTION_REQUEST_COMPLETE_REQ}"><c:out value="${Constants.ACTION_REQUEST_COMPLETE_REQ_LABEL}" /></html-el:option>
 			<html-el:option value="${Constants.ACTION_REQUEST_FYI_REQ}"><c:out value="${Constants.ACTION_REQUEST_FYI_REQ_LABEL}" /></html-el:option>
 			</html-el:select>
-			&nbsp;Exclude?<html-el:checkbox property="filter.excludeActionRequestCd"/></td>
+			&nbsp;<bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeActionRequestCd"/></td>
 	</tr>
 	<tr>
-		<td class="thnormal">Action Request Workgroup <bean-el:message key="general.help.actionRequestWorkgroup"/></td>
+		<td class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.actionRequestWorkgroup"/> <bean-el:message key="general.help.actionRequestWorkgroup"/></td>
 		<td class="datacell">
 		    <html-el:select name="ActionListFilterForm" property="filter.workgroupIdString">
               <html-el:optionsCollection property="userWorkgroups" label="value" value="key" filter="false"/>
-            </html-el:select>&nbsp;Exclude?<html-el:checkbox property="filter.excludeWorkgroupId"/></td>
+            </html-el:select>&nbsp;<bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeWorkgroupId"/></td>
 	</tr>
 	<tr>
-		<td class="thnormal">Document Type <bean-el:message key="general.help.documentType"/></td>
+		<td class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.documentType"/> <bean-el:message key="general.help.documentType"/></td>
 		<td class="datacell"><span id="docTypeElementId"><c:out value="${ActionListFilterForm.docTypeFullName}" /></span>
 		    <html-el:image property="methodToCall.performLookup" src="images/searchicon.gif" alt="search" align="absmiddle"
-		     onclick="document.forms[0].elements['lookupableImplServiceName'].value = 'DocumentTypeLookupableImplService';"/>&nbsp;Exclude?<html-el:checkbox property="filter.excludeDocumentType"/></td>
+		     onclick="document.forms[0].elements['lookupableImplServiceName'].value = 'DocumentTypeLookupableImplService';"/>&nbsp;<bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeDocumentType"/></td>
 	</tr>
 	<tr>
-		<td class="thnormal">Date Created <bean-el:message key="general.help.dateCreated"/></td>
+		<td class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.dateCreated"/> <bean-el:message key="general.help.dateCreated"/></td>
 		<td class="datacell">
           <table>
             <tr>
               <td>
 		        <table border="0" cellspacing="0" cellpadding="1">
                   <tr>
-                    <td align="right" nowrap>from:</td>
+                    <td align="right" nowrap><bean-el:message key="actionList.ActionListFilter.filter.label.from"/>:</td>
                     <td nowrap>
                       <html-el:text property="createDateFrom" size="10"/>
                       <a href="javascript:showCal('createDateFrom');"><img src="images/cal.gif" width="16" height="16" border="0" alt="Click Here to pick up the from date created"></a>&nbsp;
                     </td>
                   </tr>
                   <tr>
-                    <td align="right" nowrap>to:</td>
+                    <td align="right" nowrap><bean-el:message key="actionList.ActionListFilter.filter.label.to"/>:</td>
                     <td nowrap>
                       <html-el:text property="createDateTo" size="10"/>
                       <a href="javascript:showCal('createDateTo');"><img src="images/cal.gif" width="16" height="16" border="0" alt="Click Here to pick up the to date created"></a>&nbsp;
@@ -136,43 +136,43 @@
               <td>
 		        <table border="0" cellspacing="0" cellpadding="1">
                   <tr>
-                    <td align="right" nowrap>Exclude?<html-el:checkbox property="filter.excludeCreateDate"/></td>
-                  </tr>	
-                </table>	
+                    <td align="right" nowrap><bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeCreateDate"/></td>
+                  </tr>
+                </table>
               </td>
             </tr>
           </table>
 		</td>
 	</tr>
 	<tr>
-		<td class="thnormal">Date Last Assigned <bean-el:message key="general.help.dateLastAssigned"/></td>
+		<td class="thnormal"><bean-el:message key="actionList.ActionListFilter.filter.label.dateLastAssigned"/> <bean-el:message key="general.help.dateLastAssigned"/></td>
 		<td class="datacell">
           <table>
             <tr>
               <td>
                 <table border="0" cellspacing="0" cellpadding="1">
                   <tr>
-                    <td align="right" nowrap>from:</td>
+                    <td align="right" nowrap><bean-el:message key="actionList.ActionListFilter.filter.label.from"/>:</td>
                     <td nowrap>
                       <html-el:text property="lastAssignedDateFrom" size="10" />
                       <a href="javascript:showCal('lastAssignedDateFrom');"><img src="images/cal.gif" width="16" height="16" border="0" alt="Click Here to pick up the from last assigned date"></a>&nbsp;
                     </td>
                   </tr>
                   <tr>
-                    <td align="right" nowrap>to:</td>
+                    <td align="right" nowrap><bean-el:message key="actionList.ActionListFilter.filter.label.to"/>:</td>
                     <td nowrap>
                       <html-el:text property="lastAssignedDateTo" size="10" />
                       <a href="javascript:showCal('lastAssignedDateTo');"><img src="images/cal.gif" width="16" height="16" border="0" alt="Click Here to pick up the to last assigned date"></a>&nbsp;
                     </td>
                   </tr>
-                </table>		
+                </table>
               </td>
               <td>
 		        <table border="0" cellspacing="0" cellpadding="1">
                   <tr>
-                    <td align="right" nowrap>Exclude?<html-el:checkbox property="filter.excludeLastAssignedDate"/></td>
-                  </tr>	
-                </table>	
+                    <td align="right" nowrap><bean-el:message key="actionList.ActionListFilter.filter.label.exclude"/><html-el:checkbox property="filter.excludeLastAssignedDate"/></td>
+                  </tr>
+                </table>
               </td>
             </tr>
           </table>

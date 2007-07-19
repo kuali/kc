@@ -16,11 +16,11 @@
 // Toggles a tab to show / hide and changes the source image to properly reflect this
 // change. Returns false to avoid post. Example usage:
 // onclick="javascript: return toggleTab(document, this, ${currentTabIndex}) }
-function toggleTab(doc, tabIndex) {
-	if (doc.forms[0].elements['tabState[' + tabIndex + '].open'].value == 'false') {
-        showTab(doc, tabIndex);
+function toggleTab(doc, tabKey) {
+	if (doc.forms[0].elements['tabStates(' + tabKey + ')'].value == 'CLOSE') {
+        showTab(doc, tabKey);
     } else {
-        hideTab(doc, tabIndex);
+        hideTab(doc, tabKey);
 	}
 	return false;
 }
@@ -39,11 +39,11 @@ function collapseAllTab(doc, tabStatesSize) {
 	return false;
 }
 
-function showTab(doc, tabIndex) {
+function showTab(doc, tabKey) {
     // replaced 'block' with '' to make budgetExpensesRow.tag happy.
-    doc.getElementById('tab-' + tabIndex + '-div').style.display = '';
-    doc.forms[0].elements['tabState[' + tabIndex + '].open'].value = 'true';
-    var image = doc.getElementById('tab-' + tabIndex + '-imageToggle');
+    doc.getElementById('tab-' + tabKey + '-div').style.display = '';
+    doc.forms[0].elements['tabStates(' + tabKey + ')'].value = 'OPEN';
+    var image = doc.getElementById('tab-' + tabKey + '-imageToggle');
     image.src = jsContextPath + '/kr/images/tinybutton-hide.gif';
     image.alt = image.alt.replace(/^show/, 'hide');
     image.alt = image.alt.replace(/^open/, 'close');
@@ -52,10 +52,10 @@ function showTab(doc, tabIndex) {
     return false;
 }
 
-function hideTab(doc, tabIndex) {
-    doc.getElementById('tab-' + tabIndex + '-div').style.display = 'none';
-    doc.forms[0].elements['tabState[' + tabIndex + '].open'].value = 'false';
-    var image = doc.getElementById('tab-' + tabIndex + '-imageToggle');
+function hideTab(doc, tabKey) {
+    doc.getElementById('tab-' + tabKey + '-div').style.display = 'none';
+    doc.forms[0].elements['tabStates(' + tabKey + ')'].value = 'CLOSE';
+    var image = doc.getElementById('tab-' + tabKey + '-imageToggle');
     image.src = jsContextPath + '/kr/images/tinybutton-show.gif';
     image.alt = image.alt.replace(/^hide/, 'show');
     image.alt = image.alt.replace(/^close/, 'open');
@@ -87,19 +87,20 @@ function isReturnKeyAllowed(buttonPrefix , event) {
     var elemType = event.srcElement ? event.srcElement.type : event.target.type;
     if (elemType != null && elemType.toLowerCase() == 'textarea') {
       // KULEDOCS-1728: textareas need to have the return key enabled
-      return;
+      return true;
     }
 	var initiator = event.srcElement ? event.srcElement.name : event.target.name;
 	var key = event.keyCode;
 	/* initiator is undefined check is to prevent return from doing anything if not in a form field since the initiator is undefined */
 	/* 13 is return key code */
 	/* length &gt; 0 check is to allow user to hit return on links */
-	if( initiator == undefined || ( initiator.indexOf(buttonPrefix) != 0 && key == 13 && initiator.length > 0) ) {
-	  // disallow enter key from fields that dont match prefix.
-	  return false;
-	} else {
-	  return;
+	if ( key == 13 ) {
+		if( initiator == undefined || ( initiator.indexOf(buttonPrefix) != 0 && initiator.length > 0) ) {
+		  // disallow enter key from fields that dont match prefix.
+		  return false;
+		}
 	}
+    return true;
 }
 
 //The following javascript is intended to resize the route log iframe
@@ -121,17 +122,18 @@ function setRouteLogIframeDimensions() {
     // unable to set due to cross-domain scripting
     frameDocHeight = 0;
   }
+
   if ( frameDocHeight > 0 ) {
 	  if (routeLogFrame && routeLogFrameWin) {
 	  	
 	    if ((Math.abs(frameDocHeight - currentHeight)) > 20 ) {
 	      if (safari > -1) {
 	        if ((Math.abs(docHt - currentHeight)) > 59 ) {
-	          routeLogFrame.style.height = currentHeight + 30 + "px";
+	          routeLogFrame.style.height = (frameDocHeight + 30) + "px";
 	          currentHeight = frameDocHeight;
 	        }
 	      } else {    
-	        routeLogFrame.style.height = currentHeight + 30 + "px";
+	        routeLogFrame.style.height = (frameDocHeight + 30) + "px";
 	        currentHeight = frameDocHeight;
 	      }
 	    }

@@ -32,12 +32,20 @@
 	<html-el:hidden property="workgroupName" />
 	<html-el:hidden property="workgroup.description" />
 	<html-el:hidden property="workgroup.activeInd" />
+	<html-el:hidden property="workgroup.workgroupType" />
 	<html-el:hidden property="annotation" />
 	<c:forEach var="member" items="${WorkgroupForm.workgroup.members}" varStatus="status">
-	  <html-el:hidden property="workgroupMembers[${status.index}].workflowId"/>
-	</c:forEach>
+      <html-el:hidden property="workgroupMembers[${status.index}].workflowId"/>
+      <html-el:hidden property="workgroupMembers[${status.index}].memberType" />
+      <html-el:hidden property="workgroupMembers[${status.index}].displayName" />
+      <html-el:hidden property="workgroupMembers[${status.index}].authenticationId" />
+    </c:forEach>
   <html-el:hidden property="methodToCall" />
   <html-el:hidden property="showEdit" />
+  <c:set var="extensions" scope="request" value="${WorkgroupForm.extensions}"/>
+  <c:import url="../extension/ExtensionDataHidden.jsp">
+    <c:param name="extensionsProperty" value="extensions"/>
+  </c:import>
   <tr>
     <td width="20" height="30">&nbsp;</td>
     <td>&nbsp;</td>
@@ -50,7 +58,7 @@
         <tr>
   	      <td>
              <jsp:include page="WorkgroupDisplay.jsp" flush="true" />
-          </td>  
+          </td>
         </tr>
         <c:if test="${WorkgroupForm.showEdit == Constants.PREFERENCES_YES_VAL}">
           <tr>
@@ -62,11 +70,11 @@
                 <html-el:image src="${resourcePath}images/buttonsmall_copytonew.gif" align="absmiddle" property="methodToCall.copy" />
               </c:if>
               <html-el:image src="${resourcePath}images/buttonsmall_export.gif" align="absmiddle" property="methodToCall.export" />
-            </td>    
+            </td>
           </tr>
         </c:if>
       </table>
-    </td>  
+    </td>
 	<td></td>
   </tr>
 </html-el:form>

@@ -38,18 +38,23 @@
                 </c:if>
                 <span class="left">
 <c:if test="${!noShowHideButton}">
-    <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
-    <c:set var="currentTab" value="${KualiForm.tabStateJstl}"/>
+    <c:set var="tabKey" value="${kfunc:generateTabKey(subTabTitle)}"/>
+    <!--  hit form method to increment tab index -->
+    <c:set var="doINeedThis" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
+
+    <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
+
+    <%-- c:set var="currentTab" value="${KualiForm.tabStateJstl}"/ --%>
     <%-- getting tabStateJstl increments KualiForm.currentTabIndex as a side-effect --%>
-    <c:set var="isOpen" value="${empty currentTab ? true : currentTab.open}"/>
-    <html:hidden property="tabState[${currentTabIndex}].open" value="${isOpen}"/>
+    <c:set var="isOpen" value="${empty currentTab ? true : (currentTab == 'OPEN')}"/>
+    <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
                         <html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-${isOpen ? 'hide' : 'show'}.gif"
-                                    property="methodToCall.toggleTab.tab${currentTabIndex}"
+                                    property="methodToCall.toggleTab.tab${tabKey}"
                                     title="${isOpen ? 'close' : 'open'} ${buttonAlt}"
                                     alt="${isOpen ? 'close' : 'open'} ${buttonAlt}"
                                     styleClass="tinybutton"
-                                    styleId="tab-${currentTabIndex}-imageToggle"
-                                    onclick="javascript: return toggleTab(document, ${currentTabIndex}); "/>
+                                    styleId="tab-${tabKey}-imageToggle"
+                                    onclick="javascript: return toggleTab(document, '${tabKey}'); "/>
 </c:if>
                     <%-- display the title anyway --%>
                     ${subTabTitle}
@@ -60,7 +65,7 @@
                 <c:if test="${!empty boClassName}">
 	                <span class="right">
     	            	<kul:multipleValueLookup boClassName="${boClassName}" lookedUpBODisplayName="${lookedUpBODisplayName}"
-        	        			lookedUpCollectionName="${lookedUpCollectionName}" anchor="${currentTabIndex}" />
+        	        			lookedUpCollectionName="${lookedUpCollectionName}" anchor="${tabKey}" />
             	    </span>
             	</c:if>
             </td>
@@ -70,7 +75,7 @@
 
 <c:if test="${!noShowHideButton}">
     <%-- these divs are taken from tab.tag --%>
-    <div style="display: ${isOpen ? 'block' : 'none'};" id="tab-${currentTabIndex}-div">
+    <div style="display: ${isOpen ? 'block' : 'none'};" id="tab-${tabKey}-div">
 </c:if>
 
 <jsp:doBody/>

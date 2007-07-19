@@ -1,4 +1,5 @@
 <%@ taglib uri="../../tld/struts-html-el.tld" prefix="html-el" %>
+<%@ taglib uri="../../tld/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="../../tld/struts-bean-el.tld" prefix="bean-el" %>
 <%@ taglib uri="../../tld/struts-logic-el.tld" prefix="logic-el"%>
 <%@ taglib uri="../../tld/c.tld" prefix="c" %>
@@ -6,7 +7,7 @@
 <%@ taglib uri="../../tld/displaytag.tld" prefix="display-el" %>
 <html>
 <head>
-<title>Action List</title>
+<title><bean-el:message key="actionList.ActionList.title"/></title>
 
 <c:if test="${! empty preferences.refreshRate && preferences.refreshRate != 0}">
 <META HTTP-EQUIV="Refresh" CONTENT="<c:out value="${preferences.refreshRate * 60}"/>; URL=ActionList.do">
@@ -31,7 +32,7 @@
 		<a href="
 			<c:url value="ActionList.do">
 				<c:param name="methodToCall" value="start" />
-			</c:url>">Refresh Action List</a>&nbsp;&nbsp;
+			</c:url>">Refresh <bean-el:message key="actionList.ActionList.title"/></a>&nbsp;&nbsp;
 		<html-el:link action="ActionListFilter">Filter</html-el:link>&nbsp;&nbsp;
 		<c:if test="${UserSession.actionListFilter != null && UserSession.actionListFilter.filterOn}">
 			<a href="
@@ -74,7 +75,7 @@
       <table width="100%" border=0 cellspacing=0 cellpadding=0>
         <tr>
           <td>
-            <strong>Action List</strong>
+            <strong><bean-el:message key="actionList.ActionList.title"/></strong>
           </td>
           <c:if test="${UserSession.helpDeskActionListUser == null && ! empty actionList && ! empty ActionListForm.defaultActions}">
             <td align="right">
@@ -116,8 +117,44 @@
     <c:param name="currentSort" value="${ActionListForm.currentSort}"/>
     <c:param name="currentDir" value="${ActionListForm.currentDir}"/>
   </c:url>
+
+  <%-- Setup column lables based on ApplicationsResources --%>
+  <bean:define id="documentIdLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.documentId"/>
+  </bean:define>
+  <bean:define id="typeLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.type"/>
+  </bean:define>
+  <bean:define id="titleLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.title"/>
+  </bean:define>
+  <bean:define id="routeStatusLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.routeStatus"/>
+  </bean:define>
+  <bean:define id="actionRequestedLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.actionRequested"/>
+  </bean:define>
+  <bean:define id="initiatorLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.initiator"/>
+  </bean:define>
+  <bean:define id="delegatorLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.delegator"/>
+  </bean:define>
+  <bean:define id="dateCreatedLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.dateCreated"/>
+  </bean:define>
+  <bean:define id="workgroupRequestLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.workgroupRequest"/>
+  </bean:define>
+  <bean:define id="actionsLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.actions"/>
+  </bean:define>
+  <bean:define id="routeLogLabel">
+ 	<bean-el:message key="actionList.ActionList.results.label.routeLog"/>
+  </bean:define>
+
   <display-el:table class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="actionListPage" pagesize="${preferences.pageSize}" export="true" id="result"
-          decorator="edu.iu.uis.eden.actionlist.web.ActionListDecorator" excludedParams="*" 
+          decorator="edu.iu.uis.eden.actionlist.web.ActionListDecorator" excludedParams="*"
           requestURI="${actionListURI}">
   <display-el:setProperty name="paging.banner.placement" value="both" />
   <display-el:setProperty name="export.banner" value="" />
@@ -125,7 +162,7 @@
   <%-- Since we are using the external paging and sorting features of the display tag now, if a new sortable column is added, remember to add it to the
        ActionItemComparator in the ActionListAction as well --%>
 
-  <display-el:column sortable="true" title="Document Id" sortProperty="routeHeaderId" class="display-column">
+  <display-el:column sortable="true" title="${documentIdLabel}" sortProperty="routeHeaderId" class="display-column">
   	<c:choose>
       <c:when test="${UserSession.helpDeskActionListUser == null}">
 		  	  <a href="<c:url value="${Constants.DOC_HANDLER_REDIRECT_PAGE}" >
@@ -150,21 +187,21 @@
   </display-el:column>
 
   <c:if test="${preferences.showDocType == Constants.PREFERENCES_YES_VAL}">
-	  <display-el:column property="docLabel" sortable="true" title="Type" class="display-column" />
+	  <display-el:column property="docLabel" sortable="true" title="${typeLabel}" class="display-column" />
   </c:if>
   <c:if test="${preferences.showDocTitle == Constants.PREFERENCES_YES_VAL}">
-	  <display-el:column sortProperty="docTitle" sortable="true" title="Title" class="display-column">
+	  <display-el:column sortProperty="docTitle" sortable="true" title="${titleLabel}" class="display-column">
 	  	<c:out value="${result.docTitle}" />&nbsp;
 	  </display-el:column>
   </c:if>
   <c:if test="${preferences.showDocumentStatus == Constants.PREFERENCES_YES_VAL}">
-	  <display-el:column property="routeHeader.docRouteStatusLabel" sortable="true" title="Route Status" class="display-column" />
+	  <display-el:column property="routeHeader.docRouteStatusLabel" sortable="true" title="${routeStatusLabel}" class="display-column" />
   </c:if>
   <c:if test="${preferences.showActionRequested == Constants.PREFERENCES_YES_VAL}">
- 	<display-el:column property="actionRequestLabel" sortable="true" title="Action Requested" class="display-column" />
+ 	<display-el:column property="actionRequestLabel" sortable="true" title="${actionRequestedLabel}" class="display-column" />
   </c:if>
   <c:if test="${preferences.showInitiator == Constants.PREFERENCES_YES_VAL}">
-	  <display-el:column sortable="true" title="Initiator" sortProperty="routeHeader.actionListInitiatorUser.transposedName" class="display-column" >
+	  <display-el:column sortable="true" title="${initiatorLabel}" sortProperty="routeHeader.actionListInitiatorUser.transposedName" class="display-column" >
           <a href="<c:url value="${UrlResolver.userReportUrl}">
                      <c:param name="workflowId" value="${result.routeHeader.actionListInitiatorUser.workflowUserId.workflowId}"/>
                      <c:param name="showEdit" value="no"/>
@@ -174,7 +211,7 @@
   </c:if>
 
   <c:if test="${preferences.showDelegator == Constants.PREFERENCES_YES_VAL}">
-    <display-el:column sortable="true" title="Delegator" sortProperty="delegatorName" class="display-column">
+    <display-el:column sortable="true" title="${delegatorLabel}" sortProperty="delegatorName" class="display-column">
     	<c:choose>
         <c:when test="${result.delegatorUser != null}">
           <a href="<c:url value="${UrlResolver.userReportUrl}">
@@ -197,13 +234,13 @@
     </display-el:column>
   </c:if>
   <c:if test="${preferences.showDateCreated == Constants.PREFERENCES_YES_VAL}">
-  	<display-el:column sortable="true" title="Date Created" sortProperty="routeHeader.createDate" class="display-column">
+  	<display-el:column sortable="true" title="${dateCreatedLabel}" sortProperty="routeHeader.createDate" class="display-column">
   		<fmt:formatDate value="${result.routeHeader.createDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;
   	</display-el:column>
   </c:if>
 
   <c:if test="${preferences.showWorkgroupRequest == Constants.PREFERENCES_YES_VAL}">
-  	<display-el:column sortable="true" title="Workgroup Request" sortProperty="workgroup.groupNameId.nameId" class="display-column">
+  	<display-el:column sortable="true" title="${workgroupRequestLabel}" sortProperty="workgroup.groupNameId.nameId" class="display-column">
   		<c:choose>
   			<c:when test="${result.workgroupId != null && result.workgroupId != 0}">
   			  <a href="<c:url value="${UrlResolver.workgroupReportUrl}">
@@ -221,7 +258,7 @@
   </c:if>
 
   <c:if test="${UserSession.helpDeskActionListUser == null && ActionListForm.hasCustomActions && (ActionListForm.customActionList || (preferences.showClearFyi == Constants.PREFERENCES_YES_VAL))}">
-    <display-el:column title="Actions" class="display-column">
+    <display-el:column title="${actionsLabel}" class="display-column">
         <c:if test="${! empty result.customActions}">
           <c:set var="customActions" value="${result.customActions}" scope="request" />
           <html-el:hidden property="actions[${result.actionItemIndex}].actionItemId" value="${result.actionItemId}" />
@@ -233,7 +270,7 @@
     </display-el:column>
   </c:if>
 
-  <display-el:column title="Route Log" class="display-column">
+  <display-el:column title="${routeLogLabel}" class="display-column">
   	<div align="center"><a href="<c:url value="RouteLog.do"><c:param name="routeHeaderId" value="${result.routeHeaderId}"/></c:url>" <c:if test="${ActionListForm.routeLogPopup == Constants.ACTION_LIST_ROUTE_LOG_POPUP_VALUE}">target="_blank"</c:if>>
 	  <img alt="Route Log for Document" src="images/my_route_log.gif" />
 	</a></div>

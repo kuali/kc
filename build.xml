@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<project name="kra-rice-upgrade" default="upgrade-to-0-9" basedir=".">
+
+	<target name="init">
+		<property name="rice.project.loc" value="/Users/bh79/dev/kra_workspace/rice-release-0-9-br" />
+		<!--
+		<property name=""></property>
+		<property name=""></property>
+		<property name=""></property>
+		<property name=""></property>
+				<property name=""></property>
+				-->
+	</target>
+
+
+	<target name="upgrade-to-0-9" depends="init">
+		<delete dir="${basedir}/src/main/webapp/en" />
+		<delete dir="${basedir}/src/main/webapp/kr" />
+		<delete dir="${basedir}/src/main/webapp/WEB-INF/tags/kr" />
+		<copy todir="${basedir}/src/main/webapp/en">
+			<fileset dir="${rice.project.loc}/kns/src/test/webapp/en" excludes="**/CVS, **/*cvsignore" />
+		</copy>
+		<copy todir="${basedir}/src/main/webapp/kr">
+			<fileset dir="${rice.project.loc}/kns/src/test/webapp/kr" excludes="**/CVS, **/*cvsignore" />
+		</copy>
+		<copy todir="${basedir}/src/main/webapp/WEB-INF/tags/kr">
+			<fileset dir="${rice.project.loc}/kns/src/test/webapp/WEB-INF/tags/kr" excludes="**/CVS, **/*cvsignore" />
+		</copy>
+	</target>
+
+</project>

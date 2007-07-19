@@ -18,14 +18,16 @@
 <%@ attribute name="defaultOpen" required="true" %>
 <%@ attribute name="tabErrorKey" required="false" %>
 
-<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
-<c:set var="currentTab" value="${KualiForm.tabStateJstl}"/>
+<%-- c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/ --%>
+<%-- c:set var="currentTab" value="${KualiForm.tabStateJstl}"/ --%>
+<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+<c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
 <c:choose>
     <c:when test="${empty currentTab}">
         <c:set var="isOpen" value="${defaultOpen}" />
     </c:when>
     <c:when test="${!empty currentTab}" >
-        <c:set var="isOpen" value="${currentTab.open}" />
+        <c:set var="isOpen" value="${(currentTab == 'OPEN')}" />
     </c:when>
 </c:choose>
 <!-- if the section has errors, override and set isOpen to true -->
@@ -33,7 +35,7 @@
   <kul:checkErrors keyMatch="${tabErrorKey}" auditMatch="${tabAuditKey}"/>
   <c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
 </c:if>
-<html:hidden property="tabState[${currentTabIndex}].open" value="${isOpen}" />
+<html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 <!-- TAB -->
 
 <div id="workarea">
@@ -45,10 +47,10 @@
 		</td>
 		<td class="tabtable1-mid">
             <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-			    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}"	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="hide" alt="hide" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+			    <html:image property="methodToCall.toggleTab.tab${tabKey}"	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="hide" alt="hide" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
 		    </c:if>
 		    <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-			    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}"	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open" alt="open" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+			    <html:image property="methodToCall.toggleTab.tab${tabKey}"	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open" alt="open" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
 		    </c:if>
 		</td>
 		<td class="tabtable1-right">
@@ -59,8 +61,8 @@
 
 
 
-<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}"><div style="display: block;" id="tab-${currentTabIndex}-div"></c:if>
-<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}"><div style="display: none;" id="tab-${currentTabIndex}-div"></c:if>
+<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}"><div style="display: block;" id="tab-${tabKey}-div"></c:if>
+<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}"><div style="display: none;" id="tab-${tabKey}-div"></c:if>
  
         <!-- display errors for this tab -->
         <div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="${tabErrorKey}" errorTitle="Errors Found in Document:" /></div></div>

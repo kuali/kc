@@ -7,6 +7,7 @@
     <form-beans >
 	    <form-bean name="QuestionPromptForm" type="org.kuali.core.web.struts.form.QuestionPromptForm" />
 	    <form-bean name="LookupForm" type="org.kuali.core.web.struts.form.LookupForm" />
+		<form-bean name="MultipleValueLookupForm" type="org.kuali.core.web.struts.form.MultipleValueLookupForm" />
 	    <form-bean name="InquiryForm" type="org.kuali.core.web.struts.form.InquiryForm" />
 	    <form-bean name="KualiMaintenanceForm" type="org.kuali.core.web.struts.form.KualiMaintenanceForm" />
 	    <form-bean name="KualiHelpForm" type="org.kuali.core.web.struts.form.KualiHelpForm" />
@@ -17,11 +18,15 @@
     <global-exceptions>
         <exception type="org.kuali.core.exceptions.AuthorizationException" key="meaningless" path="/authorizationException.do" />
         <exception type="org.kuali.core.exceptions.DocumentInitiationAuthorizationException" key="meaningless" path="/initiationAuthorizationException.do" />
-        <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/WEB-INF/jsp/core/Exception.jsp" />
-        <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/WEB-INF/jsp/core/Exception.jsp" />
+        <exception type="org.kuali.core.exceptions.UnknownDocumentIdException" key="error.document.noLongerExistsInKuali" path="/WEB-INF/jsp/Exception.jsp" />
+        <exception type="org.kuali.core.exceptions.FileUploadLimitExceededException" key="error.document.attachmentMaximumFileSizeExceeded" path="/WEB-INF/jsp/Exception.jsp" />
     </global-exceptions>  
     
     <global-forwards >
+        <forward name="save" path="/index.jsp" redirect="true" />
+        <forward name="cancel" path="/index.jsp" redirect="true" />
+        <forward name="close" path="/index.jsp" redirect="true" />
+        <forward name="portal" path="/index.jsp" redirect="true" />
     </global-forwards>
 
     <action-mappings>
@@ -33,11 +38,14 @@
         </action>        
         <action path="/initiationAuthorizationException" name="KualiForm" type="org.kuali.core.web.struts.action.KualiDocumentInitiationAuthorizationExceptionAction">
             <forward name="basic" path="/WEB-INF/jsp/authorizationException.jsp" />
-        </action>
-        
+        </action>        
    	    <action path="/lookup" name="LookupForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiLookupAction">
 	        <forward name="basic" path="/WEB-INF/jsp/KualiLookup.jsp" />
-	    </action>
+	    </action>	     
+	    <action path="/multipleValueLookup" name="MultipleValueLookupForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiMultipleValueLookupAction">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/WEB-INF/jsp/KualiMultipleValueLookup.jsp" />
+        </action>
 	    <action path="/inquiry" name="InquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiInquiryAction">
 	        <forward name="basic" path="/WEB-INF/jsp/KualiInquiry.jsp" />
 	    </action>
@@ -53,5 +61,6 @@
     </action-mappings>
 
     <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
+    <plug-in className="org.kuali.core.web.struts.pojo.PojoPlugin" />
 </struts-config>
 

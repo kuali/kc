@@ -23,10 +23,10 @@
   <li>Approval Type</li>
   <li>Comment</li>
   <li>Cost Sharing Type</li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.CreditType&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Credit Type</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.CreditType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Credit Type</a></li>
   <li>IDC Rate Types</li>
   <li>Notice of Opportunity</li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.NsfCode&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">NSF Code</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.NsfCode&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">NSF Code</a></li>
   <li>Person Document Type</li>
   <li>Proposal Type</li>
   <li>Science Code</li>
@@ -38,7 +38,7 @@
   <li>Argument Values</li>
   <li>Closeout Type</li>
   <li>Coeus Module Names</li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Country&returnLocation=portal.do&hideReturnLink=true&docFormKey=88888888">Country</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Country&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Country</a></li>
   <li>EDI Enabled Sponsors</li>
   <li>Investigators Credit Type</li>
   <li>Negotiation Activity Type</li>
@@ -50,7 +50,7 @@
   <li>School Code</li>
   <li>Sponsor Contact Type</li>
   <li>Sponsor Type</li>
-  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.State&returnLocation=../portal.do&hideReturnLink=true&docFormKey=88888888">State</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.State&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">State</a></li>
   <li>Subcontract Status</li>
   <li>Training</li>
   <li>User Preference Variables</li>
