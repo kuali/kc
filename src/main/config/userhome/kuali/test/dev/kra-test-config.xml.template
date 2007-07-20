@@ -2,6 +2,7 @@
 	<!-- App specific parameters -->
 	<param name="app.code">kra</param>
 	<param name="app.context.name">${app.code}-${environment}</param>
+	<param name="production.environment.code">PRD</param>
 	<param name="externalizable.help.url">/${app.context.name}/kr/static/help/</param>
 	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
@@ -11,9 +12,10 @@
 	<param name="use.kewXmlmlDataLoaderLifecycle">true</param>
 	<param name="use.sqlDataLoaderLifecycle">true</param>
 	<param name="test.mode">true</param>
+    <param name="attachments.pending.directory">${java.io.tmpdir}</param>
+    <param name="attachments.directory">${java.io.tmpdir}</param>
 
 	<!-- Misc params -->
-	<param name="production.environment.code">PRD</param>
 	<param name="institution">iu</param>
 	<param name="version">03/19/2007 01:59 PM</param>
 	<param name="security.directory">/usr/local/rice/</param>
@@ -68,8 +70,9 @@
 	<param name="encryption.key">7IC64w6ksLU</param>
 	<param name="keystore.alias">kul</param>
 	<param name="keystore.password">kulpass</param>
-
 	<param name="kfsLocator.useAppContext">true</param>
 	<param name="production.environment.code">prd</param>
+    <param name="rice.user">true</param>
+    <param name="kns.test.port">9916</param>
 </config>
 
