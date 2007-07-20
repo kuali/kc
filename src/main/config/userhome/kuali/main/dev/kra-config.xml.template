@@ -8,6 +8,8 @@
 	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
 	<param name="kr.url">/${app.context.name}/kr</param>
+    <param name="attachments.pending.directory">${java.io.tmpdir}</param>
+    <param name="attachments.directory">${java.io.tmpdir}</param>
 
 	<!-- Misc parameters -->
 	<param name="institution">iu</param>
@@ -67,4 +69,5 @@
 
 	<param name="kfsLocator.useAppContext">true</param>
 	<param name="production.environment.code">prd</param>
+    <param name="rice.user">true</param>
 </config>
