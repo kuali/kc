@@ -62,10 +62,6 @@
 		</property>
 	</bean>
 
-	<bean id="dateTimeService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFacotryBean">
-		<property name="serviceName" value="dateTimeService" />
-	</bean>
-
 	<bean id="businessObjectDao" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFacotryBean">
 		<property name="serviceName" value="businessObjectDao" />
 	</bean>
