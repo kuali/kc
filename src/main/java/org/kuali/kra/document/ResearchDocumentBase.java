@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,21 +20,22 @@ import java.sql.Timestamp;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class ResearchDocumentBase extends TransactionalDocumentBase {
-    
+
     private String updateUser;
     private Timestamp updateTimestamp;
-    
+
     public ResearchDocumentBase() {
         super();
     }
-    
+
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-        this.setUpdateTimestamp(((DateTimeService) KraServiceLocator.getService("dateTimeService")).getCurrentTimestamp());
+        this.setUpdateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         this.setUpdateUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId().substring(0, 8));
     }
 
