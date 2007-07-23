@@ -6,6 +6,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.core.service.DateTimeService;
 
@@ -36,7 +37,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      * Set updateTimestamp and updateUser prior to persistence
      */
     private void setUpdateFields() {
-        Timestamp updateTimestamp = ((DateTimeService)KraServiceLocator.getService("dateTimeService")).getCurrentTimestamp();
+        Timestamp updateTimestamp = ((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp();
 
         setUpdateTimestamp(updateTimestamp);
         // Since the UPDATE_USER column is only VACHAR(8), we need to truncate this string

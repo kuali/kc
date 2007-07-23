@@ -21,9 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class...
@@ -34,15 +34,15 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
-        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService("dataDictionaryService");
+        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
     }
 
-    
+
     public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
         return (ProposalDevelopmentDocument) this.getDocument();
     }
-    
+
     @Override
     public void populate(HttpServletRequest request) {
 
@@ -54,5 +54,5 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
         super.populate(request);
     }
-    
+
 }
