@@ -29,9 +29,10 @@
 	<param name="log4j.reload.minutes">5</param>
 	<param name="log4j.settings.path">classpath:log4j.properties</param>
 
-	<param name="workflow.url">http://localhost:9912/${app.context.name}/en</param>
-	<param name="application.url">http://localhost:9912/${app.context.name}</param>
-	<param name="serviceServletUrl">http://localhost:9912/${app.context.name}/remoting/</param>
+    <param name="kns.test.port">9925</param>
+    <param name="workflow.url">http://localhost:${kns.test.port}/${app.context.name}/en</param>
+    <param name="application.url">http://localhost:${kns.test.port}/${app.context.name}</param>
+    <param name="serviceServletUrl">http://localhost:${kns.test.port}/${app.context.name}/remoting/</param>
 
 	<param name="datasource.url">jdbc:oracle:thin:@esdb12-k.uits.indiana.edu:1521:KUALI</param>
 	<param name="datasource.username">KRAREG</param>
@@ -73,6 +74,5 @@
 	<param name="kfsLocator.useAppContext">true</param>
 	<param name="production.environment.code">prd</param>
     <param name="rice.user">true</param>
-    <param name="kns.test.port">9916</param>
 </config>
 
