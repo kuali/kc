@@ -30,10 +30,10 @@ public class BaseLineAppStartTest extends KraTestBase {
         // bh79 7/23/2007
         // Temporarily commented out until Rice test is fixed, just so our Bamboo tests won't fail
         //
-        // final WebClient webClient = new WebClient();
-        // final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-        // final HtmlPage page = (HtmlPage)webClient.getPage(url);
-        // assertEquals("Kuali Portal Index", page.getTitleText() );
+         final WebClient webClient = new WebClient();
+         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+         final HtmlPage page = (HtmlPage)webClient.getPage(url);
+         assertEquals("Kuali Portal Index", page.getTitleText() );
     }
 
 }

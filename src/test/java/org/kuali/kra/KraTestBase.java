@@ -18,6 +18,7 @@ package org.kuali.kra;
 
 import org.junit.After;
 import org.junit.Before;
+import org.kuali.rice.core.Core;
 import org.kuali.rice.testharness.KNSTestCase;
 import org.kuali.rice.testharness.TransactionalLifecycle;
 
@@ -57,7 +58,7 @@ public class KraTestBase extends KNSTestCase {
      */
     @Override
     protected int getPort() {
-        return 9916;
+        return new Integer(Core.getCurrentContextConfig().getProperty("kns.test.port"));
     }
 
 }
