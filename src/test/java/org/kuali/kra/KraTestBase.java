@@ -18,7 +18,6 @@ package org.kuali.kra;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.rice.core.Core;
 import org.kuali.rice.testharness.KNSTestCase;
 import org.kuali.rice.testharness.TransactionalLifecycle;
 
@@ -49,16 +48,5 @@ public class KraTestBase extends KNSTestCase {
 	protected String getModuleName() {
 		return "";
 	}
-
-    /**
-     * 7/23/2007 bh79 - Hack so that Bamboo test doesn't fail.
-     * We can remove this once we can edit the kra-test-config.xml
-     * file on the Bamboo server.
-     * @see org.kuali.rice.testharness.KNSTestCase#getPort()
-     */
-    @Override
-    protected int getPort() {
-        return new Integer(Core.getCurrentContextConfig().getProperty("kns.test.port"));
-    }
 
 }
