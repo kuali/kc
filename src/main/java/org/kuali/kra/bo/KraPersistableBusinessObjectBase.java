@@ -37,11 +37,15 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
      * Set updateTimestamp and updateUser prior to persistence
      */
     private void setUpdateFields() {
-        Timestamp updateTimestamp = ((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp();
+        String updateUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
 
-        setUpdateTimestamp(updateTimestamp);
-        // Since the UPDATE_USER column is only VACHAR(8), we need to truncate this string
-        setUpdateUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId().substring(0, 8));
+        // Since the UPDATE_USER column is only VACHAR(8), we need to truncate this string if it's longer than 8 characters
+        if (updateUser.length() > 8) {
+            updateUser = updateUser.substring(0, 8);
+        }
+
+        setUpdateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        setUpdateUser(updateUser);
     }
 
 	public Timestamp getUpdateTimestamp() {
