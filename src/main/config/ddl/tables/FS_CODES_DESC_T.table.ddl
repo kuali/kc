@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-CREATE TABLE FS_CODES_DESC_T(
+CREATE TABLE FS_CODES_DESC_T (
         CODE                           VARCHAR2(50) CONSTRAINT FS_CODES_DESC_TN1 NOT NULL,
         CLASS_NAME                     VARCHAR2(75) CONSTRAINT FS_CODES_DESC_TN2 NOT NULL,
         OBJ_ID                         VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT FS_CODES_DESC_TN3 NOT NULL,

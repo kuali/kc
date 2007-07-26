@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-CREATE TABLE FS_UNIVERSAL_USR_T(
+CREATE TABLE FS_UNIVERSAL_USR_T (
         PERSON_UNVL_ID                 VARCHAR2(10) CONSTRAINT FS_UNIVERSAL_USR_TN1 NOT NULL,
         OBJ_ID                         VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT FS_UNIVERSAL_USR_TN2 NOT NULL,
         VER_NBR                        NUMBER(8) DEFAULT 1 CONSTRAINT FS_UNIVERSAL_USR_TN3 NOT NULL,
