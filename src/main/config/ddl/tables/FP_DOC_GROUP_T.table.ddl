@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-CREATE TABLE FP_DOC_GROUP_T(
+CREATE TABLE FP_DOC_GROUP_T (
         FDOC_GRP_CD                    VARCHAR2(2) CONSTRAINT FP_DOC_GROUP_TN1 NOT NULL,
         OBJ_ID                         VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT FP_DOC_GROUP_TN2 NOT NULL,
         VER_NBR                        NUMBER(8) DEFAULT 1 CONSTRAINT FP_DOC_GROUP_TN3 NOT NULL,

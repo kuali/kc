@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-CREATE TABLE SH_USR_PROP_T(
+CREATE TABLE SH_USR_PROP_T (
         PERSON_UNVL_ID                 VARCHAR2(10) CONSTRAINT SH_USR_PROP_TN1 NOT NULL,
         APPL_MOD_ID                    VARCHAR2(20) CONSTRAINT SH_USR_PROP_TN2 NOT NULL,
         USR_PROP_NM                    VARCHAR2(40) CONSTRAINT SH_USR_PROP_TN3 NOT NULL,
