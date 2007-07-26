@@ -65,6 +65,16 @@ insert into FS_PARM_T values ('CoreMaintenanceEDoc','Workflow.Exception.Workgrou
 ;
 insert into FS_PARM_T values ('CoreMaintenanceEDoc','Kuali.Supervisor.Workgroup','2409BD6AB4CC800EE043814FD881800E',1,'WorkflowAdmin','Workgroup which can perform almost any function within Kuali.','N', 'KR')
 ;
+INSERT INTO kr_qrtz_locks values('TRIGGER_ACCESS')
+;
+INSERT INTO kr_qrtz_locks values('JOB_ACCESS')
+;
+INSERT INTO kr_qrtz_locks values('CALENDAR_ACCESS')
+;
+INSERT INTO kr_qrtz_locks values('STATE_ACCESS')
+;
+INSERT INTO kr_qrtz_locks values('MISFIRE_ACCESS')
+;
 INSERT INTO CARRIER_TYPE (CARRIER_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) VALUES ('1','Regular',sysdate,'KRAREG',1,'351472CA90A55148E043814FD8815148')
 ;
 INSERT INTO CARRIER_TYPE (CARRIER_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) VALUES ('2','DHL',sysdate,'KRAREG',1,'351472CA90A65148E043814FD8815148')

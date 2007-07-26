@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-CREATE TABLE FS_BSNS_RULE_T(
+CREATE TABLE FS_BSNS_RULE_T (
         FS_MOD_CD                   VARCHAR2(2) NOT NULL,
         FS_RULE_GRP_NM                 VARCHAR2(255) CONSTRAINT FS_BSNS_RULE_TN1 NOT NULL,
         FS_RULE_NM                     VARCHAR2(255) CONSTRAINT FS_BSNS_RULE_TN2 NOT NULL,
