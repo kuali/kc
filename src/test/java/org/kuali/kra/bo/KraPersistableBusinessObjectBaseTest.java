@@ -43,26 +43,48 @@ public class KraPersistableBusinessObjectBaseTest extends KraTestBase {
         GlobalVariables.setUserSession(null);
     }
 
-    @Test public void testBeforeInsert() throws Exception {
+    @Test public void testBeforeInsertQuickstart() throws Exception {
         KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new CarrierType();
         assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
         assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
         kraPersistableBusinessObjectBase.beforeInsert(null);
 
-        updateAsserts(kraPersistableBusinessObjectBase);
+        updateAsserts("quicksta", kraPersistableBusinessObjectBase);
     }
 
-    @Test public void testBeforeUpdate() throws Exception {
+    @Test public void testBeforeUpdateQuickstart() throws Exception {
         KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new CarrierType();
         assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
         assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
         kraPersistableBusinessObjectBase.beforeUpdate(null);
 
-        updateAsserts(kraPersistableBusinessObjectBase);
+        updateAsserts("quicksta", kraPersistableBusinessObjectBase);
     }
 
-    private void updateAsserts(KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase) {
-        assertEquals("quicksta", kraPersistableBusinessObjectBase.getUpdateUser());
+    @Test public void testBeforeInsertUser4() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("user4"));
+
+        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new CarrierType();
+        assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
+        assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
+        kraPersistableBusinessObjectBase.beforeInsert(null);
+
+        updateAsserts("user4", kraPersistableBusinessObjectBase);
+    }
+
+    @Test public void testBeforeUpdateUser4() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("user4"));
+
+        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new CarrierType();
+        assertNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
+        assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
+        kraPersistableBusinessObjectBase.beforeUpdate(null);
+
+        updateAsserts("user4", kraPersistableBusinessObjectBase);
+    }
+
+    private void updateAsserts(String udpateUser, KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase) {
+        assertEquals(udpateUser, kraPersistableBusinessObjectBase.getUpdateUser());
         Timestamp updateTimestamp = kraPersistableBusinessObjectBase.getUpdateTimestamp();
         assertNotNull(kraPersistableBusinessObjectBase.getUpdateTimestamp());
 
