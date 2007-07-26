@@ -43,13 +43,31 @@ public class ResearchDocumentBaseTest extends KraTestBase {
         GlobalVariables.setUserSession(null);
     }
 
-    @Test public void testPrepareForSave() throws Exception {
-	ResearchDocumentBase researchDocumentBase = new ProposalDevelopmentDocument();
+    @Test public void testPrepareForSaveQuickstart() throws Exception {
+        ResearchDocumentBase researchDocumentBase = new ProposalDevelopmentDocument();
         assertNull(researchDocumentBase.getUpdateTimestamp());
         assertNull(researchDocumentBase.getUpdateUser());
         researchDocumentBase.prepareForSave();
 
         assertEquals("quicksta", researchDocumentBase.getUpdateUser());
+        Timestamp updateTimestamp = researchDocumentBase.getUpdateTimestamp();
+        assertNotNull(researchDocumentBase.getUpdateTimestamp());
+
+        Date currentDate = new Date(System.currentTimeMillis());
+        long diff = updateTimestamp.getTime() - currentDate.getTime();
+
+        assertTrue("Should be less than one second difference between dates", diff < 1000);
+    }
+
+    @Test public void testPrepareForSaveUser4() throws Exception {
+        GlobalVariables.setUserSession(new UserSession("user4"));
+
+        ResearchDocumentBase researchDocumentBase = new ProposalDevelopmentDocument();
+        assertNull(researchDocumentBase.getUpdateTimestamp());
+        assertNull(researchDocumentBase.getUpdateUser());
+        researchDocumentBase.prepareForSave();
+
+        assertEquals("user4", researchDocumentBase.getUpdateUser());
         Timestamp updateTimestamp = researchDocumentBase.getUpdateTimestamp();
         assertNotNull(researchDocumentBase.getUpdateTimestamp());
 
