@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-CREATE TABLE SH_LOCK_T(
+CREATE TABLE SH_LOCK_T (
         TRN_SMPHR_TYP_CD               VARCHAR2(10) CONSTRAINT SH_LOCK_TN1 NOT NULL,
         TRN_SMPHR_ID                   VARCHAR2(10) CONSTRAINT SH_LOCK_TN2 NOT NULL,
         OBJ_ID                         VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT SH_LOCK_TN3 NOT NULL,

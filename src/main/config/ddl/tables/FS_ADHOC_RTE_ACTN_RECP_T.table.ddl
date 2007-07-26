@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-CREATE TABLE FS_ADHOC_RTE_ACTN_RECP_T(
+CREATE TABLE FS_ADHOC_RTE_ACTN_RECP_T (
 	    ACTN_RQST_RECP_TYP_CD          NUMBER(1) CONSTRAINT FS_ADHOC_RTE_ACTN_RECP_TN1 NOT NULL,
 	    ACTN_RQST_CD                   VARCHAR2(30) CONSTRAINT FS_ADHOC_RTE_ACTN_RECP_TN2 NOT NULL,
         ACTN_RQST_RECP_ID              VARCHAR2(70) CONSTRAINT FS_ADHOC_RTE_ACTN_RECP_TN3 NOT NULL,

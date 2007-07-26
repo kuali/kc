@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-CREATE TABLE SH_ATT_T(
+CREATE TABLE SH_ATT_T (
         NTE_ID                         NUMBER(14) CONSTRAINT SH_ATT_TN1 NOT NULL,
         OBJ_ID                         VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT SH_ATT_TN2 NOT NULL,
         VER_NBR                        NUMBER(8) DEFAULT 1 CONSTRAINT SH_ATT_TN3 NOT NULL,
