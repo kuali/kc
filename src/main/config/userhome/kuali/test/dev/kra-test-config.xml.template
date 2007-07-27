@@ -50,7 +50,8 @@
 	<param name="keystore.password">s1t0spss!xX-tst</param>
 
 	<param name="dev.mode">true</param>
-	<param name="message.persistence">synchronous</param>
+	<param name="message.persistence">true</param>
+	<param name="message.delivery">synchronous</param>
 
 	<!-- XML ingester directories -->
 	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
