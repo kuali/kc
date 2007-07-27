@@ -15,26 +15,96 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import org.kuali.core.document.Copyable;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable {
     
     private Integer proposalNumber;
+    private String proposalTypeCode;
+    private String sponsorCode;
+    private String activityTypeCode;
+    private String ownedByUnit;
+    private Date requestedStartDateInitial;
+    private Date requestedEndDateInitial;
+    private String title;
+    private String currentAwardNumber;
     
     public ProposalDevelopmentDocument() {
         super();
     }
     
+    public String getActivityTypeCode() {
+        return activityTypeCode;
+    }
+    
+    public void setActivityTypeCode(String activityTypeCode) {
+        this.activityTypeCode = activityTypeCode;
+    }
+
+    public String getOwnedByUnit() {
+        return ownedByUnit;
+    }
+    
+    public void setOwnedByUnit(String ownedByUnit) {
+        this.ownedByUnit = ownedByUnit;
+    }
+
+    public String getProposalTypeCode() {
+        return proposalTypeCode;
+    }
+    
+    public void setProposalTypeCode(String proposalTypeCode) {
+        this.proposalTypeCode = proposalTypeCode;
+    }
+
+    public Date getRequestedEndDateInitial() {
+        return requestedEndDateInitial;
+    }
+
+    public void setRequestedEndDateInitial(Date requestedEndDateInitial) {
+        this.requestedEndDateInitial = requestedEndDateInitial;
+    }
+
+    public Date getRequestedStartDateInitial() {
+        return requestedStartDateInitial;
+    }
+
+    public void setRequestedStartDateInitial(Date requestedStartDateInitial) {
+        this.requestedStartDateInitial = requestedStartDateInitial;
+    }
+
+    public String getSponsorCode() {
+        return sponsorCode;
+    }
+
+    public void setSponsorCode(String sponsorCode) {
+        this.sponsorCode = sponsorCode;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public Integer getProposalNumber() {
         return proposalNumber;
     }
+    
     public void setProposalNumber(Integer proposalNumber) {
         this.proposalNumber = proposalNumber;
+    }
+
+    public String getCurrentAwardNumber() {
+        return currentAwardNumber;
+    }
+
+    public void setCurrentAwardNumber(String currentAwardNumber) {
+        this.currentAwardNumber = currentAwardNumber;
     }
 }

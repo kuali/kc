@@ -28,6 +28,7 @@
   	headerTabActive="proposal">
   
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+<kra-pd:proposalDevelopmentRequiredFields />
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 

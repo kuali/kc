@@ -21,7 +21,7 @@ create table eps_proposal
   notice_of_opportunity_code    number (3),
   program_announcement_number   varchar2 (50),
   program_announcement_title    varchar2 (255),
-  activity_type_code            number (3),
+  activity_type_code            varchar2 (3),
   requested_start_date_initial  date,
   requested_start_date_total    date,
   requested_end_date_initial    date,
