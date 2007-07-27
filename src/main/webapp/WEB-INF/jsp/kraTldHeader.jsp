@@ -24,3 +24,4 @@ This is where application specific (kra) tag includes would go.
 
 <%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>
 <%@ taglib tagdir="/WEB-INF/tags/portal/channel" prefix="channel"%>
+<%@ taglib tagdir="/WEB-INF/tags/proposaldevelopment" prefix="kra-pd"%>

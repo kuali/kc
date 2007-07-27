@@ -6,13 +6,13 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ActivityType extends KraPersistableBusinessObjectBase {
 	
-	private Integer activityTypeCode;
+	private String activityTypeCode;
 	private String description;
 	
-	public Integer getActivityTypeCode() {
+	public String getActivityTypeCode() {
 		return activityTypeCode;
 	}
-	public void setActivityTypeCode(Integer activityTypeCode) {
+	public void setActivityTypeCode(String activityTypeCode) {
 		this.activityTypeCode = activityTypeCode;
 	}
 	public String getDescription() {
