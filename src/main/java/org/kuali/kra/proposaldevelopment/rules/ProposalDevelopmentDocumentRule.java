@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.DocumentRuleBase;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -36,8 +37,12 @@ public class ProposalDevelopmentDocumentRule extends DocumentRuleBase {
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
 
+        GlobalVariables.getErrorMap().addToErrorPath("document");
+        
         //changing this to '0' so it doesn't validate reference objects within a list
         KNSServiceLocator.getDictionaryValidationService().validateDocumentRecursively(proposalDevelopmentDocument, 0);
+        
+        GlobalVariables.getErrorMap().removeFromErrorPath("document");
         
         return valid;
     }

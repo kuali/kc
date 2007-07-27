@@ -7,5 +7,5 @@ create table proposal_response
   VER_NBR NUMBER(8,0) DEFAULT 1 constraint proposal_response_n5 NOT NULL,
   OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() constraint proposal_response_n6 NOT NULL,
   constraint proposal_response_p1 primary key (proposal_response_code),
-  constraint activity_type_c0 unique (obj_id)
+  constraint proposal_response_c0 unique (obj_id)
 );
