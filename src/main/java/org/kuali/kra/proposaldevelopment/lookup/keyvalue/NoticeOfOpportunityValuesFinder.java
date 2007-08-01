@@ -16,23 +16,35 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.bo.NoticeOfOpportunity;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
+/**
+ * This class is the Values Finder for Notice of Opportunity.
+ */
 public class NoticeOfOpportunityValuesFinder extends KeyValuesBase {
 
+    /**
+     * Returns the key/values list (code/description) for Notice of Opportunity.
+     *
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
     public List getKeyValues() {
+        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        Collection noticesOfOpportunity = keyValuesService.findAll(NoticeOfOpportunity.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select:"));
-        keyValues.add(new KeyLabelPair("1", "Federal Solicitation"));
-        keyValues.add(new KeyLabelPair("2", "Unsolicited"));
-        keyValues.add(new KeyLabelPair("3", "Verbal Request for Proposal"));
-        keyValues.add(new KeyLabelPair("4", "SBIR Solicitation"));
-        keyValues.add(new KeyLabelPair("5", "STTR Solicitation"));
-        keyValues.add(new KeyLabelPair("6", "Non-Federal Solicitation"));
-        keyValues.add(new KeyLabelPair("7", "MIT Alliance/Internal"));
+        for (Iterator iter = noticesOfOpportunity.iterator(); iter.hasNext();) {
+            NoticeOfOpportunity noticeOfOpportunity = (NoticeOfOpportunity) iter.next();
+            keyValues.add(new KeyLabelPair(noticeOfOpportunity.getNoticeOfOpportunityCode(), noticeOfOpportunity.getDescription()));
+        }
         return keyValues;
     }
 }
