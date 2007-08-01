@@ -12,9 +12,9 @@
 			<object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
 		</jdbc-connection-descriptor>
 	</descriptor-repository>
-	
+
 	<!-- Proposal Development Document and Children -->
-	
+
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" table="EPS_PROPOSAL">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
@@ -26,18 +26,30 @@
     	<field-descriptor name="requestedEndDateInitial" column="REQUESTED_END_DATE_INITIAL" jdbc-type="DATE" />
     	<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
     	<field-descriptor name="currentAwardNumber" column="CURRENT_AWARD_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="deadlineDate" column="DEADLINE_DATE" jdbc-type="DATE" />
+    	<field-descriptor name="noticeOfOpportunityCode" column="NOTICE_OF_OPPORTUNITY_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="deadlineType" column="DEADLINE_TYPE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="programAnnouncementNumber" column="PROGRAM_ANNOUNCEMENT_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="sponsorProposalNumber" column="SPONSOR_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="subcontracts" column="SUBCONTRACT_FLAG" conversion="org.kuali.core.util.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
+    	<field-descriptor name="agencyDivisionCode" column="AGENCY_DIVISION_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="agencyProgramCode" column="AGENCY_PROGRAM_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="programAnnouncementTitle" column="PROGRAM_ANNOUNCEMENT_TITLE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    	
+
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
 	</class-descriptor>
-	
+
 	<!--  Code Tables -->
-	
+
 	<class-descriptor class="org.kuali.kra.bo.NsfCode" table="NSF_CODES">
 		<field-descriptor name="nsfSequenceNumber" column="NSF_SEQUENCE_NUMBER" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQUENCE_NSF_CODES" autoincrement="true"/>
 		<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR" />
@@ -145,7 +157,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
-	
+
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.NarrativeType" table="NARRATIVE_TYPE">
 		<field-descriptor name="narrativeTypeCode" column="NARRATIVE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
