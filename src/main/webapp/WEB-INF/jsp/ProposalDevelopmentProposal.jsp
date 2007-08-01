@@ -26,9 +26,10 @@
 	auditCount="0"
   	headerDispatch="save"
   	headerTabActive="proposal">
-  
+
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-pd:proposalDevelopmentRequiredFields />
+<kra-pd:proposalDevelopmentSponsorProgramInformation />
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
