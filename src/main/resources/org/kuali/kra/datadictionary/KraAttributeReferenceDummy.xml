@@ -39,6 +39,23 @@
                 <description>Description</description>
 			</attribute>
 
+            <!-- This should be overridden whenever a business object has a -->
+            <!-- description attribute to keep them all uniform             -->
+            <attribute name="bigDescription" forceUppercase="false">
+                <label>Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>200</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <textarea rows="20" cols="60"/>
+                </control>
+
+                <summary>Description</summary>
+                <description>Description</description>
+			</attribute>
+
         </attributes>
     </businessObject>
 </dictionaryEntry>
