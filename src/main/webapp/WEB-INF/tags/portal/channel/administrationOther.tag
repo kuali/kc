@@ -51,7 +51,7 @@
   <li>Rule Variables</li>
   <li>School Code</li>
   <li>Sponsor Contact Type</li>
-  <li>Sponsor Type</li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.SponsorType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Sponsor Type</a></li>
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.State&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">State</a></li>
   <li>Subcontract Status</li>
   <li>Training</li>
