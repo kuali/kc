@@ -43,6 +43,12 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String agencyDivisionCode;
     private String agencyProgramCode;
     private String programAnnouncementTitle;
+    private String mailBy;
+    private String mailType;
+    private String mailAccountNumber;
+    private String mailDescription;
+    private Integer mailingAddressId;
+    private String numberOfCopies;
 
     public ProposalDevelopmentDocument() {
         super();
@@ -310,5 +316,53 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      */
     public void setSubcontracts(Boolean subcontracts) {
         this.subcontracts = subcontracts;
+    }
+
+    public String getMailBy() {
+        return mailBy;
+    }
+
+    public void setMailBy(String mailBy) {
+        this.mailBy = mailBy;
+    }
+
+    public String getMailType() {
+        return mailType;
+    }
+
+    public void setMailType(String mailType) {
+        this.mailType = mailType;
+    }
+
+    public String getMailAccountNumber() {
+        return mailAccountNumber;
+    }
+
+    public void setMailAccountNumber(String mailAccountNumber) {
+        this.mailAccountNumber = mailAccountNumber;
+    }
+
+    public String getMailDescription() {
+        return mailDescription;
+    }
+
+    public void setMailDescription(String mailDescription) {
+        this.mailDescription = mailDescription;
+    }
+
+    public Integer getMailingAddressId() {
+        return mailingAddressId;
+    }
+
+    public void setMailingAddressId(Integer mailingAddressId) {
+        this.mailingAddressId = mailingAddressId;
+    }
+
+    public String getNumberOfCopies() {
+        return numberOfCopies;
+    }
+
+    public void setNumberOfCopies(String numberOfCopies) {
+        this.numberOfCopies = numberOfCopies;
     }
 }

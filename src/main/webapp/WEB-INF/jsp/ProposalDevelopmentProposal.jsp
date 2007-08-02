@@ -28,9 +28,12 @@
   	headerTabActive="proposal">
 
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
-<kra-pd:proposalDevelopmentRequiredFields />
+<kra-pd:proposalDevelopmentRequiredFields /> 
 <kra-pd:proposalDevelopmentSponsorProgramInformation />
+<kra-pd:proposalDevelopmentDeliveryInfo /> 
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+  
+<script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>
