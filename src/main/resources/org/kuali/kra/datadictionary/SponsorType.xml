@@ -18,48 +18,48 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.DeadlineType">
+    <businessObject businessObjectClass="org.kuali.kra.bo.SponsorType">
 
         <inquiry>
-            <title>Deadline Type</title>
+            <title>Sponsor Type</title>
 
-            <inquirySections><inquirySection title="Deadline Type"><inquiryFields>
-                <field attributeName="deadlineTypeCode" forceInquiry="true" />
+            <inquirySections><inquirySection title="Sponsor Type"><inquiryFields>
+                <field attributeName="sponsorTypeCode" forceInquiry="true" />
                 <field attributeName="description" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Deadline Type Lookup</title>
+            <title>Sponsor Type Lookup</title>
 			<menubar>
 				<![CDATA[<a href="/kra-dev/">Main</a>]]>
 			</menubar>
-            <instructions>Look up a Deadline Type</instructions>
+            <instructions>Look up a Sponsor Type</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="deadlineTypeCode" />
+                    <sortAttribute attributeName="sponsorTypeCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="deadlineTypeCode" required="false" />
+                <lookupField attributeName="sponsorTypeCode" required="false" />
                 <lookupField attributeName="description" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="deadlineTypeCode" forceInquiry="true" />
+                <field attributeName="sponsorTypeCode" forceInquiry="true" />
                 <field attributeName="description" forceInquiry="false"/>
             </resultFields>
         </lookup>
 
-        <titleAttribute>deadlineTypeCode</titleAttribute>
+        <titleAttribute>sponsorTypeCode</titleAttribute>
 
         <attributes>
 
-            <attribute name="deadlineTypeCode">
-                <label>Deadline Type Code</label>
-                <shortLabel>Deadline Type Code</shortLabel>
+            <attribute name="sponsorTypeCode">
+                <label>Sponsor Type</label>
+                <shortLabel>Sponsor Type</shortLabel>
 
                 <maxLength>3</maxLength>
 
@@ -67,8 +67,8 @@
                     <text size="4" />
                 </control>
 
-                <summary>Deadline Type Code</summary>
-                <description>Deadline Type Code</description>
+                <summary>Sponsor Type</summary>
+                <description>Sponsor Type</description>
 			</attribute>
 
             <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
