@@ -1,4 +1,4 @@
-insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('1','Federal',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('0','Federal',sysdate,'kradev');
 insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('1','State',sysdate,'kradev');
 insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('2','Local Government',sysdate,'kradev');
 insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('3','Private Profit',sysdate,'kradev');
