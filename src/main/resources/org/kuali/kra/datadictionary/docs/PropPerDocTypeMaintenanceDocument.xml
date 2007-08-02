@@ -33,7 +33,7 @@
         </authorizations>
 
         <documentTypeName>PropPerDocTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>PDT</documentTypeCode>
+        <documentTypeCode>PPDT</documentTypeCode>
 
         <label>Person Document Type Maintenance Document</label>
         <shortLabel>PersonDocTypeMaintDoc</shortLabel>
