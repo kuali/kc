@@ -351,6 +351,106 @@
 				<description>This field is used to indicate the title of the sponsor's funding opportunity announcement.</description>
 			</attribute>
 
+<!-- delivery info -->
+<!--  TODO : rename to mailTypeCode mailTypeCode ? -->
+            <attribute name="mailBy">
+                <label>Mail By</label>
+                <shortLabel>Mail By</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <required>false</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.MailByValuesFinder" />
+                </control>
+
+                <summary>Mail By</summary>
+                <description>Mail By</description>
+			</attribute>
+
+            <attribute name="mailType">
+                <label>Type</label>
+                <shortLabel>Type</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <required>false</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.MailTypeValuesFinder" />
+                </control>
+
+                <summary>Mail Type</summary>
+                <description>Mail Type</description>
+			</attribute>
+			<attribute name="mailAccountNumber">
+				<label>Mail Account ID</label>
+				<shortLabel>Mail Account ID</shortLabel>
+				
+				<maxLength>15</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+				
+				<required>false</required>
+				
+				<control>
+					<text size="16"/>
+				</control>
+				
+				<summary>Mail Account ID</summary>
+				<description>Mail Account ID</description>
+			</attribute>
+			<attribute name="numberOfCopies">
+				<label>Number of Copies</label>
+				<shortLabel>Number of Copies</shortLabel>
+				
+				<maxLength>2</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+				
+				<required>false</required>
+				
+				<control>
+					<text size="3"/>
+				</control>
+				
+				<summary>Number of Copies</summary>
+				<description>Number of Copies</description>
+			</attribute>
+			<!-- TODO: This is an integer, but lookup return the name and address -->
+			<attribute name="mailingAddressId">
+				<label>Mailing Name And Address</label>
+				<shortLabel>Name And Address</shortLabel>
+				
+				<maxLength>80</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+				
+				<required>false</required>
+				
+				<control>
+					<text size="80"/>
+				</control>
+				
+				<summary>Mailing Name And Address</summary>
+				<description>Mailing Name And Address</description>
+			</attribute>
+            <attribute name="mailDescription">
+                <label>Mail Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>200</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <required>false</required>
+
+                <control>
+                    <textarea rows="3" cols="80" />
+                </control>
+
+                <summary>Mail Description</summary>
+                <description>Mail Description</description>
+			</attribute>
 <!--
             <attribute name="organizationId">
                 <label>Organization Id</label>

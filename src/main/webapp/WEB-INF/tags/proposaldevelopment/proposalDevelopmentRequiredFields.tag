@@ -1,6 +1,8 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="textAreaFieldName" value="document.title" />
+<c:set var="action" value="proposalDevelopmentProposal" />
 
 <kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.sponsorCode*,document.proposalTypeCode*,document.requestedStartDateInitial*,document.ownedByUnit*,document.requestedEndDateInitial*,document.activityTypeCode*,document.title">
 	<div class="tab-container" align="center">
@@ -63,7 +65,7 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.title}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.title" attributeEntry="${proposalDevelopmentAttributes.title}" />
-                  	<a href="#"><img src="${ConfigProperties.kr.externalizable.images.url}pencil_add.png" alt="add" width="16" height="16" hspace="3" vspace="3" border="0"></a>
+                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}#))" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}');return false"/>
                 </td>
             </tr>
         </table>

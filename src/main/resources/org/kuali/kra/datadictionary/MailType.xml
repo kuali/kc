@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailType">
+
+        <inquiry>
+            <title>Mail Type</title>
+
+            <inquirySections><inquirySection title="Mail Type"><inquiryFields>
+                <field attributeName="mailType" forceInquiry="true" />
+                <field attributeName="description" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Mail Type Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/index.html">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Mail Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="mailType" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="mailType" required="false" />
+                <lookupField attributeName="description" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="mailType" forceInquiry="true" />
+                <field attributeName="description" forceInquiry="false"/>
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>mailType</titleAttribute>
+
+        <attributes>
+
+            <attribute name="mailType">
+                <label>Mail Type</label>
+                <shortLabel>Mail Type</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Mail Type</summary>
+                <description>Mail Type</description>
+			</attribute>
+
+            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
