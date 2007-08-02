@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 
 public class PropPerDocType extends KraPersistableBusinessObjectBase {
 	
-	private Integer documentTypeCode;
+	private String documentTypeCode;
 	private String description;
 	
 	public String getDescription() {
@@ -13,10 +13,10 @@ public class PropPerDocType extends KraPersistableBusinessObjectBase {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Integer getDocumentTypeCode() {
+	public String getDocumentTypeCode() {
 		return documentTypeCode;
 	}
-	public void setDocumentTypeCode(Integer documentTypeCode) {
+	public void setDocumentTypeCode(String documentTypeCode) {
 		this.documentTypeCode = documentTypeCode;
 	}
 
