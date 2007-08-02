@@ -30,6 +30,7 @@ import org.kuali.core.util.KualiPercent;
 public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
 
     private String description;
+    private String bigDescription;
 
     /**
      * Gets the value of description
@@ -47,5 +48,13 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
      */
     public final void setDescription(final String argDescription) {
         this.description = argDescription;
+    }
+
+    public String getBigDescription() {
+        return bigDescription;
+    }
+
+    public void setBigDescription(String bigDescription) {
+        this.bigDescription = bigDescription;
     }
 }

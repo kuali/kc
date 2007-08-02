@@ -59,6 +59,7 @@
           <forward name="specialReview" path="/WEB-INF/jsp/ProposalDevelopmentSpecialReview.jsp" />
           <forward name="abstractPage" path="/WEB-INF/jsp/ProposalDevelopmentAbstract.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/ProposalDevelopmentCustomData.jsp" />
+          <forward name="updateTextArea" path="/WEB-INF/jsp/ProposalDevelopmentTextArea.jsp" />
           <forward name="actions" path="/WEB-INF/jsp/ProposalDevelopmentActions.jsp" />
       </action>
       

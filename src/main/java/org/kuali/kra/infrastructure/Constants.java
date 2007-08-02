@@ -22,4 +22,6 @@ public interface Constants {
     public static final String DATA_DICTIONARY_SERVICE_NAME = "dataDictionaryService";
     public static final String DATE_TIME_SERVICE_NAME = "dateTimeService";
     public static final String BUSINESS_OBJECT_DAO_NAME = "businessObjectDao";
+    public static final String HRML_FORM_ACTION = "htmlFormAction";
+    public static final String TEXT_AREA_FIELD_NAME = "textAreaFieldName";
 }
