@@ -15,18 +15,25 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
+import org.kuali.core.document.Document;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
-public class ProposalDevelopmentAction extends KualiTransactionalDocumentActionBase {
+public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBase {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
     
     @Override
@@ -71,4 +78,5 @@ public class ProposalDevelopmentAction extends KualiTransactionalDocumentActionB
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("actions");
     }
+    
 }
