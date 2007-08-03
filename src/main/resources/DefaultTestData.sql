@@ -81,3 +81,37 @@ INSERT INTO CARRIER_TYPE (CARRIER_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_
 ;
 INSERT INTO CARRIER_TYPE (CARRIER_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) VALUES ('3','Electronic',sysdate,'KRAREG',1,'351472CA90A75148E043814FD8815148')
 ;
+INSERT INTO NOTICE_OF_OPPORTUNITY (NOTICE_OF_OPPORTUNITY_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('1','Federal Solicitation',sysdate,'KRADEV')
+;
+INSERT INTO NOTICE_OF_OPPORTUNITY (NOTICE_OF_OPPORTUNITY_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('2','Unsolicited',sysdate,'KRADEV')
+;
+INSERT INTO NOTICE_OF_OPPORTUNITY (NOTICE_OF_OPPORTUNITY_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('3','Verbal Request for Proposal',sysdate,'KRADEV')
+;
+INSERT INTO NOTICE_OF_OPPORTUNITY (NOTICE_OF_OPPORTUNITY_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('4','SBIR Solicitation',sysdate,'KRADEV')
+;
+INSERT INTO NOTICE_OF_OPPORTUNITY (NOTICE_OF_OPPORTUNITY_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('5','STTR Solicitation',sysdate,'KRADEV')
+;
+INSERT INTO NOTICE_OF_OPPORTUNITY (NOTICE_OF_OPPORTUNITY_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('6','Non-Federal Solicitation',sysdate,'KRADEV')
+;
+INSERT INTO NOTICE_OF_OPPORTUNITY (NOTICE_OF_OPPORTUNITY_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('7','MIT Alliance/Internal',sysdate,'KRADEV')
+;
+INSERT INTO DEADLINE_TYPE (DEADLINE_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('1','postmark',sysdate,'KRADEV')
+;
+INSERT INTO DEADLINE_TYPE (DEADLINE_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('2','target',sysdate,'KRADEV')
+;
+INSERT INTO DEADLINE_TYPE (DEADLINE_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('3','receipt',sysdate,'KRADEV')
+;
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(1,'J.02','Law - Non-Science and Engineering Fields: J.02',sysdate,user)
+;
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(2,'A.01','Aeronautical and Astronautical - Engineering: A.01',sysdate,user)
+;
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(3,'F.01','Agricultural - Life Sciences: F.01',sysdate,user)
+;
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(4,'B.01','Astronomy - Physical Sciences: B.01',sysdate,user)
+;
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(5,'C.01','Atmospheric - Environmental Sciences: C.01',sysdate,user)
+;
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(6,'A.02','Bioengineering/Biomedical - Engineering: A.02',sysdate,user)
+;
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(7,'F.02','Biological - Life Sciences: F.02',sysdate,user)
+;
