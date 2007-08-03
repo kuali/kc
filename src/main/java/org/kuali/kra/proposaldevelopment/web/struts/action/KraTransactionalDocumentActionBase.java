@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,7 +27,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
     private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentActionBase.class);
@@ -55,9 +59,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 }
             }
         }
-
         request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_NAME, keyValue[0]);
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.HRML_FORM_ACTION,keyValue[1]);
+        request.setAttribute(org.kuali.kra.infrastructure.Constants.HTML_FORM_ACTION,keyValue[1]);
+        request.setAttribute(org.kuali.kra.infrastructure.Constants.DOCUMENT_CLASS_NAME,keyValue[2]);
         return mapping.findForward("updateTextArea");
 
     }
