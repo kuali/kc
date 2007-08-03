@@ -29,20 +29,14 @@ import org.kuali.kra.proposaldevelopment.bo.DeadlineType;
 public class DeadlineTypeValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
-//        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-//        Collection deadlineTypes = keyValuesService.findAll(DeadlineType.class);
-//        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-//        keyValues.add(new KeyLabelPair("", "select:"));
-//        for (Iterator iter = deadlineTypes.iterator(); iter.hasNext();) {
-//            DeadlineType deadlineType = (DeadlineType) iter.next();
-//            keyValues.add(new KeyLabelPair(deadlineType.getDeadlineTypeCode(), deadlineType.getDescription()));
-//        }
-//        return keyValues;
+        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        Collection deadlineTypes = keyValuesService.findAll(DeadlineType.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select:"));
-        keyValues.add(new KeyLabelPair("1", "postmark"));
-        keyValues.add(new KeyLabelPair("2", "target"));
-        keyValues.add(new KeyLabelPair("3", "receipt"));
+        for (Iterator iter = deadlineTypes.iterator(); iter.hasNext();) {
+            DeadlineType deadlineType = (DeadlineType) iter.next();
+            keyValues.add(new KeyLabelPair(deadlineType.getDeadlineTypeCode(), deadlineType.getDescription()));
+        }
         return keyValues;
     }
 }

@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
  */
 public class NoticeOfOpportunity extends KraPersistableBusinessObjectBase {
 
-    private Integer noticeOfOpportunityCode;
+    private String noticeOfOpportunityCode;
     private String description;
 
     /**
@@ -31,9 +31,9 @@ public class NoticeOfOpportunity extends KraPersistableBusinessObjectBase {
     /**
      * Retrieves the noticeOfOpportunityCode attribute
      *
-     * @return Integer
+     * @return String
      */
-    public Integer getNoticeOfOpportunityCode() {
+    public String getNoticeOfOpportunityCode() {
         return noticeOfOpportunityCode;
     }
 
@@ -41,7 +41,7 @@ public class NoticeOfOpportunity extends KraPersistableBusinessObjectBase {
      * Assigns the noticeOfOpportunityCode attribute
      * @param noticeOfOpportunityCode
      */
-    public void setNoticeOfOpportunityCode(Integer noticeOfOpportunityCode) {
+    public void setNoticeOfOpportunityCode(String noticeOfOpportunityCode) {
         this.noticeOfOpportunityCode = noticeOfOpportunityCode;
     }
 
