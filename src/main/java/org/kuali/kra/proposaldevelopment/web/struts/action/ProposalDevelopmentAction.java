@@ -38,6 +38,9 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // TODO : for text area pop window
+     //   request.getSession().setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_NAME, "detail");
+     //   request.getSession().setAttribute(org.kuali.kra.infrastructure.Constants.HTML_FORM_ACTION,"proposalDevelopment");
         return super.execute(mapping, form, request, response);
     }
     

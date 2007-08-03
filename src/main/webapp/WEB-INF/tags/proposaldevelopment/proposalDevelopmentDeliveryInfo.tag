@@ -3,6 +3,7 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="textAreaFieldName" value="document.mailDescription" />
 <c:set var="action" value="proposalDevelopmentProposal" />
+<c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 
 <kul:tab tabTitle="Delivery Info" defaultOpen="true" tabErrorKey="document.mailBy*,document.mailType*,document.mailAccountNumber*,document.mailingAddressId*,document.mailDescription*">
 	<div class="tab-container" align="center">
@@ -43,7 +44,7 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailDescription}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.mailDescription" attributeEntry="${proposalDevelopmentAttributes.mailDescription}" />
-                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}#))" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}');return false"/>
+                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${className}#))" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${className}');return false"/>
                 </td>
             </tr>
         </table>
