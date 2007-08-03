@@ -8,7 +8,7 @@
 <kul:tab tabTitle="Delivery Info" defaultOpen="true" tabErrorKey="document.mailBy*,document.mailType*,document.mailAccountNumber*,document.mailingAddressId*,document.mailDescription*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
-    		<span class="subhead-left"><h2>Required Fields for Saving Document</h2></span>
+    		<span class="subhead-left"><h2>Delivery Info</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
         
