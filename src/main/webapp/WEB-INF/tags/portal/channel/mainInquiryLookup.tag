@@ -21,7 +21,7 @@
 <ul class="chan">
   <li>Grants.gov Opportunity</li>
   <li>Rolodex</li>
-  <li>Sponsor</li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Sponsor&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Sponsor</a></li>
   <li>Sponsor Hierarchy</li>
   <li>Organization</li>
   <li>Medusa</li>
