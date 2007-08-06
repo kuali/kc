@@ -65,5 +65,9 @@
 	<bean id="businessObjectDao" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFacotryBean">
 		<property name="serviceName" value="businessObjectDao" />
 	</bean>
-
+	<bean id="keyValueFinderService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyValueFinderServiceImpl">
+		<property name="businessObjectDao">
+			<ref bean="businessObjectDao" />
+		</property>
+	</bean>
 </beans>
