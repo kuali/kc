@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!--
+    DTD for the Kuali data dictionary configuration file, version 1.0
+
+    To support validation of your configuration file, include the following
+    DOCTYPE element at the beginning (after the "xml" declaration):
+
+    <!DOCTYPE dictionaryEntry PUBLIC
+        "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+        "http://kuali.org/dtds/dataDictionary-1_0.dtd">
+-->
+
+<!--
+    JSTL: the dataDictionary itself is exposed as a Map, with the differing
+    kinds of entries keyed as follows:
+        * BusinessObject entries, keyed by their businessObjectClass name
+          (with the leading org.kuali.bo stripped off)
+        * TransactionalDocument entries, keyed by their DocumentType name
+        * MaintenanceDocument entries, keyed by their DocumentType name
+        
+    All elements are exposed to JSTL as Maps (where the element has a
+    unique key by which they can be retrieved), or Strings.  For collections
+    of elements having no unique key, the entry's position in the list
+    (0, 1, etc.) is used as its index.
+    
+    All Maps (except the top-level DataDictionary one) are guaranteed to
+    present their entries with an iteration order identical to the order
+    in which the elements were defined in XML.
+-->
+<!ELEMENT dictionaryEntry (businessObject | transactionalDocument | maintenanceDocument)>
+    <!--
+        JSTL: each businessObject is exposed as a Map with the following keys:
+            * businessObjectClass (String)
+            * boNotesEnabled (boolean String, optional)
+            * inquiry (Map, optional)
+            * lookup (Map, optional)
+            * attributes (Map)
+            * collections (Map, optional)
+            * relationships (Map, optional)
+    -->
+    <!ELEMENT businessObject ( boNotesEnabled?, inquiry?, lookup?, extraButton?, titleAttribute?, attributes, collections?, relationships?, objectLabel?, objectDescription?, objectHelp?  )>
+    <!ATTLIST businessObject
+        businessObjectClass CDATA #REQUIRED
+    >
+        <!ELEMENT businessObjectClass (#PCDATA)>
+		<!ELEMENT boNotesEnabled (#PCDATA)>
+		
+        <!--
+            JSTL: the inquiry element is a Map with the following keys:
+            * title (String)
+            * inquiryFields (Map)
+        -->
+        <!ELEMENT inquiry (title, inquirableClass?, inquirySections )>
+            <!ELEMENT title (#PCDATA)>
+            
+            <!ELEMENT inquirySections (inquirySection+) >
+            <!ELEMENT inquirySection (inquiryFields+)>
+            <!ATTLIST inquirySection
+                title CDATA #REQUIRED
+                numberOfColumns CDATA '1'
+            >
+
+            <!--
+                JSTL: inquiryField is a Map of field elements, whose entries are keyed by attributeName
+            ((subSectionHeader?,(maintainableField|maintainableCollection)+)+)
+            -->
+            <!ELEMENT inquiryFields ((inquirySubSectionHeader?,(inquiryCollection|field)+)+)>
+
+              <!--
+                   JSTL: inquirySubSectionHeader defines text to be displayed that seperates parts of an inquirySection.
+               -->
+              <!ELEMENT inquirySubSectionHeader EMPTY>
+              <!ATTLIST inquirySubSectionHeader name CDATA #REQUIRED>
+
+
+               <!--
+                   JSTL: inquiryCollections define collections within the Business Object which contain data that should be displayed with the BO when the inquiry is performed
+               -->
+               <!ELEMENT inquiryCollection ((inquirySubSectionHeader?,(field+, inquiryCollection?, inquirySummaryFields?)+)+)>
+               <!ATTLIST inquiryCollection
+                   name CDATA #REQUIRED 
+                   businessObjectClass CDATA #REQUIRED
+                   numberOfColumns CDATA '1'
+                   summaryTitle CDATA #IMPLIED
+               >
+
+                <!--
+                    JSTL: fields are Maps with the following keys:
+                    * attributeName (String)
+                -->
+                <!ELEMENT field (fieldAuthorization?)>
+                <!ATTLIST field
+                    attributeName CDATA #REQUIRED
+                    forceInquiry (true|false) 'false'
+                    noInquiry (true|false) 'false'
+                    maxLength CDATA #IMPLIED
+                >
+                
+                <!ELEMENT inquirySummaryFields (inquirySummaryField+)>
+                <!ELEMENT inquirySummaryField EMPTY>
+                <!ATTLIST inquirySummaryField attributeName CDATA #REQUIRED>
+                
+        <!ELEMENT inquirableClass (#PCDATA)>
+
+        <!--
+            JSTL: lookup is a Map with the following keys:
+            * lookupableID (String, optional)
+            * title (String)
+            * menubar (String, optional)
+            * instructions (String, optional)
+            * defaultSort (Map, optional)
+            * returnKeys (Map, optional)
+            * lookupFields (Map)
+            * resultFields (Map)
+        -->
+        <!ELEMENT lookup (lookupableID?, title, menubar?, instructions?, defaultSort?,
+          lookupFields, resultFields, extraButton?)>
+            <!ELEMENT lookupableID (#PCDATA)>
+
+            <!ELEMENT menubar (#PCDATA)>
+
+            <!ELEMENT instructions (#PCDATA)>
+
+            <!--
+                JSTL: defaultSort is a Map with the following keys:
+                * sortAscending (boolean String)
+                * sortAttributes (Map)
+                
+                By the time JSTL export occurs, the optional attributeName from the defaultSort
+                tag will have been converted into the first contained sortAttribute
+            -->
+            <!ELEMENT defaultSort (sortAttributes?)>
+            <!ATTLIST defaultSort
+                attributeName CDATA #IMPLIED
+                sortAscending (true|false) 'true'
+            >
+            
+                <!--
+                    JSTL: sortAttributes is a Map of sortAttribute elements, whose entries are keyed by attributeName
+                -->
+                <!ELEMENT sortAttributes (sortAttribute+)>
+                    <!--
+                        JSTL: sortAttrinute is a Map with the following keys:
+                        * attributeName (String)
+                    -->
+                    <!ELEMENT sortAttribute EMPTY>
+                    <!ATTLIST sortAttribute
+                        attributeName CDATA #REQUIRED
+                    >
+
+            <!--
+                JSTL: lookupFields is a Map of lookupField elements, whose entries are keyed by attributeName
+            -->
+            <!ELEMENT lookupFields (lookupField+)>
+            
+                <!--
+                    JSTL: lookupField is a Map with the following keys:
+                    * attributeName (String)
+                    * required (boolean String)
+                -->
+                <!ELEMENT lookupField (defaultValue?,defaultValueFinderClass?)>
+                <!ATTLIST lookupField
+                    attributeName CDATA #REQUIRED
+                    required (true|false) 'false'
+                    forceLookup (true|false) 'false'
+                    noLookup (true|false) 'false'
+                >
+
+                  <!ELEMENT defaultValue (#PCDATA)>
+                  <!ELEMENT defaultValueFinderClass (#PCDATA)>
+
+            <!--
+                JSTL: resultFields is a Map of field elements, whose entries are keyed by attributeName
+            -->
+            <!ELEMENT resultFields (field+)>
+            
+            <!ELEMENT extraButton (extraButtonSource, extraButtonParams)>
+        				<!ELEMENT extraButtonSource (#PCDATA)>
+        				<!ELEMENT extraButtonParams (#PCDATA)>
+            
+        <!ELEMENT titleAttribute (#PCDATA)>    
+        
+        <!--
+            JSTL: attributes is a Map of attribute elements whose entries are keyed by attributeName
+            
+            By the time the JSTL export happens, all attributeReferences will be indistinguishable
+            from attributes.
+        -->
+        <!ELEMENT attributes ((attribute|attributeReference)+)>
+        
+            <!--
+                JSTL: an attribute is a Map which contains the following entries:
+                * name (String)
+                * override (boolean String)
+                * forceUppercase (boolean String)
+                * label (String)
+                * shortLabel (String, copied from label if not present)
+                * maxLength (String)
+                * exclusiveMin (bigdecimal String)
+                * inclusiveMax (bigdecimal String)
+                * validationPattern (Map, optional)
+                * required (boolean String)
+                * control (Map)
+                * summary (String)
+                * description (String)
+                * formatterClass (String, optional)
+            -->
+            <!ELEMENT attribute (label, shortLabel?, displayLabelAttribute?, maxLength, exclusiveMin?, inclusiveMax?,
+              validationPattern?, required?, control, attributeAuthorization?, summary, description, formatterClass?)>
+            <!ATTLIST attribute
+                name CDATA #REQUIRED
+                forceUppercase (true|false) 'false'
+                override (true|false) 'false'
+            >
+                <!ELEMENT label (#PCDATA)>
+                <!ELEMENT shortLabel (#PCDATA)>
+                <!ELEMENT displayLabelAttribute (#PCDATA)>
+
+                <!ELEMENT maxLength (#PCDATA)>
+                <!ELEMENT exclusiveMin (#PCDATA)>
+                <!ELEMENT inclusiveMax (#PCDATA)>
+                <!ELEMENT validationPattern (alpha|numeric|alphaNumeric|anyCharacter|charset|javaClass|floatingPoint|fixedPoint|zipcode|date|year|month|emailAddress|phoneNumber|timestamp)>
+                    <!-- character-level patterns -->
+                    <!ELEMENT alpha EMPTY>
+                    <!ATTLIST alpha
+                        exactLength CDATA #IMPLIED
+                        maxLength CDATA #IMPLIED
+                        allowWhitespace (true|false) 'false'
+                    >
+                    <!ELEMENT numeric EMPTY>
+                    <!ATTLIST numeric
+                        exactLength CDATA #IMPLIED
+                        maxLength CDATA #IMPLIED
+                    >
+                    <!ELEMENT alphaNumeric EMPTY>
+                    <!ATTLIST alphaNumeric
+                        exactLength CDATA #IMPLIED
+                        maxLength CDATA #IMPLIED
+                        allowWhitespace (true|false) 'false'
+                        allowUnderscore (true|false) 'false'
+                    >
+                    <!ELEMENT anyCharacter EMPTY>
+                    <!ATTLIST anyCharacter
+                        exactLength CDATA #IMPLIED
+                        maxLength CDATA #IMPLIED
+                        allowWhitespace (true|false) 'false'
+                    >
+                    <!ELEMENT charset EMPTY>
+                    <!ATTLIST charset
+                        validChars CDATA #REQUIRED
+                    >
+                    <!-- field -level patterns -->
+                    <!ELEMENT javaClass EMPTY>
+                    <!ELEMENT floatingPoint EMPTY>
+                    <!ATTLIST floatingPoint
+                        allowNegative (true|false) 'false'
+                    >
+                    <!ELEMENT fixedPoint EMPTY>
+                    <!ATTLIST fixedPoint
+                        allowNegative (true|false) 'false'
+                        precision CDATA #IMPLIED
+                        scale CDATA #IMPLIED
+                    >
+                    <!ELEMENT zipcode EMPTY>
+                    <!ELEMENT date EMPTY>
+                    <!ELEMENT timestamp EMPTY>
+                    <!ELEMENT year EMPTY>
+                    <!ELEMENT month EMPTY>
+                    <!ELEMENT emailAddress EMPTY>
+                    <!ELEMENT phoneNumber EMPTY>
+                    
+                <!ELEMENT required (#PCDATA)>
+
+                <!--
+                    JSTL: control is a Map representing an HTML control; the different control
+                    types have the following entries:
+                    
+                    checkbox:
+                    * checkbox (boolean String)
+                    
+                    hidden:
+                    * hidden (boolean String)
+                    
+                    radio:
+                    * radio (boolean String)
+                    * valuesFinderClass (String)
+                    
+                    select:
+                    * select (boolean String)
+                    * valuesFinderClass (String)
+                    
+                    apcSelect:
+                    * group
+                    * parameterName
+                    
+                    text:
+                    * text (boolean String)
+                    * size (String)
+                    
+                    textarea:
+                    * textarea (boolean String)
+                    * rows
+                    * cols
+                    
+                    currency:
+                    * currency (boolean String)
+                    * size (String)
+                    * formattedMaxLength (String)
+                    
+                    kualiUser:
+                    * kualiUser (boolean String)
+					* universalIdAttributeName (String)
+					* userIdAttributeName (String)
+					* personNameAttributeName (String)
+					
+					lookupHidden:
+					* lookupHidden (boolean String)
+					
+					lookupReadonly:
+					* lookupReadonly (boolean String)
+                    
+                -->
+                <!ELEMENT control (checkbox|hidden|radio|select|apcSelect|text|textarea|currency|kualiUser|lookupHidden|lookupReadonly|workflowWorkgroup)>
+                    <!ELEMENT checkbox EMPTY>
+
+                    <!ELEMENT hidden EMPTY>
+
+                    <!ELEMENT radio EMPTY>
+                    <!ATTLIST radio
+                        valuesFinderClass CDATA #REQUIRED
+                    >
+
+                    <!ELEMENT select EMPTY>
+                    <!ATTLIST select
+                        valuesFinderClass CDATA #REQUIRED
+                        script CDATA #IMPLIED
+                    >
+                    
+                    <!ELEMENT apcSelect EMPTY>
+                    <!ATTLIST apcSelect
+                        group CDATA #REQUIRED
+                        parameterName CDATA #REQUIRED
+                    >
+
+                    <!ELEMENT text EMPTY>
+                    <!ATTLIST text
+                        size CDATA #REQUIRED
+                        datePicker CDATA #IMPLIED
+                    >
+
+                    <!ELEMENT textarea EMPTY>
+                    <!ATTLIST textarea
+                        rows CDATA #REQUIRED
+                        cols CDATA #REQUIRED
+                    >
+                    
+                    <!ELEMENT currency EMPTY>
+                    <!ATTLIST currency
+                        size CDATA #REQUIRED
+                        formattedMaxLength CDATA #REQUIRED
+                    >
+
+                    <!ELEMENT kualiUser EMPTY>
+					<!ATTLIST kualiUser
+					 	universalIdAttributeName CDATA #REQUIRED
+						userIdAttributeName CDATA #REQUIRED
+						personNameAttributeName CDATA #REQUIRED
+					>
+					
+					<!ELEMENT lookupHidden EMPTY>
+					
+					<!ELEMENT lookupReadonly EMPTY>
+					
+				    <!ELEMENT workflowWorkgroup EMPTY>
+                    <!ATTLIST workflowWorkgroup
+                        size CDATA #REQUIRED
+                    >
+					
+                <!ELEMENT attributeAuthorization (displayWorkgroup,displayMask)>
+				<!ELEMENT displayWorkgroup (#PCDATA)>
+				<!ELEMENT displayMask (maskLiteral|maskTo|maskFormatterClass)>
+				  <!ELEMENT maskLiteral EMPTY>
+				  <!ATTLIST maskLiteral
+				      literal CDATA #REQUIRED
+				  >
+				  
+				  <!ELEMENT maskTo EMPTY>
+				  <!ATTLIST maskTo
+				      maskCharacter CDATA #REQUIRED
+				      maskLength CDATA #REQUIRED
+				  >
+				  
+				  <!ELEMENT maskFormatterClass (#PCDATA)>
+					
+                <!ELEMENT summary (#PCDATA)>
+                <!ELEMENT description (#PCDATA)>
+                <!ELEMENT formatterClass (#PCDATA)>
+
+            <!--
+                JSTL: an attributeReference is a Map which contains the following entries:
+                * name (String)
+                * sourceClassName (String)
+                * sourceAttributeName (String)
+                * override (boolean String)
+                * label (String)
+                * shortLabel (String, copied from label if not present)
+                * maxLength (String)
+                * exclusiveMin (bigdecimal String)
+                * inclusiveMax (bigdecimal String)
+                * required (boolean String)
+                * control (Map)
+                * summary (String)
+                * description (String)
+                * formatterClass (String, optional)
+            -->
+            <!ELEMENT attributeReference (label?, shortLabel?, displayLabelAttribute?, maxLength?, exclusiveMin?, inclusiveMax?,
+              required?, control?, summary?, description?, formatterClass?)>
+            <!ATTLIST attributeReference
+                name CDATA #REQUIRED
+                sourceClassName CDATA #REQUIRED
+                sourceAttributeName CDATA #REQUIRED
+                override (true|false) 'false'
+            >
+
+        <!--
+            JSTL: collections is a Map containing collection entries, indexed by their name
+        -->
+        <!ELEMENT collections (collection+)>
+            <!--
+                JSTL: collection is a Map, containing the following entries:
+                * name (String)
+                * label (String)
+                * shortLabel (String, copied from label if missing)
+                * elementLabel (String, copied from contained class if missing)
+                * summary (String)
+                * description (String)
+            -->
+            <!ELEMENT collection (label, shortLabel?, elementLabel?, summary, description)>
+            <!ATTLIST collection
+                name CDATA #REQUIRED
+            >
+            <!ELEMENT elementLabel (#PCDATA)>
+            
+        <!--
+            JSTL: relationships is a Map containing relationship entries, indexed by their name
+        -->
+        <!ELEMENT relationships (relationship+)>
+            <!--
+                JSTL: relationship is a List, containing primitiveAttribute entries
+            -->
+            <!ELEMENT relationship (primitiveAttribute+, supportAttribute*)>
+            <!ATTLIST relationship
+                objectAttributeName CDATA #REQUIRED
+            >
+                <!--
+                    JSTL: primitiveAttribute is a Map, containing the following entries:
+                    * sourceName (String)
+                    * targetName (String)
+                -->
+                <!ELEMENT primitiveAttribute EMPTY>
+                    <!ATTLIST primitiveAttribute
+                        sourceName CDATA #REQUIRED
+                        targetName CDATA #REQUIRED
+                    >
+                <!ELEMENT supportAttribute EMPTY>
+                    <!ATTLIST supportAttribute
+                        sourceName CDATA #REQUIRED
+                        targetName CDATA #REQUIRED
+                        identifier (true|false) 'false'
+                    >
+            
+       <!ELEMENT objectLabel (#PCDATA)>
+       <!ELEMENT objectDescription (#PCDATA)>
+       
+       <!ELEMENT objectHelp (#PCDATA) >
+        	<!ATTLIST objectHelp
+        		securityGroupName CDATA #REQUIRED
+        		parameterName CDATA #REQUIRED
+        	>
+
+    <!--
+        If no documentAuthorizerClass is explictly listed, the value of the config property "documentAuthorizer.defaultClass" 
+        is used.
+    -->
+    <!ENTITY % COPYABLE_DOCUMENT_ATTRIBUTES "businessRulesClass?, preRulesCheckClass?, documentAuthorizerClass, authorizations, documentTypeName, documentTypeCode, webScriptFile*, label, shortLabel?, attributes?, summary, description, help?, allowsCopy?, headerNavigation?" >
+    <!ENTITY % DOCUMENT_ATTRIBUTES "businessRulesClass?, preRulesCheckClass?, documentAuthorizerClass, authorizations, documentTypeName, documentTypeCode, webScriptFile*, label, shortLabel?, attributes?, summary, description, help?, headerNavigation?" >
+        <!ELEMENT businessRulesClass (#PCDATA) >
+        <!ELEMENT preRulesCheckClass (#PCDATA) >
+        <!ELEMENT documentAuthorizerClass (#PCDATA) >
+
+        <!--
+            JSTL: authorizations is a Map containing one entry for each authorization, keyed by that authorization's action
+        -->
+        <!ELEMENT authorizations (authorization+) >
+            <!ELEMENT authorization (workgroups) >
+            <!--
+                JSTL: authorization is an unordered List of workgroup names
+            -->
+            <!ATTLIST authorization
+                action CDATA #REQUIRED
+            >
+                <!ELEMENT workgroups (workgroup+) >
+                    <!ELEMENT workgroup (#PCDATA) >
+
+        <!ELEMENT documentTypeName (#PCDATA) >
+        <!ELEMENT documentTypeCode (#PCDATA) >
+        <!ELEMENT allowsCopy (#PCDATA) >
+        <!ELEMENT allowsNoteDelete (#PCDATA) >
+        <!ELEMENT displayTopicFieldInNotes (#PCDATA) >
+        <!ELEMENT allowsErrorCorrection (#PCDATA) >
+        <!ELEMENT attachmentTypesValuesFinderClass (#PCDATA) >
+        <!ELEMENT webScriptFile (#PCDATA) >
+        
+        <!ELEMENT help (#PCDATA) >
+        	<!ATTLIST help
+        		securityGroupName CDATA #REQUIRED
+        		parameterName CDATA #REQUIRED
+        	>
+        	
+        <!ELEMENT headerNavigation (headerNavigationTab+) >
+        	<!ELEMENT headerNavigationTab (navigateTo, displayName, pageHelp?) >
+        		<!ELEMENT navigateTo (#PCDATA) >
+        		<!ELEMENT displayName (#PCDATA) >
+        		<!ELEMENT pageHelp (#PCDATA) >
+        			<!ATTLIST pageHelp
+        				securityGroupName CDATA #REQUIRED
+        				parameterName CDATA #REQUIRED
+        			>
+
+    <!--
+        JSTL: transactionalDocument is a Map containing the following entries:
+            * transactionalDocument (boolean String)
+            * documentClass (String)
+            * businessRulesClass (String)
+            * documentAuthorizerClass (String)
+            * authorizations (Map)
+            * documentTypeName (String)
+            * documentTypeCode (String)
+            * label (String)
+            * shortLabel (String, copied from label if missing)
+            * summary (String)
+            * description (String)
+            * allowsCopy (boolean String)
+            * allowsErrorCorrection (boolean String)
+            * sourceAccountingLineClass (String, defaults to SourceAccountingLine if missing)
+            * targetAccountingLineClass (String, defaults to TargetAccountingLine if missing)
+            * allowsNoteDelete (boolean String)
+            * displayTopicFieldInNotes (boolean String)
+    -->
+    <!ELEMENT transactionalDocument (documentClass, %COPYABLE_DOCUMENT_ATTRIBUTES;, allowsErrorCorrection, allowsNoteDelete?, displayTopicFieldInNotes?, attachmentTypesValuesFinderClass?) >
+        <!ELEMENT documentClass (#PCDATA) >
+        
+
+    <!--
+        JSTL: maintenanceDocument is a Map containing the following entries:
+            * maintenanceDocument (boolean String)
+            * businessObjectClass (String)
+            * maintainableClass (String)
+            * businessRulesClass (String)
+            * documentAuthorizerClass (String)
+            * authorizations (Map)
+            * documentTypeName (String)
+            * documentTypeCode (String)
+            * label (String)
+            * shortLabel (String, copied from label if missing)
+            * summary (String)
+            * description (String)
+            * maintainableSections (Map)
+    -->
+    <!ELEMENT maintenanceDocument (businessObjectClass, maintainableClass, %DOCUMENT_ATTRIBUTES;, lockingKeys, allowsNewOrCopy?, defaultExistenceChecks?, applyApcRules?, maintainableSections, allowsNoteDelete?, displayTopicFieldInNotes?, attachmentTypesValuesFinderClass?) >
+        <!ELEMENT maintainableClass (#PCDATA) >
+        
+        <!--
+            JSTL: lockingKeys is a Map of field elements, whose entries are keyed by attributeName
+        -->
+        <!ELEMENT lockingKeys (field+)>
+        
+        <!-- indicates whether this maintainable should allow new or copy maintenance actions -->
+        <!ELEMENT allowsNewOrCopy (#PCDATA)>
+        
+        <!--
+            JSTL: defaultExistenceChecks is a Map of Reference elements, whose entries are keyed by attributeName
+        -->
+        <!ELEMENT defaultExistenceChecks (reference+)>
+                <!--
+                    JSTL: references are Maps with the following keys:
+                    * attributeName (String)
+                    * activeIndicatorAttributeName (String) 
+                    * activeIndicatorReversed (boolean String) 
+                    * attributeToHighlightOnFail (String) 
+                    * displayFieldName (String)
+                -->
+                <!ELEMENT reference EMPTY>
+                <!ATTLIST reference
+					collection CDATA #IMPLIED
+                    attributeName CDATA #REQUIRED
+                    activeIndicatorAttributeName CDATA #IMPLIED
+                    activeIndicatorReversed (true|false) 'false'
+                    attributeToHighlightOnFail CDATA #REQUIRED 
+                    displayFieldName CDATA #IMPLIED 
+                >
+        
+        <!--
+            JSTL: applyApcRules is a Map of apcRule elements, whose entries are keyed by attributeName
+        -->
+        <!ELEMENT applyApcRules (apcRule+)>
+                <!--
+                    JSTL: apcRules are Maps with the following keys:
+                    * attributeName (String)
+                    * apcGroup (String)
+                    * apcRule (String)
+                    * errorMessage (String)
+                -->
+                <!ELEMENT apcRule EMPTY>
+                <!ATTLIST apcRule
+                    attributeName CDATA #REQUIRED
+                    apcGroup CDATA #REQUIRED
+                    apcRule CDATA #REQUIRED
+                    errorMessage CDATA #REQUIRED
+                >
+        
+        <!--
+            JSTL: maintainbleSections is a Map containing maintainableSection entries, indexed by their position in the list
+        -->
+        <!ELEMENT maintainableSections (maintainableSection+) >
+  
+            <!--
+                JSTL: maintainableSection is a Map containing the following entries:
+                * title (String)
+                * maintainableItems (Map)
+            -->
+            <!ELEMENT maintainableSection (maintainableItems+)>
+            <!ATTLIST maintainableSection
+                title CDATA #REQUIRED
+            >
+            
+                <!--
+                    JSTL: maintainableItems is a Map containing subSectionHeader, maintainableField and/or maintainableCollection entries,
+                    indexed by name.
+                -->
+                <!ELEMENT maintainableItems ((subSectionHeader?,(maintainableField|maintainableCollection)+)+)>
+                    <!ELEMENT subSectionHeader (defaultValue?)>
+                    <!ATTLIST subSectionHeader
+                        name CDATA #REQUIRED    
+                    >  
+                    <!--
+                        JSTL: maintainableField is a Map containing the following entries:
+                        * field (boolean String)
+                        * name (String)
+                        * required (boolean String)
+                    -->
+                    <!ELEMENT maintainableField (defaultValue?,defaultValueFinderClass?,fieldAuthorization?, overrideLookupClass?, overrideFieldConversions?)>
+                    <!ATTLIST maintainableField
+                        name CDATA #REQUIRED
+                        required (true|false) 'false'
+                        readOnly (true|false) 'false'
+                        template CDATA #IMPLIED
+                        webUILeaveFieldFunction CDATA #IMPLIED
+                        webUILeaveFieldCallbackFunction CDATA #IMPLIED
+                        readOnlyAfterAdd (true|false) 'false'
+                    >
+                    
+                    <!ELEMENT fieldAuthorization (displayEditMode,displayMask)>
+		            <!ELEMENT displayEditMode (#PCDATA)>
+                    <!ELEMENT overrideLookupClass (#PCDATA)>
+                    <!ELEMENT overrideFieldConversions (#PCDATA)>
+                 
+				    
+                    <!--
+                        JSTL: maintainableCollection is a Map containing the following entries:
+                        * collection (boolean String)
+                        * name (String)
+                        * businessObjectClass (String)
+                    -->
+                    <!ELEMENT maintainableCollection (subSectionHeader?,maintainableField+,maintainableCollection?,summaryFields?) >                   
+                    <!ATTLIST maintainableCollection
+                        name CDATA #REQUIRED
+                        businessObjectClass CDATA #REQUIRED
+                        sourceClassName CDATA #IMPLIED 
+                        sourceAttributeName CDATA #IMPLIED 
+                        includeAddLine (true|false) 'true'
+                        includeMultipleLookupLine (true|false) 'true'
+                        summaryTitle CDATA #IMPLIED
+						attributeToHighlightOnDuplicateKey CDATA #IMPLIED
+                    >
+                    <!ELEMENT summaryFields (summaryField+)>
+                    <!ELEMENT summaryField EMPTY>
+                	<!ATTLIST summaryField
+                    	name CDATA #IMPLIED
+                    >
