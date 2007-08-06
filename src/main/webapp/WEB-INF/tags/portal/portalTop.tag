@@ -21,7 +21,7 @@
 <head>
 <title>Kuali Portal Index</title>
 <link href="css/portal.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" type="text/javascript" src="${ConfigProperties.application.url}/kr/scripts/my_common.js"></script>
+<script language="JavaScript" type="text/javascript" src="kr/scripts/my_common.js"></script>
 <script language="javascript" >
 if (top.location != self.location) {
 	top.location = self.location;
