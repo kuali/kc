@@ -31,6 +31,7 @@
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.NarrativeType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Narrative Type</a></li>
   <li>Person Table Editable Columns</li>
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.PropPerDocType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Person Document Type</a></li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.S2sSubmissionType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">S2S Submission Type</a></li>
   <li>Proposal Dev Editable Columns</li>
   <li>Proposal Hierarchy Child Type</li>
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ProposalResponse&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Proposal in Response</a></li>

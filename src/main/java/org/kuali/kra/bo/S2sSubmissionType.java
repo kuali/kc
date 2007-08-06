@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 
 public class S2sSubmissionType extends KraPersistableBusinessObjectBase {
 	
-	private Integer s2sSubmissionTypeCode;
+	private String s2sSubmissionTypeCode;
 	private String description;
 	
 	public String getDescription() {
@@ -13,18 +13,18 @@ public class S2sSubmissionType extends KraPersistableBusinessObjectBase {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Integer getS2sSubmissionTypeCode() {
+	public String getS2sSubmissionTypeCode() {
 		return s2sSubmissionTypeCode;
 	}
-	public void setS2sSubmissionTypeCode(Integer s2sSubmissionTypeCode) {
+	public void setS2sSubmissionTypeCode(String s2sSubmissionTypeCode) {
 		this.s2sSubmissionTypeCode = s2sSubmissionTypeCode;
 	}
 
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap propMap = new LinkedHashMap();
-		propMap.put("s2sSubmissionTypeCode", this.s2sSubmissionTypeCode);
-		propMap.put("description", this.description);
+		propMap.put("s2sSubmissionTypeCode", getS2sSubmissionTypeCode());
+		propMap.put("description", getDescription());
 		return propMap;
 	}
 }

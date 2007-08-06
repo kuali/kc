@@ -32,8 +32,8 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>SubmissionTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>SST</documentTypeCode>
+        <documentTypeName>S2sSubmissionTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>SSTY</documentTypeCode>
 
         <label>Submission Type Maintenance Document</label>
         <shortLabel>ScienceCodeMaintDoc</shortLabel>
