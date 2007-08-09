@@ -24,7 +24,7 @@
                 </td>
             </tr>
         	<tr>
-				<th><div align="right">Mail Account ID</div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailAccountNumber}" /></div></th>
                 <td>                	
                   <kul:htmlControlAttribute property="document.mailAccountNumber" attributeEntry="${proposalDevelopmentAttributes.mailAccountNumber}" />
 				</td>
@@ -37,7 +37,35 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailingAddressId}" /></div></th>
                 <td colspan="3" align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.mailingAddressId" attributeEntry="${proposalDevelopmentAttributes.mailingAddressId}" />
-                	<img src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" alt="lookup" height="16" width="16"/>
+                    <c:if test="${!empty KualiForm.document.rolodex.lastName}" >
+                    <c:out value="${KualiForm.document.rolodex.lastName}, ${KualiForm.document.rolodex.firstName}"/>
+                    </c:if>           
+                 <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
+                    fieldConversions="rolodexId:document.mailingAddressId
+                      ,firstName:document.rolodex.firstName
+                      ,lastName:document.rolodex.lastName
+                      ,addressLine1:document.rolodex.addressLine1
+                      ,addressLine2:document.rolodex.addressLine2
+                      ,addressLine3:document.rolodex.addressLine3
+                      ,city:document.rolodex.city
+                      ,state:document.rolodex.state" /> <br>
+
+                    <c:if test="${!empty KualiForm.document.rolodex.addressLine1}" >
+                      
+                    <c:out value="${KualiForm.document.rolodex.addressLine1}"/><br>
+                    </c:if>                      
+                    <c:if test="${!empty KualiForm.document.rolodex.addressLine2}" >
+                    <c:out value="${KualiForm.document.rolodex.addressLine2}"/><br>
+                    </c:if>                      
+                    <c:if test="${!empty KualiForm.document.rolodex.addressLine3}" >
+                    <c:out value="${KualiForm.document.rolodex.addressLine3}"/><br>
+                    </c:if>                      
+                    <c:if test="${!empty KualiForm.document.rolodex.city}" >
+                    <c:out value="${KualiForm.document.rolodex.city}"/><br>
+                    </c:if>                      
+                    <c:if test="${!empty KualiForm.document.rolodex.state}" >
+                    <c:out value="${KualiForm.document.rolodex.state}"/><br>
+                    </c:if>
                 </td>
             </tr>
             <tr>
