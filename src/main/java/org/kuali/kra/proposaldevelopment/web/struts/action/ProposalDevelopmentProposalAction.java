@@ -15,10 +15,56 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.proposaldevelopment.bo.PropLocation;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAction.class);
+
+    public ActionForward addLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        if (proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation() == null) {
+            proposalDevelopmentForm.getProposalDevelopmentDocument().setPropLocation(new ArrayList());
+        }
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().add(proposalDevelopmentForm.getProposalDevelopmentDocument().getNewPropLocation());
+        proposalDevelopmentForm.getProposalDevelopmentDocument().setNewPropLocation(new PropLocation());
+        return mapping.findForward("basic");
+    }
+    public ActionForward deleteLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
+        int index= Integer.parseInt(StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM2_LEFT_DEL, Constants.METHOD_TO_CALL_PARM2_RIGHT_DEL));
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().remove(index);
+        return mapping.findForward("basic");
+    }
+    public ActionForward clearAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        List locations=proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation();
+        String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
+        int index= Integer.parseInt(StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM2_LEFT_DEL, Constants.METHOD_TO_CALL_PARM2_RIGHT_DEL));
+
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().get(index).setRolodexId(new Integer(0));
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().get(index).setRolodex(new Rolodex());
+        
+        return mapping.findForward("basic");
+    }
     
 }

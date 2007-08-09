@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import java.util.Properties;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,10 +27,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.core.document.Document;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBase {
@@ -38,9 +36,6 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO : for text area pop window
-     //   request.getSession().setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_NAME, "detail");
-     //   request.getSession().setAttribute(org.kuali.kra.infrastructure.Constants.HTML_FORM_ACTION,"proposalDevelopment");
         return super.execute(mapping, form, request, response);
     }
     

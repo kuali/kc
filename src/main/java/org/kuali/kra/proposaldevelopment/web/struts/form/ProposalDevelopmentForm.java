@@ -23,6 +23,7 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
@@ -53,6 +54,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setCurrentTabIndex(0);
 
         super.populate(request);
+
     }
 
 }

@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.Organization">
+
+        <inquiry>
+            <title>Organization</title>
+
+            <inquirySections><inquirySection title="Organization"><inquiryFields>
+            	<field attributeName="organizationId" forceInquiry="true"/>
+				<field attributeName="address"/>
+				<field attributeName="agencySymbol"/>
+				<field attributeName="animalWelfareAssurance"/>
+				<field attributeName="cableAddress"/>
+				<field attributeName="cageNumber"/>
+				<field attributeName="cognizantAuditor"/>
+				<field attributeName="comGovEntityCode"/>
+				<field attributeName="congressionalDistrict"/>
+				<field attributeName="contactAddressId"/>
+				<field attributeName="county"/>
+				<field attributeName="dodacNumber"/>
+				<field attributeName="dunsNumber"/>
+				<field attributeName="dunsPlusFourNumber"/>
+				<field attributeName="fedralEmployerId"/>
+				<field attributeName="humanSubAssurance"/>
+				<field attributeName="incorporatedDate"/>
+				<field attributeName="incorporatedIn"/>
+				<field attributeName="indirectCostRateAgreement"/>
+				<field attributeName="irsTaxExcemption"/>
+				<field attributeName="massEmployeeClaim"/>
+				<field attributeName="massTaxExcemptNum"/>
+				<field attributeName="nsfInstitutionalCode"/>
+				<field attributeName="numberOfEmployees"/>
+				<field attributeName="onrResidentRep"/>
+				<field attributeName="organizationName"/>
+				<field attributeName="phsAcount"/>
+				<field attributeName="scienceMisconductComplDate"/>
+				<field attributeName="telexNumber"/>
+				<field attributeName="vendorCode"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Organization Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Organization</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="organizationId"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="organizationId" required="false"/>
+				<lookupField attributeName="address" required="false"/>
+				<lookupField attributeName="agencySymbol" required="false"/>
+				<lookupField attributeName="animalWelfareAssurance" required="false"/>
+				<lookupField attributeName="cableAddress" required="false"/>
+				<lookupField attributeName="cageNumber" required="false"/>
+				<lookupField attributeName="cognizantAuditor" required="false"/>
+				<lookupField attributeName="comGovEntityCode" required="false"/>
+				<lookupField attributeName="congressionalDistrict" required="false"/>
+				<lookupField attributeName="contactAddressId" required="false"/>
+				<lookupField attributeName="county" required="false"/>
+				<lookupField attributeName="dodacNumber" required="false"/>
+				<lookupField attributeName="dunsNumber" required="false"/>
+				<lookupField attributeName="dunsPlusFourNumber" required="false"/>
+				<lookupField attributeName="fedralEmployerId" required="false"/>
+				<lookupField attributeName="humanSubAssurance" required="false"/>
+				<lookupField attributeName="incorporatedDate" required="false"/>
+				<lookupField attributeName="incorporatedIn" required="false"/>
+				<lookupField attributeName="indirectCostRateAgreement" required="false"/>
+				<lookupField attributeName="irsTaxExcemption" required="false"/>
+				<lookupField attributeName="massEmployeeClaim" required="false"/>
+				<lookupField attributeName="massTaxExcemptNum" required="false"/>
+				<lookupField attributeName="nsfInstitutionalCode" required="false"/>
+				<lookupField attributeName="numberOfEmployees" required="false"/>
+				<lookupField attributeName="onrResidentRep" required="false"/>
+				<lookupField attributeName="organizationName" required="false"/>
+				<lookupField attributeName="phsAcount" required="false"/>
+				<lookupField attributeName="scienceMisconductComplDate" required="false"/>
+				<lookupField attributeName="telexNumber" required="false"/>
+				<lookupField attributeName="vendorCode" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="organizationId" forceInquiry="true"/>
+				<field attributeName="address" forceInquiry="false"/>
+				<field attributeName="agencySymbol" forceInquiry="false"/>
+				<field attributeName="animalWelfareAssurance" forceInquiry="false"/>
+				<field attributeName="cableAddress" forceInquiry="false"/>
+				<field attributeName="cageNumber" forceInquiry="false"/>
+				<field attributeName="cognizantAuditor" forceInquiry="false"/>
+				<field attributeName="comGovEntityCode" forceInquiry="false"/>
+				<field attributeName="congressionalDistrict" forceInquiry="false"/>
+				<field attributeName="contactAddressId" forceInquiry="false"/>
+				<field attributeName="county" forceInquiry="false"/>
+				<field attributeName="dodacNumber" forceInquiry="false"/>
+				<field attributeName="dunsNumber" forceInquiry="false"/>
+				<field attributeName="dunsPlusFourNumber" forceInquiry="false"/>
+				<field attributeName="fedralEmployerId" forceInquiry="false"/>
+				<field attributeName="humanSubAssurance" forceInquiry="false"/>
+				<field attributeName="incorporatedDate" forceInquiry="false"/>
+				<field attributeName="incorporatedIn" forceInquiry="false"/>
+				<field attributeName="indirectCostRateAgreement" forceInquiry="false"/>
+				<field attributeName="irsTaxExcemption" forceInquiry="false"/>
+				<field attributeName="massEmployeeClaim" forceInquiry="false"/>
+				<field attributeName="massTaxExcemptNum" forceInquiry="false"/>
+				<field attributeName="nsfInstitutionalCode" forceInquiry="false"/>
+				<field attributeName="numberOfEmployees" forceInquiry="false"/>
+				<field attributeName="onrResidentRep" forceInquiry="false"/>
+				<field attributeName="organizationName" forceInquiry="false"/>
+				<field attributeName="phsAcount" forceInquiry="false"/>
+				<field attributeName="scienceMisconductComplDate" forceInquiry="false"/>
+				<field attributeName="telexNumber" forceInquiry="false"/>
+				<field attributeName="vendorCode" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>organizationId</titleAttribute>
+        <attributes>
+
+	        <attribute name="organizationId">
+			<label>Organization Id </label>
+			<shortLabel>Organization Id </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Organization Id </summary>
+			<description>Organization Id </description>
+			</attribute>
+
+			<attribute name="address">
+			<label>Address </label>
+			<shortLabel>Address </shortLabel>
+			<maxLength>60</maxLength>
+			<validationPattern><anyCharacter /></validationPattern>
+			<control>
+				<text size="60" />
+			</control>
+			<summary>Address </summary>
+			<description>Address </description>
+			</attribute>
+
+			<attribute name="agencySymbol">
+			<label>Agency Symbol </label>
+			<shortLabel>Agency Symbol </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Agency Symbol </summary>
+			<description>Agency Symbol </description>
+			</attribute>
+
+			<attribute name="animalWelfareAssurance">
+			<label>Animal Welfare Assurance </label>
+			<shortLabel>Animal Welfare Assurance </shortLabel>
+			<maxLength>20</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="20" />
+			</control>
+			<summary>Animal Welfare Assurance </summary>
+			<description>Animal Welfare Assurance </description>
+			</attribute>
+
+			<attribute name="cableAddress">
+			<label>Cable Address </label>
+			<shortLabel>Cable Address </shortLabel>
+			<maxLength>20</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="20" />
+			</control>
+			<summary>Cable Address </summary>
+			<description>Cable Address </description>
+			</attribute>
+
+			<attribute name="cageNumber">
+			<label>Cage Number </label>
+			<shortLabel>Cage Number </shortLabel>
+			<maxLength>20</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="20" />
+			</control>
+			<summary>Cage Number </summary>
+			<description>Cage Number </description>
+			</attribute>
+
+			<attribute name="cognizantAuditor">
+			<label>Cognizant Auditor </label>
+			<shortLabel>Cognizant Auditor </shortLabel>
+			<maxLength>6</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="6" />
+			</control>
+			<summary>Cognizant Auditor </summary>
+			<description>Cognizant Auditor </description>
+			</attribute>
+
+			<attribute name="comGovEntityCode">
+			<label>Com Gov Entity Code </label>
+			<shortLabel>Com Gov Entity Code </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Com Gov Entity Code </summary>
+			<description>Com Gov Entity Code </description>
+			</attribute>
+
+			<attribute name="congressionalDistrict">
+			<label>Congressional District </label>
+			<shortLabel>Congressional District </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Congressional District </summary>
+			<description>Congressional District </description>
+			</attribute>
+
+			<attribute name="contactAddressId">
+			<label>Contact Address Id </label>
+			<shortLabel>Contact Address Id </shortLabel>
+			<maxLength>6</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="6" />
+			</control>
+			<summary>Contact Address Id </summary>
+			<description>Contact Address Id </description>
+			</attribute>
+
+			<attribute name="county">
+			<label>County </label>
+			<shortLabel>County </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>County </summary>
+			<description>County </description>
+			</attribute>
+
+			<attribute name="dodacNumber">
+			<label>Dodac Number </label>
+			<shortLabel>Dodac Number </shortLabel>
+			<maxLength>20</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="20" />
+			</control>
+			<summary>Dodac Number </summary>
+			<description>Dodac Number </description>
+			</attribute>
+
+			<attribute name="dunsNumber">
+			<label>Duns Number </label>
+			<shortLabel>Duns Number </shortLabel>
+			<maxLength>20</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="20" />
+			</control>
+			<summary>Duns Number </summary>
+			<description>Duns Number </description>
+			</attribute>
+
+			<attribute name="dunsPlusFourNumber">
+			<label>Duns Plus Four Number </label>
+			<shortLabel>Duns Plus Four Number </shortLabel>
+			<maxLength>20</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="20" />
+			</control>
+			<summary>Duns Plus Four Number </summary>
+			<description>Duns Plus Four Number </description>
+			</attribute>
+
+			<attribute name="fedralEmployerId">
+			<label>Fedral Employer Id </label>
+			<shortLabel>Fedral Employer Id </shortLabel>
+			<maxLength>15</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="15" />
+			</control>
+			<summary>Fedral Employer Id </summary>
+			<description>Fedral Employer Id </description>
+			</attribute>
+
+			<attribute name="humanSubAssurance">
+			<label>Human Sub Assurance </label>
+			<shortLabel>Human Sub Assurance </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Human Sub Assurance </summary>
+			<description>Human Sub Assurance </description>
+			</attribute>
+
+			<attribute name="incorporatedDate">
+			<label>Incorporated Date </label>
+			<shortLabel>Incorporated Date </shortLabel>
+			<maxLength>7</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="7" />
+			</control>
+			<summary>Incorporated Date </summary>
+			<description>Incorporated Date </description>
+			</attribute>
+
+			<attribute name="incorporatedIn">
+			<label>Incorporated In </label>
+			<shortLabel>Incorporated In </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Incorporated In </summary>
+			<description>Incorporated In </description>
+			</attribute>
+
+			<attribute name="indirectCostRateAgreement">
+			<label>Indirect Cost Rate Agreement </label>
+			<shortLabel>Indirect Cost Rate Agreement </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Indirect Cost Rate Agreement </summary>
+			<description>Indirect Cost Rate Agreement </description>
+			</attribute>
+
+			<attribute name="irsTaxExcemption">
+			<label>Irs Tax Excemption </label>
+			<shortLabel>Irs Tax Excemption </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Irs Tax Excemption </summary>
+			<description>Irs Tax Excemption </description>
+			</attribute>
+
+			<attribute name="massEmployeeClaim">
+			<label>Mass Employee Claim </label>
+			<shortLabel>Mass Employee Claim </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Mass Employee Claim </summary>
+			<description>Mass Employee Claim </description>
+			</attribute>
+
+			<attribute name="massTaxExcemptNum">
+			<label>Mass Tax Excempt Num </label>
+			<shortLabel>Mass Tax Excempt Num </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Mass Tax Excempt Num </summary>
+			<description>Mass Tax Excempt Num </description>
+			</attribute>
+
+			<attribute name="nsfInstitutionalCode">
+			<label>Nsf Institutional Code </label>
+			<shortLabel>Nsf Institutional Code </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Nsf Institutional Code </summary>
+			<description>Nsf Institutional Code </description>
+			</attribute>
+
+			<attribute name="numberOfEmployees">
+			<label>Number Of Employees </label>
+			<shortLabel>Number Of Employees </shortLabel>
+			<maxLength>6</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="6" />
+			</control>
+			<summary>Number Of Employees </summary>
+			<description>Number Of Employees </description>
+			</attribute>
+
+			<attribute name="onrResidentRep">
+			<label>Onr Resident Rep </label>
+			<shortLabel>Onr Resident Rep </shortLabel>
+			<maxLength>6</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="6" />
+			</control>
+			<summary>Onr Resident Rep </summary>
+			<description>Onr Resident Rep </description>
+			</attribute>
+
+			<attribute name="organizationName">
+			<label>Organization Name </label>
+			<shortLabel>Organization Name </shortLabel>
+			<maxLength>60</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="60" />
+			</control>
+			<summary>Organization Name </summary>
+			<description>Organization Name </description>
+			</attribute>
+
+			<attribute name="phsAcount">
+			<label>Phs Acount </label>
+			<shortLabel>Phs Acount </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Phs Acount </summary>
+			<description>Phs Acount </description>
+			</attribute>
+
+			<attribute name="scienceMisconductComplDate">
+			<label>Science Misconduct Compl Date </label>
+			<shortLabel>Science Misconduct Compl Date </shortLabel>
+			<maxLength>7</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="7" />
+			</control>
+			<summary>Science Misconduct Compl Date </summary>
+			<description>Science Misconduct Compl Date </description>
+			</attribute>
+
+			<attribute name="telexNumber">
+			<label>Telex Number </label>
+			<shortLabel>Telex Number </shortLabel>
+			<maxLength>20</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="20" />
+			</control>
+			<summary>Telex Number </summary>
+			<description>Telex Number </description>
+			</attribute>
+
+			<attribute name="vendorCode">
+			<label>Vendor Code </label>
+			<shortLabel>Vendor Code </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Vendor Code </summary>
+			<description>Vendor Code </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
