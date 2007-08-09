@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.kra.bo.Rolodex</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>WorkflowAdmin</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>RolodexMaintenanceDocument</documentTypeName>
+        <documentTypeCode>ROLO</documentTypeCode>
+
+        <label>Rolodex Maintenance Document</label>
+        <shortLabel>rolodexMaintDoc</shortLabel>
+
+        <summary>Rolodex Maintenance Document</summary>
+        <description>Document used to create or update Rolodex Reference objects</description>
+
+        <lockingKeys>
+        	<field attributeName="rolodexId"/>
+
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Rolodex">
+                <maintainableItems>
+                	<maintainableField name="rolodexId" required="true"/>
+					<maintainableField name="addressLine1" required="false"/>
+					<maintainableField name="addressLine2" required="false"/>
+					<maintainableField name="addressLine3" required="false"/>
+					<maintainableField name="city" required="false"/>
+					<maintainableField name="comments" required="false"/>
+					<maintainableField name="countryCode" required="false"/>
+					<maintainableField name="county" required="false"/>
+					<maintainableField name="deleteFlag" required="false"/>
+					<maintainableField name="emailAddress" required="false"/>
+					<maintainableField name="faxNumber" required="false"/>
+					<maintainableField name="firstName" required="false"/>
+					<maintainableField name="lastName" required="false"/>
+					<maintainableField name="middleName" required="false"/>
+					<maintainableField name="organization" required="true"/>
+					<maintainableField name="ownedByUnit" required="true"/>
+					<maintainableField name="phoneNumber" required="false"/>
+					<maintainableField name="postalCode" required="false"/>
+					<maintainableField name="prefix" required="false"/>
+					<maintainableField name="sponsorAddressFlag" required="true"/>
+					<maintainableField name="sponsorCode" required="false"/>
+					<maintainableField name="state" required="false"/>
+					<maintainableField name="suffix" required="false"/>
+					<maintainableField name="title" required="false"/>
+
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>
