@@ -30,7 +30,7 @@
 		textAreaFieldName = request.getParameter(Constants.TEXT_AREA_FIELD_NAME);
 		documentClassName = (String) request.getParameter(Constants.DOCUMENT_CLASS_NAME);
 	}
-	String label = dataDictionaryService.getAttributeLabel(Class.forName(documentClassName),textAreaFieldName.split("\\.")[1]);
+	String label=dataDictionaryService.getDataDictionary().getDocumentEntry(documentClassName).getAttributeDefinition(textAreaFieldName.split("\\.")[1]).getLabel();    
 %>
 
 <link href="/kra-dev/kr/css/kuali.css" rel="stylesheet" type="text/css" />
