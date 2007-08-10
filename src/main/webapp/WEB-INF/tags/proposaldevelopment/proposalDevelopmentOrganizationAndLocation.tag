@@ -20,7 +20,7 @@
 <c:set var="propLocationAttributes" value="${DataDictionary.PropLocation.attributes}" />
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
 
-<kul:tab tabTitle="Organization/Location" defaultOpen="true" tabErrorKey="document.organizationId*,document.performingOrganizationId*,document.propLocation*">
+<kul:tab tabTitle="Organization/Location" defaultOpen="true" tabErrorKey="document.organizationId*,document.performingOrganizationId*,document.propLocation*,document.newPropLocation*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Organization</h2></span>
@@ -86,7 +86,10 @@
         </div>
         <table>
              <tr>
-              	<th><div align="left">&nbsp</div></th>  <th><div align="left">Location Name</div></th> <th><div align="left">Address </div></th> <th><div align="left">Actions</div></>
+              	<th><div align="left">&nbsp</div></th>  
+				<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${propLocationAttributes.location}" skipHelpUrl="true" noColon="true" /></div></th>
+              	<kul:htmlAttributeHeaderCell literalLabel="Address" scope="col"/> 
+              	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
              </tr>
              
             <kra-pd:propLocationDisplay index="-1" locationIter="${KualiForm.document.newPropLocation}" docLocation="document.newPropLocation"/> 
