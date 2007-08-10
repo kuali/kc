@@ -50,16 +50,12 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     }
     public ActionForward deleteLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
-        int index= Integer.parseInt(StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM2_LEFT_DEL, Constants.METHOD_TO_CALL_PARM2_RIGHT_DEL));
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().remove(index);
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().remove(getLineToDelete(request));
         return mapping.findForward("basic");
     }
     public ActionForward clearAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        List locations=proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation();
-        String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
-        int index= Integer.parseInt(StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM2_LEFT_DEL, Constants.METHOD_TO_CALL_PARM2_RIGHT_DEL));
+        int index= getLineToDelete(request);
 
         proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().get(index).setRolodexId(new Integer(0));
         proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().get(index).setRolodex(new Rolodex());

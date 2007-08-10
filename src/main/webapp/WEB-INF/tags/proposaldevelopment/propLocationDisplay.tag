@@ -16,24 +16,32 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <%@ attribute name="index" required="true"%>
+<%@ attribute name="docLocation" required="true"%>
 <%@ attribute name="locationIter" required="true" type="org.kuali.kra.proposaldevelopment.bo.PropLocation"%>
 <c:set var="propLocationAttributes"
 	value="${DataDictionary.PropLocation.attributes}" />
 
 <tr>
 	<th class="infoline">
-		<c:out value="${index+1}" />
-        <input type="hidden" name="document.propLocation[${index}].proposalNumber" value="${KualiForm.document.proposalNumber}">
-        <input type="hidden" name="document.propLocation[${index}].locationSequenceNumber" value="${index+1}">
+		<c:choose>
+			<c:when test="${index == -1}">
+					<c:out value="Add:" />
+			</c:when>
+			<c:otherwise>
+				<c:out value="${index+1}" />
+			</c:otherwise>
+		</c:choose>
+        <input type="hidden" name="${docLocation}.proposalNumber" value="${KualiForm.document.proposalNumber}">
+        <input type="hidden" name="${docLocation}.locationSequenceNumber" value="${index+1}">
 	</th>
 	<td>
 		<kul:htmlControlAttribute
-			property="document.propLocation[${index}].location"
+			property="${docLocation}.location"
 			attributeEntry="${propLocationAttributes.location}" />
 	</td>
 	<td>
 		<kul:htmlControlAttribute
-			property="document.propLocation[${index}].rolodexId"
+			property="${docLocation}.rolodexId"
 			attributeEntry="${propLocationAttributes.rolodexId}" />
 		<c:choose>
 			<c:when test="${empty locationIter.rolodex.addressLine1}">
@@ -45,17 +53,17 @@
 		</c:choose>
 		<c:if test="${!empty locationIter.rolodexId}">
 			<input type="hidden"
-				name="document.propLocation[${index}].rolodex.rolodexId"
+				name="${docLocation}.rolodex.rolodexId"
 				value="${locationIter.rolodexId}">
 		</c:if>
 		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex"
-			fieldConversions="rolodexId:document.propLocation[${index}].rolodexId
-                      ,postalCode:document.propLocation[${index}].rolodex.postalCode
-                      ,addressLine1:document.propLocation[${index}].rolodex.addressLine1
-                      ,addressLine2:document.propLocation[${index}].rolodex.addressLine2
-                      ,addressLine3:document.propLocation[${index}].rolodex.addressLine3
-                      ,city:document.propLocation[${index}].rolodex.city
-                      ,state:document.propLocation[${index}].rolodex.state" />
+			fieldConversions="rolodexId:${docLocation}.rolodexId
+                      ,postalCode:${docLocation}.rolodex.postalCode
+                      ,addressLine1:${docLocation}.rolodex.addressLine1
+                      ,addressLine2:${docLocation}.rolodex.addressLine2
+                      ,addressLine3:${docLocation}.rolodex.addressLine3
+                      ,city:${docLocation}.rolodex.city
+                      ,state:${docLocation}.rolodex.state" />
 		<br>
 		<c:if test="${!empty locationIter.rolodex.addressLine2}">
 			<c:out value="${locationIter.rolodex.addressLine2}" />
@@ -72,10 +80,18 @@
 		</c:if>
 	</td>
 	<td>
-				<html:image property="methodToCall.clearAddress.((#${index}#))"
+		<c:choose>
+			<c:when test="${index == -1}">
+					<html:image property="methodToCall.addLocation"
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+			</c:when>
+			<c:otherwise>
+				<html:image property="methodToCall.clearAddress.line${index}."
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' />
-				<html:image property="methodToCall.deleteLocation.((#${index}#))"
+				<html:image property="methodToCall.deleteLocation.line${index}."
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+			</c:otherwise>
+		</c:choose>
 	</td>
 
 </tr>

@@ -89,64 +89,10 @@
               	<th><div align="left">&nbsp</div></th>  <th><div align="left">Location Name</div></th> <th><div align="left">Address </div></th> <th><div align="left">Actions</div></>
              </tr>
              
-<tr>
-	<th class="infoline">
-		<c:out value="Add:" />
-	</th>
-	<td>
-		<kul:htmlControlAttribute
-			property="document.newPropLocation.location"
-			attributeEntry="${propLocationAttributes.location}" />
-	</td>
-	<td>
-		<kul:htmlControlAttribute
-			property="document.newPropLocation.rolodexId"
-			attributeEntry="${propLocationAttributes.rolodexId}" />
-		<c:choose>
-			<c:when test="${empty KualiForm.document.newPropLocation.rolodex.addressLine1}">
-				<c:out value="(Select)" />
-			</c:when>
-			<c:otherwise>
-				<c:out value="${KualiForm.document.newPropLocation.rolodex.addressLine1}" />
-			</c:otherwise>
-		</c:choose>
-		<c:if test="${!empty KualiForm.document.newPropLocation.rolodexId}">
-			<input type="hidden"
-				name="document.newPropLocation.rolodex.rolodexId"
-				value="${KualiForm.document.newPropLocation.rolodexId}">
-		</c:if>
-		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex"
-			fieldConversions="rolodexId:document.newPropLocation.rolodexId
-                      ,postalCode:document.newPropLocation.rolodex.postalCode
-                      ,addressLine1:document.newPropLocation.rolodex.addressLine1
-                      ,addressLine2:document.newPropLocation.rolodex.addressLine2
-                      ,addressLine3:document.newPropLocation.rolodex.addressLine3
-                      ,city:document.newPropLocation.rolodex.city
-                      ,state:document.newPropLocation.rolodex.state" />
-		<br>
-		<c:if test="${!empty KualiForm.document.newPropLocation.rolodex.addressLine2}">
-			<c:out value="${KualiForm.document.newPropLocation.rolodex.addressLine2}" />
-			<br />
-		</c:if>
-		<c:if test="${!empty KualiForm.document.newPropLocation.rolodex.addressLine3}">
-			<c:out value="${KualiForm.document.newPropLocation.rolodex.addressLine3}" />
-			<br />
-		</c:if>
-		<c:if test="${!empty KualiForm.document.newPropLocation.rolodex.city || !empty KualiForm.document.newPropLocation.rolodex.state || !empty KualiForm.document.newPropLocation.rolodex.postalCode}">
-			<c:out value="${KualiForm.document.newPropLocation.rolodex.city}," />&nbsp
-            <c:out value="${KualiForm.document.newPropLocation.rolodex.state}" />&nbsp
-            <c:out value="${KualiForm.document.newPropLocation.rolodex.postalCode}" />
-		</c:if>
-	</td>
-	<td>
-				<html:image property="methodToCall.addLocation"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
-	</td>
-
-</tr>
+            <kra-pd:propLocationDisplay index="-1" locationIter="${KualiForm.document.newPropLocation}" docLocation="document.newPropLocation"/> 
              
         	<c:forEach var="location" items="${KualiForm.document.propLocation}" varStatus="status">
-          		<kra-pd:propLocationDisplay index="${status.index}" locationIter="${location}"/> 
+          		<kra-pd:propLocationDisplay index="${status.index}" locationIter="${location}" docLocation="document.propLocation[${status.index}]"/> 
         	</c:forEach>        
         </table>
       
