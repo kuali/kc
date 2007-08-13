@@ -36,9 +36,6 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO : for text area pop window
-     //   request.getSession().setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_NAME, "detail");
-     //   request.getSession().setAttribute(org.kuali.kra.infrastructure.Constants.HTML_FORM_ACTION,"proposalDevelopment");
         return super.execute(mapping, form, request, response);
     }
     
@@ -79,7 +76,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("actions");
     }
-    
+
     public ActionForward addScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
@@ -138,4 +135,5 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
 
         return mapping.findForward("proposal");
     }
+    
 }
