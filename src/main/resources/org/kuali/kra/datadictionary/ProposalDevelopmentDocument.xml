@@ -20,6 +20,7 @@
 
 <dictionaryEntry>
     <transactionalDocument>
+    
         <documentClass>org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument</documentClass>
         <businessRulesClass>org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentDocumentRule</businessRulesClass>
 
@@ -39,7 +40,22 @@
         <shortLabel>Prop Dev Doc</shortLabel>
 
         <attributes>
+			<attribute name="proposalNumber">
+                <label>Proposal Number</label>
+                <shortLabel>Proposal Number</shortLabel>
 
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <required>false</required>
+
+                <control>
+					<hidden />
+                </control>
+
+                <summary>Proposal Number</summary>
+                <description>Proposal Number</description>
+			</attribute>
             <attribute name="title">
                 <label>Project Title</label>
                 <shortLabel>Title</shortLabel>
@@ -423,13 +439,13 @@
 				<label>Mailing Name And Address</label>
 				<shortLabel>Name And Address</shortLabel>
 				
-				<maxLength>80</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
+				<maxLength>6</maxLength>
+				<validationPattern><numeric /></validationPattern>
 				
 				<required>false</required>
 				
 				<control>
-					<text size="80"/>
+					<hidden />
 				</control>
 				
 				<summary>Mailing Name And Address</summary>
@@ -451,7 +467,39 @@
                 <summary>Mail Description</summary>
                 <description>Mail Description</description>
 			</attribute>
+			
+<!--  organization/location -->	
+			<attribute name="organizationId">
+				<label>Applicant Organization</label>
+				<shortLabel>Organization</shortLabel>
+				
+				<maxLength>8</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+				
+				<required>false</required>
+				
+				<control>
+					<hidden />
+				</control>
+				
+				<summary>Organization and contact info</summary>
+				<description>Organization and contact info</description>
+			</attribute>
+            <attribute name="performingOrganizationId">
+                <label>Performing Organization Id</label>
+                <shortLabel>performingOrganizationId</shortLabel>
 
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+   					<hidden />
+                </control>
+
+                <summary>performingOrganizationId</summary>
+                <description>performingOrganizationId</description>
+			</attribute>
+		
 <!--
             <attribute name="organizationId">
                 <label>Organization Id</label>
