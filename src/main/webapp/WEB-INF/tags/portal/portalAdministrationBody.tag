@@ -33,5 +33,6 @@
 </td>
 
 <td class="content" valign="top">
+      <channel:administrationNervousSystem />
       <channel:administrationInstitutionalReviewBoard />
 </td>
