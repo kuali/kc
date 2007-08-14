@@ -24,5 +24,6 @@ public interface Constants {
     public static final String BUSINESS_OBJECT_DAO_NAME = "businessObjectDao";
     public static final String HTML_FORM_ACTION = "htmlFormAction";
     public static final String TEXT_AREA_FIELD_NAME = "textAreaFieldName";
-    public static final String DOCUMENT_CLASS_NAME = "documentClassName";
+    public static final String TEXT_AREA_FIELD_LABEL = "textAreaFieldLabel";
+    public static final Integer APPROVAL_STATUS = 2;
 }

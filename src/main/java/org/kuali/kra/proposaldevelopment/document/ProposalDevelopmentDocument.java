@@ -25,6 +25,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
+import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable {
 
@@ -57,13 +58,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String numberOfCopies;
     private String organizationId;
     private String performingOrganizationId;
-    private List<PropLocation> propLocation;
+    private List<PropLocation> propLocations;
     private Organization organization;
     // TODO: just for organization panel. not a real reference
     private Organization performingOrganization;
     // TODO: just for delivery panel. not a real reference
     private Rolodex rolodex;
-    private PropLocation newPropLocation;
+    private List<PropSpecialReview> propSpecialReviews;
 
     private List<PropScienceKeyword> keywords;
     private String newScienceKeywordCode;
@@ -73,6 +74,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         super();
         keywords = new ArrayList<PropScienceKeyword>();
         newDescription = getDefaultNewDescription();
+        propLocations = new ArrayList<PropLocation>();
+        propSpecialReviews = new ArrayList<PropSpecialReview>();
+
     }
 
     public String getActivityTypeCode() {
@@ -432,12 +436,12 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }    
     }
 
-    public List<PropLocation> getPropLocation() {
-        return propLocation;
+    public List<PropLocation> getPropLocations() {
+        return propLocations;
     }
 
-    public void setPropLocation(List<PropLocation> propLocation) {
-        this.propLocation = propLocation;
+    public void setPropLocations(List<PropLocation> propLocations) {
+        this.propLocations = propLocations;
     }
 
     public Organization getOrganization() {
@@ -464,17 +468,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.rolodex = rolodex;
     }
 
-    public PropLocation getNewPropLocation() {
-        if (newPropLocation == null) {
-            setNewPropLocation(new PropLocation());
-        }
-        return newPropLocation;
-    }
-
-    public void setNewPropLocation(PropLocation newPropLocation) {
-        this.newPropLocation = newPropLocation;
-    }
-
     public void setKeywords(List<PropScienceKeyword> keywords) {
         this.keywords = keywords;
     }
@@ -499,4 +492,23 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public String getDefaultNewDescription() {
         return "(select)";
     }
+
+    public List<PropSpecialReview> getPropSpecialReviews() {
+        return propSpecialReviews;
+    }
+
+    public void setPropSpecialReviews(List<PropSpecialReview> propSpecialReviews) {
+        this.propSpecialReviews = propSpecialReviews;
+    }
+    
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getPropLocations());
+        managedLists.add(getPropSpecialReviews());
+
+        return managedLists;
+
+    }
+    
 }
