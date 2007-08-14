@@ -20,11 +20,19 @@
 	htmlFormAction="proposalDevelopmentSpecialReview"
 	documentTypeName="ProposalDevelopmentDocument"
 	renderMultipart="false"
-	showTabButtons="true"
+	showTabButtons="false"
 	auditCount="0"
   	headerDispatch="save"
   	headerTabActive="specialReview">
+<div id="workarea">
+
+<table width="100%" class="tab" cellpadding=0 cellspacing=0 summary="">
+<kra-pd:proposalDevelopmentSpecialReview /> 
+<kul:panelFooter />
+</table>
+</div>
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
   
-	<center>Under Construction</center>
+<script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>
