@@ -61,7 +61,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_NAME, keyValue[0]);
         request.setAttribute(org.kuali.kra.infrastructure.Constants.HTML_FORM_ACTION,keyValue[1]);
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.DOCUMENT_CLASS_NAME,keyValue[2]);
+        request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_LABEL,keyValue[2]);
         return mapping.findForward("updateTextArea");
 
     }
