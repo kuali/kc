@@ -41,24 +41,21 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
 
     public ActionForward addLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        if (proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation() == null) {
-            proposalDevelopmentForm.getProposalDevelopmentDocument().setPropLocation(new ArrayList());
-        }
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().add(proposalDevelopmentForm.getProposalDevelopmentDocument().getNewPropLocation());
-        proposalDevelopmentForm.getProposalDevelopmentDocument().setNewPropLocation(new PropLocation());
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().add(proposalDevelopmentForm.getNewPropLocation());
+        proposalDevelopmentForm.setNewPropLocation(new PropLocation());
         return mapping.findForward("basic");
     }
     public ActionForward deleteLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().remove(getLineToDelete(request));
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().remove(getLineToDelete(request));
         return mapping.findForward("basic");
     }
     public ActionForward clearAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         int index= getLineToDelete(request);
 
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().get(index).setRolodexId(new Integer(0));
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocation().get(index).setRolodex(new Rolodex());
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().get(index).setRolodexId(new Integer(0));
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().get(index).setRolodex(new Rolodex());
         
         return mapping.findForward("basic");
     }

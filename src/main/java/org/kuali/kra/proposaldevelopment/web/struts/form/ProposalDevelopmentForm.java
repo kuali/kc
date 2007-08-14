@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +25,7 @@ import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
+import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
@@ -31,10 +33,14 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase {
+    private PropLocation newPropLocation;
+    private PropSpecialReview newPropSpecialReview;
 
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
+        newPropLocation=new PropLocation();
+        newPropSpecialReview=new PropSpecialReview();
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
     }
@@ -55,6 +61,26 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
         super.populate(request);
 
+    }
+
+
+    public PropLocation getNewPropLocation() {
+        return newPropLocation;
+    }
+
+
+    public void setNewPropLocation(PropLocation newPropLocation) {
+        this.newPropLocation = newPropLocation;
+    }
+
+
+    public PropSpecialReview getNewPropSpecialReview() {
+        return newPropSpecialReview;
+    }
+
+
+    public void setNewPropSpecialReview(PropSpecialReview newPropSpecialReview) {
+        this.newPropSpecialReview = newPropSpecialReview;
     }
 
 }

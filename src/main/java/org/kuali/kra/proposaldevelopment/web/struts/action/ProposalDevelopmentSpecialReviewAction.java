@@ -15,10 +15,29 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentSpecialReviewAction.class);
+    public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropSpecialReviews().add(proposalDevelopmentForm.getNewPropSpecialReview());
+        proposalDevelopmentForm.setNewPropSpecialReview(new PropSpecialReview());
+        return mapping.findForward("basic");
+    }
+    public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropSpecialReviews().remove(getLineToDelete(request));
+        return mapping.findForward("basic");
+    }
 
 }
