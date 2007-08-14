@@ -8,7 +8,7 @@ import org.kuali.kra.bo.Rolodex;
 
 public class PropLocation extends KraPersistableBusinessObjectBase {
 	private String location;
-	private String proposalNumber;
+	private Integer proposalNumber;
     private Integer rolodexId;
     private Rolodex rolodex;
     private Integer locationSequenceNumber;
@@ -16,8 +16,8 @@ public class PropLocation extends KraPersistableBusinessObjectBase {
     public PropLocation() {
         super();
         this.setLocation("");
-        this.setRolodexId(new Integer(0));
-        this.setProposalNumber("");
+        this.setRolodexId(0);
+        this.setProposalNumber(0);
     }
 
     
@@ -29,11 +29,11 @@ public class PropLocation extends KraPersistableBusinessObjectBase {
 		this.location = location;
 	}
 
-	public String getProposalNumber() {
+	public Integer getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(String proposalNumber) {
+	public void setProposalNumber(Integer proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 
