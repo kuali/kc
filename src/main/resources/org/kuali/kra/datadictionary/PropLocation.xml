@@ -81,11 +81,11 @@
 			<attribute name="proposalNumber">
 			<label>Proposal Number </label>
 			<shortLabel>Proposal Number </shortLabel>
-			<maxLength>8</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
 			<!-- <required>true</required> -->
 			<control>
-				<text size="8" />
+				<hidden />
 			</control>
 			<summary>Proposal Number </summary>
 			<description>Proposal Number </description>
