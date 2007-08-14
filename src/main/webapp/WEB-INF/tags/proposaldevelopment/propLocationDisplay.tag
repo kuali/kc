@@ -82,14 +82,18 @@
 	<td>
 		<c:choose>
 			<c:when test="${index == -1}">
+				<div align=center>
 					<html:image property="methodToCall.addLocation"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+				</div>
 			</c:when>
 			<c:otherwise>
-				<html:image property="methodToCall.clearAddress.line${index}."
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' />
-				<html:image property="methodToCall.deleteLocation.line${index}."
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+				<div align=center>
+					<html:image property="methodToCall.clearAddress.line${index}."
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' />
+					<html:image property="methodToCall.deleteLocation.line${index}."
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+				</div>
 			</c:otherwise>
 		</c:choose>
 	</td>
