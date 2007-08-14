@@ -50,7 +50,10 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<collection-descriptor name="propLocation" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="propLocations" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
 		<!-- KEYWORD panel -->
@@ -344,7 +347,7 @@
 		-->
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.PropLocation" table="EPS_PROP_LOCATION">
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="locationSequenceNumber" column="LOCATION_SEQUENCE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR" nullable="false"/>
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER"/>
@@ -474,4 +477,33 @@
         	<foreignkey field-ref="sponsorTypeCode" />
     	</reference-descriptor>
 	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.PropSpecialReview" table="EPS_PROP_SPECIAL_REVIEW">
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
+		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="specialReviewCode" column="SPECIAL_REVIEW_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<!-- 
+		<reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="proposalNumber"/> 
+		</reference-descriptor>
+		-->
+		<!-- 
+		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.proposaldevelopment.bo.SpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="specialReviewCode"/> 
+		</reference-descriptor>
+		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.proposaldevelopment.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="approvalTypeCode"/> 
+		</reference-descriptor>
+		-->
+	</class-descriptor>
+
+
+
 </descriptor-repository>
