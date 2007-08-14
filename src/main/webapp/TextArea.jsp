@@ -19,24 +19,19 @@
 <html>
 
 <%
-	DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-	String textAreaFieldName = null;
-	String documentClassName = null;
-	if (request.getParameter(Constants.TEXT_AREA_FIELD_NAME) == null
-			|| request.getParameter(Constants.TEXT_AREA_FIELD_NAME).trim().equals("")) {
-		textAreaFieldName = (String) request.getAttribute(Constants.TEXT_AREA_FIELD_NAME);
-		documentClassName = (String) request.getAttribute(Constants.DOCUMENT_CLASS_NAME);
+	String textAreaFieldLabel = null;
+	if (request.getParameter(Constants.TEXT_AREA_FIELD_LABEL) == null
+			|| request.getParameter(Constants.TEXT_AREA_FIELD_LABEL).trim().equals("")) {
+		textAreaFieldLabel = (String) request.getAttribute(Constants.TEXT_AREA_FIELD_LABEL);
 	} else {
-		textAreaFieldName = request.getParameter(Constants.TEXT_AREA_FIELD_NAME);
-		documentClassName = (String) request.getParameter(Constants.DOCUMENT_CLASS_NAME);
+		textAreaFieldLabel = request.getParameter(Constants.TEXT_AREA_FIELD_LABEL);
 	}
-	String label=dataDictionaryService.getDataDictionary().getDocumentEntry(documentClassName).getAttributeDefinition(textAreaFieldName.split("\\.")[1]).getLabel();    
 %>
 
 <link href="/kra-dev/kr/css/kuali.css" rel="stylesheet" type="text/css" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <div class="headerarea" id="headerarea-small">
-<h1><%=label%></h1>
+<h1><%=textAreaFieldLabel%></h1>
 </div>
 
 <body onload="setTextArea()">

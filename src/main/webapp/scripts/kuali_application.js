@@ -1,14 +1,14 @@
 
 
 
-function textAreaPop(text,textAreaName,htmlFormAction,documentClassName){
+function textAreaPop(text,textAreaName,htmlFormAction,textAreaLabel){
   url=window.location.href
   pathname=window.location.pathname
   idx1=url.indexOf(pathname);
   idx2=url.indexOf("/",idx1+1);
   extractUrl=url.substr(0,idx2)
   text=text.replace(/\n/g,'<br>');
-  window.open(extractUrl+"/TextArea.jsp?" + text+"&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&documentClassName="+documentClassName, "_blank", "width=640, height=600, scrollbars=yes");
+  window.open(extractUrl+"/TextArea.jsp?" + text+"&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel, "_blank", "width=640, height=600, scrollbars=yes");
 }
 
 var textAreaFieldName
