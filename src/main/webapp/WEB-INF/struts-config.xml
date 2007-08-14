@@ -27,6 +27,7 @@
         <forward name="portal" path="/index.html" redirect="true" />
         <forward name="route_report" path="/kr/WEB-INF/jsp/RoutingReportForward.jsp"/>
         <forward name="error" path="/kr/WEB-INF/jsp/KualiError.jsp" />
+        <forward name="updateTextArea" path="/TextArea.jsp" />
        	<!-- End required KNS forwards -->
     </global-forwards>
 
@@ -59,7 +60,6 @@
           <forward name="specialReview" path="/WEB-INF/jsp/ProposalDevelopmentSpecialReview.jsp" />
           <forward name="abstractPage" path="/WEB-INF/jsp/ProposalDevelopmentAbstract.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/ProposalDevelopmentCustomData.jsp" />
-          <forward name="updateTextArea" path="/TextArea.jsp" />
           <forward name="actions" path="/WEB-INF/jsp/ProposalDevelopmentActions.jsp" />
       </action>
       
