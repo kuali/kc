@@ -3,7 +3,6 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="textAreaFieldName" value="document.programAnnouncementTitle" />
 <c:set var="action" value="proposalDevelopmentProposal" />
-<c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 
 <kul:tab tabTitle="Sponsor & Program Information" defaultOpen="true" tabErrorKey="document.sponsorCode*,document.proposalTypeCode*,document.requestedStartDateInitial*,document.ownedByUnit*,document.requestedEndDateInitial*,document.activityTypeCode*,document.title">
 	<div class="tab-container" align="center">
