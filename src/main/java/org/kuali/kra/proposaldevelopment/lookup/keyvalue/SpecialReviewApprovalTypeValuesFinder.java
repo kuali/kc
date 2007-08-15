@@ -23,9 +23,9 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.bo.SpecialReview;
+import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.SpecialReview;
-import org.kuali.kra.proposaldevelopment.bo.SpecialReviewApprovalType;
 
 public class SpecialReviewApprovalTypeValuesFinder extends KeyValuesBase {
     
