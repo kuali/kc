@@ -237,7 +237,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.SpecialReview" table="SPECIAL_REVIEW">
+	<class-descriptor class="org.kuali.kra.bo.SpecialReview" table="SPECIAL_REVIEW">
 		<field-descriptor name="specialReviewCode" column="SPECIAL_REVIEW_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -245,7 +245,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.SpecialReviewApprovalType" table="SP_REV_APPROVAL_TYPE">
+	<class-descriptor class="org.kuali.kra.bo.SpecialReviewApprovalType" table="SP_REV_APPROVAL_TYPE">
 		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -495,10 +495,10 @@
 		</reference-descriptor>
 		-->
 		<!-- 
-		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.proposaldevelopment.bo.SpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.bo.SpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="specialReviewCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.proposaldevelopment.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="approvalTypeCode"/> 
 		</reference-descriptor>
 		-->
