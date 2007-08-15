@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.bo;
+package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class SpecialReviewApprovalType  extends KraPersistableBusinessObjectBase {
 
