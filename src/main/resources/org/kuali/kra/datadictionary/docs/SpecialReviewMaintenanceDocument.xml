@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.proposaldevelopment.bo.SpecialReview</businessObjectClass>
+        <businessObjectClass>org.kuali.kra.bo.SpecialReview</businessObjectClass>
         <maintainableClass>org.kuali.kra.maintenance.KraMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
