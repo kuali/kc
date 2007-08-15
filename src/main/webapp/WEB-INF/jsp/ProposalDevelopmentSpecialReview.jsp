@@ -26,13 +26,10 @@
   	headerTabActive="specialReview">
 <div id="workarea">
 
-<table width="100%" class="tab" cellpadding=0 cellspacing=0 summary="">
 <kra-pd:proposalDevelopmentSpecialReview /> 
 <kul:panelFooter />
-</table>
-</div>
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
-  
+</div>  
 <script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>

@@ -130,6 +130,7 @@
 			<shortLabel>Approval Type Code </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
+			<required>true</required>
 			<control>
                     <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.SpecialReviewApprovalTypeValuesFinder" />
 			</control>
@@ -150,8 +151,8 @@
 			</attribute>
 
 			<attribute name="protocolNumber">
-			<label>Protocol Number </label>
-			<shortLabel>Protocol Number </shortLabel>
+			<label>Protocol # </label>
+			<shortLabel>Protocol # </shortLabel>
 			<maxLength>20</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
@@ -166,6 +167,7 @@
 			<shortLabel>Special Review Code </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
+			<required>true</required>
 			<control>
                     <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.SpecialReviewValuesFinder" />
 			</control>
