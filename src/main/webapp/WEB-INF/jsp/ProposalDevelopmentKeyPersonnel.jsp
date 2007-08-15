@@ -25,6 +25,31 @@
   	headerDispatch="save"
   	headerTabActive="keyPersonnel">
 
-	<center>Under Construction</center>
+    <kul:uncollapsable tabTitle="Add Key Personnel">
+          <div align="center">
+            <table  cellpadding="0" cellspacing="0" class="grid" summary="">
+              <tr>
+                <th class="grid"><div align="right">Person:</div></th>
+                <td nowrap class="grid"><label> Employee Search</label>
+
+                  <label> <img src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" alt="sdf" width="16" height="16"><br>
+                  Non-employee Search <img src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" alt="sdf" width="16" height="16"></label></td>
+                <th class="grid"><div align="right">Proposal Role:</div></th>
+                <td class="grid" ><label>
+                  <select name="asdf" id="asdf">
+                    <option selected>select:</option>
+                    <option>Principal Investigator</option>
+
+                    <option>Co-Investigator</option>
+                    <option>Key Study Person</option>
+                  </select>
+                  </label>
+                </td>
+              </tr>
+            </table>
+            <br>
+
+            <span><img src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" alt="clear" width="40" height="15">&nbsp;<img src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" alt="add personnel" width="83" height="15"></span></div>
+    </kul:uncollapsable>
 
 </kul:documentPage>
