@@ -20,7 +20,7 @@
 <strong>Shared</strong>
 <ul class="chan">
   <li>Activity Type</li>
-  <li>Approval Type</li>
+  <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.SpecialReviewApprovalType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Special Review Approval Type</a></li>
   <li>Comment</li>
   <li>Cost Sharing Type</li>
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.CreditType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Credit Type</a></li>
@@ -31,7 +31,6 @@
   <li>Proposal Type</li>
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.ProposalType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Proposal Type</a></li>
   <li>Science Code</li>
-  <li>Special Review</li>
   <li><a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.SpecialReview&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888">Special Review</a></li>
 </ul>
 
