@@ -18,7 +18,7 @@ function setTextArea() {
   var idx2=passData.indexOf("&htmlFormAction=")
   textAreaFieldName=passData.substring(idx+19,idx2)
   text=passData.substr(0,idx)
-  text=text.replace(/<br>/g,"\n")
+  text=unescape(text).replace(/<br>/g,"\n")
   document.getElementById(textAreaFieldName).value =unescape(text) 
 //  alert (escape(text))
 //  alert (unescape(text))
