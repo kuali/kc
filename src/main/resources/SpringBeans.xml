@@ -62,7 +62,7 @@
 		</property>
 	</bean>
 
-	<bean id="businessObjectDao" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFacotryBean">
+	<bean id="businessObjectDao" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="businessObjectDao" />
 	</bean>
 	<bean id="keyValueFinderService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyValueFinderServiceImpl">

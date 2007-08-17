@@ -33,6 +33,8 @@ insert into en_wrkgrp_t values (1,1,'WorkflowAdmin',1,'W','Workflow Administrato
 ;
 insert into EN_WRKGRP_MBR_T values ('quickstart',1,'U',1,0)
 ;
+insert into en_usr_t values ('user4','user4','user4','user4','user4@school.edu','user4','user4','user4',to_date('01/01/2000', 'dd/mm/yyyy'),to_date('01/01/2100', 'dd/mm/yyyy'),0,0)
+;
 insert into EN_WRKGRP_MBR_T values ('user4',1,'U',1,0)
 ;
 INSERT INTO FP_DOC_GROUP_T VALUES ('TR', '054EDFB3B260C8D2E043814FD881C8D2', 1,	'Travel Documents', null)

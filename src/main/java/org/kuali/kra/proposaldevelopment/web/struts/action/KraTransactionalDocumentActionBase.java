@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
+import org.kuali.RiceConstants;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -36,22 +36,22 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     public ActionForward updateTextArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)  {
         
         // parse out the important strings from our methodToCall parameter
-        String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
+        String fullParameter = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
 
         // parse textfieldname:htmlformaction
-        String parameterFields = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM2_LEFT_DEL, Constants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+        String parameterFields = StringUtils.substringBetween(fullParameter, RiceConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, RiceConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
         if ( LOG.isDebugEnabled() ) {
             LOG.debug( "fullParameter: " + fullParameter );
             LOG.debug( "parameterFields: " + parameterFields );
         }
         String[] keyValue = null;
         if (StringUtils.isNotBlank(parameterFields)) {
-            String[] textAreaParams = parameterFields.split(Constants.FIELD_CONVERSIONS_SEPERATOR);
+            String[] textAreaParams = parameterFields.split(RiceConstants.FIELD_CONVERSIONS_SEPERATOR);
             if ( LOG.isDebugEnabled() ) {
                 LOG.debug( "lookupParams: " + textAreaParams );
             }
             for (int i = 0; i < textAreaParams.length; i++) {
-                keyValue = textAreaParams[i].split(Constants.FIELD_CONVERSION_PAIR_SEPERATOR);
+                keyValue = textAreaParams[i].split(RiceConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
 
                 if ( LOG.isDebugEnabled() ) {
                     LOG.debug( "keyValue[0]: " + keyValue[0] );
