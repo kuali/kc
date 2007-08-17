@@ -24,12 +24,10 @@
 	auditCount="0"
   	headerDispatch="save"
   	headerTabActive="specialReview">
-<div id="workarea">
 
 <kra-pd:proposalDevelopmentSpecialReview /> 
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
-</div>  
 <script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>
