@@ -18,7 +18,7 @@ package org.kuali.kra.rice;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.PropertyConstants;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.user.KualiModuleUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -47,7 +47,7 @@ public class KraModuleUserService extends KualiModuleUserServiceBaseImpl impleme
 
     public void afterPropertiesSet() throws Exception {
         List<String> properties = new ArrayList<String>();
-        properties.add(PropertyConstants.ACTIVE);
+        properties.add(RicePropertyConstants.ACTIVE);
         super.setPropertyList(properties);
     }
 
