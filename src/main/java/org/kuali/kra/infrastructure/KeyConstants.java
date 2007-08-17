@@ -18,5 +18,5 @@ package org.kuali.kra.infrastructure;
 public class KeyConstants {
     public static final String ERROR_REQUIRED_FOR_APPROVED_SPECIALREVIEW = "error.required.for.approved.specialReview";
     public static final String ERROR_NOT_APPROVED_SPECIALREVIEW = "error.not.approved.specialReview";
-    
+    public static final String ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW = "error.required.for.valid.specialReview";
 }
