@@ -24,7 +24,7 @@
         <documentClass>org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument</documentClass>
         <businessRulesClass>org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentDocumentRule</businessRulesClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
