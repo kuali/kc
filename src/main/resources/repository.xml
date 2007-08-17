@@ -502,16 +502,35 @@
 			<foreignkey field-ref="proposalNumber"/> 
 		</reference-descriptor>
 		-->
-		<!-- 
+		
 		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.bo.SpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="specialReviewCode"/> 
 		</reference-descriptor>
 		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="approvalTypeCode"/> 
 		</reference-descriptor>
-		-->
+		
+		<reference-descriptor name="validSpRevApproval" class-ref="org.kuali.kra.bo.ValidSpRevApproval" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="approvalTypeCode"/> 
+			<foreignkey field-ref="specialReviewCode"/> 
+		</reference-descriptor>
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.bo.ValidSpRevApproval" table="VALID_SP_REV_APPROVAL">
+		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="specialReviewCode" column="SPECIAL_REVIEW_CODE" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="applicationDateFlag" column="APPLICATION_DATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="approvalDateFlag" column="APPROVAL_DATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="protocolNumberFlag" column="PROTOCOL_NUMBER_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.bo.SpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="specialReviewCode"/> 
+		</reference-descriptor>
+		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="approvalTypeCode"/> 
+		</reference-descriptor>
+	</class-descriptor>
 
 
 </descriptor-repository>
