@@ -40,7 +40,7 @@
 		<repository>
 			<id>kuali</id>
 			<name>Kuali Repository</name>
-			<url>https://onestart.iu.edu/dav/MY/maven-mirror/maven2</url>
+			<url>https://test.kuali.org/maven/</url>
 		</repository>
 	</repositories>
 	<dependencies>
