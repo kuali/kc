@@ -28,6 +28,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
@@ -56,6 +57,37 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         super.tearDown();
         GlobalVariables.setUserSession(null);
         documentService = null;
+    }
+
+    @Test public void testProposalTypeLink() throws Exception {
+        final WebClient webClient = new WebClient();
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+        final HtmlPage page1 = (HtmlPage)webClient.getPage(url);
+        assertEquals("Kuali Portal Index", page1.getTitleText() );
+
+        // Administration Tab - LOGIN
+        final HtmlPage page2 = (HtmlPage)webClient.getPage(url + "portal.do?selectedTab=portalAdministrationBody");
+
+        // Get the form that we are dealing with and within that form,
+        // find the submit button and the field that we want to change.
+        final HtmlForm form = (HtmlForm) page2.getForms().get(0);
+        final HtmlSubmitInput button
+            = (HtmlSubmitInput) form.getInputByValue("Login");
+
+        // Now submit the form by clicking the button and get back the
+        // second page.
+        final HtmlPage page3 = (HtmlPage) button.click();
+        assertEquals("Kuali Portal Index", page3.getTitleText() );
+
+        // test proposalType link
+        final HtmlPage page4 = (HtmlPage)webClient.getPage(url + "kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ProposalType&returnLocation=kra-dev/portal.do&hideReturnLink=true&docFormKey=88888888");
+        assertEquals("Kuali :: Lookup", page4.getTitleText() );
+
+        // test proposalType link - based on anchor
+        final HtmlAnchor proposalTypeLink = (HtmlAnchor) page3.getAnchorByName("lookupProposalType");
+        final HtmlPage page5 = (HtmlPage)webClient.getPage(url + proposalTypeLink.getHrefAttribute());
+        assertEquals("Kuali :: Lookup", page5.getTitleText() );
+
     }
 
     @Test public void testHelpLink() throws Exception {
