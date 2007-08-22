@@ -58,7 +58,7 @@
 	<%-- DWR Support Scripts --%>
 	<script language="JavaScript" src="${pageContext.request.contextPath}/dwr/engine.js" type="text/javascript"></script>
 	<script language="JavaScript" src="${pageContext.request.contextPath}/dwr/util.js" type="text/javascript"></script>
-	<script type='text/javascript' src="${pageContext.request.contextPath}/dwr/interface/UserService.js"></script>
+	<script language="JavaScript" src="${pageContext.request.contextPath}/dwr/interface/UserService.js"></script>
 	<script language="JavaScript" src="${pageContext.request.contextPath}/kr/scripts/objectInfo.js" type="text/javascript"></script>
 	<c:choose>
 		<c:when test="${lookup}" >
