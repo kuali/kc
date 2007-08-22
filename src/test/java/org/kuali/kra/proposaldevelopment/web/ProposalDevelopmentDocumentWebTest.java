@@ -187,7 +187,6 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         }
 
         assertFalse(errorMessage, page4.asText().contains("error(s) found on page"));
-        System.out.println(page4.asText());
 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(doc);
