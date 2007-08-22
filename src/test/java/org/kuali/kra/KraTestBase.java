@@ -18,6 +18,8 @@ package org.kuali.kra;
 
 import org.junit.After;
 import org.junit.Before;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.rice.testharness.KNSTestCase;
 import org.kuali.rice.testharness.TransactionalLifecycle;
 
@@ -34,6 +36,7 @@ public class KraTestBase extends KNSTestCase {
 		setXmlFilename("classpath:DefaultTestData.xml");
 		setTestConfigFilename("classpath:META-INF/kra-test-config.xml");
 		super.setUp();
+                GlobalVariables.setErrorMap(new ErrorMap());
 		transactionalLifecycle = new TransactionalLifecycle();
 		transactionalLifecycle.start();
 	}
@@ -41,6 +44,7 @@ public class KraTestBase extends KNSTestCase {
 	@After
 	public void tearDown() throws Exception {
 		transactionalLifecycle.stop();
+                GlobalVariables.setErrorMap(new ErrorMap());
 		super.tearDown();
 	}
 
