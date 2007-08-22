@@ -39,11 +39,15 @@ insert into EN_WRKGRP_MBR_T values ('user4',1,'U',1,0)
 ;
 INSERT INTO FP_DOC_GROUP_T VALUES ('TR', '054EDFB3B260C8D2E043814FD881C8D2', 1,	'Travel Documents', null)
 ;
+INSERT INTO FP_DOC_GROUP_T VALUES ('KR', '054EDFB3B260C8D2E043816FD881C8D2', 1,	'Kuali Rice', null)
+;
 insert into FP_DOC_TYPE_T values ('TRVA', '1A6FEB2501C7607EE043814FD881607E', 1, 'TR',	'TRAV ACCNT', 'N', 'Y', 'N', 0, 'N', 'N')
 ;
 insert into FP_DOC_TYPE_T values ('TRFO', '1A6FEB250342607EE043814FD881607E', 1, 'TR',	'TRAV FO', 'N', 'Y', 'N', 0, 'N', 'N')
 ;
 insert into FP_DOC_TYPE_T values ('TRD2', '1A6FEB250342607EE043814FD889607E', 1, 'TR',	'TRAV D2', 'N', 'Y', 'N', 0, 'N', 'N')
+;
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('PRDV','KR','PROPOSAL DEVELOPMENT','N','Y','N',0,'N','N')
 ;
 INSERT INTO FS_PARM_SEC_T VALUES('SYSTEM', '1', 0, 'WorkflowAdmin', 'desc')
 ;
@@ -116,4 +120,44 @@ insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,
 insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(6,'A.02','Bioengineering/Biomedical - Engineering: A.02',sysdate,user)
 ;
 insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(7,'F.02','Biological - Life Sciences: F.02',sysdate,user)
+;
+insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('1','Organized Research',sysdate,'kradev')
+;
+insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('2','Instruction and Departmental Research',sysdate,'kradev')
+;
+insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('3','Fellowship - Pre-Doctoral',sysdate,'kradev')
+;
+insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('4','Public Service',sysdate,'kradev')
+;
+insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('5','Student Services',sysdate,'kradev')
+;
+insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('6','Other',sysdate,'kradev')
+;
+insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('7','Fellowship - Post-Doctoral',sysdate,'kradev')
+;
+insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('8','Clinical Trial',sysdate,'kradev')
+;
+insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('9','Construction',sysdate,'kradev')
+;
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(1, 'New',  sysdate,'KRADEV')
+;
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(2, 'Competing Continuation',  sysdate,'KRADEV')
+;
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(3, 'Non-competing Continuation',  sysdate,'KRADEV')
+;
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(4, 'Supplement',  sysdate,'KRADEV')
+;
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(5, 'Renewal',  sysdate,'KRADEV')
+;
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(6, 'Revision',  sysdate,'KRADEV')
+;
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(7, 'Pre-Proposal',  sysdate,'KRADEV')
+;
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(8, 'Accomplishment-based Renewal',  sysdate,'KRADEV')
+;
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(9, 'Task Order',  sysdate,'KRADEV')
+;
+INSERT INTO UNIT(UNIT_NUMBER, UNIT_NAME, UPDATE_TIMESTAMP, UPDATE_USER) VALUES('000002', 'IN-PEDS',  sysdate,'KRADEV')
+;
+INSERT INTO UNIT(UNIT_NUMBER, UNIT_NAME, UPDATE_TIMESTAMP, UPDATE_USER) VALUES('000003', 'BL-IIDC',  sysdate,'KRADEV')
 ;
