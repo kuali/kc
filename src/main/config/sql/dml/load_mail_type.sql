@@ -1,10 +1,10 @@
 
 INSERT INTO MAIL_TYPE(MAIL_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(1, 'Regular',  sysdate,'KRADEV');
+  VALUES(1, 'Regular',  sysdate,user);
 
 INSERT INTO MAIL_TYPE(MAIL_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(2, 'Electronic',  sysdate,'KRADEV');
+  VALUES(2, 'Electronic',  sysdate,user);
 
 INSERT INTO MAIL_TYPE(MAIL_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(3, 'Delivery Service',  sysdate,'KRADEV');
+  VALUES(3, 'Delivery Service',  sysdate,user);
 

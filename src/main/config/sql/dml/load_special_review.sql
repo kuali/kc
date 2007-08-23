@@ -1,36 +1,36 @@
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(1, 'Human Subjects', sysdate, 'KRADEV');
+  VALUES(1, 'Human Subjects', sysdate, user);
 
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(2, 'Animal Usage', sysdate, 'KRADEV');
+  VALUES(2, 'Animal Usage', sysdate, user);
 
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(3, 'Recombinant DNA', sysdate, 'KRADEV');
+  VALUES(3, 'Recombinant DNA', sysdate, user);
 
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(4, 'Radioactive Isotopes', sysdate, 'KRADEV');
+  VALUES(4, 'Radioactive Isotopes', sysdate, user);
 
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(5, 'Biohazard Materials', sysdate, 'KRADEV');
+  VALUES(5, 'Biohazard Materials', sysdate, user);
 
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(6, 'International Programs', sysdate, 'KRADEV');
+  VALUES(6, 'International Programs', sysdate, user);
 
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(7, 'Space Change', sysdate, 'KRADEV');
+  VALUES(7, 'Space Change', sysdate, user);
 
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(8, 'TLO Review - No conflict (A)', sysdate, 'KRADEV');
+  VALUES(8, 'TLO Review - No conflict (A)', sysdate, user);
 
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(9, 'TLO review - Reviewed, no conflict (B1)', sysdate, 'KRADEV');
+  VALUES(9, 'TLO review - Reviewed, no conflict (B1)', sysdate, user);
 
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(10, 'TLO Review - Potential Conflict (B2)', sysdate, 'KRADEV');
+  VALUES(10, 'TLO Review - Potential Conflict (B2)', sysdate, user);
 
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(11, 'TLO PR-Previously Reviewed', sysdate, 'KRADEV');
+  VALUES(11, 'TLO PR-Previously Reviewed', sysdate, user);
 
 INSERT INTO SPECIAL_REVIEW(SPECIAL_REVIEW_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(12, 'Foundation Relations', sysdate, 'KRADEV');
+  VALUES(12, 'Foundation Relations', sysdate, user);
 
