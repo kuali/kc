@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.web;
 
 import java.net.URL;
 
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +27,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.test.RiceTestCase;
 
 import com.gargoylesoftware.htmlunit.WaitingRefreshHandler;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -43,6 +45,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
  * This class tests the KraServiceLocator
  */
 public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
+
+    private static final Logger LOG = Logger.getLogger(ProposalDevelopmentDocumentWebTest.class);
 
     private DocumentService documentService = null;
 
@@ -91,35 +95,41 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
     }
 
-//    @Test public void testHelpLink() throws Exception {
-//        final WebClient webClient = new WebClient();
-//        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-//        final HtmlPage page1 = (HtmlPage)webClient.getPage(url);
-//        webClient.setRefreshHandler(new WaitingRefreshHandler());
-//        assertEquals("Kuali Portal Index", page1.getTitleText() );
-//
-//        // LOGIN
-//        final HtmlPage page2 = (HtmlPage)webClient.getPage(url + "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
-//
-//        // Get the form that we are dealing with and within that form,
-//        // find the submit button and the field that we want to change.
-//        final HtmlForm form = (HtmlForm) page2.getForms().get(0);
-//        final HtmlSubmitInput button
-//            = (HtmlSubmitInput) form.getInputByValue("Login");
-//
-//        // Now submit the form by clicking the button and get back the
-//        // second page.
-//        final HtmlPage page3 = (HtmlPage) button.click();
-//        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText() );
-//
-//        // test document overview help link
-//        final HtmlPage page4 = (HtmlPage)webClient.getPage(url + "kr/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.core.bo.DocumentHeader&attributeName=financialDocumentDescription");
-//        assertEquals("Kuali :: Kuali Help", page4.getTitleText() );
-//
-//        // test proposal development document attribute help link
-//        final HtmlPage page5 = (HtmlPage)webClient.getPage(url + "kr/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument&attributeName=sponsorCode");
-//        assertEquals("Kuali :: Kuali Help", page5.getTitleText() );
-//    }
+    @Test public void testHelpLink() throws Exception {
+        final WebClient webClient = new WebClient();
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+        final HtmlPage page1 = (HtmlPage)webClient.getPage(url);
+        webClient.setRefreshHandler(new WaitingRefreshHandler());
+        assertEquals("Kuali Portal Index", page1.getTitleText() );
+
+        LOG.debug("getting page2");
+        // LOGIN
+        final HtmlPage page2 = (HtmlPage)webClient.getPage(url + "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+
+        // Get the form that we are dealing with and within that form,
+        // find the submit button and the field that we want to change.
+        LOG.debug("getting page2 form");
+        final HtmlForm form = (HtmlForm) page2.getForms().get(0);
+        LOG.debug("getting page2 Login button");
+        final HtmlSubmitInput button
+            = (HtmlSubmitInput) form.getInputByValue("Login");
+
+        // Now submit the form by clicking the button and get back the
+        // second page.
+        LOG.debug("getting page3");
+        final HtmlPage page3 = (HtmlPage) button.click();
+        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText() );
+
+        // test document overview help link
+        LOG.debug("getting page4");
+        final HtmlPage page4 = (HtmlPage)webClient.getPage(url + "kr/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.core.bo.DocumentHeader&attributeName=financialDocumentDescription");
+        assertEquals("Kuali :: Kuali Help", page4.getTitleText() );
+
+        // test proposal development document attribute help link
+        LOG.debug("getting page5");
+        final HtmlPage page5 = (HtmlPage)webClient.getPage(url + "kr/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument&attributeName=sponsorCode");
+        assertEquals("Kuali :: Kuali Help", page5.getTitleText() );
+    }
 //
 //    @Test public void testSaveProposalDevelopmentDocumentWeb() throws Exception {
 //        final WebClient webClient = new WebClient();
