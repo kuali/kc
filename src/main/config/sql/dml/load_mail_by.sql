@@ -1,2 +1,2 @@
-insert into mail_by(mail_by_code,description,update_timestamp,update_user) values('1','OSP',sysdate,'kradev');
-insert into mail_by(mail_by_code,description,update_timestamp,update_user) values('2','Department',sysdate,'kradev');
+insert into mail_by(mail_by_code,description,update_timestamp,update_user) values('1','OSP',sysdate,user);
+insert into mail_by(mail_by_code,description,update_timestamp,update_user) values('2','Department',sysdate,user);
