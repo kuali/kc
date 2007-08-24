@@ -55,14 +55,7 @@
                     <c:out value="${KualiForm.document.rolodex.lastName}, ${KualiForm.document.rolodex.firstName}"/>
                     </c:if>           
                  <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
-                    fieldConversions="rolodexId:document.mailingAddressId
-                      ,firstName:document.rolodex.firstName
-                      ,lastName:document.rolodex.lastName
-                      ,addressLine1:document.rolodex.addressLine1
-                      ,addressLine2:document.rolodex.addressLine2
-                      ,addressLine3:document.rolodex.addressLine3
-                      ,city:document.rolodex.city
-                      ,state:document.rolodex.state" /> <br>
+                    fieldConversions="rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName,lastName:document.rolodex.lastName,addressLine1:document.rolodex.addressLine1,addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3,city:document.rolodex.city,state:document.rolodex.state" /> <br>
 
                     <c:if test="${!empty KualiForm.document.rolodex.addressLine1}" >
                       
