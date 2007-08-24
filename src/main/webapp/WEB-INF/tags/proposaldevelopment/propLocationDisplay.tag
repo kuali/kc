@@ -57,13 +57,7 @@
 				value="${locationIter.rolodexId}">
 		</c:if>
 		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex"
-			fieldConversions="rolodexId:${docLocation}.rolodexId
-                      ,postalCode:${docLocation}.rolodex.postalCode
-                      ,addressLine1:${docLocation}.rolodex.addressLine1
-                      ,addressLine2:${docLocation}.rolodex.addressLine2
-                      ,addressLine3:${docLocation}.rolodex.addressLine3
-                      ,city:${docLocation}.rolodex.city
-                      ,state:${docLocation}.rolodex.state" />
+			fieldConversions="rolodexId:${docLocation}.rolodexId,postalCode:${docLocation}.rolodex.postalCode,addressLine1:${docLocation}.rolodex.addressLine1,addressLine2:${docLocation}.rolodex.addressLine2,addressLine3:${docLocation}.rolodex.addressLine3,city:${docLocation}.rolodex.city,state:${docLocation}.rolodex.state" />
 		<br>
 		<c:if test="${!empty locationIter.rolodex.addressLine2}">
 			<c:out value="${locationIter.rolodex.addressLine2}" />

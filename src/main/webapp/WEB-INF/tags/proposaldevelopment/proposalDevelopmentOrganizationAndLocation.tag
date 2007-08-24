@@ -34,14 +34,7 @@
                 	<kul:htmlControlAttribute property="document.organizationId" attributeEntry="${proposalDevelopmentAttributes.organizationId}" />
                     <c:out value="${KualiForm.document.organization.organizationName}"/>
                     <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
-                    fieldConversions="organizationId:document.organizationId,congressionalDistrict:document.organization.congressionalDistrict,organizationName:document.organization.organizationName
-                      ,rolodex.firstName:document.organization.rolodex.firstName
-                      ,rolodex.lastName:document.organization.rolodex.lastName
-                      ,rolodex.addressLine1:document.organization.rolodex.addressLine1
-                      ,rolodex.addressLine2:document.organization.rolodex.addressLine2
-                      ,rolodex.addressLine3:document.organization.rolodex.addressLine3
-                      ,rolodex.city:document.organization.rolodex.city
-                      ,rolodex.state:document.organization.rolodex.state"/> <br/>
+                    fieldConversions="organizationId:document.organizationId,congressionalDistrict:document.organization.congressionalDistrict,organizationName:document.organization.organizationName,rolodex.firstName:document.organization.rolodex.firstName,rolodex.lastName:document.organization.rolodex.lastName,rolodex.addressLine1:document.organization.rolodex.addressLine1,rolodex.addressLine2:document.organization.rolodex.addressLine2,rolodex.addressLine3:document.organization.rolodex.addressLine3,rolodex.city:document.organization.rolodex.city,rolodex.state:document.organization.rolodex.state"/> <br/>
                   </td>
              </tr>
              <tr>
