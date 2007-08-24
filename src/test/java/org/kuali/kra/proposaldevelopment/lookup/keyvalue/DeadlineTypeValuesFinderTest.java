@@ -47,9 +47,8 @@ public class DeadlineTypeValuesFinderTest extends ValuesFinderTestBase {
     @Override
     protected void addKeyValues() {
         testKeyValues.add(new KeyLabelPair("", "select:"));
-        testKeyValues.add(new KeyLabelPair("1", "postmark"));
-        testKeyValues.add(new KeyLabelPair("2", "target"));
-        testKeyValues.add(new KeyLabelPair("3", "receipt"));
+        testKeyValues.add(new KeyLabelPair("P", "Postmark"));
+        testKeyValues.add(new KeyLabelPair("R", "Receipt"));
     }
 
 }
