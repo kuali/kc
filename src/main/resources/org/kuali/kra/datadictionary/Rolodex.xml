@@ -142,7 +142,7 @@
 			<label>Address Line 1 </label>
 			<shortLabel>Address Line 1 </shortLabel>
 			<maxLength>80</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 			<control>
 				<text size="80" />
 			</control>
@@ -154,7 +154,7 @@
 			<label>Address Line 2 </label>
 			<shortLabel>Address Line 2 </shortLabel>
 			<maxLength>80</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
 				<text size="80" />
 			</control>
@@ -166,7 +166,7 @@
 			<label>Address Line 3 </label>
 			<shortLabel>Address Line 3 </shortLabel>
 			<maxLength>80</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
 				<text size="80" />
 			</control>
