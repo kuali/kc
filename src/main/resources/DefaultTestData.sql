@@ -105,81 +105,81 @@ insert into deadline_type (deadline_type_code,description,update_timestamp,updat
 ;
 insert into deadline_type (deadline_type_code,description,update_timestamp,update_user) values('R','Receipt',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'J.02','Law - Non-Science and Engineering Fields: J.02',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(1,'J.02','Law - Non-Science and Engineering Fields: J.02',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'A.01','Aeronautical and Astronautical - Engineering: A.01',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(2,'A.01','Aeronautical and Astronautical - Engineering: A.01',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'F.01','Agricultural - Life Sciences: F.01',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(3,'F.01','Agricultural - Life Sciences: F.01',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'B.01','Astronomy - Physical Sciences: B.01',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(4,'B.01','Astronomy - Physical Sciences: B.01',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'C.01','Atmospheric - Environmental Sciences: C.01',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(5,'C.01','Atmospheric - Environmental Sciences: C.01',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'A.02','Bioengineering/Biomedical - Engineering: A.02',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(6,'A.02','Bioengineering/Biomedical - Engineering: A.02',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'F.02','Biological - Life Sciences: F.02',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(7,'F.02','Biological - Life Sciences: F.02',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'J.05','Business and Management - Non-Science and Engineering Fields: J.05',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(8,'J.05','Business and Management - Non-Science and Engineering Fields: J.05',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'A.03','Chemical - Engineering: A.03',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(9,'A.03','Chemical - Engineering: A.03',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'B.02','Chemistry - Physical Sciences: B.02',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(10,'B.02','Chemistry - Physical Sciences: B.02',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'A.04','Civil - Engineering: A.04',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(11,'A.04','Civil - Engineering: A.04',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'J.06','Communications, Journalism and Library Sciences - Non-Science and Engineering Fields: J.06',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(12,'J.06','Communications, Journalism and Library Sciences - Non-Science and Engineering Fields: J.06',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'E.01','Computer Sciences: E.01',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(13,'E.01','Computer Sciences: E.01',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'Z.99','Costs not included in NSF report - used for reconciliation purposes: Z.99',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(14,'Z.99','Costs not included in NSF report - used for reconciliation purposes: Z.99',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'J.98','Costs to be allocated: J.98',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(15,'J.98','Costs to be allocated: J.98',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'C.02','Earth Sciences - Environmental Sciences: C.02',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(16,'C.02','Earth Sciences - Environmental Sciences: C.02',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'H.01','Economics - Social Sciences: H.01',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(17,'H.01','Economics - Social Sciences: H.01',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'J.01','Education - Non-Science and Engineering Fields: J.01',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(18,'J.01','Education - Non-Science and Engineering Fields: J.01',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'A.05','Electrical - Engineering: A.05',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(19,'A.05','Electrical - Engineering: A.05',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'J.03','Humanities - Non-Science and Engineering Fields: J.03',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(20,'J.03','Humanities - Non-Science and Engineering Fields: J.03',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'D.01','Mathematical Science: D.01',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(21,'D.01','Mathematical Science: D.01',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'A.06','Mechanical  - Engineering: A.06',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(22,'A.06','Mechanical  - Engineering: A.06',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'F.03','Medical - Life Sciences: F.03',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(23,'F.03','Medical - Life Sciences: F.03',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'A.07','Metallurgical and Materials  - Engineering: A.07',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(24,'A.07','Metallurgical and Materials  - Engineering: A.07',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'C.03','Oceanography - Environmental Sciences: C.03',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(25,'C.03','Oceanography - Environmental Sciences: C.03',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'A.99','Other - Engineering: A.99',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(26,'A.99','Other - Engineering: A.99',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'C.99','Other - Environmental Sciences: C.99',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(27,'C.99','Other - Environmental Sciences: C.99',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'F.99','Other - Life Sciences: F.99',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(28,'F.99','Other - Life Sciences: F.99',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'J.99','Other - Non-Science and Engineering Fields: J.99',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(29,'J.99','Other - Non-Science and Engineering Fields: J.99',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'B.99','Other - Physical Sciences: B.99',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(30,'B.99','Other - Physical Sciences: B.99',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'H.99','Other - Social Sciences: H.99',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(31,'H.99','Other - Social Sciences: H.99',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'I.01','Other Sciences, n.e.c.: I.01',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(32,'I.01','Other Sciences, n.e.c.: I.01',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'B.03','Physics - Physical Sciences: B.03',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(33,'B.03','Physics - Physical Sciences: B.03',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'H.02','Political Science - Social Sciences: H.02',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(34,'H.02','Political Science - Social Sciences: H.02',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'G.01','Psychology: G.01',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(35,'G.01','Psychology: G.01',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'J.07','Social Work - Non-Science and Engineering Fields: J.07',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(36,'J.07','Social Work - Non-Science and Engineering Fields: J.07',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'H.03','Sociology - Social Sciences: H.03',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(37,'H.03','Sociology - Social Sciences: H.03',sysdate,'kradev')
 ;
-insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(SEQUENCE_NSF_CODES.NEXTVAL,'J.04','Visual and Performing Arts - Non-Science and Engineering Fields: J.04',sysdate,'kradev')
+insert into nsf_codes(nsf_sequence_number,nsf_code,description,update_timestamp,update_user) values(38,'J.04','Visual and Performing Arts - Non-Science and Engineering Fields: J.04',sysdate,'kradev')
 ;
 insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('1','Organized Research',sysdate,'kradev')
 ;
