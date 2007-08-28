@@ -104,6 +104,18 @@
                 <description>Country Code </description>
             </attribute>
 
+            <attribute name="emailAddress">
+                <label>Email Address </label>
+                <shortLabel>Email Address </shortLabel>
+                <maxLength>60</maxLength>
+                <validationPattern><emailAddress /></validationPattern>
+                <control>
+                    <text size="60" />
+                </control>
+                <summary>Email Address </summary>
+                <description>Email Address </description>
+            </attribute>
+
         </attributes>
     </businessObject>
 </dictionaryEntry>
