@@ -24,75 +24,75 @@
             <title>Sponsor</title>
 
             <inquirySections><inquirySection title="Sponsor"><inquiryFields>
-            	<field attributeName="sponsorCode" forceInquiry="true"/>
-				<field attributeName="acronym"/>
-				<field attributeName="auditReportSentForFy"/>
-				<field attributeName="cageNumber"/>
-				<field attributeName="countryCode"/>
-				<field attributeName="dodacNumber"/>
-				<field attributeName="dunAndBradstreetNumber"/>
-				<field attributeName="dunsPlusFourNumber"/>
-				<field attributeName="ownedByUnit"/>
-				<field attributeName="postalCode"/>
-				<field attributeName="rolodexId"/>
-				<field attributeName="sponsorName"/>
-				<field attributeName="sponsorTypeCode"/>
-				<field attributeName="state"/>
-				<field attributeName="createUser"/>
+                <field attributeName="sponsorCode" forceInquiry="true"/>
+                <field attributeName="acronym"/>
+                <field attributeName="auditReportSentForFy"/>
+                <field attributeName="cageNumber"/>
+                <field attributeName="countryCode"/>
+                <field attributeName="dodacNumber"/>
+                <field attributeName="dunAndBradstreetNumber"/>
+                <field attributeName="dunsPlusFourNumber"/>
+                <field attributeName="ownedByUnit"/>
+                <field attributeName="postalCode"/>
+                <field attributeName="rolodexId"/>
+                <field attributeName="sponsorName"/>
+                <field attributeName="sponsorTypeCode"/>
+                <field attributeName="state"/>
+                <field attributeName="createUser"/>
 
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
             <title>Sponsor Lookup</title>
-			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
-			</menubar>
+            <menubar>
+                <![CDATA[<a href="/kra-dev/">Main</a>]]>
+            </menubar>
             <instructions>Look up a Sponsor</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                	<sortAttribute attributeName="sponsorCode"/>
+                    <sortAttribute attributeName="sponsorCode"/>
 
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-            	<lookupField attributeName="sponsorCode" required="false"/>
-				<lookupField attributeName="acronym" required="false"/>
-				<lookupField attributeName="auditReportSentForFy" required="false"/>
-				<lookupField attributeName="cageNumber" required="false"/>
-				<lookupField attributeName="countryCode" required="false"/>
-				<lookupField attributeName="dodacNumber" required="false"/>
-				<lookupField attributeName="dunAndBradstreetNumber" required="false"/>
-				<lookupField attributeName="dunsPlusFourNumber" required="false"/>
-				<lookupField attributeName="ownedByUnit" required="false"/>
-				<lookupField attributeName="postalCode" required="false"/>
-				<lookupField attributeName="rolodexId" required="false"/>
-				<lookupField attributeName="sponsorName" required="false"/>
-				<lookupField attributeName="sponsorTypeCode" required="false"/>
-				<lookupField attributeName="state" required="false"/>
-				<lookupField attributeName="createUser" required="false"/>
+                <lookupField attributeName="sponsorCode" required="false"/>
+                <lookupField attributeName="acronym" required="false"/>
+                <lookupField attributeName="auditReportSentForFy" required="false"/>
+                <lookupField attributeName="cageNumber" required="false"/>
+                <lookupField attributeName="countryCode" required="false"/>
+                <lookupField attributeName="dodacNumber" required="false"/>
+                <lookupField attributeName="dunAndBradstreetNumber" required="false"/>
+                <lookupField attributeName="dunsPlusFourNumber" required="false"/>
+                <lookupField attributeName="ownedByUnit" required="false"/>
+                <lookupField attributeName="postalCode" required="false"/>
+                <lookupField attributeName="rolodexId" required="false"/>
+                <lookupField attributeName="sponsorName" required="false"/>
+                <lookupField attributeName="sponsorTypeCode" required="false"/>
+                <lookupField attributeName="state" required="false"/>
+                <lookupField attributeName="createUser" required="false"/>
 
             </lookupFields>
 
             <resultFields>
-            	<field attributeName="sponsorCode" forceInquiry="true"/>
-				<field attributeName="acronym" forceInquiry="false"/>
-				<field attributeName="auditReportSentForFy" forceInquiry="false"/>
-				<field attributeName="cageNumber" forceInquiry="false"/>
-				<field attributeName="countryCode" forceInquiry="false"/>
-				<field attributeName="dodacNumber" forceInquiry="false"/>
-				<field attributeName="dunAndBradstreetNumber" forceInquiry="false"/>
-				<field attributeName="dunsPlusFourNumber" forceInquiry="false"/>
-				<field attributeName="ownedByUnit" forceInquiry="false"/>
-				<field attributeName="postalCode" forceInquiry="false"/>
-				<field attributeName="rolodexId" forceInquiry="false"/>
-				<field attributeName="sponsorName" forceInquiry="false"/>
-				<field attributeName="sponsorTypeCode" forceInquiry="false"/>
-				<field attributeName="sponsorType.description" forceInquiry="false"/>
-				<field attributeName="state" forceInquiry="false"/>
-				<field attributeName="createUser" forceInquiry="false"/>
+                <field attributeName="sponsorCode" forceInquiry="true"/>
+                <field attributeName="acronym" forceInquiry="false"/>
+                <field attributeName="auditReportSentForFy" forceInquiry="false"/>
+                <field attributeName="cageNumber" forceInquiry="false"/>
+                <field attributeName="countryCode" forceInquiry="false"/>
+                <field attributeName="dodacNumber" forceInquiry="false"/>
+                <field attributeName="dunAndBradstreetNumber" forceInquiry="false"/>
+                <field attributeName="dunsPlusFourNumber" forceInquiry="false"/>
+                <field attributeName="ownedByUnit" forceInquiry="false"/>
+                <field attributeName="postalCode" forceInquiry="false"/>
+                <field attributeName="rolodexId" forceInquiry="false"/>
+                <field attributeName="sponsorName" forceInquiry="false"/>
+                <field attributeName="sponsorTypeCode" forceInquiry="false"/>
+                <field attributeName="sponsorType.description" forceInquiry="false"/>
+                <field attributeName="state" forceInquiry="false"/>
+                <field attributeName="createUser" forceInquiry="false"/>
 
             </resultFields>
         </lookup>
@@ -100,194 +100,177 @@
         <titleAttribute>sponsorCode</titleAttribute>
         <attributes>
 
-	        <attribute name="sponsorCode">
-			<label>Sponsor Code </label>
-			<shortLabel>Sponsor Code </shortLabel>
-			<maxLength>6</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
-			<control>
-				<text size="6" />
-			</control>
-			<summary>Sponsor Code </summary>
-			<description>Sponsor Code </description>
-			</attribute>
+            <attribute name="sponsorCode">
+            <label>Sponsor Code </label>
+            <shortLabel>Sponsor Code </shortLabel>
+            <maxLength>6</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
+            <control>
+                <text size="6" />
+            </control>
+            <summary>Sponsor Code </summary>
+            <description>Sponsor Code </description>
+            </attribute>
 
-			<attribute name="acronym">
-			<label>Acronym </label>
-			<shortLabel>Acronym </shortLabel>
-			<maxLength>10</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="10" />
-			</control>
-			<summary>Acronym </summary>
-			<description>Acronym </description>
-			</attribute>
+            <attribute name="acronym">
+            <label>Acronym </label>
+            <shortLabel>Acronym </shortLabel>
+            <maxLength>10</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <control>
+                <text size="10" />
+            </control>
+            <summary>Acronym </summary>
+            <description>Acronym </description>
+            </attribute>
 
-			<attribute name="auditReportSentForFy">
-			<label>Audit Report Sent For Fy </label>
-			<shortLabel>Audit Report Sent For Fy </shortLabel>
-			<maxLength>4</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="4" />
-			</control>
-			<summary>Audit Report Sent For Fy </summary>
-			<description>Audit Report Sent For Fy </description>
-			</attribute>
+            <attribute name="auditReportSentForFy">
+            <label>Audit Report Sent For Fy </label>
+            <shortLabel>Audit Report Sent For Fy </shortLabel>
+            <maxLength>4</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <control>
+                <text size="4" />
+            </control>
+            <summary>Audit Report Sent For Fy </summary>
+            <description>Audit Report Sent For Fy </description>
+            </attribute>
 
-			<attribute name="cageNumber">
-			<label>Cage Number </label>
-			<shortLabel>Cage Number </shortLabel>
-			<maxLength>20</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="20" />
-			</control>
-			<summary>Cage Number </summary>
-			<description>Cage Number </description>
-			</attribute>
+            <attribute name="cageNumber">
+            <label>Cage Number </label>
+            <shortLabel>Cage Number </shortLabel>
+            <maxLength>20</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <control>
+                <text size="20" />
+            </control>
+            <summary>Cage Number </summary>
+            <description>Cage Number </description>
+            </attribute>
 
-			<attribute name="countryCode">
-			<label>Country Code </label>
-			<shortLabel>Country Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<select valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryValuesFinder" />
-			</control>
-			<summary>Country Code </summary>
-			<description>Country Code </description>
-			</attribute>
+            <attribute name="dodacNumber">
+            <label>Dodac Number </label>
+            <shortLabel>Dodac Number </shortLabel>
+            <maxLength>20</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <control>
+                <text size="20" />
+            </control>
+            <summary>Dodac Number </summary>
+            <description>Dodac Number </description>
+            </attribute>
 
-			<attribute name="dodacNumber">
-			<label>Dodac Number </label>
-			<shortLabel>Dodac Number </shortLabel>
-			<maxLength>20</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="20" />
-			</control>
-			<summary>Dodac Number </summary>
-			<description>Dodac Number </description>
-			</attribute>
+            <attribute name="dunAndBradstreetNumber">
+            <label>Dun And Bradstreet Number </label>
+            <shortLabel>Dun And Bradstreet Number </shortLabel>
+            <maxLength>20</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <control>
+                <text size="20" />
+            </control>
+            <summary>Dun And Bradstreet Number </summary>
+            <description>Dun And Bradstreet Number </description>
+            </attribute>
 
-			<attribute name="dunAndBradstreetNumber">
-			<label>Dun And Bradstreet Number </label>
-			<shortLabel>Dun And Bradstreet Number </shortLabel>
-			<maxLength>20</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="20" />
-			</control>
-			<summary>Dun And Bradstreet Number </summary>
-			<description>Dun And Bradstreet Number </description>
-			</attribute>
+            <attribute name="dunsPlusFourNumber">
+            <label>Duns Plus Four Number </label>
+            <shortLabel>Duns Plus Four Number </shortLabel>
+            <maxLength>20</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <control>
+                <text size="20" />
+            </control>
+            <summary>Duns Plus Four Number </summary>
+            <description>Duns Plus Four Number </description>
+            </attribute>
 
-			<attribute name="dunsPlusFourNumber">
-			<label>Duns Plus Four Number </label>
-			<shortLabel>Duns Plus Four Number </shortLabel>
-			<maxLength>20</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="20" />
-			</control>
-			<summary>Duns Plus Four Number </summary>
-			<description>Duns Plus Four Number </description>
-			</attribute>
+            <attribute name="ownedByUnit">
+            <label>Owned By Unit </label>
+            <shortLabel>Owned By Unit </shortLabel>
+            <maxLength>8</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <control>
+                <text size="8" />
+            </control>
+            <summary>Owned By Unit </summary>
+            <description>Owned By Unit </description>
+            </attribute>
 
-			<attribute name="ownedByUnit">
-			<label>Owned By Unit </label>
-			<shortLabel>Owned By Unit </shortLabel>
-			<maxLength>8</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Owned By Unit </summary>
-			<description>Owned By Unit </description>
-			</attribute>
+            <attribute name="postalCode">
+            <label>Postal Code </label>
+            <shortLabel>Postal Code </shortLabel>
+            <maxLength>15</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <control>
+                <text size="15" />
+            </control>
+            <summary>Postal Code </summary>
+            <description>Postal Code </description>
+            </attribute>
 
-			<attribute name="postalCode">
-			<label>Postal Code </label>
-			<shortLabel>Postal Code </shortLabel>
-			<maxLength>15</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="15" />
-			</control>
-			<summary>Postal Code </summary>
-			<description>Postal Code </description>
-			</attribute>
+            <attribute name="rolodexId">
+            <label>Rolodex Id </label>
+            <shortLabel>Rolodex Id </shortLabel>
+            <maxLength>6</maxLength>
+            <validationPattern><numeric /></validationPattern>
+            <control>
+                <text size="6" />
+            </control>
+            <summary>Rolodex Id </summary>
+            <description>Rolodex Id </description>
+            </attribute>
 
-			<attribute name="rolodexId">
-			<label>Rolodex Id </label>
-			<shortLabel>Rolodex Id </shortLabel>
-			<maxLength>6</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="6" />
-			</control>
-			<summary>Rolodex Id </summary>
-			<description>Rolodex Id </description>
-			</attribute>
+            <attribute name="sponsorName">
+            <label>Sponsor Name </label>
+            <shortLabel>Sponsor Name </shortLabel>
+            <maxLength>60</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <control>
+                <text size="60" />
+            </control>
+            <summary>Sponsor Name </summary>
+            <description>Sponsor Name </description>
+            </attribute>
 
-			<attribute name="sponsorName">
-			<label>Sponsor Name </label>
-			<shortLabel>Sponsor Name </shortLabel>
-			<maxLength>60</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="60" />
-			</control>
-			<summary>Sponsor Name </summary>
-			<description>Sponsor Name </description>
-			</attribute>
+            <attribute name="sponsorTypeCode">
+            <label>Sponsor Type Code </label>
+            <shortLabel>Sponsor Type Code </shortLabel>
+            <maxLength>3</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <control>
+                <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.SponsorTypeValuesFinder" />
+            </control>
+            <summary>Sponsor Type Code </summary>
+            <description>Sponsor Type Code </description>
+            </attribute>
+            <attribute name="sponsorType.description">
+            <label>Sponsor Type</label>
+            <shortLabel>Sponsor Type</shortLabel>
+            <maxLength>40</maxLength>
+            <control>
+                <hidden/>
+            </control>
+            <summary>Sponsor Type</summary>
+            <description>Sponsor Type</description>
+            </attribute>
 
-			<attribute name="sponsorTypeCode">
-			<label>Sponsor Type Code </label>
-			<shortLabel>Sponsor Type Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<select valuesFinderClass="org.kuali.kra.lookup.keyvalue.SponsorTypeValuesFinder" />
-			</control>
-			<summary>Sponsor Type Code </summary>
-			<description>Sponsor Type Code </description>
-			</attribute>
-			<attribute name="sponsorType.description">
-			<label>Sponsor Type</label>
-			<shortLabel>Sponsor Type</shortLabel>
-			<maxLength>40</maxLength>
-			<control>
-				<hidden/>
-			</control>
-			<summary>Sponsor Type</summary>
-			<description>Sponsor Type</description>
-			</attribute>
+            <attributeReference name="state" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="state" />
 
-			<attribute name="state">
-				<label>State </label>
-				<shortLabel>State </shortLabel>
-				<maxLength>30</maxLength>
-				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<control>
-					<select valuesFinderClass="org.kuali.kra.lookup.keyvalue.StateValuesFinder" />
-				</control>
-				<summary>State </summary>
-				<description>State </description>
-			</attribute>
-			<attribute name="createUser">
-			<label>Create User </label>
-			<shortLabel>Create User </shortLabel>
-			<maxLength>8</maxLength>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Create User </summary>
-			<description>Create User </description>
-			</attribute>
-		</attributes>
+            <attributeReference name="countryCode" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="countryCode" />
+
+            <attribute name="createUser">
+                <label>Create User </label>
+                <shortLabel>Create User </shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Create User </summary>
+                <description>Create User </description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
     </businessObject>
 
 </dictionaryEntry>

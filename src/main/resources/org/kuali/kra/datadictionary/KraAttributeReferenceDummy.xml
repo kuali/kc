@@ -54,7 +54,55 @@
 
                 <summary>Description</summary>
                 <description>Description</description>
+	        </attribute>
+
+			<attribute name="city">
+                <label>City </label>
+			    <shortLabel>City </shortLabel>
+			    <maxLength>30</maxLength>
+			    <validationPattern><alphaNumeric /></validationPattern>
+                <control>
+			    	<text size="30" />
+                </control>
+                <summary>City </summary>
+                <description>City </description>
 			</attribute>
+
+            <attribute name="county">
+                <label>County </label>
+ 	            <shortLabel>County </shortLabel>
+ 	            <maxLength>30</maxLength>
+ 	            <validationPattern><alphaNumeric /></validationPattern>
+ 	            <control>
+ 	                <text size="30" />
+ 	            </control>
+ 	            <summary>County </summary>
+                <description>County </description>
+            </attribute>
+
+			<attribute name="state">
+				<label>State </label>
+				<shortLabel>State </shortLabel>
+				<maxLength>30</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<control>
+					<select valuesFinderClass="org.kuali.kra.lookup.keyvalue.StateValuesFinder" />
+				</control>
+				<summary>State </summary>
+				<description>State </description>
+			</attribute>
+
+            <attribute name="countryCode">
+                <label>Country Code </label>
+                <shortLabel>Country Code </shortLabel>
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+                <control>
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryValuesFinder" />
+                </control>
+                <summary>Country Code </summary>
+                <description>Country Code </description>
+            </attribute>
 
         </attributes>
     </businessObject>
