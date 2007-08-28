@@ -199,17 +199,7 @@
             <description>Delete Flag </description>
             </attribute>
 
-            <attribute name="emailAddress">
-            <label>Email Address </label>
-            <shortLabel>Email Address </shortLabel>
-            <maxLength>60</maxLength>
-            <validationPattern><emailAddress /></validationPattern>
-            <control>
-                <text size="60" />
-            </control>
-            <summary>Email Address </summary>
-            <description>Email Address </description>
-            </attribute>
+            <attributeReference name="emailAddress" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="emailAddress" />
 
             <attribute name="faxNumber">
             <label>Fax Number </label>
