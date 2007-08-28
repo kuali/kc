@@ -24,101 +24,101 @@
             <title>Rolodex</title>
 
             <inquirySections><inquirySection title="Rolodex"><inquiryFields>
-            	<field attributeName="rolodexId" forceInquiry="true"/>
-				<field attributeName="addressLine1"/>
-				<field attributeName="addressLine2"/>
-				<field attributeName="addressLine3"/>
-				<field attributeName="city"/>
-				<field attributeName="comments"/>
-				<field attributeName="countryCode"/>
-				<field attributeName="county"/>
-				<field attributeName="deleteFlag"/>
-				<field attributeName="emailAddress"/>
-				<field attributeName="faxNumber"/>
-				<field attributeName="firstName"/>
-				<field attributeName="lastName"/>
-				<field attributeName="middleName"/>
-				<field attributeName="organization"/>
-				<field attributeName="ownedByUnit"/>
-				<field attributeName="phoneNumber"/>
-				<field attributeName="postalCode"/>
-				<field attributeName="prefix"/>
-				<field attributeName="sponsorAddressFlag"/>
-				<field attributeName="sponsorCode"/>
-				<field attributeName="state"/>
-				<field attributeName="suffix"/>
-				<field attributeName="title"/>
+                <field attributeName="rolodexId" forceInquiry="true"/>
+                <field attributeName="addressLine1"/>
+                <field attributeName="addressLine2"/>
+                <field attributeName="addressLine3"/>
+                <field attributeName="city"/>
+                <field attributeName="comments"/>
+                <field attributeName="countryCode"/>
+                <field attributeName="county"/>
+                <field attributeName="deleteFlag"/>
+                <field attributeName="emailAddress"/>
+                <field attributeName="faxNumber"/>
+                <field attributeName="firstName"/>
+                <field attributeName="lastName"/>
+                <field attributeName="middleName"/>
+                <field attributeName="organization"/>
+                <field attributeName="ownedByUnit"/>
+                <field attributeName="phoneNumber"/>
+                <field attributeName="postalCode"/>
+                <field attributeName="prefix"/>
+                <field attributeName="sponsorAddressFlag"/>
+                <field attributeName="sponsorCode"/>
+                <field attributeName="state"/>
+                <field attributeName="suffix"/>
+                <field attributeName="title"/>
 
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
             <title>Rolodex Lookup</title>
-			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
-			</menubar>
+            <menubar>
+                <![CDATA[<a href="/kra-dev/">Main</a>]]>
+            </menubar>
             <instructions>Look up a Rolodex</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                	<sortAttribute attributeName="rolodexId"/>
+                    <sortAttribute attributeName="rolodexId"/>
 
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-            	<lookupField attributeName="rolodexId" required="false"/>
-            					<lookupField attributeName="addressLine1" required="false"/>
-				<lookupField attributeName="addressLine2" required="false"/>
-				<lookupField attributeName="addressLine3" required="false"/>
-				<lookupField attributeName="city" required="false"/>
-				<lookupField attributeName="comments" required="false"/>
-				<lookupField attributeName="countryCode" required="false"/>
-				<lookupField attributeName="county" required="false"/>
-				<lookupField attributeName="deleteFlag" required="false"/>
-				<lookupField attributeName="emailAddress" required="false"/>
-				<lookupField attributeName="faxNumber" required="false"/>
-				<lookupField attributeName="firstName" required="false"/>
-				<lookupField attributeName="lastName" required="false"/>
-				<lookupField attributeName="middleName" required="false"/>
-				<lookupField attributeName="organization" required="false"/>
-				<lookupField attributeName="ownedByUnit" required="false"/>
-				<lookupField attributeName="phoneNumber" required="false"/>
-				<lookupField attributeName="postalCode" required="false"/>
-				<lookupField attributeName="prefix" required="false"/>
-				<lookupField attributeName="sponsorAddressFlag" required="false"/>
-				<lookupField attributeName="sponsorCode" required="false"/>
-				<lookupField attributeName="state" required="false"/>
-				<lookupField attributeName="suffix" required="false"/>
-				<lookupField attributeName="title" required="false"/>
-            	
+                <lookupField attributeName="rolodexId" required="false"/>
+                                <lookupField attributeName="addressLine1" required="false"/>
+                <lookupField attributeName="addressLine2" required="false"/>
+                <lookupField attributeName="addressLine3" required="false"/>
+                <lookupField attributeName="city" required="false"/>
+                <lookupField attributeName="comments" required="false"/>
+                <lookupField attributeName="countryCode" required="false"/>
+                <lookupField attributeName="county" required="false"/>
+                <lookupField attributeName="deleteFlag" required="false"/>
+                <lookupField attributeName="emailAddress" required="false"/>
+                <lookupField attributeName="faxNumber" required="false"/>
+                <lookupField attributeName="firstName" required="false"/>
+                <lookupField attributeName="lastName" required="false"/>
+                <lookupField attributeName="middleName" required="false"/>
+                <lookupField attributeName="organization" required="false"/>
+                <lookupField attributeName="ownedByUnit" required="false"/>
+                <lookupField attributeName="phoneNumber" required="false"/>
+                <lookupField attributeName="postalCode" required="false"/>
+                <lookupField attributeName="prefix" required="false"/>
+                <lookupField attributeName="sponsorAddressFlag" required="false"/>
+                <lookupField attributeName="sponsorCode" required="false"/>
+                <lookupField attributeName="state" required="false"/>
+                <lookupField attributeName="suffix" required="false"/>
+                <lookupField attributeName="title" required="false"/>
+                
             </lookupFields>
 
             <resultFields>
-            	<field attributeName="rolodexId" forceInquiry="true"/>
-				<field attributeName="addressLine1" forceInquiry="false"/>
-				<field attributeName="addressLine2" forceInquiry="false"/>
-				<field attributeName="addressLine3" forceInquiry="false"/>
-				<field attributeName="city" forceInquiry="false"/>
-				<field attributeName="comments" forceInquiry="false"/>
-				<field attributeName="countryCode" forceInquiry="false"/>
-				<field attributeName="county" forceInquiry="false"/>
-				<field attributeName="deleteFlag" forceInquiry="false"/>
-				<field attributeName="emailAddress" forceInquiry="false"/>
-				<field attributeName="faxNumber" forceInquiry="false"/>
-				<field attributeName="firstName" forceInquiry="false"/>
-				<field attributeName="lastName" forceInquiry="false"/>
-				<field attributeName="middleName" forceInquiry="false"/>
-				<field attributeName="organization" forceInquiry="false"/>
-				<field attributeName="ownedByUnit" forceInquiry="false"/>
-				<field attributeName="phoneNumber" forceInquiry="false"/>
-				<field attributeName="postalCode" forceInquiry="false"/>
-				<field attributeName="prefix" forceInquiry="false"/>
-				<field attributeName="sponsorAddressFlag" forceInquiry="false"/>
-				<field attributeName="sponsorCode" forceInquiry="false"/>
-				<field attributeName="state" forceInquiry="false"/>
-				<field attributeName="suffix" forceInquiry="false"/>
-				<field attributeName="title" forceInquiry="false"/>
+                <field attributeName="rolodexId" forceInquiry="true"/>
+                <field attributeName="addressLine1" forceInquiry="false"/>
+                <field attributeName="addressLine2" forceInquiry="false"/>
+                <field attributeName="addressLine3" forceInquiry="false"/>
+                <field attributeName="city" forceInquiry="false"/>
+                <field attributeName="comments" forceInquiry="false"/>
+                <field attributeName="countryCode" forceInquiry="false"/>
+                <field attributeName="county" forceInquiry="false"/>
+                <field attributeName="deleteFlag" forceInquiry="false"/>
+                <field attributeName="emailAddress" forceInquiry="false"/>
+                <field attributeName="faxNumber" forceInquiry="false"/>
+                <field attributeName="firstName" forceInquiry="false"/>
+                <field attributeName="lastName" forceInquiry="false"/>
+                <field attributeName="middleName" forceInquiry="false"/>
+                <field attributeName="organization" forceInquiry="false"/>
+                <field attributeName="ownedByUnit" forceInquiry="false"/>
+                <field attributeName="phoneNumber" forceInquiry="false"/>
+                <field attributeName="postalCode" forceInquiry="false"/>
+                <field attributeName="prefix" forceInquiry="false"/>
+                <field attributeName="sponsorAddressFlag" forceInquiry="false"/>
+                <field attributeName="sponsorCode" forceInquiry="false"/>
+                <field attributeName="state" forceInquiry="false"/>
+                <field attributeName="suffix" forceInquiry="false"/>
+                <field attributeName="title" forceInquiry="false"/>
 
             </resultFields>
         </lookup>
@@ -126,295 +126,256 @@
         <titleAttribute>rolodexId</titleAttribute>
         <attributes>
 
-	        <attribute name="rolodexId">
-			<label>Rolodex Id </label>
-			<shortLabel>Rolodex Id </shortLabel>
-			<maxLength>6</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="6" />
-			</control>
-			<summary>Rolodex Id </summary>
-			<description>Rolodex Id </description>
-			</attribute>
+            <attribute name="rolodexId">
+            <label>Rolodex Id </label>
+            <shortLabel>Rolodex Id </shortLabel>
+            <maxLength>6</maxLength>
+            <validationPattern><numeric /></validationPattern>
+            <control>
+                <text size="6" />
+            </control>
+            <summary>Rolodex Id </summary>
+            <description>Rolodex Id </description>
+            </attribute>
 
-			<attribute name="addressLine1">
-			<label>Address Line 1 </label>
-			<shortLabel>Address Line 1 </shortLabel>
-			<maxLength>80</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-			<control>
-				<text size="80" />
-			</control>
-			<summary>Address Line 1 </summary>
-			<description>Address Line 1 </description>
-			</attribute>
+            <attribute name="addressLine1">
+            <label>Address Line 1 </label>
+            <shortLabel>Address Line 1 </shortLabel>
+            <maxLength>80</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <control>
+                <text size="80" />
+            </control>
+            <summary>Address Line 1 </summary>
+            <description>Address Line 1 </description>
+            </attribute>
 
-			<attribute name="addressLine2">
-			<label>Address Line 2 </label>
-			<shortLabel>Address Line 2 </shortLabel>
-			<maxLength>80</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<text size="80" />
-			</control>
-			<summary>Address Line 2 </summary>
-			<description>Address Line 2 </description>
-			</attribute>
+            <attribute name="addressLine2">
+            <label>Address Line 2 </label>
+            <shortLabel>Address Line 2 </shortLabel>
+            <maxLength>80</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+            <control>
+                <text size="80" />
+            </control>
+            <summary>Address Line 2 </summary>
+            <description>Address Line 2 </description>
+            </attribute>
 
-			<attribute name="addressLine3">
-			<label>Address Line 3 </label>
-			<shortLabel>Address Line 3 </shortLabel>
-			<maxLength>80</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<text size="80" />
-			</control>
-			<summary>Address Line 3 </summary>
-			<description>Address Line 3 </description>
-			</attribute>
+            <attribute name="addressLine3">
+            <label>Address Line 3 </label>
+            <shortLabel>Address Line 3 </shortLabel>
+            <maxLength>80</maxLength>
+            <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+            <control>
+                <text size="80" />
+            </control>
+            <summary>Address Line 3 </summary>
+            <description>Address Line 3 </description>
+            </attribute>
 
-			<attribute name="city">
-			<label>City </label>
-			<shortLabel>City </shortLabel>
-			<maxLength>30</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="30" />
-			</control>
-			<summary>City </summary>
-			<description>City </description>
-			</attribute>
 
-			<attribute name="comments">
-			<label>Comments </label>
-			<shortLabel>Comments </shortLabel>
-			<maxLength>300</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
-			<control>
-				<text size="300" />
-			</control>
-			<summary>Comments </summary>
-			<description>Comments </description>
-			</attribute>
+            <attribute name="comments">
+            <label>Comments </label>
+            <shortLabel>Comments </shortLabel>
+            <maxLength>300</maxLength>
+            <validationPattern><anyCharacter /></validationPattern>
+            <control>
+                <text size="300" />
+            </control>
+            <summary>Comments </summary>
+            <description>Comments </description>
+            </attribute>
 
-			<attribute name="countryCode">
-			<label>Country Code </label>
-			<shortLabel>Country Code </shortLabel>
-			<maxLength>3</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="3" />
-			</control>
-			<summary>Country Code </summary>
-			<description>Country Code </description>
-			</attribute>
+            <attribute name="deleteFlag">
+            <label>Delete Flag </label>
+            <shortLabel>Delete Flag </shortLabel>
+            <maxLength>1</maxLength>
+            <validationPattern><alphaNumeric /></validationPattern>
+            <control>
+                <text size="1" />
+            </control>
+            <summary>Delete Flag </summary>
+            <description>Delete Flag </description>
+            </attribute>
 
-			<attribute name="county">
-			<label>County </label>
-			<shortLabel>County </shortLabel>
-			<maxLength>30</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="30" />
-			</control>
-			<summary>County </summary>
-			<description>County </description>
-			</attribute>
+            <attribute name="emailAddress">
+            <label>Email Address </label>
+            <shortLabel>Email Address </shortLabel>
+            <maxLength>60</maxLength>
+            <validationPattern><emailAddress /></validationPattern>
+            <control>
+                <text size="60" />
+            </control>
+            <summary>Email Address </summary>
+            <description>Email Address </description>
+            </attribute>
 
-			<attribute name="deleteFlag">
-			<label>Delete Flag </label>
-			<shortLabel>Delete Flag </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="1" />
-			</control>
-			<summary>Delete Flag </summary>
-			<description>Delete Flag </description>
-			</attribute>
+            <attribute name="faxNumber">
+            <label>Fax Number </label>
+            <shortLabel>Fax Number </shortLabel>
+            <maxLength>20</maxLength>
+            <validationPattern><phoneNumber /></validationPattern>
+            <control>
+                <text size="20" />
+            </control>
+            <summary>Fax Number </summary>
+            <description>Fax Number </description>
+            </attribute>
 
-			<attribute name="emailAddress">
-			<label>Email Address </label>
-			<shortLabel>Email Address </shortLabel>
-			<maxLength>60</maxLength>
-			<validationPattern><emailAddress /></validationPattern>
-			<control>
-				<text size="60" />
-			</control>
-			<summary>Email Address </summary>
-			<description>Email Address </description>
-			</attribute>
+            <attribute name="firstName">
+            <label>First Name </label>
+            <shortLabel>First Name </shortLabel>
+            <maxLength>20</maxLength>
+            <validationPattern><alpha /></validationPattern>
+            <control>
+                <text size="20" />
+            </control>
+            <summary>First Name </summary>
+            <description>First Name </description>
+            </attribute>
 
-			<attribute name="faxNumber">
-			<label>Fax Number </label>
-			<shortLabel>Fax Number </shortLabel>
-			<maxLength>20</maxLength>
-			<validationPattern><phoneNumber /></validationPattern>
-			<control>
-				<text size="20" />
-			</control>
-			<summary>Fax Number </summary>
-			<description>Fax Number </description>
-			</attribute>
+            <attribute name="lastName">
+            <label>Last Name </label>
+            <shortLabel>Last Name </shortLabel>
+            <maxLength>20</maxLength>
+            <validationPattern><alpha /></validationPattern>
+            <control>
+                <text size="20" />
+            </control>
+            <summary>Last Name </summary>
+            <description>Last Name </description>
+            </attribute>
 
-			<attribute name="firstName">
-			<label>First Name </label>
-			<shortLabel>First Name </shortLabel>
-			<maxLength>20</maxLength>
-			<validationPattern><alpha /></validationPattern>
-			<control>
-				<text size="20" />
-			</control>
-			<summary>First Name </summary>
-			<description>First Name </description>
-			</attribute>
+            <attribute name="middleName">
+            <label>Middle Name </label>
+            <shortLabel>Middle Name </shortLabel>
+            <maxLength>20</maxLength>
+            <validationPattern><alpha /></validationPattern>
+            <control>
+                <text size="20" />
+            </control>
+            <summary>Middle Name </summary>
+            <description>Middle Name </description>
+            </attribute>
 
-			<attribute name="lastName">
-			<label>Last Name </label>
-			<shortLabel>Last Name </shortLabel>
-			<maxLength>20</maxLength>
-			<validationPattern><alpha /></validationPattern>
-			<control>
-				<text size="20" />
-			</control>
-			<summary>Last Name </summary>
-			<description>Last Name </description>
-			</attribute>
+            <attribute name="organization">
+            <label>Organization </label>
+            <shortLabel>Organization </shortLabel>
+            <maxLength>80</maxLength>
+            <validationPattern><anyCharacter /></validationPattern>
+            <control>
+                <text size="80" />
+            </control>
+            <summary>Organization </summary>
+            <description>Organization </description>
+            </attribute>
 
-			<attribute name="middleName">
-			<label>Middle Name </label>
-			<shortLabel>Middle Name </shortLabel>
-			<maxLength>20</maxLength>
-			<validationPattern><alpha /></validationPattern>
-			<control>
-				<text size="20" />
-			</control>
-			<summary>Middle Name </summary>
-			<description>Middle Name </description>
-			</attribute>
+            <attribute name="ownedByUnit">
+            <label>Owned By Unit </label>
+            <shortLabel>Owned By Unit </shortLabel>
+            <maxLength>8</maxLength>
+            <validationPattern><anyCharacter /></validationPattern>
+            <control>
+                <text size="8" />
+            </control>
+            <summary>Owned By Unit </summary>
+            <description>Owned By Unit </description>
+            </attribute>
 
-			<attribute name="organization">
-			<label>Organization </label>
-			<shortLabel>Organization </shortLabel>
-			<maxLength>80</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
-			<control>
-				<text size="80" />
-			</control>
-			<summary>Organization </summary>
-			<description>Organization </description>
-			</attribute>
+            <attribute name="phoneNumber">
+            <label>Phone Number </label>
+            <shortLabel>Phone Number </shortLabel>
+            <maxLength>20</maxLength>
+            <validationPattern><phoneNumber /></validationPattern>
+            <control>
+                <text size="20" />
+            </control>
+            <summary>Phone Number </summary>
+            <description>Phone Number </description>
+            </attribute>
 
-			<attribute name="ownedByUnit">
-			<label>Owned By Unit </label>
-			<shortLabel>Owned By Unit </shortLabel>
-			<maxLength>8</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
-			<control>
-				<text size="8" />
-			</control>
-			<summary>Owned By Unit </summary>
-			<description>Owned By Unit </description>
-			</attribute>
+            <attribute name="postalCode">
+            <label>Postal Code </label>
+            <shortLabel>Postal Code </shortLabel>
+            <maxLength>15</maxLength>
+            <validationPattern><anyCharacter /></validationPattern>
+            <control>
+                <text size="15" />
+            </control>
+            <summary>Postal Code </summary>
+            <description>Postal Code </description>
+            </attribute>
 
-			<attribute name="phoneNumber">
-			<label>Phone Number </label>
-			<shortLabel>Phone Number </shortLabel>
-			<maxLength>20</maxLength>
-			<validationPattern><phoneNumber /></validationPattern>
-			<control>
-				<text size="20" />
-			</control>
-			<summary>Phone Number </summary>
-			<description>Phone Number </description>
-			</attribute>
+            <attribute name="prefix">
+            <label>Prefix </label>
+            <shortLabel>Prefix </shortLabel>
+            <maxLength>10</maxLength>
+            <validationPattern><anyCharacter /></validationPattern>
+            <control>
+                <text size="10" />
+            </control>
+            <summary>Prefix </summary>
+            <description>Prefix </description>
+            </attribute>
 
-			<attribute name="postalCode">
-			<label>Postal Code </label>
-			<shortLabel>Postal Code </shortLabel>
-			<maxLength>15</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
-			<control>
-				<text size="15" />
-			</control>
-			<summary>Postal Code </summary>
-			<description>Postal Code </description>
-			</attribute>
+            <attribute name="sponsorAddressFlag">
+            <label>Sponsor Address Flag </label>
+            <shortLabel>Sponsor Address Flag </shortLabel>
+            <maxLength>1</maxLength>
+            <validationPattern><alphaNumeric /></validationPattern>
+            <control>
+                <text size="1" />
+            </control>
+            <summary>Sponsor Address Flag </summary>
+            <description>Sponsor Address Flag </description>
+            </attribute>
 
-			<attribute name="prefix">
-			<label>Prefix </label>
-			<shortLabel>Prefix </shortLabel>
-			<maxLength>10</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
-			<control>
-				<text size="10" />
-			</control>
-			<summary>Prefix </summary>
-			<description>Prefix </description>
-			</attribute>
+            <attribute name="sponsorCode">
+            <label>Sponsor Code </label>
+            <shortLabel>Sponsor Code </shortLabel>
+            <maxLength>6</maxLength>
+            <validationPattern><numeric /></validationPattern>
+            <control>
+                <text size="6" />
+            </control>
+            <summary>Sponsor Code </summary>
+            <description>Sponsor Code </description>
+            </attribute>
 
-			<attribute name="sponsorAddressFlag">
-			<label>Sponsor Address Flag </label>
-			<shortLabel>Sponsor Address Flag </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="1" />
-			</control>
-			<summary>Sponsor Address Flag </summary>
-			<description>Sponsor Address Flag </description>
-			</attribute>
+            <attributeReference name="city" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="city" />
 
-			<attribute name="sponsorCode">
-			<label>Sponsor Code </label>
-			<shortLabel>Sponsor Code </shortLabel>
-			<maxLength>6</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="6" />
-			</control>
-			<summary>Sponsor Code </summary>
-			<description>Sponsor Code </description>
-			</attribute>
+            <attributeReference name="county" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="county" />
 
-			<attribute name="state">
-			<label>State </label>
-			<shortLabel>State </shortLabel>
-			<maxLength>30</maxLength>
-			<validationPattern><alpha /></validationPattern>
-			<control>
-				<text size="30" />
-			</control>
-			<summary>State </summary>
-			<description>State </description>
-			</attribute>
+            <attributeReference name="state" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="state" />
 
-			<attribute name="suffix">
-			<label>Suffix </label>
-			<shortLabel>Suffix </shortLabel>
-			<maxLength>10</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
-			<control>
-				<text size="10" />
-			</control>
-			<summary>Suffix </summary>
-			<description>Suffix </description>
-			</attribute>
+            <attributeReference name="countryCode" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="countryCode" />
 
-			<attribute name="title">
-			<label>Title </label>
-			<shortLabel>Title </shortLabel>
-			<maxLength>35</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="35" />
-			</control>
-			<summary>Title </summary>
-			<description>Title </description>
-			</attribute>
+            <attribute name="suffix">
+            <label>Suffix </label>
+            <shortLabel>Suffix </shortLabel>
+            <maxLength>10</maxLength>
+            <validationPattern><anyCharacter /></validationPattern>
+            <control>
+                <text size="10" />
+            </control>
+            <summary>Suffix </summary>
+            <description>Suffix </description>
+            </attribute>
 
-		</attributes>
+            <attribute name="title">
+            <label>Title </label>
+            <shortLabel>Title </shortLabel>
+            <maxLength>35</maxLength>
+            <validationPattern><alphaNumeric /></validationPattern>
+            <control>
+                <text size="35" />
+            </control>
+            <summary>Title </summary>
+            <description>Title </description>
+            </attribute>
+
+        </attributes>
     </businessObject>
 
 </dictionaryEntry>
