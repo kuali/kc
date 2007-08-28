@@ -31,6 +31,83 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
 
     private String description;
     private String bigDescription;
+    private String city;
+    private String county;
+    private String state;
+    private String countryCode;
+
+    /**
+     * Gets the value of city
+     *
+     * @return the value of city
+     */
+    public final String getCity() {
+        return this.city;
+    }
+
+    /**
+     * Sets the value of city
+     *
+     * @param argCity Value to assign to this.city
+     */
+    public final void setCity(final String argCity) {
+        this.city = argCity;
+    }
+
+    /**
+     * Gets the value of county
+     *
+     * @return the value of county
+     */
+    public final String getCounty() {
+        return this.county;
+    }
+
+    /**
+     * Sets the value of county
+     *
+     * @param argCounty Value to assign to this.county
+     */
+    public final void setCounty(final String argCounty) {
+        this.county = argCounty;
+    }
+
+    /**
+     * Gets the value of state
+     *
+     * @return the value of state
+     */
+    public final String getState() {
+        return this.state;
+    }
+
+    /**
+     * Sets the value of state
+     *
+     * @param argState Value to assign to this.state
+     */
+    public final void setState(final String argState) {
+        this.state = argState;
+    }
+
+    /**
+     * Gets the value of countryCode
+     *
+     * @return the value of countryCode
+     */
+    public final String getCountryCode() {
+        return this.countryCode;
+    }
+
+    /**
+     * Sets the value of countryCode
+     *
+     * @param argCountryCode Value to assign to this.countryCode
+     */
+    public final void setCountryCode(final String argCountryCode) {
+        this.countryCode = argCountryCode;
+    }
+
 
     /**
      * Gets the value of description
