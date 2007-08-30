@@ -65,13 +65,13 @@ public class KraSQLDataLoaderLifecycle implements Lifecycle {
                 // TODO : sponsor type must be loaded first. This is a temporary work around
                 if (filename.equals("load_sponsor.sql")) {
                     if (!sponsorTypeLoaded) {
-                        SQLDataLoader sqlDataLoader = new SQLDataLoader("classpath:load_sponsor_type.sql", delimiter);
+                        SQLDataLoader sqlDataLoader = new SQLDataLoader("classpath:sql/dml/load_sponsor_type.sql", delimiter);
                         sqlDataLoader.runSql();
                         sponsorTypeLoaded = true;
                     }
                 }
                 if (!filename.equals("load_sponsor_type.sql") || !sponsorTypeLoaded) {
-                    SQLDataLoader sqlDataLoader = new SQLDataLoader("classpath:" + filename, delimiter);
+                    SQLDataLoader sqlDataLoader = new SQLDataLoader("classpath:sql/dml/" + filename, delimiter);
                     sqlDataLoader.runSql();
                 }
             }

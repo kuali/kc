@@ -73,7 +73,7 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
         for (File file : resource.getFile().listFiles()) {
             filename=file.getName();
             if (filename.endsWith(".xml")) {
-                this.loadXmlFile("classpath:"+filename);
+                this.loadXmlFile("classpath:kew/xml/"+filename);
             }
         }
 
