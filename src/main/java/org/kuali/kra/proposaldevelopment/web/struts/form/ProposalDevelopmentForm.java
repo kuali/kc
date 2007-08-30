@@ -60,6 +60,13 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setCurrentTabIndex(0);
 
         super.populate(request);
+        ProposalDevelopmentDocument proposalDevelopmentDocument=getProposalDevelopmentDocument();
+        if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getPropLocations().size()==0) {
+            // populate 1st location.  Not sure yet
+            PropLocation propLocation=new PropLocation();
+            propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
+            proposalDevelopmentDocument.getPropLocations().add(propLocation);
+        }
 
     }
 
