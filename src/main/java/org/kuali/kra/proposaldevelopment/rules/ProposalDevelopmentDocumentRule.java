@@ -19,10 +19,10 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.ValidSpRevApproval;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
@@ -48,6 +48,14 @@ public class ProposalDevelopmentDocumentRule extends DocumentRuleBase {
 
         // changing this to '0' so it doesn't validate reference objects within a list
         KNSServiceLocator.getDictionaryValidationService().validateDocumentRecursively(proposalDevelopmentDocument, 0);
+        if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getPropLocations().size()==0 ||
+                (proposalDevelopmentDocument.getPropLocations().size()==1 && ((PropLocation)(proposalDevelopmentDocument.getPropLocations().get(0))).getLocationSequenceNumber()==null))) {
+            // should have one just added by form
+            // this is a business rule, so put it here.  If needed we can always create a new prop location if the last one is deleted in deletelocation action ?
+            GlobalVariables.getErrorMap().addToErrorPath("newPropLocation");
+            GlobalVariables.getErrorMap().putError("location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
+            GlobalVariables.getErrorMap().removeFromErrorPath("newPropLocation");
+        }
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
 
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
