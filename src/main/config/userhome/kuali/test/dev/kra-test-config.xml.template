@@ -11,6 +11,8 @@
 	<param name="use.clearDatabaseLifecycle">true</param>
 	<param name="use.kewXmlmlDataLoaderLifecycle">true</param>
 	<param name="use.sqlDataLoaderLifecycle">true</param>
+	<param name="use.kraKewXmlDataLoaderLifecycle">true</param>
+	<param name="use.kraSqlDataLoaderLifecycle">true</param>
 	<param name="test.mode">true</param>
     <param name="attachments.pending.directory">${java.io.tmpdir}</param>
     <param name="attachments.directory">${java.io.tmpdir}</param>
