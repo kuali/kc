@@ -29,3 +29,51 @@ function postValueToParentWindow() {
   opener.document.getElementById(textAreaFieldName).value = document.getElementById(textAreaFieldName).value;
   self.close();
 }
+
+
+// dwr functions
+// this is a sample function for sponsor code
+function loadSponsorCode( sponsorCodeFieldName) {
+	var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
+	
+	//if (sponsorCode == "") {
+	//	clearRecipients( sponsorCodeFieldName, "" );
+	//} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null ) {
+				if ( sponsorCodeFieldName != null && sponsorCodeFieldName != "" ) {
+					setRecipientValue( sponsorCodeFieldName, data );
+				}
+			} else {
+				if ( sponsorCodeFieldName != null && sponsorCodeFieldName != "" ) {
+					setRecipientValue( sponsorCodeFieldName, "" );
+				}
+			} },
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+				if ( sponsorCodeFieldName != null && sponsorCodeFieldName != "" ) {
+					setRecipientValue( sponsorCodeFieldName, "" );
+				}
+			}
+		};
+		
+		ProposalDevelopmentService.getSponsorCode(sponsorCode,dwrReply);
+		
+	//}
+}
+
+function loadSponsorCode_1( sponsorCodeFieldName) {
+    // alternative, delete later
+	var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
+	//alert(sponsorCodeFieldName+" "+sponsorCode)
+	//ProposalDevelopmentService.getSponsorCode(sponsorCode,function(data) {
+    //DWRUtil.setValue(sponsorCodeFieldName, data);});
+	ProposalDevelopmentService.getSponsorCode(sponsorCode,loadinfo);
+
+}
+			
+function loadinfo(data) {
+  //alert("loadinfo "+data)
+  DWRUtil.setValue("document.sponsorCode", data);
+}
