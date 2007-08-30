@@ -84,7 +84,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<reference-descriptor name="ScienceKeyword" class-ref="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<reference-descriptor name="scienceKeyword" class-ref="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<foreignkey field-ref="scienceKeywordCode"/> 
 		</reference-descriptor>
 	</class-descriptor>

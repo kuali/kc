@@ -1,6 +1,7 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="scienceKeywordAttributes" value="${DataDictionary.ScienceKeyword.attributes}" />
 <c:set var="textAreaFieldName" value="document.mailDescription" />
 <c:set var="action" value="proposalDevelopmentProposal" />
 <c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
@@ -12,19 +13,19 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
        
-          <table summary="" align="center" cellpadding="0" cellspacing="0">
-            <tbody><tr>
-              <th>&nbsp;</th>
-
-              <th><div align="left">Description</div></th>
-              <th>Actions</th>
-            </tr>
+        <table>
+             <tr>
+              	<th><div align="left">&nbsp</div></th>  
+				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${scienceKeywordAttributes.description}" skipHelpUrl="true" noColon="true" /></div></th>
+              	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
+             </tr>
             <tr>
               <th class="infoline">Add:</th>
               <td class="infoline">${KualiForm.document.newDescription}
 					<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
 					fieldConversions="scienceKeywordCode:document.newScienceKeywordCode,description:document.newDescription"
 					lookupParameters="" hideReturnLink="false" />
+			  </td>
 
               <td class="infoline"><div align="center">
 			  <html:image property="methodToCall.addScienceKeyword" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Keyword" alt="Add Keyword" styleClass="tinybutton" />
@@ -34,7 +35,7 @@
             <logic:iterate name="KualiForm" id="proposalKeywords" property="document.keywords" indexId="ctr">
               <tr>
                 <td class="infoline"><div align="center">
-                	${KualiForm.document.keywords[ctr].scienceKeywordCode}
+                	${ctr+1} 
                 </div></td>
                 <td class="infoline">
                 	 ${KualiForm.document.keywords[ctr].scienceKeyword.description}
@@ -54,8 +55,8 @@
                 <html:image property="methodToCall.deleteSelectedScienceKeyword" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
                 </div></td>
               </tr>
-
-          </tbody></table>
+             
+        </table>
 
     </div>
 </kul:tab>
