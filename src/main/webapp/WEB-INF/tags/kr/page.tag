@@ -55,6 +55,9 @@
 	<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/kr/scripts/jscalendar-1.0/lang/calendar-en.js"></script>
 	<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/kr/scripts/jscalendar-1.0/calendar-setup.js"></script>
 	<link href="${pageContext.request.contextPath}/kr/scripts/jscalendar-1.0/calendar-win2k-1.css" rel="stylesheet" type="text/css" />
+	<%-- DWR Support Scripts --%>
+	<script language="JavaScript" src="${pageContext.request.contextPath}/dwr/engine.js" type="text/javascript"></script>
+	<script language="JavaScript" src="${pageContext.request.contextPath}/dwr/util.js" type="text/javascript"></script>
 	<c:choose>
 		<c:when test="${lookup}" >
 			  <c:if test="${not empty KualiForm.headerNavigationTabs}">
