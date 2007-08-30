@@ -59,7 +59,7 @@
 
 	<servlet>
   		<servlet-name>dwr-invoker</servlet-name>
-  		<servlet-class>org.kuali.core.web.servlet.KualiDWRServlet</servlet-class>
+  		<servlet-class>org.kuali.kra.web.servlet.KraDWRServlet</servlet-class>
   		<init-param>
      		<param-name>debug</param-name>
      		<param-value>true</param-value>

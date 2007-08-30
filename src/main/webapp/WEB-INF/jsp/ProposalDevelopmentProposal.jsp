@@ -35,7 +35,9 @@
 <kra-pd:proposalDevelopmentKeywords /> 
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
-  
+
+
 <script language="javascript" src="scripts/kuali_application.js"></script>
+<script language="javascript" src="dwr/interface/ProposalDevelopmentService.js"></script> 
 
 </kul:documentPage>
