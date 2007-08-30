@@ -30,11 +30,11 @@
 
 <link href="/kra-dev/kr/css/kuali.css" rel="stylesheet" type="text/css" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
+<body onload="setTextArea()">
 <div class="headerarea" id="headerarea-small">
 <h1><%=textAreaFieldLabel%></h1>
 </div>
 
-<body onload="setTextArea()">
 <c:set var="kraAttributeReferenceDummyAttributes"
 	value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 <c:if test="${empty textAreaFieldName}">
@@ -49,7 +49,7 @@
 <html:form styleId="kualiForm" method="post"
 	action="/${htmlFormAction}.do" enctype=""
 	onsubmit="return hasFormAlreadyBeenSubmitted();">
-	<table>
+	<table align="center">
 		<tr>
 			<td><kul:htmlControlAttribute property="${textAreaFieldName}"
 				attributeEntry="${kraAttributeReferenceDummyAttributes.bigDescription}" />
