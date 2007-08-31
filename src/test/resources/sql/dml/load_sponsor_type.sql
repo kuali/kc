@@ -1,0 +1,14 @@
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('0','Federal',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('1','State',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('2','Local Government',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('3','Private Profit',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('4','Private Non-Profit',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('5','Foundation',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('6','Institution of Higher Education',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('10','Foreign Federal Government',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('11','Foreign State Government',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('12','Foreign Local Government',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('13','Foreign Private Profit',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('14','Foreign Private Non-Profit',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('15','Foreign Foundation',sysdate,'kradev');
+insert into sponsor_type (sponsor_type_code,description,update_timestamp,update_user) values('16','Foreign Institution of Higher Education',sysdate,'kradev');
