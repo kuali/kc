@@ -100,32 +100,6 @@ public class ProposalDevelopmentDocumentRule extends DocumentRuleBase {
                 }
 
             }
-            // TODO : are all the sp rev business rules defined in valid_sp_rev_approval table too?
-            // If they are, then the following are not needed
-            if (propSpecialReview.getApprovalTypeCode() != null) {
-                if (propSpecialReview.getApprovalTypeCode().intValue() == Constants.APPROVAL_STATUS.intValue()) {
-                    if (propSpecialReview.getApplicationDate() == null) {
-                        valid = false;
-                        errorMap.putError("applicationDate", KeyConstants.ERROR_REQUIRED_FOR_APPROVED_SPECIALREVIEW,
-                                "Application Date");
-                    }
-                    if (propSpecialReview.getApprovalDate() == null) {
-                        valid = false;
-                        errorMap.putError("approvalDate", KeyConstants.ERROR_REQUIRED_FOR_APPROVED_SPECIALREVIEW, "Approval Date");
-                    }
-                    if (propSpecialReview.getProtocolNumber() == null) {
-                        valid = false;
-                        errorMap.putError("protocolNumber", KeyConstants.ERROR_REQUIRED_FOR_APPROVED_SPECIALREVIEW,
-                                "Protocol Number");
-                    }
-                }
-                else {
-                    if (propSpecialReview.getApprovalDate() != null) {
-                        valid = false;
-                        errorMap.putError("approvalDate", KeyConstants.ERROR_NOT_APPROVED_SPECIALREVIEW, "Approval Date");
-                    }
-                }
-            }
             errorMap.removeFromErrorPath("propSpecialReviews[" + i++ + "]");
         }
         return valid;
