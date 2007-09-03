@@ -225,6 +225,129 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 
+    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" table="EPS_PROP_PERSON">
+        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="proposalPersonRoleId" column="PROP_PERSON_ROLE_ID" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="socialSecurityNumber" column="SSN" jdbc-type="VARCHAR" />
+        <field-descriptor name="lastName" column="LAST_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="firstName" column="FIRST_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="middleName" column="MIDDLE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="priorName" column="PRIOR_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="userName" column="USER_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="emailAddress" column="EMAIL_ADRESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="dateOfBirth" column="DATE_OF_BIRTH" jdbc-type="VARCHAR" />
+        <field-descriptor name="age" column="AGE" jdbc-type="INTEGER" />
+        <field-descriptor name="ageByFiscalYear" column="AGE_BY_FISCAL_YEAR" jdbc-type="INTEGER" />
+        <field-descriptor name="gender" column="GENDER" jdbc-type="VARCHAR" />
+        <field-descriptor name="race" column="RACE" jdbc-type="VARCHAR" />
+        <field-descriptor name="educationLevel" column="EDUCATION_LEVEL" jdbc-type="VARCHAR" />
+        <field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" />
+        <field-descriptor name="major" column="MAJOR" jdbc-type="VARCHAR" />
+        <field-descriptor name="handicapped" column="IS_HANDICAPPED" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="handicapType" column="HANDICAP_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="veteran" column="IS_VETERAN" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="veteranType" column="VETERAN_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="visaCode" column="VISA_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="visaType" column="VISA_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="visaRenewalDate" column="VISA_RENEWAL_DATE" jdbc-type="VARCHAR" />
+        <field-descriptor name="hasVisa" column="HAS_VISA" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="officeLocation" column="OFFICE_LOCATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="officePhone" column="OFFICE_PHONE" jdbc-type="VARCHAR" />
+        <field-descriptor name="secondaryOfficeLocation" column="SECONDRY_OFFICE_LOCATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="secondaryOfficePhone" column="SECONDRY_OFFICE_PHONE" jdbc-type="VARCHAR" />
+        <field-descriptor name="school" column="SCHOOL" jdbc-type="VARCHAR" />
+        <field-descriptor name="yearGraduated" column="YEAR_GRADUATED" jdbc-type="VARCHAR" />
+        <field-descriptor name="directoryDepartment" column="DIRECTORY_DEPARTMENT" jdbc-type="VARCHAR" />
+        <field-descriptor name="saluation" column="SALUTATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="countryOfCitizenship" column="COUNTRY_OF_CITIZENSHIP" jdbc-type="VARCHAR" />
+        <field-descriptor name="primaryTitle" column="PRIMARY_TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="directoryTitle" column="DIRECTORY_TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="homeUnit" column="HOME_UNIT" jdbc-type="VARCHAR" />
+        <field-descriptor name="faculty" column="IS_FACULTY" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="graduateStudentStaff" column="IS_GRADUATE_STUDENT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="researchStaff" column="IS_RESEARCH_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="serviceStaff" column="IS_SERVICE_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="supportStaff" column="IS_SUPPORT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="otherAcademicGroup" column="IS_OTHER_ACCADEMIC_GROUP" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="medicalStaff" column="IS_MEDICAL_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="vacationAccrual" column="VACATION_ACCRUAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="onSabbatical" column="IS_ON_SABBATICAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="idProvided" column="ID_PROVIDED" jdbc-type="VARCHAR" />
+        <field-descriptor name="idVerified" column="ID_VERIFIED" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressLine1" column="ADDRESS_LINE_1" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressLine2" column="ADDRESS_LINE_2" jdbc-type="VARCHAR" />
+        <field-descriptor name="addressLine3" column="ADDRESS_LINE_3" jdbc-type="VARCHAR" />
+        <field-descriptor name="city" column="CITY" jdbc-type="VARCHAR" />
+        <field-descriptor name="county" column="COUNTY" jdbc-type="VARCHAR" />
+        <field-descriptor name="state" column="STATE" jdbc-type="VARCHAR" />
+        <field-descriptor name="postalCode" column="POSTAL_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="countryCode" column="COUNTRY_CODE" jdbc-type="CHAR" />
+        <field-descriptor name="faxNumber" column="FAX_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="pagerNumber" column="PAGER_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="mobilePhoneNumber" column="MOBILE_PHONE_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="eraCommonsUserName" column="ERA_COMMONS_USER_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="percentageEffort" column="PERCENTAGE_EFFORT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+        <field-descriptor name="fedrDebr" column="FEDR_DEBR_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="fedrDelq" column="FEDR_DELQ_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="conflictOfInterest" column="CONFLICT_OF_INTEREST_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" table="PROPOSAL_INV_CERTIFICATION">
+        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="certifiedFlag" column="CERTIFIED_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="dateCertified" column="DATE_CERTIFIED" jdbc-type="DATE" />
+        <field-descriptor name="dateReceivedByOsp" column="DATE_RECEIVED_BY_OSP" jdbc-type="DATE" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" table="EPS_PROP_PERSON_ROLE">
+        <field-descriptor name="proposalPersonRoleId" column="PROP_PERSON_ROLE_ID" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" table="EPS_PROP_PERSON_DEGREE">
+        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="graduationDate" column="GRADUATION_DATE" jdbc-type="DATE" />
+        <field-descriptor name="degreeCode" column="DEGREE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" />
+        <field-descriptor name="fieldOfStudy" column="FIELD_OF_STUDY" jdbc-type="VARCHAR" />
+        <field-descriptor name="specialization" column="SPECIALIZATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="school" column="SCHOOL" jdbc-type="VARCHAR" />
+        <field-descriptor name="schoolIdCode" column="SCHOOL_ID_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="schoolId" column="SCHOOL_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit" table="EPS_PROP_PERSON_UNITS">
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="leadUnit" column="LEAD_UNIT_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.MailBy" table="MAIL_BY">
 		<field-descriptor name="mailByCode" column="MAIL_BY_CODE" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
