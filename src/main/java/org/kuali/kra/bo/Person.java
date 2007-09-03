@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.1 2007-08-28 02:30:24 lprzybyl Exp $
+ * $Id: Person.java,v 1.2 2007-09-03 21:40:54 lprzybyl Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -92,7 +92,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of personId
      */
-    public final String getPersonId() {
+    public String getPersonId() {
         return this.personId;
     }
 
@@ -101,7 +101,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argPersonId Value to assign to this.personId
      */
-    public final void setPersonId(String argPersonId) {
+    public void setPersonId(String argPersonId) {
         this.personId = argPersonId;
     }
 
@@ -110,7 +110,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argSocialSecurityNumber Value to assign to this.socialSecurityNumber
      */
-    public final void setSocialSecurityNumber(String argSocialSecurityNumber) {
+    public void setSocialSecurityNumber(String argSocialSecurityNumber) {
         this.socialSecurityNumber = argSocialSecurityNumber;
     }
 
@@ -119,7 +119,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of socialSecurityNumber
      */
-    public final String getSocialSecurityNumber() {
+    public String getSocialSecurityNumber() {
         return this.socialSecurityNumber;
     }
     /**
@@ -127,7 +127,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of lastName
      */
-    public final String getLastName() {
+    public String getLastName() {
         return this.lastName;
     }
 
@@ -136,7 +136,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argLastName Value to assign to this.lastName
      */
-    public final void setLastName(String argLastName) {
+    public void setLastName(String argLastName) {
         this.lastName = argLastName;
     }
 
@@ -145,7 +145,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of firstName
      */
-    public final String getFirstName() {
+    public String getFirstName() {
         return this.firstName;
     }
 
@@ -154,7 +154,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argFirstName Value to assign to this.firstName
      */
-    public final void setFirstName(String argFirstName) {
+    public void setFirstName(String argFirstName) {
         this.firstName = argFirstName;
     }
 
@@ -163,7 +163,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of middleName
      */
-    public final String getMiddleName() {
+    public String getMiddleName() {
         return this.middleName;
     }
 
@@ -172,7 +172,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argMiddleName Value to assign to this.middleName
      */
-    public final void setMiddleName(String argMiddleName) {
+    public void setMiddleName(String argMiddleName) {
         this.middleName = argMiddleName;
     }
 
@@ -181,7 +181,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of fullName
      */
-    public final String getFullName() {
+    public String getFullName() {
         return this.fullName;
     }
 
@@ -190,7 +190,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argFullName Value to assign to this.fullName
      */
-    public final void setFullName(String argFullName) {
+    public void setFullName(String argFullName) {
         this.fullName = argFullName;
     }
 
@@ -199,7 +199,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of priorName
      */
-    public final String getPriorName() {
+    public String getPriorName() {
         return this.priorName;
     }
 
@@ -208,7 +208,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argPriorName Value to assign to this.priorName
      */
-    public final void setPriorName(String argPriorName) {
+    public void setPriorName(String argPriorName) {
         this.priorName = argPriorName;
     }
 
@@ -217,7 +217,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of userName
      */
-    public final String getUserName() {
+    public String getUserName() {
         return this.userName;
     }
 
@@ -226,7 +226,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argUserName Value to assign to this.userName
      */
-    public final void setUserName(String argUserName) {
+    public void setUserName(String argUserName) {
         this.userName = argUserName;
     }
 
@@ -235,7 +235,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of emailAddress
      */
-    public final String getEmailAddress() {
+    public String getEmailAddress() {
         return this.emailAddress;
     }
 
@@ -244,7 +244,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argEmailAddress Value to assign to this.emailAddress
      */
-    public final void setEmailAddress(String argEmailAddress) {
+    public void setEmailAddress(String argEmailAddress) {
         this.emailAddress = argEmailAddress;
     }
 
@@ -253,7 +253,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of dateOfBirth
      */
-    public final String getDateOfBirth() {
+    public String getDateOfBirth() {
         return this.dateOfBirth;
     }
 
@@ -262,7 +262,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argDateOfBirth Value to assign to this.dateOfBirth
      */
-    public final void setDateOfBirth(String argDateOfBirth) {
+    public void setDateOfBirth(String argDateOfBirth) {
         this.dateOfBirth = argDateOfBirth;
     }
 
@@ -271,7 +271,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of age
      */
-    public final Integer getAge() {
+    public Integer getAge() {
         return this.age;
     }
 
@@ -280,7 +280,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argAge Value to assign to this.age
      */
-    public final void setAge(Integer argAge) {
+    public void setAge(Integer argAge) {
         this.age = argAge;
     }
 
@@ -289,7 +289,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of ageByFiscalYear
      */
-    public final Integer getAgeByFiscalYear() {
+    public Integer getAgeByFiscalYear() {
         return this.ageByFiscalYear;
     }
 
@@ -298,7 +298,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argAgeByFiscalYear Value to assign to this.ageByFiscalYear
      */
-    public final void setAgeByFiscalYear(Integer argAgeByFiscalYear) {
+    public void setAgeByFiscalYear(Integer argAgeByFiscalYear) {
         this.ageByFiscalYear = argAgeByFiscalYear;
     }
 
@@ -307,7 +307,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of gender
      */
-    public final String getGender() {
+    public String getGender() {
         return this.gender;
     }
 
@@ -316,7 +316,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argGender Value to assign to this.gender
      */
-    public final void setGender(String argGender) {
+    public void setGender(String argGender) {
         this.gender = argGender;
     }
 
@@ -325,7 +325,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of race
      */
-    public final String getRace() {
+    public String getRace() {
         return this.race;
     }
 
@@ -334,7 +334,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argRace Value to assign to this.race
      */
-    public final void setRace(String argRace) {
+    public void setRace(String argRace) {
         this.race = argRace;
     }
 
@@ -343,7 +343,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of educationLevel
      */
-    public final String getEducationLevel() {
+    public String getEducationLevel() {
         return this.educationLevel;
     }
 
@@ -352,7 +352,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argEducationLevel Value to assign to this.educationLevel
      */
-    public final void setEducationLevel(String argEducationLevel) {
+    public void setEducationLevel(String argEducationLevel) {
         this.educationLevel = argEducationLevel;
     }
 
@@ -361,7 +361,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of degree
      */
-    public final String getDegree() {
+    public String getDegree() {
         return this.degree;
     }
 
@@ -370,7 +370,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argDegree Value to assign to this.degree
      */
-    public final void setDegree(String argDegree) {
+    public void setDegree(String argDegree) {
         this.degree = argDegree;
     }
 
@@ -379,7 +379,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of major
      */
-    public final String getMajor() {
+    public String getMajor() {
         return this.major;
     }
 
@@ -388,7 +388,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argMajor Value to assign to this.major
      */
-    public final void setMajor(String argMajor) {
+    public void setMajor(String argMajor) {
         this.major = argMajor;
     }
 
@@ -397,7 +397,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of handicapped
      */
-    public final Boolean isHandicapped() {
+    public Boolean isHandicapped() {
         return this.handicapped;
     }
 
@@ -406,7 +406,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argHandicapped Value to assign to this.handicapped
      */
-    public final void setIsHandicapped(Boolean argHandicapped) {
+    public void setIsHandicapped(Boolean argHandicapped) {
         this.handicapped = argHandicapped;
     }
 
@@ -415,7 +415,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of handicapType
      */
-    public final String getHandicapType() {
+    public String getHandicapType() {
         return this.handicapType;
     }
 
@@ -424,7 +424,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argHandicapType Value to assign to this.handicapType
      */
-    public final void setHandicapType(String argHandicapType) {
+    public void setHandicapType(String argHandicapType) {
         this.handicapType = argHandicapType;
     }
 
@@ -433,7 +433,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of veteran
      */
-    public final Boolean isVeteran() {
+    public Boolean isVeteran() {
         return this.veteran;
     }
 
@@ -442,7 +442,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argVeteran Value to assign to this.veteran
      */
-    public final void setIsVeteran(Boolean argVeteran) {
+    public void setIsVeteran(Boolean argVeteran) {
         this.veteran = argVeteran;
     }
 
@@ -451,7 +451,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of veteranType
      */
-    public final String getVeteranType() {
+    public String getVeteranType() {
         return this.veteranType;
     }
 
@@ -460,7 +460,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argVeteranType Value to assign to this.veteranType
      */
-    public final void setVeteranType(String argVeteranType) {
+    public void setVeteranType(String argVeteranType) {
         this.veteranType = argVeteranType;
     }
 
@@ -469,7 +469,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of visaCode
      */
-    public final String getVisaCode() {
+    public String getVisaCode() {
         return this.visaCode;
     }
 
@@ -478,7 +478,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argVisaCode Value to assign to this.visaCode
      */
-    public final void setVisaCode(String argVisaCode) {
+    public void setVisaCode(String argVisaCode) {
         this.visaCode = argVisaCode;
     }
 
@@ -487,7 +487,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of visaType
      */
-    public final String getVisaType() {
+    public String getVisaType() {
         return this.visaType;
     }
 
@@ -496,7 +496,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argVisaType Value to assign to this.visaType
      */
-    public final void setVisaType(String argVisaType) {
+    public void setVisaType(String argVisaType) {
         this.visaType = argVisaType;
     }
 
@@ -505,7 +505,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of visaRenewalDate
      */
-    public final String getVisaRenewalDate() {
+    public String getVisaRenewalDate() {
         return this.visaRenewalDate;
     }
 
@@ -514,7 +514,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argVisaRenewalDate Value to assign to this.visaRenewalDate
      */
-    public final void setVisaRenewalDate(String argVisaRenewalDate) {
+    public void setVisaRenewalDate(String argVisaRenewalDate) {
         this.visaRenewalDate = argVisaRenewalDate;
     }
 
@@ -523,7 +523,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of hasVisa
      */
-    public final Boolean getHasVisa() {
+    public Boolean getHasVisa() {
         return this.hasVisa;
     }
 
@@ -532,7 +532,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argHasVisa Value to assign to this.hasVisa
      */
-    public final void setHasVisa(Boolean argHasVisa) {
+    public void setHasVisa(Boolean argHasVisa) {
         this.hasVisa = argHasVisa;
     }
 
@@ -541,7 +541,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of officeLocation
      */
-    public final String getOfficeLocation() {
+    public String getOfficeLocation() {
         return this.officeLocation;
     }
 
@@ -550,7 +550,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argOfficeLocation Value to assign to this.officeLocation
      */
-    public final void setOfficeLocation(String argOfficeLocation) {
+    public void setOfficeLocation(String argOfficeLocation) {
         this.officeLocation = argOfficeLocation;
     }
 
@@ -559,7 +559,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of officePhone
      */
-    public final String getOfficePhone() {
+    public String getOfficePhone() {
         return this.officePhone;
     }
 
@@ -568,7 +568,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argOfficePhone Value to assign to this.officePhone
      */
-    public final void setOfficePhone(String argOfficePhone) {
+    public void setOfficePhone(String argOfficePhone) {
         this.officePhone = argOfficePhone;
     }
 
@@ -577,7 +577,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of secondaryOfficeLocation
      */
-    public final String getSecondaryOfficeLocation() {
+    public String getSecondaryOfficeLocation() {
         return this.secondaryOfficeLocation;
     }
 
@@ -586,7 +586,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argSecondaryOfficeLocation Value to assign to this.secondaryOfficeLocation
      */
-    public final void setSecondaryOfficeLocation(String argSecondaryOfficeLocation) {
+    public void setSecondaryOfficeLocation(String argSecondaryOfficeLocation) {
         this.secondaryOfficeLocation = argSecondaryOfficeLocation;
     }
 
@@ -595,7 +595,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of secondaryOfficePhone
      */
-    public final String getSecondaryOfficePhone() {
+    public String getSecondaryOfficePhone() {
         return this.secondaryOfficePhone;
     }
  
@@ -604,7 +604,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argSecondaryOfficePhone Value to assign to this.secondaryOfficePhone
      */
-    public final void setSecondaryOfficePhone(String argSecondaryOfficePhone) {
+    public void setSecondaryOfficePhone(String argSecondaryOfficePhone) {
         this.secondaryOfficePhone = argSecondaryOfficePhone;
     }
 
@@ -613,7 +613,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of school
      */
-    public final String getSchool() {
+    public String getSchool() {
         return this.school;
     }
 
@@ -622,7 +622,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argSchool Value to assign to this.school
      */
-    public final void setSchool(String argSchool) {
+    public void setSchool(String argSchool) {
         this.school = argSchool;
     }
 
@@ -631,7 +631,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      * 
      * @return the value of yearGraduated
      */
-    public final String getYearGraduated() {
+    public String getYearGraduated() {
         return this.yearGraduated;
     }
 
@@ -640,7 +640,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argYearGraduated Value to assign to this.yearGraduated
      */
-    public final void setYearGraduated(String argYearGraduated) {
+    public void setYearGraduated(String argYearGraduated) {
         this.yearGraduated = argYearGraduated;
     }
 
@@ -649,7 +649,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of directoryDepartment
      */
-    public final String getDirectoryDepartment() {
+    public String getDirectoryDepartment() {
         return this.directoryDepartment;
     }
 
@@ -658,7 +658,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argDirectoryDepartment Value to assign to this.directoryDepartment
      */
-    public final void setDirectoryDepartment(String argDirectoryDepartment) {
+    public void setDirectoryDepartment(String argDirectoryDepartment) {
         this.directoryDepartment = argDirectoryDepartment;
     }
 
@@ -667,7 +667,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of saluation
      */
-    public final String getSaluation() {
+    public String getSaluation() {
         return this.saluation;
     }
 
@@ -676,7 +676,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argSaluation Value to assign to this.saluation
      */
-    public final void setSaluation(String argSaluation) {
+    public void setSaluation(String argSaluation) {
         this.saluation = argSaluation;
     }
 
@@ -685,7 +685,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of countryOfCitizenship
      */
-    public final String getCountryOfCitizenship() {
+    public String getCountryOfCitizenship() {
         return this.countryOfCitizenship;
     }
 
@@ -694,7 +694,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argCountryOfCitizenship Value to assign to this.countryOfCitizenship
      */
-    public final void setCountryOfCitizenship(String argCountryOfCitizenship) {
+    public void setCountryOfCitizenship(String argCountryOfCitizenship) {
         this.countryOfCitizenship = argCountryOfCitizenship;
     }
 
@@ -703,7 +703,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of primaryTitle
      */
-    public final String getPrimaryTitle() {
+    public String getPrimaryTitle() {
         return this.primaryTitle;
     }
 
@@ -712,7 +712,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argPrimaryTitle Value to assign to this.primaryTitle
      */
-    public final void setPrimaryTitle(String argPrimaryTitle) {
+    public void setPrimaryTitle(String argPrimaryTitle) {
         this.primaryTitle = argPrimaryTitle;
     }
 
@@ -721,7 +721,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of directoryTitle
      */
-    public final String getDirectoryTitle() {
+    public String getDirectoryTitle() {
         return this.directoryTitle;
     }
 
@@ -730,7 +730,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argDirectoryTitle Value to assign to this.directoryTitle
      */
-    public final void setDirectoryTitle(String argDirectoryTitle) {
+    public void setDirectoryTitle(String argDirectoryTitle) {
         this.directoryTitle = argDirectoryTitle;
     }
 
@@ -739,7 +739,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of homeUnit
      */
-    public final String getHomeUnit() {
+    public String getHomeUnit() {
         return this.homeUnit;
     }
 
@@ -748,7 +748,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argHomeUnit Value to assign to this.homeUnit
      */
-    public final void setHomeUnit(String argHomeUnit) {
+    public void setHomeUnit(String argHomeUnit) {
         this.homeUnit = argHomeUnit;
     }
 
@@ -757,7 +757,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of faculty
      */
-    public final Boolean isFaculty() {
+    public Boolean isFaculty() {
         return this.faculty;
     }
 
@@ -766,7 +766,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argFaculty Value to assign to this.faculty
      */
-    public final void setIsFaculty(Boolean argFaculty) {
+    public void setIsFaculty(Boolean argFaculty) {
         this.faculty = argFaculty;
     }
      
@@ -775,7 +775,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of graduateStudentStaff
      */
-    public final Boolean isGraduateStudentStaff() {
+    public Boolean isGraduateStudentStaff() {
         return this.graduateStudentStaff;
     }
 
@@ -784,7 +784,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argGraduateStudentStaff Value to assign to this.graduateStudentStaff
      */
-    public final void setGraduateStudentStaff(Boolean argGraduateStudentStaff) {
+    public void setGraduateStudentStaff(Boolean argGraduateStudentStaff) {
         this.graduateStudentStaff = argGraduateStudentStaff;
     }
 
@@ -793,7 +793,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of researchStaff
      */
-    public final Boolean isResearchStaff() {
+    public Boolean isResearchStaff() {
         return this.researchStaff;
     }
 
@@ -802,7 +802,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argResearchStaff Value to assign to this.researchStaff
      */
-    public final void setIsResearchStaff(Boolean argResearchStaff) {
+    public void setIsResearchStaff(Boolean argResearchStaff) {
         this.researchStaff = argResearchStaff;
     }
 
@@ -811,7 +811,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of serviceStaff
      */
-    public final Boolean isServiceStaff() {
+    public Boolean isServiceStaff() {
         return this.serviceStaff;
     }
 
@@ -820,7 +820,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argServiceStaff Value to assign to this.serviceStaff
      */
-    public final void setIsServiceStaff(Boolean argServiceStaff) {
+    public void setIsServiceStaff(Boolean argServiceStaff) {
         this.serviceStaff = argServiceStaff;
     }
 
@@ -829,7 +829,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of supportStaff
      */
-    public final Boolean isSupportStaff() {
+    public Boolean isSupportStaff() {
         return this.supportStaff;
     }
 
@@ -838,7 +838,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argSupportStaff Value to assign to this.supportStaff
      */
-    public final void setIsSupportStaff(Boolean argSupportStaff) {
+    public void setIsSupportStaff(Boolean argSupportStaff) {
         this.supportStaff = argSupportStaff;
     }
 
@@ -847,7 +847,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of otherAcademicGroup
      */
-    public final Boolean isOtherAcademicGroup() {
+    public Boolean isOtherAcademicGroup() {
         return this.otherAcademicGroup;
     }
 
@@ -856,7 +856,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argOtherAcademicGroup Value to assign to this.otherAcademicGroup
      */
-    public final void setIsOtherAcademicGroup(Boolean argOtherAcademicGroup) {
+    public void setIsOtherAcademicGroup(Boolean argOtherAcademicGroup) {
         this.otherAcademicGroup = argOtherAcademicGroup;
     }
 
@@ -865,7 +865,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of medicalStaff
      */
-    public final Boolean isMedicalStaff() {
+    public Boolean isMedicalStaff() {
         return this.medicalStaff;
     }
 
@@ -874,7 +874,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argMedicalStaff Value to assign to this.medicalStaff
      */
-    public final void setIsMedicalStaff(Boolean argMedicalStaff) {
+    public void setIsMedicalStaff(Boolean argMedicalStaff) {
         this.medicalStaff = argMedicalStaff;
     }
 
@@ -883,7 +883,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of vacationAccrual
      */
-    public final Boolean isVacationAccrual() {
+    public Boolean isVacationAccrual() {
         return this.vacationAccrual;
     }
 
@@ -892,7 +892,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argVacationAccrual Value to assign to this.vacationAccrual
      */
-    public final void setIsVacationAccrual(Boolean argVacationAccrual) {
+    public void setIsVacationAccrual(Boolean argVacationAccrual) {
         this.vacationAccrual = argVacationAccrual;
     }
 
@@ -901,7 +901,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of onSabbatical
      */
-    public final Boolean isOnSabbatical() {
+    public Boolean isOnSabbatical() {
         return this.onSabbatical;
     }
 
@@ -910,7 +910,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argOnSabbatical Value to assign to this.onSabbatical
      */
-    public final void setIsOnSabbatical(Boolean argOnSabbatical) {
+    public void setIsOnSabbatical(Boolean argOnSabbatical) {
         this.onSabbatical = argOnSabbatical;
     }
 
@@ -919,7 +919,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of idProvided
      */
-    public final String getIdProvided() {
+    public String getIdProvided() {
         return this.idProvided;
     }
 
@@ -928,7 +928,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argIdProvided Value to assign to this.idProvided
      */
-    public final void setIdProvided(String argIdProvided) {
+    public void setIdProvided(String argIdProvided) {
         this.idProvided = argIdProvided;
     }
 
@@ -937,7 +937,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of idVerified
      */
-    public final String getIdVerified() {
+    public String getIdVerified() {
         return this.idVerified;
     }
 
@@ -946,7 +946,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argIdVerified Value to assign to this.idVerified
      */
-    public final void setIdVerified(String argIdVerified) {
+    public void setIdVerified(String argIdVerified) {
         this.idVerified = argIdVerified;
     }
 
@@ -955,7 +955,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of addressLine1
      */
-    public final String getAddressLine1() {
+    public String getAddressLine1() {
         return this.addressLine1;
     }
 
@@ -964,7 +964,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argAddressLine1 Value to assign to this.addressLine1
      */
-    public final void setAddressLine1(String argAddressLine1) {
+    public void setAddressLine1(String argAddressLine1) {
         this.addressLine1 = argAddressLine1;
     }
 
@@ -973,7 +973,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of addressLine2
      */
-    public final String getAddressLine2() {
+    public String getAddressLine2() {
         return this.addressLine2;
     }
 
@@ -982,7 +982,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argAddressLine2 Value to assign to this.addressLine2
      */
-    public final void setAddressLine2(String argAddressLine2) {
+    public void setAddressLine2(String argAddressLine2) {
         this.addressLine2 = argAddressLine2;
     }
 
@@ -991,7 +991,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of addressLine3
      */
-    public final String getAddressLine3() {
+    public String getAddressLine3() {
         return this.addressLine3;
     }
 
@@ -1000,7 +1000,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argAddressLine3 Value to assign to this.addressLine3
      */
-    public final void setAddressLine3(String argAddressLine3) {
+    public void setAddressLine3(String argAddressLine3) {
         this.addressLine3 = argAddressLine3;
     }
 
@@ -1009,7 +1009,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of city
      */
-    public final String getCity() {
+    public String getCity() {
         return this.city;
     }
 
@@ -1018,7 +1018,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argCity Value to assign to this.city
      */
-    public final void setCity(String argCity) {
+    public void setCity(String argCity) {
         this.city = argCity;
     }
 
@@ -1027,7 +1027,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of county
      */
-    public final String getCounty() {
+    public String getCounty() {
         return this.county;
     }
 
@@ -1036,7 +1036,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argCounty Value to assign to this.county
      */
-    public final void setCounty(String argCounty) {
+    public void setCounty(String argCounty) {
         this.county = argCounty;
     }
 
@@ -1045,7 +1045,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of state
      */
-    public final String getState() {
+    public String getState() {
         return this.state;
     }
 
@@ -1054,7 +1054,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argState Value to assign to this.state
      */
-    public final void setState(String argState) {
+    public void setState(String argState) {
         this.state = argState;
     }
 
@@ -1063,7 +1063,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of postalCode
      */
-    public final String getPostalCode() {
+    public String getPostalCode() {
         return this.postalCode;
     }
 
@@ -1072,7 +1072,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argPostalCode Value to assign to this.postalCode
      */
-    public final void setPostalCode(String argPostalCode) {
+    public void setPostalCode(String argPostalCode) {
         this.postalCode = argPostalCode;
     }
 
@@ -1081,7 +1081,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of countryCode
      */
-    public final String getCountryCode() {
+    public String getCountryCode() {
         return this.countryCode;
     }
 
@@ -1090,7 +1090,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argCountryCode Value to assign to this.countryCode
      */
-    public final void setCountryCode(String argCountryCode) {
+    public void setCountryCode(String argCountryCode) {
         this.countryCode = argCountryCode;
     }
 
@@ -1099,7 +1099,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of faxNumber
      */
-    public final String getFaxNumber() {
+    public String getFaxNumber() {
         return this.faxNumber;
     }
 
@@ -1108,7 +1108,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argFaxNumber Value to assign to this.faxNumber
      */
-    public final void setFaxNumber(String argFaxNumber) {
+    public void setFaxNumber(String argFaxNumber) {
         this.faxNumber = argFaxNumber;
     }
 
@@ -1117,7 +1117,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of pagerNumber
      */
-    public final String getPagerNumber() {
+    public String getPagerNumber() {
         return this.pagerNumber;
     }
 
@@ -1126,7 +1126,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argPagerNumber Value to assign to this.pagerNumber
      */
-    public final void setPagerNumber(String argPagerNumber) {
+    public void setPagerNumber(String argPagerNumber) {
         this.pagerNumber = argPagerNumber;
     }
 
@@ -1135,7 +1135,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of mobilePhoneNumber
      */
-    public final String getMobilePhoneNumber() {
+    public String getMobilePhoneNumber() {
         return this.mobilePhoneNumber;
     }
 
@@ -1144,7 +1144,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argMobilePhoneNumber Value to assign to this.mobilePhoneNumber
      */
-    public final void setMobilePhoneNumber(String argMobilePhoneNumber) {
+    public void setMobilePhoneNumber(String argMobilePhoneNumber) {
         this.mobilePhoneNumber = argMobilePhoneNumber;
     }
 
@@ -1153,7 +1153,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of eraCommonsUserName
      */
-    public final String getEraCommonsUserName() {
+    public String getEraCommonsUserName() {
         return this.eraCommonsUserName;
     }
 
@@ -1162,7 +1162,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argEraCommonsUserName Value to assign to this.eraCommonsUserName
      */
-    public final void setEraCommonsUserName(String argEraCommonsUserName) {
+    public void setEraCommonsUserName(String argEraCommonsUserName) {
         this.eraCommonsUserName = argEraCommonsUserName;
     }
 

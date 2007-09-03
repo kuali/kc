@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.Person">
+
+        <inquiry>
+            <title>Person</title>
+
+            <inquirySections><inquirySection title="Person"><inquiryFields>
+                <field attributeName="personId" forceInquiry="true"/>
+                <field attributeName="socialSecurityNumber" />
+                <field attributeName="lastName" />
+                <field attributeName="firstName" />
+                <field attributeName="middleName" />
+                <field attributeName="fullName" />
+                <field attributeName="priorName" />
+                <field attributeName="userName" />
+                <field attributeName="emailAddress" />
+                <field attributeName="dateOfBirth" />
+                <field attributeName="age" />
+                <field attributeName="ageByFiscalYear" />
+                <field attributeName="gender" />
+                <field attributeName="race" />
+                <field attributeName="educationLevel" />
+                <field attributeName="degree" />
+                <field attributeName="major" />
+                <field attributeName="handicapped" />
+                <field attributeName="handicapType" />
+                <field attributeName="veteran" />
+                <field attributeName="veteranType" />
+                <field attributeName="visaCode" />
+                <field attributeName="visaType" />
+                <field attributeName="visaRenewalDate" />
+                <field attributeName="hasVisa" />
+                <field attributeName="officeLocation" />
+                <field attributeName="officePhone" />
+                <field attributeName="secondaryOfficeLocation" />
+                <field attributeName="secondaryOfficePhone" />
+                <field attributeName="school" />
+                <field attributeName="yearGraduated" />
+                <field attributeName="directoryDepartment" />
+                <field attributeName="saluation" />
+                <field attributeName="countryOfCitizenship" />
+                <field attributeName="primaryTitle" />
+                <field attributeName="directoryTitle" />
+                <field attributeName="homeUnit" />
+                <field attributeName="faculty" />
+                <field attributeName="graduateStudentStaff" />
+                <field attributeName="researchStaff" />
+                <field attributeName="serviceStaff" />
+                <field attributeName="supportStaff" />
+                <field attributeName="otherAcademicGroup" />
+                <field attributeName="medicalStaff" />
+                <field attributeName="vacationAccrual" />
+                <field attributeName="onSabbatical" />
+                <field attributeName="idProvided" />
+                <field attributeName="idVerified" />
+                <field attributeName="addressLine1" />
+                <field attributeName="addressLine2" />
+                <field attributeName="addressLine3" />
+                <field attributeName="city" />
+                <field attributeName="county" />
+                <field attributeName="state" />
+                <field attributeName="postalCode" />
+                <field attributeName="countryCode" />
+                <field attributeName="faxNumber" />
+                <field attributeName="pagerNumber" />
+                <field attributeName="mobilePhoneNumber" />
+                <field attributeName="eraCommonsUserName" />
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Person Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Person</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="personId"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupLookupFields>
+                <lookupField attributeName="personId" />
+                <lookupField attributeName="socialSecurityNumber" />
+                <lookupField attributeName="lastName" />
+                <lookupField attributeName="firstName" />
+                <lookupField attributeName="middleName" />
+                <lookupField attributeName="fullName" />
+                <lookupField attributeName="priorName" />
+                <lookupField attributeName="userName" />
+                <lookupField attributeName="emailAddress" />
+                <lookupField attributeName="dateOfBirth" />
+                <lookupField attributeName="age" />
+                <lookupField attributeName="ageByFiscalYear" />
+                <lookupField attributeName="gender" />
+                <lookupField attributeName="race" />
+                <lookupField attributeName="educationLevel" />
+                <lookupField attributeName="degree" />
+                <lookupField attributeName="major" />
+                <lookupField attributeName="handicapped" />
+                <lookupField attributeName="handicapType" />
+                <lookupField attributeName="veteran" />
+                <lookupField attributeName="veteranType" />
+                <lookupField attributeName="visaCode" />
+                <lookupField attributeName="visaType" />
+                <lookupField attributeName="visaRenewalDate" />
+                <lookupField attributeName="hasVisa" />
+                <lookupField attributeName="officeLocation" />
+                <lookupField attributeName="officePhone" />
+                <lookupField attributeName="secondaryOfficeLocation" />
+                <lookupField attributeName="secondaryOfficePhone" />
+                <lookupField attributeName="school" />
+                <lookupField attributeName="yearGraduated" />
+                <lookupField attributeName="directoryDepartment" />
+                <lookupField attributeName="saluation" />
+                <lookupField attributeName="countryOfCitizenship" />
+                <lookupField attributeName="primaryTitle" />
+                <lookupField attributeName="directoryTitle" />
+                <lookupField attributeName="homeUnit" />
+                <lookupField attributeName="faculty" />
+                <lookupField attributeName="graduateStudentStaff" />
+                <lookupField attributeName="researchStaff" />
+                <lookupField attributeName="serviceStaff" />
+                <lookupField attributeName="supportStaff" />
+                <lookupField attributeName="otherAcademicGroup" />
+                <lookupField attributeName="medicalStaff" />
+                <lookupField attributeName="vacationAccrual" />
+                <lookupField attributeName="onSabbatical" />
+                <lookupField attributeName="idProvided" />
+                <lookupField attributeName="idVerified" />
+                <lookupField attributeName="addressLine1" />
+                <lookupField attributeName="addressLine2" />
+                <lookupField attributeName="addressLine3" />
+                <lookupField attributeName="city" />
+                <lookupField attributeName="county" />
+                <lookupField attributeName="state" />
+                <lookupField attributeName="postalCode" />
+                <lookupField attributeName="countryCode" />
+                <lookupField attributeName="faxNumber" />
+                <lookupField attributeName="pagerNumber" />
+                <lookupField attributeName="mobilePhoneNumber" />
+                <lookupField attributeName="eraCommonsUserName" />
+            </lookupLookupFields>
+
+            <resultLookupFields> 
+                <field attributeName="personId" forceInquiry="true"/>
+                <field attributeName="socialSecurityNumber" forceInquiry="false" />
+                <field attributeName="lastName" forceInquiry="false" />
+                <field attributeName="firstName" forceInquiry="false" />
+                <field attributeName="middleName" forceInquiry="false" />
+                <field attributeName="fullName" forceInquiry="false" />
+                <field attributeName="priorName" forceInquiry="false" />
+                <field attributeName="userName" forceInquiry="false" />
+                <field attributeName="emailAddress" forceInquiry="false" />
+                <field attributeName="dateOfBirth" forceInquiry="false" />
+                <field attributeName="age" forceInquiry="false" />
+                <field attributeName="ageByFiscalYear" forceInquiry="false" />
+                <field attributeName="gender" forceInquiry="false" />
+                <field attributeName="race" forceInquiry="false" />
+                <field attributeName="educationLevel" forceInquiry="false" />
+                <field attributeName="degree" forceInquiry="false" />
+                <field attributeName="major" forceInquiry="false" />
+                <field attributeName="handicapped" forceInquiry="false" />
+                <field attributeName="handicapType" forceInquiry="false" />
+                <field attributeName="veteran" forceInquiry="false" />
+                <field attributeName="veteranType" forceInquiry="false" />
+                <field attributeName="visaCode" forceInquiry="false" />
+                <field attributeName="visaType" forceInquiry="false" />
+                <field attributeName="visaRenewalDate" forceInquiry="false" />
+                <field attributeName="hasVisa" forceInquiry="false" />
+                <field attributeName="officeLocation" forceInquiry="false" />
+                <field attributeName="officePhone" forceInquiry="false" />
+                <field attributeName="secondaryOfficeLocation" forceInquiry="false" />
+                <field attributeName="secondaryOfficePhone" forceInquiry="false" />
+                <field attributeName="school" forceInquiry="false" />
+                <field attributeName="yearGraduated" forceInquiry="false" />
+                <field attributeName="directoryDepartment" forceInquiry="false" />
+                <field attributeName="saluation" forceInquiry="false" />
+                <field attributeName="countryOfCitizenship" forceInquiry="false" />
+                <field attributeName="primaryTitle" forceInquiry="false" />
+                <field attributeName="directoryTitle" forceInquiry="false" />
+                <field attributeName="homeUnit" forceInquiry="false" />
+                <field attributeName="faculty" forceInquiry="false" />
+                <field attributeName="graduateStudentStaff" forceInquiry="false" />
+                <field attributeName="researchStaff" forceInquiry="false" />
+                <field attributeName="serviceStaff" forceInquiry="false" />
+                <field attributeName="supportStaff" forceInquiry="false" />
+                <field attributeName="otherAcademicGroup" forceInquiry="false" />
+                <field attributeName="medicalStaff" forceInquiry="false" />
+                <field attributeName="vacationAccrual" forceInquiry="false" />
+                <field attributeName="onSabbatical" forceInquiry="false" />
+                <field attributeName="idProvided" forceInquiry="false" />
+                <field attributeName="idVerified" forceInquiry="false" />
+                <field attributeName="addressLine1" forceInquiry="false" />
+                <field attributeName="addressLine2" forceInquiry="false" />
+                <field attributeName="addressLine3" forceInquiry="false" />
+                <field attributeName="city" forceInquiry="false" />
+                <field attributeName="county" forceInquiry="false" />
+                <field attributeName="state" forceInquiry="false" />
+                <field attributeName="postalCode" forceInquiry="false" />
+                <field attributeName="countryCode" forceInquiry="false" />
+                <field attributeName="faxNumber" forceInquiry="false" />
+                <field attributeName="pagerNumber" forceInquiry="false" />
+                <field attributeName="mobilePhoneNumber" forceInquiry="false" />
+                <field attributeName="eraCommonsUserName" forceInquiry="false" />
+           </resultLookupFields>
+        </lookup>
+
+        <titleAttribute>personId</titleAttribute>
+        <attributes>
+            <attributeReference name="proposalNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>Person Id </label>
+                <shortLabel>Person Id </shortLabel>
+                <summary>Person Id </summary>
+            	<description>Person Id </description>
+            </attributeReference>
+
+            <attribute name="socialSecurityNumber" >
+                <label>Social Security Number </label>
+                <shortLabel>SSN </shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Social Security Number</summary>
+            	<description>Social Security Number</description>
+            </attribute>
+            <attribute name="lastName" >
+                <label>Last Name</label>
+                <shortLabel>Last Name</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Last Name</summary>
+            	<description>Last Name</description>
+            </attribute>
+            <attribute name="firstName" >
+                <label>First Name</label>
+                <shortLabel>First Name</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>First Name</summary>
+            	<description>First Name</description>
+            </attribute>
+            <attribute name="middleName" >
+                <label>Middle Name</label>
+                <shortLabel>Middle Name</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Middle Name</summary>
+            	<description>Middle Name</description>
+            </attribute>
+            <attribute name="fullName" >
+                <label>Full Name</label>
+                <shortLabel>Full Name</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Full Name</summary>
+            	<description>Full Name</description>
+            </attribute>
+            <attribute name="priorName" >
+                <label>Prior Name </label>
+                <shortLabel>Prior Name</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Prior Name</summary>
+            	<description>Prior Name</description>
+            </attribute>
+            <attribute name="userName" >
+                <label>User Name</label>
+                <shortLabel>User Name</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>User Name</summary>
+            	<description>User Name</description>
+            </attribute>
+ 
+            <attributeReference name="emailAddress" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="emailAddress" />
+
+            <attributeReference name="dateOfBirth" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>Date of Birth</label>
+                <shortLabel>DOB</shortLabel>
+                <summary>Date of Birth</summary>
+            	<description>Date of Birth</description>
+            </attributeReferencee
+>
+            <attribute name="age" >
+                <label>Age</label>
+                <shortLabel>Age</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Age</summary>
+            	<description>Age</description>
+            </attribute>
+            <attribute name="ageByFiscalYear" >
+                <label>Age by Fiscal Year</label>
+                <shortLabel>Age by FY</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Age by Fiscal Year</summary>
+            	<description>Age by Fiscal Year</description>
+            </attribute>
+
+            <attribute name="gender" >
+                <label>Gender</label>
+                <shortLabel>Gender</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Gender</summary>
+            	<description>Gender</description>
+            </attribute>
+
+            <attribute name="race" >
+                <label>Race</label>
+                <shortLabel>Race</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Race</summary>
+            	<description>Race</description>
+            </attribute>
+
+            <attribute name="educationLevel" >
+                <label>Education Level</label>
+                <shortLabel>Edu Lev</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Education Level</summary>
+            	<description>Education Level</description>
+            </attribute>
+
+            <attribute name="degree" >
+                <label>Degree</label>
+                <shortLabel>Degree</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Degree</summary>
+            	<description>Degree</description>
+            </attribute>
+
+            <attribute name="major" >
+                <label>Major</label>
+                <shortLabel>Major</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Major</summary>
+            	<description>Major</description>
+            </attribute>
+
+            <attributeReference name="handicapped" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Is Handicapped</label>
+                <shortLabel>Handicapped</shortLabel>
+                <summary>Is Handicapped</summary>
+            	<description>Is Handicapped</description>
+            </attributeReference>
+
+            <attribute name="handicapType" >
+                <label>Handicap Type</label>
+                <shortLabel>Handicap Typ</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Handicap Type</summary>
+            	<description>Handicap Type</description>
+            </attribute>
+
+            <attributeReference name="veteran" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Veteran</label>
+                <shortLabel>Veteran</shortLabel>
+                <summary>Veteran </summary>
+            	<description>Veteran</description>
+            </attributeReference>
+
+            <attribute name="veteranType" >
+                <label>Veteran Type</label>
+                <shortLabel>Veteran Type</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Veteran Type</summary>
+            	<description>Veteran Type</description>
+            </attribute>
+
+            <attribute name="visaCode" >
+                <label>Visa Code</label>
+                <shortLabel>Visa Code</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Visa Code</summary>
+            	<description>Visa Code</description>
+            </attribute>
+
+            <attribute name="visaType" >
+                <label>Visa Type</label>
+                <shortLabel>Visa Type</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Visa Type</summary>
+            	<description>Visa Type</description>
+            </attribute>
+
+            <attributeReference name="visaRenewalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Visa Renewal Date</label>
+                <shortLabel>Visa Renew Dt</shortLabel>
+                <summary>Visa Renewal Date</summary>
+            	<description>Visa Renewal Date</description>
+            </attribute>
+
+            <attributeReference name="hasVisa" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Has Visa</label>
+                <shortLabel>HasVisa</shortLabel>
+                <summary>Has Visa</summary>
+            	<description>Has Visa</description>
+            </attribute>
+
+            <attribute name="officeLocation" >
+                <label>Office Location</label>
+                <shortLabel>Office Loc</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Office Location</summary>
+            	<description>Office Location</description>
+            </attribute>
+            <attribute name="officePhone" >
+                <label>Office Phone</label>
+                <shortLabel>Office Ph</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Office Phone</summary>
+            	<description>Office Phone</description>
+            </attribute>
+            <attribute name="secondaryOfficeLocation" >
+                <label>Secondary Office Location</label>
+                <shortLabel>2nd Office Loc</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Secondary Office Location</summary>
+            	<description>Secondary Office Location</description>
+            </attribute>
+            <attribute name="secondaryOfficePhone" >
+                <label>Secondary Office Phone</label>
+                <shortLabel>2nd Office Ph</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Secondary Office Phone</summary>
+            	<description>Secondary Office Phone</description>
+            </attribute>
+            <attribute name="school" >
+                <label>School</label>
+                <shortLabel>School</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>School</summary>
+            	<description>School</description>
+            </attribute>
+            <attribute name="yearGraduated" >
+                <label>Year Graduated</label>
+                <shortLabel>YearGrad</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Year Graduated</summary>
+            	<description>Year Graduated</description>
+            </attribute>
+            <attribute name="directoryDepartment" >
+                <label>Directory Department</label>
+                <shortLabel>DirectoryDepart</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Directory Department</summary>
+            	<description>Directory Department</description>
+            </attribute>
+
+            <attribute name="saluation" >
+                <label>Salutation</label>
+                <shortLabel>Salutation</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Salutation</summary>
+            	<description>Salutation</description>
+            </attribute>
+
+            <attributeReference name="countryOfCitizenship" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="countryCode">
+                <label>Country of Citizenship</label>
+                <shortLabel>Country of Cit</shortLabel>
+                <summary>Country of Citizenship</summary>
+            	<description>Country of Citizenship</description>
+            </attributeReference>
+
+            <attribute name="primaryTitle" >
+                <label>Primary Title </label>
+                <shortLabel>Primary Title</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Primary Title</summary>
+            	<description>PrimaryTitle</description>
+            </attribute>
+
+            <attribute name="directoryTitle" >
+                <label>Directory Title</label>
+                <shortLabel>Direct Title</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Directory Title</summary>
+            	<description>Directory Title</description>
+            </attribute>
+
+            <attribute name="homeUnit" >
+                <label>Home Unit</label>
+                <shortLabel>Home Unit</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Home Unit</summary>
+            	<description>Home Unit</description>
+            </attribute>
+
+            <attributeReference name="faculty" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Faculty</label>
+                <shortLabel>Faculty</shortLabel>
+                <summary>Faculty</summary>
+            	<description>Faculty</description>
+            </attributeReference>
+
+            <attributeReference name="graduateStudentStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+                <label>Is Graduate Student Staff</label>
+                <shortLabel>Grad Stud Staff</shortLabel>
+                <summary>Create User </summary>
+            	<description>Create User </description>
+            </attributeReference>
+
+            <attributeReference name="researchStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+                <label>Is Research Staff</label>
+                <shortLabel>Research Staff</shortLabel>
+                <summary>Is Research Staff</summary>
+            	<description>Is Research Staff</description>
+            </attributeReference>
+
+            <attributeReference name="serviceStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+                <label>Is Service Staff</label>
+                <shortLabel>Serv Staff</shortLabel>
+                <maxLength>8</maxLength>
+                <summary>Is Service Staff</summary>
+            	<description>Is Service Staff</description>
+            </attributeReference>
+
+            <attributeReference name="supportStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+                <label>Is Support Staff</label>
+                <shortLabel>Supp Staff</shortLabel>
+                <summary>Is Support Staff</summary>
+            	<description>Is Support Staff</description>
+            </attributeReference>
+
+            <attributeReference name="otherAcademicGroup" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+                <label>Is Other Academic Group</label>
+                <shortLabel>Is Oth Acad Grp</shortLabel>e
+                <summary>Is Other Academic Group</summary>
+            	<description>Is Other Academic Group</description>
+            </attributeReference>
+
+            <attributeReference name="medicalStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+                <label>Is Medical Staff</label>
+                <shortLabel>Med Staff</shortLabel>
+                <summary>Is Medical Staff</summary>
+            	<description>Is Medical Staff</description>
+            </attributeReference>
+
+            <attributeReference name="vacationAccrual" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+                <label>Is Vacation Accrual</label>
+                <shortLabel>Vac Accru</shortLabel>
+                <summary>Is Vacation Accrual</summary>
+            	<description>Is Vacation Accrual</description>
+            </attributeReference>
+ 
+           <attributeReference name="onSabbatical" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+                <label>Is on Sabbatical</label>
+                <shortLabel>Sabbatical</shortLabel>
+                <summary>Is on Sabbatical</summary>
+            	<description>Is on Sabbatical</description>
+            </attributeReference>
+
+            <attribute name="idProvided" >
+                <label>Id Provided</label>
+                <shortLabel>Id Provided</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Id Provided</summary>
+            	<description>Id Provided</description>
+            </attribute>
+
+            <attribute name="idVerified" >
+                <label>Id Verified</label>
+                <shortLabel>Id Verified</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Id Verified</summary>
+            	<description>Id Verified</description>
+            </attribute>
+
+            <attribute name="addressLine1" >
+                <label>Address Line 1</label>
+                <shortLabel>Addr Line 1</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Address Line 1</summary>
+            	<description>Address Line 1</description>
+            </attribute>
+
+            <attribute name="addressLine2" >
+                <label>Address Line 2</label>
+                <shortLabel>Addr Line 2</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Address Line 2</summary>
+            	<description>Address Line 2</description>
+            </attribute>
+
+            <attribute name="addressLine3" >
+                <label>Address Line 3</label>
+                <shortLabel>Addr Line 3</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Address Line 3</summary>
+            	<description>Address Line 3</description>
+            </attribute>
+
+            <attributeReference name="city" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="city" />
+
+            <attributeReference name="county" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="county" />
+
+            <attributeReference name="state" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="state" />
+
+            <attributeReference name="countryCode" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="countryCode" />
+
+            <attribute name="postalCode" >
+                <label>Postal Code</label>
+                <shortLabel>Postal Code</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Postal Code</summary>
+            	<description>Postal Code</description>
+            </attribute>
+
+            <attribute name="faxNumber" >
+                <label>Fax Number</label>
+                <shortLabel>Fax Nbr</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Fax Number</summary>
+            	<description>Fax Number</description>
+            </attribute>
+
+            <attribute name="pagerNumber" >
+                <label>Page Number</label>
+                <shortLabel>Pg Nbr</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Page Number</summary>
+            	<description>Page Number</description>
+            </attribute>
+
+            <attribute name="mobilePhoneNumber" >
+                <label>Mobile Phone Number</label>
+                <shortLabel>Mobile Ph Nbr</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Mobile Phone Number</summary>
+            	<description>Moble Phone Number</description>
+            </attribute>
+
+            <attribute name="eraCommonsUserName" >
+                <label>Era Commons User Name</label>
+                <shortLabel>Era Commons Usr Nm</shortLabel>
+                <maxLength>8</maxLength>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Era Commons User Name</summary>
+            	<description>Era Commons User Name</description> 
+           </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>

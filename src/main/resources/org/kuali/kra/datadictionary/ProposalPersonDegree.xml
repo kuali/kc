@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree">
+
+        <inquiry>
+            <title>Proposal Person Degree</title>
+
+            <inquirySections><inquirySection title="Proposal Person Unit"><inquiryFields>
+                <field attributeName="proposalPersonNumber" forceInquiry="true"/>;
+                <field attributeName="proposalNumber" forceInquiry="true" /> 
+                <field attributeName="graduationDate" forceInquiry="true" />
+                <field attributeName="degreeCode" forceInquiry="true" />
+                <field attributeName="degree" forceInquiry="true" />
+                <field attributeName="fieldOfStudy" />
+                <field attributeName="specialization" />
+                <field attributeName="school" />
+                <field attributeName="schoolIdCode" />
+                <field attributeName="schoolCode" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Proposal Person Degree</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Proposal Person Degree</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="proposalNumber"/>
+                    <sortAttribute attributeName="proposalPersonNumber"/>
+                    <sortAttribute attributeName="graduationDate" />
+                    <sortAttribute attributeName="degreeCode" />
+                    <sortAttribute attributeName="degree" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupLookupFields>
+                <lookupField attributeName="proposalNumber" />
+                <lookupField attributeName="proposalPersonNumber" />
+                <lookupField attributeName="unitNumber" />
+                <lookupField attributeName="leadUnit" />
+            </lookupLookupFields>
+
+            <resultLookupFields> 
+                <field attributeName="proposalPersonNumber" forceInquiry="true"/>;
+                <field attributeName="proposalNumber" forceInquiry="true" /> 
+                <field attributeName="graduationDate" forceInquiry="true" />
+                <field attributeName="degreeCode" forceInquiry="true" />
+                <field attributeName="degree" forceInquiry="true" />
+                <field attributeName="fieldOfStudy" forceInquiry="false" />
+                <field attributeName="specialization" forceInquiry="false" />
+                <field attributeName="school" forceInquiry="false" />
+                <field attributeName="schoolIdCode" forceInquiry="false" />
+                <field attributeName="schoolCode" forceInquiry="false" />
+           </resultLookupFields>
+        </lookup>
+
+        <titleAttribute>unitNumber</titleAttribute>
+        <attributes>
+
+            <attributeReference name="proposalNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>Proposal Number</label>
+                <shortLabel>Prop Nbr</shortLabel>
+ 	            <summary>Proposal Number</summary>
+                <description>Proposal Number</description>
+            </attributeReference>
+
+            <attributeReference name="proposalPersonNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>Proposal Person Number</label>
+ 	            <shortLabel>Prop Per Nbr </shortLabel>
+ 	            <control>
+ 	                <hidden />
+ 	            </control>
+ 	            <summary>Proposal Person Number</summary>
+                <description>Proposal Person Number </description>
+            </attributeReference>
+
+            <attributeReference name="graduationDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Graduation Date</label>
+                <shortLabel>Grad Dt</shortLabel>
+ 	            <summary>Graduation Date</summary>
+                <description>Graduation Date</description>
+            </attributeReference>
+
+            <attribute name="degreeCode" >
+                <label>Degree Code</label>
+                <shortLabel>Degree Cd</shortLabel>
+                <maxLength>6</maxLength>
+                <control>
+                    <text size="6" />
+                </control>
+                <summary>Degree Code</summary>
+            	<description>Degree Code</description>
+            </attribute>
+
+            <attribute name="degree" >
+                <label>Degree</label>
+                <shortLabel>Degree</shortLabel>
+                <maxLength>80</maxLength>
+                <control>
+                    <text size="25" />
+                </control>
+                <summary>Degree</summary>
+            	<description>Degree</description>
+            </attribute>
+
+            <attribute name="fieldOfStudy" >
+                <label>Degree</label>
+                <shortLabel>Degree</shortLabel>
+                <maxLength>80</maxLength>
+                <control>
+                    <text size="25" />
+                </control>
+                <summary>Degree</summary>
+            	<description>Degree</description>
+            </attribute>
+
+            <attribute name="specialization" >
+                <label>Degree</label>
+                <shortLabel>Degree</shortLabel>
+                <maxLength>80</maxLength>
+                <control>
+                    <text size="25" />
+                </control>
+                <summary>Degree</summary>
+            	<description>Degree</description>
+            </attribute>
+
+            <attribute name="school" >
+                <label>School</label>
+                <shortLabel>School</shortLabel>
+                <maxLength>50</maxLength>
+                <control>
+                    <text size="25" />
+                </control>
+                <summary>Degree</summary>
+            	<description>Degree</description>
+            </attribute>
+
+            <attribute name="schoolIdCode" >
+                <label>Degree</label>
+                <shortLabel>Degree</shortLabel>
+                <maxLength>3</maxLength>
+                <control>
+                    <text size="3" />
+                </control>
+                <summary>Degree</summary>
+            	<description>Degree</description>
+            </attribute>
+
+            <attribute name="schoolId" >
+                <label>Degree</label>
+                <shortLabel>Degree</shortLabel>
+                <maxLength>20</maxLength>
+                <control>
+                    <text size="25" />
+                </control>
+                <summary>Degree</summary>
+            	<description>Degree</description>
+            </attribute>
+
+
+            <attributeReference name="leadUnit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Is Lead Unit</label>
+ 	            <shortLabel>Lead Unit</shortLabel>
+ 	            <summary>Is Lead Unit</summary>
+                <description>Is Lead Unit</description>
+            </attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
