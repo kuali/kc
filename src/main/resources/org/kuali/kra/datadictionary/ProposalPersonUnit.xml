@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit">
+
+        <inquiry>
+            <title>Proposal Person Unit</title>
+
+            <inquirySections><inquirySection title="Proposal Person Unit"><inquiryFields>
+                <field attributeName="proposalPersonNumber" forceInquiry="true"/>;
+                <field attributeName="proposalNumber" forceInquiry="true" /> 
+                <field attributeName="unitNumber" forceInquiry="true" />
+                <field attributeName="leadUnit" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Proposal Person Unit</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Proposal Person Unit</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="proposalNumber"/>
+                    <sortAttribute attributeName="proposalPersonNumber"/>
+                    <sortAttribute attributeName="unitNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupLookupFields>
+                <lookupField attributeName="proposalNumber" />
+                <lookupField attributeName="proposalPersonNumber" />
+                <lookupField attributeName="unitNumber" />
+                <lookupField attributeName="leadUnit" />
+            </lookupLookupFields>
+
+            <resultLookupFields> 
+                <field attributeName="proposalPersonNumber" forceInquiry="true"/>;
+                <field attributeName="proposalNumber" forceInquiry="true" /> 
+                <field attributeName="unitNumber" forceInquiry="true" />
+                <field attributeName="leadUnit" forceInquiry="false" />
+           </resultLookupFields>
+        </lookup>
+
+        <titleAttribute>unitNumber</titleAttribute>
+        <attributes>
+
+            <attributeReference name="proposalNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>Proposal Number</label>
+                <shortLabel>Prop Nbr</shortLabel>
+ 	            <summary>Proposal Number</summary>
+                <description>Proposal Number</description>
+            </attributeReference>
+
+            <attributeReference name="proposalPersonNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>Proposal Person Number</label>
+ 	            <shortLabel>Prop Per Nbr </shortLabel>
+ 	            <control>
+ 	                <hidden />
+ 	            </control>
+ 	            <summary>Proposal Person Number</summary>
+                <description>Proposal Person Number </description>
+            </attributeReference>
+
+            <attributeReference name="unitNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>Unit Number</label>
+ 	            <summary>Unit Number</summary>
+                <description>Unit Number</description>
+            </attributeReference>
+
+            <attributeReference name="leadUnit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Is Lead Unit</label>
+ 	            <shortLabel>Lead Unit</shortLabel>
+ 	            <summary>Is Lead Unit</summary>
+                <description>Is Lead Unit</description>
+            </attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
