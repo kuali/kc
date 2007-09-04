@@ -85,7 +85,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         String newScienceKeywordCode = proposalDevelopmentDocument.getNewScienceKeywordCode();
         String newDescription = proposalDevelopmentDocument.getNewDescription();
         String defaultNewDescription = proposalDevelopmentDocument.getDefaultNewDescription();
-        if(!newDescription.equalsIgnoreCase(defaultNewDescription)) {
+        if((!newDescription.equalsIgnoreCase(defaultNewDescription)) && (!isDuplicateKeyword(newScienceKeywordCode, keywords))) {
             PropScienceKeyword propScienceKeyword = new PropScienceKeyword();
             propScienceKeyword.setScienceKeywordCode(newScienceKeywordCode);
             
@@ -104,6 +104,18 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         }
 
         return mapping.findForward("proposal");
+    }
+
+    private boolean isDuplicateKeyword(String newScienceKeywordCode, List<PropScienceKeyword> keywords) {
+        for(int i=0; i<keywords.size(); i++) {
+            PropScienceKeyword propScienceKeyword = (PropScienceKeyword)keywords.get(i);
+            String scienceKeywordCode = propScienceKeyword.getScienceKeywordCode();
+            if(scienceKeywordCode.equalsIgnoreCase(newScienceKeywordCode)) {
+                // duplicate keyword
+                return true;
+            }
+        }
+        return false;
     }
     
     public ActionForward selectAllScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
