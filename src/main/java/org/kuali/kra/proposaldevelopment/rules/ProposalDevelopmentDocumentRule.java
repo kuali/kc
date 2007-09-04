@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import java.sql.Date;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.util.ErrorMap;
@@ -29,7 +32,7 @@ import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class...
- * 
+ *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentDocumentRule extends DocumentRuleBase {
@@ -57,9 +60,9 @@ public class ProposalDevelopmentDocumentRule extends DocumentRuleBase {
             GlobalVariables.getErrorMap().removeFromErrorPath("newPropLocation");
         }
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
+        valid &= processSponsorProgramInformationBusinessRule(proposalDevelopmentDocument);
 
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
-
 
         return valid;
     }
@@ -102,6 +105,36 @@ public class ProposalDevelopmentDocumentRule extends DocumentRuleBase {
             }
             errorMap.removeFromErrorPath("propSpecialReviews[" + i++ + "]");
         }
+        return valid;
+    }
+
+    private boolean processSponsorProgramInformationBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        boolean valid = true;
+
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+
+        // "Sponsor Proposal Id" must be entered if the proposal type is not new (i.e. resubmission)
+        // or if the proposal type is new and the grants.gov submission type is "changed/corrected".
+        // TODO: this needs to be a constant/system parameter
+        // TODO: can we move this from "Other errors" to the right section?
+        if (!proposalDevelopmentDocument.getProposalTypeCode().equals("1") &&
+        	StringUtils.isEmpty(proposalDevelopmentDocument.getSponsorProposalNumber())) {
+            valid = false;
+            errorMap.putError("sponsorProgramNumber", KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, "Sponsor Program Number");
+        }
+
+        //The Proposal Deadline Date should return a warning during validation for the
+        //following conditions: a) if the date entered is older than the current date,
+        //or b) if there is no data entered.
+        //TODO: make this a warning (soft error)
+//        if (proposalDevelopmentDocument.getDeadlineDate() == null) {
+//            valid = false;
+//            errorMap.putError("deadlineDate", KeyConstants.WARNING_EMPTY_DEADLINE_DATE, "Deadline Date");
+//        } else if (proposalDevelopmentDocument.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
+//            valid = false;
+//            errorMap.putError("deadlineDate", KeyConstants.WARNING_PAST_DEADLINE_DATE, "Deadline Date");
+//        }
+
         return valid;
     }
 

@@ -35,6 +35,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase {
+    private String primeSponsorName;
     private PropLocation newPropLocation;
     private PropSpecialReview newPropSpecialReview;
 
@@ -104,6 +105,24 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword)keywords.get(i);
             propScienceKeyword.setSelectKeyword(false);
         }
+    }
+
+
+    /**
+     * Sets the primeSponsorName attribute value.
+     * @param primeSponsorName The primeSponsorName to set.
+     */
+    public void setPrimeSponsorName(String primeSponsorName) {
+        this.primeSponsorName = primeSponsorName;
+    }
+
+
+    /**
+     * Gets the primeSponsorName attribute. 
+     * @return Returns the primeSponsorName.
+     */
+    public String getPrimeSponsorName() {
+        return primeSponsorName;
     }
 
 }
