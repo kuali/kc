@@ -20,11 +20,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -88,6 +90,20 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
     public void setNewPropSpecialReview(PropSpecialReview newPropSpecialReview) {
         this.newPropSpecialReview = newPropSpecialReview;
+    }
+    
+    /* Reset method  
+     * @param mapping    
+     * @param request    
+     * reset check box values in keyword panel
+     */ 
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        ProposalDevelopmentDocument proposalDevelopmentDocument = this.getProposalDevelopmentDocument();
+        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getKeywords();
+        for(int i=0; i<keywords.size(); i++) {
+            PropScienceKeyword propScienceKeyword = (PropScienceKeyword)keywords.get(i);
+            propScienceKeyword.setSelectKeyword(false);
+        }
     }
 
 }
