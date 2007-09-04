@@ -117,8 +117,9 @@ public class ProposalDevelopmentDocumentRule extends DocumentRuleBase {
         // or if the proposal type is new and the grants.gov submission type is "changed/corrected".
         // TODO: this needs to be a constant/system parameter
         // TODO: can we move this from "Other errors" to the right section?
-        if (!proposalDevelopmentDocument.getProposalTypeCode().equals("1") &&
-        	StringUtils.isEmpty(proposalDevelopmentDocument.getSponsorProposalNumber())) {
+        if (StringUtils.isNotEmpty(proposalDevelopmentDocument.getProposalTypeCode()) &&
+                !proposalDevelopmentDocument.getProposalTypeCode().equals("1") &&
+                StringUtils.isEmpty(proposalDevelopmentDocument.getSponsorProposalNumber())) {
             valid = false;
             errorMap.putError("sponsorProgramNumber", KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, "Sponsor Program Number");
         }
