@@ -28,16 +28,19 @@
   	headerTabActive="proposal">
 
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
-<kra-pd:proposalDevelopmentRequiredFields /> 
-<kra-pd:proposalDevelopmentOrganizationAndLocation /> 
+<kra-pd:proposalDevelopmentRequiredFields />
+<kra-pd:proposalDevelopmentOrganizationAndLocation />
 <kra-pd:proposalDevelopmentSponsorProgramInformation />
-<kra-pd:proposalDevelopmentDeliveryInfo /> 
-<kra-pd:proposalDevelopmentKeywords /> 
+<kra-pd:proposalDevelopmentDeliveryInfo />
+<kra-pd:proposalDevelopmentKeywords />
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
-
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
-<script language="javascript" src="dwr/interface/ProposalDevelopmentService.js"></script> 
+<script language="javascript" src="dwr/interface/ProposalDevelopmentService.js"></script>
 
 </kul:documentPage>

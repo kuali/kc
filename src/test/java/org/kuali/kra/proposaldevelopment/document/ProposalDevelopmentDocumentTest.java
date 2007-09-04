@@ -21,6 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.UserSession;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
@@ -55,9 +56,49 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         document.setTitle("project title");
         document.setRequestedStartDateInitial(new Date(System.currentTimeMillis()));
         document.setRequestedEndDateInitial(new Date(System.currentTimeMillis()));
-        document.setActivityTypeCode("123");
-        document.setProposalTypeCode("123");
+        document.setActivityTypeCode("1");
+        document.setProposalTypeCode("1");
         document.setOwnedByUnit("000001");
+
+        documentService.saveDocument(document);
+    }
+
+    @Test public void testSaveWithError() throws Exception {
+        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        document.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
+        document.setSponsorCode("12345");
+
+        document.setTitle("project title");
+        document.setRequestedStartDateInitial(new Date(System.currentTimeMillis()));
+        document.setRequestedEndDateInitial(new Date(System.currentTimeMillis()));
+        document.setActivityTypeCode("1");
+        document.setProposalTypeCode("2");
+        document.setOwnedByUnit("000001");
+
+        boolean caughtException = false;
+
+        try {
+            documentService.saveDocument(document);
+        } catch (ValidationException e) {
+            assertEquals(e.toString(), "org.kuali.core.exceptions.ValidationException: business rule evaluation failed");
+            caughtException = true;
+        }
+
+        assertTrue("Should have thrown a ValidationException", caughtException);
+    }
+
+    @Test public void testSaveValidNonNew() throws Exception {
+        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        document.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
+        document.setSponsorCode("12345");
+
+        document.setTitle("project title");
+        document.setRequestedStartDateInitial(new Date(System.currentTimeMillis()));
+        document.setRequestedEndDateInitial(new Date(System.currentTimeMillis()));
+        document.setActivityTypeCode("1");
+        document.setProposalTypeCode("2");
+        document.setOwnedByUnit("000001");
+        document.setSponsorProposalNumber("123456");
 
         documentService.saveDocument(document);
     }
