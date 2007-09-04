@@ -26,7 +26,8 @@ import org.kuali.core.util.KualiDecimal;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: ProposalPerson.java,v 1.1 2007-09-03 21:55:00 lprzybyl Exp $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.2 $
  */
 public class ProposalPerson extends Person {
     private Boolean conflictOfInterest;
