@@ -34,7 +34,8 @@
         	</tr>
         	<tr>
 				<th><div align="right">Agency/Sponsor Name:</div></th>
-                <td><%-- ${KualiForm.document.sponsor.name} --%></td>
+				<!-- TODO: change to sponsor name once sponsor lookup is configured on required fields panel -->
+                <td>${KualiForm.document.sponsorCode}</td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.programAnnouncementNumber}" /></div></th>
            		<td>
            			<kul:htmlControlAttribute property="document.programAnnouncementNumber" attributeEntry="${proposalDevelopmentAttributes.programAnnouncementNumber}" />
@@ -43,8 +44,12 @@
      		<tr>
      		    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.primeSponsorCode}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.primeSponsorCode" attributeEntry="${proposalDevelopmentAttributes.primeSponsorCode}" />
-                	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.primeSponsorCode" />
+                	<kul:htmlControlAttribute property="document.primeSponsorCode" attributeEntry="${proposalDevelopmentAttributes.primeSponsorCode}"  onblur="loadSponsorName('document.primeSponsorCode', 'primeSponsorName');" />
+                	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.primeSponsorCode,sponsorName:primeSponsorName" />
+                	<br>
+                	<div id="primeSponsorName.div" class="fineprint"><bean:write
+						name="KualiForm" property="primeSponsorName" />&nbsp;
+					</div>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorProposalNumber}" /></div></th>
            		<td>
