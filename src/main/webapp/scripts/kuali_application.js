@@ -19,7 +19,7 @@ function setTextArea() {
   textAreaFieldName=passData.substring(idx+19,idx2)
   text=passData.substr(0,idx)
   text=unescape(text).replace(/<br>/g,"\n")
-  document.getElementById(textAreaFieldName).value =unescape(text) 
+  document.getElementById(textAreaFieldName).value =unescape(text)
 //  alert (escape(text))
 //  alert (unescape(text))
 
@@ -35,7 +35,7 @@ function postValueToParentWindow() {
 // this is a sample function for sponsor code
 function loadSponsorCode( sponsorCodeFieldName) {
 	var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
-	
+
 	//if (sponsorCode == "") {
 	//	clearRecipients( sponsorCodeFieldName, "" );
 	//} else {
@@ -50,18 +50,49 @@ function loadSponsorCode( sponsorCodeFieldName) {
 					setRecipientValue( sponsorCodeFieldName, "" );
 				}
 			} },
-			errorHandler:function( errorMessage ) { 
+			errorHandler:function( errorMessage ) {
 				window.status = errorMessage;
 				if ( sponsorCodeFieldName != null && sponsorCodeFieldName != "" ) {
 					setRecipientValue( sponsorCodeFieldName, "" );
 				}
 			}
 		};
-		
+
 		ProposalDevelopmentService.getSponsorCode(sponsorCode,dwrReply);
-		
+
 	//}
 }
+
+/*
+ * Load the Sponsor Name field based on the Sponsor Code passed in.
+ */
+function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
+	var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
+
+	if (sponsorCode=='') {
+		clearRecipients( sponsorNameFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( sponsorNameFieldName != null && sponsorNameFieldName != "" ) {
+						setRecipientValue( sponsorNameFieldName, data );
+					}
+				} else {
+					if ( sponsorNameFieldName != null && sponsorNameFieldName != "" ) {
+						setRecipientValue(  sponsorNameFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( sponsorNameFieldName, wrapError( "not found" ), true );
+			}
+		};
+		ProposalDevelopmentService.getSponsorName(sponsorCode,dwrReply);
+	}
+}
+
 
 function loadSponsorCode_1( sponsorCodeFieldName) {
     // alternative, delete later
@@ -72,7 +103,7 @@ function loadSponsorCode_1( sponsorCodeFieldName) {
 	ProposalDevelopmentService.getSponsorCode(sponsorCode,loadinfo);
 
 }
-			
+
 function loadinfo(data) {
   //alert("loadinfo "+data)
   DWRUtil.setValue("document.sponsorCode", data);
