@@ -63,6 +63,29 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         documentService.saveDocument(document);
     }
 
+    @Test public void testSaveWithoutProposalTypeCode() throws Exception {
+        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        document.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
+        document.setSponsorCode("12345");
+
+        document.setTitle("project title");
+        document.setRequestedStartDateInitial(new Date(System.currentTimeMillis()));
+        document.setRequestedEndDateInitial(new Date(System.currentTimeMillis()));
+        document.setActivityTypeCode("1");
+        document.setOwnedByUnit("000001");
+
+        boolean caughtException = false;
+
+        try {
+            documentService.saveDocument(document);
+        } catch (ValidationException e) {
+            assertEquals(e.toString(), "org.kuali.core.exceptions.ValidationException: Unreported errors occured during business rule evaluation (rule developer needs to put meaningful error messages into global ErrorMap)");
+            caughtException = true;
+        }
+
+        assertTrue("Should have thrown a ValidationException", caughtException);
+    }
+
     @Test public void testSaveWithError() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
         document.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
