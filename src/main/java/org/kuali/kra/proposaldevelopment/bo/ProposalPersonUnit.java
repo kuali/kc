@@ -24,7 +24,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * $Id: ProposalPersonUnit.java,v 1.1 2007-09-03 21:55:00 lprzybyl Exp $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.2 $
  */
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase {
     private Integer proposalNumber;
