@@ -25,12 +25,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase {
     private Integer proposalNumber;
     private Integer propPersonNumber;
-    private Integer unitNumber;
+    private String unitNumber;
     private Boolean leadUnit;
 
 
@@ -75,7 +75,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase {
      *
      * @return the value of unitNumber
      */
-    public final Integer getUnitNumber() {
+    public final String getUnitNumber() {
         return this.unitNumber;
     }
 
@@ -84,7 +84,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase {
      *
      * @param argUnitNumber Value to assign to this.unitNumber
      */
-    public final void setUnitNumber(Integer argUnitNumber) {
+    public final void setUnitNumber(String argUnitNumber) {
         this.unitNumber = argUnitNumber;
     }
 
