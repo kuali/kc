@@ -722,5 +722,67 @@
 		</reference-descriptor>
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.bo.Unit" table="UNIT">
+		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="administrativeOfficer" column="ADMINISTRATIVE_OFFICER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="deanVp" column="DEAN_VP" jdbc-type="VARCHAR"/>
+		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="ospAdministrator" column="OSP_ADMINISTRATOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="otherIndividualToNotify" column="OTHER_INDIVIDUAL_TO_NOTIFY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="unitHead" column="UNIT_HEAD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="unitName" column="UNIT_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    	<!--  
+		<collection-descriptor name="AwardUnits" proxy="true" element-class-ref="org.kuali.kra.bo.AwardUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="BussinessRules" proxy="true" element-class-ref="org.kuali.kra.bo.BussinessRules" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="Committee" proxy="true" element-class-ref="org.kuali.kra.bo.Committee" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="PropUnits" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="InstituteLaRates" proxy="true" element-class-ref="org.kuali.kra.bo.InstituteLaRates" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="InstituteRates" proxy="true" element-class-ref="org.kuali.kra.bo.InstituteRates" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="MetaRules" proxy="true" element-class-ref="org.kuali.kra.bo.MetaRules" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="ProposalUnits" proxy="true" element-class-ref="org.kuali.kra.bo.ProposalUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="ProtocolUnits" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="UnitAdministrators" proxy="true" element-class-ref="org.kuali.kra.bo.UnitAdministrators" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="UnitCorrespondents" proxy="true" element-class-ref="org.kuali.kra.bo.UnitCorrespondents" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="UnitHierarchy" proxy="true" element-class-ref="org.kuali.kra.bo.UnitHierarchy" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="UnitMap" proxy="true" element-class-ref="org.kuali.kra.bo.UnitMap" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="User" proxy="true" element-class-ref="org.kuali.kra.bo.User" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		<collection-descriptor name="UserRoles" proxy="true" element-class-ref="org.kuali.kra.bo.UserRoles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="unitNumber"/>
+		</collection-descriptor>
+		-->
+	</class-descriptor>
+
 
 </descriptor-repository>
