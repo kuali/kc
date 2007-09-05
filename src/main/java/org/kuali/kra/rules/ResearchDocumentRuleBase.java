@@ -19,19 +19,19 @@ package org.kuali.kra.rules;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.bo.ValidSpRevApproval;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Base implementation class for KRA document business rules
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);
 
     /**
      * Wrapper around global errorMap.put call, to allow better logging
@@ -48,4 +48,5 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
             LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
         }
     }
+
 }
