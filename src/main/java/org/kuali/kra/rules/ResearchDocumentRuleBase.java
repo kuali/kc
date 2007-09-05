@@ -29,9 +29,9 @@ import org.kuali.rice.KNSServiceLocator;
  * Base implementation class for KRA document business rules
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public abstract class ResearchDocumentRuleBase extends DocumentRuleBase    
+public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
 
     /**
      * Wrapper around global errorMap.put call, to allow better logging
