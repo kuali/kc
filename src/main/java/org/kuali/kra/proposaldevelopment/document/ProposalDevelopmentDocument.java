@@ -24,6 +24,7 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 
@@ -65,8 +66,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     // TODO: just for delivery panel. not a real reference
     private Rolodex rolodex;
     private List<PropSpecialReview> propSpecialReviews;
-
     private List<PropScienceKeyword> keywords;
+    private List<ProposalPerson> proposalPersons;
     private String newScienceKeywordCode;
     private String newDescription;
     
@@ -77,6 +78,24 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         propLocations = new ArrayList<PropLocation>();
         propSpecialReviews = new ArrayList<PropSpecialReview>();
 
+    }
+
+    /**
+     * Gets the value of proposalPersons
+     *
+     * @return the value of proposalPersons
+     */
+    public List<ProposalPerson> getProposalPersons() {
+        return this.proposalPersons;
+    }
+     
+    /**
+     * Sets the value of proposalPersons
+     *
+     * @param argProposalPersons Value to assign to this.proposalPersons
+     */
+    public void setProposalPersons(List<ProposalPerson> argProposalPersons) {
+        this.proposalPersons = argProposalPersons;
     }
 
     public String getActivityTypeCode() {
@@ -457,7 +476,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     }
 
     public void setPerformingOrganization(Organization performingOrganization) {
-           this.performingOrganization = performingOrganization;
+        this.performingOrganization = performingOrganization;
     }
 
     public Rolodex getRolodex() {
@@ -500,12 +519,15 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setPropSpecialReviews(List<PropSpecialReview> propSpecialReviews) {
         this.propSpecialReviews = propSpecialReviews;
     }
+
+    
     
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getPropLocations());
         managedLists.add(getPropSpecialReviews());
+        managedLists.add(getProposalPersons());
 
         return managedLists;
 
