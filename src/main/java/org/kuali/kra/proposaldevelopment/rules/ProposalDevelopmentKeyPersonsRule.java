@@ -36,7 +36,7 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends DocumentRuleBase implements AddKeyPersonRule { 
     @Override
@@ -126,9 +126,13 @@ public class ProposalDevelopmentKeyPersonsRule extends DocumentRuleBase implemen
         return retval;
     }
     
-    private void reportError(String errorPathPrefix, String property, String key) {
+    /**
+     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#reportError(String, String, String...)
+     */
+    @Override
+    protected void reportError(String errorPathPrefix, String propertyName, String errorKey, String... errorParams) {
         GlobalVariables.getErrorMap().addToErrorPath(errorPathPrefix);
-        GlobalVariables.getErrorMap().putError(property, key);
-        GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);
+        super.reportError(propertyName, errorKey, errorParams);
+        GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);        
     }
 }
