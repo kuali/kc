@@ -27,7 +27,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
@@ -35,7 +37,7 @@ import org.kuali.rice.KNSServiceLocator;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends DocumentRuleBase {
+public class ProposalDevelopmentDocumentRule extends DocumentRuleBase implements AddKeyPersonRule {
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -139,4 +141,8 @@ public class ProposalDevelopmentDocumentRule extends DocumentRuleBase {
         return valid;
     }
 
+    public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
+        return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
+    }
+    
 }
