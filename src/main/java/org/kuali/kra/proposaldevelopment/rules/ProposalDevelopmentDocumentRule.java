@@ -30,6 +30,7 @@ import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
@@ -37,7 +38,7 @@ import org.kuali.rice.KNSServiceLocator;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends DocumentRuleBase implements AddKeyPersonRule {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule {
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
