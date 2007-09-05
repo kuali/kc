@@ -784,5 +784,44 @@
 		-->
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.bo.KraUser" table="KRA_USER">
+		<field-descriptor name="userId" column="USER_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="nonMitPersonFlag" column="NON_MIT_PERSON_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="status" column="STATUS" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="userName" column="USER_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="userType" column="USER_TYPE" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<collection-descriptor name="KraUserRoles" proxy="true" element-class-ref="org.kuali.kra.bo.KraUserRoles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="userId"/>
+		</collection-descriptor>
+		<reference-descriptor name="Unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="unitNumber"/> 
+		</reference-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.bo.KraUserRoles" table="KRA_USER_ROLES">
+		<field-descriptor name="roleId" column="ROLE_ID" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="userId" column="USER_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="descendFlag" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<reference-descriptor name="KraUser" class-ref="org.kuali.kra.bo.KraUser" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="userId"/> 
+		</reference-descriptor>
+		<reference-descriptor name="Role" class-ref="org.kuali.kra.bo.Role" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="roleId"/> 
+		</reference-descriptor>
+		<reference-descriptor name="Unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="unitNumber"/> 
+		</reference-descriptor>
+	</class-descriptor>
 
 </descriptor-repository>
