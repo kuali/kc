@@ -16,8 +16,10 @@
 package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 
 import org.kuali.core.util.KualiDecimal;
 
@@ -27,7 +29,7 @@ import org.kuali.core.util.KualiDecimal;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ProposalPerson extends Person {
     private Boolean conflictOfInterest;
@@ -38,7 +40,45 @@ public class ProposalPerson extends Person {
     private Integer proposalNumber;
     private Integer proposalPersonNumber;
     private String  propPersonRoleId;
+    private ProposalInvestigatorCertification certification;
+    private List<ProposalPersonUnit> units;
 
+
+    /**
+     * Gets the value of certification
+     *
+     * @return the value of certification
+     */
+    public final ProposalInvestigatorCertification getCertification() {
+        return this.certification;
+    }
+
+    /**
+     * Sets the value of certification
+     *
+     * @param argCertification Value to assign to this.certification
+     */
+    public final void setCertification(ProposalInvestigatorCertification argCertification) {
+        this.certification = argCertification;
+    }
+
+    /**
+     * Gets the value of units
+     *
+     * @return the value of units
+     */
+    public final List<ProposalPersonUnit> getUnits() {
+        return this.units;
+    }
+
+    /**
+     * Sets the value of units
+     *
+     * @param argUnits Value to assign to this.units
+     */
+    public final void setUnits(List<ProposalPersonUnit> argUnits) {
+        this.units = argUnits;
+    }
 
     /**
      * Gets the value of proposalPersonNumber
