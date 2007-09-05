@@ -18,13 +18,13 @@ package org.kuali.kra.proposaldevelopment.rules;
 import java.util.Iterator;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
+import org.kuali.kra.rules.DocumentRuleBase;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
@@ -36,9 +36,9 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
-public class ProposalDevelopmentKeyPersonsRule extends DocumentRuleBase implements AddKeyPersonRule { 
+public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         return true;
@@ -132,7 +132,7 @@ public class ProposalDevelopmentKeyPersonsRule extends DocumentRuleBase implemen
     @Override
     protected void reportError(String errorPathPrefix, String propertyName, String errorKey, String... errorParams) {
         GlobalVariables.getErrorMap().addToErrorPath(errorPathPrefix);
-        super.reportError(propertyName, errorKey, errorParams);
+        // super.reportError(propertyName, errorKey, "");
         GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);        
     }
 }
