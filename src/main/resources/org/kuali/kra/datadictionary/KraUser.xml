@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.KraUser">
+
+        <inquiry>
+            <title>Kra User</title>
+
+            <inquirySections><inquirySection title="Kra User"><inquiryFields>
+            	<field attributeName="userId" forceInquiry="true"/>
+				<field attributeName="nonMitPersonFlag"/>
+				<field attributeName="personId"/>
+				<field attributeName="status"/>
+				<field attributeName="unitNumber"/>
+				<field attributeName="userName"/>
+				<field attributeName="userType"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Kra User Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Kra User</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="userId"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="userId" required="false"/>
+				<lookupField attributeName="nonMitPersonFlag" required="false"/>
+				<lookupField attributeName="personId" required="false"/>
+				<lookupField attributeName="status" required="false"/>
+				<lookupField attributeName="unitNumber" required="false"/>
+				<lookupField attributeName="userName" required="false"/>
+				<lookupField attributeName="userType" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="userId" forceInquiry="true"/>
+				<field attributeName="nonMitPersonFlag" forceInquiry="false"/>
+				<field attributeName="personId" forceInquiry="false"/>
+				<field attributeName="status" forceInquiry="false"/>
+				<field attributeName="unitNumber" forceInquiry="false"/>
+				<field attributeName="userName" forceInquiry="false"/>
+				<field attributeName="userType" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>userId</titleAttribute>
+        <attributes>
+
+	        <attribute name="userId">
+			<label>User Id </label>
+			<shortLabel>User Id </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>User Id </summary>
+			<description>User Id </description>
+			</attribute>
+
+			<attribute name="nonMitPersonFlag">
+			<label>Non Mit Person Flag </label>
+			<shortLabel>Non Mit Person Flag </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>Non Mit Person Flag </summary>
+			<description>Non Mit Person Flag </description>
+			</attribute>
+
+			<attribute name="personId">
+			<label>Person Id </label>
+			<shortLabel>Person Id </shortLabel>
+			<maxLength>9</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="9" />
+			</control>
+			<summary>Person Id </summary>
+			<description>Person Id </description>
+			</attribute>
+
+			<attribute name="status">
+			<label>Status </label>
+			<shortLabel>Status </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>Status </summary>
+			<description>Status </description>
+			</attribute>
+
+			<attribute name="unitNumber">
+			<label>Unit Number </label>
+			<shortLabel>Unit Number </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Unit Number </summary>
+			<description>Unit Number </description>
+			</attribute>
+
+			<attribute name="userName">
+			<label>User Name </label>
+			<shortLabel>User Name </shortLabel>
+			<maxLength>90</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="90" />
+			</control>
+			<summary>User Name </summary>
+			<description>User Name </description>
+			</attribute>
+
+			<attribute name="userType">
+			<label>User Type </label>
+			<shortLabel>User Type </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>User Type </summary>
+			<description>User Type </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
