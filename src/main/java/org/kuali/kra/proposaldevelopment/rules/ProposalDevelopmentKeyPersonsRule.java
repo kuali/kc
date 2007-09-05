@@ -36,7 +36,7 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
     @Override
@@ -61,14 +61,14 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         boolean retval = true;
 
         if (!(isPrincipalInvestigator(person) && hasPrincipalInvestigator(document))) {
-            // reportError("newProposalPerson", "proposalPerson", "");
+            reportErrorWithPrefix("newProposalPerson", "proposalPerson", "");
             retval = false;
         }
 
         retval &= validateInvestigator(person);
         
         if (!isBlank(person.getProposalPersonRoleId())) {
-            // reportError("newProposalPerson", "proposalPerson", "");
+            reportErrorWithPrefix("newProposalPerson", "proposalPerson", "");
         }
         
         return retval;
@@ -90,12 +90,12 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         boolean retval = true;
         
         if (person.getUnits().size() > 0) {
-            // reportError("newProposalPerson", "proposalPerson", "");
+            reportErrorWithPrefix("newProposalPerson", "proposalPerson", "");
         }
         
         for (ProposalPersonUnit unit : person.getUnits()) {
             if (!isBlank(unit.getUnitNumber())) {
-                // reportError("newProposalPerson", "proposalPerson", "");
+                reportErrorWithPrefix("newProposalPerson", "proposalPerson", "");
             }
         }
         
@@ -129,9 +129,9 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     /**
      * @see org.kuali.kra.rules.ResearchDocumentRuleBase#reportError(String, String, String...)
      */
-    /* protected void reportError(String errorPathPrefix, String propertyName, String errorKey, String... errorParams) {
+    protected void reportErrorWithPrefix(String errorPathPrefix, String propertyName, String errorKey, String... errorParams) {
         GlobalVariables.getErrorMap().addToErrorPath(errorPathPrefix);
-        // super.reportError(propertyName, errorKey, "");
+        super.reportError(propertyName, errorKey, errorParams);
         GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);        
-        }*/
+    }
 }
