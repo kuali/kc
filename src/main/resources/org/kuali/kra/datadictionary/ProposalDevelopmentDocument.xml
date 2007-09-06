@@ -471,7 +471,7 @@
 			</attribute>
 			<!-- TODO: This is an integer, but lookup return the name and address -->
 			<attribute name="mailingAddressId">
-				<label>Mailing Name And Address</label>
+				<label>Mailing Name &amp; Address</label>
 				<shortLabel>Name And Address</shortLabel>
 
 				<maxLength>6</maxLength>
