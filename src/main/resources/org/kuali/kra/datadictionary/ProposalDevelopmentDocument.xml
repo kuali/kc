@@ -521,7 +521,7 @@
 				<description>Organization and contact info</description>
 			</attribute>
             <attribute name="performingOrganizationId">
-                <label>Performing Organization Id</label>
+                <label>Performing Organization</label>
                 <shortLabel>performingOrganizationId</shortLabel>
 
                 <maxLength>8</maxLength>
