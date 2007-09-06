@@ -438,8 +438,8 @@
                 <description>Mail Type</description>
 			</attribute>
 			<attribute name="mailAccountNumber">
-				<label>Mail Account ID</label>
-				<shortLabel>Mail Account ID</shortLabel>
+				<label>Mail Account Id</label>
+				<shortLabel>Mail Account Id</shortLabel>
 
 				<maxLength>15</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
@@ -450,8 +450,8 @@
 					<text size="16"/>
 				</control>
 
-				<summary>Mail Account ID</summary>
-				<description>Mail Account ID</description>
+				<summary>Mail Account Id</summary>
+				<description>Mail Account Id</description>
 			</attribute>
 			<attribute name="numberOfCopies">
 				<label>Number of Copies</label>
@@ -496,7 +496,7 @@
                 <required>false</required>
 
                 <control>
-                    <textarea rows="3" cols="80" />
+                    <textarea rows="3" cols="40" />
                 </control>
 
                 <summary>Mail Description</summary>
