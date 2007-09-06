@@ -33,7 +33,7 @@ public class SpecialReviewApprovalTypeValuesFinder extends KeyValuesBase {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection specialReviewApprovalTypes = keyValuesService.findAll(SpecialReviewApprovalType.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select:"));
+        keyValues.add(new KeyLabelPair("", ""));
         for (Iterator iter = specialReviewApprovalTypes.iterator(); iter.hasNext();) {
             SpecialReviewApprovalType specialReviewApprovalType = (SpecialReviewApprovalType) iter.next();
             keyValues.add(new KeyLabelPair(specialReviewApprovalType.getApprovalTypeCode(), specialReviewApprovalType.getDescription()));
