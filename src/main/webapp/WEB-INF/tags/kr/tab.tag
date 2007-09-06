@@ -36,7 +36,7 @@
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 
 
-<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}" scope="request"/>
 <!--  hit form method to increment tab index -->
 <c:set var="doINeedThis" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 
