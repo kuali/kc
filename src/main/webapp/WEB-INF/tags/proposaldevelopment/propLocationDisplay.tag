@@ -58,6 +58,9 @@
 		</c:if>
 		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex"
 			fieldConversions="rolodexId:${docLocation}.rolodexId,postalCode:${docLocation}.rolodex.postalCode,addressLine1:${docLocation}.rolodex.addressLine1,addressLine2:${docLocation}.rolodex.addressLine2,addressLine3:${docLocation}.rolodex.addressLine3,city:${docLocation}.rolodex.city,state:${docLocation}.rolodex.state" />
+		<c:if test="${index != -1}">
+			<img src="${ConfigProperties.kra.externalizable.images.url}book_open.png" alt="lookup" height="16" width="16"/>
+		</c:if>
 		<br>
 		<c:if test="${!empty locationIter.rolodex.addressLine2}">
 			<c:out value="${locationIter.rolodex.addressLine2}" />
