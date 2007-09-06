@@ -12,9 +12,9 @@
 			<object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
 		</jdbc-connection-descriptor>
 	</descriptor-repository>
-	
+
 	<!-- Proposal Development Document and Children -->
-	
+
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" table="EPS_PROPOSAL">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
@@ -41,7 +41,7 @@
 		<field-descriptor name="mailBy" column="MAIL_BY" jdbc-type="VARCHAR" />
 		<field-descriptor name="mailType" column="MAIL_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="mailAccountNumber" column="MAIL_ACCOUNT_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="mailDescription" column="MAIL_DESCRIPTION" jdbc-type="VARCHAR" />		
+		<field-descriptor name="mailDescription" column="MAIL_DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="mailingAddressId" column="MAILING_ADDRESS_ID" jdbc-type="INTEGER" />
 		<field-descriptor name="numberOfCopies" column="NUMBER_OF_COPIES" jdbc-type="VARCHAR" />
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
@@ -50,10 +50,10 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<collection-descriptor name="propLocations" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="propLocations" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
 		<!-- KEYWORD panel -->
@@ -62,27 +62,27 @@
 		</collection-descriptor>
     	<!-- KEYWORD panel -->
 
-		<collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
 
-		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="organizationId"/> 
+		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="organizationId"/>
 		</reference-descriptor>
 
-		<reference-descriptor name="performingOrganization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="performingOrganizationId"/> 
+		<reference-descriptor name="performingOrganization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="performingOrganizationId"/>
 		</reference-descriptor>
 
-		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="mailingAddressId"/> 
+		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="mailingAddressId"/>
 		</reference-descriptor>
-    	
+
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
 	</class-descriptor>
-	
+
 	<!-- KEYWORD panel -->
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" table="EPS_PROP_SCIENCE_KEYWORD">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
@@ -91,14 +91,14 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<reference-descriptor name="scienceKeyword" class-ref="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<foreignkey field-ref="scienceKeywordCode"/> 
+		<reference-descriptor name="scienceKeyword" class-ref="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<foreignkey field-ref="scienceKeywordCode"/>
 		</reference-descriptor>
 	</class-descriptor>
 	<!-- KEYWORD panel -->
 
 	<!--  Code Tables -->
-	
+
 	<class-descriptor class="org.kuali.kra.bo.NsfCode" table="NSF_CODES">
 		<field-descriptor name="nsfSequenceNumber" column="NSF_SEQUENCE_NUMBER" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQUENCE_NSF_CODES" autoincrement="true"/>
 		<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR" />
@@ -210,7 +210,7 @@
 		<field-descriptor name="supportStaff" column="IS_SUPPORT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 		<field-descriptor name="otherAcademicGroup" column="IS_OTHER_ACCADEMIC_GROUP" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 		<field-descriptor name="medicalStaff" column="IS_MEDICAL_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-		<field-descriptor name="vacationAccrual" column="VACATION_ACCRUAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="vacationAccrual" column="VACATION_ACCURAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 		<field-descriptor name="onSabbatical" column="IS_ON_SABBATICAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 		<field-descriptor name="idProvided" column="ID_PROVIDED" jdbc-type="VARCHAR" />
 		<field-descriptor name="idVerified" column="ID_VERIFIED" jdbc-type="VARCHAR" />
@@ -244,7 +244,7 @@
         <field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="priorName" column="PRIOR_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="userName" column="USER_NAME" jdbc-type="VARCHAR" />
-        <field-descriptor name="emailAddress" column="EMAIL_ADRESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="emailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
         <field-descriptor name="dateOfBirth" column="DATE_OF_BIRTH" jdbc-type="VARCHAR" />
         <field-descriptor name="age" column="AGE" jdbc-type="INTEGER" />
         <field-descriptor name="ageByFiscalYear" column="AGE_BY_FISCAL_YEAR" jdbc-type="INTEGER" />
@@ -280,7 +280,7 @@
         <field-descriptor name="supportStaff" column="IS_SUPPORT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="otherAcademicGroup" column="IS_OTHER_ACCADEMIC_GROUP" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="medicalStaff" column="IS_MEDICAL_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-        <field-descriptor name="vacationAccrual" column="VACATION_ACCRUAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="vacationAccrual" column="VACATION_ACCURAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="onSabbatical" column="IS_ON_SABBATICAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="idProvided" column="ID_PROVIDED" jdbc-type="VARCHAR" />
         <field-descriptor name="idVerified" column="ID_VERIFIED" jdbc-type="VARCHAR" />
@@ -305,14 +305,14 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
-		<collection-descriptor name="units" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="units" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="proposalPersonNumber"/>
 		</collection-descriptor>
 
-		<reference-descriptor name="certification" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="proposalNumber"/> 
-			<foreignkey field-ref="proposalPersonNumber"/> 
+		<reference-descriptor name="certification" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="proposalNumber"/>
+			<foreignkey field-ref="proposalPersonNumber"/>
 		</reference-descriptor>
     </class-descriptor>
 
@@ -415,7 +415,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
-	
+
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.NarrativeType" table="NARRATIVE_TYPE">
 		<field-descriptor name="narrativeTypeCode" column="NARRATIVE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
@@ -509,7 +509,7 @@
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="countryCode" column="COUNTRY_CODE" jdbc-type="CHAR"/>
 		<field-descriptor name="county" column="COUNTY" jdbc-type="VARCHAR"/>
-		<!-- no sure about this field 
+		<!-- no sure about this field
 		<field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR"/>
 		-->
 		<field-descriptor name="deleteFlag" column="DELETE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
@@ -530,34 +530,34 @@
 		<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-<!-- not available yet 
-		<collection-descriptor name="AwardContact" proxy="true" element-class-ref="org.kuali.kra.bo.AwardContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+<!-- not available yet
+		<collection-descriptor name="AwardContact" proxy="true" element-class-ref="org.kuali.kra.bo.AwardContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		
-		<collection-descriptor name="AwardReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.AwardReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+
+		<collection-descriptor name="AwardReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.AwardReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		<collection-descriptor name="PropLocation" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="PropLocation" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		<collection-descriptor name="Sponsor" proxy="true" element-class-ref="org.kuali.kra.bo.Sponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="Sponsor" proxy="true" element-class-ref="org.kuali.kra.bo.Sponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		<collection-descriptor name="SubcontractContact" proxy="true" element-class-ref="org.kuali.kra.bo.SubcontractContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="SubcontractContact" proxy="true" element-class-ref="org.kuali.kra.bo.SubcontractContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		<collection-descriptor name="TemplateContact" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="TemplateContact" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		<collection-descriptor name="TemplateReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="TemplateReportTerms" proxy="true" element-class-ref="org.kuali.kra.bo.TemplateReportTerms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
-		<reference-descriptor name="CountryCode" class-ref="org.kuali.kra.bo.CountryCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="countryCode"/> 
+		<reference-descriptor name="CountryCode" class-ref="org.kuali.kra.bo.CountryCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="countryCode"/>
 		</reference-descriptor>
 		-->
 	</class-descriptor>
@@ -568,13 +568,13 @@
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<!-- 
-		<reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="proposalNumber"/> 
+		<!--
+		<reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="proposalNumber"/>
 		</reference-descriptor>
 		-->
-		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="rolodexId"/> 
+		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.bo.Organization" table="ORGANIZATION">
@@ -610,33 +610,33 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="vendorCode" column="VENDOR_CODE" jdbc-type="VARCHAR"/>
-		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="contactAddressId"/> 
+		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="contactAddressId"/>
 		</reference-descriptor>
 
 <!--  temporary comment out
-		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="OrganizationAudit" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationAudit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="OrganizationAudit" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationAudit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="OrganizationIdc" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationIdc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="OrganizationIdc" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationIdc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="OrganizationType" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="OrganizationType" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="OrganizationYnq" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="OrganizationYnq" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="ProtocolLocation" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="ProtocolLocation" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
 		-->
 	</class-descriptor>
-	
-	
+
+
 	<class-descriptor class="org.kuali.kra.bo.Sponsor" table="SPONSOR">
 		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="acronym" column="ACRONYM" jdbc-type="VARCHAR"/>
@@ -655,38 +655,38 @@
 		<field-descriptor name="state" column="STATE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<!-- <collection-descriptor name="Award" proxy="true" element-class-ref="org.kuali.kra.bo.Award" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<!-- <collection-descriptor name="Award" proxy="true" element-class-ref="org.kuali.kra.bo.Award" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="sponsorCode"/>
 		</collection-descriptor>
-		<collection-descriptor name="AwardHeader" proxy="true" element-class-ref="org.kuali.kra.bo.AwardHeader" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="AwardHeader" proxy="true" element-class-ref="org.kuali.kra.bo.AwardHeader" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="sponsorCode"/>
 		</collection-descriptor>
-		<collection-descriptor name="AwardTransferringSponsor" proxy="true" element-class-ref="org.kuali.kra.bo.AwardTransferringSponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="AwardTransferringSponsor" proxy="true" element-class-ref="org.kuali.kra.bo.AwardTransferringSponsor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="sponsorCode"/>
 		</collection-descriptor>
-		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="sponsorCode"/>
 		</collection-descriptor>
-		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="sponsorCode"/>
 		</collection-descriptor>
-		<collection-descriptor name="SponsorContact" proxy="true" element-class-ref="org.kuali.kra.bo.SponsorContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="SponsorContact" proxy="true" element-class-ref="org.kuali.kra.bo.SponsorContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="sponsorCode"/>
 		</collection-descriptor>
-		<collection-descriptor name="SponsorForms" proxy="true" element-class-ref="org.kuali.kra.bo.SponsorForms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="SponsorForms" proxy="true" element-class-ref="org.kuali.kra.bo.SponsorForms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="sponsorCode"/>
 		</collection-descriptor>
-		<collection-descriptor name="SponsorHierarchy" proxy="true" element-class-ref="org.kuali.kra.bo.SponsorHierarchy" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="SponsorHierarchy" proxy="true" element-class-ref="org.kuali.kra.bo.SponsorHierarchy" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="sponsorCode"/>
 		</collection-descriptor>
-		<collection-descriptor name="Template" proxy="true" element-class-ref="org.kuali.kra.bo.Template" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="Template" proxy="true" element-class-ref="org.kuali.kra.bo.Template" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="sponsorCode"/>
 		</collection-descriptor> -->
-		<reference-descriptor name="country" class-ref="org.kuali.kra.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="countryCode"/> 
+		<reference-descriptor name="country" class-ref="org.kuali.kra.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="countryCode"/>
 		</reference-descriptor>
-		<!-- <reference-descriptor name="Rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="rolodexId"/> 
+		<!-- <reference-descriptor name="Rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="rolodexId"/>
 		</reference-descriptor> -->
 		<reference-descriptor name="sponsorType" class-ref="org.kuali.kra.bo.SponsorType" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="sponsorTypeCode" />
@@ -704,22 +704,22 @@
 		<field-descriptor name="specialReviewCode" column="SPECIAL_REVIEW_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<!-- 
-		<reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="proposalNumber"/> 
+		<!--
+		<reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="proposalNumber"/>
 		</reference-descriptor>
 		-->
-		
-		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.bo.SpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="specialReviewCode"/> 
+
+		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.bo.SpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="specialReviewCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="approvalTypeCode"/> 
+		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="approvalTypeCode"/>
 		</reference-descriptor>
-		
-		<reference-descriptor name="validSpRevApproval" class-ref="org.kuali.kra.bo.ValidSpRevApproval" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="approvalTypeCode"/> 
-			<foreignkey field-ref="specialReviewCode"/> 
+
+		<reference-descriptor name="validSpRevApproval" class-ref="org.kuali.kra.bo.ValidSpRevApproval" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="approvalTypeCode"/>
+			<foreignkey field-ref="specialReviewCode"/>
 		</reference-descriptor>
 	</class-descriptor>
 
@@ -731,11 +731,11 @@
 		<field-descriptor name="protocolNumberFlag" column="PROTOCOL_NUMBER_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.bo.SpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="specialReviewCode"/> 
+		<reference-descriptor name="specialReview" class-ref="org.kuali.kra.bo.SpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="specialReviewCode"/>
 		</reference-descriptor>
-		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="approvalTypeCode"/> 
+		<reference-descriptor name="specialReviewApprovalType" class-ref="org.kuali.kra.bo.SpecialReviewApprovalType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="approvalTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
 
@@ -752,50 +752,50 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    	<!--  
-		<collection-descriptor name="AwardUnits" proxy="true" element-class-ref="org.kuali.kra.bo.AwardUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+    	<!--
+		<collection-descriptor name="AwardUnits" proxy="true" element-class-ref="org.kuali.kra.bo.AwardUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="BussinessRules" proxy="true" element-class-ref="org.kuali.kra.bo.BussinessRules" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="BussinessRules" proxy="true" element-class-ref="org.kuali.kra.bo.BussinessRules" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="Committee" proxy="true" element-class-ref="org.kuali.kra.bo.Committee" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="Committee" proxy="true" element-class-ref="org.kuali.kra.bo.Committee" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="PropUnits" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="PropUnits" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="InstituteLaRates" proxy="true" element-class-ref="org.kuali.kra.bo.InstituteLaRates" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="InstituteLaRates" proxy="true" element-class-ref="org.kuali.kra.bo.InstituteLaRates" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="InstituteRates" proxy="true" element-class-ref="org.kuali.kra.bo.InstituteRates" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="InstituteRates" proxy="true" element-class-ref="org.kuali.kra.bo.InstituteRates" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="MetaRules" proxy="true" element-class-ref="org.kuali.kra.bo.MetaRules" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="MetaRules" proxy="true" element-class-ref="org.kuali.kra.bo.MetaRules" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="ProposalUnits" proxy="true" element-class-ref="org.kuali.kra.bo.ProposalUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="ProposalUnits" proxy="true" element-class-ref="org.kuali.kra.bo.ProposalUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="ProtocolUnits" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="ProtocolUnits" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="UnitAdministrators" proxy="true" element-class-ref="org.kuali.kra.bo.UnitAdministrators" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="UnitAdministrators" proxy="true" element-class-ref="org.kuali.kra.bo.UnitAdministrators" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="UnitCorrespondents" proxy="true" element-class-ref="org.kuali.kra.bo.UnitCorrespondents" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="UnitCorrespondents" proxy="true" element-class-ref="org.kuali.kra.bo.UnitCorrespondents" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="UnitHierarchy" proxy="true" element-class-ref="org.kuali.kra.bo.UnitHierarchy" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="UnitHierarchy" proxy="true" element-class-ref="org.kuali.kra.bo.UnitHierarchy" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="UnitMap" proxy="true" element-class-ref="org.kuali.kra.bo.UnitMap" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="UnitMap" proxy="true" element-class-ref="org.kuali.kra.bo.UnitMap" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="User" proxy="true" element-class-ref="org.kuali.kra.bo.User" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="User" proxy="true" element-class-ref="org.kuali.kra.bo.User" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="UserRoles" proxy="true" element-class-ref="org.kuali.kra.bo.UserRoles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="UserRoles" proxy="true" element-class-ref="org.kuali.kra.bo.UserRoles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
 		-->
@@ -813,11 +813,11 @@
 		<field-descriptor name="userType" column="USER_TYPE" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-		<collection-descriptor name="KraUserRoles" proxy="true" element-class-ref="org.kuali.kra.bo.KraUserRoles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="KraUserRoles" proxy="true" element-class-ref="org.kuali.kra.bo.KraUserRoles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="userId"/>
 		</collection-descriptor>
-		<reference-descriptor name="Unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="unitNumber"/> 
+		<reference-descriptor name="Unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
 	</class-descriptor>
 
@@ -830,14 +830,16 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-		<reference-descriptor name="KraUser" class-ref="org.kuali.kra.bo.KraUser" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="userId"/> 
+		<reference-descriptor name="KraUser" class-ref="org.kuali.kra.bo.KraUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="userId"/>
 		</reference-descriptor>
-		<reference-descriptor name="Role" class-ref="org.kuali.kra.bo.Role" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="roleId"/> 
+		<!--
+		<reference-descriptor name="Role" class-ref="org.kuali.kra.bo.Role" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="roleId"/>
 		</reference-descriptor>
-		<reference-descriptor name="Unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="unitNumber"/> 
+		 -->
+		<reference-descriptor name="Unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
 	</class-descriptor>
 

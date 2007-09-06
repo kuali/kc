@@ -71,7 +71,7 @@
 		</property>
 	</bean>
 	<!--  DWR -->
-	<!-- 
+	<!--
 	<bean id="kraModule" class="org.kuali.core.KualiModule">
 	<property name="scriptConfigurationFilePaths">
 	<list>
@@ -80,14 +80,14 @@
 	</property>
 	</bean>
 	-->
-	
-	 
+
+
 	<bean class="org.kuali.core.util.spring.NamedOrderedListBean">
 		<property name="name" value="scriptConfigurationFilePaths" />
 		<property name="listItem" value="classpath:org/kuali/kra/dwr-kra.xml" />
 	</bean>
-	
-    <!-- 
+
+    <!--
 	<bean class="org.kuali.core.web.servlet.DWRConfigFileConfigurer">
 		<property name="configFile" value="org/kuali/kra/dwr-kra.xml" />
 	</bean>
