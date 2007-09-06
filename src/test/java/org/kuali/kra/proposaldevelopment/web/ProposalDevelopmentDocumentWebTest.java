@@ -135,7 +135,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         String page4AsText = page4.asText();
         String errorMessage = extractErrorMessage(page4AsText);
 
-        assertFalse(errorMessage, page4AsText.contains("error(s) found on page"));
+        assertFalse(errorMessage, page4AsText.contains(ERRORS_FOUND_ON_PAGE));
 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(doc);
@@ -166,7 +166,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         String page4AsText = page4.asText();
         String errorMessage = extractErrorMessage(page4AsText);
 
-        assertFalse(errorMessage, page4AsText.contains("error(s) found on page"));
+        assertFalse(errorMessage, page4AsText.contains(ERRORS_FOUND_ON_PAGE));
 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(doc);
@@ -194,7 +194,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         String page4AsText = page4.asText();
         String errorMessage = extractErrorMessage(page4AsText);
 
-        assertTrue(errorMessage, page4AsText.contains("error(s) found on page"));
+        assertTrue(errorMessage, page4AsText.contains(ERRORS_FOUND_ON_PAGE));
 
     }
 
@@ -217,7 +217,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         String page4AsText = page4.asText();
         String errorMessage = extractErrorMessage(page4AsText);
 
-        assertTrue(errorMessage, page4AsText.contains("error(s) found on page"));
+        assertTrue(errorMessage, page4AsText.contains(ERRORS_FOUND_ON_PAGE));
 
     }
 
@@ -236,133 +236,110 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         // start to set up organization/location panel
 
         // organization
-        StringBuffer orgLookupTagName = new StringBuffer();
-        orgLookupTagName
-                .append("methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).")
-                .append(
-                        "(((organizationId:document.organizationId,congressionalDistrict:document.organization.congressionalDistrict")
-                .append(
-                        ",organizationName:document.organization.organizationName,rolodex.firstName:document.organization.rolodex.firstName")
-                .append(
-                        ",rolodex.lastName:document.organization.rolodex.lastName,rolodex.addressLine1:document.organization.rolodex.addressLine1")
-                .append(
-                        ",rolodex.addressLine2:document.organization.rolodex.addressLine2,rolodex.addressLine3:document.organization.rolodex.addressLine3")
-                .append(
-                        ",rolodex.city:document.organization.rolodex.city,rolodex.state:document.organization.rolodex.state))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchor");
 
-
-        final HtmlPage page43 = lookup(webClient, (HtmlImageInput) kualiForm.getInputByName(orgLookupTagName.toString()), "000001",
-                "proposalDevelopmentProposal.do?document.organization", "organizationId");
-        final HtmlForm form1 = (HtmlForm) page43.getForms().get(0);
+        final HtmlPage page4 = lookup(webClient, (HtmlImageInput) kualiForm.getInputByName(getLookupTagName(page3, "methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationId:document.organizationId,")), "000001",
+                "proposalDevelopmentProposal.do?document.organization.", "organizationId");
+        final HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
         assertEquals("000001", getFieldValue(form1, HIDDEN_INPUT, "document.organizationId"));
-        assertTrue(page43.asText().contains("Congressional District: Eighth"));
-        assertTrue(page43.asText().contains("Performing Organization Id: University"));
-        assertTrue(page43.asText().contains("Applicant Organization: University"));
-        assertTrue(page43.asText().contains("Authorized Representative Name & Address: First Name"));
+        assertTrue(page4.asText().contains("Congressional District: Eighth"));
+        assertTrue(page4.asText().contains("Performing Organization: University"));
+        assertTrue(page4.asText().contains("Applicant Organization: University"));
+        assertTrue(page4.asText().contains("Authorized Representative Name & Address: First Name"));
         // default prop location created
         assertEquals("University", getFieldValue(form1, TEXT_INPUT, "document.propLocations[0].location"));
         // delete default line
-        final HtmlPage page44 = clickButton(form1, "methodToCall.deleteLocation.line0.", IMAGE_INPUT);
-        final HtmlForm form41 = (HtmlForm) page44.getForms().get(0);
+        final HtmlPage page5 = clickButton(form1, "methodToCall.deleteLocation.line0.", IMAGE_INPUT);
+        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
         // save without location line
         // the default location line will be recreated
-        final HtmlPage page45 = clickButton(form41, "methodToCall.save", IMAGE_INPUT);
-        assertEquals("Kuali :: Proposal Development Document", page45.getTitleText());
-        final HtmlForm form42 = (HtmlForm) page45.getForms().get(0);
+        final HtmlPage page6 = clickButton(form2, "methodToCall.save", IMAGE_INPUT);
+        assertEquals("Kuali :: Proposal Development Document", page6.getTitleText());
+        final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
         // one of the following to check save is OK
-        assertTrue(page45.asText().contains(ERRORS_FOUND_ON_PAGE));
-        assertFalse(page45.asText().contains("Document was successfully saved"));
+        assertTrue(page6.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertFalse(page6.asText().contains("Document was successfully saved"));
 
         // performingorg lookup
 
-        String lookupTagName = "methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationId:document.performingOrganizationId,organizationName:document.performingOrganization.organizationName))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchor";
-        final HtmlPage page52 = lookup(webClient, (HtmlImageInput) form42.getInputByName(lookupTagName), "000002",
-                "proposalDevelopmentProposal.do?document.performingOrganization", "organizationId");
-        final HtmlForm form2 = (HtmlForm) page52.getForms().get(0);
-        assertEquals("000002", getFieldValue(form2, HIDDEN_INPUT, "document.performingOrganizationId"));
-        assertTrue(page52.asText().contains("Performing Organization Id: California Institute of Technology"));
+        final HtmlPage page7 = lookup(webClient, (HtmlImageInput) form3.getInputByName(getLookupTagName(page6, "methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationId:document.performingOrganizationId,")), "000002",
+                "proposalDevelopmentProposal.do?document.performingOrganization.", "organizationId");
+        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
+        assertEquals("000002", getFieldValue(form4, HIDDEN_INPUT, "document.performingOrganizationId"));
+        assertTrue(page7.asText().contains("Performing Organization: California Institute of Technology"));
         // California Institute of Technology
 
         // proplocations
         // set up and add first line
         setFieldValue(kualiForm, TEXT_INPUT, "newPropLocation.location", "location 1");
 
-        // test rolodex lookup lookup
-        StringBuffer rolodexIdName = new StringBuffer();
-        rolodexIdName
-                .append("methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).")
-                .append("(((rolodexId:newPropLocation.rolodexId,postalCode:newPropLocation.rolodex.postalCode")
-                .append(",addressLine1:newPropLocation.rolodex.addressLine1")
-                .append(",addressLine2:newPropLocation.rolodex.addressLine2,addressLine3:newPropLocation.rolodex.addressLine3")
-                .append(
-                        ",city:newPropLocation.rolodex.city,state:newPropLocation.rolodex.state))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchor");
-        final HtmlPage page53 = lookup(webClient, (HtmlImageInput) form2.getInputByName(rolodexIdName.toString()), "1728",
+        // test rolodex lookup 
+        final HtmlPage page8 = lookup(webClient, (HtmlImageInput) form4.getInputByName(getLookupTagName(page7, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:newPropLocation.rolodexId,")), "1728",
                 "proposalDevelopmentProposal.do?newPropLocation.rolodex.", "rolodexId");
-        final HtmlForm form3 = (HtmlForm) page53.getForms().get(0);
-        assertEquals("1728", getFieldValue(form3, HIDDEN_INPUT, "newPropLocation.rolodexId"));
-        assertTrue(page53.asText().contains("National Center for Environmental Research and Quality Assurance"));
+        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
+        assertEquals("1728", getFieldValue(form5, HIDDEN_INPUT, "newPropLocation.rolodexId"));
+        assertTrue(page8.asText().contains("National Center for Environmental Research and Quality Assurance"));
 
-        final HtmlPage page54 = clickButton(form3, "methodToCall.addLocation", IMAGE_INPUT);
-        final HtmlForm form4 = (HtmlForm) page54.getForms().get(0);
-
-        assertEquals("0", getFieldValue(form4, HIDDEN_INPUT, "newPropLocation.rolodexId"));
-        // how to check newlocation address is empty
-        assertEquals("1728", getFieldValue(form4, HIDDEN_INPUT, "document.propLocations[1].rolodexId"));
-        assertTrue(page54.asText().contains("National Center for Environmental Research and Quality Assurance"));
-
-        // 2nd line
-        // set up and add 2nd line
-        setFieldValue(form4, TEXT_INPUT, "newPropLocation.location", "location 2");
-
-        // test rolodex lookup
-        final HtmlPage page6 = lookup(webClient, (HtmlImageInput) form4.getInputByName(rolodexIdName.toString()), "1727",
-                "proposalDevelopmentProposal.do?newPropLocation.rolodex.", "rolodexId");
-        final HtmlForm form5 = (HtmlForm) page6.getForms().get(0);
-        assertEquals("1727", getFieldValue(form5, HIDDEN_INPUT, "newPropLocation.rolodexId"));
-        assertTrue(page6.asText().contains("Organization 1126"));
-
-        final HtmlPage page61 = clickButton(form5, "methodToCall.addLocation", IMAGE_INPUT);
-        final HtmlForm form6 = (HtmlForm) page61.getForms().get(0);
+        final HtmlPage page9 = clickButton(form5, "methodToCall.addLocation", IMAGE_INPUT);
+        final HtmlForm form6 = (HtmlForm) page9.getForms().get(0);
 
         assertEquals("0", getFieldValue(form6, HIDDEN_INPUT, "newPropLocation.rolodexId"));
         // how to check newlocation address is empty
-        assertEquals("1727", getFieldValue(form6, HIDDEN_INPUT, "document.propLocations[2].rolodexId"));
-        assertTrue(page61.asText().contains("Organization 1126"));
+        assertEquals("1728", getFieldValue(form6, HIDDEN_INPUT, "document.propLocations[1].rolodexId"));
+        assertTrue(page9.asText().contains("National Center for Environmental Research and Quality Assurance"));
+
+        // 2nd line
+        // set up and add 2nd line
+        setFieldValue(form6, TEXT_INPUT, "newPropLocation.location", "location 2");
+
+        // test rolodex lookup
+        final HtmlPage page10 = lookup(webClient, (HtmlImageInput) form6.getInputByName(getLookupTagName(page9, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:newPropLocation.rolodexId,")), "1727",
+                "proposalDevelopmentProposal.do?newPropLocation.rolodex.", "rolodexId");
+        final HtmlForm form7 = (HtmlForm) page10.getForms().get(0);
+        assertEquals("1727", getFieldValue(form7, HIDDEN_INPUT, "newPropLocation.rolodexId"));
+        assertTrue(page10.asText().contains("Organization 1126"));
+
+        final HtmlPage page11 = clickButton(form7, "methodToCall.addLocation", IMAGE_INPUT);
+        final HtmlForm form8 = (HtmlForm) page11.getForms().get(0);
+
+        assertEquals("0", getFieldValue(form8, HIDDEN_INPUT, "newPropLocation.rolodexId"));
+        // how to check newlocation address is empty
+        assertEquals("1727", getFieldValue(form8, HIDDEN_INPUT, "document.propLocations[2].rolodexId"));
+        assertTrue(page11.asText().contains("Organization 1126"));
 
         // clearaddress
-        final HtmlPage page62 = clickButton(form6, "methodToCall.clearAddress.line1.", IMAGE_INPUT);
-        final HtmlForm form7 = (HtmlForm) page62.getForms().get(0);
-        assertEquals("0", getFieldValue(form7, HIDDEN_INPUT, "document.propLocations[1].rolodexId"));
-        assertFalse(page62.asText().contains("National Center for Environmental Research and Quality Assurance"));
+        final HtmlPage page12 = clickButton(form8, "methodToCall.clearAddress.line1.", IMAGE_INPUT);
+        final HtmlForm form9 = (HtmlForm) page12.getForms().get(0);
+        assertEquals("0", getFieldValue(form9, HIDDEN_INPUT, "document.propLocations[1].rolodexId"));
+        assertFalse(page12.asText().contains("National Center for Environmental Research and Quality Assurance"));
         // verify other fields too? location, proplocations[1] ?
 
         // delete lines
-        final HtmlPage page63 = clickButton(form7, "methodToCall.deleteLocation.line1.", IMAGE_INPUT);
-        final HtmlForm form8 = (HtmlForm) page63.getForms().get(0);
-        assertEquals("1727", getFieldValue(form8, HIDDEN_INPUT, "document.propLocations[1].rolodexId"));
-        assertTrue(page63.asText().contains("Organization 1126"));
+        final HtmlPage page13 = clickButton(form9, "methodToCall.deleteLocation.line1.", IMAGE_INPUT);
+        final HtmlForm form10 = (HtmlForm) page13.getForms().get(0);
+        assertEquals("1727", getFieldValue(form10, HIDDEN_INPUT, "document.propLocations[1].rolodexId"));
+        assertTrue(page13.asText().contains("Organization 1126"));
         // how to check only one left
-        final HtmlPage page7 = clickButton(form8, "methodToCall.save", IMAGE_INPUT);
-        assertEquals("Kuali :: Proposal Development Document", page6.getTitleText());
-        final HtmlForm form9 = (HtmlForm) page7.getForms().get(0);
+        final HtmlPage page14 = clickButton(form10, "methodToCall.save", IMAGE_INPUT);
+        assertEquals("Kuali :: Proposal Development Document", page10.getTitleText());
+        final HtmlForm form11 = (HtmlForm) page14.getForms().get(0);
         // one of the following to check save is OK
-        assertFalse(page7.asText().contains(ERRORS_FOUND_ON_PAGE));
-        assertTrue(page7.asText().contains("Document was successfully saved"));
+        assertFalse(page14.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertTrue(page14.asText().contains("Document was successfully saved"));
         // verify for is still ok
-        assertEquals("000001", getFieldValue(form9, HIDDEN_INPUT, "document.organizationId"));
-        assertTrue(page7.asText().contains("Congressional District: Eighth"));
-        assertTrue(page7.asText().contains("Applicant Organization: University"));
-        assertTrue(page7.asText().contains("Authorized Representative Name & Address: First Name"));
-        assertEquals("000002", getFieldValue(form9, HIDDEN_INPUT, "document.performingOrganizationId"));
-        assertTrue(page7.asText().contains("Performing Organization Id: California Institute of Technology"));
+        assertEquals("000001", getFieldValue(form11, HIDDEN_INPUT, "document.organizationId"));
+        assertTrue(page14.asText().contains("Congressional District: Eighth"));
+        assertTrue(page14.asText().contains("Applicant Organization: University"));
+        assertTrue(page14.asText().contains("Authorized Representative Name & Address: First Name"));
+        assertEquals("000002", getFieldValue(form11, HIDDEN_INPUT, "document.performingOrganizationId"));
+        assertTrue(page14.asText().contains("Performing Organization: California Institute of Technology"));
 
-        assertEquals("1727", getFieldValue(form9, HIDDEN_INPUT, "document.propLocations[1].rolodexId"));
-        assertTrue(page7.asText().contains("Organization 1126"));
-        assertEquals("0", getFieldValue(form9, HIDDEN_INPUT, "document.propLocations[0].rolodexId"));
-        assertEquals("University", getFieldValue(form9, TEXT_INPUT, "document.propLocations[0].location"));
+        assertEquals("1727", getFieldValue(form11, HIDDEN_INPUT, "document.propLocations[1].rolodexId"));
+        assertTrue(page14.asText().contains("Organization 1126"));
+        assertEquals("0", getFieldValue(form11, HIDDEN_INPUT, "document.propLocations[0].rolodexId"));
+        assertEquals("University", getFieldValue(form11, TEXT_INPUT, "document.propLocations[0].location"));
 
         // verify DB
-        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) form4.getInputByName("document.documentHeader.documentNumber");
+        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) form6.getInputByName("document.documentHeader.documentNumber");
 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber.getDefaultValue());
         assertNotNull(doc);
@@ -376,7 +353,6 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals(1727, doc.getPropLocations().get(1).getRolodexId());
 
     }
-
 
     @Test
     public void testDeliveryInfoPanel() throws Exception {
@@ -400,19 +376,11 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         setFieldValue(kualiForm, TEXT_INPUT, "document.numberOfCopies", "2");
 
         // test mailing address lookup
-        StringBuffer mailingAddressIdName = new StringBuffer();
-        mailingAddressIdName
-                .append("methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).")
-                .append("(((rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName")
-                .append(",lastName:document.rolodex.lastName,addressLine1:document.rolodex.addressLine1")
-                .append(",addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3")
-                .append(
-                        ",city:document.rolodex.city,state:document.rolodex.state))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchor");
-        final HtmlPage page43 = lookup(webClient, (HtmlImageInput) kualiForm.getInputByName(mailingAddressIdName.toString()),
+        final HtmlPage page4 = lookup(webClient, (HtmlImageInput) kualiForm.getInputByName(getLookupTagName(page3, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:document.mailingAddressId,")),
                 "1728", "proposalDevelopmentProposal.do?document.rolodex.", "rolodexId");
-        final HtmlForm form1 = (HtmlForm) page43.getForms().get(0);
+        final HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
         assertEquals("1728", getFieldValue(form1, HIDDEN_INPUT, "document.mailingAddressId"));
-        assertTrue(page43.asText().contains("National Center for Environmental Research and Quality Assurance"));
+        assertTrue(page4.asText().contains("National Center for Environmental Research and Quality Assurance"));
 
         // mail description textarea
         setFieldValue(form1, TEXT_AREA, "document.mailDescription", "mail description");
@@ -425,18 +393,18 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("mail description", getFieldValue(form2, TEXT_AREA, "document.mailDescription"));
         setFieldValue(form2, TEXT_AREA, "document.mailDescription", "mail description \n line2");
 
-        final HtmlPage page51 = clickButton(form2, "methodToCall.postTextAreaToParent", IMAGE_INPUT);
-        final HtmlForm form3 = (HtmlForm) page51.getForms().get(0);
+        final HtmlPage page6 = clickButton(form2, "methodToCall.postTextAreaToParent", IMAGE_INPUT);
+        final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
         assertEquals("mail description \n line2", getFieldValue(form3, TEXT_AREA, "document.mailDescription"));
 
 
         // save and check
-        final HtmlPage page6 = clickButton(form3, "methodToCall.save", IMAGE_INPUT);
-        assertEquals("Kuali :: Proposal Development Document", page6.getTitleText());
-        final HtmlForm form4 = (HtmlForm) page6.getForms().get(0);
+        final HtmlPage page7 = clickButton(form3, "methodToCall.save", IMAGE_INPUT);
+        assertEquals("Kuali :: Proposal Development Document", page7.getTitleText());
+        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
         // one of the following to check save is OK
-        assertFalse(page6.asText().contains(ERRORS_FOUND_ON_PAGE));
-        assertTrue(page6.asText().contains("Document was successfully saved"));
+        assertFalse(page7.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertTrue(page7.asText().contains("Document was successfully saved"));
 
         assertEquals("2", getFieldValue(form4, SELECTED_INPUT, "document.mailType"));
         assertEquals("1", getFieldValue(form4, SELECTED_INPUT, "document.mailBy"));
@@ -446,7 +414,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
 
         assertEquals("1728", getFieldValue(form4, HIDDEN_INPUT, "document.mailingAddressId"));
-        assertTrue(page6.asText().contains("National Center for Environmental Research and Quality Assurance"));
+        assertTrue(page7.asText().contains("National Center for Environmental Research and Quality Assurance"));
 
         assertEquals("mail description \n line2", getFieldValue(form4, TEXT_AREA, "document.mailDescription"));
 
@@ -461,8 +429,6 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("10-0001", doc.getMailAccountNumber());
         assertEquals("2", doc.getNumberOfCopies());
         assertEquals("mail description \n line2", doc.getMailDescription());
-
-
     }
 
 
@@ -480,41 +446,41 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         final HtmlPage page4 = clickButton(kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.specialReview.x",
                 SUBMIT_INPUT_BY_NAME);
         assertTrue(page4.asText().contains("Document was successfully saved"));
+        // really is in special review page
         assertTrue(page4.asText().contains("Approval Status Protocol # Application Date Approval Date Comments"));
         HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
-
         webClient.setJavaScriptEnabled(false);
+
         final HtmlPage page5 = setSpecialReviewLine(form1, "08/01/2007;;123;1;2;comment1");
 
         final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
         assertEquals("comment1 \n line2", getFieldValue(form2, TEXT_AREA, "newPropSpecialReview.comments"));
-        final HtmlPage page51 = clickButton(form2, "methodToCall.addSpecialReview", IMAGE_INPUT);
-        final HtmlForm form3 = (HtmlForm) page51.getForms().get(0);
+        final HtmlPage page6 = clickButton(form2, "methodToCall.addSpecialReview", IMAGE_INPUT);
+        final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
         validateSpecialReviewLine(form3, "document.propSpecialReviews[0]", "08/01/2007;;123;1;2;comment1");
         // 2nd line
-        final HtmlPage page52 = setSpecialReviewLine(form3, "08/02/2007;;456;2;3;comment2");
-        final HtmlForm form4 = (HtmlForm) page52.getForms().get(0);
+        final HtmlPage page7 = setSpecialReviewLine(form3, "08/02/2007;;456;2;3;comment2");
+        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
         assertEquals("comment2 \n line2", getFieldValue(form4, TEXT_AREA, "newPropSpecialReview.comments"));
-        final HtmlPage page53 = clickButton(form4, "methodToCall.addSpecialReview", IMAGE_INPUT);
-        final HtmlForm form5 = (HtmlForm) page53.getForms().get(0);
+        final HtmlPage page8 = clickButton(form4, "methodToCall.addSpecialReview", IMAGE_INPUT);
+        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
         validateSpecialReviewLine(form5, "document.propSpecialReviews[0]", "08/01/2007;;123;1;2;comment1");
         validateSpecialReviewLine(form5, "document.propSpecialReviews[1]", "08/02/2007;;456;2;3;comment2");
 
         // delete special review line 0
-        final HtmlPage page6 = clickButton(form5, "methodToCall.deleteSpecialReview.line0.", IMAGE_INPUT);
-        final HtmlForm form6 = (HtmlForm) page6.getForms().get(0);
+        final HtmlPage page9 = clickButton(form5, "methodToCall.deleteSpecialReview.line0.", IMAGE_INPUT);
+        final HtmlForm form6 = (HtmlForm) page9.getForms().get(0);
         validateSpecialReviewLine(form6, "document.propSpecialReviews[0]", "08/02/2007;;456;2;3;comment2");
         // save
-        final HtmlPage page7 = clickButton(form6, "methodToCall.save", IMAGE_INPUT);
-        assertEquals("Kuali :: Proposal Development Document", page6.getTitleText());
-        final HtmlForm form7 = (HtmlForm) page7.getForms().get(0);
+        final HtmlPage page10 = clickButton(form6, "methodToCall.save", IMAGE_INPUT);
+        assertEquals("Kuali :: Proposal Development Document", page9.getTitleText());
+        final HtmlForm form7 = (HtmlForm) page10.getForms().get(0);
         // one of the following to check save is OK
-        assertFalse(page7.asText().contains(ERRORS_FOUND_ON_PAGE));
-        assertTrue(page7.asText().contains("Document was successfully saved"));
+        assertFalse(page10.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertTrue(page10.asText().contains("Document was successfully saved"));
         validateSpecialReviewLine(form7, "document.propSpecialReviews[0]", "08/02/2007;;456;2;3;comment2");
 
     }
-
     @Test
     public void testExpandedTextArea() throws Exception {
         // remove it later
@@ -594,6 +560,13 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         return (HtmlPage) webClient.getPage(url + returnPath);
 
     }
+    
+    private String getLookupTagName(HtmlPage page, String uniqueLookupTagPrefix) {
+        int idx1 = page.asXml().indexOf(uniqueLookupTagPrefix);
+        int idx2 = page.asXml().indexOf(".((##)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor", idx1);
+        return page.asXml().substring(idx1, idx2 + 77).replace("((&amp;&amp;))", "((&&))").replace("((&lt;&gt;))", "((<>))");
+    }
+    
 
     private void setFieldValue(HtmlForm htmlForm, int type, String fieldName, String value) {
         setFieldValue(htmlForm, type, fieldName, value, -1);
