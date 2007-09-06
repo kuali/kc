@@ -46,6 +46,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String programAnnouncementNumber;
     private String primeSponsorCode;
     private String sponsorProposalNumber;
+    private String sponsorAwardNumber;
+    private String originalProposalNumber;
     private String nsfCode;
     private Boolean subcontracts;
     private String agencyDivisionCode;
@@ -70,7 +72,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<ProposalPerson> proposalPersons;
     private String newScienceKeywordCode;
     private String newDescription;
-    
+
     public ProposalDevelopmentDocument() {
         super();
         keywords = new ArrayList<PropScienceKeyword>();
@@ -172,7 +174,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the agencyDivisionCode attribute.
-     * 
+     *
      * @return Returns the agencyDivisionCode.
      */
     public String getAgencyDivisionCode() {
@@ -181,7 +183,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the agencyDivisionCode attribute value.
-     * 
+     *
      * @param agencyDivisionCode The agencyDivisionCode to set.
      */
     public void setAgencyDivisionCode(String agencyDivisionCode) {
@@ -190,7 +192,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the agencyProgramCode attribute.
-     * 
+     *
      * @return Returns the agencyProgramCode.
      */
     public String getAgencyProgramCode() {
@@ -199,7 +201,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the agencyProgramCode attribute value.
-     * 
+     *
      * @param agencyProgramCode The agencyProgramCode to set.
      */
     public void setAgencyProgramCode(String agencyProgramCode) {
@@ -208,7 +210,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the cfdaNumber attribute.
-     * 
+     *
      * @return Returns the cfdaNumber.
      */
     public String getCfdaNumber() {
@@ -217,7 +219,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the cfdaNumber attribute value.
-     * 
+     *
      * @param cfdaNumber The cfdaNumber to set.
      */
     public void setCfdaNumber(String cfdaNumber) {
@@ -226,7 +228,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the deadlineDate attribute.
-     * 
+     *
      * @return Returns the deadlineDate.
      */
     public Date getDeadlineDate() {
@@ -235,7 +237,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the deadlineDate attribute value.
-     * 
+     *
      * @param deadlineDate The deadlineDate to set.
      */
     public void setDeadlineDate(Date deadlineDate) {
@@ -244,7 +246,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the deadlineType attribute.
-     * 
+     *
      * @return Returns the deadlineType.
      */
     public String getDeadlineType() {
@@ -253,7 +255,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the deadlineType attribute value.
-     * 
+     *
      * @param deadlineType The deadlineType to set.
      */
     public void setDeadlineType(String deadlineType) {
@@ -262,7 +264,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the noticeOfOpportunityCode attribute.
-     * 
+     *
      * @return Returns the noticeOfOpportunityCode.
      */
     public String getNoticeOfOpportunityCode() {
@@ -271,7 +273,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the noticeOfOpportunityCode attribute value.
-     * 
+     *
      * @param noticeOfOpportunityCode The noticeOfOpportunityCode to set.
      */
     public void setNoticeOfOpportunityCode(String noticeOfOpportunityCode) {
@@ -280,7 +282,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the nsfCode attribute.
-     * 
+     *
      * @return Returns the nsfCode.
      */
     public String getNsfCode() {
@@ -289,7 +291,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the nsfCode attribute value.
-     * 
+     *
      * @param nsfCode The nsfCode to set.
      */
     public void setNsfCode(String nsfCode) {
@@ -298,7 +300,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the primeSponsorCode attribute.
-     * 
+     *
      * @return Returns the primeSponsorCode.
      */
     public String getPrimeSponsorCode() {
@@ -307,7 +309,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the primeSponsorCode attribute value.
-     * 
+     *
      * @param primeSponsorCode The primeSponsorCode to set.
      */
     public void setPrimeSponsorCode(String primeSponsorCode) {
@@ -316,7 +318,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the programAnnouncementNumber attribute.
-     * 
+     *
      * @return Returns the programAnnouncementNumber.
      */
     public String getProgramAnnouncementNumber() {
@@ -325,7 +327,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the programAnnouncementNumber attribute value.
-     * 
+     *
      * @param programAnnouncementNumber The programAnnouncementNumber to set.
      */
     public void setProgramAnnouncementNumber(String programAnnouncementNumber) {
@@ -334,7 +336,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the programAnnouncementTitle attribute.
-     * 
+     *
      * @return Returns the programAnnouncementTitle.
      */
     public String getProgramAnnouncementTitle() {
@@ -343,7 +345,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the programAnnouncementTitle attribute value.
-     * 
+     *
      * @param programAnnouncementTitle The programAnnouncementTitle to set.
      */
     public void setProgramAnnouncementTitle(String programAnnouncementTitle) {
@@ -352,7 +354,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the sponsorProposalNumber attribute.
-     * 
+     *
      * @return Returns the sponsorProposalNumber.
      */
     public String getSponsorProposalNumber() {
@@ -361,7 +363,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the sponsorProposalNumber attribute value.
-     * 
+     *
      * @param sponsorProposalNumber The sponsorProposalNumber to set.
      */
     public void setSponsorProposalNumber(String sponsorProposalNumber) {
@@ -370,7 +372,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Gets the subcontracts attribute.
-     * 
+     *
      * @return Returns the subcontracts.
      */
     public Boolean getSubcontracts() {
@@ -379,7 +381,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * Sets the subcontracts attribute value.
-     * 
+     *
      * @param subcontracts The subcontracts to set.
      */
     public void setSubcontracts(Boolean subcontracts) {
@@ -449,10 +451,10 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setPerformingOrganizationId(String performingOrganizationId) {
         // TODO : not sure yet
         if ((performingOrganizationId==null || performingOrganizationId.trim().equals("")) && organizationId!=null) {
-            this.performingOrganizationId = organizationId;            
+            this.performingOrganizationId = organizationId;
         } else {
             this.performingOrganizationId = performingOrganizationId;
-        }    
+        }
     }
 
     public List<PropLocation> getPropLocations() {
@@ -519,8 +521,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setPropSpecialReviews(List<PropSpecialReview> propSpecialReviews) {
         this.propSpecialReviews = propSpecialReviews;
     }
-
-    
     
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -532,5 +532,37 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         return managedLists;
 
     }
-    
+
+    /**
+     * Gets the originalProposalNumber attribute.
+     * @return Returns the originalProposalNumber.
+     */
+    public String getOriginalProposalNumber() {
+        return originalProposalNumber;
+    }
+
+    /**
+     * Sets the originalProposalNumber attribute value.
+     * @param originalProposalNumber The originalProposalNumber to set.
+     */
+    public void setOriginalProposalNumber(String originalProposalNumber) {
+        this.originalProposalNumber = originalProposalNumber;
+    }
+
+    /**
+     * Gets the sponsorAwardNumber attribute.
+     * @return Returns the sponsorAwardNumber.
+     */
+    public String getSponsorAwardNumber() {
+        return sponsorAwardNumber;
+    }
+
+    /**
+     * Sets the sponsorAwardNumber attribute value.
+     * @param sponsorAwardNumber The sponsorAwardNumber to set.
+     */
+    public void setSponsorAwardNumber(String sponsorAwardNumber) {
+        this.sponsorAwardNumber = sponsorAwardNumber;
+    }
+
 }
