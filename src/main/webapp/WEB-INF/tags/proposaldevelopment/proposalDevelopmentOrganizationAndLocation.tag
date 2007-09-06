@@ -29,12 +29,13 @@
         
         <table cellpadding=0 cellspacing=0 summary="">
              <tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.organizationId}" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.organizationId}" skipHelpUrl="true" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.organizationId" attributeEntry="${proposalDevelopmentAttributes.organizationId}" />
                     <c:out value="${KualiForm.document.organization.organizationName}"/>
                     <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
-                    fieldConversions="organizationId:document.organizationId,congressionalDistrict:document.organization.congressionalDistrict,organizationName:document.organization.organizationName,rolodex.firstName:document.organization.rolodex.firstName,rolodex.lastName:document.organization.rolodex.lastName,rolodex.addressLine1:document.organization.rolodex.addressLine1,rolodex.addressLine2:document.organization.rolodex.addressLine2,rolodex.addressLine3:document.organization.rolodex.addressLine3,rolodex.city:document.organization.rolodex.city,rolodex.state:document.organization.rolodex.state"/> <br/>
+                    fieldConversions="organizationId:document.organizationId,congressionalDistrict:document.organization.congressionalDistrict,organizationName:document.organization.organizationName,rolodex.firstName:document.organization.rolodex.firstName,rolodex.lastName:document.organization.rolodex.lastName,rolodex.addressLine1:document.organization.rolodex.addressLine1,rolodex.addressLine2:document.organization.rolodex.addressLine2,rolodex.addressLine3:document.organization.rolodex.addressLine3,rolodex.city:document.organization.rolodex.city,rolodex.state:document.organization.rolodex.state"/> 
+					<img src="${ConfigProperties.kra.externalizable.images.url}book_open.png" alt="lookup" height="16" width="16"/>
                   </td>
              </tr>
              <tr>
@@ -50,13 +51,13 @@
 				</td>
 				</tr>
 				<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${organizationAttributes.congressionalDistrict}" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${organizationAttributes.congressionalDistrict}" skipHelpUrl="true" /></div></th>
                 <td>
                 	<c:out value="${KualiForm.document.organization.congressionalDistrict}"/>
                 </td>
             </tr>
         	<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}" skipHelpUrl="true" /></div></th>
                 <td>                	
 	               	<c:choose>
 	                	<c:when test="${!empty KualiForm.document.performingOrganization.organizationName}"> 
@@ -70,6 +71,7 @@
 	                </c:choose>   
                     <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
                     fieldConversions="organizationId:document.performingOrganizationId,organizationName:document.performingOrganization.organizationName" />
+					<img src="${ConfigProperties.kra.externalizable.images.url}book_open.png" alt="lookup" height="16" width="16"/>
                 </td>
             </tr>
         </table>
