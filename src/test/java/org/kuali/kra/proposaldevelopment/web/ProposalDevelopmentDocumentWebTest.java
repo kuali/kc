@@ -16,8 +16,6 @@
 package org.kuali.kra.proposaldevelopment.web;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -30,7 +28,6 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.CollectingAlertHandler;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -42,6 +39,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class tests the KraServiceLocator
@@ -126,8 +125,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm);
-
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "000002");
 
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
 
@@ -135,194 +133,91 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("Kuali :: Proposal Development Document", page4.getTitleText());
 
         String page4AsText = page4.asText();
-        String errorMessage = "Errors were found: ";
-        int index1 = page4AsText.indexOf("error");
-        if (index1 > -1) {
-            int index2 = page4AsText.indexOf("Document Overview");
-            if (index2 > -1) {
-                errorMessage += page4AsText.substring(index1, index2);
-            }
-            else {
-                errorMessage += page4AsText.substring(index1);
-            }
-        }
+        String errorMessage = extractErrorMessage(page4AsText);
 
-        assertFalse(errorMessage, page4.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertFalse(errorMessage, page4AsText.contains("error(s) found on page"));
 
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber
-                .getDefaultValue());
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(doc);
 
-        verifySavedRequiredFields(doc);
-
+        verifySavedRequiredFields(doc, "1", "000002", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
     }
 
     @Test
     public void testSaveProposalDevelopmentDocumentNotNewWeb() throws Exception {
         final WebClient webClient = new WebClient();
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-        final HtmlPage page1 = (HtmlPage) webClient.getPage(url);
-
-        assertEquals("Kuali Portal Index", page1.getTitleText());
-
-        // LOGIN
-        final HtmlPage page2 = (HtmlPage) webClient
-                .getPage(url
-                        + "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
-
-        // Get the form that we are dealing with and within that form,
-        // find the submit button and the field that we want to change.
-        final HtmlForm form = (HtmlForm) page2.getForms().get(0);
-        final HtmlSubmitInput button = (HtmlSubmitInput) form.getInputByValue("Login");
-
-        // Now submit the form by clicking the button and get back the
-        // second page.
-        final HtmlPage page3 = (HtmlPage) button.click();
-        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
+        final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText() );
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
         final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
 
-        final HtmlTextInput description = (HtmlTextInput) kualiForm
-                .getInputByName("document.documentHeader.financialDocumentDescription");
-        description.setValueAttribute("ProposalDevelopmentDocumentWebTest test");
-
-        final HtmlTextInput sponsorCode = (HtmlTextInput) kualiForm.getInputByName("document.sponsorCode");
-        sponsorCode.setValueAttribute("123456");
-
-        final HtmlTextArea title = (HtmlTextArea) kualiForm.getTextAreasByName("document.title").get(0);
-        title.setText("project title");
-
-        final HtmlTextInput startDate = (HtmlTextInput) kualiForm.getInputByName("document.requestedStartDateInitial");
-        startDate.setValueAttribute("08/14/2007");
-
-        final HtmlTextInput endDate = (HtmlTextInput) kualiForm.getInputByName("document.requestedEndDateInitial");
-        endDate.setValueAttribute("08/21/2007");
-
-        final HtmlSelect activityType = (HtmlSelect) kualiForm.getSelectByName("document.activityTypeCode");
-        assertEquals(10, activityType.getOptionSize());
-        activityType.setSelectedAttribute("1", true);
-
-        final HtmlSelect proposalType = (HtmlSelect) kualiForm.getSelectByName("document.proposalTypeCode");
-        assertEquals(10, proposalType.getOptionSize());
-        proposalType.setSelectedAttribute("2", true);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "2", "000002");
 
         final HtmlTextInput sponsorProposalNumber = (HtmlTextInput) kualiForm.getInputByName("document.sponsorProposalNumber");
         sponsorProposalNumber.setValueAttribute("123456");
 
-        final HtmlSelect ownedByUnit = (HtmlSelect) kualiForm.getSelectByName("document.ownedByUnit");
-        assertEquals(3, ownedByUnit.getOptionSize());
-        ownedByUnit.setSelectedAttribute("000002", true);
-
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
 
         final HtmlPage page4 = (HtmlPage) saveButton.click();
-        assertEquals("Kuali :: Proposal Development Document", page4.getTitleText());
+        assertEquals("Kuali :: Proposal Development Document", page4.getTitleText() );
 
         String page4AsText = page4.asText();
-        String errorMessage = "Errors were found: ";
-        int index1 = page4AsText.indexOf("error");
-        if (index1 > -1) {
-            int index2 = page4AsText.indexOf("Document Overview");
-            if (index2 > -1) {
-                errorMessage += page4AsText.substring(index1, index2);
-            }
-            else {
-                errorMessage += page4AsText.substring(index1);
-            }
-        }
+        String errorMessage = extractErrorMessage(page4AsText);
 
-        assertFalse(errorMessage, page4.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertFalse(errorMessage, page4AsText.contains("error(s) found on page"));
 
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber
-                .getDefaultValue());
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(doc);
 
-        assertEquals("1", doc.getActivityTypeCode());
-        assertEquals("000002", doc.getOwnedByUnit());
-        assertEquals("ProposalDevelopmentDocumentWebTest test", doc.getDocumentHeader().getFinancialDocumentDescription());
-        assertEquals("123456", doc.getSponsorCode());
-        assertEquals("project title", doc.getTitle());
-        assertEquals("2007-08-14", doc.getRequestedStartDateInitial().toString());
-        assertEquals("2007-08-21", doc.getRequestedEndDateInitial().toString());
-        assertEquals("2", doc.getProposalTypeCode());
+        verifySavedRequiredFields(doc, "1", "000002", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "2");
         assertEquals("123456", doc.getSponsorProposalNumber());
-
     }
 
     @Test
     public void testSaveProposalDevelopmentDocumentWithErrorsWeb() throws Exception {
         final WebClient webClient = new WebClient();
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-        final HtmlPage page1 = (HtmlPage) webClient.getPage(url);
 
-        assertEquals("Kuali Portal Index", page1.getTitleText());
-
-        // LOGIN
-        final HtmlPage page2 = (HtmlPage) webClient
-                .getPage(url
-                        + "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
-
-        // Get the form that we are dealing with and within that form,
-        // find the submit button and the field that we want to change.
-        final HtmlForm form = (HtmlForm) page2.getForms().get(0);
-        final HtmlSubmitInput button = (HtmlSubmitInput) form.getInputByValue("Login");
-
-        // Now submit the form by clicking the button and get back the
-        // second page.
-        final HtmlPage page3 = (HtmlPage) button.click();
+        final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
         final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
 
-        final HtmlTextInput description = (HtmlTextInput) kualiForm
-                .getInputByName("document.documentHeader.financialDocumentDescription");
-        description.setValueAttribute("ProposalDevelopmentDocumentWebTest test");
-
-        final HtmlTextInput sponsorCode = (HtmlTextInput) kualiForm.getInputByName("document.sponsorCode");
-        sponsorCode.setValueAttribute("123456");
-
-        final HtmlTextArea title = (HtmlTextArea) kualiForm.getTextAreasByName("document.title").get(0);
-        title.setText("project title");
-
-        final HtmlTextInput startDate = (HtmlTextInput) kualiForm.getInputByName("document.requestedStartDateInitial");
-        startDate.setValueAttribute("08/14/2007");
-
-        final HtmlTextInput endDate = (HtmlTextInput) kualiForm.getInputByName("document.requestedEndDateInitial");
-        endDate.setValueAttribute("08/21/2007");
-
-        final HtmlSelect activityType = (HtmlSelect) kualiForm.getSelectByName("document.activityTypeCode");
-        assertEquals(10, activityType.getOptionSize());
-        activityType.setSelectedAttribute("1", true);
-
-        final HtmlSelect proposalType = (HtmlSelect) kualiForm.getSelectByName("document.proposalTypeCode");
-        assertEquals(10, proposalType.getOptionSize());
-        proposalType.setSelectedAttribute("2", true);
-
-        final HtmlSelect ownedByUnit = (HtmlSelect) kualiForm.getSelectByName("document.ownedByUnit");
-        assertEquals(3, ownedByUnit.getOptionSize());
-        ownedByUnit.setSelectedAttribute("000002", true);
-
-        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "2", "000002");
 
         final HtmlPage page4 = (HtmlPage) saveButton.click();
-        assertEquals("Kuali :: Proposal Development Document", page4.getTitleText());
+        assertEquals("Kuali :: Proposal Development Document", page4.getTitleText() );
 
         String page4AsText = page4.asText();
-        String errorMessage = "Errors were found: ";
-        int index1 = page4AsText.indexOf("error");
-        if (index1 > -1) {
-            int index2 = page4AsText.indexOf("Document Overview");
-            if (index2 > -1) {
-                errorMessage += page4AsText.substring(index1, index2);
-            }
-            else {
-                errorMessage += page4AsText.substring(index1);
-            }
-        }
+        String errorMessage = extractErrorMessage(page4AsText);
 
-        assertTrue(errorMessage, page4.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertTrue(errorMessage, page4AsText.contains("error(s) found on page"));
+
+    }
+
+    @Test public void testSaveProposalDevelopmentDocumentWithoutProposalType() throws Exception {
+        final WebClient webClient = new WebClient();
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+
+        final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+
+        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText() );
+
+        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
+        final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
+
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "", "000002");
+
+        final HtmlPage page4 = (HtmlPage) saveButton.click();
+        assertEquals("Kuali :: Proposal Development Document", page4.getTitleText() );
+
+        String page4AsText = page4.asText();
+        String errorMessage = extractErrorMessage(page4AsText);
+
+        assertTrue(errorMessage, page4AsText.contains("error(s) found on page"));
 
     }
 
@@ -336,7 +231,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "000002");
 
         // start to set up organization/location panel
 
@@ -472,7 +367,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber.getDefaultValue());
         assertNotNull(doc);
 
-        verifySavedRequiredFields(doc);
+        verifySavedRequiredFields(doc, "1", "000002", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
         assertEquals("000001", doc.getOrganizationId());
         assertEquals("000002", doc.getPerformingOrganizationId());
         assertEquals("University", doc.getPropLocations().get(0).getLocation());
@@ -492,7 +387,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "000002");
 
 
         // dropdowns
@@ -558,7 +453,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) form4.getInputByName("document.documentHeader.documentNumber");
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber.getDefaultValue());
         assertNotNull(doc);
-        verifySavedRequiredFields(doc);
+        verifySavedRequiredFields(doc, "1", "000002", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
 
         assertEquals("1", doc.getMailBy());
         assertEquals("2", doc.getMailType());
@@ -581,7 +476,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "000002");
         final HtmlPage page4 = clickButton(kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.specialReview.x",
                 SUBMIT_INPUT_BY_NAME);
         assertTrue(page4.asText().contains("Document was successfully saved"));
@@ -766,31 +661,40 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         }
     }
 
-    private void setupProposalDevelopmentDocumentRequiredFields(HtmlForm kualiForm) throws Exception {
-
-        setFieldValue(kualiForm, TEXT_INPUT, "document.documentHeader.financialDocumentDescription",
-                "ProposalDevelopmentDocumentWebTest test");
-        setFieldValue(kualiForm, TEXT_INPUT, "document.sponsorCode", "123456");
-        setFieldValue(kualiForm, TEXT_AREA, "document.title", "project title");
-        setFieldValue(kualiForm, TEXT_INPUT, "document.requestedStartDateInitial", "08/14/2007");
-        setFieldValue(kualiForm, TEXT_INPUT, "document.requestedEndDateInitial", "08/21/2007");
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.activityTypeCode", "1", 10);
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.proposalTypeCode", "1", 10);
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.ownedByUnit", "000002", 3);
-
+    private void setupProposalDevelopmentDocumentRequiredFields(HtmlForm kualiForm, String description, String sponsorCode, String title, String startDate, String endDate, String activityType, String proposalType, String ownedByUnit) throws Exception {
+        setFieldValue(kualiForm, TEXT_INPUT, "document.documentHeader.financialDocumentDescription", description);
+        setFieldValue(kualiForm, TEXT_INPUT, "document.sponsorCode", sponsorCode);
+        setFieldValue(kualiForm, TEXT_AREA, "document.title", title);
+        setFieldValue(kualiForm, TEXT_INPUT, "document.requestedStartDateInitial", startDate);
+        setFieldValue(kualiForm, TEXT_INPUT, "document.requestedEndDateInitial", endDate);
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.activityTypeCode", activityType, 10);
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.proposalTypeCode", proposalType, 10);
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.ownedByUnit", ownedByUnit, 3);
     }
 
-    private void verifySavedRequiredFields(ProposalDevelopmentDocument doc) {
 
-        assertEquals("1", doc.getActivityTypeCode());
-        assertEquals("000002", doc.getOwnedByUnit());
-        assertEquals("ProposalDevelopmentDocumentWebTest test", doc.getDocumentHeader().getFinancialDocumentDescription());
-        assertEquals("123456", doc.getSponsorCode());
-        assertEquals("project title", doc.getTitle());
-        assertEquals("2007-08-14", doc.getRequestedStartDateInitial().toString());
-        assertEquals("2007-08-21", doc.getRequestedEndDateInitial().toString());
-        assertEquals("1", doc.getProposalTypeCode());
-
+    /**
+     * This method checks document fields against the passed in values
+     * @param doc the document to check values against
+     * @param activityType to check
+     * @param ownedByUnit to check
+     * @param description to check
+     * @param sponsorCode to check
+     * @param title toi check
+     * @param requestedStartDateInitial to check
+     * @param requestedEndDateInitial to check
+     * @param proposalTypeCode to check
+     * @throws WorkflowException
+     */
+    private void verifySavedRequiredFields(ProposalDevelopmentDocument doc, String activityType, String ownedByUnit, String description, String sponsorCode, String title, String requestedStartDateInitial, String requestedEndDateInitial, String proposalTypeCode) throws WorkflowException {
+        assertEquals(activityType, doc.getActivityTypeCode());
+        assertEquals(ownedByUnit, doc.getOwnedByUnit());
+        assertEquals(description, doc.getDocumentHeader().getFinancialDocumentDescription());
+        assertEquals(sponsorCode, doc.getSponsorCode());
+        assertEquals(title, doc.getTitle());
+        assertEquals(requestedStartDateInitial, doc.getRequestedStartDateInitial().toString());
+        assertEquals(requestedEndDateInitial, doc.getRequestedEndDateInitial().toString());
+        assertEquals(proposalTypeCode, doc.getProposalTypeCode());
     }
 
     private void validateSpecialReviewLine(HtmlForm kualiForm, String prefix, String paramList) throws Exception {
@@ -827,5 +731,23 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
     }
 
+    /**
+     * This method extracts the error message (if any) from the html page as text.
+     * @param pageAsText text of the html page response to extract the error message from
+     * @return error message from the page
+     */
+    private String extractErrorMessage(String pageAsText) {
+        String errorMessage = "Errors were found: ";
+        int index1 = pageAsText.indexOf("error");
+        if (index1 > -1) {
+            int index2 = pageAsText.indexOf("Document Overview");
+            if (index2 > -1) {
+                errorMessage += pageAsText.substring(index1, index2);
+            } else {
+                errorMessage += pageAsText.substring(index1);
+            }
+        }
+        return errorMessage;
+    }
 
 }
