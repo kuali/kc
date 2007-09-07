@@ -129,7 +129,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
 
-        final HtmlPage page4 = clickButton(kualiForm,"methodToCall.save",IMAGE_INPUT);
+        final HtmlPage page4 = clickButton(page3, kualiForm,"methodToCall.save",IMAGE_INPUT);
         assertEquals("Kuali :: Proposal Development Document", page4.getTitleText());
 
         String page4AsText = page4.asText();
@@ -237,7 +237,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
         // organization
 
-        final HtmlPage page4 = lookup(webClient, (HtmlImageInput) kualiForm.getInputByName(getLookupTagName(page3, "methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationId:document.organizationId,")), "000001",
+        final HtmlPage page4 = lookup(webClient, page3, kualiForm, "methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationId:document.organizationId,", "000001",
                 "proposalDevelopmentProposal.do?document.organization.", "organizationId");
         final HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
         assertEquals("000001", getFieldValue(form1, HIDDEN_INPUT, "document.organizationId"));
@@ -248,11 +248,11 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         // default prop location created
         assertEquals("University", getFieldValue(form1, TEXT_INPUT, "document.propLocations[0].location"));
         // delete default line
-        final HtmlPage page5 = clickButton(form1, "methodToCall.deleteLocation.line0.", IMAGE_INPUT);
+        final HtmlPage page5 = clickButton(page4, form1,  "methodToCall.deleteLocation.line0.", IMAGE_INPUT);
         final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
         // save without location line
         // the default location line will be recreated
-        final HtmlPage page6 = clickButton(form2, "methodToCall.save", IMAGE_INPUT);
+        final HtmlPage page6 = clickButton(page5, form2, "methodToCall.save", IMAGE_INPUT);
         assertEquals("Kuali :: Proposal Development Document", page6.getTitleText());
         final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
         // one of the following to check save is OK
@@ -261,7 +261,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
         // performingorg lookup
 
-        final HtmlPage page7 = lookup(webClient, (HtmlImageInput) form3.getInputByName(getLookupTagName(page6, "methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationId:document.performingOrganizationId,")), "000002",
+        final HtmlPage page7 = lookup(webClient, page6, form3, "methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationId:document.performingOrganizationId,", "000002",
                 "proposalDevelopmentProposal.do?document.performingOrganization.", "organizationId");
         final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
         assertEquals("000002", getFieldValue(form4, HIDDEN_INPUT, "document.performingOrganizationId"));
@@ -273,13 +273,13 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         setFieldValue(kualiForm, TEXT_INPUT, "newPropLocation.location", "location 1");
 
         // test rolodex lookup 
-        final HtmlPage page8 = lookup(webClient, (HtmlImageInput) form4.getInputByName(getLookupTagName(page7, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:newPropLocation.rolodexId,")), "1728",
+        final HtmlPage page8 = lookup(webClient, page7, form4, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:newPropLocation.rolodexId,", "1728",
                 "proposalDevelopmentProposal.do?newPropLocation.rolodex.", "rolodexId");
         final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
         assertEquals("1728", getFieldValue(form5, HIDDEN_INPUT, "newPropLocation.rolodexId"));
         assertTrue(page8.asText().contains("National Center for Environmental Research and Quality Assurance"));
 
-        final HtmlPage page9 = clickButton(form5, "methodToCall.addLocation", IMAGE_INPUT);
+        final HtmlPage page9 = clickButton(page8, form5, "methodToCall.addLocation", IMAGE_INPUT);
         final HtmlForm form6 = (HtmlForm) page9.getForms().get(0);
 
         assertEquals("0", getFieldValue(form6, HIDDEN_INPUT, "newPropLocation.rolodexId"));
@@ -292,13 +292,13 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         setFieldValue(form6, TEXT_INPUT, "newPropLocation.location", "location 2");
 
         // test rolodex lookup
-        final HtmlPage page10 = lookup(webClient, (HtmlImageInput) form6.getInputByName(getLookupTagName(page9, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:newPropLocation.rolodexId,")), "1727",
+        final HtmlPage page10 = lookup(webClient, page9, form6, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:newPropLocation.rolodexId,", "1727",
                 "proposalDevelopmentProposal.do?newPropLocation.rolodex.", "rolodexId");
         final HtmlForm form7 = (HtmlForm) page10.getForms().get(0);
         assertEquals("1727", getFieldValue(form7, HIDDEN_INPUT, "newPropLocation.rolodexId"));
         assertTrue(page10.asText().contains("Organization 1126"));
 
-        final HtmlPage page11 = clickButton(form7, "methodToCall.addLocation", IMAGE_INPUT);
+        final HtmlPage page11 = clickButton(page10, form7, "methodToCall.addLocation", IMAGE_INPUT);
         final HtmlForm form8 = (HtmlForm) page11.getForms().get(0);
 
         assertEquals("0", getFieldValue(form8, HIDDEN_INPUT, "newPropLocation.rolodexId"));
@@ -307,19 +307,19 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertTrue(page11.asText().contains("Organization 1126"));
 
         // clearaddress
-        final HtmlPage page12 = clickButton(form8, "methodToCall.clearAddress.line1.", IMAGE_INPUT);
+        final HtmlPage page12 = clickButton(page11, form8, "methodToCall.clearAddress.line1.", IMAGE_INPUT);
         final HtmlForm form9 = (HtmlForm) page12.getForms().get(0);
         assertEquals("0", getFieldValue(form9, HIDDEN_INPUT, "document.propLocations[1].rolodexId"));
         assertFalse(page12.asText().contains("National Center for Environmental Research and Quality Assurance"));
         // verify other fields too? location, proplocations[1] ?
 
         // delete lines
-        final HtmlPage page13 = clickButton(form9, "methodToCall.deleteLocation.line1.", IMAGE_INPUT);
+        final HtmlPage page13 = clickButton(page12, form9, "methodToCall.deleteLocation.line1.", IMAGE_INPUT);
         final HtmlForm form10 = (HtmlForm) page13.getForms().get(0);
         assertEquals("1727", getFieldValue(form10, HIDDEN_INPUT, "document.propLocations[1].rolodexId"));
         assertTrue(page13.asText().contains("Organization 1126"));
         // how to check only one left
-        final HtmlPage page14 = clickButton(form10, "methodToCall.save", IMAGE_INPUT);
+        final HtmlPage page14 = clickButton(page13, form10, "methodToCall.save", IMAGE_INPUT);
         assertEquals("Kuali :: Proposal Development Document", page10.getTitleText());
         final HtmlForm form11 = (HtmlForm) page14.getForms().get(0);
         // one of the following to check save is OK
@@ -376,7 +376,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         setFieldValue(kualiForm, TEXT_INPUT, "document.numberOfCopies", "2");
 
         // test mailing address lookup
-        final HtmlPage page4 = lookup(webClient, (HtmlImageInput) kualiForm.getInputByName(getLookupTagName(page3, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:document.mailingAddressId,")),
+        final HtmlPage page4 = lookup(webClient, page3, kualiForm, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:document.mailingAddressId,",
                 "1728", "proposalDevelopmentProposal.do?document.rolodex.", "rolodexId");
         final HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
         assertEquals("1728", getFieldValue(form1, HIDDEN_INPUT, "document.mailingAddressId"));
@@ -386,20 +386,20 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         setFieldValue(form1, TEXT_AREA, "document.mailDescription", "mail description");
 
         webClient.setJavaScriptEnabled(false);
-        final HtmlPage page5 = clickButton(form1,
+        final HtmlPage page5 = clickButton(page4, form1,
                 "methodToCall.updateTextArea.((#document.mailDescription:proposalDevelopmentProposal:Mail Description#))",
                 IMAGE_INPUT);
         final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
         assertEquals("mail description", getFieldValue(form2, TEXT_AREA, "document.mailDescription"));
         setFieldValue(form2, TEXT_AREA, "document.mailDescription", "mail description \n line2");
 
-        final HtmlPage page6 = clickButton(form2, "methodToCall.postTextAreaToParent", IMAGE_INPUT);
+        final HtmlPage page6 = clickButton(page5, form2, "methodToCall.postTextAreaToParent", IMAGE_INPUT);
         final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
         assertEquals("mail description \n line2", getFieldValue(form3, TEXT_AREA, "document.mailDescription"));
 
 
         // save and check
-        final HtmlPage page7 = clickButton(form3, "methodToCall.save", IMAGE_INPUT);
+        final HtmlPage page7 = clickButton(page6, form3, "methodToCall.save", IMAGE_INPUT);
         assertEquals("Kuali :: Proposal Development Document", page7.getTitleText());
         final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
         // one of the following to check save is OK
@@ -443,7 +443,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
         setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "000002");
-        final HtmlPage page4 = clickButton(kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.specialReview.x",
+        final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.specialReview.x",
                 SUBMIT_INPUT_BY_NAME);
         assertTrue(page4.asText().contains("Document was successfully saved"));
         // really is in special review page
@@ -451,28 +451,28 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
         webClient.setJavaScriptEnabled(false);
 
-        final HtmlPage page5 = setSpecialReviewLine(form1, "08/01/2007;;123;1;2;comment1");
+        final HtmlPage page5 = setSpecialReviewLine(page4, form1, "08/01/2007;;123;1;2;comment1");
 
         final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
         assertEquals("comment1 \n line2", getFieldValue(form2, TEXT_AREA, "newPropSpecialReview.comments"));
-        final HtmlPage page6 = clickButton(form2, "methodToCall.addSpecialReview", IMAGE_INPUT);
+        final HtmlPage page6 = clickButton(page5, form2, "methodToCall.addSpecialReview", IMAGE_INPUT);
         final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
         validateSpecialReviewLine(form3, "document.propSpecialReviews[0]", "08/01/2007;;123;1;2;comment1");
         // 2nd line
-        final HtmlPage page7 = setSpecialReviewLine(form3, "08/02/2007;;456;2;3;comment2");
+        final HtmlPage page7 = setSpecialReviewLine(page5, form3, "08/02/2007;;456;2;3;comment2");
         final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
         assertEquals("comment2 \n line2", getFieldValue(form4, TEXT_AREA, "newPropSpecialReview.comments"));
-        final HtmlPage page8 = clickButton(form4, "methodToCall.addSpecialReview", IMAGE_INPUT);
+        final HtmlPage page8 = clickButton(page7, form4, "methodToCall.addSpecialReview", IMAGE_INPUT);
         final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
         validateSpecialReviewLine(form5, "document.propSpecialReviews[0]", "08/01/2007;;123;1;2;comment1");
         validateSpecialReviewLine(form5, "document.propSpecialReviews[1]", "08/02/2007;;456;2;3;comment2");
 
         // delete special review line 0
-        final HtmlPage page9 = clickButton(form5, "methodToCall.deleteSpecialReview.line0.", IMAGE_INPUT);
+        final HtmlPage page9 = clickButton(page8, form5, "methodToCall.deleteSpecialReview.line0.", IMAGE_INPUT);
         final HtmlForm form6 = (HtmlForm) page9.getForms().get(0);
         validateSpecialReviewLine(form6, "document.propSpecialReviews[0]", "08/02/2007;;456;2;3;comment2");
         // save
-        final HtmlPage page10 = clickButton(form6, "methodToCall.save", IMAGE_INPUT);
+        final HtmlPage page10 = clickButton(page9, form6, "methodToCall.save", IMAGE_INPUT);
         assertEquals("Kuali :: Proposal Development Document", page9.getTitleText());
         final HtmlForm form7 = (HtmlForm) page10.getForms().get(0);
         // one of the following to check save is OK
@@ -481,19 +481,6 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         validateSpecialReviewLine(form7, "document.propSpecialReviews[0]", "08/02/2007;;456;2;3;comment2");
 
     }
-    @Test
-    public void testExpandedTextArea() throws Exception {
-        // remove it later
-        String fieldName = "document.title";
-        String fieldText = "project title";
-        String methodToCall = "methodToCall.updateTextArea.((#" + fieldName + ":proposalDevelopmentProposal:Project Title#))";
-        //final HtmlPage page5 = textAreaPop(fieldName, fieldText, methodToCall, true);
-        final HtmlPage page5=textAreaPop(fieldName, fieldText, methodToCall,false);
-        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
-        assertEquals(fieldText + " \n line2", getFieldValue(form2, TEXT_AREA, fieldName));
-
-    }
-
 
     private HtmlPage textAreaPop(String fieldName, String fieldText, String methodToCall, boolean scriptEnabled) throws Exception {
         final WebClient webClient = new WebClient();
@@ -512,12 +499,12 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         if (!scriptEnabled) {
             webClient.setJavaScriptEnabled(false);
         }
-        final HtmlPage page4 = clickButton(kualiForm, methodToCall, IMAGE_INPUT);
+        final HtmlPage page4 = clickButton(page3, kualiForm,  methodToCall, IMAGE_INPUT);
         final HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
         assertEquals(fieldText, getFieldValue(form1, TEXT_AREA, fieldName));
         setFieldValue(form1, TEXT_AREA, fieldName, fieldText + " \n line2");
 
-        return clickButton(form1, "methodToCall.postTextAreaToParent", IMAGE_INPUT);
+        return clickButton(page4, form1,  "methodToCall.postTextAreaToParent", IMAGE_INPUT);
         // final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
         // final HtmlTextArea textArea1 = (HtmlTextArea) form2.getTextAreasByName(fieldName).get(0);
         // assertEquals(fieldText+" \n line2", textArea1.getText());
@@ -525,6 +512,18 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
     }
 
+    @Test
+    public void testExpandedTextArea() throws Exception {
+        // remove it later
+        String fieldName = "document.title";
+        String fieldText = "project title";
+        String methodToCall = "methodToCall.updateTextArea.((#" + fieldName + ":proposalDevelopmentProposal:Project Title#))";
+        //final HtmlPage page5 = textAreaPop(fieldName, fieldText, methodToCall, true);
+        final HtmlPage page5=textAreaPop(fieldName, fieldText, methodToCall,false);
+        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
+        assertEquals(fieldText + " \n line2", getFieldValue(form2, TEXT_AREA, fieldName));
+
+    }
 
     private HtmlPage login(WebClient webClient, URL url, String loginLocation) throws Exception {
         final HtmlPage page1 = (HtmlPage) webClient.getPage(url);
@@ -539,32 +538,34 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
         // Now submit the form by clicking the button and get back the
         // second page.
-        return clickButton(form, "Login", SUBMIT_INPUT_BY_VALUE);
+        return clickButton(page2, form, "Login", SUBMIT_INPUT_BY_VALUE);
 
     }
 
 
     // should be able to make one lookup method for all single value lookup
-    private HtmlPage lookup(WebClient webClient, HtmlImageInput lookupButton, String selectedFieldValue, String returnProperty,
+    private HtmlPage lookup(WebClient webClient, HtmlPage htmlPage, HtmlForm htmlForm, String uniqueLookupButtonName, String selectedFieldValue, String returnProperty,
             String searchField) throws Exception {
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
 
-        final HtmlPage page41 = (HtmlPage) lookupButton.click();
-        final HtmlForm lookupForm = (HtmlForm) page41.getForms().get(0);
+        final HtmlPage page1 = clickButton(htmlPage, htmlForm,uniqueLookupButtonName,IMAGE_INPUT);
+        final HtmlForm lookupForm = (HtmlForm) page1.getForms().get(0);
         setFieldValue(lookupForm, TEXT_INPUT, searchField, selectedFieldValue);
-        final HtmlPage page42 = clickButton(lookupForm, "methodToCall.search", IMAGE_INPUT);
-        assertTrue(page42.asText().contains("Return value " + selectedFieldValue));
-        int idx1 = page42.asXml().indexOf(returnProperty);
-        int idx2 = page42.asXml().indexOf("anchor=topOfForm", idx1);
-        String returnPath = page42.asXml().substring(idx1, idx2 + 16).replace("&amp;", "&");
+        final HtmlPage page2 = clickButton(page1, lookupForm, "methodToCall.search", IMAGE_INPUT);
+        assertTrue(page2.asText().contains("Return value " + selectedFieldValue));
+        int idx1 = page2.asXml().indexOf(returnProperty);
+        //int idx2 = page42.asXml().indexOf("anchor=topOfForm", idx1);
+        int idx2 = page2.asXml().indexOf("\"", idx1);
+        String returnPath = page2.asXml().substring(idx1, idx2).replace("&amp;", "&");
         return (HtmlPage) webClient.getPage(url + returnPath);
 
     }
     
-    private String getLookupTagName(HtmlPage page, String uniqueLookupTagPrefix) {
-        int idx1 = page.asXml().indexOf(uniqueLookupTagPrefix);
-        int idx2 = page.asXml().indexOf(".((##)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor", idx1);
-        return page.asXml().substring(idx1, idx2 + 77).replace("((&amp;&amp;))", "((&&))").replace("((&lt;&gt;))", "((<>))");
+    private String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
+        int idx1 = page.asXml().indexOf(uniqueNamePrefix);
+        //int idx2 = page.asXml().indexOf(".((##)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor", idx1);
+        int idx2 = page.asXml().indexOf("\"", idx1);
+        return page.asXml().substring(idx1, idx2).replace("&amp;", "&").replace("((&lt;&gt;))", "((<>))");
     }
     
 
@@ -617,13 +618,14 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         }
     }
 
-    private HtmlPage clickButton(HtmlForm htmlForm, String buttonName, int type) throws Exception {
+    private HtmlPage clickButton(HtmlPage page, HtmlForm htmlForm, String buttonName, int type) throws Exception {
+        String completeButtonName=getImageTagName(page, buttonName);
         switch (type) {
             case IMAGE_INPUT:
-                final HtmlImageInput button = (HtmlImageInput) htmlForm.getInputByName(buttonName);
+                final HtmlImageInput button = (HtmlImageInput) htmlForm.getInputByName(completeButtonName);
                 return (HtmlPage) button.click();
             case SUBMIT_INPUT_BY_NAME:
-                final HtmlSubmitInput button1 = (HtmlSubmitInput) htmlForm.getInputByName(buttonName);
+                final HtmlSubmitInput button1 = (HtmlSubmitInput) htmlForm.getInputByName(completeButtonName);
                 return (HtmlPage) button1.click();
             case SUBMIT_INPUT_BY_VALUE:
                 final HtmlSubmitInput button2 = (HtmlSubmitInput) htmlForm.getInputByValue(buttonName);
@@ -682,7 +684,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals(params[5] + " \n line2", getFieldValue(kualiForm, TEXT_AREA, prefix + ".comments"));
     }
 
-    private HtmlPage setSpecialReviewLine(HtmlForm kualiForm, String paramList) throws Exception {
+    private HtmlPage setSpecialReviewLine(HtmlPage htmlPage, HtmlForm kualiForm, String paramList) throws Exception {
         String[] params = paramList.split(";");
         // in "application date; approval date; protocol#; special review code; approval type; comments" order
         setFieldValue(kualiForm, TEXT_INPUT, "newPropSpecialReview.applicationDate", params[0]);
@@ -694,13 +696,13 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         // comments - textarea
         setFieldValue(kualiForm, TEXT_AREA, "newPropSpecialReview.comments", params[5]);
 
-        final HtmlPage page = clickButton(kualiForm,
+        final HtmlPage page = clickButton(htmlPage, kualiForm,
                 "methodToCall.updateTextArea.((#newPropSpecialReview.comments:proposalDevelopmentSpecialReview:Comments#))",
                 IMAGE_INPUT);
         final HtmlForm form = (HtmlForm) page.getForms().get(0);
         assertEquals(params[5], getFieldValue(form, TEXT_AREA, "newPropSpecialReview.comments"));
         setFieldValue(form, TEXT_AREA, "newPropSpecialReview.comments", params[5] + " \n line2");
-        return clickButton(form, "methodToCall.postTextAreaToParent", IMAGE_INPUT);
+        return clickButton(page, form, "methodToCall.postTextAreaToParent", IMAGE_INPUT);
 
     }
 
