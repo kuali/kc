@@ -43,7 +43,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     }
     public ActionForward clearAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        int index= getLineToDelete(request);
+        int index= getSelectedLine(request);
 
         proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().get(index).setRolodexId(new Integer(0));
         proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().get(index).setRolodex(new Rolodex());
