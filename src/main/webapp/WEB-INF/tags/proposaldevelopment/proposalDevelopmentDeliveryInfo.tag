@@ -25,7 +25,6 @@
     		<span class="subhead-left"><h2>Delivery Info</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
-        
         <table cellpadding=0 cellspacing=0 summary="">
              <tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailBy}" skipHelpUrl="true" /></div></th>
@@ -55,7 +54,7 @@
                     <c:out value="${KualiForm.document.rolodex.lastName}, ${KualiForm.document.rolodex.firstName}"/>
                     </c:if>           
                  <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
-                    fieldConversions="rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName,lastName:document.rolodex.lastName,addressLine1:document.rolodex.addressLine1,addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3,city:document.rolodex.city,state:document.rolodex.state" /> <br>
+                    fieldConversions="rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName,lastName:document.rolodex.lastName,addressLine1:document.rolodex.addressLine1,addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3,city:document.rolodex.city,state:document.rolodex.state" anchor="${currentTabIndex}"/> <br>
 
                     <c:if test="${!empty KualiForm.document.rolodex.addressLine1}" >
                       
@@ -77,7 +76,7 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailDescription}" skipHelpUrl="true" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.mailDescription" attributeEntry="${proposalDevelopmentAttributes.mailDescription}" />
-                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${proposalDevelopmentAttributes.mailDescription.label}#))" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${proposalDevelopmentAttributes.mailDescription.label}');return false"/>
+                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${proposalDevelopmentAttributes.mailDescription.label}#)).anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${proposalDevelopmentAttributes.mailDescription.label}');return false" /> 
                 </td>
             </tr>
         </table>
