@@ -26,6 +26,7 @@
 	} else {
 		textAreaFieldLabel = request.getParameter(Constants.TEXT_AREA_FIELD_LABEL);
 	}
+
 %>
 
 <link href="/kra-dev/kr/css/kuali.css" rel="stylesheet" type="text/css" />
@@ -60,7 +61,7 @@
 		<tr>
 			<td>
 			<div id="globalbuttons" class="globalbuttons"><input
-				type="image" name="methodToCall.postTextAreaToParent"
+				type="image" name="methodToCall.postTextAreaToParent.anchor${textAreaFieldAnchor}"
 				onclick='javascript:postValueToParentWindow();return false'
 				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif"
 				class="globalbuttons" title="save" alt="save"></div>

@@ -25,6 +25,7 @@ public interface Constants {
     public static final String HTML_FORM_ACTION = "htmlFormAction";
     public static final String TEXT_AREA_FIELD_NAME = "textAreaFieldName";
     public static final String TEXT_AREA_FIELD_LABEL = "textAreaFieldLabel";
+    public static final String TEXT_AREA_FIELD_ANCHOR = "textAreaFieldAnchor";
     public static final Integer APPROVAL_STATUS = 2;
     
     public static final String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
