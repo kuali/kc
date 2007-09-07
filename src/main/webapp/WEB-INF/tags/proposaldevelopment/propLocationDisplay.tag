@@ -57,7 +57,7 @@
 				value="${locationIter.rolodexId}">
 		</c:if>
 		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex"
-			fieldConversions="rolodexId:${docLocation}.rolodexId,postalCode:${docLocation}.rolodex.postalCode,addressLine1:${docLocation}.rolodex.addressLine1,addressLine2:${docLocation}.rolodex.addressLine2,addressLine3:${docLocation}.rolodex.addressLine3,city:${docLocation}.rolodex.city,state:${docLocation}.rolodex.state" />
+			fieldConversions="rolodexId:${docLocation}.rolodexId,postalCode:${docLocation}.rolodex.postalCode,addressLine1:${docLocation}.rolodex.addressLine1,addressLine2:${docLocation}.rolodex.addressLine2,addressLine3:${docLocation}.rolodex.addressLine3,city:${docLocation}.rolodex.city,state:${docLocation}.rolodex.state"  anchor="${currentTabIndex}"/>
 		<c:if test="${index != -1}">
 			<img src="${ConfigProperties.kra.externalizable.images.url}book_open.png" alt="lookup" height="16" width="16"/>
 		</c:if>
@@ -80,15 +80,15 @@
 		<c:choose>
 			<c:when test="${index == -1}">
 				<div align=center>
-					<html:image property="methodToCall.addLocation"
+					<html:image property="methodToCall.addLocation.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
 				</div>
 			</c:when>
 			<c:otherwise>
 				<div align=center>
-					<html:image property="methodToCall.clearAddress.line${index}."
+					<html:image property="methodToCall.clearAddress.line${index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' />
-					<html:image property="methodToCall.deleteLocation.line${index}."
+					<html:image property="methodToCall.deleteLocation.line${index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 				</div>
 			</c:otherwise>
