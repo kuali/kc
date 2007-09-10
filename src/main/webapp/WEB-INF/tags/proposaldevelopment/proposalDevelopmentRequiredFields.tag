@@ -20,7 +20,17 @@
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.sponsorCode" attributeEntry="${proposalDevelopmentAttributes.sponsorCode}" onblur="loadSponsorName('document.sponsorCode', 'sponsorName');" />
                 	<img src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" alt="lookup" height="16" width="16"/>
-                       	<div id="sponsorName.div" >&nbsp;
+                    <div id="sponsorName.div" >
+                        <c:if test="${!empty KualiForm.document.sponsorCode}">
+                        	<c:choose>
+								<c:when test="${empty KualiForm.document.sponsor}">
+									<c:out value="not found" />
+								</c:when>
+								<c:otherwise>
+									<c:out value="${KualiForm.document.sponsor.sponsorName}" />
+								</c:otherwise>
+						</c:choose>                        
+                        </c:if>
 					</div>
 				</td>
             </tr>

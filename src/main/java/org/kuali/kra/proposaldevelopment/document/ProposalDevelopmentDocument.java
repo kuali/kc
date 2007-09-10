@@ -22,11 +22,12 @@ import java.util.List;
 import org.kuali.core.document.Copyable;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable {
 
@@ -72,6 +73,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<ProposalPerson> proposalPersons;
     private String newScienceKeywordCode;
     private String newDescription;
+    private Sponsor sponsor;
 
     public ProposalDevelopmentDocument() {
         super();
@@ -563,6 +565,14 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      */
     public void setSponsorAwardNumber(String sponsorAwardNumber) {
         this.sponsorAwardNumber = sponsorAwardNumber;
+    }
+
+    public Sponsor getSponsor() {
+        return sponsor;
+    }
+
+    public void setSponsor(Sponsor sponsor) {
+        this.sponsor = sponsor;
     }
 
 }
