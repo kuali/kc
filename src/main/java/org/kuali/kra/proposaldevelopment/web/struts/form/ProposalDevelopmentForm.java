@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
@@ -70,7 +71,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
             propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
             proposalDevelopmentDocument.getPropLocations().add(propLocation);
         }
-
+        proposalDevelopmentDocument.refreshReferenceObject("sponsor");
     }
 
 
