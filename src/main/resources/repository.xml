@@ -78,6 +78,10 @@
 			<foreignkey field-ref="mailingAddressId"/>
 		</reference-descriptor>
 
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="sponsorCode"/>
+		</reference-descriptor>
+
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
