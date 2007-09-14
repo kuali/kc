@@ -20,38 +20,38 @@
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
              </tr>
             <tr>
-              <th class="infoline">Add:</th>
-              <td class="infoline">${KualiForm.document.newDescription}
-					<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
-					fieldConversions="scienceKeywordCode:document.newScienceKeywordCode,description:document.newDescription"
-					lookupParameters="" hideReturnLink="false" />
+              <th width="10%" class="infoline">Add:</th>
+              <td width="70%" class="infoline">${KualiForm.document.newDescription}
+              		<kul:multipleValueLookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
+              		lookedUpCollectionName="propScienceKeywords" 
+              		anchor="${currentTabIndex}"/>
 			  </td>
 
-              <td class="infoline"><div align="center">
+              <td width="20%" class="infoline"><div align="center">
 			  <html:image property="methodToCall.addScienceKeyword" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Keyword" alt="Add Keyword" styleClass="tinybutton" />
               </div></td>
             </tr>
 
-            <logic:iterate name="KualiForm" id="proposalKeywords" property="document.keywords" indexId="ctr">
+            <logic:iterate name="KualiForm" id="proposalKeywords" property="document.propScienceKeywords" indexId="ctr">
               <tr>
                 <td class="infoline"><div align="center">
                 	${ctr+1} 
                 </div></td>
-                <td class="infoline">
-                	 ${KualiForm.document.keywords[ctr].scienceKeyword.description}
+                <td>
+                	 ${KualiForm.document.propScienceKeywords[ctr].scienceKeyword.description}
 					<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
-					fieldConversions="scienceKeywordCode:document.keywords[${ctr}].scienceKeywordCode,description:document.keywords[${ctr}].scienceKeyword.description"
+					fieldConversions="scienceKeywordCode:document.propScienceKeywords[${ctr}].scienceKeywordCode,description:document.propScienceKeywords[${ctr}].scienceKeyword.description"
 					lookupParameters="" hideReturnLink="false" />
                 </td>
-                <td class="infoline"><div align="center">
-                  <kul:htmlControlAttribute property="document.keywords[${ctr}].selectKeyword" attributeEntry="${DataDictionary.PropScienceKeyword.attributes.selectKeyword}" readOnly="false" />
+                <td><div align="center">
+                  <kul:htmlControlAttribute property="document.propScienceKeywords[${ctr}].selectKeyword" attributeEntry="${DataDictionary.PropScienceKeyword.attributes.selectKeyword}" readOnly="false" />
                 </div></td>
               </tr>
             </logic:iterate>
               <tr>
                 <td class="infoline" colspan=2>&nbsp;</td>
                 <td nowrap class="infoline"><div align=center>
-                <html:image property="methodToCall.selectAllScienceKeyword" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" />    
+                <html:image property="methodToCall.selectAllScienceKeyword" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="javascript: selectAllKeywords(document);return false" />    
                 <html:image property="methodToCall.deleteSelectedScienceKeyword" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
                 </div></td>
               </tr>
