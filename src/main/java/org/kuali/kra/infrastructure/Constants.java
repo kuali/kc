@@ -30,4 +30,5 @@ public interface Constants {
     
     public static final String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
     public static final String CO_INVESTIGATOR_ROLE = "COI";
+    public static final String MULTIPLE_VALUE = "multipleValues";
 }
