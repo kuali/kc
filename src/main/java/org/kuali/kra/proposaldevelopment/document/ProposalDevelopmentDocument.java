@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.Copyable;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
@@ -69,7 +70,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     // TODO: just for delivery panel. not a real reference
     private Rolodex rolodex;
     private List<PropSpecialReview> propSpecialReviews;
-    private List<PropScienceKeyword> keywords;
+    private List<PropScienceKeyword> propScienceKeywords;
     private List<ProposalPerson> proposalPersons;
     private String newScienceKeywordCode;
     private String newDescription;
@@ -77,7 +78,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public ProposalDevelopmentDocument() {
         super();
-        keywords = new ArrayList<PropScienceKeyword>();
+        propScienceKeywords = new TypedArrayList(PropScienceKeyword.class);
         newDescription = getDefaultNewDescription();
         propLocations = new ArrayList<PropLocation>();
         propSpecialReviews = new ArrayList<PropSpecialReview>();
@@ -491,12 +492,16 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.rolodex = rolodex;
     }
 
-    public void setKeywords(List<PropScienceKeyword> keywords) {
-        this.keywords = keywords;
+    public void setPropScienceKeywords(List<PropScienceKeyword> propScienceKeywords) {
+        this.propScienceKeywords = propScienceKeywords;
     }
 
-    public List<PropScienceKeyword> getKeywords() {
-        return keywords;
+    public List<PropScienceKeyword> getPropScienceKeywords() {
+        return propScienceKeywords;
+    }
+
+    public void addPropScienceKeyword(PropScienceKeyword propScienceKeyword) {
+        getPropScienceKeywords().add(propScienceKeyword);
     }
 
     public String getNewScienceKeywordCode() {
