@@ -1,5 +1,18 @@
 
 
+function selectAllKeywords(document) {
+    var j = 0;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'checkbox') {
+	  	var name = 'document.propScienceKeywords[' + j + '].selectKeyword';
+	  	if (e.name == name) {
+ 		    e.checked = true;
+	  		j++;
+	  	}
+	  }
+	}
+}
 
 function textAreaPop(text,textAreaName,htmlFormAction,textAreaLabel){
   url=window.location.href
