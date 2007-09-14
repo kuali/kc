@@ -40,6 +40,17 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private PropLocation newPropLocation;
     private PropSpecialReview newPropSpecialReview;
 
+    /**
+     * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
+     */
+    private String lookupResultsSequenceNumber;
+    /**
+     * The type of result returned by the multi-value lookup
+     * 
+     * TODO: to be persisted in the lookup results service instead? See https://test.kuali.org/confluence/display/KULRNE/Using+multiple+value+lookups
+     */
+    private String lookupResultsBOClassName;
+
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
@@ -101,7 +112,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      */ 
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         ProposalDevelopmentDocument proposalDevelopmentDocument = this.getProposalDevelopmentDocument();
-        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getKeywords();
+        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
         for(int i=0; i<keywords.size(); i++) {
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword)keywords.get(i);
             propScienceKeyword.setSelectKeyword(false);
@@ -125,5 +136,22 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public String getPrimeSponsorName() {
         return primeSponsorName;
     }
+    
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+    
 
 }

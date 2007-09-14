@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +28,16 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.rice.KNSServiceLocator;
+
+import org.apache.commons.lang.StringUtils;
 
 public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBase {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
@@ -81,7 +89,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getKeywords();
+        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
         String newScienceKeywordCode = proposalDevelopmentDocument.getNewScienceKeywordCode();
         String newDescription = proposalDevelopmentDocument.getNewDescription();
         String defaultNewDescription = proposalDevelopmentDocument.getDefaultNewDescription();
@@ -96,7 +104,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
             propScienceKeyword.setScienceKeyword(scienceKeyword);
             keywords.add(propScienceKeyword);
             
-            proposalDevelopmentDocument.setKeywords(keywords);
+            proposalDevelopmentDocument.setPropScienceKeywords(keywords);
 
             /* initialize new keyword */
             proposalDevelopmentDocument.setNewScienceKeywordCode(null);
@@ -122,7 +130,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getKeywords();
+        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
         for(int i=0; i<keywords.size(); i++) {
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword)keywords.get(i);
             propScienceKeyword.setSelectKeyword(true);
@@ -135,7 +143,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getKeywords();
+        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
         List<PropScienceKeyword> newKeywords = new ArrayList();
         for(int i=0; i<keywords.size(); i++) {
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword)keywords.get(i);
@@ -143,8 +151,37 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
                 newKeywords.add(propScienceKeyword);
             }
         }
-        proposalDevelopmentDocument.setKeywords(newKeywords);
+        proposalDevelopmentDocument.setPropScienceKeywords(newKeywords);
 
+        return mapping.findForward("proposal");
+    }
+
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+
+        // check to see if we are coming back from a lookup
+        if (Constants.MULTIPLE_VALUE.equals(proposalDevelopmentForm.getRefreshCaller())) {
+            // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
+            // Since URLs have a max length of 2000 chars, field conversions can not be done.
+            String lookupResultsSequenceNumber = proposalDevelopmentForm.getLookupResultsSequenceNumber();
+            if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
+                Class lookupResultsBOClass = Class.forName(proposalDevelopmentForm.getLookupResultsBOClassName());
+                Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                if(lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
+                    for(Iterator iter = rawValues.iterator(); iter.hasNext(); ) {
+                        ScienceKeyword scienceKeyword = (ScienceKeyword) iter.next();
+                        PropScienceKeyword propScienceKeyword = new PropScienceKeyword(proposalDevelopmentDocument.getProposalNumber(), scienceKeyword);
+                        // ignore / drop duplicates
+                        if(!isDuplicateKeyword(propScienceKeyword.getScienceKeywordCode(), proposalDevelopmentDocument.getPropScienceKeywords())) {
+                            proposalDevelopmentDocument.addPropScienceKeyword(propScienceKeyword);
+                        }
+                    }
+                }
+            }
+        } 
         return mapping.findForward("proposal");
     }
     
