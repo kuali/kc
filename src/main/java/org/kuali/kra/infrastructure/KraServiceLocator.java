@@ -38,16 +38,54 @@ public class KraServiceLocator {
     }
 
     public static Object getService(String name) {
-	Object service = null;
-
-	try {
-	    service = getAppContext().getBean(name);
-	} catch (NoSuchBeanDefinitionException e) {
-	    // If we don't find this service locally, look for it in the KNS context
+        Object service = null;
+        
+        try {
+            service = getAppContext().getBean(name);
+        } catch (NoSuchBeanDefinitionException e) {
+            // If we don't find this service locally, look for it in the KNS context
             service = KNSServiceLocator.getService(name);
         }
+        
+        return service;
+    }
 
-	return service;
+    public static <T> T getTypedService(String name) {
+        T service = null;
+        
+        try {
+            service = (T) getAppContext().getBean(name);
+        } catch (NoSuchBeanDefinitionException e) {
+            // If we don't find this service locally, look for it in the KNS context
+            service = (T) KNSServiceLocator.getService(name);
+        }
+        
+        return service;
+    }
+
+    /**
+     * Uses the service interface to find the first service that matches it by name as a default service. There 
+     * may be many services for a given interface. Only use this method if you are interested in finding a service
+     * that matches the convention described.<br/>
+     * <br/>
+     * The service name and the service interface name are the same when converted to lowercase. Again, this method
+     * should only be used in the special case where this convention applies. On KRA, this is usually the case.
+     *
+     * @param Interface class of the service you want
+     * @return T the type of the service
+     */
+    public static <T> T getService(Class<T> serviceClass) {
+        T service = null;
+        String name = serviceClass.getSimpleName().substring(0, 1).toLowerCase() + serviceClass.getSimpleName().substring(1);
+
+        try {
+            service = (T) getAppContext().getBean(name);
+        } catch (NoSuchBeanDefinitionException e) {
+            // If we don't find this service locally, look for it in the KNS context
+            service = KNSServiceLocator.getBean(serviceClass, name);
+        }
+        
+        return service;
     }
 
 }
