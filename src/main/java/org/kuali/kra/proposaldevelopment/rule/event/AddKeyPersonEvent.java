@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -25,7 +26,7 @@ import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class AddKeyPersonEvent extends KeyPersonEventBase implements KeyPersonEvent {
     /**
@@ -37,6 +38,17 @@ public class AddKeyPersonEvent extends KeyPersonEventBase implements KeyPersonEv
      */
     public AddKeyPersonEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPerson person) {
         super("adding key person to document " + getDocumentId(document), errorPathPrefix, document, person);
+    }
+
+    /**
+     * Constructs an AddKeyPersonEvent with the given errorPathPrefix, document, and proposalPerson.
+     * 
+     * @param errorPathPrefix
+     * @param document
+     * @param proposalPerson
+     */
+    public AddKeyPersonEvent(String errorPathPrefix, Document document, ProposalPerson person) {
+        this(errorPathPrefix, (ProposalDevelopmentDocument) document, person);
     }
 
     /**

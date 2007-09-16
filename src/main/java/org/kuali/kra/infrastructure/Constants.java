@@ -31,4 +31,8 @@ public interface Constants {
     public static final String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
     public static final String CO_INVESTIGATOR_ROLE = "COI";
     public static final String MULTIPLE_VALUE = "multipleValues";
+
+    public static final String MAPPING_BASIC = "basic";
+    public static final String NEW_PROPOSAL_PERSON_PROPERTY_NAME = "newProposalPerson";
+    public static final String NEW_PERSON_LOOKUP_FLAG = "newPersonLookupFlag";
 }
