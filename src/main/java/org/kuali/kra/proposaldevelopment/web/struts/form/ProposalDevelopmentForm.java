@@ -23,10 +23,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -39,6 +42,9 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private String primeSponsorName;
     private PropLocation newPropLocation;
     private PropSpecialReview newPropSpecialReview;
+    private ProposalPerson newProposalPerson;
+    private String newRolodexId;
+    private String newPersonId;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -56,6 +62,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setDocument(new ProposalDevelopmentDocument());
         newPropLocation=new PropLocation();
         newPropSpecialReview=new PropSpecialReview();
+        setNewProposalPerson(new ProposalPerson());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
     }
@@ -136,13 +143,23 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public String getPrimeSponsorName() {
         return primeSponsorName;
     }
-    
-    public String getLookupResultsBOClassName() {
-        return lookupResultsBOClassName;
-    }
 
-    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
-        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    /**
+     * Gets the value of newPersonId
+     *
+     * @return the value of newPersonId
+     */
+    public String getNewPersonId() {
+        return this.newPersonId;
+    }
+    
+    /**
+     * Sets the value of newPersonId
+     *
+     * @param argNewPersonId Value to assign to this.newPersonId
+     */
+    public void setNewPersonId(String argNewPersonId) {
+        this.newPersonId = argNewPersonId;
     }
 
     public String getLookupResultsSequenceNumber() {
@@ -154,4 +171,47 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
     
 
+    /**
+     * Gets the value of newProposalPerson
+     *
+     * @return the value of newProposalPerson
+     */
+    public ProposalPerson getNewProposalPerson() {
+        return this.newProposalPerson;
+    }
+    
+    /**
+     * Sets the value of newProposalPerson
+     *
+     * @param argNewPersonId Value to assign to this.newProposalPerson
+     */
+    public void setNewProposalPerson(ProposalPerson argNewProposalPerson) {
+        this.newProposalPerson = argNewProposalPerson;
+    }
+
+    /**
+     * Gets the value of newRolodexId
+     *
+     * @return the value of newRolodexId
+     */
+    public String getNewRolodexId() {
+        return this.newRolodexId;
+    }
+    
+    /**
+     * Sets the value of newRolodexId
+     *
+     * @param argNewRolodexId Value to assign to this.newRolodexId
+     */
+    public void setNewRolodexId(String argNewRolodexId) {
+        this.newRolodexId = argNewRolodexId;
+    }
+    
+        public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
 }

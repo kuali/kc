@@ -72,6 +72,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<PropSpecialReview> propSpecialReviews;
     private List<PropScienceKeyword> propScienceKeywords;
     private List<ProposalPerson> proposalPersons;
+    private ProposalPerson principalInvestigator;
     private String newScienceKeywordCode;
     private String newDescription;
     private Sponsor sponsor;
@@ -578,6 +579,25 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
+    }
+    
+    
+    /**
+     * Accessor for the principal investigator of this proposal
+     *
+     * @return ProposalPerson
+     */
+    public ProposalPerson getPrincipalInvestigator() {
+        return principalInvestigator;
+    }
+    
+    /**
+     * Accessor for the principal investigator of this proposal
+     *
+     * @param person
+     */
+    public void setPrincipalInvestigator(ProposalPerson person) {
+        principalInvestigator = person;
     }
 
 }
