@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.2 2007-09-03 21:40:54 lprzybyl Exp $
+ * $Id: Person.java,v 1.3 2007-09-16 02:05:43 lprzybyl Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -398,6 +398,15 @@ public class Person extends KraPersistableBusinessObjectBase {
      * @return the value of handicapped
      */
     public Boolean isHandicapped() {
+        return getIsHandicapped();
+    }
+
+    /**
+     * Gets the value of handicapped
+     *
+     * @return the value of handicapped
+     */
+    public Boolean getIsHandicapped() {
         return this.handicapped;
     }
 
@@ -434,6 +443,15 @@ public class Person extends KraPersistableBusinessObjectBase {
      * @return the value of veteran
      */
     public Boolean isVeteran() {
+        return getIsVeteran();
+    }
+
+    /**
+     * Gets the value of veteran
+     *
+     * @return the value of veteran
+     */
+    public Boolean getIsVeteran() {
         return this.veteran;
     }
 
@@ -758,6 +776,15 @@ public class Person extends KraPersistableBusinessObjectBase {
      * @return the value of faculty
      */
     public Boolean isFaculty() {
+        return getIsFaculty();
+    }
+
+    /**
+     * Gets the value of faculty
+     *
+     * @return the value of faculty
+     */
+    public Boolean getIsFaculty() {
         return this.faculty;
     }
 
@@ -776,6 +803,15 @@ public class Person extends KraPersistableBusinessObjectBase {
      * @return the value of graduateStudentStaff
      */
     public Boolean isGraduateStudentStaff() {
+        return getIsGraduateStudentStaff();
+    }
+
+    /**
+     * Gets the value of graduateStudentStaff
+     *
+     * @return the value of graduateStudentStaff
+     */
+    public Boolean getIsGraduateStudentStaff() {
         return this.graduateStudentStaff;
     }
 
@@ -784,7 +820,7 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argGraduateStudentStaff Value to assign to this.graduateStudentStaff
      */
-    public void setGraduateStudentStaff(Boolean argGraduateStudentStaff) {
+    public void setIsGraduateStudentStaff(Boolean argGraduateStudentStaff) {
         this.graduateStudentStaff = argGraduateStudentStaff;
     }
 
@@ -794,6 +830,15 @@ public class Person extends KraPersistableBusinessObjectBase {
      * @return the value of researchStaff
      */
     public Boolean isResearchStaff() {
+        return getIsResearchStaff();
+    }
+
+    /**
+     * Gets the value of researchStaff
+     *
+     * @return the value of researchStaff
+     */
+    public Boolean getIsResearchStaff() {
         return this.researchStaff;
     }
 
@@ -812,6 +857,15 @@ public class Person extends KraPersistableBusinessObjectBase {
      * @return the value of serviceStaff
      */
     public Boolean isServiceStaff() {
+        return getIsServiceStaff();
+    }
+
+    /**
+     * Gets the value of serviceStaff
+     *
+     * @return the value of serviceStaff
+     */
+    public Boolean getIsServiceStaff() {
         return this.serviceStaff;
     }
 
@@ -830,6 +884,15 @@ public class Person extends KraPersistableBusinessObjectBase {
      * @return the value of supportStaff
      */
     public Boolean isSupportStaff() {
+        return getIsSupportStaff();
+    }
+
+    /**
+     * Gets the value of supportStaff
+     *
+     * @return the value of supportStaff
+     */
+    public Boolean getIsSupportStaff() {
         return this.supportStaff;
     }
 
@@ -848,6 +911,15 @@ public class Person extends KraPersistableBusinessObjectBase {
      * @return the value of otherAcademicGroup
      */
     public Boolean isOtherAcademicGroup() {
+        return getIsOtherAcademicGroup();
+    }
+
+    /**
+     * Gets the value of otherAcademicGroup
+     *
+     * @return the value of otherAcademicGroup
+     */
+    public Boolean getIsOtherAcademicGroup() {
         return this.otherAcademicGroup;
     }
 
@@ -866,6 +938,15 @@ public class Person extends KraPersistableBusinessObjectBase {
      * @return the value of medicalStaff
      */
     public Boolean isMedicalStaff() {
+        return getIsMedicalStaff();
+    }
+
+    /**
+     * Gets the value of medicalStaff
+     *
+     * @return the value of medicalStaff
+     */
+    public Boolean getIsMedicalStaff() {
         return this.medicalStaff;
     }
 
@@ -884,6 +965,15 @@ public class Person extends KraPersistableBusinessObjectBase {
      * @return the value of vacationAccrual
      */
     public Boolean isVacationAccrual() {
+        return getIsVacationAccrual();
+    }
+
+    /**
+     * Gets the value of vacationAccrual
+     *
+     * @return the value of vacationAccrual
+     */
+    public Boolean getIsVacationAccrual() {
         return this.vacationAccrual;
     }
 
@@ -902,6 +992,15 @@ public class Person extends KraPersistableBusinessObjectBase {
      * @return the value of onSabbatical
      */
     public Boolean isOnSabbatical() {
+        return getIsOnSabbatical();
+    }
+
+    /**
+     * Gets the value of onSabbatical
+     *
+     * @return the value of onSabbatical
+     */
+    public Boolean getIsOnSabbatical() {
         return this.onSabbatical;
     }
 
