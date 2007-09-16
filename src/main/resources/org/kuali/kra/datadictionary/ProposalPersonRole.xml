@@ -24,7 +24,7 @@
             <title>Proposal Person Role</title>
 
             <inquirySections><inquirySection title="Proposal Person Role"><inquiryFields>
-                <field attributeName="proposalPersonRoleId" forceInquiry="true"/>;
+                <field attributeName="proposalPersonRoleId" forceInquiry="true"/>
                 <field attributeName="description" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -42,17 +42,17 @@
                 </sortAttributes>
             </defaultSort>
 
-            <lookupLookupFields>
+            <lookupFields>
                 <lookupField attributeName="proposalPersonRoleId" />
-            </lookupLookupFields>
+            </lookupFields>
 
-            <resultLookupFields> 
-                <field attributeName="proposalPersonRoleId" forceInquiry="true"/>;
+            <resultFields> 
+                <field attributeName="proposalPersonRoleId" forceInquiry="true"/>
                 <field attributeName="description" forceInquiry="false" /> 
-           </resultLookupFields>
+           </resultFields>
         </lookup>
 
-        <titleAttribute>unitNumber</titleAttribute>
+        <titleAttribute>proposalPersonRoleId</titleAttribute>
         <attributes>
 
             <attributeReference name="proposalPersonRoleId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">

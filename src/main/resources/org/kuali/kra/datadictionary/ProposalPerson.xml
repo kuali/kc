@@ -19,7 +19,7 @@
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPerson">
-
+<!--
         <inquiry>
             <title>Proposal Person</title>
 
@@ -44,9 +44,9 @@
                 <field attributeName="educationLevel" />
                 <field attributeName="degree" />
                 <field attributeName="major" />
-                <field attributeName="handicapped" />
+                <field attributeName="isHandicapped" />
                 <field attributeName="handicapType" />
-                <field attributeName="veteran" />
+                <field attributeName="isVeteran" />
                 <field attributeName="veteranType" />
                 <field attributeName="visaCode" />
                 <field attributeName="visaType" />
@@ -64,15 +64,15 @@
                 <field attributeName="primaryTitle" />
                 <field attributeName="directoryTitle" />
                 <field attributeName="homeUnit" />
-                <field attributeName="faculty" />
-                <field attributeName="graduateStudentStaff" />
-                <field attributeName="researchStaff" />
-                <field attributeName="serviceStaff" />
-                <field attributeName="supportStaff" />
-                <field attributeName="otherAcademicGroup" />
-                <field attributeName="medicalStaff" />
-                <field attributeName="vacationAccrual" />
-                <field attributeName="onSabbatical" />
+                <field attributeName="isFaculty" />
+                <field attributeName="isGraduateStudentStaff" />
+                <field attributeName="isResearchStaff" />
+                <field attributeName="isServiceStaff" />
+                <field attributeName="isSupportStaff" />
+                <field attributeName="isOtherAcademicGroup" />
+                <field attributeName="isMedicalStaff" />
+                <field attributeName="isVacationAccrual" />
+                <field attributeName="isOnSabbatical" />
                 <field attributeName="idProvided" />
                 <field attributeName="idVerified" />
                 <field attributeName="addressLine1" />
@@ -104,12 +104,13 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                	<sortAttribute attributeName="sponsorCode"/>
-
+                	<sortAttribute attributeName="proposalPersonNumber"/>
+                	<sortAttribute attributeName="proposalNumber"/>
+                	<sortAttribute attributeName="proposalPersonRoleId"/>
                 </sortAttributes>
             </defaultSort>
 
-            <lookupLookupFields>
+            <lookupFields>
                 <lookupField attributeName="proposalNumber" />
                 <lookupField attributeName="proposalPersonNumber" />
                 <lookupField attributeName="proposalPersonRoleId" />
@@ -130,9 +131,9 @@
                 <lookupField attributeName="educationLevel" />
                 <lookupField attributeName="degree" />
                 <lookupField attributeName="major" />
-                <lookupField attributeName="handicapped" />
+                <lookupField attributeName="isHandicapped" />
                 <lookupField attributeName="handicapType" />
-                <lookupField attributeName="veteran" />
+                <lookupField attributeName="isVeteran" />
                 <lookupField attributeName="veteranType" />
                 <lookupField attributeName="visaCode" />
                 <lookupField attributeName="visaType" />
@@ -150,15 +151,15 @@
                 <lookupField attributeName="primaryTitle" />
                 <lookupField attributeName="directoryTitle" />
                 <lookupField attributeName="homeUnit" />
-                <lookupField attributeName="faculty" />
-                <lookupField attributeName="graduateStudentStaff" />
-                <lookupField attributeName="researchStaff" />
-                <lookupField attributeName="serviceStaff" />
-                <lookupField attributeName="supportStaff" />
-                <lookupField attributeName="otherAcademicGroup" />
-                <lookupField attributeName="medicalStaff" />
-                <lookupField attributeName="vacationAccrual" />
-                <lookupField attributeName="onSabbatical" />
+                <lookupField attributeName="isFaculty" />
+                <lookupField attributeName="isGraduateStudentStaff" />
+                <lookupField attributeName="isResearchStaff" />
+                <lookupField attributeName="isServiceStaff" />
+                <lookupField attributeName="isSupportStaff" />
+                <lookupField attributeName="isOtherAcademicGroup" />
+                <lookupField attributeName="isMedicalStaff" />
+                <lookupField attributeName="isVacationAccrual" />
+                <lookupField attributeName="isOnSabbatical" />
                 <lookupField attributeName="idProvided" />
                 <lookupField attributeName="idVerified" />
                 <lookupField attributeName="addressLine1" />
@@ -177,9 +178,9 @@
                 <lookupField attributeName="percentageEffort" />
                 <lookupField attributeName="fedrDebr" />
                 <lookupField attributeName="fedrDelq" />
-            </lookupLookupFields>
+            </lookupFields>
 
-            <resultLookupFields> 
+            <resultFields> 
                 <field attributeName="proposalNumber" forceInquiry="true"/>
                 <field attributeName="proposalPersonNumber" forceInquiry="true"/>
                 <field attributeName="proposalPersonRoleId" forceInquiry="true"/>
@@ -200,9 +201,9 @@
                 <field attributeName="educationLevel" forceInquiry="false" />
                 <field attributeName="degree" forceInquiry="false" />
                 <field attributeName="major" forceInquiry="false" />
-                <field attributeName="handicapped" forceInquiry="false" />
+                <field attributeName="isHandicapped" forceInquiry="false" />
                 <field attributeName="handicapType" forceInquiry="false" />
-                <field attributeName="veteran" forceInquiry="false" />
+                <field attributeName="isVeteran" forceInquiry="false" />
                 <field attributeName="veteranType" forceInquiry="false" />
                 <field attributeName="visaCode" forceInquiry="false" />
                 <field attributeName="visaType" forceInquiry="false" />
@@ -220,15 +221,15 @@
                 <field attributeName="primaryTitle" forceInquiry="false" />
                 <field attributeName="directoryTitle" forceInquiry="false" />
                 <field attributeName="homeUnit" forceInquiry="false" />
-                <field attributeName="faculty" forceInquiry="false" />
-                <field attributeName="graduateStudentStaff" forceInquiry="false" />
-                <field attributeName="researchStaff" forceInquiry="false" />
-                <field attributeName="serviceStaff" forceInquiry="false" />
-                <field attributeName="supportStaff" forceInquiry="false" />
-                <field attributeName="otherAcademicGroup" forceInquiry="false" />
-                <field attributeName="medicalStaff" forceInquiry="false" />
-                <field attributeName="vacationAccrual" forceInquiry="false" />
-                <field attributeName="onSabbatical" forceInquiry="false" />
+                <field attributeName="isFaculty" forceInquiry="false" />
+                <field attributeName="isGraduateStudentStaff" forceInquiry="false" />
+                <field attributeName="isResearchStaff" forceInquiry="false" />
+                <field attributeName="isServiceStaff" forceInquiry="false" />
+                <field attributeName="isSupportStaff" forceInquiry="false" />
+                <field attributeName="isOtherAcademicGroup" forceInquiry="false" />
+                <field attributeName="isMedicalStaff" forceInquiry="false" />
+                <field attributeName="isVacationAccrual" forceInquiry="false" />
+                <field attributeName="isOnSabbatical" forceInquiry="false" />
                 <field attributeName="idProvided" forceInquiry="false" />
                 <field attributeName="idVerified" forceInquiry="false" />
                 <field attributeName="addressLine1" forceInquiry="false" />
@@ -247,10 +248,11 @@
                 <field attributeName="percentageEffort" forceInquiry="false" />
                 <field attributeName="fedrDebr" forceInquiry="false" />
                 <field attributeName="fedrDelq" forceInquiry="false" />
-           </resultLookupFields>
+           </resultFields>
         </lookup>
 
         <titleAttribute>proposalPersonNumber</titleAttribute>
+-->
         <attributes>
 
             <attributeReference name="proposalNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
@@ -273,6 +275,9 @@
             <attributeReference name="proposalPersonRoleId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
                 <label>Proposal Person Role Id</label>
  	            <shortLabel>Prop Per Role Id</shortLabel>
+                <control>
+                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder" />
+                </control>
  	            <summary>Proposal Person Role Id</summary>
                 <description>Proposal Person Role Id</description>
             </attributeReference>
@@ -316,11 +321,11 @@
 
             <attributeReference name="major" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="major" />
 
-            <attributeReference name="handicapped" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="handicapped" />
+            <attributeReference name="isHandicapped" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isHandicapped" />
 
             <attributeReference name="handicapType" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="handicapType" />
 
-            <attributeReference name="veteran" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="veteran" />
+            <attributeReference name="isVeteran" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isVeteran" />
 
             <attributeReference name="veteranType" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="veteranType" />
 
@@ -354,23 +359,23 @@
 
             <attributeReference name="homeUnit" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="homeUnit" />
 
-            <attributeReference name="faculty" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="faculty" />
+            <attributeReference name="isFaculty" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isFaculty" />
 
-            <attributeReference name="graduateStudentStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="graduateStudentStaff" />
+            <attributeReference name="isGraduateStudentStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isGraduateStudentStaff" />
 
-            <attributeReference name="researchStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="researchStaff" />
+            <attributeReference name="isResearchStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isResearchStaff" />
 
-            <attributeReference name="serviceStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="serviceStaff" />
+            <attributeReference name="isServiceStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isServiceStaff" />
 
-            <attributeReference name="supportStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="supportStaff" />
+            <attributeReference name="isSupportStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isSupportStaff" />
 
-            <attributeReference name="otherAcademicGroup" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="otherAcademicGroup" />
+            <attributeReference name="isOtherAcademicGroup" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isOtherAcademicGroup" />
 
-            <attributeReference name="medicalStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="medicalStaff" />
+            <attributeReference name="isMedicalStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isMedicalStaff" />
 
-            <attributeReference name="vacationAccrual" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="vacationAccrual" />
+            <attributeReference name="isVacationAccrual" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isVacationAccrual" />
 
-            <attributeReference name="onSabbatical" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="onSabbatical" />
+            <attributeReference name="isOnSabbatical" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isOnSabbatical" />
 
             <attributeReference name="idProvided" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="idProvided" />
 
