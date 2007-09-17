@@ -182,13 +182,13 @@
 
 <!-- Sponsor & Program Information -->
             <attributeReference name="deadlineDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Proposal Deadline Date</label>
-                <shortLabel>Proposal Deadline Date</shortLabel>
+                <label>Sponsor Deadline Date</label>
+                <shortLabel>Sponsor Deadline Date</shortLabel>
 
  				<required>false</required>
 
                 <summary>The Deadline Date of the Proposal</summary>
-                <description>This field represents the date the proposal is due to the institution's office that is authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.).</description>
+                <description>This field represents the date the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.).</description>
       		</attributeReference>
 
 			<attribute name="noticeOfOpportunityCode">
@@ -256,7 +256,7 @@
 				</control>
 
 				<summary>The Opportunity Id for this Proposal.</summary>
-				<description>This field is used to enter the unique identifier associated with each sponsor's funding opportunity announcement. This is equivalent to "Funding Opportunity Ammouncement number" or "FOA number".</description>
+				<description>This field is used to enter the unique identifier associated with each sponsor's funding opportunity announcement. This is equivalent to "Funding Opportunity Announcement number" or "FOA number".</description>
 			</attribute>
 
       		<attribute name="primeSponsorCode">
@@ -289,8 +289,8 @@
 					<text size="72"/>
 				</control>
 
-				<summary>The Sponsor ID for this Proposal.</summary>
-				<description>This field is used to indicate the ID assigned by the sponsor when the proposal was submitted.</description>
+				<summary>The Sponsor Id for this Proposal.</summary>
+				<description>This field is used to indicate the Id assigned by the sponsor when the proposal was submitted.</description>
 			</attribute>
 
       		<attribute name="sponsorAwardNumber">
@@ -323,7 +323,7 @@
 					<text size="72"/>
 				</control>
 
-				<summary>The Original Proposal ID for this Proposal.</summary>
+				<summary>The Original Proposal Id for this Proposal.</summary>
 				<description>The unique award number identifying a proposal that has been awarded.</description>
 			</attribute>
 
@@ -346,13 +346,13 @@
 
             <attributeReference name="subcontracts" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Does this proposal include subaward(s)</label>
-                <shortLabel>Subawards Flag</shortLabel>
-                <summary>Subawards Flag</summary>
+                <shortLabel>Subaward Flag</shortLabel>
+                <summary>Subaward Flag</summary>
                 <description>The Proposal will include a subaward with another institution.</description>
 			</attributeReference>
 
 			<attribute name="agencyDivisionCode">
-				<label>Agency Division Code</label>
+				<label>Agency Div Code</label>
 				<shortLabel>Agency Div Code</shortLabel>
 
 				<maxLength>3</maxLength>
@@ -389,7 +389,7 @@
 				<label>Sponsor Program Announcement Name</label>
 				<shortLabel>Program Title</shortLabel>
 
-				<maxLength>150</maxLength>
+				<maxLength>255</maxLength>
 				<validationPattern><alphaNumeric allowWhitespace="true" /></validationPattern>
 
 				<required>false</required>
@@ -398,8 +398,8 @@
                     <textarea rows="3" cols="80" />
                 </control>
 
-				<summary>The Program Title for this Proposal.</summary>
-				<description>This field is used to indicate the title of the sponsor's funding opportunity announcement.</description>
+				<summary>The Sponsor Program Announcement Name for this Proposal.</summary>
+				<description>The title of a publicly available document, announcing a federal agency’s intentions to award discretionary grants or cooperative agreements, usually as a result of competition for funds. A.k.a.  Funding opportunity announcements, notices of funding availability, or solicitations.</description>
 			</attribute>
 
 <!-- delivery info -->
