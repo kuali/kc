@@ -16,20 +16,26 @@
 package org.kuali.kra.document;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 
 public class ResearchDocumentBase extends TransactionalDocumentBase {
 
     private String updateUser;
     private Timestamp updateTimestamp;
+    private List<DocumentNextvalue> documentNextvalues;
 
     public ResearchDocumentBase() {
         super();
+        documentNextvalues = new ArrayList<DocumentNextvalue>();
     }
 
     @Override
@@ -44,6 +50,7 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
 
         setUpdateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         setUpdateUser(updateUser);
+        //setProposalNextvalues(documentNextvalues);
     }
 
     public Timestamp getUpdateTimestamp() {
@@ -59,4 +66,35 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
     public void setUpdateUser(String updateUser) {
         this.updateUser = updateUser;
     }
+
+    public void setProposalNextvalues(List<DocumentNextvalue> documentNextvalues) {
+        this.documentNextvalues = documentNextvalues;
+    }
+
+    public List<DocumentNextvalue> getProposalNextvalues() {
+        return documentNextvalues;
+    }
+
+    public Integer getProposalNextValue(String propertyName) {
+        Integer propNextValue = 1;
+        // search for property and get the latest number - increment for next call
+        for(int i=0; i<documentNextvalues.size(); i++) {
+            DocumentNextvalue documentNextvalue = (DocumentNextvalue)documentNextvalues.get(i);
+            if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
+                propNextValue = documentNextvalue.getNextValue();
+                documentNextvalue.setNextValue(propNextValue + 1);
+            }
+        }
+        // property does not exist - set initial value and increment for next call
+        if(propNextValue == 1) {
+            DocumentNextvalue documentNextvalue = new DocumentNextvalue();
+            documentNextvalue.setNextValue(propNextValue + 1);
+            documentNextvalue.setPropertyName(propertyName);
+            
+            documentNextvalues.add(documentNextvalue);
+        }
+        setProposalNextvalues(documentNextvalues);
+        return propNextValue;
+    }
+
 }
