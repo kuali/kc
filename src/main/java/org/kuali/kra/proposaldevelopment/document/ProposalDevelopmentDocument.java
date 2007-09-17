@@ -94,7 +94,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public List<ProposalPerson> getProposalPersons() {
         return this.proposalPersons;
     }
-     
+
     /**
      * Sets the value of proposalPersons
      *
@@ -529,7 +529,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setPropSpecialReviews(List<PropSpecialReview> propSpecialReviews) {
         this.propSpecialReviews = propSpecialReviews;
     }
-    
+
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -573,10 +573,18 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.sponsorAwardNumber = sponsorAwardNumber;
     }
 
+    /**
+     * Gets the sponsor attribute.
+     * @return Returns the sponsor.
+     */
     public Sponsor getSponsor() {
         return sponsor;
     }
 
+    /**
+     * Sets the sponsor attribute value.
+     * @param sponsor The sponsor to set.
+     */
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
     }
