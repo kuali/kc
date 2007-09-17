@@ -91,7 +91,7 @@
         <lookup>
             <title>Person Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Person</instructions>
 
@@ -165,7 +165,7 @@
                 <lookupField attributeName="eraCommonsUserName" />
             </lookupFields>
 
-            <resultFields> 
+            <resultFields>
                 <field attributeName="personId" forceInquiry="true"/>
                 <field attributeName="socialSecurityNumber" forceInquiry="false" />
                 <field attributeName="lastName" forceInquiry="false" />
@@ -308,7 +308,7 @@
                 <summary>User Name</summary>
             	<description>User Name</description>
             </attribute>
- 
+
             <attributeReference name="emailAddress" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="emailAddress" />
 
             <attributeReference name="dateOfBirth" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
@@ -595,56 +595,56 @@
             	<description>Faculty</description>
             </attributeReference>
 
-            <attributeReference name="isGraduateStudentStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+            <attributeReference name="isGraduateStudentStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Graduate Student Staff</label>
                 <shortLabel>Grad Stud Staff</shortLabel>
                 <summary>Create User </summary>
             	<description>Create User </description>
             </attributeReference>
 
-            <attributeReference name="isResearchStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+            <attributeReference name="isResearchStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Research Staff</label>
                 <shortLabel>Research Staff</shortLabel>
                 <summary>Is Research Staff</summary>
             	<description>Is Research Staff</description>
             </attributeReference>
 
-            <attributeReference name="isServiceStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+            <attributeReference name="isServiceStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Service Staff</label>
                 <shortLabel>Serv Staff</shortLabel>
                 <summary>Is Service Staff</summary>
             	<description>Is Service Staff</description>
             </attributeReference>
 
-            <attributeReference name="isSupportStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+            <attributeReference name="isSupportStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Support Staff</label>
                 <shortLabel>Supp Staff</shortLabel>
                 <summary>Is Support Staff</summary>
             	<description>Is Support Staff</description>
             </attributeReference>
 
-            <attributeReference name="isOtherAcademicGroup" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+            <attributeReference name="isOtherAcademicGroup" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Other Academic Group</label>
                 <shortLabel>Is Oth Acad Grp</shortLabel>
                 <summary>Is Other Academic Group</summary>
             	<description>Is Other Academic Group</description>
             </attributeReference>
 
-            <attributeReference name="isMedicalStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+            <attributeReference name="isMedicalStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Medical Staff</label>
                 <shortLabel>Med Staff</shortLabel>
                 <summary>Is Medical Staff</summary>
             	<description>Is Medical Staff</description>
             </attributeReference>
 
-            <attributeReference name="isVacationAccrual" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+            <attributeReference name="isVacationAccrual" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Vacation Accrual</label>
                 <shortLabel>Vac Accru</shortLabel>
                 <summary>Is Vacation Accrual</summary>
             	<description>Is Vacation Accrual</description>
             </attributeReference>
- 
-           <attributeReference name="isOnSabbatical" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"> 
+
+           <attributeReference name="isOnSabbatical" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is on Sabbatical</label>
                 <shortLabel>Sabbatical</shortLabel>
                 <summary>Is on Sabbatical</summary>
@@ -766,7 +766,7 @@
                     <text size="20" />
                 </control>
                 <summary>Era Commons User Name</summary>
-            	<description>Era Commons User Name</description> 
+            	<description>Era Commons User Name</description>
            </attribute>
 
            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

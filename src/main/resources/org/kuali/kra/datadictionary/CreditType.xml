@@ -32,7 +32,7 @@
         <lookup>
             <title>Credit Type Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/SampleRiceClient/index.html">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Credit Type</instructions>
 
