@@ -33,9 +33,16 @@
            		</td>
         	</tr>
         	<tr>
+        		<!--
 				<th><div align="right">Agency/Sponsor Name:</div></th>
+        		 -->
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.Sponsor.attributes.sponsorName}" /></div></th>
 				<!-- TODO: change to sponsor name once sponsor lookup is configured on required fields panel -->
-                <td>${KualiForm.document.sponsorCode}</td>
+           		<td>
+                	<div id="sponsorName.div">
+                		<bean:write	name="KualiForm" property="document.sponsor.sponsorName" />&nbsp;
+					</div>
+           		</td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.programAnnouncementNumber}" /></div></th>
            		<td>
            			<kul:htmlControlAttribute property="document.programAnnouncementNumber" attributeEntry="${proposalDevelopmentAttributes.programAnnouncementNumber}" />
@@ -46,7 +53,7 @@
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.primeSponsorCode" attributeEntry="${proposalDevelopmentAttributes.primeSponsorCode}"  onblur="loadSponsorName('document.primeSponsorCode', 'primeSponsorName');" />
                 	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.primeSponsorCode,sponsorName:primeSponsorName" />
-                	<br>
+                	<br />
                 	<div id="primeSponsorName.div" class="fineprint"><bean:write
 						name="KualiForm" property="primeSponsorName" />&nbsp;
 					</div>
@@ -54,6 +61,17 @@
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorProposalNumber}" /></div></th>
            		<td>
            			<kul:htmlControlAttribute property="document.sponsorProposalNumber" attributeEntry="${proposalDevelopmentAttributes.sponsorProposalNumber}" />
+           		</td>
+     		</tr>
+        	<tr>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorAwardNumber}" /></div></th>
+                <td>
+                	<kul:htmlControlAttribute property="document.sponsorAwardNumber" attributeEntry="${proposalDevelopmentAttributes.sponsorAwardNumber}" />
+                </td>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.originalProposalNumber}" /></div></th>
+           		<td>
+           			<kul:htmlControlAttribute property="document.originalProposalNumber" attributeEntry="${proposalDevelopmentAttributes.originalProposalNumber}" />
+           			<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.Proposal" fieldConversions="proposalNumber:document.originalProposalNumber" />
            		</td>
      		</tr>
         	<tr>
