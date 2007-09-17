@@ -32,7 +32,7 @@
         <lookup>
             <title>Science Code Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/SampleRiceClient/index.html">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Person Document Type Code</instructions>
 

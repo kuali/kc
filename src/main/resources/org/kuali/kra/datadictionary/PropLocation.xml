@@ -34,7 +34,7 @@
         <lookup>
             <title>Prop Location Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Prop Location</instructions>
 
@@ -70,7 +70,7 @@
 			<maxLength>60</maxLength>
 			<validationPattern><alphaNumeric allowWhitespace="true" allowUnderscore="true"/></validationPattern>
 			<required>true</required>
-			
+
 			<control>
 				<text size="60" />
 			</control>

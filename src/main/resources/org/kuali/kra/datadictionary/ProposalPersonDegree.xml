@@ -24,8 +24,8 @@
             <title>Proposal Person Degree</title>
 
             <inquirySections><inquirySection title="Proposal Person Unit"><inquiryFields>
-                <field attributeName="proposalPersonNumber" forceInquiry="true"/>;
-                <field attributeName="proposalNumber" forceInquiry="true" /> 
+                <field attributeName="proposalPersonNumber" forceInquiry="true"/>
+                <field attributeName="proposalNumber" forceInquiry="true" />
                 <field attributeName="graduationDate" forceInquiry="true" />
                 <field attributeName="degreeCode" forceInquiry="true" />
                 <field attributeName="degree" forceInquiry="true" />
@@ -40,7 +40,7 @@
         <lookup>
             <title>Proposal Person Degree</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Proposal Person Degree</instructions>
 
@@ -54,16 +54,16 @@
                 </sortAttributes>
             </defaultSort>
 
-            <lookupLookupFields>
+            <lookupFields>
                 <lookupField attributeName="proposalNumber" />
                 <lookupField attributeName="proposalPersonNumber" />
                 <lookupField attributeName="unitNumber" />
                 <lookupField attributeName="leadUnit" />
-            </lookupLookupFields>
+            </lookupFields>
 
-            <resultLookupFields> 
-                <field attributeName="proposalPersonNumber" forceInquiry="true"/>;
-                <field attributeName="proposalNumber" forceInquiry="true" /> 
+            <resultFields>
+                <field attributeName="proposalPersonNumber" forceInquiry="true"/>
+                <field attributeName="proposalNumber" forceInquiry="true" />
                 <field attributeName="graduationDate" forceInquiry="true" />
                 <field attributeName="degreeCode" forceInquiry="true" />
                 <field attributeName="degree" forceInquiry="true" />
@@ -72,7 +72,7 @@
                 <field attributeName="school" forceInquiry="false" />
                 <field attributeName="schoolIdCode" forceInquiry="false" />
                 <field attributeName="schoolCode" forceInquiry="false" />
-           </resultLookupFields>
+           </resultFields>
         </lookup>
 
         <titleAttribute>unitNumber</titleAttribute>

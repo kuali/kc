@@ -32,7 +32,7 @@
         <lookup>
             <title>Notice of Opportunity Lookup</title>
 			<menubar>
-				<![CDATA[<a href="../portal.do">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Notice of Opportunity</instructions>
 

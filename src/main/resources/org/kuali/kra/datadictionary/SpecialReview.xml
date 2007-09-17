@@ -32,7 +32,7 @@
         <lookup>
             <title>Special Review Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Special Review Type</instructions>
 

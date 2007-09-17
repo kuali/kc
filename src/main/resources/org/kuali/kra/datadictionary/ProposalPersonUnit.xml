@@ -24,8 +24,8 @@
             <title>Proposal Person Unit</title>
 
             <inquirySections><inquirySection title="Proposal Person Unit"><inquiryFields>
-                <field attributeName="proposalPersonNumber" forceInquiry="true"/>;
-                <field attributeName="proposalNumber" forceInquiry="true" /> 
+                <field attributeName="proposalPersonNumber" forceInquiry="true"/>
+                <field attributeName="proposalNumber" forceInquiry="true" />
                 <field attributeName="unitNumber" forceInquiry="true" />
                 <field attributeName="leadUnit" />
             </inquiryFields></inquirySection></inquirySections>
@@ -34,7 +34,7 @@
         <lookup>
             <title>Proposal Person Unit</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Proposal Person Unit</instructions>
 
@@ -46,19 +46,19 @@
                 </sortAttributes>
             </defaultSort>
 
-            <lookupLookupFields>
+            <lookupFields>
                 <lookupField attributeName="proposalNumber" />
                 <lookupField attributeName="proposalPersonNumber" />
                 <lookupField attributeName="unitNumber" />
                 <lookupField attributeName="leadUnit" />
-            </lookupLookupFields>
+            </lookupFields>
 
-            <resultLookupFields> 
-                <field attributeName="proposalPersonNumber" forceInquiry="true"/>;
-                <field attributeName="proposalNumber" forceInquiry="true" /> 
+            <resultFields>
+                <field attributeName="proposalPersonNumber" forceInquiry="true"/>
+                <field attributeName="proposalNumber" forceInquiry="true" />
                 <field attributeName="unitNumber" forceInquiry="true" />
                 <field attributeName="leadUnit" forceInquiry="false" />
-           </resultLookupFields>
+           </resultFields>
         </lookup>
 
         <titleAttribute>unitNumber</titleAttribute>

@@ -32,7 +32,7 @@
         <lookup>
             <title>Proposal Person Role</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Proposal Person Role</instructions>
 
@@ -46,9 +46,9 @@
                 <lookupField attributeName="proposalPersonRoleId" />
             </lookupFields>
 
-            <resultFields> 
+            <resultFields>
                 <field attributeName="proposalPersonRoleId" forceInquiry="true"/>
-                <field attributeName="description" forceInquiry="false" /> 
+                <field attributeName="description" forceInquiry="false" />
            </resultFields>
         </lookup>
 
