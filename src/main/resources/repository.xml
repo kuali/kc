@@ -64,19 +64,9 @@
     	<!-- KEYWORD panel -->
 
 		<!-- GENERATE NEXT VALUE -->
-        <!--
    		<collection-descriptor name="proposalNextvalues" element-class-ref="org.kuali.kra.bo.ProposalNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber" />
 		</collection-descriptor>
-        -->
-		<!-- GENERATE NEXT VALUE -->
-
-		<!-- GENERATE NEXT VALUE -->
-        <!--
-   		<collection-descriptor name="proposalNextvalues" element-class-ref="org.kuali.kra.bo.ProposalNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="proposalNumber" />
-		</collection-descriptor>
-        -->
 		<!-- GENERATE NEXT VALUE -->
 
 		<collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -106,8 +96,7 @@
 	</class-descriptor>
 
 	<!-- GENERATE NEXT VALUE -->
-    <!--
-	<class-descriptor class="org.kuali.kra.bo.ProposalNextvalue" table="PROPOSALNEXTVALUE">
+	<class-descriptor class="org.kuali.kra.bo.ProposalNextvalue" table="PROPOSAL_NEXTVALUE">
 		<field-descriptor name="propertyName" column="PROPERTY_NAME" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="nextValue" column="NEXT_VALUE" jdbc-type="INTEGER"/>
@@ -116,21 +105,6 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	</class-descriptor>
-    -->
-	<!-- GENERATE NEXT VALUE -->
-
-	<!-- GENERATE NEXT VALUE -->
-    <!--
-	<class-descriptor class="org.kuali.kra.bo.ProposalNextvalue" table="PROPOSALNEXTVALUE">
-		<field-descriptor name="propertyName" column="PROPERTY_NAME" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
-		<field-descriptor name="nextValue" column="NEXT_VALUE" jdbc-type="INTEGER"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	</class-descriptor>
-    -->
 	<!-- GENERATE NEXT VALUE -->
 
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.Proposal" table="EPS_PROPOSAL">
