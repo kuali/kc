@@ -15,15 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.sql.Date;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
 import org.kuali.core.document.Document;
-import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.ValidSpRevApproval;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
@@ -118,10 +115,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         // "Sponsor Proposal Id" must be entered if the proposal type is not new (i.e. resubmission)
         // or if the proposal type is new and the grants.gov submission type is "changed/corrected".
-        // TODO: this needs to be a constant/system parameter
         // TODO: can we move this from "Other errors" to the right section?
         if (StringUtils.isNotEmpty(proposalDevelopmentDocument.getProposalTypeCode()) &&
-                !proposalDevelopmentDocument.getProposalTypeCode().equals("1") &&
+                !proposalDevelopmentDocument.getProposalTypeCode().equals(getKualiConfigurationService().getApplicationParameterValue(RiceConstants.ParameterGroups.SYSTEM, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW)) &&
                 StringUtils.isEmpty(proposalDevelopmentDocument.getSponsorProposalNumber())) {
             valid = false;
             errorMap.putError("sponsorProgramNumber", KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, "Sponsor Program Number");
@@ -145,5 +141,5 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }
-    
+
 }
