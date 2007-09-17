@@ -24,7 +24,7 @@
             <title>Proposal Investigator Certification</title>
 
             <inquirySections><inquirySection title="Proposal Investigator Certification"><inquiryFields>
-                <field attributeName="proposalPersonNumber" forceInquiry="true"/>;
+                <field attributeName="proposalPersonNumber" forceInquiry="true"/>
                 <field attributeName="proposalNumber" forceInquiry="true" />
                 <field attributeName="certified" />
                 <field attributeName="dateCertified" />
@@ -35,7 +35,7 @@
         <lookup>
             <title>Proposal Investigator Certification</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Proposal Investigator Certification</instructions>
 
@@ -46,18 +46,18 @@
                 </sortAttributes>
             </defaultSort>
 
-            <lookupLookupFields>
+            <lookupFields>
                 <lookupField attributeName="proposalNumber" />
                 <lookupField attributeName="proposalPersonNumber" />
-            </lookupLookupFields>
+            </lookupFields>
 
-            <resultLookupFields> 
-                <field attributeName="proposalPersonNumber" forceInquiry="true"/>;
+            <resultFields>
+                <field attributeName="proposalPersonNumber" forceInquiry="true"/>
                 <field attributeName="proposalNumber" forceInquiry="true" />
                 <field attributeName="certified" forceInquiry="false" />
                 <field attributeName="dateCertified" forceInquiry="false" />
                 <field attributeName="dateReceivedByOsp" forceInquiry="false" />
-           </resultLookupFields>
+           </resultFields>
         </lookup>
 
         <titleAttribute>proposalPersonNumber</titleAttribute>

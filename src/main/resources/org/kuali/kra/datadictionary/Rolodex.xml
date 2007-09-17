@@ -55,7 +55,7 @@
         <lookup>
             <title>Rolodex Lookup</title>
             <menubar>
-                <![CDATA[<a href="/kra-dev/">Main</a>]]>
+                <![CDATA[<a href="index.jsp">Main</a>]]>
             </menubar>
             <instructions>Look up a Rolodex</instructions>
 
@@ -91,7 +91,7 @@
                 <lookupField attributeName="state" required="false"/>
                 <lookupField attributeName="suffix" required="false"/>
                 <lookupField attributeName="title" required="false"/>
-                
+
             </lookupFields>
 
             <resultFields>

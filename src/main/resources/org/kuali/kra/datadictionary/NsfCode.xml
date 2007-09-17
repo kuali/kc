@@ -32,7 +32,7 @@
         <lookup>
             <title>NSF Code Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/index.html">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a NSF Code</instructions>
 
@@ -56,7 +56,7 @@
         <titleAttribute>nsfCode</titleAttribute>
 
         <attributes>
-        
+
         	<attribute name="nsfSequenceNumber">
                 <label>Sequence Number</label>
                 <shortLabel>Sequence Number</shortLabel>
