@@ -98,7 +98,7 @@
         <lookup>
             <title>Proposal Person Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Proposal Person</instructions>
 
@@ -180,7 +180,7 @@
                 <lookupField attributeName="fedrDelq" />
             </lookupFields>
 
-            <resultFields> 
+            <resultFields>
                 <field attributeName="proposalNumber" forceInquiry="true"/>
                 <field attributeName="proposalPersonNumber" forceInquiry="true"/>
                 <field attributeName="proposalPersonRoleId" forceInquiry="true"/>

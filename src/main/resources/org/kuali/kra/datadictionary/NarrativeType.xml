@@ -35,7 +35,7 @@
         <lookup>
             <title>Narrative Type Lookup</title>
 			<menubar>
-				<![CDATA[<a href="/kra-dev/index.html">Main</a>]]>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
             <instructions>Look up a Narrative Type</instructions>
 
@@ -80,7 +80,7 @@
                 <summary>Narrative Type</summary>
                 <description>Narrative Type</description>
 			</attribute>
-			
+
 			<attribute name="systemGenerated">
                 <label>System Generated</label>
                 <shortLabel>System Generated</shortLabel>
@@ -95,7 +95,7 @@
                 <summary>System Generated</summary>
                 <description>System Generated</description>
 			</attribute>
-			
+
 			<attribute name="allowMultiple">
                 <label>Allow Multiple</label>
                 <shortLabel>Allow Multiple</shortLabel>
@@ -110,7 +110,7 @@
                 <summary>Allow Multiple</summary>
                 <description>Allow Multiple</description>
 			</attribute>
-			
+
 			<attribute name="narrativeTypeGroup">
                 <label>Narrative Type Group</label>
                 <shortLabel>Narrative Type Group</shortLabel>
