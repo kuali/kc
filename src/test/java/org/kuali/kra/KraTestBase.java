@@ -65,10 +65,9 @@ public class KraTestBase extends KNSTestCase {
 
     @Override
     public List<Lifecycle> getSuiteLifecycles() {
-        // TODO Auto-generated method stub
         List<Lifecycle> lifeCycles= super.getSuiteLifecycles();
         lifeCycles.add(new KraSQLDataLoaderLifecycle());
-        lifeCycles.add(new KraKEWXmlDataLoaderLifecycle());        
+        lifeCycles.add(new KraKEWXmlDataLoaderLifecycle());
         return lifeCycles;
     }
 
