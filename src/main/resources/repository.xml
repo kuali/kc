@@ -64,7 +64,7 @@
     	<!-- KEYWORD panel -->
 
 		<!-- GENERATE NEXT VALUE -->
-   		<collection-descriptor name="proposalNextvalues" element-class-ref="org.kuali.kra.bo.ProposalNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
+   		<collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber" />
 		</collection-descriptor>
 		<!-- GENERATE NEXT VALUE -->
@@ -96,7 +96,7 @@
 	</class-descriptor>
 
 	<!-- GENERATE NEXT VALUE -->
-	<class-descriptor class="org.kuali.kra.bo.ProposalNextvalue" table="PROPOSAL_NEXTVALUE">
+	<class-descriptor class="org.kuali.kra.bo.DocumentNextvalue" table="PROPOSAL_NEXTVALUE">
 		<field-descriptor name="propertyName" column="PROPERTY_NAME" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="nextValue" column="NEXT_VALUE" jdbc-type="INTEGER"/>
