@@ -63,6 +63,8 @@ insert into FS_PARM_T values ('CoreMaintenanceEDoc','Workflow.Exception.Workgrou
 ;
 insert into FS_PARM_T values ('CoreMaintenanceEDoc','Kuali.Supervisor.Workgroup','2409BD6AB4CC800EE043814FD881800E',1,'WorkflowAdmin','Workgroup which can perform almost any function within Kuali.','N', 'KR')
 ;
+INSERT INTO FS_PARM_T VALUES ('SYSTEM','proposaldevelopment.displayKeywordPanel','3A6F3F7A1FD770CAE043814FD88170CA',1,'True','Display Proposal Keyword panel','N','MC')
+;
 INSERT INTO FS_PARM_T VALUES ('SYSTEM','proposaldevelopment.proposaltype.new','A50B792C-46B4-0184-8A21-952B9DCC4319',1,'1','ProposalTypeCode of "NEW"','N','MC')
 ;
 INSERT INTO kr_qrtz_locks values('TRIGGER_ACCESS')
