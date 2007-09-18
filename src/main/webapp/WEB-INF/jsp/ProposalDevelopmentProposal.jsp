@@ -13,7 +13,10 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<c:set var="displayKeywordPanel" value="<%=request.getAttribute(Constants.KEYWORD_PANEL_DISPLAY)%>" />
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 
@@ -32,7 +35,11 @@
 <kra-pd:proposalDevelopmentOrganizationAndLocation />
 <kra-pd:proposalDevelopmentSponsorProgramInformation />
 <kra-pd:proposalDevelopmentDeliveryInfo />
-<kra-pd:proposalDevelopmentKeywords />
+
+<c:if test="${displayKeywordPanel == 'True'}">
+	<kra-pd:proposalDevelopmentKeywords />
+</c:if>
+
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
