@@ -115,7 +115,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         // "Sponsor Proposal Id" must be entered if the proposal type is not new (i.e. resubmission)
         // or if the proposal type is new and the grants.gov submission type is "changed/corrected".
-        // TODO: can we move this from "Other errors" to the right section?
         if (StringUtils.isNotEmpty(proposalDevelopmentDocument.getProposalTypeCode()) &&
                 !proposalDevelopmentDocument.getProposalTypeCode().equals(getKualiConfigurationService().getApplicationParameterValue(RiceConstants.ParameterGroups.SYSTEM, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW)) &&
                 StringUtils.isEmpty(proposalDevelopmentDocument.getSponsorProposalNumber())) {
