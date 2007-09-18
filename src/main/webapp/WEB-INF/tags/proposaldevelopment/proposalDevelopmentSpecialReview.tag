@@ -45,7 +45,7 @@
 
                 <td align="left" valign="middle">
                 
-                	<kul:htmlControlAttribute property="newPropSpecialReview.specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}" />
+                	<kul:htmlControlAttribute property="newPropSpecialReview.specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}" styleClass="myselect"/>
 	            
 				</td>
                 <td>
@@ -64,11 +64,11 @@
                 </td>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="newPropSpecialReview.comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
-                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${proSpecialAttriburesAttributes.comments.label}#)).anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${proSpecialAttriburesAttributes.comments.label}');return false"/>
+                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${proSpecialAttriburesAttributes.comments.label}#)).anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${proSpecialAttriburesAttributes.comments.label}');return false"  styleClass="tinybutton"/>
                 </td>
 				<td>
 					<div align=center>
-						<html:image property="methodToCall.addSpecialReview.anchor${currentTabIndex}"
+						<html:image property="methodToCall.addSpecialReview.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
 					</div>
                 </td>
@@ -90,7 +90,7 @@
 	                <td>                	
 	                  <kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />
 	                 <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
-	                    fieldConversions="protocolNumber:document.propSpecialReviews[${status.index}].protocolNumber"  anchor="${currentTabIndex}"/> 
+	                    fieldConversions="protocolNumber:document.propSpecialReviews[${status.index}].protocolNumber"  anchor="${tabKey}"/> 
 					</td>
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].applicationDate" attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" datePicker="true"/>
@@ -100,7 +100,7 @@
 	                </td>
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
-	                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${proSpecialAttriburesAttributes.comments.label}#)).anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${proSpecialAttriburesAttributes.comments.label}');return false"/>
+	                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${proSpecialAttriburesAttributes.comments.label}#)).anchor${tabKey}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${proSpecialAttriburesAttributes.comments.label}');return false"/>
 	                </td>
 					<td>
 					<div align=center>
