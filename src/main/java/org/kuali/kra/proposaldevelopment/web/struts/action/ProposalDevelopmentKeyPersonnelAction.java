@@ -33,11 +33,17 @@ import org.kuali.core.service.KualiRuleService;
 
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
+import static org.apache.commons.beanutils.PropertyUtils.getProperty;
+import static org.apache.commons.beanutils.PropertyUtils.INDEXED_DELIM;
+import static org.apache.commons.beanutils.PropertyUtils.INDEXED_DELIM2;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.NEW_PERSON_LOOKUP_FLAG;
@@ -49,7 +55,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -72,15 +78,22 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalPerson person = null;
         
         if (!isBlank(pdform.getNewRolodexId())) {
-            pdform.setNewProposalPerson(createProposalPersonFromRolodexId(pdform.getNewRolodexId()));
-            request.setAttribute(NEW_PERSON_LOOKUP_FLAG, new Boolean(true));
+            person = createProposalPersonFromRolodexId(pdform.getNewRolodexId());
         }
         else if (!isBlank(pdform.getNewPersonId())) {
-            pdform.setNewProposalPerson(createProposalPersonFromPersonId(pdform.getNewPersonId()));
+            person = createProposalPersonFromPersonId(pdform.getNewPersonId());
+        }
+        
+        if (person != null) {
+            person.setProposalNumber(pdform.getProposalDevelopmentDocument().getProposalNumber());
+            pdform.setNewProposalPerson(person);
             request.setAttribute(NEW_PERSON_LOOKUP_FLAG, new Boolean(true));
         }
+
+
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -94,17 +107,73 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
    
     public ActionForward insertProposalPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         boolean rulePassed = true;
 
         // check any business rules
-        rulePassed &= getKualiRuleService().applyRules(new AddKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, pdform.getDocument(), pdform.getNewProposalPerson()));
+        // rulePassed &= getKualiRuleService().applyRules(new AddKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, pdform.getDocument(), pdform.getNewProposalPerson()));
 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
-            ((ProposalDevelopmentDocument) pdform.getDocument()).getProposalPersons().add(pdform.getNewProposalPerson());
+            document.addProposalPerson(pdform.getNewProposalPerson());
+            pdform.setNewProposalPerson(new ProposalPerson());
+            pdform.setNewRolodexId("");
+            pdform.setNewPersonId("");
         }
         
         return mapping.findForward(MAPPING_BASIC);
+    }
+
+    /**
+     * Add a degree to a <code>{@link ProposalPerson}</code>
+     *
+     * @return ActionForward
+     */
+    public ActionForward insertDegree(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+
+        ProposalPerson person = (ProposalPerson) getProperty(pdform, pdform.getAddToPerson());
+        ProposalPersonDegree degree = pdform.getNewProposalPersonDegree();
+        person.addDegree(degree);
+        degree.refreshReferenceObject("degreeType");
+        pdform.setNewProposalPersonDegree(new ProposalPersonDegree());
+
+        return mapping.findForward(MAPPING_BASIC);
+    }
+
+    /**
+     * Add a unit to a <code>{@link ProposalPerson}</code>
+     *
+     * @return ActionForward
+     */
+    public ActionForward insertUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+
+        ProposalPerson person = (ProposalPerson) getProperty(pdform, pdform.getAddToPerson());
+        ProposalPersonUnit unit = createProposalPersonUnit(pdform.getNewProposalPersonUnit());
+        unit.setProposalNumber(person.getProposalNumber());
+        unit.setProposalPersonNumber(person.getProposalPersonNumber());
+        person.addUnit(unit);
+        unit.refreshReferenceObject("unit");
+
+        pdform.setNewProposalPersonUnit(new Unit());
+
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    private ProposalPersonUnit createProposalPersonUnit(Unit unit) {
+        ProposalPersonUnit retval = new ProposalPersonUnit();
+        Map valueMap = new HashMap();
+        valueMap.put("unitNumber", unit.getUnitNumber());
+        Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, valueMap);
+        
+        for (Unit found : units) {
+            retval.setUnitNumber(found.getUnitNumber());
+        }
+
+        return retval;
     }
     
     private ProposalPerson createProposalPersonFromRolodexId(String rolodexId) {
@@ -124,27 +193,17 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             prop_person.setAddressLine2(rolodex.getAddressLine2());
             prop_person.setAddressLine3(rolodex.getAddressLine3());
             prop_person.setCity(rolodex.getCity());
-//        prop_person.setComments(rolodex.getcomments);
             prop_person.setCountryCode(rolodex.getCountryCode());
             prop_person.setCounty(rolodex.getCounty());
-//        prop_person.setDeleteFlag(rolodex.getDeleteFlag());
             prop_person.setEmailAddress(rolodex.getEmailAddress());
             prop_person.setFaxNumber(rolodex.getFaxNumber());
             prop_person.setFirstName(rolodex.getFirstName());
             prop_person.setLastName(rolodex.getLastName());
             prop_person.setMiddleName(rolodex.getMiddleName());
-//            prop_person.setOrganization(rolodex.getOrganization());
-//            prop_person.setOwnedByUnit(rolodex.getOwnedByUnit());
-//            prop_person.setPhoneNumber(rolodex.getPhoneNumber());
+            prop_person.setOfficePhone(rolodex.getPhoneNumber());
             prop_person.setPostalCode(rolodex.getPostalCode());
-/*
-  prop_person.setPrefix(rolodex.getprefix);
-  prop_person.setSponsorAddressFlag(rolodex.getsponsorAddressFlag);
-  prop_person.setSponsorCode(rolodex.getsponsorCode);
-  prop_person.setstate(rolodex.getstate);
-  prop_person.setsuffix(rolodex.getsuffix);
-  prop_person.settitle(rolodex.gettitle);
-*/
+            prop_person.setState(rolodex.getState());
+            prop_person.setPrimaryTitle(rolodex.getTitle());
         }
         
         return prop_person;

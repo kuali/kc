@@ -15,6 +15,14 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
+
+<c:set var="showOrHidePerson" value="style=\"display: none;\"" />
+
+<c:if test="${!empty newPersonLookupFlag}">
+    <c:set var="showOrHidePerson" value="" />
+</c:if>
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentKeyPersonnel"
@@ -32,24 +40,41 @@
                 <th class="grid"><div align="right">Person:</div></th>
                 <td nowrap class="grid"><label> Employee Search</label>
 
-                  <label> <img src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" alt="sdf" width="16" height="16"><br>
-                  Non-employee Search <img src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" alt="sdf" width="16" height="16"></label></td>
+                  <label><kul:lookup boClassName="org.kuali.kra.bo.Person" 
+                                fieldConversions="personId:newPersonId" /></label><br>
+                  <label>Non-employee Search</label> 
+                  <label><kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
+                                fieldConversions="rolodexId:newRolodexId" /></label></td>
                 <th class="grid"><div align="right">Proposal Role:</div></th>
-                <td class="grid" ><label>
-                  <select name="asdf" id="asdf">
-                    <option selected>select:</option>
-                    <option>Principal Investigator</option>
-
-                    <option>Co-Investigator</option>
-                    <option>Key Study Person</option>
-                  </select>
-                  </label>
+                <td class="grid" >
+                  <label><kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /> </label>
                 </td>
               </tr>
             </table>
             <br>
 
-            <span><img src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" alt="clear" width="40" height="15">&nbsp;<img src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" alt="add personnel" width="83" height="15"></span></div>
+
+          <div ${showOrHidePerson}><kra-pd:person excludeSections="unit, degrees, certify" /></div>
+            <span><html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/></span>
+          </div>
+
     </kul:uncollapsable>
+
+    <br/>
+
+    <kra-pd:keyPersons/>
+
+    <kra-pd:creditSplit/>
+
+    <kul:panelFooter />
+
+    <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
+<script language="javascript" src="scripts/kuali_application.js"></script>
+<script language="javascript" src="dwr/interface/ProposalDevelopmentService.js"></script>
 
 </kul:documentPage>
