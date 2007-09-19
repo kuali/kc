@@ -33,7 +33,7 @@
                 <field attributeName="specialization" />
                 <field attributeName="school" />
                 <field attributeName="schoolIdCode" />
-                <field attributeName="schoolCode" />
+                <field attributeName="schoolId" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -57,8 +57,9 @@
             <lookupFields>
                 <lookupField attributeName="proposalNumber" />
                 <lookupField attributeName="proposalPersonNumber" />
-                <lookupField attributeName="unitNumber" />
-                <lookupField attributeName="leadUnit" />
+                <lookupField attributeName="graduationDate" />
+                <lookupField attributeName="degreeCode" />
+                <lookupField attributeName="degree" />
             </lookupFields>
 
             <resultFields>
@@ -71,11 +72,11 @@
                 <field attributeName="specialization" forceInquiry="false" />
                 <field attributeName="school" forceInquiry="false" />
                 <field attributeName="schoolIdCode" forceInquiry="false" />
-                <field attributeName="schoolCode" forceInquiry="false" />
+                <field attributeName="schoolId" forceInquiry="false" />
            </resultFields>
         </lookup>
 
-        <titleAttribute>unitNumber</titleAttribute>
+        <titleAttribute>degreeCode</titleAttribute>
         <attributes>
 
             <attributeReference name="proposalNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
@@ -107,7 +108,7 @@
                 <shortLabel>Degree Cd</shortLabel>
                 <maxLength>6</maxLength>
                 <control>
-                    <text size="6" />
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.DegreeTypeValuesFinder" />
                 </control>
                 <summary>Degree Code</summary>
             	<description>Degree Code</description>
@@ -125,25 +126,25 @@
             </attribute>
 
             <attribute name="fieldOfStudy" >
-                <label>Degree</label>
-                <shortLabel>Degree</shortLabel>
+                <label>Field of Study</label>
+                <shortLabel>Field of Study</shortLabel>
                 <maxLength>80</maxLength>
                 <control>
                     <text size="25" />
                 </control>
-                <summary>Degree</summary>
-            	<description>Degree</description>
+                <summary>Field of Study</summary>
+            	<description>Field of Study</description>
             </attribute>
 
             <attribute name="specialization" >
-                <label>Degree</label>
-                <shortLabel>Degree</shortLabel>
+                <label>Specialization</label>
+                <shortLabel>Specialization</shortLabel>
                 <maxLength>80</maxLength>
                 <control>
                     <text size="25" />
                 </control>
-                <summary>Degree</summary>
-            	<description>Degree</description>
+                <summary>Specialization</summary>
+            	<description>Specialization</description>
             </attribute>
 
             <attribute name="school" >
@@ -153,39 +154,31 @@
                 <control>
                     <text size="25" />
                 </control>
-                <summary>Degree</summary>
-            	<description>Degree</description>
+                <summary>School</summary>
+            	<description>School</description>
             </attribute>
 
             <attribute name="schoolIdCode" >
-                <label>Degree</label>
-                <shortLabel>Degree</shortLabel>
+                <label>School Id Code</label>
+                <shortLabel>School Id Cd</shortLabel>
                 <maxLength>3</maxLength>
                 <control>
                     <text size="3" />
                 </control>
-                <summary>Degree</summary>
-            	<description>Degree</description>
+                <summary>School Id Code</summary>
+            	<description>School Id Code</description>
             </attribute>
 
             <attribute name="schoolId" >
-                <label>Degree</label>
-                <shortLabel>Degree</shortLabel>
+                <label>School Id</label>
+                <shortLabel>SchoolId </shortLabel>
                 <maxLength>20</maxLength>
                 <control>
                     <text size="25" />
                 </control>
-                <summary>Degree</summary>
-            	<description>Degree</description>
+                <summary>School Id</summary>
+            	<description>School Id</description>
             </attribute>
-
-
-            <attributeReference name="leadUnit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Is Lead Unit</label>
- 	            <shortLabel>Lead Unit</shortLabel>
- 	            <summary>Is Lead Unit</summary>
-                <description>Is Lead Unit</description>
-            </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 		</attributes>
