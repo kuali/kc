@@ -18,8 +18,6 @@
 <%@ attribute name="index" description="The name of the key field to discern this person from other persons." required="false" %>
 <%@ attribute name="excludeSections" description="A comma-separated list of section(s) that will not be shown or editable" required="false" %>
 
-<c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
-<c:set var="personUnitAttributes" value="${DataDictionary.ProposalPersonUnit.attributes}" />
 <c:set var="attributePrefix" value="newProposalPerson" />
 
 <c:if test="${!empty index}">
