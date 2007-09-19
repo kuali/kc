@@ -353,6 +353,11 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
+		<collection-descriptor name="degrees" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<inverse-foreignkey field-ref="proposalPersonNumber"/>
+		</collection-descriptor>
+
 		<collection-descriptor name="units" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="proposalPersonNumber"/>
@@ -400,6 +405,10 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+    	<reference-descriptor name="degreeType" class-ref="org.kuali.kra.bo.DegreeType">
+			<foreignkey field-ref="degreeCode" />
+		</reference-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit" table="EPS_PROP_PERSON_UNITS">
@@ -411,6 +420,10 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+    	<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit">
+			<foreignkey field-ref="unitNumber" />
+		</reference-descriptor>
     </class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.MailBy" table="MAIL_BY">

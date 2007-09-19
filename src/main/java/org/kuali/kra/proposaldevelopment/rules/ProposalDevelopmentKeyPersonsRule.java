@@ -36,9 +36,10 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         return true;
@@ -61,14 +62,16 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         boolean retval = true;
 
         if (!(isPrincipalInvestigator(person) && hasPrincipalInvestigator(document))) {
-            reportErrorWithPrefix("newProposalPerson", "proposalPerson", "");
+            LOG.debug("error.principalInvestigator.limit");
+            // reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.principalInvestigators.limit");
             retval = false;
         }
 
         retval &= validateInvestigator(person);
         
         if (!isBlank(person.getProposalPersonRoleId())) {
-            reportErrorWithPrefix("newProposalPerson", "proposalPerson", "");
+            LOG.debug("error.missingPersonRole");
+            // reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.missingPersonRole");
         }
         
         return retval;
@@ -90,12 +93,14 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         boolean retval = true;
         
         if (person.getUnits().size() > 0) {
-            reportErrorWithPrefix("newProposalPerson", "proposalPerson", "");
+            LOG.debug("error.investigatorUnits.limit");
+            // reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.investigatorUnits.limit");
         }
         
         for (ProposalPersonUnit unit : person.getUnits()) {
             if (!isBlank(unit.getUnitNumber())) {
-                reportErrorWithPrefix("newProposalPerson", "proposalPerson", "");
+                LOG.debug("error.investigatorUnits.limit");
+                // reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.investigatorUnits.limit");
             }
         }
         

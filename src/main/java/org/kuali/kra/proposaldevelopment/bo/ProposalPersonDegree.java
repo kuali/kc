@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.util.LinkedHashMap;
 import java.sql.Date;
 
+import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -26,7 +27,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     private Integer proposalPersonNumber;
@@ -39,6 +40,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     private String school;
     private String schoolIdCode;
     private String schoolId;
+    private DegreeType degreeType;
 
     /**
      * Gets the value of proposalPersonNumber
@@ -220,6 +222,24 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
         this.schoolId = argSchoolId;
     }
     
+    /**
+     * Assign a reference to <code>{@link DegreeType}</code>
+     *
+     * @param type to reference
+     */
+    public final void setDegreeType(DegreeType type) {
+        degreeType = type;
+    }
+
+    /**
+     * Retrieve a reference to <code>{@link DegreeType}</code>
+     *
+     * @return DegreeType
+     */
+    public final DegreeType getDegreeType() {
+        return degreeType;
+    }
+    
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap propMap = new LinkedHashMap();
@@ -233,6 +253,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
         propMap.put("school", getSchool());
         propMap.put("schoolIdCode", getSchoolIdCode());
         propMap.put("schoolId", getSchoolId());
+        propMap.put("degreeType", getDegreeType());
         return propMap;
     }
 
