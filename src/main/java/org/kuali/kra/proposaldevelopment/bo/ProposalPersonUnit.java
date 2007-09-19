@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Unit;
 
 /**
  * Represents the Proposal Person Unit <code>{@link org.kuali.core.bo.BusinessObject}</code>
@@ -25,13 +26,14 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: lprzybyl $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase {
     private Integer proposalNumber;
     private Integer propPersonNumber;
     private String unitNumber;
     private Boolean leadUnit;
+    private Unit unit;
 
 
     /**
@@ -105,6 +107,24 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase {
     public final void setLeadUnit(Boolean argLeadUnit) {
         this.leadUnit = argLeadUnit;
     }
+    
+    /**
+     * Gets a unit that this object refers to
+     *
+     * @return Unit
+     */
+    public final Unit getUnit() {
+        return unit;
+    }
+    
+    /**
+     * Assigns a reference to a <code>{@link Unit}</code> instance
+     *
+     * @param unit to refer to
+     */
+    public final void setUnit(Unit u) {
+        unit = u;
+    }
 
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -113,6 +133,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase {
         propMap.put("proposalPersonNumber", getProposalPersonNumber());
         propMap.put("unitNumber", getUnitNumber());
         propMap.put("leadUnit", isLeadUnit());
+        propMap.put("unit", getUnit());
         return propMap;
     }
 

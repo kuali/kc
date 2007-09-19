@@ -22,29 +22,40 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 
 /**
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentForm.class);
     private String primeSponsorName;
     private PropLocation newPropLocation;
     private PropSpecialReview newPropSpecialReview;
     private ProposalPerson newProposalPerson;
+    private ProposalPersonDegree newProposalPersonDegree;
+    private Unit newProposalPersonUnit;
     private String newRolodexId;
     private String newPersonId;
+    private String addToPerson;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -63,6 +74,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         newPropLocation=new PropLocation();
         newPropSpecialReview=new PropSpecialReview();
         setNewProposalPerson(new ProposalPerson());
+        setNewProposalPersonDegree(new ProposalPersonDegree());
+        setNewProposalPersonUnit(new Unit());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
     }
@@ -89,6 +102,19 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
             propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
             proposalDevelopmentDocument.getPropLocations().add(propLocation);
         }
+        
+        try {
+            Boolean creditSplitEnabled = new Boolean(getConfigurationService()
+                                                     .getApplicationParameterRule("SYSTEM", CREDIT_SPLIT_ENABLED_RULE_NAME).getParameterText()).booleanValue();
+            if (creditSplitEnabled.booleanValue()) {
+                request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, creditSplitEnabled);
+            }
+        } 
+        catch (Exception e) {
+            LOG.debug("Couldn't find parameter '" + CREDIT_SPLIT_ENABLED_RULE_NAME + "'");
+            LOG.debug(e.getMessage());
+        }
+
         proposalDevelopmentDocument.refreshReferenceObject("sponsor");
     }
 
@@ -183,10 +209,46 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     /**
      * Sets the value of newProposalPerson
      *
-     * @param argNewPersonId Value to assign to this.newProposalPerson
+     * @param argNewProposalPerson Value to assign to this.newProposalPerson
      */
     public void setNewProposalPerson(ProposalPerson argNewProposalPerson) {
         this.newProposalPerson = argNewProposalPerson;
+    }
+
+    /**
+     * Gets the value of newProposalPersonUnit
+     *
+     * @return the value of newProposalPersonUnit
+     */
+    public Unit getNewProposalPersonUnit() {
+        return this.newProposalPersonUnit;
+    }
+    
+    /**
+     * Sets the value of newProposalPersonUnit
+     *
+     * @param argUnit Value to assign to this.newProposalPersonUnit
+     */
+    public void setNewProposalPersonUnit(Unit argUnit) {
+        this.newProposalPersonUnit = argUnit;
+    }
+
+    /**
+     * Gets the value of newProposalPersonDegree
+     *
+     * @return the value of newProposalPersonDegree
+     */
+    public ProposalPersonDegree getNewProposalPersonDegree() {
+        return this.newProposalPersonDegree;
+    }
+    
+    /**
+     * Sets the value of newProposalPersonDegree
+     *
+     * @param argDegree Value to assign to this.newProposalPersonDegree
+     */
+    public void setNewProposalPersonDegree(ProposalPersonDegree argDegree) {
+        this.newProposalPersonDegree = argDegree;
     }
 
     /**
@@ -199,6 +261,24 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
     
     /**
+     * This is the person to add a unit, certification, or degree to
+     *
+     * @return Integer
+     */
+    public String getAddToPerson() {
+        return addToPerson;
+    }
+
+    /**
+     * This is the person to add a unit, certification, or degree to
+     *
+     * @param name of the ProposalPerson to add to (may look something like </code>document.proposalPerson[0]</code>
+     */
+    public void setAddToPerson(String name) {
+        addToPerson = name;
+    }
+    
+    /**
      * Sets the value of newRolodexId
      *
      * @param argNewRolodexId Value to assign to this.newRolodexId
@@ -207,11 +287,15 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.newRolodexId = argNewRolodexId;
     }
     
-        public String getLookupResultsBOClassName() {
+    public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
 
     public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
         this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+    
+    private KualiConfigurationService getConfigurationService() {
+        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
 }
