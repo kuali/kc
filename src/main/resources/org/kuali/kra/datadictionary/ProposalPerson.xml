@@ -246,8 +246,6 @@
                 <field attributeName="eraCommonsUserName" forceInquiry="false" />
                 <field attributeName="conflictOfInterest" forceInquiry="false" />
                 <field attributeName="percentageEffort" forceInquiry="false" />
-                <field attributeName="fedrDebr" forceInquiry="false" />
-                <field attributeName="fedrDelq" forceInquiry="false" />
            </resultFields>
         </lookup>
 
