@@ -70,3 +70,13 @@ insert into FP_DOC_STATUS_T values ('V',	'2E0671732A744002E043814FD8814002',	1,	
 /
 insert into FP_DOC_STATUS_T values ('Q',	'2E0671732A754002E043814FD8814002',	1,	'Doc Specif')
 /
+Insert into fs_parm_t
+   (FS_SCR_NM, FS_PARM_NM, OBJ_ID, VER_NBR, FS_PARM_TXT, FS_PARM_DESC, FS_MULT_VAL_IND, FS_MOD_CD)
+ Values
+   ('SYSTEM', 'multipleValueLookupResultsPerPage', '39F2E4C3560331CEE043814FD88131CE', 0, '200', 'Limit results returned for lookup - multiple results', 'N', 'MC');
+/
+Insert into fs_parm_t
+   (FS_SCR_NM, FS_PARM_NM, OBJ_ID, VER_NBR, FS_PARM_TXT, FS_PARM_DESC, FS_MULT_VAL_IND, FS_MOD_CD)
+ Values
+   ('SYSTEM', 'proposaldevelopment.displayKeywordPanel', '3A6F3F7A1FD770CAE043814FD88170CA', 1, 'True', 'Display Proposal Keyword panel', 'N', 'MC');
+/
