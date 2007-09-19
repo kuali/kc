@@ -76,6 +76,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String newScienceKeywordCode;
     private String newDescription;
     private Sponsor sponsor;
+    private Integer nextProposalPersonNumber;
 
     public ProposalDevelopmentDocument() {
         super();
@@ -83,7 +84,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         newDescription = getDefaultNewDescription();
         propLocations = new ArrayList<PropLocation>();
         propSpecialReviews = new ArrayList<PropSpecialReview>();
-
+        proposalPersons = new ArrayList<ProposalPerson>();
+        nextProposalPersonNumber = new Integer(1);
     }
 
     /**
@@ -608,4 +610,30 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         principalInvestigator = person;
     }
 
+    public void setNextProposalPersonNumber(Integer n) {
+        nextProposalPersonNumber = n;
+    }
+    
+    public Integer getNextProposalPersonNumber() {
+        return nextProposalPersonNumber;
+    }
+    
+    /**
+     * Adds a new proposal person to the collection in the document
+     *
+     * @param p person to add
+     */
+    public void addProposalPerson(ProposalPerson p) {
+        p.setProposalPersonNumber(getNextProposalPersonNumber());
+        getProposalPersons().add(p);
+        setNextProposalPersonNumber(getNextProposalPersonNumber().intValue() + 1);
+    }
+
+    public ProposalPerson getProposalPerson(int index) {
+        while (getProposalPersons().size() <= index) {
+            getProposalPersons().add(new ProposalPerson());
+        }
+        
+        return getProposalPersons().get(index);
+    }
 }

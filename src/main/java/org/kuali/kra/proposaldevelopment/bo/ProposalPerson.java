@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 
 import org.kuali.core.util.KualiDecimal;
 
@@ -29,9 +31,11 @@ import org.kuali.core.util.KualiDecimal;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ProposalPerson extends Person {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
+
     private Boolean conflictOfInterest;
     private KualiDecimal percentageEffort;
     private Boolean fedrDebr;
@@ -42,6 +46,16 @@ public class ProposalPerson extends Person {
     private String  propPersonRoleId;
     private ProposalInvestigatorCertification certification;
     private List<ProposalPersonUnit> units;
+    private List<ProposalPersonDegree> degrees;
+
+    /**
+     *
+     * new ProposalPerson
+     */
+    public ProposalPerson() {
+        degrees = new ArrayList<ProposalPersonDegree>();
+        units = new ArrayList<ProposalPersonUnit>();
+    }
 
 
     /**
@@ -78,6 +92,24 @@ public class ProposalPerson extends Person {
      */
     public final void setUnits(List<ProposalPersonUnit> argUnits) {
         this.units = argUnits;
+    }
+
+    /**
+     * Gets the value of degrees
+     *
+     * @return the value of degrees
+     */
+    public final List<ProposalPersonDegree> getDegrees() {
+        return this.degrees;
+    }
+
+    /**
+     * Sets the value of degrees
+     *
+     * @param argDegrees Value to assign to this.degrees
+     */
+    public final void setDegrees(List<ProposalPersonDegree> argDegrees) {
+        this.degrees = argDegrees;
     }
 
     /**
@@ -240,4 +272,37 @@ public class ProposalPerson extends Person {
 		return hashmap;
 	}
 
+    /**
+     * Adds a new degree to the collection in the person
+     *
+     * @param d degree to add
+     */
+    public void addDegree(ProposalPersonDegree d) {
+        getDegrees().add(d);
+    }
+
+    public ProposalPersonDegree getDegree(int index) {
+        while (getDegrees().size() <= index) {
+            getDegrees().add(new ProposalPersonDegree());
+        }
+        
+        return getDegrees().get(index);
+    }
+
+    /**
+     * Adds a new unit to the collection in the person
+     *
+     * @param unit to add
+     */
+    public void addUnit(ProposalPersonUnit unit) {
+        getUnits().add(unit);
+    }
+
+    public ProposalPersonUnit getUnit(int index) {
+        while (getUnits().size() <= index) {
+            getUnits().add(new ProposalPersonUnit());
+        }
+        
+        return getUnits().get(index);
+    }
 }
