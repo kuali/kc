@@ -111,8 +111,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
             }
         } 
         catch (Exception e) {
-            LOG.debug("Couldn't find parameter '" + CREDIT_SPLIT_ENABLED_RULE_NAME + "'");
-            LOG.debug(e.getMessage());
+            LOG.warn("Couldn't find parameter '" + CREDIT_SPLIT_ENABLED_RULE_NAME + "'");
+            LOG.warn(e.getMessage());
         }
 
         proposalDevelopmentDocument.refreshReferenceObject("sponsor");
