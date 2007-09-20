@@ -15,14 +15,9 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<%@ attribute name="index" description="The name of the key field to discern this person from other persons." required="false" %>
-<%@ attribute name="excludeSections" description="A comma-separated list of section(s) that will not be shown or editable" required="false" %>
+<%@ attribute name="index" description="The name of the key field to discern this person from other persons." required="true" %>
 
-<c:set var="attributePrefix" value="newProposalPerson" />
-
-<c:if test="${!empty index}">
-    <c:set var="attributePrefix" value="document.proposalPersons[${index}]" />
-</c:if>
+<c:set var="attributePrefix" value="document.proposalPersons[${index}]" />
 
 <div class="tab-container" align="center">
           <!-- TAB -->
@@ -174,13 +169,9 @@
                 </tbody>
               </table>
 
-              <c:if test="${!fn:contains(excludeSections, 'unit')}">
-                <kra-pd:personUnitSection proposalPerson="${attributePrefix}" />
-              </c:if>
+              <kra-pd:personUnitSection proposalPerson="${attributePrefix}" />
 
-              <c:if test="${!fn:contains(excludeSections, 'degrees')}">
-                  <kra-pd:personDegreeSection proposalPerson="${attributePrefix}"/>
-              </c:if>
+              <kra-pd:personDegreeSection proposalPerson="${attributePrefix}"/>
 
               <c:if test="${!fn:contains(excludeSections, 'certify')}">
               <table cellpadding=0 cellspacing="0" summary="">

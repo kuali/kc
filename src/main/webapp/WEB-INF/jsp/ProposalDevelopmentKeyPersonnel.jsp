@@ -18,11 +18,6 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 
-<c:set var="showOrHidePerson" value="style=\"display: none;\"" />
-
-<c:if test="${!empty newPersonLookupFlag}">
-    <c:set var="showOrHidePerson" value="" />
-</c:if>
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentKeyPersonnel"
@@ -54,7 +49,6 @@
             <br>
 
 
-          <div ${showOrHidePerson}><kra-pd:person excludeSections="unit, degrees, certify" /></div>
             <span><html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/></span>
           </div>
 

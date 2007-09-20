@@ -55,7 +55,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -282,7 +282,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             prop_person.setEraCommonsUserName(person.getEraCommonsUserName());
         }
         
-        LOG.debug("Returning Proposal Person " + prop_person);
         return prop_person;
     }
 }
