@@ -17,15 +17,16 @@
 
 <c:forEach items="${KualiForm.document.proposalPersons}" var="person" varStatus="status">
     <bean:define id="keyPerson" name="KualiForm" property="document.proposalPerson[${status.index}]"/>
+    <c:set var="proposalPerson" value="document.proposalPersons[${status.index}]" />
     <c:choose>
         <c:when test="${status.first}">
     <kul:tabTop tabTitle="${keyPerson.fullName} <span style='font-weight: normal; text-align: right;'>${keyPerson.proposalPersonRoleId}</span>" defaultOpen="true" tabErrorKey="proposalPersons">
-        <kra-pd:person index="${status.index}" />
+        <kra-pd:person proposalPerson="${proposalPerson}" />
     </kul:tabTop>
         </c:when>
         <c:otherwise>
     <kul:tab tabTitle="${keyPerson.fullName} <span style='font-weight: normal; text-align: right;'>${keyPerson.proposalPersonRoleId}</span>" defaultOpen="true" tabErrorKey="proposalPersons">
-        <kra-pd:person index="${status.index}"/>
+        <kra-pd:person proposalPerson="${proposalPerson}" />
     </kul:tab>
         </c:otherwise>
     </c:choose>

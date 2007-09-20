@@ -33,13 +33,21 @@
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">
               <tr>
                 <th class="grid"><div align="right">Person:</div></th>
-                <td nowrap class="grid"><label> Employee Search</label>
-
+                <td nowrap class="grid">
+<c:choose>                  
+  <c:when test="${empty KualiForm.newPersonId && empty KualiForm.newRolodexId}">
+                <label> Employee Search</label>
                   <label><kul:lookup boClassName="org.kuali.kra.bo.Person" 
                                 fieldConversions="personId:newPersonId" /></label><br>
                   <label>Non-employee Search</label> 
                   <label><kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
                                 fieldConversions="rolodexId:newRolodexId" /></label></td>
+  </c:when>
+  <c:otherwise>
+                  <label><kul:htmlControlAttribute property="newProposalPerson.fullName" attributeEntry="${proposalPersonAttributes.fullName}" readOnly="true"/> </label><br/>
+  </c:otherwise>
+</c:choose>
+                </td>
                 <th class="grid"><div align="right">Proposal Role:</div></th>
                 <td class="grid" >
                   <label><kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /> </label>
