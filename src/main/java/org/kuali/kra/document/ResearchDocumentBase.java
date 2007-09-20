@@ -17,6 +17,7 @@ package org.kuali.kra.document;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.document.TransactionalDocumentBase;
@@ -25,7 +26,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 
 public class ResearchDocumentBase extends TransactionalDocumentBase {
 
@@ -78,8 +78,8 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
     public Integer getProposalNextValue(String propertyName) {
         Integer propNextValue = 1;
         // search for property and get the latest number - increment for next call
-        for(int i=0; i<documentNextvalues.size(); i++) {
-            DocumentNextvalue documentNextvalue = (DocumentNextvalue)documentNextvalues.get(i);
+        for(Iterator iter = documentNextvalues.iterator(); iter.hasNext();) {
+            DocumentNextvalue documentNextvalue = (DocumentNextvalue)iter.next();
             if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 propNextValue = documentNextvalue.getNextValue();
                 documentNextvalue.setNextValue(propNextValue + 1);
