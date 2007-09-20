@@ -13,11 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-<%@ attribute name="index" description="The name of the key field to discern this person from other persons." required="true" %>
-
-<c:set var="attributePrefix" value="document.proposalPersons[${index}]" />
+<%@ include file="/WEB-INF/jsp/proposalPerson.jsp"%>
 
 <div class="tab-container" align="center">
           <!-- TAB -->
@@ -26,7 +22,7 @@
 <!-- style="display: none;" -->
               <div class="h2-container">
 
-                <h2><span class="subhead-left"><bean:write name="KualiForm" property="${attributePrefix}.fullName"/></span></h2>
+                <h2><span class="subhead-left"><bean:write name="KualiForm" property="${proposalPerson}.fullName"/></span></h2>
               </div>
               <table cellpadding=0 cellspacing="0" summary="">
                 <tr>
@@ -37,141 +33,141 @@
                     <th align="left" nowrap="nowrap"> <div align="right">Full Name: </div></th>
 
                     <td>
-                      <kul:htmlControlAttribute property="${attributePrefix}.fullName" attributeEntry="${proposalPersonAttributes.fullName}" /> 
+                      <kul:htmlControlAttribute property="${proposalPerson}.fullName" attributeEntry="${proposalPersonAttributes.fullName}" /> 
                     </td>
                     <th align="left" width="15%"><div align="right">User Name: </div></th>
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${attributePrefix}.userName" 
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.userName" 
                                                                      attributeEntry="${proposalPersonAttributes.userName}" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" width="15%"><div align="right">Email Address:</div></th>
 
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${attributePrefix}.emailAddress" 
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.emailAddress" 
                                                                      attributeEntry="${proposalPersonAttributes.emailAddress}" />
                     </td>
                     <th align="left" width="15%"> <div align="right">Office Phone: </div></th>
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${attributePrefix}.officePhone" 
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.officePhone" 
                                                                      attributeEntry="${proposalPersonAttributes.officePhone}" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" width="15%"> <div align="right">Primary Title: </div></th>
 
-                    <td align="left"><kul:htmlControlAttribute property="${attributePrefix}.primaryTitle" 
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.primaryTitle" 
                                                                      attributeEntry="${proposalPersonAttributes.primaryTitle}" />
                     </td>
                     <th align="left" nowrap="nowrap"> <div align="right">Directory Title: </div></th>
-                    <td align="left"><kul:htmlControlAttribute property="${attributePrefix}.directoryTitle"
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.directoryTitle"
                                                                      attributeEntry="${proposalPersonAttributes.directoryTitle}" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" width="15%"> <div align="right">Home Unit: </div></th>
 
-                    <td align="left"><kul:htmlControlAttribute property="${attributePrefix}.homeUnit" 
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.homeUnit" 
                                                                      attributeEntry="${proposalPersonAttributes.homeUnit}" />
                     </td>
                     <th align="left" nowrap="nowrap"> <div align="right">School </div></th>
-                    <td><kul:htmlControlAttribute property="${attributePrefix}.school" 
+                    <td><kul:htmlControlAttribute property="${proposalPerson}.school" 
                                                                      attributeEntry="${proposalPersonAttributes.school}" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" width="15%"> <div align="right">eRA Commons User Name: </div></th>
 
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${attributePrefix}.eraCommonsUserName" 
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.eraCommonsUserName" 
                                                                      attributeEntry="${proposalPersonAttributes.eraCommonsUserName}" />
                     </td>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">Fax: </div></th>
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${attributePrefix}.faxNumber" 
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.faxNumber" 
                                                                      attributeEntry="${proposalPersonAttributes.faxNumber}" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">Pager: </div></th>
 
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${attributePrefix}.pagerNumber" 
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.pagerNumber" 
                                                                      attributeEntry="${proposalPersonAttributes.pagerNumber}" />
                     </td>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">Mobile: </div></th>
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${attributePrefix}.mobilePhoneNumber" 
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.mobilePhoneNumber" 
                                                                      attributeEntry="${proposalPersonAttributes.mobilePhoneNumber}" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left"> <div align="right">Office Location: </div></th>
 
-                    <td align="left"><kul:htmlControlAttribute property="${attributePrefix}.officeLocation" 
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.officeLocation" 
                                                                      attributeEntry="${proposalPersonAttributes.officeLocation}" />
                     </td>
                     <th align="left"> <div align="right">Sec.Office Location: </div></th>
-                    <td align="left"><kul:htmlControlAttribute property="${attributePrefix}.secondaryOfficeLocation" 
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.secondaryOfficeLocation" 
                                                                      attributeEntry="${proposalPersonAttributes.secondaryOfficeLocation}" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right">Address Line 1: </div></th>
 
-                    <td><kul:htmlControlAttribute property="${attributePrefix}.addressLine1" 
+                    <td><kul:htmlControlAttribute property="${proposalPerson}.addressLine1" 
                                                                      attributeEntry="${proposalPersonAttributes.addressLine1}" />
                     </td>
                     <th align="left" nowrap="nowrap"> <div align="right">Address Line 2: </div></th>
-                    <td><kul:htmlControlAttribute property="${attributePrefix}.addressLine2" 
+                    <td><kul:htmlControlAttribute property="${proposalPerson}.addressLine2" 
                                                                      attributeEntry="${proposalPersonAttributes.addressLine2}" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right">Address Line 3: </div></th>
 
-                    <td><kul:htmlControlAttribute property="${attributePrefix}.addressLine3" 
+                    <td><kul:htmlControlAttribute property="${proposalPerson}.addressLine3" 
                                                                      attributeEntry="${proposalPersonAttributes.addressLine3}" />
                     </td>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">City: </div></th>
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${attributePrefix}.city" 
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.city" 
                                                                      attributeEntry="${proposalPersonAttributes.city}" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">County: </div></th>
 
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${attributePrefix}.county" 
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.county" 
                                                                      attributeEntry="${proposalPersonAttributes.county}" />
                     </td>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">State: </div></th>
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${attributePrefix}.state" 
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.state" 
                                                                      attributeEntry="${proposalPersonAttributes.state}" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right">Postal Code: </div></th>
-                    <td align="left"><kul:htmlControlAttribute property="${attributePrefix}.postalCode" 
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.postalCode" 
                                                                      attributeEntry="${proposalPersonAttributes.postalCode}" />
                     </td>
                     <th align="left" nowrap="nowrap"> <div align="right">Country: </div></th>
-                    <td align="left"><kul:htmlControlAttribute property="${attributePrefix}.countryCode" 
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.countryCode" 
                                                                      attributeEntry="${proposalPersonAttributes.countryCode}" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap"><div align="right">% Effort: </div></th>
                     <td align="left"><span>
-                      <kul:htmlControlAttribute property="${attributePrefix}.percentageEffort" 
+                      <kul:htmlControlAttribute property="${proposalPerson}.percentageEffort" 
                                                                      attributeEntry="${proposalPersonAttributes.percentEffort}" />
                     </span></td>
                     <th align="left" nowrap="nowrap"><div align="right">Faculty:</div></th>
 
                     <td align="left"><label>
-                      <kul:htmlControlAttribute property="${attributePrefix}.isFaculty" 
+                      <kul:htmlControlAttribute property="${proposalPerson}.isFaculty" 
                                                                      attributeEntry="${proposalPersonAttributes.isFaculty}" />
                     </label></td>
                   </tr>
                 </tbody>
               </table>
 
-              <kra-pd:personUnitSection proposalPerson="${attributePrefix}" />
+              <kra-pd:personUnitSection proposalPerson="${proposalPerson}" />
 
-              <kra-pd:personDegreeSection proposalPerson="${attributePrefix}"/>
+              <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"/>
 
               <c:if test="${!fn:contains(excludeSections, 'certify')}">
               <table cellpadding=0 cellspacing="0" summary="">
