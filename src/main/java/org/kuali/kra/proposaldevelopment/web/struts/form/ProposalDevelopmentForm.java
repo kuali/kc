@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -37,6 +38,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
@@ -63,7 +65,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private String lookupResultsSequenceNumber;
     /**
      * The type of result returned by the multi-value lookup
-     * 
+     *
      * TODO: to be persisted in the lookup results service instead? See https://test.kuali.org/confluence/display/KULRNE/Using+multiple+value+lookups
      */
     private String lookupResultsBOClassName;
@@ -102,17 +104,25 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
             propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
             proposalDevelopmentDocument.getPropLocations().add(propLocation);
         }
-        
+
         try {
             Boolean creditSplitEnabled = new Boolean(getConfigurationService()
                                                      .getApplicationParameterRule("SYSTEM", CREDIT_SPLIT_ENABLED_RULE_NAME).getParameterText()).booleanValue();
             if (creditSplitEnabled.booleanValue()) {
                 request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, creditSplitEnabled);
             }
-        } 
+        }
         catch (Exception e) {
             LOG.warn("Couldn't find parameter '" + CREDIT_SPLIT_ENABLED_RULE_NAME + "'");
             LOG.warn(e.getMessage());
+        }
+
+        // populate the Prime Sponsor Name if we have the code
+        // this is necessary since the name is only on the form not the document
+        // and it is only populated by a lookup or through AJAX/DWR
+        String primeSponsorCode = proposalDevelopmentDocument.getPrimeSponsorCode();
+        if (StringUtils.isNotEmpty(primeSponsorCode)) {
+            setPrimeSponsorName(KraServiceLocator.getService(ProposalDevelopmentService.class).getSponsorName(primeSponsorCode));
         }
 
         proposalDevelopmentDocument.refreshReferenceObject("sponsor");
@@ -137,12 +147,12 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void setNewPropSpecialReview(PropSpecialReview newPropSpecialReview) {
         this.newPropSpecialReview = newPropSpecialReview;
     }
-    
-    /* Reset method  
-     * @param mapping    
-     * @param request    
+
+    /* Reset method
+     * @param mapping
+     * @param request
      * reset check box values in keyword panel
-     */ 
+     */
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         ProposalDevelopmentDocument proposalDevelopmentDocument = this.getProposalDevelopmentDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
@@ -163,7 +173,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
 
     /**
-     * Gets the primeSponsorName attribute. 
+     * Gets the primeSponsorName attribute.
      * @return Returns the primeSponsorName.
      */
     public String getPrimeSponsorName() {
@@ -178,7 +188,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public String getNewPersonId() {
         return this.newPersonId;
     }
-    
+
     /**
      * Sets the value of newPersonId
      *
@@ -195,7 +205,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
     }
-    
+
 
     /**
      * Gets the value of newProposalPerson
@@ -205,7 +215,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public ProposalPerson getNewProposalPerson() {
         return this.newProposalPerson;
     }
-    
+
     /**
      * Sets the value of newProposalPerson
      *
@@ -223,7 +233,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public Unit getNewProposalPersonUnit() {
         return this.newProposalPersonUnit;
     }
-    
+
     /**
      * Sets the value of newProposalPersonUnit
      *
@@ -241,7 +251,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public ProposalPersonDegree getNewProposalPersonDegree() {
         return this.newProposalPersonDegree;
     }
-    
+
     /**
      * Sets the value of newProposalPersonDegree
      *
@@ -259,7 +269,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public String getNewRolodexId() {
         return this.newRolodexId;
     }
-    
+
     /**
      * This is the person to add a unit, certification, or degree to
      *
@@ -277,7 +287,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void setAddToPerson(String name) {
         addToPerson = name;
     }
-    
+
     /**
      * Sets the value of newRolodexId
      *
@@ -286,7 +296,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void setNewRolodexId(String argNewRolodexId) {
         this.newRolodexId = argNewRolodexId;
     }
-    
+
     public String getLookupResultsBOClassName() {
         return lookupResultsBOClassName;
     }
@@ -294,7 +304,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
         this.lookupResultsBOClassName = lookupResultsBOClassName;
     }
-    
+
     private KualiConfigurationService getConfigurationService() {
         return KraServiceLocator.getService(KualiConfigurationService.class);
     }
