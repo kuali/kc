@@ -34,6 +34,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     private Integer proposalNumber;
     private String proposalTypeCode;
+    private String continuedFrom;
     private String sponsorCode;
     private String activityTypeCode;
     private String ownedByUnit;
@@ -48,7 +49,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String programAnnouncementNumber;
     private String primeSponsorCode;
     private String sponsorProposalNumber;
-    private String sponsorAwardNumber;
     private String originalProposalNumber;
     private String nsfCode;
     private Boolean subcontracts;
@@ -128,6 +128,22 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public void setProposalTypeCode(String proposalTypeCode) {
         this.proposalTypeCode = proposalTypeCode;
+    }
+
+    /**
+     * Gets the continuedFrom attribute.
+     * @return Returns the continuedFrom.
+     */
+    public String getContinuedFrom() {
+        return continuedFrom;
+    }
+
+    /**
+     * Sets the continuedFrom attribute value.
+     * @param continuedFrom The continuedFrom to set.
+     */
+    public void setContinuedFrom(String continuedFrom) {
+        this.continuedFrom = continuedFrom;
     }
 
     public Date getRequestedEndDateInitial() {
@@ -560,22 +576,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     }
 
     /**
-     * Gets the sponsorAwardNumber attribute.
-     * @return Returns the sponsorAwardNumber.
-     */
-    public String getSponsorAwardNumber() {
-        return sponsorAwardNumber;
-    }
-
-    /**
-     * Sets the sponsorAwardNumber attribute value.
-     * @param sponsorAwardNumber The sponsorAwardNumber to set.
-     */
-    public void setSponsorAwardNumber(String sponsorAwardNumber) {
-        this.sponsorAwardNumber = sponsorAwardNumber;
-    }
-
-    /**
      * Gets the sponsor attribute.
      * @return Returns the sponsor.
      */
@@ -590,8 +590,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
     }
-    
-    
+
+
     /**
      * Accessor for the principal investigator of this proposal
      *
@@ -600,7 +600,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public ProposalPerson getPrincipalInvestigator() {
         return principalInvestigator;
     }
-    
+
     /**
      * Accessor for the principal investigator of this proposal
      *

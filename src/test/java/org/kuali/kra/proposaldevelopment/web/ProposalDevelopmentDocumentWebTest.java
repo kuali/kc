@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.web;
 
 import java.net.URL;
+import java.sql.Date;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -30,6 +31,7 @@ import org.kuali.rice.KNSServiceLocator;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
@@ -272,7 +274,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         // set up and add first line
         setFieldValue(kualiForm, TEXT_INPUT, "newPropLocation.location", "location 1");
 
-        // test rolodex lookup 
+        // test rolodex lookup
         final HtmlPage page8 = lookup(webClient, page7, form4, "methodToCall.performLookup.(!!org.kuali.kra.bo.Rolodex!!).(((rolodexId:newPropLocation.rolodexId,", "1728",
                 "proposalDevelopmentProposal.do?newPropLocation.rolodex.", "rolodexId");
         final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
@@ -482,6 +484,97 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
     }
 
+    @Test
+    public void testSponsorProgramInformationPanel() throws Exception {
+        final WebClient webClient = new WebClient();
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+        final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText() );
+
+        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
+        final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
+
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "2", "000002");
+
+        // sponsor program info fields
+        setFieldValue(kualiForm, TEXT_INPUT, "document.deadlineDate", "2007-08-14");
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.deadlineType", "P", 3);
+        setFieldValue(kualiForm, TEXT_INPUT, "document.primeSponsorCode", "001044");
+        setFieldValue(kualiForm, TEXT_INPUT, "document.currentAwardNumber", "1234567890");
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.nsfCode", "J.02", 39);
+        setFieldValue(kualiForm, TEXT_INPUT, "document.agencyDivisionCode", "123");
+        setFieldValue(kualiForm, TEXT_AREA, "document.programAnnouncementTitle", "we want to give you money");
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.noticeOfOpportunityCode", "2", 8);
+        setFieldValue(kualiForm, TEXT_INPUT, "document.cfdaNumber", "123456");
+        setFieldValue(kualiForm, TEXT_INPUT, "document.programAnnouncementNumber", "123478");
+        setFieldValue(kualiForm, TEXT_INPUT, "document.sponsorProposalNumber", "234567");
+        setFieldValue(kualiForm, TEXT_INPUT, "document.continuedFrom", "98765432");
+
+        // TODO: possibly refactor this to use setFieldValue
+        final HtmlCheckBoxInput subawards = (HtmlCheckBoxInput) kualiForm.getInputByName("document.subcontracts");
+        subawards.setChecked(true);
+
+        setFieldValue(kualiForm, TEXT_INPUT, "document.agencyProgramCode", "456");
+
+        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
+
+        final HtmlPage page4 = (HtmlPage) saveButton.click();
+        assertEquals("Kuali :: Proposal Development Document", page4.getTitleText() );
+
+        String page4AsText = page4.asText();
+        String errorMessage = extractErrorMessage(page4AsText);
+
+        assertFalse(errorMessage, page4AsText.contains(ERRORS_FOUND_ON_PAGE));
+
+        // make sure the document saved correctly
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
+        assertNotNull(doc);
+
+        verifySavedRequiredFields(doc, "1", "000002", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "2");
+
+        // check sponsor program info fields
+        assertEquals("P", doc.getDeadlineType());
+        assertEquals("001044", doc.getPrimeSponsorCode());
+        assertEquals("1234567890", doc.getCurrentAwardNumber());
+        assertEquals("J.02", doc.getNsfCode());
+        assertEquals("123", doc.getAgencyDivisionCode());
+        assertEquals("we want to give you money", doc.getProgramAnnouncementTitle());
+        assertEquals("2", doc.getNoticeOfOpportunityCode());
+        assertEquals("123456", doc.getCfdaNumber());
+        assertEquals("123478", doc.getProgramAnnouncementNumber());
+        assertEquals("234567", doc.getSponsorProposalNumber());
+        assertEquals("98765432", doc.getContinuedFrom());
+        assertTrue("Subcontracts should be true", doc.getSubcontracts());
+        assertEquals("456", doc.getAgencyProgramCode());
+
+        // make sure the fields we set are displayed on the form after saving
+        final HtmlForm savedForm = (HtmlForm) page4.getForms().get(0);
+
+        assertTrue("Should have saved message", page4AsText.indexOf("Document was successfully saved.") > 0);
+        // TODO: verify header fields
+
+        // sponsor program info fields
+        assertEquals("08/14/2007", getFieldValue(savedForm, TEXT_INPUT, "document.deadlineDate"));
+        assertEquals("P", getFieldValue(savedForm, SELECTED_INPUT, "document.deadlineType"));
+        assertEquals("001044", getFieldValue(savedForm, TEXT_INPUT, "document.primeSponsorCode"));
+        assertEquals("1234567890", getFieldValue(savedForm, TEXT_INPUT, "document.currentAwardNumber"));
+        assertEquals("J.02", getFieldValue(savedForm, SELECTED_INPUT, "document.nsfCode"));
+        assertEquals("123", getFieldValue(savedForm, TEXT_INPUT, "document.agencyDivisionCode"));
+        assertEquals("we want to give you money", getFieldValue(savedForm, TEXT_AREA, "document.programAnnouncementTitle"));
+        assertEquals("2", getFieldValue(savedForm, SELECTED_INPUT, "document.noticeOfOpportunityCode"));
+        assertEquals("123456", getFieldValue(savedForm, TEXT_INPUT, "document.cfdaNumber"));
+        assertEquals("123478", getFieldValue(savedForm, TEXT_INPUT, "document.programAnnouncementNumber"));
+        assertEquals("234567", getFieldValue(savedForm, TEXT_INPUT, "document.sponsorProposalNumber"));
+        assertEquals("98765432", getFieldValue(savedForm, TEXT_INPUT, "document.continuedFrom"));
+
+        // TODO: possibly refactor this to use setFieldValue
+        final HtmlCheckBoxInput savedSubawards = (HtmlCheckBoxInput) savedForm.getInputByName("document.subcontracts");
+        assertEquals("on", savedSubawards.getValueAttribute());
+
+        assertEquals("456", getFieldValue(savedForm, TEXT_INPUT, "document.agencyProgramCode"));
+
+    }
+
     private HtmlPage textAreaPop(String fieldName, String fieldText, String methodToCall, boolean scriptEnabled) throws Exception {
         final WebClient webClient = new WebClient();
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
@@ -560,14 +653,14 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         return (HtmlPage) webClient.getPage(url + returnPath);
 
     }
-    
+
     private String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
         int idx1 = page.asXml().indexOf(uniqueNamePrefix);
         //int idx2 = page.asXml().indexOf(".((##)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor", idx1);
         int idx2 = page.asXml().indexOf("\"", idx1);
         return page.asXml().substring(idx1, idx2).replace("&amp;", "&").replace("((&lt;&gt;))", "((<>))");
     }
-    
+
 
     private void setFieldValue(HtmlForm htmlForm, int type, String fieldName, String value) {
         setFieldValue(htmlForm, type, fieldName, value, -1);
