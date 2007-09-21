@@ -32,6 +32,7 @@ import org.kuali.rice.KNSServiceLocator;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
@@ -499,7 +500,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         // sponsor program info fields
         setFieldValue(kualiForm, TEXT_INPUT, "document.deadlineDate", "2007-08-14");
         setFieldValue(kualiForm, SELECTED_INPUT, "document.deadlineType", "P", 3);
-        setFieldValue(kualiForm, TEXT_INPUT, "document.primeSponsorCode", "001044");
+        setFieldValue(kualiForm, TEXT_INPUT, "document.primeSponsorCode", "005984");
         setFieldValue(kualiForm, TEXT_INPUT, "document.currentAwardNumber", "1234567890");
         setFieldValue(kualiForm, SELECTED_INPUT, "document.nsfCode", "J.02", 39);
         setFieldValue(kualiForm, TEXT_INPUT, "document.agencyDivisionCode", "123");
@@ -534,7 +535,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
         // check sponsor program info fields
         assertEquals("P", doc.getDeadlineType());
-        assertEquals("001044", doc.getPrimeSponsorCode());
+        assertEquals("005984", doc.getPrimeSponsorCode());
         assertEquals("1234567890", doc.getCurrentAwardNumber());
         assertEquals("J.02", doc.getNsfCode());
         assertEquals("123", doc.getAgencyDivisionCode());
@@ -556,7 +557,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         // sponsor program info fields
         assertEquals("08/14/2007", getFieldValue(savedForm, TEXT_INPUT, "document.deadlineDate"));
         assertEquals("P", getFieldValue(savedForm, SELECTED_INPUT, "document.deadlineType"));
-        assertEquals("001044", getFieldValue(savedForm, TEXT_INPUT, "document.primeSponsorCode"));
+        assertEquals("005984", getFieldValue(savedForm, TEXT_INPUT, "document.primeSponsorCode"));
         assertEquals("1234567890", getFieldValue(savedForm, TEXT_INPUT, "document.currentAwardNumber"));
         assertEquals("J.02", getFieldValue(savedForm, SELECTED_INPUT, "document.nsfCode"));
         assertEquals("123", getFieldValue(savedForm, TEXT_INPUT, "document.agencyDivisionCode"));
@@ -573,6 +574,11 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
         assertEquals("456", getFieldValue(savedForm, TEXT_INPUT, "document.agencyProgramCode"));
 
+        // test label
+        final HtmlDivision primeSponsorNameDiv = (HtmlDivision) page4.getHtmlElementById("primeSponsorName.div");
+        assertEquals("Kuwait Petroleum Corporation", primeSponsorNameDiv.asText());
+//        <div class="fineprint" id="primeSponsorName.div">Royal Danish Ministry of Foreign Affairs 
+//        </div>
     }
 
     private HtmlPage textAreaPop(String fieldName, String fieldText, String methodToCall, boolean scriptEnabled) throws Exception {
