@@ -50,29 +50,26 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
 
     @Test public void testSave() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-        document.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
-        document.setSponsorCode("12345");
 
-        document.setTitle("project title");
-        document.setRequestedStartDateInitial(new Date(System.currentTimeMillis()));
-        document.setRequestedEndDateInitial(new Date(System.currentTimeMillis()));
-        document.setActivityTypeCode("1");
-        document.setProposalTypeCode("1");
-        document.setOwnedByUnit("000001");
+        Date requestedStartDateInitial = new Date(System.currentTimeMillis());
+        Date requestedEndDateInitial = new Date(System.currentTimeMillis());
+
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "12345", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
 
         documentService.saveDocument(document);
+
+        ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
+        assertNotNull(savedDocument);
+        checkDocumentFields(savedDocument, document.getDocumentNumber(), "ProposalDevelopmentDocumentTest test doc", "12345", "project title", "1", "1", "000001");
     }
 
     @Test public void testSaveWithoutProposalTypeCode() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-        document.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
-        document.setSponsorCode("12345");
 
-        document.setTitle("project title");
-        document.setRequestedStartDateInitial(new Date(System.currentTimeMillis()));
-        document.setRequestedEndDateInitial(new Date(System.currentTimeMillis()));
-        document.setActivityTypeCode("1");
-        document.setOwnedByUnit("000001");
+        Date requestedStartDateInitial = new Date(System.currentTimeMillis());
+        Date requestedEndDateInitial = new Date(System.currentTimeMillis());
+
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "12345", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", null, "000001");
 
         boolean caughtException = false;
 
@@ -88,15 +85,11 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
 
     @Test public void testSaveWithError() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-        document.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
-        document.setSponsorCode("12345");
 
-        document.setTitle("project title");
-        document.setRequestedStartDateInitial(new Date(System.currentTimeMillis()));
-        document.setRequestedEndDateInitial(new Date(System.currentTimeMillis()));
-        document.setActivityTypeCode("1");
-        document.setProposalTypeCode("2");
-        document.setOwnedByUnit("000001");
+        Date requestedStartDateInitial = new Date(System.currentTimeMillis());
+        Date requestedEndDateInitial = new Date(System.currentTimeMillis());
+
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "12345", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
 
         boolean caughtException = false;
 
@@ -112,18 +105,98 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
 
     @Test public void testSaveValidNonNew() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-        document.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
-        document.setSponsorCode("12345");
 
-        document.setTitle("project title");
-        document.setRequestedStartDateInitial(new Date(System.currentTimeMillis()));
-        document.setRequestedEndDateInitial(new Date(System.currentTimeMillis()));
-        document.setActivityTypeCode("1");
-        document.setProposalTypeCode("2");
-        document.setOwnedByUnit("000001");
-        document.setSponsorProposalNumber("123456");
+        Date requestedStartDateInitial = new Date(System.currentTimeMillis());
+        Date requestedEndDateInitial = new Date(System.currentTimeMillis());
+
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "12345", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
+        document.setSponsorProposalNumber("234567");
 
         documentService.saveDocument(document);
+
+        ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
+        assertNotNull(savedDocument);
+        checkDocumentFields(savedDocument, document.getDocumentNumber(), "ProposalDevelopmentDocumentTest test doc", "12345", "project title", "1", "2", "000001");
+        assertEquals("234567", savedDocument.getSponsorProposalNumber());
     }
 
+    @Test public void testSaveWithSponsorProgramInfo() throws Exception {
+        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+
+        Date requestedStartDateInitial = new Date(System.currentTimeMillis());
+        Date requestedEndDateInitial = new Date(System.currentTimeMillis());
+
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "12345", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
+
+        // sponsor program info fields
+        document.setDeadlineDate(new Date(System.currentTimeMillis()));
+        document.setDeadlineType("1");
+        document.setPrimeSponsorCode("001044");
+        document.setCurrentAwardNumber("123456");
+        document.setNsfCode("J.02");
+        document.setAgencyDivisionCode("123");
+        document.setProgramAnnouncementTitle("we want to give you money");
+        document.setNoticeOfOpportunityCode("2");
+        document.setCfdaNumber("123456");
+        // opportunity id
+        document.setProgramAnnouncementNumber("123478");
+        document.setSponsorProposalNumber("234567");
+        document.setContinuedFrom("98765432");
+        document.setSubcontracts(true);
+        document.setAgencyProgramCode("456");
+
+        documentService.saveDocument(document);
+
+        ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
+        assertNotNull(savedDocument);
+        checkDocumentFields(savedDocument, document.getDocumentNumber(), "ProposalDevelopmentDocumentTest test doc", "12345", "project title", "1", "2", "000001");
+
+        // check sponsor program info fields
+        assertEquals("1", savedDocument.getDeadlineType());
+        assertEquals("001044", savedDocument.getPrimeSponsorCode());
+        assertEquals("123456", savedDocument.getCurrentAwardNumber());
+        assertEquals("J.02", savedDocument.getNsfCode());
+        assertEquals("123", savedDocument.getAgencyDivisionCode());
+        assertEquals("we want to give you money", savedDocument.getProgramAnnouncementTitle());
+        assertEquals("2", savedDocument.getNoticeOfOpportunityCode());
+        assertEquals("123456", savedDocument.getCfdaNumber());
+        assertEquals("123478", savedDocument.getProgramAnnouncementNumber());
+        assertEquals("234567", savedDocument.getSponsorProposalNumber());
+        assertEquals("98765432", savedDocument.getContinuedFrom());
+        assertTrue("Subcontracts should be true", savedDocument.getSubcontracts());
+        assertEquals("456", savedDocument.getAgencyProgramCode());
+
+    }
+
+    /**
+     * This method...
+     * @param document
+     * @param title TODO
+     * @param requestedStartDateInitial TODO
+     * @param requestedEndDateInitila TODO
+     * @param activityTypeCode TODO
+     * @param proposalTypeCode TODO
+     * @param ownedByUnit TODO
+     */
+    private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
+        document.getDocumentHeader().setFinancialDocumentDescription(description);
+        document.setSponsorCode(sponsorCode);
+        document.setTitle(title);
+        document.setRequestedStartDateInitial(requestedStartDateInitial);
+        document.setRequestedEndDateInitial(requestedEndDateInitial);
+        document.setActivityTypeCode(activityTypeCode);
+        document.setProposalTypeCode(proposalTypeCode);
+        document.setOwnedByUnit(ownedByUnit);
+    }
+
+    private void checkDocumentFields(ProposalDevelopmentDocument doc, String documentNumber, String description, String sponsorCode, String title, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
+        assertEquals(documentNumber, doc.getDocumentNumber());
+        assertEquals(description, doc.getDocumentHeader().getFinancialDocumentDescription());
+        assertEquals(sponsorCode, doc.getSponsorCode());
+        assertEquals(title, doc.getTitle());
+        // check dates
+        assertEquals(activityTypeCode, doc.getActivityTypeCode());
+        assertEquals(proposalTypeCode, doc.getProposalTypeCode());
+        assertEquals(ownedByUnit, doc.getOwnedByUnit());
+    }
 }

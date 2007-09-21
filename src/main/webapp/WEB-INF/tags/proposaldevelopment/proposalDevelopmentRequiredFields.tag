@@ -11,7 +11,7 @@
     		<span class="subhead-left"><h2>Required Fields for Saving Document</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
-        
+
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
 				<th><div align="right">*Proposal #:</div></th>
@@ -29,7 +29,7 @@
 								<c:otherwise>
 									<c:out value="${KualiForm.document.sponsor.sponsorName}" />
 								</c:otherwise>
-						</c:choose>                        
+						</c:choose>
                         </c:if>
 					</div>
 				</td>
@@ -39,6 +39,7 @@
                 <td>
                 	<kul:htmlControlAttribute property="document.proposalTypeCode" attributeEntry="${proposalDevelopmentAttributes.proposalTypeCode}" />
                   	<div id="registration01">
+<!--
                     	<table cellpadding=0 cellspacing=0 class="nobord" id="1st" style="width:20%">
                       		<tr>
                         		<td nowrap class="nobord"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" /></div></td>
@@ -46,11 +47,12 @@
                       		</tr>
                       		<tr>
                         		<td nowrap class="nobord"><div align=right>Original Proposal #:</div></td>
-                        		<td class="nobord"><!--webbot bot="Validation" b-value-required="TRUE" -->
+                        		<td class="nobord"><!- -webbot bot="Validation" b-value-required="TRUE" - ->
                           			<input name="textfield" type=text id="textfield" size=12>
                           		</td>
                       		</tr>
                     	</table>
+ -->
                   	</div>
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.requestedStartDateInitial}" /></div></th>

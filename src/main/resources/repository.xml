@@ -19,6 +19,7 @@
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" />
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="continuedFrom" column="CONTINUED_FROM" jdbc-type="VARCHAR" />
     	<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
     	<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" />
     	<field-descriptor name="ownedByUnit" column="OWNED_BY_UNIT" jdbc-type="VARCHAR" />
@@ -106,30 +107,6 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	</class-descriptor>
 	<!-- GENERATE NEXT VALUE -->
-
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.Proposal" table="EPS_PROPOSAL">
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROPOSAL_NUMBER_KRA" autoincrement="true" />
-		<field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="INTEGER" />
-    	<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
-    	<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="INTEGER" />
-    	<field-descriptor name="ownedByUnit" column="OWNED_BY_UNIT" jdbc-type="VARCHAR" />
-    	<field-descriptor name="requestedStartDateInitial" column="REQUESTED_START_DATE_INITIAL" jdbc-type="DATE" />
-    	<field-descriptor name="requestedEndDateInitial" column="REQUESTED_END_DATE_INITIAL" jdbc-type="DATE" />
-    	<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
-
-    	<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="activityTypeCode"/>
-		</reference-descriptor>
-
-    	<reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="proposalTypeCode"/>
-		</reference-descriptor>
-
-		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="sponsorCode"/>
-		</reference-descriptor>
-
-	</class-descriptor>
 
 	<!-- KEYWORD panel -->
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" table="EPS_PROP_SCIENCE_KEYWORD">
