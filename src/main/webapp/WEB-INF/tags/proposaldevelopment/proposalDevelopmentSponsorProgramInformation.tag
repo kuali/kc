@@ -64,14 +64,13 @@
            		</td>
      		</tr>
         	<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorAwardNumber}" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.sponsorAwardNumber" attributeEntry="${proposalDevelopmentAttributes.sponsorAwardNumber}" />
+                	<kul:htmlControlAttribute property="document.currentAwardNumber" attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" />
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.originalProposalNumber}" /></div></th>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.continuedFrom}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.originalProposalNumber" attributeEntry="${proposalDevelopmentAttributes.originalProposalNumber}" />
-           			<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.Proposal" fieldConversions="proposalNumber:document.originalProposalNumber" />
+           			<kul:htmlControlAttribute property="document.continuedFrom" attributeEntry="${proposalDevelopmentAttributes.continuedFrom}" />
            		</td>
      		</tr>
         	<tr>
