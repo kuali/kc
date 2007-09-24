@@ -37,7 +37,6 @@
 				<th><div align="right">Agency/Sponsor Name:</div></th>
         		 -->
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.Sponsor.attributes.sponsorName}" /></div></th>
-				<!-- TODO: change to sponsor name once sponsor lookup is configured on required fields panel -->
            		<td>
                 	<div id="sponsorName.div">
                 		<bean:write	name="KualiForm" property="document.sponsor.sponsorName" />&nbsp;
@@ -52,7 +51,7 @@
      		    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.primeSponsorCode}" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.primeSponsorCode" attributeEntry="${proposalDevelopmentAttributes.primeSponsorCode}"  onblur="loadSponsorName('document.primeSponsorCode', 'primeSponsorName');" />
-                	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.primeSponsorCode,sponsorName:primeSponsorName" />
+                	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.primeSponsorCode,sponsorName:primeSponsorName" anchor="${tabKey}"/>
                 	<br />
                 	<div id="primeSponsorName.div" class="fineprint"><bean:write
 						name="KualiForm" property="primeSponsorName" />&nbsp;
