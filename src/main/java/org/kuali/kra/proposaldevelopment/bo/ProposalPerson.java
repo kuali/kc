@@ -20,8 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.Person;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 
 import org.kuali.core.util.KualiDecimal;
 
@@ -31,7 +29,7 @@ import org.kuali.core.util.KualiDecimal;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ProposalPerson extends Person {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
@@ -43,10 +41,12 @@ public class ProposalPerson extends Person {
     private Integer rolodexId;
     private Integer proposalNumber;
     private Integer proposalPersonNumber;
-    private String  propPersonRoleId;
+    private String  proposalPersonRoleId;
     private ProposalInvestigatorCertification certification;
+    private ProposalPersonRole role;
     private List<ProposalPersonUnit> units;
     private List<ProposalPersonDegree> degrees;
+    private boolean delete;
 
     /**
      *
@@ -244,7 +244,7 @@ public class ProposalPerson extends Person {
      * @return the value of propPersonRoleId
      */
     public final String getProposalPersonRoleId() {
-        return this.propPersonRoleId;
+        return this.proposalPersonRoleId;
     }
 
     /** 
@@ -253,7 +253,25 @@ public class ProposalPerson extends Person {
      * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
      */
     public final void setProposalPersonRoleId(String argPropPersonRoleId) {
-        this.propPersonRoleId = argPropPersonRoleId;
+        this.proposalPersonRoleId = argPropPersonRoleId;
+    }
+
+    /**
+     * Gets the value of propPersonRole
+     *
+     * @return the value of propPersonRole
+     */
+    public final ProposalPersonRole getRole() {
+        return role;
+    }
+
+    /** 
+     * Sets the value of propPersonRole
+     *
+     * @param argPropPersonRole Value to assign to this.propPersonRole
+     */
+    public final void setRole(ProposalPersonRole argPropPersonRole) {
+        this.role = argPropPersonRole;
     }
 
 	@Override 
@@ -304,5 +322,13 @@ public class ProposalPerson extends Person {
         }
         
         return getUnits().get(index);
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }

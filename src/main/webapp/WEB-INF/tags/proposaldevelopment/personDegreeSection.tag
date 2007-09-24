@@ -16,10 +16,6 @@
 <%@ include file="/WEB-INF/jsp/proposalPerson.jsp"%>
 
               <table cellpadding=0 cellspacing="0" summary="">
-                <tr>
-                  <td colspan="15" nowrap class="tab-subhead1"><a href="#" id="A4" onclick="rend(this, false)"><img src="kr/static/images/tinybutton-hide.gif" alt="show/hide this panel" width=45 height=15  border=0 align="absmiddle" id="F4"></a> Degrees</td>
-
-                </tr>
                 <tbody id="G4">
                   <tr>
                     <th width="10%">&nbsp;</th>
