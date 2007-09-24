@@ -70,7 +70,23 @@
 
     <kul:panelFooter />
 
-    <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+  <c:if test="${! viewOnly}">
+  	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
+  	<c:set var="extraButtonProperty" value="methodToCall.deletePersonnel"/>
+  	<c:set var="extraButtonAlt" value="delete"/>
+  </c:if>  
+  
+  	<p>
+	<kul:documentControls 
+		transactionalDocument="false" 
+		saveButtonOverride="savePersonnel" 
+		suppressRoutingControls="true"
+		extraButtonSource="${extraButtonSource}"
+		extraButtonProperty="${extraButtonProperty}"
+		extraButtonAlt="${extraButtonAlt}"
+		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		/>
+	</p>
 
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];
