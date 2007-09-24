@@ -340,6 +340,10 @@
 			<inverse-foreignkey field-ref="proposalPersonNumber"/>
 		</collection-descriptor>
 
+		<reference-descriptor name="role" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="proposalPersonRoleId"/>
+		</reference-descriptor>
+
 		<reference-descriptor name="certification" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="proposalNumber"/>
 			<foreignkey field-ref="proposalPersonNumber"/>
