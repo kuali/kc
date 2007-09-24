@@ -18,3 +18,5 @@
 <%@ attribute name="index" description="Index of the property for a ProposalPerson" required="false" %>
 
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
+<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
+

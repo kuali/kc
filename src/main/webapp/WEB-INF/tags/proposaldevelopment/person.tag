@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/proposalPerson.jsp"%>
-
+<bean:define id="parentTabName" name="KualiForm" property="${proposalPerson}.fullName"/>
 <div class="tab-container" align="center">
           <!-- TAB -->
             <div id="workarea">
@@ -24,10 +24,9 @@
 
                 <h2><span class="subhead-left"><bean:write name="KualiForm" property="${proposalPerson}.fullName"/></span></h2>
               </div>
+
+<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="true">
               <table cellpadding=0 cellspacing="0" summary="">
-                <tr>
-                  <td colspan="13" nowrap class="tab-subhead1"><a href="#" id="A1" onclick="rend(this, false)"><img src="kr/static/images/tinybutton-hide.gif" alt="show/hide this panel" width=45 height=15  border=0 align="absmiddle" id="F1"></a> Person Details</td>
-                </tr>
                 <tbody id="G1">
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right">Full Name: </div></th>
@@ -164,11 +163,15 @@
                   </tr>
                 </tbody>
               </table>
+</kul:innerTab>
 
+<kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="true">
               <kra-pd:personUnitSection proposalPerson="${proposalPerson}" />
+</kul:innerTab>
 
+<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="true">
               <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"/>
-
+</kul:innerTab>
               <c:if test="${!fn:contains(excludeSections, 'certify')}">
               <table cellpadding=0 cellspacing="0" summary="">
                 <tr>

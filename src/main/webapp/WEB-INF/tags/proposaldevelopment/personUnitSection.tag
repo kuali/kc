@@ -20,10 +20,6 @@
 <bean:define id="proposalPersonUnits" name="KualiForm" property="${proposalPerson}.units" />
 
             <table cellpadding=0 cellspacing="0" summary="">
-                <tr>
-
-                  <td colspan="13" nowrap class="tab-subhead1"><a href="#" id="A3" onclick="rend(this, false)"><img src="kr/static/images/tinybutton-hide.gif" alt="show/hide this panel" width=45 height=15  border=0 align="absmiddle" id="F3"></a> Unit Details</td>
-                </tr>
                 <tbody id="G3">
                   <tr>
                     <th width="10%">&nbsp;</th>
