@@ -15,17 +15,28 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
+
 <c:forEach items="${KualiForm.document.proposalPersons}" var="person" varStatus="status">
     <bean:define id="keyPerson" name="KualiForm" property="document.proposalPerson[${status.index}]"/>
     <c:set var="proposalPerson" value="document.proposalPersons[${status.index}]" />
     <c:choose>
         <c:when test="${status.first}">
-    <kul:tabTop tabTitle="${keyPerson.fullName} <span style='font-weight: normal; text-align: right;'>${keyPerson.proposalPersonRoleId}</span>" defaultOpen="true" tabErrorKey="proposalPersons">
+    <kul:tabTop tabTitle="${fn:substring(keyPerson.fullName, 0, 22)}"
+            tabDescription="${keyPerson.role.description}"
+      leftSideHtmlProperty="${proposalPerson}.delete" 
+     leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
+      leftSideHtmlDisabled="false" defaultOpen="false" tabErrorKey="proposalPersons">
         <kra-pd:person proposalPerson="${proposalPerson}" />
     </kul:tabTop>
         </c:when>
         <c:otherwise>
-    <kul:tab tabTitle="${keyPerson.fullName} <span style='font-weight: normal; text-align: right;'>${keyPerson.proposalPersonRoleId}</span>" defaultOpen="true" tabErrorKey="proposalPersons">
+    <kul:tab tabTitle="${fn:substring(keyPerson.fullName, 0, 22)}"
+             tabDescription="${keyPerson.role.description}"
+             leftSideHtmlProperty="${proposalPerson}.delete" 
+            leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
+         	 leftSideHtmlDisabled="false" 
+                      defaultOpen="false" tabErrorKey="proposalPersons">
         <kra-pd:person proposalPerson="${proposalPerson}" />
     </kul:tab>
         </c:otherwise>

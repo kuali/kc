@@ -55,7 +55,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -116,6 +116,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             document.addProposalPerson(pdform.getNewProposalPerson());
+            pdform.getNewProposalPerson().refreshReferenceObject("role");
             pdform.setNewProposalPerson(new ProposalPerson());
             pdform.setNewRolodexId("");
             pdform.setNewPersonId("");
