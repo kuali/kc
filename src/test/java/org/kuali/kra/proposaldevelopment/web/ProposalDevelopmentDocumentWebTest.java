@@ -16,7 +16,6 @@
 package org.kuali.kra.proposaldevelopment.web;
 
 import java.net.URL;
-import java.sql.Date;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -29,6 +28,7 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
 
+import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
@@ -58,6 +58,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
     private static final int IMAGE_INPUT = 4;
     private static final int SUBMIT_INPUT_BY_NAME = 5;
     private static final int SUBMIT_INPUT_BY_VALUE = 6;
+    private static final int CHECK_BOX_INPUT = 7;
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private DocumentService documentService = null;
 
@@ -75,6 +76,72 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         documentService = null;
     }
 
+    @Test
+    public void testKeywordPanel() throws Exception {
+        final WebClient webClient = new WebClient();
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+
+        final HtmlPage pageInit = login(webClient, url,
+                "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+        assertEquals("Kuali :: Proposal Development Document", pageInit.getTitleText());
+
+        final HtmlForm kualiForm = (HtmlForm) pageInit.getForms().get(0);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title - test", "08/14/2007", "08/21/2007", "1", "1", "000002");
+        final HtmlForm formInit = (HtmlForm) pageInit.getForms().get(0);
+
+        /* Save with basic/mandatory data */
+        final HtmlPage pageAfterInitSave = clickButton(pageInit, formInit, "methodToCall.save", IMAGE_INPUT);
+        final HtmlForm formAfterInitSave = (HtmlForm) pageAfterInitSave.getForms().get(0);
+
+        assertFalse(pageAfterInitSave.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertTrue(pageAfterInitSave.asText().contains("Document was successfully saved"));
+
+        /* performing science keyword lookup */
+        String lookUpInfo = "methodToCall.performLookup.(!!org.kuali.kra.proposaldevelopment.bo.ScienceKeyword!!).(:;propScienceKeywords;:)";
+        final HtmlPage pageAfterKeywordLookup = multipleValuelookup(pageAfterInitSave, formAfterInitSave,lookUpInfo, "*", "scienceKeywordCode");
+        final HtmlForm formAfterKeywordLookup = (HtmlForm) pageAfterKeywordLookup.getForms().get(0);
+ 
+        /* verify data returned by keyword lookup */
+        String keywordData = "1 Chlorine unchecked"; // initial data returned - all rows unchecked
+        assertTrue(pageAfterKeywordLookup.asText().contains(keywordData));
+
+        /* save document with science keyword data */
+        final HtmlPage pageAfterKeywordSave = clickButton(pageAfterKeywordLookup, formAfterKeywordLookup, "methodToCall.save", IMAGE_INPUT);
+        assertFalse(pageAfterKeywordSave.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertTrue(pageAfterKeywordSave.asText().contains("Document was successfully saved"));
+        final HtmlForm formAfterKeywordSave = (HtmlForm) pageAfterKeywordSave.getForms().get(0);
+
+        /* Test javascript for select all */
+        String selectAllJS = "selectAllKeywords(document)";
+        final ScriptResult scriptResult = pageAfterKeywordSave.executeJavaScriptIfPossible(selectAllJS, "onSubmit", true, pageAfterKeywordSave.getDocumentElement());
+        final HtmlPage pageAfterSelectAll = (HtmlPage)scriptResult.getNewPage();
+        final HtmlForm formAfterSelectAll = (HtmlForm) pageAfterSelectAll.getForms().get(0);
+        keywordData = "1 Chlorine checked"; // data after select all - row checked
+        assertTrue(pageAfterSelectAll.asText().contains(keywordData));
+        
+        /* uncheck one row. science keyword Chlorine is unchecked */
+        String uncheckRow = "document.propScienceKeywords[0].selectKeyword";
+        final HtmlPage pageAfterUncheckingRow = clickButton(pageAfterSelectAll, formAfterSelectAll, uncheckRow, CHECK_BOX_INPUT);
+        keywordData = "1 Chlorine unchecked"; // uncheck this particular row to retain this data
+        assertTrue(pageAfterUncheckingRow.asText().contains(keywordData));
+        
+        /* check delete selected function - delete all rows other than one unchecked above*/
+        final HtmlForm formAfterUncheckingRow = (HtmlForm) pageAfterUncheckingRow.getForms().get(0);
+        String deleteSelected = "methodToCall.deleteSelectedScienceKeyword";
+        final HtmlPage pageAfterDeleteSelected = clickButton(pageAfterUncheckingRow, formAfterUncheckingRow, deleteSelected, IMAGE_INPUT);
+        keywordData = "2 Heat"; // all rows removed except 1 Chlorine
+        assertFalse(pageAfterDeleteSelected.asText().contains(keywordData));
+
+        
+        /* save after removing all rows except one uncheked above - 1 Chlorine */
+        final HtmlForm formAfterDeleteSelected = (HtmlForm) pageAfterDeleteSelected.getForms().get(0);
+        final HtmlPage pageSaveAfterDelete = clickButton(pageAfterDeleteSelected, formAfterDeleteSelected, "methodToCall.save", IMAGE_INPUT);
+        assertFalse(pageSaveAfterDelete.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertTrue(pageSaveAfterDelete.asText().contains("Document was successfully saved"));
+        
+    }
+
+    
     @Test
     public void testProposalTypeLink() throws Exception {
         final WebClient webClient = new WebClient();
@@ -641,6 +708,26 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
     }
 
+    /* multiple return value lookup - select all records and return data */
+    private HtmlPage multipleValuelookup(HtmlPage htmlPage, HtmlForm htmlForm, String uniqueLookupButtonName, String selectedFieldValue, 
+            String searchField) throws Exception {
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+        final HtmlPage pageInit = clickButton(htmlPage, htmlForm,uniqueLookupButtonName,IMAGE_INPUT);
+        final HtmlForm formLookup = (HtmlForm) pageInit.getForms().get(0);
+        setFieldValue(formLookup, TEXT_INPUT, searchField, selectedFieldValue);
+        final HtmlPage pageAfterSearch = clickButton(pageInit, formLookup, "methodToCall.search", IMAGE_INPUT);
+        final HtmlForm formAfterSearch = (HtmlForm) pageAfterSearch.getForms().get(0);
+        
+        String selectAll="methodToCall.selectAll.(::;false;::).x";
+        final HtmlPage pageAfterSelectAll = clickButton(pageAfterSearch, formAfterSearch, selectAll, IMAGE_INPUT);
+        final HtmlForm formAfterSelectAll = (HtmlForm) pageAfterSelectAll.getForms().get(0);
+
+        String returnSelected="methodToCall.prepareToReturnSelectedResults.x";
+        final HtmlPage page4 = clickButton(pageAfterSelectAll, formAfterSelectAll, returnSelected, IMAGE_INPUT);
+        return page4;
+    }
+
+    
 
     // should be able to make one lookup method for all single value lookup
     private HtmlPage lookup(WebClient webClient, HtmlPage htmlPage, HtmlForm htmlForm, String uniqueLookupButtonName, String selectedFieldValue, String returnProperty,
@@ -729,6 +816,9 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
             case SUBMIT_INPUT_BY_VALUE:
                 final HtmlSubmitInput button2 = (HtmlSubmitInput) htmlForm.getInputByValue(buttonName);
                 return (HtmlPage) button2.click();
+            case CHECK_BOX_INPUT:
+                final HtmlCheckBoxInput checkbox = (HtmlCheckBoxInput) htmlForm.getInputByName(buttonName);
+                return (HtmlPage) checkbox.click();
             default:
                 assertTrue(false);
                 return null;
