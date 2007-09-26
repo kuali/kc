@@ -15,22 +15,28 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
@@ -38,6 +44,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
@@ -58,6 +65,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private String newRolodexId;
     private String newPersonId;
     private String addToPerson;
+    private Map personEditableFields;
+ 
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -80,6 +89,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         setNewProposalPersonUnit(new Unit());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
+        
+        buildPersonEditableFields();
     }
 
 
@@ -106,10 +117,10 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         }
 
         try {
-            Boolean creditSplitEnabled = new Boolean(getConfigurationService()
-                                                     .getApplicationParameterRule("SYSTEM", CREDIT_SPLIT_ENABLED_RULE_NAME).getParameterText()).booleanValue();
-            if (creditSplitEnabled.booleanValue()) {
-                request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, creditSplitEnabled);
+            boolean creditSplitEnabled = getConfigurationService().getApplicationParameterIndicator("SYSTEM", CREDIT_SPLIT_ENABLED_RULE_NAME);
+
+            if (creditSplitEnabled) {
+                request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
             }
         }
         catch (Exception e) {
@@ -307,5 +318,55 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
     private KualiConfigurationService getConfigurationService() {
         return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+
+    private BusinessObjectService getBusinessObjectService() {
+        return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+    
+    /**
+     * Creates the list of <code>{@link PersonEditableField}</code> field names.
+     */
+    public void buildPersonEditableFields() {
+        setPersonEditableFields(new HashMap());
+        
+        Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
+        for (PersonEditableField field : fields) {
+            LOG.info("Putting into editable field map " + field);
+            getPersonEditableFields().put(field.getFieldName(), new Boolean(true));
+        }
+    }
+
+    public void setPersonEditableFields(Map fields) {
+        personEditableFields = fields;
+    }    
+
+    /**
+     * Returns a an array of editablefields
+     */
+    public Map getPersonEditableFields() {
+        return personEditableFields;
+    }
+
+    public List getInvestigators() {
+        List retval = new ArrayList();
+        
+        for (ProposalPerson person : getProposalDevelopmentDocument().getProposalPersons()) {
+            if (new ProposalDevelopmentKeyPersonsRule().isInvestigator(person)) {
+                LOG.info("Found investigator " + person.getFullName());
+                retval.add(person);
+            }
+        }
+        return retval;
+    }
+
+    public List getInvestigatorCreditTypes() {
+        List retval = new ArrayList();
+        Collection<InvestigatorCreditType> types = getBusinessObjectService().findAll(InvestigatorCreditType.class);
+        for (InvestigatorCreditType type : types) {
+            LOG.info("Found investigator credit type " + type.getDescription());
+            retval.add(type.getDescription());
+        }
+        return retval;
     }
 }

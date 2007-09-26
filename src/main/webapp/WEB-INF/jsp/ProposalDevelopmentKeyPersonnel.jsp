@@ -55,9 +55,10 @@
               </tr>
             </table>
             <br>
-
-
-            <span><html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/></span>
+            <c:if test="${!(empty KualiForm.newPersonId && empty KualiForm.newRolodexId)}">
+            <html:image property="methodToCall.clearProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
+            <html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/>
+            </c:if>
           </div>
 
     </kul:uncollapsable>
@@ -72,7 +73,7 @@
 
   <c:if test="${! viewOnly}">
   	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
-  	<c:set var="extraButtonProperty" value="methodToCall.deletePersonnel"/>
+  	<c:set var="extraButtonProperty" value="methodToCall.deletePerson"/>
   	<c:set var="extraButtonAlt" value="delete"/>
   </c:if>  
   

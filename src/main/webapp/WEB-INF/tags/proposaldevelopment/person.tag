@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/proposalPerson.jsp"%>
 <bean:define id="parentTabName" name="KualiForm" property="${proposalPerson}.fullName"/>
 <div class="tab-container" align="center">
+<bean:define id="personEditableFields" name="KualiForm" property="personEditableFields" />
           <!-- TAB -->
             <div id="workarea">
             <div class="tab-container" align="center" id="G100">
@@ -36,129 +37,152 @@
                     </td>
                     <th align="left" width="15%"><div align="right">User Name: </div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.userName" 
-                                                                     attributeEntry="${proposalPersonAttributes.userName}" />
+                                                                     attributeEntry="${proposalPersonAttributes.userName}" 
+                                                                           readOnly="${!personEditableFields['userName'] }"/>
                     </td>
                   </tr>
                   <tr>
                     <th align="left" width="15%"><div align="right">Email Address:</div></th>
 
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.emailAddress" 
-                                                                     attributeEntry="${proposalPersonAttributes.emailAddress}" />
+                                                                     attributeEntry="${proposalPersonAttributes.emailAddress}" 
+                                                                           readOnly="${!personEditableFields['emailAddress'] }"/>
                     </td>
                     <th align="left" width="15%"> <div align="right">Office Phone: </div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.officePhone" 
-                                                                     attributeEntry="${proposalPersonAttributes.officePhone}" />
+                                                                     attributeEntry="${proposalPersonAttributes.officePhone}" 
+                                                                           readOnly="${!personEditableFields['officePhone'] }" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" width="15%"> <div align="right">Primary Title: </div></th>
 
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.primaryTitle" 
-                                                                     attributeEntry="${proposalPersonAttributes.primaryTitle}" />
+                                                         attributeEntry="${proposalPersonAttributes.primaryTitle}" 
+                                                               readOnly="${!personEditableFields['primaryTitle'] }" />
                     </td>
                     <th align="left" nowrap="nowrap"> <div align="right">Directory Title: </div></th>
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.directoryTitle"
-                                                                     attributeEntry="${proposalPersonAttributes.directoryTitle}" />
+                                                         attributeEntry="${proposalPersonAttributes.directoryTitle}" 
+                                                               readOnly="${!personEditableFields['directoryTitle'] }" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" width="15%"> <div align="right">Home Unit: </div></th>
 
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.homeUnit" 
-                                                                     attributeEntry="${proposalPersonAttributes.homeUnit}" />
+                                                         attributeEntry="${proposalPersonAttributes.homeUnit}" 
+                                                               readOnly="${!personEditableFields['fullName'] }" />
                     </td>
                     <th align="left" nowrap="nowrap"> <div align="right">School </div></th>
                     <td><kul:htmlControlAttribute property="${proposalPerson}.school" 
-                                                                     attributeEntry="${proposalPersonAttributes.school}" />
+                                            attributeEntry="${proposalPersonAttributes.school}" 
+                                                  readOnly="${!personEditableFields['school'] }" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" width="15%"> <div align="right">eRA Commons User Name: </div></th>
 
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.eraCommonsUserName" 
-                                                                     attributeEntry="${proposalPersonAttributes.eraCommonsUserName}" />
+                                                                     attributeEntry="${proposalPersonAttributes.eraCommonsUserName}" 
+                                                                           readOnly="${!personEditableFields['eraCommonsUserName'] }"/>
                     </td>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">Fax: </div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.faxNumber" 
-                                                                     attributeEntry="${proposalPersonAttributes.faxNumber}" />
+                                                                     attributeEntry="${proposalPersonAttributes.faxNumber}" 
+                                                                           readOnly="${!personEditableFields['faxNumber'] }" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">Pager: </div></th>
 
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.pagerNumber" 
-                                                                     attributeEntry="${proposalPersonAttributes.pagerNumber}" />
+                                                                     attributeEntry="${proposalPersonAttributes.pagerNumber}" 
+                                                                           readOnly="${!personEditableFields['pagerNumber'] }" />
                     </td>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">Mobile: </div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.mobilePhoneNumber" 
-                                                                     attributeEntry="${proposalPersonAttributes.mobilePhoneNumber}" />
+                                                                     attributeEntry="${proposalPersonAttributes.mobilePhoneNumber}" 
+                                                                           readOnly="${!personEditableFields['mobilePhoneNumber'] }"/>
                     </td>
                   </tr>
                   <tr>
                     <th align="left"> <div align="right">Office Location: </div></th>
 
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.officeLocation" 
-                                                                     attributeEntry="${proposalPersonAttributes.officeLocation}" />
+                                                         attributeEntry="${proposalPersonAttributes.officeLocation}" 
+                                                               readOnly="${!personEditableFields['officeLocation'] }" />
                     </td>
                     <th align="left"> <div align="right">Sec.Office Location: </div></th>
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.secondaryOfficeLocation" 
-                                                                     attributeEntry="${proposalPersonAttributes.secondaryOfficeLocation}" />
+                                                         attributeEntry="${proposalPersonAttributes.secondaryOfficeLocation}" 
+                                                               readOnly="${!personEditableFields['secondaryOfficeLocation'] }" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right">Address Line 1: </div></th>
 
                     <td><kul:htmlControlAttribute property="${proposalPerson}.addressLine1" 
-                                                                     attributeEntry="${proposalPersonAttributes.addressLine1}" />
+                                            attributeEntry="${proposalPersonAttributes.addressLine1}" 
+                                                  readOnly="${!personEditableFields['addressLine1'] }" />
                     </td>
                     <th align="left" nowrap="nowrap"> <div align="right">Address Line 2: </div></th>
                     <td><kul:htmlControlAttribute property="${proposalPerson}.addressLine2" 
-                                                                     attributeEntry="${proposalPersonAttributes.addressLine2}" />
+                                            attributeEntry="${proposalPersonAttributes.addressLine2}" 
+                                                  readOnly="${!personEditableFields['addressLine2'] }" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right">Address Line 3: </div></th>
 
                     <td><kul:htmlControlAttribute property="${proposalPerson}.addressLine3" 
-                                                                     attributeEntry="${proposalPersonAttributes.addressLine3}" />
+                                            attributeEntry="${proposalPersonAttributes.addressLine3}" 
+                                                  readOnly="${!personEditableFields['fullName'] || addressLine3}" />
                     </td>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">City: </div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.city" 
-                                                                     attributeEntry="${proposalPersonAttributes.city}" />
+                                                                     attributeEntry="${proposalPersonAttributes.city}" 
+                                                                           readOnly="${!personEditableFields['city'] }" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">County: </div></th>
 
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.county" 
-                                                                     attributeEntry="${proposalPersonAttributes.county}" />
+                                                                     attributeEntry="${proposalPersonAttributes.county}" 
+                                                                           readOnly="${!personEditableFields['county'] }" />
                     </td>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right">State: </div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.state" 
-                                                                     attributeEntry="${proposalPersonAttributes.state}" />
+                                                                     attributeEntry="${proposalPersonAttributes.state}" 
+                                                                           readOnly="${!personEditableFields['state'] }" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right">Postal Code: </div></th>
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.postalCode" 
-                                                                     attributeEntry="${proposalPersonAttributes.postalCode}" />
+                                                                     attributeEntry="${proposalPersonAttributes.postalCode}" 
+                                                                           readOnly="${!personEditableFields['postalCode'] }" />
                     </td>
                     <th align="left" nowrap="nowrap"> <div align="right">Country: </div></th>
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.countryCode" 
-                                                                     attributeEntry="${proposalPersonAttributes.countryCode}" />
+                                                                     attributeEntry="${proposalPersonAttributes.countryCode}" 
+                                                                           readOnly="${!personEditableFields['countryCode'] }" />
                     </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap"><div align="right">% Effort: </div></th>
                     <td align="left"><span>
                       <kul:htmlControlAttribute property="${proposalPerson}.percentageEffort" 
-                                                                     attributeEntry="${proposalPersonAttributes.percentEffort}" />
+                                          attributeEntry="${proposalPersonAttributes.percentEffort}" 
+                                                readOnly="${!personEditableFields['percentEffort'] }" />
                     </span></td>
                     <th align="left" nowrap="nowrap"><div align="right">Faculty:</div></th>
 
                     <td align="left"><label>
                       <kul:htmlControlAttribute property="${proposalPerson}.isFaculty" 
-                                                                     attributeEntry="${proposalPersonAttributes.isFaculty}" />
+                                          attributeEntry="${proposalPersonAttributes.isFaculty}" 
+                                                readOnly="${!personEditableFields['isFaculty']}" />
                     </label></td>
                   </tr>
                 </tbody>
@@ -172,7 +196,7 @@
 <kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="true">
               <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"/>
 </kul:innerTab>
-              <c:if test="${!fn:contains(excludeSections, 'certify')}">
+<%--
               <table cellpadding=0 cellspacing="0" summary="">
                 <tr>
                   <td colspan="12" nowrap class="tab-subhead1"><a href="#" id="A5" onclick="rend(this, false)"><img src="kr/static/images/tinybutton-hide.gif" alt="show/hide this panel" width=45 height=15  border=0 align="absmiddle" id="F5"></a> Certify</td>
@@ -272,7 +296,7 @@
                   </tr>
                 </tbody>
               </table>
-              </c:if>
+--%>
             </div>
           </div>
 </div>
