@@ -20,25 +20,29 @@
 <c:forEach items="${KualiForm.document.proposalPersons}" var="person" varStatus="status">
     <bean:define id="keyPerson" name="KualiForm" property="document.proposalPerson[${status.index}]"/>
     <c:set var="proposalPerson" value="document.proposalPersons[${status.index}]" />
-    <c:choose>
-        <c:when test="${status.first}">
+      <c:if test="${status.first}">
+          <c:set var="transparent" value="true" />
     <kul:tabTop tabTitle="${fn:substring(keyPerson.fullName, 0, 22)}"
-            tabDescription="${keyPerson.role.description}"
-      leftSideHtmlProperty="${proposalPerson}.delete" 
-     leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
-      leftSideHtmlDisabled="false" defaultOpen="false" tabErrorKey="proposalPersons">
+             tabDescription="${keyPerson.role.description}"
+             leftSideHtmlProperty="${proposalPerson}.delete" 
+            leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
+         	 leftSideHtmlDisabled="false" 
+                      defaultOpen="false" 
+                      tabErrorKey="proposalPersons">
         <kra-pd:person proposalPerson="${proposalPerson}" />
-    </kul:tabTop>
-        </c:when>
-        <c:otherwise>
+     </kul:tabTop>
+
+      </c:if>
+      <c:if test="${!status.first}">
     <kul:tab tabTitle="${fn:substring(keyPerson.fullName, 0, 22)}"
              tabDescription="${keyPerson.role.description}"
              leftSideHtmlProperty="${proposalPerson}.delete" 
             leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
          	 leftSideHtmlDisabled="false" 
-                      defaultOpen="false" tabErrorKey="proposalPersons">
+                      defaultOpen="false" 
+            transparentBackground="${transparent}" 
+                      tabErrorKey="proposalPersons">
         <kra-pd:person proposalPerson="${proposalPerson}" />
-    </kul:tab>
-        </c:otherwise>
-    </c:choose>
+     </kul:tab>
+      </c:if>
 </c:forEach>
