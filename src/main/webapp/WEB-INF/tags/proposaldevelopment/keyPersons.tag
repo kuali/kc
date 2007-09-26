@@ -46,3 +46,11 @@
      </kul:tab>
       </c:if>
 </c:forEach>
+
+<c:if test="${fn:length(KualiForm.investigators) > 0}">
+    <kra-pd:creditSplit/>
+</c:if>
+
+<c:if test="${fn:length(KualiForm.document.proposalPersons) > 0}">
+    <kul:panelFooter />
+</c:if>
