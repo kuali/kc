@@ -20,13 +20,17 @@
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Combined Credit Split</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" altText="help"/></span>
         </div>
 
-        <table>
-          <tr>
-            <td></td>
-          </tr>
+        <table  cellpadding="0" cellspacing="0"  summary="">
+            <tbody>
+              <tr>
+<c:forEach items="${KualiForm.investigatorCreditTypes}" var="invType" >
+<th width="20%">${invType}</th>
+</c:forEach>
+              </tr>
+            </tbody>
         </table>
     </div>
 </kul:tab>
