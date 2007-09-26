@@ -28,7 +28,7 @@
 			  </td>
 
               <td width="20%" class="infoline"><div align="center">
-			  <html:image property="methodToCall.addScienceKeyword" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Keyword" alt="Add Keyword" styleClass="tinybutton" />
+              &nbsp;
               </div></td>
             </tr>
 
