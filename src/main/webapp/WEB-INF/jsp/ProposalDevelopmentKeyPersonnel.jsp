@@ -67,10 +67,13 @@
 
     <kra-pd:keyPersons/>
 
-    <kra-pd:creditSplit/>
+    <c:if test="${fn:length(Kuali.investigators) > 0}">
+        <kra-pd:creditSplit/>
+    </c:if>
 
-    <kul:panelFooter />
-
+    <c:if test="${fn:length(Kuali.document.proposalPersons) > 0}">
+        <kul:panelFooter />
+    </c:if>
   <c:if test="${! viewOnly}">
   	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.deletePerson"/>
