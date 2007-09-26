@@ -36,7 +36,7 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -107,19 +107,19 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         return retval;
     }
 
-    protected boolean isPrincipalInvestigator(ProposalPerson person) {
+    public boolean isPrincipalInvestigator(ProposalPerson person) {
         return PRINCIPAL_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
     }
 
-    protected boolean isCoInvestigator(ProposalPerson person) {
+    public boolean isCoInvestigator(ProposalPerson person) {
         return CO_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
     }
     
-    protected boolean isInvestigator(ProposalPerson person) {
+    public boolean isInvestigator(ProposalPerson person) {
         return isPrincipalInvestigator(person) || isCoInvestigator(person);
     }
         
-    protected boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
+    public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
         boolean retval = false;
 
         for (Iterator<ProposalPerson> person_it = document.getProposalPersons().iterator();
