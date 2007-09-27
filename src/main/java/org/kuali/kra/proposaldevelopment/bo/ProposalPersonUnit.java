@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -26,7 +28,7 @@ import org.kuali.kra.bo.Unit;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: lprzybyl $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase {
     private Integer proposalNumber;
@@ -34,8 +36,32 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase {
     private String unitNumber;
     private Boolean leadUnit;
     private Unit unit;
+    private List<ProposalUnitCreditSplit> creditSplits;
 
+    /**
+     * Default constructor
+     */
+    public ProposalPersonUnit() {
+        creditSplits = new ArrayList<ProposalUnitCreditSplit>();
+    }
 
+    /**
+     * Gets the value of creditSplits
+     *
+     * @return the value of creditSplits
+     */
+    public List<ProposalUnitCreditSplit> getCreditSplits() {
+        return this.creditSplits;
+    }
+
+    /**
+     * Sets the value of creditSplits
+     *
+     * @param argCreditSplits Value to assign to this.creditSplits
+     */
+    public void setCreditSplits(List<ProposalUnitCreditSplit> argCreditSplits) {
+        this.creditSplits = argCreditSplits;
+    }
     /**
      * Gets the value of proposalNumber
      *
