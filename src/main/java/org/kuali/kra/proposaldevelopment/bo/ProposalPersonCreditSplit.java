@@ -24,12 +24,12 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Class representation of the Proposal Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
  *
- * @author $Id: ProposalPersonCreditSplit.java,v 1.1 2007-09-26 14:08:37 lprzybyl Exp $
- * @version $Revision: 1.1 $
+ * @author $Id: ProposalPersonCreditSplit.java,v 1.2 2007-09-27 17:52:16 lprzybyl Exp $
+ * @version $Revision: 1.2 $
  */
 public final class ProposalPersonCreditSplit extends KraPersistableBusinessObjectBase {
     private Integer proposalNumber;
-    private Integer personProposalNumber;
+    private Integer proposalPersonNumber;
     private Integer invCreditTypeCode;
     private KualiDecimal credit;
     private InvestigatorCreditType invCreditType;
@@ -76,8 +76,8 @@ public final class ProposalPersonCreditSplit extends KraPersistableBusinessObjec
      *
      * @return the value of personProposalNumber
      */
-    public Integer getPersonProposalNumber() {
-        return this.personProposalNumber;
+    public Integer getProposalPersonNumber() {
+        return this.proposalPersonNumber;
     }
 
     /**
@@ -85,8 +85,8 @@ public final class ProposalPersonCreditSplit extends KraPersistableBusinessObjec
      *
      * @param argPersonProposalNumber Value to assign to this.personProposalNumber
      */
-    public void setPersonProposalNumber(Integer argPersonProposalNumber) {
-        this.personProposalNumber = argPersonProposalNumber;
+    public void setProposalPersonNumber(Integer argPersonProposalNumber) {
+        this.proposalPersonNumber = argPersonProposalNumber;
     }
 
     /**
@@ -130,7 +130,7 @@ public final class ProposalPersonCreditSplit extends KraPersistableBusinessObjec
 	protected LinkedHashMap toStringMapper() {
    	    LinkedHashMap hashmap = new LinkedHashMap();    
         hashmap.put("proposalNumber", getProposalNumber());
-        hashmap.put("personProposalNumber", getPersonProposalNumber());
+        hashmap.put("proposalPersonNumber", getProposalPersonNumber());
         hashmap.put("invCreditTypeCode", getInvCreditTypeCode());
         hashmap.put("credit", getCredit());
         hashmap.put("invCreditType", getInvestigatorCreditType());
