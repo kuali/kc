@@ -66,6 +66,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private String newPersonId;
     private String addToPerson;
     private Map personEditableFields;
+    private List<ProposalPerson> investigators;
  
 
     /**
@@ -87,6 +88,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         setNewProposalPerson(new ProposalPerson());
         setNewProposalPersonDegree(new ProposalPersonDegree());
         setNewProposalPersonUnit(new Unit());
+        setInvestigators(new ArrayList<ProposalPerson>());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
         
@@ -126,6 +128,11 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         catch (Exception e) {
             LOG.warn("Couldn't find parameter '" + CREDIT_SPLIT_ENABLED_RULE_NAME + "'");
             LOG.warn(e.getMessage());
+        }
+        
+        // Don't do this redundantly on refresh
+        if (!getMethodToCall().toLowerCase().equals("refresh")) {
+            populateInvestigators();
         }
 
         // populate the Prime Sponsor Name if we have the code
@@ -348,16 +355,12 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         return personEditableFields;
     }
 
+    public void setInvestigators(List<ProposalPerson> investigators) {
+        this.investigators = investigators;
+    }
+
     public List getInvestigators() {
-        List retval = new ArrayList();
-        
-        for (ProposalPerson person : getProposalDevelopmentDocument().getProposalPersons()) {
-            if (new ProposalDevelopmentKeyPersonsRule().isInvestigator(person)) {
-                LOG.info("Found investigator " + person.getFullName());
-                retval.add(person);
-            }
-        }
-        return retval;
+        return investigators;
     }
 
     public List getInvestigatorCreditTypes() {
@@ -365,8 +368,23 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         Collection<InvestigatorCreditType> types = getBusinessObjectService().findAll(InvestigatorCreditType.class);
         for (InvestigatorCreditType type : types) {
             LOG.info("Found investigator credit type " + type.getDescription());
-            retval.add(type.getDescription());
+            retval.add(type);
         }
         return retval;
+    }
+
+    /**
+     * Populate investigators
+     */
+    public void populateInvestigators() {
+        // Populate Investigators from a proposal document's persons
+        for (ProposalPerson person : getProposalDevelopmentDocument().getProposalPersons()) {
+            LOG.info("Checking if " + person + " is an Investigator");
+            if (new ProposalDevelopmentKeyPersonsRule().isInvestigator(person) 
+                && !getInvestigators().contains(person)) {
+                LOG.info("Found investigator " + person.getFullName());
+                getInvestigators().add(person);
+            }
+        }
     }
 }

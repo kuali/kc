@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,9 +36,12 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -56,7 +60,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -92,6 +96,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             person.setProposalNumber(pdform.getProposalDevelopmentDocument().getProposalNumber());
             pdform.setNewProposalPerson(person);
             request.setAttribute(NEW_PERSON_LOOKUP_FLAG, new Boolean(true));
+
+            // repopulate form investigators
+            pdform.populateInvestigators();
         }
 
 
@@ -145,6 +152,15 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             document.addProposalPerson(pdform.getNewProposalPerson());
+
+            for (InvestigatorCreditType creditType : (List<InvestigatorCreditType>) pdform.getInvestigatorCreditTypes()) {
+                ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
+                creditSplit.setProposalNumber(document.getProposalNumber());
+                creditSplit.setProposalPersonNumber(pdform.getNewProposalPerson().getProposalPersonNumber());
+                creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
+                pdform.getNewProposalPerson().getCreditSplits().add(creditSplit);
+            }
+
             pdform.getNewProposalPerson().refreshReferenceObject("role");
             pdform.setNewProposalPerson(new ProposalPerson());
             pdform.setNewRolodexId("");
@@ -185,6 +201,16 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalPersonUnit unit = createProposalPersonUnit(pdform.getNewProposalPersonUnit());
         unit.setProposalNumber(person.getProposalNumber());
         unit.setProposalPersonNumber(person.getProposalPersonNumber());
+
+        for (InvestigatorCreditType creditType : (List<InvestigatorCreditType>) pdform.getInvestigatorCreditTypes()) {
+            ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
+            creditSplit.setProposalNumber(document.getProposalNumber());
+            creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
+            creditSplit.setUnitNumber(unit.getUnitNumber());
+            creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
+            unit.getCreditSplits().add(creditSplit);
+        }
+
         person.addUnit(unit);
         unit.refreshReferenceObject("unit");
 

@@ -25,13 +25,13 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Class representation of the Proposal Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
  *
- * @author $Id: ProposalUnitCreditSplit.java,v 1.1 2007-09-26 14:08:37 lprzybyl Exp $
- * @version $Revision: 1.1 $
+ * @author $Id: ProposalUnitCreditSplit.java,v 1.2 2007-09-27 17:52:16 lprzybyl Exp $
+ * @version $Revision: 1.2 $
  */
 public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectBase {
     private Integer proposalNumber;
-    private Integer personProposalNumber;
-    private Integer unitNumber;
+    private Integer proposalPersonNumber;
+    private String unitNumber;
     private Integer invCreditTypeCode;
     private KualiDecimal credit;
     private Unit unit;
@@ -79,8 +79,8 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
      *
      * @return the value of personProposalNumber
      */
-    public Integer getPersonProposalNumber() {
-        return this.personProposalNumber;
+    public Integer getProposalPersonNumber() {
+        return this.proposalPersonNumber;
     }
 
     /**
@@ -88,8 +88,8 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
      *
      * @param argPersonProposalNumber Value to assign to this.personProposalNumber
      */
-    public void setPersonProposalNumber(Integer argPersonProposalNumber) {
-        this.personProposalNumber = argPersonProposalNumber;
+    public void setProposalPersonNumber(Integer argPersonProposalNumber) {
+        this.proposalPersonNumber = argPersonProposalNumber;
     }
 
     /**
@@ -97,7 +97,7 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
      *
      * @return the value of unitNumber
      */
-    public Integer getUnitNumber() {
+    public String getUnitNumber() {
         return this.unitNumber;
     }
 
@@ -106,7 +106,7 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
      *
      * @param argUnitNumber Value to assign to this.unitNumber
      */
-    public void setUnitNumber(Integer argUnitNumber) {
+    public void setUnitNumber(String argUnitNumber) {
         this.unitNumber = argUnitNumber;
     }
 
@@ -151,7 +151,7 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
 	protected LinkedHashMap toStringMapper() {
    	    LinkedHashMap hashmap = new LinkedHashMap();    
         hashmap.put("proposalNumber", getProposalNumber());
-        hashmap.put("personProposalNumber", getPersonProposalNumber());
+        hashmap.put("proposalPersonNumber", getProposalPersonNumber());
         hashmap.put("unitNumber", getUnitNumber());
         hashmap.put("invCreditTypeCode", getInvCreditTypeCode());
         hashmap.put("credit", getCredit());
