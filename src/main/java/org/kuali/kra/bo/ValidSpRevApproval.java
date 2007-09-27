@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 public class ValidSpRevApproval extends KraPersistableBusinessObjectBase {
 	private Integer approvalTypeCode;
-	private Integer specialReviewCode;
+	private String specialReviewCode;
 	private Boolean applicationDateFlag;
 	private Boolean approvalDateFlag;
 	private Boolean protocolNumberFlag;
@@ -35,11 +35,11 @@ public class ValidSpRevApproval extends KraPersistableBusinessObjectBase {
 		this.approvalTypeCode = approvalTypeCode;
 	}
 
-	public Integer getSpecialReviewCode() {
+	public String getSpecialReviewCode() {
 		return specialReviewCode;
 	}
 
-	public void setSpecialReviewCode(Integer specialReviewCode) {
+	public void setSpecialReviewCode(String specialReviewCode) {
 		this.specialReviewCode = specialReviewCode;
 	}
 
