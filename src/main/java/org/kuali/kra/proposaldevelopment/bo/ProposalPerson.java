@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiDecimal;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ProposalPerson extends Person {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
@@ -46,6 +46,7 @@ public class ProposalPerson extends Person {
     private ProposalPersonRole role;
     private List<ProposalPersonUnit> units;
     private List<ProposalPersonDegree> degrees;
+    private List<ProposalPersonCreditSplit> creditSplits;
     private boolean delete;
 
     /**
@@ -55,15 +56,34 @@ public class ProposalPerson extends Person {
     public ProposalPerson() {
         degrees = new ArrayList<ProposalPersonDegree>();
         units = new ArrayList<ProposalPersonUnit>();
+        creditSplits = new ArrayList<ProposalPersonCreditSplit>();
     }
 
+
+    /**
+     * Set a <code>{@link List}</code> of credit splits
+     *
+     * @param creditSplits
+     */
+    public void setCreditSplits(List<ProposalPersonCreditSplit> creditSplit) {
+        this.creditSplits = creditSplit;
+    }
+    
+    /**
+     * Get a <code>{@link List}</code> of credit splits
+     *
+     * @return List<ProposalPersonCreditSplit>
+     */ 
+   public List<ProposalPersonCreditSplit> getCreditSplits() {
+        return this.creditSplits;
+    }
 
     /**
      * Gets the value of certification
      *
      * @return the value of certification
      */
-    public final ProposalInvestigatorCertification getCertification() {
+    public ProposalInvestigatorCertification getCertification() {
         return this.certification;
     }
 
@@ -72,7 +92,7 @@ public class ProposalPerson extends Person {
      *
      * @param argCertification Value to assign to this.certification
      */
-    public final void setCertification(ProposalInvestigatorCertification argCertification) {
+    public void setCertification(ProposalInvestigatorCertification argCertification) {
         this.certification = argCertification;
     }
 
@@ -81,7 +101,7 @@ public class ProposalPerson extends Person {
      *
      * @return the value of units
      */
-    public final List<ProposalPersonUnit> getUnits() {
+    public List<ProposalPersonUnit> getUnits() {
         return this.units;
     }
 
@@ -90,7 +110,7 @@ public class ProposalPerson extends Person {
      *
      * @param argUnits Value to assign to this.units
      */
-    public final void setUnits(List<ProposalPersonUnit> argUnits) {
+    public void setUnits(List<ProposalPersonUnit> argUnits) {
         this.units = argUnits;
     }
 
@@ -99,7 +119,7 @@ public class ProposalPerson extends Person {
      *
      * @return the value of degrees
      */
-    public final List<ProposalPersonDegree> getDegrees() {
+    public List<ProposalPersonDegree> getDegrees() {
         return this.degrees;
     }
 
@@ -108,7 +128,7 @@ public class ProposalPerson extends Person {
      *
      * @param argDegrees Value to assign to this.degrees
      */
-    public final void setDegrees(List<ProposalPersonDegree> argDegrees) {
+    public void setDegrees(List<ProposalPersonDegree> argDegrees) {
         this.degrees = argDegrees;
     }
 
@@ -117,7 +137,7 @@ public class ProposalPerson extends Person {
      *
      * @return the value of proposalPersonNumber
      */
-    public final Integer getProposalPersonNumber() {
+    public Integer getProposalPersonNumber() {
         return this.proposalPersonNumber;
     }
 
@@ -126,7 +146,7 @@ public class ProposalPerson extends Person {
      *
      * @param argProposalPersonNumber Value to assign to this.proposalPersonNumber
      */
-    public final void setProposalPersonNumber(Integer argProposalPersonNumber) {
+    public void setProposalPersonNumber(Integer argProposalPersonNumber) {
         this.proposalPersonNumber = argProposalPersonNumber;
     }
 
@@ -135,7 +155,7 @@ public class ProposalPerson extends Person {
      *
      * @return the value of conflictOfInterest
      */
-    public final Boolean isConflictOfInterest() {
+    public Boolean isConflictOfInterest() {
         return this.conflictOfInterest;
     }
 
@@ -144,7 +164,7 @@ public class ProposalPerson extends Person {
      *
      * @param argConflictOfInterest Value to assign to this.conflictOfInterest
      */
-    public final void setConflictOfInterest(Boolean argConflictOfInterest) {
+    public void setConflictOfInterest(Boolean argConflictOfInterest) {
         this.conflictOfInterest = argConflictOfInterest;
     }
 
@@ -153,7 +173,7 @@ public class ProposalPerson extends Person {
      *
      * @return the value of percentageEffort
      */
-    public final KualiDecimal getPercentageEffort() {
+    public KualiDecimal getPercentageEffort() {
         return this.percentageEffort;
     }
 
@@ -162,7 +182,7 @@ public class ProposalPerson extends Person {
      *
      * @param argPercentageEffort Value to assign to this.percentageEffort
      */
-    public final void setPercentageEffort(KualiDecimal argPercentageEffort) {
+    public void setPercentageEffort(KualiDecimal argPercentageEffort) {
         this.percentageEffort = argPercentageEffort;
     }
 
@@ -171,7 +191,7 @@ public class ProposalPerson extends Person {
      *
      * @return the value of fedrDebr
      */
-    public final Boolean isFedrDebr() {
+    public Boolean isFedrDebr() {
         return this.fedrDebr;
     }
 
@@ -180,7 +200,7 @@ public class ProposalPerson extends Person {
      *
      * @param argFedrDebr Value to assign to this.fedrDebr
      */
-    public final void setFedrDebr(Boolean argFedrDebr) {
+    public void setFedrDebr(Boolean argFedrDebr) {
         this.fedrDebr = argFedrDebr;
     }
 
@@ -189,7 +209,7 @@ public class ProposalPerson extends Person {
      *
      * @return the value of fedrDelq
      */
-    public final Boolean isFedrDelq() {
+    public Boolean isFedrDelq() {
         return this.fedrDelq;
     }
 
@@ -198,7 +218,7 @@ public class ProposalPerson extends Person {
      *
      * @param argFedrDelq Value to assign to this.fedrDelq
      */
-    public final void setFedrDelq(Boolean argFedrDelq) {
+    public void setFedrDelq(Boolean argFedrDelq) {
         this.fedrDelq = argFedrDelq;
     }
 
@@ -207,7 +227,7 @@ public class ProposalPerson extends Person {
      *
      * @return the value of rolodexId
      */
-    public final Integer getRolodexId() {
+    public Integer getRolodexId() {
         return this.rolodexId;
     }
 
@@ -216,7 +236,7 @@ public class ProposalPerson extends Person {
      *
      * @param argRolodexId Value to assign to this.rolodexId
      */
-    public final void setRolodexId(Integer argRolodexId) {
+    public void setRolodexId(Integer argRolodexId) {
         this.rolodexId = argRolodexId;
     }
 
@@ -225,7 +245,7 @@ public class ProposalPerson extends Person {
      *
      * @return the value of proposalNumber
      */
-    public final Integer getProposalNumber() {
+    public Integer getProposalNumber() {
         return this.proposalNumber;
     }
 
@@ -234,7 +254,7 @@ public class ProposalPerson extends Person {
      *
      * @param argProposalNumber Value to assign to this.proposalNumber
      */
-    public final void setProposalNumber(Integer argProposalNumber) {
+    public void setProposalNumber(Integer argProposalNumber) {
         this.proposalNumber = argProposalNumber;
     }
 
@@ -243,7 +263,7 @@ public class ProposalPerson extends Person {
      *
      * @return the value of propPersonRoleId
      */
-    public final String getProposalPersonRoleId() {
+    public String getProposalPersonRoleId() {
         return this.proposalPersonRoleId;
     }
 
@@ -252,7 +272,7 @@ public class ProposalPerson extends Person {
      *
      * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
      */
-    public final void setProposalPersonRoleId(String argPropPersonRoleId) {
+    public void setProposalPersonRoleId(String argPropPersonRoleId) {
         this.proposalPersonRoleId = argPropPersonRoleId;
     }
 
@@ -261,7 +281,7 @@ public class ProposalPerson extends Person {
      *
      * @return the value of propPersonRole
      */
-    public final ProposalPersonRole getRole() {
+    public ProposalPersonRole getRole() {
         return role;
     }
 
@@ -270,7 +290,7 @@ public class ProposalPerson extends Person {
      *
      * @param argPropPersonRole Value to assign to this.propPersonRole
      */
-    public final void setRole(ProposalPersonRole argPropPersonRole) {
+    public void setRole(ProposalPersonRole argPropPersonRole) {
         this.role = argPropPersonRole;
     }
 
