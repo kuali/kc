@@ -166,7 +166,7 @@
 			<label>Type </label>
 			<shortLabel>Special Review Code </shortLabel>
 			<maxLength>3</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<required>true</required>
 			<control>
                     <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.SpecialReviewValuesFinder" />

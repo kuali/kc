@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 public class SpecialReview extends KraPersistableBusinessObjectBase {
 
-    private Integer specialReviewCode;
+    private String specialReviewCode;
     private String description;
 
     public String getDescription() {
@@ -31,11 +31,11 @@ public class SpecialReview extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public Integer getSpecialReviewCode() {
+    public String getSpecialReviewCode() {
         return specialReviewCode;
     }
 
-    public void setSpecialReviewCode(Integer specialReviewCode) {
+    public void setSpecialReviewCode(String specialReviewCode) {
         this.specialReviewCode = specialReviewCode;
     }
 
