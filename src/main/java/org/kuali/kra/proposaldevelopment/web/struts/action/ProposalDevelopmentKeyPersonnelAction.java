@@ -31,7 +31,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.KualiDecimal;
 
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
@@ -50,17 +52,20 @@ import static org.apache.commons.beanutils.PropertyUtils.getProperty;
 import static org.apache.commons.beanutils.PropertyUtils.INDEXED_DELIM;
 import static org.apache.commons.beanutils.PropertyUtils.INDEXED_DELIM2;
 import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.NEW_PERSON_LOOKUP_FLAG;
 import static org.kuali.kra.infrastructure.Constants.NEW_PROPOSAL_PERSON_PROPERTY_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 
 /**
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -71,8 +76,22 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         request.setAttribute(NEW_PERSON_LOOKUP_FLAG, "");
 
+        try {
+            boolean creditSplitEnabled = getConfigurationService().getApplicationParameterIndicator("SYSTEM", CREDIT_SPLIT_ENABLED_RULE_NAME);
+
+            if (creditSplitEnabled) {
+                request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
+            }
+        }
+        catch (Exception e) {
+            LOG.warn("Couldn't find parameter '" + CREDIT_SPLIT_ENABLED_RULE_NAME + "'");
+            LOG.warn(e.getMessage());
+        }
+        
+        pdform.populatePersonEditableFields();
         return super.execute(mapping, form, request, response);
     }
 
@@ -98,7 +117,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             request.setAttribute(NEW_PERSON_LOOKUP_FLAG, new Boolean(true));
         }
 
-
+        // repopulate form investigators
+        pdform.populateInvestigators();
+        
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -208,6 +229,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
             creditSplit.setUnitNumber(unit.getUnitNumber());
             creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
+            creditSplit.setCredit(new KualiDecimal(0));
             unit.getCreditSplits().add(creditSplit);
         }
 
@@ -383,5 +405,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             }
         }
         return mapping.findForward(MAPPING_BASIC);
+    }
+
+    private KualiConfigurationService getConfigurationService() {
+        return getService(KualiConfigurationService.class);
     }
 }
