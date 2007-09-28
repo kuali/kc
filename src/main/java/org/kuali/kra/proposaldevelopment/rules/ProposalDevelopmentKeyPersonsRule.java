@@ -36,7 +36,7 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -45,33 +45,61 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         return true;
     }
 
+    /**
+     * Validate the following
+     * <ul>
+     *   <li>There must be at least one principal investigator</li>
+     *   <li>All investigators must have a Unit #</li>
+     *   <li>Principal Investigator Lead Unit should correspond to the Proposal Development Document Lead Unit</li>
+     *   <li>All <code>{@link ProposalPerson}</code> instances must have a role.
+     *   <li>If Credit Split is enabled:
+     *     <ul>
+     *       <li>% for all investigators and all credit types must add up to 100%</li>
+     *       <li>Unit totals must add up to 100%</li>
+     *       <li>% effort must be between 0.0 and 1.0</li>
+     *     </ul>
+     *   </li>
+     *   <li>All investigators must have a Unit #</li>
+     *   <li>All investigators must have a Unit #</li>
+     * </ul>
+     *
+     * @param document ProposalDevelopmentDocument to process.
+     */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) document;
         boolean retval = true;
         
         retval &= hasPrincipalInvestigator(pd);
-                
+
+        for (ProposalPerson person : pd.getProposalPersons()) {
+            retval &= validateInvestigator(person);
+            
+            if (!isBlank(person.getProposalPersonRoleId())) {
+                LOG.debug("error.missingPersonRole");
+                reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.missingPersonRole");
+            }
+        }
+
         return retval;
     }
 
     /**
+     * Validate the following
+     * 
+     * <ul>
+     *   <li>One principal investigator at a time</li>
+     *   <li>0 or more Key Persons or Co-Investigators are allowed</li>
+     * </ul>
      * @see org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument,ProposalPerson)
      */
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         boolean retval = true;
 
-        if (!(isPrincipalInvestigator(person) && hasPrincipalInvestigator(document))) {
+        if (isPrincipalInvestigator(person) && hasPrincipalInvestigator(document)) {
             LOG.debug("error.principalInvestigator.limit");
-            // reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.principalInvestigators.limit");
+            reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.principalInvestigators.limit");
             retval = false;
-        }
-
-        retval &= validateInvestigator(person);
-        
-        if (!isBlank(person.getProposalPersonRoleId())) {
-            LOG.debug("error.missingPersonRole");
-            // reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.missingPersonRole");
         }
         
         return retval;
