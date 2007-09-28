@@ -800,7 +800,7 @@
 		<field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="specialReviewCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR"/>
