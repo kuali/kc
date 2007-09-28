@@ -14,7 +14,7 @@ public class PropSpecialReview extends KraPersistableBusinessObjectBase {
     private Integer specialReviewNumber;
     private Date applicationDate;
     private Date approvalDate;
-    private Integer approvalTypeCode;
+    private String approvalTypeCode;
     private String comments;
     private String protocolNumber;
     private String specialReviewCode;
@@ -55,11 +55,11 @@ public class PropSpecialReview extends KraPersistableBusinessObjectBase {
         this.approvalDate = approvalDate;
     }
 
-    public Integer getApprovalTypeCode() {
+    public String getApprovalTypeCode() {
         return approvalTypeCode;
     }
 
-    public void setApprovalTypeCode(Integer approvalTypeCode) {
+    public void setApprovalTypeCode(String approvalTypeCode) {
         this.approvalTypeCode = approvalTypeCode;
     }
 
