@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.bo.PersonEditableField;
@@ -50,9 +49,6 @@ import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 
 /**
  * This class...
@@ -98,7 +94,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
         
-        buildPersonEditableFields();
     }
 
 
@@ -122,23 +117,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
             PropLocation propLocation=new PropLocation();
             propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
             proposalDevelopmentDocument.getPropLocations().add(propLocation);
-        }
-
-        try {
-            boolean creditSplitEnabled = getConfigurationService().getApplicationParameterIndicator("SYSTEM", CREDIT_SPLIT_ENABLED_RULE_NAME);
-
-            if (creditSplitEnabled) {
-                request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
-            }
-        }
-        catch (Exception e) {
-            LOG.warn("Couldn't find parameter '" + CREDIT_SPLIT_ENABLED_RULE_NAME + "'");
-            LOG.warn(e.getMessage());
-        }
-        
-        // Don't do this redundantly on refresh
-        if (!getMethodToCall().toLowerCase().equals("refresh")) {
-            populateInvestigators();
         }
 
         // populate the Prime Sponsor Name if we have the code
@@ -329,11 +307,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.lookupResultsBOClassName = lookupResultsBOClassName;
     }
 
-    private KualiConfigurationService getConfigurationService() {
-        return KraServiceLocator.getService(KualiConfigurationService.class);
-    }
-
-
     /**
      * Gets the newNarrative attribute. 
      * @return Returns the newNarrative.
@@ -368,7 +341,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     /**
      * Creates the list of <code>{@link PersonEditableField}</code> field names.
      */
-    public void buildPersonEditableFields() {
+    public void populatePersonEditableFields() {
         setPersonEditableFields(new HashMap());
         
         Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
@@ -401,7 +374,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         List retval = new ArrayList();
         Collection<InvestigatorCreditType> types = getBusinessObjectService().findAll(InvestigatorCreditType.class);
         for (InvestigatorCreditType type : types) {
-            LOG.info("Found investigator credit type " + type.getDescription());
             retval.add(type);
         }
         return retval;
@@ -413,10 +385,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void populateInvestigators() {
         // Populate Investigators from a proposal document's persons
         for (ProposalPerson person : getProposalDevelopmentDocument().getProposalPersons()) {
-            LOG.info("Checking if " + person + " is an Investigator");
             if (new ProposalDevelopmentKeyPersonsRule().isInvestigator(person) 
                 && !getInvestigators().contains(person)) {
-                LOG.info("Found investigator " + person.getFullName());
                 getInvestigators().add(person);
             }
         }
@@ -427,6 +397,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         List<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         
         for (ProposalPerson investigator : getInvestigators()) {
+            LOG.info("Found investigator " + investigator.getFullName());
             Map<Integer,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
 
             if (creditTypeTotals == null) {
@@ -445,7 +416,9 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
             }
 
             for (ProposalPersonUnit unit : investigator.getUnits()) {
+                
                 for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
+                    LOG.info("Found credit split for unit");
                     KualiDecimal totalCredit = creditTypeTotals.get(creditSplit.getInvCreditTypeCode());
                     
                     if (totalCredit == null) {
@@ -454,9 +427,10 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
                     }
                     totalCredit.add(creditSplit.getCredit());
                 }
+                
             }
         }
-        
+
         return retval;
     }
 }
