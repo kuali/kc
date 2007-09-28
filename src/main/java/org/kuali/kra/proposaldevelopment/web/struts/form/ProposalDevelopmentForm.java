@@ -28,6 +28,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.Person;
@@ -41,6 +42,7 @@ import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -359,11 +361,11 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.investigators = investigators;
     }
 
-    public List getInvestigators() {
+    public List<ProposalPerson> getInvestigators() {
         return investigators;
     }
 
-    public List getInvestigatorCreditTypes() {
+    public List<InvestigatorCreditType> getInvestigatorCreditTypes() {
         List retval = new ArrayList();
         Collection<InvestigatorCreditType> types = getBusinessObjectService().findAll(InvestigatorCreditType.class);
         for (InvestigatorCreditType type : types) {
@@ -386,5 +388,43 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
                 getInvestigators().add(person);
             }
         }
+    }
+    
+    public Map getCreditSplitTotals() {
+        Map<String, Map<Integer,KualiDecimal>> retval = new HashMap<String,Map<Integer,KualiDecimal>>();
+        List<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
+        
+        for (ProposalPerson investigator : getInvestigators()) {
+            Map<Integer,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
+
+            if (creditTypeTotals == null) {
+                creditTypeTotals = new HashMap<Integer,KualiDecimal>();
+                retval.put(investigator.getFullName(), creditTypeTotals);
+            }
+            
+            // Initialize everything to zero
+            for (InvestigatorCreditType creditType : creditTypes) {                
+                    KualiDecimal totalCredit = creditTypeTotals.get(creditType.getInvCreditTypeCode());
+                    
+                    if (totalCredit == null) {
+                        totalCredit = new KualiDecimal(0);
+                        creditTypeTotals.put(creditType.getInvCreditTypeCode(), totalCredit);
+                    }
+            }
+
+            for (ProposalPersonUnit unit : investigator.getUnits()) {
+                for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
+                    KualiDecimal totalCredit = creditTypeTotals.get(creditSplit.getInvCreditTypeCode());
+                    
+                    if (totalCredit == null) {
+                        totalCredit = new KualiDecimal(0);
+                        creditTypeTotals.put(creditSplit.getInvCreditTypeCode(), totalCredit);
+                    }
+                    totalCredit.add(creditSplit.getCredit());
+                }
+            }
+        }
+        
+        return retval;
     }
 }
