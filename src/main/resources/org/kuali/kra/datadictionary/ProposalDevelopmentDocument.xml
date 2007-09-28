@@ -599,8 +599,8 @@
             <displayName>Special Review</displayName>
           </headerNavigationTab>
           <headerNavigationTab>
-            <navigateTo>abstractPage</navigateTo>
-            <displayName>Abstract</displayName>
+            <navigateTo>abstractsAttachments</navigateTo>
+            <displayName>Abstracts and Attachments </displayName>
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>customData</navigateTo>

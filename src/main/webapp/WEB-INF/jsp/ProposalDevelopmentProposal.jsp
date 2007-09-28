@@ -24,7 +24,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentProposal"
 	documentTypeName="ProposalDevelopmentDocument"
-	renderMultipart="false"
+	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="save"
