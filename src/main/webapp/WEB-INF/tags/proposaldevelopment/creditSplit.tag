@@ -50,29 +50,31 @@
                 </strong></div></td>
   </c:forEach> 
              </tr>
-
-    <c:forEach items="${investigator.units}" var="personUnit" varStatus="unitStatus">
+  <c:forEach items="${investigator.units}" var="personUnit" varStatus="unitStatus">
              <tr>
-      <c:set var="unitProperty" value="${investigatorProperty}.units[${unitStatus.index}]" />
+    <c:set var="unitProperty" value="${investigatorProperty}.units[${unitStatus.index}]" />
                 <td nowrap>${personUnit.unitNumber} - ${personUnit.unitNumber}</td>
 
-      <c:forEach items="${personUnit.creditSplits}" varStatus="splitStatus" >
-        <c:set var="unitCreditSplit" value="${unitProperty}.creditSplits[${splitStatus.index}]" />
+    <c:forEach items="${personUnit.creditSplits}" varStatus="splitStatus" >
+      <c:set var="unitCreditSplit" value="${unitProperty}.creditSplits[${splitStatus.index}]" />
     
                 <td><div align="right"><strong>
                   <kul:htmlControlAttribute property="${unitCreditSplit}.credit" 
                                       attributeEntry="${unitCreditSplitAttributes.credit}" />
                 </strong></div></td>
-      </c:forEach>
-              </tr>
     </c:forEach>
+              </tr>
+  </c:forEach>
+  <c:if test="${fn:length(investigator.units) > 0}">
               <tr>
-                <td nowrap class="infoline"><strong>Unit Total:</strong></td>
-                <td class="infoline"><div align="right"><strong>100.0</strong></div></td>
-                <td class="infoline"><div align="right"><strong>100.0</strong></div></td>
-                <td class="infoline"><div align="right"><strong>100.0</strong></div></td>
-                <td class="infoline"><div align="right"><strong>100.0</strong></div></td>
+                <td nowrap class="infoline"><strong>Unit Total:
+                </strong></td>
+  <bean:define id="totalMap" name="KualiForm" property="creditSplitTotals.${investigator.fullName}" />
+  <c:forEach items="${KualiForm.investigatorCreditTypes}" var="invType" >
+                <td class="infoline"><div align="right"><strong>${totalMap[invType.invCreditTypeCode]}</strong></div></td>
+  </c:forEach>
               </tr>            
+  </c:if>
 </c:forEach>
             </tbody>
         </table>
