@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 public class SpecialReviewApprovalType  extends KraPersistableBusinessObjectBase {
 
-    private Integer approvalTypeCode;
+    private String approvalTypeCode;
     private String description;
 
     public String getDescription() {
@@ -31,11 +31,11 @@ public class SpecialReviewApprovalType  extends KraPersistableBusinessObjectBase
         this.description = description;
     }
 
-    public Integer getApprovalTypeCode() {
+    public String getApprovalTypeCode() {
         return approvalTypeCode;
     }
 
-    public void setApprovalTypeCode(Integer approvalTypeCode) {
+    public void setApprovalTypeCode(String approvalTypeCode) {
         this.approvalTypeCode = approvalTypeCode;
     }
 
