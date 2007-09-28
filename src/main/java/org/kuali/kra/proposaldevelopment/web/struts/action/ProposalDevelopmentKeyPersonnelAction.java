@@ -60,7 +60,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -105,11 +105,11 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return mapping.findForward(MAPPING_BASIC);
     }
     
-    public BusinessObjectService getBusinessObjectService() {
+    private BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
     }
  
-    public KualiRuleService getKualiRuleService() {
+    private KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
    
@@ -219,6 +219,13 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return mapping.findForward(MAPPING_BASIC);
     }
     
+    /**
+     * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup on the 
+     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPersonUnit}</code> instance.
+     *
+     * @param unit
+     * @return ProposalPersonUnit
+     */
     private ProposalPersonUnit createProposalPersonUnit(Unit unit) {
         ProposalPersonUnit retval = new ProposalPersonUnit();
         Map valueMap = new HashMap();
@@ -232,6 +239,13 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return retval;
     }
     
+    /**
+     * Uses a <code>rolodexId</code> obtained from the <code>{@link Person}</code> or <code>{@link Rolodex}</code> lookup on the 
+     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPerson}</code> instance.
+     *
+     * @param rolodexId
+     * @return ProposalPerson
+     */
     private ProposalPerson createProposalPersonFromRolodexId(String rolodexId) {
         Map valueMap = new HashMap();
         valueMap.put("rolodexId", rolodexId);
@@ -265,6 +279,13 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return prop_person;
     }
 
+    /**
+     * Uses a <code>personId</code> obtained from the <code>{@link Person}</code> lookup on the 
+     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPerson}</code> instance.
+     *
+     * @param personId
+     * @return ProposalPerson
+     */
     private ProposalPerson createProposalPersonFromPersonId(String personId) {
         Map valueMap = new HashMap();
         valueMap.put("personId", personId);
