@@ -60,7 +60,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -96,9 +96,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             person.setProposalNumber(pdform.getProposalDevelopmentDocument().getProposalNumber());
             pdform.setNewProposalPerson(person);
             request.setAttribute(NEW_PERSON_LOOKUP_FLAG, new Boolean(true));
-
-            // repopulate form investigators
-            pdform.populateInvestigators();
         }
 
 
@@ -165,6 +162,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             pdform.setNewProposalPerson(new ProposalPerson());
             pdform.setNewRolodexId("");
             pdform.setNewPersonId("");
+
+            // repopulate form investigators
+            pdform.populateInvestigators();
         }
         
         return mapping.findForward(MAPPING_BASIC);
