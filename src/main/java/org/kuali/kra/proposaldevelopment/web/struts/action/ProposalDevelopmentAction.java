@@ -75,8 +75,8 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         return mapping.findForward("specialReview");
     }
     
-    public ActionForward abstractPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("abstractPage");
+    public ActionForward abstractsAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("abstractsAttachments");
     }
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

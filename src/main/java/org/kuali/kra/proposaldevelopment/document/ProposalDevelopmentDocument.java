@@ -25,6 +25,7 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
@@ -77,7 +78,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String newDescription;
     private Sponsor sponsor;
     private Integer nextProposalPersonNumber;
-
+    private List<Narrative> narratives;
+    private Narrative newNarrative;
+    
     public ProposalDevelopmentDocument() {
         super();
         propScienceKeywords = new TypedArrayList(PropScienceKeyword.class);
@@ -86,6 +89,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         propSpecialReviews = new ArrayList<PropSpecialReview>();
         proposalPersons = new ArrayList<ProposalPerson>();
         nextProposalPersonNumber = new Integer(1);
+        narratives = new ArrayList<Narrative>();
     }
 
     /**
@@ -554,7 +558,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         managedLists.add(getPropLocations());
         managedLists.add(getPropSpecialReviews());
         managedLists.add(getProposalPersons());
-
+        managedLists.add(getNarratives());
         return managedLists;
 
     }
@@ -635,5 +639,21 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }
         
         return getProposalPersons().get(index);
+    }
+
+    public List<Narrative> getNarratives() {
+        return narratives;
+    }
+
+    public void setNarratives(List<Narrative> narratives) {
+        this.narratives = narratives;
+    }
+
+    public Narrative getNewNarrative() {
+        return newNarrative;
+    }
+
+    public void setNewNarrative(Narrative narrative) {
+        this.newNarrative = narrative;
     }
 }
