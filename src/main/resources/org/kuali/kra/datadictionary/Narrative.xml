@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright 2006 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+	<businessObject
+		businessObjectClass="org.kuali.kra.proposaldevelopment.bo.Narrative">
+
+		<inquiry>
+			<title>Narrative</title>
+
+			<inquirySections>
+				<inquirySection title="Narrative">
+					<inquiryFields>
+						<field attributeName="moduleNumber"
+							forceInquiry="true" />
+						<field attributeName="proposalNumber"
+							forceInquiry="true" />
+						<field attributeName="comments" />
+						<field attributeName="contactName" />
+						<field attributeName="emailAddress" />
+						<field attributeName="moduleSequenceNumber" />
+						<field attributeName="moduleStatusCode" />
+						<field attributeName="moduleTitle" />
+						<field attributeName="narrativeTypeCode" />
+						<field attributeName="phoneNumber" />
+
+					</inquiryFields>
+				</inquirySection>
+			</inquirySections>
+		</inquiry>
+
+		<lookup>
+			<title>Narrative Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+			<instructions>Look up a Narrative</instructions>
+
+			<defaultSort sortAscending="true">
+				<sortAttributes>
+					<sortAttribute attributeName="moduleNumber" />
+					<sortAttribute attributeName="proposalNumber" />
+
+				</sortAttributes>
+			</defaultSort>
+
+			<lookupFields>
+				<lookupField attributeName="moduleNumber"
+					required="false" />
+				<lookupField attributeName="proposalNumber"
+					required="false" />
+				<lookupField attributeName="comments" 
+					required="false" />
+				<lookupField attributeName="contactName"
+					required="false" />
+				<lookupField attributeName="emailAddress"
+					required="false" />
+				<lookupField attributeName="moduleSequenceNumber"
+					required="false" />
+				<lookupField attributeName="moduleStatusCode"
+					required="false" />
+				<lookupField attributeName="moduleTitle"
+					required="false" />
+				<lookupField attributeName="narrativeTypeCode"
+					required="false" />
+				<lookupField attributeName="phoneNumber"
+					required="false" />
+
+			</lookupFields>
+
+			<resultFields>
+				<field attributeName="moduleNumber" forceInquiry="true" />
+				<field attributeName="proposalNumber"
+					forceInquiry="true" />
+				<field attributeName="comments" forceInquiry="false" />
+				<field attributeName="contactName" forceInquiry="false" />
+				<field attributeName="emailAddress"
+					forceInquiry="false" />
+				<field attributeName="moduleSequenceNumber"
+					forceInquiry="false" />
+				<field attributeName="moduleStatusCode"
+					forceInquiry="false" />
+				<field attributeName="moduleTitle" forceInquiry="false" />
+				<field attributeName="narrativeTypeCode"
+					forceInquiry="false" />
+				<field attributeName="phoneNumber" forceInquiry="false" />
+
+			</resultFields>
+		</lookup>
+		<titleAttribute>moduleNumber</titleAttribute>
+		<attributes>
+
+			<attribute name="moduleNumber">
+				<label>Module Number</label>
+				<shortLabel>Module Number</shortLabel>
+				<maxLength>4</maxLength>
+				<validationPattern>
+					<numeric />
+				</validationPattern>
+				<control>
+					<text size="4" />
+				</control>
+				<summary>Module Number</summary>
+				<description>Module Number</description>
+			</attribute>
+
+			<attribute name="proposalNumber">
+				<label>Proposal Number</label>
+				<shortLabel>Proposal Number</shortLabel>
+				<maxLength>12</maxLength>
+				<validationPattern>
+					<alphaNumeric />
+				</validationPattern>
+				<control>
+					<text size="12" />
+				</control>
+				<summary>Proposal Number</summary>
+				<description>Proposal Number</description>
+			</attribute>
+
+			<attribute name="comments">
+				<label>Comments</label>
+				<shortLabel>Comments</shortLabel>
+				<maxLength>300</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+                    <textarea rows="3" cols="30" />
+                </control>
+				<summary>Comments</summary>
+				<description>Comments</description>
+			</attribute>
+
+			<attribute name="contactName">
+				<label>Contact Name</label>
+				<shortLabel>Contact Name</shortLabel>
+				<maxLength>30</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<text size="30" />
+				</control>
+				<summary>Contact Name</summary>
+				<description>Contact Name</description>
+			</attribute>
+			<attribute name="moduleSequenceNumber">
+				<label>Module Sequence Number</label>
+				<shortLabel>Module Sequence Number</shortLabel>
+				<maxLength>4</maxLength>
+				<validationPattern>
+					<numeric />
+				</validationPattern>
+				<control>
+					<text size="4" />
+				</control>
+				<summary>Module Sequence Number</summary>
+				<description>Module Sequence Number</description>
+			</attribute>
+
+			<attribute name="moduleStatusCode">
+				<label>Status</label>
+				<shortLabel>Status</shortLabel>
+				<maxLength>1</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<select
+						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeStatusValuesFinder" />
+				</control>
+				<summary>Module Status Code</summary>
+				<description>Module Status Code</description>
+			</attribute>
+			<attribute name="narrativeStatus.description">
+				<label>Narrative Status</label>
+				<shortLabel>Narrative Status</shortLabel>
+
+				<maxLength>50</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+
+				<control>
+					<text size="52" />
+				</control>
+
+				<summary>The Types that the Narrative Status be</summary>
+				<description>Isn't it obvious?</description>
+			</attribute>
+
+			<attribute name="moduleTitle">
+				<label>Description</label>
+				<shortLabel>Description</shortLabel>
+				<maxLength>150</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+                    <textarea rows="3" cols="30" />
+                </control>
+				<summary>Module Title</summary>
+				<description>Module Title</description>
+			</attribute>
+
+			<attribute name="narrativeTypeCode">
+				<label>Attachment Type</label>
+				<shortLabel>Attachment Type</shortLabel>
+				<maxLength>3</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<select
+						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeTypeValuesFinder" />
+				</control>
+				<summary>Narrative Type Code</summary>
+				<description>Narrative Type Code</description>
+			</attribute>
+			<attribute name="narrativeType.description">
+				<label>Narrative Type</label>
+				<shortLabel>Narrative Type</shortLabel>
+
+				<maxLength>50</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+
+				<control>
+					<text size="52" />
+				</control>
+
+				<summary>The Types that the Narrative Could be</summary>
+				<description>Isn't it obvious?</description>
+			</attribute>
+			<attribute name="phoneNumber">
+				<label>Phone Number</label>
+				<shortLabel>Phone Number</shortLabel>
+				<maxLength>20</maxLength>
+				<validationPattern>
+					<alphaNumeric />
+				</validationPattern>
+				<control>
+					<text size="20" />
+				</control>
+				<summary>Phone Number</summary>
+				<description>Phone Number</description>
+			</attribute>
+			<attribute name="updateUser">
+				<label>Author</label>
+				<shortLabel>Author</shortLabel>
+				<maxLength>20</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<text size="20" />
+				</control>
+				<summary>User who uploads the document</summary>
+				<description>User who uploads the document</description>
+			</attribute>
+			<attributeReference name="updateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+				<label>Timestamp</label>
+				<shortLabel>Timestamp</shortLabel>
+				<summary>Date and Time when attachments gets uploaded</summary>
+				<description>Date and Time when attachments gets uploaded</description>
+			</attributeReference>
+			<attributeReference name="emailAddress"
+				sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy"
+				sourceAttributeName="emailAddress" />
+
+		</attributes>
+		<relationships>
+			<relationship objectAttributeName="narrativeType">
+				<primitiveAttribute
+					sourceName="narrativeType.narrativeTypeCode"
+					targetName="narrativeTypeCode" />
+				<supportAttribute sourceName="narrativeType.description"
+					targetName="description" />
+			</relationship>
+			<relationship objectAttributeName="narrativeStatus">
+				<primitiveAttribute
+					sourceName="narrativeStatus.narrativeStatusCode"
+					targetName="narrativeStatusCode" />
+				<supportAttribute sourceName="narrativeStatus.description"
+					targetName="description" />
+			</relationship>
+		</relationships>
+
+	</businessObject>
+
+</dictionaryEntry>

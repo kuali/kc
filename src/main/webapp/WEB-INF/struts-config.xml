@@ -58,7 +58,7 @@
           <forward name="template" path="/WEB-INF/jsp/ProposalDevelopmentTemplate.jsp" />
           <forward name="notes" path="/WEB-INF/jsp/ProposalDevelopmentNotes.jsp" />
           <forward name="specialReview" path="/WEB-INF/jsp/ProposalDevelopmentSpecialReview.jsp" />
-          <forward name="abstractPage" path="/WEB-INF/jsp/ProposalDevelopmentAbstract.jsp" />
+          <forward name="abstractsAttachments" path="/WEB-INF/jsp/ProposalDevelopmentAbstractsAttachments.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/ProposalDevelopmentCustomData.jsp" />
           <forward name="actions" path="/WEB-INF/jsp/ProposalDevelopmentActions.jsp" />
       </action>

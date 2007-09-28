@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -37,6 +38,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -67,6 +69,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private String newRolodexId;
     private String newPersonId;
     private String addToPerson;
+    private Narrative newNarrative;
+    private FormFile narrativeFile;
     private Map personEditableFields;
     private List<ProposalPerson> investigators;
  
@@ -327,6 +331,34 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
     private KualiConfigurationService getConfigurationService() {
         return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
+
+
+    /**
+     * Gets the newNarrative attribute. 
+     * @return Returns the newNarrative.
+     */
+    public Narrative getNewNarrative() {
+        return newNarrative;
+    }
+
+
+    /**
+     * Sets the newNarrative attribute value.
+     * @param newNarrative The newNarrative to set.
+     */
+    public void setNewNarrative(Narrative newNarrative) {
+        this.newNarrative = newNarrative;
+    }
+
+
+    public FormFile getNarrativeFile() {
+        return narrativeFile;
+    }
+
+
+    public void setNarrativeFile(FormFile narrativeFile) {
+        this.narrativeFile = narrativeFile;
     }
 
     private BusinessObjectService getBusinessObjectService() {
