@@ -826,7 +826,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.bo.ValidSpRevApproval" table="VALID_SP_REV_APPROVAL">
-		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="specialReviewCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="applicationDateFlag" column="APPLICATION_DATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="approvalDateFlag" column="APPROVAL_DATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
