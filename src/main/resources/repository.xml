@@ -430,7 +430,7 @@
 		</collection-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit" table="EPS_PROP_PERSON">
+    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit" table="EPS_PROP_PER_CREDIT_SPLIT">
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
@@ -445,7 +445,7 @@
 		</reference-descriptor>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit" table="EPS_PROP_PERSON">
+    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit" table="EPS_PROP_UNIT_CREDIT_SPLIT">
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="invCreditTypeCode" column="INV_CREDIT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
