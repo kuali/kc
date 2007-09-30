@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiDecimal;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ProposalPerson extends Person {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
@@ -164,7 +164,7 @@ public class ProposalPerson extends Person {
      *
      * @param argConflictOfInterest Value to assign to this.conflictOfInterest
      */
-    public void setConflictOfInterest(Boolean argConflictOfInterest) {
+    public void getConflictOfInterest(Boolean argConflictOfInterest) {
         this.conflictOfInterest = argConflictOfInterest;
     }
 
@@ -196,6 +196,15 @@ public class ProposalPerson extends Person {
     }
 
     /**
+     * Gets the value of fedrDebr
+     *
+     * @return the value of fedrDebr
+     */
+    public Boolean getFedrDebr() {
+        return this.fedrDebr;
+    }
+
+    /**
      * Sets the value of fedrDebr
      *
      * @param argFedrDebr Value to assign to this.fedrDebr
@@ -210,6 +219,15 @@ public class ProposalPerson extends Person {
      * @return the value of fedrDelq
      */
     public Boolean isFedrDelq() {
+        return this.fedrDelq;
+    }
+
+    /**
+     * Gets the value of fedrDelq
+     *
+     * @return the value of fedrDelq
+     */
+    public Boolean getFedrDelq() {
         return this.fedrDelq;
     }
 
