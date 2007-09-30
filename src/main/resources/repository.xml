@@ -352,7 +352,7 @@
 			<inverse-foreignkey field-ref="proposalPersonNumber"/>
 		</collection-descriptor>
 
-		<collection-descriptor name="personCreditSplits" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="creditSplits" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="proposalPersonNumber"/>
 		</collection-descriptor>

@@ -65,7 +65,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -176,6 +176,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 creditSplit.setProposalNumber(document.getProposalNumber());
                 creditSplit.setProposalPersonNumber(pdform.getNewProposalPerson().getProposalPersonNumber());
                 creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
+                creditSplit.setCredit(new KualiDecimal(0));
                 pdform.getNewProposalPerson().getCreditSplits().add(creditSplit);
             }
 
