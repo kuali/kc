@@ -97,4 +97,11 @@
 			<ref bean="businessObjectDao" />
 		</property>
 	</bean>
+		
+	<bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
+		<property name="businessObjectDao">
+			<ref bean="businessObjectDao" />
+		</property>
+	</bean>
+	
 </beans>
