@@ -25,11 +25,25 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAction.class);
 
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ProposalDevelopmentDocument proposalDevelopmentDocument=((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
+        if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getPropLocations().size()==0) {
+            // populate 1st location.  Not sure yet
+            PropLocation propLocation=new PropLocation();
+            propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
+            proposalDevelopmentDocument.getPropLocations().add(propLocation);
+        }
+        return super.execute(mapping, form, request, response);
+    }
+    
     public ActionForward addLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().add(proposalDevelopmentForm.getNewPropLocation());
@@ -37,6 +51,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward("basic");
     }
     public ActionForward deleteLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // TODO : do we want to put logic to check whether this is the only one
+        // or we'll let the business rule handle 'at least one location' rule?
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().remove(getLineToDelete(request));
         return mapping.findForward("basic");

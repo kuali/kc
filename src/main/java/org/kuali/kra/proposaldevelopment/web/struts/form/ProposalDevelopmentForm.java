@@ -18,8 +18,8 @@ package org.kuali.kra.proposaldevelopment.web.struts.form;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,24 +31,21 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.bo.PersonEditableField;
-import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
+import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
-import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.service.SponsorService;
 
 /**
  * This class...
@@ -112,19 +109,12 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
         super.populate(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument=getProposalDevelopmentDocument();
-        if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getPropLocations().size()==0) {
-            // populate 1st location.  Not sure yet
-            PropLocation propLocation=new PropLocation();
-            propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
-            proposalDevelopmentDocument.getPropLocations().add(propLocation);
-        }
-
         // populate the Prime Sponsor Name if we have the code
         // this is necessary since the name is only on the form not the document
         // and it is only populated by a lookup or through AJAX/DWR
         String primeSponsorCode = proposalDevelopmentDocument.getPrimeSponsorCode();
         if (StringUtils.isNotEmpty(primeSponsorCode)) {
-            setPrimeSponsorName(KraServiceLocator.getService(ProposalDevelopmentService.class).getSponsorName(primeSponsorCode));
+            setPrimeSponsorName(KraServiceLocator.getService(SponsorService.class).getSponsorName(primeSponsorCode));
         }
 
         proposalDevelopmentDocument.refreshReferenceObject("sponsor");
