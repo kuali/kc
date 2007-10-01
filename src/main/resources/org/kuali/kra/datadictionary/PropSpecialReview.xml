@@ -144,7 +144,7 @@
 			<maxLength>800</maxLength>
 			<validationPattern><anyCharacter  allowWhitespace="true" /></validationPattern>
 			<control>
-				<textarea cols="40" rows="3"  />
+				<textarea cols="20" rows="3"  />
 			</control>
 			<summary>Comments </summary>
 			<description>Comments </description>

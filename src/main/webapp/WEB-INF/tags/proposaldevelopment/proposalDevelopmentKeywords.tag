@@ -13,7 +13,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
        
-        <table>
+        <table cellpadding=0 cellspacing="0"  summary="">
              <tr>
               	<th><div align="left">&nbsp</div></th>  
 				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${scienceKeywordAttributes.description}" skipHelpUrl="true" noColon="true" /></div></th>
