@@ -24,9 +24,8 @@
 		<convert converter="bean" match="org.kuali.kra.bo.Sponsor">
 			<param name="include" value="sponsorCode,sponsorName" />
 		</convert>
-		<create creator="spring" javascript="ProposalDevelopmentService">
-			<param name="beanName" value="proposalDevelopmentService" />
-			<include method="getSponsorCode" />
+		<create creator="spring" javascript="SponsorService">
+			<param name="beanName" value="sponsorService" />
 			<include method="getSponsorName" />
 		</create>
 	</allow>
