@@ -15,6 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,9 +30,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
@@ -41,6 +51,18 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         narr.setModuleSequenceNumber(propDoc.getProposalNextValue(Constants.NARRATIVE_MODULE_SEQUENCE_NUMBER));
         narr.setUpdateUser(propDoc.getUpdateUser());
         narr.setUpdateTimestamp(propDoc.getUpdateTimestamp());
+
+        Map narrTypeMap = new HashMap();
+        narrTypeMap.put("narrativeTypeCode", narr.getNarrativeTypeCode());
+        BusinessObjectService service = getService(BusinessObjectService.class);
+        NarrativeType narrType = (NarrativeType)service.findByPrimaryKey(NarrativeType.class, narrTypeMap);
+        if(narrType!=null) narr.setNarrativeType(narrType);
+        
+        Map narrStatusMap = new HashMap();
+        narrStatusMap.put("narrativeStatusCode", narr.getModuleStatusCode());
+        NarrativeStatus narrStatus = (NarrativeStatus)service.findByPrimaryKey(NarrativeStatus.class, narrStatusMap);
+        if(narrStatus!=null) narr.setNarrativeStatus(narrStatus);
+
         FormFile narrFile = narr.getNarrativeFile();
         byte[] fileData = narrFile.getFileData();
         if(fileData.length>0){
@@ -58,11 +80,15 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         propDoc.getNarratives().add(narr);
         propDoc.setNewNarrative(new Narrative());
         
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     public ActionForward deleteProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.getProposalDevelopmentDocument().getNarratives().remove(getLineToDelete(request));
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    private BusinessObjectService getBusinessObjectService() {
+        return getService(BusinessObjectService.class);
+    }
+    
 }
