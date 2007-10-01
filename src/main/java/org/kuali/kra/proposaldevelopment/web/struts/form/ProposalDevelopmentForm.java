@@ -66,7 +66,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private FormFile narrativeFile;
     private Map personEditableFields;
     private List<ProposalPerson> investigators;
- 
+
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -90,7 +90,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         setInvestigators(new ArrayList<ProposalPerson>());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
-        
+
     }
 
 
@@ -109,13 +109,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
         super.populate(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument=getProposalDevelopmentDocument();
-        // populate the Prime Sponsor Name if we have the code
-        // this is necessary since the name is only on the form not the document
-        // and it is only populated by a lookup or through AJAX/DWR
-        String primeSponsorCode = proposalDevelopmentDocument.getPrimeSponsorCode();
-        if (StringUtils.isNotEmpty(primeSponsorCode)) {
-            setPrimeSponsorName(KraServiceLocator.getService(SponsorService.class).getSponsorName(primeSponsorCode));
-        }
 
         proposalDevelopmentDocument.refreshReferenceObject("sponsor");
     }
@@ -298,7 +291,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
 
     /**
-     * Gets the newNarrative attribute. 
+     * Gets the newNarrative attribute.
      * @return Returns the newNarrative.
      */
     public Narrative getNewNarrative() {
@@ -327,13 +320,13 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
+
     /**
      * Creates the list of <code>{@link PersonEditableField}</code> field names.
      */
     public void populatePersonEditableFields() {
         setPersonEditableFields(new HashMap());
-        
+
         Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
         for (PersonEditableField field : fields) {
             LOG.info("Putting into editable field map " + field);
@@ -343,7 +336,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
     public void setPersonEditableFields(Map fields) {
         personEditableFields = fields;
-    }    
+    }
 
     /**
      * Returns a an array of editablefields
@@ -375,17 +368,17 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void populateInvestigators() {
         // Populate Investigators from a proposal document's persons
         for (ProposalPerson person : getProposalDevelopmentDocument().getProposalPersons()) {
-            if (new ProposalDevelopmentKeyPersonsRule().isInvestigator(person) 
+            if (new ProposalDevelopmentKeyPersonsRule().isInvestigator(person)
                 && !getInvestigators().contains(person)) {
                 getInvestigators().add(person);
             }
         }
     }
-    
+
     public Map getCreditSplitTotals() {
         Map<String, Map<Integer,KualiDecimal>> retval = new HashMap<String,Map<Integer,KualiDecimal>>();
         List<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
-        
+
         for (ProposalPerson investigator : getInvestigators()) {
             LOG.info("Found investigator " + investigator.getFullName());
             Map<Integer,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
@@ -394,11 +387,11 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
                 creditTypeTotals = new HashMap<Integer,KualiDecimal>();
                 retval.put(investigator.getFullName(), creditTypeTotals);
             }
-            
+
             // Initialize everything to zero
-            for (InvestigatorCreditType creditType : creditTypes) {                
+            for (InvestigatorCreditType creditType : creditTypes) {
                     KualiDecimal totalCredit = creditTypeTotals.get(creditType.getInvCreditTypeCode());
-                    
+
                     if (totalCredit == null) {
                         totalCredit = new KualiDecimal(0);
                         creditTypeTotals.put(creditType.getInvCreditTypeCode(), totalCredit);
@@ -406,18 +399,18 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
             }
 
             for (ProposalPersonUnit unit : investigator.getUnits()) {
-                
+
                 for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
                     LOG.info("Found credit split for unit");
                     KualiDecimal totalCredit = creditTypeTotals.get(creditSplit.getInvCreditTypeCode());
-                    
+
                     if (totalCredit == null) {
                         totalCredit = new KualiDecimal(0);
                         creditTypeTotals.put(creditSplit.getInvCreditTypeCode(), totalCredit);
                     }
                     totalCredit.add(creditSplit.getCredit());
                 }
-                
+
             }
         }
 
