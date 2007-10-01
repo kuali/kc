@@ -18,6 +18,7 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="proSpecialAttriburesAttributes" value="${DataDictionary.PropSpecialReview.attributes}" />
 <c:set var="action" value="proposalDevelopmentSpecialReview" />
+<link href="/kra-dev/css/kuali_application.css" rel="stylesheet" type="text/css" />
 <kul:tabTop tabTitle="Special Review" defaultOpen="true" tabErrorKey="document.propSpecialReviews*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
@@ -45,7 +46,7 @@
 
                 <td align="left" valign="middle">
                 
-                	<kul:htmlControlAttribute property="newPropSpecialReview.specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}" styleClass="myselect"/>
+                	<kul:htmlControlAttribute property="newPropSpecialReview.specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}" styleClass="fixed-size-select"/>
 	            
 				</td>
                 <td>
@@ -82,7 +83,7 @@
 					</th>
         			<input type="hidden" name="document.propSpecialReviews[${status.index}].specialReviewNumber" value="${status.index+1}">
 	                <td align="left" valign="middle">
-	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}" />
+	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}"  styleClass="fixed-size-select"/>
 					</td>
 	                <td>
 	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].approvalTypeCode" attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" />

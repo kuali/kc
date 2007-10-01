@@ -24,7 +24,7 @@
                         <c:if test="${!empty KualiForm.document.sponsorCode}">
                         	<c:choose>
 								<c:when test="${empty KualiForm.document.sponsor}">
-									<c:out value="not found" />
+									<span style='color: red;'><c:out value="not found" /></span>
 								</c:when>
 								<c:otherwise>
 									<c:out value="${KualiForm.document.sponsor.sponsorName}" />
