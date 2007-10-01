@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import java.io.InputStream;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,15 +33,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAbstractsAttachmentsAction.class);
     public ActionForward addProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        MultipartRequestWrapper mpreq = (MultipartRequestWrapper)request;
-//        InputStream is = mpreq.getInputStream();
-//        byte[] b = new byte[is.available()];
-//        is.read(b);
-//        System.out.println(new String(b));
-//        while(is.re)
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-//        FormFile narrFile = proposalDevelopmentForm.getNarrativeFile();
-        
         ProposalDevelopmentDocument propDoc = proposalDevelopmentForm.getProposalDevelopmentDocument(); 
         Narrative narr = propDoc.getNewNarrative();
         narr.setProposalNumber(propDoc.getProposalNumber());
