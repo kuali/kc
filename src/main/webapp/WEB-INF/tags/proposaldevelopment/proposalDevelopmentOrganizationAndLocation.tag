@@ -30,7 +30,7 @@
         <table cellpadding=0 cellspacing=0 summary="">
              <tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.organizationId}" skipHelpUrl="true" /></div></th>
-                <td align="left" valign="middle">
+                <td align="left" valign="middle"  class="infoline">
                 	<kul:htmlControlAttribute property="document.organizationId" attributeEntry="${proposalDevelopmentAttributes.organizationId}" />
                     <c:out value="${KualiForm.document.organization.organizationName}"/>
                     <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
@@ -40,7 +40,7 @@
              </tr>
              <tr>
 				<th><div align="right">Authorized Representative Name & Address:</div></th>
-                <td align="left" valign="middle">                  
+                <td align="left" valign="middle"  class="infoline">                  
                     <c:out value="${KualiForm.document.organization.rolodex.firstName}"/>&nbsp                    
                     <c:out value="${KualiForm.document.organization.rolodex.lastName}"/><br>
                     <c:out value="${KualiForm.document.organization.rolodex.addressLine1}"/><br>
@@ -52,13 +52,21 @@
 				</tr>
 				<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${organizationAttributes.congressionalDistrict}" skipHelpUrl="true" /></div></th>
-                <td>
+                <td class="infoline">
+                   <c:choose>
+                    <c:when test="${empty KualiForm.document.organization.congressionalDistrict}" >
+					  <!--  to make the panel looks a little balanced -->
+                      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    </c:when>
+                    <c:otherwise>
                 	<c:out value="${KualiForm.document.organization.congressionalDistrict}"/>
+                	</c:otherwise>
+                   </c:choose>
                 </td>
             </tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}" skipHelpUrl="true" /></div></th>
-                <td>                	
+                <td class="infoline">                	
 	               	<c:choose>
 	                	<c:when test="${!empty KualiForm.document.performingOrganization.organizationName}"> 
 	                    	<kul:htmlControlAttribute property="document.performingOrganizationId" attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}" />               
@@ -79,7 +87,7 @@
     		<span class="subhead-left"><h2>Performance Site Locations</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
-        <table>
+        <table cellpadding=0 cellspacing="0"  summary="">
              <tr>
               	<th><div align="left">&nbsp</div></th>  
 				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propLocationAttributes.location}" skipHelpUrl="true" noColon="true" /></div></th>

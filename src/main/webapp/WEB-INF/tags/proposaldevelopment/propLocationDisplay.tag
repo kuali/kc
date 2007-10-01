@@ -34,12 +34,12 @@
         <input type="hidden" name="${docLocation}.proposalNumber" value="${KualiForm.document.proposalNumber}">
         <input type="hidden" name="${docLocation}.locationSequenceNumber" value="${index+1}">
 	</th>
-	<td>
+	<td class="infoline">
 		<kul:htmlControlAttribute
 			property="${docLocation}.location"
 			attributeEntry="${propLocationAttributes.location}" />
 	</td>
-	<td>
+	<td class="infoline">
 		<kul:htmlControlAttribute
 			property="${docLocation}.rolodexId"
 			attributeEntry="${propLocationAttributes.rolodexId}" />
@@ -76,7 +76,7 @@
             <c:out value="${locationIter.rolodex.postalCode}" />
 		</c:if>
 	</td>
-	<td>
+	<td class="infoline">
 		<c:choose>
 			<c:when test="${index == -1}">
 				<div align=center>
