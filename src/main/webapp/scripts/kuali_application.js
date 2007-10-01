@@ -71,7 +71,7 @@ function loadSponsorCode( sponsorCodeFieldName) {
 			}
 		};
 
-		ProposalDevelopmentService.getSponsorCode(sponsorCode,dwrReply);
+		SponsorService.getSponsorCode(sponsorCode,dwrReply);
 
 	//}
 }
@@ -102,7 +102,7 @@ function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
 				setRecipientValue( sponsorNameFieldName, wrapError( "not found" ), true );
 			}
 		};
-		ProposalDevelopmentService.getSponsorName(sponsorCode,dwrReply);
+		SponsorService.getSponsorName(sponsorCode,dwrReply);
 	}
 }
 
@@ -111,9 +111,9 @@ function loadSponsorCode_1( sponsorCodeFieldName) {
     // alternative, delete later
 	var sponsorCode = DWRUtil.getValue( sponsorCodeFieldName );
 	//alert(sponsorCodeFieldName+" "+sponsorCode)
-	//ProposalDevelopmentService.getSponsorCode(sponsorCode,function(data) {
+	//SponsorService.getSponsorCode(sponsorCode,function(data) {
     //DWRUtil.setValue(sponsorCodeFieldName, data);});
-	ProposalDevelopmentService.getSponsorCode(sponsorCode,loadinfo);
+	SponsorService.getSponsorCode(sponsorCode,loadinfo);
 
 }
 
