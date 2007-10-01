@@ -31,11 +31,11 @@
         </div>
         <table cellpadding=0 cellspacing=0 summary="">
           	<tr>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" skipHelpUrl="true" /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" skipHelpUrl="true" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.newNarrative.narrativeTypeCode" attributeEntry="${narrativeAttributes.narrativeTypeCode}" />
 				</td>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" /></div></th>
                 <td align="left" valign="middle">
                 	<%--<html:file property="narrativeFile"/>--%>
                 	<html:file property="document.newNarrative.narrativeFile" />
@@ -44,41 +44,41 @@
 				</td>
           	</tr>
           	<tr>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}" skipHelpUrl="true" /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}" skipHelpUrl="true" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.newNarrative.moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
 				</td>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.contactName}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.contactName}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.newNarrative.contactName" attributeEntry="${narrativeAttributes.contactName}" />
 				</td>
           	</tr>
           	<tr>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.newNarrative.updateUser" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
 				</td>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.emailAddress}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.emailAddress}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.newNarrative.emailAddress" attributeEntry="${narrativeAttributes.emailAddress}" />
 				</td>
           	</tr>
           	<tr>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.newNarrative.updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
 				</td>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.phoneNumber}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.phoneNumber}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.newNarrative.phoneNumber" attributeEntry="${narrativeAttributes.phoneNumber}" />
 				</td>
           	</tr>
           	<tr>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.comments}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.comments}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.newNarrative.comments" attributeEntry="${narrativeAttributes.comments}" />
 				</td>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.newNarrative.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
 				</td>
@@ -94,12 +94,16 @@
             
         	<c:forEach var="proposalAttachment" items="${KualiForm.document.narratives}" varStatus="status">
 
+
+
+
+
           	<tr>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" skipHelpUrl="true" /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" skipHelpUrl="true" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.narratives[${status.index}].narrativeTypeCode" attributeEntry="${narrativeAttributes.narrativeTypeCode}" />
 				</td>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" /></div></th>
                 <td align="left" valign="middle">
                 
                 <c:set var="narrPdfList" value="${proposalAttachment.narrativeAttachmentList}"></c:set>
@@ -109,41 +113,41 @@
 				</td>
           	</tr>
           	<tr>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}" skipHelpUrl="true" /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}" skipHelpUrl="true" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.narratives[${status.index}].moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
 				</td>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.contactName}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.contactName}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.narratives[${status.index}].contactName" attributeEntry="${narrativeAttributes.contactName}" />
 				</td>
           	</tr>
           	<tr>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.narratives[${status.index}].updateUser" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
 				</td>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.emailAddress}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.emailAddress}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.narratives[${status.index}].emailAddress" attributeEntry="${narrativeAttributes.emailAddress}" />
 				</td>
           	</tr>
           	<tr>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.narratives[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
 				</td>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.phoneNumber}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.phoneNumber}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.narratives[${status.index}].phoneNumber" attributeEntry="${narrativeAttributes.phoneNumber}" />
 				</td>
           	</tr>
           	<tr>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.comments}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.comments}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.narratives[${status.index}].comments" attributeEntry="${narrativeAttributes.comments}" />
 				</td>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" skipHelpUrl="true"  /></div></th>
+          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.narratives[${status.index}].moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
                 	<%--<html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${narrativeAttributes.moduleTitle.label}#)).anchor${tabKey}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${narrativeAttributes.moduleTitle.label}');return false"/>--%>
