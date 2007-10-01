@@ -138,11 +138,9 @@
 				<label>Comments</label>
 				<shortLabel>Comments</shortLabel>
 				<maxLength>300</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
+				<validationPattern><anyCharacter  allowWhitespace="true" /></validationPattern>				
 				<control>
-                    <textarea rows="3" cols="30" />
+                    <textarea rows="3" cols="40" />
                 </control>
 				<summary>Comments</summary>
 				<description>Comments</description>
@@ -153,7 +151,7 @@
 				<shortLabel>Contact Name</shortLabel>
 				<maxLength>30</maxLength>
 				<validationPattern>
-					<anyCharacter />
+					<anyCharacter  allowWhitespace="true"  />
 				</validationPattern>
 				<control>
 					<text size="30" />
@@ -180,7 +178,7 @@
 				<shortLabel>Status</shortLabel>
 				<maxLength>1</maxLength>
 				<validationPattern>
-					<anyCharacter />
+					<anyCharacter  allowWhitespace="true"  />
 				</validationPattern>
 				<control>
 					<select
@@ -195,7 +193,7 @@
 
 				<maxLength>50</maxLength>
 				<validationPattern>
-					<anyCharacter />
+					<anyCharacter  allowWhitespace="true"  />
 				</validationPattern>
 
 				<control>
@@ -211,10 +209,10 @@
 				<shortLabel>Description</shortLabel>
 				<maxLength>150</maxLength>
 				<validationPattern>
-					<anyCharacter />
+					<anyCharacter  allowWhitespace="true"  />
 				</validationPattern>
 				<control>
-                    <textarea rows="3" cols="30" />
+                    <textarea rows="3" cols="40" />
                 </control>
 				<summary>Module Title</summary>
 				<description>Module Title</description>
@@ -225,7 +223,7 @@
 				<shortLabel>Attachment Type</shortLabel>
 				<maxLength>3</maxLength>
 				<validationPattern>
-					<anyCharacter />
+					<anyCharacter  allowWhitespace="true"  />
 				</validationPattern>
 				<control>
 					<select
@@ -240,7 +238,7 @@
 
 				<maxLength>50</maxLength>
 				<validationPattern>
-					<anyCharacter />
+					<anyCharacter  allowWhitespace="true"  />
 				</validationPattern>
 
 				<control>
