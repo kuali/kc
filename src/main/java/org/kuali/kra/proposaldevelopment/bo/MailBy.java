@@ -6,7 +6,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class MailBy extends KraPersistableBusinessObjectBase {
 	
-	private Integer mailByCode;
+	private String mailByCode;
 	private String description;
 	
 	public String getDescription() {
@@ -15,10 +15,10 @@ public class MailBy extends KraPersistableBusinessObjectBase {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Integer getMailByCode() {
+	public String getMailByCode() {
 		return mailByCode;
 	}
-	public void setMailByCode(Integer mailByCode) {
+	public void setMailByCode(String mailByCode) {
 		this.mailByCode = mailByCode;
 	}
 
