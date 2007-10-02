@@ -1,6 +1,6 @@
 create table mail_by
 (
-  mail_by_code  number(3) constraint mail_by_n1 not null,
+  mail_by_code  varchar2(3) constraint mail_by_n1 not null,
   description varchar2 (200) constraint mail_by_n2 not null,
   update_timestamp date constraint mail_by_n3 not null,
   update_user varchar2 (8) constraint mail_by_n4 not null,
