@@ -21,7 +21,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProposalType  extends KraPersistableBusinessObjectBase {
 
-    private Integer proposalTypeCode;
+    private String proposalTypeCode;
     private String description;
 
     public String getDescription() {
@@ -32,11 +32,11 @@ public class ProposalType  extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public Integer getProposalTypeCode() {
+    public String getProposalTypeCode() {
         return proposalTypeCode;
     }
 
-    public void setProposalTypeCode(Integer proposalTypeCode) {
+    public void setProposalTypeCode(String proposalTypeCode) {
         this.proposalTypeCode = proposalTypeCode;
     }
 
