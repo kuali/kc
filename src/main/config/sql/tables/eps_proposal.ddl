@@ -2,7 +2,7 @@ create table eps_proposal
 (
   document_number				number (10,0) constraint eps_proposal_n1 not null,
   proposal_number               number (12,0) constraint eps_proposal_n2 not null,
-  proposal_type_code            number (3),
+  proposal_type_code            varchar2 (3),
   status_code                   number (3),
   creation_status_code          number (3),
   base_proposal_number          varchar2 (8),
