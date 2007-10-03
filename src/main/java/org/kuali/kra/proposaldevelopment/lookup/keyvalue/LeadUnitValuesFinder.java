@@ -17,18 +17,29 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 public class LeadUnitValuesFinder extends KeyValuesBase {
     
     public List getKeyValues() {
-        // TODO: Generate list of logged in user's candidate units
+        
+        
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select:"));
-        keyValues.add(new KeyLabelPair("000002", "IN-PEDS"));
-        keyValues.add(new KeyLabelPair("000003", "BL-IIDC"));
+        
+        //TODO: Refactor this when we get SpringContext object (like KFS)
+        Map<String, String> userUnits = ((ProposalDevelopmentService)KraServiceLocator.getService("proposalDevelopmentService")).getUnitsForUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId());
+        
+        for (String key : userUnits.keySet()) {
+            keyValues.add(new KeyLabelPair(key, userUnits.get(key)));
+        }
+        
         return keyValues;
     }
 }

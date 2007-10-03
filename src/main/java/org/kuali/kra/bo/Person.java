@@ -15,14 +15,16 @@
  */
 package org.kuali.kra.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Class representation of the Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.3 2007-09-16 02:05:43 lprzybyl Exp $
+ * $Id: Person.java,v 1.4 2007-10-03 19:20:20 tdurkin Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -86,7 +88,13 @@ public class Person extends KraPersistableBusinessObjectBase {
     private String mobilePhoneNumber;
     private String eraCommonsUserName;
 
+    private List<UserRole> userRoles = new ArrayList();
     
+    
+    public Person() {
+        super();
+    }
+
     /**
      * Gets the value of personId
      *
@@ -1330,5 +1338,21 @@ public class Person extends KraPersistableBusinessObjectBase {
         hashmap.put("eraCommonsUserName", getEraCommonsUserName());
 		return hashmap;
 	}
+
+    /**
+     * Gets the userRoles attribute. 
+     * @return Returns the userRoles.
+     */
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    /**
+     * Sets the userRoles attribute value.
+     * @param userRoles The userRoles to set.
+     */
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
 
 }

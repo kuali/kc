@@ -15,7 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-public interface ProposalDevelopmentService {
+import java.util.Map;
 
+public interface ProposalDevelopmentService {
+    
+    /**
+     * This method returns a Map of Units for which the user represented by the userId passed in has the role Proposal Aggregator
+     * @param userId unique identifer representing the user whose units will be returned
+     * @return A Map in the form of Unit Number, Unit Name representing the units for which the userId passed in has the Proposal Aggregator role.
+     */
+    public Map<String, String> getUnitsForUser(String userId);
 
 }

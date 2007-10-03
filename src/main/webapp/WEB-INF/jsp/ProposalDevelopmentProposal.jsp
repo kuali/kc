@@ -24,7 +24,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentProposal"
 	documentTypeName="ProposalDevelopmentDocument"
-	renderMultipart="true"
+	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="save"
@@ -37,7 +37,7 @@
 <kra-pd:proposalDevelopmentDeliveryInfo />
 
 <c:if test="${displayKeywordPanel == 'True'}">
-	<kra-pd:proposalDevelopmentKeywords />
+<kra-pd:proposalDevelopmentKeywords />
 </c:if>
 
 <kul:panelFooter />

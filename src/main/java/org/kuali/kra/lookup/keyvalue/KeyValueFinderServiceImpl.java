@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service.impl;
+package org.kuali.kra.lookup.keyvalue;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,7 +27,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.dao.BusinessObjectDao;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.proposaldevelopment.service.KeyValueFinderService;
 
 /**
  * This class...
@@ -36,7 +35,7 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
     private BusinessObjectDao businessObjectDao;
     private static final Log LOG = LogFactory.getLog(KeyValueFinderServiceImpl.class);
     /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyValueFinderService#getKeyValuesFor(java.lang.Class)
+     * @see org.kuali.kra.lookup.keyvalue.KeyValueFinderService#getKeyValuesFor(java.lang.Class)
      */
     public List<KeyLabelPair> getKeyValues(Class keyValClass,String codePropName,String valPropName) {
         Collection keyVals = businessObjectDao.findAll(keyValClass);
