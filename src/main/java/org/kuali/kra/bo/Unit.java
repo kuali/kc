@@ -11,6 +11,8 @@ public class Unit extends KraPersistableBusinessObjectBase {
 	private String otherIndividualToNotify;
 	private String unitHead;
 	private String unitName;
+    
+    private UnitHierarchy unitHierarchy;
 
 	public String getUnitNumber() {
 		return unitNumber;
@@ -90,4 +92,20 @@ public class Unit extends KraPersistableBusinessObjectBase {
 		hashMap.put("unitName", getUnitName());
 		return hashMap;
 	}
+
+    /**
+     * Gets the unitHierarchy attribute. 
+     * @return Returns the unitHierarchy.
+     */
+    public UnitHierarchy getUnitHierarchy() {
+        return unitHierarchy;
+    }
+
+    /**
+     * Sets the unitHierarchy attribute value.
+     * @param unitHierarchy The unitHierarchy to set.
+     */
+    public void setUnitHierarchy(UnitHierarchy unitHierarchy) {
+        this.unitHierarchy = unitHierarchy;
+    }
 }

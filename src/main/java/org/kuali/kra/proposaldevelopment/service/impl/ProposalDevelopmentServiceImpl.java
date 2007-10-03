@@ -15,18 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import org.kuali.core.dao.BusinessObjectDao;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
-    private BusinessObjectDao businessObjectDao;
 
-    public BusinessObjectDao getBusinessObjectDao() {
-        return businessObjectDao;
-    }
-
-    public void setBusinessObjectDao(BusinessObjectDao businessObjectDao) {
-        this.businessObjectDao = businessObjectDao;
+    
+    public Map<String, String> getUnitsForUser(String userId) {
+        Map<String, String> userUnits = new HashMap<String, String>();
+        
+        userUnits.put("000002", "IN-PEDS");
+        userUnits.put("000003", "BL-IIDC");
+        
+        return userUnits;
     }
 
 }

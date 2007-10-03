@@ -23,7 +23,6 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.Country;
 import org.kuali.kra.bo.SponsorType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.service.KeyValueFinderService;
 
 public class CountryValuesFinder extends KeyValuesBase {
     
