@@ -266,7 +266,11 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <collection-descriptor name="userRoles" proxy="true" element-class-ref="org.kuali.kra.bo.UserRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+      <inverse-foreignkey field-ref="userId"/>
+    </collection-descriptor>
+      
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" table="EPS_PROP_PERSON">
@@ -858,6 +862,11 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+ 		<reference-descriptor name="unitHierarchy" class-ref="org.kuali.kra.bo.UnitHierarchy" auto-retrieve="true" auto-update="none" auto-delete="none">
+      <foreignkey field-ref="unitNumber"/>
+    </reference-descriptor>
+
     	<!--
 		<collection-descriptor name="AwardUnits" proxy="true" element-class-ref="org.kuali.kra.bo.AwardUnits" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
@@ -892,22 +901,31 @@
 		<collection-descriptor name="UnitCorrespondents" proxy="true" element-class-ref="org.kuali.kra.bo.UnitCorrespondents" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="UnitHierarchy" proxy="true" element-class-ref="org.kuali.kra.bo.UnitHierarchy" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="unitNumber"/>
-		</collection-descriptor>
+
 		<collection-descriptor name="UnitMap" proxy="true" element-class-ref="org.kuali.kra.bo.UnitMap" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
 		<collection-descriptor name="User" proxy="true" element-class-ref="org.kuali.kra.bo.User" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="UserRoles" proxy="true" element-class-ref="org.kuali.kra.bo.UserRoles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="UserRoles" proxy="true" element-class-ref="org.kuali.kra.bo.UserRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="unitNumber"/>
 		</collection-descriptor>
 		-->
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.bo.KraUser" table="KRA_USER">
+  <class-descriptor class="org.kuali.kra.bo.UnitHierarchy" table="UNIT_HIERARCHY">
+    <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="hasChildrenFlag" column="HAS_CHILDREN_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="parentUnitNumber" column="PARENT_UNIT_NUMBER" jdbc-type="VARCHAR"/>
+    <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="parentUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+      <foreignkey field-ref="parentUnitNumber"/> 
+    </reference-descriptor>
+  </class-descriptor>
+
+	<!--  class-descriptor class="org.kuali.kra.bo.KraUser" table="KRA_USER">
 		<field-descriptor name="userId" column="USER_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="nonMitPersonFlag" column="NON_MIT_PERSON_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR"/>
@@ -925,7 +943,7 @@
 		<reference-descriptor name="Unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
-	</class-descriptor>
+	</class-descriptor
 
 	<class-descriptor class="org.kuali.kra.bo.KraUserRoles" table="KRA_USER_ROLES">
 		<field-descriptor name="roleId" column="ROLE_ID" jdbc-type="INTEGER" primarykey="true"/>
@@ -936,18 +954,38 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-		<reference-descriptor name="KraUser" class-ref="org.kuali.kra.bo.KraUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<reference-descriptor name="person" class-ref="org.kuali.kra.bo.Personr" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="userId"/>
 		</reference-descriptor>
-		<!--
-		<reference-descriptor name="Role" class-ref="org.kuali.kra.bo.Role" auto-retrieve="true" auto-update="none" auto-delete="none">
+
+		<reference-descriptor name="role" class-ref="org.kuali.kra.bo.Role" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="roleId"/>
 		</reference-descriptor>
-		 -->
-		<reference-descriptor name="Unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="unitNumber"/>
 		</reference-descriptor>
 	</class-descriptor>
+  
+   -->
+  
+  <class-descriptor class="org.kuali.kra.bo.UserRole" table="USER_ROLES">
+    <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="INTEGER" primarykey="true"/>
+    <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="userId" column="USER_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="descendFlag" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="Role" class-ref="org.kuali.kra.bo.Role" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+      <foreignkey field-ref="roleId"/> 
+    </reference-descriptor>
+    <reference-descriptor name="Unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+      <foreignkey field-ref="unitNumber"/> 
+    </reference-descriptor>
+    <reference-descriptor name="Person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+      <foreignkey field-ref="userId"/> 
+    </reference-descriptor>
+  </class-descriptor>
 
 	<!--  Narrative tables mapping -->
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.Narrative" table="NARRATIVE">
@@ -1020,5 +1058,44 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	</class-descriptor>
 	<!--  Narrative table mapping end -->
-	
+
+  <class-descriptor class="org.kuali.kra.bo.RoleRight" table="ROLE_RIGHTS">
+    <field-descriptor name="rightId" column="RIGHT_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="INTEGER" primarykey="true"/>
+    <field-descriptor name="descendFlag" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="right" class-ref="org.kuali.kra.bo.Right" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+      <foreignkey field-ref="rightId"/> 
+    </reference-descriptor>
+    <reference-descriptor name="role" class-ref="org.kuali.kra.bo.Role" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+      <foreignkey field-ref="roleId"/> 
+    </reference-descriptor>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.kra.bo.Right" table="RIGHTS">
+    <field-descriptor name="rightId" column="RIGHT_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="descendFlag" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+    <field-descriptor name="rightType" column="RIGHT_TYPE" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+  </class-descriptor>
+
+  <class-descriptor class="org.kuali.kra.bo.Role" table="ROLE">
+    <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="INTEGER" primarykey="true"/>
+    <field-descriptor name="descendFlag" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+    <field-descriptor name="ownedByUnit" column="OWNED_BY_UNIT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="roleName" column="ROLE_NAME" jdbc-type="VARCHAR"/>
+    <field-descriptor name="roleType" column="ROLE_TYPE" jdbc-type="CHAR" />
+    <field-descriptor name="statusFlag" column="STATUS_FLAG" jdbc-type="CHAR" />
+    <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+    <collection-descriptor name="roleRights" proxy="true" element-class-ref="org.kuali.kra.bo.RoleRight" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+      <inverse-foreignkey field-ref="roleId"/>
+    </collection-descriptor>
+  </class-descriptor>
+
+
 </descriptor-repository>

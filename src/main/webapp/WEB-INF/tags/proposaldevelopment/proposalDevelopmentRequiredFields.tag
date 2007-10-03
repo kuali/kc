@@ -11,7 +11,7 @@
     		<span class="subhead-left"><h2>Required Fields for Saving Document</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
-
+        
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
 				<th><div align="right">*Proposal #:</div></th>
@@ -19,17 +19,17 @@
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorCode}" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.sponsorCode" attributeEntry="${proposalDevelopmentAttributes.sponsorCode}" onblur="loadSponsorName('document.sponsorCode', 'sponsorName');" />
-                	<img src="${ConfigProperties.kr.externalizable.images.url}searchicon.gif" alt="lookup" height="16" width="16"/>
+                	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.sponsorCode,sponsorName:document.sponsor.sponsorName" />
                     <div id="sponsorName.div" >
                         <c:if test="${!empty KualiForm.document.sponsorCode}">
                         	<c:choose>
 								<c:when test="${empty KualiForm.document.sponsor}">
-									<span style='color: red;'><c:out value="not found" /></span>
+									<span style='color: red;'>not found</span>
 								</c:when>
 								<c:otherwise>
 									<c:out value="${KualiForm.document.sponsor.sponsorName}" />
 								</c:otherwise>
-						</c:choose>
+						</c:choose>                        
                         </c:if>
 					</div>
 				</td>
@@ -38,22 +38,6 @@
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.proposalTypeCode}" /></div></th>
                 <td>
                 	<kul:htmlControlAttribute property="document.proposalTypeCode" attributeEntry="${proposalDevelopmentAttributes.proposalTypeCode}" />
-                  	<div id="registration01">
-<!--
-                    	<table cellpadding=0 cellspacing=0 class="nobord" id="1st" style="width:20%">
-                      		<tr>
-                        		<td nowrap class="nobord"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" /></div></td>
-                        		<td class="nobord"><kul:htmlControlAttribute property="document.currentAwardNumber" attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" /></td>
-                      		</tr>
-                      		<tr>
-                        		<td nowrap class="nobord"><div align=right>Original Proposal #:</div></td>
-                        		<td class="nobord"><!- -webbot bot="Validation" b-value-required="TRUE" - ->
-                          			<input name="textfield" type=text id="textfield" size=12>
-                          		</td>
-                      		</tr>
-                    	</table>
- -->
-                  	</div>
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.requestedStartDateInitial}" /></div></th>
                 <td align="left" valign="middle">
