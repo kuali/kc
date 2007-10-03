@@ -23,7 +23,6 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.SponsorType;
 import org.kuali.kra.bo.State;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.service.KeyValueFinderService;
 
 public class StateValuesFinder extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");

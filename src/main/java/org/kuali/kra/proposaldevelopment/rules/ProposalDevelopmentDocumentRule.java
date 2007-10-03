@@ -50,7 +50,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         GlobalVariables.getErrorMap().addToErrorPath("document");
 
         // changing this to '0' so it doesn't validate reference objects within a list
-        KNSServiceLocator.getDictionaryValidationService().validateDocumentRecursively(proposalDevelopmentDocument, 0);
+        KNSServiceLocator.getDictionaryValidationService().validateDocument(proposalDevelopmentDocument);
         if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getPropLocations().size()==0 ||
                 (proposalDevelopmentDocument.getPropLocations().size()==1 && ((PropLocation)(proposalDevelopmentDocument.getPropLocations().get(0))).getLocationSequenceNumber()==null))) {
             // should have one just added by form
@@ -140,5 +140,5 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }
-
+    
 }

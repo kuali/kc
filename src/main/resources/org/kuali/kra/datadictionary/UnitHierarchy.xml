@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.UnitHierarchy">
+
+        <inquiry>
+            <title>Unit Hierarchy</title>
+
+            <inquirySections><inquirySection title="Unit Hierarchy"><inquiryFields>
+            	<field attributeName="unitNumber" forceInquiry="true"/>
+				<field attributeName="hasChildrenFlag"/>
+				<field attributeName="parentUnitNumber"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Unit Hierarchy Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Unit Hierarchy</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="unitNumber"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="unitNumber" required="false"/>
+				<lookupField attributeName="hasChildrenFlag" required="false"/>
+				<lookupField attributeName="parentUnitNumber" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="unitNumber" forceInquiry="true"/>
+				<field attributeName="hasChildrenFlag" forceInquiry="false"/>
+				<field attributeName="parentUnitNumber" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>unitNumber</titleAttribute>
+        <attributes>
+
+	        <attribute name="unitNumber">
+			<label>Unit Number </label>
+			<shortLabel>Unit Number </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern><anyCharacter /></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Unit Number </summary>
+			<description>Unit Number </description>
+			</attribute>
+
+			<attribute name="hasChildrenFlag">
+			<label>Has Children Flag </label>
+			<shortLabel>Has Children Flag </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern><anyCharacter /></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>Has Children Flag </summary>
+			<description>Has Children Flag </description>
+			</attribute>
+
+			<attribute name="parentUnitNumber">
+			<label>Parent Unit Number </label>
+			<shortLabel>Parent Unit Number </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern><anyCharacter /></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Parent Unit Number </summary>
+			<description>Parent Unit Number </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>

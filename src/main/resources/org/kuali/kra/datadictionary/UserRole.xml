@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.UserRole">
+
+        <inquiry>
+            <title>User Roles</title>
+
+            <inquirySections><inquirySection title="User Roles"><inquiryFields>
+            	<field attributeName="roleId" forceInquiry="true"/>
+				<field attributeName="unitNumber" forceInquiry="true"/>
+				<field attributeName="userId" forceInquiry="true"/>
+				<field attributeName="descendFlag"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>User Roles Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a User Roles</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="roleId"/>
+					<sortAttribute attributeName="unitNumber"/>
+					<sortAttribute attributeName="userId"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="roleId" required="false"/>
+				<lookupField attributeName="unitNumber" required="false"/>
+				<lookupField attributeName="userId" required="false"/>
+				<lookupField attributeName="descendFlag" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="roleId" forceInquiry="true"/>
+				<field attributeName="unitNumber" forceInquiry="true"/>
+				<field attributeName="userId" forceInquiry="true"/>
+				<field attributeName="descendFlag" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>roleId</titleAttribute>
+		<titleAttribute>unitNumber</titleAttribute>
+		<titleAttribute>userId</titleAttribute>
+        <attributes>
+
+	        <attribute name="roleId">
+			<label>Role Id </label>
+			<shortLabel>Role Id </shortLabel>
+			<maxLength>5</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="5" />
+			</control>
+			<summary>Role Id </summary>
+			<description>Role Id </description>
+			</attribute>
+
+			<attribute name="unitNumber">
+			<label>Unit Number </label>
+			<shortLabel>Unit Number </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Unit Number </summary>
+			<description>Unit Number </description>
+			</attribute>
+
+			<attribute name="userId">
+			<label>User Id </label>
+			<shortLabel>User Id </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>User Id </summary>
+			<description>User Id </description>
+			</attribute>
+
+			<attribute name="descendFlag">
+			<label>Descend Flag </label>
+			<shortLabel>Descend Flag </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>Descend Flag </summary>
+			<description>Descend Flag </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
