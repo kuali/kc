@@ -62,7 +62,7 @@
                 <shortLabel>Abstract Type</shortLabel>
 
                 <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <validationPattern><alphaNumeric /></validationPattern>
 
                 <control>
                     <text size="4" />
