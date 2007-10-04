@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,12 +29,19 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.RiceConstants;
+import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
+import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.rice.KNSServiceLocator;
 
 public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAction.class);
@@ -37,6 +49,10 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        /* get parameter for keyword display panel - display keyword panel if parameter is set to true */
+        String keywordPanelDisplay = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(RiceConstants.ParameterGroups.SYSTEM, Constants.KEYWORD_PANEL_DISPLAY);
+        request.setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
+
         ProposalDevelopmentDocument proposalDevelopmentDocument=((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
         if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getPropLocations().size()==0) {
             // populate 1st location.  Not sure yet
@@ -79,4 +95,76 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward("basic");
     }
 
+    private boolean isDuplicateKeyword(String newScienceKeywordCode, List<PropScienceKeyword> keywords) {
+        for(Iterator iter = keywords.iterator(); iter.hasNext(); ) {
+            PropScienceKeyword propScienceKeyword = (PropScienceKeyword)iter.next();
+            String scienceKeywordCode = propScienceKeyword.getScienceKeywordCode();
+            if(scienceKeywordCode.equalsIgnoreCase(newScienceKeywordCode)) {
+                // duplicate keyword
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ActionForward selectAllScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
+        for(Iterator iter = keywords.iterator(); iter.hasNext(); ) {
+            PropScienceKeyword propScienceKeyword = (PropScienceKeyword)iter.next();
+            propScienceKeyword.setSelectKeyword(true);
+        }
+
+        return mapping.findForward("basic");
+    }
+
+    public ActionForward deleteSelectedScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
+        List<PropScienceKeyword> newKeywords = new ArrayList();
+        for(Iterator iter = keywords.iterator(); iter.hasNext(); ) {
+            PropScienceKeyword propScienceKeyword = (PropScienceKeyword)iter.next();
+            if(!propScienceKeyword.getSelectKeyword()) {
+                newKeywords.add(propScienceKeyword);
+            }
+        }
+        proposalDevelopmentDocument.setPropScienceKeywords(newKeywords);
+
+        return mapping.findForward("basic");
+    }
+
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+
+        // check to see if we are coming back from a lookup
+        if (Constants.MULTIPLE_VALUE.equals(proposalDevelopmentForm.getRefreshCaller())) {
+            // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
+            // Since URLs have a max length of 2000 chars, field conversions can not be done.
+            String lookupResultsSequenceNumber = proposalDevelopmentForm.getLookupResultsSequenceNumber();
+            if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
+                Class lookupResultsBOClass = Class.forName(proposalDevelopmentForm.getLookupResultsBOClassName());
+                Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                if(lookupResultsBOClass.isAssignableFrom(ScienceKeyword.class)) {
+                    for(Iterator iter = rawValues.iterator(); iter.hasNext(); ) {
+                        ScienceKeyword scienceKeyword = (ScienceKeyword) iter.next();
+                        PropScienceKeyword propScienceKeyword = new PropScienceKeyword(proposalDevelopmentDocument.getProposalNumber(), scienceKeyword);
+                        // ignore / drop duplicates
+                        if(!isDuplicateKeyword(propScienceKeyword.getScienceKeywordCode(), proposalDevelopmentDocument.getPropScienceKeywords())) {
+                            proposalDevelopmentDocument.addPropScienceKeyword(propScienceKeyword);
+                        }
+                    }
+                }
+            }
+        } 
+        return mapping.findForward("basic");
+    }
+    
 }
+
