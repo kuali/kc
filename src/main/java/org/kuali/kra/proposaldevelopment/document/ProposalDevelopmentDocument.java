@@ -30,6 +30,7 @@ import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable {
 
@@ -80,6 +81,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private Integer nextProposalPersonNumber;
     private List<Narrative> narratives;
     private Narrative newNarrative;
+    private List<ProposalUserRoles> proposalUserRoles;
     
     public ProposalDevelopmentDocument() {
         super();
@@ -90,6 +92,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         proposalPersons = new ArrayList<ProposalPerson>();
         nextProposalPersonNumber = new Integer(1);
         narratives = new ArrayList<Narrative>();
+        proposalUserRoles = new ArrayList<ProposalUserRoles>();
     }
 
     /**
@@ -656,5 +659,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public void setNewNarrative(Narrative narrative) {
         this.newNarrative = narrative;
+    }
+
+    public List<ProposalUserRoles> getProposalUserRoles() {
+        return proposalUserRoles;
+    }
+
+    public void setProposalUserRoles(List<ProposalUserRoles> proposalUserRoles) {
+        this.proposalUserRoles = proposalUserRoles;
     }
 }

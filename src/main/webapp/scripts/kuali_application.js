@@ -121,3 +121,12 @@ function loadinfo(data) {
   //alert("loadinfo "+data)
   DWRUtil.setValue("document.sponsorCode", data);
 }
+
+function proposalAttachmentRightsPop(lineNumber){
+  url=window.location.href;
+  pathname=window.location.pathname;
+  idx1=url.indexOf(pathname);
+  idx2=url.indexOf("/",idx1+1);
+  extractUrl=url.substr(0,idx2);
+  window.open(extractUrl+"/proposalDevelopmentAbstractsAttachments.do?methodToCall=getProposalAttachmentRights&line="+lineNumber, "_blank", "width=800, height=300, scrollbars=yes");
+}
