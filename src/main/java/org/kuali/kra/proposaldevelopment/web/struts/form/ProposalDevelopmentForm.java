@@ -66,7 +66,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private FormFile narrativeFile;
     private Map personEditableFields;
     private List<ProposalPerson> investigators;
- 
+    private boolean showMaintenanceLinks;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -317,6 +317,15 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void setNarrativeFile(FormFile narrativeFile) {
         this.narrativeFile = narrativeFile;
     }
+
+    public boolean isShowMaintenanceLinks(){
+        return showMaintenanceLinks;
+    }
+    
+    public void setShowMaintenanceLinks(boolean showMaintenanceLinks) {
+        this.showMaintenanceLinks = showMaintenanceLinks;
+    }
+
 
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);

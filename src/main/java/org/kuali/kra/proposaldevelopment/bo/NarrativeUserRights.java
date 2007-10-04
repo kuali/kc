@@ -23,7 +23,7 @@ public class NarrativeUserRights extends KraPersistableBusinessObjectBase {
 	private Integer moduleNumber;
 	private Integer proposalNumber;
 	private String userId;
-	private Boolean accessType;
+	private String accessType;
 
 	public Integer getModuleNumber() {
 		return moduleNumber;
@@ -49,11 +49,11 @@ public class NarrativeUserRights extends KraPersistableBusinessObjectBase {
 		this.userId = userId;
 	}
 
-	public Boolean getAccessType() {
+	public String getAccessType() {
 		return accessType;
 	}
 
-	public void setAccessType(Boolean accessType) {
+	public void setAccessType(String accessType) {
 		this.accessType = accessType;
 	}
 
