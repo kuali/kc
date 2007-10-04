@@ -18,72 +18,58 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights">
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles">
 
         <inquiry>
-            <title>Narrative User Rights</title>
+            <title>Prop User Roles</title>
 
-            <inquirySections><inquirySection title="Narrative User Rights"><inquiryFields>
-            	<field attributeName="moduleNumber" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
+            <inquirySections><inquirySection title="Prop User Roles"><inquiryFields>
+            	<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="roleId" forceInquiry="true"/>
 				<field attributeName="userId" forceInquiry="true"/>
-				<field attributeName="accessType"/>
 
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Narrative User Rights Lookup</title>
+            <title>Prop User Roles Lookup</title>
 			<menubar>
 				<![CDATA[<a href="/kra-dev/">Main</a>]]>
 			</menubar>
-            <instructions>Look up a Narrative User Rights</instructions>
+            <instructions>Look up a Prop User Roles</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                	<sortAttribute attributeName="moduleNumber"/>
-					<sortAttribute attributeName="proposalNumber"/>
+                	<sortAttribute attributeName="proposalNumber"/>
+					<sortAttribute attributeName="roleId"/>
 					<sortAttribute attributeName="userId"/>
 
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-            	<lookupField attributeName="moduleNumber" required="false"/>
-				<lookupField attributeName="proposalNumber" required="false"/>
+            	<lookupField attributeName="proposalNumber" required="false"/>
+				<lookupField attributeName="roleId" required="false"/>
 				<lookupField attributeName="userId" required="false"/>
-				<lookupField attributeName="accessType" required="false"/>
 
             </lookupFields>
 
             <resultFields>
-            	<field attributeName="moduleNumber" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
+            	<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="roleId" forceInquiry="true"/>
 				<field attributeName="userId" forceInquiry="true"/>
-				<field attributeName="accessType" forceInquiry="false"/>
 
             </resultFields>
         </lookup>
+
 		<titleAttribute>userId</titleAttribute>
         <attributes>
 
-	        <attribute name="moduleNumber">
-			<label>Module Number </label>
-			<shortLabel>Module Number </shortLabel>
-			<maxLength>4</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="4" />
-			</control>
-			<summary>Module Number </summary>
-			<description>Module Number </description>
-			</attribute>
-
-			<attribute name="proposalNumber">
+	        <attribute name="proposalNumber">
 			<label>Proposal Number </label>
 			<shortLabel>Proposal Number </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><numeric /></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
@@ -91,28 +77,28 @@
 			<description>Proposal Number </description>
 			</attribute>
 
+			<attribute name="roleId">
+			<label>Role Id </label>
+			<shortLabel>Role Id </shortLabel>
+			<maxLength>5</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="5" />
+			</control>
+			<summary>Role Id </summary>
+			<description>Role Id </description>
+			</attribute>
+
 			<attribute name="userId">
 			<label>User Id </label>
 			<shortLabel>User Id </shortLabel>
 			<maxLength>10</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<validationPattern><anyCharacter/></validationPattern>
 			<control>
 				<text size="10" />
 			</control>
 			<summary>User Id </summary>
 			<description>User Id </description>
-			</attribute>
-
-			<attribute name="accessType">
-			<label>Access Type </label>
-			<shortLabel>Access Type </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.NarrativeUserRightsValuesFinder"/>
-			</control>
-			<summary>Access Type </summary>
-			<description>Access Type </description>
 			</attribute>
 
 		</attributes>

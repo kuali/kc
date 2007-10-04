@@ -161,8 +161,9 @@
 								<div align="center">
 									<html:image property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
-									<html:image property="methodToCall.viewEditRights.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' />
+									<html:image property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
+									onclick="javascript: proposalAttachmentRightsPop('${status.index}');return false"/>
 								</div>
 			                </td>
 			            </tr>
