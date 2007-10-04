@@ -157,7 +157,6 @@
 					</plugin>
 					<plugin>
 						<artifactId>maven-clover-plugin</artifactId>
-						<!-- 
 						<executions>
 							<execution>
 								<phase>pre-site</phase>
@@ -166,9 +165,9 @@
 								</goals>
 							</execution>
 						</executions>
-						-->
 						<configuration>
-							<licenseLocation>test-harness/clover/clover.license</licenseLocation>
+							<jdk>1.5</jdk>
+							<licenseLocation>src/test/config/clover.license</licenseLocation>
 						</configuration>
 					</plugin>
 				</plugins>
