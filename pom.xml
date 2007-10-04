@@ -155,6 +155,20 @@
 							<reportFormat>plain</reportFormat>
 						</configuration>
 					</plugin>
+					<plugin>
+						<artifactId>maven-clover-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>pre-site</phase>
+								<goals>
+									<goal>instrument</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<licenseLocation>test-harness/clover/clover.license</licenseLocation>
+						</configuration>
+					</plugin>
 				</plugins>
 			</build>
 			<dependencies>
@@ -182,6 +196,9 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clover-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</reporting>
