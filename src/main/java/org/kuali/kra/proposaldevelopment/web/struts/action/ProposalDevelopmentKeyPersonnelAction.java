@@ -46,6 +46,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 import static org.apache.commons.beanutils.PropertyUtils.getProperty;
@@ -65,7 +66,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -414,6 +415,17 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.save(mapping, form, request, response);
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        boolean rulePassed = true;
+
+        // check any business rules
+        rulePassed &= getKualiRuleService().applyRules(new SaveKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, pdform.getDocument()));
+
+        // if the rule evaluation passed, then save. It is possible that invoking save without checking rules first will
+        // let the document save anyhow, so let's check first.
+        if (rulePassed) {
+            return super.save(mapping, form, request, response);
+        }
+        return mapping.findForward(MAPPING_BASIC);
     }
 }

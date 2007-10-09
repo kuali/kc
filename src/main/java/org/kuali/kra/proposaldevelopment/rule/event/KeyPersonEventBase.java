@@ -27,13 +27,16 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class KeyPersonEventBase extends KraDocumentEventBase implements KeyPersonEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonEventBase.class);
     
     private ProposalPerson person;
     
+    /**
+     * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
+     */
     protected KeyPersonEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPerson person) {
         super(description, errorPathPrefix, document);
 
@@ -43,7 +46,6 @@ public abstract class KeyPersonEventBase extends KraDocumentEventBase implements
         
         logEvent();
     }
-
     
     /**
      * @return <code>{@link ProposalPerson}</code> that triggered this event.
