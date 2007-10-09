@@ -44,13 +44,13 @@
                                 fieldConversions="rolodexId:newRolodexId" /></label></td>
   </c:when>
   <c:otherwise>
-                  <label><kul:htmlControlAttribute property="newProposalPerson.fullName" attributeEntry="${proposalPersonAttributes.fullName}" readOnly="true"/> </label><br/>
+                  <label><kul:htmlControlAttribute property="newProposalPerson.fullName" attributeEntry="${proposalPersonAttributes.fullName}" readOnly="true"/></label><br/>
   </c:otherwise>
 </c:choose>
                 </td>
                 <th class="grid"><div align="right">Proposal Role:</div></th>
                 <td class="grid" >
-                  <label><kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /> </label>
+                  <kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" />
                 </td>
               </tr>
             </table>
@@ -75,8 +75,7 @@
   
   	<p>
 	<kul:documentControls 
-		transactionalDocument="false" 
-		saveButtonOverride="savePersonnel" 
+		transactionalDocument="false"
 		suppressRoutingControls="true"
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"

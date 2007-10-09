@@ -25,5 +25,9 @@ public class KeyConstants {
     public static final String WARNING_PAST_DEADLINE_DATE = "warning.past.deadline.date";
 
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW = "proposaldevelopment.proposaltype.new";
+    
+    public static final String ERROR_INVESTIGATOR_UNITS_UPBOUND = "error.investigatorUnits.upbound";
+    public static final String ERROR_INVESTIGATOR_UPBOUND = "error.principalInvestigators.upbound";
+    public static final String ERROR_INVESTIGATOR_LOWBOUND = "error.principalInvestigators.lowbound";
 
 }

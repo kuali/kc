@@ -36,10 +36,14 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
+
+    /**
+     * @see ResearchDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
+     */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         return true;
