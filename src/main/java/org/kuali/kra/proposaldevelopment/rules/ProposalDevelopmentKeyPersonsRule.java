@@ -29,6 +29,10 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOUND;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
 
 /**
  * Implementation of business rules required for the Key Persons Page of the 
@@ -36,7 +40,7 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -47,6 +51,27 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         return true;
+    }
+
+    /**
+     * Rule invoked upon saving persons to a 
+     * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
+     *
+     * @param document ProposalDevelopmentDocument being saved
+     * @return boolean
+     */
+    public boolean processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument document) {
+        boolean retval = true;
+        int pi_cnt = 0;
+        for (ProposalPerson person : document.getProposalPersons()) {
+            if (isPrincipalInvestigator(person)) {
+                pi_cnt = 0;
+            }
+        }
+
+        retval &= pi_cnt < 2;
+
+        return retval;
     }
 
     /**
@@ -76,12 +101,16 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         retval &= hasPrincipalInvestigator(pd);
 
+        if (!retval) {
+            reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_INVESTIGATOR_LOWBOUND);
+        }
+
         for (ProposalPerson person : pd.getProposalPersons()) {
             retval &= validateInvestigator(person);
             
             if (!isBlank(person.getProposalPersonRoleId())) {
                 LOG.debug("error.missingPersonRole");
-                reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.missingPersonRole");
+                reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_MISSING_PERSON_ROLE);
             }
         }
 
@@ -102,7 +131,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
         if (isPrincipalInvestigator(person) && hasPrincipalInvestigator(document)) {
             LOG.debug("error.principalInvestigator.limit");
-            reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.principalInvestigators.limit");
+            reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_INVESTIGATOR_UPBOUND);
             retval = false;
         }
         
@@ -126,13 +155,13 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         if (person.getUnits().size() > 0) {
             LOG.debug("error.investigatorUnits.limit");
-            // reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.investigatorUnits.limit");
+            reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_INVESTIGATOR_UNITS_UPBOUND);
         }
         
         for (ProposalPersonUnit unit : person.getUnits()) {
             if (!isBlank(unit.getUnitNumber())) {
                 LOG.debug("error.investigatorUnits.limit");
-                // reportErrorWithPrefix("newProposalPerson", "proposalPerson", "error.investigatorUnits.limit");
+                reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_INVESTIGATOR_UNITS_UPBOUND);
             }
         }
         
