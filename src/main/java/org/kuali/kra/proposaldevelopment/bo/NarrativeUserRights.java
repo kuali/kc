@@ -18,12 +18,14 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Person;
 
 public class NarrativeUserRights extends KraPersistableBusinessObjectBase {
 	private Integer moduleNumber;
 	private Integer proposalNumber;
 	private String userId;
 	private String accessType;
+	private String personName;
 
 	public Integer getModuleNumber() {
 		return moduleNumber;
@@ -63,8 +65,17 @@ public class NarrativeUserRights extends KraPersistableBusinessObjectBase {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("moduleNumber", getModuleNumber());
 		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("userId", getUserId());
+		hashMap.put("personName", getPersonName());
+        hashMap.put("userId", getUserId());
 		hashMap.put("accessType", getAccessType());
 		return hashMap;
 	}
+
+    public String getPersonName() {
+        return personName;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
 }
