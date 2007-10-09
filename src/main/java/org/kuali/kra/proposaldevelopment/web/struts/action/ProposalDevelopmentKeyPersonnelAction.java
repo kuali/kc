@@ -65,7 +65,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -410,5 +410,10 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
     private KualiConfigurationService getConfigurationService() {
         return getService(KualiConfigurationService.class);
+    }
+
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return super.save(mapping, form, request, response);
     }
 }
