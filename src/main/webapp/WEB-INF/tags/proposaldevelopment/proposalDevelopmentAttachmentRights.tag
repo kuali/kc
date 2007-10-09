@@ -21,13 +21,13 @@
 <kul:tabTop defaultOpen="true" tabTitle="Rights">
 	<div class="tab-container" align="center">
 		<div class="h2-container">
-    		<span class="subhead-left"><h2>Proposal Attachments Rights</h2></span>
+    		<span class="subhead-left"><h2>Proposal Attachment Rights for ${line+1}. ${selectedProposalAttachment.narrativeType.description }</h2></span>
         </div>	
         <table cellpadding=0 cellspacing=0 summary="">
 	       <c:forEach var="narrUserRight" items="${selectedProposalAttachment.narrativeUserRights}" varStatus="status">
           	<tr>
             	<th><div align="right">
-            		<c:out value="${narrUserRight.userId}"/>
+            		<c:out value="${narrUserRight.personName}"/>
 				</div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.narratives[${line}].narrativeUserRights[${status.index}].accessType" attributeEntry="${narrativeUserRightsAttributes.accessType}" />

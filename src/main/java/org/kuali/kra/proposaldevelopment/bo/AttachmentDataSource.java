@@ -18,48 +18,33 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class NarrativeAttachment extends AttachmentDataSource{
-	private Integer moduleNumber;
-	private Integer proposalNumber;
-//	private String fileName;
-//	private String contentType;
-    private byte[] narrativeData;
+public abstract class AttachmentDataSource extends KraPersistableBusinessObjectBase {
+	private String fileName;
+	private String contentType;
 
-	public Integer getModuleNumber() {
-		return moduleNumber;
+	public String getFileName() {
+		return fileName;
 	}
 
-	public void setModuleNumber(Integer moduleNumber) {
-		this.moduleNumber = moduleNumber;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
-	public Integer getProposalNumber() {
-		return proposalNumber;
-	}
+    public String getContentType() {
+        return contentType;
+    }
 
-	public void setProposalNumber(Integer proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
 
-	public byte[] getNarrativeData() {
-		return narrativeData;
-	}
-
-	public void setNarrativeData(byte[] narrativePdf) {
-	    this.narrativeData = narrativePdf;
-	}
-	
-	public byte[] getContent() {
-	    return narrativeData;
-	}
-
+    public abstract byte[] getContent();
 
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("moduleNumber", getModuleNumber());
-		hashMap.put("proposalNumber", getProposalNumber());
 		hashMap.put("fileName", getFileName());
         hashMap.put("contentType", getContentType());
 		return hashMap;
