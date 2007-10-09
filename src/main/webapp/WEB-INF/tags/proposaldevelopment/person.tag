@@ -30,6 +30,10 @@
               <table cellpadding=0 cellspacing="0" summary="">
                 <tbody id="G1">
                   <tr>
+                    <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /></div></th>
+                    <td colspan="3"><kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /></td>
+                  </tr>              
+                  <tr>
                     <th align="left" nowrap="nowrap"> <div align="right">Full Name: </div></th>
 
                     <td>
