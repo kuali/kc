@@ -110,9 +110,18 @@
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" /></div></th>
 			                <td align="left" valign="middle">
 			                
-			                <c:set var="narrPdfList" value="${narrativeAttachment.narrativeAttachmentList}"></c:set>
-			                <c:if test="${fn:length(narrPdfList) >0}">
+			                <c:set var="narrAttList" value="${narrativeAttachment.narrativeAttachmentList}"></c:set>
+			                <c:if test="${fn:length(narrAttList) >0}">
 				                <kul:htmlControlAttribute property="document.narratives[${status.index}].narrativeAttachmentList[0].fileName" readOnly="true" attributeEntry="${narrativeAttachmentAttributes.fileName}" />
+				                <%--<html:link onclick="javascript: window.open(extractUrl()+'/${action}.do?methodToCall=downloadProposalAttachment&line=${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>--%>
+				                <html:link onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
+				                <%--<html:link onclick="javascript: openNewFileBrowseWindow('document.narratives[${status.index}].narrativeAttachmentList[0].fileName','DataDictionary.NarrativeAttachment.attributes.fileName','${action}','forwardToFileReplace','replaceProposalAttachment','${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">replace</html:link>
+				                <div id="ez" style="position:absolute;top:100px;left:5px;visibility:hidden;">
+				                <td align="left" valign="middle">
+                					<html:file property="document.narratives[${status.index}].narrativeFile" />
+								</td>
+				                </div>
+				                --%>
 				            </c:if>
 							</td>
 			          	</tr>
