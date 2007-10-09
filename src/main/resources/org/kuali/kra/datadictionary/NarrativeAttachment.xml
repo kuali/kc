@@ -96,6 +96,7 @@
 			<shortLabel>File Name </shortLabel>
 			<maxLength>150</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
+			<required>true</required>
 			<control>
 				<text size="30" />
 			</control>
@@ -108,6 +109,7 @@
 			<shortLabel>Attachment </shortLabel>
 			<maxLength>0</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
+			<required>true</required>
 			<control>
 				<text size="0" />
 			</control>

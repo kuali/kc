@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -33,6 +36,7 @@ import org.kuali.RiceConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -86,5 +90,56 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("actions");
     }
-    
+    public ActionForward streamDataToBrowser(ActionMapping mapping,AttachmentDataSource dataSource,HttpServletResponse response){
+        javax.servlet.ServletOutputStream sos = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            sos = response.getOutputStream();
+            byte[] xbts = dataSource.getContent();
+            baos = new ByteArrayOutputStream(xbts.length);
+            baos.write(xbts);
+            StringBuffer sbContentDispValue = new StringBuffer();
+//            sbContentDispValue.append("attachment");
+            sbContentDispValue.append("inline");
+            sbContentDispValue.append("; filename=");
+            sbContentDispValue.append(dataSource.getFileName());
+            
+            response.setHeader("Cache-control", "");
+            response.setHeader(
+            "Content-disposition",
+            sbContentDispValue.toString());
+            response.setContentType(dataSource.getContentType());
+            response.setContentLength(xbts.length);
+            response.setContentType(dataSource.getContentType());
+            baos.writeTo(sos);
+            sos.flush();
+        }
+        catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            response.setContentType("text/html");
+            try{
+                PrintWriter writer = response.getWriter();
+                writer.println(
+                this.getClass().getName()
+                + " caught an exception: "
+                + e.getClass().getName()
+                + "<br>");
+                writer.println("<pre>");
+                e.printStackTrace(writer);
+                writer.println("</pre>");
+            }catch(IOException ex){
+                LOG.error(ex.getMessage(),ex);
+            }
+            return mapping.findForward("error");
+//            saveMessage(request, errors);
+        }
+        finally {
+            try{
+                sos.close();
+            }catch(IOException ioEx){
+                LOG.error(ioEx.getMessage(),ioEx);
+            }
+        }
+        return null;
+    }
 }

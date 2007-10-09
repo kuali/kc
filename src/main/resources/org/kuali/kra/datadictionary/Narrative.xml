@@ -180,6 +180,7 @@
 				<validationPattern>
 					<anyCharacter  allowWhitespace="true"  />
 				</validationPattern>
+				<required>true</required>
 				<control>
 					<select
 						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeStatusValuesFinder" />
@@ -225,10 +226,12 @@
 				<validationPattern>
 					<anyCharacter  allowWhitespace="true"  />
 				</validationPattern>
+				<required>true</required>
 				<control>
 					<select
 						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeTypeValuesFinder" />
 				</control>
+				
 				<summary>Narrative Type Code</summary>
 				<description>Narrative Type Code</description>
 			</attribute>
