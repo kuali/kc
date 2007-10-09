@@ -29,5 +29,6 @@ public class KeyConstants {
     public static final String ERROR_INVESTIGATOR_UNITS_UPBOUND = "error.investigatorUnits.upbound";
     public static final String ERROR_INVESTIGATOR_UPBOUND = "error.principalInvestigators.upbound";
     public static final String ERROR_INVESTIGATOR_LOWBOUND = "error.principalInvestigators.lowbound";
+    public static final String ERROR_MISSING_PERSON_ROLE = "error.missingPersonRole";
 
 }
