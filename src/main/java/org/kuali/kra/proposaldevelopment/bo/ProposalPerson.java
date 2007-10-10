@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiDecimal;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class ProposalPerson extends Person {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
@@ -293,6 +293,24 @@ public class ProposalPerson extends Person {
      * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
      */
     public void setProposalPersonRoleId(String argPropPersonRoleId) {
+        this.proposalPersonRoleId = argPropPersonRoleId;
+    }
+
+    /**
+     * Gets the value of propPersonRoleId
+     *
+     * @return the value of propPersonRoleId
+     */
+    public String getNonNihProposalPersonRoleId() {
+        return this.proposalPersonRoleId;
+    }
+
+    /** 
+     * Sets the value of propPersonRoleId
+     *
+     * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
+     */
+    public void setNonNihProposalPersonRoleId(String argPropPersonRoleId) {
         this.proposalPersonRoleId = argPropPersonRoleId;
     }
 
