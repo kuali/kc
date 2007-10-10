@@ -50,7 +50,11 @@
                 </td>
                 <th class="grid"><div align="right">Proposal Role:</div></th>
                 <td class="grid" >
-                  <kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" />
+<c:set var="roleIdAttribute" value="${proposalPersonAttributes.proposalPersonRoleId}" />
+<c:if test="${KualiForm.document.sponsor.acronym == 'NIH'}">
+  <c:set var="roleIdAttribute" value="${proposalPersonAttributes.nonNihProposalPersonRoleId}" />
+</c:if>
+                  <kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${roleIdAttribute}" />
                 </td>
               </tr>
             </table>
