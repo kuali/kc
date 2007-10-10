@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiDecimal;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ProposalPerson extends Person {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
@@ -39,6 +39,7 @@ public class ProposalPerson extends Person {
     private Boolean fedrDebr;
     private Boolean fedrDelq;
     private Integer rolodexId;
+    private String  personId;
     private Integer proposalNumber;
     private Integer proposalPersonNumber;
     private String  proposalPersonRoleId;
@@ -48,6 +49,7 @@ public class ProposalPerson extends Person {
     private List<ProposalPersonDegree> degrees;
     private List<ProposalPersonCreditSplit> creditSplits;
     private boolean delete;
+    private Person person;
 
     /**
      *
@@ -312,6 +314,60 @@ public class ProposalPerson extends Person {
         this.role = argPropPersonRole;
     }
 
+    /**
+     * Gets the value of lOG
+     *
+     * @return the value of lOG
+     */
+    public static org.apache.commons.logging.Log getLOG() {
+        return ProposalPerson.LOG;
+    }
+    
+    /**
+     * Sets the value of conflictOfInterest
+     *
+     * @param argConflictOfInterest Value to assign to this.conflictOfInterest
+     */
+    public void setConflictOfInterest(Boolean argConflictOfInterest) {
+        this.conflictOfInterest = argConflictOfInterest;
+    }
+
+    /**
+     * Gets the value of personId
+     *
+     * @return the value of personId
+     */
+    public String getPersonId() {
+        return this.personId;
+    }
+
+    /**
+     * Sets the value of personId
+     *
+     * @param argPersonId Value to assign to this.personId
+     */
+    public void setPersonId(String argPersonId) {
+        this.personId = argPersonId;
+    }
+
+    /**
+     * Gets the value of person
+     *
+     * @return the value of person
+     */
+    public Person getPerson() {
+        return this.person;
+    }
+
+    /**
+     * Sets the value of person
+     *
+     * @param argPerson Value to assign to this.person
+     */
+    public void setPerson(Person argPerson) {
+        this.person = argPerson;
+    }
+
 	@Override 
 	protected LinkedHashMap toStringMapper() {
    	    LinkedHashMap hashmap = super.toStringMapper();
@@ -320,6 +376,7 @@ public class ProposalPerson extends Person {
         hashmap.put("percentageEffort", getPercentageEffort());
         hashmap.put("fedrDebr", isFedrDebr());
         hashmap.put("fedrDelq", isFedrDelq());
+        hashmap.put("personId", getPersonId());
         hashmap.put("rolodexId", getRolodexId());
         hashmap.put("proposalNumber", getProposalNumber());
         hashmap.put("proposalPersonNumber", getProposalPersonNumber());

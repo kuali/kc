@@ -281,7 +281,8 @@
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalPersonRoleId" column="PROP_PERSON_ROLE_ID" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
         <field-descriptor name="socialSecurityNumber" column="SSN" jdbc-type="VARCHAR" />
         <field-descriptor name="lastName" column="LAST_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="firstName" column="FIRST_NAME" jdbc-type="VARCHAR" />
@@ -367,6 +368,10 @@
 
 		<reference-descriptor name="role" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="proposalPersonRoleId"/>
+		</reference-descriptor>
+
+		<reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="personId"/>
 		</reference-descriptor>
 
 		<reference-descriptor name="certification" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification" auto-retrieve="true" auto-update="none" auto-delete="none">

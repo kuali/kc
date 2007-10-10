@@ -40,7 +40,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROL
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -69,7 +69,10 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             }
         }
 
-        retval &= pi_cnt < 2;
+        if (pi_cnt < 2) {
+            retval = false;
+            reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_INVESTIGATOR_UPBOUND);            
+        }        
 
         return retval;
     }
@@ -99,11 +102,12 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) document;
         boolean retval = true;
         
-        retval &= hasPrincipalInvestigator(pd);
-
-        if (!retval) {
+        if (!hasPrincipalInvestigator(pd)) {
+            retval = false;
             reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_INVESTIGATOR_LOWBOUND);
         }
+
+        retval &= processSaveKeyPersonBusinessRules(pd);
 
         for (ProposalPerson person : pd.getProposalPersons()) {
             retval &= validateInvestigator(person);
