@@ -27,8 +27,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" altText="help"/></span>
         </div>
 
-        <table  cellpadding="0" cellspacing="0" summary="">
-            <tbody>
+        <table cellpadding="0" cellspacing="0" summary="">
               <tr>
                 <th width="20%"></th>
 <c:forEach items="${KualiForm.investigatorCreditTypes}" var="invType" >
@@ -36,32 +35,30 @@
 </c:forEach>
               </tr>
 <c:forEach items="${KualiForm.investigators}" var="investigator" varStatus="invStatus">
-              <tr>
   <c:set var="investigatorProperty" value="investigators[${invStatus.index}]" />
-                <td nowrap class="tab-subhead1"><strong>
+              <tr>
+                <td style="width : 20%" nowrap class="tab-subhead1"><strong>
                   <kul:htmlControlAttribute property="${investigatorProperty}.fullName" 
                                       attributeEntry="${proposalPersonAttributes.fullName}" readOnly="true" />
                   </strong></td>
   <c:forEach items="${investigator.creditSplits}" varStatus="splitStatus" >
     <c:set var="personCreditSplit" value="${investigatorProperty}.creditSplits[${splitStatus.index}]" />
-                <td class="tab-subhead1><div align="right"><strong>
+                <td style="width : 20%;text-align : right" class="tab-subhead1"><strong>
                   <kul:htmlControlAttribute property="${personCreditSplit}.credit" 
                                       attributeEntry="${personCreditSplitAttributes.credit}" />
-                </strong></div></td>
+                </strong></td>
   </c:forEach> 
              </tr>
   <c:forEach items="${investigator.units}" var="personUnit" varStatus="unitStatus">
              <tr>
     <c:set var="unitProperty" value="${investigatorProperty}.units[${unitStatus.index}]" />
-                <td nowrap>${personUnit.unitNumber} - ${personUnit.unitNumber}</td>
+                <td nowrap>${personUnit.unitNumber} - ${personUnit.unit.unitName}</td>
 
     <c:forEach items="${personUnit.creditSplits}" varStatus="splitStatus" >
       <c:set var="unitCreditSplit" value="${unitProperty}.creditSplits[${splitStatus.index}]" />
     
-                <td><div align="right"><strong>
-                  <kul:htmlControlAttribute property="${unitCreditSplit}.credit" 
-                                      attributeEntry="${unitCreditSplitAttributes.credit}" />
-                </strong></div></td>
+                <td style="text-align : right"><kul:htmlControlAttribute property="${unitCreditSplit}.credit" 
+                                      attributeEntry="${unitCreditSplitAttributes.credit}" /></td>
     </c:forEach>
               </tr>
   </c:forEach>
@@ -76,7 +73,6 @@
               </tr>            
   </c:if>
 </c:forEach>
-            </tbody>
         </table>
     </div>
 </kul:tab>
