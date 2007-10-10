@@ -22,15 +22,18 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+
+import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Temporary class until this can be gotten working via table.
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
@@ -39,7 +42,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
      */
     public List getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService(KeyValuesService.class);
+        KeyValuesService keyValuesService = getService(KeyValuesService.class);
         Collection<ProposalPersonRole> roles = keyValuesService.findAll(ProposalPersonRole.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select:"));
@@ -47,9 +50,23 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         for (ProposalPersonRole role : roles) {
             LOG.debug(role.toString());
             LOG.debug("Adding role " + role.getProposalPersonRoleId());
-            keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), role.getDescription()));
+            keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findRoleDescription(role)));
         }
 
         return keyValues;
+    }
+
+    protected String getRoleIdPrefix() {
+        return new String();
+    }
+
+    protected String findRoleDescription(ProposalPersonRole role) {
+        return getConfigurationService().getApplicationParameterValue("SYSTEM", PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
+                                                                      + getRoleIdPrefix()
+                                                                      + role.getProposalPersonRoleId().toLowerCase());    
+    }
+
+    protected KualiConfigurationService getConfigurationService() {
+        return getService(KualiConfigurationService.class);
     }
 }
