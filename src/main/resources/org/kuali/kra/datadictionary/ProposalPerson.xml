@@ -49,6 +49,23 @@
                 <description>Proposal Person Role Id</description>
             </attributeReference>
 
+            <attributeReference name="nonNihProposalPersonRoleId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>Non-NIH Proposal Person Role Id</label>
+ 	            <shortLabel>Non-NIH Prop Per Role Id</shortLabel>
+                <control>
+                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NonNihProposalPersonRoleValuesFinder" />
+                </control>
+ 	            <summary>Non-NIH Proposal Person Role Id</summary>
+                <description>Non-NIH Proposal Person Role Id</description>
+            </attributeReference>
+
+            <attributeReference name="personId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+                <label>Person Id</label>
+ 	            <shortLabel>Person Id</shortLabel>
+ 	            <summary>Person Id</summary>
+                <description>Person Id</description>
+            </attributeReference>
+
             <attributeReference name="rolodexId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
                 <label>Rolodex Id</label>
  	            <shortLabel>Rolodex Id</shortLabel>
