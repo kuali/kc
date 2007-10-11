@@ -53,20 +53,22 @@ import static org.apache.commons.beanutils.PropertyUtils.getProperty;
 import static org.apache.commons.beanutils.PropertyUtils.INDEXED_DELIM;
 import static org.apache.commons.beanutils.PropertyUtils.INDEXED_DELIM2;
 import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.NEW_PERSON_LOOKUP_FLAG;
 import static org.kuali.kra.infrastructure.Constants.NEW_PROPOSAL_PERSON_PROPERTY_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
+import static org.kuali.RiceConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 /**
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -409,6 +411,47 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return mapping.findForward(MAPPING_BASIC);
     }
 
+    /**
+     * Remove a <code>{@link ProposalPersonUnit}</code> from a <code>{@link ProposalPerson}</code>
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward deleteUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        
+        ProposalPerson selectedPerson = getSelectedPerson(request, document);
+        selectedPerson.getUnits().remove(getSelectedLine(request));
+        
+
+        return mapping.findForward(MAPPING_BASIC);
+    }
+
+    /**
+     * Remove a <code>{@link ProposalPersonDegree}</code> from a <code>{@link ProposalPerson}</code>
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward deleteDegree(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        
+        ProposalPerson selectedPerson = getSelectedPerson(request, document);
+        selectedPerson.getDegrees().remove(getSelectedLine(request));
+
+        return mapping.findForward(MAPPING_BASIC);
+    }
+
     private KualiConfigurationService getConfigurationService() {
         return getService(KualiConfigurationService.class);
     }
@@ -428,4 +471,25 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         }
         return mapping.findForward(MAPPING_BASIC);
     }
+
+    /**
+     * Parses the method to call attribute to pick off the line number which should have an action performed on it.
+     * 
+     * @param request
+     * @param document the person is selected on
+     * @return ProposalPerson
+     */
+    protected ProposalPerson getSelectedPerson(HttpServletRequest request, ProposalDevelopmentDocument document) {
+        ProposalPerson retval = null;
+        int selectedLine = -1;
+        String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
+        LOG.info("parameterName=" + parameterName);
+        if (isNotBlank(parameterName)) {
+            int lineNumber = Integer.parseInt(substringBetween(parameterName, "proposalPersons[", "]."));
+            retval = document.getProposalPerson(lineNumber);
+        }
+
+        return retval;
+    }
+
 }

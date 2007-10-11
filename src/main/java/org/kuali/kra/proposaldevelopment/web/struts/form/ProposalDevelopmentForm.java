@@ -339,7 +339,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         
         Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
         for (PersonEditableField field : fields) {
-            LOG.info("Putting into editable field map " + field);
             getPersonEditableFields().put(field.getFieldName(), new Boolean(true));
         }
     }
@@ -390,7 +389,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         List<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         
         for (ProposalPerson investigator : getInvestigators()) {
-            LOG.info("Found investigator " + investigator.getFullName());
             Map<Integer,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
 
             if (creditTypeTotals == null) {
@@ -410,7 +408,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
             for (ProposalPersonUnit unit : investigator.getUnits()) {
                 for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
-                    LOG.info("Found credit split for unit");
                     KualiDecimal totalCredit = creditTypeTotals.get(creditSplit.getInvCreditTypeCode());
                     
                     if (totalCredit == null) {
