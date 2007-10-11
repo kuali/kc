@@ -21,20 +21,22 @@
 <c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
 <c:set var="actionMethod" value="insertDegree" />
 <c:set var="actionTitle" value="Add a Degree" />
+<c:set var="degreeIndexHeader" value="add:" />
 <c:set var="degreeCodeProperty" value="${degree}.degreeCode" />
 <c:set var="degreeCodeAttribute" value="${DataDictionary.ProposalPersonDegree.attributes.degreeCode}" />
 
 <c:if test="${!empty index}">
+  <c:set var="degreeIndexHeader" value="${index + 1}" />
   <c:set var="degree" value="${proposalPerson}.degrees[${index}]" /> 
   <c:set var="readOnly" value="true" />
   <c:set var="actionTitle" value="Remove a Degree" />
-  <c:set var="actionMethod" value="deleteDegree" />
+  <c:set var="actionMethod" value="deleteDegree.${proposalPerson}.line${index}" />
   <c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" />
   <c:set var="degreeCodeProperty" value="${degree}.degreeType.description" />
   <c:set var="degreeCodeAttribute" value="${DataDictionary.DegreeType.attributes.description}" />
 </c:if>
                   <tr>
-                    <th scope="row">add:</th>
+                    <th scope="row">${degreeIndexHeader}</th>
 
                     <td class="infoline"><div align=left><span class="copy">
                     <html:hidden property="addToPerson" value="${proposalPerson}" />
