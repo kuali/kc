@@ -112,16 +112,19 @@
 			                
 			                <c:set var="narrAttList" value="${narrativeAttachment.narrativeAttachmentList}"></c:set>
 			                <c:if test="${fn:length(narrAttList) >0}">
-				                <kul:htmlControlAttribute property="document.narratives[${status.index}].narrativeAttachmentList[0].fileName" readOnly="true" attributeEntry="${narrativeAttachmentAttributes.fileName}" />
+			                	
+				                <div id="replaceDiv${status.index}" style="display:block;">
+				                <kul:htmlControlAttribute property="document.narratives[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 				                <%--<html:link onclick="javascript: window.open(extractUrl()+'/${action}.do?methodToCall=downloadProposalAttachment&line=${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>--%>
 				                <html:link onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
-				                <%--<html:link onclick="javascript: openNewFileBrowseWindow('document.narratives[${status.index}].narrativeAttachmentList[0].fileName','DataDictionary.NarrativeAttachment.attributes.fileName','${action}','forwardToFileReplace','replaceProposalAttachment','${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">replace</html:link>
-				                <div id="ez" style="position:absolute;top:100px;left:5px;visibility:hidden;">
-				                <td align="left" valign="middle">
-                					<html:file property="document.narratives[${status.index}].narrativeFile" />
-								</td>
+				                <html:link onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">replace</html:link>
 				                </div>
-				                --%>
+				                <div id="fileDiv${status.index}" style="display:none;">
+				                	<html:file property="document.narratives[${status.index}].narrativeFile" />
+									<html:image property="methodToCall.replaceProposalAttachment.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+								</div>
+				               
 				            </c:if>
 							</td>
 			          	</tr>

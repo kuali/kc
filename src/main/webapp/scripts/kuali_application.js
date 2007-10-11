@@ -151,23 +151,18 @@ function openNewWindow(action,methodToCall,lineNumber){
 }
 
 
-
-function switchDiv(div_id)
-{
-  var style_sheet = getStyleObject(div_id);
+function showHide(showId,hideId){
+  var style_sheet = getStyleObject(showId);
   if (style_sheet)
   {
-    //hideAll();
-    changeObjectVisibility(div_id, "visible");
+	changeObjectVisibility(showId, "block");
+	changeObjectVisibility(hideId, "none");
   }
   else 
   {
     alert("sorry, this only works in browsers that do Dynamic HTML");
   }
 }
-
-
-
 function getStyleObject(objectId) {
   // checkW3C DOM, then MSIE 4, then NN 4.
   //
@@ -193,7 +188,7 @@ function changeObjectVisibility(objectId, newVisibility) {
     // as requested
     //
     if (styleObject) {
-	styleObject.visibility = newVisibility;
+		styleObject.display = newVisibility;
 	return true;
     } else {
 	return false;

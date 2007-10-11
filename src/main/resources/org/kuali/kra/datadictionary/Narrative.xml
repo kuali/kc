@@ -219,6 +219,20 @@
 				<description>Module Title</description>
 			</attribute>
 
+			<attribute name="fileName">
+				<label>File Name</label>
+				<shortLabel>File Name</shortLabel>
+				<maxLength>150</maxLength>
+				<validationPattern>
+					<anyCharacter  allowWhitespace="true"  />
+				</validationPattern>
+				<control>
+					<text size="52" />
+				</control>
+				<summary>File Name</summary>
+				<description>File Name</description>
+			</attribute>
+
 			<attribute name="narrativeTypeCode">
 				<label>Attachment Type</label>
 				<shortLabel>Attachment Type</shortLabel>
