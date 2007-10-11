@@ -15,22 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.Iterator;
-
-import org.kuali.core.document.Document;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
-import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
+//import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 
 /**
  * Implementation of business rules required for the Key Persons Page of the 
@@ -38,9 +27,9 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: gthomas $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
-public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule { 
+public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase{ 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
 
     public boolean processAddNarrativeBusinessRules(ProposalDevelopmentDocument document, Narrative narrative) {
