@@ -35,6 +35,7 @@ public class Narrative extends KraPersistableBusinessObjectBase {
 	private String phoneNumber;
 	private NarrativeType narrativeType;
     private NarrativeStatus narrativeStatus;
+    private String fileName;
 	private List<NarrativeUserRights> narrativeUserRights;
 	private List<NarrativeAttachment> narrativeAttachmentList;
     transient private FormFile narrativeFile;
@@ -181,5 +182,13 @@ public class Narrative extends KraPersistableBusinessObjectBase {
     }
     public void setNarrativeFile(FormFile narrativeFile) {
         this.narrativeFile = narrativeFile;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
