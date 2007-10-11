@@ -37,6 +37,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.WebUtils;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.RoleRight;
 import org.kuali.kra.infrastructure.Constants;
@@ -88,22 +89,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         NarrativeStatus narrStatus = (NarrativeStatus) service.findByPrimaryKey(NarrativeStatus.class, narrStatusMap);
         if (narrStatus != null)
             narr.setNarrativeStatus(narrStatus);
-
-        FormFile narrFile = narr.getNarrativeFile();
-        byte[] fileData = narrFile.getFileData();
-        if (fileData.length > 0) {
-            LOG.info("File exists. Creating new NarrativeAttachment and adding it to Narrative collection ");
-            NarrativeAttachment narrPdf = new NarrativeAttachment();
-            narrPdf.setFileName(narrFile.getFileName());
-            narrPdf.setContentType(narrFile.getContentType());
-            narrPdf.setProposalNumber(narr.getProposalNumber());
-            narrPdf.setModuleNumber(narr.getModuleNumber());
-            narrPdf.setNarrativeData(narrFile.getFileData());
-            if (narr.getNarrativeAttachmentList().isEmpty())
-                narr.getNarrativeAttachmentList().add(narrPdf);
-            else
-                narr.getNarrativeAttachmentList().set(0, narrPdf);
-        }
+        populateNarrativeAttachment(narr);
         populateNarrativeUserRights(propDoc, narr);
         propDoc.getNarratives().add(narr);
         propDoc.setNewNarrative(new Narrative());
@@ -111,6 +97,24 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    private void populateNarrativeAttachment(Narrative narr) throws IOException{
+        FormFile narrFile = narr.getNarrativeFile();
+        byte[] fileData = narrFile.getFileData();
+        if (fileData.length > 0) {
+            LOG.info("File exists. Creating new NarrativeAttachment and adding it to Narrative collection ");
+            NarrativeAttachment narrPdf = new NarrativeAttachment();
+            narrPdf.setFileName(narrFile.getFileName());
+            narrPdf.setContentType(narrFile.getContentType());
+            narrPdf.setNarrativeData(narrFile.getFileData());
+            narrPdf.setProposalNumber(narr.getProposalNumber());
+            narrPdf.setModuleNumber(narr.getModuleNumber());
+            narr.setFileName(narrPdf.getFileName());
+            if (narr.getNarrativeAttachmentList().isEmpty())
+                narr.getNarrativeAttachmentList().add(narrPdf);
+            else
+                narr.getNarrativeAttachmentList().set(0, narrPdf);
+        }
+    }
     private void populateNarrativeUserRights(ProposalDevelopmentDocument pd, Narrative narr) {
         List<NarrativeUserRights> narrUserRights = narr.getNarrativeUserRights();
         // Collection<ProposalUserRoles> usrRights = getBusinessObjectService().findMatching(ProposalUserRoles.class, proRoleMap);
@@ -169,12 +173,24 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if(narrAttachment==null && !narr.getNarrativeAttachmentList().isEmpty()){//get it from the memory
             narrAttachment = narr.getNarrativeAttachmentList().get(0);
         }
-        return streamDataToBrowser(mapping,narrAttachment,response);
+        byte[] xbts = narrAttachment.getContent();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(xbts.length);
+        baos.write(xbts);
+        WebUtils.saveMimeOutputStreamAsFile(response, narrAttachment.getContentType(), baos, narrAttachment.getFileName());
+        return null;
     }
 
     public ActionForward deleteProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        Narrative narr = proposalDevelopmentForm.getProposalDevelopmentDocument().getNarratives().get(getLineToDelete(request));
+        NarrativeAttachment narrAtt = new NarrativeAttachment();
+        narrAtt.setProposalNumber(narr.getProposalNumber());
+        narrAtt.setModuleNumber(narr.getModuleNumber());
+        if (narr.getNarrativeAttachmentList().isEmpty())
+            narr.getNarrativeAttachmentList().add(narrAtt);
+        else
+            narr.getNarrativeAttachmentList().set(0, narrAtt);
         proposalDevelopmentForm.getProposalDevelopmentDocument().getNarratives().remove(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -202,11 +218,10 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     public ActionForward replaceProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        
-        String line = request.getParameter("line");
-        int lineNumber = line == null ? 0 : Integer.parseInt(line);
-        
-        return mapping.findForward(Constants.MAPPING_CLOSE_PAGE);
+        ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        Narrative narr = pd.getNarratives().get(getLineToDelete(request));
+        populateNarrativeAttachment(narr);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     private BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
