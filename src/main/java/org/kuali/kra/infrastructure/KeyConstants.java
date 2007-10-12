@@ -31,4 +31,5 @@ public class KeyConstants {
     public static final String ERROR_INVESTIGATOR_LOWBOUND = "error.principalInvestigators.lowbound";
     public static final String ERROR_MISSING_PERSON_ROLE = "error.missingPersonRole";
 
+    public static final String ERROR_SELECT_ABSTRACT_TYPE = "error.select.abstractType";
 }
