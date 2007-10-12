@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup.keyvalue;
+package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 
-/**
- * This class...
- */
-public interface KeyValueFinderService{
-    public List<KeyLabelPair> getKeyValues(Class keyValClass,String codePropName,String valPropName);
-    public List<KeyLabelPair> getKeyValues(Class keyValClass,String codePropName,String valPropName,String groupPropName,String groupValue);
+public class InstituteAttachmentTypeValuesFinder  extends KeyValuesBase {
+        KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+        public List<KeyLabelPair> getKeyValues() {
+            return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description","narrativeTypeGroup","O");
+        }
 }
