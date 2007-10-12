@@ -218,7 +218,7 @@
 				<required>false</required>
 
 				<control>
-					<text size="8"/>
+					<text size="20"/>
 				</control>
 
 				<summary>The CFDA Number for this Proposal.</summary>
@@ -235,7 +235,7 @@
 				<required>false</required>
 
 				<control>
-					<text size="52"/>
+					<text size="20"/>
 				</control>
 
 				<summary>The Opportunity Id for this Proposal.</summary>
@@ -252,7 +252,7 @@
 				<required>false</required>
 
 				<control>
-					<text size="8"/>
+					<text size="20"/>
 				</control>
 
 				<summary>The Prime Sponsor for this Proposal.</summary>
@@ -269,7 +269,7 @@
 				<required>false</required>
 
 				<control>
-					<text size="72"/>
+					<text size="20"/>
 				</control>
 
 				<summary>The Sponsor Id for this Proposal.</summary>
@@ -286,7 +286,7 @@
 				<required>false</required>
 
 				<control>
-					<text size="12"/>
+					<text size="20"/>
 				</control>
 
 				<summary>The Sponsor Award Number for this Proposal.</summary>
@@ -303,7 +303,7 @@
 				<required>false</required>
 
 				<control>
-					<text size="10"/>
+					<text size="20"/>
 				</control>
 
 				<summary>The Original Proposal Id for this Proposal.</summary>
@@ -344,7 +344,7 @@
 				<required>false</required>
 
 				<control>
-					<text size="5"/>
+					<text size="20"/>
 				</control>
 
 				<summary>The Agency Division Code for this Proposal.</summary>
@@ -361,7 +361,7 @@
 				<required>false</required>
 
 				<control>
-					<text size="5"/>
+					<text size="20"/>
 				</control>
 
 				<summary>The Agency Program Code for this Proposal.</summary>

@@ -40,7 +40,7 @@
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.Sponsor.attributes.sponsorName}" /></div></th>
            		<td>
                 	<div id="sponsorName.div">
-                		<bean:write	name="KualiForm" property="document.sponsor.sponsorName" />&nbsp;
+                		${KualiForm.document.sponsor.sponsorName}&nbsp;
 					</div>
            		</td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.programAnnouncementNumber}" /></div></th>
@@ -54,8 +54,8 @@
                 	<kul:htmlControlAttribute property="document.primeSponsorCode" attributeEntry="${proposalDevelopmentAttributes.primeSponsorCode}"  onblur="loadSponsorName('document.primeSponsorCode', 'primeSponsorName');" />
                 	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.primeSponsorCode,sponsorName:primeSponsorName" anchor="${tabKey}"/>
                 	<br />
-                	<div id="primeSponsorName.div" class="fineprint"><bean:write
-						name="KualiForm" property="primeSponsorName" />&nbsp;
+                	<div id="primeSponsorName.div" class="fineprint">
+                		${KualiForm.primeSponsorName}&nbsp;
 					</div>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorProposalNumber}" /></div></th>
