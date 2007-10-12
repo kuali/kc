@@ -18,7 +18,7 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="proSpecialAttriburesAttributes" value="${DataDictionary.PropSpecialReview.attributes}" />
 <c:set var="action" value="proposalDevelopmentSpecialReview" />
-<link href="/kra-dev/css/kuali_application.css" rel="stylesheet" type="text/css" />
+<link href="css/kuali_application.css" rel="stylesheet" type="text/css" />
 <kul:tabTop tabTitle="Special Review" defaultOpen="true" tabErrorKey="document.propSpecialReviews*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
