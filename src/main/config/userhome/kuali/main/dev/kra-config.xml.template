@@ -1,6 +1,7 @@
 <config>
 	<!-- App specific parameters -->
 	<param name="app.code">kra</param>
+	<param name="app.host">http://localhost:8080</param>
 	<param name="app.context.name">${app.code}-${environment}</param>
 	<param name="production.environment.code">PRD</param>
 	<param name="externalizable.help.url">/${app.context.name}/kr/static/help/</param>
@@ -10,6 +11,7 @@
 	<param name="kr.url">/${app.context.name}/kr</param>
     <param name="attachments.pending.directory">${java.io.tmpdir}</param>
     <param name="attachments.directory">${java.io.tmpdir}</param>
+    <param name="kuali.docHandler.url.prefix">${app.host}/${app.context.name}</param>
 
 	<!-- Misc parameters -->
 	<param name="institution">iu</param>
@@ -25,9 +27,9 @@
 	<param name="log4j.reload.minutes">5</param>
 	<param name="log4j.settings.path">classpath:log4j.properties</param>
 
-	<param name="workflow.url">http://localhost:8080/${app.context.name}/en</param>
-	<param name="application.url">http://localhost:8080/${app.context.name}</param>
-	<param name="serviceServletUrl">http://localhost:8080/${app.context.name}/remoting/</param>
+	<param name="workflow.url">${app.host}/${app.context.name}/en</param>
+	<param name="application.url">${app.host}/${app.context.name}</param>
+	<param name="serviceServletUrl">${app.host}/${app.context.name}/remoting/</param>
 
 	<param name="datasource.url">jdbc:oracle:thin:@esdb12-k.uits.indiana.edu:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
