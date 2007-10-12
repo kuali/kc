@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.service.BusinessObjectService;
@@ -37,6 +36,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
+import org.kuali.kra.proposaldevelopment.bo.PropPersonBio;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
@@ -46,7 +46,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
-import org.kuali.kra.service.SponsorService;
 
 /**
  * This class...
@@ -69,7 +68,9 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private List<ProposalPerson> investigators;
     private boolean showMaintenanceLinks;
     private ProposalAbstract newProposalAbstract;
-
+    private PropPersonBio newPropPersonBio;
+    private Narrative newInstitute;
+    
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
      */
@@ -162,6 +163,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setAnchor(null);
         this.setTabStates(new HashMap<String, String>());
         this.setCurrentTabIndex(0);
+
         
         ProposalDevelopmentDocument proposalDevelopmentDocument = this.getProposalDevelopmentDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
@@ -349,7 +351,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.showMaintenanceLinks = showMaintenanceLinks;
     }
 
-
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
@@ -443,5 +444,25 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         }
         
         return retval;
+    }
+
+
+    public PropPersonBio getNewPropPersonBio() {
+        return newPropPersonBio;
+    }
+
+
+    public void setNewPropPersonBio(PropPersonBio newPropPersonBio) {
+        this.newPropPersonBio = newPropPersonBio;
+    }
+
+
+    public Narrative getNewInstitute() {
+        return newInstitute;
+    }
+
+
+    public void setNewInstitute(Narrative newInstitute) {
+        this.newInstitute = newInstitute;
     }
 }
