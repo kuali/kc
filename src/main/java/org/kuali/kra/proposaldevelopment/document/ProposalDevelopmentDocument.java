@@ -29,6 +29,7 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 
@@ -82,6 +83,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<Narrative> narratives;
     private Narrative newNarrative;
     private List<ProposalUserRoles> proposalUserRoles;
+    private List<ProposalAbstract> proposalAbstracts;
     
     public ProposalDevelopmentDocument() {
         super();
@@ -93,6 +95,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         nextProposalPersonNumber = new Integer(1);
         narratives = new ArrayList<Narrative>();
         proposalUserRoles = new ArrayList<ProposalUserRoles>();
+        proposalAbstracts = new ArrayList<ProposalAbstract>();
     }
 
     /**
@@ -667,5 +670,21 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public void setProposalUserRoles(List<ProposalUserRoles> proposalUserRoles) {
         this.proposalUserRoles = proposalUserRoles;
+    }
+    
+    /**
+     * Get the list of Abstracts for this Proposal.
+     * @return the proposal's list of abstracts.
+     */
+    public List<ProposalAbstract> getProposalAbstracts() {
+        return proposalAbstracts;
+    }
+
+    /**
+     * Set the list of Abstracts for this Proposal.
+     * @param proposalAbstracts the proposal's new list of abstracts.
+     */
+    public void setProposalAbstracts(List<ProposalAbstract> proposalAbstracts) {
+        this.proposalAbstracts = proposalAbstracts;
     }
 }

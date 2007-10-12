@@ -30,30 +30,42 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.RiceConstants;
+import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.RoleRight;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RightConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.rice.KNSServiceLocator;
 
 public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAbstractsAttachmentsAction.class);
+   
+    private static final String CONFIRM_DELETE_ABSTRACT_KEY = "confirmDeleteAbstract";
+    private static final String QUESTION_DELETE_ABSTRACT_CONFIRMATION = "document.question.deleteAbstract.text";
+    private static final String ABSTRACT_ERROR_SELECT_KEY = "document.proposalAbstracts.select";
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -69,6 +81,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
     public ActionForward addProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument propDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Narrative narr = propDoc.getNewNarrative();
@@ -223,7 +236,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         proposalDevelopmentForm.getProposalDevelopmentDocument().getNarratives().remove(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
+   
     public ActionForward getProposalAttachmentRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -257,6 +271,98 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         populateNarrativeAttachment(narr);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
+    /**
+     * Adds an Abstract to the Proposal Development Document.
+     * 
+     * Assuming we have a valid new abstract, it is taken from the form 
+     * and moved into the document's list of abstracts.  The form's abstract
+     * is then cleared for the next abstract to be added.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @throws Exception
+     */
+    public ActionForward addAbstract(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalAbstract proposalAbstract = proposalDevelopmentForm.getNewProposalAbstract();
+        
+        // If the user didn't select an abstract type, i.e. he/she choose the "select:" option,
+        // then the Abstract Type will be null.  Display an error message telling the user
+        // to select an abstract type.
+        
+        if (proposalAbstract.getAbstractType() == null) {
+            GlobalVariables.getErrorMap().putError(ABSTRACT_ERROR_SELECT_KEY, 
+                                                   KeyConstants.ERROR_SELECT_ABSTRACT_TYPE);
+        } else {
+            proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalAbstracts().add(proposalAbstract);
+            proposalDevelopmentForm.setNewProposalAbstract(new ProposalAbstract());
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Deletes an Abstract from the Proposal Development Document.
+     * 
+     * If the user confirms the deletion, the abstract is removed from
+     * the document's list of abstracts.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @throws Exception
+     */
+    public ActionForward deleteAbstract(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        
+        Object question = request.getParameter(RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        int lineNum = getLineToDelete(request);
+        
+        // Check to see if we have confirmed the deletion with the user.  If not,
+        // then ask the confirmation question.
+        
+        if (question == null) {
+            String description = doc.getProposalAbstracts().get(lineNum).getAbstractType().getDescription();
+            return this.performQuestionWithoutInput(mapping, form, request, response, CONFIRM_DELETE_ABSTRACT_KEY, 
+                                                    buildDeleteAbstractConfirmationQuestion(description),
+                                                    RiceConstants.CONFIRMATION_QUESTION, "deleteAbstract", "");
+        }
+        else {
+            // If the user has indicated that the deletion should occur, then go
+            // ahead and remove it from the list of abstracts.
+            
+            Object buttonClicked = request.getParameter(RiceConstants.QUESTION_CLICKED_BUTTON);
+            if ((CONFIRM_DELETE_ABSTRACT_KEY.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalAbstracts().remove(lineNum);
+            }
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+    }
+    
+    /**
+     * Builds the Delete Abstract Confirmation Question.  
+     * 
+     * The confirmation question is extracted from the resource bundle
+     * and the parameter {0} is replaced with the name of the abstract type
+     * that will be deleted.
+     * 
+     * @param abstractDescription the abstract's human-readable description
+     * @return the confirmation question
+     * @throws Exception
+     */
+    private String buildDeleteAbstractConfirmationQuestion(String abstractDescription) throws Exception {
+        KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+        return StringUtils.replace(kualiConfiguration.getPropertyString(QUESTION_DELETE_ABSTRACT_CONFIRMATION), "{0}", abstractDescription);
+    }
+
     private BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
     }
