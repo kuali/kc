@@ -84,4 +84,48 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
         this.businessObjectDao = businessObjectDao;
     }
 
+    public List<KeyLabelPair> getKeyValues(Class keyValClass, String codePropName, String valPropName, String groupPropName,
+            String groupValue) {
+        Collection keyVals = businessObjectDao.findAll(keyValClass);
+        List<KeyLabelPair> keyValueList = new ArrayList<KeyLabelPair>(keyVals.size());
+        keyValueList.add(new KeyLabelPair("", "select:"));
+        for (Iterator iterator = keyVals.iterator(); iterator.hasNext();) {
+            Object keyValObj = iterator.next();
+            Method getCodeMeth;
+            try {
+                getCodeMeth = keyValObj.getClass().getMethod("get"+StringUtils.capitalize(codePropName), null);
+                Method getValMeth = keyValObj.getClass().getMethod("get"+StringUtils.capitalize(valPropName), null);
+                Method getGroupMeth = keyValObj.getClass().getMethod("get"+StringUtils.capitalize(groupPropName), null);
+                String code = (String)getCodeMeth.invoke(keyValObj, null);
+                String value = (String)getValMeth.invoke(keyValObj, null);
+                String group = (String)getGroupMeth.invoke(keyValObj, null);
+                if (StringUtils.isNotBlank(group) && group.equals(groupValue)) {
+                    keyValueList.add(new KeyLabelPair(code, value));
+                }
+                
+            }
+            catch (SecurityException e) {
+                LOG.debug(e.getMessage(), e);
+                LOG.error(e.getMessage());
+            }
+            catch (NoSuchMethodException e) {
+                LOG.debug(e.getMessage(), e);
+                LOG.error(e.getMessage());
+            }
+            catch (IllegalArgumentException e) {
+                LOG.debug(e.getMessage(), e);
+                LOG.error(e.getMessage());
+            }
+            catch (IllegalAccessException e) {
+                LOG.debug(e.getMessage(), e);
+                LOG.error(e.getMessage());
+            }
+            catch (InvocationTargetException e) {
+                LOG.debug(e.getMessage(), e);
+                LOG.error(e.getMessage());
+            }
+        }
+        return keyValueList;
+    }
+
 }
