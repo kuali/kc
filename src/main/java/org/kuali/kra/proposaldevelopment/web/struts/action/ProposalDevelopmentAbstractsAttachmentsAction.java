@@ -42,6 +42,7 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.RoleRight;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RightConstants;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
@@ -102,17 +103,23 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         byte[] fileData = narrFile.getFileData();
         if (fileData.length > 0) {
             LOG.info("File exists. Creating new NarrativeAttachment and adding it to Narrative collection ");
-            NarrativeAttachment narrPdf = new NarrativeAttachment();
-            narrPdf.setFileName(narrFile.getFileName());
-            narrPdf.setContentType(narrFile.getContentType());
-            narrPdf.setNarrativeData(narrFile.getFileData());
-            narrPdf.setProposalNumber(narr.getProposalNumber());
-            narrPdf.setModuleNumber(narr.getModuleNumber());
-            narr.setFileName(narrPdf.getFileName());
-            if (narr.getNarrativeAttachmentList().isEmpty())
-                narr.getNarrativeAttachmentList().add(narrPdf);
-            else
-                narr.getNarrativeAttachmentList().set(0, narrPdf);
+            NarrativeAttachment narrAtt;
+            if (narr.getNarrativeAttachmentList().isEmpty()){
+                narrAtt = new NarrativeAttachment(); 
+            }else{
+                narrAtt = narr.getNarrativeAttachmentList().get(0);
+            }
+             
+            narrAtt.setFileName(narrFile.getFileName());
+            narrAtt.setContentType(narrFile.getContentType());
+            narrAtt.setNarrativeData(narrFile.getFileData());
+            narrAtt.setProposalNumber(narr.getProposalNumber());
+            narrAtt.setModuleNumber(narr.getModuleNumber());
+            narr.setFileName(narrAtt.getFileName());
+//            if (narr.getNarrativeAttachmentList().isEmpty())
+//                narr.getNarrativeAttachmentList().add(narrPdf);
+//            else
+//                narr.getNarrativeAttachmentList().set(0, narrPdf);
         }
     }
     private void populateNarrativeUserRights(ProposalDevelopmentDocument pd, Narrative narr) {
@@ -166,18 +173,40 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Narrative narr = pd.getNarratives().get(lineNumber);
-        Map narrAttVal = new HashMap();
-        narrAttVal.put("proposalNumber", narr.getProposalNumber());
-        narrAttVal.put("moduleNumber", narr.getModuleNumber());
-        NarrativeAttachment narrAttachment = (NarrativeAttachment)getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, narrAttVal);
+        NarrativeAttachment narrAttachment = findNarrativeAttachment(narr);
         if(narrAttachment==null && !narr.getNarrativeAttachmentList().isEmpty()){//get it from the memory
             narrAttachment = narr.getNarrativeAttachmentList().get(0);
         }
-        byte[] xbts = narrAttachment.getContent();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(xbts.length);
-        baos.write(xbts);
-        WebUtils.saveMimeOutputStreamAsFile(response, narrAttachment.getContentType(), baos, narrAttachment.getFileName());
+        streamToResponse(narrAttachment,response);
+//        byte[] xbts = narrAttachment.getContent();
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream(xbts.length);
+//        baos.write(xbts);
+//        WebUtils.saveMimeOutputStreamAsFile(response, narrAttachment.getContentType(), baos, narrAttachment.getFileName());
         return null;
+    }
+    private NarrativeAttachment findNarrativeAttachment(Narrative narr){
+        Map narrAttVal = new HashMap();
+        narrAttVal.put("proposalNumber", narr.getProposalNumber());
+        narrAttVal.put("moduleNumber", narr.getModuleNumber());
+        return (NarrativeAttachment)getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, narrAttVal);
+    }
+    public void streamToResponse(AttachmentDataSource dataSource,HttpServletResponse response) throws Exception{
+        byte[] xbts = dataSource.getContent();
+        ByteArrayOutputStream baos = null;
+        try{
+            baos = new ByteArrayOutputStream(xbts.length);
+            baos.write(xbts);
+            WebUtils.saveMimeOutputStreamAsFile(response, dataSource.getContentType(), baos, dataSource.getFileName());
+        }finally{
+            try{
+                if(baos!=null){
+                    baos.close();
+                    baos = null;
+                }
+            }catch(IOException ioEx){
+                LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }
     }
 
     public ActionForward deleteProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -220,6 +249,11 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Narrative narr = pd.getNarratives().get(getLineToDelete(request));
+        NarrativeAttachment narrAtt = findNarrativeAttachment(narr);
+        if (narr.getNarrativeAttachmentList().isEmpty())
+            narr.getNarrativeAttachmentList().add(narrAtt);
+        else
+            narr.getNarrativeAttachmentList().set(0, narrAtt);
         populateNarrativeAttachment(narr);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
