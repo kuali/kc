@@ -27,6 +27,7 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
+import org.kuali.kra.proposaldevelopment.bo.PropPersonBio;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
@@ -84,6 +85,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private Narrative newNarrative;
     private List<ProposalUserRoles> proposalUserRoles;
     private List<ProposalAbstract> proposalAbstracts;
+    private List<Narrative> institutes;
+    private List<PropPersonBio> propPersonBios;
+
     
     public ProposalDevelopmentDocument() {
         super();
@@ -96,6 +100,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         narratives = new ArrayList<Narrative>();
         proposalUserRoles = new ArrayList<ProposalUserRoles>();
         proposalAbstracts = new ArrayList<ProposalAbstract>();
+        institutes = new ArrayList<Narrative>();
+        propPersonBios = new ArrayList<PropPersonBio>();
     }
 
     /**
@@ -671,7 +677,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setProposalUserRoles(List<ProposalUserRoles> proposalUserRoles) {
         this.proposalUserRoles = proposalUserRoles;
     }
-    
+
     /**
      * Get the list of Abstracts for this Proposal.
      * @return the proposal's list of abstracts.
@@ -686,5 +692,21 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      */
     public void setProposalAbstracts(List<ProposalAbstract> proposalAbstracts) {
         this.proposalAbstracts = proposalAbstracts;
+    }
+
+    public List<Narrative> getInstitutes() {
+        return institutes;
+    }
+
+    public void setInstitutes(List<Narrative> institutes) {
+        this.institutes = institutes;
+    }
+
+    public List<PropPersonBio> getPropPersonBios() {
+        return propPersonBios;
+    }
+
+    public void setPropPersonBios(List<PropPersonBio> propPersonBios) {
+        this.propPersonBios = propPersonBios;
     }
 }
