@@ -57,6 +57,10 @@
 		<collection-descriptor name="propSpecialReviews" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
+		
+		<collection-descriptor name="proposalAbstracts" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
 
 		<!-- KEYWORD panel -->
    		<collection-descriptor name="propScienceKeywords" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -840,6 +844,23 @@
 			<foreignkey field-ref="approvalTypeCode"/>
 			<foreignkey field-ref="specialReviewCode"/>
 		</reference-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract" table="EPS_PROP_ABSTRACT">
+		<field-descriptor name="abstractTypeCode" column="ABSTRACT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="abstractDetails" column="ABSTRACT_DETAILS" jdbc-type="CLOB"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+	
+		<reference-descriptor name="abstractType" class-ref="org.kuali.kra.proposaldevelopment.bo.AbstractType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="abstractTypeCode"/> 
+		</reference-descriptor>
+		<!--
+		<reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="proposalNumber"/> 
+		</reference-descriptor>
+		-->
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.bo.ValidSpRevApproval" table="VALID_SP_REV_APPROVAL">

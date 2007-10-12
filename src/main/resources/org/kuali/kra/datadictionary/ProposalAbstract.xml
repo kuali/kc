@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract">
+
+        <inquiry>
+            <title>Proposal Abstract</title>
+
+            <inquirySections><inquirySection title="Proposal Abstract"><inquiryFields>
+            	<field attributeName="proposalNumber" forceInquiry="true"/>
+            	<field attributeName="abstractTypeCode" forceInquiry="true"/>
+            	<field attributeName="abstractDetails"/>
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Proposal Abstract Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Proposal Abstract</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+					<sortAttribute attributeName="proposalNumber"/>
+					<sortAttribute attributeName="abstractTypeCode"/>
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="proposalNumber" required="false"/>
+            	<lookupField attributeName="abstractTypeCode" required="false"/>
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="proposalNumber" forceInquiry="true"/>
+            	<field attributeName="abstractTypeCode" forceInquiry="true"/>
+				<field attributeName="abstractDetails" forceInquiry="false"/>
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>abstractTypeCode</titleAttribute>
+        <attributes>
+
+			<attribute name="proposalNumber">
+				<label>Proposal Number </label>
+				<shortLabel>Proposal Number </shortLabel>
+				<maxLength>12</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>Proposal Number </summary>
+				<description>Proposal Number </description>
+			</attribute>
+			
+	        <attribute name="abstractTypeCode">
+				<label>Abstract Type</label>
+				<shortLabel>Abstract Type</shortLabel>
+				<maxLength>3</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<required>false</required>
+				<control>
+					<select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.AbstractTypeValuesFinder" />
+				</control>
+				<summary>Abstract Type</summary>
+				<description>Abstract Type</description>
+			</attribute>
+
+			<attribute name="abstractDetails">
+				<label>Abstract Details</label>
+				<shortLabel>Abstract Details</shortLabel>
+				<maxLength>0</maxLength>
+				<control>
+					<textarea cols="30" rows="3"/>
+				</control>
+				<summary>Abstract Details</summary>
+				<description>Abstract Details</description>
+			</attribute>
+			
+			<attribute name="bigAbstractDetails">
+				<label>Big Abstract Details</label>
+				<shortLabel>Big Abstract Details</shortLabel>
+				<maxLength>0</maxLength>
+				<control>
+					<textarea cols="70" rows="6"/>
+				</control>
+				<summary>Big Abstract Details</summary>
+				<description>Big Abstract Details</description>
+			</attribute>
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
