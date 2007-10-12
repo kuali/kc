@@ -65,13 +65,17 @@
 	<bean id="businessObjectDao" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="businessObjectDao" />
 	</bean>
+	<bean id="lookupService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="lookupService" />
+	</bean>
+
 	<bean id="keyValueFinderService" class="org.kuali.kra.lookup.keyvalue.KeyValueFinderServiceImpl">
 		<property name="businessObjectDao">
 			<ref bean="businessObjectDao" />
 		</property>
 	</bean>
 	<!--  DWR -->
-	<!-- 
+	<!--
 	<bean id="kraModule" class="org.kuali.core.KualiModule">
 	<property name="scriptConfigurationFilePaths">
 	<list>
@@ -80,25 +84,25 @@
 	</property>
 	</bean>
 	-->
-	
-	 
+
+
 	<bean class="org.kuali.core.util.spring.NamedOrderedListBean">
 		<property name="name" value="scriptConfigurationFilePaths" />
 		<property name="listItem" value="classpath:org/kuali/kra/dwr-kra.xml" />
 	</bean>
-	
-    <!-- 
+
+    <!--
 	<bean class="org.kuali.core.web.servlet.DWRConfigFileConfigurer">
 		<property name="configFile" value="org/kuali/kra/dwr-kra.xml" />
 	</bean>
 	-->
 	<bean id="proposalDevelopmentService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl">
 	</bean>
-		
+
 	<bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
-		<property name="businessObjectDao">
-			<ref bean="businessObjectDao" />
+		<property name="lookupService">
+			<ref bean="lookupService" />
 		</property>
 	</bean>
-	
+
 </beans>
