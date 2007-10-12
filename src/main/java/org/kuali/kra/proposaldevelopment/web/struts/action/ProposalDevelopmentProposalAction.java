@@ -66,7 +66,14 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         // and it is only populated by a lookup or through AJAX/DWR
         String primeSponsorCode = proposalDevelopmentDocument.getPrimeSponsorCode();
         if (StringUtils.isNotEmpty(primeSponsorCode)) {
-            ((ProposalDevelopmentForm)form).setPrimeSponsorName(KraServiceLocator.getService(SponsorService.class).getSponsorName(primeSponsorCode));
+            String primeSponsorName = (KraServiceLocator.getService(SponsorService.class).getSponsorName(primeSponsorCode));
+            if (StringUtils.isEmpty(primeSponsorName)) {
+                primeSponsorName = "not found";
+            }
+            ((ProposalDevelopmentForm)form).setPrimeSponsorName(primeSponsorName);
+        } else {
+            // TODO: why do we have to do this?
+            ((ProposalDevelopmentForm)form).setPrimeSponsorName(null);
         }
 
         return super.execute(mapping, form, request, response);
@@ -162,9 +169,9 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                     }
                 }
             }
-        } 
+        }
         return mapping.findForward("basic");
     }
-    
+
 }
 
