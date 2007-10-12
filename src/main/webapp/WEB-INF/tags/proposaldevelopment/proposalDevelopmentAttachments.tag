@@ -110,8 +110,8 @@
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" /></div></th>
 			                <td align="left" valign="middle">
 			                
-			                <c:set var="narrAttList" value="${narrativeAttachment.narrativeAttachmentList}"></c:set>
-			                <c:if test="${fn:length(narrAttList) >0}">
+			                <%-- <c:set var="narrAttList" value="${narrativeAttachment.narrativeAttachmentList}"></c:set>
+			                <c:if test="${fn:length(narrAttList) >0}">--%>
 			                	
 				                <div id="replaceDiv${status.index}" style="display:block;">
 				                <kul:htmlControlAttribute property="document.narratives[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
@@ -119,13 +119,13 @@
 				                <html:link onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
 				                <html:link onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">replace</html:link>
 				                </div>
-				                <div id="fileDiv${status.index}" style="display:none;">
+				                <div id="fileDiv${status.index}" valign="middle" style="display:none;">
 				                	<html:file property="document.narratives[${status.index}].narrativeFile" />
 									<html:image property="methodToCall.replaceProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
 								</div>
 				               
-				            </c:if>
+				            <%--</c:if>--%>
 							</td>
 			          	</tr>
 			          	<tr>
