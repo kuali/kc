@@ -3,7 +3,7 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="textAreaFieldName" value="document.programAnnouncementTitle" />
 <c:set var="action" value="proposalDevelopmentProposal" />
-<link href="/kra-dev/css/kuali_application.css" rel="stylesheet" type="text/css" />
+<link href="css/kuali_application.css" rel="stylesheet" type="text/css" />
 
 <kul:tab tabTitle="Sponsor & Program Information" defaultOpen="true" tabErrorKey="document.sponsorProgramNumber">
 	<div class="tab-container" align="center">
