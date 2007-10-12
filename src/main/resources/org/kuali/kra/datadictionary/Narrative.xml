@@ -245,9 +245,22 @@
 					<select
 						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeTypeValuesFinder" />
 				</control>
-				
 				<summary>Narrative Type Code</summary>
 				<description>Narrative Type Code</description>
+			</attribute>
+			<attribute name="institutionalAttachmentTypeCode">
+				<label>Attachment Type</label>
+				<shortLabel>Attachment Type</shortLabel>
+				<maxLength>3</maxLength>
+				<validationPattern>
+					<anyCharacter  allowWhitespace="true"  />
+				</validationPattern>
+				<control>
+					<select
+						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.InstituteAttachmentTypeValuesFinder" />
+				</control>
+				<summary>Institutional Attachment Type Code</summary>
+				<description>Institutional Attachment Type Code</description>
 			</attribute>
 			<attribute name="narrativeType.description">
 				<label>Narrative Type</label>

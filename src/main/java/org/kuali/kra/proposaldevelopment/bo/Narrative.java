@@ -39,6 +39,7 @@ public class Narrative extends KraPersistableBusinessObjectBase {
 	private List<NarrativeUserRights> narrativeUserRights;
 	private List<NarrativeAttachment> narrativeAttachmentList;
     transient private FormFile narrativeFile;
+    private String institutionalAttachmentTypeCode;
 
 	public Narrative(){
 	    narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
@@ -190,5 +191,13 @@ public class Narrative extends KraPersistableBusinessObjectBase {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getInstitutionalAttachmentTypeCode() {
+        return institutionalAttachmentTypeCode;
+    }
+
+    public void setInstitutionalAttachmentTypeCode(String institutionalAttachmentTypeCode) {
+        this.institutionalAttachmentTypeCode = institutionalAttachmentTypeCode;
     }
 }
