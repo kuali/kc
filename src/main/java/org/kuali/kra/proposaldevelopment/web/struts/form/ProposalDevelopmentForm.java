@@ -39,6 +39,7 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
@@ -67,6 +68,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private Map personEditableFields;
     private List<ProposalPerson> investigators;
     private boolean showMaintenanceLinks;
+    private ProposalAbstract newProposalAbstract;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -87,6 +89,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         setNewProposalPerson(new ProposalPerson());
         setNewProposalPersonDegree(new ProposalPersonDegree());
         setNewProposalPersonUnit(new Unit());
+        setNewProposalAbstract(new ProposalAbstract());
         setInvestigators(new ArrayList<ProposalPerson>());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
@@ -126,6 +129,27 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void setNewPropSpecialReview(PropSpecialReview newPropSpecialReview) {
         this.newPropSpecialReview = newPropSpecialReview;
     }
+    
+    /**
+     * Gets the new proposal abstract.  This is the abstract filled
+     * in by the user on the form before pressing the add button. The
+     * abstract can be invalid if the user has not specified an abstract type.
+     * 
+     * @return the new proposal abstract
+     */
+    public ProposalAbstract getNewProposalAbstract() {
+        return newProposalAbstract;
+    }
+    
+    /**
+     * Sets the new proposal abstract.  This is the abstract that will be
+     * shown to the user on the form.
+     * 
+     * @param newProposalAbstract
+     */
+    public void setNewProposalAbstract(ProposalAbstract newProposalAbstract) {
+        this.newProposalAbstract = newProposalAbstract;
+    }
 
     /* Reset method
      * @param mapping
@@ -138,7 +162,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setAnchor(null);
         this.setTabStates(new HashMap<String, String>());
         this.setCurrentTabIndex(0);
-
         
         ProposalDevelopmentDocument proposalDevelopmentDocument = this.getProposalDevelopmentDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
