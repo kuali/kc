@@ -19,11 +19,8 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +41,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.bo.RoleRight;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -53,8 +51,10 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
+import org.kuali.kra.proposaldevelopment.bo.PropPersonBio;
+import org.kuali.kra.proposaldevelopment.bo.PropPersonBioAttachment;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -366,5 +366,140 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     private BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
     }
+    public ActionForward addPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument propDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        PropPersonBio newPropPersonBio = proposalDevelopmentForm.getNewPropPersonBio();
+        newPropPersonBio.setProposalNumber(propDoc.getProposalNumber());
+        newPropPersonBio.setUpdateUser(propDoc.getUpdateUser());
+        newPropPersonBio.setUpdateTimestamp(propDoc.getUpdateTimestamp());
+        // TODO :  bionumber ok?
+        newPropPersonBio.setBioNumber(propDoc.getProposalNextValue(Constants.PROP_PERSON_BIO_NUMBER));
+        newPropPersonBio.setPropPerDocType(new PropPerDocType());
+        newPropPersonBio.getPropPerDocType().setDocumentTypeCode(newPropPersonBio.getDocumentTypeCode());
+        newPropPersonBio.refreshReferenceObject("propPerDocType");
+        FormFile personnelAttachmentFile = newPropPersonBio.getPersonnelAttachmentFile();
+        byte[] fileData = personnelAttachmentFile.getFileData();
+        if (fileData.length > 0) {
+            PropPersonBioAttachment personnelAttachment = new PropPersonBioAttachment();
+            personnelAttachment.setFileName(personnelAttachmentFile.getFileName());
+            personnelAttachment.setProposalNumber(newPropPersonBio.getProposalNumber());
+            personnelAttachment.setBioNumber(newPropPersonBio.getBioNumber());
+            personnelAttachment.setPersonId(newPropPersonBio.getPersonId());
+            personnelAttachment.setBioData(personnelAttachmentFile.getFileData());
+            personnelAttachment.setContentType(personnelAttachmentFile.getContentType());
+            if (newPropPersonBio.getPersonnelAttachmentList().isEmpty())
+                newPropPersonBio.getPersonnelAttachmentList().add(personnelAttachment);
+            else
+                newPropPersonBio.getPersonnelAttachmentList().set(0, personnelAttachment);
+        }
+        propDoc.getPropPersonBios().add(newPropPersonBio);
+        proposalDevelopmentForm.setNewPropPersonBio(new PropPersonBio());
+
+        return mapping.findForward("basic");
+    }
+    public ActionForward deletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropPersonBios().remove(getLineToDelete(request));
+        return mapping.findForward("basic");
+    }
+
+    public ActionForward viewPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        String line = request.getParameter("line");
+        int lineNumber = line == null ? 0 : Integer.parseInt(line);
+        ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        PropPersonBio propPersonBio = pd.getPropPersonBios().get(lineNumber);
+        Map propPersonBioAttVal = new HashMap();
+        propPersonBioAttVal.put("proposalNumber", propPersonBio.getProposalNumber());
+        propPersonBioAttVal.put("bioNumber", propPersonBio.getBioNumber());
+        propPersonBioAttVal.put("personId", propPersonBio.getPersonId());
+        PropPersonBioAttachment propPersonBioAttachment = (PropPersonBioAttachment)getBusinessObjectService().findByPrimaryKey(PropPersonBioAttachment.class, propPersonBioAttVal);
+        if(propPersonBioAttachment==null && !propPersonBio.getPersonnelAttachmentList().isEmpty()){//get it from the memory
+            propPersonBioAttachment = propPersonBio.getPersonnelAttachmentList().get(0);
+        }
+        //return streamDataToBrowser(mapping,propPersonBioAttachment,response);
+
+        // alternative
+          byte[] xbts = propPersonBioAttachment.getContent();
+          ByteArrayOutputStream baos = new ByteArrayOutputStream(xbts.length);
+          baos.write(xbts);
+          WebUtils.saveMimeOutputStreamAsFile(response, propPersonBioAttachment.getContentType(), baos, propPersonBioAttachment.getFileName());
+//streamToResponse(propPersonBioAttachment,response);
+        return  null;
+    }
+
+    public ActionForward addInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument propDoc = proposalDevelopmentForm.getProposalDevelopmentDocument(); 
+        Narrative narr = proposalDevelopmentForm.getNewInstitute();
+        narr.setProposalNumber(propDoc.getProposalNumber());
+        narr.setModuleNumber(propDoc.getProposalNextValue(Constants.NARRATIVE_MODULE_NUMBER));
+        narr.setModuleSequenceNumber(propDoc.getProposalNextValue(Constants.NARRATIVE_MODULE_SEQUENCE_NUMBER));
+        narr.setUpdateUser(propDoc.getUpdateUser());
+        narr.setUpdateTimestamp(propDoc.getUpdateTimestamp());
+        narr.setNarrativeTypeCode(narr.getInstitutionalAttachmentTypeCode());
+
+        Map narrTypeMap = new HashMap();
+        narrTypeMap.put("narrativeTypeCode", narr.getNarrativeTypeCode());
+        BusinessObjectService service = getService(BusinessObjectService.class);
+        NarrativeType narrType = (NarrativeType)service.findByPrimaryKey(NarrativeType.class, narrTypeMap);
+        if(narrType!=null) narr.setNarrativeType(narrType);
+        
+        Map narrStatusMap = new HashMap();
+        narrStatusMap.put("narrativeStatusCode", narr.getModuleStatusCode());
+        NarrativeStatus narrStatus = (NarrativeStatus)service.findByPrimaryKey(NarrativeStatus.class, narrStatusMap);
+        if(narrStatus!=null) narr.setNarrativeStatus(narrStatus);
+
+        FormFile narrFile = narr.getNarrativeFile();
+        byte[] fileData = narrFile.getFileData();
+        if(fileData.length>0){
+            NarrativeAttachment narrPdf = new NarrativeAttachment();
+            narrPdf.setFileName(narrFile.getFileName());
+            narrPdf.setContentType(narrFile.getContentType());
+            narrPdf.setProposalNumber(narr.getProposalNumber());
+            narrPdf.setModuleNumber(narr.getModuleNumber());
+            narrPdf.setNarrativeData(narrFile.getFileData());
+            if(narr.getNarrativeAttachmentList().isEmpty()) 
+                narr.getNarrativeAttachmentList().add(narrPdf);
+            else
+                narr.getNarrativeAttachmentList().set(0,narrPdf);
+        }
+        propDoc.getInstitutes().add(narr);
+        proposalDevelopmentForm.setNewInstitute(new Narrative());
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getInstitutes().remove(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward viewInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        String line = request.getParameter("line");
+        int lineNumber = line == null ? 0 : Integer.parseInt(line);
+        ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        Narrative institute = pd.getInstitutes().get(lineNumber);
+        Map narrativeAttVal = new HashMap();
+        narrativeAttVal.put("proposalNumber", institute.getProposalNumber());
+        narrativeAttVal.put("moduleNumber", institute.getModuleNumber());
+        NarrativeAttachment instituteAttachment = (NarrativeAttachment)getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, narrativeAttVal);
+        if(instituteAttachment==null && !institute.getNarrativeAttachmentList().isEmpty()){//get it from the memory
+            instituteAttachment = institute.getNarrativeAttachmentList().get(0);
+        }
+        //return streamDataToBrowser(mapping,propPersonBioAttachment,response);
+
+        // alternative
+        streamToResponse(instituteAttachment,response);
+        return  null;
+    }
+
 
 }
