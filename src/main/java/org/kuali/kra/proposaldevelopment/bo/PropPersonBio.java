@@ -19,7 +19,8 @@ public class PropPersonBio extends KraPersistableBusinessObjectBase {
 	private String personId;
 	private Integer proposalNumber;
 	private String description;
-	private String documentTypeCode;
+    private String documentTypeCode;
+    private String fileName;
     transient private FormFile personnelAttachmentFile;
     private List<PropPersonBioAttachment> personnelAttachmentList;
     private PropPerDocType propPerDocType;
@@ -121,6 +122,14 @@ public class PropPersonBio extends KraPersistableBusinessObjectBase {
         else {
             return user.getPersonName();
         }
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
 }
