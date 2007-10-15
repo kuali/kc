@@ -1062,7 +1062,7 @@
 		<field-descriptor name="moduleNumber" column="MODULE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="narrativeData" column="NARRATIVE_DATA" jdbc-type="BINARY"/>
+		<field-descriptor name="narrativeData" column="NARRATIVE_DATA" jdbc-type="LONGVARBINARY"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
@@ -1148,41 +1148,13 @@
   </class-descriptor>
 
 	
-	<!-- personnel attachment -->
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.PropPersonBioAttachment" table="EPS_PROP_PERSON_BIO_ATTACHMENT">
-		<field-descriptor name="bioNumber" column="BIO_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
-		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="bioAttachment" column="BIO_ATTACHMENT" jdbc-type="BINARY"/>
-		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.PropPersonBio" table="EPS_PROP_PERSON_BIO">
-		<field-descriptor name="bioNumber" column="BIO_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
-		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="documentTypeCode" column="DOCUMENT_TYPE_CODE" jdbc-type="INTEGER"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<collection-descriptor name="personnelAttachmentList" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropPersonBioAttachment" 
-						collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="bioNumber"/>
-			<inverse-foreignkey field-ref="personId"/>
-			<inverse-foreignkey field-ref="proposalNumber"/>
-		</collection-descriptor>
-		<reference-descriptor name="propPerDocType" class-ref="org.kuali.kra.bo.PropPerDocType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="documentTypeCode"/> 
-		</reference-descriptor>
-	</class-descriptor>
 	
 	<!-- personnel attachment -->
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.PropPersonBioAttachment" table="EPS_PROP_PERSON_BIO_ATTACHMENT">
 		<field-descriptor name="bioNumber" column="BIO_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true"/>
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="bioData" column="BIO_DATA" jdbc-type="BINARY"/>
+		<field-descriptor name="bioData" column="BIO_DATA" jdbc-type="LONGVARBINARY"/>
 		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -1194,10 +1166,11 @@
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="documentTypeCode" column="DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<collection-descriptor name="personnelAttachmentList" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropPersonBioAttachment" 
-						collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+						collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="bioNumber"/>
 			<inverse-foreignkey field-ref="personId"/>
 			<inverse-foreignkey field-ref="proposalNumber"/>

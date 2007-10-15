@@ -17,8 +17,11 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -129,10 +132,10 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             narrAtt.setProposalNumber(narr.getProposalNumber());
             narrAtt.setModuleNumber(narr.getModuleNumber());
             narr.setFileName(narrAtt.getFileName());
-//            if (narr.getNarrativeAttachmentList().isEmpty())
-//                narr.getNarrativeAttachmentList().add(narrPdf);
-//            else
-//                narr.getNarrativeAttachmentList().set(0, narrPdf);
+            if (narr.getNarrativeAttachmentList().isEmpty())
+                narr.getNarrativeAttachmentList().add(narrAtt);
+            else
+                narr.getNarrativeAttachmentList().set(0, narrAtt);
         }
     }
     private void populateNarrativeUserRights(ProposalDevelopmentDocument pd, Narrative narr) {
@@ -380,6 +383,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         newPropPersonBio.getPropPerDocType().setDocumentTypeCode(newPropPersonBio.getDocumentTypeCode());
         newPropPersonBio.refreshReferenceObject("propPerDocType");
         FormFile personnelAttachmentFile = newPropPersonBio.getPersonnelAttachmentFile();
+        newPropPersonBio.setFileName(personnelAttachmentFile.getFileName());
         byte[] fileData = personnelAttachmentFile.getFileData();
         if (fileData.length > 0) {
             PropPersonBioAttachment personnelAttachment = new PropPersonBioAttachment();
@@ -455,6 +459,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if(narrStatus!=null) narr.setNarrativeStatus(narrStatus);
 
         FormFile narrFile = narr.getNarrativeFile();
+        narr.setFileName(narrFile.getFileName());
         byte[] fileData = narrFile.getFileData();
         if(fileData.length>0){
             NarrativeAttachment narrPdf = new NarrativeAttachment();
@@ -494,12 +499,13 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if(instituteAttachment==null && !institute.getNarrativeAttachmentList().isEmpty()){//get it from the memory
             instituteAttachment = institute.getNarrativeAttachmentList().get(0);
         }
-        //return streamDataToBrowser(mapping,propPersonBioAttachment,response);
+        //return streamDataToBrowser(mapping,instituteAttachment,response);
 
         // alternative
         streamToResponse(instituteAttachment,response);
         return  null;
     }
 
+    
 
 }

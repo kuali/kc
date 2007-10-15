@@ -17,8 +17,6 @@
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
-<c:set var="narrativeAttachmentAttributes" value="${DataDictionary.NarrativeAttachment.attributes}" />
-<c:set var="instituteAttachmentAttributes" value="${DataDictionary.InstituteAttachmentType.attributes}" />
 <c:set var="textAreaFieldName" value="newInstitute.comments" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
 <kul:tab tabTitle="Institutional Attachments" defaultOpen="true" tabErrorKey="">
@@ -36,7 +34,7 @@
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.comments}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.fileName}" skipHelpUrl="true" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
 	  			             		
           	</tr>        
@@ -95,7 +93,7 @@
 	                	<kul:htmlControlAttribute property="document.institutes[${status.index}].comments" readOnly="true" attributeEntry="${narrativeAttributes.comments}" />
 					</td>
 	                <td align="left" valign="middle">
-	                    <kul:htmlControlAttribute property="document.institutes[${status.index}].narrativeAttachmentList[0].fileName" readOnly="true" attributeEntry="${instituteAttachmentAttributes.fileName}" />
+	                    <kul:htmlControlAttribute property="document.institutes[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 	                </td>
 	                <td align="left" valign="middle">
 					<div align=center>

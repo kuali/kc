@@ -15,7 +15,6 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<c:set var="propPersonBioAttachmentAttributes" value="${DataDictionary.PropPersonBioAttachment.attributes}" />
 <c:set var="propPersonBioAttributes" value="${DataDictionary.PropPersonBio.attributes}" />
 <c:set var="propPerDocTypeAttributes" value="${DataDictionary.PropPerDocType.attributes}" />
 <kul:tab tabTitle="Personnel Attachments" defaultOpen="true" tabErrorKey="">
@@ -33,7 +32,7 @@
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.documentTypeCode}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.personId}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.description}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttachmentAttributes.fileName}" skipHelpUrl="true" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.fileName}" skipHelpUrl="true" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
 	  			             		
           	</tr>        
@@ -96,7 +95,7 @@
 	                	<kul:htmlControlAttribute property="document.propPersonBios[${status.index}].description" readOnly="true" attributeEntry="${propPersonBioAttributes.description}" />
 					</td>
 	                <td align="left" valign="middle">
-	                    <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].personnelAttachmentList[0].fileName" readOnly="true" attributeEntry="${propPersonBioAttachmentAttributes.fileName}" />
+	                    <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].fileName" readOnly="true" attributeEntry="${propPersonBioAttributes.fileName}" />
 	                </td>
 	                <td align="left" valign="middle">
 					<div align=center>
