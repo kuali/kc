@@ -47,6 +47,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 import static org.apache.commons.beanutils.PropertyUtils.getProperty;
@@ -68,7 +69,7 @@ import static org.kuali.RiceConstants.METHOD_TO_CALL_ATTRIBUTE;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -188,6 +189,10 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             pdform.setNewRolodexId("");
             pdform.setNewPersonId("");
 
+            if (new ProposalDevelopmentKeyPersonsRule().isPrincipalInvestigator(pdform.getNewProposalPerson())) {
+                assignLeadUnit(document, pdform.getNewProposalPerson());
+            }
+
             // repopulate form investigators
             pdform.populateInvestigators();
         }
@@ -263,6 +268,20 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         }
 
         return retval;
+    }
+    
+    /**
+     * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup on the 
+     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPersonUnit}</code> instance.
+     *
+     * @param unitId
+     * @return ProposalPersonUnit
+     */
+    private ProposalPersonUnit createUnitFromId(String unitId) {
+        Unit unit = new Unit();
+        unit.setUnitNumber(unitId);
+
+        return createProposalPersonUnit(unit);
     }
     
     /**
@@ -492,4 +511,15 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return retval;
     }
 
+    /**
+     * Assigns the lead unit of the proposal to the given principal investigator
+     *
+     * @param document
+     * @param person Principal 
+     */
+    private void assignLeadUnit(ProposalDevelopmentDocument document, ProposalPerson person) {
+        ProposalPersonUnit unit = createUnitFromId(document.getOwnedByUnit());
+        person.setHomeUnit(document.getOwnedByUnit());
+        person.getUnits().add(unit);
+    }
 }

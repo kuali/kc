@@ -37,13 +37,13 @@
 <c:forEach items="${KualiForm.investigators}" var="investigator" varStatus="invStatus">
   <c:set var="investigatorProperty" value="investigators[${invStatus.index}]" />
               <tr>
-                <td style="width : 20%" nowrap class="tab-subhead1"><strong>
+                <td nowrap class="tab-subhead1"><strong>
                   <kul:htmlControlAttribute property="${investigatorProperty}.fullName" 
                                       attributeEntry="${proposalPersonAttributes.fullName}" readOnly="true" />
                   </strong></td>
   <c:forEach items="${investigator.creditSplits}" varStatus="splitStatus" >
     <c:set var="personCreditSplit" value="${investigatorProperty}.creditSplits[${splitStatus.index}]" />
-                <td style="width : 20%;text-align : right" class="tab-subhead1"><strong>
+                <td class="tab-subhead1"><strong>
                   <kul:htmlControlAttribute property="${personCreditSplit}.credit" 
                                       attributeEntry="${personCreditSplitAttributes.credit}" />
                 </strong></td>
@@ -57,7 +57,7 @@
     <c:forEach items="${personUnit.creditSplits}" varStatus="splitStatus" >
       <c:set var="unitCreditSplit" value="${unitProperty}.creditSplits[${splitStatus.index}]" />
     
-                <td style="text-align : right"><kul:htmlControlAttribute property="${unitCreditSplit}.credit" 
+                <td><kul:htmlControlAttribute property="${unitCreditSplit}.credit" 
                                       attributeEntry="${unitCreditSplitAttributes.credit}" /></td>
     </c:forEach>
               </tr>
