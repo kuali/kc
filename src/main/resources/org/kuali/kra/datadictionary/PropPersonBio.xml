@@ -174,6 +174,17 @@
 				<summary>Prop per doc type description</summary>
 				<description>description</description>
 			</attribute>
+			<attribute name="fileName">
+			<label>File Name </label>
+			<shortLabel>File Name </shortLabel>
+			<maxLength>150</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="150" />
+			</control>
+			<summary>File Name </summary>
+			<description>File Name </description>
+			</attribute>
 
 		</attributes>
 
