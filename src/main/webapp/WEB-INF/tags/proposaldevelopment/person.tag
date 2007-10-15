@@ -20,7 +20,6 @@
           <!-- TAB -->
             <div id="workarea">
             <div class="tab-container" align="center" id="G100">
-<!-- style="display: none;" -->
               <div class="h2-container">
 
                 <h2><span class="subhead-left"><bean:write name="KualiForm" property="${proposalPerson}.fullName"/></span></h2>
