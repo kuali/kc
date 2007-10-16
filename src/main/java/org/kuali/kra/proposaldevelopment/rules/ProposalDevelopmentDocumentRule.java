@@ -27,6 +27,8 @@ import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
+import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
+import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -35,7 +37,7 @@ import org.kuali.rice.KNSServiceLocator;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule,AddNarrativeRule {
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -140,5 +142,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }
+
+    public boolean processAddNarrativeBusinessRules(AddNarrativeEvent addNarrativeEvent) {
+        return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);    }
     
 }

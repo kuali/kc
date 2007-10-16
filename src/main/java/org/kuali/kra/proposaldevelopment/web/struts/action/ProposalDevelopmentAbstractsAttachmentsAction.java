@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.kra.infrastructure.Constants.NEW_PROPOSAL_PERSON_PROPERTY_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayInputStream;
@@ -40,6 +41,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.RiceConstants;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
@@ -60,6 +62,8 @@ import org.kuali.kra.proposaldevelopment.bo.PropPersonBioAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -101,6 +105,14 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if (narrType != null)
             narr.setNarrativeType(narrType);
 
+        boolean rulePassed = true;
+
+        // check any business rules
+        rulePassed &= getKualiRuleService().applyRules(new AddNarrativeEvent("newNarrative", propDoc, narr));
+
+        if (!rulePassed){
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
         Map narrStatusMap = new HashMap();
         narrStatusMap.put("narrativeStatusCode", narr.getModuleStatusCode());
         NarrativeStatus narrStatus = (NarrativeStatus) service.findByPrimaryKey(NarrativeStatus.class, narrStatusMap);
@@ -122,6 +134,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             NarrativeAttachment narrAtt;
             if (narr.getNarrativeAttachmentList().isEmpty()){
                 narrAtt = new NarrativeAttachment(); 
+                narr.getNarrativeAttachmentList().add(narrAtt);
             }else{
                 narrAtt = narr.getNarrativeAttachmentList().get(0);
             }
@@ -132,10 +145,12 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             narrAtt.setProposalNumber(narr.getProposalNumber());
             narrAtt.setModuleNumber(narr.getModuleNumber());
             narr.setFileName(narrAtt.getFileName());
-            if (narr.getNarrativeAttachmentList().isEmpty())
-                narr.getNarrativeAttachmentList().add(narrAtt);
-            else
-                narr.getNarrativeAttachmentList().set(0, narrAtt);
+//            if (narr.getNarrativeAttachmentList().isEmpty())
+//                narr.getNarrativeAttachmentList().add(narrPdf);
+//            else
+//                narr.getNarrativeAttachmentList().set(0, narrPdf);
+        }else{
+        	narr.getNarrativeAttachmentList().clear();
         }
     }
     private void populateNarrativeUserRights(ProposalDevelopmentDocument pd, Narrative narr) {
@@ -368,6 +383,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
     private BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
+    }
+    private KualiRuleService getKualiRuleService() {
+        return getService(KualiRuleService.class);
     }
     public ActionForward addPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
