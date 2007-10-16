@@ -95,8 +95,7 @@
 			<label>File Name </label>
 			<shortLabel>File Name </shortLabel>
 			<maxLength>150</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<required>true</required>
+			<validationPattern><anyCharacter  allowWhitespace="true"  /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>

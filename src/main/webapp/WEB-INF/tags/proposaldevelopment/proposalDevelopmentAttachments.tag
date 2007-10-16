@@ -52,9 +52,7 @@
           	</tr>
           	<tr>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" skipHelpUrl="true"  /></div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.newNarrative.updateUser" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
-				</td>
+                <td align="left" valign="middle">&nbsp;</td>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.emailAddress}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.newNarrative.emailAddress" attributeEntry="${narrativeAttributes.emailAddress}" />
@@ -62,9 +60,7 @@
           	</tr>
           	<tr>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" skipHelpUrl="true"  /></div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.newNarrative.updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
-				</td>
+                <td align="left" valign="middle">&nbsp;</td>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.phoneNumber}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.newNarrative.phoneNumber" attributeEntry="${narrativeAttributes.phoneNumber}" />
@@ -110,9 +106,7 @@
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" /></div></th>
 			                <td align="left" valign="middle">
 			                
-			                <%-- <c:set var="narrAttList" value="${narrativeAttachment.narrativeAttachmentList}"></c:set>
-			                <c:if test="${fn:length(narrAttList) >0}">--%>
-			                	
+			                <c:if test="${!empty narrativeAttachment.fileName}">
 				                <div id="replaceDiv${status.index}" style="display:block;">
 				                <kul:htmlControlAttribute property="document.narratives[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 				                <%--<html:link onclick="javascript: window.open(extractUrl()+'/${action}.do?methodToCall=downloadProposalAttachment&line=${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>--%>
@@ -124,8 +118,7 @@
 									<html:image property="methodToCall.replaceProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
 								</div>
-				               
-				            <%--</c:if>--%>
+				            </c:if>
 							</td>
 			          	</tr>
 			          	<tr>
