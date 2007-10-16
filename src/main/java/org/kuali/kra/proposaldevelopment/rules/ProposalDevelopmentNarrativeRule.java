@@ -15,8 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import java.util.List;
+
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
+import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 //import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
@@ -27,13 +33,37 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: gthomas $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
-public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase{ 
+public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule{ 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
 
-    public boolean processAddNarrativeBusinessRules(ProposalDevelopmentDocument document, Narrative narrative) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean processAddNarrativeBusinessRules(AddNarrativeEvent narrativeEvent) {
+        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)narrativeEvent.getDocument();
+        Narrative narrative = narrativeEvent.getNarrative();
+        List<Narrative> narrList = document.getNarratives();
+        if(narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase("N")){
+            for (Narrative narr : narrList) {
+                if(narr.getProposalNumber().equals(narrative.getProposalNumber()) &&
+                        narr.getNarrativeTypeCode().equals(narrative.getNarrativeTypeCode())){
+                    String[] param = {narrative.getNarrativeType().getDescription()};
+                    LOG.debug("error.proposalAttachment.narrativeType.allowMulitple");
+//                    reportErrorWithPrefix("newNarrative", "narrativeTypeCode", "error.proposalAttachment.narrativeType.allowMulitple",param);
+                   reportError("newNarrative.narrativeTypeCode", "error.proposalAttachment.narrativeType.allowMulitple",param);
+//                    GlobalVariables.getErrorMap().putError("newNarrative.narrativeTypeCode", "error.proposalAttachment.narrativeType.allowMulitple",param);
+                    return false; 
+                }
+            }
+        }
+        return true;
     }
+    /**
+     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#reportError(String, String, String...)
+     */
+    protected void reportErrorWithPrefix(String errorPathPrefix, String propertyName, String errorKey, String... errorParams) {
+        GlobalVariables.getErrorMap().addToErrorPath(errorPathPrefix);
+        super.reportError(propertyName, errorKey, errorParams);
+        GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);        
+    }
+    
 }
