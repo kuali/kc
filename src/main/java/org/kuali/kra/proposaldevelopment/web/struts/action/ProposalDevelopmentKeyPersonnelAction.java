@@ -69,7 +69,7 @@ import static org.kuali.RiceConstants.METHOD_TO_CALL_ATTRIBUTE;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -170,7 +170,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
         // check any business rules
         rulePassed &= getKualiRuleService().applyRules(new AddKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, pdform.getDocument(), pdform.getNewProposalPerson()));
-
+                
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             document.addProposalPerson(pdform.getNewProposalPerson());
@@ -184,14 +184,16 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 pdform.getNewProposalPerson().getCreditSplits().add(creditSplit);
             }
 
+
+            boolean isPrincipalInvestigator = new ProposalDevelopmentKeyPersonsRule().isPrincipalInvestigator(pdform.getNewProposalPerson());
+            if (isPrincipalInvestigator) {
+                assignLeadUnit(pdform);
+            }
+
             pdform.getNewProposalPerson().refreshReferenceObject("role");
             pdform.setNewProposalPerson(new ProposalPerson());
             pdform.setNewRolodexId("");
             pdform.setNewPersonId("");
-
-            if (new ProposalDevelopmentKeyPersonsRule().isPrincipalInvestigator(pdform.getNewProposalPerson())) {
-                assignLeadUnit(document, pdform.getNewProposalPerson());
-            }
 
             // repopulate form investigators
             pdform.populateInvestigators();
@@ -228,26 +230,22 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
 
         ProposalPerson person = (ProposalPerson) getProperty(pdform, pdform.getAddToPerson());
-        ProposalPersonUnit unit = createProposalPersonUnit(pdform.getNewProposalPersonUnit());
-        unit.setProposalNumber(person.getProposalNumber());
-        unit.setProposalPersonNumber(person.getProposalPersonNumber());
-
-        for (InvestigatorCreditType creditType : (List<InvestigatorCreditType>) pdform.getInvestigatorCreditTypes()) {
-            ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
-            creditSplit.setProposalNumber(document.getProposalNumber());
-            creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
-            creditSplit.setUnitNumber(unit.getUnitNumber());
-            creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
-            creditSplit.setCredit(new KualiDecimal(0));
-            unit.getCreditSplits().add(creditSplit);
-        }
-
-        person.addUnit(unit);
-        unit.refreshReferenceObject("unit");
+        ProposalPersonUnit unit = createProposalPersonUnit(pdform.getNewProposalPersonUnit(), person, (List<InvestigatorCreditType>) pdform.getInvestigatorCreditTypes());
+        
+        addUnitToPerson(person, unit);
 
         pdform.setNewProposalPersonUnit(new Unit());
 
         return mapping.findForward(MAPPING_BASIC);
+    }
+
+    private void addUnitToPerson(ProposalPerson person, ProposalPersonUnit unit) {
+        unit.setProposalNumber(person.getProposalNumber());
+        unit.setProposalPersonNumber(person.getProposalPersonNumber());
+
+        person.addUnit(unit);
+        unit.refreshReferenceObject("unit");
+        LOG.info("Added unit " + unit + " to person " + person);
     }
     
     /**
@@ -257,14 +255,26 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      * @param unit
      * @return ProposalPersonUnit
      */
-    private ProposalPersonUnit createProposalPersonUnit(Unit unit) {
+    private ProposalPersonUnit createProposalPersonUnit(Unit unit, ProposalPerson person, List<InvestigatorCreditType> creditTypes) {
         ProposalPersonUnit retval = new ProposalPersonUnit();
         Map valueMap = new HashMap();
         valueMap.put("unitNumber", unit.getUnitNumber());
         Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, valueMap);
         
+        LOG.info("Found " + units.size() + " units that match");
         for (Unit found : units) {
+            LOG.info("Assigning unit number " + found.getUnitNumber());
             retval.setUnitNumber(found.getUnitNumber());
+        }
+
+        for (InvestigatorCreditType creditType : creditTypes) {
+            ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
+            creditSplit.setProposalNumber(person.getProposalNumber());
+            creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
+            creditSplit.setUnitNumber(unit.getUnitNumber());
+            creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
+            creditSplit.setCredit(new KualiDecimal(0));
+            retval.getCreditSplits().add(creditSplit);
         }
 
         return retval;
@@ -277,11 +287,11 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      * @param unitId
      * @return ProposalPersonUnit
      */
-    private ProposalPersonUnit createUnitFromId(String unitId) {
+    private ProposalPersonUnit createUnitFromId(String unitId, ProposalPerson person, List<InvestigatorCreditType> creditTypes) {
         Unit unit = new Unit();
         unit.setUnitNumber(unitId);
 
-        return createProposalPersonUnit(unit);
+        return createProposalPersonUnit(unit, person, creditTypes);
     }
     
     /**
@@ -343,6 +353,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalPerson prop_person = new ProposalPerson();
 
         for (Person person : persons) {
+            prop_person.setPersonId(personId);
             prop_person.setSocialSecurityNumber(person.getSocialSecurityNumber());
             prop_person.setLastName(person.getLastName());
             prop_person.setFirstName(person.getFirstName());
@@ -517,9 +528,11 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      * @param document
      * @param person Principal 
      */
-    private void assignLeadUnit(ProposalDevelopmentDocument document, ProposalPerson person) {
-        ProposalPersonUnit unit = createUnitFromId(document.getOwnedByUnit());
+    private void assignLeadUnit(ProposalDevelopmentForm form) {
+        ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
+        ProposalPerson person = form.getNewProposalPerson();
+        ProposalPersonUnit unit = createUnitFromId(document.getOwnedByUnit(), person, (List<InvestigatorCreditType>) form.getInvestigatorCreditTypes());
         person.setHomeUnit(document.getOwnedByUnit());
-        person.getUnits().add(unit);
+        addUnitToPerson(person, unit);
     }
 }
