@@ -86,7 +86,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("Kuali :: Proposal Development Document", pageInit.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) pageInit.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title - test", "08/14/2007", "08/21/2007", "1", "1", "000002");
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title - test", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
         final HtmlForm formInit = (HtmlForm) pageInit.getForms().get(0);
 
         /* Save with basic/mandatory data */
@@ -195,7 +195,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "000002");
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
 
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
 
@@ -210,7 +210,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(doc);
 
-        verifySavedRequiredFields(doc, "1", "000002", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
+        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
     }
 
     @Test
@@ -223,7 +223,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
         final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
 
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "2", "000002");
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "2", "IN-PERS");
 
         final HtmlTextInput sponsorProposalNumber = (HtmlTextInput) kualiForm.getInputByName("document.sponsorProposalNumber");
         sponsorProposalNumber.setValueAttribute("123456");
@@ -241,7 +241,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(doc);
 
-        verifySavedRequiredFields(doc, "1", "000002", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "2");
+        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "2");
         assertEquals("123456", doc.getSponsorProposalNumber());
     }
 
@@ -256,7 +256,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
         final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
 
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "2", "000002");
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "2", "IN-PERS");
 
         final HtmlPage page4 = (HtmlPage) saveButton.click();
         assertEquals("Kuali :: Proposal Development Document", page4.getTitleText() );
@@ -279,7 +279,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
         final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
 
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "", "000002");
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "", "IN-PERS");
 
         final HtmlPage page4 = (HtmlPage) saveButton.click();
         assertEquals("Kuali :: Proposal Development Document", page4.getTitleText() );
@@ -301,7 +301,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "000002");
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
 
         // start to set up organization/location panel
 
@@ -414,7 +414,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber.getDefaultValue());
         assertNotNull(doc);
 
-        verifySavedRequiredFields(doc, "1", "000002", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
+        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
         assertEquals("000001", doc.getOrganizationId());
         assertEquals("000002", doc.getPerformingOrganizationId());
         assertEquals("University", doc.getPropLocations().get(0).getLocation());
@@ -433,7 +433,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "000002");
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
 
 
         // dropdowns
@@ -491,7 +491,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) form4.getInputByName("document.documentHeader.documentNumber");
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber.getDefaultValue());
         assertNotNull(doc);
-        verifySavedRequiredFields(doc, "1", "000002", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
+        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
 
         assertEquals("1", doc.getMailBy());
         assertEquals("2", doc.getMailType());
@@ -512,7 +512,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "000002");
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
         final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.specialReview.x",
                 SUBMIT_INPUT_BY_NAME);
         assertTrue(page4.asText().contains("Document was successfully saved"));
@@ -562,7 +562,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
         final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
 
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005891", "project title", "08/14/2007", "08/21/2007", "1", "2", "000002");
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005891", "project title", "08/14/2007", "08/21/2007", "1", "2", "IN-PERS");
 
         // sponsor program info fields
         setFieldValue(kualiForm, TEXT_INPUT, "document.deadlineDate", "2007-08-14");
@@ -598,7 +598,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(doc);
 
-        verifySavedRequiredFields(doc, "1", "000002", "ProposalDevelopmentDocumentWebTest test", "005891", "project title", "2007-08-14", "2007-08-21", "2");
+        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "005891", "project title", "2007-08-14", "2007-08-21", "2");
 
         // check sponsor program info fields
         assertEquals("P", doc.getDeadlineType());
