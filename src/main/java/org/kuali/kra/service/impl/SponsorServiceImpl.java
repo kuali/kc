@@ -19,13 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.LookupService;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.service.SponsorService;
 
 public class SponsorServiceImpl implements SponsorService {
 
-    private LookupService lookupService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kra.proposaldevelopment.service.SponsorService#getSponsorName(java.lang.String)
@@ -33,10 +33,10 @@ public class SponsorServiceImpl implements SponsorService {
     public String getSponsorName(String sponsorCode) {
         String sponsorName = null;
 
-        Map<String, String> formProps = new HashMap<String, String>();
+        Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(sponsorCode)) {
-            formProps.put("sponsorCode", sponsorCode);
-            Sponsor sponsor = (Sponsor)lookupService.findObjectBySearch(Sponsor.class, formProps);
+            primaryKeys.put("sponsorCode", sponsorCode);
+            Sponsor sponsor = (Sponsor)businessObjectService.findByPrimaryKey(Sponsor.class, primaryKeys);
             if (sponsor != null) {
                 sponsorName = sponsor.getSponsorName();
             }
@@ -46,19 +46,19 @@ public class SponsorServiceImpl implements SponsorService {
     }
 
     /**
-     * Gets the lookupService attribute.
-     * @return Returns the lookupService.
+     * Gets the businessObjectService attribute.
+     * @return Returns the businessObjectService.
      */
-    public LookupService getLookupService() {
-        return lookupService;
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
 
     /**
-     * Sets the lookupService attribute value.
-     * @param lookupService The lookupService to set.
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
      */
-    public void setLookupService(LookupService lookupService) {
-        this.lookupService = lookupService;
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }
