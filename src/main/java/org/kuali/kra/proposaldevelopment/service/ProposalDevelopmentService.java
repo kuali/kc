@@ -17,6 +17,8 @@ package org.kuali.kra.proposaldevelopment.service;
 
 import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
+
 public interface ProposalDevelopmentService {
     
     /**
@@ -26,4 +28,17 @@ public interface ProposalDevelopmentService {
      */
     public Map<String, String> getUnitsForUser(String userId);
 
+    /**
+     * Accessor for <code>{@link BusinessObjectService}</code>
+     * 
+     * @param bos BusinessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService bos);
+    
+    /**
+     * Accessor for <code>{@link BusinessObjectService}</code>
+     * 
+     * @return BusinessObjectService
+     */
+    public BusinessObjectService getBusinessObjectService();
 }

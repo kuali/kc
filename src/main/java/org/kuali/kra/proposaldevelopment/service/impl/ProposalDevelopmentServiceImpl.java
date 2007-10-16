@@ -15,21 +15,68 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
-public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService; // This is until boService injection works
 
+
+public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
+    private BusinessObjectService businessObjectService;
     
     public Map<String, String> getUnitsForUser(String userId) {
         Map<String, String> userUnits = new HashMap<String, String>();
+        Collection<Unit> units = getUnitsWithNumbers("IN-PERS", "BL-IIDC");
         
-        userUnits.put("000002", "IN-PEDS");
-        userUnits.put("000003", "BL-IIDC");
+        for (Unit unit : units) {
+            userUnits.put(unit.getUnitNumber(), 
+                          unit.getUnitNumber() + " - " + unit.getUnitName());
+        }
         
         return userUnits;
+    }
+    
+    /**
+     * Gets units for the given names. Useful when you know what you want.
+     *
+     * @param numbers varargs representation of unitNumber array
+     * @return Collection<Unit>
+     */
+    private Collection<Unit> getUnitsWithNumbers(String ... numbers) {
+        Collection<Unit> retval = new ArrayList<Unit>();
+
+        for (String unitNumber : numbers) {
+            Map query_map = new HashMap();
+            query_map.put("unitNumber", unitNumber);
+            retval.add((Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, query_map));
+        }
+        
+        return retval;
+    }
+        
+    /**
+     * Accessor for <code>{@link BusinessObjectService}</code>
+     * 
+     * @param bos BusinessObjectService
+     */
+    public void setBusinessObjectService(BusinessObjectService bos) {
+        businessObjectService = bos;
+    }
+    
+    /**
+     * Accessor for <code>{@link BusinessObjectService}</code>
+     * 
+     * @return BusinessObjectService
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return getService(BusinessObjectService.class); // Just until boService injection is working
+        // return businessObjectService;
     }
 
 }
