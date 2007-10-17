@@ -32,7 +32,7 @@ import org.kuali.core.util.JstlPropertyHolder;
  * Access financial system parameters like they were a map
  *
  * @author $Author: gmcgrego $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class SystemParametersPropertyHolder extends JstlPropertyHolder {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SystemParametersPropertyHolder.class);
@@ -67,9 +67,9 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
     /**
      * @see org.kuali.core.util.properties.PropertyTree#get(java.lang.Object)
      */
-    public Object get(String parameterNamespaceCode, String parameterDetailTypeCode, Object key) {
+    public Object get(Object key) {
         try { // Return a map of the parameter or don't return at all.
-            return new PropertyUtilsBean().describe(getParameter(parameterNamespaceCode, parameterDetailTypeCode, key.toString()));
+            return new PropertyUtilsBean().describe(getParameter("KRA-PD", "D", key.toString()));
         }        
         catch (Exception e) {
             return null;
@@ -94,9 +94,9 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
     /**
      * @see org.kuali.core.util.properties.PropertyTree#containsKey(java.lang.Object)
      */
-    public boolean containsKey(String parameterNamespaceCode, String parameterDetailTypeCode, Object key) {
+    public boolean containsKey(Object key) {
         try {
-            return getConfigurationService().parameterExists(parameterNamespaceCode, parameterDetailTypeCode, key.toString());
+            return getConfigurationService().parameterExists("KRA-PD", "D", key.toString());
         }
         catch(Exception e) {
             return false;
