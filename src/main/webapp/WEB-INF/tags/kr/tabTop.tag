@@ -15,18 +15,12 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <%@ attribute name="tabTitle" required="true" %>
-<%@ attribute name="tabDescription" required="false" %>
 <%@ attribute name="defaultOpen" required="true" %>
 <%@ attribute name="tabErrorKey" required="false" %>
-<%@ attribute name="leftSideHtmlProperty" required="false" %>
-<%@ attribute name="leftSideHtmlAttribute" required="false" type="java.util.Map"%>
-<%@ attribute name="leftSideHtmlDisabled" required="false" %>
-<%@ attribute name="rightSideHtmlProperty" required="false" %>
-<%@ attribute name="rightSideHtmlAttribute" required="false" type="java.util.Map"%>
 
-<%-- c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/ --%>
-<%-- c:set var="currentTab" value="${KualiForm.tabStateJstl}"/ --%>
+<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
 <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+<c:set var="doINeedThis" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
 <c:choose>
     <c:when test="${empty currentTab}">
@@ -49,19 +43,8 @@
 <table width="100%" class="tab" cellpadding=0 cellspacing=0 summary="">
 	<tr>
 		<td class="tabtable1-left">
-		    <img src="${ConfigProperties.kr.externalizable.images.url}tab-topleft.gif" alt=""	width=12 height=29 align=middle>
-            <c:if test="${not empty leftSideHtmlProperty and not empty leftSideHtmlAttribute}"><kul:htmlControlAttribute property="${leftSideHtmlProperty}" attributeEntry="${leftSideHtmlAttribute}" disabled="${leftSideHtmlDisabled}" /></c:if>
-            ${tabTitle}
+		    <img src="${ConfigProperties.kr.externalizable.images.url}tab-topleft.gif" alt=""	width=12 height=29 align=middle>${tabTitle}
 		</td>
-
-            <c:if test="${not empty tabDescription}">
-              <td class="tabtable1-mid1"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" align="absmiddle" height="29" width="1" />${tabDescription}</td>
-      		</c:if>
-
-            <c:if test="${not empty rightSideHtmlProperty and not empty rightSideHtmlAttribute}">
-              <td class="tabtable1-mid1"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" align="absmiddle" height="29" width="1" /><kul:htmlControlAttribute property="${rightSideHtmlProperty}" attributeEntry="${rightSideHtmlAttribute}" /></td>
-      		</c:if>
-
 		<td class="tabtable1-mid">
             <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 			    <html:image property="methodToCall.toggleTab.tab${tabKey}"	src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="hide" alt="hide" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />

@@ -42,6 +42,7 @@
         <html:hidden property="documentActionFlags.canSupervise" />
         <html:hidden property="documentActionFlags.canCopy" />
         <html:hidden property="documentActionFlags.canPerformRouteReport" />
+        <html:hidden property="documentActionFlags.hasAmountTotal" />
 
         <c:if test="${transactionalDocument}">
             <html:hidden property="documentActionFlags.canErrorCorrect" />

@@ -33,7 +33,7 @@
 		</ApplicationConstant>
 		<ApplicationConstant>
 			<ConstantName>ActionList.IsDocumentPopup</ConstantName>
-			<ConstantValue>false</ConstantValue>
+			<ConstantValue>true</ConstantValue>
 		</ApplicationConstant>
 		<ApplicationConstant>
 			<ConstantName>RouteTypeSearch.Instructions</ConstantName>
@@ -329,6 +329,14 @@
 			<messageEntity>TRAVEL</messageEntity>
 			<type>RuleAttribute</type>
 		</ruleAttribute>
+        <ruleAttribute>
+          <name>RuleRoutingAttribute</name>
+          <className>edu.iu.uis.eden.routetemplate.RuleRoutingAttribute</className>
+          <label>Rule Routing</label>
+          <description>Rule Routing</description>
+          <messageEntity>TRAVEL</messageEntity>
+          <type>RuleAttribute</type>
+        </ruleAttribute>
 	</ruleAttributes>
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
 		<ruleTemplate allowOverwrite="true">
@@ -426,7 +434,7 @@
 			<postProcessorName>edu.iu.uis.eden.doctype.DocumentTypePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/en/DocumentType.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kr-dev/en/DocumentType.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies />
 			<routePaths>
@@ -449,7 +457,7 @@
 			<postProcessorName>edu.iu.uis.eden.routetemplate.RulePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/en/Rule.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kr-dev/en/Rule.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies />
 			<routePaths>
@@ -473,7 +481,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/en/Workgroup.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kr-dev/en/Workgroup.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>1</routingVersion>
 			<routePaths>
@@ -504,7 +512,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/travelDocument2.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kr-dev/travelDocument2.do?methodToCall=docHandler</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" nextNode="DestinationApproval" />
@@ -540,7 +548,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kr-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />
@@ -560,7 +568,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kr-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />
@@ -572,15 +580,20 @@
 				</start>
 			</routeNodes>
 		</documentType>
+
+<!-- Parameter Namespace (Rice) -->
+
 		<documentType>
-			<name>KualiBusinessRuleMaintenanceDocument</name>
-			<description>Create a biz rule</description>
-			<label>Create a biz rule</label>
+      <name>ParameterNamespaceMaintenanceDocument</name>
+      <description>Create/edit parameter namespaces</description>
+      <label>Parameter Namespace Maintenance Document</label>
 			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kr-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />
@@ -589,18 +602,25 @@
 			<routeNodes>
 				<start name="Initiated">
 					<activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
 				</start>
 			</routeNodes>
 		</documentType>
+
+<!-- Parameter Type (Rice) -->
+
 		<documentType>
-			<name>KualiFinancialSystemParameterMaintenanceDocument</name>
-			<description>Create a system param</description>
-			<label>Create a system param</label>
+      <name>ParameterTypeMaintenanceDocument</name>
+      <description>Create/edit a parameter type</description>
+      <label>Parameter Type Maintenance Document</label>
 			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kr-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />
@@ -609,9 +629,67 @@
 			<routeNodes>
 				<start name="Initiated">
 					<activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
 				</start>
 			</routeNodes>
 		</documentType>
+
+<!-- Parameter Detail Type (Rice) -->
+
+		<documentType>
+      <name>ParameterDetailTypeMaintenanceDocument</name>
+      <description>Create/edit a parameter detail type</description>
+      <label>Parameter Detail Type Maintenance Document</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+      <docHandler>http://localhost:8080/kr-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
+
+<!-- Parameter (Rice) -->
+
+    <documentType>
+      <name>ParameterMaintenanceDocument</name>
+      <description>Create/edit a parameter</description>
+      <label>Parameter Maintenance Document</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+      <docHandler>http://localhost:8080/kr-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+      </routeNodes>
+    </documentType>
+
+
 		<documentType>
 			<name>RiceUserMaintenanceDocument</name>
 			<description>Create a Rice User</description>
@@ -620,7 +698,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/kra-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/kr-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />

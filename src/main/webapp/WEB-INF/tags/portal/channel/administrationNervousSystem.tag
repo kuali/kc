@@ -18,10 +18,7 @@
 <channel:portalChannelTop channelTitle="Nervous System" />
 <div class="body">
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Financial System Parameter" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.bo.FinancialSystemParameter&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-        <li><portal:portalLink displayTitle="true" title="Financial System Parameter Security" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.bo.FinancialSystemParameterSecurity&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-        <li><portal:portalLink displayTitle="true" title="Business Rule" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.bo.BusinessRule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-        <li><portal:portalLink displayTitle="true" title="Business Rule Security" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.bo.BusinessRuleSecurity&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="System Parameter" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.bo.Parameter&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     </ul>
     </div>
 <channel:portalChannelBottom />
