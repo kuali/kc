@@ -26,13 +26,13 @@
       <form-bean name="RouteManagerDriverForm" type="edu.iu.uis.eden.routemanager.web.RouteManagerDriverForm"/>
       <form-bean name="QuickLinksForm" type="edu.iu.uis.eden.quicklinks.web.QuickLinksForm"/>
       <form-bean name="RuleQuickLinkForm" type="edu.iu.uis.eden.routetemplate.web.RuleQuickLinksForm" />
-      <form-bean name="RouteQueueForm" type="edu.iu.uis.eden.messaging.web.RouteQueueForm" />
       <form-bean name="DocumentOperationForm" type="edu.iu.uis.eden.documentoperation.web.DocumentOperationForm" />
       <form-bean name="NoteForm" type="edu.iu.uis.eden.notes.web.NoteForm" />
       <form-bean name="HelpForm" type="edu.iu.uis.eden.help.web.HelpForm" />
       <form-bean name="IngesterForm" type="edu.iu.uis.eden.batch.web.IngesterForm" />
       <form-bean name="WorkflowUserForm" type="edu.iu.uis.eden.user.web.WorkflowUserForm" />
 	  <form-bean name="WorkgroupForm" type="edu.iu.uis.eden.workgroup.web.WorkgroupForm" />
+      <form-bean name="RemoveReplaceForm" type="edu.iu.uis.eden.removereplace.web.RemoveReplaceForm"/>
     </form-beans>
 
     <!-- =================== exception handler definitions ================= -->
@@ -45,6 +45,7 @@
     <global-forwards type="org.apache.struts.action.ActionForward">
    	    <forward name="WorkflowError" path="/WEB-INF/jsp/Error.jsp" />
    	    <forward name="DeleteRouteHeaderConfirmation" path="/WEB-INF/jsp/DeleteRouteHeaderConfirmation.jsp" />
+   	    <forward name="NotAuthorized" path="/WEB-INF/jsp/NotAuthorized.jsp" />
     </global-forwards>
 
     <!-- ========== action mapping definitions ============================= -->
@@ -81,10 +82,14 @@
         <forward name="finalStateError" path="/WEB-INF/jsp/superuser/SuperUser.jsp"/>
       </action>
 
+      <action path="/Error" scope="request" validate="false" type="edu.iu.uis.eden.web.ModuleRelativeForwardAction"
+             parameter="/WEB-INF/jsp/Error.jsp"/>
+
       <action path="/ActionList" scope="request" validate="false" parameter="methodToCall"
         type="edu.iu.uis.eden.actionlist.web.ActionListAction" name="ActionListForm"
         input="/WEB-INF/jsp/ActionList/ActionList.jsp" >
         <forward name="viewActionList" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
+        <forward name="count" path="/WEB-INF/jsp/ActionList/ActionListCount.jsp"/>
         <forward name="requiredStateError" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
         <forward name="finalStateError" path="/WEB-INF/jsp/ActionList/ActionList.jsp"/>
       </action>
@@ -255,13 +260,6 @@
           <forward name="finalStateError" path="/WEB-INF/jsp/routetemplate/RoutingReportCriteria.jsp"/>
        </action>
 
-      <action path="/Test" name="WorkgroupForm" scope="request" validate="false"
-        type="edu.iu.uis.eden.web.ButtonAction" parameter="methodToCall">
-        <forward name="basic" path="/WEB-INF/jsp/testbed/testbed.jsp"/>
-        <forward name="requiredStateError" path="/WEB-INF/jsp/testbed/testbed.jsp"/>
-        <forward name="finalStateError" path="/WEB-INF/jsp/testbed/testbed.jsp"/>
-      </action>
-
       <action path="/Feedback"
           type="edu.iu.uis.eden.feedback.web.FeedbackAction"
           name="FeedbackForm"
@@ -284,16 +282,6 @@
 	      <forward name="basic" path="/WEB-INF/jsp/quicklinks/QuickLinks.jsp"/>
 	      <forward name="requiredStateError" path="/WEB-INF/jsp/quicklinks/QuickLinks.jsp"/>
           <forward name="finalStateError" path="/WEB-INF/jsp/quicklinks/QuickLinks.jsp"/>
-      </action>
-
-      <action path="/RouteQueue" name="RouteQueueForm" scope="request" input="/WEB-INF/jsp/routequeue/RouteQueueEntry.jsp"
-      			validate="false" type="edu.iu.uis.eden.messaging.web.RouteQueueAction" parameter="methodToCall">
-	      <forward name="report" path="/WEB-INF/jsp/routequeue/RouteQueue.jsp"/>
-	      <forward name="basic" path="/WEB-INF/jsp/routequeue/RouteQueueEntry.jsp"/>
-	      <forward name="restart" path="/RouteQueue.do?methodToCall=start" redirect="true"/>
-	      <forward name="requiredStateError" path="/WEB-INF/jsp/routequeue/RouteQueue.jsp"/>
-          <forward name="finalStateError" path="/WEB-INF/jsp/routequeue/RouteQueue.jsp"/>
-          <forward name="payload" path="/WEB-INF/jsp/routequeue/RouteQueuePayload.jsp" />
       </action>
 
       <action path="/DocumentOperation" name="DocumentOperationForm" scope="request" input="/WEB-INF/jsp/documentoperation/DocumentOperation.jsp"
@@ -355,6 +343,15 @@
          <forward name="report" path="/WEB-INF/jsp/workgroup/WorkgroupReport.jsp"/>
          <forward name="requiredStateError" path="/WEB-INF/jsp/workgroup/WorkgroupReport.jsp"/>
          <forward name="finalStateError" path="/WEB-INF/jsp/workgroup/WorkgroupReport.jsp"/>
+       </action>
+
+       <action path="/RemoveReplace" name="RemoveReplaceForm" scope="request" validate="true"
+         input="/WEB-INF/jsp/removereplace/RemoveReplaceEntry.jsp"
+         type="edu.iu.uis.eden.removereplace.web.RemoveReplaceAction" parameter="methodToCall">
+         <forward name="basic" path="/WEB-INF/jsp/removereplace/RemoveReplaceEntry.jsp"/>
+         <forward name="report" path="/WEB-INF/jsp/removereplace/RemoveReplaceReport.jsp"/>
+         <forward name="requiredStateError" path="/WEB-INF/jsp/removereplace/RemoveReplaceReport.jsp"/>
+         <forward name="finalStateError" path="/WEB-INF/jsp/removereplace/RemoveReplaceReport.jsp"/>
        </action>
 
     </action-mappings>

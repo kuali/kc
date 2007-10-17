@@ -5,6 +5,11 @@
 <%@ taglib uri="../../tld/fmt.tld" prefix="fmt" %>
 <%@ taglib uri="../../tld/displaytag.tld" prefix="display-el" %>
 
+<c:set var="displayName" value="${actionRequest.workflowUser.displayName}"/>
+<c:if test="${UserSession.workflowUser.workflowId != actionRequest.workflowUser.workflowId}">
+  <c:set var="displayName" value="${actionRequest.workflowUser.displayNameSafe}"/>
+</c:if>
+
 <c:choose>
   <c:when test="${actionRequest.approvePolicy == \"A\"}">
     <c:set var="approvePolicy" value="ALL "/>
@@ -32,16 +37,16 @@
     <c:set var="headerClass" value="headercell4"/>
   </c:when>
   <c:otherwise>
-  
+
     <c:set var="headerClass" value="headercell3-b-l"/>
   </c:otherwise>
 </c:choose>
  		                                 <tr>
 
  		                                <td align="center" align="right" class="<c:out value="${headerClass}"/>">
-		                                 	<a id="A<c:out value="${index}" />" onclick="rend(this, false)"><img src="images/tinybutton-show.gif" alt="show" width=45 height=15 border=0 align=absmiddle id="F<c:out value="${index}" />"></a> 
+		                                 	<a id="A<c:out value="${index}" />" onclick="rend(this, false)"><img src="images/tinybutton-show.gif" alt="show" width=45 height=15 border=0 align=absmiddle id="F<c:out value="${index}" />"></a>
 		                                </td>
-			                           
+
 			                           <td align="center" class="<c:out value="${headerClass}"/>">
 			                             <b><c:out value="${actionRequest.displayStatus}" />
 			                             	<c:if test="${actionRequest.displayStatus != null}">
@@ -49,7 +54,7 @@
 											</c:if>
 											<c:out value="${actionRequest.actionRequestedLabel}" />
 			                           </td>
-			                           
+
 			                           <td align="left" class="<c:out value="${headerClass}"/>">
 		                              	<c:choose>
 		                              		<c:when test="${actionRequest.userRequest}">
@@ -58,7 +63,7 @@
 														<c:param name="workflowId" value="${actionRequest.workflowId}" />
 														<c:param name="methodToCall" value="report" />
 														<c:param name="showEdit" value="no" />
-													</c:url>"><c:out value="${actionRequest.workflowUser.displayName}" />
+													</c:url>"><c:out value="${displayName}" />
 												</a>
 												<c:if test="${delegation != null}">
 													&nbsp;<c:out value="${delegation}" />
@@ -80,6 +85,10 @@
 										              <c:choose>
 										              	 <c:when test="${roleRequest.primaryDelegator}">
 										              	 	<c:forEach var="primDelegateRequest" items="${roleRequest.primaryDelegateRequests}" varStatus="pDelegateArStatus">
+										              	 	<c:set var="primDelegateDisplayName" value="${primDelegateRequest.workflowUser.displayName}"/>
+															<c:if test="${UserSession.workflowUser.workflowId != primDelegateRequest.workflowUser.workflowId}">
+  																<c:set var="primDelegateDisplayName" value="${primDelegateRequest.workflowUser.displayNameSafe}"/>
+															</c:if>
 										              	 	<c:if test="${primDelegateRequest.userRequest}">
 												              	 <a style="color:white" href="
 																		<c:url value="${UrlResolver.userReportUrl}">
@@ -87,7 +96,7 @@
 																			<c:param name="methodToCall" value="report" />
 																			<c:param name="showEdit" value="no" />
 																		</c:url>">
-																		<c:out value="${primDelegateRequest.workflowUser.displayName}" />
+																		<c:out value="${primDelegateDisplayName}" />
 																	</a>
 															</c:if>
 							                              	<c:if test="${primDelegateRequest.workgroupRequest}">
@@ -116,23 +125,27 @@
 																<c:if test="${!arStatus.last}"><br></c:if>
 										              	 </c:when>
     										             <c:otherwise>
+    										                <c:set var="roleDisplayName" value="${roleRequest.workflowUser.displayName}"/>
+															<c:if test="${UserSession.workflowUser.workflowId != roleRequest.workflowUser.workflowId}">
+  																<c:set var="roleDisplayName" value="${roleRequest.workflowUser.displayNameSafe}"/>
+															</c:if>
 											              	 <a style="color:white" href="
 																	<c:url value="${UrlResolver.userReportUrl}">
 																		<c:param name="workflowId" value="${roleRequest.workflowId}" />
 																		<c:param name="methodToCall" value="report" />
 																		<c:param name="showEdit" value="no" />
-																	</c:url>"><c:out value="${roleRequest.workflowUser.displayName}" />
+																	</c:url>"><c:out value="${roleDisplayName}" />
 																</a>&nbsp;(<c:out value="${actionRequest.qualifiedRoleNameLabel}" />)
-																<c:if test="${!arStatus.last}"><br></c:if>									                      	 
+																<c:if test="${!arStatus.last}"><br></c:if>
 								                      	 </c:otherwise>
 								                      </c:choose>
 							                      </c:forEach>
-							                    
+
 		                              		</c:otherwise>
 		                              	</c:choose>
 		                              </td>
 		                              <td align="center" class="<c:out value="${headerClass}"/>">
-		                              
+
 		                              	<b>&nbsp;<fmt:formatDate value="${actionRequest.createDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" /></b>
 		                              </td>
 		                              <td align="left" class="<c:out value="${headerClass}"/>">
@@ -150,7 +163,7 @@
 										    </c:forEach>
 		                              	</c:if>
 									  </td>
-									  
+
 		                            </tr>
 		                            <tr id="G<c:out value="${index}" />" style="display: none;">
     		                          <td  align=right class="thnormal">

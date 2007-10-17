@@ -122,6 +122,7 @@
 					</td>
 		  		  </tr>
 		  		  <c:set var="extensions" scope="request" value="${WorkgroupForm.extensions}"/>
+			      <c:set var="existingExtensions" scope="request" value="${WorkgroupForm.existingExtensions}"/>
 		  		  <c:import url="../extension/ExtensionDataEdit.jsp">
 					  <c:param name="extensionsProperty" value="extensions"/>
 				  </c:import>
@@ -136,7 +137,11 @@
 	            			<c:param name="methodToCall" value="report" />
                 			<c:param name="showEdit" value="no" />
 	          			  </c:url>
-		  	  			  <c:out value="${member.displayName}" />
+		  	  			  <c:set var="displayName" value="${member.displayName}"/>
+			   			  <c:if test="${UserSession.workflowUser.workflowId != member.workflowId}">
+  		         			<c:set var="displayName" value="${member.displayNameSafe}"/>
+			   				</c:if>
+		  			    <c:out value="${displayName}" />
 		      			  (<a href="<c:out value="${userReportUrl}"/>"><c:out value="${member.authenticationId}"/></a>)&nbsp;
 		    			</c:if>
 		    			<c:if test="${member.memberType == 'W'}">
@@ -168,8 +173,11 @@
 	               		        <c:param name="workflowId" value="${member.workflowId}" />
 	               		    	<c:param name="methodToCall" value="report" />
                                 <c:param name="showEdit" value="no" />
-	               		    </c:url>
-		  			        <c:out value="${member.displayName}" />
+	               		    </c:url><c:set var="displayName" value="${member.displayName}"/>
+			   <c:if test="${UserSession.workflowUser.workflowId != member.workflowId}">
+  		         <c:set var="displayName" value="${member.displayNameSafe}"/>
+			   </c:if>
+		  			        <c:out value="${displayName}" />
 		                    (<a href="<c:out value="${userReportUrl}"/>"><c:out value="${member.authenticationId}"/></a>)&nbsp;
 		                    </c:if>
 		                    <c:if test="${member.memberType == 'W'}">

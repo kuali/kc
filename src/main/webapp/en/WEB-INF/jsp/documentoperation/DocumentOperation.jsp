@@ -39,14 +39,14 @@
   <tr>
     <td width="20" height="30">&nbsp;</td>
     <td height="30">
-      <strong>Operate on a document</strong>  
+      <strong>Operate on a document</strong>
        <html-el:messages id="msg">
 		 <font color="red"><c:out value="${msg}"/></font><br>
-	   </html-el:messages>   
+	   </html-el:messages>
     </td>
     <td width="20" height="30">&nbsp;</td>
   </tr>
-  
+
   <tr>
     <td><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
     <td>
@@ -68,24 +68,25 @@
             </div>
           </th>
         </tr>
-      </table> 
+      </table>
     </td>
     <td width="20" height="30">&nbsp;</td>
-  </tr>  
+  </tr>
 
- <c:if test="${DocumentOperationForm.routeHeader.routeHeaderId != null && DocumentOperationForm.routeHeader.routeHeaderId != 0}"> 
+ <c:if test="${DocumentOperationForm.routeHeader.routeHeaderId != null && DocumentOperationForm.routeHeader.routeHeaderId != 0}">
   <tr>
   	<td><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
   	<td> &nbsp;</td>
   	<td width="20" height="10">&nbsp;</td>
   </tr>
+  <jsp:include page="DocumentActions.jsp" flush="true"/>
   <jsp:include page="RouteHeader.jsp" flush="true"/>
   <jsp:include page="ActionRequests.jsp" flush="true"/>
   <jsp:include page="ActionsTaken.jsp" flush="true"/>
   <jsp:include page="ActionItems.jsp" flush="true"/>
   <jsp:include page="RouteNodeInstances.jsp" flush="true"/>
   <jsp:include page="BranchStates.jsp" flush="true"/>
-   
+
    <tr>
     <td><img src="images/pixel_clear.gif" alt="" width="20" height="10"></td>
   	<td>
@@ -103,7 +104,7 @@
     </td>
     <td width="20" height="10">&nbsp;</td>
   </tr>
-  
+
    <tr>
   	<td><img src="images/pixel_clear.gif" alt="" width="20" height="10"></td>
   	<td>
@@ -115,12 +116,12 @@
             </div>
           </th>
         </tr>
-      </table> 
+      </table>
     </td>
   	<td width="20" height="10">&nbsp;</td>
   </tr>
   </c:if>
-</table> 
+</table>
 </html-el:form>
 <jsp:include page="../BackdoorMessage.jsp" flush="true"/>
 </body>

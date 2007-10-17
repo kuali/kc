@@ -148,3 +148,27 @@ function setRouteLogIframeDimensions() {
 function resizeTheRouteLogFrame() {
   setRouteLogIframeDimensions();
 }
+
+// should be in rice for direct inquiry 
+ function inquiryPop(boClassName, inquiryParameters){
+  parameterPairs = inquiryParameters.split(",");
+  queryString="businessObjectClassName="+boClassName+"&methodToCall=start"
+  for (i in parameterPairs) {
+  
+    parameters = parameterPairs[i].split(":");
+  	if (document.forms[0].elements[parameters[0]].value=="") {
+//    	queryString=queryString+"&"+parameters[1]+"=directInquiryParameterNotSpecified";
+		return false;
+  	} else {
+    	queryString=queryString+"&"+parameters[1]+"="+document.forms[0].elements[parameters[0]].value;
+  	}
+  }
+  url=window.location.href
+  pathname=window.location.pathname
+  idx1=url.indexOf(pathname);
+  idx2=url.indexOf("/",idx1+1);
+  baseUrl=url.substr(0,idx2)
+  window.open(baseUrl+"/kr/directInquiry.do?"+queryString, "_blank", "width=640, height=600, scrollbars=yes");
+}
+ 
+
