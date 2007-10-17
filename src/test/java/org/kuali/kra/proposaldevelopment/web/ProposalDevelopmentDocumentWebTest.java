@@ -418,9 +418,9 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("000001", doc.getOrganizationId());
         assertEquals("000002", doc.getPerformingOrganizationId());
         assertEquals("University", doc.getPropLocations().get(0).getLocation());
-        assertEquals(0, doc.getPropLocations().get(0).getRolodexId());
+        assertEquals(new Integer(0), doc.getPropLocations().get(0).getRolodexId());
         assertEquals("location 2", doc.getPropLocations().get(1).getLocation());
-        assertEquals(1727, doc.getPropLocations().get(1).getRolodexId());
+        assertEquals(new Integer(1727), doc.getPropLocations().get(1).getRolodexId());
 
     }
 
@@ -495,7 +495,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
         assertEquals("1", doc.getMailBy());
         assertEquals("2", doc.getMailType());
-        assertEquals(1728, doc.getMailingAddressId());
+        assertEquals(new Integer(1728), doc.getMailingAddressId());
         assertEquals("10-0001", doc.getMailAccountNumber());
         assertEquals("2", doc.getNumberOfCopies());
         assertEquals("mail description \n line2", doc.getMailDescription());

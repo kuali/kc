@@ -16,11 +16,11 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.ValidSpRevApproval;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
 import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
@@ -117,8 +117,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         // "Sponsor Proposal Id" must be entered if the proposal type is not new (i.e. resubmission)
         // or if the proposal type is new and the grants.gov submission type is "changed/corrected".
+        String proposalTypeCodeNew = getKualiConfigurationService().getParameter(
+                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW).getParameterValue();
         if (StringUtils.isNotEmpty(proposalDevelopmentDocument.getProposalTypeCode()) &&
-                !proposalDevelopmentDocument.getProposalTypeCode().equals(getKualiConfigurationService().getApplicationParameterValue(RiceConstants.ParameterGroups.SYSTEM, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW)) &&
+                !proposalDevelopmentDocument.getProposalTypeCode().equals(proposalTypeCodeNew) &&
                 StringUtils.isEmpty(proposalDevelopmentDocument.getSponsorProposalNumber())) {
             valid = false;
             errorMap.putError("sponsorProgramNumber", KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, "Sponsor Program Number");

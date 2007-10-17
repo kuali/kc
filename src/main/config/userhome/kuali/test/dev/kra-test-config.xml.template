@@ -7,6 +7,10 @@
 	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
+	
+	<param name="javascript.files">kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/UserService.js,kr/scripts/objectInfo.js</param>
+    <param name="css.files">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
+
 	<param name="kr.url">/${app.context.name}/kr</param>
 	<param name="use.clearDatabaseLifecycle">true</param>
 	<param name="use.kewXmlmlDataLoaderLifecycle">true</param>
@@ -14,6 +18,7 @@
 	<param name="use.kraKewXmlDataLoaderLifecycle">true</param>
 	<param name="use.kraSqlDataLoaderLifecycle">true</param>
 	<param name="test.mode">true</param>
+	<param name="ken.test.mode">true</param>
     <param name="attachments.pending.directory">${java.io.tmpdir}</param>
     <param name="attachments.directory">${java.io.tmpdir}</param>
 
@@ -55,6 +60,8 @@
 	<param name="message.persistence">true</param>
 	<param name="message.delivery">synchronous</param>
 
+    <param name="edl.config.loc">classpath:META-INF/EDLConfig.xml</param>
+
 	<!-- XML ingester directories -->
 	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
 	<param name="data.xml.pending.location">${data.xml.root.location}pending</param>
@@ -77,5 +84,31 @@
 	<param name="kfsLocator.useAppContext">true</param>
 	<param name="production.environment.code">prd</param>
     <param name="rice.user">true</param>
+
+	<!-- Ken stuffs... -->
+    <!-- stock notification system configuration properties -->
+
+    <!-- Quartz Jobs (MS = Milli Seconds) -->
+    <param name="notification.resolveMessageDeliveriesJob.startDelayMS">5000</param>
+    <param name="notification.resolveMessageDeliveriesJob.intervalMS">10000</param>
+
+    <param name="notification.processUndeliveredJob.startDelayMS">10000</param>
+    <param name="notification.processUndeliveredJob.intervalMS">10000</param>
+
+    <param name="notification.processAutoRemovalJob.startDelayMS">60000</param>
+    <param name="notification.processAutoRemovalJob.intervalMS">60000</param>
+
+    <param name="notification.quartz.autostartup">false</param>
+    <param name="notification.concurrent.jobs">true</param>
+
+    <param name="notification.basewebappurl">http://localhost:9912/${app.context.name}/ken</param>
+    
+    <param name="notification.ojb.platform">Oracle</param>
+    
+    <!-- Email Plugin Properties -->
+    <param name="emailDeliverer.smtp.host">no_such_smtp_host</param>
+    
+    <!-- Turn off KEW use of quartz db to avoid db clear issues -->
+    <param name="useQuartzDatabase">false</param>
 </config>
 

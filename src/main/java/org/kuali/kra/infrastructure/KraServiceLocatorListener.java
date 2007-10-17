@@ -17,7 +17,7 @@ public class KraServiceLocatorListener implements ServletContextListener {
         ServletContext context = sce.getServletContext();
 
         // publish application constants into JSP app context with name "Constants"
-        context.setAttribute("SystemParameters", new SystemParametersPropertyHolder("SYSTEM"));
+        context.setAttribute("SystemParameters", new SystemParametersPropertyHolder());
 
 	}
 

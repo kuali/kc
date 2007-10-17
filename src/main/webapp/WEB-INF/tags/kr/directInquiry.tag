@@ -1,5 +1,5 @@
 <%--
- Copyright 2007 The Kuali Foundation.
+ Copyright 2005-2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,16 +14,11 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+<%@ attribute name="boClassName" required="true" %>
+<%@ attribute name="inquiryParameters" required="false" %>
+<%@ attribute name="anchor" required="false" %>
 
-<%@ attribute name="field" required="true" type="org.kuali.core.web.ui.Field"%>
-
-<c:forEach items="${field.fieldValidValues}" var="radio">
-  <c:if test="${!empty radio.label}">
-    <input type="radio"
-        ${field.propertyValue eq radio.key ? 'checked="checked"' : ''}
-           name='${field.propertyName}'
-           value='<c:out value="${radio.key}"/>'
-        ${onblurcall} />
-    <c:out value="${radio.label}"/>
-  </c:if>
-</c:forEach>
+     
+<html:image  property="methodToCall.performInquiry.(!!${boClassName}!!).((#${inquiryParameters}#)).anchor${anchor}"
+   onclick="javascript: inquiryPop('${boClassName}','${inquiryParameters}'); return false"
+   src="${ConfigProperties.kr.externalizable.images.url}book_open.png" styleClass="tinybutton" />

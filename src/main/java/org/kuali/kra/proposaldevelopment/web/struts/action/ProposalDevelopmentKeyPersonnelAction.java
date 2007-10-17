@@ -15,6 +15,18 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.apache.commons.beanutils.PropertyUtils.getProperty;
+import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang.StringUtils.substringBetween;
+import static org.kuali.RiceConstants.METHOD_TO_CALL_ATTRIBUTE;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import static org.kuali.kra.infrastructure.Constants.NEW_PERSON_LOOKUP_FLAG;
+import static org.kuali.kra.infrastructure.Constants.NEW_PROPOSAL_PERSON_PROPERTY_NAME;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,15 +41,14 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
-
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
@@ -50,26 +61,12 @@ import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
-import static org.apache.commons.beanutils.PropertyUtils.getProperty;
-import static org.apache.commons.beanutils.PropertyUtils.INDEXED_DELIM;
-import static org.apache.commons.beanutils.PropertyUtils.INDEXED_DELIM2;
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.apache.commons.lang.StringUtils.substringBetween;
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import static org.kuali.kra.infrastructure.Constants.NEW_PERSON_LOOKUP_FLAG;
-import static org.kuali.kra.infrastructure.Constants.NEW_PROPOSAL_PERSON_PROPERTY_NAME;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.RiceConstants.METHOD_TO_CALL_ATTRIBUTE;
-
 /**
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.18 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.19 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -84,7 +81,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         request.setAttribute(NEW_PERSON_LOOKUP_FLAG, "");
 
         try {
-            boolean creditSplitEnabled = getConfigurationService().getApplicationParameterIndicator("SYSTEM", CREDIT_SPLIT_ENABLED_RULE_NAME);
+            boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(
+                    Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME);
 
             if (creditSplitEnabled) {
                 request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));

@@ -19,14 +19,18 @@
               description="Is the view for this field readOnly?" %>
 <%@ attribute name="field" required="true" type="org.kuali.core.web.ui.Field"
               description="The field for which to show the lookup icon." %>
-<%@ attribute name="addHighlighting" required="false"
-              description="boolean indicating if this field should be highlighted (to indicate old/new change)" %>            
+<%@ attribute name="anchor" required="false"
+              description="The anchor (i.e. tab index) of the tab in which these icons will be displayed (primarily for lookups to return to the original section)" %>
+              
+<c:if test="${isReadOnly ne true && field.fieldType ne field.KUALIUSER && field.fieldType ne field.HIDDEN}">
+	
+    <c:if test="${!(empty field.quickFinderClassNameImpl)}">
+        
+        <kul:directInquiry
+        	boClassName="${field.quickFinderClassNameImpl}"
+            inquiryParameters="${field.inquiryParameters}"
+            anchor="${anchor}" />
+                
+    </c:if>
 
-<kul:fieldShowLookupIcon isReadOnly="${isReadOnly}" field="${field}" anchor="${currentTabIndex}"/>
-<kul:fieldShowDirectInquiryIcon isReadOnly="${isReadOnly}" field="${field}" anchor="${currentTabIndex}"/>
-<kul:fieldShowHelpIcon isReadOnly="${isReadOnly}" field="${field}" />
-
-<%-- don't render the field changed icon if readonly since the fieldShowReadOnly tag will render it when the field is readonly --%>
-<c:if test="${addHighlighting && field.highlightField && !isReadOnly}">
-  <kul:fieldShowChangedIcon />
 </c:if>

@@ -27,6 +27,7 @@
 <%@ attribute name="boClassName" required="false" %>
 <%@ attribute name="lookedUpBODisplayName" required="false" description="this value is the human readable name of the BO being looked up" %>
 <%@ attribute name="lookedUpCollectionName" required="true" description="the name of the collection being looked up (perhaps on a document collection), this value will be returned to the calling document" %>
+<%@ attribute name="useCurrentTabIndexAsKey" required="false" %>
 
 <table class="datatable" cellpadding="0" cellspacing="0" align="center"
        style="width: ${width}; text-align: left; margin-left: auto; margin-right: auto;">
@@ -38,10 +39,19 @@
                 </c:if>
                 <span class="left">
 <c:if test="${!noShowHideButton}">
-    <c:set var="tabKey" value="${kfunc:generateTabKey(subTabTitle)}"/>
+    <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
+    
+    <c:choose>
+        <c:when test="${(useCurrentTabIndexAsKey)}">
+            <c:set var="tabKey" value="${currentTabIndex}"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="tabKey" value="${kfunc:generateTabKey(subTabTitle)}"/>
+        </c:otherwise>
+    </c:choose>
+
     <!--  hit form method to increment tab index -->
     <c:set var="doINeedThis" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
-
     <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
 
     <%-- c:set var="currentTab" value="${KualiForm.tabStateJstl}"/ --%>
