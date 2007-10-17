@@ -62,7 +62,7 @@
     </td>
   </tr>
 
-<c:if test="${SuperUserForm.routeHeader.docRouteStatus != Constants.ROUTE_HEADER_FINAL_CD && SuperUserForm.routeHeader.docRouteStatus != Constants.ROUTE_HEADER_CANCEL_CD}"> 
+<c:if test="${(! SuperUserForm.routeHeader.canceled) && (SuperUserForm.authorized}">
       <html-el:form method="post" action="/SuperUser.do">
       <html-el:hidden property="methodToCall" />
       <html-el:hidden property="routeHeaderId" value="${SuperUserForm.routeHeader.routeHeaderId}" />
@@ -70,7 +70,7 @@
 	  <html-el:hidden property="lookupableImplServiceName" />
   	  <html-el:hidden property="lookupType" />
 
-<c:if test="${SuperUserForm.authorized}">  
+<c:if test="${(! SuperUserForm.routeHeader.final)}">
   <tr>
     <td height=30>
       <table width="100%" border=0 cellpadding=0 cellspacing=0" class="bord-r-t">
@@ -93,9 +93,7 @@
       <table width="100%" border=0 cellpadding=0 cellspacing=0>
        <tr>
 	     <td nowrap align="center"> 
-           <c:if test="${SuperUserForm.SUDocument && SuperUserForm.routeHeader.docRouteStatus != Constants.ROUTE_HEADER_PROCESSED_CD
-                   && SuperUserForm.routeHeader.docRouteStatus != Constants.ROUTE_HEADER_APPROVED_CD  &&
-              SuperUserForm.routeHeader.docRouteStatus != Constants.ROUTE_HEADER_DISAPPROVED_CD}">
+           <c:if test="${SuperUserForm.SUDocument && SuperUserForm.stateAllowsAction}">
              <html-el:image property="methodToCall.approve" src="images/buttonsmall_approvedoc.gif" align="absmiddle" />
              <c:set var="futureNodeNames" value="${SuperUserForm.futureNodeNames}" />
 			<%
@@ -118,15 +116,12 @@
        </tr>       	 
        <tr>
        	 <td nowrap align="center"> 
-           <c:if test="${SuperUserForm.SUDocument && SuperUserForm.routeHeader.docRouteStatus != Constants.ROUTE_HEADER_PROCESSED_CD
-                && SuperUserForm.routeHeader.docRouteStatus != Constants.ROUTE_HEADER_APPROVED_CD &&
-              SuperUserForm.routeHeader.docRouteStatus != Constants.ROUTE_HEADER_DISAPPROVED_CD}">
-             <html-el:image property="methodToCall.disapprove" src="images/buttonsmall_disapprovedoc.gif" align="absmiddle" />&nbsp;&nbsp;&nbsp;&nbsp; 
-           </c:if>
-           <c:if test="${SuperUserForm.routeHeader.docRouteStatus != Constants.ROUTE_HEADER_PROCESSED_CD && SuperUserForm.routeHeader.docRouteStatus != Constants.ROUTE_HEADER_APPROVED_CD &&
-              SuperUserForm.routeHeader.docRouteStatus != Constants.ROUTE_HEADER_DISAPPROVED_CD}">
+       	   <c:if test="${SuperUserForm.stateAllowsAction}">
+       	     <c:if test="${SuperUserForm.SUDocument}">
+               <html-el:image property="methodToCall.disapprove" src="images/buttonsmall_disapprovedoc.gif" align="absmiddle" />&nbsp;&nbsp;&nbsp;&nbsp; 
+       	     </c:if>
              <html-el:image property="methodToCall.cancel" src="images/buttonsmall_canceldoc.gif" align="absmiddle" /> 
-           </c:if>
+       	   </c:if>
            <c:set var="previousNodeNameCol" value="${SuperUserForm.previousNodes}" />
 			<%
 			if(!((Collection)pageContext.getAttribute("previousNodeNameCol")).isEmpty()) {
@@ -146,8 +141,9 @@
       </table> 
     </td>
   </tr>
+ </c:if>
  
-  <c:if test="${SuperUserForm.SUDocument && ! empty SuperUserForm.actionRequests}">
+  <c:if test="${(! SuperUserForm.routeHeader.stateInitiated) && (! empty SuperUserForm.actionRequests)}">
     <tr>
       <td height="20"></td>
     </tr>
@@ -163,8 +159,6 @@
       </td>
     </tr>
   </c:if>
-</c:if>
-
 </html-el:form>
 </c:if>
 

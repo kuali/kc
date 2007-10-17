@@ -164,18 +164,21 @@
 					</c:choose>
 				</c:forEach>
 
-				<logic:present name="KualiForm" property="formKey">
-					<c:if
-						test="${KualiForm.formKey!='' && KualiForm.hideReturnLink!=true && !KualiForm.multipleValues}">
-						<display:column class="infocell" title="Return value">
-							<a href='<c:out value="${row.returnUrl}"/>&anchor=${KualiForm.lookupAnchor}' title="return value">return value</a>
-						</display:column>
-					</c:if>
-					<c:if test="${row.actionUrls!='' && KualiForm.suppressActions!=true && !KualiForm.multipleValues && KualiForm.showMaintenanceLinks}">
-						<display:column class="infocell" property="actionUrls"
-							title="Actions" media="html" />
-					</c:if>
-				</logic:present>
+				<%-- the param['d-16544-e'] parameter below is NOT null when we are in exporting mode, so this check disables rendering of return/action URLs when we are exporting to CSV, excel, xml, etc. --%>
+				<c:if test="${param['d-16544-e'] == null}">
+					<logic:present name="KualiForm" property="formKey">
+						<c:if
+							test="${KualiForm.formKey!='' && KualiForm.hideReturnLink!=true && !KualiForm.multipleValues}">
+							<display:column class="infocell" title="Return value">
+								<a href='<c:out value="${row.returnUrl}"/>&anchor=${KualiForm.lookupAnchor}' title="return value">return value</a>
+							</display:column>
+						</c:if>
+						<c:if test="${row.actionUrls!='' && KualiForm.suppressActions!=true && !KualiForm.multipleValues && KualiForm.showMaintenanceLinks}">
+							<display:column class="infocell" property="actionUrls"
+								title="Actions" media="html" />
+						</c:if>
+					</logic:present>
+				</c:if>
 			</display:table>
 			</c:if></td>
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"

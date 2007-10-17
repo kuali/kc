@@ -14,20 +14,39 @@
  limitations under the License.
 --%>
 <%@ include file="tldHeader.jsp"%>
+<html>
+<head>
 
-<c:set var="routingReportUrl" value="${ConfigProperties.workflow.url}/RoutingReport.do"/>
-
-<form name="routeReportForm" id="routeReportForm" method="post" action="${routingReportUrl}">
-<input type="hidden" name="documentTypeParam" value="${documentTypeName}">
-<input type="hidden" name="initiatorNetworkId" value="${initiatorNetworkId}">
-<input type="hidden" name="documentContent" value="<c:out value="${documentContent}" escapeXml="true"/>">
-Click this button to see the Routing Report:&nbsp;&nbsp;&nbsp;<input type="submit" value="View Report">
+</head>
+<body>
+<%-- Below form used for non java script enabled browsers --%>
+<form name="disabledJavaScriptReportForm" id="disabledJavaScriptReportForm" method="post" action="${workflowRouteReportUrl}">
+  <c:forEach var="keyLabelPair" items="${noJavaScriptFormVariables}">
+    <input type="hidden" name='${keyLabelPair.key}' value='<c:out value="${keyLabelPair.label}" escapeXml="true"/>'>
+  </c:forEach>
+  <noscript>
+    Click this button to see the Routing Report:&nbsp;&nbsp;&nbsp;<input type="submit" value="View Report">
+  </noscript>
 </form>
-
+<%-- Below forms used for java script enabled browsers --%>
+<form name="backForm" id="backForm" method="post" action="${backUrlBase}">
+  <c:forEach var="keyLabelPair" items="${backFormHiddenVariables}">
+    <input type="hidden" name="${keyLabelPair.key}" value="${keyLabelPair.label}">
+  </c:forEach>
+</form>
+<form name="routeReportForm" id="routeReportForm" method="post" action="${workflowRouteReportUrl}">
+  <c:forEach var="keyLabelPair" items="${javaScriptFormVariables}">
+    <input type="hidden" name='${keyLabelPair.key}' value='<c:out value="${keyLabelPair.label}" escapeXml="true"/>'>
+  </c:forEach>
 <script language ="javascript">
-window.onload = document.routeReportForm.submit();
+window.onload = dothis();
+function dothis() {
+  _win = window.open('', 'routereport');
+  document.routeReportForm.target=_win.name;
+  document.routeReportForm.submit();
+  document.backForm.submit();
+}
 </script>
-<%--
-<script language="JavaScript" src="scripts/core.js" type="text/javascript"></script>
-  <iframe onload="setRouteLogIframeDimensions();" name="routeLogIFrame" id="routeLogIFrame" src="${ConfigProperties.workflow.url}/RoutingReport.do?documentTypeParam=${documentTypeName}&initiatorNetworkId=${initiatorNetworkId}&documentContent=${documentContent}" height="500" width="95%" hspace='0' vspace='0' frameborder='0' title='Workflow Routing Report'>
---%>
+</form>
+</body>
+</html>

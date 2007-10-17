@@ -110,3 +110,4 @@ function setIframeAnchor(iframeName) {
     iframeWin.location.replace(iframeWin.location);
   }  
 }
+

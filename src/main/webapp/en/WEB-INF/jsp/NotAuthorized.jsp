@@ -25,7 +25,7 @@
 		<table align="center">
 			<tr>
 				<td>
-					Not Authorized
+					<font color="red">You are not authorized to access this portion of the application.</font>
 				</td>
 			</tr>
 		</table>

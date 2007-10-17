@@ -17,12 +17,17 @@
 	<table width="100%" border=0 cellpadding=0 cellspacing=0 class="headercell1">
 	  <tr>
 	    <td width="10%"><img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5></td>
-		<td><a href="<c:url value="RouteLog.do">
-									<c:param name="showFuture" value="${RouteLogForm.showFuture}" />
-									<c:param name="showNotes" value="${RouteLogForm.showNotes}" />
-									<c:param name="routeHeaderId" value="${RouteLogForm.routeHeaderId}" />
-									<c:param name="docId" value="${RouteLogForm.docId}" />
-								</c:url>">Refresh</a>
+		<td>
+		  <a href="<c:url value="RouteLog.do">
+					<c:param name="showFuture" value="${RouteLogForm.showFuture}" />
+					<c:param name="showNotes" value="${RouteLogForm.showNotes}" />
+					<c:param name="routeHeaderId" value="${RouteLogForm.routeHeaderId}" />
+					<c:param name="docId" value="${RouteLogForm.docId}" />
+					<c:param name="backUrl" value="${RouteLogForm.returnUrlLocation}" />
+				  </c:url>">Refresh</a>
+		  <c:if test="${not empty RouteLogForm.returnUrlLocation}">
+		    &nbsp;&nbsp;&nbsp;<a href="<c:out value="${RouteLogForm.returnUrlLocation}"/>">Back to Previous Page</a>
+		  </c:if>
 		</td>
 	  </tr>
 	</table>
@@ -86,12 +91,16 @@
 	                     <tr>
 		                   <td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.initiator"/></td>
 		                   <td class="datacell" width="25%">
+		                   <c:set var="initiatorDisplayName" value="${routeHeader.initiatorUser.displayName}"/>
+							  <c:if test="${UserSession.workflowUser.workflowId != routeHeader.initiatorUser.workflowId}">
+  							    <c:set var="initiatorDisplayName" value="${routeHeader.initiatorUser.displayNameSafe}"/>
+							  </c:if>
 			                   <a href="
                						<c:url value="${UrlResolver.userReportUrl}">
 										<c:param name="workflowId" value="${routeHeader.initiatorWorkflowId}" />
 										<c:param name="methodToCall" value="report" />
 										<c:param name="showEdit" value="no" />
-									</c:url>"><c:out value="${routeHeader.initiatorUser.displayName}" />
+									</c:url>"><c:out value="${initiatorDisplayName}" />
 								</a>&nbsp;
 		                   	</td>
 		                   	<td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.lastModified"/></td>
@@ -182,12 +191,16 @@
 	                       		</td>
 	                       		<td align="left" class="headercell4">
 							        <c:if test="${actionTaken.forDelegator}">
+							        <c:set var="actionDisplayName" value="${actionTaken.workflowUser.displayName}"/>
+							      <c:if test="${UserSession.workflowUser.workflowId != actionTaken.workflowUser.workflowId}">
+  							        <c:set var="actionDisplayName" value="${actionTaken.workflowUser.displayNameSafe}"/>
+							      </c:if>
 											<a style="color:white" href="
 									  			<c:url value="${UrlResolver.userReportUrl}">
 													<c:param name="workflowId" value="${actionTaken.delegatorWorkflowId}" />
 													<c:param name="methodToCall" value="report" />
 													<c:param name="showEdit" value="no" />
-												</c:url>"><c:out value="${actionTaken.delegatorDisplayName}" />
+												</c:url>"><c:out value="${actionDisplayName}" />
 											</a>
 							         </c:if>&nbsp;
 						         </td>
@@ -394,6 +407,13 @@
         </table>
       </td>
     </tr>
+    <c:if test="${RouteLogForm.showCloseButton}">
+      <tr>
+        <td align="center">
+          <br><br><a href="#" onclick="javascript:window.close();"><img src="images/buttonsmall_close.gif" alt="Close This Window" /></a>
+        </td>
+      </tr>
+    </c:if>
 </table>
 
 </body>
