@@ -94,6 +94,7 @@
 	</bean>
 	-->
 	<bean id="proposalDevelopmentService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
 	<bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
