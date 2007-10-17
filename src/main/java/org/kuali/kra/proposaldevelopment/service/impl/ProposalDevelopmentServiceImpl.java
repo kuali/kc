@@ -24,8 +24,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService; // This is until boService injection works
-
 
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
     private BusinessObjectService businessObjectService;
@@ -75,8 +73,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * @return BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {
-        return getService(BusinessObjectService.class); // Just until boService injection is working
-        // return businessObjectService;
+        return businessObjectService;
     }
 
 }
