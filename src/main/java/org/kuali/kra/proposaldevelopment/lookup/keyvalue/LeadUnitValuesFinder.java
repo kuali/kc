@@ -34,13 +34,12 @@ public class LeadUnitValuesFinder extends KeyValuesBase {
         keyValues.add(new KeyLabelPair("", "select:"));
         
         //TODO: Refactor this when we get SpringContext object (like KFS)
-//        Map<String, String> userUnits = ((ProposalDevelopmentService)KraServiceLocator.getService("proposalDevelopmentService")).getUnitsForUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId());
+        Map<String, String> userUnits = ((ProposalDevelopmentService)KraServiceLocator.getService("proposalDevelopmentService")).getUnitsForUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId());
         
-//        for (String key : userUnits.keySet()) {
-//            keyValues.add(new KeyLabelPair(key, userUnits.get(key)));
-//        }
+        for (String key : userUnits.keySet()) {
+            keyValues.add(new KeyLabelPair(key, userUnits.get(key)));
+        }
         
-        keyValues.add(new KeyLabelPair("IN-PEDS", "IN-PEDS"));
         return keyValues;
     }
 }
