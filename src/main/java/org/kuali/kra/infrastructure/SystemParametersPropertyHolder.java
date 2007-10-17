@@ -18,64 +18,58 @@ package org.kuali.kra.infrastructure;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.beanutils.PropertyUtilsBean;
-
-import org.kuali.RiceConstants;
-import org.kuali.core.util.JstlPropertyHolder;
-import org.kuali.core.bo.FinancialSystemParameter;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.core.util.JstlPropertyHolder;
 
 
 /**
  * Access financial system parameters like they were a map
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.1 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.2 $
  */
 public class SystemParametersPropertyHolder extends JstlPropertyHolder {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SystemParametersPropertyHolder.class);
-    private String scriptName;
+    //private String scriptName;
     
     /**
      * Build SystemParametersPropertyHolder from a script name
      */
-    public SystemParametersPropertyHolder(String name) {
-        setScriptName(name);
-    }
+//    public SystemParametersPropertyHolder(String name) {
+//        setScriptName(name);
+//    }
 
     /**
      * Set the script name used to retrieve System Parameters
      *
      * @param s
      */
-    public void setScriptName(String s) {
-        scriptName = s;
-    }
+//    public void setScriptName(String s) {
+//        scriptName = s;
+//    }
     
     /**
      * The script name used to retrieve System Parameters
      *
      * @return String
      */
-    public String getScriptName() {
-        return scriptName;
-    }
+//    public String getScriptName() {
+//        return scriptName;
+//    }
 
     // delegated methods
     /**
      * @see org.kuali.core.util.properties.PropertyTree#get(java.lang.Object)
      */
-    public Object get(Object key) {        
+    public Object get(String parameterNamespaceCode, String parameterDetailTypeCode, Object key) {
         try { // Return a map of the parameter or don't return at all.
-            return new PropertyUtilsBean().describe(getApplicationParameter(getScriptName(), key.toString()));
+            return new PropertyUtilsBean().describe(getParameter(parameterNamespaceCode, parameterDetailTypeCode, key.toString()));
         }        
         catch (Exception e) {
             return null;
@@ -100,9 +94,9 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
     /**
      * @see org.kuali.core.util.properties.PropertyTree#containsKey(java.lang.Object)
      */
-    public boolean containsKey(Object key) {
+    public boolean containsKey(String parameterNamespaceCode, String parameterDetailTypeCode, Object key) {
         try {
-            return getConfigurationService().hasApplicationParameter(getScriptName(), key.toString());
+            return getConfigurationService().parameterExists(parameterNamespaceCode, parameterDetailTypeCode, key.toString());
         }
         catch(Exception e) {
             return false;
@@ -144,33 +138,37 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
      * Code duplication. Used because private in KualiConfigurationService
      * @see org.kuali.core.service.KualiConfigurationService#getApplicationParameter(String, String)
      */
-    private Collection getApplicationParameters(String scriptName, String parameter) {
-        if (StringUtils.isBlank(scriptName)) {
-            throw new IllegalArgumentException("blank scriptName: '" + scriptName + "'");
+    private Collection getParameters(String parameterNamespaceCode, String parameterDetailTypeCode, String parameterName) {
+        if (StringUtils.isBlank(parameterNamespaceCode)) {
+            throw new IllegalArgumentException("blank scriptName: '" + parameterNamespaceCode + "'");
         }
-        else if (StringUtils.isBlank(parameter)) {
-            throw new IllegalArgumentException("blank parameter: '" + parameter + "'");
+        else if (StringUtils.isBlank(parameterDetailTypeCode)) {
+            throw new IllegalArgumentException("blank parameter: '" + parameterDetailTypeCode + "'");
+        }
+        else if (StringUtils.isBlank(parameterName)) {
+            throw new IllegalArgumentException("blank parameter: '" + parameterName + "'");
         }
         HashMap map = new HashMap();
-        map.put(RiceConstants.PARM_SECTION_NAME_FIELD, scriptName);
-        map.put(RiceConstants.PARM_PARM_NAME_FIELD, parameter);
-        return getBusinessObjectService().findMatching(FinancialSystemParameter.class, map);
+        map.put("parameterNamespaceCode", parameterNamespaceCode);
+        map.put("parameterDetailTypeCode", parameterDetailTypeCode);
+        map.put("parameterName", parameterName);
+        return getBusinessObjectService().findMatching(Parameter.class, map);
     }
     /**
      * Code duplication. Used because private in KualiConfigurationService
      * @see org.kuali.core.service.KualiConfigurationService#getApplicationParameter(String, String)
      */
-    private FinancialSystemParameter getApplicationParameter(String scriptName, String parameter) {
+    private Parameter getParameter(String parameterNamespaceCode, String parameterDetailTypeCode, String parameter) {
         LOG.debug("getApplicationParameter() started");
 
-        Collection c = getApplicationParameters(scriptName, parameter);
+        Collection c = getParameters(parameterNamespaceCode, parameterDetailTypeCode, parameter);
         switch (c.size()) {
             case 0:
-                throw new ApplicationParameterException(scriptName, parameter, "not found");
+                throw new ApplicationParameterException(parameterNamespaceCode + ", " + parameterDetailTypeCode, parameter, "not found");
             case 1:
-                return (FinancialSystemParameter) c.iterator().next();
+                return (Parameter) c.iterator().next();
             default:
-                throw new ApplicationParameterException(scriptName, parameter, "multiple found");
+                throw new ApplicationParameterException(parameterNamespaceCode + ", " + parameterDetailTypeCode, parameter, "multiple found");
         }
     }
 }

@@ -23,14 +23,16 @@
       <c:if test="${status.first}">
           <c:set var="transparent" value="true" />
     <kul:tabTop tabTitle="${fn:substring(keyPerson.fullName, 0, 22)}"
-             tabDescription="${keyPerson.role.description}"
-             leftSideHtmlProperty="${proposalPerson}.delete" 
-            leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
-         	 leftSideHtmlDisabled="false" 
                       defaultOpen="false" 
                       tabErrorKey="proposalPersons">
         <kra-pd:person proposalPerson="${proposalPerson}" />
      </kul:tabTop>
+     
+     <%-- removed 
+     		tabDescription="${keyPerson.role.description}"
+             leftSideHtmlProperty="${proposalPerson}.delete" 
+            leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
+         	 leftSideHtmlDisabled="false" --%>
 
       </c:if>
       <c:if test="${!status.first}">

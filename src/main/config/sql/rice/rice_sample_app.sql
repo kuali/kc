@@ -95,7 +95,7 @@ INSERT INTO FP_DOC_GROUP_T VALUES ('TR', '054EDFB3B260C8D2E043814FD881C8D2', 1,	
 /
 INSERT INTO FP_DOC_GROUP_T VALUES ('KR', '054EDFB3B260C8D2E043816FD881C8D2', 1,	'Kuali Rice', null)
 /
-insert into FP_DOC_TYPE_T values ('TRVA', '1A6FEB2501C7607EE043814FD881607E', 1, 'TR', 'TRAV ACCNT', 'N', 'Y', 'N', 0, 'N', 'N')
+insert into FP_DOC_TYPE_T values ('TRAV', '1A6FEB2501C7607EE043814FD881607E', 1, 'TR', 'TRAV ACCNT', 'N', 'Y', 'N', 0, 'N', 'N')
 /
 insert into FP_DOC_TYPE_T values ('TRFO', '1A6FEB250342607EE043814FD881607E', 1, 'TR', 'TRAV FO', 'N', 'Y', 'N', 0, 'N', 'N')
 /
@@ -107,11 +107,20 @@ insert into FP_DOC_TYPE_T values ('PARM', '1A6FRB253342607EE043814FD889607E', 1,
 /
 insert into FP_DOC_TYPE_T values ('BR', '1A6FRB253343337EE043814FD889607E', 1, 'TR', 'Biz Rules', 'N', 'Y', 'N', 0, 'N', 'N') 
 /
+insert into FP_DOC_TYPE_T values ('TRVA', '1A5FEB250342607EE043814FD889607E', 1, 'TR',  'TRAV MAINT', 'N', 'Y', 'N', 0, 'N', 'N')
+/
 insert into SH_NTE_TYP_T values ('BO', '2D3C44FE49415102E043814FD8815102',	1,	'DOCUMENT BUSINESS OBJECT', 'Y')
 /
 insert into SH_NTE_TYP_T values ('DH', '2D3C44FE49425102E043814FD8815102',	1,	'DOCUMENT HEADER', 'Y')
 /
-
+insert into SH_PARM_TYP_T values ('CONFG', 3, 0,'Config',1)
+/
+insert into SH_PARM_NMSPC_T values ('KR-NS', 3, 0, 'Kuali Rice', 1)
+/
+INSERT INTO sh_parm_t ("SH_PARM_NMSPC_CD","SH_PARM_DTL_TYP_CD","SH_PARM_NM","SH_PARM_TYP_CD","SH_PARM_TXT","SH_PARM_DESC","SH_PARM_CONS_CD","WRKGRP_NM") VALUES ('KR-NS','Lookup','RESULTS_DEFAULT_MAX_COLUMN_LENGTH','CONFG','70','If a maxLength attribute has not been set on a lookup result field in the data dictionary, then the result column''s max length will be the value of this parameter. Set this parameter to 0 for an unlimited default length or a positive value (i.e. greater than 0) for a finite max length.','A','KUALI_FMSOPS')
+/
+INSERT INTO sh_parm_t ("SH_PARM_NMSPC_CD","SH_PARM_DTL_TYP_CD","SH_PARM_NM","SH_PARM_TYP_CD","SH_PARM_TXT","SH_PARM_DESC","SH_PARM_CONS_CD","WRKGRP_NM") VALUES ('KR-NS','Lookup','RESULTS_LIMIT','CONFG','70','If a maxLength attribute has not been set on a lookup result field in the data dictionary, then the result column''s max length will be the value of this parameter. Set this parameter to 0 for an unlimited default length or a positive value (i.e. greater than 0) for a finite max length.','A','KUALI_FMSOPS')
+/
 insert into TRV_ACCT_EXT values ('a1', 'IAT') 
 /
 insert into TRV_ACCT_EXT values ('a2', 'EAT') 
@@ -125,18 +134,6 @@ insert into TRV_ACCT_TYPE values ('EAT', 'Expense Account Type')
 /
 insert into TRV_ACCT_TYPE values ('IAT', ' Income Account Type') 
 /
-
-INSERT INTO kr_qrtz_locks values('TRIGGER_ACCESS')
-/
-INSERT INTO kr_qrtz_locks values('JOB_ACCESS')
-/
-INSERT INTO kr_qrtz_locks values('CALENDAR_ACCESS')
-/
-INSERT INTO kr_qrtz_locks values('STATE_ACCESS')
-/
-INSERT INTO kr_qrtz_locks values('MISFIRE_ACCESS')
-/
-
 
 commit 
 /

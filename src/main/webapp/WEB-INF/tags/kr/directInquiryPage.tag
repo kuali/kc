@@ -42,15 +42,7 @@
 			<h1>${kualiInquirable.title}</h1>
 		</div>
 	</div>
-		<html:hidden property="businessObjectClassName"/>
-		<c:forEach items="${KualiForm.inquiryPrimaryKeys}" var="primaryKey">
-			<input type="hidden" name="previousPkValue_${primaryKey.key}" value="<c:out value="${primaryKey.value}"/>"/>
-		</c:forEach>
-		<html:hidden property="encryptedValues"/>
-		<c:forEach items="${KualiForm.inactiveRecordDisplay}" var="entry">
-			<input type="hidden" name="${Constants.INACTIVE_RECORD_DISPLAY_PARAM_PREFIX}${entry.key}" value="${entry.value}"/>
-		</c:forEach>
-						
+		
 		<kul:tableWrapper>
 		<%-- Show the information about the business object. --%>
 		<c:set var="firstTab" value="${true}" /><%-- make the background transparent in kul:tab for the first pass --%>
@@ -60,7 +52,7 @@
           <kul:checkTabHighlight rows="${section.rows}" addHighlighting="false" />
 		  <br>
 		  
-		  <kul:tab tabTitle="${section.sectionTitle}" defaultOpen="true" tabErrorKey="${section.errorKey}" highlightTab="${tabHighlight}" transparentBackground="${firstTab}" extraButtonSource="${section.extraButtonSource}"> 
+		  <kul:tab tabTitle="${section.sectionTitle}" defaultOpen="true" tabErrorKey="${section.errorKey}" highlightTab="${tabHighlight}" transparentBackground="${firstTab}"> 
 		    <div class="tab-container" align="center">
 		      <table width="100%" cellpadding=0 cellspacing=0 class="datatable">
 			     <kul:rowDisplay rows="${section.rows}" numberOfColumns="${section.numberOfColumns}" />
@@ -74,8 +66,7 @@
 		</kul:tableWrapper>
 		
 
-		
-		<kul:inquiryControls />
+        <kul:directInquiryClose />	
 
 
 </kul:page>
