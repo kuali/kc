@@ -24,10 +24,29 @@
     </tr>
   </c:if>
 
+  <c:set var="ruleRowsToParse" value="${rule.rows}" />
+
+  <% int fieldIndex = 0;
+     java.util.Collection ruleRows = (java.util.Collection) pageContext.getAttribute("ruleRowsToParse");
+     java.util.Collection fullConversionFields = new java.util.ArrayList();
+     for (java.util.Iterator iter = ruleRows.iterator(); iter.hasNext();) {
+         edu.iu.uis.eden.lookupable.Row row = (edu.iu.uis.eden.lookupable.Row) iter.next();
+         for (java.util.Iterator iter2 = row.getFields().iterator(); iter2.hasNext();) {
+             edu.iu.uis.eden.lookupable.Field field = (edu.iu.uis.eden.lookupable.Field) iter2.next();
+             String fieldValue = ((java.lang.String)pageContext.getAttribute("ruleProperty")) + ".field[" + fieldIndex + "].value";
+             if (field.isHasLookupable() && (!edu.iu.uis.eden.util.Utilities.isEmpty(field.getDefaultLookupableName()))) {
+                 fullConversionFields.add(new edu.iu.uis.eden.engine.node.KeyValuePair(field.getDefaultLookupableName(), fieldValue));
+             }
+             fieldIndex++;
+         }
+     }
+     pageContext.setAttribute("fullConversionFields", fullConversionFields);
+  %>
+
   <c:set var="fieldIndex" value="${0}"/>
   <c:set var="conversionFields" value=""/>
   <c:set var="isRowLabel" value="" />	
-	<c:set var="previousRow" value="NoPrevious" />
+  <c:set var="previousRow" value="NoPrevious" />
 
   <c:forEach items="${rule.rows}" var="row">
 
@@ -112,8 +131,21 @@
 			<c:if test="${field.propertyValue!=null && field.propertyValue!=''}">
 			  <c:out value="${field.propertyValue}" />
 			</c:if>
-			<a href="javascript:lookup('<c:out value="${field.quickFinderClassNameImpl}"/>', '<c:out value="${conversionFields}"/>', '<c:out value="${actionName}" />')"><img src="images/searchicon.gif" alt="search" align="absmiddle"></a>
-			<c:set var="conversionFields" value=""/>
+			<c:set var="customFieldConversions" value="${conversionFields}" />
+			<c:if test="${field.usingCustomConversions}">
+              <c:set var="customFieldConversions" value="" />
+              <c:forEach items="${field.customConversions}" var="customKeyValPair">
+                <c:forEach items="${fullConversionFields}" var="standardKeyValPair">
+                  <c:if test="${customKeyValPair.value == standardKeyValPair.key}">
+                    <c:if test="${!empty customFieldConversions}">
+		              <c:set var="customFieldConversions" value="${customFieldConversions},"/>
+		            </c:if>
+		            <c:set var="customFieldConversions" value="${customFieldConversions}${customKeyValPair.key}:${standardKeyValPair.value}"/>
+                  </c:if>
+	            </c:forEach>
+              </c:forEach>
+			</c:if>
+			<a href="javascript:lookup('<c:out value="${field.quickFinderClassNameImpl}"/>', '<c:out value="${customFieldConversions}"/>', '<c:out value="${actionName}" />')"><img src="images/searchicon.gif" alt="search" align="absmiddle"></a>
 		  </c:when>
 		</c:choose>
 		<c:choose>

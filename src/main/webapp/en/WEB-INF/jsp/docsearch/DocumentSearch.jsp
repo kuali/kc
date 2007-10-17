@@ -37,9 +37,14 @@
 <html-el:hidden name="DocumentSearchForm" property="lookupType"/>
 <html-el:hidden name="DocumentSearchForm" property="lookupableImplServiceName" />
 <html-el:hidden name="DocumentSearchForm" property="conversionFields" />
+<html-el:hidden name="DocumentSearchForm" property="headerBarEnabled"/>
+<html-el:hidden name="DocumentSearchForm" property="searchCriteriaEnabled"/>
+<html-el:hidden name="DocumentSearchForm" property="initiatorUser"/>
+<html-el:hidden name="DocumentSearchForm" property="searchableAttributes"/>
 
 <input type="hidden" name="quickFinderLookupable" />
 
+<c:if test="${DocumentSearchForm.headerBarEnabled}">
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="headercell1">
   <tr>
     <td>
@@ -59,14 +64,19 @@
   </tr>
 </table>
 <br>
+</c:if>
+
 <table width="100%" border=0 cellspacing=0 cellpadding=0>
   <tr>
     <td width="20">&nbsp;</td>
-    <td><jsp:include page="../WorkflowMessages.jsp" flush="true" /></td>
+    <td><jsp:include page="../WorkflowMessages.jsp"/></td>
   </tr>
 </table>
 
 <table width="100%" border=0 cellspacing=0 cellpadding=0>
+
+  <c:if test="${DocumentSearchForm.searchCriteriaEnabled}">
+
   <tr>
     <td width="20" height="30">&nbsp;</td>
     <td height="30">
@@ -404,6 +414,9 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
   </tr>
+
+  </c:if> <%-- End if for hiding search criteria --%>
+
   <tr>
     <td>&nbsp;</td>
       <td>
@@ -474,7 +487,7 @@
 --%>
   </html-el:form>
 
-  <jsp:include page="../BackdoorMessage.jsp" flush="true"/>
+  <jsp:include page="../BackdoorMessage.jsp"/>
 
 </body>
 </html-el:html>

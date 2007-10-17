@@ -11,12 +11,14 @@
   <c:set var="isRowLabel" value="" />
   <c:set var="previousRow" value="NoPrevious" />
 
-<c:set var="compareView" value="${!existingExtensions.emptyExtensions}"/>
+<c:set var="existingExtEmpty" value="${existingExtensions == null || existingExtensions.emptyExtensions}"/>
+<c:set var="extEmpty" value="${extensions == null || extenstions.emptyExtensions}"/>
+<c:set var="compareView" value="${!existingExtEmpty}"/>
 <c:set var="extensionsColumn1" value="${extensions}"/>
 
-<c:if test="${!existingExtensions.emptyExtensions or !extensions.emptyExtensions}">
+<c:if test="${!existingExtEmpty || !extEmpty}">
 
-<c:if test="${!existingExtensions.emptyExtensions}">
+<c:if test="${!existingExtEmpty}">
   <c:set var="extensionsColumn1" value="${existingExtensions}" />
   <c:set var="extensionsColumn2" value="${extensions}" />
 </c:if>
@@ -53,24 +55,24 @@
 		  <c:if test="${IsLookupDisplay != null && IsLookupDisplay == true}">
 	        <c:choose>
 	          <c:when test="${row.rowsGroupLabel == previousRow}">
-			        <td height="40" class="thnormal" width="5%" align="right">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
+			        <td height="40" class="thnormal" width="10%" align="right">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
 	          </c:when>
 						<c:otherwise>
-						  <td height="40" width="20%" class="thnormal" align="right" colspan="2">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
+						  <td height="40" width="25%" class="thnormal" align="right" colspan="2">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
 						</c:otherwise>
 	        </c:choose>
 		  </c:if>
 		  <c:if test="${IsLookupDisplay == null}">
 	        <c:choose>
 	          <c:when test="${row.rowsGroupLabel == previousRow}">
-							<td class="thnormal" align="right" width="5%" >&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
+							<td class="thnormal" align="right" width="10%" >&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
 	          </c:when>
 						<c:otherwise>
-							<td class="thnormal" width="20%" align="right" colspan="2">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
+							<td class="thnormal" width="25%" align="right" colspan="2">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
 						</c:otherwise>
 	        </c:choose>
 		  </c:if>
-          <td width="30%" class="datacell"><c:set var="drawFirstCell" value="false" />
+          <td class="datacell"><c:set var="drawFirstCell" value="false" />
 		</c:if>
 		<c:out value="${extensionsColumn1.data[field.propertyName]}"/>
 	  </c:otherwise>
@@ -115,24 +117,24 @@
 		  <c:if test="${IsLookupDisplay != null && IsLookupDisplay == true}">
 	        <c:choose>
 	          <c:when test="${row.rowsGroupLabel == previousRow}">
-			        <td height="40" class="thnormal" width="5%" align="right">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
+			        <td height="40" class="thnormal" width="10%" align="right">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
 	          </c:when>
 						<c:otherwise>
-						  <td height="40" width="20%" class="thnormal" align="right" colspan="2">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
+						  <td height="40" width="25%" class="thnormal" align="right" colspan="2">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
 						</c:otherwise>
 	        </c:choose>
 		  </c:if>
 		  <c:if test="${IsLookupDisplay == null}">
 	        <c:choose>
 	          <c:when test="${row.rowsGroupLabel == previousRow}">
-							<td class="thnormal" align="right" width="5%" >&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
+							<td class="thnormal" align="right" width="10%" >&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
 	          </c:when>
 						<c:otherwise>
-							<td class="thnormal" width="20%" align="right" colspan="2">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
+							<td class="thnormal" width="25%" align="right" colspan="2">&nbsp;&nbsp;<c:out value="${field.fieldLabel}" />:</td>
 						</c:otherwise>
 	        </c:choose>
 		  </c:if>
-          <td width="30%" class="datacell"><c:set var="drawFirstCell" value="false" />
+          <td class="datacell"><c:set var="drawFirstCell" value="false" />
 		</c:if>
 		<c:out value="${extensionsColumn2.data[field.propertyName]}"/>
 	  </c:otherwise>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+    <data-sources />
+  
+    <form-beans >
+    	<!--
+	    <form-bean name="TravelDocumentForm2" type="edu.sampleu.travel.web.form.TravelDocumentForm2" />
+	    -->
+    </form-beans>
+
+    <global-exceptions />
+  
+    <global-forwards >
+        <forward name="save" path="/index.html" redirect="true" />
+        <forward name="cancel" path="/index.html" redirect="true" />
+        <forward name="close" path="/index.html" redirect="true" />
+        <forward name="portal" path="/index.html" redirect="true" />
+        <forward name="route_report" path="/kr/WEB-INF/jsp/RoutingReportForward.jsp"/>
+        <forward name="error" path="/kr/WEB-INF/jsp/KualiError.jsp" />
+    </global-forwards>
+
+    <action-mappings>
+        <!--
+		<action path="/travelDocument2" name="TravelDocumentForm2" input="/WEB-INF/jsp/travelDocument2.jsp" type="edu.sampleu.travel.web.action.TravelDocumentAction2"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<forward name="basic" path="/WEB-INF/jsp/travelDocument2.jsp" />
+		</action>
+		-->
+    </action-mappings>
+
+    <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
+    <message-resources parameter="ApplicationResources" />
+</struts-config>

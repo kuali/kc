@@ -13,7 +13,7 @@
 <META HTTP-EQUIV="Refresh" CONTENT="<c:out value="${preferences.refreshRate * 60}"/>; URL=ActionList.do">
 </c:if>
 
-<link href="css/screen.css" rel="stylesheet" type="text/css">
+<link href="<c:out value="css/${ActionListForm.cssFile}"/>" rel="stylesheet" type="text/css">
 <script language="JavaScript" src="scripts/en-common.js"></script>
 <script language="JavaScript" src="scripts/actionlist-common.js"></script>
 
@@ -21,14 +21,18 @@
 <body>
 <html-el:form action="ActionList">
 <html-el:hidden property="methodToCall" value="" />
+<html-el:hidden property="cssFile"/>
+<html-el:hidden property="logoAlign"/>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="headercell1">
   <tr>
+    <c:if test="${ActionListForm.logoAlign != 'right'}">
     <td width="10%">
         <img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 hspace=5 vspace=5>&nbsp;&nbsp;&nbsp;&nbsp;
     </td>
+    </c:if>
     <td align="left">
-		<html-el:link page="/Preferences.do?returnMapping=viewActionList">Preferences</html-el:link>&nbsp;&nbsp;
+		&nbsp;<html-el:link page="/Preferences.do?returnMapping=viewActionList">Preferences</html-el:link>&nbsp;&nbsp;
 		<a href="
 			<c:url value="ActionList.do">
 				<c:param name="methodToCall" value="start" />
@@ -61,6 +65,11 @@
             </html-el:select>
 		</c:if>
     </td>
+    <c:if test="${ActionListForm.logoAlign == 'right'}">
+    <td align="right">
+        <img src="images/wf-logo.gif" alt="OneStart Workflow" width=150 height=21 vspace=2>
+    </td>
+    </c:if>
   </tr>
 </table>
 <table width="100%" border=0 cellspacing=0 cellpadding=0>
@@ -201,7 +210,7 @@
  	<display-el:column property="actionRequestLabel" sortable="true" title="${actionRequestedLabel}" class="display-column" />
   </c:if>
   <c:if test="${preferences.showInitiator == Constants.PREFERENCES_YES_VAL}">
-	  <display-el:column sortable="true" title="${initiatorLabel}" sortProperty="routeHeader.actionListInitiatorUser.transposedName" class="display-column" >
+	  <display-el:column sortable="true" title="${initiatorLabel}" sortProperty="routeHeader.initiatorName" class="display-column" >
           <a href="<c:url value="${UrlResolver.userReportUrl}">
                      <c:param name="workflowId" value="${result.routeHeader.actionListInitiatorUser.workflowUserId.workflowId}"/>
                      <c:param name="showEdit" value="no"/>

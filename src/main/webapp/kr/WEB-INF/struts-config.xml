@@ -27,6 +27,9 @@
         <forward name="cancel" path="/index.jsp" redirect="true" />
         <forward name="close" path="/index.jsp" redirect="true" />
         <forward name="portal" path="/index.jsp" redirect="true" />
+        <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
+        <forward name="error" path="/WEB-INF/jsp/KualiError.jsp" />
+        <forward name="inquiryError" path="/WEB-INF/jsp/KualiInquiryError.jsp" />
     </global-forwards>
 
     <action-mappings>
@@ -58,6 +61,9 @@
         <action path="/questionPrompt" name="QuestionPromptForm" scope="request" parameter="methodToCall" type="org.kuali.core.web.struts.action.QuestionPromptAction">
             <forward name="basic" path="/WEB-INF/jsp/KualiQuestion.jsp" />
         </action>
+	    <action path="/directInquiry" name="InquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiInquiryAction">
+	        <forward name="basic" path="/WEB-INF/jsp/KualiDirectInquiry.jsp" />
+	    </action>
     </action-mappings>
 
     <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
