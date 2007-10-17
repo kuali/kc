@@ -18,6 +18,7 @@ package org.kuali.kra.infrastructure;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.apache.commons.lang.StringUtils;
@@ -25,55 +26,102 @@ import org.kuali.core.bo.Parameter;
 import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.JstlPropertyHolder;
 
+import org.kuali.core.util.properties.PropertyTree;
+import org.kuali.core.util.JstlPropertyHolder;
 
 /**
  * Access financial system parameters like they were a map
  *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.3 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.4 $
  */
 public class SystemParametersPropertyHolder extends JstlPropertyHolder {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SystemParametersPropertyHolder.class);
-    //private String scriptName;
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SystemParametersPropertyHolder.class);    
+    private static final String PARAMETER_NAMESPACE_CODE = "parameterNamespaceCode";
+    private static final String PARAMETER_DETAIL_TYPE_CODE = "parameterDetailTypeCode";
+    private static final String PARAMETER_NAME = "parameterName";
     
-    /**
-     * Build SystemParametersPropertyHolder from a script name
-     */
-//    public SystemParametersPropertyHolder(String name) {
-//        setScriptName(name);
-//    }
+    private String parameterNamespaceCode;
+    private String parameterDetailTypeCode;
 
     /**
-     * Set the script name used to retrieve System Parameters
-     *
-     * @param s
+     * default constructor
      */
-//    public void setScriptName(String s) {
-//        scriptName = s;
-//    }
+    public SystemParametersPropertyHolder() {
+        setProperties(new Properties());
+    }
+
+    /**
+     * Create System Parameter Property Holder with a namespace code and detail type code
+     *
+     * @param namespaceCode
+     * @param detailTypeCode
+     */
+    public SystemParametersPropertyHolder(String namespaceCode, String detailTypeCode) {
+        this();
+        LOG.info("Creating access to System Parameters as described: \n" 
+                 + PARAMETER_NAMESPACE_CODE + "'" + namespaceCode + "'\n"
+                 + PARAMETER_DETAIL_TYPE_CODE + "'" + detailTypeCode + "'");
+        parameterNamespaceCode = namespaceCode;
+        parameterDetailTypeCode = detailTypeCode;
+    }
+
+    /**
+     * accessor for the parameter namespace code
+     *
+     * @param namespaceCode
+     */
+    public void setParameterNamespaceCode(String namespaceCode) {
+        parameterNamespaceCode = namespaceCode;
+    }
+
+    /**
+     * accessor for the parameter namespace code
+     *
+     * @param namespaceCode
+     */
+    public void setParameterDetailTypeCode(String detailTypeCode) {
+        parameterDetailTypeCode = detailTypeCode;
+    }
     
     /**
-     * The script name used to retrieve System Parameters
+     * accessor for the parameter namespace code
      *
      * @return String
      */
-//    public String getScriptName() {
-//        return scriptName;
-//    }
+    public String getParameterNamespaceCode() {
+        return parameterNamespaceCode;
+    }
+
+    /**
+     * Accessor for the parameter detail type code
+     *
+     * @return String
+     */
+    public String getParameterDetailTypeCode() {
+        return parameterDetailTypeCode;
+    }
 
     // delegated methods
     /**
      * @see org.kuali.core.util.properties.PropertyTree#get(java.lang.Object)
      */
-    public Object get(Object key) {
-        try { // Return a map of the parameter or don't return at all.
-            return new PropertyUtilsBean().describe(getParameter("KRA-PD", "D", key.toString()));
-        }        
-        catch (Exception e) {
-            return null;
+    public Object get(Object key) {        
+        Object retval = super.get(key);
+
+        LOG.info("Requesting parameter " + key);
+        
+        if (!containsKey(key)) { 
+            try {
+                put(key, new PropertyUtilsBean().describe(getParameter(getParameterNamespaceCode(), getParameterDetailTypeCode(), key.toString())));
+            }
+            catch (Exception e) {
+                throw new ApplicationParameterException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode(), key.toString(), " cannot be described as a map");
+            }
         }
+
+        return super.get(key);
     }
 
 
@@ -95,33 +143,19 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
      * @see org.kuali.core.util.properties.PropertyTree#containsKey(java.lang.Object)
      */
     public boolean containsKey(Object key) {
-        try {
-            return getConfigurationService().parameterExists("KRA-PD", "D", key.toString());
-        }
-        catch(Exception e) {
-            return false;
-        }
-    }
+        boolean retval = super.containsKey(key);
 
-    /**
-     * @see org.kuali.core.util.properties.PropertyTree#putAll(java.util.Map)
-     */
-    public void putAll(Map m) {
-        // cannot override
+        if (retval) {
+            return retval;
+        }
+        
+        return getConfigurationService().parameterExists(getParameterNamespaceCode(), getParameterDetailTypeCode(), key.toString());
     }
 
     /**
      * @see org.kuali.core.util.properties.PropertyTree#remove(java.lang.Object)
      */
     public Object remove(Object key) {
-        // cannot override
-        return null;
-    }
-
-    /**
-     * @see org.kuali.core.util.properties.PropertyTree#put(java.lang.Object, java.lang.Object)
-     */
-    public Object put(Object key, Object value) {
         // cannot override
         return null;
     }
@@ -138,7 +172,7 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
      * Code duplication. Used because private in KualiConfigurationService
      * @see org.kuali.core.service.KualiConfigurationService#getApplicationParameter(String, String)
      */
-    private Collection getParameters(String parameterNamespaceCode, String parameterDetailTypeCode, String parameterName) {
+    private Parameter getParameters(String parameterNamespaceCode, String parameterDetailTypeCode, String parameterName) {
         if (StringUtils.isBlank(parameterNamespaceCode)) {
             throw new IllegalArgumentException("blank scriptName: '" + parameterNamespaceCode + "'");
         }
@@ -149,11 +183,13 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
             throw new IllegalArgumentException("blank parameter: '" + parameterName + "'");
         }
         HashMap map = new HashMap();
-        map.put("parameterNamespaceCode", parameterNamespaceCode);
-        map.put("parameterDetailTypeCode", parameterDetailTypeCode);
-        map.put("parameterName", parameterName);
-        return getBusinessObjectService().findMatching(Parameter.class, map);
+        map.put(PARAMETER_NAMESPACE_CODE, parameterNamespaceCode);
+        map.put(PARAMETER_DETAIL_TYPE_CODE, parameterDetailTypeCode);
+        map.put(PARAMETER_NAME, parameterName);
+
+        return (Parameter) getBusinessObjectService().findByPrimaryKey(Parameter.class, map);
     }
+
     /**
      * Code duplication. Used because private in KualiConfigurationService
      * @see org.kuali.core.service.KualiConfigurationService#getApplicationParameter(String, String)
@@ -161,14 +197,15 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
     private Parameter getParameter(String parameterNamespaceCode, String parameterDetailTypeCode, String parameter) {
         LOG.debug("getApplicationParameter() started");
 
-        Collection c = getParameters(parameterNamespaceCode, parameterDetailTypeCode, parameter);
-        switch (c.size()) {
-            case 0:
-                throw new ApplicationParameterException(parameterNamespaceCode + ", " + parameterDetailTypeCode, parameter, "not found");
-            case 1:
-                return (Parameter) c.iterator().next();
-            default:
-                throw new ApplicationParameterException(parameterNamespaceCode + ", " + parameterDetailTypeCode, parameter, "multiple found");
+        LOG.info("Looking for parameter with paramaeterNamespaceCode = " + parameterNamespaceCode);
+        LOG.info("Looking for parameter with paramaeterDetailTypeCode = " + parameterDetailTypeCode);
+        LOG.info("Looking for parameter = " + parameter);
+
+        Parameter retval = getParameters(parameterNamespaceCode, parameterDetailTypeCode, parameter);
+        LOG.info("Got parameter " + retval);
+        if (retval == null) {
+            throw new ApplicationParameterException(parameterNamespaceCode + ", " + parameterDetailTypeCode, parameter, "not found");
         }
+        return retval;
     }
 }
