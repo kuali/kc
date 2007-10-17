@@ -44,7 +44,8 @@ public interface Constants {
     public static final String NARRATIVE_MODULE_NUMBER = "proposalDevelopment.narrative.moduleNumber";
     public static final String NARRATIVE_MODULE_SEQUENCE_NUMBER = "proposalDevelopment.narrative.moduleSequenceNumber";
     public static final String PROP_PERSON_BIO_NUMBER = "proposalDevelopment.propPersonBio.bioNumber";
-
+    public static final String PROP_ATTACHMENT_NARRATIVE_TYPE_GROUP = "P";
+    
     public static final String PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX = "proposaldevelopment.personrole.";
 
     public static final String PARAMETER_MODULE_PROPOSAL_DEVELOPMENT = "KRA-PD";
