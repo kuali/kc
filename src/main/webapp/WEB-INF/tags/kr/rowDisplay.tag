@@ -252,7 +252,8 @@
 				</c:when>
 				
 				<c:when test="${(field.fieldType eq field.HIDDEN) || rowHidden}">
-					<c:if test="${isInquiry}">
+					<c:if test="${isInquiry && field.fieldType eq field.HIDDEN}">
+						<%-- display inquiry data even though the field has been specified as hidden --%>
 						<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" 
 							isReadOnly="${isFieldReadOnly}" cellWidth="${cellWidth}" fieldType="${field.fieldType}" 
 							fieldLabel="${field.fieldLabel}" />
@@ -261,7 +262,11 @@
 							<kul:fieldShowReadOnly field="${field}" addHighlighting="${addHighlighting}" />
 						</td>
 					</c:if>
-			    	<c:if test="${!isFieldReadOnly}"><%-- prevent the field from being written a 2nd time --%>
+			    	<c:if test="${!isFieldReadOnly || (isInquiry && field.fieldType ne field.HIDDEN)}">
+			    		<%-- if it's an inquiry and the field type is not hidden (but the row is hidden), then that means that we really want to hide it,
+			    		     so we'll just render the input parameter, but not display anything.  Of course, inquiries are read only, so there's really no reason
+			    		     to have the input tag for inquiries, but it doesn't cause any harm. --%>
+			    		<%-- prevent the field from being written a 2nd time --%>
 						<input type="hidden" name='${field.propertyName}'
 							value='<c:out value="${isFieldSecure ? field.encryptedValue : fieldValue}"/>' />
 					</c:if>
@@ -465,7 +470,7 @@
 										
 							<c:otherwise>
 								<select name='${field.propertyName}' style="${textStyle}" ${onblurcall}>
-									<c:if test="${ActionName != null && ActionName == 'Lookup.do' && !empty field.fieldValidValues[0].key}">
+									<c:if test="${!field.hasBlankValidValue}">
 										<option value=""></option>
 									</c:if>
 									<kul:fieldSelectValues field="${field}"/>

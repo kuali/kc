@@ -20,6 +20,7 @@
 <%@ attribute name="postingYearOnChange" required="false" description="set to the value of the onchange event for the posting year control" %>
 <%@ attribute name="includePostingYearRefresh" required="false" description="set to true to include posting year refresh button in document overview" %>
 <%@ attribute name="postingYearAttributes" required="false" type="java.util.Map" description="The DataDictionary entry containing attributes for the posting year field." %>
+<%@ attribute name="fiscalYearReadOnly" required="false" description="set to true to make the posting year read-only" %>
 
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
@@ -72,7 +73,7 @@
                         attributeEntry="${postingYearAttributes.postingYear}" 
                         property="document.postingYear" 
                         onchange="${postingYearOnChange}"
-                        readOnly="${!KualiForm.editingMode['fullEntry']}"/>
+                        readOnly="${!KualiForm.editingMode['fullEntry'] or fiscalYearReadOnly}"/>
                     <c:if test="${!readOnly and includePostingYearRefresh}">
                        <html:image property="methodToCall.refresh" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_refresh.gif" alt="refresh" title="refresh" styleClass="tinybutton"/>    
                     </c:if>   

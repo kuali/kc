@@ -30,13 +30,20 @@
 <%@ attribute name="transparentBackground" required="false" %>
 <%@ attribute name="highlightTab" required="false" %>
 <%@ attribute name="extraButtonSource" required="false" %>
-
+<%@ attribute name="useCurrentTabIndexAsKey" required="false" %>
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 
+<c:choose>
+    <c:when test="${(useCurrentTabIndexAsKey)}">
+        <c:set var="tabKey" value="${currentTabIndex}"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+    </c:otherwise>
+</c:choose>
 
-<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}" scope="request"/>
 <!--  hit form method to increment tab index -->
 <c:set var="doINeedThis" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 
@@ -124,11 +131,15 @@
           <div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="${tabErrorKey}"/></div></div>
         </c:if>
         
-        <%-- comment for reference by KRA devs during KNS extraction
+        <!-- comment for reference by KRA devs during KNS extraction -->
         <c:if test="${! (empty tabAuditKey)}">
-        	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="${auditCluster}" keyMatch="${tabAuditKey}" isLink="false" includesTitle="true"/></div></div>
+        	<div class="tab-container-error"><div class="left-errmsg-tab">
+				<c:forEach items="${fn:split(auditCluster,',')}" var="cluster">
+        	   		<kul:auditErrors cluster="${cluster}" keyMatch="${tabAuditKey}" isLink="false" includesTitle="true"/>
+				</c:forEach>
+        	</div></div>
       	</c:if>
-      	--%>
+      	
       
         <!-- Before the jsp:doBody of the kul:tab tag -->            
         <jsp:doBody/>            

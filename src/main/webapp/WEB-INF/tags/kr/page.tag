@@ -33,6 +33,7 @@
 <%@ attribute name="errorKey" required="false" %>
 <%@ attribute name="auditCount" required="false" %>
 <%@ attribute name="additionalScriptFiles" required="false" type="java.util.List" %>
+<%@ attribute name="documentWebScope" required="false" %>
 
 <%-- Is the screen an inquiry? --%>
 <c:set var="_isInquiry" value="${requestScope[Constants.PARAM_MAINTENANCE_VIEW_MODE] eq Constants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY}" />
@@ -47,17 +48,16 @@
 <head>
 	<script>var jsContextPath = "${pageContext.request.contextPath}";</script>
 	<title><bean:message key="app.title" /> :: ${headerTitle}</title>
-	<link href="${pageContext.request.contextPath}/kr/css/kuali.css" rel="stylesheet" type="text/css" />
-	<script language="JavaScript" src="${pageContext.request.contextPath}/kr/scripts/core.js" type="text/javascript"></script>
-	<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/kr/scripts/dhtml.js"></script>
-	<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/kr/scripts/my_common.js"></script>
-	<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/kr/scripts/jscalendar-1.0/calendar.js"></script>
-	<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/kr/scripts/jscalendar-1.0/lang/calendar-en.js"></script>
-	<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/kr/scripts/jscalendar-1.0/calendar-setup.js"></script>
-	<link href="${pageContext.request.contextPath}/kr/scripts/jscalendar-1.0/calendar-win2k-1.css" rel="stylesheet" type="text/css" />
-	<%-- DWR Support Scripts --%>
-	<script language="JavaScript" src="${pageContext.request.contextPath}/dwr/engine.js" type="text/javascript"></script>
-	<script language="JavaScript" src="${pageContext.request.contextPath}/dwr/util.js" type="text/javascript"></script>
+<c:forEach items="${fn:split(ConfigProperties.css.files, ',')}" var="cssFile">
+<c:if test="${fn:length(fn:trim(cssFile)) > 0}">
+	<link href="${pageContext.request.contextPath}/${cssFile}" rel="stylesheet" type="text/css" />
+</c:if>
+</c:forEach>
+<c:forEach items="${fn:split(ConfigProperties.javascript.files, ',')}" var="javascriptFile">
+<c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
+	<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/${javascriptFile}"></script>
+</c:if>
+</c:forEach>
 	<c:choose>
 		<c:when test="${lookup}" >
 			  <c:if test="${not empty KualiForm.headerNavigationTabs}">
@@ -323,6 +323,19 @@
 					</logic:present>
 	</c:otherwise>
 </c:choose>
+<c:if test="${transactionalDocument}" >
+	<c:choose>
+		<c:when test="${KualiForm.document.sessionDocument}" >
+			<html:hidden property="documentWebScope" value="session"/>	
+			<html:hidden property="formKey" value="${KualiForm.formKey}"/>	
+			<html:hidden property="docFormKey" value="${KualiForm.formKey}"/>	
+		</c:when>
+		<c:otherwise>
+			<html:hidden property="documentWebScope" value="request"/>	
+		</c:otherwise>
+	</c:choose>
+</c:if>
+
 </html:form>
 </body>
 </html:html>

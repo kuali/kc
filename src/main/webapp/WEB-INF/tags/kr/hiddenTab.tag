@@ -22,7 +22,8 @@
 <%--   getTabStateJstl call is *required*, since it changes the currentTabIndex as a side-effect --%>
 <%--   (which also means that I must retrieve currentTabIndex before retrieving tabStateJstl) --%>
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
-<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+<!--  Ideally the tabKey should be the tabTitle, but since this is a hidden tab, I don't know what its title should be -->
+<c:set var="tabKey" value="hiddenTabTitle"/>
 <!--  hit form method to increment tab index -->
 <c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 

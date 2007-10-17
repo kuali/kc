@@ -62,8 +62,8 @@
 							<html:hidden property="editingMode(${mode.key})" />
 						</c:forEach>
 						<c:forEach items="${KualiForm.document.newMaintainableObject.inactiveRecordDisplay}" var="inactiveDisplay">
-							<html:hidden property="document.newMaintainableObject.inactiveRecordDisplay(${inactiveDisplay.key})" />
-							<html:hidden property="document.oldMaintainableObject.inactiveRecordDisplay(${inactiveDisplay.key})" />
+							<html:hidden property="document.newMaintainableObject.inactiveRecordDisplay(${fn:replace(inactiveDisplay.key,'.','_')})" />
+							<html:hidden property="document.oldMaintainableObject.inactiveRecordDisplay(${fn:replace(inactiveDisplay.key,'.','_')})" />
 						</c:forEach>
 
 						<kul:documentOverview editingMode="${KualiForm.editingMode}" />

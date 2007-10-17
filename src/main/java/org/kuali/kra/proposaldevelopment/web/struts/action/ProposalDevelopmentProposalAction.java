@@ -29,7 +29,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Rolodex;
@@ -50,7 +49,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         /* get parameter for keyword display panel - display keyword panel if parameter is set to true */
-        String keywordPanelDisplay = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(RiceConstants.ParameterGroups.SYSTEM, Constants.KEYWORD_PANEL_DISPLAY);
+        String keywordPanelDisplay = KNSServiceLocator.getKualiConfigurationService().getParameterValue(
+                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);
         request.setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
 
         ProposalDevelopmentDocument proposalDevelopmentDocument=((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();

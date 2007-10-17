@@ -23,6 +23,8 @@
 <%@ attribute name="attachmentTypesValuesFinderClass" required="false" %>
 <%@ attribute name="transparentBackground" required="false" %>
 <%@ attribute name="defaultOpen" required="false" %>
+<%@ attribute name="allowsNoteFYI" required="false"
+ description="Indicator for determing whether to render the ad hoc fyi recipient box and send fyi button" %>
 
 <c:set var="noteColSpan" value="6" />
 
@@ -72,6 +74,9 @@
                     <c:if test="${not empty attachmentTypesValuesFinderClass}">
                       <kul:htmlAttributeHeaderCell literalLabel="Attachment Type" scope="col" align="left"/>
                     </c:if>
+                    <c:if test="${allowsNoteFYI}" >
+                      <kul:htmlAttributeHeaderCell literalLabel="FYI Recipient" scope="col"/>
+                    </c:if>
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
 
@@ -97,6 +102,9 @@
 					                      <html:optionsCollection property="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}" label="label" value="key"/>
 					                  </html:select>
 					              </td>
+                    </c:if>
+                    <c:if test="${allowsNoteFYI}" >
+                      <td>&nbsp;</td>
                     </c:if>
                     <td class="infoline"><div align="center"><html:image property="methodToCall.insertBONote" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add a Note" title="Add a Note" styleClass="tinybutton"/></div></td>
                 </tr>
@@ -168,7 +176,29 @@
                                 </c:otherwise>
                             </c:choose>
 
-                        <td class="datacell center"><c:if test="${allowsNoteDelete}"><div align="center"><html:image property="methodToCall.deleteBONote.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete a Note" alt="Delete a Note" styleClass="tinybutton"/></div></c:if> &nbsp;</td>
+                            <c:if test="${allowsNoteFYI}" >
+                              <td class="infoline">
+	                    	     <kul:user userIdFieldName="${propPrefix}boNote[${status.index}].fyiNoteRecipient.id" 
+	                    			  userId="${note.fyiNoteRecipient.id}" 
+	                    			  universalIdFieldName=""
+	                    			  universalId=""
+	                    			  userNameFieldName="${propPrefix}boNote[${status.index}].fyiNoteRecipient.name"
+	                    			  userName="${note.fyiNoteRecipient.name}"
+	                    			  readOnly="false" 
+	                    			  renderOtherFields="true"
+	                    			  fieldConversions="personUserIdentifier:${propPrefix}boNote[${status.index}].fyiNoteRecipient.id,personName:${propPrefix}boNote[${status.index}].fyiNoteRecipient.name" 
+	                    			  lookupParameters="${propPrefix}boNote[${status.index}].fyiNoteRecipient.id:personUserIdentifier" />
+                             </td>
+                           </c:if>
+                           
+                        <td class="datacell center"><div align="center">
+                          <c:if test="${allowsNoteDelete}">
+                            <html:image property="methodToCall.deleteBONote.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete a Note" alt="Delete a Note" styleClass="tinybutton"/>
+                          </c:if> &nbsp;
+                          <c:if test="${allowsNoteFYI}" >
+                            <html:image property="methodToCall.sendNoteFYI.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-send.gif" title="Send FYI" alt="Send FYI" styleClass="tinybutton"/>
+                          </c:if>  
+                        </div></td>
                     </tr>
 	</c:forEach>
 	            </tbody>
