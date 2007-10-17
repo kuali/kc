@@ -446,3 +446,19 @@ INSERT INTO Narrative_type (narrative_type_code,description,system_generated,all
 	'P',
 	sysdate,
 	user);
+INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
+	59,
+	'Institutional Attachment 1',
+	'N',
+	'N',
+	'O',
+	sysdate,
+	user);
+INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
+	60,
+	'Institutional Attachment 2',
+	'N',
+	'N',
+	'O',
+	sysdate,
+	user);
