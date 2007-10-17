@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.infrastructure;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,16 +28,13 @@ import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 
-import org.kuali.core.util.properties.PropertyTree;
-import org.kuali.core.util.JstlPropertyHolder;
-
 /**
  * Access financial system parameters like they were a map
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-public class SystemParametersPropertyHolder extends JstlPropertyHolder {
+public class SystemParametersPropertyHolder extends HashMap {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SystemParametersPropertyHolder.class);    
     private static final String PARAMETER_NAMESPACE_CODE = "parameterNamespaceCode";
     private static final String PARAMETER_DETAIL_TYPE_CODE = "parameterDetailTypeCode";
@@ -49,7 +47,6 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
      * default constructor
      */
     public SystemParametersPropertyHolder() {
-        setProperties(new Properties());
     }
 
     /**
@@ -59,7 +56,6 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
      * @param detailTypeCode
      */
     public SystemParametersPropertyHolder(String namespaceCode, String detailTypeCode) {
-        this();
         LOG.info("Creating access to System Parameters as described: \n" 
                  + PARAMETER_NAMESPACE_CODE + "'" + namespaceCode + "'\n"
                  + PARAMETER_DETAIL_TYPE_CODE + "'" + detailTypeCode + "'");
@@ -108,20 +104,30 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
      * @see org.kuali.core.util.properties.PropertyTree#get(java.lang.Object)
      */
     public Object get(Object key) {        
-        Object retval = super.get(key);
+        Object retval = null;
 
         LOG.info("Requesting parameter " + key);
         
-        if (!containsKey(key)) { 
+        if (!super.containsKey(key)) { 
             try {
-                put(key, new PropertyUtilsBean().describe(getParameter(getParameterNamespaceCode(), getParameterDetailTypeCode(), key.toString())));
+                retval = new PropertyUtilsBean().describe(getParameter(getParameterNamespaceCode(), getParameterDetailTypeCode(), key.toString()));
             }
-            catch (Exception e) {
+            catch (InvocationTargetException e) {
                 throw new ApplicationParameterException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode(), key.toString(), " cannot be described as a map");
             }
+            catch (IllegalAccessException e) {
+                throw new ApplicationParameterException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode(), key.toString(), " cannot be described as a map");
+            }
+            catch (NoSuchMethodException e) {
+                throw new ApplicationParameterException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode(), key.toString(), " cannot be described as a map");
+            }
+            
+            LOG.info("Adding " + retval);
+            super.put(key, retval);
         }
 
-        return super.get(key);
+        LOG.info("Returning " + retval);
+        return retval;
     }
 
 
@@ -129,7 +135,7 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
      * @see org.kuali.core.util.properties.PropertyTree#clear()
      */
     public void clear() {
-        // Can't clear these
+        throw new UnsupportedOperationException("Can't clear these System parameters");
     }
 
     /**
@@ -156,8 +162,7 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
      * @see org.kuali.core.util.properties.PropertyTree#remove(java.lang.Object)
      */
     public Object remove(Object key) {
-        // cannot override
-        return null;
+        throw new UnsupportedOperationException("Can't remove system parameters through a hashmap");
     }
 
     private KualiConfigurationService getConfigurationService() {
@@ -197,12 +202,7 @@ public class SystemParametersPropertyHolder extends JstlPropertyHolder {
     private Parameter getParameter(String parameterNamespaceCode, String parameterDetailTypeCode, String parameter) {
         LOG.debug("getApplicationParameter() started");
 
-        LOG.info("Looking for parameter with paramaeterNamespaceCode = " + parameterNamespaceCode);
-        LOG.info("Looking for parameter with paramaeterDetailTypeCode = " + parameterDetailTypeCode);
-        LOG.info("Looking for parameter = " + parameter);
-
         Parameter retval = getParameters(parameterNamespaceCode, parameterDetailTypeCode, parameter);
-        LOG.info("Got parameter " + retval);
         if (retval == null) {
             throw new ApplicationParameterException(parameterNamespaceCode + ", " + parameterDetailTypeCode, parameter, "not found");
         }
