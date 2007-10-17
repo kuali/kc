@@ -36,7 +36,7 @@
 <kra-pd:proposalDevelopmentSponsorProgramInformation />
 <kra-pd:proposalDevelopmentDeliveryInfo />
 
-<c:if test="${displayKeywordPanel == 'True'}">
+<c:if test="${displayKeywordPanel}">
 <kra-pd:proposalDevelopmentKeywords />
 </c:if>
 
