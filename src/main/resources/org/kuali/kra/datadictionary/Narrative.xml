@@ -243,7 +243,7 @@
 				<required>true</required>
 				<control>
 					<select
-						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeTypeValuesFinder" />
+						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalNarrativeTypeValuesFinder" />
 				</control>
 				<summary>Narrative Type Code</summary>
 				<description>Narrative Type Code</description>
