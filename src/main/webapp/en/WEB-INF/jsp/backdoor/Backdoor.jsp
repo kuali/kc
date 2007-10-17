@@ -56,6 +56,9 @@
 	<tr>
 		<td><a href="Lookup.do?lookupableImplServiceName=UserLookupableImplService" target="<c:out value="${BackdoorForm.targetName}" />">User Lookup</a></td>
 	</tr>
+	<tr>
+	    <td><a href="RemoveReplace.do" target="<c:out value="${BackdoorForm.targetName}" />">Remove/Replace User</a></td>
+	</tr>
 
 	<tr>
 		<td><a href="RoutingReport.do" target="<c:out value="${BackdoorForm.targetName}" />">Routing Report</a></td>

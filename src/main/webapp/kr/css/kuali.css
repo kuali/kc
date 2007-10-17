@@ -270,27 +270,15 @@ table.grid
 	background: url(../images/tabfoot-back.gif);
 }
 
-#workarea td.tab-subhead,div.tab-subhead
+#workarea td.tab-subhead
 {
 	font-weight: bold;
 	background-color: #C3C3C3;
+	padding: 2px;
 	height: 18px;
 	text-align: left;
 	border-bottom: 1px solid #999999;
 	border-left: 1px solid #999999;
-}
-
-#workarea td.tab-subhead1,div.tab-subhead1
-{
-	background-color: #939393;
-	height: 18px;
-	margin: 0px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-    width: 98%;
-	text-align: left;
-	border-top: 1px solid #B2B2B2;
-	border-bottom: 1px solid #B2B2B2;
 }
 
 #workarea td.tab-subhead-import

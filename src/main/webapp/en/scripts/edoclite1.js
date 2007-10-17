@@ -44,11 +44,44 @@ var field_titles = new Object();
 var field_regexes = new Object();
 var field_errorMessages = new Object();
 var field_validationRequired= new Object();
+var buttonTitle; // the global variable
 var field_customValidators = new Object();
 
 var field_names = new Array;
 
 // ---- utils
+
+function displayNewWindow(url, title, width, height, x, y)
+	{
+		mywindow = window.open (url, title, status=1, scrollbars=1, location=1, width=width, height=height);
+		mywindow.moveTo(x, y);
+	}
+
+function confirm_route()
+	{
+		var route = confirm("Click OK to route this document or Cancel to return.")
+		return route;
+	}
+
+function replaceEnter(e) {
+ 	if(window.event) {
+    	if(window.event.keyCode == 13) {     	//IE
+        	return confirm_route();
+    	}
+    } else {
+        if(e.which == 13) {  	 				//firefox
+        	return confirm_route();
+		}
+    }
+}
+
+function isArray(obj)
+{
+if (isNaN(obj.length))
+	return false;
+else
+	return true;
+}
 
 function setTextValue(id, text) {
     var element = document.getElementById(id);
@@ -178,24 +211,38 @@ function trim(string) {
                  .replace(/\s+$/m, ""); // strip trailing
 }
 
-function isValid(element, regex, required, validator) {
-    //alert("isValid: " + element);
-    //alert("regex for " + element.name + ": " + regex);
-    //alert("element value: '" + element.value + "'");
+function isValid(fieldInputs, regex, required, validator) {
 	var fieldValue = getFieldValue(fieldInputs);
     if (validator) {
         return validator(fieldValue);
     }
     if (regex == null || regex == "") {
-        //alert("no regex for " + element.name);
+        //no regular expression associated with field
         if (required) {
-            //alert("element value: " + element.value);
+            //field is required - validate
             return fieldValue != null && trim(fieldValue).length > 0;
         } else {
+        	//field not required - do not validate
             return true;
         }
     } else {
+    	if (fieldValue == null) {
+    		return false;
+    	}
+    	//regular expression associated with field
+        if (required) {
+            //field is require - validate
         return fieldValue.match(regex);
+        } else {
+			//field is NOT required
+			if (trim(fieldValue).length > 0) {
+				//field is NOT empty - validate
+	        	return fieldValue.match(regex);
+			} else {
+				//field is empty - do NOT validate
+				return true;
+    }
+        }
     }
     //return false;
 }
@@ -214,6 +261,7 @@ function validate(event) {
 
 
 function getFieldValue(fieldInputs) {
+    // if you check a checkbox and then uncheck it it throws the error below like the length is not updated when you uncheck it.
 	if (fieldInputs.length > 1) {
 		var type = fieldInputs[0].type;
 		if (type == 'radio' || type == 'checkbox') {
@@ -222,6 +270,7 @@ function getFieldValue(fieldInputs) {
 					return fieldInputs[i].value;
 				}
 			}
+			return null;
 		}
 		throw 'Problem determining field value for inputs, type was: ' + type;
 	}
@@ -251,18 +300,16 @@ function getFieldName(fieldInputs) {
 
 function validateField(fieldInputs, fieldName) {
     try {
+        var required = isValidationRequired(fieldName);
         if (!field_customValidators[fieldName]) {
             var regex = field_regexes[fieldName];
-            var required = isValidationRequired(fieldName);
             var valid = isValid(fieldInputs, regex, required, false);
         } else {
-            var validator = field_customValidators[fieldNname]
-            var required = isValidationRequired(fieldName);
+            var validator = field_customValidators[fieldName]
             var valid = isValid(fieldInputs, "", required, validator)
         }
         var message = "";
         var type = "empty";
-
         if (!valid) {
             // set a color instead and then pop up summary alert on submit
             // if there are any fields which fail validation
@@ -301,6 +348,11 @@ function validateField(fieldInputs, fieldName) {
 }
 
 function validateForm() {
+
+	if ( buttonTitle == 'Cancel' || buttonTitle == 'Disapprove') {
+		return 0;
+	}
+
     var errs = 0;
     for (var i in field_names) {
         var fieldName = field_names[i];
@@ -348,13 +400,28 @@ function getFieldInputs(fieldName) {
 }
 
 function validateOnSubmit(form) {
+	//Do they really want to submit the form?
+	//if (buttonTitle == 'Route') {
+	//	if (confirm_route() == false) {
+	//		return false;
+	//	}
+	//}
     //alert("validating on submit");
     var errs = validateForm();
     //alert("Errs: " + errs);
-    if (errs > 1)  alert('There are fields which require correction before sending');
-    else if (errs == 1) alert('There is a field which requires correction before sending');
+	if (errs > 1) {
+	  	alert('There are fields which require correction before sending');
+	} else if (errs == 1) {
+	  	alert('There is a field which requires correction before sending');
+	}
+
+	// is there an unsaved note?
 
     return (errs == 0);
+}
+
+function buttonClick(incomingButtonTitle) {
+	buttonTitle = incomingButtonTitle;
 }
 
 /**

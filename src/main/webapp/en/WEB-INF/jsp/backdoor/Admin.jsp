@@ -38,9 +38,6 @@
 			<td><a href="Stats.do" target="<c:out value="${BackdoorForm.targetName}" />">Workflow Statistics Report</a></td>
 		</tr>
 		<tr>
-			<td><a href="RouteQueue.do" target="<c:out value="${BackdoorForm.targetName}" />">Route Queue</a></td>
-		</tr>
-		<tr>
 			<td><a href="DocumentOperation.do" target="<c:out value="${BackdoorForm.targetName}" />">Document Operation</a></td>
 		</tr>
 		<tr>
