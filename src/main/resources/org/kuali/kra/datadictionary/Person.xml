@@ -243,7 +243,7 @@
                 <shortLabel>SSN </shortLabel>
                 <maxLength>9</maxLength>
                 <control>
-                    <text size="8" />
+                    <text size="40" />
                 </control>
                 <summary>Social Security Number</summary>
             	<description>Social Security Number</description>
@@ -253,7 +253,7 @@
                 <shortLabel>Last Name</shortLabel>
                 <maxLength>30</maxLength>
                 <control>
-                    <text size="25" />
+                    <text size="40" />
                 </control>
                 <summary>Last Name</summary>
             	<description>Last Name</description>
@@ -263,7 +263,7 @@
                 <shortLabel>First Name</shortLabel>
                 <maxLength>30</maxLength>
                 <control>
-                    <text size="25" />
+                    <text size="40" />
                 </control>
                 <summary>First Name</summary>
             	<description>First Name</description>
@@ -273,7 +273,7 @@
                 <shortLabel>Middle Name</shortLabel>
                 <maxLength>30</maxLength>
                 <control>
-                    <text size="25" />
+                    <text size="40" />
                 </control>
                 <summary>Middle Name</summary>
             	<description>Middle Name</description>
@@ -283,7 +283,7 @@
                 <shortLabel>Full Name</shortLabel>
                 <maxLength>90</maxLength>
                 <control>
-                    <text size="60" />
+                    <text size="40" />
                 </control>
                 <summary>Full Name</summary>
             	<description>Full Name</description>
@@ -293,7 +293,7 @@
                 <shortLabel>Prior Name</shortLabel>
                 <maxLength>30</maxLength>
                 <control>
-                    <text size="25" />
+                    <text size="40" />
                 </control>
                 <summary>Prior Name</summary>
             	<description>Prior Name</description>
@@ -303,7 +303,7 @@
                 <shortLabel>User Name</shortLabel>
                 <maxLength>60</maxLength>
                 <control>
-                    <text size="60" />
+                    <text size="40" />
                 </control>
                 <summary>User Name</summary>
             	<description>User Name</description>
@@ -471,7 +471,7 @@
                 <shortLabel>Office Loc</shortLabel>
                 <maxLength>30</maxLength>
                 <control>
-                    <text size="25" />
+                    <text size="40" />
                 </control>
                 <summary>Office Location</summary>
             	<description>Office Location</description>
@@ -481,7 +481,7 @@
                 <shortLabel>Office Ph</shortLabel>
                 <maxLength>20</maxLength>
                 <control>
-                    <text size="20" />
+                    <text size="40" />
                 </control>
                 <summary>Office Phone</summary>
             	<description>Office Phone</description>
@@ -491,7 +491,7 @@
                 <shortLabel>2nd Office Loc</shortLabel>
                 <maxLength>30</maxLength>
                 <control>
-                    <text size="25" />
+                    <text size="40" />
                 </control>
                 <summary>Secondary Office Location</summary>
             	<description>Secondary Office Location</description>
@@ -501,7 +501,7 @@
                 <shortLabel>2nd Office Ph</shortLabel>
                 <maxLength>20</maxLength>
                 <control>
-                    <text size="20" />
+                    <text size="40" />
                 </control>
                 <summary>Secondary Office Phone</summary>
             	<description>Secondary Office Phone</description>
@@ -531,7 +531,7 @@
                 <shortLabel>DirectoryDepart</shortLabel>
                 <maxLength>30</maxLength>
                 <control>
-                    <text size="25" />
+                    <text size="40" />
                 </control>
                 <summary>Directory Department</summary>
             	<description>Directory Department</description>
@@ -560,7 +560,7 @@
                 <shortLabel>Primary Title</shortLabel>
                 <maxLength>30</maxLength>
                 <control>
-                    <text size="25" />
+                    <text size="40" />
                 </control>
                 <summary>Primary Title</summary>
             	<description>PrimaryTitle</description>
@@ -571,7 +571,7 @@
                 <shortLabel>Direct Title</shortLabel>
                 <maxLength>50</maxLength>
                 <control>
-                    <text size="50"/>
+                    <text size="40"/>
                 </control>
                 <summary>Directory Title</summary>
             	<description>Directory Title</description>
@@ -582,7 +582,7 @@
                 <shortLabel>Home Unit</shortLabel>
                 <maxLength>8</maxLength>
                 <control>
-                    <text size="8" />
+                    <text size="40" />
                 </control>
                 <summary>Home Unit</summary>
             	<description>Home Unit</description>
@@ -678,7 +678,7 @@
                 <shortLabel>Addr Line 1</shortLabel>
                 <maxLength>80</maxLength>
                 <control>
-                    <text size="60" />
+                    <text size="40" />
                 </control>
                 <summary>Address Line 1</summary>
             	<description>Address Line 1</description>
@@ -689,7 +689,7 @@
                 <shortLabel>Addr Line 2</shortLabel>
                 <maxLength>80</maxLength>
                 <control>
-                    <text size="60" />
+                    <text size="40" />
                 </control>
                 <summary>Address Line 2</summary>
             	<description>Address Line 2</description>
@@ -700,7 +700,7 @@
                 <shortLabel>Addr Line 3</shortLabel>
                 <maxLength>80</maxLength>
                 <control>
-                    <text size="60" />
+                    <text size="40" />
                 </control>
                 <summary>Address Line 3</summary>
             	<description>Address Line 3</description>
@@ -719,7 +719,7 @@
                 <shortLabel>Postal Code</shortLabel>
                 <maxLength>15</maxLength>
                 <control>
-                    <text size="15" />
+                    <text size="40" />
                 </control>
                 <summary>Postal Code</summary>
             	<description>Postal Code</description>
@@ -730,7 +730,7 @@
                 <shortLabel>Fax Nbr</shortLabel>
                 <maxLength>20</maxLength>
                 <control>
-                    <text size="20" />
+                    <text size="40" />
                 </control>
                 <summary>Fax Number</summary>
             	<description>Fax Number</description>
@@ -741,7 +741,7 @@
                 <shortLabel>Pg Nbr</shortLabel>
                 <maxLength>20</maxLength>
                 <control>
-                    <text size="20" />
+                    <text size="40" />
                 </control>
                 <summary>Page Number</summary>
             	<description>Page Number</description>
@@ -752,7 +752,7 @@
                 <shortLabel>Mobile Ph Nbr</shortLabel>
                 <maxLength>20</maxLength>
                 <control>
-                    <text size="20" />
+                    <text size="40" />
                 </control>
                 <summary>Mobile Phone Number</summary>
             	<description>Moble Phone Number</description>
@@ -763,7 +763,7 @@
                 <shortLabel>Era Commons Usr Nm</shortLabel>
                 <maxLength>20</maxLength>
                 <control>
-                    <text size="20" />
+                    <text size="40" />
                 </control>
                 <summary>Era Commons User Name</summary>
             	<description>Era Commons User Name</description>
