@@ -155,6 +155,7 @@
 							<reportFormat>plain</reportFormat>
 						</configuration>
 					</plugin>
+					<!-- 
 					<plugin>
 						<artifactId>maven-clover-plugin</artifactId>
 						<executions>
@@ -170,6 +171,7 @@
 							<licenseLocation>src/test/config/clover.license</licenseLocation>
 						</configuration>
 					</plugin>
+					 -->
 				</plugins>
 			</build>
 			<dependencies>
