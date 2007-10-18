@@ -192,8 +192,8 @@
             </attribute>
 
 			<attribute name="deadlineType">
-                <label>Proposal Deadline Type</label>
-                <shortLabel>Proposal Deadline Type</shortLabel>
+                <label>Sponsor Deadline Type</label>
+                <shortLabel>Sponsor Deadline Type</shortLabel>
 
                 <maxLength>1</maxLength>
                 <validationPattern><alphaNumeric /></validationPattern>
@@ -226,8 +226,8 @@
 			</attribute>
 
       		<attribute name="programAnnouncementNumber">
-				<label>Opportunity Id</label>
-				<shortLabel>Opportunity Id</shortLabel>
+				<label>Opportunity ID</label>
+				<shortLabel>Opportunity ID</shortLabel>
 
 				<maxLength>50</maxLength>
 				<validationPattern><alphaNumeric /></validationPattern>
@@ -238,13 +238,13 @@
 					<text size="20"/>
 				</control>
 
-				<summary>The Opportunity Id for this Proposal.</summary>
+				<summary>The Opportunity ID for this Proposal.</summary>
 				<description>This field is used to enter the unique identifier associated with each sponsor's funding opportunity announcement. This is equivalent to "Funding Opportunity Announcement number" or "FOA number".</description>
 			</attribute>
 
       		<attribute name="primeSponsorCode">
-				<label>Prime Sponsor Id</label>
-				<shortLabel>Prime Sponsor Id</shortLabel>
+				<label>Prime Sponsor ID</label>
+				<shortLabel>Prime Sponsor ID</shortLabel>
 
 				<maxLength>6</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
@@ -260,8 +260,8 @@
 			</attribute>
 
       		<attribute name="sponsorProposalNumber">
-				<label>Sponsor Proposal Id</label>
-				<shortLabel>Sponsor Proposal Id</shortLabel>
+				<label>Sponsor Proposal ID</label>
+				<shortLabel>Sponsor Proposal ID</shortLabel>
 
 				<maxLength>70</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
@@ -272,13 +272,13 @@
 					<text size="20"/>
 				</control>
 
-				<summary>The Sponsor Id for this Proposal.</summary>
-				<description>This field is used to indicate the Id assigned by the sponsor when the proposal was submitted.</description>
+				<summary>The Sponsor ID for this Proposal.</summary>
+				<description>This field is used to indicate the ID assigned by the sponsor when the proposal was submitted.</description>
 			</attribute>
 
       		<attribute name="currentAwardNumber">
-				<label>Sponsor Award Id</label>
-				<shortLabel>Sponsor Award Id</shortLabel>
+				<label>Award Id</label>
+				<shortLabel>Award Id</shortLabel>
 
 				<maxLength>10</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
@@ -290,12 +290,12 @@
 				</control>
 
 				<summary>The Sponsor Award Number for this Proposal.</summary>
-				<description>The unique award number assigned by the sponsoring agency of a funded proposal.</description>
+				<description>The unique award number (from the KRA Award module) assigned by the system for a previously funded application.</description>
 			</attribute>
 
       		<attribute name="continuedFrom">
-				<label>Original Proposal Id</label>
-				<shortLabel>Original Proposal Id</shortLabel>
+				<label>Original Proposal ID</label>
+				<shortLabel>Original Proposal ID</shortLabel>
 
 				<maxLength>8</maxLength>
 				<validationPattern><alphaNumeric /></validationPattern>
@@ -306,8 +306,8 @@
 					<text size="20"/>
 				</control>
 
-				<summary>The Original Proposal Id for this Proposal.</summary>
-				<description>A unique proposal development number assigned by the KRA system of the prior proposal currently being revised (changed/corrected).</description>
+				<summary>The Original Proposal ID for this Proposal.</summary>
+				<description>A unique institute proposal record number assigned by the KRA system of the prio submitted proposal record currently being revised (changed/corrected).</description>
 			</attribute>
 
 			<attribute name="nsfCode">
@@ -335,8 +335,8 @@
 			</attributeReference>
 
 			<attribute name="agencyDivisionCode">
-				<label>Agency Div Code</label>
-				<shortLabel>Agency Div Code</shortLabel>
+				<label>Sponsor Div Code</label>
+				<shortLabel>Sponsor Div Code</shortLabel>
 
 				<maxLength>3</maxLength>
 				<validationPattern><numeric /></validationPattern>
@@ -347,13 +347,13 @@
 					<text size="20"/>
 				</control>
 
-				<summary>The Agency Division Code for this Proposal.</summary>
+				<summary>The Sponsor Division Code for this Proposal.</summary>
 				<description>Currently specific to the NSF only. A 3 digit code that is unique to each NSF division.</description>
 			</attribute>
 
 			<attribute name="agencyProgramCode">
-				<label>Agency Program Code</label>
-				<shortLabel>Agency Program Code</shortLabel>
+				<label>Sponsor Program Code</label>
+				<shortLabel>Sponsor Program Code</shortLabel>
 
 				<maxLength>3</maxLength>
 				<validationPattern><numeric /></validationPattern>
@@ -364,7 +364,7 @@
 					<text size="20"/>
 				</control>
 
-				<summary>The Agency Program Code for this Proposal.</summary>
+				<summary>The Sponsor Program Code for this Proposal.</summary>
 				<description>Currently specific to the NSF only. A 3 digit code that is unique to each NSF program.</description>
 			</attribute>
 
