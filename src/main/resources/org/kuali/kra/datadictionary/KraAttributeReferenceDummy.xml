@@ -62,7 +62,7 @@
 			    <maxLength>30</maxLength>
 			    <validationPattern><alphaNumeric /></validationPattern>
                 <control>
-			    	<text size="30" />
+			    	<text size="40" />
                 </control>
                 <summary>City </summary>
                 <description>City </description>
@@ -74,7 +74,7 @@
  	            <maxLength>30</maxLength>
  	            <validationPattern><alphaNumeric /></validationPattern>
  	            <control>
- 	                <text size="30" />
+ 	                <text size="40" />
  	            </control>
  	            <summary>County </summary>
                 <description>County </description>
@@ -110,7 +110,7 @@
                 <maxLength>60</maxLength>
                 <validationPattern><emailAddress /></validationPattern>
                 <control>
-                    <text size="60" />
+                    <text size="40" />
                 </control>
                 <summary>Email Address </summary>
                 <description>Email Address </description>
