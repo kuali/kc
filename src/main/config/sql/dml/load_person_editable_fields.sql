@@ -1,5 +1,5 @@
 #
-# $Id: load_person_editable_fields.sql,v 1.2 2007-10-18 15:49:28 lprzybyl Exp $
+# $Id: load_person_editable_fields.sql,v 1.3 2007-10-18 15:55:12 lprzybyl Exp $
 #
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('fullName', sysdate, 'kradev');
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('emailAddress', sysdate, 'kradev');
@@ -18,7 +18,7 @@ insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) v
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('addressLine1', sysdate, 'kradev');
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('addressLine2', sysdate, 'kradev');
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('addressLine3', sysdate, 'kradev');v
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) alues ('county', sysdate, 'kradev');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('county', sysdate, 'kradev');
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('city', sysdate, 'kradev');
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('state', sysdate, 'kradev');
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('country', sysdate, 'kradev');
