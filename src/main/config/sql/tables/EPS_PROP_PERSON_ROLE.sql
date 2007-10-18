@@ -1,9 +1,9 @@
 #
-# $Id: EPS_PROP_PERSON_ROLE.sql,v 1.1 2007-09-03 21:41:44 lprzybyl Exp $
+# $Id: EPS_PROP_PERSON_ROLE.sql,v 1.2 2007-10-18 15:36:05 lprzybyl Exp $
 #
 create table EPS_PROP_PERSON_ROLE(
-  PROP_PERSON_ROLE_ID VARCHAR(12)   CONSTRAINT EPS_PROP_PERSON_ROLE_N1 not null,
-  DESCRIPTION       VARCHAR(25) NOT NULL,
+  PROP_PERSON_ROLE_ID VARCHAR2(12)   CONSTRAINT EPS_PROP_PERSON_ROLE_N1 not null,
+  DESCRIPTION       VARCHAR2(25) NOT NULL,
   update_timestamp  date         not null,
   update_user       varchar2 (8) not null,
   VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL,
