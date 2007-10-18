@@ -3,7 +3,6 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="textAreaFieldName" value="document.programAnnouncementTitle" />
 <c:set var="action" value="proposalDevelopmentProposal" />
-<link href="css/kuali_application.css" rel="stylesheet" type="text/css" />
 
 <kul:tab tabTitle="Sponsor & Program Information" defaultOpen="true" tabErrorKey="document.sponsorProgramNumber">
 	<div class="tab-container" align="center">
@@ -20,13 +19,13 @@
                 </td>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.noticeOfOpportunityCode}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.noticeOfOpportunityCode" attributeEntry="${proposalDevelopmentAttributes.noticeOfOpportunityCode}" />
+                	<kul:htmlControlAttribute property="document.noticeOfOpportunityCode" attributeEntry="${proposalDevelopmentAttributes.noticeOfOpportunityCode}"  styleClass="fixed-size-200-select" />
                 </td>
             </tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.deadlineType}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.deadlineType" attributeEntry="${proposalDevelopmentAttributes.deadlineType}" />
+                	<kul:htmlControlAttribute property="document.deadlineType" attributeEntry="${proposalDevelopmentAttributes.deadlineType}"  styleClass="fixed-size-200-select"/>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.cfdaNumber}" /></div></th>
            		<td>
@@ -76,7 +75,7 @@
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.nsfCode}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.nsfCode" attributeEntry="${proposalDevelopmentAttributes.nsfCode}" styleClass="fixed-size-300-select"/>
+                	<kul:htmlControlAttribute property="document.nsfCode" attributeEntry="${proposalDevelopmentAttributes.nsfCode}" styleClass="fixed-size-200-select"/>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.subcontracts}" /></div></th>
            		<td>
