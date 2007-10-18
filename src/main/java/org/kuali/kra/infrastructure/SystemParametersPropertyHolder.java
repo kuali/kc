@@ -28,11 +28,13 @@ import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 
+import static org.kuali.core.util.ObjectUtils.deepCopy;
+
 /**
  * Access financial system parameters like they were a map
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class SystemParametersPropertyHolder extends HashMap {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SystemParametersPropertyHolder.class);    
@@ -106,8 +108,6 @@ public class SystemParametersPropertyHolder extends HashMap {
     public Object get(Object key) {        
         Object retval = null;
 
-        LOG.info("Requesting parameter " + key);
-        
         if (!super.containsKey(key)) { 
             try {
                 retval = new PropertyUtilsBean().describe(getParameter(getParameterNamespaceCode(), getParameterDetailTypeCode(), key.toString()));
@@ -122,12 +122,10 @@ public class SystemParametersPropertyHolder extends HashMap {
                 throw new ApplicationParameterException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode(), key.toString(), " cannot be described as a map");
             }
             
-            LOG.info("Adding " + retval);
             super.put(key, retval);
         }
 
-        LOG.info("Returning " + retval);
-        return retval;
+        return super.get(key);
     }
 
 
