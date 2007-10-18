@@ -1,5 +1,5 @@
 #
-# $Id: EPS_PROP_PERSON.sql,v 1.6 2007-10-10 04:34:28 lprzybyl Exp $
+# $Id: EPS_PROP_PERSON.sql,v 1.7 2007-10-18 15:36:05 lprzybyl Exp $
 #
  CREATE TABLE EPS_PROP_PERSON (
     PROPOSAL_NUMBER         number(12,0)   constraint EPS_PROP_PERSON_N1 not null,
@@ -7,7 +7,6 @@
     PROP_PERSON_ROLE_ID     VARCHAR2(12)   CONSTRAINT EPS_PROP_PERSON_N3 NOT NULL,
     PERSON_ID               VARCHAR2(9), 
     ROLODEX_ID              NUMBER(6,0),
-    PERSON_ID               VARCHAR2(9),
 	SSN VARCHAR2(9),
 	LAST_NAME VARCHAR2(30),
 	FIRST_NAME VARCHAR2(30),
