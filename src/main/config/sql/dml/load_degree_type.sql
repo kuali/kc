@@ -1,0 +1,54 @@
+#
+# $Id: load_degree_type.sql,v 1.1 2007-10-18 15:36:05 lprzybyl Exp $
+#
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('AS', 'Associate in Science', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('BA', 'Bachelor of Arts', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('BComm', 'Bachelor of Commerce (Canada)', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('BEd', 'Bachelor of Education', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('BS', 'Bachelor of Science', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DA', 'Doctor of Arts', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DC', 'Doctor of Chiropractics', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DD', 'Doctor of Divinity', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DDS', 'Doctor of Dental Science', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DEng', 'Doctor of Engineering', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DFA', 'Doctor of Fine Arts', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DH', 'Doctor of Humanities', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DHA', 'Doctor of Hospital Administration', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DMin', 'Doctor of Ministry', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DPA', 'Doctor of Public Administration', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DSN', 'Doctorate of Science, in Nursing', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DVM', 'Doctor of Veterinary Medicine', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('DVS', 'Doctor of Veterinary Science', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('HS', 'High School (or GED equivalent)', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('JD', 'Jurum Doctor (Doctor of Laws)', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('LLD', 'Legum Doctor (Doctor of Laws)', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('LLM', 'Legum Magister (Master of Laws)', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MA', 'Master of Arts', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MAEd', 'Master of Arts, in Education', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MArch', 'Master of Architecture', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MBA', 'Master of Business Administration', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MD', 'Medical Doctor', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MDS', 'Master of Medical Science', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MDiv', 'Master of Divinity', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MEE', 'Master of Electrical Engineering', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MEd', 'Master of Education', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MEng', 'Master of Engineering', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MFA', 'Master of Fine Arts', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MIS', 'Master of Information Systems', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MLS', 'Master of Library Science', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MPA', 'Master of Public Administration', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MPE', 'Master of Public Education', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MPH', 'Master of Public Health', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MPd', 'Master of Pedagogy', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MPhil', 'Master of Philosophy', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MS', 'Master of Science', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MSEd', 'Master of Science, in Education', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MST', 'Master of Sacred Theology', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MSW', 'Master of Social Work', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('MTh', 'Master of Theology, in Religion', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('PhD', 'Doctor of Philosophy', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('PharD', 'Doctor of Pharmacy', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('ScD', 'Doctor of Science', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('ThD', 'Doctor of Theology, in Religion', sysdate, 'kradev');
+insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP_UPDATE_USER, VER_NBR, OBJ_ID) values ('UKNW', 'No Degree information specified', sysdate, 'kradev');
+
