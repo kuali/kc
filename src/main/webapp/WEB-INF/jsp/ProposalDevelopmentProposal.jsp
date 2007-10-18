@@ -32,8 +32,8 @@
 
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-pd:proposalDevelopmentRequiredFields />
-<kra-pd:proposalDevelopmentOrganizationAndLocation />
 <kra-pd:proposalDevelopmentSponsorProgramInformation />
+<kra-pd:proposalDevelopmentOrganizationAndLocation />
 <kra-pd:proposalDevelopmentDeliveryInfo />
 
 <c:if test="${displayKeywordPanel}">
