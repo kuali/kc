@@ -49,7 +49,7 @@
       </c:if>
 </c:forEach>
 
-<c:if test="${fn:length(KualiForm.investigators) > 0}">
+<c:if test="${fn:length(KualiForm.document.investigators) > 0}">
     <kra-pd:creditSplit/>
 </c:if>
 
