@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,24 +24,24 @@ import java.util.Properties;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Parameter;
-import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kra.exceptions.ApplicationParameterException;
 
 import static org.kuali.core.util.ObjectUtils.deepCopy;
 
 /**
  * Access financial system parameters like they were a map
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.6 $
+ * @author $Author: bghutchi $
+ * @version $Revision: 1.7 $
  */
 public class SystemParametersPropertyHolder extends HashMap {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SystemParametersPropertyHolder.class);    
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SystemParametersPropertyHolder.class);
     private static final String PARAMETER_NAMESPACE_CODE = "parameterNamespaceCode";
     private static final String PARAMETER_DETAIL_TYPE_CODE = "parameterDetailTypeCode";
     private static final String PARAMETER_NAME = "parameterName";
-    
+
     private String parameterNamespaceCode;
     private String parameterDetailTypeCode;
 
@@ -58,7 +58,7 @@ public class SystemParametersPropertyHolder extends HashMap {
      * @param detailTypeCode
      */
     public SystemParametersPropertyHolder(String namespaceCode, String detailTypeCode) {
-        LOG.info("Creating access to System Parameters as described: \n" 
+        LOG.info("Creating access to System Parameters as described: \n"
                  + PARAMETER_NAMESPACE_CODE + "'" + namespaceCode + "'\n"
                  + PARAMETER_DETAIL_TYPE_CODE + "'" + detailTypeCode + "'");
         parameterNamespaceCode = namespaceCode;
@@ -82,7 +82,7 @@ public class SystemParametersPropertyHolder extends HashMap {
     public void setParameterDetailTypeCode(String detailTypeCode) {
         parameterDetailTypeCode = detailTypeCode;
     }
-    
+
     /**
      * accessor for the parameter namespace code
      *
@@ -105,10 +105,10 @@ public class SystemParametersPropertyHolder extends HashMap {
     /**
      * @see org.kuali.core.util.properties.PropertyTree#get(java.lang.Object)
      */
-    public Object get(Object key) {        
+    public Object get(Object key) {
         Object retval = null;
 
-        if (!super.containsKey(key)) { 
+        if (!super.containsKey(key)) {
             try {
                 retval = new PropertyUtilsBean().describe(getParameter(getParameterNamespaceCode(), getParameterDetailTypeCode(), key.toString()));
             }
@@ -121,7 +121,7 @@ public class SystemParametersPropertyHolder extends HashMap {
             catch (NoSuchMethodException e) {
                 throw new ApplicationParameterException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode(), key.toString(), " cannot be described as a map");
             }
-            
+
             super.put(key, retval);
         }
 
@@ -152,7 +152,7 @@ public class SystemParametersPropertyHolder extends HashMap {
         if (retval) {
             return retval;
         }
-        
+
         return getConfigurationService().parameterExists(getParameterNamespaceCode(), getParameterDetailTypeCode(), key.toString());
     }
 
