@@ -115,7 +115,28 @@
                 <summary>Email Address </summary>
                 <description>Email Address </description>
             </attribute>
-
+            
+			<attribute name="updateUser">
+				<label>Author</label>
+				<shortLabel>Author</shortLabel>
+				<maxLength>20</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<text size="20" />
+				</control>
+				<summary>User</summary>
+				<description>The user who created or last modified the object.</description>
+			</attribute>
+			
+			<attributeReference name="updateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+				<label>Posted Timestamp</label>
+				<shortLabel>Posted Timestamp</shortLabel>
+				<summary>Posted Timestamp</summary>
+				<description>The creation or last modification timestamp.</description>
+			</attributeReference>
+			
         </attributes>
     </businessObject>
 </dictionaryEntry>

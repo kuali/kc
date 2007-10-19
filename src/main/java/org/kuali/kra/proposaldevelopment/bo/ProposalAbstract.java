@@ -25,19 +25,6 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * An Abstract is composed of a unique type code and a textual string
  * known as the Abstract Details.
  * 
- * FUDGE FACTOR: The astute reader will notice the addition of the
- * bigAbstractDetails property via the get/set methods.  This is a hack
- * to support a second data dictionary attribute entry.  The functional
- * requirements indicate that the GUI text area control for Details 
- * must support two different sizes depending upon the context. The 
- * problem is that the data dictionary attributes have a one-to-one 
- * correspondence with BO properties.  By introducing a "big" Details
- * property, a second data dictionary attribute with a bigger text area 
- * control can be defined.  This "bigger" attribute entry can then
- * be referenced by a JSP. One last note: while this hack was needed
- * it is unfortunate; a BO should not require a change of this sort in
- * order to support the GUI.
- * 
  * @author Donald A. Barre
  */
 public class ProposalAbstract extends KraPersistableBusinessObjectBase {
@@ -151,22 +138,6 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
     public void setAbstractType(AbstractType abstractType) {
         this.abstractType = abstractType;
         this.abstractTypeCode = abstractType.getAbstractTypeCode();
-    }
-
-    /**
-     * Bogus method to support another Data Dictionary attribute.
-     * @return always returns null.
-     */
-    public String getBigAbstractDetails() {
-        return null;
-    }
-
-    /**
-     * Bogus method to support another Data Dictionary attribute.
-     * @param bigAbstractDetails this parameter is ignored.
-     */
-    public void setBigAbstractDetails(String bigAbstractDetails) {
-        // do nothing
     }
     
     @Override

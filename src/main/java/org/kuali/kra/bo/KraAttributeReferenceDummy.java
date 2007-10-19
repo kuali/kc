@@ -35,6 +35,8 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
     private String county;
     private String state;
     private String countryCode;
+    private String updateUser;
+    private Timestamp updateTimestamp;
 
     /**
      * Gets the value of city
@@ -133,5 +135,21 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
 
     public void setBigDescription(String bigDescription) {
         this.bigDescription = bigDescription;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public Timestamp getUpdateTimestamp() {
+        return updateTimestamp;
+    }
+
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        this.updateTimestamp = updateTimestamp;
     }
 }

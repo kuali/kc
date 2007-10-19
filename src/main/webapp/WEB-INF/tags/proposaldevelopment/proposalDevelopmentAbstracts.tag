@@ -36,6 +36,8 @@
         	
           	<tr>
           		<th><div align="left">&nbsp</div></th> 
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalAbstractAttributes.updateTimestamp}" skipHelpUrl="true" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalAbstractAttributes.updateUser}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalAbstractAttributes.abstractTypeCode}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalAbstractAttributes.abstractDetails}" skipHelpUrl="true" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
@@ -47,13 +49,17 @@
 				<th class="infoline">
 					<c:out value="add:" />
 				</th>
-
+				
+ 				<td></td>
+ 				
+ 				<td></td>
+				
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="newProposalAbstract.abstractTypeCode" 
                 	                          attributeEntry="${proposalAbstractAttributes.abstractTypeCode}" />
 				</td>
 				
-                <td>
+                <td align="left">
                 	<kul:htmlControlAttribute property="newProposalAbstract.abstractDetails" attributeEntry="${proposalAbstractAttributes.abstractDetails}" />
                     <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${proposalAbstractAttributes.abstractDetails.label}#)).anchor${tabKey}" 
                                 src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' 
@@ -71,37 +77,39 @@
             
             <%-- The list of current abstracts --%>
             
-            <tr>
-            	<td colspan="4">
-            	<div  align="left">
-            
-        			<c:forEach var="abstract" items="${KualiForm.document.proposalAbstracts}" varStatus="status">
-	             		<kul:innerTab parentTab="Abstracts" defaultOpen="false" tabTitle="${abstract.abstractType.description}">	
-	             			<div class="tab-container" align="center">
-								<table cellpadding="0" cellspacing="0" summary="">
-			          				<tr>
-				          				<td>
-	             							<div align="center">
-				          					<kul:htmlControlAttribute property="document.proposalAbstracts[${status.index}].abstractDetails" 
-				          					                          attributeEntry="${proposalAbstractAttributes.bigAbstractDetails}" />
-                							</div>
-                						</td>
-				          			</tr>
-				          				<td>
-				          					<div align="center">
-				          					<html:image property="methodToCall.deleteAbstract.line${status.index}.anchor${tabKey}"
-														src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
-				          					</div>
-				          				</td>
-				          			<tr>
-				          			</tr>
-				        		</table>
-				        	</div>
-			        	</kul:innerTab>
-        			</c:forEach>
-        		</div>
-        		</td>
-        	</tr>
+        	<c:forEach var="abstract" items="${KualiForm.document.proposalAbstracts}" varStatus="status">
+	             <tr>
+	             	<th>${status.index + 1}</th>
+	             	
+	             	<td align="left" valign="middle">
+                	    <kul:htmlControlAttribute property="document.proposalAbstracts[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${proposalAbstractAttributes.updateTimestamp}" />
+					</td>
+					
+	             	<td align="left" valign="middle">
+                	    <kul:htmlControlAttribute property="document.proposalAbstracts[${status.index}].updateUser" readOnly="true" attributeEntry="${proposalAbstractAttributes.updateUser}" />
+					</td>
+					
+	             	<td>${abstract.abstractType.description}</td>
+	             	
+				    <td>
+	             		<div align="left">
+					        <kul:htmlControlAttribute property="document.proposalAbstracts[${status.index}].abstractDetails" 
+					          					      attributeEntry="${proposalAbstractAttributes.abstractDetails}" />
+	                		<html:image property="methodToCall.updateTextArea.((#document.proposalAbstracts[${status.index}].abstractDetails:${action}:${proposalAbstractAttributes.abstractDetails.label}#)).anchor${tabKey}" 
+	                                    src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' 
+	                                    onclick="javascript: textAreaPop(document.getElementById('document.proposalAbstracts[${status.index}].abstractDetails').value,'document.proposalAbstracts[${status.index}].abstractDetails','proposalDevelopment','${proposalAbstractAttributes.abstractDetails.label}');return false" 
+	                                    styleClass="tinybutton" /> 
+                		</div>
+                	</td>
+                	
+				    <td>
+				        <div align="center">
+					          <html:image property="methodToCall.deleteAbstract.line${status.index}.anchor${tabKey}"
+									      src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+				    	</div>
+				    </td>
+				<tr>	
+        	</c:forEach>
         </table>
     </div> 
 </kul:tab>
