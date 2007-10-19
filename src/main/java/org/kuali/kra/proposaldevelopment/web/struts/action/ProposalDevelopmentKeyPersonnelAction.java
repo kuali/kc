@@ -25,7 +25,10 @@ import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_N
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.NEW_PERSON_LOOKUP_FLAG;
 import static org.kuali.kra.infrastructure.Constants.NEW_PROPOSAL_PERSON_PROPERTY_NAME;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static edu.iu.uis.eden.clientapp.IDocHandler.INITIATE_COMMAND;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -65,8 +68,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.19 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.20 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -81,8 +84,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         request.setAttribute(NEW_PERSON_LOOKUP_FLAG, "");
 
         try {
-            boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(
-                    Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME);
+            boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME);
 
             if (creditSplitEnabled) {
                 request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
@@ -118,10 +120,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             pdform.setNewProposalPerson(person);
             request.setAttribute(NEW_PERSON_LOOKUP_FLAG, new Boolean(true));
         }
-
-        // repopulate form investigators
-        pdform.populateInvestigators();
         
+        pdform.populateInvestigators();
+
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -243,7 +244,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
         person.addUnit(unit);
         unit.refreshReferenceObject("unit");
-        LOG.info("Added unit " + unit + " to person " + person);
     }
     
     /**
@@ -259,9 +259,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         valueMap.put("unitNumber", unit.getUnitNumber());
         Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, valueMap);
         
-        LOG.info("Found " + units.size() + " units that match");
         for (Unit found : units) {
-            LOG.info("Assigning unit number " + found.getUnitNumber());
             retval.setUnitNumber(found.getUnitNumber());
         }
 
@@ -511,7 +509,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalPerson retval = null;
         int selectedLine = -1;
         String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
-        LOG.info("parameterName=" + parameterName);
         if (isNotBlank(parameterName)) {
             int lineNumber = Integer.parseInt(substringBetween(parameterName, "proposalPersons[", "]."));
             retval = document.getProposalPerson(lineNumber);
