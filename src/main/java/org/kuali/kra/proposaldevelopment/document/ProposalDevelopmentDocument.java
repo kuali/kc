@@ -87,6 +87,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<ProposalAbstract> proposalAbstracts;
     private List<Narrative> institutes;
     private List<PropPersonBio> propPersonBios;
+    private List<ProposalPerson> investigators;
 
     
     public ProposalDevelopmentDocument() {
@@ -111,6 +112,14 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      */
     public List<ProposalPerson> getProposalPersons() {
         return this.proposalPersons;
+    }
+
+    public void setInvestigators(List<ProposalPerson> investigators) {
+        this.investigators = investigators;
+    }
+
+    public List<ProposalPerson> getInvestigators() {
+        return investigators;
     }
 
     /**
