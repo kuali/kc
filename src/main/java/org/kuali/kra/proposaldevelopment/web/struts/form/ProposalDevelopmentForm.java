@@ -65,7 +65,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private Narrative newNarrative;
     private FormFile narrativeFile;
     private Map personEditableFields;
-    private List<ProposalPerson> investigators;
     private boolean showMaintenanceLinks;
     private ProposalAbstract newProposalAbstract;
     private PropPersonBio newPropPersonBio;
@@ -92,7 +91,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         setNewProposalPersonDegree(new ProposalPersonDegree());
         setNewProposalPersonUnit(new Unit());
         setNewProposalAbstract(new ProposalAbstract());
-        setInvestigators(new ArrayList<ProposalPerson>());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
 
@@ -136,7 +134,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      * Gets the new proposal abstract.  This is the abstract filled
      * in by the user on the form before pressing the add button. The
      * abstract can be invalid if the user has not specified an abstract type.
-     *
+     * 
      * @return the new proposal abstract
      */
     public ProposalAbstract getNewProposalAbstract() {
@@ -164,6 +162,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setAnchor(null);
         this.setTabStates(new HashMap<String, String>());
         this.setCurrentTabIndex(0);
+
 
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = this.getProposalDevelopmentDocument();
@@ -379,14 +378,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         return personEditableFields;
     }
 
-    public void setInvestigators(List<ProposalPerson> investigators) {
-        this.investigators = investigators;
-    }
-
-    public List<ProposalPerson> getInvestigators() {
-        return investigators;
-    }
-
     public List<InvestigatorCreditType> getInvestigatorCreditTypes() {
         List retval = new ArrayList();
         Collection<InvestigatorCreditType> types = getBusinessObjectService().findAll(InvestigatorCreditType.class);
@@ -401,10 +392,14 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      */
     public void populateInvestigators() {
         // Populate Investigators from a proposal document's persons
+        LOG.info("Populating Investigators");
+        LOG.info("Clearing investigator list");
+        getProposalDevelopmentDocument().setInvestigators(new ArrayList<ProposalPerson>());
+
         for (ProposalPerson person : getProposalDevelopmentDocument().getProposalPersons()) {
-            if (new ProposalDevelopmentKeyPersonsRule().isInvestigator(person)
-                && !getInvestigators().contains(person)) {
-                getInvestigators().add(person);
+            if (new ProposalDevelopmentKeyPersonsRule().isInvestigator(person) 
+                && !getProposalDevelopmentDocument().getInvestigators().contains(person)) {
+                getProposalDevelopmentDocument().getInvestigators().add(person);
             }
         }
     }
@@ -412,8 +407,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public Map getCreditSplitTotals() {
         Map<String, Map<Integer,KualiDecimal>> retval = new HashMap<String,Map<Integer,KualiDecimal>>();
         List<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
-
-        for (ProposalPerson investigator : getInvestigators()) {
+        
+        for (ProposalPerson investigator : getProposalDevelopmentDocument().getInvestigators()) {
             Map<Integer,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
 
             if (creditTypeTotals == null) {

@@ -29,13 +29,15 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Temporary class until this can be gotten working via table.
  *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.3 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.4 $
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
@@ -50,8 +52,8 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         keyValues.add(new KeyLabelPair("", "select:"));
 
         for (ProposalPersonRole role : roles) {
-            LOG.debug(role.toString());
-            LOG.debug("Adding role " + role.getProposalPersonRoleId());
+            LOG.info("Adding role " + role.getProposalPersonRoleId());
+            LOG.info("With description " + findRoleDescription(role));
             keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findRoleDescription(role)));
         }
 
@@ -63,9 +65,11 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     }
 
     protected String findRoleDescription(ProposalPersonRole role) {
-        return getConfigurationService().getParameterValue(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
-                                                                      + getRoleIdPrefix()
-                                                                      + role.getProposalPersonRoleId().toLowerCase());    
+        return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                                                           PARAMETER_COMPONENT_DOCUMENT, 
+                                                           PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
+                                                           + getRoleIdPrefix()
+                                                           + role.getProposalPersonRoleId().toLowerCase());    
     }
 
     protected KualiConfigurationService getConfigurationService() {
