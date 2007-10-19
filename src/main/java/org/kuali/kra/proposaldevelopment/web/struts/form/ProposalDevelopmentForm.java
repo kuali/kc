@@ -70,7 +70,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private ProposalAbstract newProposalAbstract;
     private PropPersonBio newPropPersonBio;
     private Narrative newInstitute;
-    
+    private boolean auditActivated;
+
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
      */
@@ -94,7 +95,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         setInvestigators(new ArrayList<ProposalPerson>());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
-        
+
     }
 
 
@@ -130,22 +131,22 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void setNewPropSpecialReview(PropSpecialReview newPropSpecialReview) {
         this.newPropSpecialReview = newPropSpecialReview;
     }
-    
+
     /**
      * Gets the new proposal abstract.  This is the abstract filled
      * in by the user on the form before pressing the add button. The
      * abstract can be invalid if the user has not specified an abstract type.
-     * 
+     *
      * @return the new proposal abstract
      */
     public ProposalAbstract getNewProposalAbstract() {
         return newProposalAbstract;
     }
-    
+
     /**
      * Sets the new proposal abstract.  This is the abstract that will be
      * shown to the user on the form.
-     * 
+     *
      * @param newProposalAbstract
      */
     public void setNewProposalAbstract(ProposalAbstract newProposalAbstract) {
@@ -164,7 +165,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setTabStates(new HashMap<String, String>());
         this.setCurrentTabIndex(0);
 
-        
+
         ProposalDevelopmentDocument proposalDevelopmentDocument = this.getProposalDevelopmentDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
         for(int i=0; i<keywords.size(); i++) {
@@ -317,7 +318,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
 
     /**
-     * Gets the newNarrative attribute. 
+     * Gets the newNarrative attribute.
      * @return Returns the newNarrative.
      */
     public Narrative getNewNarrative() {
@@ -346,7 +347,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public boolean isShowMaintenanceLinks(){
         return showMaintenanceLinks;
     }
-    
+
     public void setShowMaintenanceLinks(boolean showMaintenanceLinks) {
         this.showMaintenanceLinks = showMaintenanceLinks;
     }
@@ -354,13 +355,13 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
+
     /**
      * Creates the list of <code>{@link PersonEditableField}</code> field names.
      */
     public void populatePersonEditableFields() {
         setPersonEditableFields(new HashMap());
-        
+
         Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
         for (PersonEditableField field : fields) {
             getPersonEditableFields().put(field.getFieldName(), new Boolean(true));
@@ -369,7 +370,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
     public void setPersonEditableFields(Map fields) {
         personEditableFields = fields;
-    }    
+    }
 
     /**
      * Returns a an array of editablefields
@@ -401,17 +402,17 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void populateInvestigators() {
         // Populate Investigators from a proposal document's persons
         for (ProposalPerson person : getProposalDevelopmentDocument().getProposalPersons()) {
-            if (new ProposalDevelopmentKeyPersonsRule().isInvestigator(person) 
+            if (new ProposalDevelopmentKeyPersonsRule().isInvestigator(person)
                 && !getInvestigators().contains(person)) {
                 getInvestigators().add(person);
             }
         }
     }
-    
+
     public Map getCreditSplitTotals() {
         Map<String, Map<Integer,KualiDecimal>> retval = new HashMap<String,Map<Integer,KualiDecimal>>();
         List<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
-        
+
         for (ProposalPerson investigator : getInvestigators()) {
             Map<Integer,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
 
@@ -419,11 +420,11 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
                 creditTypeTotals = new HashMap<Integer,KualiDecimal>();
                 retval.put(investigator.getFullName(), creditTypeTotals);
             }
-            
+
             // Initialize everything to zero
-            for (InvestigatorCreditType creditType : creditTypes) {                
+            for (InvestigatorCreditType creditType : creditTypes) {
                     KualiDecimal totalCredit = creditTypeTotals.get(creditType.getInvCreditTypeCode());
-                    
+
                     if (totalCredit == null) {
                         totalCredit = new KualiDecimal(0);
                         creditTypeTotals.put(creditType.getInvCreditTypeCode(), totalCredit);
@@ -433,7 +434,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
             for (ProposalPersonUnit unit : investigator.getUnits()) {
                 for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
                     KualiDecimal totalCredit = creditTypeTotals.get(creditSplit.getInvCreditTypeCode());
-                    
+
                     if (totalCredit == null) {
                         totalCredit = new KualiDecimal(0);
                         creditTypeTotals.put(creditSplit.getInvCreditTypeCode(), totalCredit);
@@ -442,7 +443,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
                 }
             }
         }
-        
+
         return retval;
     }
 
@@ -464,5 +465,23 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
     public void setNewInstitute(Narrative newInstitute) {
         this.newInstitute = newInstitute;
+    }
+
+
+    /**
+     * Sets the auditActivated attribute value.
+     * @param auditActivated The auditActivated to set.
+     */
+    public void setAuditActivated(boolean auditActivated) {
+        this.auditActivated = auditActivated;
+    }
+
+
+    /**
+     * Gets the auditActivated attribute. 
+     * @return Returns the auditActivated.
+     */
+    public boolean isAuditActivated() {
+        return auditActivated;
     }
 }
