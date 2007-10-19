@@ -76,7 +76,7 @@
 				<shortLabel>Abstract Type</shortLabel>
 				<maxLength>3</maxLength>
 				<validationPattern><numeric /></validationPattern>
-				<required>false</required>
+				<required>true</required>
 				<control>
 					<select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.AbstractTypeValuesFinder" />
 				</control>
@@ -95,16 +95,14 @@
 				<description>Abstract Details</description>
 			</attribute>
 			
-			<attribute name="bigAbstractDetails">
-				<label>Big Abstract Details</label>
-				<shortLabel>Big Abstract Details</shortLabel>
-				<maxLength>0</maxLength>
-				<control>
-					<textarea cols="70" rows="6"/>
-				</control>
-				<summary>Big Abstract Details</summary>
-				<description>Big Abstract Details</description>
-			</attribute>
+			<attributeReference name="updateUser" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="updateUser" >
+				<description>The user who created or last modified the Abstract.</description>
+			</attributeReference>
+			
+			<attributeReference name="updateTimestamp" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="updateTimestamp" >
+				<description>The timestamp when the Abstract was created or last modified.</description>
+			</attributeReference>
+			
 		</attributes>
     </businessObject>
 
