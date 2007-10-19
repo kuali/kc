@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.ValidSpRevApproval;
@@ -37,7 +38,7 @@ import org.kuali.rice.KNSServiceLocator;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule,AddNarrativeRule {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule, DocumentAuditRule {
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -126,18 +127,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             errorMap.putError("sponsorProgramNumber", KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, "Sponsor Program Number");
         }
 
-        //The Proposal Deadline Date should return a warning during validation for the
-        //following conditions: a) if the date entered is older than the current date,
-        //or b) if there is no data entered.
-        //TODO: make this a warning (soft error)
-//        if (proposalDevelopmentDocument.getDeadlineDate() == null) {
-//            valid = false;
-//            errorMap.putError("deadlineDate", KeyConstants.WARNING_EMPTY_DEADLINE_DATE, "Deadline Date");
-//        } else if (proposalDevelopmentDocument.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
-//            valid = false;
-//            errorMap.putError("deadlineDate", KeyConstants.WARNING_PAST_DEADLINE_DATE, "Deadline Date");
-//        }
-
         return valid;
     }
 
@@ -147,5 +136,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent addNarrativeEvent) {
         return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);    }
-    
+
+    /**
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
+     */
+    public boolean processRunAuditBusinessRules(Document document) {
+        return new ProposalDevelopmentSponsorProgramInformationAuditRule().processRunAuditBusinessRules(document);
+    }
+
 }

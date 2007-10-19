@@ -610,6 +610,10 @@
             <navigateTo>actions</navigateTo>
             <displayName>Actions</displayName>
           </headerNavigationTab>
+          <headerNavigationTab>
+		    <navigateTo>auditMode</navigateTo>
+		    <displayName>Audit Mode</displayName>
+		  </headerNavigationTab>
         </headerNavigation>
 
         <allowsErrorCorrection>false</allowsErrorCorrection>
