@@ -41,15 +41,18 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.RiceConstants;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.bo.RoleRight;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RightConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -289,7 +292,23 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         populateNarrativeAttachment(narr);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
+    /**
+     * Update the User and Timestamp for the business object.
+     * @param doc the business object
+     */
+    private void updateUserTimestamp(KraPersistableBusinessObjectBase bo) {
+        String updateUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
+    
+        // Since the UPDATE_USER column is only VACHAR(8), we need to truncate this string if it's longer than 8 characters
+        if (updateUser.length() > 8) {
+            updateUser = updateUser.substring(0, 8);
+        }
+        System.out.println("**** DON: update user timestamp");
+        bo.setUpdateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        bo.setUpdateUser(updateUser);
+    }
+    
     /**
      * Adds an Abstract to the Proposal Development Document.
      * 
@@ -317,6 +336,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             GlobalVariables.getErrorMap().putError(ABSTRACT_ERROR_SELECT_KEY, 
                                                    KeyConstants.ERROR_SELECT_ABSTRACT_TYPE);
         } else {
+            updateUserTimestamp(proposalAbstract);
             proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalAbstracts().add(proposalAbstract);
             proposalDevelopmentForm.setNewProposalAbstract(new ProposalAbstract());
         }
