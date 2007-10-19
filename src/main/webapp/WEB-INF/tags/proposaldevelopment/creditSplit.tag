@@ -34,8 +34,8 @@
                 <th width="20%">${invType.description}</th>
 </c:forEach>
               </tr>
-<c:forEach items="${KualiForm.investigators}" var="investigator" varStatus="invStatus">
-  <c:set var="investigatorProperty" value="investigators[${invStatus.index}]" />
+<c:forEach items="${KualiForm.document.investigators}" var="investigator" varStatus="invStatus">
+  <c:set var="investigatorProperty" value="document.investigators[${invStatus.index}]" />
               <tr>
                 <td nowrap class="tab-subhead1"><strong>
                   <kul:htmlControlAttribute property="${investigatorProperty}.fullName" 
