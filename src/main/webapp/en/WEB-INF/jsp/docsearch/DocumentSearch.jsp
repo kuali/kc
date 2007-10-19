@@ -421,7 +421,7 @@
     <td>&nbsp;</td>
       <td>
 
-  <%-- Setup column lables based on ApplicationsResources --%>
+  <%-- Setup column lables based on ApplicationsResources
   <bean:define id="documentIdLabel">
  	<bean-el:message key="docSearch.DocumentSearch.results.label.routeHeaderId"/>
   </bean:define>
@@ -443,6 +443,7 @@
   <bean:define id="routeLogLabel">
  	<bean-el:message key="docSearch.DocumentSearch.results.label.routeLog"/>
   </bean:define>
+  --%>
 
   <%--
   <display-el:table class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${reqSearchResults}" pagesize="100" defaultsort="1" sort="external" id="result" requestURI="Lookup.do?methodToCall=viewResults&listKey=${listKey}"
@@ -455,7 +456,7 @@
     <display-el:setProperty name="paging.banner.placement" value="both" />
     <display-el:setProperty name="export.banner" value="" />
 		<c:forEach items="${reqSearchResultColumns}" var="column">
-			<display-el:column class="datacell" 
+			<display-el:column class="datacell"
 				sortable="${column.sortable}"
 				sortName="${column.sortName}"
 				title="${column.columnTitle}"
