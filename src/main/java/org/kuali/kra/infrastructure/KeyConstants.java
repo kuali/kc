@@ -32,7 +32,7 @@ public class KeyConstants {
     public static final String ERROR_MISSING_PERSON_ROLE = "error.missingPersonRole";
 
     public static final String ERROR_SELECT_ABSTRACT_TYPE = "error.select.abstractType";
-
     public static final String ERROR_ALL_PERSON_CREDIT_SPLIT_UPBOUND = "error.allPersonCreditSplit.upbound";
     public static final String ERROR_PERSON_CREDIT_SPLIT_UPBOUND = "error.personCreditSplit.upbound";
+    public static final String ERROR_REQUIRED_FOR_FILE_NAME="error.required.for.fileName";
 }
