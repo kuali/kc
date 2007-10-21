@@ -17,7 +17,7 @@
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
-<c:set var="propLocationAttributes" value="${DataDictionary.PropLocation.attributes}" />
+<c:set var="propLocationAttributes" value="${DataDictionary.ProposalLocation.attributes}" />
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
 
 <kul:tab tabTitle="Organization/Location" defaultOpen="true" tabErrorKey="document.organizationId*,document.performingOrganizationId*,document.propLocations*,document.newPropLocation*">
@@ -35,7 +35,8 @@
                     <c:out value="${KualiForm.document.organization.organizationName}"/>
                     <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
                     fieldConversions="organizationId:document.organizationId,congressionalDistrict:document.organization.congressionalDistrict,organizationName:document.organization.organizationName,rolodex.firstName:document.organization.rolodex.firstName,rolodex.lastName:document.organization.rolodex.lastName,rolodex.addressLine1:document.organization.rolodex.addressLine1,rolodex.addressLine2:document.organization.rolodex.addressLine2,rolodex.addressLine3:document.organization.rolodex.addressLine3,rolodex.city:document.organization.rolodex.city,rolodex.state:document.organization.rolodex.state" anchor="${currentTabIndex}"/> 
-					<img src="${ConfigProperties.kra.externalizable.images.url}book_open.png" alt="lookup" height="16" width="16"/>
+                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.organizationId:organizationId" anchor="${currentTabIndex}"/>
+					<!-- <img src="${ConfigProperties.kra.externalizable.images.url}book_open.png" alt="lookup" height="16" width="16"/> -->
                   </td>
              </tr>
              <tr>
@@ -79,7 +80,7 @@
 	                </c:choose>   
                     <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
                     fieldConversions="organizationId:document.performingOrganizationId,organizationName:document.performingOrganization.organizationName"  anchor="${currentTabIndex}"/>
-					<img src="${ConfigProperties.kra.externalizable.images.url}book_open.png" alt="lookup" height="16" width="16"/>
+                    <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.performingOrganizationId:organizationId" anchor="${currentTabIndex}"/>
                 </td>
             </tr>
         </table>
