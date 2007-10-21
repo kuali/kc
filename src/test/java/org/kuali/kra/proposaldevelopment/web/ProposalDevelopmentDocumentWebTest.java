@@ -84,140 +84,140 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         documentService = null;
     }
 
-    @Test
-    public void testInstituteAttachment() throws Exception {
-        final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-
-        final HtmlPage page3 = login(webClient, url,
-                "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
-        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
-
-        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
-        final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
-                SUBMIT_INPUT_BY_NAME);
-        assertTrue(page4.asText().contains("Document was successfully saved"));
-        // really is in abstracts & attachments page
-        assertTrue(page4.asText().contains("Institutional Attachments Institutional Attachments &nbsp Timestamp Author"));
-        HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
-        //webClient.setJavaScriptEnabled(false);
-        final HtmlPage page5 =setInstituteAttachmentLine(page4,form1,"C:/Documents and Settings/shyu/My Documents/kualidoc/KUALI DAYS V Advance Program Summary 7-24-07-1.doc;I;59");
-        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
-        assertTrue(page5.asText().contains("Incomplete Institutional Attachment 1"));
-        // try to view file - does not work
-        //final HtmlPage page6 = clickButton(page5, form2, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
-        //final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
-
-        // multiple attachment is not allowed for this type
-        String fileName=getFullPathFileName("load_abstract_type.sql",new File("c:/java/projects/kra_project"));
-        if (StringUtils.isEmpty(fileName)) {
-            // try unix 
-        }
-
-        final HtmlPage page6 =setInstituteAttachmentLine(page5,form2,fileName+";I;59");
-        final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
-        assertTrue(page6.asText().contains("Institutional Attachments Errors found in this Section: Institute attachment with Attachment Type 'Institutional Attachment 1' already exists"));
-
-        // delete attachment
-        final HtmlPage page7 = clickButton(page6, form3, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
-        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
-        assertFalse(page7.asText().contains("Incomplete Institutional Attachment 1"));
-
-        // add line back
-        final HtmlPage page8 =setInstituteAttachmentLine(page7,form4,fileName+";I;59");
-        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
-        assertTrue(page8.asText().contains("Incomplete Institutional Attachment 1"));
-
-        // save
-        final HtmlPage pageSave = clickButton(page8, form5, "methodToCall.save", IMAGE_INPUT);
-        final HtmlForm formAfterSave = (HtmlForm) pageSave.getForms().get(0);
-
-        assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
-        assertTrue(pageSave.asText().contains("Document was successfully saved"));
-        assertTrue(pageSave.asText().contains("Incomplete Institutional Attachment 1"));
-
-        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
-        assertNotNull(doc);
-        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
-        Narrative narrative=(Narrative)doc.getNarratives().get(0);
-        narrative.refreshReferenceObject("narrativeAttachmentList");
-        NarrativeAttachment narrativeAttachment=(NarrativeAttachment)narrative.getNarrativeAttachmentList().get(0);
-        assertNotNull(narrativeAttachment);
-        assertEquals("load_abstract_type.sql", narrativeAttachment.getFileName());
-        assertEquals("application/octet-stream", narrativeAttachment.getContentType());
-
-        
-        
-    }
-
-
-    
-    @Test
-    public void testPersonnelAttachment() throws Exception {
-        final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-
-        final HtmlPage page3 = login(webClient, url,
-                "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
-        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
-
-        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
-        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up 
-
-        
-        final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
-                SUBMIT_INPUT_BY_NAME);
-        final HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
-        assertTrue(page4.asText().contains("Document was successfully saved"));
-        assertTrue(page4.asText().contains("Personnel Attachments &nbsp Timestamp Author * Attachment Type"));
-
-        // add new personnel attachment line
-        // how to find a file name that is both in local and deployment environments ?
-        // Alternative is to try two full path, one for pc and one for unix ? don't use getFullePathFileName
-        // try local 
-        String fileName=getFullPathFileName("load_abstract_type.sql",new File("c:/java/projects/kra_project"));
-        if (StringUtils.isEmpty(fileName)) {
-            // try unix 
-        }
-        final HtmlPage page5 =setPersonnelAttachmentLine(page4,form1,"3;1;desc;"+fileName);
-        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
-        assertTrue(page5.asText().contains("Budget Details Durkin,"));
-
-
-        // delete attachment
-        final HtmlPage page7 = clickButton(page5, form2, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
-        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
-        assertFalse(page7.asText().contains("Budget Details Durkin,"));
-
-        // add line back
-        final HtmlPage page8 =setPersonnelAttachmentLine(page7,form4,"3;1;desc;"+fileName);
-        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
-        assertTrue(page8.asText().contains("Budget Details Durkin,"));
-
-        // save
-        final HtmlPage pageSave = clickButton(page8, form5, "methodToCall.save", IMAGE_INPUT);
-        final HtmlForm formAfterSave = (HtmlForm) pageSave.getForms().get(0);
-
-        assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
-        assertTrue(pageSave.asText().contains("Document was successfully saved"));
-        assertTrue(pageSave.asText().contains("Budget Details Durkin,"));
-        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
-
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
-        assertNotNull(doc);
-        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
-        ProposalPersonBiography personBio=(ProposalPersonBiography)doc.getPropPersonBios().get(0);
-        personBio.refreshReferenceObject("personnelAttachmentList");
-        ProposalPersonBiographyAttachment personnelAttachment=(ProposalPersonBiographyAttachment)personBio.getPersonnelAttachmentList().get(0);
-        assertNotNull(personnelAttachment);
-        assertEquals("load_abstract_type.sql", personnelAttachment.getFileName());
-        assertEquals("application/octet-stream", personnelAttachment.getContentType());
-
-    }
-
+//    @Test
+//    public void testInstituteAttachment() throws Exception {
+//        final WebClient webClient = new WebClient();
+//        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+//
+//        final HtmlPage page3 = login(webClient, url,
+//                "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+//        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
+//
+//        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
+//        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
+//        final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
+//                SUBMIT_INPUT_BY_NAME);
+//        assertTrue(page4.asText().contains("Document was successfully saved"));
+//        // really is in abstracts & attachments page
+//        assertTrue(page4.asText().contains("Institutional Attachments Institutional Attachments &nbsp Timestamp Author"));
+//        HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
+//        //webClient.setJavaScriptEnabled(false);
+//        final HtmlPage page5 =setInstituteAttachmentLine(page4,form1,"C:/Documents and Settings/shyu/My Documents/kualidoc/KUALI DAYS V Advance Program Summary 7-24-07-1.doc;I;59");
+//        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
+//        assertTrue(page5.asText().contains("Incomplete Institutional Attachment 1"));
+//        // try to view file - does not work
+//        //final HtmlPage page6 = clickButton(page5, form2, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
+//        //final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
+//
+//        // multiple attachment is not allowed for this type
+//        String fileName=getFullPathFileName("load_abstract_type.sql",new File("c:/java/projects/kra_project"));
+//        if (StringUtils.isEmpty(fileName)) {
+//            // try unix 
+//        }
+//
+//        final HtmlPage page6 =setInstituteAttachmentLine(page5,form2,fileName+";I;59");
+//        final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
+//        assertTrue(page6.asText().contains("Institutional Attachments Errors found in this Section: Institute attachment with Attachment Type 'Institutional Attachment 1' already exists"));
+//
+//        // delete attachment
+//        final HtmlPage page7 = clickButton(page6, form3, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
+//        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
+//        assertFalse(page7.asText().contains("Incomplete Institutional Attachment 1"));
+//
+//        // add line back
+//        final HtmlPage page8 =setInstituteAttachmentLine(page7,form4,fileName+";I;59");
+//        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
+//        assertTrue(page8.asText().contains("Incomplete Institutional Attachment 1"));
+//
+//        // save
+//        final HtmlPage pageSave = clickButton(page8, form5, "methodToCall.save", IMAGE_INPUT);
+//        final HtmlForm formAfterSave = (HtmlForm) pageSave.getForms().get(0);
+//
+//        assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
+//        assertTrue(pageSave.asText().contains("Document was successfully saved"));
+//        assertTrue(pageSave.asText().contains("Incomplete Institutional Attachment 1"));
+//
+//        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
+//        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
+//        assertNotNull(doc);
+//        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
+//        Narrative narrative=(Narrative)doc.getNarratives().get(0);
+//        narrative.refreshReferenceObject("narrativeAttachmentList");
+//        NarrativeAttachment narrativeAttachment=(NarrativeAttachment)narrative.getNarrativeAttachmentList().get(0);
+//        assertNotNull(narrativeAttachment);
+//        assertEquals("load_abstract_type.sql", narrativeAttachment.getFileName());
+//        assertEquals("application/octet-stream", narrativeAttachment.getContentType());
+//
+//        
+//        
+//    }
+//
+//
+//    
+//    @Test
+//    public void testPersonnelAttachment() throws Exception {
+//        final WebClient webClient = new WebClient();
+//        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+//
+//        final HtmlPage page3 = login(webClient, url,
+//                "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+//        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
+//
+//        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
+//        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
+//        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up 
+//
+//        
+//        final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
+//                SUBMIT_INPUT_BY_NAME);
+//        final HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
+//        assertTrue(page4.asText().contains("Document was successfully saved"));
+//        assertTrue(page4.asText().contains("Personnel Attachments &nbsp Timestamp Author * Attachment Type"));
+//
+//        // add new personnel attachment line
+//        // how to find a file name that is both in local and deployment environments ?
+//        // Alternative is to try two full path, one for pc and one for unix ? don't use getFullePathFileName
+//        // try local 
+//        String fileName=getFullPathFileName("load_abstract_type.sql",new File("c:/java/projects/kra_project"));
+//        if (StringUtils.isEmpty(fileName)) {
+//            // try unix 
+//        }
+//        final HtmlPage page5 =setPersonnelAttachmentLine(page4,form1,"3;1;desc;"+fileName);
+//        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
+//        assertTrue(page5.asText().contains("Budget Details Durkin,"));
+//
+//
+//        // delete attachment
+//        final HtmlPage page7 = clickButton(page5, form2, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
+//        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
+//        assertFalse(page7.asText().contains("Budget Details Durkin,"));
+//
+//        // add line back
+//        final HtmlPage page8 =setPersonnelAttachmentLine(page7,form4,"3;1;desc;"+fileName);
+//        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
+//        assertTrue(page8.asText().contains("Budget Details Durkin,"));
+//
+//        // save
+//        final HtmlPage pageSave = clickButton(page8, form5, "methodToCall.save", IMAGE_INPUT);
+//        final HtmlForm formAfterSave = (HtmlForm) pageSave.getForms().get(0);
+//
+//        assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
+//        assertTrue(pageSave.asText().contains("Document was successfully saved"));
+//        assertTrue(pageSave.asText().contains("Budget Details Durkin,"));
+//        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
+//
+//        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
+//        assertNotNull(doc);
+//        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
+//        ProposalPersonBiography personBio=(ProposalPersonBiography)doc.getPropPersonBios().get(0);
+//        personBio.refreshReferenceObject("personnelAttachmentList");
+//        ProposalPersonBiographyAttachment personnelAttachment=(ProposalPersonBiographyAttachment)personBio.getPersonnelAttachmentList().get(0);
+//        assertNotNull(personnelAttachment);
+//        assertEquals("load_abstract_type.sql", personnelAttachment.getFileName());
+//        assertEquals("application/octet-stream", personnelAttachment.getContentType());
+//
+//    }
+//
     
     @Test
     public void testKeywordPanel() throws Exception {
