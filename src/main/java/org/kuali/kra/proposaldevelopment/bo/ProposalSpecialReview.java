@@ -6,9 +6,9 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
-import org.kuali.kra.bo.ValidSpRevApproval;
+import org.kuali.kra.bo.ValidSpecialReviewApproval;
 
-public class PropSpecialReview extends KraPersistableBusinessObjectBase {
+public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     // TODO : temporarily change proposalnumber from string to integer to see if ojb willwork
     private Integer proposalNumber;
     private Integer specialReviewNumber;
@@ -21,7 +21,7 @@ public class PropSpecialReview extends KraPersistableBusinessObjectBase {
     private SpecialReview specialReview;
     private SpecialReviewApprovalType specialReviewApprovalType;
 
-    private ValidSpRevApproval validSpRevApproval;
+    private ValidSpecialReviewApproval validSpecialReviewApproval;
 
     public Integer getProposalNumber() {
         return proposalNumber;
@@ -102,12 +102,12 @@ public class PropSpecialReview extends KraPersistableBusinessObjectBase {
         return hashMap;
     }
 
-    public ValidSpRevApproval getValidSpRevApproval() {
-        return validSpRevApproval;
+    public ValidSpecialReviewApproval getValidSpecialReviewApproval() {
+        return validSpecialReviewApproval;
     }
 
-    public void setValidSpRevApproval(ValidSpRevApproval validSpRevApproval) {
-        this.validSpRevApproval = validSpRevApproval;
+    public void setValidSpecialReviewApproval(ValidSpecialReviewApproval validSpecialReviewApproval) {
+        this.validSpecialReviewApproval = validSpecialReviewApproval;
     }
 
     public SpecialReview getSpecialReview() {
