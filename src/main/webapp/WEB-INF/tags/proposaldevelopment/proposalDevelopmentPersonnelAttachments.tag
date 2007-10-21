@@ -15,9 +15,9 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<c:set var="propPersonBioAttributes" value="${DataDictionary.PropPersonBio.attributes}" />
+<c:set var="propPersonBioAttributes" value="${DataDictionary.ProposalPersonBiography.attributes}" />
 <c:set var="propPerDocTypeAttributes" value="${DataDictionary.PropPerDocType.attributes}" />
-<kul:tab tabTitle="Personnel Attachments" defaultOpen="true" tabErrorKey="">
+<kul:tab tabTitle="Personnel Attachments" defaultOpen="true" tabErrorKey="document.propPersonBios*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Personnel Attachments</h2></span>
@@ -30,7 +30,7 @@
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.updateTimestamp}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.updateUser}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.documentTypeCode}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.personId}" skipHelpUrl="true" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.proposalPersonNumber}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.description}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.fileName}" skipHelpUrl="true" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
@@ -51,9 +51,10 @@
                 	<kul:htmlControlAttribute property="newPropPersonBio.documentTypeCode" attributeEntry="${propPersonBioAttributes.documentTypeCode}" />
 				</td>
                 <td>          	
-          		       <html:select property="newPropPersonBio.personId">
+          		       <html:select property="newPropPersonBio.proposalPersonNumber">
   		                    <c:set var="proposalPersons" value="${KualiForm.document.proposalPersons}"/>
-	    		            <html:options collection="proposalPersons" property="personId" labelProperty="fullName"/>
+  		                    <option value="">Select:</option>
+	    		            <html:options collection="proposalPersons" property="proposalPersonNumber" labelProperty="fullName"/>
 	  			        </html:select>
                 </td>
                 <td align="left" valign="middle">
@@ -88,8 +89,15 @@
 	                    <!-- <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].propPerDocType.description" attributeEntry="${propPersonBioAttributes.propPerDocType.description}" /> -->  
 					</td>
 	                <td align="left" valign="middle">
-        			   <input type="hidden" name="document.propPersonBios[${status.index}].personId" value="000000001"> 
-	                	<!--<kul:htmlControlAttribute property="document.propPersonBios[${status.index}].personId" readOnly="true" attributeEntry="${propPersonBioAttributes.personId}" /> -->
+        			    <input type="hidden" name="document.propPersonBios[${status.index}].proposalPersonNumber" value="${propPersonBio.proposalPersonNumber}" /> 
+	                	<!--<kul:htmlControlAttribute property="document.propPersonBios[${status.index}].personId" attributeEntry="${propPersonBioAttributes.personId}" />--> 
+        				<c:forEach var="keyPerson" items="${KualiForm.document.proposalPersons}" varStatus="idx">
+        				   <c:if test="${keyPerson.proposalPersonNumber == propPersonBio.proposalPersonNumber}" >
+        				       ${keyPerson.fullName}
+		        			    <input type="hidden" name="document.propPersonBios[${status.index}].personId" value="${keyPerson.personId}" /> 
+			    			    <input type="hidden" name="document.propPersonBios[${status.index}].rolodexId" value="${keyPerson.rolodexId}" /> 
+        				   </c:if>
+						</c:forEach>
 	                </td>
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="document.propPersonBios[${status.index}].description" readOnly="true" attributeEntry="${propPersonBioAttributes.description}" />
