@@ -19,7 +19,7 @@
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
 
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.PropSpecialReview" >
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" >
 
         <inquiry>
             <title>Prop Special Review</title>
