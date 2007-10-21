@@ -17,9 +17,9 @@
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
-<c:set var="textAreaFieldName" value="newInstitute.comments" />
+<c:set var="textAreaFieldName" value="newInstitute.moduleTitle" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
-<kul:tab tabTitle="Institutional Attachments" defaultOpen="true" tabErrorKey="">
+<kul:tab tabTitle="Institutional Attachments" defaultOpen="true" tabErrorKey="document.institutes*,newInstitute*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Institutional Attachments</h2></span>
@@ -33,7 +33,7 @@
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.comments}" skipHelpUrl="true" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.fileName}" skipHelpUrl="true" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
 	  			             		
@@ -56,8 +56,8 @@
                 	<kul:htmlControlAttribute property="newInstitute.institutionalAttachmentTypeCode" attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}" />
 				</td>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="newInstitute.comments" attributeEntry="${narrativeAttributes.comments}" />
-                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${narrativeAttributes.comments.label}#)).anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${narrativeAttributes.comments.label}');return false" styleClass="tinybutton" /> 
+                	<kul:htmlControlAttribute property="newInstitute.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
+                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${narrativeAttributes.moduleTitle.label}#)).anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${narrativeAttributes.moduleTitle.label}');return false" styleClass="tinybutton" /> 
 				</td>
                 
                 <td align="left" valign="middle">
@@ -71,29 +71,31 @@
                 </td>
             </tr>
 
-        	<c:forEach var="institute" items="${KualiForm.document.institutes}" varStatus="status">
+        	<c:forEach var="instituteAttachment" items="${KualiForm.document.narratives}" varStatus="status">
+        	  <c:if test="${instituteAttachment.narrativeType.narrativeTypeGroup eq ProposalDevelopmentParameters.instituteNarrativeTypeGroup.parameterValue}">
 	             <tr>
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-                	    <kul:htmlControlAttribute property="document.institutes[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
+                	    <kul:htmlControlAttribute property="document.narratives[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
 					</td>
 	                <td>
-                	    <kul:htmlControlAttribute property="document.institutes[${status.index}].updateUser" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
+                	    <kul:htmlControlAttribute property="document.narratives[${status.index}].updateUser" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
 	                </td>
 	                <td>
-                	    <kul:htmlControlAttribute property="document.institutes[${status.index}].moduleStatusCode" readOnly="true" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
-	                </td>
+                	    <input type="hidden" name="document.narratives[${status.index}].moduleStatusCode" value="${instituteAttachment.moduleStatusCode}" />
+                        ${instituteAttachment.narrativeStatus.description}	                </td>
 	                <td>                	
-                	    <input type="hidden" name="document.institutes[${status.index}].institutionalAttachmentTypeCode" value="${institute.institutionalAttachmentTypeCode}" />
-                	    <kul:htmlControlAttribute property="document.institutes[${status.index}].narrativeType.description" readOnly="true" attributeEntry="${narrativeAttributes.narrativeType.description}" />
+                	    <input type="hidden" name="document.narratives[${status.index}].institutionalAttachmentTypeCode" value="${instituteAttachment.institutionalAttachmentTypeCode}" />
+                         ${instituteAttachment.narrativeType.description}	                </td>
+                	    <!-- <kul:htmlControlAttribute property="document.narratives[${status.index}].narrativeType.description" readOnly="true" attributeEntry="${narrativeAttributes.narrativeType.description}" /> -->
 					</td>
 	                <td align="left" valign="middle">
-	                	<kul:htmlControlAttribute property="document.institutes[${status.index}].comments" readOnly="true" attributeEntry="${narrativeAttributes.comments}" />
+	                	<kul:htmlControlAttribute property="document.narratives[${status.index}].moduleTitle" readOnly="true" attributeEntry="${narrativeAttributes.moduleTitle}" />
 					</td>
 	                <td align="left" valign="middle">
-	                    <kul:htmlControlAttribute property="document.institutes[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
+	                    <kul:htmlControlAttribute property="document.narratives[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 	                </td>
 	                <td align="left" valign="middle">
 					<div align=center>
@@ -105,6 +107,7 @@
 					</div>
 	                </td>
 	            </tr>
+			  </c:if>
         	</c:forEach>        
 
           	

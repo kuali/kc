@@ -26,12 +26,12 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.PropLocation;
-import org.kuali.kra.proposaldevelopment.bo.PropPersonBio;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
-import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
+import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable {
@@ -67,13 +67,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String numberOfCopies;
     private String organizationId;
     private String performingOrganizationId;
-    private List<PropLocation> propLocations;
+    private List<ProposalLocation> propLocations;
     private Organization organization;
     // TODO: just for organization panel. not a real reference
     private Organization performingOrganization;
     // TODO: just for delivery panel. not a real reference
     private Rolodex rolodex;
-    private List<PropSpecialReview> propSpecialReviews;
+    private List<ProposalSpecialReview> propSpecialReviews;
     private List<PropScienceKeyword> propScienceKeywords;
     private List<ProposalPerson> proposalPersons;
     private ProposalPerson principalInvestigator;
@@ -86,7 +86,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<ProposalUserRoles> proposalUserRoles;
     private List<ProposalAbstract> proposalAbstracts;
     private List<Narrative> institutes;
-    private List<PropPersonBio> propPersonBios;
+    private List<ProposalPersonBiography> propPersonBios;
     private List<ProposalPerson> investigators;
 
     
@@ -94,15 +94,15 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         super();
         propScienceKeywords = new TypedArrayList(PropScienceKeyword.class);
         newDescription = getDefaultNewDescription();
-        propLocations = new ArrayList<PropLocation>();
-        propSpecialReviews = new ArrayList<PropSpecialReview>();
+        propLocations = new ArrayList<ProposalLocation>();
+        propSpecialReviews = new ArrayList<ProposalSpecialReview>();
         proposalPersons = new ArrayList<ProposalPerson>();
         nextProposalPersonNumber = new Integer(1);
         narratives = new ArrayList<Narrative>();
         proposalUserRoles = new ArrayList<ProposalUserRoles>();
         proposalAbstracts = new ArrayList<ProposalAbstract>();
         institutes = new ArrayList<Narrative>();
-        propPersonBios = new ArrayList<PropPersonBio>();
+        propPersonBios = new ArrayList<ProposalPersonBiography>();
     }
 
     /**
@@ -504,11 +504,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }
     }
 
-    public List<PropLocation> getPropLocations() {
+    public List<ProposalLocation> getPropLocations() {
         return propLocations;
     }
 
-    public void setPropLocations(List<PropLocation> propLocations) {
+    public void setPropLocations(List<ProposalLocation> propLocations) {
         this.propLocations = propLocations;
     }
 
@@ -565,11 +565,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         return "(select)";
     }
 
-    public List<PropSpecialReview> getPropSpecialReviews() {
+    public List<ProposalSpecialReview> getPropSpecialReviews() {
         return propSpecialReviews;
     }
 
-    public void setPropSpecialReviews(List<PropSpecialReview> propSpecialReviews) {
+    public void setPropSpecialReviews(List<ProposalSpecialReview> propSpecialReviews) {
         this.propSpecialReviews = propSpecialReviews;
     }
 
@@ -711,11 +711,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.institutes = institutes;
     }
 
-    public List<PropPersonBio> getPropPersonBios() {
+    public List<ProposalPersonBiography> getPropPersonBios() {
         return propPersonBios;
     }
 
-    public void setPropPersonBios(List<PropPersonBio> propPersonBios) {
+    public void setPropPersonBios(List<ProposalPersonBiography> propPersonBios) {
         this.propPersonBios = propPersonBios;
     }
 }

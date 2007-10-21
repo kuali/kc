@@ -36,17 +36,15 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.PropLocation;
-import org.kuali.kra.proposaldevelopment.bo.PropPersonBio;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
-import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
+import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
 
 /**
  * This class...
@@ -55,8 +53,8 @@ import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule
 public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentForm.class);
     private String primeSponsorName;
-    private PropLocation newPropLocation;
-    private PropSpecialReview newPropSpecialReview;
+    private ProposalLocation newPropLocation;
+    private ProposalSpecialReview newPropSpecialReview;
     private ProposalPerson newProposalPerson;
     private ProposalPersonDegree newProposalPersonDegree;
     private Unit newProposalPersonUnit;
@@ -68,7 +66,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private Map personEditableFields;
     private boolean showMaintenanceLinks;
     private ProposalAbstract newProposalAbstract;
-    private PropPersonBio newPropPersonBio;
+    private ProposalPersonBiography newPropPersonBio;
     private Narrative newInstitute;
     private boolean auditActivated;
 
@@ -86,8 +84,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
-        newPropLocation=new PropLocation();
-        newPropSpecialReview=new PropSpecialReview();
+        newPropLocation=new ProposalLocation();
+        newPropSpecialReview=new ProposalSpecialReview();
         setNewProposalPerson(new ProposalPerson());
         setNewProposalPersonDegree(new ProposalPersonDegree());
         setNewProposalPersonUnit(new Unit());
@@ -112,22 +110,22 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
 
 
-    public PropLocation getNewPropLocation() {
+    public ProposalLocation getNewPropLocation() {
         return newPropLocation;
     }
 
 
-    public void setNewPropLocation(PropLocation newPropLocation) {
+    public void setNewPropLocation(ProposalLocation newPropLocation) {
         this.newPropLocation = newPropLocation;
     }
 
 
-    public PropSpecialReview getNewPropSpecialReview() {
+    public ProposalSpecialReview getNewPropSpecialReview() {
         return newPropSpecialReview;
     }
 
 
-    public void setNewPropSpecialReview(PropSpecialReview newPropSpecialReview) {
+    public void setNewPropSpecialReview(ProposalSpecialReview newPropSpecialReview) {
         this.newPropSpecialReview = newPropSpecialReview;
     }
 
@@ -443,12 +441,12 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
 
 
-    public PropPersonBio getNewPropPersonBio() {
+    public ProposalPersonBiography getNewPropPersonBio() {
         return newPropPersonBio;
     }
 
 
-    public void setNewPropPersonBio(PropPersonBio newPropPersonBio) {
+    public void setNewPropPersonBio(ProposalPersonBiography newPropPersonBio) {
         this.newPropPersonBio = newPropPersonBio;
     }
 
