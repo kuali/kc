@@ -25,7 +25,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
 
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        // no copy & reload button
+        // no copy button
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         flags.setCanCopy(false);
         // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
