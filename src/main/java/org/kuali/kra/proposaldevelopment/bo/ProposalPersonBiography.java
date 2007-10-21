@@ -13,29 +13,31 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.rice.KNSServiceLocator;
 
-public class PropPersonBio extends KraPersistableBusinessObjectBase {
+public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
 
-	private Integer bioNumber;
+	private Integer proposalPersonNumber;
 	private String personId;
-	private Integer proposalNumber;
+    private Integer proposalNumber;
+    private Integer biographyNumber;
+    private Integer rolodexId;
 	private String description;
     private String documentTypeCode;
     private String fileName;
     transient private FormFile personnelAttachmentFile;
-    private List<PropPersonBioAttachment> personnelAttachmentList;
+    private List<ProposalPersonBiographyAttachment> personnelAttachmentList;
     private PropPerDocType propPerDocType;
 
-	public PropPersonBio(){
+	public ProposalPersonBiography(){
 		super();
-		personnelAttachmentList = new ArrayList<PropPersonBioAttachment>(1);
+		personnelAttachmentList = new ArrayList<ProposalPersonBiographyAttachment>(1);
 	}
 
-	public Integer getBioNumber() {
-		return bioNumber;
+	public Integer getProposalPersonNumber() {
+		return proposalPersonNumber;
 	}
 
-	public void setBioNumber(Integer bioNumber) {
-		this.bioNumber = bioNumber;
+	public void setProposalPersonNumber(Integer proposalPersonNumber) {
+		this.proposalPersonNumber = proposalPersonNumber;
 	}
 
 	public String getPersonId() {
@@ -74,8 +76,9 @@ public class PropPersonBio extends KraPersistableBusinessObjectBase {
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("bioNumber", getBioNumber());
-		hashMap.put("personId", getPersonId());
+		hashMap.put("proposalPersonNumber", getProposalPersonNumber());
+        hashMap.put("personId", getPersonId());
+        hashMap.put("rolodexId", getRolodexId());
 		hashMap.put("proposalNumber", getProposalNumber());
 		hashMap.put("description", getDescription());
 		hashMap.put("documentTypeCode", getDocumentTypeCode());
@@ -90,11 +93,11 @@ public class PropPersonBio extends KraPersistableBusinessObjectBase {
         this.personnelAttachmentFile = personnelAttachmentFile;
     }
 
-    public List<PropPersonBioAttachment> getPersonnelAttachmentList() {
+    public List<ProposalPersonBiographyAttachment> getPersonnelAttachmentList() {
         return personnelAttachmentList;
     }
 
-    public void setPersonnelAttachmentList(List<PropPersonBioAttachment> personnelAttachmentList) {
+    public void setPersonnelAttachmentList(List<ProposalPersonBiographyAttachment> personnelAttachmentList) {
         this.personnelAttachmentList = personnelAttachmentList;
     }
 
@@ -130,6 +133,22 @@ public class PropPersonBio extends KraPersistableBusinessObjectBase {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public Integer getRolodexId() {
+        return rolodexId;
+    }
+
+    public void setRolodexId(Integer rolodexId) {
+        this.rolodexId = rolodexId;
+    }
+
+    public Integer getBiographyNumber() {
+        return biographyNumber;
+    }
+
+    public void setBiographyNumber(Integer biographyNumber) {
+        this.biographyNumber = biographyNumber;
     }
 
 }
