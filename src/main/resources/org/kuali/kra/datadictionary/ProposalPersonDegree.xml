@@ -99,6 +99,7 @@
             <attributeReference name="graduationDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Graduation Date</label>
                 <shortLabel>Grad Dt</shortLabel>
+                <required>true</required>
  	            <summary>Graduation Date</summary>
                 <description>Graduation Date</description>
             </attributeReference>
@@ -106,6 +107,7 @@
             <attribute name="degreeCode" >
                 <label>Degree Code</label>
                 <shortLabel>Degree Cd</shortLabel>
+                <required>true</required>
                 <maxLength>6</maxLength>
                 <control>
                     <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.DegreeTypeValuesFinder" />
@@ -117,7 +119,9 @@
             <attribute name="degree" >
                 <label>Degree</label>
                 <shortLabel>Degree</shortLabel>
+                <required>true</required>
                 <maxLength>80</maxLength>
+                <required>true</required>
                 <control>
                     <text size="25" />
                 </control>

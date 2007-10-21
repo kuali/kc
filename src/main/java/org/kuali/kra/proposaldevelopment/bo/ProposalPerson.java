@@ -29,9 +29,9 @@ import org.kuali.core.util.KualiDecimal;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
-public class ProposalPerson extends Person {
+public class ProposalPerson extends Person implements CreditSplitable {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
 
     private Boolean conflictOfInterest;
@@ -50,6 +50,7 @@ public class ProposalPerson extends Person {
     private List<ProposalPersonCreditSplit> creditSplits;
     private boolean delete;
     private Person person;
+    private boolean isInvestigator;
 
     /**
      *
@@ -59,6 +60,36 @@ public class ProposalPerson extends Person {
         degrees = new ArrayList<ProposalPersonDegree>();
         units = new ArrayList<ProposalPersonUnit>();
         creditSplits = new ArrayList<ProposalPersonCreditSplit>();
+    }
+    
+    /**
+     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
+     * is an investigator or not.
+     *
+     * @return boolean;
+     */
+    public boolean isInvestigator() {
+        return getIsInvestigator();
+    }
+
+    /**
+     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
+     * is an investigator or not.
+     *
+     * @return boolean;
+     */
+    public boolean getIsInvestigator() {
+        return isInvestigator;
+    }
+    
+    /**
+     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
+     * is an investigator or not.
+     *
+     * @param b;
+     */
+    public void setIsInvestigator(boolean b) {
+        isInvestigator = b;
     }
 
 

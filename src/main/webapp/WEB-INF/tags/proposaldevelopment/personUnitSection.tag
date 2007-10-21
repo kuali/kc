@@ -18,7 +18,6 @@
 <c:set var="personUnitAttributes" value="${DataDictionary.ProposalPersonUnit.attributes}" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
 <bean:define id="proposalPersonUnits" name="KualiForm" property="${proposalPerson}.units" />
-
             <table cellpadding=0 cellspacing="0" summary="">
                 <tbody id="G3">
                   <tr>

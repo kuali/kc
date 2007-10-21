@@ -33,6 +33,7 @@ import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropLocation;
@@ -397,8 +398,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         getProposalDevelopmentDocument().setInvestigators(new ArrayList<ProposalPerson>());
 
         for (ProposalPerson person : getProposalDevelopmentDocument().getProposalPersons()) {
-            if (new ProposalDevelopmentKeyPersonsRule().isInvestigator(person) 
-                && !getProposalDevelopmentDocument().getInvestigators().contains(person)) {
+            if (person.isInvestigator() && !getProposalDevelopmentDocument().getInvestigators().contains(person)) {
                 getProposalDevelopmentDocument().getInvestigators().add(person);
             }
         }
@@ -427,7 +427,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
             }
 
             for (ProposalPersonUnit unit : investigator.getUnits()) {
-                for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
+                for (CreditSplit creditSplit : unit.getCreditSplits()) {
                     KualiDecimal totalCredit = creditTypeTotals.get(creditSplit.getInvCreditTypeCode());
 
                     if (totalCredit == null) {
