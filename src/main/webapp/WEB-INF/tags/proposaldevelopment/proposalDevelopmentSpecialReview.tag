@@ -16,7 +16,7 @@
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
-<c:set var="proSpecialAttriburesAttributes" value="${DataDictionary.PropSpecialReview.attributes}" />
+<c:set var="proSpecialAttriburesAttributes" value="${DataDictionary.ProposalSpecialReview.attributes}" />
 <c:set var="action" value="proposalDevelopmentSpecialReview" />
 <link href="css/kuali_application.css" rel="stylesheet" type="text/css" />
 <kul:tabTop tabTitle="Special Review" defaultOpen="true" tabErrorKey="document.propSpecialReviews*">
