@@ -32,8 +32,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
- * @author $Author: gthomas $
- * @version $Revision: 1.3 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.4 $
  */
 public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule{ 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -46,10 +46,20 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
             for (Narrative narr : narrList) {
                 if(narr.getProposalNumber().equals(narrative.getProposalNumber()) &&
                         narr.getNarrativeTypeCode().equals(narrative.getNarrativeTypeCode())){
-                    String[] param = {narrative.getNarrativeType().getDescription()};
+                    String[] param = {"Proposal", narrative.getNarrativeType().getDescription()};
+                    String propertyName="newNarrative.narrativeTypeCode";
+                    String errorPath="newNarrative";
                     LOG.debug("error.proposalAttachment.narrativeType.allowMulitple");
 //                    reportErrorWithPrefix("newNarrative", "narrativeTypeCode", "error.proposalAttachment.narrativeType.allowMulitple",param);
-                   reportError("newNarrative.narrativeTypeCode", "error.proposalAttachment.narrativeType.allowMulitple",param);
+                    if (narrative.getNarrativeType().getNarrativeTypeGroup().equals("O")) {
+                        GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                        errorPath="newInstitute";
+                        GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                        param[0]="Institute";
+                        propertyName="newInstitute.institutionalAttachmentTypeCode";
+                    }
+                    reportError("newNarrative.narrativeTypeCode", "error.proposalAttachment.narrativeType.allowMulitple",param);
+                    GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
 //                    GlobalVariables.getErrorMap().putError("newNarrative.narrativeTypeCode", "error.proposalAttachment.narrativeType.allowMulitple",param);
                     return false; 
                 }
