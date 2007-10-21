@@ -18,13 +18,14 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.PropPersonBio">
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography">
 
         <inquiry>
             <title>Prop Person Bio</title>
 
             <inquirySections><inquirySection title="Prop Person Bio"><inquiryFields>
-            	<field attributeName="bioNumber" forceInquiry="true"/>
+            	<field attributeName="proposalPersonNumber" forceInquiry="true"/>
+            	<field attributeName="biographyNumber" forceInquiry="true"/>
 				<field attributeName="personId" forceInquiry="true"/>
 				<field attributeName="proposalNumber" forceInquiry="true"/>
 				<field attributeName="description"/>
@@ -34,7 +35,7 @@
         </inquiry>
 
         <lookup>
-            <title>Prop Person Bio Lookup</title>
+            <title>Proposal Person Biography Lookup</title>
 			<menubar>
 				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
@@ -42,7 +43,8 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                	<sortAttribute attributeName="bioNumber"/>
+                	<sortAttribute attributeName="proposalPersonNumber"/>
+                	<sortAttribute attributeName="biographyNumber"/>
 					<sortAttribute attributeName="personId"/>
 					<sortAttribute attributeName="proposalNumber"/>
 
@@ -50,7 +52,8 @@
             </defaultSort>
 
             <lookupFields>
-            	<lookupField attributeName="bioNumber" required="false"/>
+            	<lookupField attributeName="proposalPersonNumber" required="false"/>
+            	<lookupField attributeName="biographyNumber" required="false"/>
 				<lookupField attributeName="personId" required="false"/>
 				<lookupField attributeName="proposalNumber" required="false"/>
 				<lookupField attributeName="description" required="false"/>
@@ -59,7 +62,8 @@
             </lookupFields>
 
             <resultFields>
-            	<field attributeName="bioNumber" forceInquiry="true"/>
+            	<field attributeName="proposalPersonNumber" forceInquiry="true"/>
+            	<field attributeName="biographyNumber" forceInquiry="true"/>
 				<field attributeName="personId" forceInquiry="true"/>
 				<field attributeName="proposalNumber" forceInquiry="true"/>
 				<field attributeName="description" forceInquiry="false"/>
@@ -69,22 +73,34 @@
         </lookup>
 
        <!--  can't have multiple titleattribute 
-        <titleAttribute>bioNumber</titleAttribute>
+        <titleAttribute>biographyNumber</titleAttribute>
 		<titleAttribute>personId</titleAttribute>
 		-->
 		<titleAttribute>proposalNumber</titleAttribute>
         <attributes>
 
-	        <attribute name="bioNumber">
-			<label>Bio Number </label>
-			<shortLabel>Bio Number </shortLabel>
-			<maxLength>3</maxLength>
+	        <attribute name="proposalPersonNumber">
+			<label>Person </label>
+			<shortLabel>Person </shortLabel>
+			<maxLength>12</maxLength>
 			<validationPattern><numeric /></validationPattern>
+			<required> true </required> 
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Proposal Person Number </summary>
+			<description>Proposal Person Number </description>
+			</attribute>
+	        <attribute name="biographyNumber">
+			<label>Biography Number </label>
+			<shortLabel>Biography Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="3" />
 			</control>
-			<summary>Bio Number </summary>
-			<description>Bio Number </description>
+			<summary>Biographt Number </summary>
+			<description>Biography Number </description>
 			</attribute>
 
 			<attribute name="personId">
@@ -97,6 +113,17 @@
 			</control>
 			<summary>Person Id </summary>
 			<description>Person Id </description>
+			</attribute>
+			<attribute name="rolodexId">
+			<label>Rolodex Id </label>
+			<shortLabel>Rolodex Id </shortLabel>
+			<maxLength>6</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="6" />
+			</control>
+			<summary>Rolodex Id </summary>
+			<description>Rolodex Id </description>
 			</attribute>
 
 			<attribute name="proposalNumber">
