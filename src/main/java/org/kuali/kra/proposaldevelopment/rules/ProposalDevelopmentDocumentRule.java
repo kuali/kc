@@ -20,12 +20,14 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.bo.ValidSpRevApproval;
+import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.proposaldevelopment.bo.PropLocation;
-import org.kuali.kra.proposaldevelopment.bo.PropSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
@@ -66,7 +68,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         // changing this to '0' so it doesn't validate reference objects within a list
         KNSServiceLocator.getDictionaryValidationService().validateDocument(proposalDevelopmentDocument);
         if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getPropLocations().size()==0 ||
-                (proposalDevelopmentDocument.getPropLocations().size()==1 && ((PropLocation)(proposalDevelopmentDocument.getPropLocations().get(0))).getLocationSequenceNumber()==null))) {
+                (proposalDevelopmentDocument.getPropLocations().size()==1 && ((ProposalLocation)(proposalDevelopmentDocument.getPropLocations().get(0))).getLocationSequenceNumber()==null))) {
             // should have one just added by form
             // this is a business rule, so put it here.  If needed we can always create a new prop location if the last one is deleted in deletelocation action ?
             GlobalVariables.getErrorMap().addToErrorPath("newPropLocation");
@@ -75,12 +77,22 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         }
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
         valid &= processSponsorProgramInformationBusinessRule(proposalDevelopmentDocument);
+        valid &= processPersonnelAttachmentBusinessRule(proposalDevelopmentDocument);
+        valid &= processInstitutionalAttachmentBusinessRule(proposalDevelopmentDocument);
 
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
         return valid;
     }
 
+    /**
+     * This method validates 'Proposal Special review'. It checks 
+     * validSpecialReviewApproval table, and if there is a match, then checks
+     * protocalnumberflag, applicatedateflag, and approvaldataflag.
+     * 
+     * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
+     * @return valid Does the validation pass
+     */
     private boolean processSpecialReviewBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
 
@@ -88,14 +100,13 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         int i = 0;
 
-        for (PropSpecialReview propSpecialReview : proposalDevelopmentDocument.getPropSpecialReviews()) {
+        for (ProposalSpecialReview propSpecialReview : proposalDevelopmentDocument.getPropSpecialReviews()) {
             errorMap.addToErrorPath("propSpecialReviews[" + i + "]");
-            propSpecialReview.refresh();
-            propSpecialReview.refreshReferenceObject("validSpRevApproval");
-            if (propSpecialReview.getApprovalTypeCode() != null && propSpecialReview.getSpecialReviewCode() != null) {
-                ValidSpRevApproval validSpRevApproval = propSpecialReview.getValidSpRevApproval();
+            propSpecialReview.refreshReferenceObject("validSpecialReviewApproval");
+            if (StringUtils.isNotBlank(propSpecialReview.getApprovalTypeCode()) && StringUtils.isNotBlank(propSpecialReview.getSpecialReviewCode())) {
+                ValidSpecialReviewApproval validSpRevApproval = propSpecialReview.getValidSpecialReviewApproval();
                 if (validSpRevApproval != null) {
-                    if (validSpRevApproval.isProtocolNumberFlag() && propSpecialReview.getProtocolNumber() == null) {
+                    if (validSpRevApproval.isProtocolNumberFlag() && StringUtils.isNotBlank(propSpecialReview.getProtocolNumber())) {
                         valid = false;
                         errorMap.putError("protocolNumber", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, "Protocol Number",
                                 validSpRevApproval.getSpecialReview().getDescription() + "/"
@@ -141,6 +152,73 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return valid;
     }
 
+    /**
+     * This method validates 'Personnel Attachment'. It checks the following :
+     * If attachment type and description are not empty, then filename is a required field.
+     * 
+     * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
+     * @return valid Does the validation pass
+     */
+    private boolean processPersonnelAttachmentBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        boolean valid = true;
+
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+
+        int i = 0;
+
+        for (ProposalPersonBiography propPersonBio : proposalDevelopmentDocument.getPropPersonBios()) {
+            errorMap.addToErrorPath("propPersonBios[" + i + "]");
+            propPersonBio.refresh();
+            if (StringUtils.isNotBlank(propPersonBio.getDocumentTypeCode()) && StringUtils.isNotBlank(propPersonBio.getPersonId())) {
+                    if (StringUtils.isBlank(propPersonBio.getFileName())) {
+                        valid = false;
+                        errorMap.putError("fileName", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
+                    }
+
+
+            }
+            errorMap.removeFromErrorPath("propPersonBios[" + i++ + "]");
+        }
+        return valid;
+
+    }
+    
+    /**
+     * This method validates 'Institute Attachment'. It checks the following :
+     * If attachment type and description are not empty, then filename is a required field.
+     * 
+     * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
+     * @return valid Does the validation pass
+     */
+    private boolean processInstitutionalAttachmentBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        boolean valid = true;
+
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+
+        int i = 0;
+
+        // TODO : this will combine errors with proposal attachments panel
+        for (Narrative institute : proposalDevelopmentDocument.getNarratives()) {
+            errorMap.addToErrorPath("institutes[" + i + "]");
+            institute.refresh();
+            if (StringUtils.isNotBlank(institute.getNarrativeTypeCode()) && StringUtils.isNotBlank(institute.getModuleTitle())) {
+                    if (StringUtils.isBlank(institute.getFileName())) {
+                        valid = false;
+                        errorMap.putError("fileName", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
+                    }
+
+
+            }
+            errorMap.removeFromErrorPath("institutes[" + i++ + "]");
+        }
+        return valid;
+
+    }
+
+    
+
+    
+    
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }

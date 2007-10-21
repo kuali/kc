@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.web;
 
+import java.io.File;
 import java.net.URL;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
@@ -25,6 +27,10 @@ import org.kuali.core.UserSession;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -33,6 +39,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
+import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
@@ -60,6 +67,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
     private static final int SUBMIT_INPUT_BY_VALUE = 6;
     private static final int CHECK_BOX_INPUT = 7;
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
+    private static final int FILE_INPUT = 8;
     private DocumentService documentService = null;
 
     @Before
@@ -76,6 +84,141 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         documentService = null;
     }
 
+    @Test
+    public void testInstituteAttachment() throws Exception {
+        final WebClient webClient = new WebClient();
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+
+        final HtmlPage page3 = login(webClient, url,
+                "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
+
+        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
+        final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
+                SUBMIT_INPUT_BY_NAME);
+        assertTrue(page4.asText().contains("Document was successfully saved"));
+        // really is in abstracts & attachments page
+        assertTrue(page4.asText().contains("Institutional Attachments Institutional Attachments &nbsp Timestamp Author"));
+        HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
+        //webClient.setJavaScriptEnabled(false);
+        final HtmlPage page5 =setInstituteAttachmentLine(page4,form1,"C:/Documents and Settings/shyu/My Documents/kualidoc/KUALI DAYS V Advance Program Summary 7-24-07-1.doc;I;59");
+        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
+        assertTrue(page5.asText().contains("Incomplete Institutional Attachment 1"));
+        // try to view file - does not work
+        //final HtmlPage page6 = clickButton(page5, form2, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
+        //final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
+
+        // multiple attachment is not allowed for this type
+        String fileName=getFullPathFileName("load_abstract_type.sql",new File("c:/java/projects/kra_project"));
+        if (StringUtils.isEmpty(fileName)) {
+            // try unix 
+        }
+
+        final HtmlPage page6 =setInstituteAttachmentLine(page5,form2,fileName+";I;59");
+        final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
+        assertTrue(page6.asText().contains("Institutional Attachments Errors found in this Section: Institute attachment with Attachment Type 'Institutional Attachment 1' already exists"));
+
+        // delete attachment
+        final HtmlPage page7 = clickButton(page6, form3, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
+        assertFalse(page7.asText().contains("Incomplete Institutional Attachment 1"));
+
+        // add line back
+        final HtmlPage page8 =setInstituteAttachmentLine(page7,form4,fileName+";I;59");
+        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
+        assertTrue(page8.asText().contains("Incomplete Institutional Attachment 1"));
+
+        // save
+        final HtmlPage pageSave = clickButton(page8, form5, "methodToCall.save", IMAGE_INPUT);
+        final HtmlForm formAfterSave = (HtmlForm) pageSave.getForms().get(0);
+
+        assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertTrue(pageSave.asText().contains("Document was successfully saved"));
+        assertTrue(pageSave.asText().contains("Incomplete Institutional Attachment 1"));
+
+        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
+        assertNotNull(doc);
+        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
+        Narrative narrative=(Narrative)doc.getNarratives().get(0);
+        narrative.refreshReferenceObject("narrativeAttachmentList");
+        NarrativeAttachment narrativeAttachment=(NarrativeAttachment)narrative.getNarrativeAttachmentList().get(0);
+        assertNotNull(narrativeAttachment);
+        assertEquals("load_abstract_type.sql", narrativeAttachment.getFileName());
+        assertEquals("application/octet-stream", narrativeAttachment.getContentType());
+
+        
+        
+    }
+
+
+    
+    @Test
+    public void testPersonnelAttachment() throws Exception {
+        final WebClient webClient = new WebClient();
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+
+        final HtmlPage page3 = login(webClient, url,
+                "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
+
+        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
+        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up 
+
+        
+        final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
+                SUBMIT_INPUT_BY_NAME);
+        final HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
+        assertTrue(page4.asText().contains("Document was successfully saved"));
+        assertTrue(page4.asText().contains("Personnel Attachments &nbsp Timestamp Author * Attachment Type"));
+
+        // add new personnel attachment line
+        // how to find a file name that is both in local and deployment environments ?
+        // Alternative is to try two full path, one for pc and one for unix ? don't use getFullePathFileName
+        // try local 
+        String fileName=getFullPathFileName("load_abstract_type.sql",new File("c:/java/projects/kra_project"));
+        if (StringUtils.isEmpty(fileName)) {
+            // try unix 
+        }
+        final HtmlPage page5 =setPersonnelAttachmentLine(page4,form1,"3;1;desc;"+fileName);
+        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
+        assertTrue(page5.asText().contains("Budget Details Durkin,"));
+
+
+        // delete attachment
+        final HtmlPage page7 = clickButton(page5, form2, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
+        assertFalse(page7.asText().contains("Budget Details Durkin,"));
+
+        // add line back
+        final HtmlPage page8 =setPersonnelAttachmentLine(page7,form4,"3;1;desc;"+fileName);
+        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
+        assertTrue(page8.asText().contains("Budget Details Durkin,"));
+
+        // save
+        final HtmlPage pageSave = clickButton(page8, form5, "methodToCall.save", IMAGE_INPUT);
+        final HtmlForm formAfterSave = (HtmlForm) pageSave.getForms().get(0);
+
+        assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertTrue(pageSave.asText().contains("Document was successfully saved"));
+        assertTrue(pageSave.asText().contains("Budget Details Durkin,"));
+        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
+
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
+        assertNotNull(doc);
+        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
+        ProposalPersonBiography personBio=(ProposalPersonBiography)doc.getPropPersonBios().get(0);
+        personBio.refreshReferenceObject("personnelAttachmentList");
+        ProposalPersonBiographyAttachment personnelAttachment=(ProposalPersonBiographyAttachment)personBio.getPersonnelAttachmentList().get(0);
+        assertNotNull(personnelAttachment);
+        assertEquals("load_abstract_type.sql", personnelAttachment.getFileName());
+        assertEquals("application/octet-stream", personnelAttachment.getContentType());
+
+    }
+
+    
     @Test
     public void testKeywordPanel() throws Exception {
         final WebClient webClient = new WebClient();
@@ -208,6 +351,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertFalse(errorMessage, page4AsText.contains(ERRORS_FOUND_ON_PAGE));
 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
+
         assertNotNull(doc);
 
         verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
@@ -501,7 +645,6 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("mail description \n line2", doc.getMailDescription());
     }
 
-
     @Test
     public void testSpecialReviewPage() throws Exception {
         final WebClient webClient = new WebClient();
@@ -551,6 +694,8 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         validateSpecialReviewLine(form7, "document.propSpecialReviews[0]", "08/02/2007;;456;2;3;comment2");
 
     }
+
+
 
     @Test
     public void testSponsorProgramInformationPanel() throws Exception {
@@ -767,6 +912,10 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
                 final HtmlTextInput text = (HtmlTextInput) htmlForm.getInputByName(fieldName);
                 text.setValueAttribute(value);
                 break;
+            case FILE_INPUT:
+                final HtmlFileInput file = (HtmlFileInput) htmlForm.getInputByName(fieldName);
+                file.setValueAttribute(value);
+                break;
             case TEXT_AREA:
                 final HtmlTextArea textArea = (HtmlTextArea) htmlForm.getTextAreasByName(fieldName).get(0);
                 textArea.setText(value);
@@ -897,6 +1046,66 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
     }
 
+    private HtmlPage setInstituteAttachmentLine(HtmlPage htmlPage, HtmlForm kualiForm, String paramList) throws Exception {
+        String[] params = paramList.split(";");
+        setFieldValue(kualiForm, FILE_INPUT, "newInstitute.narrativeFile", params[0]);
+        setFieldValue(kualiForm, SELECTED_INPUT, "newInstitute.moduleStatusCode", params[1],3);
+        setFieldValue(kualiForm, SELECTED_INPUT, "newInstitute.institutionalAttachmentTypeCode", params[2],3);
+
+
+        return clickButton(htmlPage, kualiForm, "methodToCall.addInstitutionalAttachment.anchor", IMAGE_INPUT);
+
+    }
+    private HtmlPage setPersonnelAttachmentLine(HtmlPage htmlPage, HtmlForm kualiForm, String paramList) throws Exception {
+        String[] params = paramList.split(";");
+        setFieldValue(kualiForm, SELECTED_INPUT, "newPropPersonBio.documentTypeCode", params[0],6);
+        setFieldValue(kualiForm, SELECTED_INPUT, "newPropPersonBio.proposalPersonNumber", params[1],3);
+        setFieldValue(kualiForm, TEXT_AREA, "newPropPersonBio.description", params[2]);
+        setFieldValue(kualiForm, FILE_INPUT, "newPropPersonBio.personnelAttachmentFile", params[3]);
+
+
+        return clickButton(htmlPage, kualiForm, "methodToCall.addPersonnelAttachment.anchor", IMAGE_INPUT);
+
+    }
+
+    
+    /** get the file full path
+     * 
+     */
+    
+ 
+    private static String getFullPathFileName (String filename, File dir) {
+        boolean exists = false;
+        String fullFileName="";
+        if (new File (dir, filename).exists ()) {
+            exists=true;
+            fullFileName=dir+"/"+filename;
+        } else {
+            File[] subdirs = dir.listFiles ();
+ 
+            int i = 0;
+            int n = (subdirs == null) ? 0 : subdirs.length;
+ 
+            while ((i < n) && ! exists) {
+                File subdir = subdirs[i];
+ 
+                if (subdir.isDirectory ()) {
+                    fullFileName=getFullPathFileName (filename, subdir);
+                    if (StringUtils.isNotEmpty(fullFileName)) {
+                        exists=true;
+                        break;
+                    }
+                }
+ 
+                i ++;
+            }
+        }
+ 
+        return fullFileName;
+    }
+
+
+    
     /**
      * This method extracts the error message (if any) from the html page as text.
      * @param pageAsText text of the html page response to extract the error message from
