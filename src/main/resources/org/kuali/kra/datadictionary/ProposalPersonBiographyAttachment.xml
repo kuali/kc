@@ -18,16 +18,16 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.PropPersonBioAttachment">
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment">
 
         <inquiry>
             <title>Prop Person Bio Pdf</title>
 
             <inquirySections><inquirySection title="Prop Person Bio Pdf"><inquiryFields>
-            	<field attributeName="bioNumber" forceInquiry="true"/>
-				<field attributeName="personId" forceInquiry="true"/>
+            	<field attributeName="proposalPersonNumber" forceInquiry="true"/>
 				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="bioData"/>
+				<field attributeName="biographyNumber" forceInquiry="true"/>
+				<field attributeName="biographyData"/>
 				<field attributeName="fileName"/>
 
             </inquiryFields></inquirySection></inquirySections>
@@ -42,61 +42,60 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                	<sortAttribute attributeName="bioNumber"/>
-					<sortAttribute attributeName="personId"/>
+                	<sortAttribute attributeName="proposalPersonNumber"/>
+					<sortAttribute attributeName="biographyNumber"/>
 					<sortAttribute attributeName="proposalNumber"/>
 
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-            	<lookupField attributeName="bioNumber" required="false"/>
-				<lookupField attributeName="personId" required="false"/>
+            	<lookupField attributeName="proposalPersonNumber" required="false"/>
+				<lookupField attributeName="biographyNumber" required="false"/>
 				<lookupField attributeName="proposalNumber" required="false"/>
-				<lookupField attributeName="bioData" required="false"/>
+				<lookupField attributeName="biographyData" required="false"/>
 				<lookupField attributeName="fileName" required="false"/>
 
             </lookupFields>
 
             <resultFields>
-            	<field attributeName="bioNumber" forceInquiry="true"/>
-				<field attributeName="personId" forceInquiry="true"/>
+            	<field attributeName="proposalPersonNumber" forceInquiry="true"/>
+            	<field attributeName="biographyNumber" forceInquiry="true"/>
 				<field attributeName="proposalNumber" forceInquiry="true"/>
-				<field attributeName="bioData" forceInquiry="false"/>
+				<field attributeName="biographyData" forceInquiry="false"/>
 				<field attributeName="fileName" forceInquiry="false"/>
 
             </resultFields>
         </lookup>
 
-        <titleAttribute>bioNumber</titleAttribute>
+        <titleAttribute>proposalPersonNumber</titleAttribute>
         <!-- only allow 0 or 1 titleattribute 
 		<titleAttribute>personId</titleAttribute>
 		<titleAttribute>proposalNumber</titleAttribute>
 		-->
         <attributes>
 
-	        <attribute name="bioNumber">
-			<label>Bio Number </label>
-			<shortLabel>Bio Number </shortLabel>
+	        <attribute name="proposalPersonNumber">
+			<label>Proposal Person Number </label>
+			<shortLabel>Proposal Person Number </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Proposal Person Number </summary>
+			<description>Proposal Person Number </description>
+			</attribute>
+	        <attribute name="biographyNumber">
+			<label>Biography Number </label>
+			<shortLabel>Biography Number </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="3" />
 			</control>
-			<summary>Bio Number </summary>
-			<description>Bio Number </description>
-			</attribute>
-
-			<attribute name="personId">
-			<label>Person </label>
-			<shortLabel>Person </shortLabel>
-			<maxLength>9</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="9" />
-			</control>
-			<summary>Person Id </summary>
-			<description>Person Id </description>
+			<summary>Biography Number </summary>
+			<description>Biography Number </description>
 			</attribute>
 
 			<attribute name="proposalNumber">
@@ -113,7 +112,7 @@
 			<description>Proposal Number </description>
 			</attribute>
 
-			<attribute name="bioData">
+			<attribute name="biographyData">
 			<label>Bio Attachment File</label>
 			<shortLabel>Bio Attachment File</shortLabel>
 			<maxLength>0</maxLength>
