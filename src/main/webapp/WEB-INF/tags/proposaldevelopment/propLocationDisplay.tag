@@ -17,9 +17,9 @@
 
 <%@ attribute name="index" required="true"%>
 <%@ attribute name="docLocation" required="true"%>
-<%@ attribute name="locationIter" required="true" type="org.kuali.kra.proposaldevelopment.bo.PropLocation"%>
+<%@ attribute name="locationIter" required="true" type="org.kuali.kra.proposaldevelopment.bo.ProposalLocation"%>
 <c:set var="propLocationAttributes"
-	value="${DataDictionary.PropLocation.attributes}" />
+	value="${DataDictionary.ProposalLocation.attributes}" />
 
 <tr>
 	<th class="infoline">
@@ -44,7 +44,7 @@
 			property="${docLocation}.rolodexId"
 			attributeEntry="${propLocationAttributes.rolodexId}" />
 		<c:choose>
-			<c:when test="${empty locationIter.rolodex.addressLine1}">
+			<c:when test="${empty locationIter.rolodexId}">
 				<c:out value="(Select)" />
 			</c:when>
 			<c:otherwise>
