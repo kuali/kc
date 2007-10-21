@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -34,7 +35,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.PropLocation;
+import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -56,7 +57,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentDocument proposalDevelopmentDocument=((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
         if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getPropLocations().size()==0) {
             // populate 1st location.  Not sure yet
-            PropLocation propLocation=new PropLocation();
+            ProposalLocation propLocation=new ProposalLocation();
             propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
             proposalDevelopmentDocument.getPropLocations().add(propLocation);
         }
@@ -82,7 +83,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward addLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().add(proposalDevelopmentForm.getNewPropLocation());
-        proposalDevelopmentForm.setNewPropLocation(new PropLocation());
+        proposalDevelopmentForm.setNewPropLocation(new ProposalLocation());
         return mapping.findForward("basic");
     }
     public ActionForward deleteLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
