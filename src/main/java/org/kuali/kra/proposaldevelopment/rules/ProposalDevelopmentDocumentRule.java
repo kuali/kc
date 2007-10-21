@@ -41,6 +41,17 @@ import org.kuali.rice.KNSServiceLocator;
 public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule, DocumentAuditRule {
 
     @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean retval = true;
+
+        retval &= super.processCustomRouteDocumentBusinessRules(document);
+
+        retval &= new ProposalDevelopmentKeyPersonsRule().processCustomRouteDocumentBusinessRules(document);
+
+        return retval;
+    }
+
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         if (!(document instanceof ProposalDevelopmentDocument)) {
             return false;

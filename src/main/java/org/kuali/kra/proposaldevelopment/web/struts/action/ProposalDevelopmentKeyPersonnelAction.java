@@ -69,7 +69,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -166,6 +166,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         boolean rulePassed = true;
+        String proposalPersonRoleId = pdform.getNewProposalPerson().getProposalPersonRoleId();
 
         // check any business rules
         rulePassed &= getKualiRuleService().applyRules(new AddKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, pdform.getDocument(), pdform.getNewProposalPerson()));
@@ -188,6 +189,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             if (isPrincipalInvestigator) {
                 assignLeadUnit(pdform);
             }
+
+            pdform.getNewProposalPerson().setIsInvestigator(new ProposalDevelopmentKeyPersonsRule().isInvestigator(pdform.getNewProposalPerson()));
 
             pdform.getNewProposalPerson().refreshReferenceObject("role");
             pdform.setNewProposalPerson(new ProposalPerson());
