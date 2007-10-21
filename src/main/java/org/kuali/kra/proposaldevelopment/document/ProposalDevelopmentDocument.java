@@ -121,7 +121,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public List<ProposalPerson> getInvestigators() {
         return investigators;
     }
-
+    
     /**
      * Sets the value of proposalPersons
      *
