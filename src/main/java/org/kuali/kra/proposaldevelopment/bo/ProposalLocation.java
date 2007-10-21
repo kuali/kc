@@ -6,14 +6,14 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 
-public class PropLocation extends KraPersistableBusinessObjectBase {
+public class ProposalLocation extends KraPersistableBusinessObjectBase {
 	private String location;
 	private Integer proposalNumber;
     private Integer rolodexId;
     private Rolodex rolodex;
     private Integer locationSequenceNumber;
 
-    public PropLocation() {
+    public ProposalLocation() {
         super();
         this.setLocation("");
         this.setRolodexId(0);
