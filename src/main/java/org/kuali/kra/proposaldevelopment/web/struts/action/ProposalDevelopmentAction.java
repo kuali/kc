@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +29,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -67,6 +72,31 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     }
 
     public ActionForward abstractsAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        // TODO temporarily to set up proposal person- remove this once keyperson is completed and htmlunit testing fine
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        if (doc.getProposalPersons().isEmpty()) {
+            List proposalPersons = new ArrayList();
+            ProposalPerson proposalPerson=new ProposalPerson();
+            proposalPerson.setProposalNumber(doc.getProposalNumber());
+            proposalPerson.setProposalPersonNumber(1);
+            proposalPerson.setPersonId("000000001");
+            proposalPerson.setProposalPersonRoleId("KP");
+            proposalPerson.setFirstName("Terry");
+            proposalPerson.setLastName("Durkin");
+            proposalPerson.setFullName("Durkin,Terry");
+            proposalPersons.add(proposalPerson);
+            ProposalPerson proposalPerson2=new ProposalPerson();
+            proposalPerson2.setProposalNumber(doc.getProposalNumber());
+            proposalPerson2.setProposalPersonNumber(2);
+            proposalPerson2.setProposalPersonRoleId("KP");
+            proposalPerson2.setPersonId("000000003");
+            proposalPerson2.setFirstName("Geoff");
+            proposalPerson2.setLastName("McGregor");
+            proposalPerson2.setFullName("McGregor,Geoff");
+            proposalPersons.add(proposalPerson2);
+            doc.setProposalPersons(proposalPersons);
+        }
         return mapping.findForward("abstractsAttachments");
     }
 
