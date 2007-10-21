@@ -28,9 +28,9 @@ import org.kuali.kra.bo.Unit;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: lprzybyl $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
-public class ProposalPersonUnit extends KraPersistableBusinessObjectBase {
+public class ProposalPersonUnit extends KraPersistableBusinessObjectBase implements CreditSplitable {
     private Integer proposalNumber;
     private Integer proposalPersonNumber;
     private String unitNumber;

@@ -30,7 +30,7 @@
                 <tbody id="G1">
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /></div></th>
-                    <td colspan="3"><kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /></td>
+                    <td colspan="3"><kul:htmlControlAttribute property="${proposalPerson}.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /></td>
                   </tr>              
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right">Full Name: </div></th>
@@ -192,114 +192,16 @@
               </table>
 </kul:innerTab>
 
-<kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="true">
+<bean:define id="isInvestigator" name="KualiForm" property="${proposalPerson}.isInvestigator" />
+<c:if test="${isInvestigator == 'Yes'}">
+  <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="true">
               <kra-pd:personUnitSection proposalPerson="${proposalPerson}" />
-</kul:innerTab>
+  </kul:innerTab>
+</c:if>
 
 <kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="true">
               <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"/>
 </kul:innerTab>
-<%--
-              <table cellpadding=0 cellspacing="0" summary="">
-                <tr>
-                  <td colspan="12" nowrap class="tab-subhead1"><a href="#" id="A5" onclick="rend(this, false)"><img src="kr/static/images/tinybutton-hide.gif" alt="show/hide this panel" width=45 height=15  border=0 align="absmiddle" id="F5"></a> Certify</td>
-                </tr>
-                <tbody id="G5">
-                  <tr>
-                    <th width="10%">Code</th>
-
-                    <th> Question</th>
-                    <th>Answer</th>
-                  </tr>
-                  <tr>
-                    <th scope="row"><span class="copybold">H4</span></th>
-                    <td><span class="copybold">Lobbying activities have been conducted regarding the proposal </span></td>
-
-                    <td nowrap><label>
-                      <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_0" value="radio">
-                      yes</label>
-                        <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_1" value="radio">
-                          no&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                    </td>
-
-                  </tr>
-                  <tr>
-                    <th scope="row"><span class="copybold">P1</span></th>
-                    <td><span class="copybold">Can you certify that the information submitted within this application
-                      is true, complete and accurate to the best of your knowledge? That any
-                      false, fictitious, or fraudulent statements or claims may subject you,
-                      as the PI/Co-PI/Co-I to criminal, civil or administrative penalties?
-                      That you agree to accept responsibility for the scientific conduct of
-                      the project and to provide the required </span></td>
-                    <td nowrap><label>
-                      <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_0" value="radio">
-                      yes</label>
-
-                        <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_1" value="radio">
-                          no&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th  scope="row"><span class="copybold">P2</span></th>
-
-                    <td><span class="copybold">Is there any potential for a perceived or real conflict of interest as
-                      defined in MIT's Policies and Procedures with regard to this proposal? </span></td>
-                    <td nowrap><label>
-                      <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_0" value="radio">
-                      yes</label>
-                        <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_1" value="radio">
-                          no&nbsp;&nbsp;&nbsp;&nbsp;</label>
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <th  scope="row"><span class="copybold">P3</span></th>
-                    <td><span class="copybold">If this is a NIH/NSF proposal have you submitted the required financial
-                      disclosures in the web based Coeus Conflict of Interest module? </span></td>
-                    <td nowrap><label>
-                      <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_0" value="radio">
-                      yes</label>
-
-                        <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_1" value="radio">
-                          no&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th  scope="row"><span class="copybold">P5</span></th>
-
-                    <td><span class="copybold">Are you currently debarred, suspended, proposed for debarment, declared
-                      ineligible or voluntarily excluded from current transactions by a
-                      federal department or agency?</span></td>
-                    <td nowrap><label>
-                      <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_0" value="radio">
-                      yes</label>
-                        <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_1" value="radio">
-                          no&nbsp;&nbsp;&nbsp;&nbsp;</label>
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <th  scope="row"><span class="copybold">P6</span></th>
-                    <td><span class="copybold">Are you familiar with the requirements of the Procurement Integrity Act
-                      [(OFPP, Section 27 (1-3)] (http://web.mit.edu/osp/www/Procuint.htm) and
-                      will you report any violations to the Office of Sponsored Programs? </span></td>
-                    <td nowrap><label>
-                      <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_0" value="radio">
-                      yes</label>
-
-                        <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input name="RadioGroup1" type="radio" class="nobord" id="RadioGroup1_1" value="radio">
-                          no&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
---%>
             </div>
           </div>
 </div>

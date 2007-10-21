@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.rules;
 import java.util.Iterator;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -27,12 +28,17 @@ import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
  * Implementation of business rules required for the Key Persons Page of the 
@@ -40,7 +46,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROL
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -71,7 +77,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
         if (pi_cnt < 2) {
             retval = false;
-            reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_INVESTIGATOR_UPBOUND);            
+            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);            
         }        
 
         return retval;
@@ -91,8 +97,6 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      *       <li>% effort must be between 0.0 and 1.0</li>
      *     </ul>
      *   </li>
-     *   <li>All investigators must have a Unit #</li>
-     *   <li>All investigators must have a Unit #</li>
      * </ul>
      *
      * @param document ProposalDevelopmentDocument to process.
@@ -104,22 +108,39 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         if (!hasPrincipalInvestigator(pd)) {
             retval = false;
-            reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_INVESTIGATOR_LOWBOUND);
+            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_INVESTIGATOR_LOWBOUND);
         }
 
         retval &= processSaveKeyPersonBusinessRules(pd);
 
+        int personIndex = 0;
         for (ProposalPerson person : pd.getProposalPersons()) {
             retval &= validateInvestigator(person);
             
             if (!isBlank(person.getProposalPersonRoleId())) {
                 LOG.debug("error.missingPersonRole");
-                reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_MISSING_PERSON_ROLE);
+                String personProperty = "document.proposalPersons[" + personIndex + "]";
+                reportErrorWithPrefix(personProperty + "*", personProperty, ERROR_MISSING_PERSON_ROLE);
             }
-        }
+            personIndex++;
+        }                    
+        
+        retval &= validateCreditSplit((ProposalDevelopmentDocument) document);
 
         return retval;
     }
+    
+    protected boolean validateCreditSplit(ProposalDevelopmentDocument document) {
+        boolean retval = true;
+        boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME);
+        
+        if (creditSplitEnabled) {
+            // retval &= new CreditSplitValidator().validate(document);
+        }
+        
+        return retval;
+    }
+
 
     /**
      * Validate the following
@@ -135,7 +156,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
         if (isPrincipalInvestigator(person) && hasPrincipalInvestigator(document)) {
             LOG.debug("error.principalInvestigator.limit");
-            reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_INVESTIGATOR_UPBOUND);
+            reportErrorWithPrefix("newProposalPerson*", "newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);
             retval = false;
         }
         
@@ -157,15 +178,15 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     protected boolean validateInvestigatorUnits(ProposalPerson person) {
         boolean retval = true;
         
-        if (person.getUnits().size() > 0) {
+        if (person.getUnits().size() < 1) {
             LOG.debug("error.investigatorUnits.limit");
-            reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_INVESTIGATOR_UNITS_UPBOUND);
+            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_INVESTIGATOR_UNITS_UPBOUND);
         }
         
         for (ProposalPersonUnit unit : person.getUnits()) {
-            if (!isBlank(unit.getUnitNumber())) {
+            if (isBlank(unit.getUnitNumber())) {
                 LOG.debug("error.investigatorUnits.limit");
-                reportErrorWithPrefix("newProposalPerson", "proposalPerson", ERROR_INVESTIGATOR_UNITS_UPBOUND);
+                reportErrorWithPrefix("newProposalPerson", "newPproposalPerson", ERROR_INVESTIGATOR_UNITS_UPBOUND);
             }
         }
         
@@ -203,5 +224,9 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         GlobalVariables.getErrorMap().addToErrorPath(errorPathPrefix);
         super.reportError(propertyName, errorKey, errorParams);
         GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);        
+    }
+
+    private KualiConfigurationService getConfigurationService() {
+        return getService(KualiConfigurationService.class);
     }
 }
