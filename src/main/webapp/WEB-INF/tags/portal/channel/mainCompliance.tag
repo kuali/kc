@@ -16,63 +16,69 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <channel:portalChannelTop channelTitle="Compliance" />
-<div class="body">
+<div class="body" id="portchancont">
 <strong>Conflict of Interest </strong>
-<ul class="chan">
-  <li>
-    <div class="name">Financial Entity</div>
-    <div>
+<br/>
+<br/>
+  <table border="0" cellpadding="2" cellspacing="0">
+  <tr>
+    <td nowrap>Financial Entity</td>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
-  <li>
-    <div class="name">Disclosure</div>
-    <div>
+    </td>
+  </tr>
+  <tr>
+    <td nowrap>Disclosure</td>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
-</ul>
+    </td>
+  </tr>
+</table>
+<br/>
+<br/>
 
 <strong>Institutional Review Board </strong>
-<ul class="chan">
-  <li>
-    <div class="name">Committee</div>
-    <div>
+<br/>
+<br/>
+  <table border="0" cellpadding="2" cellspacing="0">
+   <tr>
+    <td nowrap>Committee</td>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
-  <li>
-    <div class="name">Protocol</div>
-    <div>
+    </td>
+  </tr>
+  <tr>
+    <td nowrap>Protocol</td>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
-  <li>
-    <div class="name">Schedules</div>
-    <div>
+    </td>
+  </tr>
+  <tr>
+    <td nowrap>Schedules</td>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
-  <li>
-    <div class="name">Correspondence</div>
-    <div>
+    </td>
+  </tr>
+  <tr>
+    <td nowrap>Correspondence</td>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
-  <li>
-    <div class="name">Protocol Submissions</div>
-    <div>
+    </td>
+  </tr>
+  <tr>
+    <td nowrap>Protocol Submissions</td>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
-</ul>
+    </td>
+  </tr>
+</table>
 
 </div>
 <channel:portalChannelBottom />

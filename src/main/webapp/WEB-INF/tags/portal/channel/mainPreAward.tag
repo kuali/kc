@@ -16,42 +16,42 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <channel:portalChannelTop channelTitle="Pre-Award" />
-<div class="body">
 
-<ul class="chan">
-  <li>
-    <div class="name">Proposal Development</div>
-    <div>
+<div class="body" id="portchancont">
+  <table border="0" cellpadding="2" cellspacing="0">
+   <tr>
+    <td nowrap> Proposal Development </td>
+    <td>
       <portal:portalLink displayTitle="false" title="Proposal Development" url="proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument" >
           <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       </portal:portalLink>
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
+    </td>
+  </tr>
 
-  <li>
-    <div class="name">Institute Proposal</div>
-    <div>
+  <tr>
+    <td nowrap>Institute Proposal</td>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
+    </td>
+  </tr>
 
-  <li>
-    <div class="name">Proposal Log</div>
-    <div>
+  <tr>
+    <td nowrap>Proposal Log</div>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
+    </td>
+  </tr>
 
-  <li>
-    <div class="name">Negotiations</div>
-    <div>
+  <tr>
+    <td nowrap>Negotiations</td>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
-</ul>
+    </td>
+  </tr>
+</table>
 </div>
 <channel:portalChannelBottom />
