@@ -16,22 +16,22 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <channel:portalChannelTop channelTitle="Post-Award" />
-<div class="body">
-<ul class="chan">
-  <li>
-    <div class="name">Awards</div>
-    <div>
+<div class="body" id="portchancont">
+  <table border="0" cellpadding="2" cellspacing="0">
+   <tr>
+    <td nowrap>Awards </td>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
-  <li>
-    <div class="name">Subcontracts</div>
-    <div>
+    </td>
+  </tr>
+  <tr>
+    <td nowrap>Subcontracts</td>
+    <td>
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </div>
-  </li>
-</ul>
+    </td>
+  </tr>
+</table>
 </div>
 <channel:portalChannelBottom />
