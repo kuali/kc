@@ -25,21 +25,22 @@
 	<th class="infoline">
 		<c:choose>
 			<c:when test="${index == -1}">
-					<c:out value="Add:" />
+			        <c:set var="class" value="infoline" />
+					Add:
 			</c:when>
 			<c:otherwise>
-				<c:out value="${index+1}" />
+			    <c:set var="class" value="" />
+				${index+1}
 			</c:otherwise>
 		</c:choose>
         <input type="hidden" name="${docLocation}.proposalNumber" value="${KualiForm.document.proposalNumber}">
-        <input type="hidden" name="${docLocation}.locationSequenceNumber" value="${index+1}">
 	</th>
-	<td class="infoline">
+	<td class="${class}">
 		<kul:htmlControlAttribute
 			property="${docLocation}.location"
 			attributeEntry="${propLocationAttributes.location}" />
 	</td>
-	<td class="infoline">
+	<td class="${class}">
 		<kul:htmlControlAttribute
 			property="${docLocation}.rolodexId"
 			attributeEntry="${propLocationAttributes.rolodexId}" />
@@ -76,7 +77,7 @@
             <c:out value="${locationIter.rolodex.postalCode}" />
 		</c:if>
 	</td>
-	<td class="infoline">
+	<td class="${class}">
 		<c:choose>
 			<c:when test="${index == -1}">
 				<div align=center>
