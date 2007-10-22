@@ -402,6 +402,21 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     private KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
+
+    /**
+     * Adds a personnel attachment.
+     * 
+     * Move the new attachment from the form 
+     * into the document's list of personnelbiographyattachment.  The form's abstract
+     * is then cleared for the next personnel attachment to be added.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @throws Exception
+     */
     public ActionForward addPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -435,6 +450,19 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
         return mapping.findForward("basic");
     }
+
+    /**
+     * Deletes a personnel attachment from the Proposal Development Document.
+     * 
+     * Removed the personnel attachment from the document's list of personnel attachments.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @throws Exception
+     */
     public ActionForward deletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -442,6 +470,16 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         return mapping.findForward("basic");
     }
 
+    /**
+     * View a personnel attachment file.
+     *      
+     * @param mapping The mapping associated with this action.
+     * @param form The Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @throws Exception
+     */
     public ActionForward viewPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -468,6 +506,16 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         return  null;
     }
 
+    /**
+     * 
+     * It add and institutional attachment to proposal document.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument propDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
@@ -477,10 +525,30 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         return addProposalAttachment(mapping, form, request, response);
     }
 
+    /**
+     * 
+     * Delete an institutional attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return deleteProposalAttachment(mapping, form, request, response);
     }
     
+    /**
+     * 
+     * View an institutional attachment file.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward viewInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
           return downloadProposalAttachment(mapping, form, request, response);
