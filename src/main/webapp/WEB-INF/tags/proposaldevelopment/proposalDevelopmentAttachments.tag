@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%@ attribute name="htmlFormAction" required="false" %>
 <%@ attribute name="renderMultipart" required="false" %>
@@ -71,13 +71,13 @@
                 <td align="left" valign="middle">
                 	<c:set var="textAreaFieldName" value="document.newNarrative.comments" />
                 	<kul:htmlControlAttribute property="document.newNarrative.comments" attributeEntry="${narrativeAttributes.comments}" />
-                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${narrativeAttributes.comments.label}#)).anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${narrativeAttributes.comments.label}');return false"  styleClass="tinybutton"/>
+                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.comments.label}" />
 				</td>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
                 	<c:set var="textAreaFieldName" value="document.newNarrative.moduleTitle" />
                 	<kul:htmlControlAttribute property="document.newNarrative.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
-                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${narrativeAttributes.comments.label}#)).anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${narrativeAttributes.comments.label}');return false"  styleClass="tinybutton"/>
+                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 				</td>
           	</tr>
           	<tr>

@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="proSpecialAttriburesAttributes" value="${DataDictionary.ProposalSpecialReview.attributes}" />
@@ -44,30 +44,30 @@
 					<c:out value="Add:" />
 				</th>
 
-                <td align="left" valign="middle">
+                <td align="left" valign="middle" class="infoline">
                 
                 	<kul:htmlControlAttribute property="newPropSpecialReview.specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}" styleClass="fixed-size-select"/>
 	            
 				</td>
-                <td>
+                <td class="infoline">
                 	<kul:htmlControlAttribute property="newPropSpecialReview.approvalTypeCode" attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" />
                 </td>
-                <td>                	
+                <td class="infoline">                	
                   <kul:htmlControlAttribute property="newPropSpecialReview.protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />
                  <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
                     fieldConversions="protocolNumber:newPropSpecialReview.protocolNumber" anchor="${currentTabIndex}" /> 
 				</td>
-                <td align="left" valign="middle">
+                <td align="left" valign="middle" class="infoline">
                 	<kul:htmlControlAttribute property="newPropSpecialReview.applicationDate" attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" datePicker="true"/>
                 </td>
-                <td align="left" valign="middle">
+                <td align="left" valign="middle" class="infoline">
                 	<kul:htmlControlAttribute property="newPropSpecialReview.approvalDate" attributeEntry="${proSpecialAttriburesAttributes.approvalDate}" datePicker="true"/>
                 </td>
-                <td align="left" valign="middle">
+                <td align="left" valign="middle" class="infoline">
                 	<kul:htmlControlAttribute property="newPropSpecialReview.comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
                     <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${proSpecialAttriburesAttributes.comments.label}#)).anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${proSpecialAttriburesAttributes.comments.label}');return false"  styleClass="tinybutton"/>
                 </td>
-				<td>
+				<td class="infoline">
 					<div align=center>
 						<html:image property="methodToCall.addSpecialReview.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
@@ -81,7 +81,6 @@
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
-        			<input type="hidden" name="document.propSpecialReviews[${status.index}].specialReviewNumber" value="${status.index+1}">
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}"  styleClass="fixed-size-select"/>
 					</td>
@@ -101,7 +100,7 @@
 	                </td>
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
-	                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${proSpecialAttriburesAttributes.comments.label}#)).anchor${tabKey}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${proSpecialAttriburesAttributes.comments.label}');return false"/>
+                        <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalDevelopmentAttributes.comments.label}" />
 	                </td>
 					<td>
 					<div align=center>

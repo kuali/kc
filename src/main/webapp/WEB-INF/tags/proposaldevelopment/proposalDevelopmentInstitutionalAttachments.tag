@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
@@ -57,7 +57,7 @@
 				</td>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="newInstitute.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
-                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${narrativeAttributes.moduleTitle.label}#)).anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${narrativeAttributes.moduleTitle.label}');return false" styleClass="tinybutton" /> 
+                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 				</td>
                 
                 <td align="left" valign="middle">

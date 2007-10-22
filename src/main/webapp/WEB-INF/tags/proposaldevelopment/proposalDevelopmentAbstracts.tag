@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="proposalAbstractAttributes" value="${DataDictionary.ProposalAbstract.attributes}" />
@@ -61,10 +61,7 @@
 				
                 <td align="left">
                 	<kul:htmlControlAttribute property="newProposalAbstract.abstractDetails" attributeEntry="${proposalAbstractAttributes.abstractDetails}" />
-                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${proposalAbstractAttributes.abstractDetails.label}#)).anchor${tabKey}" 
-                                src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' 
-                                onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${proposalAbstractAttributes.abstractDetails.label}');return false" 
-                                styleClass="tinybutton" /> 
+                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalAbstractAttributes.abstractDetails.label}" />
                 </td>
  
 				<td>
@@ -95,10 +92,7 @@
 	             		<div align="left">
 					        <kul:htmlControlAttribute property="document.proposalAbstracts[${status.index}].abstractDetails" 
 					          					      attributeEntry="${proposalAbstractAttributes.abstractDetails}" />
-	                		<html:image property="methodToCall.updateTextArea.((#document.proposalAbstracts[${status.index}].abstractDetails:${action}:${proposalAbstractAttributes.abstractDetails.label}#)).anchor${tabKey}" 
-	                                    src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' 
-	                                    onclick="javascript: textAreaPop(document.getElementById('document.proposalAbstracts[${status.index}].abstractDetails').value,'document.proposalAbstracts[${status.index}].abstractDetails','proposalDevelopment','${proposalAbstractAttributes.abstractDetails.label}');return false" 
-	                                    styleClass="tinybutton" /> 
+                    		<kra:expandedTextArea textAreaFieldName="document.proposalAbstracts[${status.index}].abstractDetails" action="${action}" textAreaLabel="${proposalAbstractAttributes.abstractDetails.label}" />
                 		</div>
                 	</td>
                 	
