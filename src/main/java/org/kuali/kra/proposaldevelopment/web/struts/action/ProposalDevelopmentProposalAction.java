@@ -35,8 +35,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
+import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -55,10 +55,14 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         request.setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
 
         ProposalDevelopmentDocument proposalDevelopmentDocument=((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
-        if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getPropLocations().size()==0) {
+        if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getPropLocations().size()==0 
+                && StringUtils.isNotBlank(request.getParameter("methodToCall")) && request.getParameter("methodToCall").toString().equals("refresh")
+                && StringUtils.isNotBlank(request.getParameter("refreshCaller")) && request.getParameter("refreshCaller").toString().equals("kualiLookupable")
+                && StringUtils.isNotBlank(request.getParameter("document.organizationId")) ) {
             // populate 1st location.  Not sure yet
             ProposalLocation propLocation=new ProposalLocation();
             propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
+            propLocation.setLocationSequenceNumber(proposalDevelopmentDocument.getProposalNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
             proposalDevelopmentDocument.getPropLocations().add(propLocation);
         }
 
@@ -80,12 +84,34 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return super.execute(mapping, form, request, response);
     }
 
+    /**
+     * 
+     * Add new location to proposal document and reset newProplocation from form.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward addLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        proposalDevelopmentForm.getNewPropLocation().setLocationSequenceNumber(proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
         proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().add(proposalDevelopmentForm.getNewPropLocation());
         proposalDevelopmentForm.setNewPropLocation(new ProposalLocation());
         return mapping.findForward("basic");
     }
+
+    /**
+     * 
+     * Delete one location/site from proposal document
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // TODO : do we want to put logic to check whether this is the only one
         // or we'll let the business rule handle 'at least one location' rule?
@@ -93,6 +119,17 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().remove(getLineToDelete(request));
         return mapping.findForward("basic");
     }
+    
+    /**
+     * 
+     * Clear the address from the site/location selected.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward clearAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         int index= getSelectedLine(request);
