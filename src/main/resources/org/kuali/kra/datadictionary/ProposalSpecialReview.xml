@@ -98,7 +98,7 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<text size="3" />
+				<hidden />
 			</control>
 			<summary>Special Review Number </summary>
 			<description>Special Review Number </description>
