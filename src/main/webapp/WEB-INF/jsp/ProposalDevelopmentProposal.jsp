@@ -34,7 +34,9 @@
 <kra-pd:proposalDevelopmentRequiredFields />
 <kra-pd:proposalDevelopmentSponsorProgramInformation />
 <kra-pd:proposalDevelopmentOrganizationAndLocation />
-<kra-pd:proposalDevelopmentDeliveryInfo />
+<c:if test="${ProposalDevelopmentParameters.deliveryInfoDisplayIndicator.parameterValue == 'Y'}">
+   <kra-pd:proposalDevelopmentDeliveryInfo />
+</c:if>
 
 <c:if test="${displayKeywordPanel}">
 <kra-pd:proposalDevelopmentKeywords />
