@@ -16,7 +16,6 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,16 +34,7 @@ public class LeadUnitValuesFinder extends KeyValuesBase {
         keyValues.add(new KeyLabelPair("", "select:"));
         
         //TODO: Refactor this when we get SpringContext object (like KFS)
-        ProposalDevelopmentService proposalDevelopmentService = (ProposalDevelopmentService) KraServiceLocator.getService("proposalDevelopmentService");
-        
-        // TODO gmcgrego: temp fix for cnv build while investigating why propDevService is null there
-        Map<String, String> userUnits = new HashMap<String, String>();
-        if (proposalDevelopmentService != null) {
-            userUnits = proposalDevelopmentService.getUnitsForUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId());
-        } else {
-            userUnits.put("IN-PERS", 
-                    "IN-PERS - PED - EMERGENCY ROOM SERVICES");
-        }
+        Map<String, String> userUnits = ((ProposalDevelopmentService)KraServiceLocator.getService("proposalDevelopmentService")).getUnitsForUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId());
         
         for (String key : userUnits.keySet()) {
             keyValues.add(new KeyLabelPair(key, userUnits.get(key)));
