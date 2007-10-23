@@ -24,15 +24,19 @@
   <tr>
     <td nowrap>Financial Entity</td>
     <td>
+      <!-- 
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
+      -->
     </td>
   </tr>
   <tr>
     <td nowrap>Disclosure</td>
     <td>
+      <!-- 
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
+      -->
     </td>
   </tr>
 </table>
@@ -46,36 +50,46 @@
    <tr>
     <td nowrap>Committee</td>
     <td>
+      <!-- 
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
+      -->
     </td>
   </tr>
   <tr>
     <td nowrap>Protocol</td>
     <td>
+      <!-- 
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
+      -->
     </td>
   </tr>
   <tr>
     <td nowrap>Schedules</td>
     <td>
+      <!-- 
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
+      -->
     </td>
   </tr>
   <tr>
     <td nowrap>Correspondence</td>
     <td>
+      <!-- 
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
+      -->
     </td>
   </tr>
   <tr>
     <td nowrap>Protocol Submissions</td>
     <td>
+      <!-- 
       <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
+      -->
     </td>
   </tr>
 </table>

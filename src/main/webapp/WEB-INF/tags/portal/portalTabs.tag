@@ -41,6 +41,14 @@
     <c:if test='${selectedTab != "portalAdministrationBody"}'>
         <li class="green"><a class="green" href="portal.do?selectedTab=portalAdministrationBody" title="Administration">Administration</a></li>
     </c:if>    
+  
+      <%-- My Stuff --%>
+    <c:if test='${selectedTab == "portalMyStuffBody"}'>
+        <li class="red"><a class="red" href="portal.do?selectedTab=portalMyStuffBodyy" title="My Stuff">My Stuff</a></li>
+    </c:if> 
+    <c:if test='${selectedTab != "portalMyStuffBody"}'>
+        <li class="green"><a class="green" href="portal.do?selectedTab=portalMyStuffBody" title="My Stuff">My Stuff</a></li>
+    </c:if>    
     
     </ul>
   </div>
