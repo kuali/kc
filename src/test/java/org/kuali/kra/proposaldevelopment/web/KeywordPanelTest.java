@@ -31,7 +31,7 @@ public class KeywordPanelTest extends ProposalDevelopmentWebTestBase{
     private static final String DOCUMENT_SAVED = "Document was successfully saved";
     private static final String SCIENCE_KEYWORD_CHECKBOX_FIELD = "document.propScienceKeywords[0].selectKeyword";
     private static final String FIRST_ROW_DATA = "1 Diabetes";
-    private static final String SECOND_ROW_DATA = "2 Carbon";
+    private static final String SECOND_ROW_DATA = "10 Chemosynthesis";
     private static final String FIRST_ROW_DATA_CHECKED = "1 Diabetes checked";
     private static final String FIRST_ROW_DATA_UNCHECKED = "1 Diabetes unchecked";
     private static final String CHECKBOX_CHECKED = "on";
@@ -64,15 +64,14 @@ public class KeywordPanelTest extends ProposalDevelopmentWebTestBase{
                 DEFAULT_PROPOSAL_ACTIVITY_TYPE,
                 DEFAULT_PROPOSAL_TYPE_CODE,
                 DEFAULT_PROPOSAL_OWNED_BY_UNIT);
-        //setDefaultRequiredFields(proposalPage);
 
         /* Save with basic/mandatory data and verify data saved */
         final HtmlPage pageAfterInitSave = saveAndVerifyData(proposalPage);
 
         /* performing science keyword lookup */
-        HtmlPage pageKeywordLookup = multiLookup(pageAfterInitSave, "ScienceKeyword");
+        HtmlPage pageKeywordLookup = multiLookup(pageAfterInitSave, "ScienceKeyword", "scienceKeywordCode", "1*");
         HtmlTable table = getTable(pageKeywordLookup, "tab-Keywords-div");
-        assertEquals(table.getRowCount(), 13);
+        assertEquals(table.getRowCount(), 5);
         
         /* verify data returned by keyword lookup */
         keywordStatus = getFieldValue(pageKeywordLookup, SCIENCE_KEYWORD_CHECKBOX_FIELD);
