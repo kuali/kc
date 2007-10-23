@@ -52,4 +52,6 @@ public interface Constants {
 
     public static final String PARAMETER_MODULE_PROPOSAL_DEVELOPMENT = "KRA-PD";
     public static final String PARAMETER_COMPONENT_DOCUMENT = "D";
+    public static final String INSTITUTE_NARRATIVE_TYPE_GROUP_CODE = "O";
+
 }

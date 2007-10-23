@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
@@ -26,6 +27,6 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 public class InstituteAttachmentTypeValuesFinder  extends KeyValuesBase {
         KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
         public List<KeyLabelPair> getKeyValues() {
-            return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description","narrativeTypeGroup","O");
+            return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description","narrativeTypeGroup",Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE);
         }
 }
