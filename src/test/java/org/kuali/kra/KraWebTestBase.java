@@ -158,7 +158,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the next web page after clicking on the HTML element.
      * @throws IOException
      */
-    protected HtmlPage clickOn(ClickableElement element) throws IOException {
+    protected HtmlPage clickOn(HtmlElement element) throws IOException {
         return clickOn(element, null);
     }
     
@@ -177,8 +177,11 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the next web page after clicking on the HTML element.
      * @throws IOException
      */
-    protected HtmlPage clickOn(ClickableElement element, String nextPageTitle) throws IOException {
-        Page nextPage = element.click();
+    protected HtmlPage clickOn(HtmlElement element, String nextPageTitle) throws IOException {
+        assertTrue(element instanceof ClickableElement);
+        
+        ClickableElement clickable = (ClickableElement) element;
+        Page nextPage = clickable.click();
         
         assertTrue(nextPage != null);
         assertTrue(nextPage instanceof HtmlPage);
@@ -848,12 +851,40 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML element or null if not found.
      */
     protected HtmlElement getElementByName(HtmlPage page, String name) {
-        HtmlElement element = getElementByName(page.getDocumentElement(), name);
+        return getElementByName(page, name, false);
+    }
+    
+    /**
+     * Gets an HTML element in a parent HTML element.  Searches the parent HTML
+     * element for the first HTML element whose name attribute matches the given name.
+     * 
+     * @param element the parent HTML element to search.
+     * @param name the name to search for.
+     * @return the HTML element or null if not found.
+     */
+    protected HtmlElement getElementByName(HtmlElement element, String name) {
+        return getElementByName(element, name, false);
+    }
+    
+    /**
+     * Gets an HTML element in the web page.  Searches the web page for 
+     * the first HTML element whose name attribute matches the given name.
+     * 
+     * HTML web pages may contain Inline Frames (iframes) which are not expanded
+     * within HtmlUnit.  The inline frames contain inner web pages that must
+     * also be searched.
+     * 
+     * @param page the HTML web page to search.
+     * @param name the name to search for.
+     * @return the HTML element or null if not found.
+     */
+    protected HtmlElement getElementByName(HtmlPage page, String name, boolean startsWith) {
+        HtmlElement element = getElementByName(page.getDocumentElement(), name, startsWith);
         
         if (element == null) {
             List<HtmlPage> innerPages = getInnerPages(page);
             for (HtmlPage innerPage : innerPages) {
-                element = getElementByName(innerPage, name);
+                element = getElementByName(innerPage, name, startsWith);
                 if (element != null) break;
             }
         }
@@ -869,12 +900,14 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param name the name to search for.
      * @return the HTML element or null if not found.
      */
-    protected HtmlElement getElementByName(HtmlElement element, String name) {
+    protected HtmlElement getElementByName(HtmlElement element, String name, boolean startsWith) {
         Iterator iterator = element.getAllHtmlChildElements();
         while (iterator.hasNext()) {
             HtmlElement e = (HtmlElement) iterator.next();
             String value = e.getAttributeValue("name");
-            if (name.equals(value)) {
+            if (!startsWith && name.equals(value)) {
+                return e;
+            } else if (startsWith && value != null && value.startsWith(name)) {
                 return e;
             }
         }
@@ -959,16 +992,16 @@ public abstract class KraWebTestBase extends KraTestBase {
      * also be searched.
      * 
      * @param page the HTML web page to search.
-     * @param str the id to compare against Lookup HTML name attributes.
+     * @param tag the tag to compare against Lookup HTML name attributes.
      * @return the Lookup's HTML element or null if not found.
      */
-    protected HtmlImageInput getLookup(HtmlPage page, String str) {
-        HtmlImageInput element = getLookup(page.getDocumentElement(), str);
+    protected HtmlImageInput getLookup(HtmlPage page, String tag) {
+        HtmlImageInput element = getLookup(page.getDocumentElement(), tag);
         
         if (element == null) {
             List<HtmlPage> innerPages = getInnerPages(page);
             for (HtmlPage innerPage : innerPages) {
-                element = getLookup(innerPage, str);
+                element = getLookup(innerPage, tag);
                 if (element != null) break;
             }
         }
@@ -985,16 +1018,16 @@ public abstract class KraWebTestBase extends KraTestBase {
      * in the name attribute that is specific to the Lookup.  
      * 
      * @param element the parent HTML element to search.
-     * @param str the id to compare against Lookup HTML name attributes.
+     * @param tag the tag to compare against Lookup HTML name attributes.
      * @return the Lookup's HTML element or null if not found.
      */
-    private HtmlImageInput getLookup(HtmlElement element, String str) {
+    private HtmlImageInput getLookup(HtmlElement element, String tag) {
         Iterator iterator = element.getAllHtmlChildElements();
         while (iterator.hasNext()) {
             HtmlElement e = (HtmlElement) iterator.next();
             if (e instanceof HtmlImageInput) {
                 String name = e.getAttributeValue("name");
-                if (name != null && name.startsWith("methodToCall.performLookup") && name.contains(str)) {
+                if (name != null && name.startsWith("methodToCall.performLookup") && name.contains(tag)) {
                     return (HtmlImageInput) e;
                 }
             }
@@ -1032,7 +1065,50 @@ public abstract class KraWebTestBase extends KraTestBase {
         }
         return table;
     }
-  
+    
+    /**
+     * Gets an Anchor (hyperlink) element whose HREF attribute string contains
+     * the given tag string.
+     * 
+     * @param page the web page.
+     * @param tag the string to look for in HREF.
+     * @return the HTML Anchor element or null if not found.
+     */
+    protected HtmlAnchor getAnchor(HtmlPage page, String tag) {
+    	HtmlAnchor element = getAnchor(page.getDocumentElement(), tag);
+         
+        if (element == null) {
+            List<HtmlPage> innerPages = getInnerPages(page);
+            for (HtmlPage innerPage : innerPages) {
+                element = getAnchor(innerPage, tag);
+                if (element != null) break;
+            }
+        }
+        
+        return element;
+    }
+    
+    /**
+     * Gets an Anchor (hyperlink) element whose HREF attribute string contains
+     * the given tag string.
+     * 
+     * @param element the HTML element to look in.
+     * @param tag the string to look for in HREF.
+     * @return the HTML Anchor element or null if not found.
+     */
+    private HtmlAnchor getAnchor(HtmlElement element, String tag) {
+        Iterator iterator = element.getAllHtmlChildElements();
+        while (iterator.hasNext()) {
+            HtmlElement e = (HtmlElement) iterator.next();
+            if (e instanceof HtmlAnchor) {
+                String href = e.getAttributeValue("href");
+                if (href != null && href.contains(tag)) {
+                    return (HtmlAnchor) e;
+                }
+            }
+        }
+        return null;
+    }
     
     /**
      * Finds all of the Help HTML elements (hyperlinks) in a web page.
@@ -1140,6 +1216,48 @@ public abstract class KraWebTestBase extends KraTestBase {
             }
         }
         return sibling;
+    }
+    
+    /**
+     * Do a document search looking for the a specific document based upon its docNbr.
+     * The search begins at the Portal Page and then navigates to the Doc Search Page.
+     * The given docNbr is added to the search field and search is performed.  If the
+     * doc is found, it's hyperlink is clicked and the resulting page is returned.
+     * 
+     * @param docNbr the docNbr to search for
+     * @return the document's page or null if not found.
+     * @throws IOException
+     */
+    protected HtmlPage docSearch(String docNbr) throws IOException {
+    	HtmlPage docPage = null;
+    	HtmlPage portalPage = getPortalPage();
+    	HtmlPage docSearchPage = clickOn(portalPage, "Document Search");
+    	
+    	setFieldValue(docSearchPage, "criteria.routeHeaderId", docNbr);
+    	docSearchPage = clickOn(docSearchPage, "methodToCall.doDocSearch");
+    	if (docSearchPage.asText().contains("Nothing found to display.")) {
+    		docPage = null;
+    	} else {
+    	    HtmlAnchor hyperlink = getAnchor(docSearchPage, docNbr);
+    	    assertNotNull(hyperlink);
+    	    docPage = clickOn(hyperlink);
+    	}
+    	return docPage;
+    }
+    
+    /**
+     * Gets the docNbr from a document's web page.
+     * The docNbr is expected to be in an HTML table
+     * is the division labeled "headerarea".
+     * 
+     * @param page the documen's web page
+     * @return the document's docNbr
+     */
+    protected String getDocNbr(HtmlPage page) {
+    	HtmlTable table = getTable(page, "headerarea");
+    	HtmlTableRow row = table.getRow(0);
+    	HtmlTableCell cell = row.getCell(1);
+    	return cell.asText().trim();
     }
 }
 
