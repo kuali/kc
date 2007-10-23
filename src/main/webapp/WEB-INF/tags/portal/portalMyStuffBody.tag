@@ -18,16 +18,11 @@
 <td class="content" valign="top">
 <%--
       <channel:messageOfTheDay />
-
-      <channel:mainMyStuff />
---%>      
+--%>
+      <channel:myStuffMyStuff />
+      
 </td>
-<td class="content" valign="top">
-      <channel:mainPreAward />
-      <channel:mainPostAward />
-      <channel:mainCompliance />
+<td width="30%">
 </td>
-<td class="content" valign="top">
-      <channel:mainInquiryLookup />
-      <channel:mainReports />
-</td> 
+<td width="30%">
+</td>

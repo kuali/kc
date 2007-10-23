@@ -44,6 +44,9 @@
           <c:when test='${selectedTab == "portalAdministrationBody"}'>
               <portal:portalAdministrationBody />
           </c:when>
+          <c:when test='${selectedTab == "portalMyStuffBody"}'>
+              <portal:portalMyStuffBody />
+          </c:when>
           
           <%-- as backup go to the main menu index --%>
           <c:otherwise>
