@@ -28,7 +28,7 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
- * This class tests the KraServiceLocator
+ * This class tests the ProposalDevelopmentDocument
  */
 public class ProposalDevelopmentDocumentTest extends KraTestBase {
 
@@ -169,14 +169,14 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
     }
 
     /**
-     * This method...
-     * @param document
-     * @param title TODO
-     * @param requestedStartDateInitial TODO
-     * @param requestedEndDateInitila TODO
-     * @param activityTypeCode TODO
-     * @param proposalTypeCode TODO
-     * @param ownedByUnit TODO
+     * This method sets the base/required document fields
+     * @param document ProposalDevelopmentDocument to set fields for
+     * @param title String title to set
+     * @param requestedStartDateInitial Date start date to set
+     * @param requestedEndDateInitila Date end date to set
+     * @param activityTypeCode String activity type code to set
+     * @param proposalTypeCode String proposal type code to set
+     * @param ownedByUnit String owned-by unit to set
      */
     private void setBaseDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
         document.getDocumentHeader().setFinancialDocumentDescription(description);
@@ -189,6 +189,17 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         document.setOwnedByUnit(ownedByUnit);
     }
 
+    /**
+     * This method checks document fields against expected values
+     * @param doc ProposalDevelopmentDocument doc to check
+     * @param documentNumber String document number to check
+     * @param description String description to check
+     * @param sponsorCode String sponsor code to check
+     * @param title String title to check
+     * @param activityTypeCode String activity type code to check
+     * @param proposalTypeCode String proposal type code to check
+     * @param ownedByUnit String owned-by unit to check
+     */
     private void checkDocumentFields(ProposalDevelopmentDocument doc, String documentNumber, String description, String sponsorCode, String title, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
         assertEquals(documentNumber, doc.getDocumentNumber());
         assertEquals(description, doc.getDocumentHeader().getFinancialDocumentDescription());

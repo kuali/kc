@@ -33,9 +33,6 @@
            		</td>
         	</tr>
         	<tr>
-        		<!--
-				<th><div align="right">Agency/Sponsor Name:</div></th>
-        		 -->
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.Sponsor.attributes.sponsorName}" /></div></th>
            		<td>
                 	<div id="sponsorName.div">
@@ -63,23 +60,13 @@
            		</td>
      		</tr>
         	<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" /></div></th>
-                <td>
-                	<kul:htmlControlAttribute property="document.currentAwardNumber" attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" />
-                </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.continuedFrom}" /></div></th>
-           		<td>
-           			<kul:htmlControlAttribute property="document.continuedFrom" attributeEntry="${proposalDevelopmentAttributes.continuedFrom}" />
-           		</td>
-     		</tr>
-        	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.nsfCode}" /></div></th>
                 <td>
                 	<kul:htmlControlAttribute property="document.nsfCode" attributeEntry="${proposalDevelopmentAttributes.nsfCode}" styleClass="fixed-size-200-select"/>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.subcontracts}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.subcontracts" attributeEntry="${proposalDevelopmentAttributes.subcontracts}" /> (yes)
+           			<kul:htmlControlAttribute property="document.subcontracts" attributeEntry="${proposalDevelopmentAttributes.subcontracts}" />
            		</td>
      		</tr>
         	<tr>
