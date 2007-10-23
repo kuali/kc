@@ -84,8 +84,6 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         documentService = null;
     }
 
-
-
     @Test
     public void testProposalTypeLink() throws Exception {
         final WebClient webClient = new WebClient();
@@ -607,6 +605,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("Kuwait Petroleum Corporation", primeSponsorNameDiv.asText());
     }
 
+    
     /**
      * 
      * Test institutional attachments.  
@@ -744,8 +743,6 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("application/octet-stream", personnelAttachment.getContentType());
 
     }
-
-    
 
     private HtmlPage textAreaPop(String fieldName, String fieldText, String methodToCall, boolean scriptEnabled) throws Exception {
         final WebClient webClient = new WebClient();
@@ -1020,55 +1017,15 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
     }
 
-    
-    /** get the file full path
-     * 
-     */
-    
- 
-    private static String getFullPathFileName (String filename, File dir) {
-        boolean exists = false;
-        String fullFileName="";
-        if (new File (dir, filename).exists ()) {
-            exists=true;
-            fullFileName=dir+"/"+filename;
-        } else {
-            File[] subdirs = dir.listFiles ();
- 
-            int i = 0;
-            int n = (subdirs == null) ? 0 : subdirs.length;
- 
-            while ((i < n) && ! exists) {
-                File subdir = subdirs[i];
- 
-                if (subdir.isDirectory ()) {
-                    fullFileName=getFullPathFileName (filename, subdir);
-                    if (StringUtils.isNotEmpty(fullFileName)) {
-                        exists=true;
-                        break;
-                    }
-                }
- 
-                i ++;
-            }
-        }
- 
-        return fullFileName;
-    }
 
     /**
      * 
-     * Get file name for institute and personnel attachment.  Try local and unix.
+     * Get file name for institute and personnel attachment.  
      */
     private static String getFileName() {
-        String path="c:/java/projects/kra_project/src/test/resources/sql/dml/";
-        String fileName=path+"load_abstract_type.sql";
-        if (!new File (fileName).exists ()) {
-            // try unix 
-            path="/opt/cm-tools/atlassian/bamboo/bamboo-1.2.3/bamboo.home/xml-data/build-dir/KRA-HEAD/kra_project/src/test/resources/sql/dml/";
-            fileName=path+"load_abstract_type.sql";
-        }
-        return fileName;
+        String userDir = System.getProperty("user.dir"); 
+        String path = userDir + "/src/test/resources/sql/dml/";
+        return path+"load_abstract_type.sql";
     }
     
     /**
