@@ -86,10 +86,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     }
 
     /**
-     * This method validates 'Proposal Special review'. It checks 
+     * This method validates 'Proposal Special review'. It checks
      * validSpecialReviewApproval table, and if there is a match, then checks
      * protocalnumberflag, applicatedateflag, and approvaldataflag.
-     * 
+     *
      * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
      * @return valid Does the validation pass
      */
@@ -133,6 +133,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return valid;
     }
 
+    /**
+     * This method validates Sponsor & Program Information related fields on
+     * the Proposal Development Document.
+     * @param proposalDevelopmentDocument document to validate
+     * @return boolean whether the validation passed or not
+     */
     private boolean processSponsorProgramInformationBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
 
@@ -155,7 +161,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     /**
      * This method validates 'Personnel Attachment'. It checks the following :
      * If attachment type and description are not empty, then filename is a required field.
-     * 
+     *
      * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
      * @return valid Does the validation pass
      */
@@ -182,11 +188,11 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return valid;
 
     }
-    
+
     /**
      * This method validates 'Institute Attachment'. It checks the following :
      * If attachment type and description are not empty, then filename is a required field.
-     * 
+     *
      * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
      * @return valid Does the validation pass
      */
@@ -215,10 +221,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
     }
 
-    
 
-    
-    
+
+
+
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }

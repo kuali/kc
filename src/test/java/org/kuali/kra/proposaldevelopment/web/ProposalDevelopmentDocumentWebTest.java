@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web;
 
-import java.io.File;
 import java.net.URL;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
@@ -34,11 +32,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
@@ -235,7 +231,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
     }
 
     /**
-     * 
+     *
      * Test organization/location panel on proposal page
      * @throws Exception
      */
@@ -369,7 +365,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
     }
 
     /**
-     * 
+     *
      * Test delivery info panel on proposal page
      * @throws Exception
      */
@@ -451,7 +447,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
     }
 
     /**
-     * 
+     *
      * Test special review page.
      * @throws Exception
      */
@@ -505,110 +501,9 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
     }
 
-
-
-    @Test
-    public void testSponsorProgramInformationPanel() throws Exception {
-        final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-        final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
-        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText() );
-
-        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
-
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005891", "project title", "08/14/2007", "08/21/2007", "1", "2", "IN-PERS");
-
-        // sponsor program info fields
-        setFieldValue(kualiForm, TEXT_INPUT, "document.deadlineDate", "2007-08-14");
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.deadlineType", "P", 3);
-        setFieldValue(kualiForm, TEXT_INPUT, "document.primeSponsorCode", "005984");
-        setFieldValue(kualiForm, TEXT_INPUT, "document.currentAwardNumber", "1234567890");
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.nsfCode", "J.02", 39);
-        setFieldValue(kualiForm, TEXT_INPUT, "document.agencyDivisionCode", "123");
-        setFieldValue(kualiForm, TEXT_AREA, "document.programAnnouncementTitle", "we want to give you money");
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.noticeOfOpportunityCode", "2", 8);
-        setFieldValue(kualiForm, TEXT_INPUT, "document.cfdaNumber", "123456");
-        setFieldValue(kualiForm, TEXT_INPUT, "document.programAnnouncementNumber", "123478");
-        setFieldValue(kualiForm, TEXT_INPUT, "document.sponsorProposalNumber", "234567");
-        setFieldValue(kualiForm, TEXT_INPUT, "document.continuedFrom", "98765432");
-
-        // TODO: possibly refactor this to use setFieldValue
-        final HtmlCheckBoxInput subawards = (HtmlCheckBoxInput) kualiForm.getInputByName("document.subcontracts");
-        subawards.setChecked(true);
-
-        setFieldValue(kualiForm, TEXT_INPUT, "document.agencyProgramCode", "456");
-
-        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
-
-        final HtmlPage page4 = (HtmlPage) saveButton.click();
-        assertEquals("Kuali :: Proposal Development Document", page4.getTitleText() );
-
-        String page4AsText = page4.asText();
-        String errorMessage = extractErrorMessage(page4AsText);
-
-        assertFalse(errorMessage, page4AsText.contains(ERRORS_FOUND_ON_PAGE));
-
-        // make sure the document saved correctly
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
-        assertNotNull(doc);
-
-        verifySavedRequiredFields(doc, "1", "IN-PERS", "ProposalDevelopmentDocumentWebTest test", "005891", "project title", "2007-08-14", "2007-08-21", "2");
-
-        // check sponsor program info fields
-        assertEquals("P", doc.getDeadlineType());
-        assertEquals("005984", doc.getPrimeSponsorCode());
-        assertEquals("1234567890", doc.getCurrentAwardNumber());
-        assertEquals("J.02", doc.getNsfCode());
-        assertEquals("123", doc.getAgencyDivisionCode());
-        assertEquals("we want to give you money", doc.getProgramAnnouncementTitle());
-        assertEquals("2", doc.getNoticeOfOpportunityCode());
-        assertEquals("123456", doc.getCfdaNumber());
-        assertEquals("123478", doc.getProgramAnnouncementNumber());
-        assertEquals("234567", doc.getSponsorProposalNumber());
-        assertEquals("98765432", doc.getContinuedFrom());
-        assertTrue("Subcontracts should be true", doc.getSubcontracts());
-        assertEquals("456", doc.getAgencyProgramCode());
-
-        // make sure the fields we set are displayed on the form after saving
-        final HtmlForm savedForm = (HtmlForm) page4.getForms().get(0);
-
-        assertTrue("Should have saved message", page4AsText.indexOf("Document was successfully saved.") > 0);
-        // TODO: verify header fields
-
-        // sponsor program info fields
-        assertEquals("08/14/2007", getFieldValue(savedForm, TEXT_INPUT, "document.deadlineDate"));
-        assertEquals("P", getFieldValue(savedForm, SELECTED_INPUT, "document.deadlineType"));
-        assertEquals("005984", getFieldValue(savedForm, TEXT_INPUT, "document.primeSponsorCode"));
-        assertEquals("1234567890", getFieldValue(savedForm, TEXT_INPUT, "document.currentAwardNumber"));
-        assertEquals("J.02", getFieldValue(savedForm, SELECTED_INPUT, "document.nsfCode"));
-        assertEquals("123", getFieldValue(savedForm, TEXT_INPUT, "document.agencyDivisionCode"));
-        assertEquals("we want to give you money", getFieldValue(savedForm, TEXT_AREA, "document.programAnnouncementTitle"));
-        assertEquals("2", getFieldValue(savedForm, SELECTED_INPUT, "document.noticeOfOpportunityCode"));
-        assertEquals("123456", getFieldValue(savedForm, TEXT_INPUT, "document.cfdaNumber"));
-        assertEquals("123478", getFieldValue(savedForm, TEXT_INPUT, "document.programAnnouncementNumber"));
-        assertEquals("234567", getFieldValue(savedForm, TEXT_INPUT, "document.sponsorProposalNumber"));
-        assertEquals("98765432", getFieldValue(savedForm, TEXT_INPUT, "document.continuedFrom"));
-
-        // TODO: possibly refactor this to use setFieldValue
-        final HtmlCheckBoxInput savedSubawards = (HtmlCheckBoxInput) savedForm.getInputByName("document.subcontracts");
-        assertEquals("on", savedSubawards.getValueAttribute());
-
-        assertEquals("456", getFieldValue(savedForm, TEXT_INPUT, "document.agencyProgramCode"));
-
-        // test label
-        final HtmlDivision sponsorNameDiv = (HtmlDivision) page4.getHtmlElementById("sponsorName.div");
-        assertEquals("Baystate Medical Center", sponsorNameDiv.asText());
-
-        // test label
-        final HtmlDivision primeSponsorNameDiv = (HtmlDivision) page4.getHtmlElementById("primeSponsorName.div");
-        assertEquals("Kuwait Petroleum Corporation", primeSponsorNameDiv.asText());
-    }
-
-    
     /**
-     * 
-     * Test institutional attachments.  
+     *
+     * Test institutional attachments.
      * @throws Exception
      */
     @Test
@@ -672,13 +567,13 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         assertEquals("load_abstract_type.sql", narrativeAttachment.getFileName());
         assertEquals("application/octet-stream", narrativeAttachment.getContentType());
 
-        
-        
+
+
     }
 
 
     /**
-     * 
+     *
      * Test personnel biography attachments.
      * @throws Exception
      */
@@ -693,9 +588,9 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
         setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
-        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up 
+        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up
 
-        
+
         final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
                 SUBMIT_INPUT_BY_NAME);
         final HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
@@ -705,7 +600,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         // add new personnel attachment line
         // how to find a file name that is both in local and deployment environments ?
         // Alternative is to try two full path, one for pc and one for unix ? don't use getFullePathFileName
-        // try local 
+        // try local
         //String fileName=getFullPathFileName("load_abstract_type.sql",new File("c:/java/projects/kra_project"));
         String fileName=getFileName();
         final HtmlPage page5 =setPersonnelAttachmentLine(page4,form1,"3;1;desc;"+fileName);
@@ -1019,15 +914,15 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
 
 
     /**
-     * 
-     * Get file name for institute and personnel attachment.  
+     *
+     * Get file name for institute and personnel attachment.
      */
     private static String getFileName() {
-        String userDir = System.getProperty("user.dir"); 
+        String userDir = System.getProperty("user.dir");
         String path = userDir + "/src/test/resources/sql/dml/";
         return path+"load_abstract_type.sql";
     }
-    
+
     /**
      * This method extracts the error message (if any) from the html page as text.
      * @param pageAsText text of the html page response to extract the error message from
