@@ -109,6 +109,10 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         rulePassed &= getKualiRuleService().applyRules(new AddNarrativeEvent("newNarrative", propDoc, narr));
 
         if (!rulePassed){
+            // remove the status stuff from institute attachment if rule is not satisfied
+            if (narr.getNarrativeType().getNarrativeTypeGroup().equals(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE)) {
+                propDoc.setNewNarrative(new Narrative());            
+            }
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         Map narrStatusMap = new HashMap();
