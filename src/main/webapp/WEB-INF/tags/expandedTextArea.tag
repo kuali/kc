@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 <%@ attribute name="textAreaFieldName" required="true" %>
-<%@ attribute name="action" required="false" %>
+<%@ attribute name="action" required="true" %>
 <%@ attribute name="textAreaLabel" required="true" %>
 
 
