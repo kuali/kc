@@ -7,7 +7,7 @@
 	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
-	
+
 	<param name="javascript.files">kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/UserService.js,kr/scripts/objectInfo.js</param>
     <param name="css.files">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
 
@@ -40,6 +40,9 @@
     <param name="workflow.url">http://localhost:${kns.test.port}/${app.context.name}/en</param>
     <param name="application.url">http://localhost:${kns.test.port}/${app.context.name}</param>
     <param name="serviceServletUrl">http://localhost:${kns.test.port}/${app.context.name}/remoting/</param>
+
+    <param name="app.host">http://localhost:${kns.test.port}</param>
+    <param name="kuali.docHandler.url.prefix">${app.host}/${app.context.name}</param>
 
 	<param name="datasource.url">jdbc:oracle:thin:@esdb12-k.uits.indiana.edu:1521:KUALI</param>
 	<param name="datasource.username">KRAUNT</param>
@@ -102,12 +105,12 @@
     <param name="notification.concurrent.jobs">true</param>
 
     <param name="notification.basewebappurl">http://localhost:9912/${app.context.name}/ken</param>
-    
+
     <param name="notification.ojb.platform">Oracle</param>
-    
+
     <!-- Email Plugin Properties -->
     <param name="emailDeliverer.smtp.host">no_such_smtp_host</param>
-    
+
     <!-- Turn off KEW use of quartz db to avoid db clear issues -->
     <param name="useQuartzDatabase">false</param>
 </config>
