@@ -30,10 +30,10 @@ public class KeywordPanelTest extends ProposalDevelopmentWebTestBase{
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String DOCUMENT_SAVED = "Document was successfully saved";
     private static final String SCIENCE_KEYWORD_CHECKBOX_FIELD = "document.propScienceKeywords[0].selectKeyword";
-    private static final String FIRST_ROW_DATA = "1 Diabetes";
-    private static final String SECOND_ROW_DATA = "10 Chemosynthesis";
-    private static final String FIRST_ROW_DATA_CHECKED = "1 Diabetes checked";
-    private static final String FIRST_ROW_DATA_UNCHECKED = "1 Diabetes unchecked";
+    private static final String FIRST_ROW_DATA = "1 Transmittance";
+    private static final String SECOND_ROW_DATA = "2 Temperature";
+    private static final String FIRST_ROW_DATA_CHECKED = "1 Transmittance checked";
+    private static final String FIRST_ROW_DATA_UNCHECKED = "1 Transmittance unchecked";
     private static final String CHECKBOX_CHECKED = "on";
     private static final String CHECKBOX_UNCHECKED = "off";
     private static final String JS_SELECT_ALL = "selectAllKeywords(document)";
@@ -69,7 +69,7 @@ public class KeywordPanelTest extends ProposalDevelopmentWebTestBase{
         final HtmlPage pageAfterInitSave = saveAndVerifyData(proposalPage);
 
         /* performing science keyword lookup */
-        HtmlPage pageKeywordLookup = multiLookup(pageAfterInitSave, "ScienceKeyword", "scienceKeywordCode", "1*");
+        HtmlPage pageKeywordLookup = multiLookup(pageAfterInitSave, "ScienceKeyword", "description", "T*");
         HtmlTable table = getTable(pageKeywordLookup, "tab-Keywords-div");
         assertEquals(table.getRowCount(), 5);
         
