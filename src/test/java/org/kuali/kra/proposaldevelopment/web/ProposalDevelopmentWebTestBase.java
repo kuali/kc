@@ -37,9 +37,9 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected static final String DEFAULT_PROPOSAL_TITLE = "Project title";
     protected static final String DEFAULT_PROPOSAL_REQUESTED_START_DATE = "08/14/2007";
     protected static final String DEFAULT_PROPOSAL_REQUESTED_END_DATE = "08/21/2007";
-    protected static final String DEFAULT_PROPOSAL_ACTIVITY_TYPE = "1";
-    protected static final String DEFAULT_PROPOSAL_TYPE_CODE = "2";
-    protected static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "000002";
+    protected static final String DEFAULT_PROPOSAL_ACTIVITY_TYPE = "2"; // Dept Research
+    protected static final String DEFAULT_PROPOSAL_TYPE_CODE = "1"; // New
+    protected static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "IN-PERS";
     
     /**
      * Gets the Proposal Development web page for creating a new Proposal document.
