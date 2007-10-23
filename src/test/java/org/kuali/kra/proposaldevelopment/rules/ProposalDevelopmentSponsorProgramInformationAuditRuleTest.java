@@ -63,7 +63,11 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     @Test public void testValidDate() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
 
-        Date deadlineDate = new Date(System.currentTimeMillis());
+        // Create a date in the past - tomorrow
+        Calendar calendar = new GregorianCalendar();
+        calendar.add(Calendar.DATE, 1);
+        Date deadlineDate = new Date(calendar.getTimeInMillis());
+
         document.setDeadlineDate(deadlineDate);
         assertTrue("Audit Rule shouldn't produce any audit errors", auditRule.processRunAuditBusinessRules(document));
         assertEquals(0, GlobalVariables.getAuditErrorMap().size());
