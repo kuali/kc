@@ -286,7 +286,7 @@
 					<alphaNumeric />
 				</validationPattern>
 				<control>
-					<text size="20" />
+					<text size="30" />
 				</control>
 				<summary>Phone Number</summary>
 				<description>Phone Number</description>
@@ -312,7 +312,11 @@
 			</attributeReference>
 			<attributeReference name="emailAddress"
 				sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy"
-				sourceAttributeName="emailAddress" />
+				sourceAttributeName="emailAddress" >
+			<control>
+					<text size="30" />
+			</control>
+			</attributeReference>
 
 		</attributes>
 		<relationships>
