@@ -147,7 +147,7 @@
 			<validationPattern><alphaNumeric /></validationPattern>
 			<required> true </required> 
 			<control>
-				<textarea cols="40" rows="3"  />
+				<textarea cols="20" rows="3"  />
 			</control>
 			<summary>Description </summary>
 			<description>Description </description>

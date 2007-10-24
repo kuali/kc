@@ -22,7 +22,7 @@
 <kul:tab tabTitle="Personnel Attachments" defaultOpen="true" tabErrorKey="document.propPersonBios*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
-    		<span class="subhead-left"><h2>Personnel Attachments</h2></span>
+    		<span class="subhead-left"><h2>Add Personnel Attachments</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
         
@@ -57,7 +57,7 @@
 	  			        </html:select>
                 </td>
                 <td class="infoline">                	
-                	<kul:htmlControlAttribute property="newPropPersonBio.documentTypeCode" attributeEntry="${propPersonBioAttributes.documentTypeCode}" />
+                	<kul:htmlControlAttribute property="newPropPersonBio.documentTypeCode" attributeEntry="${propPersonBioAttributes.documentTypeCode}"/>
 				</td>
                 <td class="infoline">
                 	<kul:htmlControlAttribute property="newPropPersonBio.description" attributeEntry="${propPersonBioAttributes.description}" />
@@ -77,8 +77,8 @@
 
         	<c:forEach var="propPersonBio" items="${KualiForm.document.propPersonBios}" varStatus="status">
 	             <tr>
-					<th class="infoline">
-						${status.index+1}
+					<th class="infoline" align="right">
+						${status.index+1}:
 					</th>
 	                <td>
                 	    <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${propPersonBioAttributes.updateTimestamp}" />
