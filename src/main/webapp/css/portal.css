@@ -770,3 +770,8 @@ ul {
 a.portal_link {
 	text-decoration: none;
 }
+
+img.opaque {
+	opacity: .5;
+	filter: alpha(opacity=50);
+}
