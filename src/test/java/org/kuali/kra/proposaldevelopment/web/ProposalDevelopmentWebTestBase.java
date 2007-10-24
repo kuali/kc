@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.web;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.kuali.kra.KraWebTestBase;
 
@@ -95,4 +97,23 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
         setFieldValue(page, PROPOSAL_TYPE_CODE_ID, proposalType);
         setFieldValue(page, PROPOSAL_OWNED_BY_UNIT_ID, ownedByUnit);
     }
+    protected void testTextAreaPopup(HtmlPage propAttPage, String id,String moreText,String action,String textAreaLabel,String tabIndex) throws Exception{
+        HtmlPage textAreaPopupPage = clickOn(propAttPage, "methodToCall.updateTextArea.((#"+id+":"+action+":"+textAreaLabel+"#))"+tabIndex);
+        String currentValue = getFieldValue(textAreaPopupPage, id);
+        String completeText = currentValue+moreText;
+        setFieldValue(textAreaPopupPage, id, completeText);
+        
+        HtmlPage textAreasAddedPage = clickOn(textAreaPopupPage,"methodToCall.postTextAreaToParent.anchor"+tabIndex);
+        assertEquals(getFieldValue(textAreasAddedPage, id), completeText);
+//        return textAreaPopupPage;
+    }    
+    protected void validatePage(HtmlPage page, Map<String, String> keyValues) {
+        Iterator<String> it = keyValues.keySet().iterator();
+        while (it.hasNext()) {
+            String key = (String) it.next();
+            assertEquals(getFieldValue(page, key), keyValues.get(key));
+        }
+    }
+
+
 }

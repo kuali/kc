@@ -54,6 +54,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 
 public abstract class KraWebTestBase extends KraTestBase {
     private static final Logger LOG = Logger.getLogger(KraWebTestBase.class);
@@ -141,7 +142,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected HtmlPage clickOn(HtmlPage page, String id, String nextPageTitle) throws IOException {
         HtmlElement element = getElement(page, id);
-        assertTrue(element != null);
+        assertTrue(id +" not found",element != null);
         assertTrue(element instanceof ClickableElement);
         
         return clickOn((ClickableElement) element, nextPageTitle);
@@ -158,7 +159,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the next web page after clicking on the HTML element.
      * @throws IOException
      */
-    protected HtmlPage clickOn(HtmlElement element) throws IOException {
+    protected HtmlPage clickOn(ClickableElement element) throws IOException {
         return clickOn(element, null);
     }
     
@@ -482,6 +483,10 @@ public abstract class KraWebTestBase extends KraTestBase {
                 assertTrue("Invalid checkbox value", false);
             }
         }
+        else if (element instanceof HtmlFileInput) {
+            HtmlFileInput fileInputField = (HtmlFileInput) element;
+            fileInputField.setValueAttribute(fieldValue);
+        } 
         else {
             assertTrue("Unknown control field", false);
         }
@@ -506,7 +511,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         String fieldValue = null;
         
         HtmlElement element = getElement(page, fieldId);
-        assertTrue(element != null);
+        assertTrue(fieldId +" not found",element != null);
         
         if (element instanceof HtmlTextInput) {
             HtmlTextInput textField = (HtmlTextInput) element;
