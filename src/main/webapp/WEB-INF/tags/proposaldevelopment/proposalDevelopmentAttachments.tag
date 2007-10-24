@@ -98,8 +98,8 @@
 			<c:set var="narrType" value="${narrativeAttachment.narrativeType.description}"/>
 			<c:set var="narrStatus" value="${narrativeAttachment.narrativeStatus.description}"/>
 			<kul:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}">
-				<div class="tab-container" align="center">
-					<table cellpadding=0 cellspacing=0 summary="">
+				<div class="innerTab-container" align="left">
+					<table class=tab cellpadding=0 cellspacing=0 summary="">
 			          	<tr>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" skipHelpUrl="true" /></div></th>
 			                <td align="left" valign="middle">
@@ -107,13 +107,11 @@
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" /></div></th>
 			                <td align="left" valign="middle">
-			                
 			                <c:if test="${!empty narrativeAttachment.fileName}">
 				                <div id="replaceDiv${status.index}" style="display:block;">
 				                <kul:htmlControlAttribute property="document.narratives[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
-				                <%--<html:link onclick="javascript: window.open(extractUrl()+'/${action}.do?methodToCall=downloadProposalAttachment&line=${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>--%>
-				                <html:link onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
-				                <html:link onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">replace</html:link>
+				                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
+				                <html:link linkName="replaceProposalAttachment.line${status.index}" onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.replaceProposalAttachment.line${status.index}">replace</html:link>
 				                </div>
 				                <div id="fileDiv${status.index}" valign="middle" style="display:none;">
 				                	<html:file property="document.narratives[${status.index}].narrativeFile" />
@@ -177,6 +175,7 @@
 			          </table>
 			       </div>
 			     </kul:innerTab>
+			     <%--</kul:subtab>--%>
 			   </c:if>
         	</c:forEach> 
         	</div>

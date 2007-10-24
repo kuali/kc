@@ -49,13 +49,12 @@
 <c:if test="${! empty tabItemCount}">
   <c:set var="tabTitle" value="${tabTitle} (${tabItemCount})" />
 </c:if>
-
-              <div class="tab-subhead1">
-               <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                 <h2><html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle" />&nbsp;${tabTitle}</h2>
+              <div class="innerTab-head">
+               <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">ccc
+                 <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle" />&nbsp;${tabTitle}
                </c:if>
                <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                 <h2><html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle"/>&nbsp;${tabTitle}</h2>
+                 <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle"/>&nbsp;${tabTitle}
                </c:if>
               </div>
 
