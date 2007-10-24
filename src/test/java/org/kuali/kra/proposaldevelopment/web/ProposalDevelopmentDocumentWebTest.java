@@ -522,7 +522,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
                 SUBMIT_INPUT_BY_NAME);
         assertTrue(abstractAttachmentPage.asText().contains("Document was successfully saved"));
         // really is in abstracts & attachments page
-        assertTrue(abstractAttachmentPage.asText().contains("Institutional Attachments Institutional Attachments &nbsp Timestamp Author"));
+        assertTrue(abstractAttachmentPage.asText().contains("Institutional Attachments Add Institutional Attachments &nbsp Timestamp Author"));
         HtmlForm form1 = (HtmlForm) abstractAttachmentPage.getForms().get(0);
         //webClient.setJavaScriptEnabled(false);
         String fileName=getFileName();
