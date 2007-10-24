@@ -31,7 +31,6 @@
           	    <th><div align="left">&nbsp</div></th> 
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" skipHelpUrl="true" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.fileName}" skipHelpUrl="true" noColon="true" /></div></th>
@@ -43,27 +42,24 @@
 					<c:out value="Add:" />
 				</th>
 
-                <td align="left" valign="middle">                
+                <td class="infoline">                
                 	<kul:htmlControlAttribute property="newInstitute.updateTimestamp" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
 				</td>
-                <td>
+                <td class="infoline">
                 	<kul:htmlControlAttribute property="newInstitute.updateUser" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
                 </td>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="newInstitute.moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
-				</td>
-                <td>                	
+                <td class="infoline">                	
                 	<kul:htmlControlAttribute property="newInstitute.institutionalAttachmentTypeCode" attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}" />
 				</td>
-                <td align="left" valign="middle">
+                <td class="infoline">
                 	<kul:htmlControlAttribute property="newInstitute.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
                     <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 				</td>
                 
-                <td align="left" valign="middle">
+                <td class="infoline">
                 	<html:file property="newInstitute.narrativeFile" />
                 </td>
-				<td>
+				<td class="infoline">
 					<div align=center>
 						<html:image property="methodToCall.addInstitutionalAttachment.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
@@ -77,27 +73,24 @@
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
-	                <td align="left" valign="middle">
+	                <td>
                 	    <kul:htmlControlAttribute property="document.narratives[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
 					</td>
 	                <td>
                 	    <kul:htmlControlAttribute property="document.narratives[${status.index}].updateUser" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
 	                </td>
-	                <td>
-                	    <input type="hidden" name="document.narratives[${status.index}].moduleStatusCode" value="${instituteAttachment.moduleStatusCode}" />
-                        ${instituteAttachment.narrativeStatus.description}	                </td>
 	                <td>                	
                 	    <input type="hidden" name="document.narratives[${status.index}].institutionalAttachmentTypeCode" value="${instituteAttachment.institutionalAttachmentTypeCode}" />
                          ${instituteAttachment.narrativeType.description}	                </td>
                 	    <!-- <kul:htmlControlAttribute property="document.narratives[${status.index}].narrativeType.description" readOnly="true" attributeEntry="${narrativeAttributes.narrativeType.description}" /> -->
 					</td>
-	                <td align="left" valign="middle">
+	                <td>
 	                	<kul:htmlControlAttribute property="document.narratives[${status.index}].moduleTitle" readOnly="true" attributeEntry="${narrativeAttributes.moduleTitle}" />
 					</td>
-	                <td align="left" valign="middle">
+	                <td>
 	                    <kul:htmlControlAttribute property="document.narratives[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 	                </td>
-	                <td align="left" valign="middle">
+	                <td>
 					<div align=center>
 						<html:image property="methodToCall.viewInstitutionalAttachment.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
