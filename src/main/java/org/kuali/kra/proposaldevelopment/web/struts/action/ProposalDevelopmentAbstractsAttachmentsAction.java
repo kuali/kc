@@ -531,6 +531,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument propDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         propDoc.setNewNarrative(proposalDevelopmentForm.getNewInstitute());
         propDoc.getNewNarrative().setNarrativeTypeCode(propDoc.getNewNarrative().getInstitutionalAttachmentTypeCode());
+        propDoc.getNewNarrative().setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         proposalDevelopmentForm.setNewInstitute(new Narrative());
         return addProposalAttachment(mapping, form, request, response);
     }
