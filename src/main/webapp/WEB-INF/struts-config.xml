@@ -68,8 +68,8 @@
 
     </action-mappings>
 
-    <!-- <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" /> -->
-    <controller processorClass="org.kuali.kra.web.struts.KraRequestProcessor" />
+    <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
+    <!-- <controller processorClass="org.kuali.kra.web.struts.KraRequestProcessor" />  -->
     <message-resources parameter="ApplicationResources" />
 
     <plug-in className="org.kuali.core.web.struts.pojo.PojoPlugin" />
