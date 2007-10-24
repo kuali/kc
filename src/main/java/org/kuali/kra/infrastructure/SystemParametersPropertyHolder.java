@@ -16,10 +16,7 @@
 package org.kuali.kra.infrastructure;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.apache.commons.lang.StringUtils;
@@ -28,13 +25,11 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.exceptions.ApplicationParameterException;
 
-import static org.kuali.core.util.ObjectUtils.deepCopy;
-
 /**
  * Access financial system parameters like they were a map
  *
- * @author $Author: bghutchi $
- * @version $Revision: 1.7 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.8 $
  */
 public class SystemParametersPropertyHolder extends HashMap {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SystemParametersPropertyHolder.class);
@@ -113,13 +108,13 @@ public class SystemParametersPropertyHolder extends HashMap {
                 retval = new PropertyUtilsBean().describe(getParameter(getParameterNamespaceCode(), getParameterDetailTypeCode(), key.toString()));
             }
             catch (InvocationTargetException e) {
-                throw new ApplicationParameterException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode(), key.toString(), " cannot be described as a map");
+                throw new RuntimeException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode() + key.toString() + " cannot be described as a map");
             }
             catch (IllegalAccessException e) {
-                throw new ApplicationParameterException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode(), key.toString(), " cannot be described as a map");
+                throw new RuntimeException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode() + key.toString() + " cannot be described as a map");
             }
             catch (NoSuchMethodException e) {
-                throw new ApplicationParameterException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode(), key.toString(), " cannot be described as a map");
+                throw new RuntimeException(getParameterNamespaceCode() + ", " + getParameterDetailTypeCode() + key.toString() + " cannot be described as a map");
             }
 
             super.put(key, retval);
@@ -201,9 +196,9 @@ public class SystemParametersPropertyHolder extends HashMap {
         LOG.debug("getApplicationParameter() started");
 
         Parameter retval = getParameters(parameterNamespaceCode, parameterDetailTypeCode, parameter);
-        if (retval == null) {
-            throw new ApplicationParameterException(parameterNamespaceCode + ", " + parameterDetailTypeCode, parameter, "not found");
-        }
+//        if (retval == null) {
+//            throw new ApplicationParameterException(parameterNamespaceCode + ", " + parameterDetailTypeCode, parameter, "not found");
+//        }
         return retval;
     }
 }

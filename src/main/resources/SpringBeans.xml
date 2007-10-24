@@ -31,12 +31,22 @@
 		<property name="username" value="${datasource.username}" />
 		<property name="password" value="${datasource.password}" />
 	</bean>
+	
+	<bean id="kraRootResourceLoader" class="org.kuali.core.workflow.KFSResourceLoader">
+		<!-- Define service names that are overridable -->
+		<property name="overridableServices">
+			<set>
+				<value>enWebAuthenticationService</value>
+			</set>
+		</property>
+	</bean>	
 
 	<bean id="rice" class="org.kuali.rice.config.RiceConfigurer">
 		<property name="dataSource" ref="dataSource" />
 		<property name="transactionManager" ref="jotm" />
 		<property name="userTransaction" ref="jotm" />
 		<property name="rootConfig" ref="config" />
+		<property name="rootResourceLoader" ref="kraRootResourceLoader" />
 		<property name="messageEntity" value="KRA" />
 		<property name="modules">
 			<list>
@@ -70,6 +80,10 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+	</bean>
+	
+	<bean id="webAuthenticationService" class="org.kuali.core.service.impl.WebAuthenticationServiceCas">
+		<property name="validatePassword" value="false" />
 	</bean>
 	<!--  DWR -->
 	<!--
