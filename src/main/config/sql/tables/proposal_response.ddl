@@ -1,6 +1,6 @@
 create table proposal_response 
 (
-  proposal_response_code  number (3) constraint proposal_response_n1 not null,
+  proposal_response_code  varchar2 (3) constraint proposal_response_n1 not null,
   description         varchar2 (200) constraint proposal_response_n2 not null,
   update_timestamp    date constraint proposal_response_n3 not null,
   update_user         varchar2 (8)  constraint proposal_response_n4 not null,

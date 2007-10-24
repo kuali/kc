@@ -403,14 +403,14 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
 
     public Map getCreditSplitTotals() {
-        Map<String, Map<Integer,KualiDecimal>> retval = new HashMap<String,Map<Integer,KualiDecimal>>();
+        Map<String, Map<String,KualiDecimal>> retval = new HashMap<String,Map<String,KualiDecimal>>();
         List<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
         
         for (ProposalPerson investigator : getProposalDevelopmentDocument().getInvestigators()) {
-            Map<Integer,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
+            Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
 
             if (creditTypeTotals == null) {
-                creditTypeTotals = new HashMap<Integer,KualiDecimal>();
+                creditTypeTotals = new HashMap<String,KualiDecimal>();
                 retval.put(investigator.getFullName(), creditTypeTotals);
             }
 

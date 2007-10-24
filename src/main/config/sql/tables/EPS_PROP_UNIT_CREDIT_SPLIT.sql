@@ -1,9 +1,9 @@
 #
-# $Id: EPS_PROP_UNIT_CREDIT_SPLIT.sql,v 1.3 2007-09-27 17:52:16 lprzybyl Exp $
+# $Id: EPS_PROP_UNIT_CREDIT_SPLIT.sql,v 1.4 2007-10-24 19:33:16 rmancher Exp $
 #
  CREATE TABLE EPS_PROP_UNIT_CREDIT_SPLIT (
     PROPOSAL_NUMBER              NUMBER(12)   CONSTRAINT EPS_PROP_UNIT_CREDIT_SPLIT_N1 not null,
-    INV_CREDIT_TYPE_CODE         NUMBER(3)    constraint EPS_PROP_UNIT_CREDIT_SPLIT_N3 not null,
+    INV_CREDIT_TYPE_CODE         VARCHAR2(3)    constraint EPS_PROP_UNIT_CREDIT_SPLIT_N3 not null,
     PROP_PERSON_NUMBER           NUMBER(12)   constraint EPS_PROP_UNIT_CREDIT_SPLIT_N4 NOT NULL,
     UNIT_NUMBER                  VARCHAR2(8)    constraint EPS_PROP_UNIT_CREDIT_SPLIT_N5 not null,
     CREDIT                       NUMBER(5,2),
