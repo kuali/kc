@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.kra.infrastructure.Constants.NEW_PROPOSAL_PERSON_PROPERTY_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayOutputStream;
@@ -61,6 +62,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.event.AddAbstractEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.KNSServiceLocator;
@@ -69,8 +71,6 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAbstractsAttachmentsAction.class);
    
     private static final String CONFIRM_DELETE_ABSTRACT_KEY = "confirmDeleteAbstract";
-    private static final String QUESTION_DELETE_ABSTRACT_CONFIRMATION = "document.question.deleteAbstract.text";
-    private static final String ABSTRACT_ERROR_SELECT_KEY = "document.proposalAbstracts.select";
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -303,7 +303,6 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if (updateUser.length() > 8) {
             updateUser = updateUser.substring(0, 8);
         }
-        System.out.println("**** DON: update user timestamp");
         bo.setUpdateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         bo.setUpdateUser(updateUser);
     }
@@ -332,12 +331,19 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         // to select an abstract type.
         
         if (proposalAbstract.getAbstractType() == null) {
-            GlobalVariables.getErrorMap().putError(ABSTRACT_ERROR_SELECT_KEY, 
-                                                   KeyConstants.ERROR_SELECT_ABSTRACT_TYPE);
+            GlobalVariables.getErrorMap().putError(Constants.ABSTRACTS_PROPERTY_KEY, 
+                                                   KeyConstants.ERROR_ABSTRACT_TYPE_NOT_SELECTED);
         } else {
-            updateUserTimestamp(proposalAbstract);
-            proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalAbstracts().add(proposalAbstract);
-            proposalDevelopmentForm.setNewProposalAbstract(new ProposalAbstract());
+            // check any business rules
+            boolean rulePassed = getKualiRuleService().applyRules(new AddAbstractEvent(proposalDevelopmentForm.getProposalDevelopmentDocument(), proposalAbstract));
+                    
+            // if the rule evaluation passed, let's add it
+            if (rulePassed) {
+                updateUserTimestamp(proposalAbstract);
+                proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalAbstracts().add(proposalAbstract);
+                proposalDevelopmentForm.setNewProposalAbstract(new ProposalAbstract());
+        
+            }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -397,7 +403,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     private String buildDeleteAbstractConfirmationQuestion(String abstractDescription) throws Exception {
         KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
-        return StringUtils.replace(kualiConfiguration.getPropertyString(QUESTION_DELETE_ABSTRACT_CONFIRMATION), "{0}", abstractDescription);
+        return StringUtils.replace(kualiConfiguration.getPropertyString(KeyConstants.QUESTION_DELETE_ABSTRACT_CONFIRMATION), "{0}", abstractDescription);
     }
 
     private BusinessObjectService getBusinessObjectService() {
