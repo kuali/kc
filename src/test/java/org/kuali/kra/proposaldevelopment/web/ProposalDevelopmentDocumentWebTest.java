@@ -80,7 +80,7 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         documentService = null;
     }
 
-        
+       
     @Test
     public void testProposalTypeLink() throws Exception {
         final WebClient webClient = new WebClient();
@@ -512,50 +512,51 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         final WebClient webClient = new WebClient();
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
 
-        final HtmlPage page3 = login(webClient, url,
+        final HtmlPage pageAfterLogin = login(webClient, url,
                 "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
-        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
+        assertEquals("Kuali :: Proposal Development Document", pageAfterLogin.getTitleText());
 
-        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
+        final HtmlForm kualiForm = (HtmlForm) pageAfterLogin.getForms().get(0);
         setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
-        final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
+        final HtmlPage abstractAttachmentPage = clickButton(pageAfterLogin, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
                 SUBMIT_INPUT_BY_NAME);
-        assertTrue(page4.asText().contains("Document was successfully saved"));
+        assertTrue(abstractAttachmentPage.asText().contains("Document was successfully saved"));
         // really is in abstracts & attachments page
-        assertTrue(page4.asText().contains("Institutional Attachments Institutional Attachments &nbsp Timestamp Author"));
-        HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
+        assertTrue(abstractAttachmentPage.asText().contains("Institutional Attachments Institutional Attachments &nbsp Timestamp Author"));
+        HtmlForm form1 = (HtmlForm) abstractAttachmentPage.getForms().get(0);
         //webClient.setJavaScriptEnabled(false);
         String fileName=getFileName();
-        final HtmlPage page5 =setInstituteAttachmentLine(page4,form1,fileName+";59");
-        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
-        assertTrue(page5.asText().contains("Institutional Attachment 1 load_abstract_type.sql"));
-        // try to view file - does not work
-        //final HtmlPage page6 = clickButton(page5, form2, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
-        //final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
+        final HtmlPage pageAfterAddAttachment =setInstituteAttachmentLine(abstractAttachmentPage,form1,fileName+";59");
+        final HtmlForm form2 = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
+        assertTrue(pageAfterAddAttachment.asText().contains("Institutional Attachment 1 workflow-workspace.html"));
 
         // multiple attachment is not allowed for this type
 
-        final HtmlPage page6 =setInstituteAttachmentLine(page5,form2,fileName+";59");
-        final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
-        assertTrue(page6.asText().contains("Institutional Attachments Errors found in this Section: Institute attachment with Attachment Type 'Institutional Attachment 1' already exists"));
+        final HtmlPage pageWithSameAttachmentType =setInstituteAttachmentLine(pageAfterAddAttachment,form2,fileName+";59");
+        final HtmlForm form3 = (HtmlForm) pageWithSameAttachmentType.getForms().get(0);
+        assertTrue(pageWithSameAttachmentType.asText().contains("Institutional Attachments Errors found in this Section: Institute attachment with Attachment Type 'Institutional Attachment 1' already exists"));
 
         // delete attachment
-        final HtmlPage page7 = clickButton(page6, form3, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
-        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
-        assertFalse(page7.asText().contains("Institutional Attachment 1 load_abstract_type.sql"));
+        final HtmlPage pageAfterDeleteAttachment = clickButton(pageWithSameAttachmentType, form3, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlForm form4 = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
+        assertFalse(pageAfterDeleteAttachment.asText().contains("Institutional Attachment 1 workflow-workspace.html"));
 
         // add line back
-        final HtmlPage page8 =setInstituteAttachmentLine(page7,form4,fileName+";59");
-        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
-        assertTrue(page8.asText().contains("Institutional Attachment 1 load_abstract_type.sql"));
+        final HtmlPage pageWithAttachment =setInstituteAttachmentLine(pageAfterDeleteAttachment,form4,fileName+";59");
+        final HtmlForm form5 = (HtmlForm) pageWithAttachment.getForms().get(0);
+        assertTrue(pageWithAttachment.asText().contains("Institutional Attachment 1 workflow-workspace.html"));
 
         // save
-        final HtmlPage pageSave = clickButton(page8, form5, "methodToCall.save", IMAGE_INPUT);
+        final HtmlPage pageSave = clickButton(pageWithAttachment, form5, "methodToCall.save", IMAGE_INPUT);
         final HtmlForm formAfterSave = (HtmlForm) pageSave.getForms().get(0);
 
         assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
         assertTrue(pageSave.asText().contains("Document was successfully saved"));
-        assertTrue(pageSave.asText().contains("Institutional Attachment 1"));
+        assertTrue(pageSave.asText().contains("Institutional Attachment 1 workflow-workspace.html"));
+
+        // try to view file - only work for 'text/html' file 
+        final HtmlPage attachmentFilePage = clickButton(pageSave, formAfterSave, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
+        assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
 
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
@@ -565,14 +566,10 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         narrative.refreshReferenceObject("narrativeAttachmentList");
         NarrativeAttachment narrativeAttachment=(NarrativeAttachment)narrative.getNarrativeAttachmentList().get(0);
         assertNotNull(narrativeAttachment);
-        assertEquals("load_abstract_type.sql", narrativeAttachment.getFileName());
-        assertEquals("application/octet-stream", narrativeAttachment.getContentType());
-
-
+        assertEquals("workflow-workspace.html", narrativeAttachment.getFileName());
+        assertEquals("text/html", narrativeAttachment.getContentType());
 
     }
-
-
 
     /**
      *
@@ -584,49 +581,52 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         final WebClient webClient = new WebClient();
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
 
-        final HtmlPage page3 = login(webClient, url,
+        final HtmlPage pageAfterLogin = login(webClient, url,
                 "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
-        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
+        assertEquals("Kuali :: Proposal Development Document", pageAfterLogin.getTitleText());
 
-        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
+        final HtmlForm kualiForm = (HtmlForm) pageAfterLogin.getForms().get(0);
         setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", "IN-PERS");
         // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up
 
 
-        final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
+        final HtmlPage abstractAttachmentPage = clickButton(pageAfterLogin, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
                 SUBMIT_INPUT_BY_NAME);
-        final HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
-        assertTrue(page4.asText().contains("Document was successfully saved"));
-        assertTrue(page4.asText().contains("Personnel Attachments &nbsp Timestamp Author * Person"));
+        final HtmlForm form1 = (HtmlForm) abstractAttachmentPage.getForms().get(0);
+        assertTrue(abstractAttachmentPage.asText().contains("Document was successfully saved"));
+        assertTrue(abstractAttachmentPage.asText().contains("Personnel Attachments &nbsp Timestamp Author * Person"));
 
         // add new personnel attachment line
-        // how to find a file name that is both in local and deployment environments ?
-        // Alternative is to try two full path, one for pc and one for unix ? don't use getFullePathFileName
-        // try local
-        //String fileName=getFullPathFileName("load_abstract_type.sql",new File("c:/java/projects/kra_project"));
+        //String fileName="C:/java/projects/kra_project/src/main/webapp/en/htdocs/workflow-workspace.html";
         String fileName=getFileName();
-        final HtmlPage page5 =setPersonnelAttachmentLine(page4,form1,"3;1;desc;"+fileName);
-        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
-        assertTrue(page5.asText().contains("Durkin,Terry Budget Details"));
+        final HtmlPage pageAfterAddAttachment =setPersonnelAttachmentLine(abstractAttachmentPage,form1,"3;1;desc;"+fileName);
+        final HtmlForm form2 = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
+        assertTrue(pageAfterAddAttachment.asText().contains("Durkin,Terry Budget Details"));
 
 
         // delete attachment
-        final HtmlPage page7 = clickButton(page5, form2, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
-        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
-        assertFalse(page7.asText().contains("Durkin,Terry Budget Details"));
+        final HtmlPage pageAfterDeleteAttachment = clickButton(pageAfterAddAttachment, form2, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlForm form4 = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
+        assertFalse(pageAfterDeleteAttachment.asText().contains("Durkin,Terry Budget Details"));
 
         // add line back
-        final HtmlPage page8 =setPersonnelAttachmentLine(page7,form4,"3;1;desc;"+fileName);
-        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
-        assertTrue(page8.asText().contains("Durkin,Terry Budget Details"));
+        final HtmlPage pageWithAttachment =setPersonnelAttachmentLine(pageAfterDeleteAttachment,form4,"3;1;desc;"+fileName);
+        final HtmlForm form5 = (HtmlForm) pageWithAttachment.getForms().get(0);
+        assertTrue(pageWithAttachment.asText().contains("Durkin,Terry Budget Details"));
 
         // save
-        final HtmlPage pageSave = clickButton(page8, form5, "methodToCall.save", IMAGE_INPUT);
+        final HtmlPage pageSave = clickButton(pageWithAttachment, form5, "methodToCall.save", IMAGE_INPUT);
         final HtmlForm formAfterSave = (HtmlForm) pageSave.getForms().get(0);
 
         assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
         assertTrue(pageSave.asText().contains("Document was successfully saved"));
         assertTrue(pageSave.asText().contains("Durkin,Terry Budget Details"));
+        
+        // try to view file - only work for html file now.  The otehr content type will cause castexception - unexpectedpage
+        final HtmlPage attachmentFilePage = clickButton(pageSave, formAfterSave, "methodToCall.viewPersonnelAttachment.line0.anchor", IMAGE_INPUT);
+        assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
+
+        
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
@@ -636,8 +636,8 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
         personBio.refreshReferenceObject("personnelAttachmentList");
         ProposalPersonBiographyAttachment personnelAttachment=(ProposalPersonBiographyAttachment)personBio.getPersonnelAttachmentList().get(0);
         assertNotNull(personnelAttachment);
-        assertEquals("load_abstract_type.sql", personnelAttachment.getFileName());
-        assertEquals("application/octet-stream", personnelAttachment.getContentType());
+        assertEquals("workflow-workspace.html", personnelAttachment.getFileName());
+        assertEquals("text/html", personnelAttachment.getContentType());
 
     }
 
@@ -922,8 +922,8 @@ public class ProposalDevelopmentDocumentWebTest extends KraTestBase {
      */
     private static String getFileName() {
         String userDir = System.getProperty("user.dir");
-        String path = userDir + "/src/test/resources/sql/dml/";
-        return path+"load_abstract_type.sql";
+        String path = userDir + "/src/main/webapp/en/htdocs/";
+        return path+"workflow-workspace.html";
     }
 
     /**
