@@ -23,10 +23,10 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: InvestigatorCreditType.java,v 1.1 2007-09-26 14:08:37 lprzybyl Exp $
+ * $Id: InvestigatorCreditType.java,v 1.2 2007-10-24 19:29:18 rmancher Exp $
  */
 public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
-    private Integer invCreditTypeCode;
+    private String invCreditTypeCode;
     private Boolean addsToHundred;
     private String description;
 
@@ -80,7 +80,7 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
      *
      * @return the value of invCreditTypeCode
      */
-    public Integer getInvCreditTypeCode() {
+    public String getInvCreditTypeCode() {
         return invCreditTypeCode;
     }
 
@@ -89,7 +89,7 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
      *
      * @param argInvCreditTypeCode Value to assign to this.invCreditTypeCode
      */
-    public void setInvCreditTypeCode(Integer argInvCreditTypeCode) {
+    public void setInvCreditTypeCode(String argInvCreditTypeCode) {
         invCreditTypeCode = argInvCreditTypeCode;
     }
 

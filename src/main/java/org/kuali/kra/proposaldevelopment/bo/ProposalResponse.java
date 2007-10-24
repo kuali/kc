@@ -21,12 +21,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * Business object representation of Proposal Response
- * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.3 $
  */
 public class ProposalResponse extends KraPersistableBusinessObjectBase {
 	
-	private Integer proposalResponseCode;
+	private String proposalResponseCode;
 	private String description;
 	
 	public String getDescription() {
@@ -35,10 +35,10 @@ public class ProposalResponse extends KraPersistableBusinessObjectBase {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Integer getProposalResponseCode() {
+	public String getProposalResponseCode() {
 		return proposalResponseCode;
 	}
-	public void setProposalResponseCode(Integer proposalResponseCode) {
+	public void setProposalResponseCode(String proposalResponseCode) {
 		this.proposalResponseCode = proposalResponseCode;
 	}
 
