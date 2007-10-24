@@ -8,3 +8,20 @@ width:200px;
 select.fixed-size-300-select {
 width:300px;
 }
+div.innerTab-head{
+	background-color:#939393;
+	border-bottom:1px solid #B2B2B2;
+	border-left:0px solid #999999;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-size: 100%;
+	height:18px;
+	padding-left:10px;
+	text-align:left;
+}
+div.innerTab-container{	
+	background-color: #e4e4e4;
+	border-left-width: 0px;
+	background-image: url("../images/tab-sideright1.gif");
+	background-repeat: repeat-y;
+}
