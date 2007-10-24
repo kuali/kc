@@ -110,7 +110,7 @@
 	                </td>
 	                <td>
 					<div align=center>
-						<html:image property="methodToCall.viewAttachmentFile.line${status.index}.anchor${currentTabIndex}"
+						<html:image property="methodToCall.viewPersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
 									onclick="javascript: openNewWindow('proposalDevelopmentAbstractsAttachments','viewPersonnelAttachment',${status.index}); return false" />
 						<html:image property="methodToCall.deletePersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
