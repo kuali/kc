@@ -21,19 +21,15 @@
    <tr>
     <td nowrap>Awards </td>
     <td>
-      <!-- 
-      <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
-      <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-      -->
+      <img src="static/images/add.png" class="opaque" alt="add" width="16" height="16" border="0" align="absmiddle">
+      <img src="static/images/searchicon.gif" class="opaque" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
     <td nowrap>Subcontracts</td>
     <td>
-      <!-- 
-      <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
-      <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-      -->
+      <img src="static/images/add.png" class="opaque" alt="add" width="16" height="16" border="0" align="absmiddle">
+      <img src="static/images/searchicon.gif" class="opaque" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
 </table>
