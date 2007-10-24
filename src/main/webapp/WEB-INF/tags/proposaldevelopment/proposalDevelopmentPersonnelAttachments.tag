@@ -87,10 +87,6 @@
                 	    <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].updateUser" readOnly="true" attributeEntry="${propPersonBioAttributes.updateUser}" />
                 	    ${propPersonBio.authorPersonName}
 	                </td>
-	                <td>   
-	                    ${propPersonBio.propPerDocType.description}           	
-	                    <!-- <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].propPerDocType.description" attributeEntry="${propPersonBioAttributes.propPerDocType.description}" /> -->  
-					</td>
 	                <td>
         			    <input type="hidden" name="document.propPersonBios[${status.index}].proposalPersonNumber" value="${propPersonBio.proposalPersonNumber}" /> 
 	                	<!--<kul:htmlControlAttribute property="document.propPersonBios[${status.index}].personId" attributeEntry="${propPersonBioAttributes.personId}" />--> 
@@ -102,6 +98,10 @@
         				   </c:if>
 						</c:forEach>
 	                </td>
+	                <td>   
+	                    ${propPersonBio.propPerDocType.description}           	
+	                    <!-- <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].propPerDocType.description" attributeEntry="${propPersonBioAttributes.propPerDocType.description}" /> -->  
+					</td>
 	                <td>
 	                	<kul:htmlControlAttribute property="document.propPersonBios[${status.index}].description" readOnly="true" attributeEntry="${propPersonBioAttributes.description}" />
 					</td>
