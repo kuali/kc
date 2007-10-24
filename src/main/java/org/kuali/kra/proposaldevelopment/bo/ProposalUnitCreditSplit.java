@@ -25,14 +25,14 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Class representation of the Proposal Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
  *
- * @author $Id: ProposalUnitCreditSplit.java,v 1.3 2007-10-21 11:51:01 lprzybyl Exp $
- * @version $Revision: 1.3 $
+ * @author $Id: ProposalUnitCreditSplit.java,v 1.4 2007-10-24 19:29:59 rmancher Exp $
+ * @version $Revision: 1.4 $
  */
 public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit {
     private Integer proposalNumber;
     private Integer proposalPersonNumber;
     private String unitNumber;
-    private Integer invCreditTypeCode;
+    private String invCreditTypeCode;
     private KualiDecimal credit;
     private Unit unit;
     private InvestigatorCreditType invCreditType;
@@ -115,7 +115,7 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
      *
      * @return the value of invCreditTypeCode
      */
-    public Integer getInvCreditTypeCode() {
+    public String getInvCreditTypeCode() {
         return this.invCreditTypeCode;
     }
 
@@ -124,7 +124,7 @@ public final class ProposalUnitCreditSplit extends KraPersistableBusinessObjectB
      *
      * @param argInvCreditTypeCode Value to assign to this.invCreditTypeCode
      */
-    public void setInvCreditTypeCode(Integer argInvCreditTypeCode) {
+    public void setInvCreditTypeCode(String argInvCreditTypeCode) {
         this.invCreditTypeCode = argInvCreditTypeCode;
     }
 

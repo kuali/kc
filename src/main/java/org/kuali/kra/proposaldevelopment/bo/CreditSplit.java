@@ -20,8 +20,8 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Used to describe a <code>{@link BusinessObject}</code> that represents a credit split. 
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.1 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.2 $
  */
 public interface CreditSplit {
     /**
@@ -36,12 +36,12 @@ public interface CreditSplit {
      *
      * @return the value of invCreditTypeCode
      */
-    public Integer getInvCreditTypeCode();
+    public String getInvCreditTypeCode();
 
     /**
      * Sets the value of invCreditTypeCode
      *
      * @param argInvCreditTypeCode Value to assign to this.invCreditTypeCode
      */
-    public void setInvCreditTypeCode(Integer argInvCreditTypeCode);
+    public void setInvCreditTypeCode(String argInvCreditTypeCode);
 }
