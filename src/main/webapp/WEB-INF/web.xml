@@ -74,7 +74,7 @@
 
 	<!-- ******************* END CAS Context Parameters ********************* -->
 
-	<!--
+	
 	<filter>
 		<filter-name>LoginFilter</filter-name>
 		<filter-class>edu.iu.uis.eden.web.DummyLoginFilter</filter-class>
@@ -84,7 +84,7 @@
 		<filter-name>LoginFilter</filter-name>
 		<servlet-name>action</servlet-name>
 	</filter-mapping>
-	  -->
+	  
 	  
 	<filter>
         <filter-name>SessionFilter</filter-name>
@@ -106,6 +106,7 @@
 		<servlet-name>action</servlet-name>
 	</filter-mapping>
 	
+	<!-- 
 	<filter> 
 		<filter-name>cas</filter-name> 
 		<filter-class>org.kuali.core.web.filter.KualiCasFilter</filter-class> 
@@ -123,7 +124,8 @@
 		<filter-name>cas</filter-name> 
 		<servlet-name>action</servlet-name> 
 	</filter-mapping>
-
+	 -->
+	 
     <listener>
 		<listener-class>org.kuali.kra.infrastructure.KraServiceLocatorListener</listener-class>
 	</listener>
