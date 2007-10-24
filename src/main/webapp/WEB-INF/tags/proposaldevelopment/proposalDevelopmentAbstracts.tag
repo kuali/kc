@@ -22,7 +22,7 @@
 
 <kul:tab tabTitle="Abstracts" defaultOpen="false" 
          tabItemCount="${fn:length(KualiForm.document.proposalAbstracts)}" 
-         tabErrorKey="document.proposalAbstracts*">
+         tabErrorKey="document.proposalAbstracts">
          
 	<div class="tab-container" align="center">
     	<div class="h2-container">
@@ -30,7 +30,8 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
         
-        <table cellpadding="0" cellspacing="0" summary="">
+        <table id="abstracts-table" cellpadding="0" cellspacing="0" summary="">
+        <tbody>
         
         	<%-- Table headers --%>
         	
@@ -47,7 +48,7 @@
           	
             <tr> 
 				<th class="infoline">
-					<c:out value="add:" />
+					<c:out value="Add:" />
 				</th>
 				
  				<td></td>
@@ -102,8 +103,9 @@
 									      src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 				    	</div>
 				    </td>
-				<tr>	
+				</tr>	
         	</c:forEach>
+        </tbody>
         </table>
     </div> 
 </kul:tab>
