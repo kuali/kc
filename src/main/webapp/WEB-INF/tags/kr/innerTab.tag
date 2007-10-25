@@ -50,7 +50,7 @@
   <c:set var="tabTitle" value="${tabTitle} (${tabItemCount})" />
 </c:if>
               <div class="innerTab-head">
-               <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">ccc
+               <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
                  <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " align="absmiddle" />&nbsp;${tabTitle}
                </c:if>
                <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
