@@ -50,7 +50,7 @@
                 	<kul:htmlControlAttribute property="newInstitute.updateUser" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
                 </td>
                 <td class="infoline">                	
-                	<kul:htmlControlAttribute property="newInstitute.institutionalAttachmentTypeCode" attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}" />
+                	<kul:htmlControlAttribute property="newInstitute.institutionalAttachmentTypeCode" attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}"  styleClass="fixed-size-select"/>
 				</td>
                 <td class="infoline">
                 	<kul:htmlControlAttribute property="newInstitute.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
