@@ -1,12 +1,12 @@
 <%--
  Copyright 2005-2007 The Kuali Foundation.
- 
+
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.opensource.org/licenses/ecl1.php
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,10 +37,10 @@
 
 <c:choose>
     <c:when test="${(useCurrentTabIndexAsKey)}">
-        <c:set var="tabKey" value="${currentTabIndex}"/>
+        <c:set var="tabKey" value="${currentTabIndex}" scope="request"/>
     </c:when>
     <c:otherwise>
-        <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
+        <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}" scope="request"/>
     </c:otherwise>
 </c:choose>
 
@@ -94,11 +94,11 @@
             <c:if test="${not empty tabDescription}">
               <td class="tabtable1-mid1"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" align="absmiddle" height="29" width="1" />${tabDescription}</td>
       		</c:if>
-      		
+
             <c:if test="${not empty rightSideHtmlProperty and not empty rightSideHtmlAttribute}">
               <td class="tabtable1-mid1"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" align="absmiddle" height="29" width="1" /><kul:htmlControlAttribute property="${rightSideHtmlProperty}" attributeEntry="${rightSideHtmlAttribute}" /></td>
       		</c:if>
-      		
+
       		<c:if test="${not empty extraButtonSource}">
       		  <td class="tabtable1-mid1">${extraButtonSource}</td>
       		</c:if>
@@ -123,14 +123,14 @@
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
 <div style="display: none;" id="tab-${tabKey}-div">
 </c:if>
-  
- 
-      
+
+
+
         <!-- display errors for this tab -->
         <c:if test="${! (empty tabErrorKey)}">
           <div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="${tabErrorKey}"/></div></div>
         </c:if>
-        
+
         <!-- comment for reference by KRA devs during KNS extraction -->
         <c:if test="${! (empty tabAuditKey)}">
         	<div class="tab-container-error"><div class="left-errmsg-tab">
@@ -139,12 +139,12 @@
 				</c:forEach>
         	</div></div>
       	</c:if>
-      	
-      
-        <!-- Before the jsp:doBody of the kul:tab tag -->            
-        <jsp:doBody/>            
+
+
+        <!-- Before the jsp:doBody of the kul:tab tag -->
+        <jsp:doBody/>
         <!-- After the jsp:doBody of the kul:tab tag -->
- 
-      
-  
-</div>         
+
+
+
+</div>
