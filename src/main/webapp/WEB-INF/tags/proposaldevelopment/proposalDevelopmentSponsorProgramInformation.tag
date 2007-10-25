@@ -49,6 +49,7 @@
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.primeSponsorCode" attributeEntry="${proposalDevelopmentAttributes.primeSponsorCode}"  onblur="loadSponsorName('document.primeSponsorCode', 'primeSponsorName');" />
                 	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.primeSponsorCode,sponsorName:primeSponsorName" anchor="${tabKey}"/>
+                	<kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.primeSponsorCode:sponsorCode" anchor="${tabKey}"/>
                 	<br />
                 	<div id="primeSponsorName.div" class="fineprint">
                 		${KualiForm.primeSponsorName}&nbsp;
