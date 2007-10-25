@@ -69,19 +69,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         // changing this to '0' so it doesn't validate reference objects within a list
         KNSServiceLocator.getDictionaryValidationService().validateDocument(proposalDevelopmentDocument);
-        if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getPropLocations().size()==0 ||
-                (proposalDevelopmentDocument.getPropLocations().size()==1 && ((ProposalLocation)(proposalDevelopmentDocument.getPropLocations().get(0))).getLocationSequenceNumber()==null))) {
-            // should have one just added by form
-            // this is a business rule, so put it here.  If needed we can always create a new prop location if the last one is deleted in deletelocation action ?
-            GlobalVariables.getErrorMap().addToErrorPath("newPropLocation");
-            GlobalVariables.getErrorMap().putError("location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
-            GlobalVariables.getErrorMap().removeFromErrorPath("newPropLocation");
-        }
+        valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
         valid &= processSponsorProgramInformationBusinessRule(proposalDevelopmentDocument);
         valid &= processPersonnelAttachmentBusinessRule(proposalDevelopmentDocument);
         valid &= processInstitutionalAttachmentBusinessRule(proposalDevelopmentDocument);
-
+        
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
         return valid;
@@ -90,7 +83,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     /**
      * This method validates 'Proposal Special review'. It checks
      * validSpecialReviewApproval table, and if there is a match, then checks
-     * protocalnumberflag, applicatedateflag, and approvaldataflag.
+     * protocalnumberflag, applicationdateflag, and approvaldataflag.
      *
      * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
      * @return valid Does the validation pass
@@ -160,6 +153,29 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return valid;
     }
 
+    /**
+     * 
+     * Validate organization/location rule. specifically, at least one location is required.
+     * @param proposalDevelopmentDocument
+     * @return
+     */
+    private boolean processOrganizationLocationBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        boolean valid = true;
+
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+
+        if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getPropLocations().size()==0 ||
+                (proposalDevelopmentDocument.getPropLocations().size()==1 && ((ProposalLocation)(proposalDevelopmentDocument.getPropLocations().get(0))).getLocationSequenceNumber()==null))) {
+            errorMap.addToErrorPath("newPropLocation");
+            errorMap.putError("location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
+            errorMap.removeFromErrorPath("newPropLocation");
+            valid = false;
+        }
+        return valid;
+
+    }
+    
+    
     /**
      * This method validates 'Personnel Attachment'. It checks the following :
      * If attachment type and description are not empty, then filename is a required field.
