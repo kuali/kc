@@ -159,7 +159,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the next web page after clicking on the HTML element.
      * @throws IOException
      */
-    protected HtmlPage clickOn(ClickableElement element) throws IOException {
+    protected HtmlPage clickOn(HtmlElement element) throws IOException {
         return clickOn(element, null);
     }
     
