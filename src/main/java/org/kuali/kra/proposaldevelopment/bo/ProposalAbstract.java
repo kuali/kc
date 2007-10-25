@@ -116,11 +116,19 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 	}
 
 	/**
-	 * Sets the abstract's details.
+	 * Sets the abstract's details.  Note that the details
+	 * are not allowed to be null.  Null is automatically
+	 * converted to an empty string.
+	 * 
 	 * @param abstractDetails a user-defined textual string.
 	 */
 	public void setAbstractDetails(String abstractDetails) {
-		this.abstractDetails = abstractDetails;
+	    if (abstractDetails == null) {
+	        this.abstractDetails = "";
+	    } 
+	    else {
+	        this.abstractDetails = abstractDetails;
+	    }
 	}
 
     /**
