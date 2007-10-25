@@ -15,21 +15,41 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import static org.kuali.kra.infrastructure.Constants.PROPOSAL_NARRATIVE_TYPE_GROUP;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+/**
+ * Finds the available set of supported Narrative Types.  See
+ * the method <code>getKeyValues()</code> for a full description.
+ * 
+ * @author KRADEV team
+ */
 
 public class ProposalNarrativeTypeValuesFinder extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+    /**
+     * Constructs the list of Proposal Narrative Types. The list populates
+     * from NARRATIVE_TYPE database table via the "KeyValueFinderService".
+     * Proposal narrative types are filtered out by looking at the System Parameter Value
+     * for PROPOSAL_NARRATIVE_TYPE_GROUP.
+     * 
+     * @return the list of &lt;key, value&gt; pairs of Proposal Narrative types.  The first entry
+     * is always &lt;"", "select:"&gt;.
+     * @see org.kuali.core.lookup.keyvalues.KeyValueFinderService#getKeyValues(Class,String,String,String)
+     * @see org.kuali.kra.infrastructure.Constants.PROPOSAL_NARRATIVE_TYPE_GROUP 
+     */
     public List<KeyLabelPair> getKeyValues() {
-        return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description","narrativeTypeGroup","P");
+        String proposalNarrativeTypeGroup = getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_NARRATIVE_TYPE_GROUP);
+        return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description","narrativeTypeGroup",proposalNarrativeTypeGroup);
     }
 }
