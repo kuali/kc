@@ -22,9 +22,13 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AbstractType;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 /**
  * Finds the available set of supported Abstract Types.  See
@@ -43,19 +47,62 @@ public class AbstractTypeValuesFinder extends KeyValuesBase {
      * a list which is viewed in a GUI.  As such, the first entry in the list 
      * is the generic &lt;"", "select:"&gt; option.
      * 
+     * The list is also filtered based upon the abstracts currently in the
+     * proposal development document.  Users are not allowed to create two or
+     * more abstracts with the same abstract type.  Therefore, if an abstract
+     * type is already being used, it is removed from the list.  If the document
+     * cannot be found, the entire list is returned (it is not filtered).
+     * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
      * is always &lt;"", "select:"&gt;.
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
+        ProposalDevelopmentDocument doc = getDocument();
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection abstractTypes = keyValuesService.findAll(AbstractType.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select:"));
         for (Iterator iter = abstractTypes.iterator(); iter.hasNext();) {
             AbstractType abstractType = (AbstractType) iter.next();
-            keyValues.add(new KeyLabelPair(abstractType.getAbstractTypeCode(), abstractType.getDescription()));
+            if (!hasAbstract(doc, abstractType)) {
+                keyValues.add(new KeyLabelPair(abstractType.getAbstractTypeCode(), abstractType.getDescription()));
+            }
         }
         return keyValues;
+    }
+    
+    /**
+     * Get the Proposal Development Document for the current session.  The
+     * document is within the current form.
+     * 
+     * @return the current document or null if not found
+     */
+    private ProposalDevelopmentDocument getDocument() {
+        ProposalDevelopmentDocument doc = null;
+        ProposalDevelopmentForm form = (ProposalDevelopmentForm) GlobalVariables.getKualiForm();
+        if (form != null) {
+            doc = form.getProposalDevelopmentDocument();
+        }
+        return doc;
+    }
+    
+    /**
+     * Does the document already have an abstract using the given abstract type?
+     * 
+     * @param doc the Proposal Development Document.
+     * @param abstractType the abstract type to look for.
+     * @return true if the abstract type is found; otherwise false.
+     */
+    private boolean hasAbstract(ProposalDevelopmentDocument doc, AbstractType abstractType) {
+        if (doc != null) {
+            List<ProposalAbstract> proposalAbstracts = doc.getProposalAbstracts();
+            for (ProposalAbstract proposalAbstract : proposalAbstracts) {
+                if (proposalAbstract.getAbstractTypeCode().equals(abstractType.getAbstractTypeCode())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
