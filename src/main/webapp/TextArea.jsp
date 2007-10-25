@@ -29,7 +29,7 @@
 
 %>
 
-<link href="/kra-dev/kr/css/kuali.css" rel="stylesheet" type="text/css" />
+<link href="kr/css/kuali.css" rel="stylesheet" type="text/css" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <body onload="setTextArea()">
 <div class="headerarea" id="headerarea-small">
