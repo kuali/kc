@@ -57,7 +57,7 @@
 	  			        </html:select>
                 </td>
                 <td class="infoline">                	
-                	<kul:htmlControlAttribute property="newPropPersonBio.documentTypeCode" attributeEntry="${propPersonBioAttributes.documentTypeCode}"/>
+                	<kul:htmlControlAttribute property="newPropPersonBio.documentTypeCode" attributeEntry="${propPersonBioAttributes.documentTypeCode}" styleClass="fixed-size-select"/>
 				</td>
                 <td class="infoline">
                 	<kul:htmlControlAttribute property="newPropPersonBio.description" attributeEntry="${propPersonBioAttributes.description}" />
