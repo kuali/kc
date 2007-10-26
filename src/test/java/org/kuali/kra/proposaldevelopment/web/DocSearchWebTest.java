@@ -60,7 +60,7 @@ public class DocSearchWebTest extends ProposalDevelopmentWebTestBase {
     private String saveDocument() throws WorkflowException, IOException {
         HtmlPage proposalPage = getProposalDevelopmentPage();
 
-        setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, "IN-PERS");
+        setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
         String documentNumber = getFieldValue(proposalPage, "document.documentHeader.documentNumber");
 

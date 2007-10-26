@@ -51,7 +51,8 @@ public class LeadUnitValuesFinderTest extends ValuesFinderTestBase {
     @Override
     protected void addKeyValues() {
         testKeyValues.add(new KeyLabelPair("", "select:"));
-        testKeyValues.add(new KeyLabelPair("IN-PERS", "IN-PERS - PED-EMERGENCY ROOM SERVICES"));
+        testKeyValues.add(new KeyLabelPair("000001", "000001 - University"));
+        testKeyValues.add(new KeyLabelPair("IN-CARD", "IN-CARD - CARDIOLOGY"));
         testKeyValues.add(new KeyLabelPair("BL-IIDC", "BL-IIDC - IND INST ON DISABILITY/COMMNTY"));
     }
 

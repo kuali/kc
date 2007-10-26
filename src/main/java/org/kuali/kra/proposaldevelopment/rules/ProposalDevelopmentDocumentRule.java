@@ -74,17 +74,17 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processSponsorProgramInformationBusinessRule(proposalDevelopmentDocument);
         valid &= processPersonnelAttachmentBusinessRule(proposalDevelopmentDocument);
         valid &= processInstitutionalAttachmentBusinessRule(proposalDevelopmentDocument);
-        
+
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
         return valid;
     }
 
     /**
-     * This method validates 'Proposal Special review'. It checks
+     * This method validates 'Proposal Special review'. It checks 
      * validSpecialReviewApproval table, and if there is a match, then checks
      * protocalnumberflag, applicationdateflag, and approvaldataflag.
-     *
+     * 
      * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
      * @return valid Does the validation pass
      */
@@ -164,8 +164,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         ErrorMap errorMap = GlobalVariables.getErrorMap();
 
-        if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getPropLocations().size()==0 ||
-                (proposalDevelopmentDocument.getPropLocations().size()==1 && ((ProposalLocation)(proposalDevelopmentDocument.getPropLocations().get(0))).getLocationSequenceNumber()==null))) {
+        if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getProposalLocations().size()==0 ||
+                (proposalDevelopmentDocument.getProposalLocations().size()==1 && ((ProposalLocation)(proposalDevelopmentDocument.getProposalLocations().get(0))).getLocationSequenceNumber()==null))) {
             errorMap.addToErrorPath("newPropLocation");
             errorMap.putError("location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
             errorMap.removeFromErrorPath("newPropLocation");
@@ -179,7 +179,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     /**
      * This method validates 'Personnel Attachment'. It checks the following :
      * If attachment type and description are not empty, then filename is a required field.
-     *
+     * 
      * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
      * @return valid Does the validation pass
      */
@@ -204,13 +204,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             errorMap.removeFromErrorPath("propPersonBios[" + i++ + "]");
         }
         return valid;
-
     }
 
     /**
      * This method validates 'Institute Attachment'. It checks the following :
      * If attachment type and description are not empty, then filename is a required field.
-     *
+     * 
      * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
      * @return valid Does the validation pass
      */
@@ -239,29 +238,29 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
     }
 
+    
 
-
-
-
+    
+    
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }
 
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent addNarrativeEvent) {
         return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);    }
-
+    
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         return new ProposalDevelopmentSponsorProgramInformationAuditRule().processRunAuditBusinessRules(document);
-    }
+	}
 
     /**
      * @see org.kuali.kra.proposaldevelopment.rule.AbstractsRule#processAddAbstractBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalAbstract)
      */
     public boolean processAddAbstractBusinessRules(ProposalDevelopmentDocument document, ProposalAbstract proposalAbstract) {
         return new ProposalDevelopmentAbstractsRule().processAddAbstractBusinessRules(document, proposalAbstract);
-    }
+	}
 
 }

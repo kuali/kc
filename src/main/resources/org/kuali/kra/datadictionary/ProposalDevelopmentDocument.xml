@@ -129,7 +129,7 @@
                 <description>Activity Type description</description>
             </attribute>
 
-            <attribute name="ownedByUnit">
+            <attribute name="ownedByUnitNumber">
                 <label>Lead Unit</label>
                 <shortLabel>Lead Unit</shortLabel>
 
