@@ -20,11 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.Copyable;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
@@ -33,6 +36,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable {
 
@@ -41,7 +45,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String continuedFrom;
     private String sponsorCode;
     private String activityTypeCode;
-    private String ownedByUnit;
+    private String ownedByUnitNumber;
     private Date requestedStartDateInitial;
     private Date requestedEndDateInitial;
     private String title;
@@ -67,7 +71,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String numberOfCopies;
     private String organizationId;
     private String performingOrganizationId;
-    private List<ProposalLocation> propLocations;
+    private List<ProposalLocation> proposalLocations;
     private Organization organization;
     // TODO: just for organization panel. not a real reference
     private Organization performingOrganization;
@@ -88,13 +92,14 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<Narrative> institutes;
     private List<ProposalPersonBiography> propPersonBios;
     private List<ProposalPerson> investigators;
+    private Unit ownedByUnit;
 
     
     public ProposalDevelopmentDocument() {
         super();
         propScienceKeywords = new TypedArrayList(PropScienceKeyword.class);
         newDescription = getDefaultNewDescription();
-        propLocations = new ArrayList<ProposalLocation>();
+        proposalLocations = new ArrayList<ProposalLocation>();
         propSpecialReviews = new ArrayList<ProposalSpecialReview>();
         proposalPersons = new ArrayList<ProposalPerson>();
         nextProposalPersonNumber = new Integer(1);
@@ -105,6 +110,15 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         propPersonBios = new ArrayList<ProposalPersonBiography>();
     }
 
+    public void initialize() {
+        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        List<Unit> userUnits = proposalDevelopmentService.getDefaultModifyProposalUnitsForUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId());
+        if (userUnits.size() == 1) {
+            this.setOwnedByUnitNumber(userUnits.get(0).getUnitNumber());
+            proposalDevelopmentService.initializeUnitOrganzationLocation(this);
+        }
+    }
+    
     /**
      * Gets the value of proposalPersons
      *
@@ -139,12 +153,12 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.activityTypeCode = activityTypeCode;
     }
 
-    public String getOwnedByUnit() {
-        return ownedByUnit;
+    public String getOwnedByUnitNumber() {
+        return ownedByUnitNumber;
     }
 
-    public void setOwnedByUnit(String ownedByUnit) {
-        this.ownedByUnit = ownedByUnit;
+    public void setOwnedByUnitNumber(String ownedByUnit) {
+        this.ownedByUnitNumber = ownedByUnit;
     }
 
     public String getProposalTypeCode() {
@@ -504,12 +518,12 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }
     }
 
-    public List<ProposalLocation> getPropLocations() {
-        return propLocations;
+    public List<ProposalLocation> getProposalLocations() {
+        return proposalLocations;
     }
 
-    public void setPropLocations(List<ProposalLocation> propLocations) {
-        this.propLocations = propLocations;
+    public void setProposalLocations(List<ProposalLocation> proposalLocations) {
+        this.proposalLocations = proposalLocations;
     }
 
     public Organization getOrganization() {
@@ -576,7 +590,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(getPropLocations());
+        managedLists.add(getProposalLocations());
         managedLists.add(getPropSpecialReviews());
         managedLists.add(getProposalPersons());
         managedLists.add(getNarratives());
@@ -717,5 +731,21 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public void setPropPersonBios(List<ProposalPersonBiography> propPersonBios) {
         this.propPersonBios = propPersonBios;
+    }
+
+    /**
+     * Gets the ownedByUnit attribute. 
+     * @return Returns the ownedByUnit.
+     */
+    public Unit getOwnedByUnit() {
+        return ownedByUnit;
+    }
+
+    /**
+     * Sets the ownedByUnit attribute value.
+     * @param ownedByUnit The ownedByUnit to set.
+     */
+    public void setOwnedByUnit(Unit ownedByUnit) {
+        this.ownedByUnit = ownedByUnit;
     }
 }

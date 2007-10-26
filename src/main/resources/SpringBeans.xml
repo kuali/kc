@@ -31,7 +31,24 @@
 		<property name="username" value="${datasource.username}" />
 		<property name="password" value="${datasource.password}" />
 	</bean>
-	
+
+  <bean id="dbPlatformFactory" class="org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory">
+    <property name="ojbPlatform" value="${datasource.ojb.platform}" />
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+
+  <bean id="dbPlatform" factory-bean="dbPlatformFactory" factory-method="getPlatform" />
+  
+  <bean id="platformAwareDaoJdbc" abstract="true" class="org.kuali.core.dao.jdbc.PlatformAwareDaoBasejDBC">
+    <property name="dataSource" ref="dataSource" />
+    <property name="dbPlatform" ref="dbPlatform" />
+  </bean>
+
+  <bean id="platformAwareDao" abstract="true" class="org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb">
+    <property name="jcdAlias" value="knsDataSource" />
+    <property name="dbPlatform" ref="dbPlatform" />
+  </bean>
+
 	<bean id="kraRootResourceLoader" class="org.kuali.core.workflow.KFSResourceLoader">
 		<!-- Define service names that are overridable -->
 		<property name="overridableServices">
@@ -109,6 +126,7 @@
 	-->
 	<bean id="proposalDevelopmentService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
+    <property name="userRoleService" ref="userRoleService" />
 	</bean>
 
 	<bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
@@ -116,5 +134,13 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+
+  <bean id="userRoleService" class="org.kuali.kra.service.impl.UserRoleServiceImpl">
+    <property name="userRoleDao">
+      <ref bean="userRoleDao" />
+    </property>
+  </bean>
+
+  <bean id="userRoleDao" parent="platformAwareDao" class="org.kuali.kra.dao.UserRoleDaoOjb"></bean>
 
 </beans>

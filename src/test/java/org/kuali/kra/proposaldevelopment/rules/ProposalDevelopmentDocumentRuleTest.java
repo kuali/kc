@@ -166,7 +166,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         document.setRequestedEndDateInitial(requestedEndDateInitial);
         document.setActivityTypeCode(activityTypeCode);
         document.setProposalTypeCode(proposalTypeCode);
-        document.setOwnedByUnit(ownedByUnit);
+        document.setOwnedByUnitNumber(ownedByUnit);
     }
 
 }

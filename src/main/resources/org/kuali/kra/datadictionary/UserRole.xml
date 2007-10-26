@@ -65,9 +65,6 @@
             </resultFields>
         </lookup>
 
-        <titleAttribute>roleId</titleAttribute>
-		<titleAttribute>unitNumber</titleAttribute>
-		<titleAttribute>userId</titleAttribute>
         <attributes>
 
 	        <attribute name="roleId">
@@ -86,7 +83,7 @@
 			<label>Unit Number </label>
 			<shortLabel>Unit Number </shortLabel>
 			<maxLength>8</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="8" />
 			</control>
@@ -98,7 +95,7 @@
 			<label>User Id </label>
 			<shortLabel>User Id </shortLabel>
 			<maxLength>8</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="8" />
 			</control>
@@ -110,7 +107,7 @@
 			<label>Descend Flag </label>
 			<shortLabel>Descend Flag </shortLabel>
 			<maxLength>1</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alpha /></validationPattern>
 			<control>
 				<text size="1" />
 			</control>

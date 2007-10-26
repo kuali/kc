@@ -13,6 +13,11 @@ public class Unit extends KraPersistableBusinessObjectBase {
 	private String unitName;
     
     private UnitHierarchy unitHierarchy;
+    private Organization organization;
+
+    public Unit() {
+        super();
+    }
 
 	public String getUnitNumber() {
 		return unitNumber;
@@ -39,6 +44,10 @@ public class Unit extends KraPersistableBusinessObjectBase {
 	}
 
 	public String getOrganizationId() {
+        if (organizationId == null && this.getUnitHierarchy() != null && this.getUnitHierarchy().getParentUnit() != null) {
+            //will recurse up hierarchy until an Organization Id is found
+            return this.getUnitHierarchy().getParentUnit().getOrganizationId();
+        }
 		return organizationId;
 	}
 
@@ -107,5 +116,21 @@ public class Unit extends KraPersistableBusinessObjectBase {
      */
     public void setUnitHierarchy(UnitHierarchy unitHierarchy) {
         this.unitHierarchy = unitHierarchy;
+    }
+
+    /**
+     * Gets the organization attribute. 
+     * @return Returns the organization.
+     */
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    /**
+     * Sets the organization attribute value.
+     * @param organization The organization to set.
+     */
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 }

@@ -186,7 +186,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         document.setRequestedEndDateInitial(requestedEndDateInitial);
         document.setActivityTypeCode(activityTypeCode);
         document.setProposalTypeCode(proposalTypeCode);
-        document.setOwnedByUnit(ownedByUnit);
+        document.setOwnedByUnitNumber(ownedByUnit);
     }
 
     /**
@@ -208,6 +208,6 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         // check dates
         assertEquals(activityTypeCode, doc.getActivityTypeCode());
         assertEquals(proposalTypeCode, doc.getProposalTypeCode());
-        assertEquals(ownedByUnit, doc.getOwnedByUnit());
+        assertEquals(ownedByUnit, doc.getOwnedByUnitNumber());
     }
 }

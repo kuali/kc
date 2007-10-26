@@ -57,6 +57,10 @@ public class KraSQLDataLoaderLifecycle implements Lifecycle {
     private void loadData() throws Exception {
         Resource resource = getFileResource("classpath:sql/dml");
         String delimiter = ";";
+        
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("classpath:sql/oracle_defer_constraints.sql", delimiter);
+        sqlDataLoader.runSql();
+        
         boolean sponsorTypeLoaded = false;
 
         for (File file : resource.getFile().listFiles()) {
@@ -65,22 +69,22 @@ public class KraSQLDataLoaderLifecycle implements Lifecycle {
                 // TODO : sponsor type must be loaded first. This is a temporary work around
                if (filename.equals("load_sponsor.sql")) {
                     if (!sponsorTypeLoaded) {
-                        SQLDataLoader sqlDataLoader = new SQLDataLoader("classpath:sql/dml/load_sponsor_type.sql", delimiter);
+                        sqlDataLoader = new SQLDataLoader("classpath:sql/dml/load_sponsor_type.sql", delimiter);
                         sqlDataLoader.runSql();
                         sponsorTypeLoaded = true;
                     }
-                    SQLDataLoader sqlDataLoader = new SQLDataLoader("classpath:sql/dml/" + filename, delimiter);
+                    sqlDataLoader = new SQLDataLoader("classpath:sql/dml/" + filename, delimiter);
                     sqlDataLoader.runSql();
                 }
                 else if (filename.equals("load_sponsor_type.sql")) {
                     if (!sponsorTypeLoaded) {
-                        SQLDataLoader sqlDataLoader = new SQLDataLoader("classpath:sql/dml/load_sponsor_type.sql", delimiter);
+                        sqlDataLoader = new SQLDataLoader("classpath:sql/dml/load_sponsor_type.sql", delimiter);
                         sqlDataLoader.runSql();
                         sponsorTypeLoaded = true;
                     }
                 }
                 else {
-                    SQLDataLoader sqlDataLoader = new SQLDataLoader("classpath:sql/dml/" + filename, delimiter);
+                    sqlDataLoader = new SQLDataLoader("classpath:sql/dml/" + filename, delimiter);
                     sqlDataLoader.runSql();
                 }
             }
