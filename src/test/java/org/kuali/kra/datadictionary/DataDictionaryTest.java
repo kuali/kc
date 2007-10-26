@@ -32,9 +32,9 @@ public class DataDictionaryTest extends KraTestBase {
 
     @Test
 	public void testDataDictionaryFiles() throws Exception {
-//		builder = new DataDictionaryBuilder(KNSServiceLocator.getValidationCompletionUtils());
-//		builder.addUniqueEntries(PACKAGE, true);
-//        builder.getDataDictionary().forceCompleteDataDictionaryLoad();
+		builder = new DataDictionaryBuilder(KNSServiceLocator.getValidationCompletionUtils());
+		builder.addUniqueEntries(PACKAGE, true);
+        builder.getDataDictionary().forceCompleteDataDictionaryLoad();
 	}
 
 }
