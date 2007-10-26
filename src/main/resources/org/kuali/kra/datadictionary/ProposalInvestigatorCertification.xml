@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification">
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalIvestigatorCertification">
 
         <inquiry>
             <title>Proposal Investigator Certification</title>
