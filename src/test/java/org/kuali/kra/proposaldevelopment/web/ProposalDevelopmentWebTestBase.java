@@ -32,7 +32,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected static final String PROPOSAL_REQUESTED_END_DATE_ID = "document.requestedEndDateInitial";
     protected static final String PROPOSAL_ACTIVITY_TYPE_CODE_ID = "document.activityTypeCode";
     protected static final String PROPOSAL_TYPE_CODE_ID = "document.proposalTypeCode";
-    protected static final String PROPOSAL_OWNED_BY_UNIT_ID = "document.ownedByUnit";
+    protected static final String PROPOSAL_OWNED_BY_UNIT_ID = "document.ownedByUnitNumber";
     
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Proposal Development Web Test";
     protected static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "123456";
@@ -41,7 +41,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected static final String DEFAULT_PROPOSAL_REQUESTED_END_DATE = "08/21/2007";
     protected static final String DEFAULT_PROPOSAL_ACTIVITY_TYPE = "2"; // Dept Research
     protected static final String DEFAULT_PROPOSAL_TYPE_CODE = "1"; // New
-    protected static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "IN-PERS";
+    protected static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "IN-CARD";
     
     /**
      * Gets the Proposal Development web page for creating a new Proposal document.
@@ -106,7 +106,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
         HtmlPage textAreasAddedPage = clickOn(textAreaPopupPage,"methodToCall.postTextAreaToParent.anchor"+tabIndex);
         assertEquals(getFieldValue(textAreasAddedPage, id), completeText);
 //        return textAreaPopupPage;
-    }    
+}
     protected void validatePage(HtmlPage page, Map<String, String> keyValues) {
         Iterator<String> it = keyValues.keySet().iterator();
         while (it.hasNext()) {
@@ -114,6 +114,5 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
             assertEquals(getFieldValue(page, key), keyValues.get(key));
         }
     }
-
 
 }

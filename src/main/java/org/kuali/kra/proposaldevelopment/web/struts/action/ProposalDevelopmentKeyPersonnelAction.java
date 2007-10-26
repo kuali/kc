@@ -68,8 +68,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.21 $
+ * @author $Author: tdurkin $
+ * @version $Revision: 1.22 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -120,9 +120,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             pdform.setNewProposalPerson(person);
             request.setAttribute(NEW_PERSON_LOOKUP_FLAG, new Boolean(true));
         }
-        
-        pdform.populateInvestigators();
 
+        pdform.populateInvestigators();
+        
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -529,8 +529,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     private void assignLeadUnit(ProposalDevelopmentForm form) {
         ProposalDevelopmentDocument document = form.getProposalDevelopmentDocument();
         ProposalPerson person = form.getNewProposalPerson();
-        ProposalPersonUnit unit = createUnitFromId(document.getOwnedByUnit(), person, (List<InvestigatorCreditType>) form.getInvestigatorCreditTypes());
-        person.setHomeUnit(document.getOwnedByUnit());
+        ProposalPersonUnit unit = createUnitFromId(document.getOwnedByUnitNumber(), person, (List<InvestigatorCreditType>) form.getInvestigatorCreditTypes());
+        person.setHomeUnit(document.getOwnedByUnitNumber());
         addUnitToPerson(person, unit);
     }
 }
