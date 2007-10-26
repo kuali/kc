@@ -42,6 +42,11 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         String keywordPanelDisplay = KNSServiceLocator.getKualiConfigurationService().getParameterValue(
                 Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);
         request.setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
+        // TODO: not sure it's should be here - for audit error display. 
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        if (proposalDevelopmentForm.isAuditActivated()) {
+            KNSServiceLocator.getBean(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
+        }
         return super.execute(mapping, form, request, response);
     }
 
