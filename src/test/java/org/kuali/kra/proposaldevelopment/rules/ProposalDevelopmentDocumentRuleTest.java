@@ -144,7 +144,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
             List<ErrorMessage> messages = errorMap.getMessages("document.sponsorProgramNumber");
             ErrorMessage errorMessage = messages.get(0);
             assertEquals(KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, errorMessage.getErrorKey());
-            assertEquals("Sponsor Program Number", errorMessage.getMessageParameters()[0]);
+            assertEquals("Sponsor Proposal ID", errorMessage.getMessageParameters()[0]);
         }
     }
 

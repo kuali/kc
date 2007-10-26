@@ -81,10 +81,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     }
 
     /**
-     * This method validates 'Proposal Special review'. It checks 
+     * This method validates 'Proposal Special review'. It checks
      * validSpecialReviewApproval table, and if there is a match, then checks
      * protocalnumberflag, applicationdateflag, and approvaldataflag.
-     * 
+     *
      * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
      * @return valid Does the validation pass
      */
@@ -147,14 +147,14 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                 !proposalDevelopmentDocument.getProposalTypeCode().equals(proposalTypeCodeNew) &&
                 StringUtils.isEmpty(proposalDevelopmentDocument.getSponsorProposalNumber())) {
             valid = false;
-            errorMap.putError("sponsorProgramNumber", KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, "Sponsor Program Number");
+            errorMap.putError(Constants.SPONSOR_PROPOSAL_NUMBER_PROPERTY_KEY, KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, Constants.SPONSOR_PROPOSAL_NUMBER_LABEL);
         }
 
         return valid;
     }
 
     /**
-     * 
+     *
      * Validate organization/location rule. specifically, at least one location is required.
      * @param proposalDevelopmentDocument
      * @return
@@ -174,12 +174,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return valid;
 
     }
-    
-    
+
+
     /**
      * This method validates 'Personnel Attachment'. It checks the following :
      * If attachment type and description are not empty, then filename is a required field.
-     * 
+     *
      * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
      * @return valid Does the validation pass
      */
@@ -209,7 +209,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     /**
      * This method validates 'Institute Attachment'. It checks the following :
      * If attachment type and description are not empty, then filename is a required field.
-     * 
+     *
      * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
      * @return valid Does the validation pass
      */
@@ -238,17 +238,17 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
     }
 
-    
 
-    
-    
+
+
+
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }
 
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent addNarrativeEvent) {
         return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);    }
-    
+
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */

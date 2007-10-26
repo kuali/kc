@@ -48,10 +48,10 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         //or b) if there is no data entered.
         if (proposalDevelopmentDocument.getDeadlineDate() == null) {
             valid = false;
-            auditErrors.add(new AuditError("document.deadlineDate", KeyConstants.WARNING_EMPTY_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+            auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
         } else if (proposalDevelopmentDocument.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
             valid = false;
-            auditErrors.add(new AuditError("document.deadlineDate", KeyConstants.WARNING_PAST_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+            auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_PAST_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
         }
 
         if (auditErrors.size() > 0) {
