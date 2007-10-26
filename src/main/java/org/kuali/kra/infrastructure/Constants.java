@@ -57,6 +57,9 @@ public interface Constants {
     public static final String NARRATIVE_MODULE_STATUS_COMPLETE = "C";
 
     public static final String ABSTRACTS_PROPERTY_KEY = "document.proposalAbstracts";
+    public static final String SPONSOR_PROPOSAL_NUMBER_PROPERTY_KEY = "sponsorProgramNumber";
+    public static final String DEADLINE_DATE_KEY = "document.deadlineDate";
+    public static final String SPONSOR_PROPOSAL_NUMBER_LABEL = "Sponsor Proposal ID";
 
     public static final String AUDIT_WARNINGS = "Warnings";
 
