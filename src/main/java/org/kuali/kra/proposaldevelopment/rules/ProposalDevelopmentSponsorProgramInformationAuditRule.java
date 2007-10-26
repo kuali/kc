@@ -24,6 +24,7 @@ import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.AuditError;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -47,14 +48,14 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         //or b) if there is no data entered.
         if (proposalDevelopmentDocument.getDeadlineDate() == null) {
             valid = false;
-            auditErrors.add(new AuditError("document.deadlineDate", KeyConstants.WARNING_EMPTY_DEADLINE_DATE, "proposal.SponsorProgramInformation"));
+            auditErrors.add(new AuditError("document.deadlineDate", KeyConstants.WARNING_EMPTY_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
         } else if (proposalDevelopmentDocument.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
             valid = false;
-            auditErrors.add(new AuditError("document.deadlineDate", KeyConstants.WARNING_PAST_DEADLINE_DATE, "proposal.SponsorProgramInformation"));
+            auditErrors.add(new AuditError("document.deadlineDate", KeyConstants.WARNING_PAST_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
         }
 
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("sponsorProgramInformationAuditWarnings", new AuditCluster("Sponsor & Program Information", auditErrors, "Warnings"));
+            GlobalVariables.getAuditErrorMap().put("sponsorProgramInformationAuditWarnings", new AuditCluster(Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
         }
 
         return valid;
