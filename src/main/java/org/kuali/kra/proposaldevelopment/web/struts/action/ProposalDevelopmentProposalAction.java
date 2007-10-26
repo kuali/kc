@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -39,6 +38,7 @@ import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.KNSServiceLocator;
@@ -46,6 +46,15 @@ import org.kuali.rice.KNSServiceLocator;
 public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAction.class);
 
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
+       
+        KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganzationLocation(proposalDevelopmentDocument);
+        
+        return super.save(mapping, form, request, response);
+    }
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -55,7 +64,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         request.setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
 
         ProposalDevelopmentDocument proposalDevelopmentDocument=((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
-        if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getPropLocations().size()==0 
+        if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getProposalLocations().size()==0 
                 && StringUtils.isNotBlank(request.getParameter("methodToCall")) && request.getParameter("methodToCall").toString().equals("refresh")
                 && StringUtils.isNotBlank(request.getParameter("refreshCaller")) && request.getParameter("refreshCaller").toString().equals("kualiLookupable")
                 && StringUtils.isNotBlank(request.getParameter("document.organizationId")) ) {
@@ -63,7 +72,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             ProposalLocation propLocation=new ProposalLocation();
             propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
             propLocation.setLocationSequenceNumber(proposalDevelopmentDocument.getProposalNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
-            proposalDevelopmentDocument.getPropLocations().add(propLocation);
+            proposalDevelopmentDocument.getProposalLocations().add(propLocation);
         }
 
         // populate the Prime Sponsor Name if we have the code
@@ -97,7 +106,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     public ActionForward addLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.getNewPropLocation().setLocationSequenceNumber(proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().add(proposalDevelopmentForm.getNewPropLocation());
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().add(proposalDevelopmentForm.getNewPropLocation());
         proposalDevelopmentForm.setNewPropLocation(new ProposalLocation());
         return mapping.findForward("basic");
     }
@@ -116,7 +125,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         // TODO : do we want to put logic to check whether this is the only one
         // or we'll let the business rule handle 'at least one location' rule?
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().remove(getLineToDelete(request));
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().remove(getLineToDelete(request));
         return mapping.findForward("basic");
     }
     
@@ -134,8 +143,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         int index= getSelectedLine(request);
 
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().get(index).setRolodexId(new Integer(0));
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropLocations().get(index).setRolodex(new Rolodex());
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().get(index).setRolodexId(new Integer(0));
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().get(index).setRolodex(new Rolodex());
 
         return mapping.findForward("basic");
     }
@@ -170,7 +179,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm)form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
-        List<PropScienceKeyword> newKeywords = new ArrayList();
+        List<PropScienceKeyword> newKeywords = new ArrayList<PropScienceKeyword>();
         for(Iterator iter = keywords.iterator(); iter.hasNext(); ) {
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword)iter.next();
             if(!propScienceKeyword.getSelectKeyword()) {

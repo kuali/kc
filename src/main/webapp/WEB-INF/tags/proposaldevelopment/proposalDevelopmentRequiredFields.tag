@@ -45,9 +45,16 @@
                 </td>
             </tr>
             <tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.ownedByUnit}" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumber}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.ownedByUnit" attributeEntry="${proposalDevelopmentAttributes.ownedByUnit}" />
+                  <c:choose>
+                    <c:when test="${empty KualiForm.document.ownedByUnit}">
+                    	<kul:htmlControlAttribute property="document.ownedByUnitNumber" attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumber}" />
+                    </c:when>
+                    <c:otherwise>
+                      ${KualiForm.document.ownedByUnit.unitNumber} - ${KualiForm.document.ownedByUnit.unitName}
+                    </c:otherwise>
+                  </c:choose>
 				</td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.requestedEndDateInitial}" /></div></th>
                 <td align="left" valign="middle">

@@ -18,38 +18,92 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.UserRole;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.RightConstants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.service.UserRoleService;
 
 
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
     private BusinessObjectService businessObjectService;
+    private UserRoleService userRoleService;
     
-    public Map<String, String> getUnitsForUser(String userId) {
-        Map<String, String> userUnits = new HashMap<String, String>();
-        Collection<Unit> units = getUnitsWithNumbers("IN-PERS", "BL-IIDC");
+    /**
+     * This method...
+     * @param proposalDevelopmentDocument
+     * @param proposalOrganization
+     */
+    public void initializeUnitOrganzationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        Organization proposalOrganization = proposalDevelopmentDocument.getOrganization();
         
-        for (Unit unit : units) {
-            userUnits.put(unit.getUnitNumber(), 
-                          unit.getUnitNumber() + " - " + unit.getUnitName());
+        //Unit number chosen, set Organzation, etc...
+        if (proposalDevelopmentDocument.getOwnedByUnitNumber() != null && proposalOrganization == null) {
+            //get Lead Unit details
+            proposalDevelopmentDocument.refreshReferenceObject("ownedByUnit");
+            String organizationId = proposalDevelopmentDocument.getOwnedByUnit().getOrganizationId();
+            
+            //get Organzation assoc. w/ Lead Unit
+            proposalDevelopmentDocument.setOrganizationId(organizationId);
+            proposalDevelopmentDocument.refreshReferenceObject("organization");
+            proposalOrganization = proposalDevelopmentDocument.getOrganization();
+            proposalDevelopmentDocument.setPerformingOrganizationId(organizationId);
+            
+            //initialize Proposal Locations with Organization details
+            ProposalLocation newProposalLocation = new ProposalLocation();
+            newProposalLocation.setLocation(proposalOrganization.getOrganizationName());
+            newProposalLocation.setRolodexId(proposalOrganization.getContactAddressId());
+            newProposalLocation.refreshReferenceObject("rolodex");
+            newProposalLocation.setLocationSequenceNumber(proposalDevelopmentDocument.getProposalNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
+            proposalDevelopmentDocument.getProposalLocations().add(0, newProposalLocation);
+            
+        }
+    }
+    
+    public List<Unit> getDefaultModifyProposalUnitsForUser(String userName) {
+        Map queryMap = new HashMap();
+        queryMap.put("userName", userName);
+        
+        
+        List<Person> persons = (List<Person>)getBusinessObjectService().findMatching(Person.class, queryMap);
+        
+        if (persons.size() > 1) {
+            throw new RuntimeException("More than one person retieved for userName: " + userName);
         }
         
-        return userUnits;
+        Person person = persons.get(0);
+
+        List<Unit> units = new ArrayList<Unit>();
+
+        List<UserRole> userRoles = getUserRoleService().getUserRoles(person.getPersonId(), RightConstants.MODIFY_PROPOSAL);
+        for (UserRole userRole : userRoles) {
+            Unit unit = userRole.getUnit();
+            if (!units.contains(unit))
+            units.add(unit);
+        }
+        
+        return units;
     }
     
     /**
      * Gets units for the given names. Useful when you know what you want.
      *
-     * @param numbers varargs representation of unitNumber array
+     * @param unitNumbers varargs representation of unitNumber array
      * @return Collection<Unit>
      */
-    private Collection<Unit> getUnitsWithNumbers(String ... numbers) {
+    private Collection<Unit> getUnitsWithNumbers(String ... unitNumbers) {
         Collection<Unit> retval = new ArrayList<Unit>();
 
-        for (String unitNumber : numbers) {
+        for (String unitNumber : unitNumbers) {
             Map query_map = new HashMap();
             query_map.put("unitNumber", unitNumber);
             retval.add((Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, query_map));
@@ -74,6 +128,22 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      */
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
+    }
+
+    /**
+     * Gets the userRoleService attribute. 
+     * @return Returns the userRoleService.
+     */
+    public UserRoleService getUserRoleService() {
+        return userRoleService;
+    }
+
+    /**
+     * Sets the userRoleService attribute value.
+     * @param userRoleService The userRoleService to set.
+     */
+    public void setUserRoleService(UserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
     }
 
 }

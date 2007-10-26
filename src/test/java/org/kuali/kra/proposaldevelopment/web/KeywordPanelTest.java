@@ -49,7 +49,7 @@ public class KeywordPanelTest extends ProposalDevelopmentWebTestBase{
     private static final String DEFAULT_PROPOSAL_REQUESTED_END_DATE = "08/21/2007";
     private static final String DEFAULT_PROPOSAL_ACTIVITY_TYPE = "1";
     private static final String DEFAULT_PROPOSAL_TYPE_CODE = "1";
-    private static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "IN-PERS";
+    private static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "IN-CARD";
 
     @Test
     public void testKeywordPanel() throws Exception {

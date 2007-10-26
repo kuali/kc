@@ -10,7 +10,7 @@ public class UserRole extends KraPersistableBusinessObjectBase {
     
     private Role role;
     private Unit unit;
-    private Person user;
+    private Person person;
 
 	public Integer getRoleId() {
 		return roleId;
@@ -91,15 +91,15 @@ public class UserRole extends KraPersistableBusinessObjectBase {
      * Gets the user attribute. 
      * @return Returns the user.
      */
-    public Person getUser() {
-        return user;
+    public Person getPerson() {
+        return person;
     }
 
     /**
      * Sets the user attribute value.
      * @param user The user to set.
      */
-    public void setUser(Person user) {
-        this.user = user;
+    public void setPerson(Person user) {
+        this.person= person;
     }
 }

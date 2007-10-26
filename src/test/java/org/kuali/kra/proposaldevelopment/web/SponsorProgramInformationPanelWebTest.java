@@ -29,6 +29,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWebTestBase {
 
+
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
 
     @Test
@@ -36,7 +37,7 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
 
         HtmlPage proposalPage = getProposalDevelopmentPage();
 
-        setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, "IN-PERS");
+        setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
         // sponsor program info fields
         setFieldValue(proposalPage, "document.deadlineDate", "2007-08-14");
@@ -62,7 +63,7 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber);
         assertNotNull(doc);
 
-        verifySavedRequiredFields(doc, DEFAULT_PROPOSAL_ACTIVITY_TYPE, "IN-PERS", DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "2007-08-14", "2007-08-21", DEFAULT_PROPOSAL_TYPE_CODE);
+        verifySavedRequiredFields(doc, DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_OWNED_BY_UNIT, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "2007-08-14", "2007-08-21", DEFAULT_PROPOSAL_TYPE_CODE);
 
         // check sponsor program info fields
         assertEquals("P", doc.getDeadlineType());
@@ -116,9 +117,9 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
      * @param proposalTypeCode to check
      * @throws WorkflowException
      */
-    private void verifySavedRequiredFields(ProposalDevelopmentDocument doc, String activityType, String ownedByUnit, String description, String sponsorCode, String title, String requestedStartDateInitial, String requestedEndDateInitial, String proposalTypeCode) throws WorkflowException {
+    private void verifySavedRequiredFields(ProposalDevelopmentDocument doc, String activityType, String ownedByUnitNumber, String description, String sponsorCode, String title, String requestedStartDateInitial, String requestedEndDateInitial, String proposalTypeCode) throws WorkflowException {
         assertEquals(activityType, doc.getActivityTypeCode());
-        assertEquals(ownedByUnit, doc.getOwnedByUnit());
+        assertEquals(ownedByUnitNumber, doc.getOwnedByUnitNumber());
         assertEquals(description, doc.getDocumentHeader().getFinancialDocumentDescription());
         assertEquals(sponsorCode, doc.getSponsorCode());
         assertEquals(title, doc.getTitle());
