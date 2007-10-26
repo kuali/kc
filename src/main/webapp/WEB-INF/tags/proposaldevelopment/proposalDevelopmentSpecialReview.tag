@@ -18,7 +18,7 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="proSpecialAttriburesAttributes" value="${DataDictionary.ProposalSpecialReview.attributes}" />
 <c:set var="action" value="proposalDevelopmentSpecialReview" />
-<kul:tabTop tabTitle="Special Review" defaultOpen="true" tabErrorKey="document.propSpecialReviews*">
+<kul:tabTop tabTitle="Special Review" defaultOpen="true" tabErrorKey="document.propSpecialReview*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Special Review</h2></span>
