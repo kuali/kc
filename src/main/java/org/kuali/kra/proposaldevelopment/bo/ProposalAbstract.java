@@ -25,7 +25,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * An Abstract is composed of a unique type code and a textual string
  * known as the Abstract Details.
  * 
- * @author Donald A. Barre
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalAbstract extends KraPersistableBusinessObjectBase {
     
