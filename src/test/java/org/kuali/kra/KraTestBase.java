@@ -29,7 +29,7 @@ import org.kuali.rice.lifecycle.Lifecycle;
 import org.kuali.rice.testharness.KNSTestCase;
 import org.kuali.rice.testharness.TransactionalLifecycle;
 
-public class KraTestBase extends KNSTestCase {
+public abstract class KraTestBase extends KNSTestCase {
 
     private TransactionalLifecycle transactionalLifecycle;
     private DocumentService documentService = null;

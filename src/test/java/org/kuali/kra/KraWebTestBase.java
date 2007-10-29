@@ -86,7 +86,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the KRA Portal Web Page.
      * @throws IOException
      */
-    protected HtmlPage getPortalPage() throws IOException {     
+    protected final HtmlPage getPortalPage() throws IOException {     
         URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
         HtmlPage portalPage = (HtmlPage) webClient.getPage(url);
         assertEquals("Kuali Portal Index", portalPage.getTitleText());
@@ -113,7 +113,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the next web page after clicking on the HTML element.
      * @throws IOException
      */
-    protected HtmlPage clickOn(HtmlPage page, String id) throws IOException {
+    protected final HtmlPage clickOn(HtmlPage page, String id) throws IOException {
         return clickOn(page, id, null);
     }
     
@@ -140,7 +140,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the next web page after clicking on the HTML element.
      * @throws IOException
      */
-    protected HtmlPage clickOn(HtmlPage page, String id, String nextPageTitle) throws IOException {
+    protected final HtmlPage clickOn(HtmlPage page, String id, String nextPageTitle) throws IOException {
         HtmlElement element = getElement(page, id);
         assertTrue(id +" not found",element != null);
         assertTrue(element instanceof ClickableElement);
@@ -159,7 +159,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the next web page after clicking on the HTML element.
      * @throws IOException
      */
-    protected HtmlPage clickOn(HtmlElement element) throws IOException {
+    protected final HtmlPage clickOn(HtmlElement element) throws IOException {
         return clickOn(element, null);
     }
     
@@ -178,7 +178,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the next web page after clicking on the HTML element.
      * @throws IOException
      */
-    protected HtmlPage clickOn(HtmlElement element, String nextPageTitle) throws IOException {
+    protected final HtmlPage clickOn(HtmlElement element, String nextPageTitle) throws IOException {
         assertTrue(element instanceof ClickableElement);
         
         ClickableElement clickable = (ClickableElement) element;
@@ -217,7 +217,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the Lookup web page.
      * @throws IOException
      */
-    protected HtmlPage clickOnLookup(HtmlPage page, String tag) throws IOException {
+    protected final HtmlPage clickOnLookup(HtmlPage page, String tag) throws IOException {
         HtmlImageInput element = getLookup(page, tag);
         assertTrue(element != null);
         
@@ -229,7 +229,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param page the HTML web page.
      * @param text the string to look for in the web page.
      */
-    protected void assertContains(HtmlPage page, String text) {
+    protected final void assertContains(HtmlPage page, String text) {
         assertTrue(page.asText().contains(text));
     }
     
@@ -238,7 +238,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param page the HTML web page.
      * @param text the string to look for in the web page.
      */
-    protected void assertDoesNotContain(HtmlPage page, String text) {
+    protected final void assertDoesNotContain(HtmlPage page, String text) {
         assertTrue(!page.asText().contains(text));
     }
     
@@ -247,7 +247,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param element the HTML element.
      * @param text the string to look for in the HTML element.
      */
-    protected void assertContains(HtmlElement element, String text) {
+    protected final void assertContains(HtmlElement element, String text) {
         assertTrue(element.asText().contains(text));
     }
     
@@ -256,7 +256,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param element the HTML element.
      * @param text the string to look for in the HTML element.
      */
-    protected void assertDoesNotContain(HtmlElement element, String text) {
+    protected final void assertDoesNotContain(HtmlElement element, String text) {
         assertTrue(!element.asText().contains(text));
     }
     
@@ -266,7 +266,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param elementId the value of the HTML element's id attribute.
      * @param size the number of options that must be in the list of options.
      */
-    protected void assertSelectOptionsSize(HtmlPage page, String elementId, int size) {
+    protected final void assertSelectOptionsSize(HtmlPage page, String elementId, int size) {
         HtmlElement element = page.getHtmlElementById(elementId);
         assertTrue(element != null);
         
@@ -303,7 +303,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the resulting web page.
      * @throws IOException
      */
-    protected HtmlPage lookup(HtmlPage page, String tag) throws IOException {
+    protected final HtmlPage lookup(HtmlPage page, String tag) throws IOException {
        return lookup(page, tag, null, null);
     }
     
@@ -335,7 +335,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the resulting web page.
      * @throws IOException
      */
-    protected HtmlPage lookup(HtmlPage page, String tag, String searchFieldId, String searchValue) throws IOException {
+    protected final HtmlPage lookup(HtmlPage page, String tag, String searchFieldId, String searchValue) throws IOException {
         
         HtmlPage lookupPage = clickOnLookup(page, tag);
         
@@ -383,7 +383,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the resulting web page.
      * @throws IOException
      */
-    protected HtmlPage multiLookup(HtmlPage page, String tag) throws IOException {
+    protected final HtmlPage multiLookup(HtmlPage page, String tag) throws IOException {
         return multiLookup(page, tag, null, null);
     }
     
@@ -414,7 +414,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the resulting web page.
      * @throws IOException
      */
-    protected HtmlPage multiLookup(HtmlPage page, String tag, String searchFieldId, String searchValue) throws IOException {
+    protected final HtmlPage multiLookup(HtmlPage page, String tag, String searchFieldId, String searchValue) throws IOException {
         HtmlPage lookupPage = clickOnLookup(page, tag);
         
         if (searchFieldId != null) {
@@ -451,7 +451,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param fieldId the id of the HTML element.
      * @param fieldValue the value to set the control to.
      */
-    protected void setFieldValue(HtmlPage page, String fieldId, String fieldValue) {
+    protected final void setFieldValue(HtmlPage page, String fieldId, String fieldValue) {
         HtmlElement element = getElement(page, fieldId);
         assertTrue(element != null);
         
@@ -507,7 +507,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param fieldId the id of the HTML element.
      * @return the current value.
      */
-    protected String getFieldValue(HtmlPage page, String fieldId) {
+    protected final String getFieldValue(HtmlPage page, String fieldId) {
         String fieldValue = null;
         
         HtmlElement element = getElement(page, fieldId);
@@ -555,7 +555,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param fieldId the id of the HTML element.
      * @return the default value.
      */
-    protected String getDefaultFieldValue(HtmlPage page, String fieldId) {
+    protected final String getDefaultFieldValue(HtmlPage page, String fieldId) {
         String fieldValue = null;
         
         HtmlElement element = getElement(page, fieldId);
@@ -599,7 +599,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param page the HTML page to check.
      * @throws IOException
      */
-    protected void checkHelpLinks(HtmlPage page) throws IOException {
+    protected final void checkHelpLinks(HtmlPage page) throws IOException {
         List<HtmlAnchor> anchors = findHelpLinks(page);
         for (HtmlAnchor anchor : anchors) {
             HtmlPage helpPage = (HtmlPage) anchor.click();
@@ -638,7 +638,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the resulting web page from saving <i>text2</i>.
      * @throws IOException
      */
-    protected HtmlPage checkExpandedTextArea(HtmlPage page, String id, String text1, String text2) throws IOException {
+    protected final HtmlPage checkExpandedTextArea(HtmlPage page, String id, String text1, String text2) throws IOException {
         boolean javascriptEnabled = webClient.isJavaScriptEnabled();
         
         webClient.setJavaScriptEnabled(false);
@@ -675,7 +675,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param panelId the unique id of the panel.
      * @return the list of error strings (may be empty).
      */
-    protected List<String> getErrors(HtmlPage page, String panelId) {
+    protected final List<String> getErrors(HtmlPage page, String panelId) {
         List<String> errors = new ArrayList<String>();
         
         HtmlElement panelDiv = getElement(page, panelId);
@@ -703,7 +703,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param text the string to compare against.
      * @return true if any of errors contains the text string; otherwise false.
      */
-    protected boolean containsError(List<String> errors, String text) {
+    protected final boolean containsError(List<String> errors, String text) {
         for (String error : errors) {
             if (error.contains(text)) {
                 return true;
@@ -748,7 +748,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param title the value for the title attribute (may be null).
      * @return the HTML element or null if not found.
      */
-    protected HtmlElement getElement(HtmlPage page, String name, String value, String title) {
+    protected final HtmlElement getElement(HtmlPage page, String name, String value, String title) {
         HtmlElement element = getElement(page.getDocumentElement(), name, value, title);
             
         if (element == null) {
@@ -806,7 +806,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param id the id of the HTML attribute.
      * @return the HTML element or null if not found.
      */
-    protected HtmlElement getElement(HtmlPage page, String id) {
+    protected final HtmlElement getElement(HtmlPage page, String id) {
         HtmlElement element = getElementById(page, id);
         if (element == null) {
             element = getElementByName(page, id);
@@ -829,7 +829,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param id the id to search for.
      * @return the HTML element or null if not found.
      */
-    protected HtmlElement getElementById(HtmlPage page, String id) {
+    protected final HtmlElement getElementById(HtmlPage page, String id) {
         HtmlElement element = null;
         try {
             element = page.getHtmlElementById(id);
@@ -855,7 +855,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param name the name to search for.
      * @return the HTML element or null if not found.
      */
-    protected HtmlElement getElementByName(HtmlPage page, String name) {
+    protected final HtmlElement getElementByName(HtmlPage page, String name) {
         return getElementByName(page, name, false);
     }
     
@@ -867,7 +867,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param name the name to search for.
      * @return the HTML element or null if not found.
      */
-    protected HtmlElement getElementByName(HtmlElement element, String name) {
+    protected final HtmlElement getElementByName(HtmlElement element, String name) {
         return getElementByName(element, name, false);
     }
     
@@ -883,7 +883,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param name the name to search for.
      * @return the HTML element or null if not found.
      */
-    protected HtmlElement getElementByName(HtmlPage page, String name, boolean startsWith) {
+    protected final HtmlElement getElementByName(HtmlPage page, String name, boolean startsWith) {
         HtmlElement element = getElementByName(page.getDocumentElement(), name, startsWith);
         
         if (element == null) {
@@ -905,7 +905,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param name the name to search for.
      * @return the HTML element or null if not found.
      */
-    protected HtmlElement getElementByName(HtmlElement element, String name, boolean startsWith) {
+    protected final HtmlElement getElementByName(HtmlElement element, String name, boolean startsWith) {
         Iterator iterator = element.getAllHtmlChildElements();
         while (iterator.hasNext()) {
             HtmlElement e = (HtmlElement) iterator.next();
@@ -931,7 +931,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param title the title to search for.
      * @return the HTML element or null if not found.
      */
-    protected HtmlElement getElementByTitle(HtmlPage page, String title) {
+    protected final HtmlElement getElementByTitle(HtmlPage page, String title) {
         HtmlElement element = getElementByTitle(page.getDocumentElement(), title);
         
         if (element == null) {
@@ -952,7 +952,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param title the title to search for.
      * @return the HTML element or null if not found.
      */
-    protected HtmlElement getElementByTitle(HtmlElement element, String title) {
+    protected final HtmlElement getElementByTitle(HtmlElement element, String title) {
         Iterator iterator = element.getAllHtmlChildElements();
         while (iterator.hasNext()) {
             HtmlElement e = (HtmlElement) iterator.next();
@@ -972,7 +972,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param classname the classname to search for.
      * @return the HTML element or null if not found.
      */
-    protected HtmlElement getElementByClass(HtmlElement element, String classname) {
+    protected final HtmlElement getElementByClass(HtmlElement element, String classname) {
         Iterator iterator = element.getAllHtmlChildElements();
         while (iterator.hasNext()) {
             HtmlElement e = (HtmlElement) iterator.next();
@@ -1000,7 +1000,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param tag the tag to compare against Lookup HTML name attributes.
      * @return the Lookup's HTML element or null if not found.
      */
-    protected HtmlImageInput getLookup(HtmlPage page, String tag) {
+    protected final HtmlImageInput getLookup(HtmlPage page, String tag) {
         HtmlImageInput element = getLookup(page.getDocumentElement(), tag);
         
         if (element == null) {
@@ -1026,7 +1026,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param tag the tag to compare against Lookup HTML name attributes.
      * @return the Lookup's HTML element or null if not found.
      */
-    private HtmlImageInput getLookup(HtmlElement element, String tag) {
+    private final HtmlImageInput getLookup(HtmlElement element, String tag) {
         Iterator iterator = element.getAllHtmlChildElements();
         while (iterator.hasNext()) {
             HtmlElement e = (HtmlElement) iterator.next();
@@ -1050,7 +1050,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param id identifies the HTML element to begin searching in.
      * @return the HTML table or null if not found.
      */
-    protected HtmlTable getTable(HtmlPage page, String id) {
+    protected final HtmlTable getTable(HtmlPage page, String id) {
         HtmlTable table = null;
         HtmlElement element = getElement(page, id);
         assertTrue(element != null);
@@ -1079,7 +1079,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param tag the string to look for in HREF.
      * @return the HTML Anchor element or null if not found.
      */
-    protected HtmlAnchor getAnchor(HtmlPage page, String tag) {
+    protected final HtmlAnchor getAnchor(HtmlPage page, String tag) {
     	HtmlAnchor element = getAnchor(page.getDocumentElement(), tag);
          
         if (element == null) {
@@ -1125,7 +1125,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param page the HTML web page.
      * @return the list of Help HTML elements.
      */
-    protected List<HtmlAnchor> findHelpLinks(HtmlPage page) {
+    protected final List<HtmlAnchor> findHelpLinks(HtmlPage page) {
         List <HtmlAnchor> helpLinks = findHelpLinks(page.getDocumentElement());
         
         List<HtmlPage> innerPages = getInnerPages(page);
@@ -1165,7 +1165,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param page the HTML web page to search for inner web pages.
      * @return the list of inner HTML web pages.
      */
-    protected List<HtmlPage> getInnerPages(HtmlPage page) {
+    protected final List<HtmlPage> getInnerPages(HtmlPage page) {
         List<HtmlPage> innerPages = new ArrayList<HtmlPage>();
     
         List frames = page.getFrames();
@@ -1189,7 +1189,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param element the parent HTML element.
      * @return the first child HTML element or null if there are no children.
      */
-    protected HtmlElement getFirstChild(HtmlElement element) {
+    protected final HtmlElement getFirstChild(HtmlElement element) {
         HtmlElement firstChild = null;
         Iterator iterator = element.getChildElementsIterator();
         if (iterator.hasNext()) {
@@ -1204,7 +1204,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param element an HTML element.
      * @return the next sibling HTML element or null if there is none.
      */
-    protected HtmlElement getNextSibling(HtmlElement element) {
+    protected final HtmlElement getNextSibling(HtmlElement element) {
         HtmlElement sibling = null;
         DomNode node = element.getParentNode();
         if (node instanceof HtmlElement) {
@@ -1233,7 +1233,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the document's page or null if not found.
      * @throws IOException
      */
-    protected HtmlPage docSearch(String docNbr) throws IOException {
+    protected final HtmlPage docSearch(String docNbr) throws IOException {
     	HtmlPage docPage = null;
     	HtmlPage portalPage = getPortalPage();
     	HtmlPage docSearchPage = clickOn(portalPage, "Document Search");
@@ -1258,11 +1258,97 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @param page the documen's web page
      * @return the document's docNbr
      */
-    protected String getDocNbr(HtmlPage page) {
+    protected final String getDocNbr(HtmlPage page) {
     	HtmlTable table = getTable(page, "headerarea");
     	HtmlTableRow row = table.getRow(0);
     	HtmlTableCell cell = row.getCell(1);
     	return cell.asText().trim();
     }
+    
+    /**
+     * Save a document, i.e. click on Save button.
+     * 
+     * @param page the document web page 
+     * @return the next page
+     * @throws IOException
+     */
+    protected final HtmlPage saveDoc(HtmlPage page) throws IOException {
+        return clickOn(page, "save");
+    }
+    
+    /**
+     * Closes a document.  If queried to save the document, the
+     * "No" button is clicked on.
+     * 
+     * @param page the document web page
+     * @return the next page
+     * @throws IOException
+     */
+    protected final HtmlPage closeDoc(HtmlPage page) throws IOException {
+        HtmlPage nextPage = clickOn(page, "close");
+        if (nextPage.asText().contains("Would you like to save this document before you close it")) {
+            nextPage = clickOn(nextPage, "methodToCall.processAnswer.button1");
+        }
+        return nextPage;
+    }
+    
+    /**
+     * Saves and closes a document.  After saving and closing the document,
+     * the document's number is returned.  It would have been logical to 
+     * return the next web page, but in this testing environment, it is 
+     * anticipated that the document number will be used to perform a document
+     * search.
+     * 
+     * @param page the document web page
+     * @return the document's number
+     * @throws IOException
+     */
+    protected final String saveAndCloseDoc(HtmlPage page) throws IOException {
+        String docNbr = getDocNbr(page);
+        HtmlPage savedPage = saveDoc(page);
+        closeDoc(savedPage);
+        return docNbr;
+    }
+    
+    /**
+     * Saves a document and then performs a document search to retrieve
+     * the document.  This is useful for verifying that a document can be
+     * saved correctly.  After retrieving a saved document, its values can
+     * be inspected to verify their correctness.
+     * 
+     * @param docPage the web page containing the document.
+     * @return the retrieved document web page.
+     * @throws Exception
+     */
+    protected final HtmlPage saveAndSearchDoc(HtmlPage docPage) throws Exception {
+        String docNbr = saveAndCloseDoc(docPage);
+        docPage = docSearch(docNbr);
+        assertNotNull(docPage);
+        return docPage;
+    }
+    
+    /**
+     * Gets the list of options in a select field.  This list only
+     * contains the text that is displayed to the user, not the
+     * actual values sent to the web server in a POST.
+     * 
+     * @param page the web page.
+     * @param id the id of the select field.
+     * @return the list of displayed options.
+     */
+    protected final List<String> getSelectOptions(HtmlPage page, String id) {
+        List<String> options = new ArrayList<String>();
+        
+        HtmlElement element = getElement(page, id);
+        assertNotNull(element);
+        assertTrue(element instanceof HtmlSelect);
+        
+        HtmlSelect select = (HtmlSelect) element;
+        for (int i = 0; i < select.getOptionSize(); i++) {
+            HtmlOption option = select.getOption(i);
+            options.add(option.asText().trim());
+        }
+        
+        return options;
+    }
 }
-
