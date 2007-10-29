@@ -22,7 +22,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 /**
  * Defines the Business Rule for processing Proposal Abstracts.
  * 
- * @author Donald A. Barre
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public interface AbstractsRule extends BusinessRule {
     

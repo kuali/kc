@@ -45,6 +45,10 @@ public abstract class ValuesFinderTestBase extends KraTestBase {
         testKeyValues = new ArrayList<KeyLabelPair>();
         addKeyValues();
     }
+    
+    protected void addKeyValue(String typeCode, String typeValue) {
+        testKeyValues.add(new KeyLabelPair(typeCode, typeValue));
+    }
 
     /**
      * This method should be overridden by subclasses
