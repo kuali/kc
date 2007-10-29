@@ -34,7 +34,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * Finds the available set of supported Abstract Types.  See
  * the method <code>getKeyValues()</code> for a full description.
  * 
- * @author Donald A. Barre
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class AbstractTypeValuesFinder extends KeyValuesBase {
     

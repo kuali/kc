@@ -441,7 +441,6 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
                 updateUserTimestamp(proposalAbstract);
                 proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalAbstracts().add(proposalAbstract);
                 proposalDevelopmentForm.setNewProposalAbstract(new ProposalAbstract());
-        
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

@@ -27,7 +27,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
  * The AddAbstractEvent is generated when a Proposal Abstract is to be added to
  * a Proposal Development Document.
  * 
- * @author Donald A. Barre
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class AddAbstractEvent extends KraDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NarrativeEventBase.class);

@@ -32,7 +32,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 /**
  * Business Rule to determine the validity of Proposal Abstracts.
  * 
- * @author Donald A. Barre
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentAbstractsRule extends ResearchDocumentRuleBase implements AbstractsRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);

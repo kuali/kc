@@ -79,8 +79,8 @@
 	             <tr>
 	             	<th>${status.index + 1}</th>
 	             	
-	             	<td align="left" valign="middle">
-                	    <kul:htmlControlAttribute property="document.proposalAbstracts[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${proposalAbstractAttributes.updateTimestamp}" />
+	             	<td align="left" valign="middle" id="document.proposalAbstracts[${status.index}].updateTimestamp">
+                	    <fmt:formatDate value="${abstract.updateTimestamp}" type="both" dateStyle="short" timeStyle="short" />
 					</td>
 					
 	             	<td align="left" valign="middle">
