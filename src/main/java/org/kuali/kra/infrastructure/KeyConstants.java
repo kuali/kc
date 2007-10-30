@@ -39,4 +39,6 @@ public class KeyConstants {
     public static final String ERROR_ABSTRACT_TYPE_INVALID = "error.abstractType.invalid";
     public static final String ERROR_ABSTRACT_TYPE_DUPLICATE = "error.abstractType.duplicate";
     public static final String QUESTION_DELETE_ABSTRACT_CONFIRMATION = "document.question.deleteAbstract.text";
+    public static final String ERROR_NARRATIVE_TYPE_DUPLICATE = "error.proposalAttachment.narrativeType.allowMulitple";
+    
 }

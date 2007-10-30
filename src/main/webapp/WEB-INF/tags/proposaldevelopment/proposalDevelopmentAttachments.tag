@@ -23,31 +23,31 @@
 <c:set var="narrativeAttachmentAttributes" value="${DataDictionary.NarrativeAttachment.attributes}" />
 
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
-<kul:tabTop tabTitle="Proposal Attachments" defaultOpen="true" tabErrorKey="document.narratives*">
+<kul:tabTop tabTitle="Proposal Attachments (${fn:length(KualiForm.document.narratives)})" defaultOpen="true" tabErrorKey="document.narratives">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
-    		<span class="subhead-left"><h2>Proposal Attachments</h2></span>
+    		<span class="subhead-left"><h2>Add Proposal Attachments</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
         <table cellpadding=0 cellspacing=0 summary="">
           	<tr>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" skipHelpUrl="true" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.newNarrative.narrativeTypeCode" attributeEntry="${narrativeAttributes.narrativeTypeCode}" />
+                	<kul:htmlControlAttribute property="newNarrative.narrativeTypeCode" attributeEntry="${narrativeAttributes.narrativeTypeCode}" />
 				</td>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" /></div></th>
                 <td align="left" valign="middle">
-                	<html:file property="document.newNarrative.narrativeFile" />
+                	<html:file property="newNarrative.narrativeFile" />
 				</td>
           	</tr>
           	<tr>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}" skipHelpUrl="true" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.newNarrative.moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
+                	<kul:htmlControlAttribute property="newNarrative.moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
 				</td>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.contactName}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.newNarrative.contactName" attributeEntry="${narrativeAttributes.contactName}" />
+                	<kul:htmlControlAttribute property="newNarrative.contactName" attributeEntry="${narrativeAttributes.contactName}" />
 				</td>
           	</tr>
           	<tr>
@@ -55,7 +55,7 @@
                 <td align="left" valign="middle">&nbsp;</td>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.emailAddress}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.newNarrative.emailAddress" attributeEntry="${narrativeAttributes.emailAddress}" />
+                	<kul:htmlControlAttribute property="newNarrative.emailAddress" attributeEntry="${narrativeAttributes.emailAddress}" />
 				</td>
           	</tr>
           	<tr>
@@ -63,20 +63,20 @@
                 <td align="left" valign="middle">&nbsp;</td>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.phoneNumber}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.newNarrative.phoneNumber" attributeEntry="${narrativeAttributes.phoneNumber}" />
+                	<kul:htmlControlAttribute property="newNarrative.phoneNumber" attributeEntry="${narrativeAttributes.phoneNumber}" />
 				</td>
           	</tr>
           	<tr>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.comments}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
-                	<c:set var="textAreaFieldName" value="document.newNarrative.comments" />
-                	<kul:htmlControlAttribute property="document.newNarrative.comments" attributeEntry="${narrativeAttributes.comments}" />
+                	<c:set var="textAreaFieldName" value="newNarrative.comments" />
+                	<kul:htmlControlAttribute property="newNarrative.comments" attributeEntry="${narrativeAttributes.comments}" />
                     <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.comments.label}" />
 				</td>
           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" skipHelpUrl="true"  /></div></th>
                 <td align="left" valign="middle">
-                	<c:set var="textAreaFieldName" value="document.newNarrative.moduleTitle" />
-                	<kul:htmlControlAttribute property="document.newNarrative.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
+                	<c:set var="textAreaFieldName" value="newNarrative.moduleTitle" />
+                	<kul:htmlControlAttribute property="newNarrative.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
                     <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 				</td>
           	</tr>
@@ -91,12 +91,10 @@
             <tr>
             	<td colspan="4">
             	<div  align="left">
-        	<c:forEach var="narrativeAttachment" items="${KualiForm.document.narratives}" varStatus="status">
-        	 <%--<c:if test="${narrativeAttachment.narrativeType.narrativeTypeGroup eq 'P'}">
-        	<c:out value="${ProposalDevelopmentParameters.proposalNarrativeTypeGroup}"></c:out> --%>
-        	<c:if test="${narrativeAttachment.narrativeType.narrativeTypeGroup eq ProposalDevelopmentParameters.proposalNarrativeTypeGroup.parameterValue}">
-			<c:set var="narrType" value="${narrativeAttachment.narrativeType.description}"/>
-			<c:set var="narrStatus" value="${narrativeAttachment.narrativeStatus.description}"/>
+        	<c:forEach var="narrative" items="${KualiForm.document.narratives}" varStatus="status">
+        	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq ProposalDevelopmentParameters.proposalNarrativeTypeGroup.parameterValue}">
+			<c:set var="narrType" value="${narrative.narrativeType.description}"/>
+			<c:set var="narrStatus" value="${narrative.narrativeStatus.description}"/>
 			<kul:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}">
 				<div class="innerTab-container" align="left">
 					<table class=tab cellpadding=0 cellspacing=0 summary="">
@@ -107,11 +105,20 @@
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" /></div></th>
 			                <td align="left" valign="middle">
-			                <c:if test="${!empty narrativeAttachment.fileName}">
+			                <c:if test="${(!empty narrative.fileName)}">
 				                <div id="replaceDiv${status.index}" style="display:block;">
-				                <kul:htmlControlAttribute property="document.narratives[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
-				                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
-				                <html:link linkName="replaceProposalAttachment.line${status.index}" onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.replaceProposalAttachment.line${status.index}">replace</html:link>
+					                <kul:htmlControlAttribute property="document.narratives[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
+					                <c:if test="${(narrative.viewAttachment || narrative.modifyAttachment) }">
+						                (
+						                <c:if test="${narrative.viewAttachment}">
+						                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
+						                </c:if>
+						                <c:if test="${narrative.modifyAttachment}">
+						                &nbsp;|&nbsp;
+						                <html:link linkName="replaceProposalAttachment.line${status.index}" onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.replaceProposalAttachment.line${status.index}">replace</html:link>
+						                </c:if>
+						                )
+					                </c:if>
 				                </div>
 				                <div id="fileDiv${status.index}" valign="middle" style="display:none;">
 				                	<html:file property="document.narratives[${status.index}].narrativeFile" />
@@ -155,10 +162,14 @@
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.comments}" skipHelpUrl="true"  /></div></th>
 			                <td align="left" valign="middle">
 			                	<kul:htmlControlAttribute property="document.narratives[${status.index}].comments" attributeEntry="${narrativeAttributes.comments}" />
+			                	<c:set var="textAreaFieldName" value="document.narratives[${status.index}].comments" />
+			                	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" skipHelpUrl="true"  /></div></th>
 			                <td align="left" valign="middle">
 			                	<kul:htmlControlAttribute property="document.narratives[${status.index}].moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
+			                	<c:set var="textAreaFieldName" value="document.narratives[${status.index}].moduleTitle" />
+			                	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 							</td>
 			          	</tr>
 			          	<tr>
@@ -166,16 +177,17 @@
 								<div align="center">
 									<html:image property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
-									<html:image property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
-									onclick="javascript: proposalAttachmentRightsPop('${status.index}');return false"/>
+									<%-- <c:if test="${fn:length(narrative.narrativeUserRights)>0}">--%>
+										<html:image property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
+										onclick="javascript: proposalAttachmentRightsPop('${status.index}');return false"/>
+									<%--</c:if>--%>
 								</div>
 			                </td>
 			            </tr>
 			          </table>
 			       </div>
 			     </kul:innerTab>
-			     <%--</kul:subtab>--%>
 			   </c:if>
         	</c:forEach> 
         	</div>

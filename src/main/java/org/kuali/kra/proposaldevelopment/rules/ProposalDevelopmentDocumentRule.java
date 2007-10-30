@@ -33,7 +33,9 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
+import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -42,7 +44,7 @@ import org.kuali.rice.KNSServiceLocator;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule, DocumentAuditRule, AbstractsRule {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, DocumentAuditRule, AbstractsRule {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -246,6 +248,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }
 
+    /**
+     * @see org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule#processAddNarrativeBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,org.kuali.kra.proposaldevelopment.bo.Narrative)
+     */
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent addNarrativeEvent) {
         return new ProposalDevelopmentNarrativeRule().processAddNarrativeBusinessRules(addNarrativeEvent);    }
 
@@ -261,6 +266,13 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      */
     public boolean processAddAbstractBusinessRules(ProposalDevelopmentDocument document, ProposalAbstract proposalAbstract) {
         return new ProposalDevelopmentAbstractsRule().processAddAbstractBusinessRules(document, proposalAbstract);
-	}
+    }
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule#processSaveNarrativesBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public boolean processSaveNarrativesBusinessRules(SaveNarrativesEvent saveNarrativesEvent) {
+        return new ProposalDevelopmentNarrativeRule().processSaveNarrativesBusinessRules(saveNarrativesEvent);
+    }
 
 }

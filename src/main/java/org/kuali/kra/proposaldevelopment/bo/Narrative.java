@@ -40,6 +40,8 @@ public class Narrative extends KraPersistableBusinessObjectBase {
 	private List<NarrativeAttachment> narrativeAttachmentList;
     transient private FormFile narrativeFile;
     private String institutionalAttachmentTypeCode;
+    private boolean viewAttachment;
+    private boolean modifyAttachment;
 
 	public Narrative(){
 	    narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
@@ -199,5 +201,39 @@ public class Narrative extends KraPersistableBusinessObjectBase {
 
     public void setInstitutionalAttachmentTypeCode(String institutionalAttachmentTypeCode) {
         this.institutionalAttachmentTypeCode = institutionalAttachmentTypeCode;
+    }
+
+    /**
+     * Gets the view attribute. 
+     * @return Returns the view.
+     */
+    public boolean getViewAttachment() {
+        return viewAttachment;
+    }
+
+    /**
+     * Sets the view attribute value.
+     * @param view The view to set.
+     */
+    public void setViewAttachment(boolean view) {
+        this.viewAttachment = view;
+    }
+
+    /**
+     * Gets the modify attribute. 
+     * @return Returns the modify.
+     */
+    public boolean getModifyAttachment() {
+        return modifyAttachment;
+    }
+
+    /**
+     * Sets the modify attribute value.
+     * @param modify The modify to set.
+     */
+    public void setModifyAttachment(boolean modify) {
+        this.modifyAttachment = modify;
+        //If user has modify right, gets view access as well
+        if(modify) setViewAttachment(true);
     }
 }

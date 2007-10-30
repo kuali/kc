@@ -56,18 +56,18 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 //        webClient.setJavaScriptEnabled(false);
         String[] values0 = { "1","C","Test Contact Name","t@t.com","123456","Test Comments","Test Module Title"};
         
-        setProposalAtatchmentLine(propAttPage, getKeyMap("document.newNarrative",values0));
-        testTextAreaPopup(propAttPage,"document.newNarrative.comments"," More text","proposalDevelopmentAbstractsAttachments","Comments","");
+        setProposalAtatchmentLine(propAttPage, getKeyMap("newNarrative",values0));
+        testTextAreaPopup(propAttPage,"newNarrative.comments"," More text","proposalDevelopmentAbstractsAttachments","Comments","");
         values0[5]+=" More text";
         Map<String,String> keyVal0 = getKeyMap("document.narratives[0]",values0);
         HtmlPage addedPage = testAddProposalAttachment(propAttPage,keyVal0);
         
         String[] values1 = { "2","I","Test Another Contact Name","t1@t1.com","1234567","Test Comments again","Test Module Title again"};
-        setProposalAtatchmentLine(addedPage, getKeyMap("document.newNarrative",values1));
+        setProposalAtatchmentLine(addedPage, getKeyMap("newNarrative",values1));
         Map<String,String> keyVal1 = getKeyMap("document.narratives[1]",values1);
         addedPage = testAddProposalAttachment(addedPage,keyVal1);
         String[] values2 = { "3","I","Contact Name 2","t2@t2.com","12345678","Test Comments 2","Test Module Title 2"};
-        setProposalAtatchmentLine(addedPage, getKeyMap("document.newNarrative",values2));
+        setProposalAtatchmentLine(addedPage, getKeyMap("newNarrative",values2));
         
         Map<String,String> keyVal2 = getKeyMap("document.narratives[2]",values2);
         addedPage = testAddProposalAttachment(addedPage,keyVal2);
@@ -103,8 +103,8 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         assertNotNull(fileUrl);
         String filePath = fileUrl.getPath();
         String[] values4 = { "4","I","Test Contact Name 4","t4@t4.com","12345678","Test Comments 4","Test Module Title 4"};
-        setProposalAtatchmentLine(page, getKeyMap("document.newNarrative",values4));
-        setFieldValue(page, "document.newNarrative.narrativeFile", filePath);
+        setProposalAtatchmentLine(page, getKeyMap("newNarrative",values4));
+        setFieldValue(page, "newNarrative.narrativeFile", filePath);
         Map<String,String> keyVal4 = getKeyMap("document.narratives[2]",values4);
         HtmlPage addedPage = testAddProposalAttachment(page,keyVal4);
         HtmlPage savedPage = testSaveProposalAttachment(addedPage);
