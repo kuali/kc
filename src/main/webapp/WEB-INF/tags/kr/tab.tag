@@ -92,7 +92,7 @@
               </c:if>
             </td>
             <c:if test="${not empty tabDescription}">
-              <td class="tabtable1-mid1"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" align="absmiddle" height="29" width="1" />${tabDescription}</td>
+              <td class="tabtable1-mid1">${tabDescription}</td>
       		</c:if>
 
             <c:if test="${not empty rightSideHtmlProperty and not empty rightSideHtmlAttribute}">
