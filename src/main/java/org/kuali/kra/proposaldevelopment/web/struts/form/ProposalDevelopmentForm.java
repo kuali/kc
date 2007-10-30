@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -56,11 +57,10 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private ProposalLocation newPropLocation;
     private ProposalSpecialReview newPropSpecialReview;
     private ProposalPerson newProposalPerson;
-    private ProposalPersonDegree newProposalPersonDegree;
-    private Unit newProposalPersonUnit;
+    private List<ProposalPersonDegree> newProposalPersonDegree;
+    private List<Unit> newProposalPersonUnit;
     private String newRolodexId;
     private String newPersonId;
-    private String addToPerson;
     private Narrative newNarrative;
     private FormFile narrativeFile;
     private Map personEditableFields;
@@ -90,8 +90,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         newPropSpecialReview=new ProposalSpecialReview();
         setNewNarrative(new Narrative());
         setNewProposalPerson(new ProposalPerson());
-        setNewProposalPersonDegree(new ProposalPersonDegree());
-        setNewProposalPersonUnit(new Unit());
+        setNewProposalPersonDegree(new ArrayList<ProposalPersonDegree>());
+        setNewProposalPersonUnit(new ArrayList<Unit>());
         setNewProposalAbstract(new ProposalAbstract());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
@@ -162,6 +162,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setMethodToCall(null);
         this.setRefreshCaller(null);
         this.setAnchor(null);
+       // following reset the tab stats and will load as default when it returns from lookup.
+       // TODO : Do we really need this?
         this.setTabStates(new HashMap<String, String>());
         this.setCurrentTabIndex(0);
 
@@ -242,7 +244,10 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      *
      * @return the value of newProposalPersonUnit
      */
-    public Unit getNewProposalPersonUnit() {
+    public List<Unit> getNewProposalPersonUnit() {
+        if (this.getProposalDevelopmentDocument().getProposalPersons().size() > this.newProposalPersonUnit.size()) {
+            this.newProposalPersonUnit.add(this.newProposalPersonUnit.size(), new Unit());
+        }
         return this.newProposalPersonUnit;
     }
 
@@ -251,7 +256,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      *
      * @param argUnit Value to assign to this.newProposalPersonUnit
      */
-    public void setNewProposalPersonUnit(Unit argUnit) {
+    public void setNewProposalPersonUnit(List<Unit> argUnit) {
         this.newProposalPersonUnit = argUnit;
     }
 
@@ -260,7 +265,11 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      *
      * @return the value of newProposalPersonDegree
      */
-    public ProposalPersonDegree getNewProposalPersonDegree() {
+    public List<ProposalPersonDegree> getNewProposalPersonDegree() {
+        
+        if (this.getProposalDevelopmentDocument().getProposalPersons().size() > this.newProposalPersonDegree.size()) {
+            this.newProposalPersonDegree.add(this.newProposalPersonDegree.size(),new ProposalPersonDegree());
+        }
         return this.newProposalPersonDegree;
     }
 
@@ -269,7 +278,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      *
      * @param argDegree Value to assign to this.newProposalPersonDegree
      */
-    public void setNewProposalPersonDegree(ProposalPersonDegree argDegree) {
+    public void setNewProposalPersonDegree(List<ProposalPersonDegree> argDegree) {
         this.newProposalPersonDegree = argDegree;
     }
 
@@ -282,23 +291,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         return this.newRolodexId;
     }
 
-    /**
-     * This is the person to add a unit, certification, or degree to
-     *
-     * @return Integer
-     */
-    public String getAddToPerson() {
-        return addToPerson;
-    }
-
-    /**
-     * This is the person to add a unit, certification, or degree to
-     *
-     * @param name of the ProposalPerson to add to (may look something like </code>document.proposalPerson[0]</code>
-     */
-    public void setAddToPerson(String name) {
-        addToPerson = name;
-    }
 
     /**
      * Sets the value of newRolodexId
@@ -380,12 +372,12 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
 
     public List<InvestigatorCreditType> getInvestigatorCreditTypes() {
-        List retval = new ArrayList();
         Collection<InvestigatorCreditType> types = getBusinessObjectService().findAll(InvestigatorCreditType.class);
+        InvestigatorCreditType[] creditTypeArray=new InvestigatorCreditType[4];
         for (InvestigatorCreditType type : types) {
-            retval.add(type);
+            creditTypeArray[Integer.parseInt(type.getInvCreditTypeCode())]=type;
         }
-        return retval;
+        return Arrays.asList(creditTypeArray);
     }
 
     /**
@@ -410,10 +402,15 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         
         for (ProposalPerson investigator : getProposalDevelopmentDocument().getInvestigators()) {
             Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
+            Map<String,KualiDecimal> investigatorCreditTypeTotals = retval.get(Constants.PROPOSAL_PERSON_INVESTIGATOR);
 
             if (creditTypeTotals == null) {
                 creditTypeTotals = new HashMap<String,KualiDecimal>();
                 retval.put(investigator.getFullName(), creditTypeTotals);
+            }
+            if (investigatorCreditTypeTotals == null) {
+                investigatorCreditTypeTotals = new HashMap<String,KualiDecimal>();
+                retval.put(Constants.PROPOSAL_PERSON_INVESTIGATOR, investigatorCreditTypeTotals);
             }
             
             // Initialize everything to zero
@@ -423,6 +420,18 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
                     if (totalCredit == null) {
                         totalCredit = new KualiDecimal(0);
                         creditTypeTotals.put(creditType.getInvCreditTypeCode(), totalCredit);
+                    }
+                    KualiDecimal investigatorTotalCredit = investigatorCreditTypeTotals.get(creditType.getInvCreditTypeCode());
+                    
+                    if (investigatorTotalCredit == null) {
+                        investigatorTotalCredit = new KualiDecimal(0);
+                        investigatorCreditTypeTotals.put(creditType.getInvCreditTypeCode(), investigatorTotalCredit);
+                    }
+                    // set investigator credit total 
+                    for (CreditSplit creditSplit : investigator.getCreditSplits()) {
+                        if (creditSplit.getInvCreditTypeCode().equals(creditType.getInvCreditTypeCode())) {
+                            investigatorCreditTypeTotals.put(creditType.getInvCreditTypeCode(), investigatorTotalCredit.add(creditSplit.getCredit()));
+                        }
                     }
             }
 
@@ -434,7 +443,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
                         totalCredit = new KualiDecimal(0);
                         creditTypeTotals.put(creditSplit.getInvCreditTypeCode(), totalCredit);
                     }
-                    totalCredit.add(creditSplit.getCredit());
+                    creditTypeTotals.put(creditSplit.getInvCreditTypeCode(),totalCredit.add(creditSplit.getCredit()));
                 }
             }
         }

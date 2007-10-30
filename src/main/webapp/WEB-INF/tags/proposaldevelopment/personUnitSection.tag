@@ -18,28 +18,35 @@
 <c:set var="personUnitAttributes" value="${DataDictionary.ProposalPersonUnit.attributes}" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
 <bean:define id="proposalPersonUnits" name="KualiForm" property="${proposalPerson}.units" />
-            <table cellpadding=0 cellspacing="0" summary="">
+           <!--   <table cellpadding=0 cellspacing="0" summary=""> -->
                 <tbody id="G3">
                   <tr>
                     <th width="10%">&nbsp;</th>
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.Unit.attributes.unitName" />
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.Unit.attributes.unitNumber" />
-
+             
                     <th>&nbsp;</th>
                   </tr>
                   <tr>
                     <th scope="row">add:</th>
-                    <td class="infoline"><div align=left> (select)
-                      <kul:htmlControlAttribute attributeEntry="${unitAttributes}" property="newProposalPersonUnit.unitName" readOnly="true" />
-                      <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:newProposalPersonUnit.unitNumber,unitName:newProposalPersonUnit.unitName" />
+                    <td class="infoline"><div align=left>
+                     <c:choose>
+                      <c:when test="${empty KualiForm.newProposalPersonUnit[personIndex].unitName}" >
+                      (select)
+                      </c:when>
+                      <c:otherwise>
+                      <kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="newProposalPersonUnit[${personIndex}].unitName" readOnly="true" />
+                      </c:otherwise>
+                     </c:choose> 
+                      <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:newProposalPersonUnit[${personIndex}].unitNumber,unitName:newProposalPersonUnit[${personIndex}].unitName" />
                       </div>
                         <span class="fineprint"></span> </td>
 
                     <td class="infoline"><div align=left>
-                      <kul:htmlControlAttribute attributeEntry="${unitAttributes}" property="newProposalPersonUnit.unitNumber" readOnly="true"/>
+                      <kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="newProposalPersonUnit[${personIndex}].unitNumber"/>
                       </div>
                         <span class="fineprint"></span> </td>
-                    <td class="infoline"><div align=center><html:image property="methodToCall.insertUnit" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div></td>
+                    <td class="infoline"><div align=center><html:image property="methodToCall.insertUnit.personIndex${personIndex}." src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div></td>
                   </tr>
   <c:forEach items="${proposalPersonUnits}" varStatus="status">
                   <tr>
@@ -51,4 +58,4 @@
                   </tr>
   </c:forEach>
                 </tbody>
-              </table>
+            <!--   </table> -->

@@ -16,14 +16,15 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
-
+<div id="workarea">
+<c:set var="personIndex" value="0" />
 <c:forEach items="${KualiForm.document.proposalPersons}" var="person" varStatus="status">
     <bean:define id="keyPerson" name="KualiForm" property="document.proposalPerson[${status.index}]"/>
     <c:set var="proposalPerson" value="document.proposalPersons[${status.index}]" />
     <c:set var="transparent" value="false" />
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />
-    </c:if>
+    </c:if> 
 <%--
     <kul:tabTop tabTitle="${fn:substring(keyPerson.fullName, 0, 22)}"
      		tabDescription="${keyPerson.role.description}"
@@ -44,11 +45,11 @@
          	 leftSideHtmlDisabled="false" 
                       defaultOpen="false" 
             transparentBackground="${transparent}" 
-                      tabErrorKey="${proposalPerson}*">
-        <kra-pd:person proposalPerson="${proposalPerson}" />
+                      tabErrorKey="document.proposalPerson*">
+        <kra-pd:person proposalPerson="${proposalPerson}" personIndex="${personIndex}"/>
+		<c:set var="personIndex" value="${personIndex+1}" />
      </kul:tab>
 </c:forEach>
-
 <c:if test="${fn:length(KualiForm.document.investigators) > 0}">
     <kra-pd:creditSplit/>
 </c:if>
@@ -56,3 +57,4 @@
 <c:if test="${fn:length(KualiForm.document.proposalPersons) > 0}">
     <kul:panelFooter />
 </c:if>
+</div>

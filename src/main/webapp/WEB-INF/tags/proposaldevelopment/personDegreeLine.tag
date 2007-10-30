@@ -16,10 +16,10 @@
 <%@ include file="/WEB-INF/jsp/proposalPerson.jsp"%>
 
 <c:set var="personDegreeAttributes" value="${DataDictionary.ProposalPersonDegree.attributes}" />
-<c:set var="degree" value="newProposalPersonDegree" />
+<c:set var="degree" value="newProposalPersonDegree[${personIndex}]" />
 <c:set var="readOnly" value="false" />
 <c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
-<c:set var="actionMethod" value="insertDegree" />
+<c:set var="actionMethod" value="insertDegree.personIndex${personIndex}" />
 <c:set var="actionTitle" value="Add a Degree" />
 <c:set var="degreeIndexHeader" value="add:" />
 <c:set var="degreeCodeProperty" value="${degree}.degreeCode" />
@@ -39,33 +39,12 @@
                     <th scope="row">${degreeIndexHeader}</th>
 
                     <td class="infoline"><div align=left><span class="copy">
-                    <html:hidden property="addToPerson" value="${proposalPerson}" />
                     <kul:htmlControlAttribute property="${degreeCodeProperty}" attributeEntry="${degreeCodeAttribute}" readOnly="${readOnly}" /> 
                       </span></div>
                         <span class="fineprint"></span> </td>
                     <td class="infoline"><kul:htmlControlAttribute property="${degree}.degree" attributeEntry="${personDegreeAttributes.degree}" readOnly="${readOnly}" /></td>
-                    <td class="infoline"><kul:htmlControlAttribute property="${degree}.graduationDate" attributeEntry="${personDegreeAttributes.graduationDate}" readOnly="${readOnly}" />
-<c:if test="${empty index}">
-									<img src="${ConfigProperties.kr.externalizable.images.url}cal.gif"
-										id="${degree}.graduationDate_datepicker"
-										style="cursor: pointer;" 
-										title="Date selector"
-										alt="Date selector" 
-										onmouseover="this.style.backgroundColor='red';"
-										onmouseout="this.style.backgroundColor='transparent';" />
-											
-									<script type="text/javascript">
-							    
-										Calendar.setup( 
-											{ 
-												inputField : "${degree}.graduationDate", // ID of the input field
-												ifFormat : "%m/%d/%Y", // the date format 
-												button : "${degree}.graduationDate_datepicker" // ID of the button 
-											} 
-										);
+                    <td class="infoline"><kul:htmlControlAttribute property="${degree}.graduationYear" attributeEntry="${personDegreeAttributes.graduationYear}" readOnly="${readOnly}" />
 
-									</script>
-</c:if>
                     </td>
                     <td class="infoline"><div align=left>
                         <kul:htmlControlAttribute property="${degree}.school" attributeEntry="${personDegreeAttributes.school}" readOnly="${readOnly}" />
