@@ -27,14 +27,14 @@ import org.kuali.kra.bo.Unit;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * @author $Author: lprzybyl $
- * @version $Revision: 1.7 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.8 $
  */
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase implements CreditSplitable {
     private Integer proposalNumber;
     private Integer proposalPersonNumber;
     private String unitNumber;
-    private Boolean leadUnit;
+    private boolean leadUnit;
     private Unit unit;
     private List<ProposalUnitCreditSplit> creditSplits;
 
@@ -121,7 +121,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
      *
      * @return the value of leadUnit
      */
-    public final Boolean isLeadUnit() {
+    public final boolean isLeadUnit() {
         return this.leadUnit;
     }
 
@@ -130,7 +130,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
      *
      * @param argLeadUnit Value to assign to this.leadUnit
      */
-    public final void setLeadUnit(Boolean argLeadUnit) {
+    public final void setLeadUnit(boolean argLeadUnit) {
         this.leadUnit = argLeadUnit;
     }
     

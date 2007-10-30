@@ -28,13 +28,13 @@ import org.kuali.core.util.KualiDecimal;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * @author $Author: lprzybyl $
- * @version $Revision: 1.10 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.11 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
 
-    private Boolean conflictOfInterest;
+    private boolean conflictOfInterest;
     private KualiDecimal percentageEffort;
     private Boolean fedrDebr;
     private Boolean fedrDelq;
@@ -188,18 +188,10 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @return the value of conflictOfInterest
      */
-    public Boolean isConflictOfInterest() {
+    public boolean isConflictOfInterest() {
         return this.conflictOfInterest;
     }
 
-    /**
-     * Sets the value of conflictOfInterest
-     *
-     * @param argConflictOfInterest Value to assign to this.conflictOfInterest
-     */
-    public void getConflictOfInterest(Boolean argConflictOfInterest) {
-        this.conflictOfInterest = argConflictOfInterest;
-    }
 
     /**
      * Gets the value of percentageEffort
@@ -377,7 +369,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @param argConflictOfInterest Value to assign to this.conflictOfInterest
      */
-    public void setConflictOfInterest(Boolean argConflictOfInterest) {
+    public void setConflictOfInterest(boolean argConflictOfInterest) {
         this.conflictOfInterest = argConflictOfInterest;
     }
 
