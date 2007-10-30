@@ -26,13 +26,14 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * @author $Author: lprzybyl $
- * @version $Revision: 1.3 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.4 $
  */
 public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     private Integer proposalPersonNumber;
     private Integer proposalNumber;
-    private Date graduationDate;
+    private Integer degreeSequenceNumber;
+    private String graduationYear;
     private String degreeCode;
     private String degree;
     private String fieldOfStudy;
@@ -79,21 +80,21 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     }
     
     /**
-     * Gets the value of graduationDate
+     * Gets the value of graduationYear
      *
-     * @return the value of graduationDate
+     * @return the value of graduationYear
      */
-    public final Date getGraduationDate() {
-        return this.graduationDate;
+    public final String getGraduationYear() {
+        return this.graduationYear;
     }
     
     /**
-     * Sets the value of graduationDate
+     * Sets the value of graduationYear
      *
-     * @param argGraduationDate Value to assign to this.graduationDate
+     * @param argGraduationYear Value to assign to this.graduationYear
      */
-    public final void setGraduationDate(Date argGraduationDate) {
-        this.graduationDate = argGraduationDate;
+    public final void setGraduationYear(String argGraduationYear) {
+        this.graduationYear = argGraduationYear;
     }
     
     /**
@@ -245,7 +246,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
         LinkedHashMap propMap = new LinkedHashMap();
         propMap.put("proposalPersonNumber", getProposalPersonNumber());
         propMap.put("proposalNumber", getProposalNumber());
-        propMap.put("graduationDate", getGraduationDate());
+        propMap.put("graduationDate", getGraduationYear());
         propMap.put("degreeCode", getDegreeCode());
         propMap.put("degree", getDegree());
         propMap.put("fieldOfStudy", getFieldOfStudy());
@@ -255,6 +256,14 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
         propMap.put("schoolId", getSchoolId());
         propMap.put("degreeType", getDegreeType());
         return propMap;
+    }
+
+    public Integer getDegreeSequenceNumber() {
+        return degreeSequenceNumber;
+    }
+
+    public void setDegreeSequenceNumber(Integer degreeSequenceNumber) {
+        this.degreeSequenceNumber = degreeSequenceNumber;
     }
 
 }
