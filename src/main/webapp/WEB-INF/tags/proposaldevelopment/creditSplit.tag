@@ -18,8 +18,8 @@
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="unitCreditSplitAttributes" value="${DataDictionary.ProposalUnitCreditSplit.attributes}" />
 <c:set var="personCreditSplitAttributes" value="${DataDictionary.ProposalPersonCreditSplit.attributes}" />
-
-<c:if test="${!empty creditSplitEnabledFlag}">
+<c:set var="creditParamName" value="proposaldevelopment.creditsplit.enabled"/>
+<c:if test="${ProposalDevelopmentParameters.creditSplitEnabled.parameterValue == 'Y'}">
 <kul:tab tabTitle="Combined Credit Split" defaultOpen="true" tabErrorKey="">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
@@ -73,6 +73,18 @@
               </tr>            
   </c:if>
 </c:forEach>
+              <tr>
+                <td colspan="5" nowrap class="tab-subhead1" >Totals</td>
+              </tr>
+              <tr>
+                <td nowrap class="infoline"><strong>Investigator Total:
+                </strong></td>
+  <bean:define id="totalMap" name="KualiForm" property="creditSplitTotals.investigator" />
+  <c:forEach items="${KualiForm.investigatorCreditTypes}" var="invType" >
+                <td class="infoline"><div align="right"><strong>${totalMap[invType.invCreditTypeCode]}</strong></div></td>
+  </c:forEach>
+              </tr>            
+
         </table>
     </div>
 </kul:tab>
