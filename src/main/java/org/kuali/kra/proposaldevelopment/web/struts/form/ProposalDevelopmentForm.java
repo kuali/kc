@@ -88,6 +88,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         newPropSpecialReview=new ProposalSpecialReview();
         newPropLocation=new ProposalLocation();
         newPropSpecialReview=new ProposalSpecialReview();
+        setNewNarrative(new Narrative());
         setNewProposalPerson(new ProposalPerson());
         setNewProposalPersonDegree(new ProposalPersonDegree());
         setNewProposalPersonUnit(new Unit());

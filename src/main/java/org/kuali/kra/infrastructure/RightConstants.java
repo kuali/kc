@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 package org.kuali.kra.infrastructure;
-
+/**
+ * 
+ * This class declares all RIGHT_ID constants defined in RIGHTS table.
+ * @author KRADEV team
+ * @version 1.0
+ */
 public class RightConstants {
     public static final String ADD_ANY_PROTOCOL_NOTES = "ADD_ANY_PROTOCOL_NOTES";
     public static final String ADD_BUSINESS_RULE = "ADD_BUSINESS_RULE";
