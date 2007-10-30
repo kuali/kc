@@ -289,8 +289,8 @@
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" table="EPS_PROP_PERSON">
-        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalPersonRoleId" column="PROP_PERSON_ROLE_ID" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
@@ -413,11 +413,12 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" table="EPS_PROP_PERSON_DEGREE">
-        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
-        <field-descriptor name="graduationDate" column="GRADUATION_DATE" jdbc-type="DATE" primarykey="true"/>
-        <field-descriptor name="degreeCode" column="DEGREE_CODE" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="degreeSequenceNumber" column="DEGREE_SEQUENCE_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="graduationYear" column="GRADUATION_YEAR" jdbc-type="VARCHAR" />
+        <field-descriptor name="degreeCode" column="DEGREE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" />
         <field-descriptor name="fieldOfStudy" column="FIELD_OF_STUDY" jdbc-type="VARCHAR" />
         <field-descriptor name="specialization" column="SPECIALIZATION" jdbc-type="VARCHAR" />
         <field-descriptor name="school" column="SCHOOL" jdbc-type="VARCHAR" />

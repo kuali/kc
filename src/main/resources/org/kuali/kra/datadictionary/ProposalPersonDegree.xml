@@ -26,7 +26,7 @@
             <inquirySections><inquirySection title="Proposal Person Unit"><inquiryFields>
                 <field attributeName="proposalPersonNumber" forceInquiry="true"/>
                 <field attributeName="proposalNumber" forceInquiry="true" />
-                <field attributeName="graduationDate" forceInquiry="true" />
+                <field attributeName="graduationYear" forceInquiry="true" />
                 <field attributeName="degreeCode" forceInquiry="true" />
                 <field attributeName="degree" forceInquiry="true" />
                 <field attributeName="fieldOfStudy" />
@@ -48,7 +48,7 @@
                 <sortAttributes>
                 	<sortAttribute attributeName="proposalNumber"/>
                     <sortAttribute attributeName="proposalPersonNumber"/>
-                    <sortAttribute attributeName="graduationDate" />
+                    <sortAttribute attributeName="graduationYear" />
                     <sortAttribute attributeName="degreeCode" />
                     <sortAttribute attributeName="degree" />
                 </sortAttributes>
@@ -57,7 +57,7 @@
             <lookupFields>
                 <lookupField attributeName="proposalNumber" />
                 <lookupField attributeName="proposalPersonNumber" />
-                <lookupField attributeName="graduationDate" />
+                <lookupField attributeName="graduationYear" />
                 <lookupField attributeName="degreeCode" />
                 <lookupField attributeName="degree" />
             </lookupFields>
@@ -65,7 +65,7 @@
             <resultFields>
                 <field attributeName="proposalPersonNumber" forceInquiry="true"/>
                 <field attributeName="proposalNumber" forceInquiry="true" />
-                <field attributeName="graduationDate" forceInquiry="true" />
+                <field attributeName="graduationYear" forceInquiry="true" />
                 <field attributeName="degreeCode" forceInquiry="true" />
                 <field attributeName="degree" forceInquiry="true" />
                 <field attributeName="fieldOfStudy" forceInquiry="false" />
@@ -96,19 +96,22 @@
                 <description>Proposal Person Number </description>
             </attributeReference>
 
-            <attributeReference name="graduationDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Graduation Date</label>
-                <shortLabel>Grad Dt</shortLabel>
-                <required>true</required>
- 	            <summary>Graduation Date</summary>
-                <description>Graduation Date</description>
-            </attributeReference>
+            <attribute name="graduationYear" >
+                <label>Graduation Year</label>
+                <shortLabel>Graduation Year</shortLabel>
+                <maxLength>4</maxLength>
+				<validationPattern><numeric /></validationPattern>
+                <control>
+                    <text size="5" />
+                </control>
+                <summary>Graduation Year</summary>
+            	<description>Graduation Year</description>
+            </attribute>
 
             <attribute name="degreeCode" >
-                <label>Degree Code</label>
-                <shortLabel>Degree Cd</shortLabel>
+                <label>Degree Type</label>
+                <shortLabel>Degree Type</shortLabel>
                 <maxLength>6</maxLength>
-                <required>true</required>
                 <control>
                     <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.DegreeTypeValuesFinder" />
                 </control>
@@ -117,10 +120,9 @@
             </attribute>
 
             <attribute name="degree" >
-                <label>Degree</label>
-                <shortLabel>Degree</shortLabel>
+                <label>Degree Description</label>
+                <shortLabel>Degree Description</shortLabel>
                 <maxLength>80</maxLength>
-                <required>true</required>
                 <control>
                     <text size="25" />
                 </control>
@@ -182,6 +184,17 @@
                 <summary>School Id</summary>
             	<description>School Id</description>
             </attribute>
+			<attribute name="degreeSequenceNumber">
+			<label>Degree Sequence Number </label>
+			<shortLabel>Degree Sequence </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<hidden />
+			</control>
+			<summary>Degree Sequence Number</summary>
+			<description>Degree Sequence Number</description>
+			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 		</attributes>
