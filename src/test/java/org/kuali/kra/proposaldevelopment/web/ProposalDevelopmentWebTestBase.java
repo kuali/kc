@@ -97,16 +97,33 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
         setFieldValue(page, PROPOSAL_TYPE_CODE_ID, proposalType);
         setFieldValue(page, PROPOSAL_OWNED_BY_UNIT_ID, ownedByUnit);
     }
-    protected void testTextAreaPopup(HtmlPage propAttPage, String id,String moreText,String action,String textAreaLabel,String tabIndex) throws Exception{
-        HtmlPage textAreaPopupPage = clickOn(propAttPage, "methodToCall.updateTextArea.((#"+id+":"+action+":"+textAreaLabel+"#))"+tabIndex);
-        String currentValue = getFieldValue(textAreaPopupPage, id);
-        String completeText = currentValue+moreText;
-        setFieldValue(textAreaPopupPage, id, completeText);
-        
+    /**
+     * 
+     * This method is to test the <code>ExtendedTextArea</code> tag
+     * @param page
+     * @param textAreaFieldName
+     * @param moreTextToBeAdded
+     * @param action
+     * @param textAreaLabel
+     * @param tabIndex
+     * @throws Exception
+     */
+    protected void testTextAreaPopup(HtmlPage page, String textAreaFieldName,String moreTextToBeAdded,String action,String textAreaLabel,String tabIndex) throws Exception{
+        HtmlPage textAreaPopupPage = clickOn(page, "methodToCall.updateTextArea.((#"+textAreaFieldName+":"+action+":"+textAreaLabel+"#))"+tabIndex);
+        String currentValue = getFieldValue(textAreaPopupPage, textAreaFieldName);
+        String completeText = currentValue+moreTextToBeAdded;
+        setFieldValue(textAreaPopupPage, textAreaFieldName, completeText);
+        super.assertContains(textAreaPopupPage, textAreaLabel);
         HtmlPage textAreasAddedPage = clickOn(textAreaPopupPage,"methodToCall.postTextAreaToParent.anchor"+tabIndex);
-        assertEquals(getFieldValue(textAreasAddedPage, id), completeText);
-//        return textAreaPopupPage;
-}
+        assertEquals(getFieldValue(textAreasAddedPage, textAreaFieldName), completeText);
+    }
+    /**
+     * 
+     * This method checks the values mentioned in the map against the values in from the page.
+     * It uses getFieldValue(HtmlPage,string) method to get the value from page by using key.
+     * @param page
+     * @param keyValues
+     */
     protected void validatePage(HtmlPage page, Map<String, String> keyValues) {
         Iterator<String> it = keyValues.keySet().iterator();
         while (it.hasNext()) {
@@ -114,5 +131,4 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
             assertEquals(getFieldValue(page, key), keyValues.get(key));
         }
     }
-
 }
