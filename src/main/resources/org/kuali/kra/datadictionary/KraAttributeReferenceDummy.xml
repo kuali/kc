@@ -60,7 +60,7 @@
                 <label>City </label>
 			    <shortLabel>City </shortLabel>
 			    <maxLength>30</maxLength>
-			    <validationPattern><alphaNumeric /></validationPattern>
+			    <validationPattern><alphaNumeric allowWhitespace="true" /></validationPattern>
                 <control>
 			    	<text size="40" />
                 </control>
