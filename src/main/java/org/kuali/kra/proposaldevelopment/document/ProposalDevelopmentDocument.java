@@ -86,7 +86,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private Sponsor sponsor;
     private Integer nextProposalPersonNumber;
     private List<Narrative> narratives;
-    private Narrative newNarrative;
     private List<ProposalUserRoles> proposalUserRoles;
     private List<ProposalAbstract> proposalAbstracts;
     private List<Narrative> institutes;
@@ -678,26 +677,41 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         return getProposalPersons().get(index);
     }
 
+    /**
+     * Get the list of Proposal Attachments (Narratives) for this Proposal.
+     * @return the proposal's list of narratives.
+     */
     public List<Narrative> getNarratives() {
         return narratives;
     }
-
+    /**
+     * Set the list of Proposal Attachments (Narratives) for this Proposal.
+     * @param narratives the proposal's new list of narratives.
+     */
     public void setNarratives(List<Narrative> narratives) {
         this.narratives = narratives;
     }
 
-    public Narrative getNewNarrative() {
-        return newNarrative;
-    }
-
-    public void setNewNarrative(Narrative narrative) {
-        this.newNarrative = narrative;
-    }
-
+//    public Narrative getNewNarrative() {
+//        return newNarrative;
+//    }
+//
+//    public void setNewNarrative(Narrative narrative) {
+//        this.newNarrative = narrative;
+//    }
+//
+    /**
+     * Get the list of User Roles for this Proposal.
+     * @return proposal user roles.
+     */
     public List<ProposalUserRoles> getProposalUserRoles() {
         return proposalUserRoles;
     }
 
+    /**
+     * Set the list of User Roles for this Proposal.
+     * @param proposal user roles
+     */
     public void setProposalUserRoles(List<ProposalUserRoles> proposalUserRoles) {
         this.proposalUserRoles = proposalUserRoles;
     }

@@ -142,5 +142,11 @@
   </bean>
 
   <bean id="userRoleDao" parent="platformAwareDao" class="org.kuali.kra.dao.UserRoleDaoOjb"></bean>
+	
+	<bean id="narrativeAuthZService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeAuthZServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 
 </beans>

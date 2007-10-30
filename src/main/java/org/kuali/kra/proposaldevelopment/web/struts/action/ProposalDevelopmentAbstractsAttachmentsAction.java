@@ -18,6 +18,8 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_CLOSE_PAGE;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE;
+import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_NUMBER;
+import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_SEQUENCE_NUMBER;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayOutputStream;
@@ -52,6 +54,7 @@ import org.kuali.kra.bo.RoleRight;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RightConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -66,6 +69,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddAbstractEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
+import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.KNSServiceLocator;
 /**
@@ -78,10 +83,17 @@ import org.kuali.rice.KNSServiceLocator;
  * @version 1.0
  */
 public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevelopmentAction {
+    private static final String EMPTY_STRING = "";
+    private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
+    private static final String NARRATIVE_STATUS_CODE = "narrativeStatusCode";
+    private static final String ROLE_ID = "roleId";
+    private static final String PERSON_ID = "personId";
+    private static final String MODULE_NUMBER = "moduleNumber";
+    private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAbstractsAttachmentsAction.class);
-    private static final String NARRATIVE_ACCESS_TYPE_NONE = "N";
-    private static final String NARRATIVE_ACCESS_TYPE_VIEW = "V";
-    private static final String NARRATIVE_ACCESS_TYPE_MODIFY = "M";
+//    private static final String NARRATIVE_ACCESS_TYPE_NONE = "N";
+//    private static final String NARRATIVE_ACCESS_TYPE_VIEW = "R";
+//    private static final String NARRATIVE_ACCESS_TYPE_MODIFY = "M";
     private static final String LINE_NUMBER = "line";
     private static final String CONFIRM_DELETE_ABSTRACT_KEY = "confirmDeleteAbstract";
     /**
@@ -95,12 +107,75 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        List<Narrative> narrList = pd.getNarratives();
-        for (Narrative narrative : narrList) {
-            populateNarrativeUserRights(pd, narrative);
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        List<Narrative> narrativeList = proposalDevelopmentDocument.getNarratives();
+        for (Narrative narrative : narrativeList) {
+            populateNarrativeUserRights(proposalDevelopmentDocument, narrative);
+            populateNarrativeType(narrative);
+        }
+        boolean rulePassed = true;
+        // check any business rules
+        rulePassed &= getKualiRuleService().applyRules(new SaveNarrativesEvent(EMPTY_STRING,proposalDevelopmentDocument));
+
+        if (!rulePassed){
+            mapping.findForward(Constants.MAPPING_BASIC);
         }
         return super.save(mapping, form, request, response);
+    }
+    /**
+     * Populates module level rights for each narrative for logged in user.
+     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        populateNarrativeRightsForLoggedinUser(proposalDevelopmentForm);
+        return super.execute(mapping, form, request, response);
+    }    
+
+    private void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentForm proposalDevelopmentForm) {
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        List<Narrative> narrativeList = proposalDevelopmentDocument.getNarratives();
+        NarrativeAuthZService narrativeAuthZService = getService(NarrativeAuthZService.class);
+        for (Narrative narrative : narrativeList) {
+            narrative.setModifyAttachment(false);
+            narrative.setViewAttachment(false);
+            switch(narrativeAuthZService.authorize(narrative, "000000006")){
+                case MODIFY_NARRATIVE_RIGHT:
+                    narrative.setModifyAttachment(true);
+                    break;
+                case VIEW_NARRATIVE_RIGHT:
+                    narrative.setViewAttachment(true);
+                    break;
+                case NO_NARRATIVE_RIGHT:
+                    break;
+            }
+//            List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
+//            for (NarrativeUserRights narrativeRight : narrativeUserRights) {
+////                if(narrativeRight.getUserId().equalsIgnoreCase(proposalDevelopmentDocument.getUpdateUser())){
+//              if(narrativeRight.getUserId().equalsIgnoreCase("000000006")){
+//                    if(narrativeRight.getAccessType().equals(NARRATIVE_ACCESS_TYPE_MODIFY)){ 
+//                        narrative.setModifyAttachment(true);
+//                    }else if(narrativeRight.getAccessType().equals(NARRATIVE_ACCESS_TYPE_VIEW)){ 
+//                        narrative.setViewAttachment(true);
+//                    }
+//                    break;
+//                }
+//            }
+        }
+    }
+    /**
+     * 
+     * This method populates narrative type details to narrative object by looking at the narrative type code
+     * @param narrative
+     */
+    private void populateNarrativeType(Narrative narrative) {
+        Map<String,String> narrativeTypeMap = new HashMap<String,String>();
+        narrativeTypeMap.put(NARRATIVE_TYPE_CODE, narrative.getNarrativeTypeCode());
+        BusinessObjectService service = getService(BusinessObjectService.class);
+        NarrativeType narrType = (NarrativeType) service.findByPrimaryKey(NarrativeType.class, narrativeTypeMap);
+        if (narrType != null)
+            narrative.setNarrativeType(narrType);
     }
 
     /**
@@ -120,42 +195,43 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        Narrative narrative = proposalDevelopmentDocument.getNewNarrative();
+        Narrative narrative = proposalDevelopmentForm.getNewNarrative();
         narrative.setProposalNumber(proposalDevelopmentDocument.getProposalNumber());
-        narrative.setModuleNumber(proposalDevelopmentDocument.getProposalNextValue(Constants.NARRATIVE_MODULE_NUMBER));
-        narrative.setModuleSequenceNumber(proposalDevelopmentDocument.getProposalNextValue(Constants.NARRATIVE_MODULE_SEQUENCE_NUMBER));
+        narrative.setModuleNumber(proposalDevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_NUMBER));
+        narrative.setModuleSequenceNumber(proposalDevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_SEQUENCE_NUMBER));
         narrative.setUpdateUser(proposalDevelopmentDocument.getUpdateUser());
         narrative.setUpdateTimestamp(proposalDevelopmentDocument.getUpdateTimestamp());
-
-        Map<String,String> narrativeTypeMap = new HashMap<String,String>();
-        narrativeTypeMap.put("narrativeTypeCode", narrative.getNarrativeTypeCode());
-        BusinessObjectService service = getService(BusinessObjectService.class);
-        NarrativeType narrType = (NarrativeType) service.findByPrimaryKey(NarrativeType.class, narrativeTypeMap);
-        if (narrType != null)
-            narrative.setNarrativeType(narrType);
-
+        narrative.setModifyAttachment(true);
+        populateNarrativeType(narrative);
         boolean rulePassed = true;
         // check any business rules
-        rulePassed &= getKualiRuleService().applyRules(new AddNarrativeEvent("newNarrative", proposalDevelopmentDocument, narrative));
+        rulePassed &= getKualiRuleService().applyRules(new AddNarrativeEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative));
 
         if (!rulePassed){
-            // remove the status stuff from institute attachment if rule is not satisfied
-            if (narrative.getNarrativeType().getNarrativeTypeGroup().equals(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE)) {
-                proposalDevelopmentDocument.setNewNarrative(new Narrative());            
-            }
+            proposalDevelopmentForm.setNewNarrative(new Narrative());            
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
+        populateNarrativeStatus(narrative);
+        populateNarrativeAttachment(narrative);
+        populateNarrativeUserRights(proposalDevelopmentDocument, narrative);
+        
+        proposalDevelopmentDocument.getNarratives().add(narrative);
+        proposalDevelopmentForm.setNewNarrative(new Narrative());
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    /**
+     * 
+     * This method populates narrative status details to narrative object by looking at the narrative status code
+     * @param narrative
+     */
+    private void populateNarrativeStatus(Narrative narrative) {
         Map<String,String> narrativeStatusMap = new HashMap<String,String>();
-        narrativeStatusMap.put("narrativeStatusCode", narrative.getModuleStatusCode());
+        narrativeStatusMap.put(NARRATIVE_STATUS_CODE, narrative.getModuleStatusCode());
+        BusinessObjectService service = getService(BusinessObjectService.class);
         NarrativeStatus narrStatus = (NarrativeStatus) service.findByPrimaryKey(NarrativeStatus.class, narrativeStatusMap);
         if (narrStatus != null)
             narrative.setNarrativeStatus(narrStatus);
-        populateNarrativeAttachment(narrative);
-        populateNarrativeUserRights(proposalDevelopmentDocument, narrative);
-        proposalDevelopmentDocument.getNarratives().add(narrative);
-        proposalDevelopmentDocument.setNewNarrative(new Narrative());
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -170,24 +246,24 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         byte[] narrativeFileData = narrativeFile.getFileData();
         if (narrativeFileData.length > 0) {
             LOG.info("File exists. Creating new NarrativeAttachment and adding it to Narrative collection ");
-            NarrativeAttachment narrAtt;
+            NarrativeAttachment narrativeAttachment;
             if (narrative.getNarrativeAttachmentList().isEmpty()){
-                narrAtt = new NarrativeAttachment(); 
-                narrative.getNarrativeAttachmentList().add(narrAtt);
+                narrativeAttachment = new NarrativeAttachment(); 
+                narrative.getNarrativeAttachmentList().add(narrativeAttachment);
             }else{
-                narrAtt = narrative.getNarrativeAttachmentList().get(0);
-                if(narrAtt==null){
-                    narrAtt = new NarrativeAttachment(); 
-                    narrative.getNarrativeAttachmentList().set(0,narrAtt);
+                narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
+                if(narrativeAttachment==null){
+                    narrativeAttachment = new NarrativeAttachment(); 
+                    narrative.getNarrativeAttachmentList().set(0,narrativeAttachment);
                 }
             }
             String fileName = narrativeFile.getFileName();
-            narrAtt.setFileName(fileName);
-            narrAtt.setContentType(narrativeFile.getContentType());
-            narrAtt.setNarrativeData(narrativeFile.getFileData());
-            narrAtt.setProposalNumber(narrative.getProposalNumber());
-            narrAtt.setModuleNumber(narrative.getModuleNumber());
-            narrative.setFileName(narrAtt.getFileName());
+            narrativeAttachment.setFileName(fileName);
+            narrativeAttachment.setContentType(narrativeFile.getContentType());
+            narrativeAttachment.setNarrativeData(narrativeFile.getFileData());
+            narrativeAttachment.setProposalNumber(narrative.getProposalNumber());
+            narrativeAttachment.setModuleNumber(narrative.getModuleNumber());
+            narrative.setFileName(narrativeAttachment.getFileName());
         }else{
         	narrative.getNarrativeAttachmentList().clear();
         }
@@ -203,15 +279,19 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @param narrative
      */
     private void populateNarrativeUserRights(ProposalDevelopmentDocument proposalDevelopmentDocument, Narrative narrative) {
-        List<NarrativeUserRights> narrUserRights = narrative.getNarrativeUserRights();
+        List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
+        Map<String,Integer> proposalUserRolesMap = new HashMap<String,Integer>();
+        proposalUserRolesMap.put(PROPOSAL_NUMBER, narrative.getProposalNumber());
+        Collection<ProposalUserRoles> proposalUserRolesList = getBusinessObjectService().findMatching(ProposalUserRoles.class, proposalUserRolesMap);
+        
         List<ProposalUserRoles> usrRights = proposalDevelopmentDocument.getProposalUserRoles();
-        for (ProposalUserRoles proposalUserRoles : usrRights) {
+        for (ProposalUserRoles proposalUserRoles : proposalUserRolesList) {
             boolean continueFlag = false;
-            Map personVal = new HashMap();
-            personVal.put("personId", proposalUserRoles.getUserId());
+            Map<String,String> personVal = new HashMap<String,String>();
+            personVal.put(PERSON_ID, proposalUserRoles.getUserId());
             Person per = (Person) getBusinessObjectService().findByPrimaryKey(Person.class, personVal);
             String personName = per.getFirstName() + " " + per.getLastName();
-            for (NarrativeUserRights tempNarrUserRight : narrUserRights) {
+            for (NarrativeUserRights tempNarrUserRight : narrativeUserRights) {
                 if (tempNarrUserRight.getUserId().equalsIgnoreCase(proposalUserRoles.getUserId())) {
                     continueFlag = true;
                     tempNarrUserRight.setPersonName(personName);
@@ -220,15 +300,18 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             }
             if (continueFlag)
                 continue;
-            Map proRoleMap = new HashMap();
-            proRoleMap.put("roleId", proposalUserRoles.getRoleId());
+            Map<String,Integer> proRoleMap = new HashMap<String,Integer>();
+            proRoleMap.put(ROLE_ID, proposalUserRoles.getRoleId());
             Collection<RoleRight> roleRights = getBusinessObjectService().findMatching(RoleRight.class, proRoleMap);
-            String accessType = NARRATIVE_ACCESS_TYPE_NONE;
+//            String accessType = NARRATIVE_ACCESS_TYPE_NONE;
+            String accessType = NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType();
             for (RoleRight roleRight : roleRights) {
                 if (roleRight.getRightId().equals(RightConstants.VIEW_NARRATIVE)) {
-                    accessType = NARRATIVE_ACCESS_TYPE_VIEW;
+//                    accessType = NARRATIVE_ACCESS_TYPE_VIEW;
+                  accessType = NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType();
                 }else if (roleRight.getRightId().equals(RightConstants.MODIFY_NARRATIVE)) {
-                    accessType = NARRATIVE_ACCESS_TYPE_MODIFY;
+//                    accessType = NARRATIVE_ACCESS_TYPE_MODIFY;
+                    accessType = NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType();
                 }
             }
             NarrativeUserRights narrUserRight = new NarrativeUserRights();
@@ -237,7 +320,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             narrUserRight.setUserId(proposalUserRoles.getUserId());
             narrUserRight.setAccessType(accessType);
             narrUserRight.setPersonName(personName);
-            narrUserRights.add(narrUserRight);
+            narrativeUserRights.add(narrUserRight);
         }
     }
     /**
@@ -256,12 +339,12 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        Narrative narr = pd.getNarratives().get(lineNumber);
-        NarrativeAttachment narrAttachment = findNarrativeAttachment(narr);
-        if(narrAttachment==null && !narr.getNarrativeAttachmentList().isEmpty()){//get it from the memory
-            narrAttachment = narr.getNarrativeAttachmentList().get(0);
+        Narrative narrative = pd.getNarratives().get(lineNumber);
+        NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
+        if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
+            narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
         }
-        streamToResponse(narrAttachment,response);
+        streamToResponse(narrativeAttachment,response);
         return null;
     }
     /**
@@ -271,9 +354,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @return NarrativeAttachment
      */
     private NarrativeAttachment findNarrativeAttachment(Narrative narrative){
-        Map narrativeAttachemntMap = new HashMap();
-        narrativeAttachemntMap.put("proposalNumber", narrative.getProposalNumber());
-        narrativeAttachemntMap.put("moduleNumber", narrative.getModuleNumber());
+        Map<String,Integer> narrativeAttachemntMap = new HashMap<String,Integer>();
+        narrativeAttachemntMap.put(PROPOSAL_NUMBER, narrative.getProposalNumber());
+        narrativeAttachemntMap.put(MODULE_NUMBER, narrative.getModuleNumber());
         return (NarrativeAttachment)getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, narrativeAttachemntMap);
     }
     /**
@@ -381,13 +464,14 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        Narrative narr = pd.getNarratives().get(getLineToDelete(request));
-        NarrativeAttachment narrAtt = findNarrativeAttachment(narr);
-        if (narr.getNarrativeAttachmentList().isEmpty())
-            narr.getNarrativeAttachmentList().add(narrAtt);
-        else
-            narr.getNarrativeAttachmentList().set(0, narrAtt);
-        populateNarrativeAttachment(narr);
+        Narrative narrative = pd.getNarratives().get(getLineToDelete(request));
+        NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
+        if(narrativeAttachment!=null)
+            if (narrative.getNarrativeAttachmentList().isEmpty())
+                narrative.getNarrativeAttachmentList().add(narrativeAttachment);
+            else
+                narrative.getNarrativeAttachmentList().set(0, narrativeAttachment);
+        populateNarrativeAttachment(narrative);
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -474,7 +558,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             String description = doc.getProposalAbstracts().get(lineNum).getAbstractType().getDescription();
             return this.performQuestionWithoutInput(mapping, form, request, response, CONFIRM_DELETE_ABSTRACT_KEY, 
                                                     buildDeleteAbstractConfirmationQuestion(description),
-                                                    RiceConstants.CONFIRMATION_QUESTION, "deleteAbstract", "");
+                                                    RiceConstants.CONFIRMATION_QUESTION, "deleteAbstract", EMPTY_STRING);
         }
         else {
             // If the user has indicated that the deletion should occur, then go
@@ -591,12 +675,12 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     public ActionForward viewPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        String line = request.getParameter("line");
+        String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalPersonBiography propPersonBio = pd.getPropPersonBios().get(lineNumber);
-        Map propPersonBioAttVal = new HashMap();
-        propPersonBioAttVal.put("proposalNumber", propPersonBio.getProposalNumber());
+        Map<String,Integer> propPersonBioAttVal = new HashMap<String,Integer>();
+        propPersonBioAttVal.put(PROPOSAL_NUMBER, propPersonBio.getProposalNumber());
         propPersonBioAttVal.put("biographyNumber", propPersonBio.getBiographyNumber());
         propPersonBioAttVal.put("proposalPersonNumber", propPersonBio.getProposalPersonNumber());
         ProposalPersonBiographyAttachment propPersonBioAttachment = (ProposalPersonBiographyAttachment)getBusinessObjectService().findByPrimaryKey(ProposalPersonBiographyAttachment.class, propPersonBioAttVal);
@@ -626,10 +710,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward addInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument propDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        propDoc.setNewNarrative(proposalDevelopmentForm.getNewInstitute());
-        propDoc.getNewNarrative().setNarrativeTypeCode(propDoc.getNewNarrative().getInstitutionalAttachmentTypeCode());
-        propDoc.getNewNarrative().setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
+        proposalDevelopmentForm.setNewNarrative(proposalDevelopmentForm.getNewInstitute());
+        proposalDevelopmentForm.getNewNarrative().setNarrativeTypeCode(proposalDevelopmentForm.getNewNarrative().getInstitutionalAttachmentTypeCode());
+        proposalDevelopmentForm.getNewNarrative().setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         proposalDevelopmentForm.setNewInstitute(new Narrative());
         return addProposalAttachment(mapping, form, request, response);
     }
