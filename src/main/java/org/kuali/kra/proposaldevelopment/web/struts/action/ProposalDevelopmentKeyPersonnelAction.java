@@ -28,7 +28,6 @@ import static org.kuali.kra.infrastructure.Constants.NEW_PROPOSAL_PERSON_PROPERT
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static edu.iu.uis.eden.clientapp.IDocHandler.INITIATE_COMMAND;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -39,6 +38,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -68,8 +68,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: tdurkin $
- * @version $Revision: 1.22 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.23 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -213,11 +213,14 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
 
-        ProposalPerson person = (ProposalPerson) getProperty(pdform, pdform.getAddToPerson());
-        ProposalPersonDegree degree = pdform.getNewProposalPersonDegree();
+        int selectedPersonIndex = getSelectedPersonIndex(request, document);
+        ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
+        ProposalPersonDegree degree = pdform.getNewProposalPersonDegree().get(selectedPersonIndex);
+        degree.setDegreeSequenceNumber(pdform.getProposalDevelopmentDocument().getProposalNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
         person.addDegree(degree);
         degree.refreshReferenceObject("degreeType");
-        pdform.setNewProposalPersonDegree(new ProposalPersonDegree());
+        pdform.getNewProposalPersonDegree().remove(selectedPersonIndex);
+        pdform.getNewProposalPersonDegree().add(selectedPersonIndex,new ProposalPersonDegree());
 
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -231,12 +234,14 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
 
-        ProposalPerson person = (ProposalPerson) getProperty(pdform, pdform.getAddToPerson());
-        ProposalPersonUnit unit = createProposalPersonUnit(pdform.getNewProposalPersonUnit(), person, (List<InvestigatorCreditType>) pdform.getInvestigatorCreditTypes());
+        int selectedPersonIndex = getSelectedPersonIndex(request, document);
+        ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
+        ProposalPersonUnit unit = createProposalPersonUnit(pdform.getNewProposalPersonUnit().get(selectedPersonIndex), person, (List<InvestigatorCreditType>) pdform.getInvestigatorCreditTypes());
         
         addUnitToPerson(person, unit);
 
-        pdform.setNewProposalPersonUnit(new Unit());
+        pdform.getNewProposalPersonUnit().remove(selectedPersonIndex);
+        pdform.getNewProposalPersonUnit().add(selectedPersonIndex,new Unit());
 
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -328,6 +333,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             prop_person.setPostalCode(rolodex.getPostalCode());
             prop_person.setState(rolodex.getState());
             prop_person.setPrimaryTitle(rolodex.getTitle());
+            if (StringUtils.isNotBlank(rolodex.getFirstName()+" "+rolodex.getLastName())) {
+                prop_person.setFullName(rolodex.getFirstName()+" "+rolodex.getLastName());
+            }
         }
         
         return prop_person;
@@ -435,6 +443,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             ProposalPerson person = person_it.next();
             if (person.isDelete()) {
                 person_it.remove();
+                document.getInvestigators().remove(person);
             }
         }
         return mapping.findForward(MAPPING_BASIC);
@@ -518,6 +527,17 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         }
 
         return retval;
+    }
+
+    protected int getSelectedPersonIndex(HttpServletRequest request, ProposalDevelopmentDocument document) {
+        ProposalPerson retval = null;
+        int selectedPersonIndex = -1;
+        String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
+        if (isNotBlank(parameterName)) {
+            selectedPersonIndex = Integer.parseInt(substringBetween(parameterName, "personIndex","."));
+        }
+
+        return selectedPersonIndex;
     }
 
     /**

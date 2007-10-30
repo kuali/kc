@@ -15,20 +15,20 @@
 --%>
 <%@ include file="/WEB-INF/jsp/proposalPerson.jsp"%>
 
-              <table cellpadding=0 cellspacing="0" summary="">
+              <!-- <table cellpadding=0 cellspacing="0" summary=""> -->
                 <tbody id="G4">
                   <tr>
                     <th width="10%">&nbsp;</th>
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonDegree.attributes.degreeCode" />
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonDegree.attributes.degree" />
-                    <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonDegree.attributes.graduationDate" />
+                    <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonDegree.attributes.graduationYear" />
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonDegree.attributes.school" />
-                  <kra-pd:personDegreeLine proposalPerson="${proposalPerson}"/>
+                  <kra-pd:personDegreeLine proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
 
     <bean:define id="degrees" name="KualiForm" property="${proposalPerson}.degrees"/>
     <c:forEach items="${degrees}"  var="degree" varStatus="status">
-                  <kra-pd:personDegreeLine proposalPerson="${proposalPerson}" index="${status.index}" />
+                  <kra-pd:personDegreeLine proposalPerson="${proposalPerson}" index="${status.index}"  personIndex="${personIndex}"/>
     </c:forEach>
 
                 </tbody>
-              </table>
+             <!-- </table> -->
