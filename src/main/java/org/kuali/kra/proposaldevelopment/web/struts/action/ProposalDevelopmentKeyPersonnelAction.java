@@ -69,7 +69,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: shyu $
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -486,6 +486,21 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
         selectedPerson.getDegrees().remove(getSelectedLine(request));
+
+        return mapping.findForward(MAPPING_BASIC);
+    }
+
+    /**
+     * 
+     * This method is to recalculate credit split
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward recalculateCreditSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
 
         return mapping.findForward(MAPPING_BASIC);
     }
