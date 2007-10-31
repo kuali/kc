@@ -663,10 +663,10 @@ CREATE TABLE "EPS_PROP_PERSON_DEGREE"
 ENABLE,                                                                         
 "PROP_PERSON_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_DEGREE_N2" NOT    
 NULL ENABLE,                                                                    
-"GRADUATION_DATE" DATE CONSTRAINT "EPS_PROP_PERSON_DEGREE_N3" NOT NULL ENABLE,  
-"DEGREE_CODE" VARCHAR2(6) CONSTRAINT "EPS_PROP_PERSON_DEGREE_N4" NOT NULL       
-ENABLE,                                                                         
-"DEGREE" VARCHAR2(80) CONSTRAINT "EPS_PROP_PERSON_DEGREE_N5" NOT NULL ENABLE,   
+"DEGREE_SEQUENCE_NUMBER"  NUMBER(3) CONSTRAINT "EPS_PROP_PERSON_DEGREE_N3" NOT NULL ENABLE,
+"GRADUATION_YEAR"     VARCHAR2(4),
+"DEGREE_CODE" VARCHAR2(6),                                                                         
+"DEGREE" VARCHAR2(80),   
 "FIELD_OF_STUDY" VARCHAR2(80),                                                  
 "SPECIALIZATION" VARCHAR2(80),                                                  
 "SCHOOL" VARCHAR2(50),                                                          
@@ -677,7 +677,7 @@ ENABLE,
 "VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
 "OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL ENABLE,                       
 CONSTRAINT "EPS_PROP_PERSON_DEGREE_N6" PRIMARY KEY ("PROPOSAL_NUMBER",          
-"PROP_PERSON_NUMBER", "GRADUATION_DATE", "DEGREE_CODE", "DEGREE") ENABLE,       
+"PROP_PERSON_NUMBER", "DEGREE_SEQUENCE_NUMBER") ENABLE,       
 CONSTRAINT "EPS_PROP_PERSON_DEGREE_C0" UNIQUE ("OBJ_ID") ENABLE
    ) ;
          
