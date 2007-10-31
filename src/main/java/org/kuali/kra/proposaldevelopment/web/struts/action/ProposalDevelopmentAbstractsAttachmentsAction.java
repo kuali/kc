@@ -129,7 +129,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        populateNarrativeRightsForLoggedinUser(proposalDevelopmentForm);
+        //Need to check with Terry
+//        populateNarrativeRightsForLoggedinUser(proposalDevelopmentForm);
         return super.execute(mapping, form, request, response);
     }    
 
@@ -140,7 +141,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         for (Narrative narrative : narrativeList) {
             narrative.setModifyAttachment(false);
             narrative.setViewAttachment(false);
-            switch(narrativeAuthZService.authorize(narrative, "000000006")){
+            switch(narrativeAuthZService.authorize(narrative, proposalDevelopmentDocument.getUpdateUser())){
                 case MODIFY_NARRATIVE_RIGHT:
                     narrative.setModifyAttachment(true);
                     break;
