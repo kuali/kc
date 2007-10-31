@@ -28,5 +28,9 @@
 			<param name="beanName" value="sponsorService" />
 			<include method="getSponsorName" />
 		</create>
+		<create creator="spring" javascript="UnitService">
+			<param name="beanName" value="unitService" />
+			<include method="getUnitName" />
+		</create>
 	</allow>
 </dwr>
