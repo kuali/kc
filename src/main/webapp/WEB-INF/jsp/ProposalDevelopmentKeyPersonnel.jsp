@@ -93,6 +93,6 @@ var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
-<script language="javascript" src="dwr/interface/SponsorService.js"></script>
+<script language="javascript" src="dwr/interface/UnitService.js"></script>
 
 </kul:documentPage>

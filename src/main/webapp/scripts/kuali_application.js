@@ -106,6 +106,37 @@ function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
 	}
 }
 
+/*
+ * Load the Unit Name field based on the Unit Number passed in.
+ */
+function loadUnitName(unitNumberFieldName) {
+	var unitNumber = DWRUtil.getValue( unitNumberFieldName );
+    var elPrefix = findElPrefix( unitNumberFieldName );
+	var unitNameFieldName = elPrefix + ".unitName";
+	if (unitNumber=='') {
+		clearRecipients( unitNameFieldName, "(select)" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( unitNameFieldName != null && unitNameFieldName != "" ) {
+						setRecipientValue( unitNameFieldName, data );
+					}
+				} else {
+					if ( unitNameFieldName != null && unitNameFieldName != "" ) {
+						setRecipientValue(  unitNameFieldName, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( unitNameFieldName, wrapError( "not found" ), true );
+			}
+		};
+		UnitService.getUnitName(unitNumber,dwrReply);
+	}
+}
+
 
 function loadSponsorCode_1( sponsorCodeFieldName) {
     // alternative, delete later
