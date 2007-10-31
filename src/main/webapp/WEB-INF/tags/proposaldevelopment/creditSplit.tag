@@ -84,9 +84,13 @@
                 <td class="infoline"><div align="right"><strong>${totalMap[invType.invCreditTypeCode]}</strong></div></td>
   </c:forEach>
               </tr>            
-
+ 
         </table>
+        <br>
+              <div align=center><html:image property="methodToCall.recalculateCreditSplit" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate" alt="Recalculate" styleClass="tinybutton"/>
     </div>
 </kul:tab>
+
 </c:if>
+
 

@@ -281,6 +281,20 @@ table.grid
 	border-left: 1px solid #999999;
 }
 
+#workarea td.tab-subhead1
+{
+	font-weight: bold;
+	background-color: #939393;
+	height: 18px;
+	text-align: left;
+	border-left: 1px solid #999999;
+	color: #FFFFFF;
+	padding-left: 10px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #B2B2B2;
+}
+
 #workarea td.tab-subhead-import
 {
 	font-weight: bold;
