@@ -149,4 +149,10 @@
 		</property>
 	</bean>
 
+	<bean id="unitService" class="org.kuali.kra.service.impl.UnitServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
 </beans>

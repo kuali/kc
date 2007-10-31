@@ -29,21 +29,23 @@
                   </tr>
                   <tr>
                     <th scope="row">add:</th>
-                    <td class="infoline"><div align=left>
+                    <td class="infoline">
+                     <html:hidden property="newProposalPersonUnit[${personIndex}].unitName" />
+   					<div id="newProposalPersonUnit[${personIndex}].unitName.div" style="float: left; text-align: left;">
                      <c:choose>
                       <c:when test="${empty KualiForm.newProposalPersonUnit[personIndex].unitName}" >
                       (select)
                       </c:when>
                       <c:otherwise>
-                      <kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="newProposalPersonUnit[${personIndex}].unitName" readOnly="true" />
+                         ${KualiForm.newProposalPersonUnit[personIndex].unitName}
                       </c:otherwise>
                      </c:choose> 
-                      <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:newProposalPersonUnit[${personIndex}].unitNumber,unitName:newProposalPersonUnit[${personIndex}].unitName" />
                       </div>
+                     &nbsp; <kul:lookup boClassName="org.kuali.kra.bo.Unit" fieldConversions="unitNumber:newProposalPersonUnit[${personIndex}].unitNumber,unitName:newProposalPersonUnit[${personIndex}].unitName" />
                         <span class="fineprint"></span> </td>
 
                     <td class="infoline"><div align=left>
-                      <kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="newProposalPersonUnit[${personIndex}].unitNumber"/>
+                      <kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="newProposalPersonUnit[${personIndex}].unitNumber" onblur="loadUnitName('newProposalPersonUnit[${personIndex}].unitNumber');" />
                       </div>
                         <span class="fineprint"></span> </td>
                     <td class="infoline"><div align=center><html:image property="methodToCall.insertUnit.personIndex${personIndex}." src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div></td>
