@@ -768,6 +768,49 @@
 		-->
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.bo.Ynq" table="YNQ">
+		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="dateRequiredFor" column="DATE_REQUIRED_FOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="effectiveDate" column="EFFECTIVE_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="explanationRequiredFor" column="EXPLANATION_REQUIRED_FOR" jdbc-type="VARCHAR"/>
+		<field-descriptor name="groupName" column="GROUP_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="noOfAnswers" column="NO_OF_ANSWERS" jdbc-type="INTEGER"/>
+		<field-descriptor name="questionType" column="QUESTION_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<collection-descriptor name="ynqExplanations" element-class-ref="org.kuali.kra.bo.YnqExplanation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="questionId"/>
+		</collection-descriptor>
+
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.bo.YnqExplanation" table="YNQ_EXPLANATION">
+		<field-descriptor name="explanationType" column="EXPLANATION_TYPE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="explanation" column="EXPLANATION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<reference-descriptor name="ynqExplanationType" class-ref="org.kuali.kra.bo.YnqExplanationType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="explanationType" />
+    	</reference-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.bo.YnqExplanationType" table="YNQ_EXPLANATION_TYPE">
+		<field-descriptor name="explanationType" column="EXPLANATION_TYPE" jdbc-type="CHAR" primarykey="true"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
+
+
 
 	<class-descriptor class="org.kuali.kra.bo.Sponsor" table="SPONSOR">
 		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true"/>
