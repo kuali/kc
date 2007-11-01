@@ -63,6 +63,27 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
     }
     
     /**
+     * Test adding an abstract with an unspecified abstract type code.
+     * This corresponds to a empty string type code, i.e. the user didn't
+     * select an abstract type.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testUnspecifiedAbstractType() throws Exception {
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+        ProposalAbstract proposalAbstract = new ProposalAbstract();
+        proposalAbstract.setAbstractTypeCode("");
+        assertFalse(rule.processAddAbstractBusinessRules(document, proposalAbstract));
+        
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
+        assertTrue(errors.size() == 1);
+        
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertEquals(message.getErrorKey(), KeyConstants.ERROR_ABSTRACT_TYPE_NOT_SELECTED);
+    }
+    
+    /**
      * Test adding an abstract with an invalid type code.
      * 
      * @throws Exception
