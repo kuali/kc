@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -46,7 +48,15 @@ public class ProposalDevelopmentAbstractsRule extends ResearchDocumentRuleBase i
     public boolean processAddAbstractBusinessRules(ProposalDevelopmentDocument document, ProposalAbstract proposalAbstract) {
         boolean isValid = true;
         String abstractTypeCode = proposalAbstract.getAbstractTypeCode();
-        if (isInvalid(abstractTypeCode)) {
+        
+        if (StringUtils.isBlank(abstractTypeCode)) {
+            // If the user didn't select an abstract type, i.e. he/she choose the "select:" option,
+            // then the Abstract Type Code will be "blank".
+            isValid = false;
+            GlobalVariables.getErrorMap().putError(Constants.ABSTRACTS_PROPERTY_KEY, 
+                                                   KeyConstants.ERROR_ABSTRACT_TYPE_NOT_SELECTED);
+        }
+        else if (isInvalid(abstractTypeCode)) {
             isValid = false;
             this.reportError(Constants.ABSTRACTS_PROPERTY_KEY, 
                              KeyConstants.ERROR_ABSTRACT_TYPE_INVALID);
