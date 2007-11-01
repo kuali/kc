@@ -510,23 +510,14 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalAbstract proposalAbstract = proposalDevelopmentForm.getNewProposalAbstract();
         
-        // If the user didn't select an abstract type, i.e. he/she choose the "select:" option,
-        // then the Abstract Type will be null.  Display an error message telling the user
-        // to select an abstract type.
-        
-        if (proposalAbstract.getAbstractType() == null) {
-            GlobalVariables.getErrorMap().putError(Constants.ABSTRACTS_PROPERTY_KEY, 
-                                                   KeyConstants.ERROR_ABSTRACT_TYPE_NOT_SELECTED);
-        } else {
-            // check any business rules
-            boolean rulePassed = getKualiRuleService().applyRules(new AddAbstractEvent(proposalDevelopmentForm.getProposalDevelopmentDocument(), proposalAbstract));
+        // check any business rules
+        boolean rulePassed = getKualiRuleService().applyRules(new AddAbstractEvent(proposalDevelopmentForm.getProposalDevelopmentDocument(), proposalAbstract));
                     
-            // if the rule evaluation passed, let's add it
-            if (rulePassed) {
-                updateUserTimestamp(proposalAbstract);
-                proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalAbstracts().add(proposalAbstract);
-                proposalDevelopmentForm.setNewProposalAbstract(new ProposalAbstract());
-            }
+        // if the rule evaluation passed, let's add it
+        if (rulePassed) {
+            updateUserTimestamp(proposalAbstract);
+            proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalAbstracts().add(proposalAbstract);
+            proposalDevelopmentForm.setNewProposalAbstract(new ProposalAbstract());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
