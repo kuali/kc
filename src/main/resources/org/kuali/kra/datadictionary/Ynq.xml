@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.Ynq">
+
+        <inquiry>
+            <title>Ynq</title>
+
+            <inquirySections><inquirySection title="Ynq"><inquiryFields>
+            	<field attributeName="questionId" forceInquiry="true"/>
+				<field attributeName="questionType"/>
+				<field attributeName="status"/>
+				<field attributeName="effectiveDate"/>
+				<field attributeName="description"/>
+				<field attributeName="noOfAnswers"/>
+				<field attributeName="explanationRequiredFor"/>
+				<field attributeName="dateRequiredFor"/>
+				<field attributeName="groupName"/>
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Ynq Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Ynq</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="questionId"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="questionId" required="false"/>
+				<lookupField attributeName="questionType" required="false"/>
+				<lookupField attributeName="status" required="false"/>
+				<lookupField attributeName="effectiveDate" required="false"/>
+				<lookupField attributeName="description" required="false"/>
+				<lookupField attributeName="noOfAnswers" required="false"/>
+				<lookupField attributeName="explanationRequiredFor" required="false"/>
+				<lookupField attributeName="dateRequiredFor" required="false"/>
+				<lookupField attributeName="groupName" required="false"/>
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="questionId" forceInquiry="true"/>
+				<field attributeName="description" forceInquiry="false"/>
+				<field attributeName="groupName" forceInquiry="false"/>
+				<field attributeName="effectiveDate" forceInquiry="false"/>
+				<!--  
+				<field attributeName="status" forceInquiry="false"/>
+				<field attributeName="questionType" forceInquiry="false"/>
+				<field attributeName="dateRequiredFor" forceInquiry="false"/>
+				<field attributeName="explanationRequiredFor" forceInquiry="false"/>
+				<field attributeName="noOfAnswers" forceInquiry="false"/>
+				-->
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>questionId</titleAttribute>
+        <attributes>
+
+	        <attribute name="questionId">
+			<label>Question Id </label>
+			<shortLabel>Code </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Question Id </summary>
+			<description>Question Id </description>
+			</attribute>
+
+			<attribute name="questionType">
+			<label>Applies To </label>
+			<shortLabel>Applies To </shortLabel>
+			<maxLength>1</maxLength>
+				<control>
+					<select valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionTypeValuesFinder" />
+				</control>
+			<summary>Question Type </summary>
+			<description>Question Type </description>
+			</attribute>
+
+			<attribute name="status">
+			<label>Status </label>
+			<shortLabel>Status </shortLabel>
+			<maxLength>1</maxLength>
+                <control>
+                    <radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqQuestionStatusValuesFinder" />
+                </control>
+			<summary>Status </summary>
+			<description>Status </description>
+			</attribute>
+
+            <attributeReference name="effectiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+			<label>Effective Date </label>
+			<shortLabel>Effective Date </shortLabel>
+			<summary>Effective Date </summary>
+			<description>Effective Date </description>
+			</attributeReference>
+
+			<attribute name="description">
+			<label>Question </label>
+			<shortLabel>Question </shortLabel>
+			<maxLength>400</maxLength>
+                <control>
+                    <textarea rows="5" cols="40" />
+                </control>
+			<summary>Description </summary>
+			<description>Description </description>
+			</attribute>
+
+			<attribute name="noOfAnswers">
+			<label>Valid Answers </label>
+			<shortLabel>Valid Answers</shortLabel>
+			<maxLength>2</maxLength>
+			<validationPattern><numeric /></validationPattern>
+                <control>
+                    <radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqValidAnswersValuesFinder" />
+                </control>
+			<summary>No Of Answers </summary>
+			<description>No Of Answers </description>
+			</attribute>
+
+            <attribute name="explanationRequiredFor">
+			<label>Explanation Required For </label>
+			<shortLabel>Explanation Required For </shortLabel>
+			<maxLength>2</maxLength>
+                <control>
+                    <radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" />
+                </control>
+			<summary>Explanation Required For </summary>
+			<description>Explanation Required For </description>
+			</attribute>
+
+            <attribute name="dateRequiredFor" >
+			<label>Date Required For </label>
+			<shortLabel>Date Required For </shortLabel>
+			<maxLength>2</maxLength>
+                <control>
+                    <radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" />
+                </control>
+			<summary>Date Required For </summary>
+			<description>Date Required For </description>
+			</attribute>
+
+			<attribute name="groupName">
+			<label>Group Name </label>
+			<shortLabel>Group Name </shortLabel>
+			<maxLength>150</maxLength>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Group Name </summary>
+			<description>Group Name </description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+		</attributes>
+
+        <collections>
+	        <collection name="ynqExplanations">
+	            <label>YNQ Explanation</label>
+	            <shortLabel>YNQ Explanation</shortLabel>
+	            <elementLabel>YNQ Explanation</elementLabel>
+	            <summary>
+	                YNQ Explanation
+	            </summary>
+	            <description>Listing of YNQ Explanation.</description>
+	        </collection>
+        </collections>
+		
+    </businessObject>
+
+</dictionaryEntry>
