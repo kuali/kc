@@ -24,9 +24,13 @@
 
                 <h2><span class="subhead-left"><bean:write name="KualiForm" property="${proposalPerson}.fullName"/></span></h2>
               </div>
+<table cellpadding=0 cellspacing=0 summary="">
+          	<tr>
+				<td>
               
 <kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="true">
-              <table cellpadding=0 cellspacing="0" summary=""> 
+			<div class="innerTab-container" align="left">
+              <table class=tab cellpadding=0 cellspacing="0" summary=""> 
                 <tbody id="G1">
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /></div></th>
@@ -189,24 +193,30 @@
                     </label></td>
                   </tr>
                 </tbody>
-</table>
+</table></div>
 </kul:innerTab>
-
+</td></tr>
 <bean:define id="isInvestigator" name="KualiForm" property="${proposalPerson}.isInvestigator" />
 <c:if test="${isInvestigator == 'Yes'}">
+          	<tr>
+				<td colspan=4>
 
   <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="true">
-              <table cellpadding=0 cellspacing="0" summary="" >
+              <table class=tab cellpadding=0 cellspacing="0" summary="" >
               <kra-pd:personUnitSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
   </kul:innerTab>
+  </td></tr>
 </c:if>
+          	<tr>
+				<td colspan=4>
 
 <kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="true">
-              <table cellpadding=0 cellspacing="0" summary="" >
+              <table class=tab cellpadding=0 cellspacing="0" summary="" >
               <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
 </kul:innerTab>
+</td></tr></table>
            </div>
           </div>
 </div>
