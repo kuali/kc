@@ -31,7 +31,7 @@
                     <th scope="row">add:</th>
                     <td class="infoline">
                      <html:hidden property="newProposalPersonUnit[${personIndex}].unitName" />
-   					<div id="newProposalPersonUnit[${personIndex}].unitName.div" style="float: left; text-align: left;">
+   					<div id="newProposalPersonUnit[${personIndex}].unitName.div" class="same-line">
                      <c:choose>
                       <c:when test="${empty KualiForm.newProposalPersonUnit[personIndex].unitName}" >
                       (select)
