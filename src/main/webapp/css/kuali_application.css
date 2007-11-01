@@ -25,3 +25,8 @@ div.innerTab-container{
 	background-image: url("../images/tab-sideright1.gif");
 	background-repeat: repeat-y;
 }
+
+div.same-line{
+	float: left; 
+	text-align: left;
+}
