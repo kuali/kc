@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.kra.bo.Ynq</businessObjectClass>
+        <!--   <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass> -->
+        <maintainableClass>org.kuali.kra.maintenance.YnqMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>WorkflowAdmin</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>YnqMaintenanceDocument</documentTypeName>
+        <documentTypeCode>YNQD</documentTypeCode>
+
+        <label>Ynq Maintenance Document</label>
+        <shortLabel>ynqMaintDoc</shortLabel>
+
+        <summary>Ynq Maintenance Document</summary>
+        <description>Document used to create or update Ynq Reference objects</description>
+
+        <lockingKeys>
+        	<field attributeName="questionId"/>
+
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Ynq">
+                <maintainableItems>
+                	<maintainableField name="questionId" required="true"/>
+					<maintainableField name="questionType" required="true"/>
+					<maintainableField name="status" required="true"/>
+					<maintainableField name="effectiveDate" required="true"/>
+					<maintainableField name="description" required="true"/>
+					<maintainableField name="noOfAnswers" required="true"/>
+					<maintainableField name="explanationRequiredFor" required="false"/>
+					<maintainableField name="dateRequiredFor" required="false"/>
+					<maintainableField name="groupName" required="false"/>
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+            <maintainableSection title="Ynq Explanation">
+                <maintainableItems>
+                    <maintainableCollection name="ynqExplanations" businessObjectClass="org.kuali.kra.bo.YnqExplanation" includeAddLine="false">
+                        <maintainableField name="ynqExplanationType.description" readOnly="true" />
+                        <maintainableField name="questionId" />
+                        <maintainableField name="explanation" required="false" />
+                        <!-- hidden fields -->
+                        <maintainableField name="explanationType" />
+                        <maintainableField name="versionNumber" />
+                        <summaryFields>
+                            <summaryField name="ynqExplanationType.description" />
+                        </summaryFields>
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

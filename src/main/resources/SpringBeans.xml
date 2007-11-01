@@ -155,4 +155,10 @@
 		</property>
 	</bean>
 
+	<bean id="ynqService" class="org.kuali.kra.service.impl.YnqServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
 </beans>
