@@ -394,4 +394,7 @@ ALTER TABLE "YNQ_EXPLANATION" ADD CONSTRAINT "FK_YNQ_EXPLANATION_KRA" FOREIGN
 KEY ("QUESTION_ID")                                                             
 REFERENCES "YNQ" ("QUESTION_ID") ENABLE;                                        
                                                                                 
-                                                                                
+
+ALTER TABLE YNQ_EXPLANATION ADD (CONSTRAINT "FK_YNQ_EXPLANATION_TYPE_KRA" FOREIGN KEY ("EXPLANATION_TYPE")
+	  REFERENCES "YNQ_EXPLANATION_TYPE" ("EXPLANATION_TYPE") );
+
