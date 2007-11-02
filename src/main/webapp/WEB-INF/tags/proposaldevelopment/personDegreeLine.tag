@@ -24,7 +24,7 @@
 <c:set var="degreeIndexHeader" value="add:" />
 <c:set var="degreeCodeProperty" value="${degree}.degreeCode" />
 <c:set var="degreeCodeAttribute" value="${DataDictionary.ProposalPersonDegree.attributes.degreeCode}" />
-
+<c:set var="tdClass" value="infoline" />
 <c:if test="${!empty index}">
   <c:set var="degreeIndexHeader" value="${index + 1}" />
   <c:set var="degree" value="${proposalPerson}.degrees[${index}]" /> 
@@ -34,22 +34,23 @@
   <c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" />
   <c:set var="degreeCodeProperty" value="${degree}.degreeType.description" />
   <c:set var="degreeCodeAttribute" value="${DataDictionary.DegreeType.attributes.description}" />
+<c:set var="tdClass" value="" />
 </c:if>
                   <tr>
-                    <th scope="row">${degreeIndexHeader}</th>
+                    <th scope="row" align="center">${degreeIndexHeader}</th>
 
-                    <td class="infoline"><div align=left><span class="copy">
+                    <td class="${tdClass}"><div align=left><span class="copy">
                     <kul:htmlControlAttribute property="${degreeCodeProperty}" attributeEntry="${degreeCodeAttribute}" readOnly="${readOnly}" /> 
                       </span></div>
                         <span class="fineprint"></span> </td>
-                    <td class="infoline"><kul:htmlControlAttribute property="${degree}.degree" attributeEntry="${personDegreeAttributes.degree}" readOnly="${readOnly}" /></td>
-                    <td class="infoline"><kul:htmlControlAttribute property="${degree}.graduationYear" attributeEntry="${personDegreeAttributes.graduationYear}" readOnly="${readOnly}" />
+                    <td class="${tdClass}"><kul:htmlControlAttribute property="${degree}.degree" attributeEntry="${personDegreeAttributes.degree}" readOnly="${readOnly}" /></td>
+                    <td class="${tdClass}"><kul:htmlControlAttribute property="${degree}.graduationYear" attributeEntry="${personDegreeAttributes.graduationYear}" readOnly="${readOnly}" />
 
                     </td>
-                    <td class="infoline"><div align=left>
+                    <td class="${tdClass}"><div align=left>
                         <kul:htmlControlAttribute property="${degree}.school" attributeEntry="${personDegreeAttributes.school}" readOnly="${readOnly}" />
                       </div>
 
                         <span class="fineprint"></span> </td>
-                    <td class="infoline"><div align=center><html:image property="methodToCall.${actionMethod}" src="${actionImage}" title="${actionTitle}" alt="${actionTitle}" styleClass="tinybutton"/></div></td>
+                    <td class="${tdClass}"><div align=center><html:image property="methodToCall.${actionMethod}" src="${actionImage}" title="${actionTitle}" alt="${actionTitle}" styleClass="tinybutton"/></div></td>
                   </tr>

@@ -30,3 +30,8 @@ div.same-line{
 	float: left; 
 	text-align: left;
 }
+
+input.align-right {
+	text-align: right;
+	
+}

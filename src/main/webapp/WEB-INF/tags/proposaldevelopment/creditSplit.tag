@@ -43,10 +43,10 @@
                   </strong></td>
   <c:forEach items="${investigator.creditSplits}" varStatus="splitStatus" >
     <c:set var="personCreditSplit" value="${investigatorProperty}.creditSplits[${splitStatus.index}]" />
-                <td class="tab-subhead1"><strong>
+                <td class="tab-subhead1"><div align="right"><strong>
                   <kul:htmlControlAttribute property="${personCreditSplit}.credit" 
-                                      attributeEntry="${personCreditSplitAttributes.credit}" />
-                </strong></td>
+                                      attributeEntry="${personCreditSplitAttributes.credit}" styleClass="align-right" />
+                </strong></div></td>
   </c:forEach> 
              </tr>
   <c:forEach items="${investigator.units}" var="personUnit" varStatus="unitStatus">
@@ -57,8 +57,8 @@
     <c:forEach items="${personUnit.creditSplits}" varStatus="splitStatus" >
       <c:set var="unitCreditSplit" value="${unitProperty}.creditSplits[${splitStatus.index}]" />
     
-                <td><kul:htmlControlAttribute property="${unitCreditSplit}.credit" 
-                                      attributeEntry="${unitCreditSplitAttributes.credit}" /></td>
+                <td><div align="right"><kul:htmlControlAttribute property="${unitCreditSplit}.credit" 
+                                      attributeEntry="${unitCreditSplitAttributes.credit}"  styleClass="align-right" /></div></td>
     </c:forEach>
               </tr>
   </c:forEach>
