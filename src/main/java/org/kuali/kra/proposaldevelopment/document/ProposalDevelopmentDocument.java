@@ -19,14 +19,17 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -34,6 +37,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
@@ -132,6 +136,18 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     }
 
     public List<ProposalPerson> getInvestigators() {
+        // TODO : investigators are not saved, so new load will not have value
+        if ((investigators==null || investigators.isEmpty()) && proposalPersons!=null && !proposalPersons.isEmpty()) {
+            if (investigators==null) {
+                investigators=new ArrayList<ProposalPerson>();
+            }
+            for (ProposalPerson proposalPerson : proposalPersons) {
+                if (proposalPerson.isInvestigator()) {
+                    investigators.add(proposalPerson);
+                }                
+            }
+            
+        }
         return investigators;
     }
     
@@ -664,9 +680,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      * @param p person to add
      */
     public void addProposalPerson(ProposalPerson p) {
-        p.setProposalPersonNumber(getNextProposalPersonNumber());
+        p.setProposalPersonNumber(this.getProposalNextValue(Constants.PROPOSAL_PERSON_NUMBER));
         getProposalPersons().add(p);
-        setNextProposalPersonNumber(getNextProposalPersonNumber().intValue() + 1);
+        //setNextProposalPersonNumber(getNextProposalPersonNumber().intValue() + 1);
     }
 
     public ProposalPerson getProposalPerson(int index) {
@@ -763,4 +779,38 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setOwnedByUnit(Unit ownedByUnit) {
         this.ownedByUnit = ownedByUnit;
     }
+    
+    /**
+     * 
+     * This method adds new personnel attachment to biography and biography attachment bo with proper set up.
+     * @param proposalPersonBiography
+     * @throws Exception
+     */
+    public void addProposalPersonBiography(ProposalPersonBiography proposalPersonBiography) throws Exception {
+        proposalPersonBiography.setProposalNumber(getProposalNumber());
+        proposalPersonBiography.setUpdateUser(getUpdateUser());
+        proposalPersonBiography.setUpdateTimestamp(getUpdateTimestamp());
+        proposalPersonBiography.setBiographyNumber(getProposalNextValue(Constants.PROP_PERSON_BIO_NUMBER));
+        proposalPersonBiography.setPropPerDocType(new PropPerDocType());
+        proposalPersonBiography.getPropPerDocType().setDocumentTypeCode(proposalPersonBiography.getDocumentTypeCode());
+        proposalPersonBiography.refreshReferenceObject("propPerDocType");
+        FormFile personnelAttachmentFile = proposalPersonBiography.getPersonnelAttachmentFile();
+        proposalPersonBiography.setFileName(personnelAttachmentFile.getFileName());
+        byte[] fileData = personnelAttachmentFile.getFileData();
+        if (fileData.length > 0) {
+            ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
+            personnelAttachment.setFileName(personnelAttachmentFile.getFileName());
+            personnelAttachment.setProposalNumber(proposalPersonBiography.getProposalNumber());
+            personnelAttachment.setProposalPersonNumber(proposalPersonBiography.getProposalPersonNumber());
+            personnelAttachment.setBiographyData(personnelAttachmentFile.getFileData());
+            personnelAttachment.setContentType(personnelAttachmentFile.getContentType());
+            if (proposalPersonBiography.getPersonnelAttachmentList().isEmpty())
+                proposalPersonBiography.getPersonnelAttachmentList().add(personnelAttachment);
+            else
+                proposalPersonBiography.getPersonnelAttachmentList().set(0, personnelAttachment);
+        }
+        getPropPersonBios().add(proposalPersonBiography);
+
+    }
+
 }
