@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
 
 import org.kuali.core.util.KualiDecimal;
 
@@ -29,7 +30,7 @@ import org.kuali.core.util.KualiDecimal;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: shyu $
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
@@ -79,7 +80,9 @@ public class ProposalPerson extends Person implements CreditSplitable {
      * @return boolean;
      */
     public boolean getIsInvestigator() {
-        return isInvestigator;
+        //return isInvestigator;
+        // This variable is not saved in DB, so if form is loaded for editing, this is always false ??
+        return new ProposalDevelopmentKeyPersonsRule().isInvestigator(this);
     }
     
     /**
