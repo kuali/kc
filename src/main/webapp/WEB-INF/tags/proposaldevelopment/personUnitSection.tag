@@ -28,7 +28,7 @@
                     <th>&nbsp;</th>
                   </tr>
                   <tr>
-                    <th scope="row">add:</th>
+                    <th scope="row" align="center">add:</th>
                     <td class="infoline">
                      <html:hidden property="newProposalPersonUnit[${personIndex}].unitName" />
    					<div id="newProposalPersonUnit[${personIndex}].unitName.div" class="same-line">
@@ -52,7 +52,7 @@
                   </tr>
   <c:forEach items="${proposalPersonUnits}" varStatus="status">
                   <tr>
-                    <th scope="row"><c:out value="${status.index + 1}" /></th>
+                    <th scope="row"  align="center"><c:out value="${status.index + 1}" /></th>
 
                     <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.units[${status.index}].unit.unitName" readOnly="true" /></td>
                     <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.units[${status.index}].unitNumber" readOnly="true" /></td>
