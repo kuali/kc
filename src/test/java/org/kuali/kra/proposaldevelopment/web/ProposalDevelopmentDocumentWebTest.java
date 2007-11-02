@@ -80,8 +80,6 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         documentService = null;
     }
 
-
-
     @Test
     public void testProposalTypeLink() throws Exception {
         final WebClient webClient = new WebClient();
@@ -523,7 +521,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
                 SUBMIT_INPUT_BY_NAME);
         assertTrue(abstractAttachmentPage.asText().contains("Document was successfully saved"));
         // really is in abstracts & attachments page
-        assertTrue(abstractAttachmentPage.asText().contains("Institutional Attachments Add Institutional Attachments &nbsp Timestamp Author"));
+        assertTrue(abstractAttachmentPage.asText().contains("Add Institutional Attachments &nbsp Timestamp Author"));
         HtmlForm form1 = (HtmlForm) abstractAttachmentPage.getForms().get(0);
         //webClient.setJavaScriptEnabled(false);
         String fileName=getFileName();
@@ -535,7 +533,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
         final HtmlPage pageWithSameAttachmentType =setInstituteAttachmentLine(pageAfterAddAttachment,form2,fileName+";59");
         final HtmlForm form3 = (HtmlForm) pageWithSameAttachmentType.getForms().get(0);
-        assertTrue(pageWithSameAttachmentType.asText().contains("Institutional Attachments Errors found in this Section: Institute attachment with Attachment Type 'Institutional Attachment 1' already exists"));
+        assertTrue(pageWithSameAttachmentType.asText().contains("Errors found in this Section: Institute attachment with Attachment Type 'Institutional Attachment 1' already exists"));
 
         // delete attachment
         final HtmlPage pageAfterDeleteAttachment = clickButton(pageWithSameAttachmentType, form3, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
