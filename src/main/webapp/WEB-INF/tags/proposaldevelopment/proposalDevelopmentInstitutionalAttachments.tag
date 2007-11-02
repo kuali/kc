@@ -20,7 +20,14 @@
 <c:set var="textAreaFieldName" value="newInstitute.moduleTitle" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
 <c:set var="lineNum" value="1"/>	
-<kul:tab tabTitle="Institutional Attachments" defaultOpen="true" tabErrorKey="document.institutes*,newInstitute*">
+<c:set var="numOfInstAtt" value="0"/>	
+
+<c:forEach var="instituteAttachment" items="${KualiForm.document.narratives}" varStatus="status">
+  	  <c:if test="${instituteAttachment.narrativeType.narrativeTypeGroup eq ProposalDevelopmentParameters.instituteNarrativeTypeGroup.parameterValue}">
+		<c:set var="numOfInstAtt" value="${numOfInstAtt + 1 }"/>	
+      </c:if>
+</c:forEach>
+<kul:tab tabTitle="Institutional Attachments(${numOfInstAtt})" defaultOpen="true" tabErrorKey="document.institutes*,newInstitute*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Add Institutional Attachments</h2></span>
