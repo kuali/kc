@@ -604,32 +604,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     public ActionForward addPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument propDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ProposalPersonBiography newPropPersonBio = proposalDevelopmentForm.getNewPropPersonBio();
-        newPropPersonBio.setProposalNumber(propDoc.getProposalNumber());
-        newPropPersonBio.setUpdateUser(propDoc.getUpdateUser());
-        newPropPersonBio.setUpdateTimestamp(propDoc.getUpdateTimestamp());
-        // TODO :  bionumber ok?
-        newPropPersonBio.setBiographyNumber(propDoc.getProposalNextValue(Constants.PROP_PERSON_BIO_NUMBER));
-        newPropPersonBio.setPropPerDocType(new PropPerDocType());
-        newPropPersonBio.getPropPerDocType().setDocumentTypeCode(newPropPersonBio.getDocumentTypeCode());
-        newPropPersonBio.refreshReferenceObject("propPerDocType");
-        FormFile personnelAttachmentFile = newPropPersonBio.getPersonnelAttachmentFile();
-        newPropPersonBio.setFileName(personnelAttachmentFile.getFileName());
-        byte[] fileData = personnelAttachmentFile.getFileData();
-        if (fileData.length > 0) {
-            ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
-            personnelAttachment.setFileName(personnelAttachmentFile.getFileName());
-            personnelAttachment.setProposalNumber(newPropPersonBio.getProposalNumber());
-            personnelAttachment.setProposalPersonNumber(newPropPersonBio.getProposalPersonNumber());
-            personnelAttachment.setBiographyData(personnelAttachmentFile.getFileData());
-            personnelAttachment.setContentType(personnelAttachmentFile.getContentType());
-            if (newPropPersonBio.getPersonnelAttachmentList().isEmpty())
-                newPropPersonBio.getPersonnelAttachmentList().add(personnelAttachment);
-            else
-                newPropPersonBio.getPersonnelAttachmentList().set(0, personnelAttachment);
-        }
-        propDoc.getPropPersonBios().add(newPropPersonBio);
+        proposalDevelopmentForm.getProposalDevelopmentDocument().addProposalPersonBiography(proposalDevelopmentForm.getNewPropPersonBio());
         proposalDevelopmentForm.setNewPropPersonBio(new ProposalPersonBiography());
 
         return mapping.findForward("basic");
