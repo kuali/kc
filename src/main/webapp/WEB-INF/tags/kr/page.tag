@@ -135,7 +135,7 @@
 	</c:when>
 	<c:otherwise>
 		<a name="topOfForm"></a>
-		<div class="headerarea" id="headerarea">
+		<div class="headerarea-kra" id="headerarea">
 			<h1>${docTitle}&nbsp;<c:if test="${showDocumentInfo}"><kul:help documentTypeName="${KualiForm.docTypeName}" altText="document help"/></c:if></h1>
 			<c:if test="${!empty defaultMethodToCall}">
 				<kul:enterKey methodToCall="${defaultMethodToCall}" />

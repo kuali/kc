@@ -22,7 +22,7 @@ div.innerTab-head{
 div.innerTab-container{	
 	background-color: #e4e4e4;
 	border-left-width: 0px;
-	background-image: url("../images/tab-sideright1.gif");
+	background-image: url("https://test.kuali.org/mocks/images/tab-sideright1.gif");
 	background-repeat: repeat-y;
 }
 
@@ -43,7 +43,7 @@ input.align-right {
 	padding-left: 10px;
 	height: 55px;
 	padding-right: 0px;
-	background-image: url("../images/masthead1.gif");
+	background-image: url("https://test.kuali.org/mocks/images/masthead1.gif");
 	margin: 0px;
 }
 
