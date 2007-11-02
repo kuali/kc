@@ -24,6 +24,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.service.BusinessObjectService;
@@ -164,7 +165,10 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setAnchor(null);
        // following reset the tab stats and will load as default when it returns from lookup.
        // TODO : Do we really need this?
-        this.setTabStates(new HashMap<String, String>());
+       // hack for now to let lookup bypass this settabstate
+        if (StringUtils.isBlank(request.getParameter("docFormKey"))) {
+            this.setTabStates(new HashMap<String, String>());
+        }
         this.setCurrentTabIndex(0);
 
         
@@ -368,6 +372,9 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      * Returns a an array of editablefields
      */
     public Map getPersonEditableFields() {
+        if (personEditableFields==null) {
+            populatePersonEditableFields();
+        }
         return personEditableFields;
     }
 
