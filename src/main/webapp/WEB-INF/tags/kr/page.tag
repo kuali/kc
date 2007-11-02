@@ -264,15 +264,21 @@
 		</div>
 		<c:if test="${not empty KualiForm.headerNavigationTabs}">
 		  <div class="horz-links-bkgrnd" id="horz-links">
+		  
+		   <div id="tabs">
+             <dl class="tabul">
+		  
 			<c:choose>
 			  <c:when test="${empty headerDispatch}">
-					<c:forEach var="headerTab" items="${KualiForm.headerNavigationTabs}" varStatus="status"><html:submit value="${headerTab.headerTabDisplayName}" property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}.x"  alt="${headerTab.headerTabDisplayName}" disabled="true" styleClass="${(headerTabActive eq headerTab.headerTabNavigateTo) ? 'selected' : ''}" /></c:forEach>
+					<c:forEach var="headerTab" items="${KualiForm.headerNavigationTabs}" varStatus="status"><dt><span class="tabright"><html:submit value="${headerTab.headerTabDisplayName}" property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}.x"  alt="${headerTab.headerTabDisplayName}" disabled="true" /></span></dt></c:forEach>
 			  </c:when>
 			  <c:otherwise>
-					<c:forEach var="headerTab" items="${KualiForm.headerNavigationTabs}" varStatus="status"><html:submit value="${headerTab.headerTabDisplayName}" property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}.x"  alt="${headerTab.headerTabDisplayName}" disabled="${headerTab.disabled}" styleClass="${(headerTabActive eq headerTab.headerTabNavigateTo) ? 'selected' : ''}" /></c:forEach>
+					<c:forEach var="headerTab" items="${KualiForm.headerNavigationTabs}" varStatus="status"><dt><span class="tabright"><html:submit value="${headerTab.headerTabDisplayName}" property="methodToCall.headerTab.headerDispatch.${headerDispatch}.navigateTo.${headerTab.headerTabNavigateTo}.x"  alt="${headerTab.headerTabDisplayName}" disabled="${headerTab.disabled}"  /></span></dt></c:forEach>
 			  </c:otherwise>
-			</c:choose>
-		  </div>
+			</c:choose>	 
+		     </dl>
+		 </div>
+		 </div>
 		</c:if>
 		<div class="msg-excol">
 		  <div class="left-errmsg">
