@@ -27,6 +27,7 @@ public interface Constants {
     public static final String TEXT_AREA_FIELD_LABEL = "textAreaFieldLabel";
     public static final String TEXT_AREA_FIELD_ANCHOR = "textAreaFieldAnchor";
     public static final Integer APPROVAL_STATUS = 2;
+    public static final String MAINTENANCE_NEW_ACTION = "New";
 
     public static final String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
     public static final String CO_INVESTIGATOR_ROLE = "COI";
