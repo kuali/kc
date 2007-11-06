@@ -15,17 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.dao;
 
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.dao.QueryCustomizerDefaultImpl;
 
 public class NarrativeQueryCustomizer extends QueryCustomizerDefaultImpl {
     public void addAttribute(String name, String value) {
-        String narrTypeGroup = null;//getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, value);
-        super.addAttribute(name, StringUtils.isBlank(narrTypeGroup)?value:narrTypeGroup);
+        super.addProposalSystemAttribute(name, value);
     }
 }
