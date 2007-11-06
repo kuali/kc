@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,19 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
     private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentActionBase.class);
+
+    @Override
+    /**
+     * Overriding headerTab to customize how clearing tab state works on PDForm.
+     */
+    public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ((KualiForm) form).setTabStates(new HashMap());
+
+        return super.headerTab(mapping, form, request, response);
+    }
+
+    
     public ActionForward updateTextArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)  {
         
         // parse out the important strings from our methodToCall parameter

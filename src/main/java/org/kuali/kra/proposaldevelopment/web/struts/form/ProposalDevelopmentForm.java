@@ -165,10 +165,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setAnchor(null);
        // following reset the tab stats and will load as default when it returns from lookup.
        // TODO : Do we really need this?
-       // hack for now to let lookup bypass this settabstate
-        if (StringUtils.isBlank(request.getParameter("docFormKey"))) {
-            this.setTabStates(new HashMap<String, String>());
-        }
+       // implemented headerTab in KraTransactionalDocumentActionBase
+       //     this.setTabStates(new HashMap<String, String>());
         this.setCurrentTabIndex(0);
 
         
