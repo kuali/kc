@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.dao;
 
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,6 +28,7 @@ import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.core.service.KualiConfigurationService;
 /**
  * 
  * This class used for supplying customized query to OJB repository <code>collection-descriptor</code> tag.
@@ -36,11 +41,13 @@ import org.apache.ojb.broker.query.QueryByCriteria;
  *             />
  *           </query-customizer>
  * 
- * @author KRSDEV team
+ * @author KRADEV team
  * @version 1.0
  */
 public class QueryCustomizerDefaultImpl extends org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl {
     private final Map<String,String> queryMap = new HashMap<String,String>();
+    private final Map<String,String> proposalSystemQueryMap = new HashMap<String,String>();
+    
     /**
      * 
      * @see org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl#customizeQuery(java.lang.Object, org.apache.ojb.broker.PersistenceBroker, org.apache.ojb.broker.metadata.CollectionDescriptor, org.apache.ojb.broker.query.QueryByCriteria)
@@ -54,6 +61,13 @@ public class QueryCustomizerDefaultImpl extends org.apache.ojb.broker.accesslaye
             String key = keys.next();
             crit.addEqualTo(key, queryMap.get(key));
         }
+        Iterator<String> systemKeys = proposalSystemQueryMap.keySet().iterator();
+        while(systemKeys.hasNext()){
+            String key = systemKeys.next();
+            String value = proposalSystemQueryMap.get(key);
+            String sysParamVal = getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, value);
+            crit.addEqualTo(key, sysParamVal==null?value:sysParamVal);
+        }
         return aQuery;
     }
 
@@ -63,5 +77,15 @@ public class QueryCustomizerDefaultImpl extends org.apache.ojb.broker.accesslaye
      */
     public void addAttribute(String name, String value) {
         queryMap.put(name, value);
+    }
+    /**
+     * Helper method to add system parameter values to customized query criteria
+     * If customizer class needs to add proposal system parameter, override <code>addAttribute</code> method 
+     * and call <code>addProposalSystemAttribute</code> method.
+     * @param name
+     * @param value
+     */
+    protected void addProposalSystemAttribute(String name, String value) {
+        proposalSystemQueryMap.put(name, value);
     }
 }
