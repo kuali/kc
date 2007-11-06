@@ -82,13 +82,9 @@
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<query-customizer
       			class="org.kuali.kra.proposaldevelopment.dao.NarrativeQueryCustomizer">
-	          <!--  <attribute
-	              attribute-name="narrativeType.narrativeTypeGroup"
-	              attribute-value="proposalNarrativeTypeGroup"
-	          />-->
 	          <attribute
 	              attribute-name="narrativeType.narrativeTypeGroup"
-	              attribute-value="P"
+	              attribute-value="proposalNarrativeTypeGroup"
 	          />
       		</query-customizer>
 		</collection-descriptor>
@@ -96,13 +92,9 @@
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<query-customizer
       			class="org.kuali.kra.proposaldevelopment.dao.NarrativeQueryCustomizer">
-	          <!--  <attribute
-	              attribute-name="narrativeType.narrativeTypeGroup"
-	              attribute-value="instituteNarrativeTypeGroup"
-	          />-->
 	          <attribute
 	              attribute-name="narrativeType.narrativeTypeGroup"
-	              attribute-value="O"
+	              attribute-value="instituteNarrativeTypeGroup"
 	          />
       		</query-customizer>
 		</collection-descriptor>
