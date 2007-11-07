@@ -441,7 +441,7 @@
 				<shortLabel>Number of Copies</shortLabel>
 
 				<maxLength>2</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
+				<validationPattern><numeric /></validationPattern>
 
 				<required>false</required>
 
