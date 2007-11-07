@@ -319,23 +319,6 @@
 			</attributeReference>
 
 		</attributes>
-		<relationships>
-			<relationship objectAttributeName="narrativeType">
-				<primitiveAttribute
-					sourceName="narrativeType.narrativeTypeCode"
-					targetName="narrativeTypeCode" />
-				<supportAttribute sourceName="narrativeType.description"
-					targetName="description" />
-			</relationship>
-			<relationship objectAttributeName="narrativeStatus">
-				<primitiveAttribute
-					sourceName="narrativeStatus.narrativeStatusCode"
-					targetName="narrativeStatusCode" />
-				<supportAttribute sourceName="narrativeStatus.description"
-					targetName="description" />
-			</relationship>
-		</relationships>
-
 	</businessObject>
 
 </dictionaryEntry>

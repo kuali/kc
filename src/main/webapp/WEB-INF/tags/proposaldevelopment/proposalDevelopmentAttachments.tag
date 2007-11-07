@@ -30,8 +30,8 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
         <table cellpadding=0 cellspacing=0 summary="">
-          	<tr>
-          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" skipHelpUrl="true" /></div></th>
+           	<tr>
+         		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}"/></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="newNarrative.narrativeTypeCode" attributeEntry="${narrativeAttributes.narrativeTypeCode}" />
 				</td>
@@ -92,7 +92,7 @@
             	<td colspan="4">
             	<div  align="left">
         	<c:forEach var="narrative" items="${KualiForm.document.narratives}" varStatus="status">
-        	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq ProposalDevelopmentParameters.proposalNarrativeTypeGroup.parameterValue}">
+        	<%-- <c:if test="${narrative.narrativeType.narrativeTypeGroup eq ProposalDevelopmentParameters.proposalNarrativeTypeGroup.parameterValue}">--%>
 			<c:set var="narrType" value="${narrative.narrativeType.description}"/>
 			<c:set var="narrStatus" value="${narrative.narrativeStatus.description}"/>
 			<kul:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}">
@@ -105,12 +105,12 @@
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}" skipHelpUrl="true" /></div></th>
 			                <td align="left" valign="middle">
-			                <c:if test="${(!empty narrative.fileName)}">
+			                <%-- %><c:if test="${(!empty narrative.fileName)}">--%>
 				                <div id="replaceDiv${status.index}" style="display:block;">
 					                <kul:htmlControlAttribute property="document.narratives[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 					                <c:if test="${(narrative.viewAttachment || narrative.modifyAttachment) }">
 						                (
-						                <c:if test="${narrative.viewAttachment}">
+						                <c:if test="${narrative.viewAttachment && (!empty narrative.fileName)}">
 						                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
 						                </c:if>
 						                <c:if test="${narrative.modifyAttachment}">
@@ -125,7 +125,7 @@
 									<html:image property="methodToCall.replaceProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
 								</div>
-				            </c:if>
+				            <%-- </c:if> --%>
 							</td>
 			          	</tr>
 			          	<tr>
@@ -177,18 +177,16 @@
 								<div align="center">
 									<html:image property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
-									<%-- <c:if test="${fn:length(narrative.narrativeUserRights)>0}">--%>
 										<html:image property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
 										onclick="javascript: proposalAttachmentRightsPop('${status.index}');return false"/>
-									<%--</c:if>--%>
 								</div>
 			                </td>
 			            </tr>
 			          </table>
 			       </div>
 			     </kul:innerTab>
-			   </c:if>
+			   <%--</c:if>--%>
         	</c:forEach> 
         	</div>
         	</td>

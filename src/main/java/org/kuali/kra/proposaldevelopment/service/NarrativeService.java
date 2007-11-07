@@ -15,14 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * This class...
  */
-public interface NarrativeAuthZService {
-    public NarrativeRight authorize(Narrative narrative,String userId);
-
-    public NarrativeRight getNarrativeRight(Integer roleId);
+public interface NarrativeService {
+    public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
+    public void deleteProposalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete);
+    public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
+    public void replaceAttachment(Narrative narrative);
+    public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument);
 }
