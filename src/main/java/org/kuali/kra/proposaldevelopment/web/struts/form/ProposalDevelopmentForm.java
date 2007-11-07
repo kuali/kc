@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -47,6 +49,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
 /**
  * This class...
@@ -376,15 +379,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         return personEditableFields;
     }
 
-    public List<InvestigatorCreditType> getInvestigatorCreditTypes() {
-        Collection<InvestigatorCreditType> types = getBusinessObjectService().findAll(InvestigatorCreditType.class);
-        InvestigatorCreditType[] creditTypeArray=new InvestigatorCreditType[4];
-        for (InvestigatorCreditType type : types) {
-            creditTypeArray[Integer.parseInt(type.getInvCreditTypeCode())]=type;
-        }
-        return Arrays.asList(creditTypeArray);
-    }
-
     /**
      * Populate investigators
      */
@@ -402,58 +396,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
     
     public Map getCreditSplitTotals() {
-        Map<String, Map<String,KualiDecimal>> retval = new HashMap<String,Map<String,KualiDecimal>>();
-        List<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
-        
-        for (ProposalPerson investigator : getProposalDevelopmentDocument().getInvestigators()) {
-            Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
-            Map<String,KualiDecimal> investigatorCreditTypeTotals = retval.get(Constants.PROPOSAL_PERSON_INVESTIGATOR);
-
-            if (creditTypeTotals == null) {
-                creditTypeTotals = new HashMap<String,KualiDecimal>();
-                retval.put(investigator.getFullName(), creditTypeTotals);
-            }
-            if (investigatorCreditTypeTotals == null) {
-                investigatorCreditTypeTotals = new HashMap<String,KualiDecimal>();
-                retval.put(Constants.PROPOSAL_PERSON_INVESTIGATOR, investigatorCreditTypeTotals);
-            }
-            
-            // Initialize everything to zero
-            for (InvestigatorCreditType creditType : creditTypes) {                
-                    KualiDecimal totalCredit = creditTypeTotals.get(creditType.getInvCreditTypeCode());
-                    
-                    if (totalCredit == null) {
-                        totalCredit = new KualiDecimal(0);
-                        creditTypeTotals.put(creditType.getInvCreditTypeCode(), totalCredit);
-                    }
-                    KualiDecimal investigatorTotalCredit = investigatorCreditTypeTotals.get(creditType.getInvCreditTypeCode());
-                    
-                    if (investigatorTotalCredit == null) {
-                        investigatorTotalCredit = new KualiDecimal(0);
-                        investigatorCreditTypeTotals.put(creditType.getInvCreditTypeCode(), investigatorTotalCredit);
-                    }
-                    // set investigator credit total 
-                    for (CreditSplit creditSplit : investigator.getCreditSplits()) {
-                        if (creditSplit.getInvCreditTypeCode().equals(creditType.getInvCreditTypeCode())) {
-                            investigatorCreditTypeTotals.put(creditType.getInvCreditTypeCode(), investigatorTotalCredit.add(creditSplit.getCredit()));
-                        }
-                    }
-            }
-
-            for (ProposalPersonUnit unit : investigator.getUnits()) {
-                for (CreditSplit creditSplit : unit.getCreditSplits()) {
-                    KualiDecimal totalCredit = creditTypeTotals.get(creditSplit.getInvCreditTypeCode());
-                    
-                    if (totalCredit == null) {
-                        totalCredit = new KualiDecimal(0);
-                        creditTypeTotals.put(creditSplit.getInvCreditTypeCode(), totalCredit);
-                    }
-                    creditTypeTotals.put(creditSplit.getInvCreditTypeCode(),totalCredit.add(creditSplit.getCredit()));
-                }
-            }
-        }
-        
-        return retval;
+        return getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());
     }
 
 
@@ -483,7 +426,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      */
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
-}
+    }
 
     /**
      * Gets the auditActivated attribute. 
@@ -491,5 +434,9 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      */
     public boolean isAuditActivated() {
         return auditActivated;
+    }
+
+    private KeyPersonnelService getKeyPersonnelService() {
+        return getService(KeyPersonnelService.class);
     }
 }

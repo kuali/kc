@@ -25,15 +25,14 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
@@ -46,7 +45,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -192,30 +191,6 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         return retval;
     }
-
-    public boolean isPrincipalInvestigator(ProposalPerson person) {
-        return PRINCIPAL_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
-    }
-
-    public boolean isCoInvestigator(ProposalPerson person) {
-        return CO_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
-    }
-    
-    public boolean isInvestigator(ProposalPerson person) {
-        return isPrincipalInvestigator(person) || isCoInvestigator(person);
-    }
-        
-    public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
-        boolean retval = false;
-
-        for (Iterator<ProposalPerson> person_it = document.getProposalPersons().iterator();
-             person_it.hasNext() && !retval;) {
-            ProposalPerson person = person_it.next();
-            retval |= isPrincipalInvestigator(person);
-        }
-        
-        return retval;
-    }
     
     /**
      * @see org.kuali.kra.rules.ResearchDocumentRuleBase#reportError(String, String, String...)
@@ -229,4 +204,25 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     private KualiConfigurationService getConfigurationService() {
         return getService(KualiConfigurationService.class);
     }
+
+    public boolean isPrincipalInvestigator(ProposalPerson person) {
+        return getKeyPersonnelService().isPrincipalInvestigator(person);
+    }
+
+    public boolean isCoInvestigator(ProposalPerson person) {
+        return getKeyPersonnelService().isCoInvestigator(person);
+    }
+    
+    public boolean isInvestigator(ProposalPerson person) {
+        return getKeyPersonnelService().isInvestigator(person);
+    }
+        
+    public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
+        return getKeyPersonnelService().hasPrincipalInvestigator(document);
+    }
+
+    private KeyPersonnelService getKeyPersonnelService() {
+        return getService(KeyPersonnelService.class);
+    }
 }
+
