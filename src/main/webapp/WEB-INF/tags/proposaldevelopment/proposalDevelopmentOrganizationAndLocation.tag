@@ -29,7 +29,7 @@
         
         <table cellpadding=0 cellspacing=0 summary="">
              <tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.organizationId}" skipHelpUrl="true" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.organizationId}" /></div></th>
                 <td align="left" valign="middle"  class="infoline">
                 	<kul:htmlControlAttribute property="document.organizationId" attributeEntry="${proposalDevelopmentAttributes.organizationId}" />
                     <c:out value="${KualiForm.document.organization.organizationName}"/>
@@ -52,7 +52,7 @@
 				</td>
 				</tr>
 				<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${organizationAttributes.congressionalDistrict}" skipHelpUrl="true" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${organizationAttributes.congressionalDistrict}" /></div></th>
                 <td class="infoline">
                    <c:choose>
                     <c:when test="${empty KualiForm.document.organization.congressionalDistrict}" >
@@ -66,7 +66,7 @@
                 </td>
             </tr>
         	<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}" skipHelpUrl="true" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}"  /></div></th>
                 <td class="infoline">                	
 	               	<c:choose>
 	                	<c:when test="${!empty KualiForm.document.performingOrganization.organizationName}"> 
@@ -91,7 +91,7 @@
         <table cellpadding=0 cellspacing="0"  summary="">
              <tr>
               	<th><div align="left">&nbsp</div></th>  
-				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propLocationAttributes.location}" skipHelpUrl="true" noColon="true" /></div></th>
+				<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propLocationAttributes.location}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Address" scope="col" align="left"/> 
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
              </tr>
