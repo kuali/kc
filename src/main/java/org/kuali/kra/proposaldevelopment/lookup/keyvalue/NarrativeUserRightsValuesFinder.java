@@ -13,22 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup.keyvalue;
+package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalType;
-
+/**
+ * 
+ * This class used to populate radio buttons for narrative user rights
+ * @author KRADEV team
+ * @version 1.0
+ */
 public class NarrativeUserRightsValuesFinder extends KeyValuesBase {
-
-    public List getKeyValues() {
+    /**
+     * Returns Narrative user right values 
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
+    public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("R","Read"));
         keyValues.add(new KeyLabelPair("M","Modify"));

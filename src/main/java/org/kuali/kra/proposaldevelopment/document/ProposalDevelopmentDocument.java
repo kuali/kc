@@ -15,15 +15,22 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
+import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_NUMBER;
+import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_SEQUENCE_NUMBER;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.document.Copyable;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
@@ -31,7 +38,12 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
@@ -40,10 +52,11 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
+import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable {
-
+    
     private Integer proposalNumber;
     private String proposalTypeCode;
     private String continuedFrom;
@@ -96,8 +109,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<ProposalPersonBiography> propPersonBios;
     private List<ProposalPerson> investigators;
     private Unit ownedByUnit;
+    transient private NarrativeService narrativeService;
 
-    
+
     public ProposalDevelopmentDocument() {
         super();
         propScienceKeywords = new TypedArrayList(PropScienceKeyword.class);
@@ -115,16 +129,17 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public void initialize() {
         ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
-        List<Unit> userUnits = proposalDevelopmentService.getDefaultModifyProposalUnitsForUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId());
+        List<Unit> userUnits = proposalDevelopmentService.getDefaultModifyProposalUnitsForUser(GlobalVariables.getUserSession()
+                .getLoggedInUserNetworkId());
         if (userUnits.size() == 1) {
             this.setOwnedByUnitNumber(userUnits.get(0).getUnitNumber());
             proposalDevelopmentService.initializeUnitOrganzationLocation(this);
         }
     }
-    
+
     /**
      * Gets the value of proposalPersons
-     *
+     * 
      * @return the value of proposalPersons
      */
     public List<ProposalPerson> getProposalPersons() {
@@ -707,15 +722,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setNarratives(List<Narrative> narratives) {
         this.narratives = narratives;
     }
-
-//    public Narrative getNewNarrative() {
-//        return newNarrative;
-//    }
-//
-//    public void setNewNarrative(Narrative narrative) {
-//        this.newNarrative = narrative;
-//    }
-//
     /**
      * Get the list of User Roles for this Proposal.
      * @return proposal user roles.
@@ -779,7 +785,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setOwnedByUnit(Unit ownedByUnit) {
         this.ownedByUnit = ownedByUnit;
     }
-    
+
     /**
      * 
      * This method adds new personnel attachment to biography and biography attachment bo with proper set up.
@@ -812,5 +818,55 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         getPropPersonBios().add(proposalPersonBiography);
 
     }
+    /**
+     * 
+     * Method to add a new narrative to narratives list
+     * @param narrative
+     */
+    public void addNarrative(Narrative narrative) {
+        getNarrativeService().addNarrative(this, narrative);
+    }
+    /**
+     * 
+     * Method to delete a narrative from narratives list
+     * @param narrative
+     */
+    public void deleteProposalAttachment(int lineToDelete) {
+        getNarrativeService().deleteProposalAttachment(this, lineToDelete);
+    }
+
+    public void populatePersonNameForNarrativeUserRights(int lineNumber) {
+        Narrative narrative = getNarratives().get(lineNumber);
+        getNarrativeService().populatePersonNameForNarrativeUserRights(this, narrative);
+    }
+
+    public void replaceAttachment(int selectedLine) {
+        Narrative narrative = getNarratives().get(selectedLine);
+        getNarrativeService().replaceAttachment(narrative);
+    }
+
+    public void populateNarrativeRightsForLoggedinUser() {
+        getNarrativeService().populateNarrativeRightsForLoggedinUser(this);
+    }
+
+    /**
+     * Gets the narrativeService attribute. 
+     * @return Returns the narrativeService.
+     */
+    public NarrativeService getNarrativeService() {
+        if(narrativeService==null){
+            narrativeService = getService(NarrativeService.class);
+        }
+        return narrativeService;
+    }
+    
+    /**
+     * Sets the narrativeService attribute value.
+     * @param narrativeService The narrativeService to set.
+     */
+    public void setNarrativeService(NarrativeService narrativeService) {
+        this.narrativeService = narrativeService;
+    }
+
 
 }
