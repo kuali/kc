@@ -19,8 +19,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -51,7 +53,6 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
                 String code = (String)getCodeMeth.invoke(keyValObj, null);
                 String value = (String)getValMeth.invoke(keyValObj, null);
                 keyValueList.add(new KeyLabelPair(code, value));
-
             }
             catch (SecurityException e) {
                 LOG.debug(e.getMessage(), e);
@@ -77,9 +78,9 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
         return keyValueList;
     }
 
-    public List<KeyLabelPair> getKeyValues(Class keyValClass, String codePropName, String valPropName, String groupPropName,
-            String groupValue) {
-        Collection keyVals = businessObjectService.findAll(keyValClass);
+    public List<KeyLabelPair> getKeyValues(Class keyValClass, String codePropName, String valPropName, Map queryMap) {
+        
+        Collection keyVals = businessObjectService.findMatching(keyValClass,queryMap);
         List<KeyLabelPair> keyValueList = new ArrayList<KeyLabelPair>(keyVals.size());
         keyValueList.add(new KeyLabelPair("", "select:"));
         for (Iterator iterator = keyVals.iterator(); iterator.hasNext();) {
@@ -88,37 +89,33 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
             try {
                 getCodeMeth = keyValObj.getClass().getMethod("get"+StringUtils.capitalize(codePropName), null);
                 Method getValMeth = keyValObj.getClass().getMethod("get"+StringUtils.capitalize(valPropName), null);
-                Method getGroupMeth = keyValObj.getClass().getMethod("get"+StringUtils.capitalize(groupPropName), null);
                 String code = (String)getCodeMeth.invoke(keyValObj, null);
                 String value = (String)getValMeth.invoke(keyValObj, null);
-                String group = (String)getGroupMeth.invoke(keyValObj, null);
-                if (StringUtils.isNotBlank(group) && group.equals(groupValue)) {
-                    keyValueList.add(new KeyLabelPair(code, value));
-                }
-
-            }
-            catch (SecurityException e) {
+                keyValueList.add(new KeyLabelPair(code, value));
+            }catch (SecurityException e) {
                 LOG.debug(e.getMessage(), e);
                 LOG.error(e.getMessage());
-            }
-            catch (NoSuchMethodException e) {
+            }catch (NoSuchMethodException e) {
                 LOG.debug(e.getMessage(), e);
                 LOG.error(e.getMessage());
-            }
-            catch (IllegalArgumentException e) {
+            }catch (IllegalArgumentException e) {
                 LOG.debug(e.getMessage(), e);
                 LOG.error(e.getMessage());
-            }
-            catch (IllegalAccessException e) {
+            }catch (IllegalAccessException e) {
                 LOG.debug(e.getMessage(), e);
                 LOG.error(e.getMessage());
-            }
-            catch (InvocationTargetException e) {
+            }catch (InvocationTargetException e) {
                 LOG.debug(e.getMessage(), e);
                 LOG.error(e.getMessage());
             }
         }
         return keyValueList;
+    }
+    public List<KeyLabelPair> getKeyValues(Class keyValClass, String codePropName, String valPropName, String groupPropName,
+            String groupValue) {
+        Map<String,String> qMap = new HashMap<String,String>();
+        qMap.put(groupPropName, groupValue);
+        return getKeyValues(keyValClass,codePropName,valPropName,qMap);
     }
 
     /**

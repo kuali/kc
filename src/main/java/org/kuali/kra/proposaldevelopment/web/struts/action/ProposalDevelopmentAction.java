@@ -33,6 +33,7 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -73,6 +74,9 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         return super.execute(mapping, form, request, response);
     }
     
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
+     */
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
      */
@@ -134,6 +138,19 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
             proposalPerson2.setFullName("McGregor,Geoff");
             proposalPersons.add(proposalPerson2);
             doc.setProposalPersons(proposalPersons);
+        }
+        if(doc.getProposalUserRoles().isEmpty()){
+            List propUserRoles = doc.getProposalUserRoles();
+            ProposalUserRoles propUserRole1 = new ProposalUserRoles();
+            propUserRole1.setProposalNumber(doc.getProposalNumber());
+            propUserRole1.setRoleId(new Integer(101));
+            propUserRole1.setUserId("000000001");
+            propUserRoles.add(propUserRole1);
+            ProposalUserRoles propUserRole2 = new ProposalUserRoles();
+            propUserRole2.setProposalNumber(doc.getProposalNumber());
+            propUserRole2.setRoleId(new Integer(102));
+            propUserRole2.setUserId("000000003");
+            propUserRoles.add(propUserRole2);
         }
         return mapping.findForward("abstractsAttachments");
     }

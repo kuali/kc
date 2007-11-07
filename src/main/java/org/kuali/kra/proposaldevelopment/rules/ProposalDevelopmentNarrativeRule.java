@@ -15,13 +15,22 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_STATUS_NOT_SELECTED;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DUPLICATE;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
@@ -31,20 +40,21 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 
 /**
- * Implementation of business rules required for the Key Persons Page of the 
+ * Implementation of business rules required for the Proposal attachment page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: gthomas $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule,SaveNarrativesRule{ 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
-    private static final String NEW_NARRATIVE = "newNarrative";
     private static final String INSTITUTE = "Institute";
     private static final String NEW_INSTITUTE = "newInstitute";
     private static final String DOCUMENT_NARRATIVES = "document.narratives";
     private static final String PROPOSAL = "Proposal";
+    private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
+
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
     /**
      * This method is used to validate narratives and institute proposal attachments before adding.
@@ -54,21 +64,10 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent narrativeEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)narrativeEvent.getDocument();
         Narrative narrative = narrativeEvent.getNarrative();
+        boolean rulePassed = true;
         List<Narrative> narrList = document.getNarratives();
-        if(isDuplicate(narrList, narrative)){
-            String[] param = {PROPOSAL, narrative.getNarrativeType().getDescription()};
-            String errorPath=NEW_NARRATIVE;
-            if (narrative.getNarrativeType().getNarrativeTypeGroup().equals(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE)) {
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
-                errorPath=NEW_INSTITUTE;
-                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-                param[0]=INSTITUTE;
-            }
-            LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
-            reportError(DOCUMENT_NARRATIVES, ERROR_NARRATIVE_TYPE_DUPLICATE,param);
-            return false; 
-        }
-        return true;
+        rulePassed &= checkNarrative(narrList, narrative);
+        return rulePassed;
     }
     /**
      * This method is used to validate narratives and institute proposal attachments before saving.
@@ -78,39 +77,66 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     public boolean processSaveNarrativesBusinessRules(SaveNarrativesEvent saveNarrativesEvent) {
         List<Narrative> narrativeList = saveNarrativesEvent.getNarratives();
         int size = narrativeList.size();
+        boolean rulePassed = false;
         for (int i = 0; i < size; i++) {
             Narrative narrative = narrativeList.get(i);
             narrativeList.remove(narrative);
             --size;
-            if(isDuplicate(narrativeList,narrative)){
-                String[] param = {PROPOSAL, narrative.getNarrativeType().getDescription()};
-                String errorPath=DOCUMENT_NARRATIVES;
-                if (narrative.getNarrativeType().getNarrativeTypeGroup().equals(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE)) {
-                    GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
-                    errorPath=NEW_INSTITUTE;
-                    GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-                    param[0]=INSTITUTE;
-                }
-                LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
-                reportError(errorPath,ERROR_NARRATIVE_TYPE_DUPLICATE,param);
-            }
-//            else{
-//                narrativeList.remove(narrative);
-//                --size;
-//            }
+            rulePassed &= checkNarrative(narrativeList,narrative);
         }
-        return false;
+        return rulePassed;
     }
-    private boolean isDuplicate(List<Narrative> narrativeList, Narrative narrative) {
-        if(narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)){
-            for (Narrative narr : narrativeList) {
-                if(narr.getProposalNumber().equals(narrative.getProposalNumber()) &&
-                        narr.getNarrativeTypeCode().equals(narrative.getNarrativeTypeCode())){
-                    return true; 
+    /**
+     * It checks for duplicate narrative types and mandatory description for narrative type 'Other'
+     * This method...
+     * @param narrativeList
+     * @param narrative
+     * @return true if rules passed, else false
+     */
+    private boolean checkNarrative(List<Narrative> narrativeList, Narrative narrative) {
+        populateNarrativeType(narrative);
+        String[] param = {PROPOSAL, narrative.getNarrativeType().getDescription()};
+        String errorPath=DOCUMENT_NARRATIVES;
+        boolean rulePassed = true;
+        if(narrative.getNarrativeTypeCode()==null){
+            rulePassed = false;
+            reportError(DOCUMENT_NARRATIVES, ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
+        }
+        if(narrative.getModuleStatusCode()==null){
+            rulePassed = false;
+            reportError(DOCUMENT_NARRATIVES, ERROR_ATTACHMENT_STATUS_NOT_SELECTED);
+        }
+        if (rulePassed) {
+            if (narrative.getNarrativeType().getNarrativeTypeGroup().equals(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE)) {
+                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                errorPath = NEW_INSTITUTE;
+                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                param[0] = INSTITUTE;
+            }
+            if (narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)) {
+                for (Narrative narr : narrativeList) {
+                    if (narr.getProposalNumber().equals(narrative.getProposalNumber())
+                            && narr.getNarrativeTypeCode().equals(narrative.getNarrativeTypeCode())) {
+                        LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
+                        reportError(errorPath, ERROR_NARRATIVE_TYPE_DUPLICATE, param);
+                        rulePassed = false;
+                    }
                 }
+            }else if (StringUtils.isBlank(narrative.getModuleTitle())) {
+                reportError(errorPath, ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED, param);
+                rulePassed = false;
             }
         }
-        return false;
+        return rulePassed;
+    }
+    private void populateNarrativeType(Narrative narrative) {
+        Map<String,String> narrativeTypeMap = new HashMap<String,String>();
+        narrativeTypeMap.put(NARRATIVE_TYPE_CODE, narrative.getNarrativeTypeCode());
+        BusinessObjectService service = getService(BusinessObjectService.class);
+        NarrativeType narrType = (NarrativeType) service.findByPrimaryKey(NarrativeType.class, narrativeTypeMap);
+        if (narrType != null)
+            narrative.setNarrativeType(narrType);
+        
     }
     
 }
