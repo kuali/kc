@@ -1,6 +1,8 @@
 <config>
 	<!-- App specific parameters -->
 	<param name="app.code">kra</param>
+	<param name="kns.test.port">9925</param>
+	<param name="app.host">http://localhost:${kns.test.port}</param>
 	<param name="app.context.name">${app.code}-${environment}</param>
 	<param name="production.environment.code">PRD</param>
 	<param name="externalizable.help.url">/${app.context.name}/kr/static/help/</param>
@@ -21,6 +23,7 @@
 	<param name="ken.test.mode">true</param>
     <param name="attachments.pending.directory">${java.io.tmpdir}</param>
     <param name="attachments.directory">${java.io.tmpdir}</param>
+    <param name="kuali.docHandler.url.prefix">${app.host}/${app.context.name}</param>
 
 	<!-- Misc params -->
 	<param name="institution">iu</param>
@@ -36,7 +39,6 @@
 	<param name="log4j.reload.minutes">5</param>
 	<param name="log4j.settings.path">classpath:log4j.properties</param>
 
-    <param name="kns.test.port">9925</param>
     <param name="workflow.url">http://localhost:${kns.test.port}/${app.context.name}/en</param>
     <param name="application.url">http://localhost:${kns.test.port}/${app.context.name}</param>
     <param name="serviceServletUrl">http://localhost:${kns.test.port}/${app.context.name}/remoting/</param>
@@ -113,5 +115,11 @@
     
     <!-- Turn off KEW use of quartz db to avoid db clear issues -->
     <param name="useQuartzDatabase">false</param>
+    
+    <!-- Register the CAS Kerberos Filter -->
+	<param name="filter.cas.class">org.kuali.core.web.filter.KualiCasFilter</param>
+    <param name="filter.cas.edu.yale.its.tp.cas.client.filter.loginUrl">${app.host}/${app.context.name}/cas/login</param>
+    <param name="filter.cas.edu.yale.its.tp.cas.client.filter.validateUrl">${app.host}/${app.context.name}/cas/serviceValidate</param>
+	<param name="filtermapping.cas.0">/*</param>
 </config>
 

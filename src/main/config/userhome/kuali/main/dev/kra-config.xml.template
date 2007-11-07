@@ -106,4 +106,10 @@
     
     <!-- Turn off KEW use of quartz db to avoid db clear issues -->
     <param name="useQuartzDatabase">false</param>
+    
+    <!-- Register the CAS Web Authentication Filter -->
+    <param name="filter.cas.class">org.kuali.core.web.filter.KualiCasFilter</param>
+    <param name="filter.cas.edu.yale.its.tp.cas.client.filter.loginUrl">${app.host}/${app.context.name}/cas/login</param>
+    <param name="filter.cas.edu.yale.its.tp.cas.client.filter.validateUrl">${app.host}/${app.context.name}/cas/serviceValidate</param>
+	<param name="filtermapping.cas.0">/*</param>
 </config>
