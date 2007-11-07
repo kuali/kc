@@ -32,6 +32,7 @@
                 <field attributeName="comments"/>
                 <field attributeName="countryCode"/>
                 <field attributeName="county"/>
+                <field attributeName="state"/>
                 <field attributeName="deleteFlag"/>
                 <field attributeName="emailAddress"/>
                 <field attributeName="faxNumber"/>
@@ -45,7 +46,6 @@
                 <field attributeName="prefix"/>
                 <field attributeName="sponsorAddressFlag"/>
                 <field attributeName="sponsorCode"/>
-                <field attributeName="state"/>
                 <field attributeName="suffix"/>
                 <field attributeName="title"/>
 
@@ -75,6 +75,7 @@
                 <lookupField attributeName="comments" required="false"/>
                 <lookupField attributeName="countryCode" required="false"/>
                 <lookupField attributeName="county" required="false"/>
+                <lookupField attributeName="state" required="false"/>
                 <lookupField attributeName="deleteFlag" required="false"/>
                 <lookupField attributeName="emailAddress" required="false"/>
                 <lookupField attributeName="faxNumber" required="false"/>
@@ -88,7 +89,6 @@
                 <lookupField attributeName="prefix" required="false"/>
                 <lookupField attributeName="sponsorAddressFlag" required="false"/>
                 <lookupField attributeName="sponsorCode" required="false"/>
-                <lookupField attributeName="state" required="false"/>
                 <lookupField attributeName="suffix" required="false"/>
                 <lookupField attributeName="title" required="false"/>
 
@@ -103,6 +103,7 @@
                 <field attributeName="comments" forceInquiry="false"/>
                 <field attributeName="countryCode" forceInquiry="false"/>
                 <field attributeName="county" forceInquiry="false"/>
+                <field attributeName="state" forceInquiry="false"/>
                 <field attributeName="deleteFlag" forceInquiry="false"/>
                 <field attributeName="emailAddress" forceInquiry="false"/>
                 <field attributeName="faxNumber" forceInquiry="false"/>
@@ -116,7 +117,6 @@
                 <field attributeName="prefix" forceInquiry="false"/>
                 <field attributeName="sponsorAddressFlag" forceInquiry="false"/>
                 <field attributeName="sponsorCode" forceInquiry="false"/>
-                <field attributeName="state" forceInquiry="false"/>
                 <field attributeName="suffix" forceInquiry="false"/>
                 <field attributeName="title" forceInquiry="false"/>
 
