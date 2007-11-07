@@ -13,19 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.lookup.keyvalue;
+package org.kuali.kra.proposaldevelopment.service;
 
-import java.util.List;
-import java.util.Map;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
-
-/**
- * This class...
- */
-public interface KeyValueFinderService{
-    public List<KeyLabelPair> getKeyValues(Class keyValClass,String codePropName,String valPropName);
-    public List<KeyLabelPair> getKeyValues(Class keyValClass,String codePropName,String valPropName,String groupPropName,String groupValue);
-    public List<KeyLabelPair> getKeyValues(Class keyValClass, String codePropName, String valPropName, Map queryMap);
+public interface ProposalPersonService {
+    public String getPersonName(ProposalDevelopmentDocument doc, String userId);
 }

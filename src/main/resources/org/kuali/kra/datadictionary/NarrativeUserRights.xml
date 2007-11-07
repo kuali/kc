@@ -109,7 +109,7 @@
 			<maxLength>1</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-				<radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.NarrativeUserRightsValuesFinder"/>
+				<radio valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeUserRightsValuesFinder"/>
 			</control>
 			<summary>Access Type </summary>
 			<description>Access Type </description>

@@ -81,8 +81,21 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         validatePage(savedPage,key1Val2);
         
         HtmlPage uploadedPage = testUploadAttachment(savedPage);
+        /*
+         * Uncomment this only after implementing narrative user rights test cases.
+         * replace link will be disabled if user doesnt have proper right to modify
+         * 
+         */
+//        HtmlPage narrUserRightsPage = testNarrUserRights(uploadedPage);
+//        
+//        savedPage = testSaveProposalAttachment(uploadedPage);
+//        
+//        testReplaceAttachment(uploadedPage,2);
+    }
 
-        testReplaceAttachment(uploadedPage,2);
+
+    private HtmlPage testNarrUserRights(HtmlPage uploadedPage) {
+        return null;
     }
 
 
