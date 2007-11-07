@@ -453,11 +453,11 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
     @Test
     public void testAbstractExpandedTextArea() throws Exception {
         
-        // Don't understand why I have to disable Javascript, but it works.
+        HtmlPage abstractsAndAttachmentsPage = getAbstractsAndAttachmentsPage();
+        
+//      Don't understand why I have to disable Javascript, but it works.
         boolean javascriptEnabled = webClient.isJavaScriptEnabled();
         webClient.setJavaScriptEnabled(false);
-        
-        HtmlPage abstractsAndAttachmentsPage = getAbstractsAndAttachmentsPage();
         
         // Test the Details expanded text area in Add Control Line.
         
