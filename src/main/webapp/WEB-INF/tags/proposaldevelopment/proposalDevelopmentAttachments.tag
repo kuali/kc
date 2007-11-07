@@ -92,7 +92,7 @@
             	<td colspan="4">
             	<div  align="left">
         	<c:forEach var="narrative" items="${KualiForm.document.narratives}" varStatus="status">
-        	<%-- <c:if test="${narrative.narrativeType.narrativeTypeGroup eq ProposalDevelopmentParameters.proposalNarrativeTypeGroup.parameterValue}">--%>
+        	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq ProposalDevelopmentParameters.proposalNarrativeTypeGroup.parameterValue}">
 			<c:set var="narrType" value="${narrative.narrativeType.description}"/>
 			<c:set var="narrStatus" value="${narrative.narrativeStatus.description}"/>
 			<kul:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}">
@@ -186,7 +186,7 @@
 			          </table>
 			       </div>
 			     </kul:innerTab>
-			   <%--</c:if>--%>
+			   </c:if>
         	</c:forEach> 
         	</div>
         	</td>
