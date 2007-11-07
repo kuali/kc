@@ -45,7 +45,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: gthomas $
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule,SaveNarrativesRule{ 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
@@ -115,8 +115,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
             }
             if (narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)) {
                 for (Narrative narr : narrativeList) {
-                    if (narr.getProposalNumber().equals(narrative.getProposalNumber())
-                            && narr.getNarrativeTypeCode().equals(narrative.getNarrativeTypeCode())) {
+                    if (narr.getNarrativeTypeCode().equals(narrative.getNarrativeTypeCode())) {
                         LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
                         reportError(errorPath, ERROR_NARRATIVE_TYPE_DUPLICATE, param);
                         rulePassed = false;
