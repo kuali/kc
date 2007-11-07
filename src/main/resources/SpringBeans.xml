@@ -49,10 +49,11 @@
     <property name="dbPlatform" ref="dbPlatform" />
   </bean>
 
-	<bean id="kraRootResourceLoader" class="org.kuali.core.workflow.KFSResourceLoader">
+	<bean id="kraRootResourceLoader" class="org.kuali.kra.rice.KraResourceLoader">
 		<!-- Define service names that are overridable -->
 		<property name="overridableServices">
 			<set>
+				<value>webAuthenticationService</value>
 				<value>enWebAuthenticationService</value>
 			</set>
 		</property>
@@ -102,6 +103,8 @@
 	<bean id="webAuthenticationService" class="org.kuali.core.service.impl.WebAuthenticationServiceCas">
 		<property name="validatePassword" value="false" />
 	</bean>
+	<alias name="webAuthenticationService" alias="enWebAuthenticationService" />
+	
 	<!--  DWR -->
 	<!--
 	<bean id="kraModule" class="org.kuali.core.KualiModule">
@@ -112,7 +115,6 @@
 	</property>
 	</bean>
 	-->
-
 
 	<bean class="org.kuali.core.util.spring.NamedOrderedListBean">
 		<property name="name" value="scriptConfigurationFilePaths" />
