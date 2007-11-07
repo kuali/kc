@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +30,16 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBase {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
@@ -68,6 +73,16 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         return super.execute(mapping, form, request, response);
     }
     
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+
+        getKeyPersonnelService().populateDocument(((ProposalDevelopmentForm) kualiDocumentFormBase).getProposalDevelopmentDocument());
+    }
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -144,7 +159,14 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         if (proposalDevelopmentForm.isAuditActivated()) {
             KNSServiceLocator.getBean(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
-}
+        }
          return mapping.findForward("auditMode");
+    }
+    
+    /**
+     * Grabs the <code>{@link KeyPersonnelService} from Spring!
+     */
+    protected KeyPersonnelService getKeyPersonnelService() {
+        return getService(KeyPersonnelService.class);
     }
 }
