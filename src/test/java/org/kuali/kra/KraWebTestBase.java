@@ -722,10 +722,14 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @throws IOException
      */
     private HtmlPage checkForLoginPage(HtmlPage page) throws IOException {
-        if (page.getTitleText().equals("Login")) {
+        if (page.getTitleText().equals("Central Authentication Service")) {
             HtmlForm form = (HtmlForm) page.getForms().get(0);
+            setFieldValue(page, "username", "quickstart");
             HtmlSubmitInput loginBtn = (HtmlSubmitInput) form.getInputByValue("Login");
             page = (HtmlPage) loginBtn.click();
+            if (page.getTitleText().equals("Central Authentication Service")) {
+                page = (HtmlPage) loginBtn.click();
+            }
         }
         return page;
     }

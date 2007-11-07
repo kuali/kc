@@ -691,14 +691,17 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     private HtmlPage login(WebClient webClient, URL url, String loginLocation) throws Exception {
         final HtmlPage page1 = (HtmlPage) webClient.getPage(url);
         assertEquals("Kuali Portal Index", page1.getTitleText());
-
+        
         // LOGIN
         final HtmlPage page2 = (HtmlPage) webClient.getPage(url + loginLocation);
+        
+        // set username field for authentication
+        setFieldValue(page2, "username", "quickstart");
 
         // Get the form that we are dealing with and within that form,
         // find the submit button and the field that we want to change.
         final HtmlForm form = (HtmlForm) page2.getForms().get(0);
-
+        
         // Now submit the form by clicking the button and get back the
         // second page.
         return clickButton(page2, form, "Login", SUBMIT_INPUT_BY_VALUE);
