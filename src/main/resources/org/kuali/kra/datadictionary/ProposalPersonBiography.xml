@@ -144,7 +144,7 @@
 			<label>Description </label>
 			<shortLabel>Description </shortLabel>
 			<maxLength>200</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<required> true </required> 
 			<control>
 				<textarea cols="20" rows="3"  />
