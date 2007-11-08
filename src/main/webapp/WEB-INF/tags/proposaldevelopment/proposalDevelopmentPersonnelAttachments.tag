@@ -19,7 +19,7 @@
 <c:set var="propPerDocTypeAttributes" value="${DataDictionary.PropPerDocType.attributes}" />
 <c:set var="textAreaFieldName" value="newPropPersonBio.description" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
-<kul:tab tabTitle="Personnel Attachments(${fn:length(KualiForm.document.propPersonBios)})" defaultOpen="true" tabErrorKey="document.propPersonBio*">
+<kul:tab tabTitle="Personnel Attachments (${fn:length(KualiForm.document.propPersonBios)})" defaultOpen="true" tabErrorKey="document.propPersonBio*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Add Personnel Attachments</h2></span>
@@ -29,12 +29,12 @@
         <table cellpadding=0 cellspacing=0 summary="">
           	<tr>
           	    <th><div align="left">&nbsp</div></th> 
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.updateTimestamp}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.updateUser}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.proposalPersonNumber}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.documentTypeCode}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.description}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.fileName}" skipHelpUrl="true" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.updateTimestamp}" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.updateUser}" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.proposalPersonNumber}" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.documentTypeCode}" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.description}" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.fileName}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
 	  			             		
           	</tr>        
@@ -84,7 +84,6 @@
                 	    <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${propPersonBioAttributes.updateTimestamp}" />
 					</td>
 	                <td>
-                	    <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].updateUser" readOnly="true" attributeEntry="${propPersonBioAttributes.updateUser}" />
                 	    ${propPersonBio.authorPersonName}
 	                </td>
 	                <td>
