@@ -19,7 +19,7 @@
 <c:set var="textAreaFieldName" value="document.mailDescription" />
 <c:set var="action" value="proposalDevelopmentProposal" />
 
-<kul:tab tabTitle="Delivery Info" defaultOpen="true" tabErrorKey="document.mailBy*,document.mailType*,document.mailAccountNumber*,document.mailingAddressId*,document.mailDescription*">
+<kul:tab tabTitle="Delivery Info" defaultOpen="true" tabErrorKey="document.mailBy*,document.mailType*,document.mailAccountNumber*,document.mailingAddressId*,document.mailDescription*,document.numberOfCopies*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Delivery Info</h2></span>
