@@ -19,15 +19,10 @@
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
 <c:set var="textAreaFieldName" value="newInstitute.moduleTitle" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
-<c:set var="lineNum" value="1"/>	
 <c:set var="numOfInstAtt" value="0"/>	
 
-<c:forEach var="instituteAttachment" items="${KualiForm.document.narratives}" varStatus="status">
-  	  <c:if test="${instituteAttachment.narrativeType.narrativeTypeGroup eq ProposalDevelopmentParameters.instituteNarrativeTypeGroup.parameterValue}">
-		<c:set var="numOfInstAtt" value="${numOfInstAtt + 1 }"/>	
-      </c:if>
-</c:forEach>
-<kul:tab tabTitle="Institutional Attachments(${numOfInstAtt})" defaultOpen="true" tabErrorKey="document.institutes*,newInstitute*">
+
+<kul:tab tabTitle="Institutional Attachments (${fn:length(KualiForm.document.institutes)})" defaultOpen="true" tabErrorKey="document.institutes*,newInstitute*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Add Institutional Attachments</h2></span>
@@ -37,11 +32,11 @@
         <table cellpadding=0 cellspacing=0 summary="">
           	<tr>
           	    <th><div align="left">&nbsp</div></th> 
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.fileName}" skipHelpUrl="true" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.fileName}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
 	  			             		
           	</tr>        
@@ -75,29 +70,27 @@
                 </td>
             </tr>
 
-        	<c:forEach var="instituteAttachment" items="${KualiForm.document.narratives}" varStatus="status">
-        	  <c:if test="${instituteAttachment.narrativeType.narrativeTypeGroup eq ProposalDevelopmentParameters.instituteNarrativeTypeGroup.parameterValue}">
+        	<c:forEach var="instituteAttachment" items="${KualiForm.document.institutes}" varStatus="status">
 	             <tr>
 					<th class="infoline" align="right">
-						${lineNum}:
-						<c:set var="lineNum" value="${lineNum+1}" />
+						${status.index + 1}:
 					</th>
 	                <td>
-                	    <kul:htmlControlAttribute property="document.narratives[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
+                	    <kul:htmlControlAttribute property="document.institutes[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
 					</td>
 	                <td>
-                	    <kul:htmlControlAttribute property="document.narratives[${status.index}].updateUser" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
+                	    ${instituteAttachment.authorPersonName}
 	                </td>
 	                <td>                	
-                	    <input type="hidden" name="document.narratives[${status.index}].institutionalAttachmentTypeCode" value="${instituteAttachment.institutionalAttachmentTypeCode}" />
+                	    <input type="hidden" name="document.institutes[${status.index}].institutionalAttachmentTypeCode" value="${instituteAttachment.institutionalAttachmentTypeCode}" />
                          ${instituteAttachment.narrativeType.description}	                </td>
-                	    <!-- <kul:htmlControlAttribute property="document.narratives[${status.index}].narrativeType.description" readOnly="true" attributeEntry="${narrativeAttributes.narrativeType.description}" /> -->
+                	    <!-- <kul:htmlControlAttribute property="document.institutes[${status.index}].narrativeType.description" readOnly="true" attributeEntry="${narrativeAttributes.narrativeType.description}" /> -->
 					</td>
 	                <td>
-	                	<kul:htmlControlAttribute property="document.narratives[${status.index}].moduleTitle" readOnly="true" attributeEntry="${narrativeAttributes.moduleTitle}" />
+	                	<kul:htmlControlAttribute property="document.institutes[${status.index}].moduleTitle" readOnly="true" attributeEntry="${narrativeAttributes.moduleTitle}" />
 					</td>
 	                <td>
-	                    <kul:htmlControlAttribute property="document.narratives[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
+	                    <kul:htmlControlAttribute property="document.institutes[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 	                </td>
 	                <td>
 					<div align=center>
@@ -109,7 +102,6 @@
 					</div>
 	                </td>
 	            </tr>
-			  </c:if>
         	</c:forEach>        
 
           	
