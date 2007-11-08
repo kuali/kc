@@ -5,13 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.PropPerDocType;
-import org.kuali.rice.KNSServiceLocator;
 
 public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
 
@@ -107,24 +102,6 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
 
     public void setPropPerDocType(PropPerDocType propPerDocType) {
         this.propPerDocType = propPerDocType;
-    }
-
-    //Helper methods
-    // TODO : move helper method to upperclass for sharing ??
-
-    public String getAuthorPersonName(){
-        UniversalUser user=null;
-        try {
-            user = KNSServiceLocator.getBean(UniversalUserService.class).getUniversalUser(getUpdateUser());
-        }
-        catch (UserNotFoundException unfe) {
-        }
-        if (ObjectUtils.isNull(user)) {
-            return "Person not found";
-        }
-        else {
-            return user.getPersonName();
-        }
     }
 
     public String getFileName() {

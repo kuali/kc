@@ -5,10 +5,16 @@ import java.sql.Timestamp;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.KNSServiceLocator;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.UniversalUserService;
 
 public abstract class KraPersistableBusinessObjectBase extends PersistableBusinessObjectBase {
 
@@ -79,4 +85,24 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
     public void setUpdateUserSet(boolean updateUserSet) {
         this.updateUserSet = updateUserSet;
     }
+    
+    //Helper methods
+    // TODO : Is ok for sharing here??
+
+    public String getAuthorPersonName(){
+        UniversalUser user=null;
+        try {
+            user = KNSServiceLocator.getBean(UniversalUserService.class).getUniversalUser(new AuthenticationUserId(getUpdateUser()));
+        }
+        catch (UserNotFoundException unfe) {
+        }
+        if (ObjectUtils.isNull(user)) {
+            return "Person not found";
+        }
+        else {
+            return user.getPersonName();
+        }
+    }
+
+
 }
