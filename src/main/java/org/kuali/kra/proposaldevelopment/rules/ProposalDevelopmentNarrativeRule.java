@@ -21,6 +21,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DES
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DUPLICATE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +45,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
- * @author $Author: gthomas $
- * @version $Revision: 1.8 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.9 $
  */
 public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule,SaveNarrativesRule{ 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
@@ -64,8 +65,16 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent narrativeEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)narrativeEvent.getDocument();
         Narrative narrative = narrativeEvent.getNarrative();
+        // need to populate here to get the narrativetypecode for comparison 
+        populateNarrativeType(narrative);
         boolean rulePassed = true;
-        List<Narrative> narrList = document.getNarratives();
+        List<Narrative> narrList = new ArrayList();
+        if (Constants.NARRATIVE_NARRATIVE_TYPE_GROUP_CODE.equals(narrative.getNarrativeType().getNarrativeTypeGroup())) {
+            narrList = document.getNarratives();
+        } else {
+            narrList = document.getInstitutes();
+            
+        }
         rulePassed &= checkNarrative(narrList, narrative);
         return rulePassed;
     }
@@ -77,11 +86,11 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     public boolean processSaveNarrativesBusinessRules(SaveNarrativesEvent saveNarrativesEvent) {
         List<Narrative> narrativeList = saveNarrativesEvent.getNarratives();
         int size = narrativeList.size();
-        boolean rulePassed = false;
+        boolean rulePassed = true;
         for (int i = 0; i < size; i++) {
-            Narrative narrative = narrativeList.get(i);
+            Narrative narrative = narrativeList.get(0);
             narrativeList.remove(narrative);
-            --size;
+            //--size;
             rulePassed &= checkNarrative(narrativeList,narrative);
         }
         return rulePassed;
@@ -108,9 +117,9 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         }
         if (rulePassed) {
             if (narrative.getNarrativeType().getNarrativeTypeGroup().equals(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE)) {
-                GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
+                //GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
                 errorPath = NEW_INSTITUTE;
-                GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+                //GlobalVariables.getErrorMap().addToErrorPath(errorPath);
                 param[0] = INSTITUTE;
             }
             if (narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)) {
