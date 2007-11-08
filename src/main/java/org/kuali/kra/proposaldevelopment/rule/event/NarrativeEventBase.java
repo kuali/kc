@@ -29,8 +29,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * Base implementation for events triggered when a Key Person state is modified on a 
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
- * @author $Author: gthomas $
- * @version $Revision: 1.2 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.3 $
  */
 public abstract class NarrativeEventBase extends KraDocumentEventBase implements NarrativeEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NarrativeEventBase.class);
@@ -64,6 +64,11 @@ public abstract class NarrativeEventBase extends KraDocumentEventBase implements
         super(description, errorPathPrefix, document);
         narratives = new ArrayList<Narrative>();
         List<Narrative> narativeListToBeSaved = document.getNarratives();
+        for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
+            narratives.add((Narrative) ObjectUtils.deepCopy(narrativeToBeSaved));
+        }
+        // add inistitutes on top of it
+        narativeListToBeSaved = document.getInstitutes();
         for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
             narratives.add((Narrative) ObjectUtils.deepCopy(narrativeToBeSaved));
         }
