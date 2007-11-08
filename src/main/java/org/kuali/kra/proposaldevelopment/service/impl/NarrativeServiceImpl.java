@@ -64,7 +64,12 @@ public class NarrativeServiceImpl implements NarrativeService {
         narrative.refreshReferenceObject("narrativeStatus");
         narrative.populateAttachment();
         addNarrativeUserRights(proposaldevelopmentDocument,narrative);
-        proposaldevelopmentDocument.getNarratives().add(narrative);
+        if (isProposalAttachmentType(narrative)) {
+            proposaldevelopmentDocument.getNarratives().add(narrative);
+            
+        } else {
+            proposaldevelopmentDocument.getInstitutes().add(narrative);
+        }
     }
     /**
      * 
@@ -90,7 +95,15 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
     public void deleteProposalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete) {
-        Narrative narrative = proposaldevelopmentDocument.getNarratives().get(lineToDelete);
+        deleteAttachment(proposaldevelopmentDocument.getNarratives(), lineToDelete);
+    }
+
+    public void deleteInstitutionalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete) {
+        deleteAttachment(proposaldevelopmentDocument.getInstitutes(), lineToDelete);
+    }
+
+    private void deleteAttachment(List<Narrative> narratives, int lineToDelete) {
+        Narrative narrative = narratives.get(lineToDelete);
         NarrativeAttachment narrAtt = new NarrativeAttachment();
         narrAtt.setProposalNumber(narrative.getProposalNumber());
         narrAtt.setModuleNumber(narrative.getModuleNumber());
@@ -98,9 +111,10 @@ public class NarrativeServiceImpl implements NarrativeService {
             narrative.getNarrativeAttachmentList().add(narrAtt);
         else
             narrative.getNarrativeAttachmentList().set(0, narrAtt);
-        proposaldevelopmentDocument.getNarratives().remove(lineToDelete);
-    }
+        narratives.remove(lineToDelete);
 
+    }
+    
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
 //        Narrative narrative = getNarratives().get(lineNumber);
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
@@ -226,5 +240,9 @@ public class NarrativeServiceImpl implements NarrativeService {
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+    
+    private boolean isProposalAttachmentType(Narrative narrative) {
+        return Constants.NARRATIVE_NARRATIVE_TYPE_GROUP_CODE.equals(narrative.getNarrativeType().getNarrativeTypeGroup());
     }
 }
