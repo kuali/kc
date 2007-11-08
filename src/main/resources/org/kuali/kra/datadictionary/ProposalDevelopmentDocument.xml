@@ -473,7 +473,7 @@
                 <label>Mail Description</label>
                 <shortLabel>Description</shortLabel>
 
-                <maxLength>200</maxLength>
+                <maxLength>80</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <required>false</required>
