@@ -561,7 +561,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(doc);
         verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
-        Narrative narrative=(Narrative)doc.getNarratives().get(0);
+        Narrative narrative=(Narrative)doc.getInstitutes().get(0);
         narrative.refreshReferenceObject("narrativeAttachmentList");
         NarrativeAttachment narrativeAttachment=(NarrativeAttachment)narrative.getNarrativeAttachmentList().get(0);
         assertNotNull(narrativeAttachment);
