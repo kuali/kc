@@ -15,45 +15,33 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
-import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_NUMBER;
-import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_SEQUENCE_NUMBER;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import org.apache.struts.upload.FormFile;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable {
     
@@ -110,6 +98,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<ProposalPerson> investigators;
     private Unit ownedByUnit;
     transient private NarrativeService narrativeService;
+    transient private ProposalPersonBiographyService proposalPersonBiographyService;
 
 
     public ProposalDevelopmentDocument() {
@@ -793,31 +782,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      * @throws Exception
      */
     public void addProposalPersonBiography(ProposalPersonBiography proposalPersonBiography) throws Exception {
-        proposalPersonBiography.setProposalNumber(getProposalNumber());
-        proposalPersonBiography.setUpdateUser(getUpdateUser());
-        proposalPersonBiography.setUpdateTimestamp(getUpdateTimestamp());
-        proposalPersonBiography.setBiographyNumber(getProposalNextValue(Constants.PROP_PERSON_BIO_NUMBER));
-        proposalPersonBiography.setPropPerDocType(new PropPerDocType());
-        proposalPersonBiography.getPropPerDocType().setDocumentTypeCode(proposalPersonBiography.getDocumentTypeCode());
-        proposalPersonBiography.refreshReferenceObject("propPerDocType");
-        FormFile personnelAttachmentFile = proposalPersonBiography.getPersonnelAttachmentFile();
-        proposalPersonBiography.setFileName(personnelAttachmentFile.getFileName());
-        byte[] fileData = personnelAttachmentFile.getFileData();
-        if (fileData.length > 0) {
-            ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
-            personnelAttachment.setFileName(personnelAttachmentFile.getFileName());
-            personnelAttachment.setProposalNumber(proposalPersonBiography.getProposalNumber());
-            personnelAttachment.setProposalPersonNumber(proposalPersonBiography.getProposalPersonNumber());
-            personnelAttachment.setBiographyData(personnelAttachmentFile.getFileData());
-            personnelAttachment.setContentType(personnelAttachmentFile.getContentType());
-            if (proposalPersonBiography.getPersonnelAttachmentList().isEmpty())
-                proposalPersonBiography.getPersonnelAttachmentList().add(personnelAttachment);
-            else
-                proposalPersonBiography.getPersonnelAttachmentList().set(0, personnelAttachment);
-        }
-        getPropPersonBios().add(proposalPersonBiography);
-
+        getProposalPersonBiographyService().addProposalPersonBiography(this, proposalPersonBiography);
     }
+        
     /**
      * 
      * Method to add a new narrative to narratives list
@@ -833,6 +800,15 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      */
     public void deleteProposalAttachment(int lineToDelete) {
         getNarrativeService().deleteProposalAttachment(this, lineToDelete);
+    }
+
+    /**
+     * 
+     * Method to delete a narrative from narratives list
+     * @param narrative
+     */
+    public void deleteInstitutionalAttachment(int lineToDelete) {
+        getNarrativeService().deleteInstitutionalAttachment(this, lineToDelete);
     }
 
     public void populatePersonNameForNarrativeUserRights(int lineNumber) {
@@ -866,6 +842,17 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      */
     public void setNarrativeService(NarrativeService narrativeService) {
         this.narrativeService = narrativeService;
+    }
+
+    public ProposalPersonBiographyService getProposalPersonBiographyService() {
+        if(proposalPersonBiographyService==null){
+            proposalPersonBiographyService = getService(ProposalPersonBiographyService.class);
+        }
+        return proposalPersonBiographyService;
+    }
+
+    public void setProposalPersonBiographyService(ProposalPersonBiographyService proposalPersonBiographyService) {
+        this.proposalPersonBiographyService = proposalPersonBiographyService;
     }
 
 
