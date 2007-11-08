@@ -182,4 +182,7 @@
 	<bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	<bean id="proposalPersonBiographyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonBiographyServiceImpl">
+	</bean>
+	
 </beans>
