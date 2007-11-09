@@ -64,7 +64,7 @@
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 	<kul:htmlControlAttribute property="newPropSpecialReview.comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
-                    <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${proSpecialAttriburesAttributes.comments.label}#)).anchor${currentTabIndex}" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','proposalDevelopment','${proSpecialAttriburesAttributes.comments.label}');return false"  styleClass="tinybutton"/>
+                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proSpecialAttriburesAttributes.comments.label}" />
                 </td>
 				<td class="infoline">
 					<div align=center>
@@ -99,7 +99,7 @@
 	                </td>
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
-                        <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalDevelopmentAttributes.comments.label}" />
+                        <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proSpecialAttriburesAttributes.comments.label}" />
 	                </td>
 					<td>
 					<div align=center>
