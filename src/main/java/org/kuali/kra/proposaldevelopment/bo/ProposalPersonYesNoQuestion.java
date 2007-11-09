@@ -26,14 +26,14 @@ import org.kuali.kra.bo.Ynq;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: lprzybyl $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public final class ProposalPersonYesNoQuestion  extends KraPersistableBusinessObjectBase {
     private Integer proposalPersonNumber;
     private Integer proposalNumber;
     private String questionId;
     private Boolean answer;
-    private Ynq ynq;
+    private Ynq question;
 
     /**
      * Gets the value of proposalPersonNumber
@@ -114,7 +114,7 @@ public final class ProposalPersonYesNoQuestion  extends KraPersistableBusinessOb
      * @return the value of ynq
      */
     public Ynq getQuestion() {
-        return this.ynq;
+        return this.question;
     }
 
     /**
@@ -122,8 +122,8 @@ public final class ProposalPersonYesNoQuestion  extends KraPersistableBusinessOb
      *
      * @param argYnq Value to assign to this.ynq
      */
-    public void setQuestion(final Ynq argYnq) {
-        this.ynq = argYnq;
+    public void setQuestion(Ynq argYnq) {
+        this.question = argYnq;
     }
 
 
@@ -134,7 +134,7 @@ public final class ProposalPersonYesNoQuestion  extends KraPersistableBusinessOb
         propMap.put("proposalNumber", getProposalNumber());
         propMap.put("questionId", getQuestionId());
         propMap.put("answer", getAnswer());
-        propMap.put("ynq", getQuestion());
+        propMap.put("question", getQuestion());
         return propMap;
     }
 
