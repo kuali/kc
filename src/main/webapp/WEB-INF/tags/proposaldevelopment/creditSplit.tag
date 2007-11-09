@@ -30,7 +30,7 @@
         <table cellpadding="0" cellspacing="0" summary="">
               <tr>
                 <th width="20%"></th>
-<c:forEach items="${KualiForm.investigatorCreditTypes}" var="invType" >
+<c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
                 <th width="20%">${invType.description}</th>
 </c:forEach>
               </tr>
@@ -67,7 +67,7 @@
                 <td nowrap class="infoline"><strong>Unit Total:
                 </strong></td>
   <bean:define id="totalMap" name="KualiForm" property="creditSplitTotals.${investigator.fullName}" />
-  <c:forEach items="${KualiForm.investigatorCreditTypes}" var="invType" >
+  <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
                 <td class="infoline"><div align="right"><strong>${totalMap[invType.invCreditTypeCode]}</strong></div></td>
   </c:forEach>
               </tr>            
@@ -80,7 +80,7 @@
                 <td nowrap class="infoline"><strong>Investigator Total:
                 </strong></td>
   <bean:define id="totalMap" name="KualiForm" property="creditSplitTotals.investigator" />
-  <c:forEach items="${KualiForm.investigatorCreditTypes}" var="invType" >
+  <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
                 <td class="infoline"><div align="right"><strong>${totalMap[invType.invCreditTypeCode]}</strong></div></td>
   </c:forEach>
               </tr>            

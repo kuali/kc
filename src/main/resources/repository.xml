@@ -199,7 +199,6 @@
 
 	<class-descriptor class="org.kuali.kra.bo.DegreeType" table="DEGREE_TYPE">
 		<field-descriptor name="degreeCode" column="DEGREE_CODE" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="degreeLevel" column="DEGREE_LEVEL" jdbc-type="INTEGER"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -394,6 +393,11 @@
 			<inverse-foreignkey field-ref="proposalPersonNumber"/>
 		</collection-descriptor>
 
+		<collection-descriptor name="questions" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonYesNoQuestion" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<inverse-foreignkey field-ref="proposalPersonNumber"/>
+		</collection-descriptor>
+
 		<reference-descriptor name="role" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="proposalPersonRoleId"/>
 		</reference-descriptor>
@@ -418,6 +422,21 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonYesNoQuestion" table="EPS_PROP_PERS_YNQ">
+        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="answer" column="ANSWER" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+		<reference-descriptor name="question" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="questionId"/>
+		</reference-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" table="EPS_PROP_PERSON_ROLE">

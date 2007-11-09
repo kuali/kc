@@ -25,19 +25,7 @@
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
-<%--
-    <kul:tabTop tabTitle="${fn:substring(keyPerson.fullName, 0, 22)}"
-     		tabDescription="${keyPerson.role.description}"
-             leftSideHtmlProperty="${proposalPerson}.delete" 
-            leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
-         	 leftSideHtmlDisabled="false"
-                      defaultOpen="false" 
-                      tabErrorKey="${proposalPerson}*">
-        <kra-pd:person proposalPerson="${proposalPerson}" />
-     </kul:tabTop>
-     <c:if test="${!status.first}">
-     </c:if> 
---%>
+
     <kul:tab tabTitle="${fn:substring(keyPerson.fullName, 0, 22)}"
              tabDescription="${keyPerson.role.description}"
              leftSideHtmlProperty="${proposalPerson}.delete" 
@@ -46,8 +34,7 @@
                       defaultOpen="false" 
             transparentBackground="${transparent}" 
                       tabErrorKey="document.proposalPerson*">
-        <kra-pd:person proposalPerson="${proposalPerson}" personIndex="${personIndex}"/>
-		<c:set var="personIndex" value="${personIndex+1}" />
+        <kra-pd:person proposalPerson="${proposalPerson}" personIndex="${status.index}"/>
      </kul:tab>
 </c:forEach>
 <c:if test="${fn:length(KualiForm.document.investigators) > 0}">

@@ -36,12 +36,14 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYesNoQuestion;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -53,10 +55,11 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Version$
+ * @version $Revision: 1.2 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelServiceImpl.class);
     
     /**
      * Part of a complete breakfast, it has everything you need to populate Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
@@ -64,8 +67,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      * @param document
      */
     public void populateDocument(ProposalDevelopmentDocument document) {
+        document.setInvestigatorCreditTypes(getInvestigatorCreditTypes());
     }
 
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#populateProposalPerson(ProposalPerson, ProposalDevelopmentDocument)
+     */
     public void populateProposalPerson(ProposalPerson person, ProposalDevelopmentDocument document) {
         for (InvestigatorCreditType creditType : (Collection<InvestigatorCreditType>) getInvestigatorCreditTypes()) {
             ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
@@ -75,6 +82,15 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             creditSplit.setCredit(new KualiDecimal(0));
             person.getCreditSplits().add(creditSplit);
         }
+
+        for (Ynq question : getYesNoQuestions()) {
+            ProposalPersonYesNoQuestion personQuestion = new ProposalPersonYesNoQuestion();
+            personQuestion.setProposalNumber(document.getProposalNumber());
+            personQuestion.setProposalPersonNumber(person.getProposalPersonNumber());
+            personQuestion.setQuestionId(question.getQuestionId());
+            personQuestion.refreshReferenceObject("question");
+            person.getQuestions().add(personQuestion);
+        }
         
         if (isPrincipalInvestigator(person)) {
             assignLeadUnit(person, document.getOwnedByUnitNumber());
@@ -83,10 +99,15 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         person.setIsInvestigator(isInvestigator(person));
         
         person.refreshReferenceObject("role");
+        
+        document.addProposalPerson(person);
     }
 
     /**
-     *
+     * Queries persistent storage for a <code>{@link Collection}</code> of <code>{@link InvestigatorCreditType}</code>
+     * instances.
+     * 
+     * @return Collection<InvestigatorCreditType>
      */
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
         Collection<InvestigatorCreditType> types = getBusinessObjectService().findAll(InvestigatorCreditType.class);
@@ -98,6 +119,16 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     }
 
     /**
+     * Queries persistent storage for a <code>{@link Collection}</code> of <code>{@link Ynq}</code>
+     * instances.
+     * 
+     * @return Collection<Ynq>
+     */
+    public Collection<Ynq> getYesNoQuestions() {
+        return getBusinessObjectService().findAll(Ynq.class);
+    }
+
+    /**
      * Everytime something changes that will effect credit split values, this gets called to generate a graph of the
      * new data.
      *
@@ -106,7 +137,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      */
     public Map calculateCreditSplitTotals(ProposalDevelopmentDocument document) {
         Map<String, Map<String,KualiDecimal>> retval = new HashMap<String,Map<String,KualiDecimal>>();
-        Collection<InvestigatorCreditType> creditTypes = getInvestigatorCreditTypes();
+        
+        // Initialize investigator credit types if there aren't any
+        if (document.getInvestigatorCreditTypes() == null || document.getInvestigatorCreditTypes().size() == 0) {
+            document.setInvestigatorCreditTypes(getInvestigatorCreditTypes());
+        }
+        Collection<InvestigatorCreditType> creditTypes = document.getInvestigatorCreditTypes();
         
         for (ProposalPerson investigator : document.getInvestigators()) {
             Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
