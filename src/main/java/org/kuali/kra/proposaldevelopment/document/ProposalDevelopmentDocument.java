@@ -19,6 +19,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.document.Copyable;
@@ -31,6 +32,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
@@ -96,6 +98,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<Narrative> institutes;
     private List<ProposalPersonBiography> propPersonBios;
     private List<ProposalPerson> investigators;
+    private Collection<InvestigatorCreditType> investigatorCreditTypes;
     private Unit ownedByUnit;
     transient private NarrativeService narrativeService;
     transient private ProposalPersonBiographyService proposalPersonBiographyService;
@@ -855,5 +858,21 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.proposalPersonBiographyService = proposalPersonBiographyService;
     }
 
-
+    /**
+     * Accessor method to locally store credit types
+     *
+     * @param creditTypes a <code>{@link Collection}</code> of credit types
+     */
+    public void setInvestigatorCreditTypes(Collection<InvestigatorCreditType> creditTypes) {
+        investigatorCreditTypes = creditTypes;
+    }
+    
+    /**
+     * Accessor method to locally store credit types
+     *
+     * @return <code>{@link Collection}</code> of credit types
+     */
+    public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
+        return investigatorCreditTypes;
+    }
 }
