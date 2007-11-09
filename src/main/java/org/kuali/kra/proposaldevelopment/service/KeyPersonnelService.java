@@ -36,7 +36,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Version$
+ * @version $Revision: 1.2 $
  */
 public interface KeyPersonnelService {
     /**
