@@ -49,22 +49,25 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
-       
+
         KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganzationLocation(proposalDevelopmentDocument);
-        
+
         return super.save(mapping, form, request, response);
     }
-    
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+
         /* get parameter for keyword display panel - display keyword panel if parameter is set to true */
         String keywordPanelDisplay = KNSServiceLocator.getKualiConfigurationService().getParameterValue(
                 Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);
         request.setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
 
         ProposalDevelopmentDocument proposalDevelopmentDocument=((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
-        if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getProposalLocations().size()==0 
+        if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getProposalLocations().size()==0
                 && StringUtils.isNotBlank(request.getParameter("methodToCall")) && request.getParameter("methodToCall").toString().equals("refresh")
                 && StringUtils.isNotBlank(request.getParameter("refreshCaller")) && request.getParameter("refreshCaller").toString().equals("kualiLookupable")
                 && StringUtils.isNotBlank(request.getParameter("document.organizationId")) ) {
@@ -90,11 +93,11 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             ((ProposalDevelopmentForm)form).setPrimeSponsorName(null);
         }
 
-        return super.execute(mapping, form, request, response);
+        return actionForward;
     }
 
     /**
-     * 
+     *
      * Add new location to proposal document and reset newProplocation from form.
      * @param mapping
      * @param form
@@ -112,7 +115,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     }
 
     /**
-     * 
+     *
      * Delete one location/site from proposal document
      * @param mapping
      * @param form
@@ -128,9 +131,9 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().remove(getLineToDelete(request));
         return mapping.findForward("basic");
     }
-    
+
     /**
-     * 
+     *
      * Clear the address from the site/location selected.
      * @param mapping
      * @param form
