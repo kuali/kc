@@ -90,6 +90,9 @@
             <attributeReference name="answer" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Answer</label>
  	            <shortLabel>Answer</shortLabel>
+                <control>
+                    <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNOnlyValuesFinder" />
+                </control>
  	            <summary>Answer</summary>
                 <description>Answer</description>
             </attributeReference>
