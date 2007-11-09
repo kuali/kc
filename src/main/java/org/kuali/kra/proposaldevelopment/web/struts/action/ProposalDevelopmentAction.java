@@ -77,9 +77,6 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
      */
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
-     */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
