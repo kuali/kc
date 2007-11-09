@@ -18,9 +18,9 @@
               <!-- <table cellpadding=0 cellspacing="0" summary=""> -->
                 <tbody id="G5">
                   <tr>
-                    <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonYesNoQuestion.questionId" />
-                    <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.Ynq.description" />
-                    <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonYesNoQuestion.answer" />
+                    <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonYesNoQuestion.attributes.questionId" />
+                    <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.Ynq.attributes.description" />
+                    <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonYesNoQuestion.attributes.answer" />
                   </tr>
     <bean:define id="questions" name="KualiForm" property="${proposalPerson}.questions"/>
     <c:forEach items="${questions}" var="question" varStatus="status">
