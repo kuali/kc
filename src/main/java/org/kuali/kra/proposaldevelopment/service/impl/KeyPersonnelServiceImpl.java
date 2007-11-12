@@ -55,7 +55,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -81,15 +81,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
             creditSplit.setCredit(new KualiDecimal(0));
             person.getCreditSplits().add(creditSplit);
-        }
-
-        for (Ynq question : getYesNoQuestions()) {
-            ProposalPersonYesNoQuestion personQuestion = new ProposalPersonYesNoQuestion();
-            personQuestion.setProposalNumber(document.getProposalNumber());
-            personQuestion.setProposalPersonNumber(person.getProposalPersonNumber());
-            personQuestion.setQuestionId(question.getQuestionId());
-            personQuestion.refreshReferenceObject("question");
-            person.getQuestions().add(personQuestion);
         }
         
         if (isPrincipalInvestigator(person)) {
