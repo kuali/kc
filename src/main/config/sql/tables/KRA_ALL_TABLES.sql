@@ -603,25 +603,24 @@ CONSTRAINT "KIM_NMSPCE_DFLT_ATTR_UK1" UNIQUE ("NAMESPACE_ID", "ATTRIBUTE_NAME")
 ENABLE                                                                          
 ) ;
                                                                             
-                                                                                
-CREATE TABLE "EPS_PROP_PERSON_BIO"                                              
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_BION1" NOT NULL    
-ENABLE,                                                                         
-"PERSON_ID" VARCHAR2(10) CONSTRAINT "EPS_PROP_PERSON_BION2" NOT NULL ENABLE,    
-"BIO_NUMBER" NUMBER(3,0) CONSTRAINT "EPS_PROP_PERSON_BION3" NOT NULL ENABLE,    
-"DESCRIPTION" VARCHAR2(200) CONSTRAINT "EPS_PROP_PERSON_BION4" NOT NULL ENABLE, 
-"DOCUMENT_TYPE_CODE" VARCHAR2(3),                                               
-"FILE_NAME" VARCHAR2(150),                                                      
-"UPDATE_TIMESTAMP" DATE CONSTRAINT "EPS_PROP_PERSON_BION5" NOT NULL ENABLE,     
-"UPDATE_USER" VARCHAR2(8) CONSTRAINT "EPS_PROP_PERSON_BION6" NOT NULL ENABLE,   
-"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "EPS_PROP_PERSON_BION7" NOT NULL     
-ENABLE,                                                                         
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "EPS_PROP_PERSON_BION8" NOT 
-NULL ENABLE,                                                                    
-CONSTRAINT "PK_EPS_PROP_PERSON_BIO_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",         
-"PERSON_ID", "BIO_NUMBER") ENABLE                                               
-) ;                                                                             
-                                                                                
+                                                                               
+                                
+CREATE TABLE EPS_PROP_PERSON_BIO 
+   (	"PROPOSAL_NUMBER" NUMBER(12,0) constraint EPS_PROP_PERSON_BION1 NOT NULL ENABLE, 
+	"PROP_PERSON_NUMBER" NUMBER(12,0) constraint EPS_PROP_PERSON_BION2 NOT NULL ENABLE, 
+	"BIO_NUMBER" NUMBER(3,0) constraint EPS_PROP_PERSON_BION3 NOT NULL ENABLE, 
+	"PERSON_ID" VARCHAR2(10), 
+    "ROLODEX_ID"  NUMBER(6,0), 
+	"DESCRIPTION" VARCHAR2(200) constraint EPS_PROP_PERSON_BION4 NOT NULL ENABLE, 
+	"DOCUMENT_TYPE_CODE" VARCHAR2(3), 
+	"FILE_NAME" VARCHAR2(150), 
+	"UPDATE_TIMESTAMP" DATE constraint EPS_PROP_PERSON_BION5 NOT NULL ENABLE, 
+	"UPDATE_USER" VARCHAR2(8) constraint EPS_PROP_PERSON_BION6 NOT NULL ENABLE, 
+	 "VER_NBR" NUMBER(8,0) DEFAULT 1  constraint  EPS_PROP_PERSON_BION7  NOT NULL ENABLE,
+	"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID()  constraint  EPS_PROP_PERSON_BION8  NOT NULL ENABLE,
+	CONSTRAINT "PK_EPS_PROP_PERSON_BIO_KRA" PRIMARY KEY ("PROPOSAL_NUMBER", "PROP_PERSON_NUMBER","BIO_NUMBER") ENABLE
+) ;
+ 
                                                                                 
 CREATE TABLE "EPS_PROP_PERSON_BIO_ATTACHMENT"                                   
 (	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_BIO_ATMTN1" NOT    
