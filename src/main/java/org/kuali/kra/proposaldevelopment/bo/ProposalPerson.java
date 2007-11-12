@@ -30,7 +30,7 @@ import org.kuali.core.util.KualiDecimal;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
@@ -49,7 +49,6 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private List<ProposalPersonUnit> units;
     private List<ProposalPersonDegree> degrees;
     private List<ProposalPersonCreditSplit> creditSplits;
-    private List<ProposalPersonYesNoQuestion> questions;
     private boolean delete;
     private Person person;
     private boolean isInvestigator;
@@ -62,7 +61,6 @@ public class ProposalPerson extends Person implements CreditSplitable {
         degrees = new ArrayList<ProposalPersonDegree>();
         units = new ArrayList<ProposalPersonUnit>();
         creditSplits = new ArrayList<ProposalPersonCreditSplit>();
-        questions = new ArrayList<ProposalPersonYesNoQuestion>();
     }
     
     /**
@@ -472,23 +470,4 @@ public class ProposalPerson extends Person implements CreditSplitable {
     public void setDelete(boolean delete) {
         this.delete = delete;
     }
-
-    /**
-     * Gets the value of questions
-     *
-     * @return the value of questions
-     */
-    public List<ProposalPersonYesNoQuestion> getQuestions() {
-        return this.questions;
-    }
-    
-    /**
-     * Sets the value of questions
-     *
-     * @param argQuestions Value to assign to this.questions
-     */
-    public void setQuestions(List<ProposalPersonYesNoQuestion> argQuestions) {
-        this.questions = argQuestions;
-    }
-
 }

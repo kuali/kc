@@ -217,17 +217,6 @@
   </table>
 </kul:innerTab>
 </td></tr>
-
-<c:if test="${isInvestigator == 'Yes'}">
-          	<tr>
-				<td colspan=4>
-  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="true">
-              <table class=tab cellpadding=0 cellspacing="0" summary="" >
-              <kra-pd:personCertifySection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
-  </table>
-  </kul:innerTab>
-</td></tr>
-</c:if>
 </table>
            </div>
           </div>
