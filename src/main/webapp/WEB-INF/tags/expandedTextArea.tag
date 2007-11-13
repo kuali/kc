@@ -18,5 +18,14 @@
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="textAreaLabel" required="true" %>
 
+<%@ attribute name="disabled" required="false" %>
 
-       <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${textAreaLabel}#))" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','${action}','${textAreaLabel}');return false" styleClass="tinybutton"  />
+  <c:choose>
+    <c:when test="${disabled}"> <input type="image" class="nobord" src="${ConfigProperties.kra.externalizable.images.url}pencil_add1.png" alt="expand textarea">
+    </c:when>
+    <c:otherwise>
+     <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${textAreaLabel}#))" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop(document.getElementById('${textAreaFieldName}').value,'${textAreaFieldName}','${action}','${textAreaLabel}');return false" styleClass="tinybutton"  />
+    </c:otherwise>
+  </c:choose>
+  
+  
