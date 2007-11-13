@@ -53,8 +53,10 @@
                 </td>
                 <td class="infoline">                	
                   <kul:htmlControlAttribute property="newPropSpecialReview.protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />
-                 <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
-                    fieldConversions="protocolNumber:newPropSpecialReview.protocolNumber" anchor="${currentTabIndex}" /> 
+                    <input type="image" class="nobord" src="kr/static/images/searchicon.gif" alt="lookup">  
+                    <input type="image" class="nobord" src="kr/static/images/book_open.png" alt="inquiry">
+                 <!--  <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
+                    fieldConversions="protocolNumber:newPropSpecialReview.protocolNumber" anchor="${currentTabIndex}" /> --> 
 				</td>
                 <td align="left" valign="middle" class="infoline">
                 	<kul:htmlControlAttribute property="newPropSpecialReview.applicationDate" attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" datePicker="true"/>
@@ -88,8 +90,10 @@
 	                </td>
 	                <td>                	
 	                  <kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />
-	                 <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
-	                    fieldConversions="protocolNumber:document.propSpecialReviews[${status.index}].protocolNumber"  anchor="${tabKey}"/> 
+                    <input type="image" class="nobord" src="kr/static/images/searchicon.gif" alt="lookup">  
+                    <input type="image" class="nobord" src="kr/static/images/book_open.png" alt="inquiry">
+	                <!--  <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
+	                    fieldConversions="protocolNumber:document.propSpecialReviews[${status.index}].protocolNumber"  anchor="${tabKey}"/> --> 
 					</td>
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].applicationDate" attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" datePicker="true"/>
