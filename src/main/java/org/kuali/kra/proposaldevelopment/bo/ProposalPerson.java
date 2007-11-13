@@ -30,7 +30,7 @@ import org.kuali.core.util.KualiDecimal;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
@@ -80,9 +80,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
      * @return boolean;
      */
     public boolean getIsInvestigator() {
-        //return isInvestigator;
-        // This variable is not saved in DB, so if form is loaded for editing, this is always false ??
-        return new ProposalDevelopmentKeyPersonsRule().isInvestigator(this);
+        return isInvestigator;
     }
     
     /**
