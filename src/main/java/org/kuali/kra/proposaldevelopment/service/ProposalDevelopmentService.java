@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.service;
 
 import java.util.List;
 
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -45,4 +46,7 @@ public interface ProposalDevelopmentService {
      * @return BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService();
+    
+ // TODO : hack to validate only updatable reference
+    public void validateDocumentRecursively(PersistableBusinessObject businessObject, int depth);
 }
