@@ -217,7 +217,7 @@
             <label>First Name </label>
             <shortLabel>First Name </shortLabel>
             <maxLength>20</maxLength>
-            <validationPattern><alpha /></validationPattern>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
             <control>
                 <text size="20" />
             </control>
@@ -229,7 +229,7 @@
             <label>Last Name </label>
             <shortLabel>Last Name </shortLabel>
             <maxLength>20</maxLength>
-            <validationPattern><alpha /></validationPattern>
+            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
             <control>
                 <text size="20" />
             </control>
