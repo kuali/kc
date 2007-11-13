@@ -45,7 +45,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -128,13 +128,20 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
         return retval;
     }
-    
+
+    /**
+     *
+     * @param document <code>{@link ProposalDevelopmentDocument}</code> instance to validate
+     * credit splits of
+     * @boolean is the credit split valid?
+     * @see CreditSplitValidator#validate(ProposalDevelopmentDocument)
+     */
     protected boolean validateCreditSplit(ProposalDevelopmentDocument document) {
         boolean retval = true;
         boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME);
         
         if (creditSplitEnabled) {
-            // retval &= new CreditSplitValidator().validate(document);
+            retval &= new CreditSplitValidator().validate(document);
         }
         
         return retval;
@@ -162,6 +169,12 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         return retval;
     }
         
+    /**
+     *
+     * @param person <code>{@link ProposalPerson}</code> instance that is also an investigator to validate
+     * @boolean investigator is valid
+     * @Wsee #validateInvestigatorUnits(ProposalPerson)
+     */
     protected boolean validateInvestigator(ProposalPerson person) {
         boolean retval = true;
         
@@ -174,6 +187,11 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         return retval;
     }
     
+    /**
+     *
+     * @param person <code>{@link ProposalPerson}</code> instance who's units we want to validate
+     * @return boolean Investigator Units are valid
+     */
     protected boolean validateInvestigatorUnits(ProposalPerson person) {
         boolean retval = true;
         
@@ -205,19 +223,31 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         return getService(KualiConfigurationService.class);
     }
 
-    public boolean isPrincipalInvestigator(ProposalPerson person) {
+    /**
+     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
+     */
+    private boolean isPrincipalInvestigator(ProposalPerson person) {
         return getKeyPersonnelService().isPrincipalInvestigator(person);
     }
 
-    public boolean isCoInvestigator(ProposalPerson person) {
+    /**
+     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
+     */
+    private boolean isCoInvestigator(ProposalPerson person) {
         return getKeyPersonnelService().isCoInvestigator(person);
     }
     
-    public boolean isInvestigator(ProposalPerson person) {
+    /**
+     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
+     */
+    private boolean isInvestigator(ProposalPerson person) {
         return getKeyPersonnelService().isInvestigator(person);
     }
         
-    public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
+    /**
+     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
+     */
+    private boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
         return getKeyPersonnelService().hasPrincipalInvestigator(document);
     }
 
