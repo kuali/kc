@@ -15,11 +15,25 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.metadata.ClassDescriptor;
+import org.apache.ojb.broker.metadata.ObjectReferenceDescriptor;
+import org.apache.ojb.broker.metadata.fieldaccess.PersistentField;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -36,6 +50,7 @@ import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -70,7 +85,26 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         GlobalVariables.getErrorMap().addToErrorPath("document");
 
         // changing this to '0' so it doesn't validate reference objects within a list
-        KNSServiceLocator.getDictionaryValidationService().validateDocument(proposalDevelopmentDocument);
+        // temporarily put validateDocumentRecursively, so it can check collections under document
+        //KNSServiceLocator.getDictionaryValidationService().validateDocumentRecursively(proposalDevelopmentDocument,0);
+        //KNSServiceLocator.getDictionaryValidationService().validateDocument(proposalDevelopmentDocument);
+        // TODO : temporary hack tied to KRACOESS-287.  Remove this after rice resolves this issue
+        // hack to get rid of message that contains '.documentBusinessObject.' in path
+        // rice should look into this problem ?
+        // The '.documentBusinessObject.' is filtered out in validateDocumentRecursively for now.
+        getService(ProposalDevelopmentService.class).validateDocumentRecursively(proposalDevelopmentDocument,10);
+//        List errorList = new ArrayList();
+//        for (Iterator iter = GlobalVariables.getErrorMap().keySet().iterator(); iter.hasNext();) {
+//            String property = (String) iter.next();
+//            if (StringUtils.contains(property, ".documentBusinessObject.")) {
+//               errorList.add(property);
+//            }
+//
+//        }
+//        for (Iterator iterator = errorList.iterator(); iterator.hasNext();) {
+//            GlobalVariables.getErrorMap().remove(iterator.next());
+//        }
+
         valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
         valid &= processSponsorProgramInformationBusinessRule(proposalDevelopmentDocument);
@@ -122,6 +156,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                                         + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
                     }
 
+                }
+                if (propSpecialReview.getApplicationDate() !=null && propSpecialReview.getApprovalDate() != null && propSpecialReview.getApprovalDate().before(propSpecialReview.getApplicationDate())) {
+                    errorMap.putError("approvalDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,
+                            "Approval Date","Application Date"); 
                 }
 
             }
@@ -239,6 +277,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return valid;
 
     }
+
+
+
 
 
 
