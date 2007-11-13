@@ -53,7 +53,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     private static final String PROPOSAL_TYPE_REVISION = "6";
     private static final String PROPOSAL_TYPE_PRE_PROPOSAL = "7";
     private static final String PROPOSAL_TYPE_ACCOMPLISHMENT_BASED_RENEWAL = "8";
-
+    private static final String DOCUMENT_HEADER_DESCRIPTION = "ProposalDevelopmentDocumentWebTest test";
     private DocumentService documentService = null;
     private ProposalDevelopmentDocumentRule proposalDevelopmentDocumentRule = null;
     private Date defaultProposalRequestedStartDate = null;
@@ -84,6 +84,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
 
         setRequiredDocumentFields(document,
+                DOCUMENT_HEADER_DESCRIPTION,
                 DEFAULT_PROPOSAL_SPONSOR_CODE,
                 DEFAULT_PROPOSAL_TITLE,
                 defaultProposalRequestedStartDate,
@@ -125,6 +126,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     private void processType(String proposalTypeCode, boolean setSponsorProposalId) throws WorkflowException {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
         setRequiredDocumentFields(document,
+                DOCUMENT_HEADER_DESCRIPTION,
                 DEFAULT_PROPOSAL_SPONSOR_CODE,
                 DEFAULT_PROPOSAL_TITLE,
                 defaultProposalRequestedStartDate,
@@ -159,7 +161,8 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
      * @param proposalTypeCode String proposal type code
      * @param ownedByUnit String owned by unit
      */
-    private void setRequiredDocumentFields(ProposalDevelopmentDocument document, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
+    private void setRequiredDocumentFields(ProposalDevelopmentDocument document, String description, String sponsorCode, String title, Date requestedStartDateInitial, Date requestedEndDateInitial, String activityTypeCode, String proposalTypeCode, String ownedByUnit) {
+        document.getDocumentHeader().setFinancialDocumentDescription(description);
         document.setSponsorCode(sponsorCode);
         document.setTitle(title);
         document.setRequestedStartDateInitial(requestedStartDateInitial);
