@@ -82,7 +82,7 @@
 			<label>Unit Number </label>
 			<shortLabel>Unit Number </shortLabel>
 			<maxLength>8</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="8" />
 			</control>
@@ -153,10 +153,10 @@
 			<attribute name="unitHead">
 			<label>Unit Head </label>
 			<shortLabel>Unit Head </shortLabel>
-			<maxLength>9</maxLength>
+			<maxLength>10</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-				<text size="9" />
+				<text size="10" />
 			</control>
 			<summary>Unit Head </summary>
 			<description>Unit Head </description>
