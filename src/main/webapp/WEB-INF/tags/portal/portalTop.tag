@@ -34,4 +34,4 @@ if (top.location != self.location) {
  <div id="header" title="Kuali Research Administration">
     <h1 class="kra"></h1>Kuali Research Administration
   </div>
-  <div id="build">${ConfigProperties.version}</div>
+  <div id="build">${ConfigProperties.buildVersion}</div>
