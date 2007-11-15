@@ -117,28 +117,28 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         // TODO temporarily to set up proposal person- remove this once keyperson is completed and htmlunit testing fine
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        if (doc.getProposalPersons().isEmpty()) {
-            List proposalPersons = new ArrayList();
-            ProposalPerson proposalPerson=new ProposalPerson();
-            proposalPerson.setProposalNumber(doc.getProposalNumber());
-            proposalPerson.setProposalPersonNumber(1);
-            proposalPerson.setPersonId("000000001");
-            proposalPerson.setProposalPersonRoleId("KP");
-            proposalPerson.setFirstName("Terry");
-            proposalPerson.setLastName("Durkin");
-            proposalPerson.setFullName("Durkin,Terry");
-            proposalPersons.add(proposalPerson);
-            ProposalPerson proposalPerson2=new ProposalPerson();
-            proposalPerson2.setProposalNumber(doc.getProposalNumber());
-            proposalPerson2.setProposalPersonNumber(2);
-            proposalPerson2.setProposalPersonRoleId("KP");
-            proposalPerson2.setPersonId("000000003");
-            proposalPerson2.setFirstName("Geoff");
-            proposalPerson2.setLastName("McGregor");
-            proposalPerson2.setFullName("McGregor,Geoff");
-            proposalPersons.add(proposalPerson2);
-            doc.setProposalPersons(proposalPersons);
-        }
+//        if (doc.getProposalPersons().isEmpty()) {
+//            List proposalPersons = new ArrayList();
+//            ProposalPerson proposalPerson=new ProposalPerson();
+//            proposalPerson.setProposalNumber(doc.getProposalNumber());
+//            proposalPerson.setProposalPersonNumber(1);
+//            proposalPerson.setPersonId("000000001");
+//            proposalPerson.setProposalPersonRoleId("KP");
+//            proposalPerson.setFirstName("Terry");
+//            proposalPerson.setLastName("Durkin");
+//            proposalPerson.setFullName("Durkin,Terry");
+//            proposalPersons.add(proposalPerson);
+//            ProposalPerson proposalPerson2=new ProposalPerson();
+//            proposalPerson2.setProposalNumber(doc.getProposalNumber());
+//            proposalPerson2.setProposalPersonNumber(2);
+//            proposalPerson2.setProposalPersonRoleId("KP");
+//            proposalPerson2.setPersonId("000000003");
+//            proposalPerson2.setFirstName("Geoff");
+//            proposalPerson2.setLastName("McGregor");
+//            proposalPerson2.setFullName("McGregor,Geoff");
+//            proposalPersons.add(proposalPerson2);
+//            doc.setProposalPersons(proposalPersons);
+//        }
         if(doc.getProposalUserRoles().isEmpty()){
             List propUserRoles = doc.getProposalUserRoles();
             ProposalUserRoles propUserRole1 = new ProposalUserRoles();
