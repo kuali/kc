@@ -315,7 +315,7 @@
 				<shortLabel>CFDA Number</shortLabel>
 
 				<maxLength>6</maxLength>
-				<validationPattern><alphaNumeric /></validationPattern>
+				<validationPattern><anyCharacter /></validationPattern>
 
 				<required>false</required>
 
@@ -332,7 +332,7 @@
 				<shortLabel>Opportunity ID</shortLabel>
 
 				<maxLength>50</maxLength>
-				<validationPattern><alphaNumeric /></validationPattern>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
 				<required>false</required>
 
