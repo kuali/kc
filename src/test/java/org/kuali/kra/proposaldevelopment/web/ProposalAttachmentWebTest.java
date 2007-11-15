@@ -25,7 +25,6 @@ import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
-import com.sun.tools.javac.util.Log;
 
 /**
  * This class...
