@@ -23,7 +23,7 @@
 		<div class="h2-container">
     		<span class="subhead-left"><h2>Proposal Attachment Rights for ${line+1}. ${selectedProposalAttachment.narrativeType.description }</h2></span>
         </div>	
-        <table cellpadding=0 cellspacing=0 summary="">
+        <table id="narrative-rights-table" cellpadding=0 cellspacing=0 summary="">
 	       <c:forEach var="narrUserRight" items="${selectedProposalAttachment.narrativeUserRights}" varStatus="status">
           	<tr>
             	<th><div align="right">
@@ -37,7 +37,7 @@
 		<tr>
 			<td colspan="2">
 			<div id="globalbuttons" class="globalbuttons"><input
-				type="image" name="methodToCall.addProposalAttachmentRights"
+				type="image" styleId="saveNarativeRights" name="methodToCall.addProposalAttachmentRights"
 				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif"
 				class="globalbuttons" title="save" alt="save"></div>
 			</td>

@@ -23,7 +23,7 @@
 <c:set var="narrativeAttachmentAttributes" value="${DataDictionary.NarrativeAttachment.attributes}" />
 
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
-<kul:tabTop tabTitle="Proposal Attachments (${fn:length(KualiForm.document.narratives)})" defaultOpen="true" tabErrorKey="document.narratives">
+<kul:tabTop tabTitle="Proposal Attachments (${fn:length(KualiForm.document.narratives)})" defaultOpen="true" tabErrorKey="document.narrative*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Add Proposal Attachments</h2></span>
@@ -111,10 +111,12 @@
 					                <c:if test="${(narrative.viewAttachment || narrative.modifyAttachment) }">
 						                (
 						                <c:if test="${narrative.viewAttachment && (!empty narrative.fileName)}">
-						                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
+						                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
+							                <c:if test="${narrative.modifyAttachment}">
+							                &nbsp;|&nbsp;
+							                </c:if>
 						                </c:if>
 						                <c:if test="${narrative.modifyAttachment}">
-						                &nbsp;|&nbsp;
 						                <html:link linkName="replaceProposalAttachment.line${status.index}" onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.replaceProposalAttachment.line${status.index}">replace</html:link>
 						                </c:if>
 						                )
@@ -175,11 +177,11 @@
 			          	<tr>
 							<td colspan=4>
 								<div align="center">
-									<html:image property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
+									<html:image styleId="deleteProposalAttachment.line${status.index}" property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
-										<html:image property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
+										<html:image styleId="getProposalAttachmentRights.line${status.index}" property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
-										onclick="javascript: proposalAttachmentRightsPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
+										onclick="javascript: proposalAttachmentRightsPop('${status.index}');return false"/>
 								</div>
 			                </td>
 			            </tr>
