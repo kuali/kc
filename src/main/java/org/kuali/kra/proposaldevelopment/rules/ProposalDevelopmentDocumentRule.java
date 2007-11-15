@@ -280,7 +280,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         int i = 0;
 
         // TODO : this will combine errors with proposal attachments panel
-        for (Narrative institute : proposalDevelopmentDocument.getNarratives()) {
+        for (Narrative institute : proposalDevelopmentDocument.getInstitutes()) {
             errorMap.addToErrorPath("institutes[" + i + "]");
             institute.refresh();
             if (StringUtils.isNotBlank(institute.getNarrativeTypeCode()) && StringUtils.isNotBlank(institute.getModuleTitle())) {

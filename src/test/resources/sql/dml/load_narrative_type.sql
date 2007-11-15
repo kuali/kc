@@ -378,7 +378,7 @@ INSERT INTO Narrative_type (narrative_type_code,description,system_generated,all
 	48,
 	'NASA_OPI_Appendices',
 	'N',
-	'M',
+	'Y',
 	'P',
 	sysdate,
 	user);
@@ -386,7 +386,7 @@ INSERT INTO Narrative_type (narrative_type_code,description,system_generated,all
 	49,
 	'NASA_OPI_Non-U.S-OrganizationLettersOfEndorsement',
 	'N',
-	'M',
+	'Y',
 	'P',
 	sysdate,
 	user);
@@ -394,7 +394,7 @@ INSERT INTO Narrative_type (narrative_type_code,description,system_generated,all
 	50,
 	'NASA_OPI_IRB_ACUC_Letters',
 	'N',
-	'M',
+	'Y',
 	'P',
 	sysdate,
 	user);
