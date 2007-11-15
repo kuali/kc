@@ -53,8 +53,8 @@
                 </td>
                 <td class="infoline">                	
                   <kul:htmlControlAttribute property="newPropSpecialReview.protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />
-                    <input type="image" class="nobord" src="kr/static/images/searchicon.gif" alt="lookup">  
-                    <input type="image" class="nobord" src="kr/static/images/book_open.png" alt="inquiry">
+                    <img class="nobord" src="kr/static/images/searchicon.gif" alt="lookup">  
+                    <img class="nobord" src="kr/static/images/book_open.png" alt="inquiry">
                  <!--  <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
                     fieldConversions="protocolNumber:newPropSpecialReview.protocolNumber" anchor="${currentTabIndex}" /> --> 
 				</td>
