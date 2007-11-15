@@ -87,7 +87,7 @@
 			<attribute name="abstractDetails">
 				<label>Abstract Details</label>
 				<shortLabel>Abstract Details</shortLabel>
-				<maxLength>0</maxLength>
+				<maxLength>999</maxLength>
 				<control>
 					<textarea cols="30" rows="3"/>
 				</control>
