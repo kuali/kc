@@ -103,26 +103,15 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     }
 
+    /**
+     * Verify that all the Help links on the web page go to the Kuali Help Web Page.
+     * This will test the help links on all the panels on the main Proposal Development page.
+     * @throws Exception
+     */
     @Test
-    public void testHelpLink() throws Exception {
-        final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-        final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
-        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
-
-        // test document overview help link
-        LOG.info("getting page4");
-        final HtmlPage page4 = (HtmlPage) webClient
-                .getPage(url
-                        + "kr/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.core.bo.DocumentHeader&attributeName=financialDocumentDescription");
-        assertEquals("Kuali :: Kuali Help", page4.getTitleText());
-
-        // test proposal development document attribute help link
-        LOG.info("getting page5");
-        final HtmlPage page5 = (HtmlPage) webClient
-                .getPage(url
-                        + "kr/help.do?methodToCall=getAttributeHelpText&businessObjectClassName=org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument&attributeName=sponsorCode");
-        assertEquals("Kuali :: Kuali Help", page5.getTitleText());
+    public void testHelpLinks() throws Exception {
+        HtmlPage proposalDevelopmentPage = getProposalDevelopmentPage();
+        this.checkHelpLinks(proposalDevelopmentPage);
     }
 
     @Test
@@ -231,7 +220,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     }
 
     /**
-     * 
+     *
      * Test organization/location panel on proposal page
      * @throws Exception
      */
@@ -365,7 +354,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     }
 
     /**
-     * 
+     *
      * Test delivery info panel on proposal page
      * @throws Exception
      */
@@ -447,7 +436,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     }
 
     /**
-     * 
+     *
      * Test special review page.
      * @throws Exception
      */
@@ -502,8 +491,8 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     }
 
     /**
-     * 
-     * Test institutional attachments.  
+     *
+     * Test institutional attachments.
      * @throws Exception
      */
     @Test
@@ -553,7 +542,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertTrue(pageSave.asText().contains("Document was successfully saved"));
         assertTrue(pageSave.asText().contains("Institutional Attachment 1 workflow-workspace.html"));
 
-        // try to view file - only work for 'text/html' file 
+        // try to view file - only work for 'text/html' file
         final HtmlPage attachmentFilePage = clickButton(pageSave, formAfterSave, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
         assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
 
@@ -568,13 +557,13 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertEquals("workflow-workspace.html", narrativeAttachment.getFileName());
         assertEquals("text/html", narrativeAttachment.getContentType());
 
-        
-        
+
+
     }
 
 
     /**
-     * 
+     *
      * Test personnel biography attachments.
      * @throws Exception
      */
@@ -589,9 +578,9 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 //
 //        final HtmlForm kualiForm = (HtmlForm) pageAfterLogin.getForms().get(0);
 //        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
-//        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up 
+//        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up
 //
-//        
+//
 //        final HtmlPage abstractAttachmentPage = clickButton(pageAfterLogin, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
 //                SUBMIT_INPUT_BY_NAME);
 //        final HtmlForm form1 = (HtmlForm) abstractAttachmentPage.getForms().get(0);
@@ -623,12 +612,12 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 //        assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
 //        assertTrue(pageSave.asText().contains("Document was successfully saved"));
 //        assertTrue(pageSave.asText().contains("Durkin,Terry Budget Details"));
-//        
+//
 //        // try to view file - only work for html file now.  The otehr content type will cause castexception - unexpectedpage
 //        final HtmlPage attachmentFilePage = clickButton(pageSave, formAfterSave, "methodToCall.viewPersonnelAttachment.line0.anchor", IMAGE_INPUT);
 //        assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
 //
-//        
+//
 //        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
 //
 //        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
@@ -644,7 +633,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 //    }
 //
 
-    
+
 
     private HtmlPage textAreaPop(String fieldName, String fieldText, String methodToCall, boolean scriptEnabled) throws Exception {
         final WebClient webClient = new WebClient();
@@ -692,17 +681,17 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     private HtmlPage login(WebClient webClient, URL url, String loginLocation) throws Exception {
         final HtmlPage page1 = (HtmlPage) webClient.getPage(url);
         assertEquals("Kuali Portal Index", page1.getTitleText());
-        
+
         // LOGIN
         final HtmlPage page2 = (HtmlPage) webClient.getPage(url + loginLocation);
-        
+
         // set username field for authentication
         setFieldValue(page2, "username", "quickstart");
 
         // Get the form that we are dealing with and within that form,
         // find the submit button and the field that we want to change.
         final HtmlForm form = (HtmlForm) page2.getForms().get(0);
-        
+
         // Now submit the form by clicking the button and get back the
         // second page.
         return clickButton(page2, form, "Login", SUBMIT_INPUT_BY_VALUE);
@@ -922,9 +911,9 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     }
 
-    
+
     /**
-     * 
+     *
      * Get file name for institute and personnel attachment.
      */
     private static String getFileName() {
@@ -932,7 +921,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         String path = userDir + "/src/main/webapp/en/htdocs/";
         return path+"workflow-workspace.html";
         }
-    
+
     /**
      * This method extracts the error message (if any) from the html page as text.
      * @param pageAsText text of the html page response to extract the error message from

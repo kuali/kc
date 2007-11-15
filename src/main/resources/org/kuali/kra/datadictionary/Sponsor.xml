@@ -229,7 +229,7 @@
                 <text size="60" />
             </control>
             <summary>Sponsor Name </summary>
-            <description>Sponsor Name </description>
+            <description>The name of the sponsoring agency.</description>
             </attribute>
 
             <attribute name="sponsorTypeCode">
