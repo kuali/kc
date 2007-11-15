@@ -114,7 +114,11 @@ public class NarrativeServiceImpl implements NarrativeService {
         narratives.remove(lineToDelete);
 
     }
-    
+
+    /**
+     * Method to populate personname for all user who have narrative rights
+     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#populatePersonNameForNarrativeUserRights(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.Narrative)
+     */
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
 //        Narrative narrative = getNarratives().get(lineNumber);
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
@@ -150,8 +154,8 @@ public class NarrativeServiceImpl implements NarrativeService {
     public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getNarratives();
         //Have to get person id of logged in user for the time being, its been hard coded
-        String updateUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
-        String loggedInUserPersonId = "000000002";//get person id for looged in user
+        String loggedInUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
+        String loggedInUserPersonId = getProposalPersonService().getPerson(loggedInUser).getPersonId();//"000000002";//get person id for looged in user
         for (Narrative narrative : narrativeList) {
             narrative.setModifyAttachment(false);
             narrative.setViewAttachment(false);
@@ -243,6 +247,6 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
     
     private boolean isProposalAttachmentType(Narrative narrative) {
-        return Constants.NARRATIVE_NARRATIVE_TYPE_GROUP_CODE.equals(narrative.getNarrativeType().getNarrativeTypeGroup());
+        return !(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE.equals(narrative.getNarrativeType().getNarrativeTypeGroup()));
     }
 }

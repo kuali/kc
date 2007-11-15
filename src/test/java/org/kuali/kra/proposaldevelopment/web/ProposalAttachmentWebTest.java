@@ -16,25 +16,16 @@
 package org.kuali.kra.proposaldevelopment.web;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.struts.upload.FormFile;
 import org.junit.Test;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.ClickableElement;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlLink;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
+import com.sun.tools.javac.util.Log;
 
 /**
  * This class...
@@ -54,20 +45,20 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         // really is in proposal attachment page
         assertTrue(propAttPage.asText().contains("Attachment Type"));
 //        webClient.setJavaScriptEnabled(false);
-        String[] values0 = { "1","C","Test Contact Name","t@t.com","123456","Test Comments","Test Module Title"};
+        String[] values0 = { "1","C","Test Contact Name","t0@t0.com","123456","Test Comments","Test Module Title"};
         
-        setProposalAtatchmentLine(propAttPage, getKeyMap("newNarrative",values0));
+        setProposalAttachmentLine(propAttPage, getKeyMap("newNarrative",values0));
         testTextAreaPopup(propAttPage,"newNarrative.comments"," More text","proposalDevelopmentAbstractsAttachments","Comments","");
         values0[5]+=" More text";
         Map<String,String> keyVal0 = getKeyMap("document.narratives[0]",values0);
         HtmlPage addedPage = testAddProposalAttachment(propAttPage,keyVal0);
         
         String[] values1 = { "2","I","Test Another Contact Name","t1@t1.com","1234567","Test Comments again","Test Module Title again"};
-        setProposalAtatchmentLine(addedPage, getKeyMap("newNarrative",values1));
+        setProposalAttachmentLine(addedPage, getKeyMap("newNarrative",values1));
         Map<String,String> keyVal1 = getKeyMap("document.narratives[1]",values1);
         addedPage = testAddProposalAttachment(addedPage,keyVal1);
         String[] values2 = { "3","I","Contact Name 2","t2@t2.com","12345678","Test Comments 2","Test Module Title 2"};
-        setProposalAtatchmentLine(addedPage, getKeyMap("newNarrative",values2));
+        setProposalAttachmentLine(addedPage, getKeyMap("newNarrative",values2));
         
         Map<String,String> keyVal2 = getKeyMap("document.narratives[2]",values2);
         addedPage = testAddProposalAttachment(addedPage,keyVal2);
@@ -81,12 +72,13 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         validatePage(savedPage,key1Val2);
         
         HtmlPage uploadedPage = testUploadAttachment(savedPage);
+        
         /*
          * Uncomment this only after implementing narrative user rights test cases.
-         * replace link will be disabled if user doesnt have proper right to modify
+         * replace link will be disabled if user doesn't have proper right to modify
          * 
          */
-//        HtmlPage narrUserRightsPage = testNarrUserRights(uploadedPage);
+//        testNarrUserRights(uploadedPage,0);
 //        
 //        savedPage = testSaveProposalAttachment(uploadedPage);
 //        
@@ -94,8 +86,27 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
     }
 
 
-    private HtmlPage testNarrUserRights(HtmlPage uploadedPage) {
-        return null;
+    private void testNarrUserRights(HtmlPage propPage,int lineNumber) throws Exception{
+        HtmlPage rightPage = clickOn(propPage, "getProposalAttachmentRights.line"+lineNumber);
+        HtmlTable table = getTable(rightPage, "narrative-rights-table");
+        int roCnt = table.getRowCount()-1;
+        assertTrue("Narrative user rights table is empty. Make sure proposal user roles have been added to the proposal",roCnt>0);
+        ArrayList<String> accessTypes = new ArrayList<String>(3);
+        accessTypes.add("M");
+        accessTypes.add("R");
+        accessTypes.add("N");
+        do{
+            String accessType = getFieldValue(rightPage, "document.narratives[0].narrativeUserRights["+(--roCnt)+"].accessType");
+          //Check accessTypes are one of (M R or N)
+          assertTrue(accessTypes.contains(accessType));
+        }while(roCnt>0);
+        setFieldValue(rightPage, "document.narratives[0].narrativeUserRights[0].accessType", "M");
+        HtmlPage closePage = clickOn(rightPage, "methodToCall.addProposalAttachmentRights");
+        assertContains(closePage, "Empty Page");
+        HtmlPage savedPage = testSaveProposalAttachment(propPage);
+        HtmlPage rightPage1 = clickOn(savedPage, "getProposalAttachmentRights.line"+lineNumber);
+//        assertEquals("M",getFieldValue(rightPage1,"document.narratives[0].narrativeUserRights[0].accessType"));
+        
     }
 
 
@@ -116,7 +127,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         assertNotNull(fileUrl);
         String filePath = fileUrl.getPath();
         String[] values4 = { "4","I","Test Contact Name 4","t4@t4.com","12345678","Test Comments 4","Test Module Title 4"};
-        setProposalAtatchmentLine(page, getKeyMap("newNarrative",values4));
+        setProposalAttachmentLine(page, getKeyMap("newNarrative",values4));
         setFieldValue(page, "newNarrative.narrativeFile", filePath);
         Map<String,String> keyVal4 = getKeyMap("document.narratives[2]",values4);
         HtmlPage addedPage = testAddProposalAttachment(page,keyVal4);
@@ -161,7 +172,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
     }
 
 
-    private void setProposalAtatchmentLine(HtmlPage propAttPage, Map<String,String> keyValues) {
+    private void setProposalAttachmentLine(HtmlPage propAttPage, Map<String,String> keyValues) {
         Iterator<String> it = keyValues.keySet().iterator();
         while (it.hasNext()) {
             String key = (String) it.next();
