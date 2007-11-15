@@ -4,7 +4,7 @@
 <c:set var="textAreaFieldName" value="document.programAnnouncementTitle" />
 <c:set var="action" value="proposalDevelopmentProposal" />
 
-<kul:tab tabTitle="Sponsor & Program Information" defaultOpen="true" tabErrorKey="document.sponsorProgramNumber" auditCluster="sponsorProgramInformationAuditWarnings" tabAuditKey="document.deadlineDate">
+<kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" tabErrorKey="document.sponsorProgramNumber" auditCluster="sponsorProgramInformationAuditWarnings" tabAuditKey="document.deadlineDate">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Sponsor & Program Information</h2></span>

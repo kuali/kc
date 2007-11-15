@@ -31,12 +31,14 @@ import org.apache.ojb.broker.metadata.fieldaccess.PersistentField;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
@@ -105,9 +107,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 //            GlobalVariables.getErrorMap().remove(iterator.next());
 //        }
 
+        valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
-        valid &= processSponsorProgramInformationBusinessRule(proposalDevelopmentDocument);
         valid &= processPersonnelAttachmentBusinessRule(proposalDevelopmentDocument);
         valid &= processInstitutionalAttachmentBusinessRule(proposalDevelopmentDocument);
 
@@ -169,12 +171,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     }
 
     /**
-     * This method validates Sponsor & Program Information related fields on
+     * This method validates Required Fields related fields on
      * the Proposal Development Document.
      * @param proposalDevelopmentDocument document to validate
      * @return boolean whether the validation passed or not
      */
-    private boolean processSponsorProgramInformationBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    private boolean processProposalRequiredFieldsBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
 
         ErrorMap errorMap = GlobalVariables.getErrorMap();
@@ -183,13 +185,30 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         // or if the proposal type is new and the grants.gov submission type is "changed/corrected".
         String proposalTypeCodeNew = getKualiConfigurationService().getParameter(
                 Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW).getParameterValue();
+        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
         if (StringUtils.isNotEmpty(proposalDevelopmentDocument.getProposalTypeCode()) &&
                 !proposalDevelopmentDocument.getProposalTypeCode().equals(proposalTypeCodeNew) &&
-                StringUtils.isEmpty(proposalDevelopmentDocument.getSponsorProposalNumber())) {
+                StringUtils.isEmpty(proposalDevelopmentDocument.getContinuedFrom())) {
             valid = false;
-            errorMap.putError(Constants.SPONSOR_PROPOSAL_NUMBER_PROPERTY_KEY, KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, Constants.SPONSOR_PROPOSAL_NUMBER_LABEL);
+            errorMap.putError("continuedFrom", KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "continuedFrom"));
         }
 
+        proposalDevelopmentDocument.refreshReferenceObject("sponsor");
+        if (proposalDevelopmentDocument.getSponsorCode() != null && proposalDevelopmentDocument.getSponsor() == null) {
+            valid = false;
+            errorMap.putError("sponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "sponsorCode"));
+        }
+        
+        //if either is missing, it should be caught on the DD validation.
+        if (proposalDevelopmentDocument.getRequestedStartDateInitial() != null && proposalDevelopmentDocument.getRequestedEndDateInitial() != null) {
+            if (proposalDevelopmentDocument.getRequestedStartDateInitial().after(proposalDevelopmentDocument.getRequestedEndDateInitial())) {
+                valid = false;
+                errorMap.putError("requestedStartDateInitial", KeyConstants.ERROR_START_DATE_AFTER_END_DATE, 
+                        new String[] {dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "requestedStartDateInitial"),
+                        dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "requestedEndDateInitial")});
+            }
+        }
+        
         return valid;
     }
 
@@ -277,9 +296,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return valid;
 
     }
-
-
-
 
 
 
