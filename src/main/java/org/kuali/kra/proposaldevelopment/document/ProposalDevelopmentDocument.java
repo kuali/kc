@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.document.Copyable;
+import org.kuali.core.document.SessionDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.Organization;
@@ -45,7 +46,7 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 
-public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable {
+public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     
     private Integer proposalNumber;
     private String proposalTypeCode;
