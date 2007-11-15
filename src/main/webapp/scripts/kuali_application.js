@@ -14,14 +14,18 @@ function selectAllKeywords(document) {
 	}
 }
 
-function textAreaPop(text,textAreaName,htmlFormAction,textAreaLabel){
+function textAreaPop(text,textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument){
+  var documentWebScope
+  if (sessionDocument == "true") {
+      documentWebScope="session"
+  }
   url=window.location.href
   pathname=window.location.pathname
   idx1=url.indexOf(pathname);
   idx2=url.indexOf("/",idx1+1);
   extractUrl=url.substr(0,idx2)
   text=text.replace(/\n/g,'<br>');
-  window.open(extractUrl+"/TextArea.jsp?" + text+"&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel, "_blank", "width=640, height=600, scrollbars=yes");
+  window.open(extractUrl+"/updateTextArea.do?" + text+"&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
 }
 
 var textAreaFieldName
@@ -153,12 +157,24 @@ function loadinfo(data) {
   DWRUtil.setValue("document.sponsorCode", data);
 }
 var propAttRightWindow;
-function proposalAttachmentRightsPop(lineNumber){
+//function proposalAttachmentRightsPop(lineNumber){
+
+//  if (propAttRightWindow && propAttRightWindow.open && !propAttRightWindow.closed){
+//  	propAttRightWindow.focus();
+//  }else{
+//    propAttRightWindow = window.open(extractUrlBase()+"/proposalDevelopmentAbstractsAttachments.do?methodToCall=getProposalAttachmentRights&line="+lineNumber, "mywindow", "width=800, height=300, scrollbars=yes");
+//  }
+//}
+function proposalAttachmentRightsPop(lineNumber,docFormKey, sessionDocument){
+  var documentWebScope
+  if (sessionDocument == "true") {
+      documentWebScope="session"
+  }
 
   if (propAttRightWindow && propAttRightWindow.open && !propAttRightWindow.closed){
   	propAttRightWindow.focus();
   }else{
-    propAttRightWindow = window.open(extractUrlBase()+"/proposalDevelopmentAbstractsAttachments.do?methodToCall=getProposalAttachmentRights&line="+lineNumber, "mywindow", "width=800, height=300, scrollbars=yes");
+    propAttRightWindow = window.open(extractUrlBase()+"/proposalDevelopmentAbstractsAttachments.do?methodToCall=getProposalAttachmentRights&line="+lineNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "mywindow", "width=800, height=300, scrollbars=yes");
   }
 }
 var fileBrowseWindow;
@@ -177,8 +193,14 @@ function extractUrlBase(){
   extractUrl=url.substr(0,idx2);
   return extractUrl; 
 }
-function openNewWindow(action,methodToCall,lineNumber){
-  window.open(extractUrlBase()+"/"+action+".do?methodToCall="+methodToCall+"&line="+lineNumber);
+function openNewWindow(action,methodToCall,lineNumber,docFormKey, sessionDocument){
+  var documentWebScope
+  if (sessionDocument == "true") {
+      documentWebScope="session"
+  }
+//function openNewWindow(action,methodToCall,lineNumber){
+//  window.open(extractUrlBase()+"/"+action+".do?methodToCall="+methodToCall+"&line="+lineNumber);
+  window.open(extractUrlBase()+"/"+action+".do?methodToCall="+methodToCall+"&line="+lineNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope);
 }
 
 
