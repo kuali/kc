@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<kul:page lookup="true" docTitle="Rights" transactionalDocument="false" htmlFormAction="proposalDevelopmentAbstractsAttachments">
+<kul:page lookup="true" docTitle="Rights" transactionalDocument="true" htmlFormAction="proposalDevelopmentAbstractsAttachments">
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <kra-pd:proposalDevelopmentAttachmentRights />
 <kul:panelFooter />

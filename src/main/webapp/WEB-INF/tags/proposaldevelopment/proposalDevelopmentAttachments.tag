@@ -111,7 +111,7 @@
 					                <c:if test="${(narrative.viewAttachment || narrative.modifyAttachment) }">
 						                (
 						                <c:if test="${narrative.viewAttachment && (!empty narrative.fileName)}">
-						                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
+						                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
 						                </c:if>
 						                <c:if test="${narrative.modifyAttachment}">
 						                &nbsp;|&nbsp;
@@ -179,7 +179,7 @@
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 										<html:image property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
-										onclick="javascript: proposalAttachmentRightsPop('${status.index}');return false"/>
+										onclick="javascript: proposalAttachmentRightsPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
 								</div>
 			                </td>
 			            </tr>

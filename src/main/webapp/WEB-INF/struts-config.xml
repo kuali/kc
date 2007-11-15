@@ -52,7 +52,7 @@
         </action>
 
       <!--  KRA Proposal Development Mapping -->
-      <action path="/proposalDevelopment*" name="ProposalDevelopmentForm" input="/WEB-INF/jsp/ProposalDevelopment{1}.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopment{1}Action"  scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+      <action path="/proposalDevelopment*" name="ProposalDevelopmentForm" input="/WEB-INF/jsp/ProposalDevelopment{1}.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopment{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/ProposalDevelopment{1}.jsp" />
           <forward name="keyPersonnel" path="/WEB-INF/jsp/ProposalDevelopmentKeyPersonnel.jsp" />
           <forward name="proposal" path="/WEB-INF/jsp/ProposalDevelopmentProposal.jsp" />
@@ -65,6 +65,10 @@
           <forward name="actions" path="/WEB-INF/jsp/ProposalDevelopmentActions.jsp" />
           <forward name="auditMode" path="/WEB-INF/jsp/ProposalDevelopmentAuditMode.jsp" redirect="false" />
       </action>
+
+        <action path="/updateTextArea" name="KualiForm" type="org.kuali.kra.proposaldevelopment.web.struts.action.KraTransactionalDocumentActionBase">
+            <forward name="basic" path="/TextArea.jsp" />
+        </action>
 
     </action-mappings>
 
