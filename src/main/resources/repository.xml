@@ -307,7 +307,7 @@
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" table="EPS_PROP_PERSON">
         <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true" />
         <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
-        <field-descriptor name="proposalPersonRoleId" column="PROP_PERSON_ROLE_ID" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="proposalPersonRoleId" column="PROP_PERSON_ROLE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" />
         <field-descriptor name="socialSecurityNumber" column="SSN" jdbc-type="VARCHAR" />
