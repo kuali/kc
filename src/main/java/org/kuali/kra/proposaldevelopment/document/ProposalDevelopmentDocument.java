@@ -65,7 +65,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String programAnnouncementNumber;
     private String primeSponsorCode;
     private String sponsorProposalNumber;
-    private String originalProposalNumber;
     private String nsfCode;
     private Boolean subcontracts;
     private String agencyDivisionCode;
@@ -621,22 +620,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         managedLists.add(getProposalAbstracts());
         return managedLists;
 
-    }
-
-    /**
-     * Gets the originalProposalNumber attribute.
-     * @return Returns the originalProposalNumber.
-     */
-    public String getOriginalProposalNumber() {
-        return originalProposalNumber;
-    }
-
-    /**
-     * Sets the originalProposalNumber attribute value.
-     * @param originalProposalNumber The originalProposalNumber to set.
-     */
-    public void setOriginalProposalNumber(String originalProposalNumber) {
-        this.originalProposalNumber = originalProposalNumber;
     }
 
     /**

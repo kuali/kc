@@ -15,13 +15,31 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorization;
 
+import java.util.List;
+
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#canInitiate(java.lang.String, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public void canInitiate(String documentTypeName, UniversalUser user) {
+        super.canInitiate(documentTypeName, user);
+        
+        List units = KraServiceLocator.getService(ProposalDevelopmentService.class).getDefaultModifyProposalUnitsForUser(user.getPersonUserIdentifier());
+        if (units.size() < 1) {
+            throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, new String[] {user.getPersonUserIdentifier(), documentTypeName});
+        }
+    }
 
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

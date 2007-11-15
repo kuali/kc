@@ -40,7 +40,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
 
-    private static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "123456";
+    private static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "005889";
     private static final String DEFAULT_PROPOSAL_TITLE = "Project title";
     private static final String DEFAULT_PROPOSAL_ACTIVITY_TYPE = "1";
     private static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "000002";
@@ -96,7 +96,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         assertEquals(0, GlobalVariables.getErrorMap().size());
     }
 
-    @Test public void testNonNewProposalTypeWithoutSponsorProposalId() throws Exception {
+    @Test public void testNonNewProposalTypeWithoutOriginalProposalId() throws Exception {
         processType(PROPOSAL_TYPE_COMPETING_CONTINUATION, false);
         processType(PROPOSAL_TYPE_NON_COMPETING_CONTINUATION, false);
         processType(PROPOSAL_TYPE_SUPPLEMENT, false);
@@ -106,7 +106,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         processType(PROPOSAL_TYPE_ACCOMPLISHMENT_BASED_RENEWAL, false);
     }
 
-    @Test public void testNonNewProposalTypeWithSponsorProposalId() throws Exception {
+    @Test public void testNonNewProposalTypeWithOriginalProposalId() throws Exception {
         processType(PROPOSAL_TYPE_COMPETING_CONTINUATION, true);
         processType(PROPOSAL_TYPE_NON_COMPETING_CONTINUATION, true);
         processType(PROPOSAL_TYPE_SUPPLEMENT, true);
@@ -119,11 +119,11 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     /**
      * This method does all the processing for a particular proposalTypeCode
      * @param proposalTypeCode proposalType to check
-     * @param setSponsorProposalId boolean whether to set sponsorProposalId or not - if it's set
+     * @param setContinuedFrom boolean whether to set original Proposal ID or not - if it's set
      * we shouldn't get any errors, but if it's missing we should get errors
      * @throws WorkflowException
      */
-    private void processType(String proposalTypeCode, boolean setSponsorProposalId) throws WorkflowException {
+    private void processType(String proposalTypeCode, boolean setContinuedFrom) throws WorkflowException {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
         setRequiredDocumentFields(document,
                 DOCUMENT_HEADER_DESCRIPTION,
@@ -135,18 +135,18 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
                 proposalTypeCode,
                 DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
-        if (setSponsorProposalId) {
-            document.setSponsorProposalNumber("234567");
+        if (setContinuedFrom) {
+            document.setContinuedFrom("234567");
             assertTrue("Rule should NOT produce any errors", proposalDevelopmentDocumentRule.processCustomSaveDocumentBusinessRules(document));
             assertEquals(0, GlobalVariables.getErrorMap().size());
         } else {
             assertFalse("Rule should produce an errors", proposalDevelopmentDocumentRule.processCustomSaveDocumentBusinessRules(document));
             assertEquals(1, GlobalVariables.getErrorMap().size());
             ErrorMap errorMap = GlobalVariables.getErrorMap();
-            List<ErrorMessage> messages = errorMap.getMessages("document.sponsorProgramNumber");
+            List<ErrorMessage> messages = errorMap.getMessages("document.continuedFrom");
             ErrorMessage errorMessage = messages.get(0);
             assertEquals(KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, errorMessage.getErrorKey());
-            assertEquals("Sponsor Proposal ID", errorMessage.getMessageParameters()[0]);
+            assertEquals("Original Proposal ID (Original Proposal ID)", errorMessage.getMessageParameters()[0]);
         }
     }
 

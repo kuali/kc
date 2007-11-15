@@ -28,13 +28,11 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 public class LeadUnitValuesFinder extends KeyValuesBase {
     
     public List getKeyValues() {
-        
-        
+
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select:"));
-        
-        //TODO: Refactor this when we get SpringContext object (like KFS)
-        List<Unit> userUnits = ((ProposalDevelopmentService)KraServiceLocator.getService("proposalDevelopmentService")).getDefaultModifyProposalUnitsForUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId());
+
+        List<Unit> userUnits = ((ProposalDevelopmentService)KraServiceLocator.getService("proposalDevelopmentService")).getDefaultModifyProposalUnitsForUser(GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier());
         
         for (Unit unit : userUnits) {
             keyValues.add(new KeyLabelPair(unit.getUnitNumber(), unit.getUnitNumber() + " - " + unit.getUnitName()));

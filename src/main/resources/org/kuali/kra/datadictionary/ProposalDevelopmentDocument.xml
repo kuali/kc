@@ -74,8 +74,8 @@
 			</attribute>
 
 			<attribute name="sponsorCode">
-				<label>Agency/Sponsor #</label>
-				<shortLabel>Agency/Sponsor #</shortLabel>
+				<label>Sponsor ID</label>
+				<shortLabel>Sponsor</shortLabel>
 
 				<maxLength>6</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
@@ -164,8 +164,8 @@
             </attribute>
 
       		<attribute name="currentAwardNumber">
-				<label>Award Id</label>
-				<shortLabel>Award Id</shortLabel>
+				<label>Award ID</label>
+				<shortLabel>Award ID</shortLabel>
 
 				<maxLength>10</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
@@ -249,15 +249,15 @@
                 <maxLength>15</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
-                <required>false</required>
+				<required>false</required>
 
-                <control>
+				<control>
                     <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.NsfCodeValuesFinder" />
-                </control>
+				</control>
 
                 <summary>The NSF Science Code for this Proposal.</summary>
                 <description>A number used to indicate the type of research activity as defined by the National Science Foundation. NSF codes are not specific for NSF proposals and/or awards.</description>
-            </attribute>
+			</attribute>
 
 			<attribute name="agencyDivisionCode">
 				<label>Sponsor Div Code</label>
@@ -285,9 +285,9 @@
 
 				<required>false</required>
 
-                <control>
+				<control>
                     <textarea rows="3" cols="80" />
-                </control>
+				</control>
 
 				<summary>The Opportunity Title for this Proposal.</summary>
 				<description>The title of a publicly available document, announcing a federal agency's intentions to award discretionary grants or cooperative agreements, usually as a result of competition for funds.  AKA  Funding opportunity announcements, notices of funding availability, or solicitations.</description>
@@ -377,9 +377,9 @@
 
 				<required>false</required>
 
-				<control>
+                <control>
 					<text size="20"/>
-				</control>
+                </control>
 
 				<summary>The Sponsor Program Code for this Proposal.</summary>
 				<description>A 3-digit code that is unique to each NSF program.  Currently specific to the NSF only.</description>
@@ -421,8 +421,8 @@
                 <description>Mail Type</description>
 			</attribute>
 			<attribute name="mailAccountNumber">
-				<label>Mail Account Id</label>
-				<shortLabel>Mail Account Id</shortLabel>
+				<label>Mail Account ID</label>
+				<shortLabel>Mail Account ID</shortLabel>
 
 				<maxLength>7</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
@@ -433,8 +433,8 @@
 					<text size="8"/>
 				</control>
 
-				<summary>Mail Account Id</summary>
-				<description>Mail Account Id</description>
+				<summary>Mail Account ID</summary>
+				<description>Mail Account ID</description>
 			</attribute>
 			<attribute name="numberOfCopies">
 				<label>Number of Copies</label>
@@ -572,9 +572,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>Doing it right</description>
- 		<!--
-        <help securityGroupName="WorkflowAdmin" parameterName="FINANCIAL_HELP_INTERNAL_BILLING" />
- 		-->
+
         <allowsCopy>true</allowsCopy>
 
         <headerNavigation>
