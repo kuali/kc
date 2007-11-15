@@ -32,6 +32,10 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
 
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
 
+    /**
+     * Modified for KRACOEUS-252 - CFDA number, Opportunity ID/programAnnouncementNumber formatting
+     * @throws Exception
+     */
     @Test
     public void testSponsorProgramInformationPanel() throws Exception {
 
@@ -47,8 +51,8 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
         setFieldValue(proposalPage, "document.agencyDivisionCode", "123");
         setFieldValue(proposalPage, "document.programAnnouncementTitle", "we want to give you money");
         setFieldValue(proposalPage, "document.noticeOfOpportunityCode", "2"); //8
-        setFieldValue(proposalPage, "document.cfdaNumber", "123456");
-        setFieldValue(proposalPage, "document.programAnnouncementNumber", "123478");
+        setFieldValue(proposalPage, "document.cfdaNumber", "12.456");
+        setFieldValue(proposalPage, "document.programAnnouncementNumber", "Program #122");
         setFieldValue(proposalPage, "document.sponsorProposalNumber", "234567");
         setFieldValue(proposalPage, "document.subcontracts", "on");
         setFieldValue(proposalPage, "document.agencyProgramCode", "456");
@@ -72,8 +76,8 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
         assertEquals("123", doc.getAgencyDivisionCode());
         assertEquals("we want to give you money", doc.getProgramAnnouncementTitle());
         assertEquals("2", doc.getNoticeOfOpportunityCode());
-        assertEquals("123456", doc.getCfdaNumber());
-        assertEquals("123478", doc.getProgramAnnouncementNumber());
+        assertEquals("12.456", doc.getCfdaNumber());
+        assertEquals("Program #122", doc.getProgramAnnouncementNumber());
         assertEquals("234567", doc.getSponsorProposalNumber());
         assertTrue("Subcontracts should be true", doc.getSubcontracts());
         assertEquals("456", doc.getAgencyProgramCode());
@@ -89,8 +93,8 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
         assertEquals("123", getFieldValue(savedProposalPage, "document.agencyDivisionCode"));
         assertEquals("we want to give you money", getFieldValue(savedProposalPage, "document.programAnnouncementTitle"));
         assertEquals("2", getFieldValue(savedProposalPage, "document.noticeOfOpportunityCode"));
-        assertEquals("123456", getFieldValue(savedProposalPage, "document.cfdaNumber"));
-        assertEquals("123478", getFieldValue(savedProposalPage, "document.programAnnouncementNumber"));
+        assertEquals("12.456", getFieldValue(savedProposalPage, "document.cfdaNumber"));
+        assertEquals("Program #122", getFieldValue(savedProposalPage, "document.programAnnouncementNumber"));
         assertEquals("234567", getFieldValue(savedProposalPage, "document.sponsorProposalNumber"));
         assertEquals("on", getFieldValue(savedProposalPage, "document.subcontracts"));
         assertEquals("456", getFieldValue(savedProposalPage, "document.agencyProgramCode"));
