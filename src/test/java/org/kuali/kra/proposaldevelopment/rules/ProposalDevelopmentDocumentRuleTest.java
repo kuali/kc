@@ -153,6 +153,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     /**
      * This method sets required document fields
      * @param document ProposalDevelopmentDocument to set fields for
+     * @param description String financialdescription for the document header
      * @param sponsorCode String Sponsor code for the document
      * @param title String title of document
      * @param requestedStartDateInitial String start date
