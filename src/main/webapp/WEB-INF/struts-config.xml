@@ -21,10 +21,10 @@
 
     <global-forwards >
        	<!-- Begin required KNS forwards -->
-        <forward name="save" path="/index.html" redirect="true" />
-        <forward name="cancel" path="/index.html" redirect="true" />
-        <forward name="close" path="/index.html" redirect="true" />
-        <forward name="portal" path="/index.html" redirect="true" />
+        <forward name="save" path="/portal.jsp" redirect="true" />
+        <forward name="cancel" path="/portal.jsp" redirect="true" />
+        <forward name="close" path="/portal.jsp" redirect="true" />
+        <forward name="portal" path="/portal.jsp" redirect="true" />
         <forward name="route_report" path="/kr/WEB-INF/jsp/RoutingReportForward.jsp"/>
         <forward name="error" path="/kr/WEB-INF/jsp/KualiError.jsp" />
         <forward name="updateTextArea" path="/TextArea.jsp" />

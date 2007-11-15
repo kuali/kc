@@ -35,7 +35,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected static final String PROPOSAL_OWNED_BY_UNIT_ID = "document.ownedByUnitNumber";
     
     protected static final String DEFAULT_DOCUMENT_DESCRIPTION = "Proposal Development Web Test";
-    protected static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "123456";
+    protected static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "005770";
     protected static final String DEFAULT_PROPOSAL_TITLE = "Project title";
     protected static final String DEFAULT_PROPOSAL_REQUESTED_START_DATE = "08/14/2007";
     protected static final String DEFAULT_PROPOSAL_REQUESTED_END_DATE = "08/21/2007";
