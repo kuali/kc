@@ -24,6 +24,7 @@ public class KeyConstants {
     public static final String WARNING_EMPTY_DEADLINE_DATE = "warning.empty.deadline.date";
     public static final String WARNING_PAST_DEADLINE_DATE = "warning.past.deadline.date";
     public static final String ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW = "error.approvalDate.before.applicationDate.for.valid.specialReview";
+    public static final String ERROR_START_DATE_AFTER_END_DATE = "error.start.date.after.end.date";
 
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW = "proposaldevelopment.proposaltype.new";
     
@@ -44,6 +45,12 @@ public class KeyConstants {
     public static final String ERROR_ATTACHMENT_TYPE_NOT_SELECTED = "error.proposalAttachment.narrativeType.notSelected";
     public static final String ERROR_ATTACHMENT_STATUS_NOT_SELECTED = "error.proposalAttachment.narrativeStatus.notSelected";
     public static final String ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED = "error.proposalAttachment.description.required";
+    
+    public static final String ERROR_MISSING = "error.missing";
+    public static final String ERROR_INVALUD = "error.invalid";
+    
+    //AuthZ Errors
+    public static final String ERROR_AUTHORIZATION_DOCUMENT_INITIATION = "error.authorization.document.initiation";
     
     
 }

@@ -54,13 +54,13 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
-        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "12345", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
 
         documentService.saveDocument(document);
 
         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
         assertNotNull(savedDocument);
-        checkDocumentFields(savedDocument, document.getDocumentNumber(), "ProposalDevelopmentDocumentTest test doc", "12345", "project title", "1", "1", "000001");
+        checkDocumentFields(savedDocument, document.getDocumentNumber(), "ProposalDevelopmentDocumentTest test doc", "005770", "project title", "1", "1", "000001");
     }
 
     @Test public void testSaveWithoutProposalTypeCode() throws Exception {
@@ -69,7 +69,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
-        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "12345", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", null, "000001");
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", null, "000001");
 
         boolean caughtException = false;
 
@@ -89,7 +89,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
-        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "12345", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
 
         boolean caughtException = false;
 
@@ -109,15 +109,15 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
-        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "12345", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
-        document.setSponsorProposalNumber("234567");
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
+        document.setContinuedFrom("234567");
 
         documentService.saveDocument(document);
 
         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
         assertNotNull(savedDocument);
-        checkDocumentFields(savedDocument, document.getDocumentNumber(), "ProposalDevelopmentDocumentTest test doc", "12345", "project title", "1", "2", "000001");
-        assertEquals("234567", savedDocument.getSponsorProposalNumber());
+        checkDocumentFields(savedDocument, document.getDocumentNumber(), "ProposalDevelopmentDocumentTest test doc", "005770", "project title", "1", "2", "000001");
+        assertEquals("234567", savedDocument.getContinuedFrom());
     }
 
     @Test public void testSaveWithSponsorProgramInfo() throws Exception {
@@ -126,7 +126,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
 
-        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "12345", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
 
         // sponsor program info fields
         document.setDeadlineDate(new Date(System.currentTimeMillis()));
@@ -149,7 +149,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
 
         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
         assertNotNull(savedDocument);
-        checkDocumentFields(savedDocument, document.getDocumentNumber(), "ProposalDevelopmentDocumentTest test doc", "12345", "project title", "1", "2", "000001");
+        checkDocumentFields(savedDocument, document.getDocumentNumber(), "ProposalDevelopmentDocumentTest test doc", "005770", "project title", "1", "2", "000001");
 
         // check sponsor program info fields
         assertEquals("1", savedDocument.getDeadlineType());

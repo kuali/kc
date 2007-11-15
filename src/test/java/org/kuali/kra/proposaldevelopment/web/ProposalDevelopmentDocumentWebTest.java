@@ -122,7 +122,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
 
@@ -138,7 +138,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
         assertNotNull(doc);
 
-        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
+        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
     }
 
     @Test
@@ -151,10 +151,10 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
         final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
 
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "2", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "2", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
-        final HtmlTextInput sponsorProposalNumber = (HtmlTextInput) kualiForm.getInputByName("document.sponsorProposalNumber");
-        sponsorProposalNumber.setValueAttribute("123456");
+        final HtmlTextInput continuedFrom = (HtmlTextInput) kualiForm.getInputByName("document.continuedFrom");
+        continuedFrom.setValueAttribute("123456");
 
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
 
@@ -169,8 +169,8 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(doc);
 
-        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "2");
-        assertEquals("123456", doc.getSponsorProposalNumber());
+        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "2");
+        assertEquals("123456", doc.getContinuedFrom());
     }
 
     @Test
@@ -184,7 +184,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
         final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
 
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "2", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "2", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
         final HtmlPage page4 = (HtmlPage) saveButton.click();
         assertEquals("Kuali :: Proposal Development Document", page4.getTitleText() );
@@ -207,7 +207,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
         final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
 
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
         final HtmlPage page4 = (HtmlPage) saveButton.click();
         assertEquals("Kuali :: Proposal Development Document", page4.getTitleText() );
@@ -220,7 +220,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     }
 
     /**
-     *
+     * 
      * Test organization/location panel on proposal page
      * @throws Exception
      */
@@ -234,7 +234,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
         // start to set up organization/location panel
 
@@ -345,7 +345,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber.getDefaultValue());
         assertNotNull(doc);
 
-        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
+        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
         assertEquals("000001", doc.getOrganizationId());
         assertEquals("000002", doc.getPerformingOrganizationId());
         assertEquals("location 2", doc.getProposalLocations().get(0).getLocation());
@@ -354,7 +354,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     }
 
     /**
-     *
+     * 
      * Test delivery info panel on proposal page
      * @throws Exception
      */
@@ -367,7 +367,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
 
         // dropdowns
@@ -425,7 +425,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) form4.getInputByName("document.documentHeader.documentNumber");
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber.getDefaultValue());
         assertNotNull(doc);
-        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
+        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
 
         assertEquals("1", doc.getMailBy());
         assertEquals("2", doc.getMailType());
@@ -436,7 +436,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     }
 
     /**
-     *
+     * 
      * Test special review page.
      * @throws Exception
      */
@@ -450,7 +450,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
         final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.specialReview.x",
                 SUBMIT_INPUT_BY_NAME);
         assertTrue(page4.asText().contains("Document was successfully saved"));
@@ -491,8 +491,8 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     }
 
     /**
-     *
-     * Test institutional attachments.
+     * 
+     * Test institutional attachments.  
      * @throws Exception
      */
     @Test
@@ -505,7 +505,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertEquals("Kuali :: Proposal Development Document", pageAfterLogin.getTitleText());
 
         final HtmlForm kualiForm = (HtmlForm) pageAfterLogin.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
         final HtmlPage abstractAttachmentPage = clickButton(pageAfterLogin, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
                 SUBMIT_INPUT_BY_NAME);
         assertTrue(abstractAttachmentPage.asText().contains("Document was successfully saved"));
@@ -542,14 +542,14 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertTrue(pageSave.asText().contains("Document was successfully saved"));
         assertTrue(pageSave.asText().contains("Institutional Attachment 1 workflow-workspace.html"));
 
-        // try to view file - only work for 'text/html' file
+        // try to view file - only work for 'text/html' file 
         final HtmlPage attachmentFilePage = clickButton(pageSave, formAfterSave, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
         assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
 
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
         assertNotNull(doc);
-        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
+        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
         Narrative narrative=(Narrative)doc.getInstitutes().get(0);
         narrative.refreshReferenceObject("narrativeAttachmentList");
         NarrativeAttachment narrativeAttachment=(NarrativeAttachment)narrative.getNarrativeAttachmentList().get(0);
@@ -557,13 +557,13 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertEquals("workflow-workspace.html", narrativeAttachment.getFileName());
         assertEquals("text/html", narrativeAttachment.getContentType());
 
-
-
+        
+        
     }
 
 
     /**
-     *
+     * 
      * Test personnel biography attachments.
      * @throws Exception
      */
@@ -578,9 +578,9 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 //
 //        final HtmlForm kualiForm = (HtmlForm) pageAfterLogin.getForms().get(0);
 //        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
-//        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up
+//        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up 
 //
-//
+//        
 //        final HtmlPage abstractAttachmentPage = clickButton(pageAfterLogin, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
 //                SUBMIT_INPUT_BY_NAME);
 //        final HtmlForm form1 = (HtmlForm) abstractAttachmentPage.getForms().get(0);
@@ -612,12 +612,12 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 //        assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
 //        assertTrue(pageSave.asText().contains("Document was successfully saved"));
 //        assertTrue(pageSave.asText().contains("Durkin,Terry Budget Details"));
-//
+//        
 //        // try to view file - only work for html file now.  The otehr content type will cause castexception - unexpectedpage
 //        final HtmlPage attachmentFilePage = clickButton(pageSave, formAfterSave, "methodToCall.viewPersonnelAttachment.line0.anchor", IMAGE_INPUT);
 //        assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
 //
-//
+//        
 //        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
 //
 //        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
@@ -633,7 +633,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 //    }
 //
 
-
+    
 
     private HtmlPage textAreaPop(String fieldName, String fieldText, String methodToCall, boolean scriptEnabled) throws Exception {
         final WebClient webClient = new WebClient();
@@ -681,17 +681,17 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     private HtmlPage login(WebClient webClient, URL url, String loginLocation) throws Exception {
         final HtmlPage page1 = (HtmlPage) webClient.getPage(url);
         assertEquals("Kuali Portal Index", page1.getTitleText());
-
+        
         // LOGIN
         final HtmlPage page2 = (HtmlPage) webClient.getPage(url + loginLocation);
-
+        
         // set username field for authentication
         setFieldValue(page2, "username", "quickstart");
 
         // Get the form that we are dealing with and within that form,
         // find the submit button and the field that we want to change.
         final HtmlForm form = (HtmlForm) page2.getForms().get(0);
-
+        
         // Now submit the form by clicking the button and get back the
         // second page.
         return clickButton(page2, form, "Login", SUBMIT_INPUT_BY_VALUE);
@@ -911,9 +911,9 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     }
 
-
+    
     /**
-     *
+     * 
      * Get file name for institute and personnel attachment.
      */
     private static String getFileName() {
@@ -921,7 +921,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         String path = userDir + "/src/main/webapp/en/htdocs/";
         return path+"workflow-workspace.html";
         }
-
+    
     /**
      * This method extracts the error message (if any) from the html page as text.
      * @param pageAsText text of the html page response to extract the error message from
