@@ -258,6 +258,7 @@ public class Narrative extends KraPersistableBusinessObjectBase {
      */
     public void populateAttachment() {
         FormFile narrativeFile = getNarrativeFile();
+        if(narrativeFile==null) return;
         byte[] narrativeFileData;
         try {
             narrativeFileData = narrativeFile.getFileData();

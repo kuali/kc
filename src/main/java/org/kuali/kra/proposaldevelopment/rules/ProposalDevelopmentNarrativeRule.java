@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import static org.kuali.kra.infrastructure.Constants.INSTITUTE_NARRATIVE_TYPE_GROUP;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.Constants.PROPOSAL_NARRATIVE_TYPE_GROUP;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_STATUS_NOT_SELECTED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED;
@@ -28,6 +32,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -45,8 +50,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
- * @author $Author: shyu $
- * @version $Revision: 1.9 $
+ * @author $Author: gthomas $
+ * @version $Revision: 1.10 $
  */
 public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule,SaveNarrativesRule{ 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
@@ -65,17 +70,18 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     public boolean processAddNarrativeBusinessRules(AddNarrativeEvent narrativeEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)narrativeEvent.getDocument();
         Narrative narrative = narrativeEvent.getNarrative();
-        // need to populate here to get the narrativetypecode for comparison 
-        populateNarrativeType(narrative);
         boolean rulePassed = true;
+        String proposalNarrativeTypeGroup = getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_NARRATIVE_TYPE_GROUP);
         List<Narrative> narrList = new ArrayList();
-        if (Constants.NARRATIVE_NARRATIVE_TYPE_GROUP_CODE.equals(narrative.getNarrativeType().getNarrativeTypeGroup())) {
-            narrList = document.getNarratives();
-        } else {
-            narrList = document.getInstitutes();
-            
+        populateNarrativeType(narrative);
+        if(narrative.getNarrativeType()==null)
+            rulePassed = false;
+        else{
+            narrList =StringUtils.equals(proposalNarrativeTypeGroup,narrative.getNarrativeType().getNarrativeTypeGroup())?
+                document.getNarratives():document.getInstitutes();
         }
         rulePassed &= checkNarrative(narrList, narrative);
+        
         return rulePassed;
     }
     /**
@@ -103,20 +109,21 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
      * @return true if rules passed, else false
      */
     private boolean checkNarrative(List<Narrative> narrativeList, Narrative narrative) {
-        populateNarrativeType(narrative);
-        String[] param = {PROPOSAL, narrative.getNarrativeType().getDescription()};
         String errorPath=DOCUMENT_NARRATIVES;
         boolean rulePassed = true;
-        if(narrative.getNarrativeTypeCode()==null){
+        if(StringUtils.isBlank(narrative.getNarrativeTypeCode())){
             rulePassed = false;
             reportError(DOCUMENT_NARRATIVES, ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
         }
-        if(narrative.getModuleStatusCode()==null){
+        if(StringUtils.isBlank(narrative.getModuleStatusCode())){
             rulePassed = false;
             reportError(DOCUMENT_NARRATIVES, ERROR_ATTACHMENT_STATUS_NOT_SELECTED);
         }
         if (rulePassed) {
-            if (narrative.getNarrativeType().getNarrativeTypeGroup().equals(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE)) {
+            populateNarrativeType(narrative);
+            String[] param = {PROPOSAL, narrative.getNarrativeType().getDescription()};
+            String instituteNarrativeTypeGroup = getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, INSTITUTE_NARRATIVE_TYPE_GROUP);
+            if (StringUtils.equals(instituteNarrativeTypeGroup,narrative.getNarrativeType().getNarrativeTypeGroup())) {
                 //GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
                 errorPath = NEW_INSTITUTE;
                 //GlobalVariables.getErrorMap().addToErrorPath(errorPath);
@@ -124,7 +131,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
             }
             if (narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)) {
                 for (Narrative narr : narrativeList) {
-                    if (narr.getNarrativeTypeCode().equals(narrative.getNarrativeTypeCode())) {
+                    if (narr!=null && StringUtils.equals(narr.getNarrativeTypeCode(),narrative.getNarrativeTypeCode())) {
                         LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
                         reportError(errorPath, ERROR_NARRATIVE_TYPE_DUPLICATE, param);
                         rulePassed = false;

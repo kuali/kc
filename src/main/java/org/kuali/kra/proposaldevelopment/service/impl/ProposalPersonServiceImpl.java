@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.bo.Person;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
@@ -51,6 +52,11 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
             }
         }
         return propPersonName;
+    }
+    public Person getPerson(String loggedInUser) {
+        Map<String,String> queryMap = new HashMap<String,String>();
+        queryMap.put("userName", loggedInUser);
+        return (Person)businessObjectService.findByPrimaryKey(Person.class, queryMap);
     }
     
 }

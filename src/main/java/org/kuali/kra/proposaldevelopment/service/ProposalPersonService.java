@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
+import org.kuali.kra.bo.Person;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public interface ProposalPersonService {
     public String getPersonName(ProposalDevelopmentDocument doc, String userId);
+
+    public Person getPerson(String loggedInUser);
 }
