@@ -87,7 +87,8 @@
 			<attribute name="abstractDetails">
 				<label>Abstract Details</label>
 				<shortLabel>Abstract Details</shortLabel>
-				<maxLength>999</maxLength>
+				<!-- not sure what's the length for CLOB.  following example in bugdgetmodular in kfs -->
+				<maxLength>50000</maxLength>
 				<control>
 					<textarea cols="30" rows="3"/>
 				</control>
