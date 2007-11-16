@@ -231,13 +231,11 @@ public class ProposalDevelopmentServiceImpl extends PersistenceServiceStructureI
         Vector collections = classDescriptor.getCollectionDescriptors();
         for (Iterator iter = collections.iterator(); iter.hasNext();) {
             CollectionDescriptor collection = (CollectionDescriptor) iter.next();
-
-           // Class referenceClass = collection.getItemClass();
-            //String referenceName = persistentField.getName();
+            if(collection.getCascadingStore() != CollectionDescriptor.CASCADE_NONE) {
                 PersistentField persistentField = collection.getPersistentField();
-                String referenceName = persistentField.getName();
-                updatableObjects.add(referenceName);
-                //retrieveReferenceObject(bo, referenceName);
+                String collectionName = persistentField.getName();
+                updatableObjects.add(collectionName);
+            }
         }
 
         return updatableObjects;
