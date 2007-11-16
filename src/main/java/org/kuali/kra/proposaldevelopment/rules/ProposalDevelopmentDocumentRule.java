@@ -160,8 +160,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
                 }
                 if (propSpecialReview.getApplicationDate() !=null && propSpecialReview.getApprovalDate() != null && propSpecialReview.getApprovalDate().before(propSpecialReview.getApplicationDate())) {
-                    errorMap.putError("approvalDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,
-                            "Approval Date","Application Date"); 
+                    errorMap.putError("applicationDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,
+                            "Application Date","Approval Date"); 
                 }
 
             }
