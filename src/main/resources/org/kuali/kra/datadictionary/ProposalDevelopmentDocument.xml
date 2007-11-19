@@ -281,7 +281,7 @@
 				<shortLabel>Opportunity Title</shortLabel>
 
 				<maxLength>255</maxLength>
-				<validationPattern><alphaNumeric allowWhitespace="true" /></validationPattern>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
 				<required>false</required>
 
