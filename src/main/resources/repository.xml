@@ -126,7 +126,7 @@
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
 
-      <reference-descriptor name="ownedByUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="object" auto-delete="object">
+      <reference-descriptor name="ownedByUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
           <foreignkey field-ref="ownedByUnitNumber" />
       </reference-descriptor>
 
