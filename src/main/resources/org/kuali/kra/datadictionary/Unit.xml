@@ -166,7 +166,7 @@
 			<label>Unit Name </label>
 			<shortLabel>Unit Name </shortLabel>
 			<maxLength>60</maxLength>
-			<validationPattern><alphaNumeric allowWhitespace="true"/></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="60" />
 			</control>
