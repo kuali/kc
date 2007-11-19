@@ -142,8 +142,8 @@
 				<control>
                     <textarea rows="3" cols="40" />
                 </control>
-				<summary>Comments</summary>
-				<description>Comments</description>
+				<summary>Attachment comments</summary>
+				<description>Proposal attachment comments</description>
 			</attribute>
 
 			<attribute name="contactName">
@@ -176,7 +176,7 @@
 			<attribute name="moduleStatusCode">
 				<label>Status</label>
 				<shortLabel>Status</shortLabel>
-				<maxLength>1</maxLength>
+				<maxLength>3</maxLength>
 				<validationPattern>
 					<anyCharacter  allowWhitespace="true"  />
 				</validationPattern>
@@ -185,8 +185,8 @@
 					<select
 						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.NarrativeStatusValuesFinder" />
 				</control>
-				<summary>Module Status Code</summary>
-				<description>Module Status Code</description>
+				<summary>The Types that the Proposal Attachment Status be</summary>
+				<description>The Types that the Proposal Attachment Status be</description>
 			</attribute>
 			<attribute name="narrativeStatus.description">
 				<label>Narrative Status</label>
@@ -201,7 +201,7 @@
 					<text size="52" />
 				</control>
 
-				<summary>The Types that the Narrative Status be</summary>
+				<summary>The Types that the Proposal Attachment Status be</summary>
 				<description>Isn't it obvious?</description>
 			</attribute>
 
@@ -245,8 +245,8 @@
 					<select
 						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalNarrativeTypeValuesFinder" />
 				</control>
-				<summary>Narrative Type Code</summary>
-				<description>Narrative Type Code</description>
+				<summary>The Types that the Proposal Attachment be</summary>
+				<description>Types of the Proposal Attachments</description>
 			</attribute>
 			<attribute name="institutionalAttachmentTypeCode">
 				<label>Attachment Type</label>
@@ -275,7 +275,7 @@
 					<text size="52" />
 				</control>
 
-				<summary>The Types that the Narrative Could be</summary>
+				<summary>The Types that the Proposal Attachment Could be</summary>
 				<description>Isn't it obvious?</description>
 			</attribute>
 			<attribute name="phoneNumber">
@@ -294,7 +294,7 @@
 			<attribute name="updateUser">
 				<label>Author</label>
 				<shortLabel>Author</shortLabel>
-				<maxLength>20</maxLength>
+				<maxLength>8</maxLength>
 				<validationPattern>
 					<anyCharacter />
 				</validationPattern>
