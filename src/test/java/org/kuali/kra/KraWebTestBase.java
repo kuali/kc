@@ -46,6 +46,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInlineFrame;
 import com.gargoylesoftware.htmlunit.html.HtmlListItem;
 import com.gargoylesoftware.htmlunit.html.HtmlOption;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
@@ -437,14 +438,14 @@ public abstract class KraWebTestBase extends KraTestBase {
     
     /**
      * Set the value of a control field.  The control field must be a
-     * text, text area, hidden, checkbox, or single-select field.
+     * text, text area, hidden, checkbox, radio button, or single-select field.
      * 
      * For a checkbox field, the only legal values are "on" and "off".
      * 
      * The test will fail for any of the following reasons:
      * <ul>
      * <li>The HTML control element was not found.</li>
-     * <li>The control is not a text, text area, hidden, checkbox, or select field.</li>
+     * <li>The control is not a text, text area, hidden, checkbox, radio button, or select field.</li>
      * </ul>
      * 
      * @param page the HTML web page.
@@ -486,7 +487,18 @@ public abstract class KraWebTestBase extends KraTestBase {
         else if (element instanceof HtmlFileInput) {
             HtmlFileInput fileInputField = (HtmlFileInput) element;
             fileInputField.setValueAttribute(fieldValue);
-        } 
+        }
+        else if (element instanceof HtmlRadioButtonInput) {
+            List<HtmlElement> elements = getAllElementsByName(page, fieldId, false);
+            for (HtmlElement child : elements) {
+                assertTrue(child instanceof HtmlRadioButtonInput);
+                HtmlRadioButtonInput radioBtn = (HtmlRadioButtonInput) child;
+                if (radioBtn.getValueAttribute().equals(fieldValue)) {
+                    radioBtn.setChecked(true);
+                    break;
+                }
+            }
+        }
         else {
             assertTrue("Unknown control field", false);
         }
@@ -500,7 +512,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * The test will fail for any of the following reasons:
      * <ul>
      * <li>The HTML control element was not found.</li>
-     * <li>The control is not a text, text area, hidden, checkbox, or select field.</li>
+     * <li>The control is not a text, text area, hidden, checkbox, radio button, or select field.</li>
      * </ul>
      * 
      * @param page the HTML web page.
@@ -511,7 +523,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         String fieldValue = null;
         
         HtmlElement element = getElement(page, fieldId);
-        assertTrue(fieldId +" not found",element != null);
+        assertTrue(fieldId + " not found", element != null);
         
         if (element instanceof HtmlTextInput) {
             HtmlTextInput textField = (HtmlTextInput) element;
@@ -533,6 +545,17 @@ public abstract class KraWebTestBase extends KraTestBase {
             HtmlCheckBoxInput checkboxField = (HtmlCheckBoxInput) element;
             fieldValue = checkboxField.isChecked() ? "on" : "off";
         }
+        else if (element instanceof HtmlRadioButtonInput) {
+            List<HtmlElement> elements = getAllElementsByName(page, fieldId, false);
+            for (HtmlElement child : elements) {
+                assertTrue(child instanceof HtmlRadioButtonInput);
+                HtmlRadioButtonInput radioBtn = (HtmlRadioButtonInput) child;
+                if (radioBtn.isChecked()) {
+                    fieldValue = radioBtn.getValueAttribute();
+                    break;
+                }
+            }
+        }
         else {
             assertTrue("Unknown control field", false);
         }
@@ -548,7 +571,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * The test will fail for any of the following reasons:
      * <ul>
      * <li>The HTML control element was not found.</li>
-     * <li>The control is not a text, text area, hidden, checkbox, or select field.</li>
+     * <li>The control is not a text, text area, hidden, checkbox, radio button, or select field.</li>
      * </ul>
      * 
      * @param page the HTML web page.
@@ -580,6 +603,17 @@ public abstract class KraWebTestBase extends KraTestBase {
         else if (element instanceof HtmlCheckBoxInput) {
             HtmlCheckBoxInput checkboxField = (HtmlCheckBoxInput) element;
             fieldValue = checkboxField.isDefaultChecked() ? "on" : "off";
+        }
+        else if (element instanceof HtmlRadioButtonInput) {
+            List<HtmlElement> elements = getAllElementsByName(page, fieldId, false);
+            for (HtmlElement child : elements) {
+                assertTrue(child instanceof HtmlRadioButtonInput);
+                HtmlRadioButtonInput radioBtn = (HtmlRadioButtonInput) child;
+                if (radioBtn.isDefaultChecked()) {
+                    fieldValue = radioBtn.getValueAttribute();
+                    break;
+                }
+            }
         }
         else {
             assertTrue("Unknown control field", false);
@@ -885,6 +919,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * 
      * @param page the HTML web page to search.
      * @param name the name to search for.
+     * @param startsWith if true, only match against the start of the name.
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByName(HtmlPage page, String name, boolean startsWith) {
@@ -907,6 +942,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * 
      * @param element the parent HTML element to search.
      * @param name the name to search for.
+     * @param startsWith if true, only match against the start of the name.
      * @return the HTML element or null if not found.
      */
     protected final HtmlElement getElementByName(HtmlElement element, String name, boolean startsWith) {
@@ -1163,6 +1199,54 @@ public abstract class KraWebTestBase extends KraTestBase {
     }
     
     /**
+     * Gets an HTML element in the web page.  Searches the web page for 
+     * the first HTML element whose name attribute matches the given name.
+     * 
+     * HTML web pages may contain Inline Frames (iframes) which are not expanded
+     * within HtmlUnit.  The inline frames contain inner web pages that must
+     * also be searched.
+     * 
+     * @param page the HTML web page to search.
+     * @param name the name to search for.
+     * @param startsWith if true, only match against the start of the name.
+     * @return the HTML element or null if not found.
+     */
+    protected final List<HtmlElement> getAllElementsByName(HtmlPage page, String name, boolean startsWith) {
+        List<HtmlElement> elements = getAllElementsByName(page.getDocumentElement(), name, startsWith);
+        
+        List<HtmlPage> innerPages = getInnerPages(page);
+        for (HtmlPage innerPage : innerPages) {
+            elements.addAll(getAllElementsByName(innerPage, name, startsWith));
+        }
+        
+        return elements;
+    }
+    
+    /**
+     * Gets an HTML element in a parent HTML element.  Searches the parent HTML
+     * element for the first HTML element whose name attribute matches the given name.
+     * 
+     * @param element the parent HTML element to search.
+     * @param name the name to search for.
+     * @param startsWith if true, only match against the start of the name.
+     * @return the HTML element or null if not found.
+     */
+    protected final List<HtmlElement> getAllElementsByName(HtmlElement element, String name, boolean startsWith) {
+        List<HtmlElement> elements = new ArrayList<HtmlElement>();
+        Iterator iterator = element.getAllHtmlChildElements();
+        while (iterator.hasNext()) {
+            HtmlElement e = (HtmlElement) iterator.next();
+            String value = e.getAttributeValue("name");
+            if (!startsWith && name.equals(value)) {
+                elements.add(e);
+            } else if (startsWith && value != null && value.startsWith(name)) {
+                elements.add(e);
+            }
+        }
+        return elements;
+    }
+    
+    /**
      * Gets the list of inner web pages.  Inner web pages are contained
      * within Inline Frames (iframes).  
      * 
@@ -1354,5 +1438,28 @@ public abstract class KraWebTestBase extends KraTestBase {
         }
         
         return options;
+    }
+    
+    /**
+     * Sets a select field to any of options except for "select:".
+     * This is useful if you don't know the possible options in a
+     * select field and you don't care which one is selected.
+     * 
+     * @param page the HTML web page.
+     * @param id the id of the HTML select tag.
+     */
+    protected void selectAnyOption(HtmlPage page, String id) {
+        HtmlElement element = getElement(page, id);
+        assertTrue(element instanceof HtmlSelect);
+        
+        HtmlSelect selectField = (HtmlSelect) element;
+        List<HtmlOption> options = selectField.getOptions();
+        for (HtmlOption option : options) {
+            String value = option.getValueAttribute();
+            if (!value.equals("")) {
+                selectField.setSelectedAttribute(value, true);
+                break;
+            }
+        }
     }
 }
