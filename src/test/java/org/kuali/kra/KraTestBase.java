@@ -20,14 +20,25 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.lifecycle.Lifecycle;
+import org.kuali.rice.test.data.PerSuiteUnitTestData;
+import org.kuali.rice.test.data.UnitTestData;
+import org.kuali.rice.test.data.UnitTestFile;
 import org.kuali.rice.testharness.KNSTestCase;
 import org.kuali.rice.testharness.TransactionalLifecycle;
+
+@PerSuiteUnitTestData(
+        @UnitTestData(
+            sqlFiles = {
+                @UnitTestFile(filename = "classpath:DefaultTestData.sql", delimiter = ";"),
+            }
+        )
+    )
 
 public abstract class KraTestBase extends KNSTestCase {
 
@@ -38,8 +49,8 @@ public abstract class KraTestBase extends KNSTestCase {
     public void setUp() throws Exception {
         setContextName("/kra-dev");
         setRelativeWebappRoot("/src/main/webapp");
-        setSqlFilename("classpath:DefaultTestData.sql");
-        setSqlDelimiter(";");
+//        setSqlFilename("classpath:DefaultTestData.sql");
+//        setSqlDelimiter(";");
         setXmlFilename("classpath:DefaultTestData.xml");
         setTestConfigFilename("classpath:META-INF/kra-test-config.xml");
         super.setUp();
