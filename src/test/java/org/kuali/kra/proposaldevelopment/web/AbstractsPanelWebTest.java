@@ -57,22 +57,6 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
      ***********************************************************************/
     
     /**
-     * Get the Abstracts & Attachments Web Page. To do this, we first
-     * get the Proposal Development Web Page and fill in the required
-     * fields with some default values.  We can then navigate to the
-     * Abstracts & Attachments Web Page.
-     * 
-     * @return the Abstracts & Attachments Web Page.
-     * @throws Exception
-     */
-    protected HtmlPage getAbstractsAndAttachmentsPage() throws Exception {
-        HtmlPage proposalPage = this.getProposalDevelopmentPage();
-        this.setDefaultRequiredFields(proposalPage);
-        HtmlPage abstractsAndAttachmentsPage = clickOn(proposalPage, ABSTRACTS_ATTACHMENTS_LINK_NAME);
-        return abstractsAndAttachmentsPage;
-    }
-    
-    /**
      * Saves and closes the document and then perform a search for it.
      * 
      * @param docPage the document page to close.
