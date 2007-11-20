@@ -162,11 +162,19 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+	
+	<bean id="proposalCopyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalCopyServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
 	<bean id="proposalPersonService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+	
 	<bean id="narrativeService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

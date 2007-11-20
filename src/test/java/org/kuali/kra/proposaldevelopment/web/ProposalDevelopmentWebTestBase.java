@@ -25,6 +25,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     
+    private static final String ABSTRACTS_ATTACHMENTS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x";
+    private static final String ACTIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.actions.x";
+    
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.financialDocumentDescription";
     protected static final String PROPOSAL_SPONSOR_CODE_ID = "document.sponsorCode";
     protected static final String PROPOSAL_TITLE_ID = "document.title";
@@ -130,5 +133,46 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
             String key = (String) it.next();
             assertEquals(getFieldValue(page, key), keyValues.get(key));
         }
+    }
+    
+    /**
+     * Get the Abstracts & Attachments Web Page. To do this, we first
+     * get the Proposal Development Web Page and fill in the required
+     * fields with some default values.  We can then navigate to the
+     * Abstracts & Attachments Web Page.
+     * 
+     * @return the Abstracts & Attachments Web Page.
+     * @throws Exception
+     */
+    protected HtmlPage getAbstractsAndAttachmentsPage() throws Exception {
+        HtmlPage proposalPage = this.getProposalDevelopmentPage();
+        this.setDefaultRequiredFields(proposalPage);
+        HtmlPage abstractsAndAttachmentsPage = clickOn(proposalPage, ABSTRACTS_ATTACHMENTS_LINK_NAME);
+        return abstractsAndAttachmentsPage;
+    }
+    
+    /**
+     * Get the Actions Web Page. To do this, we first get the Proposal Development 
+     * Web Page and fill in the required fields with some default values.  We can 
+     * then navigate to the Actions Web Page.
+     * 
+     * @return the Actions Web Page.
+     * @throws Exception
+     */
+    protected HtmlPage getActionsPage() throws Exception {
+        HtmlPage proposalPage = this.getProposalDevelopmentPage();
+        this.setDefaultRequiredFields(proposalPage);
+        HtmlPage actionsPage = clickOn(proposalPage, ACTIONS_LINK_NAME);
+        return actionsPage;
+    }
+    
+    /**
+     * Click on the Actions Hyperlink.
+     *
+     * @return the Actions Web Page.
+     * @throws Exception
+     */
+    protected HtmlPage clickActionsHyperlink(HtmlPage page) throws Exception {
+        return clickOn(page, ACTIONS_LINK_NAME);
     }
 }

@@ -42,6 +42,7 @@ import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
+import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
@@ -73,6 +74,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private ProposalPersonBiography newPropPersonBio;
     private Narrative newInstitute;
     private boolean auditActivated;
+    private ProposalCopyCriteria copyCriteria;
     
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -97,6 +99,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         setNewProposalPersonDegree(new ArrayList<ProposalPersonDegree>());
         setNewProposalPersonUnit(new ArrayList<Unit>());
         setNewProposalAbstract(new ProposalAbstract());
+        setCopyCriteria(new ProposalCopyCriteria());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
         
@@ -166,6 +169,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.setMethodToCall(null);
         this.setRefreshCaller(null);
         this.setAnchor(null);
+        this.setCopyCriteria(new ProposalCopyCriteria());
        // following reset the tab stats and will load as default when it returns from lookup.
        // TODO : Do we really need this?
        // implemented headerTab in KraTransactionalDocumentActionBase
@@ -438,5 +442,48 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
     private KeyPersonnelService getKeyPersonnelService() {
         return getService(KeyPersonnelService.class);
+    }
+    
+    /**
+     * Gets the Copy Criteria for copying a proposal development document.
+     * The criteria is user-specified and controls the operation of the
+     * copy.
+     * 
+     * @return the proposal copy criteria
+     */
+    public ProposalCopyCriteria getCopyCriteria() {
+        return copyCriteria;
+    }
+
+    /**
+     * Sets the Copy Criteria for copying a proposal development document.
+     * The criteria is user-specified and controls the operation of the
+     * copy.
+     * 
+     * @param copyCriteria the new proposal copy criteria
+     */
+    public void setCopyCriteria(ProposalCopyCriteria copyCriteria) {
+        this.copyCriteria = copyCriteria;
+    }
+    
+    /**
+     * Determines if attachments can be copied.
+     * 
+     * @return true if copying attachments is disabled; otherwise false.
+     */
+    public boolean getIsCopyAttachmentsDisabled() {
+        ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
+        return !(doc.getNarratives().size() > 0 || 
+            doc.getInstitutes().size() > 0 ||
+            doc.getPropPersonBios().size() > 0);
+    }
+    
+    /**
+     * This method...
+     * 
+     * @return true if copying budget(s) is disabled; otherwise false.
+     */
+    public boolean getIsCopyBudgetDisabled() {
+        return true;
     }
 }
