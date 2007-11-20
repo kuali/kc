@@ -35,7 +35,7 @@ import org.kuali.rice.testharness.TransactionalLifecycle;
 @PerSuiteUnitTestData(
         @UnitTestData(
             sqlFiles = {
-                @UnitTestFile(filename = "classpath:DefaultTestData.sql", delimiter = ";"),
+                @UnitTestFile(filename = "classpath:DefaultTestData.sql", delimiter = ";")
             }
         )
     )
