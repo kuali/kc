@@ -34,4 +34,7 @@ if (top.location != self.location) {
  <div id="header" title="Kuali Research Administration">
     <h1 class="kra"></h1>Kuali Research Administration
   </div>
+  <div id="feedback">
+  	<a href="<bean:message key="app.feedback.link"/>" target="_blank" title="<bean:message key="app.feedback.linkText" />"><bean:message key="app.feedback.linkText" /></a>
+  </div>
   <div id="build">${ConfigProperties.build.version}</div>
