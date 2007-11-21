@@ -19,6 +19,7 @@
 <c:set var="unitCreditSplitAttributes" value="${DataDictionary.ProposalUnitCreditSplit.attributes}" />
 <c:set var="personCreditSplitAttributes" value="${DataDictionary.ProposalPersonCreditSplit.attributes}" />
 <c:set var="creditParamName" value="proposaldevelopment.creditsplit.enabled"/>
+<c:set var="columnWidth" value="${100/(fn:length(KualiForm.document.investigatorCreditTypes) + 1)}%" />
 
 <c:if test="${creditSplitEnabledFlag}">
 
@@ -31,9 +32,9 @@
 
         <table cellpadding="0" cellspacing="0" summary="">
               <tr>
-                <th width="20%"></th>
+                <th width="${columnWidth}"></th>
 <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
-                <th width="20%">${invType.description}</th>
+                <th width="${columnWidth}">${invType.description}</th>
 </c:forEach>
               </tr>
 <c:forEach items="${KualiForm.document.investigators}" var="investigator" varStatus="invStatus">
