@@ -69,7 +69,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.25 $
+ * @version $Revision: 1.26 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -126,10 +126,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return mapping.findForward(MAPPING_BASIC);
     }
     
-    private BusinessObjectService getBusinessObjectService() {
-        return getService(BusinessObjectService.class);
-    }
- 
     private KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
@@ -146,7 +142,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public ActionForward clearProposalPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         pdform.setNewProposalPerson(new ProposalPerson());
         pdform.setNewRolodexId("");
         pdform.setNewPersonId("");        
@@ -166,7 +161,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         boolean rulePassed = true;
-        String proposalPersonRoleId = pdform.getNewProposalPerson().getProposalPersonRoleId();
 
         // check any business rules
         rulePassed &= getKualiRuleService().applyRules(new AddKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, pdform.getDocument(), pdform.getNewProposalPerson()));
