@@ -16,9 +16,7 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import static java.util.Arrays.asList;
-import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.apache.commons.lang.StringUtils.substringBetween;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
@@ -26,13 +24,10 @@ import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATO
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
@@ -40,12 +35,12 @@ import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 /**
  * A Service implementation for persisted modifications of Key Personnel related business objects
@@ -53,8 +48,8 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: gmcgrego $
- * @version $Revision: 1.4 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.5 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -187,6 +182,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
 
     /**
      * Retrieve the injected <code>{@link BusinessObjectService}</code>
+     * 
+     * @return BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
@@ -194,23 +191,37 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
 
     /**
      * assign the <code>{@link BusinessObjectService}</code> to use.
+     * 
+     * @param boservice <code>{@link BusinessObjectService}</code> instance to assign
      */
     public void setBusinessObjectService(BusinessObjectService boservice) {
         businessObjectService = boservice;
     }
 
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isPrincipalInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     */
     public boolean isPrincipalInvestigator(ProposalPerson person) {
         return PRINCIPAL_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
     }
 
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCoInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     */
     public boolean isCoInvestigator(ProposalPerson person) {
         return CO_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
     }
     
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     */
     public boolean isInvestigator(ProposalPerson person) {
         return isPrincipalInvestigator(person) || isCoInvestigator(person);
     }
         
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#hasPrincipalInvestigator(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
     public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
         boolean retval = false;
 
@@ -223,6 +234,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         return retval;
     }
 
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#addUnitToPerson(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit)
+     */
     public void addUnitToPerson(ProposalPerson person, ProposalPersonUnit unit) {
         unit.setProposalNumber(person.getProposalNumber());
         unit.setProposalPersonNumber(person.getProposalPersonNumber());
