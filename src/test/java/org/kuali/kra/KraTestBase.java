@@ -31,6 +31,7 @@ import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 import org.kuali.rice.testharness.KNSTestCase;
 import org.kuali.rice.testharness.TransactionalLifecycle;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 @PerSuiteUnitTestData(
         @UnitTestData(
@@ -96,5 +97,15 @@ public abstract class KraTestBase extends KNSTestCase {
         transactionalLifecycle.start();
         return doc;
 
+    }
+    
+    /**
+     *  Delegate to <code>{@link KraServiceLocator#getService(Class)}</code>
+     * @param <T>
+     * @param serviceClass class of service to get instance for
+     * @return Service instance
+     */
+    protected final <T> T getService(Class<T> serviceClass) {
+        return KraServiceLocator.getService(serviceClass);
     }
 }

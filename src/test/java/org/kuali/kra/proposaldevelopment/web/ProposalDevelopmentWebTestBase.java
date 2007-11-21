@@ -22,7 +22,15 @@ import java.util.Map;
 import org.kuali.kra.KraWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.junit.After;
+import org.junit.Before;
 
+/**
+ * Base class for all htmlunit tests involving the Proposal Development Page.
+ * 
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.8 $
+ */
 public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     
     private static final String ABSTRACTS_ATTACHMENTS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x";
@@ -46,20 +54,63 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected static final String DEFAULT_PROPOSAL_TYPE_CODE = "1"; // New
     protected static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "IN-CARD";
     
+    private HtmlPage proposalDevelopmentPage;
+    private HtmlPage portalPage;
+    
+    /**
+     * Web test setup overloading. Sets up Portal Page and ProposalDevelopment page access.
+     * 
+     * @see org.kuali.kra.KraWebTestBase#setUp()
+     */
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        
+        setProposalDevelopmentPage(buildProposalDevelopmentPage());
+    }
+        
+    /**
+     * Create a new instance of the proposal development page by clicking on the link to the portal page. The resulting page of the click
+     *  through is a frame, so it is important to get the inner page.
+     * 
+     * @return <code>{@link HtmlPage}</code> instance of the proposal development page
+     * @throws IOException
+     */
+    protected final HtmlPage buildProposalDevelopmentPage() throws IOException {
+        HtmlPage retval = clickOn(getPortalPage(), "Proposal Development", "Kuali Portal Index");
+        retval = getInnerPages(retval).get(0);
+        assertTrue("Kuali :: Proposal Development Document".equals(retval.getTitleText()));
+        return retval;
+    }
+
+    /**
+     * Web test tear down overloading.
+     * 
+     * @see org.kuali.kra.KraWebTestBase#tearDown()
+     */
+    @After
+    public void tearDown() throws Exception {
+        super.tearDown();
+    }
+
     /**
      * Gets the Proposal Development web page for creating a new Proposal document.
      * We don't want to test within the Portal.  This means that we will extract the
      * proposal development web page from within the Portal's Inline Frame (iframe).
      * 
      * @return the Proposal Development web page.
-     * @throws IOException
      */
-    protected HtmlPage getProposalDevelopmentPage() throws IOException {
-        HtmlPage portalPage = getPortalPage();
-        HtmlPage page = clickOn(portalPage, "Proposal Development", "Kuali Portal Index");
-        HtmlPage proposalPage = getInnerPages(page).get(0);
-        assertTrue("Kuali :: Proposal Development Document".equals(proposalPage.getTitleText()));
-        return proposalPage;
+    protected final HtmlPage getProposalDevelopmentPage() {
+        return this.proposalDevelopmentPage;
+    }
+    
+    /**
+     * Sets the proposal development page for tests. Typically, run out of <code>{@link #setUp()}</code>
+     * 
+     * @param proposalDevelopmentPage <code>{@link HtmlPage}</code> instance for the test
+     */
+    protected final void setProposalDevelopmentPage(HtmlPage proposalDevelopmentPage) {
+        this.proposalDevelopmentPage = proposalDevelopmentPage;
     }
     
     /**
@@ -175,4 +226,5 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected HtmlPage clickActionsHyperlink(HtmlPage page) throws Exception {
         return clickOn(page, ACTIONS_LINK_NAME);
     }
+
 }

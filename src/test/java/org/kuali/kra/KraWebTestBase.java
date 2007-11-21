@@ -65,14 +65,29 @@ public abstract class KraWebTestBase extends KraTestBase {
     protected WebClient webClient = null;
     protected DocumentService documentService = null;
     
+    private HtmlPage portalPage;
+
+    /**
+     * Web test setup overloading. Sets up Portal page access.
+     * 
+     * @see org.kuali.kra.KraWebTestBase#setUp()
+     */
     @Before
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KNSServiceLocator.getDocumentService();
         webClient = new WebClient();
+        
+        setPortalPage(buildPageFromUrl("http://localhost:" + getPort() + "/kra-dev/", "Kuali Portal Index"));
+        
     }
 
+    /**
+     * Web test tear down overloading.
+     * 
+     * @see org.kuali.kra.KraWebTestBase#tearDown()
+     */
     @After
     public void tearDown() throws Exception {
         super.tearDown();
@@ -82,16 +97,51 @@ public abstract class KraWebTestBase extends KraTestBase {
     }
     
     /**
+     * Set the KRA Portal Web Page. The portal page is the starting point
+     * for many (or all) HtmlUnit tests in order to simulate a user.
+     * 
+     * @param portalPage <code>{@link HtmlPage}</code> instance for the portal page 
+     */
+    protected final void setPortalPage(HtmlPage portalPage) {
+        this.portalPage = portalPage;
+    }
+    
+    /**
      * Get the KRA Portal Web Page. The portal page is the starting point
      * for many (or all) HtmlUnit tests in order to simulate a user.
      * @return the KRA Portal Web Page.
      * @throws IOException
      */
     protected final HtmlPage getPortalPage() throws IOException {     
-        URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-        HtmlPage portalPage = (HtmlPage) webClient.getPage(url);
-        assertEquals("Kuali Portal Index", portalPage.getTitleText());
-        return portalPage;
+        return this.portalPage;
+    }
+    
+    /**
+     * Take a given <code>{@link String}</code> url and get a <code>{@link HtmlPage}</code> instance
+     *  from it. This method actually overloads <code>{@link #buildPageFromUrl(URL, String)}</code>
+     *  
+     * @param url <code>{@link String}</code> instance of url
+     * @param title to compare against and verify the page is valid
+     * @return HtmlPage
+     * @throws IOException
+     */
+    protected final HtmlPage buildPageFromUrl(String url, String title) throws IOException {
+        return buildPageFromUrl(new URL(url), title);
+    }
+    
+    /**
+     * Take a given <code>{@link URL}</code> url and get a <code>{@link HtmlPage}</code> instance
+     *  from it.
+     *   
+     * @param url <code>{@link Url}</code> instance of url
+     * @param title to compare against and verify the page is valid
+     * @return HtmlPage
+     * @throws IOException
+     */
+    protected final HtmlPage buildPageFromUrl(URL url, String title) throws IOException {
+        HtmlPage retval = (HtmlPage) webClient.getPage(url);
+        assertEquals(title, retval.getTitleText());
+        return retval;
     }
     
     /**
@@ -1043,13 +1093,11 @@ public abstract class KraWebTestBase extends KraTestBase {
     protected final HtmlImageInput getLookup(HtmlPage page, String tag) {
         HtmlImageInput element = getLookup(page.getDocumentElement(), tag);
         
-        if (element == null) {
-            List<HtmlPage> innerPages = getInnerPages(page);
-            for (HtmlPage innerPage : innerPages) {
-                element = getLookup(innerPage, tag);
-                if (element != null) break;
-            }
-        }
+        List<HtmlPage> innerPages = getInnerPages(page);
+        for (Iterator<HtmlPage> page_it = innerPages.iterator(); page_it.hasNext() && element == null;) {
+            HtmlPage innerPage = page_it.next();
+            element = getLookup(innerPage, tag);
+        }   
         
         return element;
     }
@@ -1067,11 +1115,11 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the Lookup's HTML element or null if not found.
      */
     private final HtmlImageInput getLookup(HtmlElement element, String tag) {
-        Iterator iterator = element.getAllHtmlChildElements();
-        while (iterator.hasNext()) {
-            HtmlElement e = (HtmlElement) iterator.next();
+        for (Iterator<HtmlElement> iterator = element.getAllHtmlChildElements(); iterator.hasNext();) {
+            HtmlElement e = iterator.next();
             if (e instanceof HtmlImageInput) {
                 String name = e.getAttributeValue("name");
+                LOG.info("Found name attribute " + name);
                 if (name != null && name.startsWith("methodToCall.performLookup") && name.contains(tag)) {
                     return (HtmlImageInput) e;
                 }
@@ -1120,7 +1168,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the HTML Anchor element or null if not found.
      */
     protected final HtmlAnchor getAnchor(HtmlPage page, String tag) {
-    	HtmlAnchor element = getAnchor(page.getDocumentElement(), tag);
+        HtmlAnchor element = getAnchor(page.getDocumentElement(), tag);
          
         if (element == null) {
             List<HtmlPage> innerPages = getInnerPages(page);
@@ -1322,20 +1370,20 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @throws IOException
      */
     protected final HtmlPage docSearch(String docNbr) throws IOException {
-    	HtmlPage docPage = null;
-    	HtmlPage portalPage = getPortalPage();
-    	HtmlPage docSearchPage = clickOn(portalPage, "Document Search");
-    	
-    	setFieldValue(docSearchPage, "criteria.routeHeaderId", docNbr);
-    	docSearchPage = clickOn(docSearchPage, "methodToCall.doDocSearch");
-    	if (docSearchPage.asText().contains("Nothing found to display.")) {
-    		docPage = null;
-    	} else {
-    	    HtmlAnchor hyperlink = getAnchor(docSearchPage, docNbr);
-    	    assertNotNull(hyperlink);
-    	    docPage = clickOn(hyperlink);
-    	}
-    	return docPage;
+        HtmlPage docPage = null;
+        HtmlPage portalPage = getPortalPage();
+        HtmlPage docSearchPage = clickOn(portalPage, "Document Search");
+        
+        setFieldValue(docSearchPage, "criteria.routeHeaderId", docNbr);
+        docSearchPage = clickOn(docSearchPage, "methodToCall.doDocSearch");
+        if (docSearchPage.asText().contains("Nothing found to display.")) {
+            docPage = null;
+        } else {
+            HtmlAnchor hyperlink = getAnchor(docSearchPage, docNbr);
+            assertNotNull(hyperlink);
+            docPage = clickOn(hyperlink);
+        }
+        return docPage;
     }
     
     /**
@@ -1347,10 +1395,10 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the document's docNbr
      */
     protected final String getDocNbr(HtmlPage page) {
-    	HtmlTable table = getTable(page, "headerarea");
-    	HtmlTableRow row = table.getRow(0);
-    	HtmlTableCell cell = row.getCell(1);
-    	return cell.asText().trim();
+        HtmlTable table = getTable(page, "headerarea");
+        HtmlTableRow row = table.getRow(0);
+        HtmlTableCell cell = row.getCell(1);
+        return cell.asText().trim();
     }
     
     /**
@@ -1440,6 +1488,27 @@ public abstract class KraWebTestBase extends KraTestBase {
         return options;
     }
     
+    /**
+     * Verify that all the Help links on the web page go to the Kuali Help Web Page.
+     * This will also test the help links on other panels on the page, but no big deal. This is not enabled in 
+     *  tests by default. If you want your test to do this, you need to add the <code>@Test</code> annotation
+     *  and override it in your test class.
+     * @throws Exception
+     */
+    public void testHelpLinks() throws Exception {
+        checkHelpLinks(getDefaultDocumentPage());
+    }
+
+    /**
+     * Used by generic methods like <code>{@link #testHelpLinks()}</code> for general behavior that is particular to a 
+     * page, but we don't know what that page is. This should be <code>abstract</code>, but that would break stuff.
+     * 
+     * @return <code>{@link HtmlPage}</code> instance of a page that is used frequently in this test class
+     */
+    protected HtmlPage getDefaultDocumentPage() throws Exception {
+        return null;
+    }
+      
     /**
      * Sets a select field to any of options except for "select:".
      * This is useful if you don't know the possible options in a

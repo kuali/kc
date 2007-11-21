@@ -155,6 +155,7 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
 
         // click main menu link
         // initiate a new document
+        setProposalDevelopmentPage(buildProposalDevelopmentPage());
         HtmlPage newProposalPage = getProposalDevelopmentPage();
 
         // make sure prime sponsor code is blank and not carried over from previous doc
