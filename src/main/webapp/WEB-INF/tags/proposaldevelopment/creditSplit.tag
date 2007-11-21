@@ -19,7 +19,9 @@
 <c:set var="unitCreditSplitAttributes" value="${DataDictionary.ProposalUnitCreditSplit.attributes}" />
 <c:set var="personCreditSplitAttributes" value="${DataDictionary.ProposalPersonCreditSplit.attributes}" />
 <c:set var="creditParamName" value="proposaldevelopment.creditsplit.enabled"/>
-<c:if test="${ProposalDevelopmentParameters.creditSplitEnabled.parameterValue == 'Y'}">
+
+<c:if test="${creditSplitEnabledFlag}">
+
 <kul:tab tabTitle="Combined Credit Split" defaultOpen="true" tabErrorKey="">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
