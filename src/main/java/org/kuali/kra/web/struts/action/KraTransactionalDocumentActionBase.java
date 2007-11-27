@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web.struts.action;
+package org.kuali.kra.web.struts.action;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +33,7 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
+// TODO : should move this class to org.kuali.kra.web.struts.action
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
     private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentActionBase.class);
 

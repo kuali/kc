@@ -66,7 +66,7 @@
           <forward name="auditMode" path="/WEB-INF/jsp/ProposalDevelopmentAuditMode.jsp" redirect="false" />
       </action>
 
-        <action path="/updateTextArea" name="KualiForm" type="org.kuali.kra.proposaldevelopment.web.struts.action.KraTransactionalDocumentActionBase">
+        <action path="/updateTextArea" name="KualiForm" type="org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase">
             <forward name="basic" path="/TextArea.jsp" />
         </action>
 
