@@ -16,10 +16,25 @@
 package org.kuali.kra.proposaldevelopment.service;
 
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public interface ProposalPersonBiographyService {
+    /**
+     * 
+     * This method to add personnel attachment
+     * @param proposaldevelopmentDocument
+     * @param proposalPersonBiography
+     */
     public void addProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument,ProposalPersonBiography proposalPersonBiography);
+    
+    /**
+     * 
+     * This method to delete personnel attachment when the key personnel is deleted
+     * @param proposaldevelopmentDocument
+     * @param person
+     */
+    public void removePersonnelAttachmentForDeletedPerson(ProposalDevelopmentDocument proposaldevelopmentDocument, ProposalPerson person);
 
 }
