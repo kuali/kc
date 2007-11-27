@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_NUMBER;
 import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_SEQUENCE_NUMBER;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -64,12 +63,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         narrative.refreshReferenceObject("narrativeStatus");
         narrative.populateAttachment();
         addNarrativeUserRights(proposaldevelopmentDocument,narrative);
-        if (isProposalAttachmentType(narrative)) {
-            proposaldevelopmentDocument.getNarratives().add(narrative);
-            
-        } else {
-            proposaldevelopmentDocument.getInstitutes().add(narrative);
-        }
+        proposaldevelopmentDocument.getNarratives().add(narrative);
     }
     /**
      * 
@@ -113,6 +107,23 @@ public class NarrativeServiceImpl implements NarrativeService {
             narrative.getNarrativeAttachmentList().set(0, narrAtt);
         narratives.remove(lineToDelete);
 
+    }
+
+    /**
+     * 
+     * Method to add a new institute to institutes list
+     * @param institute
+     */
+    public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative institute) {
+        institute.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
+        institute.setModuleNumber(proposaldevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_NUMBER));
+        institute.setModuleSequenceNumber(proposaldevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_SEQUENCE_NUMBER));
+        updateUserTimestamp(institute);
+        institute.setModifyAttachment(true);
+        institute.refreshReferenceObject("narrativeType");
+        institute.refreshReferenceObject("narrativeStatus");
+        institute.populateAttachment();
+        proposaldevelopmentDocument.getInstitutes().add(institute);
     }
 
     /**
