@@ -18,15 +18,11 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_CLOSE_PAGE;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE;
-import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_NUMBER;
-import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_SEQUENCE_NUMBER;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +34,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.FormFile;
 import org.kuali.RiceConstants;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
@@ -48,27 +43,21 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.RoleRight;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.NarrativeRight;
-import org.kuali.kra.infrastructure.RightConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddAbstractEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
-import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.KNSServiceLocator;
 /**
@@ -112,6 +101,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         boolean rulePassed = true;
         // check any business rules
         rulePassed &= getKualiRuleService().applyRules(new SaveNarrativesEvent(EMPTY_STRING,proposalDevelopmentDocument));
+        rulePassed &= getKualiRuleService().applyRules(new SaveInstituteAttachmentsEvent(EMPTY_STRING,proposalDevelopmentDocument));
 
         if (!rulePassed){
             mapping.findForward(Constants.MAPPING_BASIC);
@@ -527,8 +517,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         Narrative narrative = proposalDevelopmentForm.getNewInstitute();
         narrative.setNarrativeTypeCode(narrative.getInstitutionalAttachmentTypeCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        if(getKualiRuleService().applyRules(new AddNarrativeEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
-            proposalDevelopmentDocument.addNarrative(narrative);
+        if(getKualiRuleService().applyRules(new AddInstituteAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
+            proposalDevelopmentDocument.addInstituteAttachment(narrative);
             proposalDevelopmentForm.setNewInstitute(new Narrative());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
