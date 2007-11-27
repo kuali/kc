@@ -21,4 +21,4 @@
      
 <html:image  property="methodToCall.performInquiry.(!!${boClassName}!!).((#${inquiryParameters}#)).anchor${anchor}"
    onclick="javascript: inquiryPop('${boClassName}','${inquiryParameters}'); return false"
-   src="${ConfigProperties.kr.externalizable.images.url}book_open.png" styleClass="tinybutton" />
+   src="${ConfigProperties.kr.externalizable.images.url}book_open.png" styleClass="tinybutton" title="Direct Inquiry" alt="Direct Inquiry"/>
