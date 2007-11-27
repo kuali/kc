@@ -47,6 +47,4 @@ public interface ProposalDevelopmentService {
      */
     public BusinessObjectService getBusinessObjectService();
     
- // TODO : hack to validate only updatable reference
-    public void validateDocumentRecursively(PersistableBusinessObject businessObject, int depth);
 }

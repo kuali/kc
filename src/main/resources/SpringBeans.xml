@@ -192,5 +192,7 @@
 	</bean>
 	<bean id="proposalPersonBiographyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonBiographyServiceImpl">
 	</bean>
+		<bean id="documentValidationService" class="org.kuali.kra.service.impl.DocumentValidationServiceImpl">
+	</bean>
 	
 </beans>
