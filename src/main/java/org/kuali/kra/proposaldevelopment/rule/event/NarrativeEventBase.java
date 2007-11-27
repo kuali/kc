@@ -30,7 +30,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
  * @author $Author: shyu $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class NarrativeEventBase extends KraDocumentEventBase implements NarrativeEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NarrativeEventBase.class);
@@ -64,11 +64,6 @@ public abstract class NarrativeEventBase extends KraDocumentEventBase implements
         super(description, errorPathPrefix, document);
         narratives = new ArrayList<Narrative>();
         List<Narrative> narativeListToBeSaved = document.getNarratives();
-        for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
-            narratives.add((Narrative) ObjectUtils.deepCopy(narrativeToBeSaved));
-        }
-        // add inistitutes on top of it
-        narativeListToBeSaved = document.getInstitutes();
         for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
             narratives.add((Narrative) ObjectUtils.deepCopy(narrativeToBeSaved));
         }
