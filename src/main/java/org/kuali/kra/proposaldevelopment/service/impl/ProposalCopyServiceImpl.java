@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
@@ -196,6 +197,17 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 // referencing the same data.  Each must have its own
                 // local copies of the data.
                 value = ObjectUtils.deepCopy((Serializable) value);
+                
+                // If this is a persistable business object, its version number
+                // must be reset to null.  The OJB framework is responsible for
+                // setting the version number for its optimistic locking.  Or in
+                // other words, since this is a new object, its version number 
+                // cannot be the same as the original it was copied from.
+                
+                if (value instanceof PersistableBusinessObjectBase) {
+                    PersistableBusinessObjectBase obj = (PersistableBusinessObjectBase) value;
+                    obj.setVersionNumber(null);
+                }
             }
             property.setter.invoke(dest, value);
         }
