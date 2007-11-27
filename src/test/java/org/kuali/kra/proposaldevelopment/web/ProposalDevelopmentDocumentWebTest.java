@@ -80,6 +80,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         documentService = null;
     }
 
+
     @Test
     public void testProposalTypeLink() throws Exception {
         final WebClient webClient = new WebClient();
@@ -567,8 +568,88 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
      * Test personnel biography attachments.
      * @throws Exception
      */
-//    @Test
-//    public void testPersonnelAttachment() throws Exception {
+    @Test
+    public void testPersonnelAttachment() throws Exception {
+        final WebClient webClient = new WebClient();
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+        String person1Name="Terry Durkin";
+        
+        final HtmlPage pageAfterLogin = login(webClient, url,
+                "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+        assertEquals("Kuali :: Proposal Development Document", pageAfterLogin.getTitleText());
+
+        final HtmlForm kualiForm = (HtmlForm) pageAfterLogin.getForms().get(0);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up 
+
+        final HtmlPage keyPersonnelPage=getProposalPerson(webClient,pageAfterLogin, kualiForm);
+        final HtmlForm keyPersonnelForm = (HtmlForm) keyPersonnelPage.getForms().get(0);
+
+        
+        final HtmlPage abstractAttachmentPage = clickButton(keyPersonnelPage, keyPersonnelForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
+                SUBMIT_INPUT_BY_NAME);
+        final HtmlForm form1 = (HtmlForm) abstractAttachmentPage.getForms().get(0);
+        assertTrue(abstractAttachmentPage.asText().contains("Document was successfully saved"));
+        assertTrue(abstractAttachmentPage.asText().contains("Personnel Attachments &nbsp Timestamp Author * Person"));
+
+        // add new personnel attachment line
+        //String fileName="C:/java/projects/kra_project/src/main/webapp/en/htdocs/workflow-workspace.html";
+        String fileName=getFileName();
+        final HtmlPage pageAfterAddAttachment =setPersonnelAttachmentLine(abstractAttachmentPage,form1,"3;1;desc;"+fileName);
+        final HtmlForm form2 = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
+        assertTrue(pageAfterAddAttachment.asText().contains(person1Name+" Budget Details"));
+
+
+        // delete attachment
+        final HtmlPage pageAfterDeleteAttachment = clickButton(pageAfterAddAttachment, form2, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlForm form4 = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
+        assertFalse(pageAfterDeleteAttachment.asText().contains(person1Name+" Budget Details"));
+
+        // add line back
+        final HtmlPage pageWithAttachment =setPersonnelAttachmentLine(pageAfterDeleteAttachment,form4,"3;1;desc;"+fileName);
+        final HtmlForm form5 = (HtmlForm) pageWithAttachment.getForms().get(0);
+        assertTrue(pageWithAttachment.asText().contains(person1Name+" Budget Details"));
+
+        // save
+        final HtmlPage pageSave = clickButton(pageWithAttachment, form5, "methodToCall.save", IMAGE_INPUT);
+        final HtmlForm formAfterSave = (HtmlForm) pageSave.getForms().get(0);
+
+        assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertTrue(pageSave.asText().contains("Document was successfully saved"));
+        assertTrue(pageSave.asText().contains(person1Name+" Budget Details"));
+        
+        // try to view file - only work for html file now.  The otehr content type will cause castexception - unexpectedpage
+        final HtmlPage attachmentFilePage = clickButton(pageSave, formAfterSave, "methodToCall.viewPersonnelAttachment.line0.anchor", IMAGE_INPUT);
+        assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
+
+        
+        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
+
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
+        assertNotNull(doc);
+        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
+        ProposalPersonBiography personBio=(ProposalPersonBiography)doc.getPropPersonBios().get(0);
+        personBio.refreshReferenceObject("personnelAttachmentList");
+        ProposalPersonBiographyAttachment personnelAttachment=(ProposalPersonBiographyAttachment)personBio.getPersonnelAttachmentList().get(0);
+        assertNotNull(personnelAttachment);
+        assertEquals("workflow-workspace.html", personnelAttachment.getFileName());
+        assertEquals("text/html", personnelAttachment.getContentType());
+
+    }
+
+    /**
+     * 
+     * This method is to set up proposalpersons for personnel attachment test
+     * @param webClient
+     * @param pageAfterLogin
+     * @param kualiForm
+     * @return
+     * @throws Exception
+     */
+
+   // @Test
+   // public void testGetProposalPerson() throws Exception {
+   private HtmlPage getProposalPerson(WebClient webClient, HtmlPage pageAfterLogin,HtmlForm kualiForm) throws Exception {
 //        final WebClient webClient = new WebClient();
 //        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
 //
@@ -577,61 +658,30 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 //        assertEquals("Kuali :: Proposal Development Document", pageAfterLogin.getTitleText());
 //
 //        final HtmlForm kualiForm = (HtmlForm) pageAfterLogin.getForms().get(0);
-//        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
-//        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up 
-//
-//        
-//        final HtmlPage abstractAttachmentPage = clickButton(pageAfterLogin, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
-//                SUBMIT_INPUT_BY_NAME);
-//        final HtmlForm form1 = (HtmlForm) abstractAttachmentPage.getForms().get(0);
-//        assertTrue(abstractAttachmentPage.asText().contains("Document was successfully saved"));
-//        assertTrue(abstractAttachmentPage.asText().contains("Personnel Attachments &nbsp Timestamp Author * Person"));
-//
-//        // add new personnel attachment line
-//        //String fileName="C:/java/projects/kra_project/src/main/webapp/en/htdocs/workflow-workspace.html";
-//        String fileName=getFileName();
-//        final HtmlPage pageAfterAddAttachment =setPersonnelAttachmentLine(abstractAttachmentPage,form1,"3;1;desc;"+fileName);
-//        final HtmlForm form2 = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
-//        assertTrue(pageAfterAddAttachment.asText().contains("Durkin,Terry Budget Details"));
-//
-//
-//        // delete attachment
-//        final HtmlPage pageAfterDeleteAttachment = clickButton(pageAfterAddAttachment, form2, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
-//        final HtmlForm form4 = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
-//        assertFalse(pageAfterDeleteAttachment.asText().contains("Durkin,Terry Budget Details"));
-//
-//        // add line back
-//        final HtmlPage pageWithAttachment =setPersonnelAttachmentLine(pageAfterDeleteAttachment,form4,"3;1;desc;"+fileName);
-//        final HtmlForm form5 = (HtmlForm) pageWithAttachment.getForms().get(0);
-//        assertTrue(pageWithAttachment.asText().contains("Durkin,Terry Budget Details"));
-//
-//        // save
-//        final HtmlPage pageSave = clickButton(pageWithAttachment, form5, "methodToCall.save", IMAGE_INPUT);
-//        final HtmlForm formAfterSave = (HtmlForm) pageSave.getForms().get(0);
-//
-//        assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
-//        assertTrue(pageSave.asText().contains("Document was successfully saved"));
-//        assertTrue(pageSave.asText().contains("Durkin,Terry Budget Details"));
-//        
-//        // try to view file - only work for html file now.  The otehr content type will cause castexception - unexpectedpage
-//        final HtmlPage attachmentFilePage = clickButton(pageSave, formAfterSave, "methodToCall.viewPersonnelAttachment.line0.anchor", IMAGE_INPUT);
-//        assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
-//
-//        
-//        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
-//
-//        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
-//        assertNotNull(doc);
-//        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "123456", "project title", "2007-08-14", "2007-08-21", "1");
-//        ProposalPersonBiography personBio=(ProposalPersonBiography)doc.getPropPersonBios().get(0);
-//        personBio.refreshReferenceObject("personnelAttachmentList");
-//        ProposalPersonBiographyAttachment personnelAttachment=(ProposalPersonBiographyAttachment)personBio.getPersonnelAttachmentList().get(0);
-//        assertNotNull(personnelAttachment);
-//        assertEquals("workflow-workspace.html", personnelAttachment.getFileName());
-//        assertEquals("text/html", personnelAttachment.getContentType());
-//
-//    }
-//
+//        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+
+
+        final HtmlPage keyPersonnelPage = clickButton(pageAfterLogin, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.keyPersonnel.x",
+                SUBMIT_INPUT_BY_NAME);
+        final HtmlForm form1 = (HtmlForm) keyPersonnelPage.getForms().get(0);
+        // set up first person
+       final HtmlPage page2 = lookup(webClient, keyPersonnelPage, form1, "methodToCall.performLookup.(!!org.kuali.kra.bo.Person!!).(((personId:newPersonId)))", "000000001",
+                "proposalDevelopmentKeyPersonnel.do?refreshCaller=kualiLookupable", "personId");
+        final HtmlForm form2 = (HtmlForm) page2.getForms().get(0);
+        setFieldValue(form2, SELECTED_INPUT, "newProposalPerson.proposalPersonRoleId", "KP",4);
+        final HtmlPage page3 = clickButton(page2, form2, "methodToCall.insertProposalPerson", IMAGE_INPUT);
+        final HtmlForm form3 = (HtmlForm) page3.getForms().get(0);
+        
+        // set up 2nd person
+        final HtmlPage page4 = lookup(webClient, page3, form3, "methodToCall.performLookup.(!!org.kuali.kra.bo.Person!!).(((personId:newPersonId)))", "000000003",
+                "proposalDevelopmentKeyPersonnel.do?refreshCaller=kualiLookupable", "personId");
+        final HtmlForm form4 = (HtmlForm) page4.getForms().get(0);
+        setFieldValue(form4, SELECTED_INPUT, "newProposalPerson.proposalPersonRoleId", "KP",4);
+        return clickButton(page4, form4, "methodToCall.insertProposalPerson", IMAGE_INPUT);
+//        final HtmlPage page5=clickButton(page4, form4, "methodToCall.insertProposalPerson", IMAGE_INPUT);
+//        final HtmlForm form5 = (HtmlForm) page5.getForms().get(0);
+
+    }
 
     
 
