@@ -618,6 +618,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         managedLists.add(getNarratives());
         managedLists.add(getPropScienceKeywords());
         managedLists.add(getProposalAbstracts());
+        managedLists.add(getPropPersonBios());
         return managedLists;
 
     }
@@ -771,6 +772,16 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void addProposalPersonBiography(ProposalPersonBiography proposalPersonBiography) throws Exception {
         getProposalPersonBiographyService().addProposalPersonBiography(this, proposalPersonBiography);
     }
+    
+    /**
+     * 
+     * This method delete the attachment for the deleted personnel.
+     * @param proposalPerson
+     * @throws Exception
+     */
+    public void removePersonnelAttachmentForDeletedPerson(ProposalPerson proposalPerson) throws Exception {
+        getProposalPersonBiographyService().removePersonnelAttachmentForDeletedPerson(this, proposalPerson);
+    }
         
     /**
      * 
@@ -787,6 +798,15 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      */
     public void deleteProposalAttachment(int lineToDelete) {
         getNarrativeService().deleteProposalAttachment(this, lineToDelete);
+    }
+
+    /**
+     * 
+     * Method to add a new institute attachment to institutes list
+     * @param institute
+     */
+    public void addInstituteAttachment(Narrative institute) {
+        getNarrativeService().addInstituteAttachment(this, institute);
     }
 
     /**

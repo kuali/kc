@@ -68,8 +68,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.26 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.27 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -241,6 +241,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             if (person.isDelete()) {
                 person_it.remove();
                 document.getInvestigators().remove(person);
+                document.removePersonnelAttachmentForDeletedPerson(person);
             }
         }
         return mapping.findForward(MAPPING_BASIC);
