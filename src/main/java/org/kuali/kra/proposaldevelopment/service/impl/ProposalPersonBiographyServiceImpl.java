@@ -15,9 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -25,6 +29,10 @@ import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
 
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#addProposalPersonBiography(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography)
+     */
     public void addProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument,
             ProposalPersonBiography proposalPersonBiography) {
         proposalPersonBiography.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
@@ -57,5 +65,21 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         
     }
 
-
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#removePersonnelAttachmentForDeletedPerson(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     */
+    public void removePersonnelAttachmentForDeletedPerson(ProposalDevelopmentDocument proposaldevelopmentDocument, ProposalPerson person) {
+    
+        List<ProposalPersonBiography> personAttachments=new ArrayList();
+        for (ProposalPersonBiography proposalPersonBiography : proposaldevelopmentDocument.getPropPersonBios()) {
+            if (proposalPersonBiography.getProposalPersonNumber().equals(person.getProposalPersonNumber())) {
+                personAttachments.add(proposalPersonBiography);
+            }
+            
+        }
+        if (!personAttachments.isEmpty()) {
+            proposaldevelopmentDocument.getPropPersonBios().removeAll(personAttachments);
+        }
+    }
 }
