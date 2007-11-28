@@ -20,14 +20,17 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
+import org.kuali.kra.service.YnqService;
 
-public class YnqValidAnswersValuesFinder extends KeyValuesBase {
+public class YnqAnswersValuesFinder extends KeyValuesBase {
 
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair(Constants.ANSWER_YES_NO, "Yes, No"));
-        keyValues.add(new KeyLabelPair(Constants.ANSWER_YES_NO_NA, "Yes, No, N/A"));
+        keyValues.add(new KeyLabelPair("Y", "Yes"));
+        keyValues.add(new KeyLabelPair("N", "No"));
         return keyValues;
     }
 }
