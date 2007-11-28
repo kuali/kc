@@ -66,11 +66,14 @@ public class DocumentValidationServiceImpl extends PersistenceServiceStructureIm
                 List propertyList = (List) ObjectUtils.getPropertyValue(object, propertyDescriptor.getName());
                 for (int j = 0; j < propertyList.size(); j++) {
                     if (propertyList.get(j) != null && propertyList.get(j) instanceof PersistableBusinessObject) {
-                        GlobalVariables.getErrorMap().addToErrorPath(StringUtils.chomp(propertyDescriptor.getName(), "s") + "[" + (new Integer(j)).toString() + "]");
+                        // TODO : not sure why rice truncated 's' at the end of the property name
+                        //GlobalVariables.getErrorMap().addToErrorPath(StringUtils.chomp(propertyDescriptor.getName(), "s") + "[" + (new Integer(j)).toString() + "]");
+                        GlobalVariables.getErrorMap().addToErrorPath(propertyDescriptor.getName() + "[" + (new Integer(j)).toString() + "]");
                         if (updatableReferences.contains(propertyDescriptor.getName())) {
                             KNSServiceLocator.getDictionaryValidationService().validateBusinessObject((PersistableBusinessObject) propertyList.get(j));
                         }
-                        GlobalVariables.getErrorMap().removeFromErrorPath(StringUtils.chomp(propertyDescriptor.getName(), "s") + "[" + (new Integer(j)).toString() + "]");
+                        //GlobalVariables.getErrorMap().removeFromErrorPath(StringUtils.chomp(propertyDescriptor.getName(), "s") + "[" + (new Integer(j)).toString() + "]");
+                        GlobalVariables.getErrorMap().removeFromErrorPath(propertyDescriptor.getName() + "[" + (new Integer(j)).toString() + "]");
                     }
                 }
 
