@@ -217,6 +217,15 @@
   </table>
 </kul:innerTab>
 </td></tr>
+          	<tr>
+				<td colspan=4>
+
+<kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="true">
+              <table class=tab cellpadding=0 cellspacing="0" summary="" >
+              <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
+  </table>
+</kul:innerTab>
+</td></tr>
 </table>
            </div>
           </div>
