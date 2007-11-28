@@ -33,7 +33,16 @@
 				<field attributeName="explanationRequiredFor"/>
 				<field attributeName="dateRequiredFor"/>
 				<field attributeName="groupName"/>
-            </inquiryFields></inquirySection></inquirySections>
+            </inquiryFields></inquirySection>
+            <inquirySection title="Ynq Explanations">
+            <inquiryFields><inquiryCollection name="ynqExplanations" businessObjectClass="org.kuali.kra.bo.YnqExplanation">
+            <field attributeName="ynqExplanationType.description"></field>
+            <field attributeName="explanation"></field>
+            </inquiryCollection></inquiryFields>
+            
+            </inquirySection>
+            
+            </inquirySections>
         </inquiry>
 
         <lookup>
@@ -148,7 +157,7 @@
             <attribute name="explanationRequiredFor">
 			<label>Explanation Required For </label>
 			<shortLabel>Explanation Required For </shortLabel>
-			<maxLength>2</maxLength>
+			<maxLength>3</maxLength>
                 <control>
                     <radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" />
                 </control>
@@ -159,7 +168,7 @@
             <attribute name="dateRequiredFor" >
 			<label>Date Required For </label>
 			<shortLabel>Date Required For </shortLabel>
-			<maxLength>2</maxLength>
+			<maxLength>3</maxLength>
                 <control>
                     <radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" />
                 </control>
