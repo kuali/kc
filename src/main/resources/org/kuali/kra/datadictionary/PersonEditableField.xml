@@ -19,6 +19,36 @@
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.kra.bo.PersonEditableField">
+
+        <inquiry>
+            <title>Person Editable Fields</title>
+            <inquirySections><inquirySection title="Person Editable Field"><inquiryFields>
+                <field attributeName="fieldName" forceInquiry="true"/>
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Person Editable Field Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a PersonEditable Field</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="fieldName"/>
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="fieldName" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="fieldName" forceInquiry="true"/>
+           </resultFields>
+        </lookup>
+
         <titleAttribute>fieldName</titleAttribute>
         <attributes>
 
@@ -28,7 +58,7 @@
 			    <maxLength>30</maxLength>
 			    <validationPattern><alphaNumeric /></validationPattern>
                 <control>
-			    	<text size="30" />
+                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.PersonEditableFieldValuesFinder" />
                 </control>
                 <summary>Field Name </summary>
                 <description>Field Name </description>
