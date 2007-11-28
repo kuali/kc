@@ -34,7 +34,7 @@
 <kra-pd:proposalDevelopmentRequiredFields />
 <kra-pd:proposalDevelopmentSponsorProgramInformation />
 <kra-pd:proposalDevelopmentOrganizationAndLocation />
-<c:if test="${ProposalDevelopmentParameters.deliveryInfoDisplayIndicator.parameterValue == 'Y'}">
+<c:if test="${KualiForm.proposalDevelopmentParameters['deliveryInfoDisplayIndicator'].parameterValue == 'Y'}">
    <kra-pd:proposalDevelopmentDeliveryInfo />
 </c:if>
 

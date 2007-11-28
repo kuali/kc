@@ -15,13 +15,20 @@
  */
 package org.kuali.kra.infrastructure;
 
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.dao.BusinessObjectDao;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.CarrierType;
 
@@ -56,6 +63,13 @@ public class KraServiceLocatorTest extends KraTestBase {
 
         Collection carrierTypes = businessObjectDao.findAll(CarrierType.class);
         assertEquals(3, carrierTypes.size());
+    }
+
+    @Test public void testProposalDevelopmentParameters() throws Exception {
+        KualiConfigurationService configService = (KualiConfigurationService)KraServiceLocator.getService(KualiConfigurationService.class);
+        Map<String, Parameter> parameters = configService.getParametersByDetailTypeAsMap(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT);
+        assertNotNull(parameters);
+        assertEquals(13, parameters.size());
     }
 
 }

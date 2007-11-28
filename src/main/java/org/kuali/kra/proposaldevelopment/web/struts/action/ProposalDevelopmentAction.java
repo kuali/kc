@@ -29,9 +29,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.rule.event.DocumentAuditEvent;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -74,6 +76,11 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         if (proposalDevelopmentForm.isAuditActivated()) {
             KNSServiceLocator.getBean(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
         }
+
+        // setup any Proposal Development System Parameters that will be needed
+        KualiConfigurationService configService = (KualiConfigurationService)KraServiceLocator.getService(KualiConfigurationService.class);
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("deliveryInfoDisplayIndicator", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "deliveryInfoDisplayIndicator"));
+        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("proposalNarrativeTypeGroup", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "proposalNarrativeTypeGroup"));
 
         return actionForward;
     }
