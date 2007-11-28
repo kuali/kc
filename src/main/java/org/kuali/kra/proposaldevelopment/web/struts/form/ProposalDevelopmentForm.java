@@ -77,6 +77,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private boolean auditActivated;
     private ProposalCopyCriteria copyCriteria;
     private Map<String, Parameter> proposalDevelopmentParameters;
+    private Integer answerYesNo;
+    private Integer answerYesNoNA;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -506,4 +508,14 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public Map<String, Parameter> getProposalDevelopmentParameters() {
         return proposalDevelopmentParameters;
     }
+
+    public Integer getAnswerYesNo() {
+        return Constants.ANSWER_YES_NO;
+    }
+
+
+    public Integer getAnswerYesNoNA() {
+        return Constants.ANSWER_YES_NO_NA;
+    }
+
 }
