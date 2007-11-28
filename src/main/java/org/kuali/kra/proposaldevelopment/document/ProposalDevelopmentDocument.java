@@ -30,9 +30,11 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.YnqConstants;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -42,9 +44,12 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
+import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
+import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
+import org.kuali.kra.service.YnqService;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     
@@ -103,6 +108,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     transient private NarrativeService narrativeService;
     transient private ProposalPersonBiographyService proposalPersonBiographyService;
 
+    private List<ProposalYnq> proposalYnqs;
+    private List<YnqGroupName> ynqGroupNames;
 
     public ProposalDevelopmentDocument() {
         super();
@@ -117,6 +124,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         proposalAbstracts = new ArrayList<ProposalAbstract>();
         institutes = new ArrayList<Narrative>();
         propPersonBios = new ArrayList<ProposalPersonBiography>();
+        proposalYnqs = new ArrayList<ProposalYnq>();
+        ynqGroupNames = new ArrayList<YnqGroupName>();
+
     }
 
     public void initialize() {
@@ -881,4 +891,80 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
         return investigatorCreditTypes;
     }
+
+
+    public List<ProposalYnq> getProposalYnqs() {
+        return proposalYnqs;
+    }
+
+    public void setProposalYnqs(List<ProposalYnq> proposalYnqs) {
+        this.proposalYnqs = proposalYnqs;
+    }
+
+    /* get ynq explanation required / review date required column label */
+    private String getYnqRequiredLabel(String ynqCode) {
+        String retValue = null;
+        for (YnqConstants ynqConstants : YnqConstants.values()) {
+            if(ynqConstants.code().equalsIgnoreCase(ynqCode)) {
+                retValue =  ynqConstants.description();
+                break;
+            }
+        }
+        return retValue;
+    }
+    
+    /* get YNQ for proposal */
+    private void loadQuestions() {
+        String questionType = Constants.QUESTION_TYPE_PROPOSAL;
+        List<Ynq> ynqs = (KraServiceLocator.getService(YnqService.class).getYnq(questionType));
+        for (Ynq type : ynqs) {
+            ProposalYnq proposalYnq = new ProposalYnq();
+            proposalYnq.setQuestionId(type.getQuestionId());
+            proposalYnq.setYnq(type); 
+            /* check Date required for column in required */
+            if(type.getDateRequiredFor() == null) {
+                proposalYnq.setReviewDateRequired(false);
+            }else {
+                proposalYnq.setReviewDateRequiredDescription(Constants.YNQ_REVIEW_DATE_REQUIRED.concat(getYnqRequiredLabel(type.getDateRequiredFor())));
+            }
+            /* check Explanation required for column is mandatory */
+            if(type.getExplanationRequiredFor() == null) {
+                proposalYnq.setExplanationRequried(false);
+            }else {
+                proposalYnq.setExplanationRequiredDescription(Constants.YNQ_EXPLANATION_REQUIRED.concat(getYnqRequiredLabel(type.getExplanationRequiredFor())));
+            }
+            proposalYnqs.add(proposalYnq);
+            /* add distinct group names */
+            if(!isDuplicateGroupName(type.getGroupName())) {
+                YnqGroupName ynqGroupName = new YnqGroupName();
+                ynqGroupName.setGroupName(type.getGroupName());
+                ynqGroupNames.add(ynqGroupName);
+            }
+        }
+    }
+
+    public List<YnqGroupName> getYnqGroupNames() {
+        if(ynqGroupNames.isEmpty()) {
+            loadQuestions();
+        }
+        return ynqGroupNames;
+    }
+
+    public void setYnqGroupNames(List<YnqGroupName> ynqGroupNames) {
+        this.ynqGroupNames = ynqGroupNames;
+    }
+
+    private boolean isDuplicateGroupName(String groupName) {
+        boolean duplicateGroupName = false;
+        for (YnqGroupName type : ynqGroupNames) {
+            if(type.getGroupName().equalsIgnoreCase(groupName)) {
+                duplicateGroupName = true;
+                break;
+            }
+        }
+        return duplicateGroupName;
+    }
+
+
+    
 }
