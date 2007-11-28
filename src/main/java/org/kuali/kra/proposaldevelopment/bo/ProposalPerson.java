@@ -29,8 +29,8 @@ import org.kuali.core.util.KualiDecimal;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * @author $Author: lprzybyl $
- * @version $Revision: 1.15 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.16 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
@@ -53,6 +53,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private Person person;
     private boolean isInvestigator;
 
+    private List<ProposalPersonYnq> proposalPersonYnqs;
     /**
      *
      * new ProposalPerson
@@ -61,6 +62,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
         degrees = new ArrayList<ProposalPersonDegree>();
         units = new ArrayList<ProposalPersonUnit>();
         creditSplits = new ArrayList<ProposalPersonCreditSplit>();
+        proposalPersonYnqs = new ArrayList<ProposalPersonYnq>();
     }
     
     /**
@@ -468,4 +470,13 @@ public class ProposalPerson extends Person implements CreditSplitable {
     public void setDelete(boolean delete) {
         this.delete = delete;
     }
+
+    public List<ProposalPersonYnq> getProposalPersonYnqs() {
+        return proposalPersonYnqs;
+    }
+
+    public void setProposalPersonYnqs(List<ProposalPersonYnq> proposalPersonYnq) {
+        this.proposalPersonYnqs = proposalPersonYnqs;
+    }
+
 }

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq">
+
+	<!-- 
+        <inquiry>
+            <title>Prop Pers Ynq</title>
+
+            <inquirySections><inquirySection title="Prop Pers Ynq"><inquiryFields>
+            	<field attributeName="proposalPersonNumber" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="questionId" forceInquiry="true"/>
+				<field attributeName="answer"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+ 	-->
+        <lookup>
+            <title>Prop Pers Ynq Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Prop Pers Ynq</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="proposalPersonNumber"/>
+					<sortAttribute attributeName="proposalNumber"/>
+					<sortAttribute attributeName="questionId"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="proposalPersonNumber" required="false"/>
+				<lookupField attributeName="proposalNumber" required="false"/>
+				<lookupField attributeName="questionId" required="false"/>
+				<lookupField attributeName="answer" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="proposalPersonNumber" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="questionId" forceInquiry="true"/>
+				<field attributeName="answer" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>proposalPersonNumber</titleAttribute>
+        <attributes>
+
+	        <attribute name="proposalPersonNumber">
+			<label>Person Id </label>
+			<shortLabel>Person Id </shortLabel>
+			<maxLength>9</maxLength>
+			<control>
+				<text size="9" />
+			</control>
+			<summary>Person Id </summary>
+			<description>Person Id </description>
+			</attribute>
+
+			<attribute name="proposalNumber">
+			<label>Proposal Number </label>
+			<shortLabel>Proposal Number </shortLabel>
+			<maxLength>8</maxLength>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Proposal Number </summary>
+			<description>Proposal Number </description>
+			</attribute>
+
+			<attribute name="questionId">
+			<label>Question Id </label>
+			<shortLabel>Question Id </shortLabel>
+			<maxLength>4</maxLength>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Question Id </summary>
+			<description>Question Id </description>
+			</attribute>
+
+			<attribute name="answer">
+			<label>Answer </label>
+			<shortLabel>Answer </shortLabel>
+			<maxLength>1</maxLength>
+			<required>true</required>
+			<control>
+					<radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder" />
+			</control>
+			<summary>Answer </summary>
+			<description>Answer </description>
+			</attribute>
+
+			<attribute name="dummyAnswer">
+			<label>Answer </label>
+			<shortLabel>Answer </shortLabel>
+			<maxLength>1</maxLength>
+			<control>
+					<radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqDummyAnswersValuesFinder" />
+			</control>
+			<summary>Answer </summary>
+			<description>Answer </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
