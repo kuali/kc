@@ -150,12 +150,13 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                     }
 
                 }
-                if (propSpecialReview.getApplicationDate() !=null && propSpecialReview.getApprovalDate() != null && propSpecialReview.getApprovalDate().before(propSpecialReview.getApplicationDate())) {
-                    errorMap.putError("applicationDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,
-                            "Application Date","Approval Date"); 
-                }
 
             }
+            if (propSpecialReview.getApplicationDate() !=null && propSpecialReview.getApprovalDate() != null && propSpecialReview.getApprovalDate().before(propSpecialReview.getApplicationDate())) {
+                errorMap.putError("applicationDate", KeyConstants.ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW,
+                        "Application Date","Approval Date"); 
+            }
+
             errorMap.removeFromErrorPath("propSpecialReviews[" + i++ + "]");
         }
         return valid;
@@ -300,7 +301,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @see org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule#processAddInstituteAttachmentBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent)
      */
     public boolean processAddInstituteAttachmentBusinessRules(AddInstituteAttachmentEvent addInstituteAttachmentEvent) {
-        return new ProposalDevelopmentNarrativeRule().processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent);    
+        return new ProposalDevelopmentInstituteAttachmentRule().processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent);    
     }
 
     /**
@@ -308,7 +309,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @see org.kuali.kra.proposaldevelopment.rule.SaveInstituteAttachmentsRule#processSaveInstituteAttachmentsBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEvent)
      */
     public boolean processSaveInstituteAttachmentsBusinessRules(SaveInstituteAttachmentsEvent saveInstituteAttachmentsEvent) {
-        return new ProposalDevelopmentNarrativeRule().processSaveInstituteAttachmentsBusinessRules(saveInstituteAttachmentsEvent);
+        return new ProposalDevelopmentInstituteAttachmentRule().processSaveInstituteAttachmentsBusinessRules(saveInstituteAttachmentsEvent);
     }
 
 }
