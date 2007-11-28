@@ -27,10 +27,10 @@ public class AddInstituteAttachmentEvent extends NarrativeEventBase{
      * 
      * @param errorPathPrefix
      * @param proposalDevelopmentDocument
-     * @param narrative
+     * @param institute
      */
-    public AddInstituteAttachmentEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative) {
-        super("adding narrative to document " + getDocumentId(document), errorPathPrefix, document, narrative);
+    public AddInstituteAttachmentEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative institute) {
+        super("adding institute attachment to document " + getDocumentId(document), errorPathPrefix, document, institute);
     }
 
     /**
@@ -38,10 +38,10 @@ public class AddInstituteAttachmentEvent extends NarrativeEventBase{
      * 
      * @param errorPathPrefix
      * @param document
-     * @param narrative
+     * @param institute
      */
-    public AddInstituteAttachmentEvent(String errorPathPrefix, Document document, Narrative narrative) {
-        this(errorPathPrefix, (ProposalDevelopmentDocument) document, narrative);
+    public AddInstituteAttachmentEvent(String errorPathPrefix, Document document, Narrative institute) {
+        this(errorPathPrefix, (ProposalDevelopmentDocument) document, institute);
     }
 
     /**
