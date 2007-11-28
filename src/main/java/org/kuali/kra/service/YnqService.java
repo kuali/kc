@@ -17,7 +17,9 @@ package org.kuali.kra.service;
 
 import java.util.List;
 
+import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanationType;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 public interface YnqService {
     /**
@@ -26,4 +28,15 @@ public interface YnqService {
      */
     public List<YnqExplanationType> getYnqExplanationTypes();
 
+    /**
+     * This method returns list of YNQ - filter by question type.
+     * @return List of questions.
+     */
+    public List<Ynq> getYnq(String questionType);
+
+    /**
+     * This method returns list of Proposal Persons.
+     * @return List of proposal persons.
+     */
+    public List<ProposalPerson> getProposalPerson();
 }
