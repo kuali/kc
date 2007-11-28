@@ -16,17 +16,29 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanationType;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.service.YnqService;
 
 public class YnqServiceImpl implements YnqService {
 
     private BusinessObjectService businessObjectService;
     
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnqExplanationTypes()
+     */
     public List<YnqExplanationType> getYnqExplanationTypes() {
         Collection<YnqExplanationType> allTypes = new ArrayList();
         allTypes = businessObjectService.findAll(YnqExplanationType.class);
@@ -37,6 +49,49 @@ public class YnqServiceImpl implements YnqService {
         return ynqExplanationTypes;
     }
 
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnq(java.lang.String)
+     */
+    public List<Ynq> getYnq(String questionType) {
+        Map questionTypeMap = new HashMap();
+        /* filter by question type */
+        questionTypeMap.put("questionType", questionType);
+        String orderBy = "groupName";
+        Collection<Ynq> allTypes = new ArrayList();
+        allTypes = businessObjectService.findMatchingOrderBy(Ynq.class, questionTypeMap, orderBy, false);
+        List<Ynq> ynqs = new ArrayList();
+        
+        /* also filter all questions based on effective date - current date >= effective date */
+        Date currentDate= ((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentSqlDateMidnight();
+        /*
+        Calendar currentDateCal = ((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentCalendar();
+        int currentYear = currentDateCal.get(currentDateCal.YEAR);
+        int currentMonth = currentDateCal.get(currentDateCal.MONTH);
+        int currentDay = currentDateCal.get(currentDateCal.DATE);
+        currentDateCal.set(currentYear, currentMonth, currentDay, 0, 0, 0);
+        Date currentDate = currentDateCal.getTime();
+        */
+        for(Ynq type: allTypes) {
+            if(type.getEffectiveDate().compareTo(currentDate) < 0   ) {
+                ynqs.add(type);
+            }
+        } 
+        return ynqs;
+    }
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.YnqService#getProposalPerson()
+     */
+    public List<ProposalPerson> getProposalPerson() {
+        Collection<ProposalPerson> allTypes = new ArrayList();
+        allTypes = businessObjectService.findAll(ProposalPerson.class);
+        List<ProposalPerson> proposalPerson = new ArrayList();
+        for(ProposalPerson type: allTypes) {
+            proposalPerson.add(type);
+        } 
+        return proposalPerson;
+    }
+    
     /**
      * Gets the businessObjectService attribute.
      * @return Returns the businessObjectService.

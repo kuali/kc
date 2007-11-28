@@ -15,19 +15,31 @@
  */
 package org.kuali.kra.lookup.keyvalue;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.ui.KeyLabelPair;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.infrastructure.YnqConstants;
 
 public class YnqRequiredForValuesFinder extends KeyValuesBase {
 
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        for (YnqConstants ynqConstants : YnqConstants.values()) {
+            keyValues.add(new KeyLabelPair(ynqConstants.code(), ynqConstants.description()));
+        }
+    
+        /*
         keyValues.add(new KeyLabelPair("Y", "Yes"));
         keyValues.add(new KeyLabelPair("N", "No"));
-        keyValues.add(new KeyLabelPair("YN", "Both"));
+        keyValues.add(new KeyLabelPair("A", "NA"));
+        keyValues.add(new KeyLabelPair("YN", "Yes,No"));
+        keyValues.add(new KeyLabelPair("YNA", "Yes,No,N/A"));
+        keyValues.add(new KeyLabelPair("YA", "Yes,NA"));
+        keyValues.add(new KeyLabelPair("NNA", "No,NA"));
         keyValues.add(new KeyLabelPair(null, "None"));
+        */
         return keyValues;
     }
 }
