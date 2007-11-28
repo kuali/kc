@@ -154,7 +154,7 @@
 			<label>Protocol # </label>
 			<shortLabel>Protocol # </shortLabel>
 			<maxLength>20</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 			<control>
 				<text size="20" />
 			</control>
