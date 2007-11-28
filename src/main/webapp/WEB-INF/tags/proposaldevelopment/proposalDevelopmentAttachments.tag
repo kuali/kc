@@ -1,12 +1,12 @@
 <%--
  Copyright 2007 The Kuali Foundation.
- 
+
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.opensource.org/licenses/ecl1.php
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -92,7 +92,7 @@
             	<td colspan="4">
             	<div  align="left">
         	<c:forEach var="narrative" items="${KualiForm.document.narratives}" varStatus="status">
-        	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq ProposalDevelopmentParameters.proposalNarrativeTypeGroup.parameterValue}">
+        	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].parameterValue}">
 			<c:set var="narrType" value="${narrative.narrativeType.description}"/>
 			<c:set var="narrStatus" value="${narrative.narrativeStatus.description}"/>
 			<kul:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}">
@@ -180,7 +180,7 @@
 									<html:image styleId="deleteProposalAttachment.line${status.index}" property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 										<html:image styleId="getProposalAttachmentRights.line${status.index}" property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif'
 										onclick="javascript: proposalAttachmentRightsPop('${status.index}');return false"/>
 								</div>
 			                </td>
@@ -189,7 +189,7 @@
 			       </div>
 			     </kul:innerTab>
 			   </c:if>
-        	</c:forEach> 
+        	</c:forEach>
         	</div>
         	</td>
         	</tr>

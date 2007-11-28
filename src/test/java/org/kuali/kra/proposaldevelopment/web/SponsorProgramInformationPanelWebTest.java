@@ -21,7 +21,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class tests tests the Sponsor & Program Information panel of the Proposal Development
@@ -164,29 +163,5 @@ public class SponsorProgramInformationPanelWebTest extends ProposalDevelopmentWe
         // test label
         final HtmlDivision newPrimeSponsorNameDiv = (HtmlDivision) newProposalPage.getHtmlElementById("primeSponsorName.div");
         assertEquals("", newPrimeSponsorNameDiv.asText());
-    }
-
-    /**
-     * This method checks document fields against the passed in values
-     * @param doc the document to check values against
-     * @param activityType to check
-     * @param ownedByUnit to check
-     * @param description to check
-     * @param sponsorCode to check
-     * @param title toi check
-     * @param requestedStartDateInitial to check
-     * @param requestedEndDateInitial to check
-     * @param proposalTypeCode to check
-     * @throws WorkflowException
-     */
-    private void verifySavedRequiredFields(ProposalDevelopmentDocument doc, String activityType, String ownedByUnitNumber, String description, String sponsorCode, String title, String requestedStartDateInitial, String requestedEndDateInitial, String proposalTypeCode) throws WorkflowException {
-        assertEquals(activityType, doc.getActivityTypeCode());
-        assertEquals(ownedByUnitNumber, doc.getOwnedByUnitNumber());
-        assertEquals(description, doc.getDocumentHeader().getFinancialDocumentDescription());
-        assertEquals(sponsorCode, doc.getSponsorCode());
-        assertEquals(title, doc.getTitle());
-        assertEquals(requestedStartDateInitial, doc.getRequestedStartDateInitial().toString());
-        assertEquals(requestedEndDateInitial, doc.getRequestedEndDateInitial().toString());
-        assertEquals(proposalTypeCode, doc.getProposalTypeCode());
     }
 }
