@@ -68,7 +68,6 @@
                         <maintainableField name="ynqExplanationType.description" readOnly="true" />
                         <maintainableField name="questionId" />
                         <maintainableField name="explanation" required="false" />
-                        <!-- hidden fields -->
                         <maintainableField name="explanationType" />
                         <maintainableField name="versionNumber" />
                         <summaryFields>
