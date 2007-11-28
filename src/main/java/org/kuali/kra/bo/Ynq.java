@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.util.TypedArrayList;
+import static org.kuali.kra.infrastructure.Constants.ANSWER_YES_NO;
+import static org.kuali.kra.infrastructure.Constants.ANSWER_YES_NO_NA;
 
 public class Ynq extends KraPersistableBusinessObjectBase {
 
@@ -134,5 +136,6 @@ public class Ynq extends KraPersistableBusinessObjectBase {
     public void setYnqExplanations(List<YnqExplanation> ynqExplanations) {
         this.ynqExplanations = ynqExplanations;
     }
-    
+
+  
 }
