@@ -62,6 +62,10 @@
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
 
+		<collection-descriptor name="proposalYnqs" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
+
 		<!-- KEYWORD panel -->
    		<collection-descriptor name="propScienceKeywords" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber" />
@@ -379,6 +383,11 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
 		<collection-descriptor name="degrees" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<inverse-foreignkey field-ref="proposalPersonNumber"/>
+		</collection-descriptor>
+
+		<collection-descriptor name="proposalPersonYnqs" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="proposalPersonNumber"/>
 		</collection-descriptor>
@@ -783,6 +792,42 @@
 		</collection-descriptor>
 		-->
 	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq" table="EPS_PROP_PERS_YNQ">
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+        <field-descriptor name="proposalPersonNumber" column="PROP_PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="answer" column="ANSWER" jdbc-type="CHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="ProposalPerson" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="proposalPersonNumber"/> 
+			<foreignkey field-ref="proposalNumber"/> 
+		</reference-descriptor>
+		<reference-descriptor name="Ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="questionId"/> 
+		</reference-descriptor>
+	</class-descriptor>
+
+
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalYnq" table="EPS_PROP_YNQ">
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="answer" column="ANSWER" jdbc-type="CHAR" />
+		<field-descriptor name="explanation" column="EXPLANATION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="reviewDate" column="REVIEW_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<!-- 
+		<reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="proposalNumber"/> 
+		</reference-descriptor>
+		 -->
+		<reference-descriptor name="Ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="questionId"/> 
+		</reference-descriptor>
+	</class-descriptor>
+
 
 	<class-descriptor class="org.kuali.kra.bo.Ynq" table="YNQ">
 		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
