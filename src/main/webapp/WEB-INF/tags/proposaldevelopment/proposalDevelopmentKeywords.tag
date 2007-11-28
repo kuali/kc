@@ -6,7 +6,7 @@
 <c:set var="action" value="proposalDevelopmentProposal" />
 <c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 
-<kul:tab tabTitle="Keywords" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Keywords" defaultOpen="true" tabErrorKey="">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Keywords</h2></span>
@@ -24,7 +24,7 @@
               <td width="70%" class="infoline">${KualiForm.document.newDescription}
               		<kul:multipleValueLookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
               		lookedUpCollectionName="propScienceKeywords" 
-              		anchor="${currentTabIndex}"/>
+              		anchor="${tabKey}"/>
 			  </td>
 
               <td width="20%" class="infoline"><div align="center">
@@ -51,8 +51,8 @@
               <tr>
                 <td class="infoline" colspan=2>&nbsp;</td>
                 <td nowrap class="infoline"><div align=center>
-                <html:image property="methodToCall.selectAllScienceKeyword" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="javascript: selectAllKeywords(document);return false" />    
-                <html:image property="methodToCall.deleteSelectedScienceKeyword" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
+                <html:image property="methodToCall.selectAllScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-selectall.gif" title="Select All" alt="Select All" styleClass="tinybutton" onclick="javascript: selectAllKeywords(document);return false" />    
+                <html:image property="methodToCall.deleteSelectedScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
                 </div></td>
               </tr>
              
