@@ -27,10 +27,9 @@ public class SaveInstituteAttachmentsEvent extends NarrativeEventBase{
      * 
      * @param errorPathPrefix
      * @param proposalDevelopmentDocument
-     * @param narrative
      */
     public SaveInstituteAttachmentsEvent(String errorPathPrefix, ProposalDevelopmentDocument document) {
-        super("Adding narrative to document " + getDocumentId(document), errorPathPrefix, document);
+        super("Adding institute attachment to document " + getDocumentId(document), errorPathPrefix, document);
     }
 
     /**
@@ -38,7 +37,6 @@ public class SaveInstituteAttachmentsEvent extends NarrativeEventBase{
      * 
      * @param errorPathPrefix
      * @param document
-     * @param narrative
      */
     public SaveInstituteAttachmentsEvent(String errorPathPrefix, Document document) {
         this(errorPathPrefix, (ProposalDevelopmentDocument) document);
