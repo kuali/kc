@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.apache.commons.beanutils.PropertyUtils.getProperty;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
@@ -29,11 +28,8 @@ import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMEN
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,33 +39,29 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.service.YnqService;
 
 /**
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: shyu $
- * @version $Revision: 1.27 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.28 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -167,7 +159,14 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
-            getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
+            /* populate certification questions for new person */
+            ProposalPerson newProposalPerson = getPersonYNQ(pdform.getNewProposalPerson());
+
+            //document.addProposalPerson(pdform.getNewProposalPerson());
+            document.addProposalPerson(newProposalPerson);
+
+            //getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
+            getKeyPersonnelService().populateProposalPerson(newProposalPerson, document);
 
             pdform.setNewProposalPerson(new ProposalPerson());
             pdform.setNewRolodexId("");
@@ -180,6 +179,28 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return mapping.findForward(MAPPING_BASIC);
     }
 
+    /**
+     * Uses a <code>proposalPerson</code> obtained by adding new <code>{@link Person}</code> 
+     *
+     * @param proposalPerson
+     * @return ProposalPerson
+     */
+    public ProposalPerson getPersonYNQ(ProposalPerson proposalPerson) {
+        /* get YNQ for person */
+        if(proposalPerson.getProposalPersonYnqs().isEmpty()) {
+            String questionType = Constants.QUESTION_TYPE_INDIVIDUAL;
+            List<Ynq> ynqs = (KraServiceLocator.getService(YnqService.class).getYnq(questionType));
+            for (Ynq type : ynqs) {
+                ProposalPersonYnq proposalPersonYnq = new ProposalPersonYnq();
+                proposalPersonYnq.setQuestionId(type.getQuestionId());
+                proposalPersonYnq.setYnq(type); 
+                proposalPerson.getProposalPersonYnqs().add(proposalPersonYnq);
+            }
+        }
+        return proposalPerson;
+    }
+    
+    
     /**
      * Add a degree to a <code>{@link ProposalPerson}</code>
      *
