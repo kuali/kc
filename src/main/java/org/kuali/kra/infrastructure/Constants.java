@@ -72,4 +72,12 @@ public interface Constants {
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_NAME = "Sponsor & Program Information";
     public static final String PROPOSAL_PERSON_INVESTIGATOR = "investigator";
 
+    /* set values for ynq */
+    public static final Integer ANSWER_YES_NO = 2;
+    public static final Integer ANSWER_YES_NO_NA = 3;
+    public static final String QUESTION_TYPE_PROPOSAL = "P";
+    public static final String QUESTION_TYPE_INDIVIDUAL = "I"; // Investigator - Certification questions
+    public static final String YNQ_EXPLANATION_REQUIRED = "Explanation required: if answer = ";
+    public static final String YNQ_REVIEW_DATE_REQUIRED = "Date required: if answer = ";
+
 }
