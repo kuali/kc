@@ -605,6 +605,10 @@
             <displayName>Custom Data</displayName>
           </headerNavigationTab>
           <headerNavigationTab>
+            <navigateTo>questions</navigateTo>
+            <displayName>Questions</displayName>
+          </headerNavigationTab>
+          <headerNavigationTab>
             <navigateTo>actions</navigateTo>
             <displayName>Actions</displayName>
           </headerNavigationTab>
