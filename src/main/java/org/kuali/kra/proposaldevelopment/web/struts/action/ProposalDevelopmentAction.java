@@ -59,6 +59,8 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
 
         if (IDocHandler.INITIATE_COMMAND.equals(proposalDevelopmentForm.getCommand())) {
             proposalDevelopmentForm.getProposalDevelopmentDocument().initialize();
+        }else{
+            proposalDevelopmentForm.initialize();
         }
         return forward;
     }
@@ -97,7 +99,6 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         return super.save(mapping, form, request, response);
     }
 
@@ -151,19 +152,6 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
 //            proposalPersons.add(proposalPerson2);
 //            doc.setProposalPersons(proposalPersons);
 //        }
-        if(doc.getProposalUserRoles().isEmpty()){
-            List propUserRoles = doc.getProposalUserRoles();
-            ProposalUserRoles propUserRole1 = new ProposalUserRoles();
-            propUserRole1.setProposalNumber(doc.getProposalNumber());
-            propUserRole1.setRoleId(new Integer(101));
-            propUserRole1.setUserId("000000001");
-            propUserRoles.add(propUserRole1);
-            ProposalUserRoles propUserRole2 = new ProposalUserRoles();
-            propUserRole2.setProposalNumber(doc.getProposalNumber());
-            propUserRole2.setRoleId(new Integer(102));
-            propUserRole2.setUserId("000000003");
-            propUserRoles.add(propUserRole2);
-        }
         return mapping.findForward("abstractsAttachments");
     }
 
