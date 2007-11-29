@@ -1,6 +1,6 @@
 <%--
  Copyright 2007 The Kuali Foundation.
-
+ 
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -111,7 +111,7 @@
 					                <c:if test="${(narrative.viewAttachment || narrative.modifyAttachment) }">
 						                (
 						                <c:if test="${narrative.viewAttachment && (!empty narrative.fileName)}">
-						                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
+						                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
 							                <c:if test="${narrative.modifyAttachment}">
 							                &nbsp;|&nbsp;
 							                </c:if>
@@ -180,8 +180,8 @@
 									<html:image styleId="deleteProposalAttachment.line${status.index}" property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 										<html:image styleId="getProposalAttachmentRights.line${status.index}" property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif'
-										onclick="javascript: proposalAttachmentRightsPop('${status.index}');return false"/>
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
+										onclick="javascript: proposalAttachmentRightsPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
 								</div>
 			                </td>
 			            </tr>
@@ -189,7 +189,7 @@
 			       </div>
 			     </kul:innerTab>
 			   </c:if>
-        	</c:forEach>
+        	</c:forEach> 
         	</div>
         	</td>
         	</tr>
