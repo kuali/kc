@@ -72,17 +72,16 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
      * General Unit Test for entire Web Page.
      ***********************************************************************/
 
-// Failing on Bamboo server - temporarily commented out - bh79 11/28/2007
-//    /**
-//     * Verify that all the Help links on the web page go to the Kuali Help Web Page.
-//     * This will also test the help links on other panels on the page, but no big deal.
-//     * @throws Exception
-//     */
-//    @Test
-//    public void testHelpLinks() throws Exception {
-//        HtmlPage abstractsAndAttachmentsPage = getAbstractsAndAttachmentsPage();
-//        this.checkHelpLinks(abstractsAndAttachmentsPage);
-//    }
+    /**
+     * Verify that all the Help links on the web page go to the Kuali Help Web Page.
+     * This will also test the help links on other panels on the page, but no big deal.
+     * @throws Exception
+     */
+    @Test
+    public void testHelpLinks() throws Exception {
+        HtmlPage abstractsAndAttachmentsPage = getAbstractsAndAttachmentsPage();
+        this.checkHelpLinks(abstractsAndAttachmentsPage);
+    }
 
     /***********************************************************************
      * Unit Tests for Abstracts

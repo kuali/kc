@@ -101,17 +101,16 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     }
 
-//  Failing on Bamboo server - temporarily commented out - bh79 11/28/2007
-//    /**
-//     * Verify that all the Help links on the web page go to the Kuali Help Web Page.
-//     * This will test the help links on all the panels on the main Proposal Development page.
-//     * @throws Exception
-//     */
-//    @Test
-//    public void testHelpLinks() throws Exception {
-//        HtmlPage proposalDevelopmentPage = getProposalDevelopmentPage();
-//        this.checkHelpLinks(proposalDevelopmentPage);
-//    }
+    /**
+     * Verify that all the Help links on the web page go to the Kuali Help Web Page.
+     * This will test the help links on all the panels on the main Proposal Development page.
+     * @throws Exception
+     */
+    @Test
+    public void testHelpLinks() throws Exception {
+        HtmlPage proposalDevelopmentPage = getProposalDevelopmentPage();
+        this.checkHelpLinks(proposalDevelopmentPage);
+    }
 
     @Test
     public void testSaveProposalDevelopmentDocumentWeb() throws Exception {
