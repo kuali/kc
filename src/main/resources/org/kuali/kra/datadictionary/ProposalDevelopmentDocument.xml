@@ -212,8 +212,8 @@
                 <label>Sponsor Deadline Type</label>
                 <shortLabel>Sponsor Deadline Type</shortLabel>
 
-                <maxLength>1</maxLength>
-                <validationPattern><alphaNumeric /></validationPattern>
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter/></validationPattern>
 
                 <required>false</required>
 
@@ -298,7 +298,7 @@
                 <shortLabel>Notice of Opportunity</shortLabel>
 
                 <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <validationPattern><anyCharacter /></validationPattern>
 
                 <required>false</required>
 
