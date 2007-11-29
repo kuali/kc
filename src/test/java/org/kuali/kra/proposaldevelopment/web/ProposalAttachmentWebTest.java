@@ -31,6 +31,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
  */
 public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 
+    private static final String KEY_PERSONNEL_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.keyPersonnel.x";
+    private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
+
     @Test
     public void testProposalAttachment() throws Exception {
         
@@ -38,7 +41,10 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         final HtmlPage propDevPage = getProposalDevelopmentPage();
         setDefaultRequiredFields(propDevPage);
         
-      final HtmlPage propAttPage = clickOn(propDevPage, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x");
+        final HtmlPage keyPersonnelPage = clickOn(getProposalDevelopmentPage(), KEY_PERSONNEL_IMAGE_NAME);
+        
+        
+      final HtmlPage propAttPage = clickOn(addKeyPerson(keyPersonnelPage), "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x");
       
         assertTrue(propAttPage.asText().contains("Document was successfully saved"));
         // really is in proposal attachment page
@@ -77,13 +83,25 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
          * replace link will be disabled if user doesn't have proper right to modify
          * 
          */
-//        testNarrUserRights(uploadedPage,0);
+        testNarrUserRights(uploadedPage,2);
 //        
-//        savedPage = testSaveProposalAttachment(uploadedPage);
-//        
-//        testReplaceAttachment(uploadedPage,2);
+        savedPage = testSaveProposalAttachment(uploadedPage);
+        
+        testReplaceAttachment(savedPage,2);
     }
 
+    private HtmlPage addKeyPerson(HtmlPage keyPersonPage) throws Exception {
+        HtmlPage keyPersonnelPage = lookup(keyPersonPage, "org.kuali.kra.bo.Person","userName","quickstart");
+        assertEquals("Geoff McGregor", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
+        
+        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
+
+        clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
+
+        assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
+        return keyPersonnelPage;
+    }
 
     private void testNarrUserRights(HtmlPage propPage,int lineNumber) throws Exception{
         HtmlPage rightPage = clickOn(propPage, "getProposalAttachmentRights.line"+lineNumber);
@@ -95,16 +113,16 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         accessTypes.add("R");
         accessTypes.add("N");
         do{
-            String accessType = getFieldValue(rightPage, "document.narratives[0].narrativeUserRights["+(--roCnt)+"].accessType");
+            String accessType = getFieldValue(rightPage, "document.narratives["+lineNumber+"].narrativeUserRights["+(--roCnt)+"].accessType");
           //Check accessTypes are one of (M R or N)
           assertTrue(accessTypes.contains(accessType));
         }while(roCnt>0);
-        setFieldValue(rightPage, "document.narratives[0].narrativeUserRights[0].accessType", "M");
+        setFieldValue(rightPage, "document.narratives["+lineNumber+"].narrativeUserRights[0].accessType", "M");
         HtmlPage closePage = clickOn(rightPage, "methodToCall.addProposalAttachmentRights");
         assertContains(closePage, "Empty Page");
-        HtmlPage savedPage = testSaveProposalAttachment(propPage);
-        HtmlPage rightPage1 = clickOn(savedPage, "getProposalAttachmentRights.line"+lineNumber);
-//        assertEquals("M",getFieldValue(rightPage1,"document.narratives[0].narrativeUserRights[0].accessType"));
+//        HtmlPage savedPage = testSaveProposalAttachment(propPage);
+//        HtmlPage rightPage1 = clickOn(savedPage, "getProposalAttachmentRights.line"+lineNumber);
+//        assertEquals("M",getFieldValue(rightPage1,"document.narratives["+lineNumber+"].narrativeUserRights[0].accessType"));
         
     }
 

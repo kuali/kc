@@ -71,9 +71,6 @@ import org.kuali.rice.KNSServiceLocator;
  */
 public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevelopmentAction {
     private static final String EMPTY_STRING = "";
-    private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
-    private static final String ROLE_ID = "roleId";
-    private static final String PERSON_ID = "personId";
     private static final String MODULE_NUMBER = "moduleNumber";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAbstractsAttachmentsAction.class);
@@ -117,49 +114,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         proposalDevelopmentDocument.populateNarrativeRightsForLoggedinUser();
-        //Need to check with Terry
-//        populateNarrativeRightsForLoggedinUser(proposalDevelopmentForm);
         return super.execute(mapping, form, request, response);
     }    
 
-    /**
-     * 
-     * Consider moving this method to somewhere in the ProposalDevelopmentDocumentAuthorizer hierarchy
-     * This method Populate narrative rights for logged in user.
-     * @param proposalDevelopmentForm
-     */
-//    private void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentForm proposalDevelopmentForm) {
-//        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-//        List<Narrative> narrativeList = proposalDevelopmentDocument.getNarratives();
-//        NarrativeAuthZService narrativeAuthZService = getService(NarrativeAuthZService.class);
-//        //Have to get person id of logged in user for the time being, its been hard coded
-//        String updateUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
-//        String loggedInUserPersonId = "000000006";
-//        for (Narrative narrative : narrativeList) {
-//            narrative.setModifyAttachment(false);
-//            narrative.setViewAttachment(false);
-//            switch(narrativeAuthZService.authorize(narrative, loggedInUserPersonId)){
-//                case MODIFY_NARRATIVE_RIGHT:
-//                    narrative.setModifyAttachment(true);
-//                    break;
-//                case VIEW_NARRATIVE_RIGHT:
-//                    narrative.setViewAttachment(true);
-//                    break;
-//                case NO_NARRATIVE_RIGHT:
-//                    break;
-//            }
-//            List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
-//            for (NarrativeUserRights narrativeRight : narrativeUserRights) {
-//                if (narrativeRight.getUserId().equalsIgnoreCase(loggedInUserPersonId)) {
-//                    narrative.setViewAttachment(narrativeRight.getAccessType().equals(
-//                            NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType()));
-//                    narrative.setModifyAttachment(narrativeRight.getAccessType().equals(
-//                            NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType()));
-//                    break;
-//                }
-//            }
-//        }
-//    }
     /**
      * 
      * This method adds new proposal attachment(narrative) to the narrative list.
@@ -517,8 +474,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         Narrative narrative = proposalDevelopmentForm.getNewInstitute();
         narrative.setNarrativeTypeCode(narrative.getInstitutionalAttachmentTypeCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        if(getKualiRuleService().applyRules(new AddInstituteAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
-            proposalDevelopmentDocument.addInstituteAttachment(narrative);
+        if(getKualiRuleService().applyRules(new AddNarrativeEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
+            proposalDevelopmentDocument.addNarrative(narrative);
             proposalDevelopmentForm.setNewInstitute(new Narrative());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
