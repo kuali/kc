@@ -27,5 +27,15 @@
 			<fileset dir="${rice.project.loc}/kns/src/test/webapp/WEB-INF/tags/kr" excludes="**/CVS, **/*cvsignore" />
 		</copy>
 	</target>
+	
+	<target name="dist-external">
+			<!--
+			<echo file="${log4j.file}" message="${log4j}" />
+			<echo file="${security.file}" message="${security}"  />
+			<zip destfile="${deploy.working.directory}/settings.zip" basedir="${basedir}" includes="${log4j.file}" />
+			<zip destfile="${deploy.working.directory}/security.zip" basedir="${basedir}" includes="${security.file}" />
+			<zip destfile="${deploy.working.directory}/skel.zip" basedir="${build.work.directory}" />
+			-->
+	</target>
 
 </project>
