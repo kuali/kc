@@ -60,8 +60,8 @@ import org.kuali.kra.service.YnqService;
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: gthomas $
- * @version $Revision: 1.29 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.30 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -163,7 +163,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             ProposalPerson newProposalPerson = getPersonYNQ(pdform.getNewProposalPerson());
 
             //document.addProposalPerson(pdform.getNewProposalPerson());
-            document.addProposalPerson(newProposalPerson);
+            //document.addProposalPerson(newProposalPerson);
 
             //getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
             getKeyPersonnelService().populateProposalPerson(newProposalPerson, document);
