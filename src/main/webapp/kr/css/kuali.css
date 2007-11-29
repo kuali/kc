@@ -629,6 +629,46 @@ img.helpicon
 	padding-bottom: 10px;
 }
 
+#workarea div.tab-message-container
+{
+	background-color: #e4e4e4;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #666666;
+	background-image: url("../images/tab-sideright1.gif");
+	background-repeat: repeat-y;
+	background-position: right;
+	width: 98%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#workarea div.tab-info-container
+{
+	background-color: #e4e4e4;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #666666;
+	background-image: url("../images/tab-sideright1.gif");
+	background-repeat: repeat-y;
+	background-position: right;
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#workarea div.h2-tab-container
+{
+	border-top: 1px solid #666666;
+	background-color: #999999;
+	height: 12px;
+	text-align: left;
+	margin: 0px;
+	width: 98%;
+	border-top: 1px solid #666666;
+	border-bottom: 1px solid #666666;
+}
+
 #workarea div.tab-container-error
 {
 	background-color: #e4e4e4;
