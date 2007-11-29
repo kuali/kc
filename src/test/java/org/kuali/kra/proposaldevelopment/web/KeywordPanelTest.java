@@ -37,8 +37,8 @@ public class KeywordPanelTest extends ProposalDevelopmentWebTestBase{
     private static final String CHECKBOX_CHECKED = "on";
     private static final String CHECKBOX_UNCHECKED = "off";
     private static final String JS_SELECT_ALL = "selectAllKeywords(document)";
-    private static final String BUTTON_DELETE_SELECTED = "methodToCall.deleteSelectedScienceKeyword";
-    private static final String BUTTON_SELECT_ALL = "methodToCall.selectAllScienceKeyword";
+    private static final String BUTTON_DELETE_SELECTED = "methodToCall.deleteSelectedScienceKeyword.anchorKeywords";
+    private static final String BUTTON_SELECT_ALL = "methodToCall.selectAllScienceKeyword.anchorKeywords";
     private static final String BUTTON_SAVE = "save";
     private String keywordStatus = CHECKBOX_UNCHECKED;
 
