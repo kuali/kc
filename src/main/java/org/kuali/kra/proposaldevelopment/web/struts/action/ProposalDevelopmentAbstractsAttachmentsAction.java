@@ -474,8 +474,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         Narrative narrative = proposalDevelopmentForm.getNewInstitute();
         narrative.setNarrativeTypeCode(narrative.getInstitutionalAttachmentTypeCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        if(getKualiRuleService().applyRules(new AddNarrativeEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
-            proposalDevelopmentDocument.addNarrative(narrative);
+        if(getKualiRuleService().applyRules(new AddInstituteAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
+            proposalDevelopmentDocument.addInstituteAttachment(narrative);
             proposalDevelopmentForm.setNewInstitute(new Narrative());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
