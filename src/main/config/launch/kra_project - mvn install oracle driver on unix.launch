@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launchConfiguration type="org.maven.ide.eclipse.Maven2LaunchConfigurationType">
+<listAttribute key="M2_PROPERTIES">
+<listEntry value="groupId=com.oracle"/>
+<listEntry value="artifactId=ojdbc14"/>
+<listEntry value="version=10.1.0.3.0"/>
+<listEntry value="packaging=jar"/>
+<listEntry value="file=/java/drivers/ojdbc14.jar"/>
+</listAttribute>
+<stringAttribute key="M2_GOALS" value="install:install-file"/>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.ui.externaltools.launchGroup"/>
+</listAttribute>
+<stringAttribute key="M2_PROFILES" value=""/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:/kra_project}"/>
+</launchConfiguration>
