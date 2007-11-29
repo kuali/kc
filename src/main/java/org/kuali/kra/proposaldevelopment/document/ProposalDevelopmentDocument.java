@@ -943,6 +943,10 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }
     }
 
+    public void populateDummyPropUserRolesForNarrative() {
+        getNarrativeService().populateDummyUserRoles(this);
+    }
+
     public List<YnqGroupName> getYnqGroupNames() {
         if(ynqGroupNames.isEmpty()) {
             loadQuestions();

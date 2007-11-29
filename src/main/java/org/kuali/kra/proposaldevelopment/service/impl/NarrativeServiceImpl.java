@@ -33,6 +33,7 @@ import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
@@ -62,7 +63,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         narrative.refreshReferenceObject("narrativeType");
         narrative.refreshReferenceObject("narrativeStatus");
         narrative.populateAttachment();
-        addNarrativeUserRights(proposaldevelopmentDocument,narrative);
+        populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
         proposaldevelopmentDocument.getNarratives().add(narrative);
     }
     /**
@@ -71,12 +72,21 @@ public class NarrativeServiceImpl implements NarrativeService {
      * It looks for proposal persons who has narrative rights and add it to narrative
      * @param narrative
      */
-    private void addNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-        List<ProposalUserRoles> proposalUserRoles = proposaldevelopmentDocument.getProposalUserRoles();
+    private void populateNarrativeUserRights(ProposalDevelopmentDocument proposalDevelopmentDocument,Narrative narrative) {
+        List<ProposalUserRoles> proposalUserRoles = proposalDevelopmentDocument.getProposalUserRoles();
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
         for (ProposalUserRoles proposalUserRole : proposalUserRoles) {
+            boolean continueFlag = false;
+            for (NarrativeUserRights narrativeUserRight : narrativeUserRights) {
+                if(StringUtils.equals(narrativeUserRight.getUserId(),proposalUserRole.getUserId())){
+                    continueFlag = true;
+                    break;
+                }
+            }
+            if(continueFlag) continue;
+    
             NarrativeRight narrativeRight = narrativeAuthZService.getNarrativeRight(proposalUserRole.getRoleId());
-            String personName = proposalPersonService.getPersonName(proposaldevelopmentDocument, proposalUserRole.getUserId());
+            String personName = proposalPersonService.getPersonName(proposalDevelopmentDocument, proposalUserRole.getUserId());
             NarrativeUserRights narrUserRight = new NarrativeUserRights();
             narrUserRight.setProposalNumber(narrative.getProposalNumber());
             narrUserRight.setModuleNumber(narrative.getModuleNumber());
@@ -131,7 +141,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#populatePersonNameForNarrativeUserRights(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.Narrative)
      */
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-//        Narrative narrative = getNarratives().get(lineNumber);
+        populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
         for (NarrativeUserRights narrativeUserRight : narrativeUserRights) {
             String personName = proposalPersonService.getPersonName(proposaldevelopmentDocument, narrativeUserRight.getUserId());
@@ -259,5 +269,29 @@ public class NarrativeServiceImpl implements NarrativeService {
     
     private boolean isProposalAttachmentType(Narrative narrative) {
         return !(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE.equals(narrative.getNarrativeType().getNarrativeTypeGroup()));
+    }
+    /**
+     * Dummy method to add proposal user roles for narrative. This should be removed after 
+     * proposal user roles maintenance screen implementation
+     * 
+     */
+    public void populateDummyUserRoles(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        List<ProposalPerson> propPersons = proposalDevelopmentDocument.getProposalPersons();
+        List<ProposalUserRoles> propUserRoles = proposalDevelopmentDocument.getProposalUserRoles();
+        for (ProposalPerson proposalPerson : propPersons) {
+            boolean continueFlag = false;
+            for (ProposalUserRoles proposalUserRole : propUserRoles) {
+                if(StringUtils.equals(proposalUserRole.getUserId(),proposalPerson.getPersonId())){
+                    continueFlag = true;
+                    break;
+                }
+            }
+            if(continueFlag) continue;
+            ProposalUserRoles propUserRole = new ProposalUserRoles();
+            propUserRole.setProposalNumber(proposalDevelopmentDocument.getProposalNumber());
+            propUserRole.setRoleId(new Integer(102));
+            propUserRole.setUserId(proposalPerson.getPersonId());
+            propUserRoles.add(propUserRole);
+        }
     }
 }

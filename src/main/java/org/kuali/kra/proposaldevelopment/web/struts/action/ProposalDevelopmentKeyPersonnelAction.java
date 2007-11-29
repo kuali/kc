@@ -60,8 +60,8 @@ import org.kuali.kra.service.YnqService;
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: rmancher $
- * @version $Revision: 1.28 $
+ * @author $Author: gthomas $
+ * @version $Revision: 1.29 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -339,6 +339,23 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         // if the rule evaluation passed, then save. It is possible that invoking save without checking rules first will
         // let the document save anyhow, so let's check first.
         if (rulePassed) {
+            
+            
+            
+            /////////ATTN:///////////////
+            /*
+             * Adding dummy records for narrative rights(modify right) to all prop users
+             * This has to be removed after implementing proposal user roles
+             * by Geo
+             */
+            //BEGIN BLOCK to be REMOVED
+            ProposalDevelopmentDocument doc = pdform.getProposalDevelopmentDocument();
+            doc.populateDummyPropUserRolesForNarrative();
+            //END BLOCK to be REMOVED
+            
+            
+            
+            
             return super.save(mapping, form, request, response);
         }
         return mapping.findForward(MAPPING_BASIC);
