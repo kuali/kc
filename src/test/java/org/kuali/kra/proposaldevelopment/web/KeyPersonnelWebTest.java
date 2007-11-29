@@ -23,8 +23,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>
- *  @author $Author: bghutchi $
- *  @version $Revision: 1.2 $
+ *  @author $Author: gmcgrego $
+ *  @version $Revision: 1.3 $
  */
 public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelWebTest.class);
@@ -106,12 +106,11 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         saveAndSearchDoc(keyPersonnelPage);
     }
 
-//  Failing on Bamboo server - temporarily commented out - bh79 11/28/2007
-//    /**
-//     * @see org.kuali.kra.KraWebTestBase#testHelpLinks()
-//     */
-//    @Test
-//    public void testHelpLinks() throws Exception {
-//        super.testHelpLinks();
-//    }
+    /**
+     * @see org.kuali.kra.KraWebTestBase#testHelpLinks()
+     */
+    @Test
+    public void testHelpLinks() throws Exception {
+        super.testHelpLinks();
+    }
 }
