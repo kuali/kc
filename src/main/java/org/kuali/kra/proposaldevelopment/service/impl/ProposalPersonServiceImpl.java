@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -50,6 +51,12 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
                 propPersonName = proposalPerson.getFullName();
                 break;
             }
+        }
+        if(StringUtils.isBlank(propPersonName)){
+            Map<String,String> queryMap = new HashMap<String,String>();
+            queryMap.put("personId", userId);
+            Person person = (Person)getBusinessObjectService().findByPrimaryKey(Person.class, queryMap);
+            propPersonName = person.getFullName();
         }
         return propPersonName;
     }
