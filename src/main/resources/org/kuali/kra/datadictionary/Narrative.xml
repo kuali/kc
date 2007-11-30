@@ -292,9 +292,9 @@
 				<description>Phone Number</description>
 			</attribute>
 			<attribute name="updateUser">
-				<label>Author</label>
-				<shortLabel>Author</shortLabel>
-				<maxLength>8</maxLength>
+				<label>Uploaded By</label>
+				<shortLabel>Uploaded By</shortLabel>
+				<maxLength>12</maxLength>
 				<validationPattern>
 					<anyCharacter />
 				</validationPattern>
@@ -305,8 +305,8 @@
 				<description>User who uploads the document</description>
 			</attribute>
 			<attributeReference name="updateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-				<label>Timestamp</label>
-				<shortLabel>Timestamp</shortLabel>
+				<label>Posted Timestamp</label>
+				<shortLabel>Posted Timestamp</shortLabel>
 				<summary>Date and Time when attachments gets uploaded</summary>
 				<description>Date and Time when attachments gets uploaded</description>
 			</attributeReference>
