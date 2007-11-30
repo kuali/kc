@@ -138,7 +138,7 @@
                 			<c:param name="showEdit" value="no" />
 	          			  </c:url>
 		  	  			  <c:set var="displayName" value="${member.displayName}"/>
-			   			  <c:if test="${UserSession.workflowUser.workflowId != member.workflowId}">
+			   			  <c:if test="${kewUserSession.workflowUser.workflowId != member.workflowId}">
   		         			<c:set var="displayName" value="${member.displayNameSafe}"/>
 			   				</c:if>
 		  			    <c:out value="${displayName}" />
@@ -164,7 +164,8 @@
 					<html-el:text property="workgroupMember" />&nbsp;
 					<html-el:image property="methodToCall.performLookup" src="${resourcePath}images/searchicon.gif" alt="search" align="absmiddle" onclick="document.forms[0].elements['lookupableImplServiceName'].value = 'memberLookup';"/>&nbsp;
 					<html-el:image src="${resourcePath}images/tinybutton-addmember.gif" align="absmiddle" property="methodToCall.addMember" />&nbsp;<bean-el:message key="general.help.workGroupMember"/><br>
-			  		  <logic-el:iterate id="member" name="WorkgroupForm" property="workgroupMembers" indexId="ctr">
+			  		  <%-- <logic-el:iterate id="member" name="WorkgroupForm" property="workgroupMembers" indexId="ctr"> --%>
+			  		  <c:forEach var="member" items="${WorkgroupForm.workgroupMembers}" varStatus="ctr">
 	            	  <table width="100%" border=0 cellspacing=0 cellpadding=0>
 	            		<tr>
 	               		  <td width="50%">
@@ -174,7 +175,7 @@
 	               		    	<c:param name="methodToCall" value="report" />
                                 <c:param name="showEdit" value="no" />
 	               		    </c:url><c:set var="displayName" value="${member.displayName}"/>
-			   <c:if test="${UserSession.workflowUser.workflowId != member.workflowId}">
+			   <c:if test="${kewUserSession.workflowUser.workflowId != member.workflowId}">
   		         <c:set var="displayName" value="${member.displayNameSafe}"/>
 			   </c:if>
 		  			        <c:out value="${displayName}" />
@@ -188,17 +189,25 @@
 	               		    </c:url>
 		  			        <a href="<c:out value="${workgroupReportUrl}"/>"><c:out value="${member.displayName}" /></a>&nbsp;
 		                    </c:if>
+		                    <%--
 					  	    <html-el:hidden property="workgroupMembers[${ctr}].workflowId" />
 					  	    <html-el:hidden property="workgroupMembers[${ctr}].memberType" />
 					  	    <html-el:hidden property="workgroupMembers[${ctr}].displayName" />
 					  	    <html-el:hidden property="workgroupMembers[${ctr}].authenticationId" />
+		                    --%>
+					  	    <html-el:hidden property="workgroupMembers[${ctr.index}].workflowId" />
+					  	    <html-el:hidden property="workgroupMembers[${ctr.index}].memberType" />
+					  	    <html-el:hidden property="workgroupMembers[${ctr.index}].displayName" />
+					  	    <html-el:hidden property="workgroupMembers[${ctr.index}].displayNameSafe" />
+					  	    <html-el:hidden property="workgroupMembers[${ctr.index}].authenticationId" />
 	            		  </td>
 		  	              <td width="50%">
-	                		<html-el:image src="${resourcePath}images/tinybutton-removemember.gif" align="absmiddle" property="methodToCall.removeMember" onclick="removedMember.value=${ctr}" /><br>
+	                		<html-el:image src="${resourcePath}images/tinybutton-removemember.gif" align="absmiddle" property="methodToCall.removeMember" onclick="removedMember.value=${ctr.index}" /><br>
 	            		  </td>
 	            		</tr>
 	           		  </table>
-			  		  </logic-el:iterate>
+	           		  </c:forEach>
+			  		  <%-- </logic-el:iterate> --%>
 
 			  			<html-el:hidden property="removedMember" />
 					</td>

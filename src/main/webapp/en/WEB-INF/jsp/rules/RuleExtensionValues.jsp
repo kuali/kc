@@ -60,7 +60,7 @@
 			<c:out value="${rule.fields[fieldIndex].value}" />
 	  </c:otherwise>
 	</c:choose>
-  	<c:set var="fieldIndex" value="${fieldIndex+1}"/>
+  	<c:set var="fieldIndex" value="${fieldIndex+1}"/>&nbsp;
   </c:forEach>
 </td>
 </tr>
