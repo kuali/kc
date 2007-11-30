@@ -19,6 +19,7 @@
   <html-el:form method="get" action="/Lookup.do">
   <input type="hidden" name="returnLocation"/>
   <input type="hidden" name="quickFinderLookupable"/>
+  <input type="hidden" name="customFieldConversions"/>
   <html-el:hidden name="LookupForm" property="backLocation" />
   <html-el:hidden name="LookupForm" property="formKey" />
   <html-el:hidden name="LookupForm" property="methodToCall" />

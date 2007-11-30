@@ -6,7 +6,7 @@
 <%@ taglib uri="../../tld/displaytag.tld" prefix="display-el" %>
 
 <c:set var="displayName" value="${actionRequest.workflowUser.displayName}"/>
-<c:if test="${UserSession.workflowUser.workflowId != actionRequest.workflowUser.workflowId}">
+<c:if test="${kewUserSession.workflowUser.workflowId != actionRequest.workflowUser.workflowId}">
   <c:set var="displayName" value="${actionRequest.workflowUser.displayNameSafe}"/>
 </c:if>
 
@@ -86,7 +86,7 @@
 										              	 <c:when test="${roleRequest.primaryDelegator}">
 										              	 	<c:forEach var="primDelegateRequest" items="${roleRequest.primaryDelegateRequests}" varStatus="pDelegateArStatus">
 										              	 	<c:set var="primDelegateDisplayName" value="${primDelegateRequest.workflowUser.displayName}"/>
-															<c:if test="${UserSession.workflowUser.workflowId != primDelegateRequest.workflowUser.workflowId}">
+															<c:if test="${kewUserSession.workflowUser.workflowId != primDelegateRequest.workflowUser.workflowId}">
   																<c:set var="primDelegateDisplayName" value="${primDelegateRequest.workflowUser.displayNameSafe}"/>
 															</c:if>
 										              	 	<c:if test="${primDelegateRequest.userRequest}">
@@ -126,7 +126,7 @@
 										              	 </c:when>
     										             <c:otherwise>
     										                <c:set var="roleDisplayName" value="${roleRequest.workflowUser.displayName}"/>
-															<c:if test="${UserSession.workflowUser.workflowId != roleRequest.workflowUser.workflowId}">
+															<c:if test="${kewUserSession.workflowUser.workflowId != roleRequest.workflowUser.workflowId}">
   																<c:set var="roleDisplayName" value="${roleRequest.workflowUser.displayNameSafe}"/>
 															</c:if>
 											              	 <a style="color:white" href="

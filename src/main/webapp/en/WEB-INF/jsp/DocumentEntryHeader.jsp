@@ -27,7 +27,7 @@
           <td align=left nowrap class="thnormal">
             <div align=right>Document ID:</div>
           </td>
-          <td nowrap class="datacell1"><nobr><c:out value="${ActionForm.flexDoc.routeHeaderId}"/></nobr></td>
+          <td nowrap class="datacell1"><nobr><a href="RouteLog.do?docId=<c:out value="${ActionForm.flexDoc.routeHeaderId}"/>"><c:out value="${ActionForm.flexDoc.routeHeaderId}"/></a></nobr></td>
         </tr>
         <tr>
           <td align=left nowrap class="th2">

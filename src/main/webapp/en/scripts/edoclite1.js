@@ -289,6 +289,9 @@ function getFieldName(fieldInputs) {
 					return fieldInputs[i].name;
 				}
 			}
+			if (!fieldInputs[0].disabled) {
+				return fieldInputs[0].name;
+			}	
 		}
 		throw 'Problem determining field name for inputs, type was: ' + type;
 	}

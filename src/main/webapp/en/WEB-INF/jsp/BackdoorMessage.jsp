@@ -5,9 +5,9 @@
 <%@ taglib uri="../tld/fmt.tld" prefix="fmt" %>
 <%@ taglib uri="../tld/displaytag.tld" prefix="display-el" %>
 
-<c:if test="${edu.iu.uis.eden.web.session.UserSession.backdoorInUse}">
+<c:if test="${kewUserSession.backdoorInUse}">
 <center>
-	Backdoor is in use.  User <c:out value="${edu.iu.uis.eden.web.session.UserSession.loggedInWorkflowUser.authenticationUserId.authenticationId}" /> standing in for 
-	<c:out value="${edu.iu.uis.eden.web.session.UserSession.networkId}" />.
+	Backdoor is in use.  User <c:out value="${kewUserSession.loggedInWorkflowUser.authenticationUserId.authenticationId}" /> standing in for
+	<c:out value="${kewUserSession.networkId}" />.
 </center>
 </c:if>
