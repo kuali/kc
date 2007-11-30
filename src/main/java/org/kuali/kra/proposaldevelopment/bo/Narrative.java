@@ -304,4 +304,8 @@ public class Narrative extends KraPersistableBusinessObjectBase {
         return (NarrativeUserRights) getNarrativeUserRights().get(index);
     }
 
+    public void clearAttachment() {
+        getNarrativeAttachmentList().clear();
+    }
+
 }
