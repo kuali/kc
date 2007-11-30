@@ -123,14 +123,14 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         ErrorMap errorMap = GlobalVariables.getErrorMap();
 
         int i = 0;
-
+        
         for (ProposalSpecialReview propSpecialReview : proposalDevelopmentDocument.getPropSpecialReviews()) {
             errorMap.addToErrorPath("propSpecialReview[" + i + "]");
             propSpecialReview.refreshReferenceObject("validSpecialReviewApproval");
             if (StringUtils.isNotBlank(propSpecialReview.getApprovalTypeCode()) && StringUtils.isNotBlank(propSpecialReview.getSpecialReviewCode())) {
                 ValidSpecialReviewApproval validSpRevApproval = propSpecialReview.getValidSpecialReviewApproval();
                 if (validSpRevApproval != null) {
-                    if (validSpRevApproval.isProtocolNumberFlag() && StringUtils.isNotBlank(propSpecialReview.getProtocolNumber())) {
+                    if (validSpRevApproval.isProtocolNumberFlag() && StringUtils.isBlank(propSpecialReview.getProtocolNumber())) {
                         valid = false;
                         errorMap.putError("protocolNumber", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, "Protocol Number",
                                 validSpRevApproval.getSpecialReview().getDescription() + "/"
