@@ -130,6 +130,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         // TODO temporarily to set up proposal person- remove this once keyperson is completed and htmlunit testing fine
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        doc.populateNarrativeRightsForLoggedinUser();
 //        if (doc.getProposalPersons().isEmpty()) {
 //            List proposalPersons = new ArrayList();
 //            ProposalPerson proposalPerson=new ProposalPerson();

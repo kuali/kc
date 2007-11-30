@@ -17,8 +17,13 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_NUMBER;
 import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_SEQUENCE_NUMBER;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -56,16 +62,41 @@ public class NarrativeServiceImpl implements NarrativeService {
      */
     public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
         narrative.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
-        narrative.setModuleNumber(proposaldevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_NUMBER));
-        narrative.setModuleSequenceNumber(proposaldevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_SEQUENCE_NUMBER));
+//        narrative.setModuleNumber(proposaldevelopmentDocument.getNSaveProposalNextValue(NARRATIVE_MODULE_NUMBER,proposaldevelopmentDocument.getProposalNumber()));
+//        narrative.setModuleSequenceNumber(proposaldevelopmentDocument.getNSaveProposalNextValue(NARRATIVE_MODULE_SEQUENCE_NUMBER,proposaldevelopmentDocument.getProposalNumber()));
+        List<Narrative> narratives = proposaldevelopmentDocument.getNarratives();
+        narrative.setModuleNumber(getNextModuleNumber(narratives));
+        narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(narratives));
         updateUserTimestamp(narrative);
         narrative.setModifyAttachment(true);
         narrative.refreshReferenceObject("narrativeType");
         narrative.refreshReferenceObject("narrativeStatus");
         narrative.populateAttachment();
         populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
+        getBusinessObjectService().save(narrative);
+        narrative.clearAttachment();
         proposaldevelopmentDocument.getNarratives().add(narrative);
     }
+
+    private Integer getNextModuleNumber(List<Narrative> narratives) {
+        if(narratives.isEmpty()) return 1;
+        Collections.sort(narratives, new Comparator<Narrative>(){
+            public int compare(Narrative n1, Narrative n2) { 
+                return (n1.getModuleNumber()).compareTo(n2.getModuleNumber()); 
+              } 
+        });
+        return narratives.get(narratives.size()-1).getModuleNumber().intValue()+1;
+    }
+    private Integer getNextModuleSequenceNumber(List<Narrative> narratives) {
+        if(narratives.isEmpty()) return 1;
+        Collections.sort(narratives, new Comparator<Narrative>(){
+            public int compare(Narrative n1, Narrative n2) { 
+                return (n1.getModuleNumber()).compareTo(n2.getModuleNumber()); 
+              } 
+        });
+        return narratives.get(narratives.size()-1).getModuleNumber().intValue()+1;
+    }
+
     /**
      * 
      * This method used to add narrative user rights to narrative object
@@ -181,6 +212,8 @@ public class NarrativeServiceImpl implements NarrativeService {
             narrative.setModifyAttachment(false);
             narrative.setViewAttachment(false);
             List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
+            if(narrativeUserRights.isEmpty())
+                narrative.refreshReferenceObject("narrativeUserRights");
             for (NarrativeUserRights narrativeRight : narrativeUserRights) {
                 if (StringUtils.equals(narrativeRight.getUserId(),loggedInUserPersonId)) {
                     narrative.setViewAttachment(narrativeRight.getAccessType().equals(
