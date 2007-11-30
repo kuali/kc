@@ -329,20 +329,20 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertEquals("comment1 \n line2", getFieldValue(form2, TEXT_AREA, "newPropSpecialReview.comments"));
         final HtmlPage page6 = clickButton(page5, form2, "methodToCall.addSpecialReview", IMAGE_INPUT);
         final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
-        validateSpecialReviewLine(form3, "document.propSpecialReviews[0]", "08/01/2007;;123;1;2;comment1");
+        validateSpecialReviewLine(form3, "document.propSpecialReview[0]", "08/01/2007;;123;1;2;comment1");
         // 2nd line
         final HtmlPage page7 = setSpecialReviewLine(page5, form3, "08/02/2007;;456;2;3;comment2");
         final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
         assertEquals("comment2 \n line2", getFieldValue(form4, TEXT_AREA, "newPropSpecialReview.comments"));
         final HtmlPage page8 = clickButton(page7, form4, "methodToCall.addSpecialReview", IMAGE_INPUT);
         final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
-        validateSpecialReviewLine(form5, "document.propSpecialReviews[0]", "08/01/2007;;123;1;2;comment1");
-        validateSpecialReviewLine(form5, "document.propSpecialReviews[1]", "08/02/2007;;456;2;3;comment2");
+        validateSpecialReviewLine(form5, "document.propSpecialReview[0]", "08/01/2007;;123;1;2;comment1");
+        validateSpecialReviewLine(form5, "document.propSpecialReview[1]", "08/02/2007;;456;2;3;comment2");
 
         // delete special review line 0
         final HtmlPage page9 = clickButton(page8, form5, "methodToCall.deleteSpecialReview.line0.", IMAGE_INPUT);
         final HtmlForm form6 = (HtmlForm) page9.getForms().get(0);
-        validateSpecialReviewLine(form6, "document.propSpecialReviews[0]", "08/02/2007;;456;2;3;comment2");
+        validateSpecialReviewLine(form6, "document.propSpecialReview[0]", "08/02/2007;;456;2;3;comment2");
         // save
         final HtmlPage page10 = clickButton(page9, form6, "methodToCall.save", IMAGE_INPUT);
         assertEquals("Kuali :: Proposal Development Document", page9.getTitleText());
@@ -350,7 +350,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         // one of the following to check save is OK
         assertFalse(page10.asText().contains(ERRORS_FOUND_ON_PAGE));
         assertTrue(page10.asText().contains("Document was successfully saved"));
-        validateSpecialReviewLine(form7, "document.propSpecialReviews[0]", "08/02/2007;;456;2;3;comment2");
+        validateSpecialReviewLine(form7, "document.propSpecialReview[0]", "08/02/2007;;456;2;3;comment2");
 
     }
 

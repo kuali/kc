@@ -29,7 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 public class KeywordPanelTest extends ProposalDevelopmentWebTestBase{
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String DOCUMENT_SAVED = "Document was successfully saved";
-    private static final String SCIENCE_KEYWORD_CHECKBOX_FIELD = "document.propScienceKeywords[0].selectKeyword";
+    private static final String SCIENCE_KEYWORD_CHECKBOX_FIELD = "document.propScienceKeyword[0].selectKeyword";
     private static final String FIRST_ROW_DATA = "1 Transmittance";
     private static final String SECOND_ROW_DATA = "2 Temperature";
     private static final String FIRST_ROW_DATA_CHECKED = "1 Transmittance checked";

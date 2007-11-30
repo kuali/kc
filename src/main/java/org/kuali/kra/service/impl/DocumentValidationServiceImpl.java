@@ -67,13 +67,14 @@ public class DocumentValidationServiceImpl extends PersistenceServiceStructureIm
                 for (int j = 0; j < propertyList.size(); j++) {
                     if (propertyList.get(j) != null && propertyList.get(j) instanceof PersistableBusinessObject) {
                         // TODO : not sure why rice truncated 's' at the end of the property name
-                        //GlobalVariables.getErrorMap().addToErrorPath(StringUtils.chomp(propertyDescriptor.getName(), "s") + "[" + (new Integer(j)).toString() + "]");
-                        GlobalVariables.getErrorMap().addToErrorPath(propertyDescriptor.getName() + "[" + (new Integer(j)).toString() + "]");
+                        GlobalVariables.getErrorMap().addToErrorPath(StringUtils.chomp(propertyDescriptor.getName(), "s") + "[" + (new Integer(j)).toString() + "]");
+                        //GlobalVariables.getErrorMap().addToErrorPath(propertyDescriptor.getName() + "[" + (new Integer(j)).toString() + "]");
                         if (updatableReferences.contains(propertyDescriptor.getName())) {
-                            KNSServiceLocator.getDictionaryValidationService().validateBusinessObject((PersistableBusinessObject) propertyList.get(j));
+                            //KNSServiceLocator.getDictionaryValidationService().validateBusinessObject((PersistableBusinessObject) propertyList.get(j));
+                            validateDocumentRecursively((PersistableBusinessObject) propertyList.get(j), depth-1);
                         }
-                        //GlobalVariables.getErrorMap().removeFromErrorPath(StringUtils.chomp(propertyDescriptor.getName(), "s") + "[" + (new Integer(j)).toString() + "]");
-                        GlobalVariables.getErrorMap().removeFromErrorPath(propertyDescriptor.getName() + "[" + (new Integer(j)).toString() + "]");
+                        GlobalVariables.getErrorMap().removeFromErrorPath(StringUtils.chomp(propertyDescriptor.getName(), "s") + "[" + (new Integer(j)).toString() + "]");
+                        //GlobalVariables.getErrorMap().removeFromErrorPath(propertyDescriptor.getName() + "[" + (new Integer(j)).toString() + "]");
                     }
                 }
 

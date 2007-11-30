@@ -53,7 +53,7 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
        assertContains(locationPage, "Authorized Representative Name & Address: First Name");
 
        // default prop location created
-       assertEquals("University", getFieldValue(locationPage, "document.proposalLocations[0].location"));
+       assertEquals("University", getFieldValue(locationPage, "document.proposalLocation[0].location"));
 
        // delete default line
        HtmlPage page5 = clickOn(locationPage, "methodToCall.deleteLocation.line0.anchor3");
@@ -90,7 +90,7 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
 
        assertEquals("0", getFieldValue(page9, "newPropLocation.rolodexId"));
        // how to check newlocation address is empty
-       assertEquals("1728", getFieldValue(page9, "document.proposalLocations[0].rolodexId"));
+       assertEquals("1728", getFieldValue(page9, "document.proposalLocation[0].rolodexId"));
        assertContains(page9, "National Center for Environmental Research and Quality Assurance");
 
        // 2nd line
@@ -106,18 +106,18 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
 
        assertEquals("0", getFieldValue(page11, "newPropLocation.rolodexId"));
        // how to check newlocation address is empty
-       assertEquals("1727", getFieldValue(page11, "document.proposalLocations[1].rolodexId"));
+       assertEquals("1727", getFieldValue(page11, "document.proposalLocation[1].rolodexId"));
        assertContains(page11, "Organization 1126");
 
        // clearaddress
        final HtmlPage page12 = clickOn(page11, "methodToCall.clearAddress.line0.anchor3");
-       assertEquals("0", getFieldValue(page12, "document.proposalLocations[0].rolodexId"));
+       assertEquals("0", getFieldValue(page12, "document.proposalLocation[0].rolodexId"));
        assertDoesNotContain(page12, "National Center for Environmental Research and Quality Assurance");
-       // verify other fields too? location, proplocations[1] ?
+       // verify other fields too? location, proplocation[1] ?
 
        // delete lines
        final HtmlPage page13 = clickOn(page12, "methodToCall.deleteLocation.line0.anchor3");
-       assertEquals("1727", getFieldValue(page13, "document.proposalLocations[0].rolodexId"));
+       assertEquals("1727", getFieldValue(page13, "document.proposalLocation[0].rolodexId"));
        assertContains(page13, "Organization 1126");
        // how to check only one left
        final HtmlPage page14 = clickOn(page13, "methodToCall.save", "Kuali :: Proposal Development Document");
@@ -133,7 +133,7 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
        assertEquals("000002", getFieldValue(page14, "document.performingOrganizationId"));
        assertContains(page14, "Performing Organization: California Institute of Technology");
 
-       assertEquals("1727", getFieldValue(page14, "document.proposalLocations[0].rolodexId"));
+       assertEquals("1727", getFieldValue(page14, "document.proposalLocation[0].rolodexId"));
        assertContains(page14, "Organization 1126");
 
        // verify DB

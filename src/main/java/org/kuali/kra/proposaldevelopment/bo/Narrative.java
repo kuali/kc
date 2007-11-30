@@ -290,4 +290,18 @@ public class Narrative extends KraPersistableBusinessObjectBase {
             getNarrativeAttachmentList().clear();
         }
     }
+    
+    /**
+     * Gets index i from the narrativeUserRights list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public NarrativeUserRights getNarrativeUserRight(int index) {
+        while (getNarrativeUserRights().size() <= index) {
+            getNarrativeUserRights().add(new NarrativeUserRights());
+        }
+        return (NarrativeUserRights) getNarrativeUserRights().get(index);
+    }
+
 }

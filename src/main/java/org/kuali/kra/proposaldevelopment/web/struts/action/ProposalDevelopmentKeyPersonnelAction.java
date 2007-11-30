@@ -60,8 +60,8 @@ import org.kuali.kra.service.YnqService;
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: rmancher $
- * @version $Revision: 1.30 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.31 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -304,7 +304,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
-        selectedPerson.getDegrees().remove(getSelectedLine(request));
+        selectedPerson.getProposalPersonDegrees().remove(getSelectedLine(request));
 
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -373,7 +373,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         int selectedLine = -1;
         String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
         if (isNotBlank(parameterName)) {
-            int lineNumber = Integer.parseInt(substringBetween(parameterName, "proposalPersons[", "]."));
+            int lineNumber = Integer.parseInt(substringBetween(parameterName, "proposalPerson[", "]."));
             retval = document.getProposalPerson(lineNumber);
         }
 

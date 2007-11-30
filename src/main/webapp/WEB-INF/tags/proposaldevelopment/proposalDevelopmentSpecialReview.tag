@@ -78,31 +78,31 @@
             
         	<c:forEach var="specialReview" items="${KualiForm.document.propSpecialReviews}" varStatus="status">
 	             <tr>
-	                <c:set var="textAreaFieldName" value="document.propSpecialReviews[${status.index}].comments" />
+	                <c:set var="textAreaFieldName" value="document.propSpecialReview[${status.index}].comments" />
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}"  styleClass="fixed-size-select"/>
+	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}"  styleClass="fixed-size-select"/>
 					</td>
 	                <td>
-	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].approvalTypeCode" attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" />
+	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].approvalTypeCode" attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" />
 	                </td>
 	                <td>                	
-	                  <kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />
+	                  <kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />
                     <!-- <input type="image" class="nobord" src="kr/static/images/searchicon.gif" alt="lookup">  
                     <input type="image" class="nobord" src="kr/static/images/book_open.png" alt="inquiry">-->
 	                <!--  <kul:lookup boClassName="org.kuali.kra.bo.Protocol" 
-	                    fieldConversions="protocolNumber:document.propSpecialReviews[${status.index}].protocolNumber"  anchor="${tabKey}"/> --> 
+	                    fieldConversions="protocolNumber:document.propSpecialReview[${status.index}].protocolNumber"  anchor="${tabKey}"/> --> 
 					</td>
 	                <td align="left" valign="middle">
-	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].applicationDate" attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" datePicker="true"/>
+	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].applicationDate" attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" datePicker="true"/>
 	                </td>
 	                <td align="left" valign="middle">
-	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].approvalDate" attributeEntry="${proSpecialAttriburesAttributes.approvalDate}" datePicker="true"/>
+	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].approvalDate" attributeEntry="${proSpecialAttriburesAttributes.approvalDate}" datePicker="true"/>
 	                </td>
 	                <td align="left" valign="middle">
-	                	<kul:htmlControlAttribute property="document.propSpecialReviews[${status.index}].comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
+	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
                         <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proSpecialAttriburesAttributes.comments.label}" />
 	                </td>
 					<td>
