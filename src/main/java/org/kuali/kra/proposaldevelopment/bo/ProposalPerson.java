@@ -29,8 +29,8 @@ import org.kuali.core.util.KualiDecimal;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * @author $Author: rmancher $
- * @version $Revision: 1.16 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.17 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
@@ -47,7 +47,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private ProposalInvestigatorCertification certification;
     private ProposalPersonRole role;
     private List<ProposalPersonUnit> units;
-    private List<ProposalPersonDegree> degrees;
+    private List<ProposalPersonDegree> proposalPersonDegrees;
     private List<ProposalPersonCreditSplit> creditSplits;
     private boolean delete;
     private Person person;
@@ -59,7 +59,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
      * new ProposalPerson
      */
     public ProposalPerson() {
-        degrees = new ArrayList<ProposalPersonDegree>();
+        proposalPersonDegrees = new ArrayList<ProposalPersonDegree>();
         units = new ArrayList<ProposalPersonUnit>();
         creditSplits = new ArrayList<ProposalPersonCreditSplit>();
         proposalPersonYnqs = new ArrayList<ProposalPersonYnq>();
@@ -155,8 +155,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @return the value of degrees
      */
-    public List<ProposalPersonDegree> getDegrees() {
-        return this.degrees;
+    public List<ProposalPersonDegree> getProposalPersonDegrees() {
+        return this.proposalPersonDegrees;
     }
 
     /**
@@ -164,8 +164,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @param argDegrees Value to assign to this.degrees
      */
-    public void setDegrees(List<ProposalPersonDegree> argDegrees) {
-        this.degrees = argDegrees;
+    public void setProposalPersonDegrees(List<ProposalPersonDegree> argDegrees) {
+        this.proposalPersonDegrees = argDegrees;
     }
 
     /**
@@ -435,15 +435,15 @@ public class ProposalPerson extends Person implements CreditSplitable {
      * @param d degree to add
      */
     public void addDegree(ProposalPersonDegree d) {
-        getDegrees().add(d);
+        getProposalPersonDegrees().add(d);
     }
 
-    public ProposalPersonDegree getDegree(int index) {
-        while (getDegrees().size() <= index) {
-            getDegrees().add(new ProposalPersonDegree());
+    public ProposalPersonDegree getProposalPersonDegree(int index) {
+        while (getProposalPersonDegrees().size() <= index) {
+            getProposalPersonDegrees().add(new ProposalPersonDegree());
         }
         
-        return getDegrees().get(index);
+        return getProposalPersonDegrees().get(index);
     }
 
     /**
@@ -470,6 +470,20 @@ public class ProposalPerson extends Person implements CreditSplitable {
     public void setDelete(boolean delete) {
         this.delete = delete;
     }
+    
+    /**
+     * Gets index i from the creditSplits list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public ProposalPersonCreditSplit getCreditSplit(int index) {
+        while (getCreditSplits().size() <= index) {
+            getCreditSplits().add(new ProposalPersonCreditSplit());
+        }
+        return (ProposalPersonCreditSplit) getCreditSplits().get(index);
+    }
+
 
     public List<ProposalPersonYnq> getProposalPersonYnqs() {
         return proposalPersonYnqs;
@@ -477,6 +491,20 @@ public class ProposalPerson extends Person implements CreditSplitable {
 
     public void setProposalPersonYnqs(List<ProposalPersonYnq> proposalPersonYnq) {
         this.proposalPersonYnqs = proposalPersonYnqs;
+    }
+
+    
+    /**
+     * Gets index i from the proposalPersonYnqs list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public ProposalPersonYnq getProposalPersonYnq(int index) {
+        while (getProposalPersonYnqs().size() <= index) {
+            getProposalPersonYnqs().add(new ProposalPersonYnq());
+        }
+        return (ProposalPersonYnq) getProposalPersonYnqs().get(index);
     }
 
 }

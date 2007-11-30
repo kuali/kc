@@ -101,13 +101,13 @@
 			          	<tr>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}"/></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narratives[${status.index}].narrativeTypeCode" attributeEntry="${narrativeAttributes.narrativeTypeCode}" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].narrativeTypeCode" attributeEntry="${narrativeAttributes.narrativeTypeCode}" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}"/></div></th>
 			                <td align="left" valign="middle">
 			                <%-- %><c:if test="${(!empty narrative.fileName)}">--%>
 				                <div id="replaceDiv${status.index}" style="display:block;">
-					                <kul:htmlControlAttribute property="document.narratives[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
+					                <kul:htmlControlAttribute property="document.narrative[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 					                <c:if test="${(narrative.viewAttachment || narrative.modifyAttachment) }">
 						                (
 						                <c:if test="${narrative.viewAttachment && (!empty narrative.fileName)}">
@@ -123,7 +123,7 @@
 					                </c:if>
 				                </div>
 				                <div id="fileDiv${status.index}" valign="middle" style="display:none;">
-				                	<html:file property="document.narratives[${status.index}].narrativeFile" />
+				                	<html:file property="document.narrative[${status.index}].narrativeFile" />
 									<html:image property="methodToCall.replaceProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
 								</div>
@@ -133,44 +133,44 @@
 			          	<tr>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}"/></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narratives[${status.index}].moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.contactName}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narratives[${status.index}].contactName" attributeEntry="${narrativeAttributes.contactName}" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].contactName" attributeEntry="${narrativeAttributes.contactName}" />
 							</td>
 			          	</tr>
 			          	<tr>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narratives[${status.index}].updateUser" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].updateUser" readOnly="true" attributeEntry="${narrativeAttributes.updateUser}" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.emailAddress}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narratives[${status.index}].emailAddress" attributeEntry="${narrativeAttributes.emailAddress}" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].emailAddress" attributeEntry="${narrativeAttributes.emailAddress}" />
 							</td>
 			          	</tr>
 			          	<tr>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narratives[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.phoneNumber}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narratives[${status.index}].phoneNumber" attributeEntry="${narrativeAttributes.phoneNumber}" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].phoneNumber" attributeEntry="${narrativeAttributes.phoneNumber}" />
 							</td>
 			          	</tr>
 			          	<tr>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.comments}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narratives[${status.index}].comments" attributeEntry="${narrativeAttributes.comments}" />
-			                	<c:set var="textAreaFieldName" value="document.narratives[${status.index}].comments" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].comments" attributeEntry="${narrativeAttributes.comments}" />
+			                	<c:set var="textAreaFieldName" value="document.narrative[${status.index}].comments" />
 			                	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narratives[${status.index}].moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
-			                	<c:set var="textAreaFieldName" value="document.narratives[${status.index}].moduleTitle" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
+			                	<c:set var="textAreaFieldName" value="document.narrative[${status.index}].moduleTitle" />
 			                	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 							</td>
 			          	</tr>

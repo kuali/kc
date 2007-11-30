@@ -55,17 +55,17 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         setProposalAttachmentLine(propAttPage, getKeyMap("newNarrative",values0));
         testTextAreaPopup(propAttPage,"newNarrative.comments"," More text","proposalDevelopmentAbstractsAttachments","Comments","");
         values0[5]+=" More text";
-        Map<String,String> keyVal0 = getKeyMap("document.narratives[0]",values0);
+        Map<String,String> keyVal0 = getKeyMap("document.narrative[0]",values0);
         HtmlPage addedPage = testAddProposalAttachment(propAttPage,keyVal0);
         
         String[] values1 = { "2","I","Test Another Contact Name","t1@t1.com","1234567","Test Comments again","Test Module Title again"};
         setProposalAttachmentLine(addedPage, getKeyMap("newNarrative",values1));
-        Map<String,String> keyVal1 = getKeyMap("document.narratives[1]",values1);
+        Map<String,String> keyVal1 = getKeyMap("document.narrative[1]",values1);
         addedPage = testAddProposalAttachment(addedPage,keyVal1);
         String[] values2 = { "3","I","Contact Name 2","t2@t2.com","12345678","Test Comments 2","Test Module Title 2"};
         setProposalAttachmentLine(addedPage, getKeyMap("newNarrative",values2));
         
-        Map<String,String> keyVal2 = getKeyMap("document.narratives[2]",values2);
+        Map<String,String> keyVal2 = getKeyMap("document.narrative[2]",values2);
         addedPage = testAddProposalAttachment(addedPage,keyVal2);
         
         HtmlPage pageAfterDeletion = testDeleteProposalAttachment(addedPage,1,2);
@@ -73,7 +73,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage savedPage = testSaveProposalAttachment(pageAfterDeletion);
         
         validatePage(savedPage,keyVal0);
-        Map<String,String> key1Val2 = getKeyMap("document.narratives[1]",values2);
+        Map<String,String> key1Val2 = getKeyMap("document.narrative[1]",values2);
         validatePage(savedPage,key1Val2);
         
         HtmlPage uploadedPage = testUploadAttachment(savedPage);
@@ -113,16 +113,16 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         accessTypes.add("R");
         accessTypes.add("N");
         do{
-            String accessType = getFieldValue(rightPage, "document.narratives["+lineNumber+"].narrativeUserRights["+(--roCnt)+"].accessType");
+            String accessType = getFieldValue(rightPage, "document.narrative["+lineNumber+"].narrativeUserRight["+(--roCnt)+"].accessType");
           //Check accessTypes are one of (M R or N)
           assertTrue(accessTypes.contains(accessType));
         }while(roCnt>0);
-        setFieldValue(rightPage, "document.narratives["+lineNumber+"].narrativeUserRights[0].accessType", "M");
+        setFieldValue(rightPage, "document.narrative["+lineNumber+"].narrativeUserRight[0].accessType", "M");
         HtmlPage closePage = clickOn(rightPage, "methodToCall.addProposalAttachmentRights");
         assertContains(closePage, "Empty Page");
 //        HtmlPage savedPage = testSaveProposalAttachment(propPage);
 //        HtmlPage rightPage1 = clickOn(savedPage, "getProposalAttachmentRights.line"+lineNumber);
-//        assertEquals("M",getFieldValue(rightPage1,"document.narratives["+lineNumber+"].narrativeUserRights[0].accessType"));
+//        assertEquals("M",getFieldValue(rightPage1,"document.narrative["+lineNumber+"].narrativeUserRight[0].accessType"));
         
     }
 
@@ -131,10 +131,10 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage rplPage = clickOn(uploadedPage, "replaceProposalAttachment.line"+lineIndex);
         URL fileUrl = getClass().getResource("/org/kuali/kra/proposaldevelopment/web/ProposalDevelopmentWebTestBase.class");
         String filePath = fileUrl.getPath();
-        setFieldValue(rplPage, "document.narratives["+lineIndex+"].narrativeFile", filePath);
+        setFieldValue(rplPage, "document.narrative["+lineIndex+"].narrativeFile", filePath);
         HtmlPage replacedPage = clickOn(rplPage,"methodToCall.replaceProposalAttachment.line"+lineIndex+".anchor"+(lineIndex+1));
         HtmlPage savedPage = testSaveProposalAttachment(replacedPage);
-        assertEquals(getFieldValue(savedPage, "document.narratives["+lineIndex+"].fileName"), "ProposalDevelopmentWebTestBase.class");
+        assertEquals(getFieldValue(savedPage, "document.narrative["+lineIndex+"].fileName"), "ProposalDevelopmentWebTestBase.class");
         return savedPage;
     }
 
@@ -146,10 +146,10 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         String[] values4 = { "4","I","Test Contact Name 4","t4@t4.com","12345678","Test Comments 4","Test Module Title 4"};
         setProposalAttachmentLine(page, getKeyMap("newNarrative",values4));
         setFieldValue(page, "newNarrative.narrativeFile", filePath);
-        Map<String,String> keyVal4 = getKeyMap("document.narratives[2]",values4);
+        Map<String,String> keyVal4 = getKeyMap("document.narrative[2]",values4);
         HtmlPage addedPage = testAddProposalAttachment(page,keyVal4);
         HtmlPage savedPage = testSaveProposalAttachment(addedPage);
-        assertEquals(getFieldValue(savedPage, "document.narratives[2].fileName"), "ProposalAttachmentWebTest.class");
+        assertEquals(getFieldValue(savedPage, "document.narrative[2].fileName"), "ProposalAttachmentWebTest.class");
         return savedPage;
     }
 
@@ -161,10 +161,10 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 
 
     private HtmlPage testDeleteProposalAttachment(HtmlPage page, int i,int tabIndex) throws Exception{
-        String commentToBeDeleted = getFieldValue(page, "document.narratives["+i+"].comments");
+        String commentToBeDeleted = getFieldValue(page, "document.narrative["+i+"].comments");
         HtmlPage deletedPage = clickOn(page, "methodToCall.deleteProposalAttachment.line"+i+".anchor"+tabIndex);
         if(i>0)
-            assertNotSame(commentToBeDeleted,getFieldValue(deletedPage, "document.narratives["+(--i)+"].comments"));
+            assertNotSame(commentToBeDeleted,getFieldValue(deletedPage, "document.narrative["+(--i)+"].comments"));
         return deletedPage;
     }
 

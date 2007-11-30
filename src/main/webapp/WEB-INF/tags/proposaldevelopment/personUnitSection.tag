@@ -54,8 +54,8 @@
                   <tr>
                     <th scope="row"  align="center"><c:out value="${status.index + 1}" /></th>
 
-                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.units[${status.index}].unit.unitName" readOnly="true" /></td>
-                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.units[${status.index}].unitNumber" readOnly="true" /></td>
+                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.unit[${status.index}].unit.unitName" readOnly="true" /></td>
+                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.unit[${status.index}].unitNumber" readOnly="true" /></td>
                     <td><div align=center><html:image property="methodToCall.deleteUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Remove Unit" alt="Remove Unit" styleClass="tinybutton"/></div></td>
                   </tr>
   </c:forEach>

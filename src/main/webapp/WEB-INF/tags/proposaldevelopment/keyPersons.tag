@@ -20,7 +20,7 @@
 <c:set var="personIndex" value="0" />
 <c:forEach items="${KualiForm.document.proposalPersons}" var="person" varStatus="status">
     <bean:define id="keyPerson" name="KualiForm" property="document.proposalPerson[${status.index}]"/>
-    <c:set var="proposalPerson" value="document.proposalPersons[${status.index}]" />
+    <c:set var="proposalPerson" value="document.proposalPerson[${status.index}]" />
     <c:set var="transparent" value="false" />
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />

@@ -44,8 +44,8 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
- * @author $Author: lprzybyl $
- * @version $Revision: 1.16 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.17 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -118,7 +118,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             
             if (!isBlank(person.getProposalPersonRoleId())) {
                 LOG.debug("error.missingPersonRole");
-                String personProperty = "document.proposalPersons[" + personIndex + "]";
+                String personProperty = "document.proposalPerson[" + personIndex + "]";
                 reportErrorWithPrefix(personProperty + "*", personProperty, ERROR_MISSING_PERSON_ROLE);
             }
             personIndex++;

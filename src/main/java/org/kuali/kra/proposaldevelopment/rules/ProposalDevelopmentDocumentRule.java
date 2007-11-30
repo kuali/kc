@@ -125,7 +125,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         int i = 0;
 
         for (ProposalSpecialReview propSpecialReview : proposalDevelopmentDocument.getPropSpecialReviews()) {
-            errorMap.addToErrorPath("propSpecialReviews[" + i + "]");
+            errorMap.addToErrorPath("propSpecialReview[" + i + "]");
             propSpecialReview.refreshReferenceObject("validSpecialReviewApproval");
             if (StringUtils.isNotBlank(propSpecialReview.getApprovalTypeCode()) && StringUtils.isNotBlank(propSpecialReview.getSpecialReviewCode())) {
                 ValidSpecialReviewApproval validSpRevApproval = propSpecialReview.getValidSpecialReviewApproval();
@@ -157,7 +157,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                         "Application Date","Approval Date"); 
             }
 
-            errorMap.removeFromErrorPath("propSpecialReviews[" + i++ + "]");
+            errorMap.removeFromErrorPath("propSpecialReview[" + i++ + "]");
         }
         return valid;
     }
@@ -242,7 +242,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         int i = 0;
 
         for (ProposalPersonBiography propPersonBio : proposalDevelopmentDocument.getPropPersonBios()) {
-            errorMap.addToErrorPath("propPersonBios[" + i + "]");
+            errorMap.addToErrorPath("propPersonBio[" + i + "]");
             propPersonBio.refresh();
             if (StringUtils.isNotBlank(propPersonBio.getDocumentTypeCode()) && StringUtils.isNotBlank(propPersonBio.getPersonId())) {
                     if (StringUtils.isBlank(propPersonBio.getFileName())) {
@@ -252,7 +252,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
 
             }
-            errorMap.removeFromErrorPath("propPersonBios[" + i++ + "]");
+            errorMap.removeFromErrorPath("propPersonBio[" + i++ + "]");
         }
         return valid;
     }

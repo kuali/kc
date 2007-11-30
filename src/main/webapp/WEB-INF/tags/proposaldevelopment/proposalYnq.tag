@@ -37,7 +37,7 @@
       <c:set var="transparent" value="true" />
     </c:if> 
 <bean:define id="trunGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].truncGroupName"/>
-<kul:tab tabTitle="${trunGroupName}" defaultOpen="false" tabErrorKey="document.proposalYnqs*" transparentBackground="${transparent}">
+<kul:tab tabTitle="${trunGroupName}" defaultOpen="false" tabErrorKey="document.proposalYnq*" transparentBackground="${transparent}">
     <c:set var="proposalYnq" value="document.proposalYnqs[${gps.index}]" /> 
     <c:set var="transparent" value="false" />
 	<div class="tab-container" align="center">
@@ -58,7 +58,7 @@
             <th width="10%" class="infoline">Actions</th>
 			<c:set var="rowIndex" value="1" />
 			<c:forEach items="${KualiForm.document.proposalYnqs}" var="ynqs" varStatus="status">
-    			  <c:set var="iproposalYnq" value="document.proposalYnqs[${status.index}]" /> 
+    			  <c:set var="iproposalYnq" value="document.proposalYnq[${status.index}]" /> 
 				  <bean:define id="igroupName" name="KualiForm" property="${iproposalYnq}.ynq.groupName"/>
     			  <c:if test="${igroupName == groupName}">
                   <tr>
