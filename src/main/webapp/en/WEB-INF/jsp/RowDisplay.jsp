@@ -102,8 +102,22 @@
 								  	        <c:if test="${field.propertyValue!=null && field.propertyValue!=''}">
 												<c:out value="${field.propertyValue}" />
 											</c:if>
+									        <c:set var="customConversionFields" value=""/>
+											<c:forEach items="${field.customConversions}" var="customKeyValue">
+										        <c:if test="${!empty customConversionFields}">
+												  <c:set var="customConversionFields" value="${customConversionFields},"/>
+												</c:if>
+										        <c:set var="customConversionFields" value="${customConversionFields}${customKeyValue.key}:${customKeyValue.value}"/>
+											</c:forEach>
 											<c:if test="${FormName != null}" >
-									            <a href="javascript:quick_finder('<c:out value="${field.quickFinderClassNameImpl}" />','<c:out value="${FormName}" />', '<c:out value="${ActionName}" />')"><img src="images/searchicon.gif" alt="search" align="absmiddle"></a>
+												<c:choose>
+													<c:when test="${!empty customConversionFields}">
+											            <a href="javascript:quick_finder_with_conversions('<c:out value="${field.quickFinderClassNameImpl}" />','<c:out value="${FormName}" />', '<c:out value="${ActionName}" />', '<c:out value="${customConversionFields}" />')"><img src="images/searchicon.gif" alt="search" align="absmiddle"></a>
+													</c:when>
+													<c:otherwise>
+											            <a href="javascript:quick_finder('<c:out value="${field.quickFinderClassNameImpl}" />','<c:out value="${FormName}" />', '<c:out value="${ActionName}" />')"><img src="images/searchicon.gif" alt="search" align="absmiddle"></a>
+													</c:otherwise>
+												</c:choose>
 									        </c:if>
 									      	<c:if test="${FormName == null}">  
 											     <a href="javascript:lookup('<c:out value="${field.quickFinderClassNameImpl}"/>', '<c:out value="${ActionName}" />')"><img src="images/searchicon.gif" alt="search" align="absmiddle"></a>

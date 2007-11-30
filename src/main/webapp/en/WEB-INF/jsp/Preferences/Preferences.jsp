@@ -50,16 +50,6 @@
 		<td class="thnormal">Automatic Refresh Rate:(in whole minutes - 0 is no automatic refresh.)</td>
         <td class="datacell"><html-el:text property="preferences.refreshRate" size="3" /></td>
 	</tr>
-<%--
-        <tr>
-          <td class="thnormal" width="50%">Action List Contents</td>
-          <td class="datacell">
-				<html-el:select property="preferences.actionListContentType">
-				  <html-el:options collection="actionListContent" labelProperty="value" property="key"/>
-				</html-el:select>
-          </td>
-        </tr>
---%>
         <tr>
           <td class="thnormal" width="50%">Action List Page Size</td>
           <td class="datacell"><html-el:text property="preferences.pageSize" size="3" /></td>
@@ -163,6 +153,15 @@
           </td>
         </tr>
 
+		<c:if test="${PreferencesForm.showOutbox }">
+	        <tr>
+	          <td class="thnormal">Use Outbox</td>
+	          <td class="datacell">Yes <html-el:radio property="preferences.useOutbox" value="${Constants.PREFERENCES_YES_VAL }"/>
+	          		No <html-el:radio property="preferences.useOutbox" value="${Constants.PREFERENCES_NO_VAL }"/>
+	          </td>
+	        </tr>
+        </c:if>
+        
         <tr>
           <td colspan="2" class="thnormal">Document Route Status Colors for Actionlist Entries</td>
         </tr>

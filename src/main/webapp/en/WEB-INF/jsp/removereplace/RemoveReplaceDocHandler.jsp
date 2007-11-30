@@ -27,6 +27,7 @@
 </c:if>
 <jsp:include page="../WorkflowMessages.jsp" />
 
+<c:if test="${ActionForm.document != null}">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="20" height="30">&nbsp;</td>
@@ -41,6 +42,7 @@
     <td></td>
   </tr>
   <c:if test="${!ActionForm.superUserSearch}">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <td></td>
       <td>
@@ -49,8 +51,9 @@
       </td>
       <td></td>
     </tr>
+    </table>
   </c:if>
-</table>
+</c:if>
 
 <c:if test="${!ActionForm.superUserSearch}">
   <jsp:include page="../BackdoorMessage.jsp" flush="true"/>

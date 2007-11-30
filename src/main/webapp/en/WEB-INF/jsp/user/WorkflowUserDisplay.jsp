@@ -9,7 +9,7 @@
   <c:set var="existingGivenName" value="${WorkflowUserForm.existingUser.givenName}" />
   <c:set var="existingLastName" value="${WorkflowUserForm.existingUser.lastName}" />
   <c:set var="existingEmailAddress" value="${WorkflowUserForm.existingUser.emailAddress}" />
-  <c:if test="${UserSession.workflowUser.workflowId != WorkflowUserForm.existingUser.workflowId}">
+  <c:if test="${kewUserSession.workflowUser.workflowId != WorkflowUserForm.existingUser.workflowId}">
     <c:set var="existingDisplayName" value="${WorkflowUserForm.existingUser.displayNameSafe}" />
     <c:set var="existingGivenName" value="${WorkflowUserForm.existingUser.givenNameSafe}" />
     <c:set var="existingLastName" value="${WorkflowUserForm.existingUser.lastNameSafe}" />
@@ -20,7 +20,7 @@
 <c:set var="givenName" value="${WorkflowUserForm.user.givenName}" />
 <c:set var="lastName" value="${WorkflowUserForm.user.lastName}" />
 <c:set var="emailAddress" value="${WorkflowUserForm.user.emailAddress}" />
-  <c:if test="${UserSession.workflowUser.workflowId != WorkflowUserForm.user.workflowId}">
+  <c:if test="${kewUserSession.workflowUser.workflowId != WorkflowUserForm.user.workflowId}">
     <c:set var="displayName" value="${WorkflowUserForm.user.displayNameSafe}" />
     <c:set var="givenName" value="${WorkflowUserForm.user.givenNameSafe}" />
     <c:set var="lastName" value="${WorkflowUserForm.user.lastNameSafe}" />

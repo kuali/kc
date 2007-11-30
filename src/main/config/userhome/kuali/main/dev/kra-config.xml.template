@@ -8,12 +8,12 @@
 	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
-	
+
 	<param name="javascript.files">scripts/kuali_application.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/UserService.js,kr/scripts/objectInfo.js</param>
   <param name="css.files">kr/css/kuali.css,css/kuali_application.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
 
 	<param name="kr.url">/${app.context.name}/kr</param>
-    
+
 	<param name="attachments.pending.directory">${java.io.tmpdir}</param>
     <param name="attachments.directory">${java.io.tmpdir}</param>
     <param name="kuali.docHandler.url.prefix">${app.host}/${app.context.name}</param>
@@ -80,6 +80,7 @@
 	<param name="kfsLocator.useAppContext">true</param>
 	<param name="production.environment.code">prd</param>
 	<param name="rice.user">true</param>
+    <param name="actionlist.outbox">true</param>
 
 	<!-- Ken stuffs... -->
     <!-- stock notification system configuration properties -->
@@ -98,15 +99,15 @@
     <param name="notification.concurrent.jobs">true</param>
 
     <param name="notification.basewebappurl">http://localhost:8080/kr-dev/ken</param>
-    
+
     <param name="notification.ojb.platform">Oracle</param>
-    
+
     <!-- Email Plugin Properties -->
     <param name="emailDeliverer.smtp.host">no_such_smtp_host</param>
-    
+
     <!-- Turn off KEW use of quartz db to avoid db clear issues -->
     <param name="useQuartzDatabase">false</param>
-    
+
     <!-- Register the CAS Web Authentication Filter -->
     <param name="filter.cas.class">org.kuali.core.web.filter.KualiCasFilter</param>
     <param name="filter.cas.edu.yale.its.tp.cas.client.filter.loginUrl">${app.host}/${app.context.name}/cas/login</param>

@@ -135,6 +135,7 @@
         input="/WEB-INF/jsp/backdoor/Backdoor.jsp"
         type="edu.iu.uis.eden.web.backdoor.BackdoorAction">
         <forward name="viewBackdoor" path="/WEB-INF/jsp/backdoor/Backdoor.jsp"/>
+        <forward name="viewPortal" path="/WEB-INF/jsp/backdoor/index.jsp"/>
         <forward name="requiredStateError" path="/WEB-INF/jsp/backdoor/Backdoor.jsp"/>
         <forward name="finalStateError" path="/WEB-INF/jsp/backdoor/Backdoor.jsp"/>
       </action>
@@ -350,8 +351,11 @@
          type="edu.iu.uis.eden.removereplace.web.RemoveReplaceAction" parameter="methodToCall">
          <forward name="basic" path="/WEB-INF/jsp/removereplace/RemoveReplaceEntry.jsp"/>
          <forward name="report" path="/WEB-INF/jsp/removereplace/RemoveReplaceReport.jsp"/>
-         <forward name="requiredStateError" path="/WEB-INF/jsp/removereplace/RemoveReplaceReport.jsp"/>
-         <forward name="finalStateError" path="/WEB-INF/jsp/removereplace/RemoveReplaceReport.jsp"/>
+         <forward name="summary" path="/WEB-INF/jsp/removereplace/RemoveReplaceReport.jsp"/>
+         <forward name="docHandler" path="/WEB-INF/jsp/removereplace/RemoveReplaceReport.jsp" />
+         <forward name="actionTaken" path="/WEB-INF/jsp/DocHandlerActionTaken.jsp" />
+         <forward name="requiredStateError" path="/WEB-INF/jsp/removereplace/RemoveReplaceEntry.jsp"/>
+         <forward name="finalStateError" path="/WEB-INF/jsp/removereplace/RemoveReplaceEntry.jsp"/>
        </action>
 
     </action-mappings>

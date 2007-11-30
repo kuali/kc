@@ -4,14 +4,32 @@
 <%@ taglib uri="../../tld/c.tld" prefix="c" %>
 <%@ taglib uri="../../tld/fmt.tld" prefix="fmt" %>
 <%@ taglib uri="../../tld/displaytag.tld" prefix="display-el" %>
- <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
 <title>Remove/Replace User Document</title>
 <link href="<c:out value="${resourcePath}"/>css/screen.css" rel="stylesheet" type="text/css">
+<link href="<c:out value="${resourcePath}"/>css/kuali.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" src="<c:out value="${resourcePath}"/>scripts/en-common.js"></script>
 <script language="JavaScript" src="<c:out value="${resourcePath}"/>scripts/removereplace.js"></script>
+<style type="text/css">
+<!--
+#workarea .neutral {
+	background-color: #FFFFFF;
+	border: 1px none #FFFFFF;
+	width: 50%;
+}
+.cltextbox-color {
+	width: 85px;
+	font-weight: bold;
+	border: 0px solid #D1E5FF;
+}
+.textbox {
+	width: 85px;
+}
+-->
+</style>
 </head>
 
 <body>
@@ -20,82 +38,106 @@
 
 <html-el:form action="RemoveReplace">
 
-  <html-el:hidden property="methodToCall" /><br>
-  <html-el:hidden property="docId" /><br>
-  Operation: <html-el:radio property="operation" value="P"/>Replace <html-el:radio property="operation" value="M"/>Remove
-  <br>
-  User Id: <html-el:text property="userId"/><br>
-  User Id to Replace With: <html-el:text property="replacementUserId"/><br><br>
-<hr>
-  Rules:<br>
-  Document Type: <html-el:text property="ruleDocumentTypeName"/><br>
-  Rule Template: <html-el:text property="ruleRuleTemplate"/><br>
-  <input type="button" value="Choose Rules" onclick="javascript:setMethodToCallAndSubmit('chooseRules')"/><br>
-  <c:set var="ruleIndex" value="0"/>
-  <display-el:table class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${RemoveReplaceForm.rules}" defaultsort="1" id="rule" requestURI="RemoveReplace.do"
-       decorator="edu.iu.uis.eden.lookupable.LookupDecorator" >
+  <html-el:hidden property="methodToCall" />
+  <html-el:hidden property="docId" />
+  <html-el:hidden property="operationSelected"/>
+  <html-el:hidden property="conversionFields"/>
+  <html-el:hidden property="lookupableImplServiceName"/>
 
-       <c:set var="ruleProp" value="rules[${ruleIndex}]"/>
+  <jsp:include page="../DocumentEntryHeader.jsp"/>
 
-	   <display-el:column class="datacell" sortable="false" title="<input type=&quot;checkbox&quot; id=&quot;masterRuleCheckbox&quot; onclick=&quot;javascript:selectAllRuleCheckboxes(${fn:length(RemoveReplaceForm.rules)})&quot;>" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">
-	     <html-el:checkbox styleId="${ruleProp}.selected" property="${ruleProp}.selected"/>
-	   </display-el:column>
-       <display-el:column class="datacell" sortable="true" title="Id"decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">
-         <a target="_blank" href="Rule.do?methodToCall=report&currentRuleId=<c:out value="${rule.rule.ruleBaseValuesId}"/>"><c:out value="${rule.rule.ruleBaseValuesId}"/></a>
-       </display-el:column>
-       <display-el:column class="datacell" sortable="true" title="Document Type" property="rule.docTypeName" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-       <display-el:column class="datacell" sortable="true" title="Rule Template" property="ruleTemplateName" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-       <display-el:column class="datacell" sortable="true" title="Description" property="rule.description" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-       <display-el:column class="datacell" sortable="true" title="Active" property="rule.activeInd" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-       <display-el:column class="datacell" sortable="true" title="Delegate Rule" property="rule.delegateRule" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-	   <display-el:column class="datacell" sortable="true" title="Warnings" property="warning" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
+  <table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="column-left"><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
+      <td><br><jsp:include page="../WorkflowMessages.jsp"/><br></td>
+      <td class="column-right"><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
+    </tr>
+  </table>
 
-       <c:set var="ruleIndex" value="${ruleIndex + 1}"/>
+  <table width="100%" cellpadding="0" cellspacing="0">
 
-  </display-el:table>
-  <c:forEach items="${RemoveReplaceForm.rules}" varStatus="status">
-  	<c:set var="ruleProp" value="rules[${status.index}]"/>
-  	<html-el:hidden property="${ruleProp}.rule.ruleBaseValuesId"/>
-	<html-el:hidden property="${ruleProp}.rule.docTypeName"/>
-	<html-el:hidden property="${ruleProp}.ruleTemplateName"/>
-    <html-el:hidden property="${ruleProp}.rule.description"/>
-    <html-el:hidden property="${ruleProp}.rule.activeInd"/>
-    <html-el:hidden property="${ruleProp}.rule.delegateRule"/>
-    <html-el:hidden property="${ruleProp}.warning"/>
-  </c:forEach>
-<hr>
-  <br><br>
+    <tr>
+      <td class="column-left"><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
 
-  Workgroups:<br>
-  Workgroup Type: <html-el:select property="workgroupType">
-    <c:set var="workgroupTypes" value="${RemoveReplaceForm.workgroupTypes}"/>
-	<html-el:options collection="workgroupTypes" property="name" labelProperty="label"/>
-  </html-el:select><br>
-  <input type="button" value="Choose Workgroups" onclick="javascript:setMethodToCallAndSubmit('chooseWorkgroups')"/><br><br>
-  <c:set var="workgroupIndex" value="0"/>
-  <display-el:table class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${RemoveReplaceForm.workgroups}" defaultsort="1" id="workgroup" requestURI="RemoveReplace.do"
-       decorator="edu.iu.uis.eden.lookupable.LookupDecorator" >
-       <c:set var="wgProp" value="workgroups[${workgroupIndex}]"/>
-	   <display-el:column class="datacell" sortable="false" title="<input type=&quot;checkbox&quot; id=&quot;masterWorkgroupCheckbox&quot; onclick=&quot;javascript:selectAllWorkgroupCheckboxes(${fn:length(RemoveReplaceForm.workgroups)})&quot;>" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">
-	     <html-el:checkbox styleId="${wgProp}.selected" property="${wgProp}.selected"/>
-	   </display-el:column>
-       <display-el:column class="datacell" sortable="true" title="Id"decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator">
-         <a target="_blank" href="Workgroup.do?methodToCall=report&workgroupId=<c:out value="${workgroup.id}"/>"><c:out value="${workgroup.id}"/></a>
-       </display-el:column>
-       <display-el:column class="datacell" sortable="true" title="Name" property="name" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-       <display-el:column class="datacell" sortable="true" title="Type" property="type" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
-	   <display-el:column class="datacell" sortable="true" title="Warnings" property="warning" decorator="edu.iu.uis.eden.lookupable.LookupColumnDecorator"/>
+      <td>
+        <table width="100%" cellpadding="0"  cellspacing="0" class="annotate-top" summary="">
+          <tr>
+            <td class="annotate-t"><img src="images/annotate-tl1.gif" alt="asdf" width=12 height=24 align="absmiddle" class="annotate-t">Action</td>
+            <td class="annotate-t"><div align="right"><img src="images/annotate-tr1.gif" alt="asdf" width=12 height=24 align="absmiddle"></div></td>
+          </tr>
+        </table>
 
-       <c:set var="workgroupIndex" value="${workgroupIndex + 1}"/>
-  </display-el:table>
+        <c:choose>
+          <c:when test="${!RemoveReplaceForm.operationSelected}">
+          <div class="annotate-container">
+          <div align="center">
 
-  <c:forEach items="${RemoveReplaceForm.workgroups}" varStatus="status">
-  	<c:set var="workgroupProp" value="workgroups[${status.index}]"/>
-  	<html-el:hidden property="${workgroupProp}.id"/>
-	<html-el:hidden property="${workgroupProp}.name"/>
-	<html-el:hidden property="${workgroupProp}.type"/>
-    <html-el:hidden property="${workgroupProp}.warning"/>
-  </c:forEach>
+            <table border="0" cellspacing="0" cellpadding="2">
+              <tr>
+                <td><div align="right"><strong>Action:</strong></div></td>
+                <td><html-el:radio property="operation" value="P"/>Replace <html-el:radio property="operation" value="M"/>Remove</td>
+              </tr>
+              <tr>
+                <td><div align="right"><strong>User Id:</strong></div></td>
+                <td><html-el:text property="userId"/>
+                <html-el:image property="methodToCall.performLookup" styleClass="image" src="images/searchicon.gif" alt="search" align="absmiddle" onclick="lookup('UserLookupableImplService','networkId:userId', 'RemoveReplaceAction.do')"/> </td>
+              </tr>
+              <tr>
+                <td><div align="right"><strong>User Id to Replace With:</strong></div></td>
+                <td><html-el:text property="replacementUserId"/>
+                <html-el:image property="methodToCall.performLookup" styleClass="image" src="images/searchicon.gif" alt="search" align="absmiddle" onclick="lookup('UserLookupableImplService','networkId:replacementUserId', 'RemoveReplaceAction.do')"/> </td></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+          </c:when>
+          <c:otherwise>
+    	    <html-el:hidden property="operation"/>
+    	    <html-el:hidden property="userId"/>
+    	    <html-el:hidden property="replacementUserId"/>
+
+    	    <jsp:include page="RemoveReplaceOperationDisplay.jsp"/>
+
+          </c:otherwise>
+        </c:choose>
+        <table width="100%" cellpadding="0" cellspacing="0" class="annotate-top" summary="">
+          <tr>
+            <td class="annotate-b"><img src="images/annotate-bl1.gif" alt="asdf" width=12 height=24></td>
+            <td class="annotate-b"><div align="right"><img src="images/annotate-br1.gif" alt="asdf" width=12 height=24></div></td>
+          </tr>
+        </table>
+
+        <c:choose>
+        <c:when test="${!RemoveReplaceForm.operationSelected}">
+          <div class="globalbuttons">
+            <html-el:image property="methodToCall.selectOperation" styleClass="tinybutton" src="images/buttonsmall_loaddoc.gif" align="absmiddle"/>
+            <html-el:image property="methodToCall.cancel" styleClass="tinybutton" src="images/buttonsmall_cancel.gif" align="absmiddle"/>
+          </div>
+        </c:when>
+        <c:otherwise>
+          <div class="globalbuttons">
+            <html-el:image property="methodToCall.changeOperation" styleClass="tinybutton" src="images/buttonsmall_cancel.gif" align="absmiddle"/>
+          </div>
+        </c:otherwise>
+        </c:choose>
+
+    <c:if test="${RemoveReplaceForm.operationSelected}">
+
+    <div id="workarea"><br>
+    <br>
+
+    <jsp:include page="RuleTab.jsp"/>
+	<jsp:include page="WorkgroupTab.jsp"/>
+
+	  <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
+        <tr>
+          <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="#" width="12" height="14" class="bl3"></td>
+          <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="#" width="12" height="14" class="br3"></td>
+        </tr>
+      </table>
+    </div>
+
+   <div><img src="images/pixel_clear.gif" alt="#" width="12" height="14"></div>
 
   <table width="100%" border=0 cellpadding=0 cellspacing=0 class="bord-r-t" >
     <tr>
@@ -105,6 +147,13 @@
 	  </td>
 	</tr>
   </table>
+
+  </c:if>
+
+  <td class="column-right"><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
+    </tr>
+  </table>
+
   </html-el:form>
 <jsp:include page="../BackdoorMessage.jsp"/>
 
