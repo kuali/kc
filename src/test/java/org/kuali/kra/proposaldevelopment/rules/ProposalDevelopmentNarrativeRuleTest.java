@@ -91,7 +91,8 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getNarrativeTypeCode());
         narrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
         newNarrative.setModuleStatusCode(narrativeStatuses.get(1).getNarrativeStatusCode());
-        document.addNarrative(narrative);
+        newNarrative.setProposalNumber(document.getProposalNumber());
+//        document.addNarrative(narrative);
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
         assertTrue(rule.processAddNarrativeBusinessRules(addNarrativeEvent));
     }
@@ -132,7 +133,8 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         newNarrative.setModuleStatusCode(EMPTY_STRING);
-        document.addNarrative(newNarrative);
+        newNarrative.setProposalNumber(document.getProposalNumber());
+//        document.addNarrative(newNarrative);
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddNarrativeBusinessRules(addNarrativeEvent));
         
@@ -163,7 +165,9 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         narrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
         newNarrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
-        document.addNarrative(narrative);
+        newNarrative.setProposalNumber(document.getProposalNumber());
+        document.getNarratives().add(narrative);
+//        document.addNarrative(narrative);
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddNarrativeBusinessRules(addNarrativeEvent));
         
