@@ -105,6 +105,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 
     private void testNarrUserRights(HtmlPage propPage,int lineNumber) throws Exception{
         HtmlPage rightPage = clickOn(propPage, "getProposalAttachmentRights.line"+lineNumber);
+        assertContains(rightPage, "Proposal Attachment Rights for "+(lineNumber+1)+".");
         HtmlTable table = getTable(rightPage, "narrative-rights-table");
         int roCnt = table.getRowCount()-1;
         assertTrue("Narrative user rights table is empty. Make sure proposal user roles have been added to the proposal",roCnt>0);
