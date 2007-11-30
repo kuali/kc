@@ -28,7 +28,7 @@ import org.kuali.kra.bo.Unit;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: shyu $
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase implements CreditSplitable {
     private Integer proposalNumber;
@@ -163,6 +163,20 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
         return propMap;
     }
 
+    /**
+     * Gets index i from the creditSplits list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public ProposalUnitCreditSplit getCreditSplit(int index) {
+        while (getCreditSplits().size() <= index) {
+            getCreditSplits().add(new ProposalUnitCreditSplit());
+        }
+        return (ProposalUnitCreditSplit) getCreditSplits().get(index);
+    }
+    
+    
 }
 
 

@@ -167,7 +167,7 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
      * @return
      */
     private String getAbstractTimestamp(HtmlPage page, int rowId) {
-        HtmlElement element = getElement(page, "document.proposalAbstracts[" + rowId + "].updateTimestamp");
+        HtmlElement element = getElement(page, "document.proposalAbstract[" + rowId + "].updateTimestamp");
         return element.asText().trim();
     }
 
@@ -410,7 +410,7 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
         // change the details for that abstract.
 
         setFieldValue(abstractsAndAttachmentsPage,
-                      "document.proposalAbstracts[0].abstractDetails",
+                      "document.proposalAbstract[0].abstractDetails",
                       ABSTRACT_COMPUTER_DETAILS_VALUE2);
 
         // Save and close the document and then search for it again.
@@ -456,7 +456,7 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
                 ABSTRACT_COMPUTER_TYPE_CODE, ABSTRACT_COMPUTER_TYPE_VALUE, "", 1);
 
         this.checkExpandedTextArea(abstractsAndAttachmentsPage,
-                                   "document.proposalAbstracts[0].abstractDetails",
+                                   "document.proposalAbstract[0].abstractDetails",
                                    ABSTRACT_COMPUTER_DETAILS_VALUE,
                                    ABSTRACT_COMPUTER_DETAILS_VALUE2);
 

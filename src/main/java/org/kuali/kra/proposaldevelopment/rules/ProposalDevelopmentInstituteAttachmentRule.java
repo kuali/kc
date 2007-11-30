@@ -105,7 +105,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
 
         // TODO : this will combine errors with proposal attachments panel
         for (Narrative institute : document.getInstitutes()) {
-            errorMap.addToErrorPath("institutes[" + i + "]");
+            errorMap.addToErrorPath("institute[" + i + "]");
             institute.refresh();
             if (StringUtils.isNotBlank(institute.getNarrativeTypeCode()) && StringUtils.isNotBlank(institute.getModuleTitle())) {
                     if (StringUtils.isBlank(institute.getFileName())) {
@@ -113,8 +113,9 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
                         errorMap.putError("fileName", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
                     }
             }
-            errorMap.removeFromErrorPath("institutes[" + i++ + "]");
+            errorMap.removeFromErrorPath("institute[" + i++ + "]");
         }
+        errorMap.removeFromErrorPath("document");
         return valid;
     }
     private void populateNarrativeType(Narrative narrative) {

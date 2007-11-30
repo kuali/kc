@@ -26,7 +26,7 @@
                     <th>&nbsp;</th>
                   <kra-pd:personDegreeLine proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
 
-    <bean:define id="degrees" name="KualiForm" property="${proposalPerson}.degrees"/>
+    <bean:define id="degrees" name="KualiForm" property="${proposalPerson}.proposalPersonDegrees"/>
     <c:forEach items="${degrees}"  var="degree" varStatus="status">
                   <kra-pd:personDegreeLine proposalPerson="${proposalPerson}" index="${status.index}"  personIndex="${personIndex}"/>
     </c:forEach>

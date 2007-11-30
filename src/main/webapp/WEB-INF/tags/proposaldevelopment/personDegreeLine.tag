@@ -27,7 +27,7 @@
 <c:set var="tdClass" value="infoline" />
 <c:if test="${!empty index}">
   <c:set var="degreeIndexHeader" value="${index + 1}" />
-  <c:set var="degree" value="${proposalPerson}.degrees[${index}]" /> 
+  <c:set var="degree" value="${proposalPerson}.proposalPersonDegree[${index}]" /> 
   <c:set var="readOnly" value="true" />
   <c:set var="actionTitle" value="Remove a Degree" />
   <c:set var="actionMethod" value="deleteDegree.${proposalPerson}.line${index}" />
