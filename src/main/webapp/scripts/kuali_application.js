@@ -5,7 +5,7 @@ function selectAllKeywords(document) {
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
 	  var e = document.KualiForm.elements[i];
 	  if(e.type == 'checkbox') {
-	  	var name = 'document.propScienceKeywords[' + j + '].selectKeyword';
+	  	var name = 'document.propScienceKeyword[' + j + '].selectKeyword';
 	  	if (e.name == name) {
  		    e.checked = true;
 	  		j++;

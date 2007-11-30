@@ -99,7 +99,7 @@
             <kra-pd:propLocationDisplay index="-1" locationIter="${KualiForm.newPropLocation}" docLocation="newPropLocation"/> 
              
         	<c:forEach var="location" items="${KualiForm.document.proposalLocations}" varStatus="status">
-          		<kra-pd:propLocationDisplay index="${status.index}" locationIter="${location}" docLocation="document.proposalLocations[${status.index}]"/> 
+          		<kra-pd:propLocationDisplay index="${status.index}" locationIter="${location}" docLocation="document.proposalLocation[${status.index}]"/> 
         	</c:forEach>        
         </table>
       

@@ -79,21 +79,21 @@
 	             <tr>
 	             	<th>${status.index + 1}</th>
 	             	
-	             	<td align="left" valign="middle" id="document.proposalAbstracts[${status.index}].updateTimestamp">
+	             	<td align="left" valign="middle" id="document.proposalAbstract[${status.index}].updateTimestamp">
                 	    <fmt:formatDate value="${abstract.updateTimestamp}" type="both" dateStyle="short" timeStyle="short" />
 					</td>
 					
 	             	<td align="left" valign="middle">
-                	    <kul:htmlControlAttribute property="document.proposalAbstracts[${status.index}].updateUser" readOnly="true" attributeEntry="${proposalAbstractAttributes.updateUser}" />
+                	    <kul:htmlControlAttribute property="document.proposalAbstract[${status.index}].updateUser" readOnly="true" attributeEntry="${proposalAbstractAttributes.updateUser}" />
 					</td>
 					
 	             	<td>${abstract.abstractType.description}</td>
 	             	
 				    <td>
 	             		<div align="left">
-					        <kul:htmlControlAttribute property="document.proposalAbstracts[${status.index}].abstractDetails" 
+					        <kul:htmlControlAttribute property="document.proposalAbstract[${status.index}].abstractDetails" 
 					          					      attributeEntry="${proposalAbstractAttributes.abstractDetails}" />
-                    		<kra:expandedTextArea textAreaFieldName="document.proposalAbstracts[${status.index}].abstractDetails" action="${action}" textAreaLabel="${proposalAbstractAttributes.abstractDetails.label}" />
+                    		<kra:expandedTextArea textAreaFieldName="document.proposalAbstract[${status.index}].abstractDetails" action="${action}" textAreaLabel="${proposalAbstractAttributes.abstractDetails.label}" />
                 		</div>
                 	</td>
                 	

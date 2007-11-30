@@ -40,11 +40,11 @@
                 <td>
                 	 ${KualiForm.document.propScienceKeywords[ctr].scienceKeyword.description}
 					<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
-					fieldConversions="scienceKeywordCode:document.propScienceKeywords[${ctr}].scienceKeywordCode,description:document.propScienceKeywords[${ctr}].scienceKeyword.description"
+					fieldConversions="scienceKeywordCode:document.propScienceKeyword[${ctr}].scienceKeywordCode,description:document.propScienceKeywor[${ctr}].scienceKeyword.description"
 					lookupParameters="" hideReturnLink="false" />
                 </td>
                 <td><div align="center">
-                  <kul:htmlControlAttribute property="document.propScienceKeywords[${ctr}].selectKeyword" attributeEntry="${DataDictionary.PropScienceKeyword.attributes.selectKeyword}" readOnly="false" />
+                  <kul:htmlControlAttribute property="document.propScienceKeyword[${ctr}].selectKeyword" attributeEntry="${DataDictionary.PropScienceKeyword.attributes.selectKeyword}" readOnly="false" />
                 </div></td>
               </tr>
             </logic:iterate>

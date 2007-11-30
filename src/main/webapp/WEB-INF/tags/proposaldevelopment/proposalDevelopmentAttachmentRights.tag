@@ -30,7 +30,7 @@
             		<c:out value="${narrUserRight.personName}"/>
 				</div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.narratives[${line}].narrativeUserRights[${status.index}].accessType" attributeEntry="${narrativeUserRightsAttributes.accessType}" />
+                	<kul:htmlControlAttribute property="document.narrative[${line}].narrativeUserRight[${status.index}].accessType" attributeEntry="${narrativeUserRightsAttributes.accessType}" />
 				</td>
         	</tr>
 	       </c:forEach>

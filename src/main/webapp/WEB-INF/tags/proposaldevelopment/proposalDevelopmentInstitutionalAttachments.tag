@@ -22,7 +22,7 @@
 <c:set var="numOfInstAtt" value="0"/>	
 
 
-<kul:tab tabTitle="Institutional Attachments (${fn:length(KualiForm.document.institutes)})" defaultOpen="true" tabErrorKey="document.institutes*,newInstitute*">
+<kul:tab tabTitle="Institutional Attachments (${fn:length(KualiForm.document.institutes)})" defaultOpen="true" tabErrorKey="document.institute*,newInstitute*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Add Institutional Attachments</h2></span>
@@ -76,21 +76,21 @@
 						${status.index + 1}:
 					</th>
 	                <td>
-                	    <kul:htmlControlAttribute property="document.institutes[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
+                	    <kul:htmlControlAttribute property="document.institute[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
 					</td>
 	                <td>
                 	    ${instituteAttachment.authorPersonName}
 	                </td>
 	                <td>                	
-                	    <input type="hidden" name="document.institutes[${status.index}].institutionalAttachmentTypeCode" value="${instituteAttachment.institutionalAttachmentTypeCode}" />
+                	    <input type="hidden" name="document.institute[${status.index}].institutionalAttachmentTypeCode" value="${instituteAttachment.institutionalAttachmentTypeCode}" />
                          ${instituteAttachment.narrativeType.description}	                </td>
-                	    <!-- <kul:htmlControlAttribute property="document.institutes[${status.index}].narrativeType.description" readOnly="true" attributeEntry="${narrativeAttributes.narrativeType.description}" /> -->
+                	    <!-- <kul:htmlControlAttribute property="document.institute[${status.index}].narrativeType.description" readOnly="true" attributeEntry="${narrativeAttributes.narrativeType.description}" /> -->
 					</td>
 	                <td>
-	                	<kul:htmlControlAttribute property="document.institutes[${status.index}].moduleTitle" readOnly="true" attributeEntry="${narrativeAttributes.moduleTitle}" />
+	                	<kul:htmlControlAttribute property="document.institute[${status.index}].moduleTitle" readOnly="true" attributeEntry="${narrativeAttributes.moduleTitle}" />
 					</td>
 	                <td>
-	                    <kul:htmlControlAttribute property="document.institutes[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
+	                    <kul:htmlControlAttribute property="document.institute[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 	                </td>
 	                <td>
 					<div align=center>

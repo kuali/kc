@@ -38,14 +38,14 @@
 </c:forEach>
               </tr>
 <c:forEach items="${KualiForm.document.investigators}" var="investigator" varStatus="invStatus">
-  <c:set var="investigatorProperty" value="document.investigators[${invStatus.index}]" />
+  <c:set var="investigatorProperty" value="document.investigator[${invStatus.index}]" />
               <tr>
                 <td nowrap class="tab-subhead1"><strong>
                   <kul:htmlControlAttribute property="${investigatorProperty}.fullName" 
                                       attributeEntry="${proposalPersonAttributes.fullName}" readOnly="true" />
                   </strong></td>
   <c:forEach items="${investigator.creditSplits}" varStatus="splitStatus" >
-    <c:set var="personCreditSplit" value="${investigatorProperty}.creditSplits[${splitStatus.index}]" />
+    <c:set var="personCreditSplit" value="${investigatorProperty}.creditSplit[${splitStatus.index}]" />
                 <td class="tab-subhead1"><div align="right"><strong>
                   <kul:htmlControlAttribute property="${personCreditSplit}.credit" 
                                       attributeEntry="${personCreditSplitAttributes.credit}" styleClass="align-right" />
@@ -54,11 +54,11 @@
              </tr>
   <c:forEach items="${investigator.units}" var="personUnit" varStatus="unitStatus">
              <tr>
-    <c:set var="unitProperty" value="${investigatorProperty}.units[${unitStatus.index}]" />
+    <c:set var="unitProperty" value="${investigatorProperty}.unit[${unitStatus.index}]" />
                 <td nowrap>${personUnit.unitNumber} - ${personUnit.unit.unitName}</td>
 
     <c:forEach items="${personUnit.creditSplits}" varStatus="splitStatus" >
-      <c:set var="unitCreditSplit" value="${unitProperty}.creditSplits[${splitStatus.index}]" />
+      <c:set var="unitCreditSplit" value="${unitProperty}.creditSplit[${splitStatus.index}]" />
     
                 <td><div align="right"><kul:htmlControlAttribute property="${unitCreditSplit}.credit" 
                                       attributeEntry="${unitCreditSplitAttributes.credit}"  styleClass="align-right" /></div></td>

@@ -81,31 +81,31 @@
 						${status.index+1}:
 					</th>
 	                <td>
-                	    <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${propPersonBioAttributes.updateTimestamp}" />
+                	    <kul:htmlControlAttribute property="document.propPersonBio[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${propPersonBioAttributes.updateTimestamp}" />
 					</td>
 	                <td>
                 	    ${propPersonBio.authorPersonName}
 	                </td>
 	                <td>
-        			    <input type="hidden" name="document.propPersonBios[${status.index}].proposalPersonNumber" value="${propPersonBio.proposalPersonNumber}" /> 
-	                	<!--<kul:htmlControlAttribute property="document.propPersonBios[${status.index}].personId" attributeEntry="${propPersonBioAttributes.personId}" />--> 
+        			    <input type="hidden" name="document.propPersonBio[${status.index}].proposalPersonNumber" value="${propPersonBio.proposalPersonNumber}" /> 
+	                	<!--<kul:htmlControlAttribute property="document.propPersonBio[${status.index}].personId" attributeEntry="${propPersonBioAttributes.personId}" />--> 
         				<c:forEach var="keyPerson" items="${KualiForm.document.proposalPersons}" varStatus="idx">
         				   <c:if test="${keyPerson.proposalPersonNumber == propPersonBio.proposalPersonNumber}" >
         				       ${keyPerson.fullName}
-		        			    <input type="hidden" name="document.propPersonBios[${status.index}].personId" value="${keyPerson.personId}" /> 
-			    			    <input type="hidden" name="document.propPersonBios[${status.index}].rolodexId" value="${keyPerson.rolodexId}" /> 
+		        			    <input type="hidden" name="document.propPersonBio[${status.index}].personId" value="${keyPerson.personId}" /> 
+			    			    <input type="hidden" name="document.propPersonBio[${status.index}].rolodexId" value="${keyPerson.rolodexId}" /> 
         				   </c:if>
 						</c:forEach>
 	                </td>
 	                <td>   
 	                    ${propPersonBio.propPerDocType.description}           	
-	                    <!-- <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].propPerDocType.description" attributeEntry="${propPersonBioAttributes.propPerDocType.description}" /> -->  
+	                    <!-- <kul:htmlControlAttribute property="document.propPersonBio[${status.index}].propPerDocType.description" attributeEntry="${propPersonBioAttributes.propPerDocType.description}" /> -->  
 					</td>
 	                <td>
-	                	<kul:htmlControlAttribute property="document.propPersonBios[${status.index}].description" readOnly="true" attributeEntry="${propPersonBioAttributes.description}" />
+	                	<kul:htmlControlAttribute property="document.propPersonBio[${status.index}].description" readOnly="true" attributeEntry="${propPersonBioAttributes.description}" />
 					</td>
 	                <td>
-	                    <kul:htmlControlAttribute property="document.propPersonBios[${status.index}].fileName" readOnly="true" attributeEntry="${propPersonBioAttributes.fileName}" />
+	                    <kul:htmlControlAttribute property="document.propPersonBio[${status.index}].fileName" readOnly="true" attributeEntry="${propPersonBioAttributes.fileName}" />
 	                </td>
 	                <td>
 					<div align=center>

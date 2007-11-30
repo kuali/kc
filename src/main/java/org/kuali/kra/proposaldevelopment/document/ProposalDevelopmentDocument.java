@@ -116,7 +116,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         propScienceKeywords = new TypedArrayList(PropScienceKeyword.class);
         newDescription = getDefaultNewDescription();
         proposalLocations = new ArrayList<ProposalLocation>();
-        propSpecialReviews = new ArrayList<ProposalSpecialReview>();
+        propSpecialReviews = new TypedArrayList(ProposalSpecialReview.class);
         proposalPersons = new ArrayList<ProposalPerson>();
         nextProposalPersonNumber = new Integer(1);
         narratives = new ArrayList<Narrative>();
@@ -891,8 +891,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
         return investigatorCreditTypes;
     }
-
-
+    
+    
     public List<ProposalYnq> getProposalYnqs() {
         return proposalYnqs;
     }
@@ -971,4 +971,156 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
 
     
+    
+    
+    // getters to auto-grow list to prevent arrayindexoutofbound exception
+    // also used in JSP
+    /**
+     * Gets index i from the propSpecialReviews list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public ProposalSpecialReview getPropSpecialReview(int index) {
+        while (getPropSpecialReviews().size() <= index) {
+            getPropSpecialReviews().add(new ProposalSpecialReview());
+        }
+        return (ProposalSpecialReview) getPropSpecialReviews().get(index);
+    }
+    
+    /**
+     * Gets index i from the propScienceKeywords list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public PropScienceKeyword getPropScienceKeyword(int index) {
+        while (getPropScienceKeywords().size() <= index) {
+            getPropScienceKeywords().add(new PropScienceKeyword());
+        }
+        return (PropScienceKeyword) getPropScienceKeywords().get(index);
+    }
+
+    /**
+     * Gets index i from the proposalLocations list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public ProposalLocation getProposalLocation(int index) {
+        while (getProposalLocations().size() <= index) {
+            getProposalLocations().add(new ProposalLocation());
+        }
+        return (ProposalLocation) getProposalLocations().get(index);
+    }
+
+    /**
+     * Gets index i from the narratives list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public Narrative getNarrative(int index) {
+        while (getNarratives().size() <= index) {
+            getNarratives().add(new Narrative());
+        }
+        return (Narrative) getNarratives().get(index);
+    }
+
+    /**
+     * Gets index i from the institutes list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public Narrative getInstitute(int index) {
+        while (getInstitutes().size() <= index) {
+            getInstitutes().add(new Narrative());
+        }
+        return (Narrative) getInstitutes().get(index);
+    }
+
+    /**
+     * Gets index i from the proposalUserRoles list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public ProposalUserRoles getProposalUserRole(int index) {
+        while (getProposalUserRoles().size() <= index) {
+            getProposalUserRoles().add(new ProposalUserRoles());
+        }
+        return (ProposalUserRoles) getProposalUserRoles().get(index);
+    }
+
+    /**
+     * Gets index i from the proposalAbstracts list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public ProposalAbstract getProposalAbstract(int index) {
+        while (getProposalAbstracts().size() <= index) {
+            getProposalAbstracts().add(new ProposalAbstract());
+        }
+        return (ProposalAbstract) getProposalAbstracts().get(index);
+    }
+
+    /**
+     * Gets index i from the proposalAbstracts list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public ProposalPersonBiography getPropPersonBio(int index) {
+        while (getPropPersonBios().size() <= index) {
+            getPropPersonBios().add(new ProposalPersonBiography());
+        }
+        return (ProposalPersonBiography) getPropPersonBios().get(index);
+    }
+
+    
+    /**
+     * Gets index i from the investigators list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public ProposalPerson getInvestigator(int index) {
+        while (getInvestigators().size() <= index) {
+            getInvestigators().add(new ProposalPerson());
+        }
+        
+        return getInvestigators().get(index);
+    }
+
+    /**
+     * Gets index i from the proposalYnqs list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public ProposalYnq getProposalYnq(int index) {
+        while (getProposalYnqs().size() <= index) {
+            getProposalYnqs().add(new ProposalYnq());
+        }
+        
+        return (ProposalYnq)getProposalYnqs().get(index);
+    }
+    
+    /**
+     * Gets index i from the ynqGroupNames list.
+     * 
+     * @param index
+     * @return Question at index i
+     */
+    public YnqGroupName getYnqGroupName(int index) {
+        while (getYnqGroupNames().size() <= index) {
+            getYnqGroupNames().add(new YnqGroupName());
+        }
+        
+        return (YnqGroupName)getYnqGroupNames().get(index);
+    }
+
+
 }
