@@ -374,7 +374,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
                 SUBMIT_INPUT_BY_NAME);
         assertTrue(abstractAttachmentPage.asText().contains("Document was successfully saved"));
         // really is in abstracts & attachments page
-        assertTrue(abstractAttachmentPage.asText().contains("Add Institutional Attachments &nbsp Timestamp Author"));
+        assertTrue(abstractAttachmentPage.asText().contains("Add Institutional Attachments &nbsp Posted Timestamp Uploaded By"));
         HtmlForm form1 = (HtmlForm) abstractAttachmentPage.getForms().get(0);
         //webClient.setJavaScriptEnabled(false);
         String fileName=getFileName();
