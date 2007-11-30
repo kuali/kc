@@ -38,6 +38,7 @@
       <html-el:hidden property="workgroupMembers[${status.index}].workflowId"/>
       <html-el:hidden property="workgroupMembers[${status.index}].memberType" />
       <html-el:hidden property="workgroupMembers[${status.index}].displayName" />
+      <html-el:hidden property="workgroupMembers[${status.index}].displayNameSafe" />
       <html-el:hidden property="workgroupMembers[${status.index}].authenticationId" />
     </c:forEach>
   <html-el:hidden property="methodToCall" />

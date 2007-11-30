@@ -92,6 +92,7 @@
       <c:if test="${DocumentSearchForm.isAdvancedSearch != 'YES'}">
       <%-- BEGIN BASIC SEARCH --%>
       <table width="100%" border="0" cellpadding="3" cellspacing="0" class="bord-r-t">
+<%--
         <tr>
           <th align="right" class="thnormal"  colspan="2">
             <div align="right"><bean-el:message key="docSearch.DocumentSearch.criteria.label.documentType"/>:</div>
@@ -168,6 +169,20 @@
         <tr>
           <th height="28" colspan="3" align="right" valign="top" class="thnormal"  >
             <div align="center">
+              <html-el:image property="methodToCall.doDocSearch" src="images/buttonsmall_search.gif" align="absmiddle"/>&nbsp;&nbsp;&nbsp;&nbsp;
+ 	          <html-el:image src="images/buttonsmall_clear.gif" align="absmiddle" property="methodToCall.clear"/>
+            </div>
+          </th>
+        </tr>
+--%>
+        <%  request.setAttribute("priorToSearchAttributes",true);  %>
+        <c:import url="StandardDocumentSearchCriteria.jsp" />
+        <c:import url="DocumentSearchSearchableAttributes.jsp" />
+        <%  request.setAttribute("priorToSearchAttributes",false);  %>
+        <c:import url="StandardDocumentSearchCriteria.jsp" />
+        <tr>
+          <th height="28" colspan="3" align="right" valign="top" class="thnormal"  >
+            <div align="center">
             <%-- onclick="setMethod('doDocSearch');" --%>
               <html-el:image property="methodToCall.doDocSearch" src="images/buttonsmall_search.gif" align="absmiddle"/>&nbsp;&nbsp;&nbsp;&nbsp;
  	          <html-el:image src="images/buttonsmall_clear.gif" align="absmiddle" property="methodToCall.clear"/>
@@ -184,6 +199,19 @@
             <tr>
               <td colspan="5" class="catheader"></td>
             </tr>
+
+
+
+        <tr>
+          <th align="right" class="thnormal"  colspan="2" >
+            <p align="right"><bean-el:message key="docSearch.DocumentSearch.criteria.label.initiatorId"/>:</p>
+          </th>
+          <td nowrap class="datacell">
+            <html-el:text name="DocumentSearchForm" property="criteria.initiator" />
+            <html-el:image property="methodToCall.performLookup" src="images/searchicon.gif" alt="search" align="absmiddle" onclick="document.forms[0].elements['lookupableImplServiceName'].value = 'UserLookupableImplService'; document.forms[0].elements['lookupType'].value = 'criteria.initiator';"/>
+            <bean-el:message key="general.help.initiatorId"/>
+          </td>
+        </tr>
             <tr>
               <td align="right" nowrap class="thnormal" colspan="2">
                 <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.initiatorId"/>:</div>
@@ -202,6 +230,8 @@
                 <bean-el:message key="general.help.viewerId"/>
               </td>
             </tr>
+
+
             <tr>
               <td align="right" nowrap class="thnormal" colspan="2">
                 <div align="right"> <bean-el:message key="docSearch.DocumentSearch.criteria.label.approverId"/>:</div>
@@ -398,8 +428,8 @@
               </td>
             </tr>
             <tr>
-              <td height="30" colspan="5" align="center" class="thnormal">
-                <html-el:image property="methodToCall.doDocSearch" src="images/buttonsmall_search.gif" align="absmiddle"/>
+              <td height="30" colspan="5" align="center" valign="top" class="thnormal">
+                <html-el:image property="methodToCall.doDocSearch" src="images/buttonsmall_search.gif" align="absmiddle"/>&nbsp;&nbsp;&nbsp;&nbsp;
 		        <html-el:image src="images/buttonsmall_clear.gif" align="absmiddle" property="methodToCall.clear"/>
               </td>
             </tr>
@@ -421,7 +451,7 @@
     <td>&nbsp;</td>
       <td>
 
-  <!-- Setup column lables based on ApplicationsResources -->
+  <%-- Setup column lables based on ApplicationsResources --%>
   <bean:define id="documentIdLabel">
  	<bean-el:message key="docSearch.DocumentSearch.results.label.routeHeaderId"/>
   </bean:define>
@@ -455,7 +485,7 @@
     <display-el:setProperty name="paging.banner.placement" value="both" />
     <display-el:setProperty name="export.banner" value="" />
 		<c:forEach items="${reqSearchResultColumns}" var="column">
-			<display-el:column class="datacell"
+			<display-el:column class="datacell" 
 				sortable="${column.sortable}"
 				sortName="${column.sortName}"
 				title="${column.columnTitle}"

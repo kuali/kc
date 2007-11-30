@@ -62,7 +62,7 @@
     </td>
   </tr>
 
-<c:if test="${(! SuperUserForm.routeHeader.canceled) && (SuperUserForm.authorized}">
+<c:if test="${(! SuperUserForm.routeHeader.canceled) && (SuperUserForm.authorized)}">
       <html-el:form method="post" action="/SuperUser.do">
       <html-el:hidden property="methodToCall" />
       <html-el:hidden property="routeHeaderId" value="${SuperUserForm.routeHeader.routeHeaderId}" />

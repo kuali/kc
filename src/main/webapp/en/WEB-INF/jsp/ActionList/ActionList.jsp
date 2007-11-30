@@ -9,8 +9,10 @@
 <head>
 <title><bean-el:message key="actionList.ActionList.title"/></title>
 
-<c:if test="${! empty preferences.refreshRate && preferences.refreshRate != 0}">
+<c:if test="${!empty preferences.refreshRate && preferences.refreshRate != 0}">
+<c:if test="${!noRefresh}">
 <META HTTP-EQUIV="Refresh" CONTENT="<c:out value="${preferences.refreshRate * 60}"/>; URL=ActionList.do">
+</c:if>
 </c:if>
 
 <link href="<c:out value="css/${ActionListForm.cssFile}"/>" rel="stylesheet" type="text/css">
@@ -38,7 +40,7 @@
 				<c:param name="methodToCall" value="start" />
 			</c:url>">Refresh <bean-el:message key="actionList.ActionList.title"/></a>&nbsp;&nbsp;
 		<html-el:link action="ActionListFilter">Filter</html-el:link>&nbsp;&nbsp;
-		<c:if test="${UserSession.actionListFilter != null && UserSession.actionListFilter.filterOn}">
+		<c:if test="${kewUserSession.actionListFilter != null && kewUserSession.actionListFilter.filterOn}">
 			<a href="
 			<c:url value="ActionList.do">
 				<c:param name="methodToCall" value="clearFilter" />
@@ -48,11 +50,11 @@
 		<c:if test="${helpDeskActionList != null}">
 			<html-el:text property="helpDeskActionListUserName" size="12"/>&nbsp;
             <html-el:image src="images/tinybutton-hlpdesk.gif" align="absmiddle" property="methodToCall.helpDeskActionListLogin" />
-			<c:if test="${UserSession.helpDeskActionListUser != null}">
+			<c:if test="${kewUserSession.helpDeskActionListUser != null}">
 				<a href="
 					<c:url value="ActionList.do">
 						<c:param name="methodToCall" value="clearHelpDeskActionListUser" />
-					</c:url>">Clear <c:out value="${UserSession.helpDeskActionListUser.displayName}"/>'s List</a>
+					</c:url>">Clear <c:out value="${kewUserSession.helpDeskActionListUser.displayName}"/>'s List</a>
 			</c:if>&nbsp;&nbsp;
 		</c:if>
 		<c:if test="${! empty ActionListForm.delegators}">
@@ -84,16 +86,36 @@
       <table width="100%" border=0 cellspacing=0 cellpadding=0>
         <tr>
           <td>
-            <strong><bean-el:message key="actionList.ActionList.title"/></strong>
+            <c:choose>
+	            <c:when test="${ActionListForm.viewOutbox && ActionListForm.showOutbox}">
+		            <a href="<c:url value="ActionList.do?viewOutbox=false" />"><bean-el:message key="actionList.ActionList.title"/></a>
+		            | <strong><bean-el:message key="actionList.Outbox.title"/></strong>
+		             <c:if test="${! ActionListForm.outBoxEmpty }">
+			            <td align="right">
+			  	        	<html-el:image src="images/buttonsmall_delselitems.gif" align="absmiddle" property="methodToCall.removeOutboxItems"/>
+			          	</td>
+			          </c:if>
+	            </c:when>
+	            <c:otherwise>
+	                <strong><bean-el:message key="actionList.ActionList.title"/></strong>
+	                <c:if test="${ActionListForm.showOutbox }">
+		            	| <a href="<c:url value="ActionList.do?viewOutbox=true" />"><bean-el:message key="actionList.Outbox.title"/></a>
+	            	</c:if>
+	            	<c:if test="${kewUserSession.helpDeskActionListUser == null && ! empty actionList && ! empty ActionListForm.defaultActions}">
+			            <td align="right">
+			               <c:set var="defaultActions" value="${ActionListForm.defaultActions}" scope="request" />
+			               <html-el:select styleId='defaultAction' property="defaultActionToTake">
+			                 <html-el:options collection="defaultActions" labelProperty="value" property="key" filter="false"/>
+			               </html-el:select>&nbsp;<html-el:img src="images/tinybutton-applydflt.gif" align="absmiddle" onclick="setActions();" /><br>
+			            </td>
+			          </c:if>
+	            </c:otherwise>
+            </c:choose>
           </td>
-          <c:if test="${UserSession.helpDeskActionListUser == null && ! empty actionList && ! empty ActionListForm.defaultActions}">
-            <td align="right">
-               <c:set var="defaultActions" value="${ActionListForm.defaultActions}" scope="request" />
-               <html-el:select styleId='defaultAction' property="defaultActionToTake">
-                 <html-el:options collection="defaultActions" labelProperty="value" property="key" filter="false"/>
-               </html-el:select>&nbsp;<html-el:img src="images/tinybutton-applydflt.gif" align="absmiddle" onclick="setActions();" /><br>
-            </td>
-          </c:if>
+          
+
+          
+          
         </tr>
       </table>
     </td>
@@ -161,6 +183,9 @@
   <bean:define id="routeLogLabel">
  	<bean-el:message key="actionList.ActionList.results.label.routeLog"/>
   </bean:define>
+  <bean:define id="outboxActionItemDelete">
+  	Delete Item
+  </bean:define>
 
   <display-el:table class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="actionListPage" pagesize="${preferences.pageSize}" export="true" id="result"
           decorator="edu.iu.uis.eden.actionlist.web.ActionListDecorator" excludedParams="*"
@@ -173,7 +198,7 @@
 
   <display-el:column sortable="true" title="${documentIdLabel}" sortProperty="routeHeaderId" class="display-column">
   	<c:choose>
-      <c:when test="${UserSession.helpDeskActionListUser == null}">
+      <c:when test="${kewUserSession.helpDeskActionListUser == null}">
 		  	  <a href="<c:url value="${Constants.DOC_HANDLER_REDIRECT_PAGE}" >
 		  				<c:param name="docId" value="${result.routeHeaderId}"/>
 		  				<c:param name="command" value="displayActionListView" />
@@ -266,7 +291,7 @@
 	</display-el:column>
   </c:if>
 
-  <c:if test="${UserSession.helpDeskActionListUser == null && ActionListForm.hasCustomActions && (ActionListForm.customActionList || (preferences.showClearFyi == Constants.PREFERENCES_YES_VAL))}">
+  <c:if test="${! ActionListForm.viewOutbox && kewUserSession.helpDeskActionListUser == null && ActionListForm.hasCustomActions && (ActionListForm.customActionList || (preferences.showClearFyi == Constants.PREFERENCES_YES_VAL))}">
     <display-el:column title="${actionsLabel}" class="display-column">
         <c:if test="${! empty result.customActions}">
           <c:set var="customActions" value="${result.customActions}" scope="request" />
@@ -276,6 +301,12 @@
           </html-el:select>
           <c:set var="customActionsPresent" value="true" />
         </c:if>&nbsp;
+    </display-el:column>
+  </c:if>
+  
+  <c:if test="${ActionListForm.viewOutbox }">
+      <display-el:column title="${outboxActionItemDelete}" class="display-column">
+          <html-el:checkbox property="outboxItems" value="${result.actionItemId}"/>
     </display-el:column>
   </c:if>
 
@@ -290,7 +321,7 @@
 <td></td>
 </tr>
 
-  <c:if test="${UserSession.helpDeskActionListUser == null && (! empty customActionsPresent) && (preferences.showClearFyi == Constants.PREFERENCES_YES_VAL || ActionListForm.customActionList)}">
+  <c:if test="${kewUserSession.helpDeskActionListUser == null && (! empty customActionsPresent) && (preferences.showClearFyi == Constants.PREFERENCES_YES_VAL || ActionListForm.customActionList)}">
     <tr><td colspan=3>&nbsp;</td></tr>
   	<tr>
   		<td></td>
@@ -310,8 +341,8 @@
 </html-el:form>
 
 <center>
-<c:if test="${UserSession.helpDeskActionListUser != null}">
-	<c:out value="${UserSession.workflowUser.displayName}"/> Viewing <c:out value="${UserSession.helpDeskActionListUser.displayName}"/>'s Action List
+<c:if test="${kewUserSession.helpDeskActionListUser != null}">
+	<c:out value="${kewUserSession.workflowUser.displayName}"/> Viewing <c:out value="${kewUserSession.helpDeskActionListUser.displayName}"/>'s Action List
 </c:if>
 </center>
 <jsp:include page="../BackdoorMessage.jsp" flush="true"/>

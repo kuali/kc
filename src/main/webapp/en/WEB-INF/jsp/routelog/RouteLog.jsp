@@ -92,7 +92,7 @@
 		                   <td width="20%" align=right class="thnormal"><bean-el:message key="routeLog.RouteLog.header.label.initiator"/></td>
 		                   <td class="datacell" width="25%">
 		                   <c:set var="initiatorDisplayName" value="${routeHeader.initiatorUser.displayName}"/>
-							  <c:if test="${UserSession.workflowUser.workflowId != routeHeader.initiatorUser.workflowId}">
+							  <c:if test="${kewUserSession.workflowUser.workflowId != routeHeader.initiatorUser.workflowId}">
   							    <c:set var="initiatorDisplayName" value="${routeHeader.initiatorUser.displayNameSafe}"/>
 							  </c:if>
 			                   <a href="
@@ -192,7 +192,7 @@
 	                       		<td align="left" class="headercell4">
 							        <c:if test="${actionTaken.forDelegator}">
 							        <c:set var="actionDisplayName" value="${actionTaken.workflowUser.displayName}"/>
-							      <c:if test="${UserSession.workflowUser.workflowId != actionTaken.workflowUser.workflowId}">
+							      <c:if test="${kewUserSession.workflowUser.workflowId != actionTaken.workflowUser.workflowId}">
   							        <c:set var="actionDisplayName" value="${actionTaken.workflowUser.displayNameSafe}"/>
 							      </c:if>
 											<a style="color:white" href="

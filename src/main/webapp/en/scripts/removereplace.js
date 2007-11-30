@@ -27,3 +27,9 @@ function selectAllWorkgroupCheckboxes(num) {
 function isCheckbox(element) {
 	return element && element.type && element.type == 'checkbox';
 }
+
+function lookup(quickFinderLookupable, conversionFields, action) {
+  document.forms[0].lookupableImplServiceName.value = quickFinderLookupable;
+  document.forms[0].conversionFields.value = conversionFields;
+  return post_to_action(action, 'performLookup');
+}
