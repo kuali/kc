@@ -800,11 +800,13 @@
 		<field-descriptor name="answer" column="ANSWER" jdbc-type="CHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<!-- 
 		<reference-descriptor name="ProposalPerson" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalPersonNumber"/> 
 			<foreignkey field-ref="proposalNumber"/> 
 		</reference-descriptor>
-		<reference-descriptor name="Ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		-->
+		<reference-descriptor name="ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="questionId"/> 
 		</reference-descriptor>
 	</class-descriptor>
@@ -823,7 +825,7 @@
 			<foreignkey field-ref="proposalNumber"/> 
 		</reference-descriptor>
 		 -->
-		<reference-descriptor name="Ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="questionId"/> 
 		</reference-descriptor>
 	</class-descriptor>
