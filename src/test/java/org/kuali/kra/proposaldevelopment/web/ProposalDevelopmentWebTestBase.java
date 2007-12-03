@@ -32,8 +32,8 @@ import org.junit.Before;
 /**
  * Base class for all htmlunit tests involving the Proposal Development Page.
  * 
- * @author $Author: bghutchi $
- * @version $Revision: 1.9 $
+ * @author $Author: gthomas $
+ * @version $Revision: 1.10 $
  */
 public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     
@@ -167,6 +167,10 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
      * @throws Exception
      */
     protected void testTextAreaPopup(HtmlPage page, String textAreaFieldName,String moreTextToBeAdded,String action,String textAreaLabel,String tabIndex) throws Exception{
+        assertNotNull(webClient);
+        boolean javaScriptEnabled = webClient.isJavaScriptEnabled(); 
+        webClient.setJavaScriptEnabled(false);
+
         HtmlPage textAreaPopupPage = clickOn(page, "methodToCall.updateTextArea.((#"+textAreaFieldName+":"+action+":"+textAreaLabel+"#))"+tabIndex);
         String currentValue = getFieldValue(textAreaPopupPage, textAreaFieldName);
         String completeText = currentValue+moreTextToBeAdded;
@@ -174,6 +178,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
         super.assertContains(textAreaPopupPage, textAreaLabel);
         HtmlPage textAreasAddedPage = clickOn(textAreaPopupPage,"methodToCall.postTextAreaToParent.anchor"+tabIndex);
         assertEquals(getFieldValue(textAreasAddedPage, textAreaFieldName), completeText);
+        webClient.setJavaScriptEnabled(javaScriptEnabled);
     }
     /**
      * 

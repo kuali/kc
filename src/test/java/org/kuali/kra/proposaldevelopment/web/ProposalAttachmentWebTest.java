@@ -37,7 +37,6 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
     @Test
     public void testProposalAttachment() throws Exception {
         
-//        final WebClient webClient = new WebClient();
         final HtmlPage propDevPage = getProposalDevelopmentPage();
         setDefaultRequiredFields(propDevPage);
         
@@ -49,7 +48,6 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         assertTrue(propAttPage.asText().contains("Document was successfully saved"));
         // really is in proposal attachment page
         assertTrue(propAttPage.asText().contains("Attachment Type"));
-//        webClient.setJavaScriptEnabled(false);
         String[] values0 = { "1","C","Test Contact Name","t0@t0.com","123456","Test Comments","Test Module Title"};
         
         setProposalAttachmentLine(propAttPage, getKeyMap("newNarrative",values0));
@@ -104,6 +102,9 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
     }
 
     private void testNarrUserRights(HtmlPage propPage,int lineNumber) throws Exception{
+        assertNotNull(webClient);
+        boolean javaScriptEnabled = webClient.isJavaScriptEnabled(); 
+        webClient.setJavaScriptEnabled(false);
         HtmlPage rightPage = clickOn(propPage, "getProposalAttachmentRights.line"+lineNumber);
         assertContains(rightPage, "Proposal Attachment Rights for "+(lineNumber+1)+".");
         HtmlTable table = getTable(rightPage, "narrative-rights-table");
@@ -124,7 +125,8 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 //        HtmlPage savedPage = testSaveProposalAttachment(propPage);
 //        HtmlPage rightPage1 = clickOn(savedPage, "getProposalAttachmentRights.line"+lineNumber);
 //        assertEquals("M",getFieldValue(rightPage1,"document.narrative["+lineNumber+"].narrativeUserRight[0].accessType"));
-        
+        webClient.setJavaScriptEnabled(javaScriptEnabled);
+
     }
 
 
