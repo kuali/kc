@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/WEB-INF/jsp/proposalPerson.jsp"%>
+<%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
 
               <!-- <table cellpadding=0 cellspacing="0" summary=""> -->
                 <tbody id="G4">
