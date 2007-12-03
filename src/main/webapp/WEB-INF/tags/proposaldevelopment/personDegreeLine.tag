@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/WEB-INF/jsp/proposalPerson.jsp"%>
+<%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
 
 <c:set var="personDegreeAttributes" value="${DataDictionary.ProposalPersonDegree.attributes}" />
 <c:set var="degree" value="newProposalPersonDegree[${personIndex}]" />

@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/WEB-INF/jsp/proposalPerson.jsp"%>
+<%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
 <bean:define id="parentTabName" name="KualiForm" property="${proposalPerson}.fullName"/>
 <div class="tab-container" align="center">
 <bean:define id="personEditableFields" name="KualiForm" property="personEditableFields" />
