@@ -901,77 +901,22 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.proposalYnqs = proposalYnqs;
     }
 
-    /* get ynq explanation required / review date required column label */
-    private String getYnqRequiredLabel(String ynqCode) {
-        String retValue = null;
-        for (YnqConstants ynqConstants : YnqConstants.values()) {
-            if(ynqConstants.code().equalsIgnoreCase(ynqCode)) {
-                retValue =  ynqConstants.description();
-                break;
-            }
-        }
-        return retValue;
-    }
-    
-    /* get YNQ for proposal */
-    private void loadQuestions() {
-        String questionType = Constants.QUESTION_TYPE_PROPOSAL;
-        List<Ynq> ynqs = (KraServiceLocator.getService(YnqService.class).getYnq(questionType));
-        for (Ynq type : ynqs) {
-            ProposalYnq proposalYnq = new ProposalYnq();
-            proposalYnq.setQuestionId(type.getQuestionId());
-            proposalYnq.setYnq(type); 
-            /* check Date required for column in required */
-            if(type.getDateRequiredFor() == null) {
-                proposalYnq.setReviewDateRequired(false);
-            }else {
-                proposalYnq.setReviewDateRequiredDescription(Constants.YNQ_REVIEW_DATE_REQUIRED.concat(getYnqRequiredLabel(type.getDateRequiredFor())));
-            }
-            /* check Explanation required for column is mandatory */
-            if(type.getExplanationRequiredFor() == null) {
-                proposalYnq.setExplanationRequried(false);
-            }else {
-                proposalYnq.setExplanationRequiredDescription(Constants.YNQ_EXPLANATION_REQUIRED.concat(getYnqRequiredLabel(type.getExplanationRequiredFor())));
-            }
-            proposalYnqs.add(proposalYnq);
-            /* add distinct group names */
-            if(!isDuplicateGroupName(type.getGroupName())) {
-                YnqGroupName ynqGroupName = new YnqGroupName();
-                ynqGroupName.setGroupName(type.getGroupName());
-                ynqGroupNames.add(ynqGroupName);
-            }
-        }
-    }
-
     public void populateDummyPropUserRolesForNarrative() {
         getNarrativeService().populateDummyUserRoles(this);
     }
 
+
     public List<YnqGroupName> getYnqGroupNames() {
         if(ynqGroupNames.isEmpty()) {
-            loadQuestions();
+            getYnqService().populateProposalQuestions(this.proposalYnqs, this.ynqGroupNames);
         }
         return ynqGroupNames;
     }
-
+    
     public void setYnqGroupNames(List<YnqGroupName> ynqGroupNames) {
         this.ynqGroupNames = ynqGroupNames;
     }
 
-    private boolean isDuplicateGroupName(String groupName) {
-        boolean duplicateGroupName = false;
-        for (YnqGroupName type : ynqGroupNames) {
-            if(type.getGroupName().equalsIgnoreCase(groupName)) {
-                duplicateGroupName = true;
-                break;
-            }
-        }
-        return duplicateGroupName;
-    }
-
-
-    
-    
     
     // getters to auto-grow list to prevent arrayindexoutofbound exception
     // also used in JSP
@@ -1122,5 +1067,15 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         return (YnqGroupName)getYnqGroupNames().get(index);
     }
 
+    /**
+     * Gets the ynqService attribute. 
+     * @return Returns the ynqService.
+     */
+    public YnqService getYnqService() {
+        return getService(YnqService.class);
+    }
 
+
+
+    
 }
