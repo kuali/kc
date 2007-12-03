@@ -52,7 +52,7 @@
                 <td class="infoline">          	
           		       <html:select property="newPropPersonBio.proposalPersonNumber">
   		                    <c:set var="proposalPersons" value="${KualiForm.document.proposalPersons}"/>
-  		                    <option value="">Select:</option>
+  		                    <option value="">select:</option>
 	    		            <html:options collection="proposalPersons" property="proposalPersonNumber" labelProperty="fullName"/>
 	  			        </html:select>
                 </td>
