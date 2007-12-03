@@ -60,8 +60,8 @@ import org.kuali.kra.service.YnqService;
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: shyu $
- * @version $Revision: 1.31 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.32 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -159,14 +159,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
-            /* populate certification questions for new person */
-            ProposalPerson newProposalPerson = getPersonYNQ(pdform.getNewProposalPerson());
-
-            //document.addProposalPerson(pdform.getNewProposalPerson());
-            //document.addProposalPerson(newProposalPerson);
-
-            //getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
-            getKeyPersonnelService().populateProposalPerson(newProposalPerson, document);
+            getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
 
             pdform.setNewProposalPerson(new ProposalPerson());
             pdform.setNewRolodexId("");
@@ -179,27 +172,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return mapping.findForward(MAPPING_BASIC);
     }
 
-    /**
-     * Uses a <code>proposalPerson</code> obtained by adding new <code>{@link Person}</code> 
-     *
-     * @param proposalPerson
-     * @return ProposalPerson
-     */
-    public ProposalPerson getPersonYNQ(ProposalPerson proposalPerson) {
-        /* get YNQ for person */
-        if(proposalPerson.getProposalPersonYnqs().isEmpty()) {
-            String questionType = Constants.QUESTION_TYPE_INDIVIDUAL;
-            List<Ynq> ynqs = (KraServiceLocator.getService(YnqService.class).getYnq(questionType));
-            for (Ynq type : ynqs) {
-                ProposalPersonYnq proposalPersonYnq = new ProposalPersonYnq();
-                proposalPersonYnq.setQuestionId(type.getQuestionId());
-                proposalPersonYnq.setYnq(type); 
-                proposalPerson.getProposalPersonYnqs().add(proposalPersonYnq);
-            }
-        }
-        return proposalPerson;
-    }
-    
     
     /**
      * Add a degree to a <code>{@link ProposalPerson}</code>
