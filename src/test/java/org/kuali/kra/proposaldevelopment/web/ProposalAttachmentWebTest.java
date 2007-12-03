@@ -102,9 +102,9 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
     }
 
     private void testNarrUserRights(HtmlPage propPage,int lineNumber) throws Exception{
-        assertNotNull(webClient);
-        boolean javaScriptEnabled = webClient.isJavaScriptEnabled(); 
-        webClient.setJavaScriptEnabled(false);
+//        assertNotNull(webClient);
+//        boolean javaScriptEnabled = webClient.isJavaScriptEnabled(); 
+//        webClient.setJavaScriptEnabled(false);
         HtmlPage rightPage = clickOn(propPage, "getProposalAttachmentRights.line"+lineNumber);
         assertContains(rightPage, "Proposal Attachment Rights for "+(lineNumber+1)+".");
         HtmlTable table = getTable(rightPage, "narrative-rights-table");
@@ -125,7 +125,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 //        HtmlPage savedPage = testSaveProposalAttachment(propPage);
 //        HtmlPage rightPage1 = clickOn(savedPage, "getProposalAttachmentRights.line"+lineNumber);
 //        assertEquals("M",getFieldValue(rightPage1,"document.narrative["+lineNumber+"].narrativeUserRight[0].accessType"));
-        webClient.setJavaScriptEnabled(javaScriptEnabled);
+//        webClient.setJavaScriptEnabled(javaScriptEnabled);
 
     }
 
