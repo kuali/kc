@@ -32,6 +32,7 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.Ynq;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -41,6 +42,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.service.YnqService;
 
 /**
  * A Service implementation for persisted modifications of Key Personnel related business objects
@@ -48,8 +50,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: lprzybyl $
- * @version $Revision: 1.5 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.6 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -68,6 +70,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#populateProposalPerson(ProposalPerson, ProposalDevelopmentDocument)
      */
     public void populateProposalPerson(ProposalPerson person, ProposalDevelopmentDocument document) {
+        /* populate certification questions for new person */
+        person = getYnqService().getPersonYNQ(person);
+
         for (InvestigatorCreditType creditType : (Collection<InvestigatorCreditType>) getInvestigatorCreditTypes()) {
             ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
             creditSplit.setProposalNumber(document.getProposalNumber());
@@ -427,4 +432,13 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         
         return prop_person;
     }
+
+    /**
+     * Gets the ynqService attribute. 
+     * @return Returns the ynqService.
+     */
+    public YnqService getYnqService() {
+        return KraServiceLocator.getService(YnqService.class);
+    }
+
 }
