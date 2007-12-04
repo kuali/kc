@@ -189,6 +189,9 @@
 
 	<bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="ynqService">
+        	<ref bean="ynqService" />
+    	</property>
 	</bean>
 	<bean id="proposalPersonBiographyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonBiographyServiceImpl">
 		<property name="businessObjectService">
