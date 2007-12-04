@@ -37,4 +37,12 @@ public interface ProposalPersonBiographyService {
      */
     public void removePersonnelAttachmentForDeletedPerson(ProposalDevelopmentDocument proposaldevelopmentDocument, ProposalPerson person);
 
+    /**
+     * 
+     * This method to delete personnel attachment from the list.  ALso, remove it from DB.
+     * @param proposaldevelopmentDocument
+     * @param lineToDelete
+     */
+    public void deleteProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument, int lineToDelete);
+
 }

@@ -38,11 +38,13 @@ import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
+import org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveInstituteAttachmentsRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -53,7 +55,7 @@ import org.kuali.kra.service.DocumentValidationService;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule,SaveInstituteAttachmentsRule, DocumentAuditRule, AbstractsRule, CopyProposalRule {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, DocumentAuditRule, AbstractsRule, CopyProposalRule {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -102,7 +104,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
-        valid &= processPersonnelAttachmentBusinessRule(proposalDevelopmentDocument);
 
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
@@ -227,37 +228,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     }
 
 
-    /**
-     * This method validates 'Personnel Attachment'. It checks the following :
-     * If attachment type and description are not empty, then filename is a required field.
-     *
-     * @param proposalDevelopmentDocument : The proposalDevelopmentDocument that is being validated
-     * @return valid Does the validation pass
-     */
-    private boolean processPersonnelAttachmentBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        boolean valid = true;
-
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-
-        int i = 0;
-
-        for (ProposalPersonBiography propPersonBio : proposalDevelopmentDocument.getPropPersonBios()) {
-            errorMap.addToErrorPath("propPersonBio[" + i + "]");
-            propPersonBio.refresh();
-            if (StringUtils.isNotBlank(propPersonBio.getDocumentTypeCode()) && StringUtils.isNotBlank(propPersonBio.getPersonId())) {
-                    if (StringUtils.isBlank(propPersonBio.getFileName())) {
-                        valid = false;
-                        errorMap.putError("fileName", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
-                    }
-
-
-            }
-            errorMap.removeFromErrorPath("propPersonBio[" + i++ + "]");
-        }
-        return valid;
-    }
-
-
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }
@@ -306,10 +276,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
     /**
      * 
-     * @see org.kuali.kra.proposaldevelopment.rule.SaveInstituteAttachmentsRule#processSaveInstituteAttachmentsBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEvent)
+     * @see org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentsRule#processAddPersonnelAttachmentsBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentsEvent)
      */
-    public boolean processSaveInstituteAttachmentsBusinessRules(SaveInstituteAttachmentsEvent saveInstituteAttachmentsEvent) {
-        return new ProposalDevelopmentInstituteAttachmentRule().processSaveInstituteAttachmentsBusinessRules(saveInstituteAttachmentsEvent);
+    public boolean processAddPersonnelAttachmentBusinessRules(AddPersonnelAttachmentEvent addPersonnelAttachmentEvent) {
+        return new ProposalDevelopmentPersonnelAttachmentRule().processAddPersonnelAttachmentBusinessRules(addPersonnelAttachmentEvent);    
     }
 
 }

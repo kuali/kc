@@ -191,6 +191,9 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	<bean id="proposalPersonBiographyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonBiographyServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 	</bean>
 		<bean id="documentValidationService" class="org.kuali.kra.service.impl.DocumentValidationServiceImpl">
 	</bean>

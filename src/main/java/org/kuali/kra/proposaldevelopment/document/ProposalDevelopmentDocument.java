@@ -795,6 +795,15 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         
     /**
      * 
+     * Method to delete a personnel attachment from personnel attachment list
+     * @param narrative
+     */
+    public void deleteProposalPersonBiography(int lineToDelete) {
+        getProposalPersonBiographyService().deleteProposalPersonBiography(this, lineToDelete);
+    }
+
+    /**
+     * 
      * Method to add a new narrative to narratives list
      * @param narrative
      */
