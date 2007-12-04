@@ -94,7 +94,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getNarrativeTypeCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        document.addInstituteAttachment(narrative);
+//        document.addInstituteAttachment(narrative);
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertTrue(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
     }
@@ -115,7 +115,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE);
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE+".institutionalAttachmentTypeCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -139,7 +139,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE);
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE+".moduleStatusCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -166,11 +166,12 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        document.addInstituteAttachment(narrative);
+        document.getInstitutes().add(narrative);
+//        document.addInstituteAttachment(narrative);
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE);
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE+".institutionalAttachmentTypeCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -194,15 +195,22 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         narrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         narrative.setModuleTitle("description field");
-        document.addInstituteAttachment(narrative);
-        SaveInstituteAttachmentsEvent saveInstituteAttachmentsEvent = new SaveInstituteAttachmentsEvent(EMPTY_STRING,document);
-        assertFalse(rule.processSaveInstituteAttachmentsBusinessRules(saveInstituteAttachmentsEvent));
+        AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,narrative);
+        assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(FILE_NAME);
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE+".narrativeFile");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME);
+
+//        document.addInstituteAttachment(narrative);
+        
+//        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(FILE_NAME);
+//        assertTrue(errors.size() == 1);
+//        
+//        ErrorMessage message = (ErrorMessage) errors.get(0);
+//        assertEquals(message.getErrorKey(), KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME);
     }
 
 }
