@@ -79,5 +79,6 @@ public interface Constants {
     public static final String QUESTION_TYPE_INDIVIDUAL = "I"; // Investigator - Certification questions
     public static final String YNQ_EXPLANATION_REQUIRED = "Explanation required: if answer = ";
     public static final String YNQ_REVIEW_DATE_REQUIRED = "Date required: if answer = ";
+    public static final String QUESTION_STATUS_ACTIVE = "A";
 
 }
