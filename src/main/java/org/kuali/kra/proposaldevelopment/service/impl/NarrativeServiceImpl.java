@@ -139,6 +139,7 @@ public class NarrativeServiceImpl implements NarrativeService {
 
     private void deleteAttachment(List<Narrative> narratives, int lineToDelete) {
         Narrative narrative = narratives.get(lineToDelete);
+        getBusinessObjectService().delete(narrative);
         NarrativeAttachment narrAtt = new NarrativeAttachment();
         narrAtt.setProposalNumber(narrative.getProposalNumber());
         narrAtt.setModuleNumber(narrative.getModuleNumber());
@@ -167,6 +168,8 @@ public class NarrativeServiceImpl implements NarrativeService {
         institute.refreshReferenceObject("narrativeType");
         institute.refreshReferenceObject("narrativeStatus");
         institute.populateAttachment();
+        getBusinessObjectService().save(institute);
+        institute.clearAttachment();
         proposaldevelopmentDocument.getInstitutes().add(institute);
     }
 
