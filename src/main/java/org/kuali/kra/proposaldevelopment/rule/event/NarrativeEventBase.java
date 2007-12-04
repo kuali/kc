@@ -26,36 +26,45 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 
 /**
- * Base implementation for events triggered when a Key Person state is modified on a 
+ * Base implementation for events triggered when a Key Person state is modified on a
  * <code>{@link ProposalDevelopmentDocument}</code>
- *
- * @author $Author: shyu $
- * @version $Revision: 1.4 $
+ * 
  */
 public abstract class NarrativeEventBase extends KraDocumentEventBase implements NarrativeEvent {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NarrativeEventBase.class);
-    
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
+            .getLog(NarrativeEventBase.class);
+
     private Narrative narrative;
     private List<Narrative> narratives;
+
     /**
      * 
      * Constructs a NarrativeEventBase
+     * 
      * @param description
      * @param errorPathPrefix
      * @param document
      * @param narrative
      */
-    protected NarrativeEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative) {
+    protected NarrativeEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument document,
+            Narrative narrative) {
         super(description, errorPathPrefix, document);
         // by doing a deep copy, we are ensuring that the business rule class can't update
         // the original object by reference
-        if(narrative!=null)
+        if (narrative != null) {
             this.narrative = (Narrative) ObjectUtils.deepCopy(narrative);
+            // deepcopy can not copy narrativefile
+            if (narrative.getNarrativeFile() != null) {
+                this.narrative.setFileName(narrative.getNarrativeFile().getFileName());
+            }
+        }
         logEvent();
     }
+
     /**
      * 
      * Constructs a NarrativeEventBase.
+     * 
      * @param description
      * @param errorPathPrefix
      * @param document
@@ -69,7 +78,7 @@ public abstract class NarrativeEventBase extends KraDocumentEventBase implements
         }
     }
 
-    
+
     /**
      * @return <code>{@link Narrative}</code> that triggered this event.
      */

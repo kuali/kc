@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -28,18 +29,26 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
+    private BusinessObjectService businessObjectService;
 
     /**
      * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#addProposalPersonBiography(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography)
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#addProposalPersonBiography(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
+     *      org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography)
      */
     public void addProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument,
             ProposalPersonBiography proposalPersonBiography) {
         proposalPersonBiography.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
         proposalPersonBiography.setUpdateUser(proposaldevelopmentDocument.getUpdateUser());
         proposalPersonBiography.setUpdateTimestamp(proposaldevelopmentDocument.getUpdateTimestamp());
-        proposalPersonBiography.setBiographyNumber(proposaldevelopmentDocument.getProposalNextValue(Constants.PROP_PERSON_BIO_NUMBER));
+        proposalPersonBiography.setBiographyNumber(proposaldevelopmentDocument
+                .getProposalNextValue(Constants.PROP_PERSON_BIO_NUMBER));
         proposalPersonBiography.setPropPerDocType(new PropPerDocType());
+        ProposalPerson proposalPerson = getPerson(proposaldevelopmentDocument, proposalPersonBiography.getProposalPersonNumber());
+        if (proposalPerson != null) {
+            proposalPersonBiography.setPersonId(proposalPerson.getPersonId());
+            proposalPersonBiography.setRolodexId(proposalPerson.getRolodexId());
+        }
         proposalPersonBiography.getPropPerDocType().setDocumentTypeCode(proposalPersonBiography.getDocumentTypeCode());
         proposalPersonBiography.refreshReferenceObject("propPerDocType");
         FormFile personnelAttachmentFile = proposalPersonBiography.getPersonnelAttachmentFile();
@@ -58,28 +67,75 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
                 else
                     proposalPersonBiography.getPersonnelAttachmentList().clear();
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             proposalPersonBiography.getPersonnelAttachmentList().clear();
         }
+        getBusinessObjectService().save(proposalPersonBiography);
+        proposalPersonBiography.getPersonnelAttachmentList().clear();
         proposaldevelopmentDocument.getPropPersonBios().add(proposalPersonBiography);
-        
+
     }
 
     /**
      * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#removePersonnelAttachmentForDeletedPerson(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#removePersonnelAttachmentForDeletedPerson(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
+     *      org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
-    public void removePersonnelAttachmentForDeletedPerson(ProposalDevelopmentDocument proposaldevelopmentDocument, ProposalPerson person) {
-    
-        List<ProposalPersonBiography> personAttachments=new ArrayList();
+    public void removePersonnelAttachmentForDeletedPerson(ProposalDevelopmentDocument proposaldevelopmentDocument,
+            ProposalPerson person) {
+
+        List<ProposalPersonBiography> personAttachments = new ArrayList();
         for (ProposalPersonBiography proposalPersonBiography : proposaldevelopmentDocument.getPropPersonBios()) {
             if (proposalPersonBiography.getProposalPersonNumber().equals(person.getProposalPersonNumber())) {
                 personAttachments.add(proposalPersonBiography);
+                getBusinessObjectService().delete(proposalPersonBiography);
             }
-            
+
         }
         if (!personAttachments.isEmpty()) {
             proposaldevelopmentDocument.getPropPersonBios().removeAll(personAttachments);
         }
     }
+
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#deleteProposalPersonBiography(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
+     *      int)
+     */
+    public void deleteProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument, int lineToDelete) {
+        ProposalPersonBiography proposalPersonBiography = proposaldevelopmentDocument.getPropPersonBios().get(lineToDelete);
+        proposaldevelopmentDocument.getPropPersonBios().remove(proposalPersonBiography);
+        getBusinessObjectService().delete(proposalPersonBiography);
+
+    }
+
+    private ProposalPerson getPerson(ProposalDevelopmentDocument proposaldevelopmentDocument, Integer proposalPersonNumber) {
+        for (ProposalPerson person : proposaldevelopmentDocument.getProposalPersons()) {
+            if (proposalPersonNumber.equals(person.getProposalPersonNumber())) {
+                return person;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets the businessObjectService attribute.
+     * 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
 }
