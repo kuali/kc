@@ -56,6 +56,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddAbstractEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -408,8 +409,11 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     public ActionForward addPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getProposalDevelopmentDocument().addProposalPersonBiography(proposalDevelopmentForm.getNewPropPersonBio());
-        proposalDevelopmentForm.setNewPropPersonBio(new ProposalPersonBiography());
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        if(getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, proposalDevelopmentForm.getNewPropPersonBio()))){
+            proposalDevelopmentDocument.addProposalPersonBiography(proposalDevelopmentForm.getNewPropPersonBio());
+            proposalDevelopmentForm.setNewPropPersonBio(new ProposalPersonBiography());
+        }
 
         return mapping.findForward("basic");
     }
@@ -428,8 +432,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward deletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropPersonBios().remove(getLineToDelete(request));
+        ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().deleteProposalPersonBiography(getLineToDelete(request));
         return mapping.findForward("basic");
     }
 
