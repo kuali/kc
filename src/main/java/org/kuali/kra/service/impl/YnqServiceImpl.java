@@ -62,6 +62,8 @@ public class YnqServiceImpl implements YnqService {
         Map questionTypeMap = new HashMap();
         /* filter by question type */
         questionTypeMap.put("questionType", questionType);
+        /* filter by status - fetch all active questions */
+        questionTypeMap.put("status", Constants.QUESTION_STATUS_ACTIVE);
         String orderBy = "groupName";
         Collection<Ynq> allTypes = new ArrayList();
         allTypes = businessObjectService.findMatchingOrderBy(Ynq.class, questionTypeMap, orderBy, false);
@@ -69,14 +71,6 @@ public class YnqServiceImpl implements YnqService {
         
         /* also filter all questions based on effective date - current date >= effective date */
         Date currentDate= ((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentSqlDateMidnight();
-        /*
-        Calendar currentDateCal = ((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentCalendar();
-        int currentYear = currentDateCal.get(currentDateCal.YEAR);
-        int currentMonth = currentDateCal.get(currentDateCal.MONTH);
-        int currentDay = currentDateCal.get(currentDateCal.DATE);
-        currentDateCal.set(currentYear, currentMonth, currentDay, 0, 0, 0);
-        Date currentDate = currentDateCal.getTime();
-        */
         for(Ynq type: allTypes) {
             if(type.getEffectiveDate().compareTo(currentDate) < 0   ) {
                 ynqs.add(type);
