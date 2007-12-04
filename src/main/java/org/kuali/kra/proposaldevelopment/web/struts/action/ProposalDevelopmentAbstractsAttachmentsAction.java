@@ -240,7 +240,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.setShowMaintenanceLinks(false);
         String line = request.getParameter(LINE_NUMBER);
-        int lineNumber = line == null ? 0 : Integer.parseInt(line);
+        int lineNumber = line == null ? getLineToDelete(request) : Integer.parseInt(line);
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         pd.populatePersonNameForNarrativeUserRights(lineNumber);
         request.setAttribute(LINE_NUMBER, line);
