@@ -51,10 +51,12 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: rmancher $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
+    private YnqService ynqService;
+
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelServiceImpl.class);
     
     /**
@@ -71,7 +73,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      */
     public void populateProposalPerson(ProposalPerson person, ProposalDevelopmentDocument document) {
         /* populate certification questions for new person */
-        person = getYnqService().getPersonYNQ(person);
+        person = ynqService.getPersonYNQ(person);
 
         for (InvestigatorCreditType creditType : (Collection<InvestigatorCreditType>) getInvestigatorCreditTypes()) {
             ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
@@ -433,12 +435,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         return prop_person;
     }
 
-    /**
-     * Gets the ynqService attribute. 
-     * @return Returns the ynqService.
-     */
-    public YnqService getYnqService() {
-        return KraServiceLocator.getService(YnqService.class);
+    public void setYnqService(YnqService ynqService) {
+        this.ynqService = ynqService;
     }
 
 }
