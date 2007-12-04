@@ -51,8 +51,10 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         String[] values0 = { "1","C","Test Contact Name","t0@t0.com","123456","Test Comments","Test Module Title"};
         
         setProposalAttachmentLine(propAttPage, getKeyMap("newNarrative",values0));
-        testTextAreaPopup(propAttPage,"newNarrative.comments"," More text","proposalDevelopmentAbstractsAttachments","Comments","");
-        values0[5]+=" More text";
+//        testTextAreaPopup(propAttPage,"newNarrative.comments"," More text","proposalDevelopmentAbstractsAttachments","Comments","");
+//        values0[5]+=" More text";
+        String moreText = "More text";
+        checkExpandedTextArea(propAttPage,"newNarrative.comments",values0[5],moreText);
         Map<String,String> keyVal0 = getKeyMap("document.narrative[0]",values0);
         HtmlPage addedPage = testAddProposalAttachment(propAttPage,keyVal0);
         
@@ -106,6 +108,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 //        boolean javaScriptEnabled = webClient.isJavaScriptEnabled(); 
 //        webClient.setJavaScriptEnabled(false);
         HtmlPage rightPage = clickOn(propPage, "getProposalAttachmentRights.line"+lineNumber);
+        assertNotNull("Narrative user rights page is null",rightPage);
         assertContains(rightPage, "Proposal Attachment Rights for "+(lineNumber+1)+".");
         HtmlTable table = getTable(rightPage, "narrative-rights-table");
         int roCnt = table.getRowCount()-1;
