@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class ProposalDevelopmentNotesAction extends ProposalDevelopmentAction {
-    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentNotesAction.class);
+public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAction {
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentPermissionsAction.class);
 
 }

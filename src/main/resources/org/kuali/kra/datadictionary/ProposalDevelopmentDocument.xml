@@ -579,27 +579,15 @@
           <headerNavigationTab>
             <navigateTo>proposal</navigateTo>
             <displayName>Proposal</displayName>
-          </headerNavigationTab>
+          </headerNavigationTab>                    
           <headerNavigationTab>
             <navigateTo>keyPersonnel</navigateTo>
             <displayName>Key Personnel</displayName>
           </headerNavigationTab>
           <headerNavigationTab>
-            <navigateTo>template</navigateTo>
-            <displayName>Template</displayName>
-          </headerNavigationTab>
-          <headerNavigationTab>
-            <navigateTo>notes</navigateTo>
-            <displayName>Notes</displayName>
-          </headerNavigationTab>
-          <headerNavigationTab>
             <navigateTo>specialReview</navigateTo>
             <displayName>Special Review</displayName>
-          </headerNavigationTab>
-          <headerNavigationTab>
-            <navigateTo>abstractsAttachments</navigateTo>
-            <displayName>Abstracts and Attachments </displayName>
-          </headerNavigationTab>
+          </headerNavigationTab>          
           <headerNavigationTab>
             <navigateTo>customData</navigateTo>
             <displayName>Custom Data</displayName>
@@ -609,8 +597,20 @@
             <displayName>Questions</displayName>
           </headerNavigationTab>
           <headerNavigationTab>
+            <navigateTo>permissions</navigateTo>
+            <displayName>Permissions</displayName>
+          </headerNavigationTab>          
+          <headerNavigationTab>
+            <navigateTo>abstractsAttachments</navigateTo>
+            <displayName>Abstracts and Attachments </displayName>
+          </headerNavigationTab>
+          <headerNavigationTab>
+            <navigateTo>grantsGov</navigateTo>
+            <displayName>Grants.gov</displayName>
+          </headerNavigationTab>          
+          <headerNavigationTab>
             <navigateTo>actions</navigateTo>
-            <displayName>Actions</displayName>
+            <displayName>Proposed Actions</displayName>
           </headerNavigationTab>
           <headerNavigationTab>
 		    <navigateTo>auditMode</navigateTo>
