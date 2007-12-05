@@ -28,7 +28,6 @@
       <channel:mainCompliance />
 </td>
 <td class="content" valign="top">
-      <channel:mainBudget />
       <channel:mainInquiryLookup />
       <channel:mainReports />
 </td> 
