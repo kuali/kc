@@ -90,6 +90,7 @@
 	<param name="production.environment.code">prd</param>
     <param name="rice.user">true</param>
     <param name="actionlist.outbox">true</param>
+    <param name="ActionList.norefresh">true</param>
 
 	<!-- Ken stuffs... -->
     <!-- stock notification system configuration properties -->
