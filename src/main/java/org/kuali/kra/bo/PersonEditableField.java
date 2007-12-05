@@ -22,10 +22,12 @@ import java.util.LinkedHashMap;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: PersonEditableField.java,v 1.1 2007-09-26 14:08:37 lprzybyl Exp $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.2 $
  */
 public class PersonEditableField extends KraPersistableBusinessObjectBase {
     private String fieldName;
+    private boolean active;
 
     /**
      * Gets the value of fieldName
@@ -45,6 +47,21 @@ public class PersonEditableField extends KraPersistableBusinessObjectBase {
         this.fieldName = argFieldName;
     }
 
+    /**
+     * Read access to active flag
+     * @return boolean active or not
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Write access to active flag
+     * @param active
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
 
 	@Override 
