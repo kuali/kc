@@ -371,23 +371,34 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      * Creates the list of <code>{@link PersonEditableField}</code> field names.
      */
     public void populatePersonEditableFields() {
+        LOG.info("Adding PersonEditableFields");
+        
         setPersonEditableFields(new HashMap());
         
         Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
         for (PersonEditableField field : fields) {
-            getPersonEditableFields().put(field.getFieldName(), new Boolean(true));
+            LOG.info("found field " + field.getFieldName());
+            getPersonEditableFields().put(field.getFieldName(), new Boolean(field.isActive()));
         }
     }
 
+    /**
+     * Write access to <code>{@link Map}</code> containing persisted <code>{@link PersonEditableField}</code> BO instances.
+     * 
+     * @param fields
+     */
     public void setPersonEditableFields(Map fields) {
         personEditableFields = fields;
     }    
 
     /**
-     * Returns a an array of editablefields
+     * Get persisted <code>{@link PersonEditableField}</code> BO instances as a <code>{@link Map}</code>. If the <code>{@link Map}</code> containing them is
+     *  <code>null</code>, then it gets populated here.
+     * 
+     * @return Map containing person editable fields
      */
     public Map getPersonEditableFields() {
-        if (personEditableFields==null) {
+        if (personEditableFields == null) {
             populatePersonEditableFields();
         }
         return personEditableFields;

@@ -22,7 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.bo.PersonEditableField</businessObjectClass>
         <maintainableClass>org.kuali.kra.maintenance.KraMaintainableImpl</maintainableClass>
-
+        <businessRulesClass>org.kuali.kra.proposaldevelopment.rules.PersonEditableFieldRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -49,6 +49,7 @@
             <maintainableSection title="Specify the Field Name">
                 <maintainableItems>
                     <maintainableField name="fieldName" required="true" />
+                    <maintainableField name="active" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
