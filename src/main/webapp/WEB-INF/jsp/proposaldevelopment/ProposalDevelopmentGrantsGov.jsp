@@ -17,14 +17,14 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="proposalDevelopmentTemplate"
+	htmlFormAction="proposalDevelopmentGrantsGov"
 	documentTypeName="ProposalDevelopmentDocument"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="save"
-  	headerTabActive="template">
+  	headerTabActive="grantsGov">
 
-	<center>Under Construction</center>
+<center>Under Construction</center>
 
 </kul:documentPage>
