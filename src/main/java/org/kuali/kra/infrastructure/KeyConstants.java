@@ -54,5 +54,7 @@ public class KeyConstants {
     //AuthZ Errors
     public static final String ERROR_AUTHORIZATION_DOCUMENT_INITIATION = "error.authorization.document.initiation";
     
+    public static final String ERROR_PERSON_EDITABLE_FIELD_EXISTS = "error.person.editable.field.exists";
+    
     
 }

@@ -24,6 +24,7 @@
             <title>Person Editable Fields</title>
             <inquirySections><inquirySection title="Person Editable Field"><inquiryFields>
                 <field attributeName="fieldName" forceInquiry="true"/>
+                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -42,10 +43,12 @@
 
             <lookupFields>
                 <lookupField attributeName="fieldName" />
+                <lookupField attributeName="active" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="fieldName" forceInquiry="true"/>
+                <field attributeName="active" forceInquiry="true"/>
            </resultFields>
         </lookup>
 
@@ -63,6 +66,13 @@
                 <summary>Field Name </summary>
                 <description>Field Name </description>
 			</attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Active</label>
+ 	            <shortLabel>Active </shortLabel>
+ 	            <summary>Active</summary>
+                <description>Active</description>
+            </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 		</attributes>
