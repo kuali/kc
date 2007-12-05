@@ -160,9 +160,9 @@ public class NarrativeServiceImpl implements NarrativeService {
         institute.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
 //        institute.setModuleNumber(proposaldevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_NUMBER));
 //        institute.setModuleSequenceNumber(proposaldevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_SEQUENCE_NUMBER));
-        List<Narrative> narratives = proposaldevelopmentDocument.getNarratives();
-        institute.setModuleNumber(getNextModuleNumber(narratives));
-        institute.setModuleSequenceNumber(getNextModuleSequenceNumber(narratives));
+        List<Narrative> institutes = proposaldevelopmentDocument.getInstitutes();
+        institute.setModuleNumber(getNextModuleNumber(institutes));
+        institute.setModuleSequenceNumber(getNextModuleSequenceNumber(institutes));
         updateUserTimestamp(institute);
         institute.setModifyAttachment(true);
         institute.refreshReferenceObject("narrativeType");
