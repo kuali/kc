@@ -19,6 +19,7 @@ import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_NUMBER;
 import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_SEQUENCE_NUMBER;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -64,9 +65,8 @@ public class NarrativeServiceImpl implements NarrativeService {
         narrative.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
 //        narrative.setModuleNumber(proposaldevelopmentDocument.getNSaveProposalNextValue(NARRATIVE_MODULE_NUMBER,proposaldevelopmentDocument.getProposalNumber()));
 //        narrative.setModuleSequenceNumber(proposaldevelopmentDocument.getNSaveProposalNextValue(NARRATIVE_MODULE_SEQUENCE_NUMBER,proposaldevelopmentDocument.getProposalNumber()));
-        List<Narrative> narratives = proposaldevelopmentDocument.getNarratives();
-        narrative.setModuleNumber(getNextModuleNumber(narratives));
-        narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(narratives));
+        narrative.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
+        narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
         updateUserTimestamp(narrative);
         narrative.setModifyAttachment(true);
         narrative.refreshReferenceObject("narrativeType");
@@ -78,23 +78,33 @@ public class NarrativeServiceImpl implements NarrativeService {
         proposaldevelopmentDocument.getNarratives().add(narrative);
     }
 
-    private Integer getNextModuleNumber(List<Narrative> narratives) {
-        if(narratives.isEmpty()) return 1;
-        Collections.sort(narratives, new Comparator<Narrative>(){
+    private Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
+        List<Narrative> narrativeList = proposaldevelopmentDocument.getNarratives();
+        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getInstitutes();
+        List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
+        mergedNarrativeList.addAll(narrativeList);
+        mergedNarrativeList.addAll(instituteAttachmentsList);
+        if(mergedNarrativeList.isEmpty()) return 1;
+        Collections.sort(mergedNarrativeList, new Comparator<Narrative>(){
             public int compare(Narrative n1, Narrative n2) { 
                 return (n1.getModuleNumber()).compareTo(n2.getModuleNumber()); 
               } 
         });
-        return narratives.get(narratives.size()-1).getModuleNumber().intValue()+1;
+        return mergedNarrativeList.get(mergedNarrativeList.size()-1).getModuleNumber().intValue()+1;
     }
-    private Integer getNextModuleSequenceNumber(List<Narrative> narratives) {
-        if(narratives.isEmpty()) return 1;
-        Collections.sort(narratives, new Comparator<Narrative>(){
+    private Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
+        List<Narrative> narrativeList = proposaldevelopmentDocument.getNarratives();
+        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getInstitutes();
+        List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
+        mergedNarrativeList.addAll(narrativeList);
+        mergedNarrativeList.addAll(instituteAttachmentsList);
+        if(mergedNarrativeList.isEmpty()) return 1;
+        Collections.sort(mergedNarrativeList, new Comparator<Narrative>(){
             public int compare(Narrative n1, Narrative n2) { 
-                return (n1.getModuleNumber()).compareTo(n2.getModuleNumber()); 
+                return (n1.getModuleSequenceNumber()).compareTo(n2.getModuleSequenceNumber()); 
               } 
         });
-        return narratives.get(narratives.size()-1).getModuleNumber().intValue()+1;
+        return mergedNarrativeList.get(mergedNarrativeList.size()-1).getModuleSequenceNumber().intValue()+1;
     }
 
     /**
@@ -160,9 +170,8 @@ public class NarrativeServiceImpl implements NarrativeService {
         institute.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
 //        institute.setModuleNumber(proposaldevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_NUMBER));
 //        institute.setModuleSequenceNumber(proposaldevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_SEQUENCE_NUMBER));
-        List<Narrative> institutes = proposaldevelopmentDocument.getInstitutes();
-        institute.setModuleNumber(getNextModuleNumber(institutes));
-        institute.setModuleSequenceNumber(getNextModuleSequenceNumber(institutes));
+        institute.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
+        institute.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
         updateUserTimestamp(institute);
         institute.setModifyAttachment(true);
         institute.refreshReferenceObject("narrativeType");
