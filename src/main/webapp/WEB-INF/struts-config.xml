@@ -58,14 +58,14 @@
           <forward name="keyPersonnel" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentKeyPersonnel.jsp" />
           <forward name="questions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentQuestions.jsp" />
           <forward name="proposal" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentProposal.jsp" />
-          <forward name="template" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentTemplate.jsp" />
-          <forward name="notes" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentNotes.jsp" />
           <forward name="specialReview" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentSpecialReview.jsp" />
           <forward name="abstractsAttachments" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentAbstractsAttachments.jsp" />
           <forward name="attachmentRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentAttachmentRights.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentCustomData.jsp" />
           <forward name="actions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentActions.jsp" />
           <forward name="auditMode" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentAuditMode.jsp" redirect="false" />
+          <forward name="grantsGov" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentGrantsGov.jsp" />
+          <forward name="permissions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissions.jsp" />
       </action>
 
         <action path="/updateTextArea" name="KualiForm" type="org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase">

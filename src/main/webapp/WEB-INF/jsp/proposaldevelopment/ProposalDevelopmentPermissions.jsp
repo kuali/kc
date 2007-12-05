@@ -17,14 +17,14 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="proposalDevelopmentNotes"
+	htmlFormAction="proposalDevelopmentPermissions"
 	documentTypeName="ProposalDevelopmentDocument"
-	renderMultipart="true"
+	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="save"
-  	headerTabActive="notes">
+  	headerTabActive="permissions">
 
-	<center>Under Construction</center>
+<center>Under Construction</center>
 
 </kul:documentPage>
