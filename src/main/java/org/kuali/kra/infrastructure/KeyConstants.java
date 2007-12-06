@@ -56,5 +56,8 @@ public class KeyConstants {
     
     public static final String ERROR_PERSON_EDITABLE_FIELD_EXISTS = "error.person.editable.field.exists";
     
+    // proposal ynq errors
+    public static final String ERROR_REQUIRED_FOR_EXPLANATION = "error.required.for.explanation";
+    public static final String ERROR_REQUIRED_FOR_REVIEW_DATE = "error.required.for.reviewDate";
     
 }

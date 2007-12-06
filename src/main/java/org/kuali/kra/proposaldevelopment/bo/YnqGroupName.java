@@ -15,7 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
-public class YnqGroupName {
+import java.util.LinkedHashMap;
+
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+
+public class YnqGroupName extends KraPersistableBusinessObjectBase {
     private String groupName;
     private String truncGroupName;
     private int groupNameMaxLength = 57;
@@ -36,6 +40,14 @@ public class YnqGroupName {
 
     public String getTruncGroupName() {
         return truncGroupName;
+    }
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap propMap = new LinkedHashMap();
+        propMap.put("groupName", this.getGroupName());
+        propMap.put("truncGroupName", this.getTruncGroupName());
+        return propMap;
     }
 
 }
