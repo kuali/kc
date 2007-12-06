@@ -196,27 +196,29 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
     public void replaceAttachment(Narrative narrative) {
-//        Narrative narrative = proposaldevelopmentDocument.getNarratives().get(selectedLine);
-        NarrativeAttachment narrativeAttachment =  findNarrativeAttachment(narrative);
-        if(narrativeAttachment!=null)
-            if (narrative.getNarrativeAttachmentList().isEmpty())
-                narrative.getNarrativeAttachmentList().add(narrativeAttachment);
-            else
-                narrative.getNarrativeAttachmentList().set(0, narrativeAttachment);
+//        NarrativeAttachment narrativeAttachment =  findNarrativeAttachment(narrative);
+//        if(narrativeAttachment!=null)
+//            if (narrative.getNarrativeAttachmentList().isEmpty())
+//                narrative.getNarrativeAttachmentList().add(narrativeAttachment);
+//            else
+//                narrative.getNarrativeAttachmentList().set(0, narrativeAttachment);
+        narrative.refreshReferenceObject("narrativeAttachmentList");
         narrative.populateAttachment();
+        getBusinessObjectService().save(narrative);
+        narrative.clearAttachment();
     }
-    /**
-     * 
-     * This method used to find the narrative attachment for a narrative
-     * @param narrative
-     * @return NarrativeAttachment
-     */
-    private NarrativeAttachment findNarrativeAttachment(Narrative narrative){
-        Map<String,Integer> narrativeAttachemntMap = new HashMap<String,Integer>();
-        narrativeAttachemntMap.put("proposalNumber", narrative.getProposalNumber());
-        narrativeAttachemntMap.put("moduleNumber", narrative.getModuleNumber());
-        return (NarrativeAttachment)businessObjectService.findByPrimaryKey(NarrativeAttachment.class, narrativeAttachemntMap);
-    }
+//    /**
+//     * 
+//     * This method used to find the narrative attachment for a narrative
+//     * @param narrative
+//     * @return NarrativeAttachment
+//     */
+//    private NarrativeAttachment findNarrativeAttachment(Narrative narrative){
+//        Map<String,Integer> narrativeAttachemntMap = new HashMap<String,Integer>();
+//        narrativeAttachemntMap.put("proposalNumber", narrative.getProposalNumber());
+//        narrativeAttachemntMap.put("moduleNumber", narrative.getModuleNumber());
+//        return (NarrativeAttachment)businessObjectService.findByPrimaryKey(NarrativeAttachment.class, narrativeAttachemntMap);
+//    }
 
     public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getNarratives();
