@@ -23,7 +23,7 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="save"
-  	headerTabActive="proposalYnq">
+  	headerTabActive="questions">
 <kra-pd:proposalYnq /> 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
