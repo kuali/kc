@@ -22,12 +22,18 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DUP
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -43,8 +49,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
- * @author $Author: shyu $
- * @version $Revision: 1.12 $
+ * @author kualidev@oncourse.iu.edu
+ * @version 1.0
  */
 public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule,SaveNarrativesRule { 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
@@ -62,10 +68,15 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)narrativeEvent.getDocument();
         Narrative narrative = narrativeEvent.getNarrative();
         boolean rulePassed = true;
-        List<Narrative> narrList = new ArrayList();
         populateNarrativeType(narrative);
         if(narrative.getNarrativeType()==null)
             rulePassed = false;
+        ErrorMap map = GlobalVariables.getErrorMap();
+        map.addToErrorPath("newNarrative");
+        getService(DictionaryValidationService.class).validateBusinessObject(narrative,false);
+        map.removeFromErrorPath("newNarrative");
+        int size = map.keySet().size();
+        rulePassed &= size<=0;
         rulePassed &= checkNarrative(document.getNarratives(), narrative);
         
         return rulePassed;
@@ -85,6 +96,7 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
             //--size;
             rulePassed &= checkNarrative(narrativeList,narrative);
         }
+        
         return rulePassed;
     }
     /**

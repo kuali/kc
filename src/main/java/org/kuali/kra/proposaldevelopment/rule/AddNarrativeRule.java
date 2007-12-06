@@ -23,8 +23,8 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 /**
  * Interface for adding proposal narratives
  *
- * @author $Author: gthomas $
- * @version $Revision: 1.1 $
+ * @author kualidev@oncourse.iu.edu
+ * @version 1.0
  */
 public interface AddNarrativeRule extends BusinessRule {
     
