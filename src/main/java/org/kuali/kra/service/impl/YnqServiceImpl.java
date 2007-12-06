@@ -99,38 +99,67 @@ public class YnqServiceImpl implements YnqService {
         return proposalPerson;
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.YnqService#populateQuestions()
-     */
-    /* get YNQ for proposal */
-    public void populateProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames) {
-        //List<ProposalYnq> proposalYnqs = proposalDevelopmentDocument.getProposalYnqs();
-        //List<YnqGroupName> ynqGroupNames = proposalDevelopmentDocument.getYnqGroupNames();
+    /* set required fields comments - check question configuration to figure out required fields */
+    private void setRequiredFields(Ynq type, ProposalYnq proposalYnq) {
+        /* check Date required for column in required */
+        if(type.getDateRequiredFor() == null) {
+            proposalYnq.setReviewDateRequired(false);
+        }else {
+            proposalYnq.setReviewDateRequiredDescription(Constants.YNQ_REVIEW_DATE_REQUIRED.concat(getYnqRequiredLabel(type.getDateRequiredFor())));
+        }
+        /* check Explanation required for column is mandatory */
+        if(type.getExplanationRequiredFor() == null) {
+            proposalYnq.setExplanationRequried(false);
+        }else {
+            proposalYnq.setExplanationRequiredDescription(Constants.YNQ_EXPLANATION_REQUIRED.concat(getYnqRequiredLabel(type.getExplanationRequiredFor())));
+        }
+    }
+ 
+    
+    /* get group name from existing proposal questions */
+    private void getGroupNames(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames) {
+        for (ProposalYnq type : proposalYnqs) {
+            setRequiredFields(type.getYnq(), type);
+            /* add distinct group names */
+            setGroupName(type.getYnq().getGroupName(), ynqGroupNames);
+        }
+    }
+
+    /* get questions from YNQ configuration */
+    private void getProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames) {
         String questionType = Constants.QUESTION_TYPE_PROPOSAL;
         List<Ynq> ynqs = getYnq(questionType);
         for (Ynq type : ynqs) {
             ProposalYnq proposalYnq = new ProposalYnq();
             proposalYnq.setQuestionId(type.getQuestionId());
             proposalYnq.setYnq(type); 
-            /* check Date required for column in required */
-            if(type.getDateRequiredFor() == null) {
-                proposalYnq.setReviewDateRequired(false);
-            }else {
-                proposalYnq.setReviewDateRequiredDescription(Constants.YNQ_REVIEW_DATE_REQUIRED.concat(getYnqRequiredLabel(type.getDateRequiredFor())));
-            }
-            /* check Explanation required for column is mandatory */
-            if(type.getExplanationRequiredFor() == null) {
-                proposalYnq.setExplanationRequried(false);
-            }else {
-                proposalYnq.setExplanationRequiredDescription(Constants.YNQ_EXPLANATION_REQUIRED.concat(getYnqRequiredLabel(type.getExplanationRequiredFor())));
-            }
+            setRequiredFields(type, proposalYnq);
             proposalYnqs.add(proposalYnq);
             /* add distinct group names */
-            if(!isDuplicateGroupName(type.getGroupName(), ynqGroupNames)) {
-                YnqGroupName ynqGroupName = new YnqGroupName();
-                ynqGroupName.setGroupName(type.getGroupName());
-                ynqGroupNames.add(ynqGroupName);
-            }
+            setGroupName(type.getGroupName(), ynqGroupNames);
+        }
+    }
+    
+    /* set group name */
+    private void setGroupName(String groupName, List<YnqGroupName> ynqGroupNames) {
+        /* add distinct group names */
+        if(!isDuplicateGroupName(groupName, ynqGroupNames)) {
+            YnqGroupName ynqGroupName = new YnqGroupName();
+            ynqGroupName.setGroupName(groupName);
+            ynqGroupNames.add(ynqGroupName);
+        }
+    }
+    
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.YnqService#populateQuestions()
+     */
+    /* get YNQ for proposal */
+    public void populateProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames) {
+        if(proposalYnqs.isEmpty()) {
+            getProposalQuestions(proposalYnqs, ynqGroupNames);
+        }else if(ynqGroupNames.isEmpty()) {
+            getGroupNames(proposalYnqs, ynqGroupNames);
         }
     }
     
