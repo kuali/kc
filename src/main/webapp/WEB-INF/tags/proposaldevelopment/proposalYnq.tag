@@ -38,6 +38,7 @@
     </c:if> 
 <bean:define id="trunGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].truncGroupName"/>
 <kul:tab tabTitle="${trunGroupName}" defaultOpen="false" tabErrorKey="document.proposalYnq*" transparentBackground="${transparent}">
+<c:set var="tabErrorKey" value="document.proposalYnq[${gps.index}]"/>
     <c:set var="proposalYnq" value="document.proposalYnqs[${gps.index}]" /> 
     <c:set var="transparent" value="false" />
 	<div class="tab-container" align="center">
@@ -113,7 +114,7 @@
             			 -->
 							<bean:define id= "questionId" name="KualiForm" property="${iproposalYnq}.questionId" />
 							<kul:inquiry boClassName="org.kuali.kra.bo.Ynq" keyValues="questionId=${questionId}" render="true">
-								<image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-policy.gif' alt="inquiry"/>
+								<image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' alt="inquiry"/>
 							</kul:inquiry>
                       </span></div>
                         <span class="fineprint"></span> </td>
