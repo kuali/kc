@@ -31,8 +31,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AbstractsRule;
 import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
@@ -40,12 +40,10 @@ import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
-import org.kuali.kra.proposaldevelopment.rule.SaveInstituteAttachmentsRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.DocumentValidationService;
@@ -104,6 +102,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
+        valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument);
 
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
@@ -163,6 +162,45 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return valid;
     }
 
+
+    /**
+    *
+    * Validate proposal questions rule. validate explanation required and date required fields based on 
+    * question configuration.
+    * @param proposalDevelopmentDocument
+    * @return
+    */
+   private boolean processProposalYNQBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+       boolean valid = true;
+
+       ErrorMap errorMap = GlobalVariables.getErrorMap();
+       int i = 0;
+       for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getProposalYnqs()) {
+           errorMap.addToErrorPath("proposalYnq[" + i + "]");
+           /* look for explanation requried */
+           if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
+               proposalYnq.getAnswer().equalsIgnoreCase(proposalYnq.getYnq().getExplanationRequiredFor()) && 
+               StringUtils.isBlank(proposalYnq.getExplanation())
+              ) {
+               valid = false;
+               errorMap.putError("explanation", KeyConstants.ERROR_REQUIRED_FOR_EXPLANATION);
+           }
+           /* look for date requried */
+           if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
+                   proposalYnq.getAnswer().equalsIgnoreCase(proposalYnq.getYnq().getDateRequiredFor()) && 
+                   proposalYnq.getReviewDate() == null
+                  ) {
+                   valid = false;
+                   errorMap.putError("reviewDate", KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE);
+               }
+           errorMap.removeFromErrorPath("proposalYnq[" + i++ + "]");
+       }
+       return valid;
+
+   }
+
+    
+    
     /**
      * This method validates Required Fields related fields on
      * the Proposal Development Document.
