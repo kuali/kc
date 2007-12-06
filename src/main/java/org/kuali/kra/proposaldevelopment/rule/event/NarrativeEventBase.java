@@ -58,6 +58,11 @@ public abstract class NarrativeEventBase extends KraDocumentEventBase implements
                 this.narrative.setFileName(narrative.getNarrativeFile().getFileName());
             }
         }
+        narratives = new ArrayList<Narrative>();
+        List<Narrative> narativeListToBeSaved = document.getNarratives();
+        for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
+            narratives.add((Narrative) ObjectUtils.deepCopy(narrativeToBeSaved));
+        }
         logEvent();
     }
 
