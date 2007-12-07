@@ -50,8 +50,8 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: rmancher $
- * @version $Revision: 1.7 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.8 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -91,8 +91,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         person.setIsInvestigator(isInvestigator(person));
         
         person.refreshReferenceObject("role");
-        
-        document.addProposalPerson(person);
     }
 
     /**

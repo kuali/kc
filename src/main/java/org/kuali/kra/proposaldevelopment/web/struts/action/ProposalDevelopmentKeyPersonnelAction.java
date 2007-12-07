@@ -29,7 +29,6 @@ import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_D
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,27 +40,23 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.service.YnqService;
 
 /**
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: rmancher $
- * @version $Revision: 1.32 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.33 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -109,6 +104,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         
         if (person != null) {
             person.setProposalNumber(pdform.getProposalDevelopmentDocument().getProposalNumber());
+            person.setProposalPersonRoleId(pdform.getNewProposalPerson().getProposalPersonRoleId());
             pdform.setNewProposalPerson(person);
             request.setAttribute(NEW_PERSON_LOOKUP_FLAG, new Boolean(true));
         }
@@ -118,6 +114,11 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return mapping.findForward(MAPPING_BASIC);
     }
     
+    /**
+     * Locate from Spring the <code>{@link KualiRuleService}</code> singleton
+     * 
+     * @return KualiRuleService
+     */
     private KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
@@ -154,13 +155,15 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         boolean rulePassed = true;
 
+        // Person needs to be setup before validation
+        getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
+
         // check any business rules
         rulePassed &= getKualiRuleService().applyRules(new AddKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, pdform.getDocument(), pdform.getNewProposalPerson()));
                 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
-            getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
-
+            document.addProposalPerson(pdform.getNewProposalPerson());
             pdform.setNewProposalPerson(new ProposalPerson());
             pdform.setNewRolodexId("");
             pdform.setNewPersonId("");
@@ -186,10 +189,16 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
         ProposalPersonDegree degree = pdform.getNewProposalPersonDegree().get(selectedPersonIndex);
         degree.setDegreeSequenceNumber(pdform.getProposalDevelopmentDocument().getProposalNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
-        person.addDegree(degree);
-        degree.refreshReferenceObject("degreeType");
-        pdform.getNewProposalPersonDegree().remove(selectedPersonIndex);
-        pdform.getNewProposalPersonDegree().add(selectedPersonIndex,new ProposalPersonDegree());
+        
+        // check any business rules
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, person, degree));
+
+        if (rulePassed) {
+            person.addDegree(degree);
+            degree.refreshReferenceObject("degreeType");
+            pdform.getNewProposalPersonDegree().remove(selectedPersonIndex);
+            pdform.getNewProposalPersonDegree().add(selectedPersonIndex,new ProposalPersonDegree());
+        }
 
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -207,10 +216,15 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
         ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(pdform.getNewProposalPersonUnit().get(selectedPersonIndex), person);
         
-        getKeyPersonnelService().addUnitToPerson(person, unit);
+        // check any business rules
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, person, unit));
 
-        pdform.getNewProposalPersonUnit().remove(selectedPersonIndex);
-        pdform.getNewProposalPersonUnit().add(selectedPersonIndex,new Unit());
+        if (rulePassed) {
+            getKeyPersonnelService().addUnitToPerson(person, unit);
+
+            pdform.getNewProposalPersonUnit().remove(selectedPersonIndex);
+            pdform.getNewProposalPersonUnit().add(selectedPersonIndex,new Unit());
+        }
 
         return mapping.findForward(MAPPING_BASIC);
     }
