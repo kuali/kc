@@ -21,13 +21,15 @@ import java.sql.Date;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+import static org.apache.commons.lang.StringUtils.isBlank;
+
 /**
  * Represents the Proposal Degree <code>{@link org.kuali.core.bo.BusinessObject}</code>
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * @author $Author: shyu $
- * @version $Revision: 1.4 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.5 $
  */
 public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     private Integer proposalPersonNumber;
@@ -113,6 +115,13 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
      */
     public final void setDegreeCode(String argDegreeCode) {
         this.degreeCode = argDegreeCode;
+        
+        if (isBlank(degreeCode)) {
+            degree = null;
+        }
+        else {
+            refreshReferenceObject("degree");
+        }
     }
     
     /**

@@ -22,13 +22,15 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 
+import static org.apache.commons.lang.StringUtils.isBlank;
+
 /**
  * Represents the Proposal Person Unit <code>{@link org.kuali.core.bo.BusinessObject}</code>
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * @author $Author: shyu $
- * @version $Revision: 1.9 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.10 $
  */
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase implements CreditSplitable {
     private Integer proposalNumber;
@@ -114,6 +116,13 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
      */
     public final void setUnitNumber(String argUnitNumber) {
         this.unitNumber = argUnitNumber;
+        
+        if (isBlank(unitNumber)) {
+            unit = null;
+        }
+        else {
+            refreshReferenceObject("unit");
+        }
     }
 
     /**

@@ -20,19 +20,24 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.Person;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule;
-
 import org.kuali.core.util.KualiDecimal;
+
+import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
  * Class representation of the Proposal Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * @author $Author: shyu $
- * @version $Revision: 1.17 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.18 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -4110005875629288373L;
+
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
 
     private boolean conflictOfInterest;
@@ -320,6 +325,13 @@ public class ProposalPerson extends Person implements CreditSplitable {
      */
     public void setProposalPersonRoleId(String argPropPersonRoleId) {
         this.proposalPersonRoleId = argPropPersonRoleId;
+        
+        if (isBlank(proposalPersonRoleId)) {
+            role = null;
+        }
+        else {
+            refreshReferenceObject("role");
+        }
     }
 
     /**

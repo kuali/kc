@@ -28,6 +28,7 @@ import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMEN
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.33 $
+ * @version $Revision: 1.34 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -83,6 +84,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         }
         
         pdform.populatePersonEditableFields();
+        populateInvestigators(pdform);
+        
         return super.execute(mapping, form, request, response);
     }
 
@@ -109,8 +112,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             request.setAttribute(NEW_PERSON_LOOKUP_FLAG, new Boolean(true));
         }
 
-        pdform.populateInvestigators();
-        
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -169,7 +170,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             pdform.setNewPersonId("");
 
             // repopulate form investigators
-            pdform.populateInvestigators();
+            populateInvestigators(pdform);
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -377,4 +378,24 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return selectedPersonIndex;
     }
 
+    /**
+     * Populate investigators
+     * 
+     * @param form The <code>{@link ProposalDevelopmentForm}</code> containing the <code>{@link ProposalDevelopmentDocument}</code> to populate
+     * investigators on
+     */
+    public void populateInvestigators(ProposalDevelopmentForm form) {
+        // Populate Investigators from a proposal document's persons
+        LOG.info("Populating Investigators");
+        LOG.info("Clearing investigator list");
+        form.getProposalDevelopmentDocument().setInvestigators(new ArrayList<ProposalPerson>());
+
+        for (ProposalPerson person : form.getProposalDevelopmentDocument().getProposalPersons()) {
+            LOG.info(person.getFullName() + " is " + getKeyPersonnelService().isInvestigator(person));
+            person.setIsInvestigator(getKeyPersonnelService().isInvestigator(person));
+            if (getKeyPersonnelService().isInvestigator(person) && !form.getProposalDevelopmentDocument().getInvestigators().contains(person)) {
+                form.getProposalDevelopmentDocument().getInvestigators().add(person);
+            }
+        }
+    }
 }
