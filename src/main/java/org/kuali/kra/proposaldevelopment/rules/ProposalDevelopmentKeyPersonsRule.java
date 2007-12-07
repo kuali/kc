@@ -22,7 +22,6 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Unit;
@@ -35,7 +34,7 @@ import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-import static java.util.AbstractMap.SimpleImmutableEntry;
+import static java.util.AbstractMap.SimpleEntry;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
@@ -53,7 +52,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -355,26 +354,26 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     }
     
     /**
-     * Convenience method for creating a <code>{@link SimpleImmutableEntry}</code> out of a key/value pair
+     * Convenience method for creating a <code>{@link SimpleEntry}</code> out of a key/value pair
      * 
      * @param key
      * @param value
      * @return SimpleImmutableEntry
      */
-    private SimpleImmutableEntry<String, String> keyValue(String key, String value) {
-        return new SimpleImmutableEntry<String, String>(key, value);
+    private SimpleEntry<String, String> keyValue(String key, String value) {
+        return new SimpleEntry<String, String>(key, value);
     }
     
    
     /**
-     * The opposite of <code>{@link #isValid(Class, SimpleImmutableEntry...)}</code>
+     * The opposite of <code>{@link #isValid(Class, SimpleEntry...)}</code>
      * 
      * @param boClass the class of the business object to validate
-     * @param entries varargs array of <code>{@link SimpleImmutableEntry}</code> key/value pair instances
+     * @param entries varargs array of <code>{@link SimpleEntry}</code> key/value pair instances
      * @return true if invalid; false if valid
      * @see #isValid(Class, SimpleImmutableEntry...)
      */
-    private boolean isInvalid(Class<?> boClass, SimpleImmutableEntry<String, String> ... entries) {
+    private boolean isInvalid(Class<?> boClass, SimpleEntry<String, String> ... entries) {
         return !isValid(boClass, entries);
     }
     
@@ -383,15 +382,15 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * If found, it is valid; otherwise it is invalid.
      * 
      * @param boClass the class of the business object to validate
-     * @param entries varargs array of <code>{@link SimpleImmutableEntry}</code> key/value pair instances
+     * @param entries varargs array of <code>{@link SimpleEntry}</code> key/value pair instances
      * @return true if invalid; false if valid
      * @see #isInvalid(Class, SimpleImmutableEntry...)
      */
-    private boolean isValid(Class<?> boClass, SimpleImmutableEntry<String, String> ... entries) {
+    private boolean isValid(Class<?> boClass, SimpleEntry<String, String> ... entries) {
         if (entries != null && entries.length > 0) {
             Map<String,String> fieldValues = new HashMap<String,String>();
             
-            for (SimpleImmutableEntry<String, String> entry : entries) {
+            for (SimpleEntry<String, String> entry : entries) {
                 fieldValues.put(entry.getKey(), entry.getValue());
             }
 
