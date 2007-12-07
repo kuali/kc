@@ -18,12 +18,12 @@ package org.kuali.kra.proposaldevelopment.rules;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -35,6 +35,7 @@ import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
+import static java.util.Map.Entry;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
@@ -52,7 +53,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -360,8 +361,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @param value
      * @return SimpleImmutableEntry
      */
-    private KeyLabelPair keyValue(String key, String value) {
-        return new KeyLabelPair(key, value);
+    private Entry<String, String> keyValue(String key, String value) {
+        return new DefaultMapEntry(key, value);
     }
     
    
@@ -373,7 +374,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @return true if invalid; false if valid
      * @see #isValid(Class, SimpleImmutableEntry...)
      */
-    private boolean isInvalid(Class<?> boClass, KeyLabelPair ... entries) {
+    private boolean isInvalid(Class<?> boClass, Entry<String, String> ... entries) {
         return !isValid(boClass, entries);
     }
     
@@ -386,12 +387,12 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @return true if invalid; false if valid
      * @see #isInvalid(Class, SimpleImmutableEntry...)
      */
-    private boolean isValid(Class<?> boClass, KeyLabelPair ... entries) {
+    private boolean isValid(Class<?> boClass, Entry<String,String> ... entries) {
         if (entries != null && entries.length > 0) {
             Map<String,String> fieldValues = new HashMap<String,String>();
             
-            for (KeyLabelPair entry : entries) {
-                fieldValues.put(entry.getKey().toString(), entry.getLabel());
+            for (Entry<String,String> entry : entries) {
+                fieldValues.put(entry.getKey(), entry.getValue());
             }
 
             if (getBusinessObjectService().countMatching(boClass, fieldValues) == 1) {
