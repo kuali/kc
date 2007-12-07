@@ -73,7 +73,7 @@ public class PersonEditableFieldRule extends MaintenanceDocumentRuleBase {
         
         /**
          * Read Only Access to <code>{@link BusinessObjectService}</code>
-
+         * 
          * @return BusinessObjectService instance
          */
         public BusinessObjectService getBusinessObjectService() {

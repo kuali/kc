@@ -18,27 +18,29 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.KraTestBase;
+import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 
 /**
  * Contains tests for <code>{@link PersonEditableFieldRule}</code>
  */
-public class PersonEditableFieldRuleTest extends KraTestBase {
+public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
 
     /**
+     * @throws Exception 
      * @see org.kuali.kra.KraTestBase#setUp()
      */
     @Before
-    public void setUp() {
-        
+    public void setUp() throws Exception {
+        super.setUp();
     }
 
     /**
+     * @throws Exception 
      * @see org.kuali.kra.KraTestBase#tearDown()
      */
     @After
-    public void tearDown() {
-    
+    public void tearDown() throws Exception {
+        super.tearDown();
     }
 
     /**
