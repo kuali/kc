@@ -15,21 +15,29 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.bo.DegreeType;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
+import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
+import static java.util.AbstractMap.SimpleImmutableEntry;
 import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
@@ -44,14 +52,14 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
- * @author $Author: shyu $
- * @version $Revision: 1.17 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.18 $
  */
-public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule { 
+public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
 
     /**
-     * @see ResearchDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
+     * @see ResearchDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)lin-long
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -71,6 +79,14 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         for (ProposalPerson person : document.getProposalPersons()) {
             if (isPrincipalInvestigator(person)) {
                 pi_cnt = 0;
+            }
+            
+            int personIndex = 0;
+            if (!isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
+                LOG.debug("error.missingPersonRole");
+                String personProperty = "document.proposalPerson[" + personIndex + "]";
+                reportErrorWithPrefix(personProperty + "*", personProperty, ERROR_MISSING_PERSON_ROLE);
+                personIndex++;
             }
         }
 
@@ -112,16 +128,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
         retval &= processSaveKeyPersonBusinessRules(pd);
 
-        int personIndex = 0;
         for (ProposalPerson person : pd.getProposalPersons()) {
             retval &= validateInvestigator(person);
-            
-            if (!isBlank(person.getProposalPersonRoleId())) {
-                LOG.debug("error.missingPersonRole");
-                String personProperty = "document.proposalPerson[" + personIndex + "]";
-                reportErrorWithPrefix(personProperty + "*", personProperty, ERROR_MISSING_PERSON_ROLE);
-            }
-            personIndex++;
         }                    
         
         retval &= validateCreditSplit((ProposalDevelopmentDocument) document);
@@ -130,6 +138,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     }
 
     /**
+     * Check if credit split totals validate
      *
      * @param document <code>{@link ProposalDevelopmentDocument}</code> instance to validate
      * credit splits of
@@ -159,10 +168,19 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      */
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         boolean retval = true;
+        
+        LOG.debug("validating " + person);
+        LOG.info("Person role is " + person.getRole());
 
         if (isPrincipalInvestigator(person) && hasPrincipalInvestigator(document)) {
             LOG.debug("error.principalInvestigator.limit");
             reportErrorWithPrefix("newProposalPerson*", "newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);
+            retval = false;
+        }
+        
+        if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
+            LOG.debug("Tried to add person without role");
+            reportErrorWithPrefix("newProposalPerson*", "newProposalPerson", ERROR_MISSING_PERSON_ROLE);
             retval = false;
         }
         
@@ -205,6 +223,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                 LOG.debug("error.investigatorUnits.limit");
                 reportErrorWithPrefix("newProposalPerson", "newPproposalPerson", ERROR_INVESTIGATOR_UNITS_UPBOUND);
             }
+            
+            retval &= validateUnit(unit);
         }
         
         return retval;
@@ -219,8 +239,22 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);        
     }
 
+    /**
+     * Locate in Spring the <code>{@link KualiConfigurationService}</code> singleton instance
+     * 
+     * @return KualiConfigurationService
+     */
     private KualiConfigurationService getConfigurationService() {
         return getService(KualiConfigurationService.class);
+    }
+
+    /**
+     * Locate in Spring the <code>{@link BusinessObjectService}</code> singleton instance
+     * 
+     * @return BusinessObjectService
+     */
+    private BusinessObjectService getBusinessObjectService() {
+        return getService(BusinessObjectService.class);
     }
 
     /**
@@ -251,8 +285,121 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         return getKeyPersonnelService().hasPrincipalInvestigator(document);
     }
 
+    /**
+     * Locate in Spring <code>{@link KeyPersonnelService}</code> singleton  
+     * 
+     * @return KeyPersonnelService
+     */
     private KeyPersonnelService getKeyPersonnelService() {
         return getService(KeyPersonnelService.class);
+    }
+
+    /**
+     * Either adding a degree or unit can trigger this rule to be validated
+     * 
+     * @see org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.core.bo.BusinessObject)
+     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertDegree(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertUnit(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source) {
+        boolean retval = true;
+        
+        if (source instanceof ProposalPersonDegree) {
+            retval &= validateDegree((ProposalPersonDegree) source);
+        }
+        else if (source instanceof ProposalPersonUnit) {
+            retval &= validateUnit((ProposalPersonUnit) source);
+        }
+        
+        return retval;
+    }
+
+    /**
+     * Checks to makes sure that the unit is valid. Usually called as a result of a <code>{@link ProposalPersonUnit}</code> being added to a <code>{@link ProposalPerson}</code>.
+     * 
+     * @param source
+     * @return boolean pass or fail
+     */
+    private boolean validateUnit(ProposalPersonUnit source) {
+        boolean retval = true;
+        
+        if (source.getUnit() == null && isBlank(source.getUnitNumber())) {
+            retval = false;
+        }
+        
+        if (isNotBlank(source.getUnitNumber()) && isInvalid(Unit.class, keyValue("unitNumber", source.getUnitNumber()))) {
+            retval = false;
+        }
+
+        return retval;
+    }
+
+    /**
+     * Checks to makes sure that the degree is valid. Usually called as a result of a <code>{@link ProposalPersonDegree}</code> being added to a <code>{@link ProposalPerson}</code>.
+     * 
+     * @param source
+     * @return boolean
+     */
+    private boolean validateDegree(ProposalPersonDegree source) {
+        boolean retval = true;
+        
+        if (isBlank(source.getDegreeCode()) && source.getDegree() == null) {
+            return false;
+        }
+        
+        if (isNotBlank(source.getDegreeCode()) && isInvalid(DegreeType.class, keyValue("degreeCode", source.getDegreeCode()))) {
+            retval = false;
+        }
+        
+        return retval;
+    }
+    
+    /**
+     * Convenience method for creating a <code>{@link SimpleImmutableEntry}</code> out of a key/value pair
+     * 
+     * @param key
+     * @param value
+     * @return SimpleImmutableEntry
+     */
+    private SimpleImmutableEntry<String, String> keyValue(String key, String value) {
+        return new SimpleImmutableEntry<String, String>(key, value);
+    }
+    
+   
+    /**
+     * The opposite of <code>{@link #isValid(Class, SimpleImmutableEntry...)}</code>
+     * 
+     * @param boClass the class of the business object to validate
+     * @param entries varargs array of <code>{@link SimpleImmutableEntry}</code> key/value pair instances
+     * @return true if invalid; false if valid
+     * @see #isValid(Class, SimpleImmutableEntry...)
+     */
+    private boolean isInvalid(Class<?> boClass, SimpleImmutableEntry<String, String> ... entries) {
+        return !isValid(boClass, entries);
+    }
+    
+    /**
+     * Is the given code valid?  Query the database for a matching code
+     * If found, it is valid; otherwise it is invalid.
+     * 
+     * @param boClass the class of the business object to validate
+     * @param entries varargs array of <code>{@link SimpleImmutableEntry}</code> key/value pair instances
+     * @return true if invalid; false if valid
+     * @see #isInvalid(Class, SimpleImmutableEntry...)
+     */
+    private boolean isValid(Class<?> boClass, SimpleImmutableEntry<String, String> ... entries) {
+        if (entries != null && entries.length > 0) {
+            Map<String,String> fieldValues = new HashMap<String,String>();
+            
+            for (SimpleImmutableEntry<String, String> entry : entries) {
+                fieldValues.put(entry.getKey(), entry.getValue());
+            }
+
+            if (getBusinessObjectService().countMatching(boClass, fieldValues) == 1) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
