@@ -403,22 +403,6 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         }
         return personEditableFields;
     }
-
-    /**
-     * Populate investigators
-     */
-    public void populateInvestigators() {
-        // Populate Investigators from a proposal document's persons
-        LOG.debug("Populating Investigators");
-        LOG.debug("Clearing investigator list");
-        getProposalDevelopmentDocument().setInvestigators(new ArrayList<ProposalPerson>());
-
-        for (ProposalPerson person : getProposalDevelopmentDocument().getProposalPersons()) {
-            if (person.isInvestigator() && !getProposalDevelopmentDocument().getInvestigators().contains(person)) {
-                getProposalDevelopmentDocument().getInvestigators().add(person);
-            }
-        }
-    }
     
     public Map getCreditSplitTotals() {
         return getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());
