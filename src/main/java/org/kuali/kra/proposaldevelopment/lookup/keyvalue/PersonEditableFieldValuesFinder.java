@@ -37,7 +37,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
  * Lookup acceptable values for <code>{@link PersonEditableField}</code> business object
  *  
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PersonEditableFieldValuesFinder extends KeyValuesBase {
     Map<String, AttributeDefinition> attributes; 
@@ -81,7 +81,7 @@ public class PersonEditableFieldValuesFinder extends KeyValuesBase {
     
     /**
      * Read-only access to a map of attributes for <code>{@link ProposalPerson}</code>
-     * @return
+     * @return Map<String, AttributeDefinition>
      */
     private Map<String, AttributeDefinition> getAttributeMap() {
         return attributes;
