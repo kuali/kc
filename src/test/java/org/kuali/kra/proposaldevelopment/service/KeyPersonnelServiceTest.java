@@ -40,7 +40,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * <code>{@link KeyPersonnelService}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class KeyPersonnelServiceTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelServiceTest.class);
@@ -105,6 +105,7 @@ public class KeyPersonnelServiceTest extends KraTestBase {
         person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
         
         getKeyPersonnelService().populateProposalPerson(person, document);
+        document.addProposalPerson(person);
         
         Map<String, Map<String,KualiDecimal>> totals = getKeyPersonnelService().calculateCreditSplitTotals(document);
         for(String key : totals.keySet()) {
