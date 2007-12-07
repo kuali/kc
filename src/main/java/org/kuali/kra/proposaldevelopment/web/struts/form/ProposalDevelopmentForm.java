@@ -371,13 +371,13 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      * Creates the list of <code>{@link PersonEditableField}</code> field names.
      */
     public void populatePersonEditableFields() {
-        LOG.info("Adding PersonEditableFields");
+        LOG.debug("Adding PersonEditableFields");
         
         setPersonEditableFields(new HashMap());
         
         Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
         for (PersonEditableField field : fields) {
-            LOG.info("found field " + field.getFieldName());
+            LOG.debug("found field " + field.getFieldName());
             getPersonEditableFields().put(field.getFieldName(), new Boolean(field.isActive()));
         }
     }
@@ -409,8 +409,8 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      */
     public void populateInvestigators() {
         // Populate Investigators from a proposal document's persons
-        LOG.info("Populating Investigators");
-        LOG.info("Clearing investigator list");
+        LOG.debug("Populating Investigators");
+        LOG.debug("Clearing investigator list");
         getProposalDevelopmentDocument().setInvestigators(new ArrayList<ProposalPerson>());
 
         for (ProposalPerson person : getProposalDevelopmentDocument().getProposalPersons()) {
