@@ -71,10 +71,10 @@
 
     <kra-pd:keyPersons/>
 
-  <c:if test="${! viewOnly}">
+  <c:if test="${! viewOnly and fn:length(KualiForm.document.proposalPersons) > 0}">
   	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.deletePerson"/>
-  	<c:set var="extraButtonAlt" value="delete"/>
+  	<c:set var="extraButtonAlt" value="Delete a Key Person"/>
   </c:if>  
   
   	<p>
