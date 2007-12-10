@@ -242,7 +242,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         int lineNumber = line == null ? getLineToDelete(request) : Integer.parseInt(line);
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         pd.populatePersonNameForNarrativeUserRights(lineNumber);
-        request.setAttribute(LINE_NUMBER, line);
+        request.setAttribute(LINE_NUMBER, ""+lineNumber);
         return mapping.findForward(MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE);
     }
 
