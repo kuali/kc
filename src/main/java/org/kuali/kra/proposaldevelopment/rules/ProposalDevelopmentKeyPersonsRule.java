@@ -53,7 +53,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -323,6 +323,11 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     private boolean validateUnit(ProposalPersonUnit source) {
         boolean retval = true;
         
+        if (source == null) {
+            LOG.info("validated null unit");
+            return false;
+        }
+        
         if (source.getUnit() == null && isBlank(source.getUnitNumber())) {
             retval = false;
         }
@@ -331,6 +336,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
 
+        LOG.info("validateUnit = " + retval);
+        
         return retval;
     }
 
@@ -343,6 +350,10 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     private boolean validateDegree(ProposalPersonDegree source) {
         boolean retval = true;
         
+        if (source == null) {
+            return false;
+        }
+
         if (isBlank(source.getDegreeCode()) && source.getDegree() == null) {
             return false;
         }

@@ -39,8 +39,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -52,12 +52,14 @@ import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.34 $
+ * @version $Revision: 1.35 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -68,27 +70,40 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward retval = super.execute(mapping, form, request, response);
+        prepare(form, request);
+        return retval;
+    }
+    
+    /**
+     * Common helper method for preparing to <code>{@link #execute(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)}</code>
+     * @param form ActionForm
+     * @param request HttpServletRequest
+     */
+    public void prepare(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         request.setAttribute(NEW_PERSON_LOOKUP_FLAG, "");
 
-        try {
-            boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME);
+        pdform.populatePersonEditableFields();
+        populateInvestigators(pdform);    
 
-            if (creditSplitEnabled) {
-                request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
-            }
+
+        LOG.info("In key personnel execute()");
+        
+        try {
+            boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
+                && pdform.getProposalDevelopmentDocument().getInvestigators().size() > 0;
+            LOG.info("creditSplitEnabled = " + creditSplitEnabled);
+
+            request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
         }
         catch (Exception e) {
             LOG.warn("Couldn't find parameter '" + CREDIT_SPLIT_ENABLED_RULE_NAME + "'");
             LOG.warn(e.getMessage());
-        }
-        
-        pdform.populatePersonEditableFields();
-        populateInvestigators(pdform);
-        
-        return super.execute(mapping, form, request, response);
+        }        
     }
 
+    
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest,
      *      HttpServletResponse)
@@ -154,13 +169,12 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     public ActionForward insertProposalPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
-        boolean rulePassed = true;
 
         // Person needs to be setup before validation
         getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
 
         // check any business rules
-        rulePassed &= getKualiRuleService().applyRules(new AddKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, pdform.getDocument(), pdform.getNewProposalPerson()));
+        boolean rulePassed = getKualiRuleService().applyRules(new AddKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, pdform.getDocument(), pdform.getNewProposalPerson()));
                 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
@@ -170,7 +184,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             pdform.setNewPersonId("");
 
             // repopulate form investigators
+            LOG.info("Person was added, reruning populateInvestigators()");
             populateInvestigators(pdform);
+            LOG.info("Proposal has " + pdform.getProposalDevelopmentDocument().getInvestigators().size() + " investigators ");
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -192,7 +208,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         degree.setDegreeSequenceNumber(pdform.getProposalDevelopmentDocument().getProposalNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
         
         // check any business rules
-        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, person, degree));
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, document, person, degree));
 
         if (rulePassed) {
             person.addDegree(degree);
@@ -217,8 +233,10 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
         ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(pdform.getNewProposalPersonUnit().get(selectedPersonIndex), person);
         
+        LOG.info("Calling unit rules");
+        
         // check any business rules
-        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, person, unit));
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, document, person, unit));
 
         if (rulePassed) {
             getKeyPersonnelService().addUnitToPerson(person, unit);
@@ -311,9 +329,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return mapping.findForward(MAPPING_BASIC);
     }
 
-    private KualiConfigurationService getConfigurationService() {
-        return getService(KualiConfigurationService.class);
-    }
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -386,16 +401,26 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public void populateInvestigators(ProposalDevelopmentForm form) {
         // Populate Investigators from a proposal document's persons
-        LOG.info("Populating Investigators");
-        LOG.info("Clearing investigator list");
+        LOG.debug("Populating Investigators");
+        LOG.debug("Clearing investigator list");
         form.getProposalDevelopmentDocument().setInvestigators(new ArrayList<ProposalPerson>());
 
         for (ProposalPerson person : form.getProposalDevelopmentDocument().getProposalPersons()) {
-            LOG.info(person.getFullName() + " is " + getKeyPersonnelService().isInvestigator(person));
+            LOG.debug(person.getFullName() + " is " + getKeyPersonnelService().isInvestigator(person));
             person.setIsInvestigator(getKeyPersonnelService().isInvestigator(person));
             if (getKeyPersonnelService().isInvestigator(person) && !form.getProposalDevelopmentDocument().getInvestigators().contains(person)) {
                 form.getProposalDevelopmentDocument().getInvestigators().add(person);
             }
         }
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+
+
     }
 }
