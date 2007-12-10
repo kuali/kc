@@ -21,7 +21,7 @@
 <c:set var="creditParamName" value="proposaldevelopment.creditsplit.enabled"/>
 <c:set var="columnWidth" value="${100/(fn:length(KualiForm.document.investigatorCreditTypes) + 1)}%" />
 
-<c:if test="${creditSplitEnabledFlag and fn:length(KualiForm.document.investigators) > 0}">
+<c:if test="${creditSplitEnabledFlag}">
 
 <kul:tab tabTitle="Combined Credit Split" defaultOpen="true" tabErrorKey="">
 	<div class="tab-container" align="center">
