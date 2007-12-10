@@ -116,9 +116,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     public ActionForward keyPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         getKeyPersonnelService().populateDocument(pdform.getProposalDevelopmentDocument());
-        
-        LOG.info("In keyPersonnel()");
-        
+              
         // Let this be taken care of in KeyPersonnelAction execute() method
         if (this instanceof ProposalDevelopmentKeyPersonnelAction) {
             LOG.info("forwarding to keyPersonnel action");
