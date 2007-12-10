@@ -19,9 +19,7 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 
 /**
@@ -29,6 +27,8 @@ import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
  * 
  */
 public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDocumentEvent {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ChangeKeyPersonEvent.class);
+    
     private BusinessObject source;
         
     /**
@@ -38,8 +38,8 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
      * @param person
      * @param source
      */
-    public ChangeKeyPersonEvent(String errorPathPrefix, ProposalPerson person, BusinessObject source) {
-        super("add degree to person " + person.getProposalPersonNumber(), errorPathPrefix, null, person);
+    public ChangeKeyPersonEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source) {
+        super("add degree to person " + person.getProposalPersonNumber(), errorPathPrefix, document, person);
         this.source = source;
     }
 
@@ -64,7 +64,7 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
-    public Class getRuleInterfaceClass() {
+    public Class<ChangeKeyPersonRule> getRuleInterfaceClass() {
         return ChangeKeyPersonRule.class;
     }
 
@@ -72,6 +72,7 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
+        LOG.info("Running rule on " + getProposalPerson() + " for source " + getSource());
         return ((ChangeKeyPersonRule) rule).processChangeKeyPersonBusinessRules(getProposalPerson(), getSource());
     }
 }
