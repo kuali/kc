@@ -39,7 +39,7 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
      * @param source
      */
     public ChangeKeyPersonEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source) {
-        super("add degree to person " + person.getProposalPersonNumber(), errorPathPrefix, document, person);
+        super("add BusinessObject to person " + person.getProposalPersonNumber(), errorPathPrefix, document, person);
         this.source = source;
     }
 
@@ -64,7 +64,7 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
     /**
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
-    public Class<ChangeKeyPersonRule> getRuleInterfaceClass() {
+    public Class<?> getRuleInterfaceClass() {
         return ChangeKeyPersonRule.class;
     }
 
@@ -72,7 +72,6 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        LOG.info("Running rule on " + getProposalPerson() + " for source " + getSource());
         return ((ChangeKeyPersonRule) rule).processChangeKeyPersonBusinessRules(getProposalPerson(), getSource());
     }
 }

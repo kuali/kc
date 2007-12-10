@@ -59,7 +59,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.35 $
+ * @version $Revision: 1.36 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -86,15 +86,10 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
         pdform.populatePersonEditableFields();
         populateInvestigators(pdform);    
-
-
-        LOG.info("In key personnel execute()");
-        
+    
         try {
             boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
                 && pdform.getProposalDevelopmentDocument().getInvestigators().size() > 0;
-            LOG.info("creditSplitEnabled = " + creditSplitEnabled);
-
             request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
         }
         catch (Exception e) {
@@ -184,9 +179,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             pdform.setNewPersonId("");
 
             // repopulate form investigators
-            LOG.info("Person was added, reruning populateInvestigators()");
             populateInvestigators(pdform);
-            LOG.info("Proposal has " + pdform.getProposalDevelopmentDocument().getInvestigators().size() + " investigators ");
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -232,8 +225,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
         ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
         ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(pdform.getNewProposalPersonUnit().get(selectedPersonIndex), person);
-        
-        LOG.info("Calling unit rules");
         
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, document, person, unit));
