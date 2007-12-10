@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
+import static org.kuali.kra.infrastructure.Constants.NEW_PERSON_LOOKUP_FLAG;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +36,6 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -93,8 +93,6 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-
-        getKeyPersonnelService().populateDocument(((ProposalDevelopmentForm) kualiDocumentFormBase).getProposalDevelopmentDocument());
     }
 
     @Override
@@ -106,7 +104,29 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         return mapping.findForward("proposal");
     }
 
-    public ActionForward keyPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    /**
+     * Action called to forward to a new KeyPersonnel tab.
+     * 
+     * @param mapping 
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward instance for forwarding to the tab.
+     */
+    public ActionForward keyPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        getKeyPersonnelService().populateDocument(pdform.getProposalDevelopmentDocument());
+        
+        LOG.info("In keyPersonnel()");
+        
+        // Let this be taken care of in KeyPersonnelAction execute() method
+        if (this instanceof ProposalDevelopmentKeyPersonnelAction) {
+            LOG.info("forwarding to keyPersonnel action");
+            return mapping.findForward("keyPersonnel");
+        }
+
+        new ProposalDevelopmentKeyPersonnelAction().prepare(form, request);
+
         return mapping.findForward("keyPersonnel");
     }
 
@@ -183,8 +203,19 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
 
     /**
      * Grabs the <code>{@link KeyPersonnelService} from Spring!
+     * 
+     * @return KeyPersonnelService
      */
     protected KeyPersonnelService getKeyPersonnelService() {
         return getService(KeyPersonnelService.class);
+    }
+    
+    /**
+     * Locate in Spring the <code>{@link KualiConfigurationService}</code> singleton instance
+     * 
+     * @return KualiConfigurationService
+     */
+    protected KualiConfigurationService getConfigurationService() {
+        return getService(KualiConfigurationService.class);
     }
 }
