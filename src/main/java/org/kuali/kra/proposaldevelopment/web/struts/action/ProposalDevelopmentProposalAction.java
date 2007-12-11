@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -30,7 +32,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
@@ -39,6 +41,7 @@ import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.SponsorService;
@@ -109,9 +112,13 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      */
     public ActionForward addLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getNewPropLocation().setLocationSequenceNumber(proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().add(proposalDevelopmentForm.getNewPropLocation());
-        proposalDevelopmentForm.setNewPropLocation(new ProposalLocation());
+        ProposalLocation newProposalLocation = proposalDevelopmentForm.getNewPropLocation();
+        if(getKualiRuleService().applyRules(new AddProposalLocationEvent(Constants.EMPTY_STRING, proposalDevelopmentForm.getProposalDevelopmentDocument(), newProposalLocation))){
+            newProposalLocation.setLocationSequenceNumber(proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
+            proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().add(newProposalLocation);
+            proposalDevelopmentForm.setNewPropLocation(new ProposalLocation());
+        }
+
         return mapping.findForward("basic");
     }
 
@@ -222,6 +229,10 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             }
         }
         return mapping.findForward("basic");
+    }
+    
+    private KualiRuleService getKualiRuleService() {
+        return getService(KualiRuleService.class);
     }
 
 }
