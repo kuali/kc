@@ -20,7 +20,7 @@
 <c:set var="propLocationAttributes" value="${DataDictionary.ProposalLocation.attributes}" />
 <c:set var="rolodexAttributes" value="${DataDictionary.Rolodex.attributes}" />
 
-<kul:tab tabTitle="Organization/Location" defaultOpen="false" tabErrorKey="document.organizationId*,document.performingOrganizationId*,document.proposalLocation*,document.newProposalLocation*">
+<kul:tab tabTitle="Organization/Location" defaultOpen="false" tabErrorKey="document.organizationId*,document.performingOrganizationId*,document.proposalLocation*,newPropLocation*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Organization</h2></span>

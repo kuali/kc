@@ -18,8 +18,12 @@ package org.kuali.kra.infrastructure;
 public class KeyConstants {
     public static final String ERROR_REQUIRED_FOR_APPROVED_SPECIALREVIEW = "error.required.for.approved.specialReview";
     public static final String ERROR_NOT_APPROVED_SPECIALREVIEW = "error.not.approved.specialReview";
+    public static final String ERROR_REQUIRED_SELECT_APPROVAL_STATUS = "error.required.select.approval.status";
+    public static final String ERROR_REQUIRED_SELECT_SPECIAL_REVIEW_CODE = "error.required.select.special.review.code";
+
     public static final String ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW = "error.required.for.valid.specialReview";
     public static final String ERROR_REQUIRED_FOR_PROPLOCATION = "error.required.for.propLocation";
+    public static final String ERROR_REQUIRED_FOR_PROPLOCATION_NAME = "error.required.for.locationName";
     public static final String ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW = "error.required.for.proposalType.notNew";
     public static final String WARNING_EMPTY_DEADLINE_DATE = "warning.empty.deadline.date";
     public static final String WARNING_PAST_DEADLINE_DATE = "warning.past.deadline.date";
