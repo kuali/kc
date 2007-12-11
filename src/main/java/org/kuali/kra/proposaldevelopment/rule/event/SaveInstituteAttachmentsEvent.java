@@ -21,7 +21,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.SaveInstituteAttachmentsRule;
 
 public class SaveInstituteAttachmentsEvent extends NarrativeEventBase{
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveNarrativesEvent.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveInstituteAttachmentsEvent.class);
     /**
      * Constructs an SaveInstituteAttachmentsEvent with the given errorPathPrefix, document, and proposalPerson.
      * 
