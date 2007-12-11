@@ -21,7 +21,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 public interface AddInstituteAttachmentRule extends BusinessRule {
     
     /**
-     * Rule invoked upon adding a key person to a 
+     * Rule invoked upon adding an institutional attachment 
      * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
      *
      * @return boolean

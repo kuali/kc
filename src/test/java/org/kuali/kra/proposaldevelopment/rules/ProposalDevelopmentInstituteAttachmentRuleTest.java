@@ -88,11 +88,8 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         assertTrue(narrativeTypes.size()>1);
         assertTrue(narrativeStatuses.size()>1);
         
-        Narrative narrative = new Narrative();
         Narrative newNarrative = new Narrative();
-        narrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getNarrativeTypeCode());
-        narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
 //        document.addInstituteAttachment(narrative);
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
@@ -100,9 +97,9 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     }
     
     /**
-     * Test adding an narrative with an unspecified narrative type code.
+     * Test adding an institutional attachment with an unspecified attachment type code.
      * This corresponds to a empty string type code, i.e. the user didn't
-     * select an narrative type.
+     * select an attachment type.
      * 
      * @throws Exception
      */
@@ -123,9 +120,8 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     }
     
     /**
-     * Test adding an narrative with an unspecified narrative type code.
-     * This corresponds to a empty string type code, i.e. the user didn't
-     * select an narrative type.
+     * Test adding a institutional attachment with an unspecified narrative ststus.
+     * This corresponds to a empty string ststus code
      * 
      * @throws Exception
      */
@@ -147,8 +143,8 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     }
     
     /**
-     * Test adding a narrative with a duplicate type code, i.e. the
-     * document already has an narrative with that type code.
+     * Test adding a institutional attachment with a duplicate type code, i.e. the
+     * document already has an institutional attachment with that type code.
      * 
      * @throws Exception
      */
@@ -180,7 +176,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
 
     /**
      * 
-     * This method is to test that filename is required when narrative type and description are entered.
+     * This method is to test that filename is required when institutional attachment type and description are entered.
      * @throws Exception
      */
     @Test
@@ -204,13 +200,6 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME);
 
-//        document.addInstituteAttachment(narrative);
-        
-//        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(FILE_NAME);
-//        assertTrue(errors.size() == 1);
-//        
-//        ErrorMessage message = (ErrorMessage) errors.get(0);
-//        assertEquals(message.getErrorKey(), KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME);
     }
 
 }
