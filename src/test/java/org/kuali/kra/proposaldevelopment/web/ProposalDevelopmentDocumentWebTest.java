@@ -91,13 +91,15 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         // test proposalType link
         final HtmlPage page4 = (HtmlPage) webClient
                 .getPage(url
-                        + "kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ProposalType&returnLocation=kra-dev/portal.do&hideReturnLink=true&docFormKey=88888888");
-        assertEquals("Kuali :: Lookup", page4.getTitleText());
-
+                        + "portal.do?channelTitle=Proposal Type&channelUrl=kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.proposaldevelopment.bo.ProposalType&returnLocation=http://localhost:8080/kra-dev/portal.do&hideReturnLink=true&docFormKey=88888888");
+        assertEquals("Kuali Portal Index", page4.getTitleText());
+        //assertEquals("Kuali : Lookup", page4.getTitleText());
         // test proposalType link - based on anchor
+        /*
         final HtmlAnchor proposalTypeLink = (HtmlAnchor) page3.getAnchorByName("lookupProposalType");
         final HtmlPage page5 = (HtmlPage) webClient.getPage(url + proposalTypeLink.getHrefAttribute());
         assertEquals("Kuali :: Lookup", page5.getTitleText());
+        */
 
     }
 
