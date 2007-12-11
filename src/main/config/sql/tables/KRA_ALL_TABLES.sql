@@ -2197,7 +2197,7 @@ ENABLE,
 "PROTOCOL_NUMBER" VARCHAR2(20),                                                 
 "APPLICATION_DATE" DATE,                                                        
 "APPROVAL_DATE" DATE,                                                           
-"COMMENTS" LONG,                                                                
+"COMMENTS" CLOB,                                                                
 "UPDATE_USER" VARCHAR2(8) CONSTRAINT "EPS_PROP_SPECIAL_REVIEWN5" NOT NULL       
 ENABLE,                                                                         
 "UPDATE_TIMESTAMP" DATE CONSTRAINT "EPS_PROP_SPECIAL_REVIEWN6" NOT NULL ENABLE, 
