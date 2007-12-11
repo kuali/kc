@@ -25,7 +25,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 public abstract class PersonnelAttachmentEventBase extends KraDocumentEventBase implements PersonnelAttachmentEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-            .getLog(KeyPersonEventBase.class);
+            .getLog(PersonnelAttachmentEventBase.class);
 
     private ProposalPersonBiography proposalPersonBiography;
 
@@ -47,7 +47,7 @@ public abstract class PersonnelAttachmentEventBase extends KraDocumentEventBase 
     }
 
     /**
-     * @return <code>{@link ProposalPerson}</code> that triggered this event.
+     * @return <code>{@link ProposalPersonBiography}</code> that triggered this event.
      */
     public ProposalPersonBiography getProposalPersonBiography() {
         return proposalPersonBiography;
@@ -64,7 +64,7 @@ public abstract class PersonnelAttachmentEventBase extends KraDocumentEventBase 
     }
 
     /**
-     * Logs the event type and some information about the associated accountingLine
+     * Logs the event type and some information about the associated proposal person 
      */
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));

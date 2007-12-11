@@ -78,9 +78,9 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
     }
     
     /**
-     * Test adding an narrative with an unspecified narrative type code.
+     * Test adding a personnel attachment with an unspecified document type code.
      * This corresponds to a empty string type code, i.e. the user didn't
-     * select an narrative type.
+     * select a document type.
      * 
      * @throws Exception
      */
@@ -103,9 +103,9 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
     }
     
     /**
-     * Test adding an narrative with an unspecified narrative type code.
-     * This corresponds to a empty string type code, i.e. the user didn't
-     * select an narrative type.
+     * Test adding a personnel attachment with an unspecified person.
+     * This corresponds to a empty person number, i.e. the user didn't
+     * select a person.
      * 
      * @throws Exception
      */
@@ -128,8 +128,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
     }
     
     /**
-     * Test adding a narrative with a duplicate type code, i.e. the
-     * document already has an narrative with that type code.
+     * Test adding a personnel attachment with unspecified description
      * 
      * @throws Exception
      */
@@ -156,7 +155,7 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
 
     /**
      * 
-     * This method is to test that filename is required when narrative type and description are entered.
+     * This method is to test that filename is required when attachment type and description are entered.
      * @throws Exception
      */
     @Test
