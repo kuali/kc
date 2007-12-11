@@ -141,7 +141,8 @@
 			<attribute name="comments">
 			<label>Comments </label>
 			<shortLabel>Comments </shortLabel>
-			<maxLength>800</maxLength>
+			<!-- what should be the length for clob  -->
+			<maxLength>5000</maxLength>
 			<validationPattern><anyCharacter  allowWhitespace="true" /></validationPattern>
 			<control>
 				<textarea cols="20" rows="3"  />
