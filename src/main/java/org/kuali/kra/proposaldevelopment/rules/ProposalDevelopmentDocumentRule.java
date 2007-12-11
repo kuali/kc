@@ -40,12 +40,16 @@ import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule;
+import org.kuali.kra.proposaldevelopment.rule.AddProposalLocationRule;
+import org.kuali.kra.proposaldevelopment.rule.AddProposalSpecialReviewRule;
 import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.DocumentValidationService;
@@ -55,7 +59,7 @@ import org.kuali.kra.service.DocumentValidationService;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, DocumentAuditRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalLocationRule,AddProposalSpecialReviewRule , DocumentAuditRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -329,6 +333,22 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      */
     public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source) {
         return new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(proposalPerson, source);
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.rule.AddProposalLocationRule#processAddProposalLocationBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent)
+     */
+    public boolean processAddProposalLocationBusinessRules(AddProposalLocationEvent addProposalLocationEvent) {
+        return new ProposalDevelopmentProposalLocationRule().processAddProposalLocationBusinessRules(addProposalLocationEvent);    
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.rule.AddProposalSpecialReviewRule#processAddProposalSpecialReviewBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent)
+     */
+    public boolean processAddProposalSpecialReviewBusinessRules(AddProposalSpecialReviewEvent addProposalSpecialReviewEvent) {
+        return new ProposalDevelopmentProposalSpecialReviewRule().processAddProposalSpecialReviewBusinessRules(addProposalSpecialReviewEvent);    
     }
 
 }

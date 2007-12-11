@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,23 +25,33 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentSpecialReviewAction.class);
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getNewPropSpecialReview().setSpecialReviewNumber(proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
-        proposalDevelopmentForm.getProposalDevelopmentDocument().getPropSpecialReviews().add(proposalDevelopmentForm.getNewPropSpecialReview());
-        proposalDevelopmentForm.setNewPropSpecialReview(new ProposalSpecialReview());
+        ProposalSpecialReview newProposalSpecialReview = proposalDevelopmentForm.getNewPropSpecialReview();
+        if(getKualiRuleService().applyRules(new AddProposalSpecialReviewEvent(Constants.EMPTY_STRING, proposalDevelopmentForm.getProposalDevelopmentDocument(), newProposalSpecialReview))){
+            newProposalSpecialReview.setSpecialReviewNumber(proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
+            proposalDevelopmentForm.getProposalDevelopmentDocument().getPropSpecialReviews().add(newProposalSpecialReview);
+            proposalDevelopmentForm.setNewPropSpecialReview(new ProposalSpecialReview());
+        }
         return mapping.findForward("basic");
     }
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.getProposalDevelopmentDocument().getPropSpecialReviews().remove(getLineToDelete(request));
         return mapping.findForward("basic");
+    }
+
+    // TODO : move this method up?
+    private KualiRuleService getKualiRuleService() {
+        return getService(KualiRuleService.class);
     }
 
 }
