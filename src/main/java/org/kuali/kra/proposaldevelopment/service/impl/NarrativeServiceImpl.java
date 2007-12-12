@@ -15,24 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_NUMBER;
-import static org.kuali.kra.infrastructure.Constants.NARRATIVE_MODULE_SEQUENCE_NUMBER;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -63,8 +54,6 @@ public class NarrativeServiceImpl implements NarrativeService {
      */
     public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
         narrative.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
-//        narrative.setModuleNumber(proposaldevelopmentDocument.getNSaveProposalNextValue(NARRATIVE_MODULE_NUMBER,proposaldevelopmentDocument.getProposalNumber()));
-//        narrative.setModuleSequenceNumber(proposaldevelopmentDocument.getNSaveProposalNextValue(NARRATIVE_MODULE_SEQUENCE_NUMBER,proposaldevelopmentDocument.getProposalNumber()));
         narrative.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
         narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
         updateUserTimestamp(narrative);
@@ -73,6 +62,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         narrative.refreshReferenceObject("narrativeStatus");
         narrative.populateAttachment();
         populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
+        
         getBusinessObjectService().save(narrative);
         narrative.clearAttachment();
         proposaldevelopmentDocument.getNarratives().add(narrative);
@@ -187,7 +177,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#populatePersonNameForNarrativeUserRights(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.Narrative)
      */
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
-        populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
+//        populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
         for (NarrativeUserRights narrativeUserRight : narrativeUserRights) {
             String personName = proposalPersonService.getPersonName(proposaldevelopmentDocument, narrativeUserRight.getUserId());
@@ -196,50 +186,16 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
     public void replaceAttachment(Narrative narrative) {
-//        NarrativeAttachment narrativeAttachment =  findNarrativeAttachment(narrative);
-//        if(narrativeAttachment!=null)
-//            if (narrative.getNarrativeAttachmentList().isEmpty())
-//                narrative.getNarrativeAttachmentList().add(narrativeAttachment);
-//            else
-//                narrative.getNarrativeAttachmentList().set(0, narrativeAttachment);
         narrative.refreshReferenceObject("narrativeAttachmentList");
         narrative.populateAttachment();
         getBusinessObjectService().save(narrative);
         narrative.clearAttachment();
     }
-//    /**
-//     * 
-//     * This method used to find the narrative attachment for a narrative
-//     * @param narrative
-//     * @return NarrativeAttachment
-//     */
-//    private NarrativeAttachment findNarrativeAttachment(Narrative narrative){
-//        Map<String,Integer> narrativeAttachemntMap = new HashMap<String,Integer>();
-//        narrativeAttachemntMap.put("proposalNumber", narrative.getProposalNumber());
-//        narrativeAttachemntMap.put("moduleNumber", narrative.getModuleNumber());
-//        return (NarrativeAttachment)businessObjectService.findByPrimaryKey(NarrativeAttachment.class, narrativeAttachemntMap);
-//    }
 
     public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getNarratives();
-        //Have to get person id of logged in user for the time being, its been hard coded
-        String loggedInUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
-        String loggedInUserPersonId = getProposalPersonService().getPerson(loggedInUser).getPersonId();//"000000002";//get person id for looged in user
         for (Narrative narrative : narrativeList) {
-            narrative.setModifyAttachment(false);
-            narrative.setViewAttachment(false);
-            List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
-            if(narrativeUserRights.isEmpty())
-                narrative.refreshReferenceObject("narrativeUserRights");
-            for (NarrativeUserRights narrativeRight : narrativeUserRights) {
-                if (StringUtils.equals(narrativeRight.getUserId(),loggedInUserPersonId)) {
-                    narrative.setViewAttachment(narrativeRight.getAccessType().equals(
-                            NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType()));
-                    narrative.setModifyAttachment(narrativeRight.getAccessType().equals(
-                            NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType()));
-                    break;
-                }
-            }
+            populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
         }
     }
 
@@ -317,9 +273,9 @@ public class NarrativeServiceImpl implements NarrativeService {
         this.dateTimeService = dateTimeService;
     }
     
-    private boolean isProposalAttachmentType(Narrative narrative) {
-        return !(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE.equals(narrative.getNarrativeType().getNarrativeTypeGroup()));
-    }
+//    private boolean isProposalAttachmentType(Narrative narrative) {
+//        return !(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE.equals(narrative.getNarrativeType().getNarrativeTypeGroup()));
+//    }
     /**
      * Dummy method to add proposal user roles for narrative. This should be removed after 
      * proposal user roles maintenance screen implementation

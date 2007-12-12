@@ -15,14 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.NarrativeRight;
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 
 public class Narrative extends KraPersistableBusinessObjectBase {
     private Integer proposalNumber;
@@ -44,10 +51,14 @@ public class Narrative extends KraPersistableBusinessObjectBase {
     private String institutionalAttachmentTypeCode;
     private boolean viewAttachment;
     private boolean modifyAttachment;
+    private String loggedInUserPersonId;
 
     public Narrative() {
         narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
         narrativeUserRights = new ArrayList<NarrativeUserRights>();
+        String loggedInUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
+        loggedInUserPersonId = getService(ProposalPersonService.class).getPerson(loggedInUser).getPersonId();//get person id for looged in user
+
     }
 
     public Integer getModuleNumber() {
@@ -219,7 +230,18 @@ public class Narrative extends KraPersistableBusinessObjectBase {
      * @return Returns the view.
      */
     public boolean getViewAttachment() {
-        return viewAttachment;
+        List<NarrativeUserRights> narrativeUserRights = getNarrativeUserRights();
+        if(narrativeUserRights.isEmpty())
+            refreshReferenceObject("narrativeUserRights");
+        for (NarrativeUserRights narrativeRight : narrativeUserRights) {
+            if (StringUtils.equals(narrativeRight.getUserId(),loggedInUserPersonId)) {
+                return (narrativeRight.getAccessType().equals(
+                        NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType()) || 
+                        narrativeRight.getAccessType().equals(
+                        NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType()));
+            }
+        }
+        return false;
     }
 
     /**
@@ -237,7 +259,16 @@ public class Narrative extends KraPersistableBusinessObjectBase {
      * @return Returns the modify.
      */
     public boolean getModifyAttachment() {
-        return modifyAttachment;
+      List<NarrativeUserRights> narrativeUserRights = getNarrativeUserRights();
+      if(narrativeUserRights.isEmpty())
+          refreshReferenceObject("narrativeUserRights");
+      for (NarrativeUserRights narrativeRight : narrativeUserRights) {
+          if (StringUtils.equals(narrativeRight.getUserId(),loggedInUserPersonId)) {
+              return narrativeRight.getAccessType().equals(
+                      NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType());
+          }
+      }
+      return false;
     }
 
     /**
