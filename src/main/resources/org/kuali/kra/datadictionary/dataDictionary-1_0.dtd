@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright 2005-2007 The Kuali Foundation.
- 
+
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.opensource.org/licenses/ecl1.php
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,12 +32,12 @@
           (with the leading org.kuali.bo stripped off)
         * TransactionalDocument entries, keyed by their DocumentType name
         * MaintenanceDocument entries, keyed by their DocumentType name
-        
+
     All elements are exposed to JSTL as Maps (where the element has a
     unique key by which they can be retrieved), or Strings.  For collections
     of elements having no unique key, the entry's position in the list
     (0, 1, etc.) is used as its index.
-    
+
     All Maps (except the top-level DataDictionary one) are guaranteed to
     present their entries with an iteration order identical to the order
     in which the elements were defined in XML.
@@ -59,7 +59,7 @@
     >
         <!ELEMENT businessObjectClass (#PCDATA)>
 		<!ELEMENT boNotesEnabled (#PCDATA)>
-		
+
         <!--
             JSTL: the inquiry element is a Map with the following keys:
             * title (String)
@@ -67,7 +67,7 @@
         -->
         <!ELEMENT inquiry (title, inquirableClass?, inquirySections )>
             <!ELEMENT title (#PCDATA)>
-            
+
             <!ELEMENT inquirySections (inquirySection+) >
             <!ELEMENT inquirySection (inquiryFields+)>
             <!ATTLIST inquirySection
@@ -93,7 +93,7 @@
                -->
                <!ELEMENT inquiryCollection ((inquirySubSectionHeader?,(field+, inquiryCollection?, inquirySummaryFields?)+)+)>
                <!ATTLIST inquiryCollection
-                   name CDATA #REQUIRED 
+                   name CDATA #REQUIRED
                    businessObjectClass CDATA #REQUIRED
                    numberOfColumns CDATA '1'
                    summaryTitle CDATA #IMPLIED
@@ -110,11 +110,11 @@
                     noInquiry (true|false) 'false'
                     maxLength CDATA #IMPLIED
                 >
-                
+
                 <!ELEMENT inquirySummaryFields (inquirySummaryField+)>
                 <!ELEMENT inquirySummaryField EMPTY>
                 <!ATTLIST inquirySummaryField attributeName CDATA #REQUIRED>
-                
+
         <!ELEMENT inquirableClass (#PCDATA)>
 
         <!--
@@ -140,7 +140,7 @@
                 JSTL: defaultSort is a Map with the following keys:
                 * sortAscending (boolean String)
                 * sortAttributes (Map)
-                
+
                 By the time JSTL export occurs, the optional attributeName from the defaultSort
                 tag will have been converted into the first contained sortAttribute
             -->
@@ -149,7 +149,7 @@
                 attributeName CDATA #IMPLIED
                 sortAscending (true|false) 'true'
             >
-            
+
                 <!--
                     JSTL: sortAttributes is a Map of sortAttribute elements, whose entries are keyed by attributeName
                 -->
@@ -167,7 +167,7 @@
                 JSTL: lookupFields is a Map of lookupField elements, whose entries are keyed by attributeName
             -->
             <!ELEMENT lookupFields (lookupField+)>
-            
+
                 <!--
                     JSTL: lookupField is a Map with the following keys:
                     * attributeName (String)
@@ -188,21 +188,21 @@
                 JSTL: resultFields is a Map of field elements, whose entries are keyed by attributeName
             -->
             <!ELEMENT resultFields (field+)>
-            
+
             <!ELEMENT extraButton (extraButtonSource, extraButtonParams)>
         				<!ELEMENT extraButtonSource (#PCDATA)>
         				<!ELEMENT extraButtonParams (#PCDATA)>
-            
-        <!ELEMENT titleAttribute (#PCDATA)>    
-        
+
+        <!ELEMENT titleAttribute (#PCDATA)>
+
         <!--
             JSTL: attributes is a Map of attribute elements whose entries are keyed by attributeName
-            
+
             By the time the JSTL export happens, all attributeReferences will be indistinguishable
             from attributes.
         -->
         <!ELEMENT attributes ((attribute|attributeReference)+)>
-        
+
             <!--
                 JSTL: an attribute is a Map which contains the following entries:
                 * name (String)
@@ -283,57 +283,66 @@
                     <!ELEMENT month EMPTY>
                     <!ELEMENT emailAddress EMPTY>
                     <!ELEMENT phoneNumber EMPTY>
-                    
+
                 <!ELEMENT required (#PCDATA)>
 
                 <!--
                     JSTL: control is a Map representing an HTML control; the different control
                     types have the following entries:
-                    
+
                     checkbox:
                     * checkbox (boolean String)
-                    
+
                     hidden:
                     * hidden (boolean String)
-                    
+
                     radio:
                     * radio (boolean String)
                     * valuesFinderClass (String)
-                    
+                    * businessObjectClass (String)
+                    * keyAttribute (String)
+                    * labelAttribute (String)
+                    * includeKeyInLabel (boolean String)
+
                     select:
                     * select (boolean String)
                     * valuesFinderClass (String)
-                    
+                    * businessObjectClass (String)
+                    * keyAttribute (String)
+                    * labelAttribute (String)
+                    * includeKeyInLabel (boolean String)
+
                     apcSelect:
-                    * group
+                    * parameterNamespace
+                    * parameterDetailType
                     * parameterName
-                    
+
                     text:
                     * text (boolean String)
                     * size (String)
-                    
+
                     textarea:
                     * textarea (boolean String)
                     * rows
                     * cols
-                    
+
                     currency:
                     * currency (boolean String)
                     * size (String)
                     * formattedMaxLength (String)
-                    
+
                     kualiUser:
                     * kualiUser (boolean String)
 					* universalIdAttributeName (String)
 					* userIdAttributeName (String)
 					* personNameAttributeName (String)
-					
+
 					lookupHidden:
 					* lookupHidden (boolean String)
-					
+
 					lookupReadonly:
 					* lookupReadonly (boolean String)
-                    
+
                 -->
                 <!ELEMENT control (checkbox|hidden|radio|select|apcSelect|text|textarea|currency|kualiUser|lookupHidden|lookupReadonly|workflowWorkgroup)>
                     <!ELEMENT checkbox EMPTY>
@@ -343,17 +352,26 @@
                     <!ELEMENT radio EMPTY>
                     <!ATTLIST radio
                         valuesFinderClass CDATA #REQUIRED
+                        businessObjectClass CDATA #IMPLIED
+                        keyAttribute CDATA #IMPLIED
+                        labelAttribute CDATA #IMPLIED
+                        includeKeyInLabel (true|false) 'false'
                     >
 
                     <!ELEMENT select EMPTY>
                     <!ATTLIST select
                         valuesFinderClass CDATA #REQUIRED
                         script CDATA #IMPLIED
+                        businessObjectClass CDATA #IMPLIED
+                        keyAttribute CDATA #IMPLIED
+                        labelAttribute CDATA #IMPLIED
+                        includeKeyInLabel (true|false) 'false'
                     >
-                    
+
                     <!ELEMENT apcSelect EMPTY>
                     <!ATTLIST apcSelect
-                        group CDATA #REQUIRED
+                        parameterNamespace CDATA #REQUIRED
+                        parameterDetailType CDATA  "N/A"
                         parameterName CDATA #REQUIRED
                     >
 
@@ -368,7 +386,7 @@
                         rows CDATA #REQUIRED
                         cols CDATA #REQUIRED
                     >
-                    
+
                     <!ELEMENT currency EMPTY>
                     <!ATTLIST currency
                         size CDATA #REQUIRED
@@ -381,16 +399,16 @@
 						userIdAttributeName CDATA #REQUIRED
 						personNameAttributeName CDATA #REQUIRED
 					>
-					
+
 					<!ELEMENT lookupHidden EMPTY>
-					
+
 					<!ELEMENT lookupReadonly EMPTY>
-					
+
 				    <!ELEMENT workflowWorkgroup EMPTY>
                     <!ATTLIST workflowWorkgroup
                         size CDATA #REQUIRED
                     >
-					
+
                 <!ELEMENT attributeAuthorization (displayWorkgroup,displayMask)>
 				<!ELEMENT displayWorkgroup (#PCDATA)>
 				<!ELEMENT displayMask (maskLiteral|maskTo|maskFormatterClass)>
@@ -398,15 +416,15 @@
 				  <!ATTLIST maskLiteral
 				      literal CDATA #REQUIRED
 				  >
-				  
+
 				  <!ELEMENT maskTo EMPTY>
 				  <!ATTLIST maskTo
 				      maskCharacter CDATA #REQUIRED
 				      maskLength CDATA #REQUIRED
 				  >
-				  
+
 				  <!ELEMENT maskFormatterClass (#PCDATA)>
-					
+
                 <!ELEMENT summary (#PCDATA)>
                 <!ELEMENT description (#PCDATA)>
                 <!ELEMENT formatterClass (#PCDATA)>
@@ -455,7 +473,7 @@
                 name CDATA #REQUIRED
             >
             <!ELEMENT elementLabel (#PCDATA)>
-            
+
         <!--
             JSTL: relationships is a Map containing relationship entries, indexed by their name
         -->
@@ -483,18 +501,19 @@
                         targetName CDATA #REQUIRED
                         identifier (true|false) 'false'
                     >
-            
+
        <!ELEMENT objectLabel (#PCDATA)>
        <!ELEMENT objectDescription (#PCDATA)>
-       
+
        <!ELEMENT objectHelp (#PCDATA) >
         	<!ATTLIST objectHelp
-        		securityGroupName CDATA #REQUIRED
+        		parameterNamespace CDATA #REQUIRED
+        		parameterDetailType CDATA "N/A"
         		parameterName CDATA #REQUIRED
         	>
 
     <!--
-        If no documentAuthorizerClass is explictly listed, the value of the config property "documentAuthorizer.defaultClass" 
+        If no documentAuthorizerClass is explictly listed, the value of the config property "documentAuthorizer.defaultClass"
         is used.
     -->
     <!ENTITY % COPYABLE_DOCUMENT_ATTRIBUTES "businessRulesClass?, preRulesCheckClass?, documentAuthorizerClass, authorizations, documentTypeName, documentTypeCode, webScriptFile*, label, shortLabel?, attributes?, summary, description, help?, allowsCopy?, headerNavigation?" >
@@ -525,20 +544,22 @@
         <!ELEMENT allowsErrorCorrection (#PCDATA) >
         <!ELEMENT attachmentTypesValuesFinderClass (#PCDATA) >
         <!ELEMENT webScriptFile (#PCDATA) >
-        
+
         <!ELEMENT help (#PCDATA) >
         	<!ATTLIST help
-        		securityGroupName CDATA #REQUIRED
+        		parameterNamespace CDATA #REQUIRED
+        		parameterDetailType CDATA "N/A"
         		parameterName CDATA #REQUIRED
         	>
-        	
+
         <!ELEMENT headerNavigation (headerNavigationTab+) >
         	<!ELEMENT headerNavigationTab (navigateTo, displayName, pageHelp?) >
         		<!ELEMENT navigateTo (#PCDATA) >
         		<!ELEMENT displayName (#PCDATA) >
         		<!ELEMENT pageHelp (#PCDATA) >
         			<!ATTLIST pageHelp
-        				securityGroupName CDATA #REQUIRED
+        				parameterNamespace CDATA #REQUIRED
+		        		parameterDetailType CDATA  "N/A"
         				parameterName CDATA #REQUIRED
         			>
 
@@ -564,7 +585,7 @@
     -->
     <!ELEMENT transactionalDocument (documentClass, %COPYABLE_DOCUMENT_ATTRIBUTES;, allowsErrorCorrection, allowsNoteDelete?, displayTopicFieldInNotes?, attachmentTypesValuesFinderClass?) >
         <!ELEMENT documentClass (#PCDATA) >
-        
+
 
     <!--
         JSTL: maintenanceDocument is a Map containing the following entries:
@@ -584,15 +605,15 @@
     -->
     <!ELEMENT maintenanceDocument (businessObjectClass, maintainableClass, %DOCUMENT_ATTRIBUTES;, lockingKeys, allowsNewOrCopy?, defaultExistenceChecks?, applyApcRules?, maintainableSections, allowsNoteDelete?, displayTopicFieldInNotes?, attachmentTypesValuesFinderClass?) >
         <!ELEMENT maintainableClass (#PCDATA) >
-        
+
         <!--
             JSTL: lockingKeys is a Map of field elements, whose entries are keyed by attributeName
         -->
         <!ELEMENT lockingKeys (field+)>
-        
+
         <!-- indicates whether this maintainable should allow new or copy maintenance actions -->
         <!ELEMENT allowsNewOrCopy (#PCDATA)>
-        
+
         <!--
             JSTL: defaultExistenceChecks is a Map of Reference elements, whose entries are keyed by attributeName
         -->
@@ -600,9 +621,9 @@
                 <!--
                     JSTL: references are Maps with the following keys:
                     * attributeName (String)
-                    * activeIndicatorAttributeName (String) 
-                    * activeIndicatorReversed (boolean String) 
-                    * attributeToHighlightOnFail (String) 
+                    * activeIndicatorAttributeName (String)
+                    * activeIndicatorReversed (boolean String)
+                    * attributeToHighlightOnFail (String)
                     * displayFieldName (String)
                 -->
                 <!ELEMENT reference EMPTY>
@@ -611,10 +632,10 @@
                     attributeName CDATA #REQUIRED
                     activeIndicatorAttributeName CDATA #IMPLIED
                     activeIndicatorReversed (true|false) 'false'
-                    attributeToHighlightOnFail CDATA #REQUIRED 
-                    displayFieldName CDATA #IMPLIED 
+                    attributeToHighlightOnFail CDATA #REQUIRED
+                    displayFieldName CDATA #IMPLIED
                 >
-        
+
         <!--
             JSTL: applyApcRules is a Map of apcRule elements, whose entries are keyed by attributeName
         -->
@@ -622,23 +643,25 @@
                 <!--
                     JSTL: apcRules are Maps with the following keys:
                     * attributeName (String)
-                    * apcGroup (String)
-                    * apcRule (String)
+                    * parameterNamespace (String)
+                    * parameterDetailType (String)
+                    * parameterName (String)
                     * errorMessage (String)
                 -->
                 <!ELEMENT apcRule EMPTY>
                 <!ATTLIST apcRule
                     attributeName CDATA #REQUIRED
-                    apcGroup CDATA #REQUIRED
-                    apcRule CDATA #REQUIRED
+                    parameterNamespace CDATA #REQUIRED
+	        		parameterDetailType CDATA  "N/A"
+                    parameterName CDATA #REQUIRED
                     errorMessage CDATA #REQUIRED
                 >
-        
+
         <!--
             JSTL: maintainbleSections is a Map containing maintainableSection entries, indexed by their position in the list
         -->
         <!ELEMENT maintainableSections (maintainableSection+) >
-  
+
             <!--
                 JSTL: maintainableSection is a Map containing the following entries:
                 * title (String)
@@ -648,7 +671,7 @@
             <!ATTLIST maintainableSection
                 title CDATA #REQUIRED
             >
-            
+
                 <!--
                     JSTL: maintainableItems is a Map containing subSectionHeader, maintainableField and/or maintainableCollection entries,
                     indexed by name.
@@ -656,8 +679,8 @@
                 <!ELEMENT maintainableItems ((subSectionHeader?,(maintainableField|maintainableCollection)+)+)>
                     <!ELEMENT subSectionHeader (defaultValue?)>
                     <!ATTLIST subSectionHeader
-                        name CDATA #REQUIRED    
-                    >  
+                        name CDATA #REQUIRED
+                    >
                     <!--
                         JSTL: maintainableField is a Map containing the following entries:
                         * field (boolean String)
@@ -674,25 +697,25 @@
                         webUILeaveFieldCallbackFunction CDATA #IMPLIED
                         readOnlyAfterAdd (true|false) 'false'
                     >
-                    
+
                     <!ELEMENT fieldAuthorization (displayEditMode,displayMask)>
 		            <!ELEMENT displayEditMode (#PCDATA)>
                     <!ELEMENT overrideLookupClass (#PCDATA)>
                     <!ELEMENT overrideFieldConversions (#PCDATA)>
-                 
-				    
+
+
                     <!--
                         JSTL: maintainableCollection is a Map containing the following entries:
                         * collection (boolean String)
                         * name (String)
                         * businessObjectClass (String)
                     -->
-                    <!ELEMENT maintainableCollection (subSectionHeader?,maintainableField+,maintainableCollection?,summaryFields?) >                   
+                    <!ELEMENT maintainableCollection (subSectionHeader?,maintainableField+,maintainableCollection?,summaryFields?,duplicateIdentificationFields?) >
                     <!ATTLIST maintainableCollection
                         name CDATA #REQUIRED
                         businessObjectClass CDATA #REQUIRED
-                        sourceClassName CDATA #IMPLIED 
-                        sourceAttributeName CDATA #IMPLIED 
+                        sourceClassName CDATA #IMPLIED
+                        sourceAttributeName CDATA #IMPLIED
                         includeAddLine (true|false) 'true'
                         includeMultipleLookupLine (true|false) 'true'
                         summaryTitle CDATA #IMPLIED
@@ -701,5 +724,11 @@
                     <!ELEMENT summaryFields (summaryField+)>
                     <!ELEMENT summaryField EMPTY>
                 	<!ATTLIST summaryField
+                    	name CDATA #IMPLIED
+                    >
+
+                    <!ELEMENT duplicateIdentificationFields (duplicateIdentificationField+)>
+                    <!ELEMENT duplicateIdentificationField EMPTY>
+                	<!ATTLIST duplicateIdentificationField
                     	name CDATA #IMPLIED
                     >
