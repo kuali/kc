@@ -37,7 +37,7 @@
       <c:set var="transparent" value="true" />
     </c:if> 
 <bean:define id="trunGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].truncGroupName"/>
-<kul:tab tabTitle="${trunGroupName}" defaultOpen="false" tabErrorKey="document.proposalYnq*" transparentBackground="${transparent}">
+<kul:tab tabTitle="${trunGroupName}" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}">
 <c:set var="tabErrorKey" value="document.proposalYnq[${gps.index}]"/>
     <c:set var="proposalYnq" value="document.proposalYnqs[${gps.index}]" /> 
     <c:set var="transparent" value="false" />
@@ -92,7 +92,12 @@
 						<html:image src='${ConfigProperties.kra.externalizable.images.url}cal1.gif' />
 					</c:when>
 					<c:when test="${dateRequired == 'Yes'}">
-                    	<kul:htmlControlAttribute property="${iproposalYnq}.reviewDate" attributeEntry="${reviewDateAttribute}" datePicker="true" />
+						<c:set var="styleClass" value=""/>
+						<kul:checkErrors keyMatch="document.proposalYnq[${groupName}][${status.index}].reviewDate"/>
+	                	<c:if test="${hasErrors}">
+	                    	<c:set var="styleClass" value="errorField"/>
+	                	</c:if>
+                    	<kul:htmlControlAttribute property="${iproposalYnq}.reviewDate" attributeEntry="${reviewDateAttribute}" datePicker="true" styleClass="${styleClass}" />
 					</c:when>
 					</c:choose>
                       </span></div>
@@ -102,10 +107,15 @@
     				<c:if test="${explanationRequired == 'No'}">
       					<c:set var="disableExplanationRequired" value="true" />
     				</c:if> 
+					<c:set var="styleClass" value=""/>
+					<kul:checkErrors keyMatch="document.proposalYnq[${groupName}][${status.index}].explanation"/>
+                	<c:if test="${hasErrors}">
+                    	<c:set var="styleClass" value="errorField"/>
+                	</c:if>
 					<c:set var="textAreaFieldName" value="${iproposalYnq}.explanation" />
                     <td width="15%" class="${tdClass}"><div align=left><span class="copy">
-                    <kul:htmlControlAttribute property="${iproposalYnq}.explanation" attributeEntry="${explanationAttribute}" disabled="${disableExplanationRequired}"/>
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="DataDictionary.ProposalYnq.attributes.explanation" disabled="${disableExplanationRequired}" />
+                    <kul:htmlControlAttribute property="${iproposalYnq}.explanation" attributeEntry="${explanationAttribute}" disabled="${disableExplanationRequired}" styleClass="${styleClass}" />
+                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${DataDictionary.ProposalYnq.attributes.explanation.label}" disabled="${disableExplanationRequired}" />
                       </span></div>
                         <span class="fineprint"></span> </td>
                     <td width="10%" class="${tdClass}"><div align=center><span class="copy">
