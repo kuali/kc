@@ -9,6 +9,7 @@
   <c:set var="isRowLabel" value="" />	
   <c:set var="previousRow" value="NoPrevious" />
 
+<%--
   <c:choose>
       <c:when test="${DocumentSearchForm.isAdvancedSearch == 'YES'}">
           <c:set var="rightColspan" value="3" />
@@ -17,8 +18,9 @@
           <c:set var="rightColspan" value="1" />
       </c:otherwise>
   </c:choose>
+--%>
 
-  <c:forEach items="${DocumentSearchForm.searchableAttributeRows}" var="row">
+  <c:forEach items="${DocumentSearchForm.processedSearchableAttributeRows}" var="row">
 
 	<c:choose>
 		<c:when test="${row.rowsGroupLabel != null && ! empty row.rowsGroupLabel && row.rowsGroupLabel != previousRow}">
@@ -46,7 +48,7 @@
         <html-el:hidden property="propertyField[${fieldIndex}].key" value="${field.propertyName}"/>
       </c:if>
 	  <c:choose>
-	    <c:when test="${field.fieldType==field.HIDDEN}" >
+	    <c:when test="${(field.fieldType==field.HIDDEN) or (not DocumentSearchForm.showSearchCriteria) or (field.hidden)}" >
 		  <html-el:hidden property="propertyField[${fieldIndex}].value"/>
 		</c:when>
 	  <c:otherwise>
