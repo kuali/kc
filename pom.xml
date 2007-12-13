@@ -181,6 +181,17 @@
 					<artifactId>rice-kns</artifactId>
 					<version>0.9.2-SNAPSHOT</version>
 				</dependency>
+				<dependency>
+					<groupId>htmlunit</groupId>
+					<artifactId>htmlunit</artifactId>
+					<version>1.11</version>
+					<exclusions>
+						<exclusion>
+							<artifactId>servlet-api</artifactId>
+							<groupId>javax.servlet</groupId>
+						</exclusion>
+					</exclusions>
+				</dependency>
 			</dependencies>
 		</profile>
 	</profiles>
