@@ -176,34 +176,40 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     * @param proposalDevelopmentDocument
     * @return
     */
-   private boolean processProposalYNQBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-       boolean valid = true;
+    private boolean processProposalYNQBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        boolean valid = true;
 
-       ErrorMap errorMap = GlobalVariables.getErrorMap();
-       int i = 0;
-       for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getProposalYnqs()) {
-           errorMap.addToErrorPath("proposalYnq[" + i + "]");
-           /* look for explanation requried */
-           if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
-               proposalYnq.getAnswer().equalsIgnoreCase(proposalYnq.getYnq().getExplanationRequiredFor()) && 
-               StringUtils.isBlank(proposalYnq.getExplanation())
-              ) {
-               valid = false;
-               errorMap.putError("explanation", KeyConstants.ERROR_REQUIRED_FOR_EXPLANATION);
-           }
-           /* look for date requried */
-           if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
-                   proposalYnq.getAnswer().equalsIgnoreCase(proposalYnq.getYnq().getDateRequiredFor()) && 
-                   proposalYnq.getReviewDate() == null
-                  ) {
-                   valid = false;
-                   errorMap.putError("reviewDate", KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE);
-               }
-           errorMap.removeFromErrorPath("proposalYnq[" + i++ + "]");
-       }
-       return valid;
+        //checkErrors();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        int i = 0;
+        for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getProposalYnqs()) {
+            
+            String groupName = proposalYnq.getYnq().getGroupName();
+            String errorPath = "proposalYnq[" + groupName + "][" + i + "]";
+            errorMap.addToErrorPath(errorPath);
+            /* look for date requried */
+            if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
+                    proposalYnq.getAnswer().equalsIgnoreCase(proposalYnq.getYnq().getDateRequiredFor()) && 
+                    proposalYnq.getReviewDate() == null
+                   ) {
+                    valid = false;
+                    errorMap.putError("reviewDate", KeyConstants.ERROR_REQUIRED_FOR_REVIEW_DATE);
+            }
 
-   }
+            /* look for explanation requried */
+            if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
+                proposalYnq.getAnswer().equalsIgnoreCase(proposalYnq.getYnq().getExplanationRequiredFor()) && 
+                StringUtils.isBlank(proposalYnq.getExplanation())
+               ) {
+                valid = false;
+                errorMap.putError("explanation", KeyConstants.ERROR_REQUIRED_FOR_EXPLANATION);
+            }
+            errorMap.removeFromErrorPath(errorPath);
+            i++;
+        }
+        return valid;
+
+    }
 
     
     
