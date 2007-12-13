@@ -99,7 +99,6 @@
 			<shortLabel>Answer </shortLabel>
 			<maxLength>1</maxLength>
             <validationPattern><anyCharacter exactLength="1" /></validationPattern>
-			<required>true</required>
 			<control>
 					<radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder" />
 			</control>
