@@ -16,10 +16,13 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.PropPerDocType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -39,8 +42,11 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
     public void addProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument,
             ProposalPersonBiography proposalPersonBiography) {
         proposalPersonBiography.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
-        proposalPersonBiography.setUpdateUser(proposaldevelopmentDocument.getUpdateUser());
-        proposalPersonBiography.setUpdateTimestamp(proposaldevelopmentDocument.getUpdateTimestamp());
+        // user & timestamp will be updated by KraPersistableBusinessObjectBase before save
+        // proposalPersonBiography.setUpdateUser(proposaldevelopmentDocument.getUpdateUser());
+       // proposalPersonBiography.setUpdateTimestamp(proposaldevelopmentDocument.getUpdateTimestamp());
+        //proposalPersonBiography.setBiographyNumber(getNextBioNumber(proposaldevelopmentDocument));
+        // nextval will not be increased until a document 'save' is executed
         proposalPersonBiography.setBiographyNumber(proposaldevelopmentDocument
                 .getProposalNextValue(Constants.PROP_PERSON_BIO_NUMBER));
         proposalPersonBiography.setPropPerDocType(new PropPerDocType());
@@ -65,12 +71,16 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
                 if (proposalPersonBiography.getPersonnelAttachmentList().isEmpty())
                     proposalPersonBiography.getPersonnelAttachmentList().add(personnelAttachment);
                 else
-                    proposalPersonBiography.getPersonnelAttachmentList().clear();
+                    proposalPersonBiography.getPersonnelAttachmentList().set(0, personnelAttachment);
             }
         }
         catch (Exception e) {
             proposalPersonBiography.getPersonnelAttachmentList().clear();
         }
+        // initially, the proposal# is not set up. Set it here, so save will be OK.
+        DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalue(Constants.PROP_PERSON_BIO_NUMBER);
+        documentNextvalue.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
+        getBusinessObjectService().save(documentNextvalue);
         getBusinessObjectService().save(proposalPersonBiography);
         proposalPersonBiography.getPersonnelAttachmentList().clear();
         proposaldevelopmentDocument.getPropPersonBios().add(proposalPersonBiography);
