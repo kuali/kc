@@ -97,4 +97,18 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         return propNextValue;
     }
 
+    // TODO : this is for the attachment that save attachment only when click 'add
+    public DocumentNextvalue getDocumentNextvalue(String propertyName) {
+        for(Iterator iter = documentNextvalues.iterator(); iter.hasNext();) {
+            DocumentNextvalue documentNextvalue = (DocumentNextvalue)iter.next();
+            if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
+                return documentNextvalue;
+            }
+        }
+        // following should not happen because it already got the next value for this property before calling this for updating
+        DocumentNextvalue documentNextvalue = new DocumentNextvalue();
+        documentNextvalue.setNextValue(1);
+        documentNextvalue.setPropertyName(propertyName);
+        return documentNextvalue;
+    }
 }
