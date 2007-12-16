@@ -99,7 +99,7 @@ public abstract class MaintenanceRuleTestBase extends KraTestBase {
      * @return a populated and ready-to-test rule, of the specified class
      * @throws Exception 
      */
-    protected MaintenanceDocumentRule setupMaintDocRule(PersistableBusinessObject newBo, Class ruleClass) throws Exception {
+    protected <T extends MaintenanceDocumentRule> T setupMaintDocRule(PersistableBusinessObject newBo, Class<T> ruleClass) throws Exception {
         MaintenanceDocument maintDoc = newMaintDoc(newBo);
         return setupMaintDocRule(maintDoc, ruleClass);
     }
@@ -115,7 +115,7 @@ public abstract class MaintenanceRuleTestBase extends KraTestBase {
      * @return a populated and ready-to-test rule, of the specified class
      * @throws Exception 
      */
-    protected MaintenanceDocumentRule setupMaintDocRule(PersistableBusinessObject oldBo, PersistableBusinessObject newBo, Class ruleClass) throws Exception {
+    protected <T extends MaintenanceDocumentRule> T setupMaintDocRule(PersistableBusinessObject oldBo, PersistableBusinessObject newBo, Class<T> ruleClass) throws Exception {
 
         MaintenanceDocument maintDoc = newMaintDoc(oldBo, newBo);
 
@@ -130,11 +130,11 @@ public abstract class MaintenanceRuleTestBase extends KraTestBase {
      * @param ruleClass - the class of rule to instantiate
      * @return a populated and ready-to-test rule, of the specified class
      */
-    protected MaintenanceDocumentRule setupMaintDocRule(MaintenanceDocument maintDoc, Class ruleClass) {
+    protected <T extends MaintenanceDocumentRule> T setupMaintDocRule(MaintenanceDocument maintDoc, Class<T> ruleClass) {
 
-        MaintenanceDocumentRule rule;
+        T rule;
         try {
-            rule = (MaintenanceDocumentRule) ruleClass.newInstance();
+            rule = ruleClass.newInstance();
         }
         catch (InstantiationException e) {
             throw new RuntimeException(e);
