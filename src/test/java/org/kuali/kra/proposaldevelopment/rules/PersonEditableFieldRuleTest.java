@@ -18,13 +18,19 @@ package org.kuali.kra.proposaldevelopment.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.core.UserSession;
+import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 
 /**
  * Contains tests for <code>{@link PersonEditableFieldRule}</code>
  */
 public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
-
+    private static final PersonEditableFieldFixture ADDRESS_LINE1_FIELD = PersonEditableFieldFixture.ADDRESS_LINE1_FIELD;
+    private static final PersonEditableFieldFixture ADDRESS_LINE2_FIELD = PersonEditableFieldFixture.ADDRESS_LINE2_FIELD;
+        
     /**
      * @throws Exception 
      * @see org.kuali.kra.KraTestBase#setUp()
@@ -32,6 +38,7 @@ public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
 
     /**
@@ -46,15 +53,71 @@ public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
     /**
      * Case for if a <code>{@link PersonEditableField}</code> already exists
      */
-    public void processCustomRouteDocumentBusinessRules_ExistingField() {
-    
+    public void processCustomRouteDocumentBusinessRules_ExistingField() throws Exception {
+        PersonEditableField editableField = ADDRESS_LINE1_FIELD.getInstance();
+        MaintenanceDocument editableFieldDocument = newMaintDoc(editableField);
+        PersonEditableFieldRule rule = (PersonEditableFieldRule) setupMaintDocRule(editableFieldDocument, PersonEditableFieldRule.class);         
+        
+        assertTrue(rule.processCustomRouteDocumentBusinessRules(editableFieldDocument));
     }
 
     /**
      * Valid case where there are no persisted <code>{@link PersonEditableField}</code> already
      */
-    @Test
-    public void processCustomRouteDocumentBusinessRules_Normal() {
+    public void processCustomRouteDocumentBusinessRules_Normal() throws Exception {
+        PersonEditableField editableField = ADDRESS_LINE2_FIELD.getInstance();
+        MaintenanceDocument editableFieldDocument = newMaintDoc(editableField);
+        PersonEditableFieldRule rule = setupMaintDocRule(editableFieldDocument, PersonEditableFieldRule.class);         
+    }
+}
+
+/**
+ * Fixtures for <code>{@link PersonEditableField}</code> business object. Used to wrap the <code>{@link PersonEditableField}</code> constructor and create
+ * arbitrary <code>{@link PersonEditableField}</code> instances. This is useful for creating fixtures as they are arbitrary in nature.
+ */
+enum PersonEditableFieldFixture {
+    BLANK_FIELD(""),
+    ADDRESS_LINE1_FIELD("addressLine1"),
+    ADDRESS_LINE2_FIELD("addressLine2");
     
+    private PersonEditableField field;
+    
+    /**
+     * Create a <code>{@link PersonEditableField}</code> instance, and set active status from a parameter
+     * 
+     * @param fieldName
+     * @param active
+     */
+    private PersonEditableFieldFixture(String fieldName, boolean active) {
+        setInstance(new PersonEditableField());
+        getInstance().setFieldName(fieldName);
+        getInstance().setActive(active);
+    }
+
+    /**
+     * Create a <code>{@link PersonEditableField}</code> instance and default to activated
+     * 
+     * @param fieldName
+     */
+    private PersonEditableFieldFixture(String fieldName) {
+        this(fieldName, true);
+    }
+
+    /**
+     * Read access to the enclosed <code>{@link PersonEditableField}</code> instance.
+     * 
+     * @return PersonEditableField
+     */
+    public PersonEditableField getInstance() {
+        return field;
+    }
+
+    /**
+     * Write access to the enclosed <code>{@link PersonEditableField}</code> instance.
+     * 
+     * @param field
+     */ 
+    public void setInstance(PersonEditableField field) {
+        this.field = field;
     }
 }
