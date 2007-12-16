@@ -20,9 +20,9 @@ import java.util.Collection;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.PersonEditableField;
 
+import static org.kuali.core.util.GlobalVariables.getErrorMap;
 import static org.kuali.core.util.ObjectUtils.equalByKeys;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.infrastructure.Constants.PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY;
@@ -58,7 +58,7 @@ public class PersonEditableFieldRule extends MaintenanceDocumentRuleBase {
             }
             
             if (!retval) {
-                GlobalVariables.getErrorMap().putError(PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY, ERROR_PERSON_EDITABLE_FIELD_EXISTS); 
+                getErrorMap().putError(PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY, ERROR_PERSON_EDITABLE_FIELD_EXISTS); 
             }
             
             return retval;
