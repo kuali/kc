@@ -24,12 +24,13 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.3 $
  */
 public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
     private String proposalPersonRoleId;
     private String description;
+    private Boolean certificationRequired;
 
 
     /**
@@ -74,7 +75,17 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
         LinkedHashMap propMap = new LinkedHashMap();
         propMap.put("proposalPersonRoleId", getProposalPersonRoleId());
         propMap.put("description", getDescription());
+        propMap.put("certificationRequired", getCertificationRequired());
         return propMap;
+    }
+
+    public Boolean getCertificationRequired() {
+        return certificationRequired;
+    }
+
+    public void setCertificationRequired(Boolean certificationRequired) {
+        System.out.println("certificationRequired --> " + certificationRequired);
+        this.certificationRequired = certificationRequired;
     }
 
 }
