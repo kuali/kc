@@ -220,11 +220,15 @@
           	<tr>
 				<td colspan=4>
 
+<bean:define id="certificationRequired" name="KualiForm" property="${proposalPerson}.role.certificationRequired" />
+<c:if test="${certificationRequired == 'Yes'}">
 <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="true">
               <table class=tab cellpadding=0 cellspacing="0" summary="" >
               <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
 </kul:innerTab>
+</c:if>
+
 </td></tr>
 </table>
            </div>
