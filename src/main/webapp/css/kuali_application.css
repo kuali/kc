@@ -47,7 +47,10 @@ input.align-right {
 	margin: 0px;
 }
 
-
+.errorField 
+{
+      border-color: #FF0000;
+}
 
 
 .horz-links-bkgrnd
