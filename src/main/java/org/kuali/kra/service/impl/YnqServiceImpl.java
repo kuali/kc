@@ -86,7 +86,8 @@ public class YnqServiceImpl implements YnqService {
      */
     public ProposalPerson getPersonYNQ(ProposalPerson proposalPerson) {
         /* get YNQ for person */
-        if(proposalPerson.getProposalPersonYnqs().isEmpty()) {
+        boolean certificationRequired = proposalPerson.getRole().getCertificationRequired();
+        if(proposalPerson.getProposalPersonYnqs().isEmpty() && certificationRequired) {
             String questionType = Constants.QUESTION_TYPE_INDIVIDUAL;
             List<Ynq> ynqs = (KraServiceLocator.getService(YnqService.class).getYnq(questionType));
             for (Ynq type : ynqs) {
