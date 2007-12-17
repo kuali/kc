@@ -48,6 +48,9 @@
   <c:when test="${hasErrors==true && !attributeEntry.control.select}">
     <c:set var="textStyle" value="border-color: red"/>
   </c:when>
+  <c:when test="${hasErrors==true && attributeEntry.control.select}">
+    <c:set var="textStyle" value="background-color:#FFD5D5"/>
+  </c:when>  
   <c:when test="${readOnly && !hasErrors}">
     <c:set var="textStyle" value="border-color: black"/>
   </c:when>
@@ -144,7 +147,7 @@
     <%-- select --%>
     <c:when test="${attributeEntry.control.select == true}">
             <c:set var="finderClass" value="${fn:replace(attributeEntry.control.valuesFinder,'.','|')}"/>
-            <html:select property="${property}" style="${textStyle}" tabindex="${tabindex}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}">
+            <html:select property="${property}" tabindex="${tabindex}" style="${textStyle}" disabled="${disableField}" onblur="${onblur}" onchange="${onchange}" styleClass="${styleClass}">
               <html:optionsCollection property="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}" label="label" value="key"/>
             </html:select>
     </c:when>
