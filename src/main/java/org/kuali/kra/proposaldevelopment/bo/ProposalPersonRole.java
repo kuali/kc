@@ -25,7 +25,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: rmancher $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
     private String proposalPersonRoleId;
@@ -84,7 +84,6 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
     }
 
     public void setCertificationRequired(Boolean certificationRequired) {
-        System.out.println("certificationRequired --> " + certificationRequired);
         this.certificationRequired = certificationRequired;
     }
 

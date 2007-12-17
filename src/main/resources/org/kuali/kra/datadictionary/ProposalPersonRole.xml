@@ -26,6 +26,7 @@
             <inquirySections><inquirySection title="Proposal Person Role"><inquiryFields>
                 <field attributeName="proposalPersonRoleId" forceInquiry="true"/>
                 <field attributeName="description" />
+                <field attributeName="certificationRequired" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -49,6 +50,7 @@
             <resultFields>
                 <field attributeName="proposalPersonRoleId" forceInquiry="true"/>
                 <field attributeName="description" forceInquiry="false" />
+                <field attributeName="certificationRequired" forceInquiry="false" />
            </resultFields>
         </lookup>
 
@@ -65,6 +67,9 @@
             <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="certificationRequired" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean"/>
+
 		</attributes>
     </businessObject>
 
