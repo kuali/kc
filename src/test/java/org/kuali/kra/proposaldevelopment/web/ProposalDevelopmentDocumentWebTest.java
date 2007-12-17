@@ -30,6 +30,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
+import org.w3c.dom.html.HTMLStyleElement;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
@@ -175,25 +176,25 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     @Test
     public void testSaveProposalDevelopmentDocumentWithErrorsWeb() throws Exception {
-        final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+        final HtmlPage proposalPage = buildProposalDevelopmentPage();
 
-        final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
-        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
-
-        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        final HtmlImageInput saveButton = (HtmlImageInput) kualiForm.getInputByName("methodToCall.save");
-
+        final HtmlForm kualiForm = (HtmlForm) proposalPage.getForms().get(0);
         setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "2", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
-        final HtmlPage page4 = (HtmlPage) saveButton.click();
-        assertEquals("Kuali :: Proposal Development Document", page4.getTitleText() );
+        final HtmlPage savedProposalPage = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");
 
-        String page4AsText = page4.asText();
-        String errorMessage = extractErrorMessage(page4AsText);
+        assertContains(savedProposalPage, ERRORS_FOUND_ON_PAGE);
+    }
 
-        assertTrue(errorMessage, page4AsText.contains(ERRORS_FOUND_ON_PAGE));
+    @Test
+    public void testSaveProposalDevelopmentDocumentWithNoRequiredFields() throws Exception {
+        final HtmlPage proposalPage = buildProposalDevelopmentPage();
+        final HtmlPage savedProposalPage = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");
+        assertContains(savedProposalPage, "8 error(s) found on page.");
 
+        final HtmlForm kualiForm = (HtmlForm) savedProposalPage.getForms().get(0);
+        final HtmlSelect proposalTypeCode = kualiForm.getSelectByName("document.proposalTypeCode");
+        assertEquals("background-color:#FFD5D5", proposalTypeCode.getStyleAttribute());
     }
 
     @Test public void testSaveProposalDevelopmentDocumentWithoutProposalType() throws Exception {
