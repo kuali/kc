@@ -680,11 +680,12 @@ CONSTRAINT "EPS_PROP_PERSON_DEGREE_N6" PRIMARY KEY ("PROPOSAL_NUMBER",
 CONSTRAINT "EPS_PROP_PERSON_DEGREE_C0" UNIQUE ("OBJ_ID") ENABLE
    ) ;
          
-                                                                                
+
 CREATE TABLE "EPS_PROP_PERSON_ROLE"                                             
 (	"PROP_PERSON_ROLE_ID" VARCHAR2(12) CONSTRAINT "EPS_PROP_PERSON_ROLE_N1" NOT   
 NULL ENABLE,                                                                    
 "DESCRIPTION" VARCHAR2(25) NOT NULL ENABLE,                                     
+"CERTIFICATION_REQUIRED" CHAR(1) DEFAULT 'Y' CONSTRAINT "EPS_PROP_PERSON_ROLE_N3"  NOT NULL, 
 "UPDATE_TIMESTAMP" DATE NOT NULL ENABLE,                                        
 "UPDATE_USER" VARCHAR2(8) NOT NULL ENABLE,                                      
 "VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE,                                
