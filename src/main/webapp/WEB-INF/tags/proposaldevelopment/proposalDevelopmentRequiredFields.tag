@@ -14,7 +14,7 @@
         
         <table cellpadding=0 cellspacing=0 summary="">
         	<tr>
-				<th><div align="right">*Proposal #:</div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.proposalNumber}" /></div></th>
                 <td>${KualiForm.document.proposalNumber}</td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorCode}" /></div></th>
                 <td align="left" valign="middle">
