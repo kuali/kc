@@ -187,16 +187,16 @@
                     <th align="left" nowrap="nowrap"><div align="right">isFaculty</div></th>
 
                     <td align="left"><label>
-                      <kul:htmlControlAttribute property="${proposalPerson}.isFaculty" 
-                                          attributeEntry="${proposalPersonAttributes.isFaculty}" 
-                                                readOnly="${!personEditableFields['isFaculty']}" />
+                      <kul:htmlControlAttribute property="${proposalPerson}.facultyFlag" 
+                                          attributeEntry="${proposalPersonAttributes.facultyFlag}" 
+                                                readOnly="${!personEditableFields['facultyFlag']}" />
                     </label></td>
                   </tr>
                 </tbody>
 </table></div>
 </kul:innerTab>
 </td></tr>
-<bean:define id="isInvestigator" name="KualiForm" property="${proposalPerson}.isInvestigator" />
+<bean:define id="isInvestigator" name="KualiForm" property="${proposalPerson}.investigatorFlag" />
 <c:if test="${isInvestigator == 'Yes'}">
           	<tr>
 				<td colspan=4>
