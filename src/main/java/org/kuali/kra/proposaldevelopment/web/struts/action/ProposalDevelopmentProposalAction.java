@@ -51,7 +51,9 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAction.class);
 
     @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+        
+        setKeywordsPanelFlag(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
 
         KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganzationLocation(proposalDevelopmentDocument);
@@ -64,11 +66,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             throws Exception {
 
         ActionForward actionForward = super.execute(mapping, form, request, response);
-
-        /* get parameter for keyword display panel - display keyword panel if parameter is set to true */
-        String keywordPanelDisplay = KNSServiceLocator.getKualiConfigurationService().getParameterValue(
-                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);
-        request.setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
+        
+        setKeywordsPanelFlag(request);
 
         ProposalDevelopmentDocument proposalDevelopmentDocument=((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
         if (proposalDevelopmentDocument.getOrganizationId()!=null && proposalDevelopmentDocument.getProposalLocations().size()==0
@@ -98,6 +97,18 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         }
 
         return actionForward;
+    }
+    
+    /**
+     * 
+     * This method sets the flag for keyword display panel - display keyword panel if parameter is set to true 
+     * @param request
+     */
+    private void setKeywordsPanelFlag(HttpServletRequest request){
+        String keywordPanelDisplay = KNSServiceLocator.getKualiConfigurationService().getParameterValue(
+                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);
+        request.setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);       
+        
     }
 
     /**
