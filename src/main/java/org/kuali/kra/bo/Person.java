@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.4 2007-10-03 19:20:20 tdurkin Exp $
+ * $Id: Person.java,v 1.5 2007-12-18 22:58:12 lprzybyl Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -44,9 +44,9 @@ public class Person extends KraPersistableBusinessObjectBase {
     private String educationLevel;
     private String degree;
     private String major;
-    private Boolean handicapped;
+    private Boolean handicappedFlag;
     private String handicapType;
-    private Boolean veteran;
+    private Boolean veteranFlag;
     private String veteranType;
     private String visaCode;
     private String visaType;
@@ -64,15 +64,15 @@ public class Person extends KraPersistableBusinessObjectBase {
     private String primaryTitle;
     private String directoryTitle;
     private String homeUnit;
-    private Boolean faculty;
-    private Boolean graduateStudentStaff;
-    private Boolean researchStaff;
-    private Boolean serviceStaff;
-    private Boolean supportStaff;
-    private Boolean otherAcademicGroup;
-    private Boolean medicalStaff;
-    private Boolean vacationAccrual;
-    private Boolean onSabbatical;
+    private Boolean facultyFlag;
+    private Boolean graduateStudentStaffFlag;
+    private Boolean researchStaffFlag;
+    private Boolean serviceStaffFlag;
+    private Boolean supportStaffFlag;
+    private Boolean otherAcademicGroupFlag;
+    private Boolean medicalStaffFlag;
+    private Boolean vacationAccrualFlag;
+    private Boolean onSabbaticalFlag;
     private String idProvided;
     private String idVerified;
     private String addressLine1;
@@ -405,17 +405,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of handicapped
      */
-    public Boolean isHandicapped() {
-        return getIsHandicapped();
-    }
-
-    /**
-     * Gets the value of handicapped
-     *
-     * @return the value of handicapped
-     */
-    public Boolean getIsHandicapped() {
-        return this.handicapped;
+    public Boolean getHandicappedFlag() {
+        return this.handicappedFlag;
     }
 
     /**
@@ -423,8 +414,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argHandicapped Value to assign to this.handicapped
      */
-    public void setIsHandicapped(Boolean argHandicapped) {
-        this.handicapped = argHandicapped;
+    public void setHandicappedFlag(Boolean argHandicapped) {
+        this.handicappedFlag = argHandicapped;
     }
 
     /**
@@ -450,17 +441,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of veteran
      */
-    public Boolean isVeteran() {
-        return getIsVeteran();
-    }
-
-    /**
-     * Gets the value of veteran
-     *
-     * @return the value of veteran
-     */
-    public Boolean getIsVeteran() {
-        return this.veteran;
+    public Boolean getVeteranFlag() {
+        return this.veteranFlag;
     }
 
     /**
@@ -468,8 +450,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argVeteran Value to assign to this.veteran
      */
-    public void setIsVeteran(Boolean argVeteran) {
-        this.veteran = argVeteran;
+    public void setVeteranFlag(Boolean argVeteran) {
+        this.veteranFlag = argVeteran;
     }
 
     /**
@@ -783,17 +765,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of faculty
      */
-    public Boolean isFaculty() {
-        return getIsFaculty();
-    }
-
-    /**
-     * Gets the value of faculty
-     *
-     * @return the value of faculty
-     */
-    public Boolean getIsFaculty() {
-        return this.faculty;
+    public Boolean getFacultyFlag() {
+        return this.facultyFlag;
     }
 
     /**
@@ -801,8 +774,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argFaculty Value to assign to this.faculty
      */
-    public void setIsFaculty(Boolean argFaculty) {
-        this.faculty = argFaculty;
+    public void setFacultyFlag(Boolean argFaculty) {
+        this.facultyFlag = argFaculty;
     }
      
     /**
@@ -810,17 +783,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of graduateStudentStaff
      */
-    public Boolean isGraduateStudentStaff() {
-        return getIsGraduateStudentStaff();
-    }
-
-    /**
-     * Gets the value of graduateStudentStaff
-     *
-     * @return the value of graduateStudentStaff
-     */
-    public Boolean getIsGraduateStudentStaff() {
-        return this.graduateStudentStaff;
+    public Boolean getGraduateStudentStaffFlag() {
+        return this.graduateStudentStaffFlag;
     }
 
     /**
@@ -828,8 +792,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argGraduateStudentStaff Value to assign to this.graduateStudentStaff
      */
-    public void setIsGraduateStudentStaff(Boolean argGraduateStudentStaff) {
-        this.graduateStudentStaff = argGraduateStudentStaff;
+    public void setGraduateStudentStaffFlag(Boolean argGraduateStudentStaff) {
+        this.graduateStudentStaffFlag = argGraduateStudentStaff;
     }
 
     /**
@@ -837,17 +801,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of researchStaff
      */
-    public Boolean isResearchStaff() {
-        return getIsResearchStaff();
-    }
-
-    /**
-     * Gets the value of researchStaff
-     *
-     * @return the value of researchStaff
-     */
-    public Boolean getIsResearchStaff() {
-        return this.researchStaff;
+    public Boolean getResearchStaffFlag() {
+        return this.researchStaffFlag;
     }
 
     /**
@@ -855,8 +810,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argResearchStaff Value to assign to this.researchStaff
      */
-    public void setIsResearchStaff(Boolean argResearchStaff) {
-        this.researchStaff = argResearchStaff;
+    public void setResearchStaffFlag(Boolean argResearchStaff) {
+        this.researchStaffFlag = argResearchStaff;
     }
 
     /**
@@ -864,17 +819,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of serviceStaff
      */
-    public Boolean isServiceStaff() {
-        return getIsServiceStaff();
-    }
-
-    /**
-     * Gets the value of serviceStaff
-     *
-     * @return the value of serviceStaff
-     */
-    public Boolean getIsServiceStaff() {
-        return this.serviceStaff;
+    public Boolean getServiceStaffFlag() {
+        return this.serviceStaffFlag;
     }
 
     /**
@@ -882,8 +828,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argServiceStaff Value to assign to this.serviceStaff
      */
-    public void setIsServiceStaff(Boolean argServiceStaff) {
-        this.serviceStaff = argServiceStaff;
+    public void setServiceStaffFlag(Boolean argServiceStaff) {
+        this.serviceStaffFlag = argServiceStaff;
     }
 
     /**
@@ -891,17 +837,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of supportStaff
      */
-    public Boolean isSupportStaff() {
-        return getIsSupportStaff();
-    }
-
-    /**
-     * Gets the value of supportStaff
-     *
-     * @return the value of supportStaff
-     */
-    public Boolean getIsSupportStaff() {
-        return this.supportStaff;
+    public Boolean getSupportStaffFlag() {
+        return this.supportStaffFlag;
     }
 
     /**
@@ -909,8 +846,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argSupportStaff Value to assign to this.supportStaff
      */
-    public void setIsSupportStaff(Boolean argSupportStaff) {
-        this.supportStaff = argSupportStaff;
+    public void setSupportStaffFlag(Boolean argSupportStaff) {
+        this.supportStaffFlag = argSupportStaff;
     }
 
     /**
@@ -918,17 +855,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of otherAcademicGroup
      */
-    public Boolean isOtherAcademicGroup() {
-        return getIsOtherAcademicGroup();
-    }
-
-    /**
-     * Gets the value of otherAcademicGroup
-     *
-     * @return the value of otherAcademicGroup
-     */
-    public Boolean getIsOtherAcademicGroup() {
-        return this.otherAcademicGroup;
+    public Boolean getOtherAcademicGroupFlag() {
+        return this.otherAcademicGroupFlag;
     }
 
     /**
@@ -936,8 +864,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argOtherAcademicGroup Value to assign to this.otherAcademicGroup
      */
-    public void setIsOtherAcademicGroup(Boolean argOtherAcademicGroup) {
-        this.otherAcademicGroup = argOtherAcademicGroup;
+    public void setOtherAcademicGroupFlag(Boolean argOtherAcademicGroup) {
+        this.otherAcademicGroupFlag = argOtherAcademicGroup;
     }
 
     /**
@@ -945,17 +873,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of medicalStaff
      */
-    public Boolean isMedicalStaff() {
-        return getIsMedicalStaff();
-    }
-
-    /**
-     * Gets the value of medicalStaff
-     *
-     * @return the value of medicalStaff
-     */
-    public Boolean getIsMedicalStaff() {
-        return this.medicalStaff;
+    public Boolean getMedicalStaffFlag() {
+        return this.medicalStaffFlag;
     }
 
     /**
@@ -963,8 +882,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argMedicalStaff Value to assign to this.medicalStaff
      */
-    public void setIsMedicalStaff(Boolean argMedicalStaff) {
-        this.medicalStaff = argMedicalStaff;
+    public void setMedicalStaffFlag(Boolean argMedicalStaff) {
+        this.medicalStaffFlag = argMedicalStaff;
     }
 
     /**
@@ -972,17 +891,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of vacationAccrual
      */
-    public Boolean isVacationAccrual() {
-        return getIsVacationAccrual();
-    }
-
-    /**
-     * Gets the value of vacationAccrual
-     *
-     * @return the value of vacationAccrual
-     */
-    public Boolean getIsVacationAccrual() {
-        return this.vacationAccrual;
+    public Boolean getVacationAccrualFlag() {
+        return this.vacationAccrualFlag;
     }
 
     /**
@@ -990,8 +900,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argVacationAccrual Value to assign to this.vacationAccrual
      */
-    public void setIsVacationAccrual(Boolean argVacationAccrual) {
-        this.vacationAccrual = argVacationAccrual;
+    public void setVacationAccrualFlag(Boolean argVacationAccrual) {
+        this.vacationAccrualFlag = argVacationAccrual;
     }
 
     /**
@@ -999,17 +909,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @return the value of onSabbatical
      */
-    public Boolean isOnSabbatical() {
-        return getIsOnSabbatical();
-    }
-
-    /**
-     * Gets the value of onSabbatical
-     *
-     * @return the value of onSabbatical
-     */
-    public Boolean getIsOnSabbatical() {
-        return this.onSabbatical;
+    public Boolean getOnSabbaticalFlag() {
+        return this.onSabbaticalFlag;
     }
 
     /**
@@ -1017,8 +918,8 @@ public class Person extends KraPersistableBusinessObjectBase {
      *
      * @param argOnSabbatical Value to assign to this.onSabbatical
      */
-    public void setIsOnSabbatical(Boolean argOnSabbatical) {
-        this.onSabbatical = argOnSabbatical;
+    public void setOnSabbaticalFlag(Boolean argOnSabbatical) {
+        this.onSabbaticalFlag = argOnSabbatical;
     }
 
     /**
@@ -1293,9 +1194,9 @@ public class Person extends KraPersistableBusinessObjectBase {
         hashmap.put("educationLevel", getEducationLevel());
         hashmap.put("degree", getDegree());
         hashmap.put("major", getMajor());
-        hashmap.put("handicapped", isHandicapped());
+        hashmap.put("handicapped", getHandicappedFlag());
         hashmap.put("handicapType", getHandicapType());
-        hashmap.put("veteran", isVeteran());
+        hashmap.put("veteran", getVeteranFlag());
         hashmap.put("veteranType", getVeteranType());
         hashmap.put("visaCode", getVisaCode());
         hashmap.put("visaType", getVisaType());
@@ -1313,15 +1214,15 @@ public class Person extends KraPersistableBusinessObjectBase {
         hashmap.put("primaryTitle", getPrimaryTitle());
         hashmap.put("directoryTitle", getDirectoryTitle());
         hashmap.put("homeUnit", getHomeUnit());
-        hashmap.put("faculty", isFaculty());
-        hashmap.put("graduateStudentStaff", isGraduateStudentStaff());
-        hashmap.put("researchStaff", isResearchStaff());
-        hashmap.put("serviceStaff", isServiceStaff());
-        hashmap.put("supportStaff", isSupportStaff());
-        hashmap.put("otherAcademicGroup", isOtherAcademicGroup());
-        hashmap.put("medicalStaff", isMedicalStaff());
-        hashmap.put("vacationAccrual", isVacationAccrual());
-        hashmap.put("onSabbatical", isOnSabbatical());
+        hashmap.put("faculty", getFacultyFlag());
+        hashmap.put("graduateStudentStaff", getGraduateStudentStaffFlag());
+        hashmap.put("researchStaff", getResearchStaffFlag());
+        hashmap.put("serviceStaff", getServiceStaffFlag());
+        hashmap.put("supportStaff", getSupportStaffFlag());
+        hashmap.put("otherAcademicGroup", getOtherAcademicGroupFlag());
+        hashmap.put("medicalStaff", getMedicalStaffFlag());
+        hashmap.put("vacationAccrual", getVacationAccrualFlag());
+        hashmap.put("onSabbatical", getOnSabbaticalFlag());
         hashmap.put("idProvided", getIdProvided());
         hashmap.put("idVerified", getIdVerified());
         hashmap.put("addressLine1", getAddressLine1());
