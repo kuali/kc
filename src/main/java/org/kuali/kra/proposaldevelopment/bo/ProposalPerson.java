@@ -30,7 +30,7 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -40,10 +40,10 @@ public class ProposalPerson extends Person implements CreditSplitable {
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
 
-    private boolean conflictOfInterest;
+    private boolean conflictOfInterestFlag;
     private KualiDecimal percentageEffort;
-    private Boolean fedrDebr;
-    private Boolean fedrDelq;
+    private Boolean fedrDebrFlag;
+    private Boolean fedrDelqFlag;
     private Integer rolodexId;
     private String  personId;
     private Integer proposalNumber;
@@ -51,14 +51,14 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private String  proposalPersonRoleId;
     private ProposalInvestigatorCertification certification;
     private ProposalPersonRole role;
-    private List<ProposalPersonUnit> units;
-    private List<ProposalPersonDegree> proposalPersonDegrees;
-    private List<ProposalPersonCreditSplit> creditSplits;
     private boolean delete;
     private Person person;
     private boolean isInvestigator;
-
     private List<ProposalPersonYnq> proposalPersonYnqs;
+    private List<ProposalPersonUnit> units;
+    private List<ProposalPersonDegree> proposalPersonDegrees;
+    private List<ProposalPersonCreditSplit> creditSplits;
+    
     /**
      *
      * new ProposalPerson
@@ -77,16 +77,17 @@ public class ProposalPerson extends Person implements CreditSplitable {
      * @return boolean;
      */
     public boolean isInvestigator() {
-        return getIsInvestigator();
+        return getInvestigatorFlag();
     }
-
+    
+    
     /**
      * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
      * is an investigator or not.
      *
      * @return boolean;
      */
-    public boolean getIsInvestigator() {
+    public boolean getInvestigatorFlag() {
         return isInvestigator;
     }
     
@@ -96,7 +97,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @param b;
      */
-    public void setIsInvestigator(boolean b) {
+    public void setInvestigatorFlag(boolean b) {
         isInvestigator = b;
     }
 
@@ -196,8 +197,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @return the value of conflictOfInterest
      */
-    public boolean isConflictOfInterest() {
-        return this.conflictOfInterest;
+    public boolean getConflictOfInterestFlag() {
+        return this.conflictOfInterestFlag;
     }
 
 
@@ -224,17 +225,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @return the value of fedrDebr
      */
-    public Boolean isFedrDebr() {
-        return this.fedrDebr;
-    }
-
-    /**
-     * Gets the value of fedrDebr
-     *
-     * @return the value of fedrDebr
-     */
-    public Boolean getFedrDebr() {
-        return this.fedrDebr;
+    public Boolean getFedrDebrFlag() {
+        return this.fedrDebrFlag;
     }
 
     /**
@@ -242,8 +234,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @param argFedrDebr Value to assign to this.fedrDebr
      */
-    public void setFedrDebr(Boolean argFedrDebr) {
-        this.fedrDebr = argFedrDebr;
+    public void setFedrDebrFlag(Boolean argFedrDebr) {
+        this.fedrDebrFlag = argFedrDebr;
     }
 
     /**
@@ -251,17 +243,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @return the value of fedrDelq
      */
-    public Boolean isFedrDelq() {
-        return this.fedrDelq;
-    }
-
-    /**
-     * Gets the value of fedrDelq
-     *
-     * @return the value of fedrDelq
-     */
-    public Boolean getFedrDelq() {
-        return this.fedrDelq;
+    public Boolean getFedrDelqFlag() {
+        return this.fedrDelqFlag;
     }
 
     /**
@@ -269,8 +252,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @param argFedrDelq Value to assign to this.fedrDelq
      */
-    public void setFedrDelq(Boolean argFedrDelq) {
-        this.fedrDelq = argFedrDelq;
+    public void setFedrDelqFlag(Boolean argFedrDelq) {
+        this.fedrDelqFlag = argFedrDelq;
     }
 
     /**
@@ -384,8 +367,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @param argConflictOfInterest Value to assign to this.conflictOfInterest
      */
-    public void setConflictOfInterest(boolean argConflictOfInterest) {
-        this.conflictOfInterest = argConflictOfInterest;
+    public void setConflictOfInterestFlag(boolean argConflictOfInterest) {
+        this.conflictOfInterestFlag = argConflictOfInterest;
     }
 
     /**
@@ -428,10 +411,10 @@ public class ProposalPerson extends Person implements CreditSplitable {
 	protected LinkedHashMap toStringMapper() {
    	    LinkedHashMap hashmap = super.toStringMapper();
 
-        hashmap.put("conflictOfInterest", isConflictOfInterest());
+        hashmap.put("conflictOfInterest", getConflictOfInterestFlag());
         hashmap.put("percentageEffort", getPercentageEffort());
-        hashmap.put("fedrDebr", isFedrDebr());
-        hashmap.put("fedrDelq", isFedrDelq());
+        hashmap.put("fedrDebr", getFedrDebrFlag());
+        hashmap.put("fedrDelq", getFedrDelqFlag());
         hashmap.put("personId", getPersonId());
         hashmap.put("rolodexId", getRolodexId());
         hashmap.put("proposalNumber", getProposalNumber());
@@ -450,6 +433,12 @@ public class ProposalPerson extends Person implements CreditSplitable {
         getProposalPersonDegrees().add(d);
     }
 
+    /**
+     * Gets index i from the degrees list.
+     * 
+     * @param index
+     * @return <code>{@link ProposalPersonDegree}</code> instance at index i
+     */
     public ProposalPersonDegree getProposalPersonDegree(int index) {
         while (getProposalPersonDegrees().size() <= index) {
             getProposalPersonDegrees().add(new ProposalPersonDegree());
@@ -467,6 +456,12 @@ public class ProposalPerson extends Person implements CreditSplitable {
         getUnits().add(unit);
     }
 
+    /**
+     * Gets index i from the units list.
+     * 
+     * @param index
+     * @return <code>{@link ProposalPersonUnit}</code> instance at index i
+     */
     public ProposalPersonUnit getUnit(int index) {
         while (getUnits().size() <= index) {
             getUnits().add(new ProposalPersonUnit());
@@ -475,10 +470,20 @@ public class ProposalPerson extends Person implements CreditSplitable {
         return getUnits().get(index);
     }
 
+    /**
+     * Read access to a flag that determines if this instance should be deleted from a list of other instances.
+     * 
+     * @return boolean
+     */
     public boolean isDelete() {
         return delete;
     }
 
+    /**
+     * Write access to a flag that determines if this instance should be deleted from a list of other instances.
+     * 
+     * @param delete 
+     */    
     public void setDelete(boolean delete) {
         this.delete = delete;
     }

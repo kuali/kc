@@ -256,9 +256,9 @@
 		<field-descriptor name="educationLevel" column="EDUCATION_LEVEL" jdbc-type="VARCHAR" />
 		<field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" />
 		<field-descriptor name="major" column="MAJOR" jdbc-type="VARCHAR" />
-		<field-descriptor name="handicapped" column="IS_HANDICAPPED" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="handicappedFlag" column="IS_HANDICAPPED" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 		<field-descriptor name="handicapType" column="HANDICAP_TYPE" jdbc-type="VARCHAR" />
-		<field-descriptor name="veteran" column="IS_VETERAN" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="veteranFlag" column="IS_VETERAN" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 		<field-descriptor name="veteranType" column="VETERAN_TYPE" jdbc-type="VARCHAR" />
 		<field-descriptor name="visaCode" column="VISA_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="visaType" column="VISA_TYPE" jdbc-type="VARCHAR" />
@@ -276,15 +276,15 @@
 		<field-descriptor name="primaryTitle" column="PRIMARY_TITLE" jdbc-type="VARCHAR" />
 		<field-descriptor name="directoryTitle" column="DIRECTORY_TITLE" jdbc-type="VARCHAR" />
 		<field-descriptor name="homeUnit" column="HOME_UNIT" jdbc-type="VARCHAR" />
-		<field-descriptor name="faculty" column="IS_FACULTY" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-		<field-descriptor name="graduateStudentStaff" column="IS_GRADUATE_STUDENT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-		<field-descriptor name="researchStaff" column="IS_RESEARCH_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-		<field-descriptor name="serviceStaff" column="IS_SERVICE_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-		<field-descriptor name="supportStaff" column="IS_SUPPORT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-		<field-descriptor name="otherAcademicGroup" column="IS_OTHER_ACCADEMIC_GROUP" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-		<field-descriptor name="medicalStaff" column="IS_MEDICAL_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-		<field-descriptor name="vacationAccrual" column="VACATION_ACCURAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-		<field-descriptor name="onSabbatical" column="IS_ON_SABBATICAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="facultyFlag" column="IS_FACULTY" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="graduateStudentStaffFlag" column="IS_GRADUATE_STUDENT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="researchStaffFlag" column="IS_RESEARCH_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="serviceStaffFlag" column="IS_SERVICE_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="supportStaffFlag" column="IS_SUPPORT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="otherAcademicGroupFlag" column="IS_OTHER_ACCADEMIC_GROUP" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="medicalStaffFlag" column="IS_MEDICAL_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="vacationAccrualFlag" column="VACATION_ACCURAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+		<field-descriptor name="onSabbaticalFlag" column="IS_ON_SABBATICAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 		<field-descriptor name="idProvided" column="ID_PROVIDED" jdbc-type="VARCHAR" />
 		<field-descriptor name="idVerified" column="ID_VERIFIED" jdbc-type="VARCHAR" />
 		<field-descriptor name="addressLine1" column="ADDRESS_LINE_1" jdbc-type="VARCHAR" />
@@ -331,9 +331,9 @@
         <field-descriptor name="educationLevel" column="EDUCATION_LEVEL" jdbc-type="VARCHAR" />
         <field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" />
         <field-descriptor name="major" column="MAJOR" jdbc-type="VARCHAR" />
-        <field-descriptor name="handicapped" column="IS_HANDICAPPED" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="handicappedFlag" column="IS_HANDICAPPED" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="handicapType" column="HANDICAP_TYPE" jdbc-type="VARCHAR" />
-        <field-descriptor name="veteran" column="IS_VETERAN" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="veteranFlag" column="IS_VETERAN" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="veteranType" column="VETERAN_TYPE" jdbc-type="VARCHAR" />
         <field-descriptor name="visaCode" column="VISA_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="visaType" column="VISA_TYPE" jdbc-type="VARCHAR" />
@@ -351,15 +351,15 @@
         <field-descriptor name="primaryTitle" column="PRIMARY_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="directoryTitle" column="DIRECTORY_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="homeUnit" column="HOME_UNIT" jdbc-type="VARCHAR" />
-        <field-descriptor name="faculty" column="IS_FACULTY" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-        <field-descriptor name="graduateStudentStaff" column="IS_GRADUATE_STUDENT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-        <field-descriptor name="researchStaff" column="IS_RESEARCH_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-        <field-descriptor name="serviceStaff" column="IS_SERVICE_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-        <field-descriptor name="supportStaff" column="IS_SUPPORT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-        <field-descriptor name="otherAcademicGroup" column="IS_OTHER_ACCADEMIC_GROUP" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-        <field-descriptor name="medicalStaff" column="IS_MEDICAL_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-        <field-descriptor name="vacationAccrual" column="VACATION_ACCURAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-        <field-descriptor name="onSabbatical" column="IS_ON_SABBATICAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="facultyFlag" column="IS_FACULTY" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="graduateStudentStaffFlag" column="IS_GRADUATE_STUDENT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="researchStaffFlag" column="IS_RESEARCH_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="serviceStaffFlag" column="IS_SERVICE_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="supportStaffFlag" column="IS_SUPPORT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="otherAcademicGroupFlag" column="IS_OTHER_ACCADEMIC_GROUP" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="medicalStaffFlag" column="IS_MEDICAL_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="vacationAccrualFlag" column="VACATION_ACCURAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="onSabbaticalFlag" column="IS_ON_SABBATICAL" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="idProvided" column="ID_PROVIDED" jdbc-type="VARCHAR" />
         <field-descriptor name="idVerified" column="ID_VERIFIED" jdbc-type="VARCHAR" />
         <field-descriptor name="addressLine1" column="ADDRESS_LINE_1" jdbc-type="VARCHAR" />
@@ -375,9 +375,9 @@
         <field-descriptor name="mobilePhoneNumber" column="MOBILE_PHONE_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="eraCommonsUserName" column="ERA_COMMONS_USER_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="percentageEffort" column="PERCENTAGE_EFFORT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-        <field-descriptor name="fedrDebr" column="FEDR_DEBR_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-        <field-descriptor name="fedrDelq" column="FEDR_DELQ_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-        <field-descriptor name="conflictOfInterest" column="CONFLICT_OF_INTEREST_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="fedrDebrFlag" column="FEDR_DEBR_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="fedrDelqFlag" column="FEDR_DELQ_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="conflictOfInterestFlag" column="CONFLICT_OF_INTEREST_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

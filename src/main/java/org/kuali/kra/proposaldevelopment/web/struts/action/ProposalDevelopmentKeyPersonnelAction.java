@@ -59,7 +59,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.36 $
+ * @version $Revision: 1.37 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -398,7 +398,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
         for (ProposalPerson person : form.getProposalDevelopmentDocument().getProposalPersons()) {
             LOG.debug(person.getFullName() + " is " + getKeyPersonnelService().isInvestigator(person));
-            person.setIsInvestigator(getKeyPersonnelService().isInvestigator(person));
+            person.setInvestigatorFlag(getKeyPersonnelService().isInvestigator(person));
             if (getKeyPersonnelService().isInvestigator(person) && !form.getProposalDevelopmentDocument().getInvestigators().contains(person)) {
                 form.getProposalDevelopmentDocument().getInvestigators().add(person);
             }
