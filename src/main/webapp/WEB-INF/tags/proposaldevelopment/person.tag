@@ -55,7 +55,7 @@
                                                                      attributeEntry="${proposalPersonAttributes.emailAddress}" 
                                                                            readOnly="${!personEditableFields['emailAddress'] }"/>
                     </td>
-                    <th align="left" width="15%"> <div align="right">Office Phone: </div></th>
+                    <th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.officePhone}"  /> </div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.officePhone" 
                                                                      attributeEntry="${proposalPersonAttributes.officePhone}" 
                                                                            readOnly="${!personEditableFields['officePhone'] }" />
@@ -107,7 +107,7 @@
                                                                      attributeEntry="${proposalPersonAttributes.pagerNumber}" 
                                                                            readOnly="${!personEditableFields['pagerNumber'] }" />
                     </td>
-                    <th align="left" nowrap="nowrap" width="15%"> <div align="right">Mobile: </div></th>
+                    <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.mobilePhoneNumber}"  /> </div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.mobilePhoneNumber" 
                                                                      attributeEntry="${proposalPersonAttributes.mobilePhoneNumber}" 
                                                                            readOnly="${!personEditableFields['mobilePhoneNumber'] }"/>
@@ -184,7 +184,7 @@
                                           attributeEntry="${proposalPersonAttributes.percentEffort}" 
                                                 readOnly="${!personEditableFields['percentEffort'] }" />
                     </span></td>
-                    <th align="left" nowrap="nowrap"><div align="right">isFaculty</div></th>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.facultyFlag}"  /></div></th>
 
                     <td align="left"><label>
                       <kul:htmlControlAttribute property="${proposalPerson}.facultyFlag" 
