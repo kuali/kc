@@ -51,7 +51,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -88,7 +88,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             assignLeadUnit(person, document.getOwnedByUnitNumber());
         }
         
-        person.setIsInvestigator(isInvestigator(person));
+        person.setInvestigatorFlag(isInvestigator(person));
         
         person.refreshReferenceObject("role");
     }
@@ -385,9 +385,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             prop_person.setEducationLevel(person.getEducationLevel());
             prop_person.setDegree(person.getDegree());
             prop_person.setMajor(person.getMajor());
-            prop_person.setIsHandicapped(person.isHandicapped());
+            prop_person.setHandicappedFlag(person.getHandicappedFlag());
             prop_person.setHandicapType(person.getHandicapType());
-            prop_person.setIsVeteran(person.isVeteran());
+            prop_person.setVeteranFlag(person.getVeteranFlag());
             prop_person.setVeteranType(person.getVeteranType());
             prop_person.setVisaCode(person.getVisaCode());
             prop_person.setVisaType(person.getVisaType());
@@ -405,15 +405,15 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             prop_person.setPrimaryTitle(person.getPrimaryTitle());
             prop_person.setDirectoryTitle(person.getDirectoryTitle());
             prop_person.setHomeUnit(person.getHomeUnit());
-            prop_person.setIsFaculty(person.isFaculty());
-            prop_person.setIsGraduateStudentStaff(person.isGraduateStudentStaff());
-            prop_person.setIsResearchStaff(person.isResearchStaff());
-            prop_person.setIsServiceStaff(person.isServiceStaff());
-            prop_person.setIsSupportStaff(person.isSupportStaff());
-            prop_person.setIsOtherAcademicGroup(person.isOtherAcademicGroup());
-            prop_person.setIsMedicalStaff(person.isMedicalStaff());
-            prop_person.setIsVacationAccrual(person.isVacationAccrual());
-            prop_person.setIsOnSabbatical(person.isOnSabbatical());
+            prop_person.setFacultyFlag(person.getFacultyFlag());
+            prop_person.setGraduateStudentStaffFlag(person.getGraduateStudentStaffFlag());
+            prop_person.setResearchStaffFlag(person.getResearchStaffFlag());
+            prop_person.setServiceStaffFlag(person.getServiceStaffFlag());
+            prop_person.setSupportStaffFlag(person.getSupportStaffFlag());
+            prop_person.setOtherAcademicGroupFlag(person.getOtherAcademicGroupFlag());
+            prop_person.setMedicalStaffFlag(person.getMedicalStaffFlag());
+            prop_person.setVacationAccrualFlag(person.getVacationAccrualFlag());
+            prop_person.setOnSabbaticalFlag(person.getOnSabbaticalFlag());
             prop_person.setIdProvided(person.getIdProvided());
             prop_person.setIdVerified(person.getIdVerified());
             prop_person.setAddressLine1(person.getAddressLine1());
