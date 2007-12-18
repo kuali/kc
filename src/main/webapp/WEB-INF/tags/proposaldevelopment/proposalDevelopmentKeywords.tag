@@ -6,7 +6,7 @@
 <c:set var="action" value="proposalDevelopmentProposal" />
 <c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 
-<kul:tab tabTitle="Keywords" defaultOpen="true" tabErrorKey="">
+<kul:tab tabTitle="Keywords" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Keywords</h2></span>
