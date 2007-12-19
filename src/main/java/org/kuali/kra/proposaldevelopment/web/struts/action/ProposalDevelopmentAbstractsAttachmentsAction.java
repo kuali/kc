@@ -23,6 +23,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -103,6 +104,11 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
         if (!rulePassed){
             mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        // refresh, so the status can be displayed properly on tab title
+        List<Narrative> narativeListToBeSaved = proposalDevelopmentDocument.getNarratives();
+        for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
+            narrativeToBeSaved.refreshNonUpdateableReferences();
         }
         return super.save(mapping, form, request, response);
     }
@@ -412,7 +418,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if(getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, proposalDevelopmentForm.getNewPropPersonBio()))){
             proposalDevelopmentDocument.addProposalPersonBiography(proposalDevelopmentForm.getNewPropPersonBio());
             proposalDevelopmentForm.setNewPropPersonBio(new ProposalPersonBiography());
-        }
+        } 
 
         return mapping.findForward("basic");
     }
