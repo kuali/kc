@@ -25,7 +25,12 @@
   	headerDispatch="save"
   	headerTabActive="actions">
 	
+	<kra-pd:proposalDevelopmentDataValidation /> 
+	<kra-pd:proposalDevelopmentHierarchy /> 
+	<kra-pd:proposalDevelopmentPrintForms /> 
 	<kra-pd:proposalDevelopmentCopy /> 
+	<kul:routeLog /> 
+	<kul:adHocRecipients /> 
 	<kul:panelFooter />
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 	<script language="javascript" src="scripts/kuali_application.js"></script>

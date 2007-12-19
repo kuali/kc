@@ -19,7 +19,7 @@
 <c:set var="proposalCopyCriteriaAttributes" value="${DataDictionary.ProposalCopyCriteria.attributes}" />
 <c:set var="action" value="proposalDevelopmentActions" />
 
-<kul:tabTop tabTitle="Copy to New Document" defaultOpen="false"  
+<kul:tab tabTitle="Copy to New Document" defaultOpen="false"  
             tabErrorKey="document.proposalCopy">
          
 	<div class="tab-container" align="center">
@@ -29,7 +29,6 @@
         </div>
         
         <table cellpadding="0" cellspacing="0" summary="">
-        <tbody>
         
         	<tr>
         		<th align="right" valign="middle">Proposal:</th>
@@ -72,7 +71,6 @@
                 </td>
 			</tr>
 			
-        </tbody>
         </table>
     </div> 
-</kul:tabTop>
+</kul:tab>
