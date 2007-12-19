@@ -610,7 +610,7 @@
           </headerNavigationTab>          
           <headerNavigationTab>
             <navigateTo>actions</navigateTo>
-            <displayName>Proposed Actions</displayName>
+            <displayName>Proposal Actions</displayName>
           </headerNavigationTab>
           <headerNavigationTab>
 		    <navigateTo>auditMode</navigateTo>
