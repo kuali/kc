@@ -51,7 +51,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -100,12 +100,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      * @return Collection<InvestigatorCreditType>
      */
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
-        Collection<InvestigatorCreditType> types = getBusinessObjectService().findAll(InvestigatorCreditType.class);
-        InvestigatorCreditType[] creditTypeArray=new InvestigatorCreditType[4];
-        for (InvestigatorCreditType type : types) {
-            creditTypeArray[Integer.parseInt(type.getInvCreditTypeCode())]=type;
-        }
-        return asList(creditTypeArray);
+        return getBusinessObjectService().findAll(InvestigatorCreditType.class);
+
     }
 
     /**
