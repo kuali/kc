@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.bo.UnitHierarchy</businessObjectClass>
+        <businessObjectClass>org.kuali.kra.bo.UnitAdministrator</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
@@ -32,26 +32,28 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>UnitHierarchyMaintenanceDocument</documentTypeName>
-        <documentTypeCode>UNHI</documentTypeCode>
+        <documentTypeName>UnitAdministratorMaintenanceDocument</documentTypeName>
+        <documentTypeCode>UNAD</documentTypeCode>
 
-        <label>UnitHierarchy Maintenance Document</label>
-        <shortLabel>unitHierarchyMaintDoc</shortLabel>
+        <label>UnitAdministrator Maintenance Document</label>
+        <shortLabel>unitAdministratorMaintDoc</shortLabel>
 
-        <summary>UnitHierarchy Maintenance Document</summary>
-        <description>Document used to create or update UnitHierarchy Reference objects</description>
+        <summary>UnitAdministrator Maintenance Document</summary>
+        <description>Document used to create or update UnitAdministrator Reference objects</description>
 
         <lockingKeys>
-        	<field attributeName="unitNumber"/>
+        	<field attributeName="personId"/>
+			<field attributeName="roleId"/>
+			<field attributeName="unitNumber"/>
 
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit UnitHierarchy">
+            <maintainableSection title="Edit UnitAdministrator">
                 <maintainableItems>
-                	<maintainableField name="unitNumber" required="true"/>
-					<maintainableField name="hasChildrenFlag" required="false"/>
-					<maintainableField name="parentUnitNumber" required="true"/>
+                	<maintainableField name="roleId" required="true"/>
+					<maintainableField name="personId" required="true"/>
+					<maintainableField name="unitNumber" required="true"/>
 
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

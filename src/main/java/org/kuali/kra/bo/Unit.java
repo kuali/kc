@@ -1,22 +1,22 @@
 package org.kuali.kra.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class Unit extends KraPersistableBusinessObjectBase {
 	private String unitNumber;
-	private String administrativeOfficer;
-	private String deanVp;
+	private String parentUnitNumber;
 	private String organizationId;
-	private String ospAdministrator;
-	private String otherIndividualToNotify;
-	private String unitHead;
 	private String unitName;
-    
-    private UnitHierarchy unitHierarchy;
+	private Unit parentUnit;
+    private List<UnitAdministrator> unitAdministrators;
+
     private Organization organization;
 
     public Unit() {
         super();
+        unitAdministrators = new ArrayList<UnitAdministrator>();
     }
 
 	public String getUnitNumber() {
@@ -27,56 +27,25 @@ public class Unit extends KraPersistableBusinessObjectBase {
 		this.unitNumber = unitNumber;
 	}
 
-	public String getAdministrativeOfficer() {
-		return administrativeOfficer;
+
+	public String getParentUnitNumber() {
+		return parentUnitNumber;
 	}
 
-	public void setAdministrativeOfficer(String administrativeOfficer) {
-		this.administrativeOfficer = administrativeOfficer;
-	}
-
-	public String getDeanVp() {
-		return deanVp;
-	}
-
-	public void setDeanVp(String deanVp) {
-		this.deanVp = deanVp;
+	public void setParentUnitNumber(String parentUnitNumber) {
+		this.parentUnitNumber = parentUnitNumber;
 	}
 
 	public String getOrganizationId() {
-        if (organizationId == null && this.getUnitHierarchy() != null && this.getUnitHierarchy().getParentUnit() != null) {
+        if (organizationId == null && this.getParentUnit() != null && this.getParentUnit().getUnitNumber() != null) {
             //will recurse up hierarchy until an Organization Id is found
-            return this.getUnitHierarchy().getParentUnit().getOrganizationId();
+            return this.getParentUnit().getOrganizationId();
         }
 		return organizationId;
 	}
 
 	public void setOrganizationId(String organizationId) {
 		this.organizationId = organizationId;
-	}
-
-	public String getOspAdministrator() {
-		return ospAdministrator;
-	}
-
-	public void setOspAdministrator(String ospAdministrator) {
-		this.ospAdministrator = ospAdministrator;
-	}
-
-	public String getOtherIndividualToNotify() {
-		return otherIndividualToNotify;
-	}
-
-	public void setOtherIndividualToNotify(String otherIndividualToNotify) {
-		this.otherIndividualToNotify = otherIndividualToNotify;
-	}
-
-	public String getUnitHead() {
-		return unitHead;
-	}
-
-	public void setUnitHead(String unitHead) {
-		this.unitHead = unitHead;
 	}
 
 	public String getUnitName() {
@@ -92,31 +61,11 @@ public class Unit extends KraPersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("unitNumber", getUnitNumber());
-		hashMap.put("administrativeOfficer", getAdministrativeOfficer());
-		hashMap.put("deanVp", getDeanVp());
+		hashMap.put("parentUnitNumber", getParentUnitNumber());
 		hashMap.put("organizationId", getOrganizationId());
-		hashMap.put("ospAdministrator", getOspAdministrator());
-		hashMap.put("otherIndividualToNotify", getOtherIndividualToNotify());
-		hashMap.put("unitHead", getUnitHead());
 		hashMap.put("unitName", getUnitName());
 		return hashMap;
 	}
-
-    /**
-     * Gets the unitHierarchy attribute. 
-     * @return Returns the unitHierarchy.
-     */
-    public UnitHierarchy getUnitHierarchy() {
-        return unitHierarchy;
-    }
-
-    /**
-     * Sets the unitHierarchy attribute value.
-     * @param unitHierarchy The unitHierarchy to set.
-     */
-    public void setUnitHierarchy(UnitHierarchy unitHierarchy) {
-        this.unitHierarchy = unitHierarchy;
-    }
 
     /**
      * Gets the organization attribute. 
@@ -133,4 +82,29 @@ public class Unit extends KraPersistableBusinessObjectBase {
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
+
+    public Unit getParentUnit() {
+        return parentUnit;
+    }
+
+    public void setParentUnit(Unit parentUnit) {
+        this.parentUnit = parentUnit;
+    }
+
+    public List<UnitAdministrator> getUnitAdministrators() {
+        return unitAdministrators;
+    }
+
+    public void setUnitAdministrators(List<UnitAdministrator> unitAdministrators) {
+        this.unitAdministrators = unitAdministrators;
+    }
+
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        // TODO : need this ?
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getUnitAdministrators());
+        return managedLists;
+    }
+
 }
