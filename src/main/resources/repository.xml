@@ -998,28 +998,51 @@
 
 	<class-descriptor class="org.kuali.kra.bo.Unit" table="UNIT">
 		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="administrativeOfficer" column="ADMINISTRATIVE_OFFICER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="deanVp" column="DEAN_VP" jdbc-type="VARCHAR"/>
+		<field-descriptor name="parentUnitNumber" column="PARENT_UNIT_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
-		<field-descriptor name="ospAdministrator" column="OSP_ADMINISTRATOR" jdbc-type="VARCHAR"/>
-		<field-descriptor name="otherIndividualToNotify" column="OTHER_INDIVIDUAL_TO_NOTIFY" jdbc-type="VARCHAR"/>
-		<field-descriptor name="unitHead" column="UNIT_HEAD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="unitName" column="UNIT_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-
- 		<reference-descriptor name="unitHierarchy" class-ref="org.kuali.kra.bo.UnitHierarchy" auto-retrieve="true" auto-update="none" auto-delete="none">
-      <foreignkey field-ref="unitNumber"/>
-    </reference-descriptor>
     
+	<collection-descriptor name="unitAdministrators" proxy="true" element-class-ref="org.kuali.kra.bo.UnitAdministrator" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<inverse-foreignkey field-ref="unitNumber"/>
+	</collection-descriptor>
+
     <reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
       <foreignkey field-ref="organizationId"/>
     </reference-descriptor>
     
+    <reference-descriptor name="parentUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+      <foreignkey field-ref="parentUnitNumber"/>
+    </reference-descriptor>
+    
 	</class-descriptor>
 
+  <class-descriptor class="org.kuali.kra.bo.UnitAdministrator" table="UNIT_ADMINISTRATOR">
+    <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+	<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true"/>
+    <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="INTEGER" primarykey="true"/>
+    <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+
+    <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+      <foreignkey field-ref="unitNumber"/> 
+    </reference-descriptor>
+    
+    <reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="personId"/>
+	</reference-descriptor>
+	
+	<reference-descriptor name="role" class-ref="org.kuali.kra.bo.Role" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="roleId"/>
+	</reference-descriptor>
+    
+  </class-descriptor>
+
+
+<!-- TODO : refactoring to remove this 
   <class-descriptor class="org.kuali.kra.bo.UnitHierarchy" table="UNIT_HIERARCHY">
     <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
     <field-descriptor name="hasChildrenFlag" column="HAS_CHILDREN_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
@@ -1030,7 +1053,7 @@
       <foreignkey field-ref="parentUnitNumber"/> 
     </reference-descriptor>
   </class-descriptor>
-
+ -->
 	<!--  class-descriptor class="org.kuali.kra.bo.KraUser" table="KRA_USER">
 		<field-descriptor name="userId" column="USER_ID" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="nonMitPersonFlag" column="NON_MIT_PERSON_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>

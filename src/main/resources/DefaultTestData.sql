@@ -45,7 +45,9 @@ insert into FP_DOC_TYPE_T values ('TRFO', '1A6FEB250342607EE043814FD881607E', 1,
 ;
 insert into FP_DOC_TYPE_T values ('TRD2', '1A6FEB250342607EE043814FD889607E', 1, 'TR',	'TRAV D2', 'N', 'Y', 'N', 0, 'N', 'N')
 ;
-insert into FP_DOC_TYPE_T values ('TRVA', '1A5FEB250342607EE043814FD889607E', 1, 'TR',	'TRAV MAINT', 'N', 'Y', 'N', 0, 'N', 'N')
+insert into FP_DOC_TYPE_T values ('TRVA', '1A7FEB250342607EE043814FD889607E', 1, 'TR',	'TRAV MAINT', 'N', 'Y', 'N', 0, 'N', 'N')
+;
+insert into FP_DOC_TYPE_T values ('PARM', '1A5FEB250342607EE043814FD889607E', 1, 'TR',	'System Parms', 'N', 'Y', 'N', 0, 'N', 'N')
 ;
 --INSERT INTO FS_PARM_SEC_T VALUES('SYSTEM', '1', 0, 'WorkflowAdmin', 'desc')
 --;

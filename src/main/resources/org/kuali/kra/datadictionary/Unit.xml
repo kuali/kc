@@ -25,12 +25,8 @@
 
             <inquirySections><inquirySection title="Unit"><inquiryFields>
             	<field attributeName="unitNumber" forceInquiry="true"/>
-				<field attributeName="administrativeOfficer"/>
-				<field attributeName="deanVp"/>
+				<field attributeName="parentUnitNumber"/>
 				<field attributeName="organizationId"/>
-				<field attributeName="ospAdministrator"/>
-				<field attributeName="otherIndividualToNotify"/>
-				<field attributeName="unitHead"/>
 				<field attributeName="unitName"/>
 
             </inquiryFields></inquirySection></inquirySections>
@@ -52,24 +48,16 @@
 
             <lookupFields>
             	<lookupField attributeName="unitNumber" required="false"/>
-				<lookupField attributeName="administrativeOfficer" required="false"/>
-				<lookupField attributeName="deanVp" required="false"/>
+				<lookupField attributeName="parentUnitNumber" required="false"/>
 				<lookupField attributeName="organizationId" required="false"/>
-				<lookupField attributeName="ospAdministrator" required="false"/>
-				<lookupField attributeName="otherIndividualToNotify" required="false"/>
-				<lookupField attributeName="unitHead" required="false"/>
 				<lookupField attributeName="unitName" required="false"/>
 
             </lookupFields>
 
             <resultFields>
             	<field attributeName="unitNumber" forceInquiry="true"/>
-				<field attributeName="administrativeOfficer" forceInquiry="false"/>
-				<field attributeName="deanVp" forceInquiry="false"/>
+				<field attributeName="parentUnitNumber" forceInquiry="false"/>
 				<field attributeName="organizationId" forceInquiry="false"/>
-				<field attributeName="ospAdministrator" forceInquiry="false"/>
-				<field attributeName="otherIndividualToNotify" forceInquiry="false"/>
-				<field attributeName="unitHead" forceInquiry="false"/>
 				<field attributeName="unitName" forceInquiry="false"/>
 
             </resultFields>
@@ -90,28 +78,16 @@
 			<description>Unit Number </description>
 			</attribute>
 
-			<attribute name="administrativeOfficer">
-			<label>Administrative Officer </label>
-			<shortLabel>Administrative Officer </shortLabel>
-			<maxLength>9</maxLength>
+			<attribute name="parentUnitNumber">
+			<label>Parent Unit Number </label>
+			<shortLabel>Parent Unit Number </shortLabel>
+			<maxLength>8</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-				<text size="9" />
+				<text size="8" />
 			</control>
-			<summary>Administrative Officer </summary>
-			<description>Administrative Officer </description>
-			</attribute>
-
-			<attribute name="deanVp">
-			<label>Dean Vp </label>
-			<shortLabel>Dean Vp </shortLabel>
-			<maxLength>9</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="9" />
-			</control>
-			<summary>Dean Vp </summary>
-			<description>Dean Vp </description>
+			<summary>Parent Unit Numberr </summary>
+			<description>Parent Unit Number </description>
 			</attribute>
 
 			<attribute name="organizationId">
@@ -124,42 +100,6 @@
 			</control>
 			<summary>Organization Id </summary>
 			<description>Organization Id </description>
-			</attribute>
-
-			<attribute name="ospAdministrator">
-			<label>Osp Administrator </label>
-			<shortLabel>Osp Administrator </shortLabel>
-			<maxLength>9</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="9" />
-			</control>
-			<summary>Osp Administrator </summary>
-			<description>Osp Administrator </description>
-			</attribute>
-
-			<attribute name="otherIndividualToNotify">
-			<label>Other Individual To Notify </label>
-			<shortLabel>Other Individual To Notify </shortLabel>
-			<maxLength>9</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="9" />
-			</control>
-			<summary>Other Individual To Notify </summary>
-			<description>Other Individual To Notify </description>
-			</attribute>
-
-			<attribute name="unitHead">
-			<label>Unit Head </label>
-			<shortLabel>Unit Head </shortLabel>
-			<maxLength>10</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="10" />
-			</control>
-			<summary>Unit Head </summary>
-			<description>Unit Head </description>
 			</attribute>
 
 			<attribute name="unitName">
