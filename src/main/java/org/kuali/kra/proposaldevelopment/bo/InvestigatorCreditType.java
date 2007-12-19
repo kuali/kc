@@ -23,11 +23,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: InvestigatorCreditType.java,v 1.2 2007-10-24 19:29:18 rmancher Exp $
+ * $Id: InvestigatorCreditType.java,v 1.3 2007-12-19 21:51:49 lprzybyl Exp $
  */
 public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
     private String invCreditTypeCode;
     private Boolean addsToHundred;
+    private Boolean active;
     private String description;
 
     /**
@@ -102,5 +103,13 @@ public class InvestigatorCreditType extends KraPersistableBusinessObjectBase {
         hashmap.put("addsToHundred", getAddsToHundred());
 		return hashmap;
 	}
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
 }

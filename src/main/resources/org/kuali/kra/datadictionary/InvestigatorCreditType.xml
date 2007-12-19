@@ -19,6 +19,43 @@
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType">
+        <inquiry>
+            <title>Investigator Credit Type</title>
+
+            <inquirySections><inquirySection title="Investigator Credit Type"><inquiryFields>
+                <field attributeName="invCreditTypeCode" forceInquiry="true" />
+                <field attributeName="description" />
+                <field attributeName="addsToHundred" />
+                <field attributeName="active" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Investigator Credit Type Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Investigator Credit Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="invCreditTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="invCreditTypeCode" required="false" />
+                <lookupField attributeName="description" required="false" />
+                <lookupField attributeName="active" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="invCreditTypeCode" forceInquiry="true" />
+                <field attributeName="description" forceInquiry="false"/>
+                <field attributeName="active" forceInquiry="false" />
+            </resultFields>
+        </lookup>
+        
         <titleAttribute>invCreditTypeCode</titleAttribute>
         <attributes>
             <attributeReference name="invCreditTypeCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
@@ -35,6 +72,13 @@
  	            <shortLabel>Adds Hundred</shortLabel>
  	            <summary>Adds to Hundred</summary>
                 <description>Adds to Hundred</description>
+            </attributeReference>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Is Active</label>
+                <shortLabel>Is Active</shortLabel>
+                <summary>Is Active</summary>
+                <description>Is Active</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

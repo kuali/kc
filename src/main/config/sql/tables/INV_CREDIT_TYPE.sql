@@ -1,8 +1,9 @@
-#
-# $Id: INV_CREDIT_TYPE.sql,v 1.2 2007-10-24 19:34:05 rmancher Exp $
-#
+-
+- $Id: INV_CREDIT_TYPE.sql,v 1.3 2007-12-19 21:51:49 lprzybyl Exp $
+-
  CREATE TABLE INV_CREDIT_TYPE (
     INV_CREDIT_TYPE_CODE         VARCHAR2(3)  constraint INV_CREDIT_TYPE_N1 not null,
+    ACTIVE_FLAG                  CHAR(1),
     DESCRIPTION                  VARCHAR2(300) NOT NULL,
     ADDS_TO_HUNDRED              CHAR(1) NOT NULL,
 	UPDATE_TIMESTAMP DATE constraint INV_CREDIT_TYPE_N2 NOT NULL ENABLE,
