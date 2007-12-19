@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.rules;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -47,12 +46,10 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
             rulePassed = false;
             reportError(errorPath+".description", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRITPION_REQUIRED);
         }
-        if (rulePassed) {
-            if (StringUtils.isBlank(proposalPersonBiography.getFileName())) {
-                rulePassed = false;
-                errorPath = errorPath;
+        if (StringUtils.isBlank(proposalPersonBiography.getFileName())) {
+            rulePassed = false;
+            errorPath = errorPath;
                 reportError(errorPath+".personnelAttachmentFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
-            }
         }
         
         return rulePassed;
