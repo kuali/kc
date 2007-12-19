@@ -82,6 +82,7 @@ public interface Constants {
     public static final String QUESTION_STATUS_ACTIVE = "A";
 
     public static final String PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY = "fieldName";
+    public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "invCreditTypeCode";
     public static final String EMPTY_STRING = "";
 
 }
