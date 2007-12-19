@@ -63,7 +63,8 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final int FILE_INPUT = 8;
     private DocumentService documentService = null;
-
+    private static final String ATTACHMENT_FILE_NAME = "workflow-workspace.html";
+    private static final String ATTACHMENT_FILE_CONTENT_TYPE = "text/html";
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -365,6 +366,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     public void testInstituteAttachment() throws Exception {
         final WebClient webClient = new WebClient();
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+        String[] attachmentTypes = {"Institutional Attachment 1","Institutional Attachment 2"};
 
         final HtmlPage pageAfterLogin = login(webClient, url,
                 "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
@@ -381,50 +383,55 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         //webClient.setJavaScriptEnabled(false);
         String fileName=getFileName();
         final HtmlPage pageAfterAddAttachment =setInstituteAttachmentLine(abstractAttachmentPage,form1,fileName+";59");
-        final HtmlForm form2 = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
-        assertTrue(pageAfterAddAttachment.asText().contains("Institutional Attachment 1 workflow-workspace.html"));
+        final HtmlForm formWithOneAttachment = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
+        assertTrue(pageAfterAddAttachment.asText().contains(attachmentTypes[0]+" "+ATTACHMENT_FILE_NAME));
+        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
+        validateInstitutes(documentNumber, 0, false);
 
-        // multiple attachment is not allowed for this type
-
-        final HtmlPage pageWithSameAttachmentType =setInstituteAttachmentLine(pageAfterAddAttachment,form2,fileName+";59");
-        final HtmlForm form3 = (HtmlForm) pageWithSameAttachmentType.getForms().get(0);
-        assertTrue(pageWithSameAttachmentType.asText().contains("Errors found in this Section: Institute attachment with Attachment Type 'Institutional Attachment 1' already exists"));
-
+        // add second line
+        final HtmlPage pageWithTwoAttachments =setInstituteAttachmentLine(pageAfterAddAttachment,formWithOneAttachment,fileName+";60");
+        final HtmlForm formWithTwoAttachments = (HtmlForm) pageWithTwoAttachments.getForms().get(0);
+        assertTrue(pageWithTwoAttachments.asText().contains(attachmentTypes[1]+" "+ATTACHMENT_FILE_NAME));
+        validateInstitutes(documentNumber, 1, false);
+        
         // delete attachment
-        final HtmlPage pageAfterDeleteAttachment = clickButton(pageWithSameAttachmentType, form3, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
-        final HtmlForm form4 = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
-        assertFalse(pageAfterDeleteAttachment.asText().contains("Institutional Attachment 1 workflow-workspace.html"));
-
-        // add line back
-        final HtmlPage pageWithAttachment =setInstituteAttachmentLine(pageAfterDeleteAttachment,form4,fileName+";59");
-        final HtmlForm form5 = (HtmlForm) pageWithAttachment.getForms().get(0);
-        assertTrue(pageWithAttachment.asText().contains("Institutional Attachment 1 workflow-workspace.html"));
-
-        // save
-        final HtmlPage pageSave = clickButton(pageWithAttachment, form5, "methodToCall.save", IMAGE_INPUT);
-        final HtmlForm formAfterSave = (HtmlForm) pageSave.getForms().get(0);
-
-        assertFalse(pageSave.asText().contains(ERRORS_FOUND_ON_PAGE));
-        assertTrue(pageSave.asText().contains("Document was successfully saved"));
-        assertTrue(pageSave.asText().contains("Institutional Attachment 1 workflow-workspace.html"));
+        final HtmlPage pageAfterDeleteAttachment = clickButton(pageWithTwoAttachments, formWithTwoAttachments, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlForm formAfterDeleteAttachment = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
+        assertFalse(pageAfterDeleteAttachment.asText().contains(attachmentTypes[0]+" "+ATTACHMENT_FILE_NAME));
+        assertTrue(pageAfterDeleteAttachment.asText().contains(attachmentTypes[1]+" "+ATTACHMENT_FILE_NAME));
+        validateInstitutes(documentNumber, 0, true);
 
         // try to view file - only work for 'text/html' file
-        final HtmlPage attachmentFilePage = clickButton(pageSave, formAfterSave, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
         assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
 
-        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
-        assertNotNull(doc);
-        verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
-        Narrative narrative=(Narrative)doc.getInstitutes().get(0);
-        narrative.refreshReferenceObject("narrativeAttachmentList");
-        NarrativeAttachment narrativeAttachment=(NarrativeAttachment)narrative.getNarrativeAttachmentList().get(0);
-        assertNotNull(narrativeAttachment);
-        assertEquals("workflow-workspace.html", narrativeAttachment.getFileName());
-        assertEquals("text/html", narrativeAttachment.getContentType());
+    }
 
-
-
+    /**
+     * 
+     * This method is to validate narrative is saved/deleted in DB after 'add/delete' button is clicked 
+     * @param documentNumber
+     * @param lineNumber
+     * @param isDelete
+     * @throws Exception
+     */
+    private void validateInstitutes(HtmlHiddenInput documentNumber, int lineNumber, boolean isDelete) throws Exception {
+        
+            ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
+            doc.refreshReferenceObject("institutes");
+            assertNotNull(doc);
+            verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
+            assertTrue(doc.getInstitutes().size() == lineNumber + 1);
+            Narrative narrative=(Narrative)doc.getInstitutes().get(lineNumber);
+            if (!isDelete) {
+                narrative.refreshReferenceObject("narrativeAttachmentList");
+                NarrativeAttachment narrativeAttachment=(NarrativeAttachment)narrative.getNarrativeAttachmentList().get(0);
+                assertNotNull(narrativeAttachment);
+                assertEquals(ATTACHMENT_FILE_NAME, narrativeAttachment.getFileName());
+                assertEquals(ATTACHMENT_FILE_CONTENT_TYPE, narrativeAttachment.getContentType());
+            } else {
+                assertTrue(narrative.getNarrativeTypeCode().equals("60"));                
+            }
     }
 
 
@@ -433,12 +440,13 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
      * Test personnel biography attachments.
      * @throws Exception
      */
-
     @Test
     public void testPersonnelAttachment() throws Exception {
         final WebClient webClient = new WebClient();
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
         String person1Name="Terry Durkin";
+        String budgetDetailDescription = "Budget Details";
+        String biosketchDescription = "Biosketch";
 
         final HtmlPage pageAfterLogin = login(webClient, url,
                 "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
@@ -446,7 +454,6 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
         final HtmlForm kualiForm = (HtmlForm) pageAfterLogin.getForms().get(0);
         setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
-        // TODO :proposaldevelopmentaction.abstractsAttachments has a temporary set up for proposal person if it is not set up
 
         final HtmlPage keyPersonnelPage=getProposalPerson(webClient,pageAfterLogin, kualiForm);
         final HtmlForm keyPersonnelForm = (HtmlForm) keyPersonnelPage.getForms().get(0);
@@ -462,32 +469,35 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         //String fileName="C:/java/projects/kra_project/src/main/webapp/en/htdocs/workflow-workspace.html";
         String fileName=getFileName();
         final HtmlPage pageAfterAddAttachment =setPersonnelAttachmentLine(abstractAttachmentPage,form1,"3;1;desc;"+fileName);
-        final HtmlForm form2 = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
-        assertTrue(pageAfterAddAttachment.asText().contains(person1Name+" Budget Details"));
+        final HtmlForm formWithOneAttachment = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
+        assertTrue(pageAfterAddAttachment.asText().contains(person1Name+" "+budgetDetailDescription));
 
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
 
-        validatePropPersonBios(documentNumber, false);
-        // delete attachment
-        final HtmlPage pageAfterDeleteAttachment = clickButton(pageAfterAddAttachment, form2, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
-        final HtmlForm form4 = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
-        assertFalse(pageAfterDeleteAttachment.asText().contains(person1Name+" Budget Details"));
+        validatePropPersonBios(documentNumber, 0, false);
 
-        validatePropPersonBios(documentNumber, true);
+        // add 2nd line
+        final HtmlPage pageWithTwoAttachments =setPersonnelAttachmentLine(pageAfterAddAttachment,formWithOneAttachment,"1;1;desc;"+fileName);
+        final HtmlForm formWithTwoAttachments = (HtmlForm) pageWithTwoAttachments.getForms().get(0);
+        assertTrue(pageWithTwoAttachments.asText().contains(person1Name+" "+biosketchDescription));
+        validatePropPersonBios(documentNumber, 1, false);
+
+        // delete attachment
+        final HtmlPage pageAfterDeleteAttachment = clickButton(pageWithTwoAttachments, formWithTwoAttachments, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlForm formAfterDeleteAttachment = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
+        assertFalse(pageAfterDeleteAttachment.asText().contains(person1Name+" "+budgetDetailDescription));
+        assertTrue(pageAfterDeleteAttachment.asText().contains(person1Name+" "+biosketchDescription));
+        validatePropPersonBios(documentNumber, 0, true);
         
-        // add line back
-        final HtmlPage pageWithAttachment =setPersonnelAttachmentLine(pageAfterDeleteAttachment,form4,"3;1;desc;"+fileName);
-        final HtmlForm form5 = (HtmlForm) pageWithAttachment.getForms().get(0);
-        assertTrue(pageWithAttachment.asText().contains(person1Name+" Budget Details"));
 
         // try to view file - only work for html file now.  The otehr content type will cause castexception - unexpectedpage
         // final HtmlPage attachmentFilePage = clickButton(pageSave, formAfterSave, "methodToCall.viewPersonnelAttachment.line0.anchor", IMAGE_INPUT);
-        final HtmlPage attachmentFilePage = clickButton(pageWithAttachment, form5, "methodToCall.viewPersonnelAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.viewPersonnelAttachment.line0.anchor", IMAGE_INPUT);
         assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
 
-        validatePropPersonBios(documentNumber, false);
        
     }
+
 
     /**
     *
@@ -521,29 +531,31 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     }
 
-   private void validatePropPersonBios(HtmlHiddenInput documentNumber, boolean isDelete) throws Exception {
+   /**
+    * 
+    * This method is to validate proppersonbio is saved/deleted in DB after 'add/delete' button is clicked 
+    * @param documentNumber
+    * @param lineNumber
+    * @param isDelete
+    * @throws Exception
+    */
+   private void validatePropPersonBios(HtmlHiddenInput documentNumber, int lineNumber, boolean isDelete) throws Exception {
        
-       try {
+           ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
+           doc.refreshReferenceObject("propPersonBios");
+           assertNotNull(doc);
+           verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
+           assertTrue(doc.getPropPersonBios().size() == lineNumber + 1);
+           ProposalPersonBiography personBio=(ProposalPersonBiography)doc.getPropPersonBios().get(0);
            if (isDelete) {
-               ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
-               doc.refreshReferenceObject("propPersonBios");
-               assertNotNull(doc);
-               verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
-               assertTrue(doc.getPropPersonBios() == null || doc.getPropPersonBios().isEmpty());
-
+               assertTrue(personBio.getDocumentTypeCode().equals("1"));
            } else {
-               ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
-               // doc.refreshReferenceObject("propPersonBios");
-                assertNotNull(doc);
-                verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
-                ProposalPersonBiography personBio=(ProposalPersonBiography)doc.getPropPersonBios().get(0);
                 personBio.refreshReferenceObject("personnelAttachmentList");
                 ProposalPersonBiographyAttachment personnelAttachment=(ProposalPersonBiographyAttachment)personBio.getPersonnelAttachmentList().get(0);
                 assertNotNull(personnelAttachment);
-                assertEquals("workflow-workspace.html", personnelAttachment.getFileName());
-                assertEquals("text/html", personnelAttachment.getContentType());
+                assertEquals(ATTACHMENT_FILE_NAME, personnelAttachment.getFileName());
+                assertEquals(ATTACHMENT_FILE_CONTENT_TYPE, personnelAttachment.getContentType());
            }
-       } catch (Exception e) {}
    }
 
 
