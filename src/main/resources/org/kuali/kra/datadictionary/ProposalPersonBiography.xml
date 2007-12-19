@@ -166,8 +166,8 @@
 			<description>Document Type Code </description>
 			</attribute>
 			<attribute name="updateUser">
-				<label>Author</label>
-				<shortLabel>Author</shortLabel>
+				<label>Uploaded By</label>
+				<shortLabel>Uploaded By</shortLabel>
 				<maxLength>20</maxLength>
 				<validationPattern>
 					<anyCharacter />
@@ -179,8 +179,8 @@
 				<description>User who uploads the document</description>
 			</attribute>
 			<attributeReference name="updateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-				<label>Timestamp</label>
-				<shortLabel>Timestamp</shortLabel>
+				<label>Posted Timestamp</label>
+				<shortLabel>Posted Timestamp</shortLabel>
 				<summary>Date and Time when attachments gets uploaded</summary>
 				<description>Date and Time when attachments gets uploaded</description>
 			</attributeReference>
@@ -206,6 +206,8 @@
 			<shortLabel>File Name </shortLabel>
 			<maxLength>150</maxLength>
 			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<required> true </required> 
+			
 			<control>
 				<text size="150" />
 			</control>

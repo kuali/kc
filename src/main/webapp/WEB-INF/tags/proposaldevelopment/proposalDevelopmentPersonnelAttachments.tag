@@ -39,6 +39,14 @@
 	  			             		
           	</tr>        
           	<tr>
+          	  <c:set var="personSelectStyle" value="" scope="request"/>
+          	  
+			     <c:forEach items="${ErrorPropertyList}" var="key">
+				    <c:if test="${key eq 'newPropPersonBio.proposalPersonNumber'}">
+					  <c:set var="personSelectStyle" value="background-color:#FFD5D5" scope="request"/>
+				    </c:if>
+			     </c:forEach>
+          	    
 				<th class="infoline">
 					Add:
 				</th>
@@ -50,7 +58,7 @@
                 	<kul:htmlControlAttribute property="newPropPersonBio.updateUser" attributeEntry="${propPersonBioAttributes.updateUser}" readOnly="true" />
                 </td>
                 <td class="infoline">          	
-          		       <html:select property="newPropPersonBio.proposalPersonNumber">
+          		       <html:select property="newPropPersonBio.proposalPersonNumber" style="${personSelectStyle}">
   		                    <c:set var="proposalPersons" value="${KualiForm.document.proposalPersons}"/>
   		                    <option value="">select:</option>
 	    		            <html:options collection="proposalPersons" property="proposalPersonNumber" labelProperty="fullName"/>
@@ -98,14 +106,15 @@
 						</c:forEach>
 	                </td>
 	                <td>   
-	                    ${propPersonBio.propPerDocType.description}           	
-	                    <!-- <kul:htmlControlAttribute property="document.propPersonBio[${status.index}].propPerDocType.description" attributeEntry="${propPersonBioAttributes.propPerDocType.description}" /> -->  
+	                    ${propPersonBio.propPerDocType.description}          	
 					</td>
 	                <td>
-	                	<kul:htmlControlAttribute property="document.propPersonBio[${status.index}].description" readOnly="true" attributeEntry="${propPersonBioAttributes.description}" />
+	                	<!-- ${propPersonBio.description} -->
+	                	<kul:htmlControlAttribute property="document.propPersonBio[${status.index}].description" readOnly="true" attributeEntry="${propPersonBioAttributes.description}" /> 
 					</td>
 	                <td>
-	                    <kul:htmlControlAttribute property="document.propPersonBio[${status.index}].fileName" readOnly="true" attributeEntry="${propPersonBioAttributes.fileName}" />
+	                    ${propPersonBio.fileName}
+	                    <!--  <kul:htmlControlAttribute property="document.propPersonBio[${status.index}].fileName" readOnly="true" attributeEntry="${propPersonBioAttributes.fileName}" /> -->
 	                </td>
 	                <td>
 					<div align=center>
