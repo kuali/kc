@@ -41,9 +41,9 @@
                 <field attributeName="educationLevel" />
                 <field attributeName="degree" />
                 <field attributeName="major" />
-                <field attributeName="isHandicapped" />
+                <field attributeName="handicappedFlag" />
                 <field attributeName="handicapType" />
-                <field attributeName="isVeteran" />
+                <field attributeName="veteranFlag" />
                 <field attributeName="veteranType" />
                 <field attributeName="visaCode" />
                 <field attributeName="visaType" />
@@ -61,15 +61,15 @@
                 <field attributeName="primaryTitle" />
                 <field attributeName="directoryTitle" />
                 <field attributeName="homeUnit" />
-                <field attributeName="isFaculty" />
-                <field attributeName="isGraduateStudentStaff" />
-                <field attributeName="isResearchStaff" />
-                <field attributeName="isServiceStaff" />
-                <field attributeName="isSupportStaff" />
-                <field attributeName="isOtherAcademicGroup" />
-                <field attributeName="isMedicalStaff" />
-                <field attributeName="isVacationAccrual" />
-                <field attributeName="isOnSabbatical" />
+                <field attributeName="facultyFlag" />
+                <field attributeName="graduateStudentStaffFlag" />
+                <field attributeName="researchStaffFlag" />
+                <field attributeName="serviceStaffFlag" />
+                <field attributeName="supportStaffFlag" />
+                <field attributeName="otherAcademicGroupFlag" />
+                <field attributeName="medicalStaffFlag" />
+                <field attributeName="vacationAccrualFlag" />
+                <field attributeName="onSabbaticalFlag" />
                 <field attributeName="idProvided" />
                 <field attributeName="idVerified" />
                 <field attributeName="addressLine1" />
@@ -120,9 +120,9 @@
                 <lookupField attributeName="educationLevel" />
                 <lookupField attributeName="degree" />
                 <lookupField attributeName="major" />
-                <lookupField attributeName="isHandicapped" />
+                <lookupField attributeName="handicappedFlag" />
                 <lookupField attributeName="handicapType" />
-                <lookupField attributeName="isVeteran" />
+                <lookupField attributeName="veteranFlag" />
                 <lookupField attributeName="veteranType" />
                 <lookupField attributeName="visaCode" />
                 <lookupField attributeName="visaType" />
@@ -140,15 +140,15 @@
                 <lookupField attributeName="primaryTitle" />
                 <lookupField attributeName="directoryTitle" />
                 <lookupField attributeName="homeUnit" />
-                <lookupField attributeName="isFaculty" />
-                <lookupField attributeName="isGraduateStudentStaff" />
-                <lookupField attributeName="isResearchStaff" />
-                <lookupField attributeName="isServiceStaff" />
-                <lookupField attributeName="isSupportStaff" />
-                <lookupField attributeName="isOtherAcademicGroup" />
-                <lookupField attributeName="isMedicalStaff" />
-                <lookupField attributeName="isVacationAccrual" />
-                <lookupField attributeName="isOnSabbatical" />
+                <lookupField attributeName="facultyFlag" />
+                <lookupField attributeName="graduateStudentStaffFlag" />
+                <lookupField attributeName="researchStaffFlag" />
+                <lookupField attributeName="serviceStaffFlag" />
+                <lookupField attributeName="supportStaffFlag" />
+                <lookupField attributeName="otherAcademicGroupFlag" />
+                <lookupField attributeName="medicalStaffFlag" />
+                <lookupField attributeName="vacationAccrualFlag" />
+                <lookupField attributeName="onSabbaticalFlag" />
                 <lookupField attributeName="idProvided" />
                 <lookupField attributeName="idVerified" />
                 <lookupField attributeName="addressLine1" />
@@ -183,9 +183,9 @@
                 <field attributeName="educationLevel" forceInquiry="false" />
                 <field attributeName="degree" forceInquiry="false" />
                 <field attributeName="major" forceInquiry="false" />
-                <field attributeName="isHandicapped" forceInquiry="false" />
+                <field attributeName="handicappedFlag" forceInquiry="false" />
                 <field attributeName="handicapType" forceInquiry="false" />
-                <field attributeName="isVeteran" forceInquiry="false" />
+                <field attributeName="veteranFlag" forceInquiry="false" />
                 <field attributeName="veteranType" forceInquiry="false" />
                 <field attributeName="visaCode" forceInquiry="false" />
                 <field attributeName="visaType" forceInquiry="false" />
@@ -203,15 +203,15 @@
                 <field attributeName="primaryTitle" forceInquiry="false" />
                 <field attributeName="directoryTitle" forceInquiry="false" />
                 <field attributeName="homeUnit" forceInquiry="false" />
-                <field attributeName="isFaculty" forceInquiry="false" />
-                <field attributeName="isGraduateStudentStaff" forceInquiry="false" />
-                <field attributeName="isResearchStaff" forceInquiry="false" />
-                <field attributeName="isServiceStaff" forceInquiry="false" />
-                <field attributeName="isSupportStaff" forceInquiry="false" />
-                <field attributeName="isOtherAcademicGroup" forceInquiry="false" />
-                <field attributeName="isMedicalStaff" forceInquiry="false" />
-                <field attributeName="isVacationAccrual" forceInquiry="false" />
-                <field attributeName="isOnSabbatical" forceInquiry="false" />
+                <field attributeName="facultyFlag" forceInquiry="false" />
+                <field attributeName="graduateStudentStaffFlag" forceInquiry="false" />
+                <field attributeName="researchStaffFlag" forceInquiry="false" />
+                <field attributeName="serviceStaffFlag" forceInquiry="false" />
+                <field attributeName="supportStaffFlag" forceInquiry="false" />
+                <field attributeName="otherAcademicGroupFlag" forceInquiry="false" />
+                <field attributeName="medicalStaffFlag" forceInquiry="false" />
+                <field attributeName="vacationAccrualFlag" forceInquiry="false" />
+                <field attributeName="onSabbaticalFlag" forceInquiry="false" />
                 <field attributeName="idProvided" forceInquiry="false" />
                 <field attributeName="idVerified" forceInquiry="false" />
                 <field attributeName="addressLine1" forceInquiry="false" />
@@ -394,7 +394,7 @@
             	<description>Major</description>
             </attribute>
 
-            <attributeReference name="isHandicapped" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="handicappedFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Handicapped</label>
                 <shortLabel>Handicapped</shortLabel>
                 <summary>Is Handicapped</summary>
@@ -412,7 +412,7 @@
             	<description>Handicap Type</description>
             </attribute>
 
-            <attributeReference name="isVeteran" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="veteranFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Veteran</label>
                 <shortLabel>Veteran</shortLabel>
                 <summary>Veteran </summary>
@@ -588,63 +588,63 @@
             	<description>Home Unit</description>
             </attribute>
 
-            <attributeReference name="isFaculty" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="facultyFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Faculty</label>
                 <shortLabel>Faculty</shortLabel>
                 <summary>Faculty</summary>
             	<description>Faculty</description>
             </attributeReference>
 
-            <attributeReference name="isGraduateStudentStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="graduateStudentStaffFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Graduate Student Staff</label>
                 <shortLabel>Grad Stud Staff</shortLabel>
                 <summary>Create User </summary>
             	<description>Create User </description>
             </attributeReference>
 
-            <attributeReference name="isResearchStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="researchStaffFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Research Staff</label>
                 <shortLabel>Research Staff</shortLabel>
                 <summary>Is Research Staff</summary>
             	<description>Is Research Staff</description>
             </attributeReference>
 
-            <attributeReference name="isServiceStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="serviceStaffFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Service Staff</label>
                 <shortLabel>Serv Staff</shortLabel>
                 <summary>Is Service Staff</summary>
             	<description>Is Service Staff</description>
             </attributeReference>
 
-            <attributeReference name="isSupportStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="supportStaffFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Support Staff</label>
                 <shortLabel>Supp Staff</shortLabel>
                 <summary>Is Support Staff</summary>
             	<description>Is Support Staff</description>
             </attributeReference>
 
-            <attributeReference name="isOtherAcademicGroup" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="otherAcademicGroupFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Other Academic Group</label>
                 <shortLabel>Is Oth Acad Grp</shortLabel>
                 <summary>Is Other Academic Group</summary>
             	<description>Is Other Academic Group</description>
             </attributeReference>
 
-            <attributeReference name="isMedicalStaff" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="medicalStaffFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Medical Staff</label>
                 <shortLabel>Med Staff</shortLabel>
                 <summary>Is Medical Staff</summary>
             	<description>Is Medical Staff</description>
             </attributeReference>
 
-            <attributeReference name="isVacationAccrual" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="vacationAccrualFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is Vacation Accrual</label>
                 <shortLabel>Vac Accru</shortLabel>
                 <summary>Is Vacation Accrual</summary>
             	<description>Is Vacation Accrual</description>
             </attributeReference>
 
-           <attributeReference name="isOnSabbatical" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+           <attributeReference name="onSabbaticalFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Is on Sabbatical</label>
                 <shortLabel>Sabbatical</shortLabel>
                 <summary>Is on Sabbatical</summary>

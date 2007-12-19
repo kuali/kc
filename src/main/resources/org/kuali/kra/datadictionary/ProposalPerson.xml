@@ -105,11 +105,11 @@
 
             <attributeReference name="major" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="major" />
 
-            <attributeReference name="isHandicapped" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isHandicapped" />
+            <attributeReference name="handicappedFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="handicappedFlag" />
 
             <attributeReference name="handicapType" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="handicapType" />
 
-            <attributeReference name="isVeteran" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isVeteran" />
+            <attributeReference name="veteranFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="veteranFlag" />
 
             <attributeReference name="veteranType" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="veteranType" />
 
@@ -143,23 +143,23 @@
 
             <attributeReference name="homeUnit" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="homeUnit" />
 
-            <attributeReference name="isFaculty" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isFaculty" />
+            <attributeReference name="facultyFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="facultyFlag" />
 
-            <attributeReference name="isGraduateStudentStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isGraduateStudentStaff" />
+            <attributeReference name="graduateStudentStaffFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="graduateStudentStaffFlag" />
 
-            <attributeReference name="isResearchStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isResearchStaff" />
+            <attributeReference name="researchStaffFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="researchStaffFlag" />
 
-            <attributeReference name="isServiceStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isServiceStaff" />
+            <attributeReference name="serviceStaffFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="serviceStaffFlag" />
 
-            <attributeReference name="isSupportStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isSupportStaff" />
+            <attributeReference name="supportStaffFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="supportStaffFlag" />
 
-            <attributeReference name="isOtherAcademicGroup" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isOtherAcademicGroup" />
+            <attributeReference name="otherAcademicGroupFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="otherAcademicGroupFlag" />
 
-            <attributeReference name="isMedicalStaff" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isMedicalStaff" />
+            <attributeReference name="medicalStaffFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="medicalStaffFlag" />
 
-            <attributeReference name="isVacationAccrual" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isVacationAccrual" />
+            <attributeReference name="vacationAccrualFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="vacationAccrualFlag" />
 
-            <attributeReference name="isOnSabbatical" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="isOnSabbatical" />
+            <attributeReference name="onSabbaticalFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="onSabbaticalFlag" />
 
             <attributeReference name="idProvided" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="idProvided" />
 
@@ -181,7 +181,7 @@
 
             <attributeReference name="mobilePhoneNumber" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="mobilePhoneNumber" />
 
-            <attributeReference name="conflictOfInterest" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="conflictOfInterestFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Conflict of Interest</label>
  	            <shortLabel>COI </shortLabel>
  	            <summary>Conflict of interest</summary>
@@ -195,14 +195,14 @@
                 <description>Percentage Effort</description>
             </attributeReference>
 
-            <attributeReference name="fedrDebr" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="fedrDebrFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>FedrDebr</label>
  	            <shortLabel>FedrDebr </shortLabel>
  	            <summary>FedrDebr</summary>
                 <description>FedrDebr</description>
             </attributeReference>
 
-            <attributeReference name="fedrDelq" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+            <attributeReference name="fedrDelqFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>FedrDelq</label>
  	            <shortLabel>FedrDelq</shortLabel>
  	            <summary>FedrDelq</summary>
