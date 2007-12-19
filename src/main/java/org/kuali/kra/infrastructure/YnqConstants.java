@@ -25,7 +25,7 @@ public enum YnqConstants {
     YES_NO_NA("YNX", "Yes,No,N/A"),
     YES_NA("YX", "Yes,N/A"),
     NO_NA("NX", "No,N/A"),
-    NONE(null, "None");
+    NONE("", "None");
 
     private final String code;   
     private final String description; 
