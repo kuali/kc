@@ -159,7 +159,7 @@
 			<shortLabel>Explanation Required For </shortLabel>
 			<maxLength>3</maxLength>
                 <control>
-                    <radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" />
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" />
                 </control>
 			<summary>Explanation Required For </summary>
 			<description>Explanation Required For </description>
@@ -170,7 +170,7 @@
 			<shortLabel>Date Required For </shortLabel>
 			<maxLength>3</maxLength>
                 <control>
-                    <radio valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" />
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.YnqRequiredForValuesFinder" />
                 </control>
 			<summary>Date Required For </summary>
 			<description>Date Required For </description>
