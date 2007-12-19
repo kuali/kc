@@ -479,6 +479,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
      * @return
      */
     private boolean isExcludedMethod(String methodName) {
+        // TODO : getUnit() in UnitAdministrator caused infinite loop.  Excluded it here  ??
         String[] names = { "getUpdateTimestamp",
                            "getUpdateUser",
                            "getProposalNumber",
@@ -488,7 +489,8 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
                            "getNarrativeAuthZService",
                            "getNarrativeService",
                            "getProposalPersonBiographyService",
-                           "getObjectId" };
+                           "getObjectId",
+                           "getUnit"};
         
         for (String name : names) {
             if (methodName.equals(name)) {
