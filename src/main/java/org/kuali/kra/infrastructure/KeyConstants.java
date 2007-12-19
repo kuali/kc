@@ -55,11 +55,13 @@ public class KeyConstants {
     public static final String ERROR_MISSING = "error.missing";
     public static final String ERROR_INVALUD = "error.invalid";
     
+    public static final String ERROR_PERSON_EDITABLE_FIELD_EXISTS = "error.person.editable.field.exists";
+    public static final String ERROR_INVESTIGATOR_CREDIT_TYPE_EXISTS = "error.investigator.credit.type.exists";
+
+    
     //AuthZ Errors
     public static final String ERROR_AUTHORIZATION_DOCUMENT_INITIATION = "error.authorization.document.initiation";
-    
-    public static final String ERROR_PERSON_EDITABLE_FIELD_EXISTS = "error.person.editable.field.exists";
-    
+        
     // proposal ynq errors
     public static final String ERROR_REQUIRED_FOR_EXPLANATION = "error.required.for.explanation";
     public static final String ERROR_REQUIRED_FOR_REVIEW_DATE = "error.required.for.reviewDate";
