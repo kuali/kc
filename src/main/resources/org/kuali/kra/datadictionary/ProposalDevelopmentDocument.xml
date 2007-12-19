@@ -60,7 +60,7 @@
                 <label>Project Title</label>
                 <shortLabel>Title</shortLabel>
 
-                <maxLength>500</maxLength>
+                <maxLength>150</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <required>true</required>
