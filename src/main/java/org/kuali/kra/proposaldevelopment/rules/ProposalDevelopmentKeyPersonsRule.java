@@ -53,17 +53,17 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.23 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
 
     /**
-     * @see ResearchDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)lin-long
+     * @see ResearchDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        return true;
+            return processSaveKeyPersonBusinessRules((ProposalDevelopmentDocument) document);
     }
 
     /**
@@ -78,7 +78,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         int pi_cnt = 0;
         for (ProposalPerson person : document.getProposalPersons()) {
             if (isPrincipalInvestigator(person)) {
-                pi_cnt = 0;
+                pi_cnt++;
             }
             
             int personIndex = 0;
@@ -90,7 +90,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             }
         }
 
-        if (pi_cnt < 2) {
+        if (pi_cnt > 1) {
             retval = false;
             reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);            
         }        
