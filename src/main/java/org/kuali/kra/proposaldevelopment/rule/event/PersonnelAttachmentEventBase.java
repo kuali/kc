@@ -64,7 +64,7 @@ public abstract class PersonnelAttachmentEventBase extends KraDocumentEventBase 
     }
 
     /**
-     * Logs the event type and some information about the associated proposal person 
+     * Logs the event type and some information about the associated proposal person  bio
      */
     protected void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
