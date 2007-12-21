@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_D
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,12 @@ public class KraServiceLocatorTest extends KraTestBase {
 
     @Test public void testProposalDevelopmentParameters() throws Exception {
         KualiConfigurationService configService = (KualiConfigurationService)KraServiceLocator.getService(KualiConfigurationService.class);
-        Map<String, Parameter> parameters = configService.getParametersByDetailTypeAsMap(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT);
+
+        Map<String, String> criteria = new HashMap<String, String>(2);
+        criteria.put("parameterNamespaceCode", PARAMETER_MODULE_PROPOSAL_DEVELOPMENT);
+        criteria.put("parameterDetailTypeCode", PARAMETER_COMPONENT_DOCUMENT);
+
+        List parameters = configService.getParameters(criteria);
         assertNotNull(parameters);
         assertEquals(13, parameters.size());
     }

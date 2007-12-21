@@ -67,11 +67,11 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         this.updateUser = updateUser;
     }
 
-    public void setProposalNextvalues(List<DocumentNextvalue> documentNextvalues) {
+    public void setDocumentNextvalues(List<DocumentNextvalue> documentNextvalues) {
         this.documentNextvalues = documentNextvalues;
     }
 
-    public List<DocumentNextvalue> getProposalNextvalues() {
+    public List<DocumentNextvalue> getDocumentNextvalues() {
         return documentNextvalues;
     }
 
@@ -93,7 +93,7 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
             
             documentNextvalues.add(documentNextvalue);
         }
-        setProposalNextvalues(documentNextvalues);
+        setDocumentNextvalues(documentNextvalues);
         return propNextValue;
     }
 
