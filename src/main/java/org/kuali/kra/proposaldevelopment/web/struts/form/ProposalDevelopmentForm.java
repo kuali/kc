@@ -32,6 +32,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.bo.PersonEditableField;
@@ -98,7 +99,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
 
     /**
-     * 
+     *
      * This method initialize all form variables
      */
     public void initialize() {
@@ -127,6 +128,12 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         ProposalDevelopmentDocument proposalDevelopmentDocument=getProposalDevelopmentDocument();
 
         proposalDevelopmentDocument.refreshReferenceObject("sponsor");
+
+		// Temporary hack for KRACOEUS-489
+        if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) getActionFormUtilMap()).setCacheValueFinderResults(false);
+        }
+
     }
 
 
@@ -148,22 +155,22 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public void setNewPropSpecialReview(ProposalSpecialReview newPropSpecialReview) {
         this.newPropSpecialReview = newPropSpecialReview;
     }
-    
+
     /**
      * Gets the new proposal abstract.  This is the abstract filled
      * in by the user on the form before pressing the add button. The
      * abstract can be invalid if the user has not specified an abstract type.
-     * 
+     *
      * @return the new proposal abstract
      */
     public ProposalAbstract getNewProposalAbstract() {
         return newProposalAbstract;
     }
-    
+
     /**
      * Sets the new proposal abstract.  This is the abstract that will be
      * shown to the user on the form.
-     * 
+     *
      * @param newProposalAbstract
      */
     public void setNewProposalAbstract(ProposalAbstract newProposalAbstract) {
@@ -186,7 +193,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
        //     this.setTabStates(new HashMap<String, String>());
         this.setCurrentTabIndex(0);
 
-        
+
         ProposalDevelopmentDocument proposalDevelopmentDocument = this.getProposalDevelopmentDocument();
         List<PropScienceKeyword> keywords = proposalDevelopmentDocument.getPropScienceKeywords();
         for(int i=0; i<keywords.size(); i++) {
@@ -285,7 +292,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      * @return the value of newProposalPersonDegree
      */
     public List<ProposalPersonDegree> getNewProposalPersonDegree() {
-        
+
         if (this.getProposalDevelopmentDocument().getProposalPersons().size() > this.newProposalPersonDegree.size()) {
             this.newProposalPersonDegree.add(this.newProposalPersonDegree.size(),new ProposalPersonDegree());
         }
@@ -329,7 +336,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
 
     /**
-     * Gets the newNarrative attribute. 
+     * Gets the newNarrative attribute.
      * @return Returns the newNarrative.
      */
     public Narrative getNewNarrative() {
@@ -358,7 +365,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public boolean isShowMaintenanceLinks(){
         return showMaintenanceLinks;
     }
-    
+
     public void setShowMaintenanceLinks(boolean showMaintenanceLinks) {
         this.showMaintenanceLinks = showMaintenanceLinks;
     }
@@ -366,15 +373,15 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
+
     /**
      * Creates the list of <code>{@link PersonEditableField}</code> field names.
      */
     public void populatePersonEditableFields() {
         LOG.debug("Adding PersonEditableFields");
-        
+
         setPersonEditableFields(new HashMap());
-        
+
         Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
         for (PersonEditableField field : fields) {
             LOG.debug("found field " + field.getFieldName());
@@ -384,17 +391,17 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
     /**
      * Write access to <code>{@link Map}</code> containing persisted <code>{@link PersonEditableField}</code> BO instances.
-     * 
+     *
      * @param fields
      */
     public void setPersonEditableFields(Map fields) {
         personEditableFields = fields;
-    }    
+    }
 
     /**
      * Get persisted <code>{@link PersonEditableField}</code> BO instances as a <code>{@link Map}</code>. If the <code>{@link Map}</code> containing them is
      *  <code>null</code>, then it gets populated here.
-     * 
+     *
      * @return Map containing person editable fields
      */
     public Map getPersonEditableFields() {
@@ -403,7 +410,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         }
         return personEditableFields;
     }
-    
+
     public Map getCreditSplitTotals() {
         return getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());
     }
@@ -438,7 +445,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
 
     /**
-     * Gets the auditActivated attribute. 
+     * Gets the auditActivated attribute.
      * @return Returns the auditActivated.
      */
     public boolean isAuditActivated() {
@@ -448,12 +455,12 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private KeyPersonnelService getKeyPersonnelService() {
         return getService(KeyPersonnelService.class);
     }
-    
+
     /**
      * Gets the Copy Criteria for copying a proposal development document.
      * The criteria is user-specified and controls the operation of the
      * copy.
-     * 
+     *
      * @return the proposal copy criteria
      */
     public ProposalCopyCriteria getCopyCriteria() {
@@ -464,28 +471,28 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      * Sets the Copy Criteria for copying a proposal development document.
      * The criteria is user-specified and controls the operation of the
      * copy.
-     * 
+     *
      * @param copyCriteria the new proposal copy criteria
      */
     public void setCopyCriteria(ProposalCopyCriteria copyCriteria) {
         this.copyCriteria = copyCriteria;
     }
-    
+
     /**
      * Determines if attachments can be copied.
-     * 
+     *
      * @return true if copying attachments is disabled; otherwise false.
      */
     public boolean getIsCopyAttachmentsDisabled() {
         ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
-        return !(doc.getNarratives().size() > 0 || 
+        return !(doc.getNarratives().size() > 0 ||
             doc.getInstitutes().size() > 0 ||
             doc.getPropPersonBios().size() > 0);
     }
-    
+
     /**
      * This method...
-     * 
+     *
      * @return true if copying budget(s) is disabled; otherwise false.
      */
     public boolean getIsCopyBudgetDisabled() {
