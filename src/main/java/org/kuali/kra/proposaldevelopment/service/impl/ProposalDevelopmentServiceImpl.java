@@ -15,26 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.metadata.ClassDescriptor;
-import org.apache.ojb.broker.metadata.CollectionDescriptor;
-import org.apache.ojb.broker.metadata.ObjectReferenceDescriptor;
-import org.apache.ojb.broker.metadata.fieldaccess.PersistentField;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.impl.PersistenceServiceStructureImplBase;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
@@ -45,7 +32,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.UserRoleService;
-import org.kuali.rice.KNSServiceLocator;
 
 // TODO : extends PersistenceServiceStructureImplBase  is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
