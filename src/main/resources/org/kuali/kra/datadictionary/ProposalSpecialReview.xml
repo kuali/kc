@@ -111,7 +111,7 @@
  				<required>false</required>
 
                 <summary>The date the PI submitted a protocol/request for permission to the relevant institutional committee/person</summary>
-                <description>Application Date</description>
+                <description>The date the PI submitted a protocol/request for permission to the relevant institutional committee/person</description>
       		</attributeReference>
 
             <attributeReference name="approvalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
@@ -121,7 +121,7 @@
  				<required>false</required>
 
                 <summary>The date the protocol/request for permission was approved by the relevant institutional committee/person</summary>
-                <description>Approval Date</description>
+                <description>The date the protocol/request for permission was approved by the relevant institutional committee/person</description>
       		</attributeReference>
 
 
@@ -135,7 +135,7 @@
                     <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.SpecialReviewApprovalTypeValuesFinder" />
 			</control>
 			<summary>Approval Type Code </summary>
-			<description>Approval Type Code </description>
+			<description>The approval status indicates if the special review relevant to the document (proposal/award/irb) is pending approval, or already approved. </description>
 			</attribute>
 
 			<attribute name="comments">
@@ -148,19 +148,19 @@
 				<textarea cols="20" rows="3"  />
 			</control>
 			<summary>Comments </summary>
-			<description>Comments </description>
+			<description>This field allows the user to enter comments relevant to special review.</description>
 			</attribute>
 
 			<attribute name="protocolNumber">
-			<label>Protocol # </label>
-			<shortLabel>Protocol # </shortLabel>
+			<label>Protocol ID </label>
+			<shortLabel>Protocol ID </shortLabel>
 			<maxLength>20</maxLength>
 			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 			<control>
 				<text size="20" />
 			</control>
 			<summary>Protocol Number </summary>
-			<description>Protocol Number </description>
+			<description> The protocol # is the number assigned to the protocol submitted by the PI to the institution’s relevant committee (e.g. IACUC, IRB, etc.). </description>
 			</attribute>
 
 			<attribute name="specialReviewCode">
@@ -173,7 +173,7 @@
                     <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.SpecialReviewValuesFinder" />
 			</control>
 			<summary>Special Review Code </summary>
-			<description>Special Review Code </description>
+			<description>The type indicates which special review, if any, is relevant to the document (proposal/award/irb).</description>
 			</attribute>
 
 		</attributes>
