@@ -89,7 +89,7 @@
 					<c:choose>
 					<c:when test="${dateRequired == 'No'}">
                     	<kul:htmlControlAttribute property="${iproposalYnq}.reviewDate" attributeEntry="${reviewDateAttribute}" disabled="true"/>
-						<html:image src='${ConfigProperties.kra.externalizable.images.url}cal1.gif' />
+      					<img class="nobord" src='${ConfigProperties.kra.externalizable.images.url}cal1.gif' />
 					</c:when>
 					<c:when test="${dateRequired == 'Yes'}">
 						<c:set var="styleClass" value=""/>
