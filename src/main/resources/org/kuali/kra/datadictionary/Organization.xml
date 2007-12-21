@@ -249,7 +249,7 @@
 				<text size="50" />
 			</control>
 			<summary>Congressional District </summary>
-			<description>Congressional District </description>
+			<description>This field represents the "applicant" congressional district </description>
 			</attribute>
 
 			<attribute name="contactAddressId">
