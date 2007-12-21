@@ -75,7 +75,7 @@
 				<text size="60" />
 			</control>
 			<summary>Location Name</summary>
-			<description>Location Name</description>
+			<description>This field is synonymous with "project site" or "performing site."  It is used to identify all performance locations, as well as subcontractor locations.</description>
 			</attribute>
 
 			<attribute name="proposalNumber">
