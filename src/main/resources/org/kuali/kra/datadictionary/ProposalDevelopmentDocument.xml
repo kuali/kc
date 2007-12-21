@@ -401,7 +401,7 @@
                 </control>
 
                 <summary>Mail By</summary>
-                <description>Mail By</description>
+                <description>This field determines whether the Sponsored Programs Office or the department will be mailing the proposal to the agency/sponsor.</description>
 			</attribute>
 
             <attribute name="mailType">
@@ -418,7 +418,7 @@
                 </control>
 
                 <summary>Mail Type</summary>
-                <description>Mail Type</description>
+                <description>The method by which the proposal will be delivered to the agency/sponsor.</description>
 			</attribute>
 			<attribute name="mailAccountNumber">
 				<label>Mail Account ID</label>
@@ -434,7 +434,7 @@
 				</control>
 
 				<summary>Mail Account ID</summary>
-				<description>Mail Account ID</description>
+				<description>The internal school account number that should be charged the mailing costs.</description>
 			</attribute>
 			<attribute name="numberOfCopies">
 				<label>Number of Copies</label>
@@ -450,7 +450,7 @@
 				</control>
 
 				<summary>Number of Copies</summary>
-				<description>Number of Copies</description>
+				<description>The number of paper copies of the proposal that should be mailed to the agency/sponsor.</description>
 			</attribute>
 			<!-- TODO: This is an integer, but lookup return the name and address -->
 			<attribute name="mailingAddressId">
@@ -467,7 +467,7 @@
 				</control>
 
 				<summary>Mailing Name And Address</summary>
-				<description>Mailing Name And Address</description>
+				<description>The name and address to whom the proposal will be mailed.</description>
 			</attribute>
             <attribute name="mailDescription">
                 <label>Mail Description</label>
@@ -483,7 +483,7 @@
                 </control>
 
                 <summary>Mail Description</summary>
-                <description>Mail Description</description>
+                <description>Any information that will assist in the delivery of the proposal.</description>
 			</attribute>
 
 <!--  organization/location -->
@@ -501,7 +501,7 @@
 				</control>
 
 				<summary>Organization and contact info</summary>
-				<description>Organization and contact info</description>
+				<description>This field is the Name of the official authorized applicant institution/unit. </description>
 			</attribute>
             <attribute name="performingOrganizationId">
                 <label>Performing Organization</label>
@@ -515,7 +515,7 @@
                 </control>
 
                 <summary>performingOrganizationId</summary>
-                <description>performingOrganizationId</description>
+                <description>This field is the name of the institution(s) in which the main project effort will take place.  </description>
 			</attribute>
 
 <!--
