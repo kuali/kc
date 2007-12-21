@@ -28,6 +28,10 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocumentRuleBase implements AddPersonnelAttachmentRule {
     private static final String NEW_PROP_PERSON_BIO = "newPropPersonBio";
 
+    /**
+     * rules to check documenttype/filename/description/person are selected or entered for personnel attachment.
+     * @see org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule#processAddPersonnelAttachmentBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent)
+     */
     public boolean processAddPersonnelAttachmentBusinessRules(AddPersonnelAttachmentEvent addPersonnelAttachmentEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)addPersonnelAttachmentEvent.getDocument();
         ProposalPersonBiography proposalPersonBiography = addPersonnelAttachmentEvent.getProposalPersonBiography();

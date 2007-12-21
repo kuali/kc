@@ -109,7 +109,7 @@
 					<text size="12" />
 				</control>
 			<summary>Proposal Number </summary>
-			<description>Proposal Number </description>
+			<description>The unique proposal number identifying a proposal. This is a system generated, sequential number. </description>
 			</attribute>
 
 			<attribute name="biographyData">

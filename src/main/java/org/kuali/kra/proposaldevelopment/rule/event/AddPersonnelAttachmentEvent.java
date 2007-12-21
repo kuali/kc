@@ -30,7 +30,7 @@ public class AddPersonnelAttachmentEvent extends PersonnelAttachmentEventBase{
      * @param proposalPersonBiography
      */
     public AddPersonnelAttachmentEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPersonBiography proposalPersonBiography) {
-        super("adding narrative to document " + getDocumentId(document), errorPathPrefix, document, proposalPersonBiography);
+        super("adding personnel attachment to document " + getDocumentId(document), errorPathPrefix, document, proposalPersonBiography);
     }
 
     /**

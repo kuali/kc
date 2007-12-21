@@ -194,7 +194,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     public ActionForward auditMode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         if (proposalDevelopmentForm.isAuditActivated()) {
-            KNSServiceLocator.getBean(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
+            getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
         }
          return mapping.findForward("auditMode");
     }
