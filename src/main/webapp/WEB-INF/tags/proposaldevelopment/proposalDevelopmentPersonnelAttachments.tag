@@ -109,12 +109,10 @@
 	                    ${propPersonBio.propPerDocType.description}          	
 					</td>
 	                <td>
-	                	<!-- ${propPersonBio.description} -->
-	                	<kul:htmlControlAttribute property="document.propPersonBio[${status.index}].description" readOnly="true" attributeEntry="${propPersonBioAttributes.description}" /> 
+	                	${propPersonBio.description} 
 					</td>
 	                <td>
 	                    ${propPersonBio.fileName}
-	                    <!--  <kul:htmlControlAttribute property="document.propPersonBio[${status.index}].fileName" readOnly="true" attributeEntry="${propPersonBioAttributes.fileName}" /> -->
 	                </td>
 	                <td>
 					<div align=center>

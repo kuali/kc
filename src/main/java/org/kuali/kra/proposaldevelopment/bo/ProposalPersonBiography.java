@@ -8,6 +8,10 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.PropPerDocType;
 
+/**
+ * 
+ * This is bo for eps_prop_person_bio.
+ */
 public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
 
 	private Integer proposalPersonNumber;

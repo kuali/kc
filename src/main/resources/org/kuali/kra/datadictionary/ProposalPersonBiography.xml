@@ -21,7 +21,7 @@
     <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography">
 
         <inquiry>
-            <title>Prop Person Bio</title>
+            <title>Proposal Person Biography</title>
 
             <inquirySections><inquirySection title="Prop Person Bio"><inquiryFields>
             	<field attributeName="proposalPersonNumber" forceInquiry="true"/>
@@ -89,7 +89,7 @@
 				<text size="12" />
 			</control>
 			<summary>Proposal Person Number </summary>
-			<description>Proposal Person Number </description>
+			<description>This field is auto-populated with the names of the individuals listed in the key personnel section of the proposal.</description>
 			</attribute>
 	        <attribute name="biographyNumber">
 			<label>Biography Number </label>
@@ -137,7 +137,7 @@
 					<text size="12" />
 				</control>
 			<summary>Proposal Number </summary>
-			<description>Proposal Number </description>
+			<description>The unique proposal number identifying a proposal. This is a system generated, sequential number. </description>
 			</attribute>
 
 			<attribute name="description">
@@ -163,21 +163,14 @@
                     <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.PropPerDocTypeValuesFinder" />
 			</control>
 			<summary>Document Type Code </summary>
-			<description>Document Type Code </description>
+			<description>This field contains a list of personnel attachment types </description>
 			</attribute>
-			<attribute name="updateUser">
+            <attributeReference name="updateUser" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="updateUser" >
 				<label>Uploaded By</label>
 				<shortLabel>Uploaded By</shortLabel>
-				<maxLength>20</maxLength>
-				<validationPattern>
-					<anyCharacter />
-				</validationPattern>
-				<control>
-					<text size="20" />
-				</control>
 				<summary>User who uploads the document</summary>
 				<description>User who uploads the document</description>
-			</attribute>
+			</attributeReference>
 			<attributeReference name="updateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
 				<label>Posted Timestamp</label>
 				<shortLabel>Posted Timestamp</shortLabel>
@@ -199,7 +192,7 @@
 				</control>
 
 				<summary>Prop per doc type description</summary>
-				<description>description</description>
+				<description>Proposal person document type description</description>
 			</attribute>
 			<attribute name="fileName">
 			<label>File Name </label>
@@ -212,21 +205,11 @@
 				<text size="150" />
 			</control>
 			<summary>File Name </summary>
-			<description>File Name </description>
+			<description>This is the name of the file path and name that the user is uploading; can be typed in or the user can use the “browse” feature to find the file on their computer or attached mass storage device</description>
 			</attribute>
 
 		</attributes>
 
-		<relationships>
-			<relationship objectAttributeName="propPerDocType">
-				<primitiveAttribute
-					sourceName="documentTypeCode"
-					targetName="documentTypeCode" />
-				<supportAttribute sourceName="propPerDocType.description"
-					targetName="description" />
-			</relationship>
-		</relationships>
-		
 		
     </businessObject>
 

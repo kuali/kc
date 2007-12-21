@@ -93,17 +93,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         // rice should look into this problem ?
         // The '.documentBusinessObject.' is filtered out in validateDocumentRecursively for now.
         getService(DocumentValidationService.class).validateDocumentRecursively(proposalDevelopmentDocument,10);
-//        List errorList = new ArrayList();
-//        for (Iterator iter = GlobalVariables.getErrorMap().keySet().iterator(); iter.hasNext();) {
-//            String property = (String) iter.next();
-//            if (StringUtils.contains(property, ".documentBusinessObject.")) {
-//               errorList.add(property);
-//            }
-//
-//        }
-//        for (Iterator iterator = errorList.iterator(); iterator.hasNext();) {
-//            GlobalVariables.getErrorMap().remove(iterator.next());
-//        }
+
 
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);

@@ -25,8 +25,8 @@ import org.kuali.RiceConstants;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.action.AuditModeAction;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class implements the activate and deactivate action methods for Audit Mode.
@@ -41,7 +41,7 @@ public class ProposalDevelopmentAuditModeAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.setAuditActivated(true);
 
-        KNSServiceLocator.getBean(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
+        KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
 
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }

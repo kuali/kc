@@ -75,6 +75,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     private static final String EMPTY_STRING = "";
     private static final String MODULE_NUMBER = "moduleNumber";
     private static final String PROPOSAL_NUMBER = "proposalNumber";
+    private static final String PROPOSAL_PERSON_NUMBER = "proposalPersonNumber";
+    private static final String BIOGRAPHY_NUMBER = "biographyNumber";
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAbstractsAttachmentsAction.class);
     private static final String LINE_NUMBER = "line";
     private static final String CONFIRM_DELETE_ABSTRACT_KEY = "confirmDeleteAbstract";
@@ -401,7 +403,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * Adds a personnel attachment.
      * 
      * Move the new attachment from the form 
-     * into the document's list of personnelbiographyattachment.  The form's abstract
+     * into the document's list of personnelbiographyattachment.  The form's newpersonbio
      * is then cleared for the next personnel attachment to be added.
      * 
      * @param mapping The mapping associated with this action.
@@ -420,7 +422,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             proposalDevelopmentForm.setNewPropPersonBio(new ProposalPersonBiography());
         } 
 
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -438,7 +440,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     public ActionForward deletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().deleteProposalPersonBiography(getLineToDelete(request));
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -460,8 +462,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalPersonBiography propPersonBio = pd.getPropPersonBios().get(lineNumber);
         Map<String,Integer> propPersonBioAttVal = new HashMap<String,Integer>();
         propPersonBioAttVal.put(PROPOSAL_NUMBER, propPersonBio.getProposalNumber());
-        propPersonBioAttVal.put("biographyNumber", propPersonBio.getBiographyNumber());
-        propPersonBioAttVal.put("proposalPersonNumber", propPersonBio.getProposalPersonNumber());
+        propPersonBioAttVal.put(BIOGRAPHY_NUMBER, propPersonBio.getBiographyNumber());
+        propPersonBioAttVal.put(PROPOSAL_PERSON_NUMBER, propPersonBio.getProposalPersonNumber());
         ProposalPersonBiographyAttachment propPersonBioAttachment = (ProposalPersonBiographyAttachment)getBusinessObjectService().findByPrimaryKey(ProposalPersonBiographyAttachment.class, propPersonBioAttVal);
         if(propPersonBioAttachment==null && !propPersonBio.getPersonnelAttachmentList().isEmpty()){//get it from the memory
             propPersonBioAttachment = propPersonBio.getPersonnelAttachmentList().get(0);

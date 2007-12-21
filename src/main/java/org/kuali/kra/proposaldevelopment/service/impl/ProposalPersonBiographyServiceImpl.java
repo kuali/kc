@@ -16,11 +16,10 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.PropPerDocType;
@@ -42,11 +41,6 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
     public void addProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument,
             ProposalPersonBiography proposalPersonBiography) {
         proposalPersonBiography.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
-        // user & timestamp will be updated by KraPersistableBusinessObjectBase before save
-        // proposalPersonBiography.setUpdateUser(proposaldevelopmentDocument.getUpdateUser());
-       // proposalPersonBiography.setUpdateTimestamp(proposaldevelopmentDocument.getUpdateTimestamp());
-        //proposalPersonBiography.setBiographyNumber(getNextBioNumber(proposaldevelopmentDocument));
-        // nextval will not be increased until a document 'save' is executed
         proposalPersonBiography.setBiographyNumber(proposaldevelopmentDocument
                 .getProposalNextValue(Constants.PROP_PERSON_BIO_NUMBER));
         proposalPersonBiography.setPropPerDocType(new PropPerDocType());
@@ -77,11 +71,12 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         catch (Exception e) {
             proposalPersonBiography.getPersonnelAttachmentList().clear();
         }
-        // initially, the proposal# is not set up. Set it here, so save will be OK.
         DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalue(Constants.PROP_PERSON_BIO_NUMBER);
         documentNextvalue.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
-        getBusinessObjectService().save(documentNextvalue);
-        getBusinessObjectService().save(proposalPersonBiography);
+        List<BusinessObject> businessObjects = new ArrayList<BusinessObject>();
+        businessObjects.add(documentNextvalue);
+        businessObjects.add(proposalPersonBiography);
+        getBusinessObjectService().save(businessObjects);
         proposalPersonBiography.getPersonnelAttachmentList().clear();
         proposaldevelopmentDocument.getPropPersonBios().add(proposalPersonBiography);
 
@@ -99,7 +94,6 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         for (ProposalPersonBiography proposalPersonBiography : proposaldevelopmentDocument.getPropPersonBios()) {
             if (proposalPersonBiography.getProposalPersonNumber().equals(person.getProposalPersonNumber())) {
                 personAttachments.add(proposalPersonBiography);
-                getBusinessObjectService().delete(proposalPersonBiography);
             }
 
         }
@@ -120,6 +114,13 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
 
     }
 
+    /**
+     * 
+     * This method find the matched person in key person list
+     * @param proposaldevelopmentDocument
+     * @param proposalPersonNumber
+     * @return
+     */
     private ProposalPerson getPerson(ProposalDevelopmentDocument proposaldevelopmentDocument, Integer proposalPersonNumber) {
         for (ProposalPerson person : proposaldevelopmentDocument.getProposalPersons()) {
             if (proposalPersonNumber.equals(person.getProposalPersonNumber())) {
