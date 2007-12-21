@@ -60,11 +60,10 @@ public class AbstractTypeValuesFinder extends KeyValuesBase {
     public List<KeyLabelPair> getKeyValues() {
         ProposalDevelopmentDocument doc = getDocument();
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection abstractTypes = keyValuesService.findAll(AbstractType.class);
+        Collection<AbstractType> abstractTypes = keyValuesService.findAll(AbstractType.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select:"));
-        for (Iterator iter = abstractTypes.iterator(); iter.hasNext();) {
-            AbstractType abstractType = (AbstractType) iter.next();
+        for (AbstractType abstractType : abstractTypes) {
             if (!hasAbstract(doc, abstractType)) {
                 keyValues.add(new KeyLabelPair(abstractType.getAbstractTypeCode(), abstractType.getDescription()));
             }
