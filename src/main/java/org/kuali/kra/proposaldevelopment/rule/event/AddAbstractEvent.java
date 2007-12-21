@@ -30,7 +30,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class AddAbstractEvent extends KraDocumentEventBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NarrativeEventBase.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AddAbstractEvent.class);
     
     private ProposalAbstract proposalAbstract;
     
