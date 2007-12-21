@@ -5,6 +5,10 @@ import java.util.LinkedHashMap;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This bo for eps_prop_person_bio_attachment
+ */
 public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
 
 	private Integer proposalPersonNumber;
