@@ -14,7 +14,7 @@ function selectAllKeywords(document) {
 	}
 }
 
-function textAreaPop(text,textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument){
+function textAreaPop(textAreaName,htmlFormAction,textAreaLabel,docFormKey, sessionDocument){
   var documentWebScope
   if (sessionDocument == "true") {
       documentWebScope="session"
@@ -24,8 +24,9 @@ function textAreaPop(text,textAreaName,htmlFormAction,textAreaLabel,docFormKey, 
   idx1=url.indexOf(pathname);
   idx2=url.indexOf("/",idx1+1);
   extractUrl=url.substr(0,idx2)
-  text=text.replace(/\n/g,'<br>');
-  window.open(extractUrl+"/updateTextArea.do?" + text+"&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
+  //text=text.replace(/\n/g,'<br>');
+  //window.open(extractUrl+"/updateTextArea.do?" + text+"&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
+  window.open(extractUrl+"/updateTextArea.do?&textAreaFieldName="+textAreaName+"&htmlFormAction="+htmlFormAction+"&textAreaFieldLabel="+textAreaLabel+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "_blank", "width=640, height=600, scrollbars=yes");
 }
 
 var textAreaFieldName
@@ -34,9 +35,11 @@ function setTextArea() {
   var idx=passData.indexOf("&textAreaFieldName=")
   var idx2=passData.indexOf("&htmlFormAction=")
   textAreaFieldName=passData.substring(idx+19,idx2)
-  text=passData.substr(0,idx)
-  text=unescape(text).replace(/<br>/g,"\n")
-  document.getElementById(textAreaFieldName).value =unescape(text)
+  text = window.opener.document.getElementById(textAreaFieldName).value;
+  //text=passData.substr(0,idx)
+  //text=unescape(text).replace(/<br>/g,"\n")
+  document.getElementById(textAreaFieldName).value = text;
+  
 //  alert (escape(text))
 //  alert (unescape(text))
 
