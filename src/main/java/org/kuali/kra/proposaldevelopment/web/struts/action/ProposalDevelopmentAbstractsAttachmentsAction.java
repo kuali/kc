@@ -486,7 +486,6 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Narrative narrative = proposalDevelopmentForm.getNewInstitute();
-        narrative.setNarrativeTypeCode(narrative.getInstitutionalAttachmentTypeCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         if(getKualiRuleService().applyRules(new AddInstituteAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
             proposalDevelopmentDocument.addInstituteAttachment(narrative);

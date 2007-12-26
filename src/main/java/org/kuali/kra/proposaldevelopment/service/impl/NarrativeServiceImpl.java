@@ -158,14 +158,10 @@ public class NarrativeServiceImpl implements NarrativeService {
      */
     public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative institute) {
         institute.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
-//        institute.setModuleNumber(proposaldevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_NUMBER));
-//        institute.setModuleSequenceNumber(proposaldevelopmentDocument.getProposalNextValue(NARRATIVE_MODULE_SEQUENCE_NUMBER));
         institute.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
         institute.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
-        updateUserTimestamp(institute);
         institute.setModifyAttachment(true);
         institute.refreshReferenceObject("narrativeType");
-        institute.refreshReferenceObject("narrativeStatus");
         institute.populateAttachment();
         getBusinessObjectService().save(institute);
         institute.clearAttachment();

@@ -27,10 +27,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 
+/**
+ * 
+ * This class is BO for narrarive
+ */
 public class Narrative extends KraPersistableBusinessObjectBase {
     private Integer proposalNumber;
     private Integer moduleNumber;
@@ -216,12 +219,26 @@ public class Narrative extends KraPersistableBusinessObjectBase {
         this.fileName = fileName;
     }
 
+    /**
+     * 
+     * This method is to return institutional attachment type.  This column does not exist in table.
+     * Basically, it is for narrativetypecode in table. 
+     * @return
+     */
     public String getInstitutionalAttachmentTypeCode() {
-        return institutionalAttachmentTypeCode;
+        //return institutionalAttachmentTypeCode;
+        return narrativeTypeCode;
     }
 
+    /**
+     * 
+     * This method set the institutional attachment type.  Since instituteattachmenttypecode is set as 'required' in DD.
+     * So, it also set to narrativetypecode, and hence to return narrative type code.
+     * @param institutionalAttachmentTypeCode
+     */
     public void setInstitutionalAttachmentTypeCode(String institutionalAttachmentTypeCode) {
         this.institutionalAttachmentTypeCode = institutionalAttachmentTypeCode;
+        this.narrativeTypeCode = institutionalAttachmentTypeCode;
     }
 
     /**
