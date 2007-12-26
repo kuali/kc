@@ -55,6 +55,7 @@
       <!--  KRA Proposal Development Mapping -->
       <action path="/proposalDevelopment*" name="ProposalDevelopmentForm" input="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopment{1}.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopment{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopment{1}.jsp" />
+          <forward name="budgetVersions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentBudgetVersions.jsp" />
           <forward name="keyPersonnel" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentKeyPersonnel.jsp" />
           <forward name="questions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentQuestions.jsp" />
           <forward name="proposal" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentProposal.jsp" />
