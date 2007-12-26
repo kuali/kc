@@ -133,6 +133,10 @@
       <reference-descriptor name="ownedByUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
           <foreignkey field-ref="ownedByUnitNumber" />
       </reference-descriptor>
+      
+      <collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+	  	<inverse-foreignkey field-ref="proposalNumber"/>
+	  </collection-descriptor>
 
 	</class-descriptor>
 
@@ -1303,6 +1307,10 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    	
+    	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>
 	<!-- 	<collection-descriptor name="BudgetModular" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetModular" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
@@ -1333,10 +1341,37 @@
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor> -->
 		
-		<reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="proposal" class-ref="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalNumber"/> 
 		</reference-descriptor> 
 		
 	</class-descriptor>
+	
+	<!-- Shared Tables -->
+	<class-descriptor class="org.kuali.kra.budget.bo.BudgetVersionOverview" table="BUDGET">
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="budgetVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="finalVersionFlag" column="FINAL_VERSION_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="ohRateTypeCode" column="OH_RATE_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="residualFunds" column="RESIDUAL_FUNDS" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="totalCost" column="TOTAL_COST" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="totalCostLimit" column="TOTAL_COST_LIMIT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="totalDirectCost" column="TOTAL_DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="totalIndirectCost" column="TOTAL_INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    	<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
+    	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    	
+    	<reference-descriptor name="documentHeader" proxy="true" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="false" auto-delete="false">
+        	<foreignkey field-ref="documentNumber" />
+    	</reference-descriptor>
+    </class-descriptor>
     
 </descriptor-repository>

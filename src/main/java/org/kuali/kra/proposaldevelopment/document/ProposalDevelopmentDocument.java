@@ -17,24 +17,27 @@ package org.kuali.kra.proposaldevelopment.document;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
+import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.Ynq;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.YnqConstants;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -52,6 +55,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.service.YnqService;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
     
     private Integer proposalNumber;
     private String proposalTypeCode;
@@ -110,6 +114,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     private List<ProposalYnq> proposalYnqs;
     private List<YnqGroupName> ynqGroupNames;
+    private List<BudgetVersionOverview> budgetVersionOverviews;
 
     public ProposalDevelopmentDocument() {
         super();
@@ -126,7 +131,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         propPersonBios = new ArrayList<ProposalPersonBiography>();
         proposalYnqs = new ArrayList<ProposalYnq>();
         ynqGroupNames = new ArrayList<YnqGroupName>();
-
+        budgetVersionOverviews = new TypedArrayList(BudgetVersionOverview.class);
     }
 
     public void initialize() {
@@ -1084,7 +1089,41 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         return getService(YnqService.class);
     }
 
+    public List<BudgetVersionOverview> getBudgetVersionOverviews() {
+        return budgetVersionOverviews;
+    }
 
-
+    public void setBudgetVersionOverviews(List<BudgetVersionOverview> budgetVersionOverviews) {
+        this.budgetVersionOverviews = budgetVersionOverviews;
+    }
     
+    /**
+     * Gets index i from the budget versions list.
+     * 
+     * @param index
+     * @return BudgetVersionOverview at index i
+     */
+    public BudgetVersionOverview getBudgetVersionOverview(int index) {
+        while (getBudgetVersionOverviews().size() <= index) {
+            getBudgetVersionOverviews().add(new BudgetVersionOverview());
+        }
+        return (BudgetVersionOverview) getBudgetVersionOverviews().get(index);
+    }
+    
+    public void addNewBudgetVersion(BudgetDocument budgetDocument) {
+        BudgetVersionOverview budgetVersion = new BudgetVersionOverview();
+        try {
+            PropertyUtils.copyProperties(budgetVersion, budgetDocument);
+        } catch (NoSuchMethodException e) {
+            LOG.error("NoSuchMethodException copying properties: " + e);
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            LOG.error("IllegalAccessException copying properties: " + e);
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            LOG.error("InvocationTargetException copying properties: " + e);
+            throw new RuntimeException(e);
+        }
+        this.budgetVersionOverviews.add(budgetVersion);
+    }
 }

@@ -15,8 +15,29 @@
  */
 package org.kuali.kra.budget.document.authorization;
 
+import java.util.Map;
+
+import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 
 public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+    
+    /**
+     * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.KualiUser)
+     */
+    @Override
+    public Map getEditMode(Document d, UniversalUser u) {
+        Map editModeMap = super.getEditMode(d, u);
+        // For now if they can access they can edit (even in Final mode) - will change when roles come along.
+        if (hasInitiateAuthorization(d, u)) {
+            String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+            editModeMap.put(editMode, "TRUE");
+        }
+        
+        return editModeMap;
+    }
 
 }
