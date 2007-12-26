@@ -47,18 +47,10 @@ public class BudgetForm extends KualiTransactionalDocumentFormBase {
         return (BudgetDocument) this.getDocument();
     }
 
-    /* Reset method
-     * @param mapping
-     * @param request
-     */
+ 
     public void reset(ActionMapping mapping, HttpServletRequest request) {
-        this.setMethodToCall(null);
-        this.setRefreshCaller(null);
-        this.setAnchor(null);
-        this.setCurrentTabIndex(0);
-        
+        super.reset(mapping, request);
+        // if there are more ...
     }
-
-
 
 }
