@@ -144,6 +144,10 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         return mapping.findForward("grantsGov");
     }
     
+    public ActionForward budgetVersions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("budgetVersions");
+    }
+    
     public ActionForward abstractsAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         // TODO temporarily to set up proposal person- remove this once keyperson is completed and htmlunit testing fine
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
