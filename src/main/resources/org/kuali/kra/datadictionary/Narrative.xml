@@ -216,7 +216,7 @@
                     <textarea rows="3" cols="40" />
                 </control>
 				<summary>Module Title</summary>
-				<description>Module Title</description>
+				<description>This field is a free-form text field in which the user is able to name the attachment they are uploading beyond merely the type.  Ex. 'Mass Spectrometer Quotation' instead of merely having "equipment" as an attachment type.</description>
 			</attribute>
 
 			<attribute name="fileName">
@@ -230,7 +230,7 @@
 					<text size="52" />
 				</control>
 				<summary>File Name</summary>
-				<description>File Name</description>
+				<description>This is the name of the file path and name that the user is uploading; can be typed in or the user can use the "browse" feature to find the file on their computer or attached mass storage device</description>
 			</attribute>
 
 			<attribute name="narrativeTypeCode">
@@ -255,12 +255,13 @@
 				<validationPattern>
 					<anyCharacter  allowWhitespace="true"  />
 				</validationPattern>
+				<required>true</required>
 				<control>
 					<select
 						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.InstituteAttachmentTypeValuesFinder" />
 				</control>
 				<summary>Institutional Attachment Type Code</summary>
-				<description>Institutional Attachment Type Code</description>
+				<description>This field contains a list of institutional attachment types </description>
 			</attribute>
 			<attribute name="narrativeType.description">
 				<label>Narrative Type</label>
