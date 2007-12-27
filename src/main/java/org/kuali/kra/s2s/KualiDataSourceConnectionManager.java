@@ -10,18 +10,15 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.database.XAPoolDataSource;
-import org.kuali.rice.test.SQLDataLoader;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
-import edu.mit.coeus.utils.dbengine.DBConnection;
+//import edu.mit.coeus.utils.dbengine.DBConnection;
 
 /**
  * @author geo
  *
  */
-public class KualiDataSourceConnectionManager implements DBConnection {
+//public class KualiDataSourceConnectionManager implements DBConnection {
+public class KualiDataSourceConnectionManager {
     private static final String DATA_SOURCE = "dataSource";
     private static final Logger LOG = Logger.getLogger(KualiDataSourceConnectionManager.class);
 	
