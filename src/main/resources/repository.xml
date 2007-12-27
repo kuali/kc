@@ -134,11 +134,9 @@
           <foreignkey field-ref="ownedByUnitNumber" />
       </reference-descriptor>
       
-      <!-- 
       <collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 	  	<inverse-foreignkey field-ref="proposalNumber"/>
 	  </collection-descriptor>
-	   -->
 
 	</class-descriptor>
 
@@ -1370,10 +1368,6 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    	
-    	<reference-descriptor name="documentHeader" proxy="true" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="false" auto-delete="false">
-        	<foreignkey field-ref="documentNumber" />
-    	</reference-descriptor>
     </class-descriptor>
     
 </descriptor-repository>
