@@ -42,8 +42,8 @@ import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEven
  */
 public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDevelopmentRuleTestBase {
 
-    private static final String NEW_INSTITUTE = "newInstitute";
-    private static final String FILE_NAME = "document.institute[0].fileName";
+    private static final String NEW_INSTITUTE_ATTACHMENT = "newInstituteAttachment";
+    private static final String FILE_NAME = "document.instituteAttachment[0].fileName";
     private static final String EMPTY_STRING = "";
     private static final String ALLOW_MULTIPLE = "allowMultiple";
     private static final String NO = "N";
@@ -112,7 +112,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE+".institutionalAttachmentTypeCode");
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".institutionalAttachmentTypeCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -135,7 +135,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE+".moduleStatusCode");
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".moduleStatusCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -162,12 +162,12 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        document.getInstitutes().add(narrative);
+        document.getInstituteAttachments().add(narrative);
 //        document.addInstituteAttachment(narrative);
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE+".institutionalAttachmentTypeCode");
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".institutionalAttachmentTypeCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -194,7 +194,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,narrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE+".narrativeFile");
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_INSTITUTE_ATTACHMENT+".narrativeFile");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);

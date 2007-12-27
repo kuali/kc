@@ -74,7 +74,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private boolean showMaintenanceLinks;
     private ProposalAbstract newProposalAbstract;
     private ProposalPersonBiography newPropPersonBio;
-    private Narrative newInstitute;
+    private Narrative newInstituteAttachment;
     private boolean auditActivated;
     private ProposalCopyCriteria copyCriteria;
     private Map<String, Parameter> proposalDevelopmentParameters;
@@ -183,9 +183,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
      * reset check box values in keyword panel and properties that much be read on each request.
      */
     public void reset(ActionMapping mapping, HttpServletRequest request) {
-        this.setMethodToCall(null);
-        this.setRefreshCaller(null);
-        this.setAnchor(null);
+        super.reset(mapping, request);
         this.setCopyCriteria(new ProposalCopyCriteria());
        // following reset the tab stats and will load as default when it returns from lookup.
        // TODO : Do we really need this?
@@ -426,13 +424,13 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     }
 
 
-    public Narrative getNewInstitute() {
-        return newInstitute;
+    public Narrative getNewInstituteAttachment() {
+        return newInstituteAttachment;
     }
 
 
-    public void setNewInstitute(Narrative newInstitute) {
-        this.newInstitute = newInstitute;
+    public void setNewInstituteAttachment(Narrative newInstituteAttachment) {
+        this.newInstituteAttachment = newInstituteAttachment;
     }
 
 
@@ -486,7 +484,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     public boolean getIsCopyAttachmentsDisabled() {
         ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         return !(doc.getNarratives().size() > 0 ||
-            doc.getInstitutes().size() > 0 ||
+            doc.getInstituteAttachments().size() > 0 ||
             doc.getPropPersonBios().size() > 0);
     }
 

@@ -29,6 +29,6 @@ public interface NarrativeService {
     public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument);
     public void deleteInstitutionalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete);
     public void populateDummyUserRoles(ProposalDevelopmentDocument proposalDevelopmentDocument);
-    public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative institute);
+    public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
 
 }

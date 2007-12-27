@@ -37,7 +37,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
     private static String[] filteredProperties = { "ProposalNumber",
                                                    "OwnedByUnitNumber",
                                                    "Narratives",
-                                                   "Institutes",
+                                                   "InstituteAttachments",
                                                    "PropPersonBios",
                                                    "ProposalPersonBiographyService",
                                                    "NarrativeService"};
@@ -53,8 +53,8 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
     private static final String PERSONAL_ATTACHMENT_TYPE_ID = "newPropPersonBio.documentTypeCode";
     private static final String PERSONAL_FILE_ID = "newPropPersonBio.personnelAttachmentFile";
     
-    private static final String INSTITUTE_TYPE_CODE_ID = "newInstitute.institutionalAttachmentTypeCode";
-    private static final String INSTITUTE_FILE_ID = "newInstitute.narrativeFile";
+    private static final String INSTITUTE_TYPE_CODE_ID = "newInstituteAttachment.institutionalAttachmentTypeCode";
+    private static final String INSTITUTE_FILE_ID = "newInstituteAttachment.narrativeFile";
     
     private static final String COPY_PROPOSAL_BTN = "methodToCall.copyProposal";
     
@@ -221,7 +221,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
                 return false;
             }
             
-            if (!equals(srcDoc.getInstitutes(), destDoc.getInstitutes())) {
+            if (!equals(srcDoc.getInstituteAttachments(), destDoc.getInstituteAttachments())) {
                 return false;
             }
             
@@ -234,7 +234,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
             
             if (destDoc.getNarratives().size() != 0) {
                 return false;
-            } else if (destDoc.getInstitutes().size() != 0) {
+            } else if (destDoc.getInstituteAttachments().size() != 0) {
                 return false;
             } else if (destDoc.getPropPersonBios().size() != 0) {
                 return false;
