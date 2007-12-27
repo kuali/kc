@@ -32,6 +32,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
     private Integer proposalNumber;
     private Integer budgetVersionNumber;
     private String documentNumber;
+    private String documentDescription;
     private Long costSharingAmount;
     private Date endDate;
     private Date startDate;
@@ -47,12 +48,6 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
     
     private String name;
     private String status;
-    
-    protected DocumentHeader documentHeader;
-    
-    public BudgetVersionOverview() {
-        this.documentHeader = new DocumentHeader();
-    }
     
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
@@ -183,14 +178,11 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
     }
     
     public String getDocumentDescription() {
-        if (this.documentHeader != null) {
-            return this.documentHeader.getFinancialDocumentDescription();
-        }
-        return "";
+        return documentDescription;
     }
 
     public void setDocumentDescription(String documentDescription) {
-        this.documentHeader.setFinancialDocumentDescription(documentDescription);
+        this.documentDescription = documentDescription;
     }
     
     public String getComments() {
