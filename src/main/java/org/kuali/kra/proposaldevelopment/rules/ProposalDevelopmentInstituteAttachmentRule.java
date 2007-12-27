@@ -46,7 +46,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocumentRuleBase implements AddInstituteAttachmentRule { 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
     private static final String INSTITUTE = "Institute";
-    private static final String NEW_INSTITUTE = "newInstitute";
+    private static final String NEW_INSTITUTE_ATTACHMENT = "newInstituteAttachment";
     private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentInstituteAttachmentRule.class);
 
@@ -59,28 +59,28 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
      */
     public boolean processAddInstituteAttachmentBusinessRules(AddInstituteAttachmentEvent addInstituteAttachmentEvent) {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)addInstituteAttachmentEvent.getDocument();
-        Narrative institute = addInstituteAttachmentEvent.getNarrative();
+        Narrative narrative = addInstituteAttachmentEvent.getNarrative();
         boolean rulePassed = true;
-        populateNarrativeType(institute);
-        String errorPath = NEW_INSTITUTE;
-        if(institute.getNarrativeType()==null)
+        populateNarrativeType(narrative);
+        String errorPath = NEW_INSTITUTE_ATTACHMENT;
+        if(narrative.getNarrativeType()==null)
             rulePassed = false;
 
-        if(StringUtils.isBlank(institute.getNarrativeTypeCode())){
+        if(StringUtils.isBlank(narrative.getNarrativeTypeCode())){
             rulePassed = false;
             reportError(errorPath+".institutionalAttachmentTypeCode", ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
         }
-        if(StringUtils.isBlank(institute.getModuleStatusCode())){
+        if(StringUtils.isBlank(narrative.getModuleStatusCode())){
             rulePassed = false;
             reportError(errorPath+".moduleStatusCode", ERROR_ATTACHMENT_STATUS_NOT_SELECTED);
         }
         if (rulePassed) {
-            populateNarrativeType(institute);
-            String[] param = {INSTITUTE, institute.getNarrativeType().getDescription()};
+            populateNarrativeType(narrative);
+            String[] param = {INSTITUTE, narrative.getNarrativeType().getDescription()};
             String instituteNarrativeTypeGroup = getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, INSTITUTE_NARRATIVE_TYPE_GROUP);
-            if (institute.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)) {
-                for (Narrative narr : document.getInstitutes()) {
-                    if (narr!=null && StringUtils.equals(narr.getNarrativeTypeCode(),institute.getNarrativeTypeCode())) {
+            if (narrative.getNarrativeType().getAllowMultiple().equalsIgnoreCase(NARRATIVE_TYPE_ALLOWMULTIPLE_NO)) {
+                for (Narrative narr : document.getInstituteAttachments()) {
+                    if (narr!=null && StringUtils.equals(narr.getNarrativeTypeCode(),narrative.getNarrativeTypeCode())) {
                         LOG.debug(ERROR_NARRATIVE_TYPE_DUPLICATE);
                         reportError(errorPath+".institutionalAttachmentTypeCode", ERROR_NARRATIVE_TYPE_DUPLICATE, param);
                         rulePassed = false;
@@ -88,8 +88,8 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
                 }
             }
         }
-        if (rulePassed && StringUtils.isNotBlank(institute.getNarrativeTypeCode()) && StringUtils.isNotBlank(institute.getModuleTitle())) {
-            if (StringUtils.isBlank(institute.getFileName())) {
+        if (rulePassed && StringUtils.isNotBlank(narrative.getNarrativeTypeCode()) && StringUtils.isNotBlank(narrative.getModuleTitle())) {
+            if (StringUtils.isBlank(narrative.getFileName())) {
                 rulePassed = false;
                 reportError(errorPath+".narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
             }

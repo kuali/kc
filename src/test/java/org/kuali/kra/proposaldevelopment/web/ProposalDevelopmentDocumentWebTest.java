@@ -388,21 +388,21 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         final HtmlForm formWithOneAttachment = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
         assertTrue(pageAfterAddAttachment.asText().contains(attachmentTypes[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME));
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
-        validateInstitutes(documentNumber, 0, INSTITUTE_ATTACHMENT_TYPE_1+SEMI_COLON+description[0]);
+        validateInstituteAttachments(documentNumber, 0, INSTITUTE_ATTACHMENT_TYPE_1+SEMI_COLON+description[0]);
 
         // add second line
         final HtmlPage pageWithTwoAttachments =setInstituteAttachmentLine(pageAfterAddAttachment,formWithOneAttachment,fileName+SEMI_COLON+INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]);
         final HtmlForm formWithTwoAttachments = (HtmlForm) pageWithTwoAttachments.getForms().get(0);
         assertTrue(pageWithTwoAttachments.asText().contains(attachmentTypes[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME));
         assertTrue(pageWithTwoAttachments.asText().contains(attachmentTypes[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME));
-        validateInstitutes(documentNumber, 1, INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]);
+        validateInstituteAttachments(documentNumber, 1, INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]);
         
         // delete attachment
         final HtmlPage pageAfterDeleteAttachment = clickButton(pageWithTwoAttachments, formWithTwoAttachments, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
         final HtmlForm formAfterDeleteAttachment = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
         assertFalse(pageAfterDeleteAttachment.asText().contains(attachmentTypes[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME));
         assertTrue(pageAfterDeleteAttachment.asText().contains(attachmentTypes[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME));
-        validateInstitutes(documentNumber, 0, INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]);
+        validateInstituteAttachments(documentNumber, 0, INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]);
 
         // try to view file - only work for 'text/html' file
         final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
@@ -418,17 +418,17 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
      * @param isDelete
      * @throws Exception
      */
-    private void validateInstitutes(HtmlHiddenInput documentNumber, int lineNumber, String paramList) throws Exception {
+    private void validateInstituteAttachments(HtmlHiddenInput documentNumber, int lineNumber, String paramList) throws Exception {
         String[] params = paramList.split(SEMI_COLON);
 
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
-        doc.refreshReferenceObject("institutes");
+        doc.refreshReferenceObject("instituteAttachments");
         assertNotNull(doc);
         verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
-        assertTrue(doc.getInstitutes().size() == lineNumber + 1);
-        Narrative narrative = doc.getInstitutes().get(lineNumber);
+        assertTrue(doc.getInstituteAttachments().size() == lineNumber + 1);
+        Narrative narrative = doc.getInstituteAttachments().get(lineNumber);
         if (lineNumber == 1 && !params[0].equals(narrative.getNarrativeTypeCode())) {
-            narrative = doc.getInstitutes().get(0);
+            narrative = doc.getInstituteAttachments().get(0);
         }    
         assertTrue(params[0].equals(narrative.getNarrativeTypeCode()));
         assertTrue(params[1].equals(narrative.getModuleTitle()));
@@ -801,11 +801,11 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     private HtmlPage setInstituteAttachmentLine(HtmlPage htmlPage, HtmlForm kualiForm, String paramList) throws Exception {
         String[] params = paramList.split(";");
-        setFieldValue(kualiForm, FILE_INPUT, "newInstitute.narrativeFile", params[0]);
-        //setFieldValue(kualiForm, SELECTED_INPUT, "newInstitute.moduleStatusCode", params[1],3);
+        setFieldValue(kualiForm, FILE_INPUT, "newInstituteAttachment.narrativeFile", params[0]);
+        //setFieldValue(kualiForm, SELECTED_INPUT, "newInstituteAttachment.moduleStatusCode", params[1],3);
         
-        setFieldValue(kualiForm, SELECTED_INPUT, "newInstitute.institutionalAttachmentTypeCode", params[1],3);
-        setFieldValue(kualiForm, TEXT_AREA, "newInstitute.moduleTitle", params[2]);
+        setFieldValue(kualiForm, SELECTED_INPUT, "newInstituteAttachment.institutionalAttachmentTypeCode", params[1],3);
+        setFieldValue(kualiForm, TEXT_AREA, "newInstituteAttachment.moduleTitle", params[2]);
 
         return clickButton(htmlPage, kualiForm, "methodToCall.addInstitutionalAttachment.anchor", IMAGE_INPUT);
 

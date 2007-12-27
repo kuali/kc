@@ -23,25 +23,25 @@ import org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule;
 
 public class AddInstituteAttachmentEvent extends NarrativeEventBase{
     /**
-     * Constructs an AddInstituteAttachmentEvent with the given errorPathPrefix, document, and institute.
+     * Constructs an AddInstituteAttachmentEvent with the given errorPathPrefix, document, and narrative.
      * 
      * @param errorPathPrefix
      * @param proposalDevelopmentDocument
-     * @param institute
+     * @param narrative
      */
-    public AddInstituteAttachmentEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative institute) {
-        super("adding institute attachment to document " + getDocumentId(document), errorPathPrefix, document, institute);
+    public AddInstituteAttachmentEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative) {
+        super("adding institute attachment to document " + getDocumentId(document), errorPathPrefix, document, narrative);
     }
 
     /**
-     * Constructs an AddInstituteAttachmentEvent with the given errorPathPrefix, document, and institute.
+     * Constructs an AddInstituteAttachmentEvent with the given errorPathPrefix, document, and narrative.
      * 
      * @param errorPathPrefix
      * @param document
-     * @param institute
+     * @param narrative
      */
-    public AddInstituteAttachmentEvent(String errorPathPrefix, Document document, Narrative institute) {
-        this(errorPathPrefix, (ProposalDevelopmentDocument) document, institute);
+    public AddInstituteAttachmentEvent(String errorPathPrefix, Document document, Narrative narrative) {
+        this(errorPathPrefix, (ProposalDevelopmentDocument) document, narrative);
     }
 
     /**
