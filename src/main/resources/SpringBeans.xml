@@ -200,5 +200,10 @@
 	</bean>
 		<bean id="documentValidationService" class="org.kuali.kra.service.impl.DocumentValidationServiceImpl">
 	</bean>
+	<bean id="s2SService" class="org.kuali.kra.s2s.service.impl.S2SServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 	
 </beans>
