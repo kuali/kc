@@ -104,7 +104,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<Narrative> narratives;
     private List<ProposalUserRoles> proposalUserRoles;
     private List<ProposalAbstract> proposalAbstracts;
-    private List<Narrative> institutes;
+    private List<Narrative> instituteAttachments;
     private List<ProposalPersonBiography> propPersonBios;
     private List<ProposalPerson> investigators;
     private Collection<InvestigatorCreditType> investigatorCreditTypes;
@@ -127,7 +127,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         narratives = new ArrayList<Narrative>();
         proposalUserRoles = new ArrayList<ProposalUserRoles>();
         proposalAbstracts = new ArrayList<ProposalAbstract>();
-        institutes = new ArrayList<Narrative>();
+        instituteAttachments = new ArrayList<Narrative>();
         propPersonBios = new ArrayList<ProposalPersonBiography>();
         proposalYnqs = new ArrayList<ProposalYnq>();
         ynqGroupNames = new ArrayList<YnqGroupName>();
@@ -746,12 +746,12 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.proposalAbstracts = proposalAbstracts;
     }
 
-    public List<Narrative> getInstitutes() {
-        return institutes;
+    public List<Narrative> getInstituteAttachments() {
+        return instituteAttachments;
     }
 
-    public void setInstitutes(List<Narrative> institutes) {
-        this.institutes = institutes;
+    public void setInstituteAttachments(List<Narrative> instituteAttachments) {
+        this.instituteAttachments = instituteAttachments;
     }
 
     public List<ProposalPersonBiography> getPropPersonBios() {
@@ -826,11 +826,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     /**
      * 
-     * Method to add a new institute attachment to institutes list
-     * @param institute
+     * Method to add a new institute attachment to institute attachment list
+     * @param narrative
      */
-    public void addInstituteAttachment(Narrative institute) {
-        getNarrativeService().addInstituteAttachment(this, institute);
+    public void addInstituteAttachment(Narrative narrative) {
+        getNarrativeService().addInstituteAttachment(this, narrative);
     }
 
     /**
@@ -987,16 +987,16 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     }
 
     /**
-     * Gets index i from the institutes list.
+     * Gets index i from the institute attachment list.
      * 
      * @param index
      * @return Question at index i
      */
-    public Narrative getInstitute(int index) {
-        while (getInstitutes().size() <= index) {
-            getInstitutes().add(new Narrative());
+    public Narrative getInstituteAttachment(int index) {
+        while (getInstituteAttachments().size() <= index) {
+            getInstituteAttachments().add(new Narrative());
         }
-        return (Narrative) getInstitutes().get(index);
+        return (Narrative) getInstituteAttachments().get(index);
     }
 
     /**

@@ -96,7 +96,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private static String[] filteredProperties = { "ProposalNumber",
                                                 // "OwnedByUnitNumber",
                                                    "Narratives",
-                                                   "Institutes",
+                                                   "InstituteAttachments",
                                                    "PropPersonBios" };
     
     /**
@@ -336,7 +336,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         List<DocProperty> properties = new ArrayList<DocProperty>();
         properties.add(getDocProperty("Narratives"));
-        properties.add(getDocProperty("Institutes"));
+        properties.add(getDocProperty("InstituteAttachments"));
         properties.add(getDocProperty("PropPersonBios"));
         copyProperties(src, dest, properties);
         
@@ -361,7 +361,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         
         // Load institutional attachments.
-        narratives = doc.getInstitutes();
+        narratives = doc.getInstituteAttachments();
         for (Narrative narrative : narratives) {
             loadAttachmentContent(narrative);
         }

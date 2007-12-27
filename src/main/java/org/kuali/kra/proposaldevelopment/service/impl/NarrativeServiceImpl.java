@@ -70,7 +70,7 @@ public class NarrativeServiceImpl implements NarrativeService {
 
     private Integer getNextModuleNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getNarratives();
-        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getInstitutes();
+        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getInstituteAttachments();
         List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
         mergedNarrativeList.addAll(narrativeList);
         mergedNarrativeList.addAll(instituteAttachmentsList);
@@ -84,7 +84,7 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
     private Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getNarratives();
-        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getInstitutes();
+        List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getInstituteAttachments();
         List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
         mergedNarrativeList.addAll(narrativeList);
         mergedNarrativeList.addAll(instituteAttachmentsList);
@@ -134,7 +134,7 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
     public void deleteInstitutionalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete) {
-        deleteAttachment(proposaldevelopmentDocument.getInstitutes(), lineToDelete);
+        deleteAttachment(proposaldevelopmentDocument.getInstituteAttachments(), lineToDelete);
     }
 
     private void deleteAttachment(List<Narrative> narratives, int lineToDelete) {
@@ -153,19 +153,19 @@ public class NarrativeServiceImpl implements NarrativeService {
 
     /**
      * 
-     * Method to add a new institute to institutes list
-     * @param institute
+     * Method to add a new institute attachment to institute attachment list
+     * @param narrative
      */
-    public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative institute) {
-        institute.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
-        institute.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
-        institute.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
-        institute.setModifyAttachment(true);
-        institute.refreshReferenceObject("narrativeType");
-        institute.populateAttachment();
-        getBusinessObjectService().save(institute);
-        institute.clearAttachment();
-        proposaldevelopmentDocument.getInstitutes().add(institute);
+    public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative) {
+        narrative.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
+        narrative.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
+        narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
+        narrative.setModifyAttachment(true);
+        narrative.refreshReferenceObject("narrativeType");
+        narrative.populateAttachment();
+        getBusinessObjectService().save(narrative);
+        narrative.clearAttachment();
+        proposaldevelopmentDocument.getInstituteAttachments().add(narrative);
     }
 
     /**

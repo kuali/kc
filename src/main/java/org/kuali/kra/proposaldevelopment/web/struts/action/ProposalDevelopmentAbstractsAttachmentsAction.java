@@ -485,11 +485,11 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     public ActionForward addInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        Narrative narrative = proposalDevelopmentForm.getNewInstitute();
+        Narrative narrative = proposalDevelopmentForm.getNewInstituteAttachment();
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         if(getKualiRuleService().applyRules(new AddInstituteAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
             proposalDevelopmentDocument.addInstituteAttachment(narrative);
-            proposalDevelopmentForm.setNewInstitute(new Narrative());
+            proposalDevelopmentForm.setNewInstituteAttachment(new Narrative());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
 
@@ -530,7 +530,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
           ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
           String line = request.getParameter(LINE_NUMBER);
           int lineNumber = line == null ? 0 : Integer.parseInt(line);
-          Narrative narrative = pd.getInstitutes().get(lineNumber);
+          Narrative narrative = pd.getInstituteAttachments().get(lineNumber);
           NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
           if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
               narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);

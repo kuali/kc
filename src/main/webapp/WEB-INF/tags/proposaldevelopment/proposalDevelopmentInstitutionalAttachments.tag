@@ -17,12 +17,12 @@
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
-<c:set var="textAreaFieldName" value="newInstitute.moduleTitle" />
+<c:set var="textAreaFieldName" value="newInstituteAttachment.moduleTitle" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
 <c:set var="numOfInstAtt" value="0"/>	
 
 
-<kul:tab tabTitle="Institutional Attachments (${fn:length(KualiForm.document.institutes)})" defaultOpen="true" tabErrorKey="document.institute*,newInstitute*">
+<kul:tab tabTitle="Institutional Attachments (${fn:length(KualiForm.document.instituteAttachments)})" defaultOpen="true" tabErrorKey="document.instituteAttachment*,newInstituteAttachment*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Add Institutional Attachments</h2></span>
@@ -46,21 +46,21 @@
 				</th>
 
                 <td class="infoline">                
-                	<kul:htmlControlAttribute property="newInstitute.updateTimestamp" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
+                	<kul:htmlControlAttribute property="newInstituteAttachment.updateTimestamp" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
 				</td>
                 <td class="infoline">
-                	<kul:htmlControlAttribute property="newInstitute.updateUser" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
+                	<kul:htmlControlAttribute property="newInstituteAttachment.updateUser" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
                 </td>
                 <td class="infoline">                	
-                	<kul:htmlControlAttribute property="newInstitute.institutionalAttachmentTypeCode" attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}"  styleClass="fixed-size-select"/>
+                	<kul:htmlControlAttribute property="newInstituteAttachment.institutionalAttachmentTypeCode" attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}"  styleClass="fixed-size-select"/>
 				</td>
                 <td class="infoline">
-                	<kul:htmlControlAttribute property="newInstitute.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
+                	<kul:htmlControlAttribute property="newInstituteAttachment.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
                     <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
 				</td>
                 
                 <td class="infoline">
-                	<html:file property="newInstitute.narrativeFile" />
+                	<html:file property="newInstituteAttachment.narrativeFile" />
                 </td>
 				<td class="infoline">
 					<div align=center>
@@ -70,27 +70,27 @@
                 </td>
             </tr>
 
-        	<c:forEach var="instituteAttachment" items="${KualiForm.document.institutes}" varStatus="status">
+        	<c:forEach var="instituteAttachment" items="${KualiForm.document.instituteAttachments}" varStatus="status">
 	             <tr>
 					<th class="infoline" align="right">
 						${status.index + 1}:
 					</th>
 	                <td>
-                	    <kul:htmlControlAttribute property="document.institute[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
+                	    <kul:htmlControlAttribute property="document.instituteAttachment[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
 					</td>
 	                <td>
                 	    ${instituteAttachment.authorPersonName}
 	                </td>
 	                <td>                	
-                	    <input type="hidden" name="document.institute[${status.index}].institutionalAttachmentTypeCode" value="${instituteAttachment.institutionalAttachmentTypeCode}" />
+                	    <input type="hidden" name="document.instituteAttachment[${status.index}].institutionalAttachmentTypeCode" value="${instituteAttachment.institutionalAttachmentTypeCode}" />
                          ${instituteAttachment.narrativeType.description}	                </td>
-                	    <!-- <kul:htmlControlAttribute property="document.institute[${status.index}].narrativeType.description" readOnly="true" attributeEntry="${narrativeAttributes.narrativeType.description}" /> -->
+                	    <!-- <kul:htmlControlAttribute property="document.instituteAttachment[${status.index}].narrativeType.description" readOnly="true" attributeEntry="${narrativeAttributes.narrativeType.description}" /> -->
 					</td>
 	                <td>
-	                	<kul:htmlControlAttribute property="document.institute[${status.index}].moduleTitle" readOnly="true" attributeEntry="${narrativeAttributes.moduleTitle}" />
+	                	<kul:htmlControlAttribute property="document.instituteAttachment[${status.index}].moduleTitle" readOnly="true" attributeEntry="${narrativeAttributes.moduleTitle}" />
 					</td>
 	                <td>
-	                    <kul:htmlControlAttribute property="document.institute[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
+	                    <kul:htmlControlAttribute property="document.instituteAttachment[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
 	                </td>
 	                <td>
 					<div align=center>
