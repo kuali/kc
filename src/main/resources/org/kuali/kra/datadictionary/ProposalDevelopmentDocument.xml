@@ -264,7 +264,7 @@
 				<shortLabel>Sponsor Div Code</shortLabel>
 
 				<maxLength>3</maxLength>
-				<validationPattern><numeric /></validationPattern>
+				<validationPattern><alphaNumeric /></validationPattern>
 
 				<required>false</required>
 
@@ -349,7 +349,7 @@
 				<shortLabel>Sponsor Proposal ID</shortLabel>
 
 				<maxLength>70</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
 				<required>false</required>
 
@@ -373,7 +373,7 @@
 				<shortLabel>Sponsor Program Code</shortLabel>
 
 				<maxLength>3</maxLength>
-				<validationPattern><numeric /></validationPattern>
+				<validationPattern><alphaNumeric /></validationPattern>
 
 				<required>false</required>
 
@@ -583,7 +583,7 @@
           <headerNavigationTab>
           	<navigateTo>budgetVersions</navigateTo>
           	<displayName>Budget Versions</displayName>
-          </headerNavigationTab>                    
+          </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>keyPersonnel</navigateTo>
             <displayName>Key Personnel</displayName>
@@ -591,7 +591,7 @@
           <headerNavigationTab>
             <navigateTo>specialReview</navigateTo>
             <displayName>Special Review</displayName>
-          </headerNavigationTab>          
+          </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>customData</navigateTo>
             <displayName>Custom Data</displayName>
@@ -603,7 +603,7 @@
           <headerNavigationTab>
             <navigateTo>permissions</navigateTo>
             <displayName>Permissions</displayName>
-          </headerNavigationTab>          
+          </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>abstractsAttachments</navigateTo>
             <displayName>Abstracts and Attachments </displayName>
@@ -611,7 +611,7 @@
           <headerNavigationTab>
             <navigateTo>grantsGov</navigateTo>
             <displayName>Grants.gov</displayName>
-          </headerNavigationTab>          
+          </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>actions</navigateTo>
             <displayName>Proposal Actions</displayName>
