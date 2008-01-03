@@ -28,17 +28,6 @@
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
-  
-   <tr>
-    <td nowrap> Budget (Temporary)* </td>
-    <td>
-      <portal:portalLink displayTitle="false" title="Budget" url="budgetVersions.do?methodToCall=docHandler&command=initiate&docTypeName=BudgetDocument" >
-          <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle">
-      </portal:portalLink>
-      <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
-    </td>
-  </tr>
-
   <tr>
     <td nowrap>Submitted Proposal</td>
     <td>
@@ -63,12 +52,6 @@
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
-  <tr>
-    <td colspan="2">
-    * Budgets will appear until Budget Versions in Proposal Development has been completed; <br/>
-    after which time Budgets will be managed from there
-    </td>
-   <tr> 
 </table>
 </div>
 <channel:portalChannelBottom />
