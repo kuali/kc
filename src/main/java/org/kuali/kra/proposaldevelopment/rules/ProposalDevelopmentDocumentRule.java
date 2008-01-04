@@ -55,8 +55,11 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.DocumentValidationService;
 
 /**
- * This class...
+ * Main Business Rule class for <code>{@link ProposalDevelopmentDocument}</code>. Responsible for delegating rules to independent rule classes.
  *
+ * @see org.kuali.proposaldevelopment.rules.KeyPersonnelAuditRule
+ * @see org.kuali.proposaldevelopment.rules.PersonEditableFieldRule
+ * @see org.kuali.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalLocationRule,AddProposalSpecialReviewRule , DocumentAuditRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule {
@@ -283,7 +286,13 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
-        return new ProposalDevelopmentSponsorProgramInformationAuditRule().processRunAuditBusinessRules(document);
+        boolean retval = true;
+        
+        retval &= new ProposalDevelopmentSponsorProgramInformationAuditRule().processRunAuditBusinessRules(document);
+        
+        retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
+        
+        return retval;
 	}
 
     /**
