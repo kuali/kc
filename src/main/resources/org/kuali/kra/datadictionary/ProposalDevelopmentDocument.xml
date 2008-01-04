@@ -107,7 +107,7 @@
  				<required>true</required>
 
                 <summary>The End Date of the Proposal</summary>
-                <description>Yep, it's when the Proposal ends...</description>
+                <description>The date the project period will terminate.</description>
       		</attributeReference>
 
       		<attribute name="activityTypeCode">
