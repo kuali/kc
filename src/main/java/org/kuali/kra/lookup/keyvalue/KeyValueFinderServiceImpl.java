@@ -78,6 +78,10 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
         return keyValueList;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.lookup.keyvalue.KeyValueFinderService#getKeyValues(java.lang.Class, java.lang.String, java.lang.String, java.util.Map)
+     */
     public List<KeyLabelPair> getKeyValues(Class keyValClass, String codePropName, String valPropName, Map queryMap) {
         
         Collection keyVals = businessObjectService.findMatching(keyValClass,queryMap);
@@ -110,12 +114,6 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
             }
         }
         return keyValueList;
-    }
-    public List<KeyLabelPair> getKeyValues(Class keyValClass, String codePropName, String valPropName, String groupPropName,
-            String groupValue) {
-        Map<String,String> qMap = new HashMap<String,String>();
-        qMap.put(groupPropName, groupValue);
-        return getKeyValues(keyValClass,codePropName,valPropName,qMap);
     }
 
     /**

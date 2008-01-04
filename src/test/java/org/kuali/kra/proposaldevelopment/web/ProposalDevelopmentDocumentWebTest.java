@@ -61,7 +61,8 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final int FILE_INPUT = 8;
     private DocumentService documentService = null;
-    private static final String ATTACHMENT_FILE_NAME = "workflow-workspace.html";
+    private static final String ATTACHMENT_FILE_NAME_1 = "workarea-iframe.html";
+    private static final String ATTACHMENT_FILE_NAME_2 = "workflow-workspace.html";
     private static final String ATTACHMENT_FILE_CONTENT_TYPE = "text/html";
     private static final String SPACE=" ";
     private static final String SEMI_COLON=";";
@@ -407,27 +408,26 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         // really is in abstracts & attachments page
         assertTrue(abstractAttachmentPage.asText().contains("Add Institutional Attachments &nbsp Posted Timestamp Uploaded By"));
         HtmlForm form1 = (HtmlForm) abstractAttachmentPage.getForms().get(0);
-        //webClient.setJavaScriptEnabled(false);
-        String fileName=getFileName();
-        final HtmlPage pageAfterAddAttachment =setInstituteAttachmentLine(abstractAttachmentPage,form1,fileName+SEMI_COLON+INSTITUTE_ATTACHMENT_TYPE_1+SEMI_COLON+description[0]);
+
+        final HtmlPage pageAfterAddAttachment =setInstituteAttachmentLine(abstractAttachmentPage,form1,getFileName(ATTACHMENT_FILE_NAME_1)+SEMI_COLON+INSTITUTE_ATTACHMENT_TYPE_1+SEMI_COLON+description[0]);
         final HtmlForm formWithOneAttachment = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
-        assertTrue(pageAfterAddAttachment.asText().contains(attachmentTypes[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME));
+        assertTrue(pageAfterAddAttachment.asText().contains(attachmentTypes[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME_1));
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
-        validateInstituteAttachments(documentNumber, 0, INSTITUTE_ATTACHMENT_TYPE_1+SEMI_COLON+description[0]);
+        validateInstituteAttachments(documentNumber, 0, INSTITUTE_ATTACHMENT_TYPE_1+SEMI_COLON+description[0]+SEMI_COLON+ATTACHMENT_FILE_NAME_1);
 
         // add second line
-        final HtmlPage pageWithTwoAttachments =setInstituteAttachmentLine(pageAfterAddAttachment,formWithOneAttachment,fileName+SEMI_COLON+INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]);
+        final HtmlPage pageWithTwoAttachments =setInstituteAttachmentLine(pageAfterAddAttachment,formWithOneAttachment,getFileName("htdocs/"+ATTACHMENT_FILE_NAME_2)+SEMI_COLON+INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]);
         final HtmlForm formWithTwoAttachments = (HtmlForm) pageWithTwoAttachments.getForms().get(0);
-        assertTrue(pageWithTwoAttachments.asText().contains(attachmentTypes[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME));
-        assertTrue(pageWithTwoAttachments.asText().contains(attachmentTypes[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME));
-        validateInstituteAttachments(documentNumber, 1, INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]);
+        assertTrue(pageWithTwoAttachments.asText().contains(attachmentTypes[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME_1));
+        assertTrue(pageWithTwoAttachments.asText().contains(attachmentTypes[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME_2));
+        validateInstituteAttachments(documentNumber, 1, INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]+SEMI_COLON+ATTACHMENT_FILE_NAME_2);
         
         // delete attachment
         final HtmlPage pageAfterDeleteAttachment = clickButton(pageWithTwoAttachments, formWithTwoAttachments, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
         final HtmlForm formAfterDeleteAttachment = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
-        assertFalse(pageAfterDeleteAttachment.asText().contains(attachmentTypes[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME));
-        assertTrue(pageAfterDeleteAttachment.asText().contains(attachmentTypes[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME));
-        validateInstituteAttachments(documentNumber, 0, INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]);
+        assertFalse(pageAfterDeleteAttachment.asText().contains(attachmentTypes[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME_1));
+        assertTrue(pageAfterDeleteAttachment.asText().contains(attachmentTypes[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME_2));
+        validateInstituteAttachments(documentNumber, 0, INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]+SEMI_COLON+ATTACHMENT_FILE_NAME_2);
 
         // try to view file - only work for 'text/html' file
         final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
@@ -457,11 +457,12 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         }    
         assertTrue(params[0].equals(narrative.getNarrativeTypeCode()));
         assertTrue(params[1].equals(narrative.getModuleTitle()));
+        assertTrue(params[2].equals(narrative.getFileName()));
 
         narrative.refreshReferenceObject("narrativeAttachmentList");
         NarrativeAttachment narrativeAttachment=(NarrativeAttachment)narrative.getNarrativeAttachmentList().get(0);
         assertNotNull(narrativeAttachment);
-        assertEquals(ATTACHMENT_FILE_NAME, narrativeAttachment.getFileName());
+        assertEquals(params[2], narrativeAttachment.getFileName());
         assertEquals(ATTACHMENT_FILE_CONTENT_TYPE, narrativeAttachment.getContentType());
     }
 
@@ -499,28 +500,26 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertTrue(abstractAttachmentPage.asText().contains("Personnel Attachments &nbsp Posted Timestamp Uploaded By * Person"));
 
         // add new personnel attachment line - should be saved in DB
-        //String fileName="C:/java/projects/kra_project/src/main/webapp/en/htdocs/workflow-workspace.html";
-        String fileName=getFileName();
-        final HtmlPage pageAfterAddAttachment =setPersonnelAttachmentLine(abstractAttachmentPage,form1,documentTypeCode[0]+SEMI_COLON+personNumber[0]+SEMI_COLON+description[0]+SEMI_COLON+fileName);
+        final HtmlPage pageAfterAddAttachment =setPersonnelAttachmentLine(abstractAttachmentPage,form1,documentTypeCode[0]+SEMI_COLON+personNumber[0]+SEMI_COLON+description[0]+SEMI_COLON+getFileName(ATTACHMENT_FILE_NAME_1));
         final HtmlForm formWithOneAttachment = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
-        assertTrue(pageAfterAddAttachment.asText().contains(personName[0]+SPACE+documentTypeDescription[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME));
+        assertTrue(pageAfterAddAttachment.asText().contains(personName[0]+SPACE+documentTypeDescription[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME_1));
 
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
-        validatePropPersonBios(documentNumber, 0, documentTypeCode[0]+SEMI_COLON+personNumber[0]+SEMI_COLON+description[0]+SEMI_COLON+ATTACHMENT_FILE_NAME);
+        validatePropPersonBios(documentNumber, 0, documentTypeCode[0]+SEMI_COLON+personNumber[0]+SEMI_COLON+description[0]+SEMI_COLON+ATTACHMENT_FILE_NAME_1);
 
         // add 2nd line
-        final HtmlPage pageWithTwoAttachments =setPersonnelAttachmentLine(pageAfterAddAttachment,formWithOneAttachment,documentTypeCode[1]+SEMI_COLON+personNumber[1]+SEMI_COLON+description[1]+SEMI_COLON+fileName);
+        final HtmlPage pageWithTwoAttachments =setPersonnelAttachmentLine(pageAfterAddAttachment,formWithOneAttachment,documentTypeCode[1]+SEMI_COLON+personNumber[1]+SEMI_COLON+description[1]+SEMI_COLON+getFileName("htdocs/"+ATTACHMENT_FILE_NAME_2));
         final HtmlForm formWithTwoAttachments = (HtmlForm) pageWithTwoAttachments.getForms().get(0);
-        assertTrue(pageWithTwoAttachments.asText().contains(personName[0]+SPACE+documentTypeDescription[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME));
-        assertTrue(pageWithTwoAttachments.asText().contains(personName[1]+SPACE+documentTypeDescription[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME));
-        validatePropPersonBios(documentNumber, 1, documentTypeCode[1]+SEMI_COLON+personNumber[1]+SEMI_COLON+description[1]+SEMI_COLON+ATTACHMENT_FILE_NAME);
+        assertTrue(pageWithTwoAttachments.asText().contains(personName[0]+SPACE+documentTypeDescription[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME_1));
+        assertTrue(pageWithTwoAttachments.asText().contains(personName[1]+SPACE+documentTypeDescription[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME_2));
+        validatePropPersonBios(documentNumber, 1, documentTypeCode[1]+SEMI_COLON+personNumber[1]+SEMI_COLON+description[1]+SEMI_COLON+ATTACHMENT_FILE_NAME_2);
 
         // delete attachment
         final HtmlPage pageAfterDeleteAttachment = clickButton(pageWithTwoAttachments, formWithTwoAttachments, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
         final HtmlForm formAfterDeleteAttachment = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
-        assertFalse(pageAfterDeleteAttachment.asText().contains(personName[0]+SPACE+documentTypeDescription[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME));
-        assertTrue(pageAfterDeleteAttachment.asText().contains(personName[1]+SPACE+documentTypeDescription[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME));
-        validatePropPersonBios(documentNumber, 0, documentTypeCode[1]+SEMI_COLON+personNumber[1]+SEMI_COLON+description[1]+SEMI_COLON+ATTACHMENT_FILE_NAME);
+        assertFalse(pageAfterDeleteAttachment.asText().contains(personName[0]+SPACE+documentTypeDescription[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME_1));
+        assertTrue(pageAfterDeleteAttachment.asText().contains(personName[1]+SPACE+documentTypeDescription[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME_2));
+        validatePropPersonBios(documentNumber, 0, documentTypeCode[1]+SEMI_COLON+personNumber[1]+SEMI_COLON+description[1]+SEMI_COLON+ATTACHMENT_FILE_NAME_2);
         
         // try to view file - only work for html file now.  The otehr content type will cause castexception - unexpectedpage
         // final HtmlPage attachmentFilePage = clickButton(pageSave, formAfterSave, "methodToCall.viewPersonnelAttachment.line0.anchor", IMAGE_INPUT);
@@ -533,15 +532,15 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     *
     * This method is to set up proposalpersons for personnel attachment test
     * @param webClient
-    * @param pageAfterLogin
+    * @param htmlPage
     * @param kualiForm
     * @return
     * @throws Exception
     */
 
-   private HtmlPage getProposalPerson(WebClient webClient, HtmlPage pageAfterLogin,HtmlForm kualiForm) throws Exception {
+   private HtmlPage getProposalPerson(WebClient webClient, HtmlPage htmlPage,HtmlForm kualiForm) throws Exception {
 
-        final HtmlPage keyPersonnelPage = clickButton(pageAfterLogin, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.keyPersonnel.x",
+        final HtmlPage keyPersonnelPage = clickButton(htmlPage, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.keyPersonnel.x",
                 SUBMIT_INPUT_BY_NAME);
         final HtmlForm form1 = (HtmlForm) keyPersonnelPage.getForms().get(0);
         // set up first person
@@ -589,7 +588,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
        personBio.refreshReferenceObject("personnelAttachmentList");
        ProposalPersonBiographyAttachment personnelAttachment=(ProposalPersonBiographyAttachment)personBio.getPersonnelAttachmentList().get(0);
        assertNotNull(personnelAttachment);
-       assertEquals(ATTACHMENT_FILE_NAME, personnelAttachment.getFileName());
+       assertEquals(params[3], personnelAttachment.getFileName());
        assertEquals(ATTACHMENT_FILE_CONTENT_TYPE, personnelAttachment.getContentType());
        
    }
@@ -852,11 +851,12 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
      *
      * Get file name for institute and personnel attachment.
      */
-    private static String getFileName() {
+    private static String getFileName(String filename) {
         String userDir = System.getProperty("user.dir");
-        String path = userDir + "/src/main/webapp/en/htdocs/";
-        return path+"workflow-workspace.html";
-        }
+        String path = userDir + "/src/main/webapp/en/";
+        //return path+"workflow-workspace.html";
+        return path+filename;
+            }
 
     /**
      * This method extracts the error message (if any) from the html page as text.

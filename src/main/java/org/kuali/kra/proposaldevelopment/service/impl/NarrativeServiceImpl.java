@@ -39,7 +39,7 @@ import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 
 /**
- * This class...
+ * This class is primarily to add/delete proposal/institute attachments. 
  */
 public class NarrativeServiceImpl implements NarrativeService {
     private NarrativeAuthZService narrativeAuthZService;

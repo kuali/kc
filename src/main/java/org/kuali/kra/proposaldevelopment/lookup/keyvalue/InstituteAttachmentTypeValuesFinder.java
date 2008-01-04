@@ -15,18 +15,33 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 
+/**
+ * 
+ * This class is to get the drop down list of institute attachment type.
+ */
 public class InstituteAttachmentTypeValuesFinder  extends KeyValuesBase {
         KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
         public List<KeyLabelPair> getKeyValues() {
-            return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description","narrativeTypeGroup",Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE);
+            String instituteNarrativeTypeGroup = getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, Constants.INSTITUTE_NARRATIVE_TYPE_GROUP);
+            Map<String,String> queryMap = new HashMap<String,String>();
+            queryMap.put("narrativeTypeGroup", instituteNarrativeTypeGroup);
+            queryMap.put("systemGenerated", "N");
+            return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description",queryMap);
         }
 }
