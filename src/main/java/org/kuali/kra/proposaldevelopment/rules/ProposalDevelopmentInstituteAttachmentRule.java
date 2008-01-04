@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMEN
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_STATUS_NOT_SELECTED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DUPLICATE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
@@ -53,7 +54,7 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
     /**
      * This method is to validate :
      *   attachment type code, status code exist. 
-     *   If desc/type are entered, then file name is required.
+     *   file name is required.
      *   If attachment type does not allow multiple entries, then ensure one entry only for that type.
      * @see org.kuali.kra.proposaldevelopment.rule.AddInstituteAttachmentRule#processAddInstituteAttachmentBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent)
      */
@@ -86,14 +87,20 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
                         rulePassed = false;
                     }
                 }
+            } else if (StringUtils.isBlank(narrative.getModuleTitle())) {
+                /* if type='other', then desc is required.  
+                 * This is just following the example from narrative rule
+                 * It looks like if allowmultiple, then it's 'other' ??
+                 */
+                reportError(errorPath, ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED, param);
+                rulePassed = false;
             }
         }
-        if (rulePassed && StringUtils.isNotBlank(narrative.getNarrativeTypeCode()) && StringUtils.isNotBlank(narrative.getModuleTitle())) {
-            if (StringUtils.isBlank(narrative.getFileName())) {
-                rulePassed = false;
-                reportError(errorPath+".narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
-            }
-    }
+        if (StringUtils.isBlank(narrative.getFileName())) {
+            rulePassed = false;
+            reportError(errorPath+".narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
+        }
+    
 
         return rulePassed;
     }

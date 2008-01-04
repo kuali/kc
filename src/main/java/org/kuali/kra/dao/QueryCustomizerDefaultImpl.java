@@ -33,6 +33,7 @@ import org.kuali.core.service.KualiConfigurationService;
  * 
  * This class used for supplying customized query to OJB repository <code>collection-descriptor</code> tag.
  * Eg: 
+ *      <code>
  *          <query-customizer
  *               class="org.kuali.kra.proposaldevelopment.dao.NarrativeQueryCustomizer">
  *             <attribute
@@ -40,7 +41,7 @@ import org.kuali.core.service.KualiConfigurationService;
  *                 attribute-value="P"
  *             />
  *           </query-customizer>
- * 
+ *       </code>
  * @author KRADEV team
  * @version 1.0
  */
