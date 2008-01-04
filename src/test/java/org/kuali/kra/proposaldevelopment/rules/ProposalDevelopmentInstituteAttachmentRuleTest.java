@@ -75,6 +75,20 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     }
 
     /**
+     * 
+     * This method to test narrative types and status are OK
+     * @throws Exception
+     */
+    @Test
+    public void testNarrativeTypesAndStatuses() throws Exception {
+        
+        assertNotNull(narrativeTypes);
+        assertNotNull(narrativeStatuses);
+        assertTrue(narrativeTypes.size()>1);
+        assertTrue(narrativeStatuses.size()>1);
+    }
+    
+    /**
      * Test a good case. 
      *  
      * @throws Exception
@@ -83,15 +97,11 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     public void testOK() throws Exception {
         
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        assertNotNull(narrativeTypes);
-        assertNotNull(narrativeStatuses);
-        assertTrue(narrativeTypes.size()>1);
-        assertTrue(narrativeStatuses.size()>1);
         
         Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(1).getNarrativeTypeCode());
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-//        document.addInstituteAttachment(narrative);
+        newNarrative.setFileName("test.dat");
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertTrue(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
     }
@@ -109,6 +119,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(EMPTY_STRING);
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
+        newNarrative.setFileName("test.dat");
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
@@ -131,7 +142,7 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());
         newNarrative.setModuleStatusCode(EMPTY_STRING);
-//        document.addNarrative(newNarrative);
+        newNarrative.setFileName("test.dat");
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
@@ -151,10 +162,6 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     @Test
     public void testDuplicateNarrativeType() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        assertNotNull(narrativeTypes);
-        assertNotNull(narrativeStatuses);
-        assertTrue(narrativeTypes.size()>1);
-        assertTrue(narrativeStatuses.size()>1);
         
         Narrative narrative = new Narrative();
         Narrative newNarrative = new Narrative();
@@ -163,7 +170,6 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         newNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
         document.getInstituteAttachments().add(narrative);
-//        document.addInstituteAttachment(narrative);
         AddInstituteAttachmentEvent addInstituteAttachmentEvent = new AddInstituteAttachmentEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddInstituteAttachmentBusinessRules(addInstituteAttachmentEvent));
         
@@ -182,10 +188,6 @@ public class ProposalDevelopmentInstituteAttachmentRuleTest extends ProposalDeve
     @Test
     public void testFileNameRequired() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        assertNotNull(narrativeTypes);
-        assertNotNull(narrativeStatuses);
-        assertTrue(narrativeTypes.size()>1);
-        assertTrue(narrativeStatuses.size()>1);
         
         Narrative narrative = new Narrative();
         narrative.setNarrativeTypeCode(narrativeTypes.get(0).getNarrativeTypeCode());

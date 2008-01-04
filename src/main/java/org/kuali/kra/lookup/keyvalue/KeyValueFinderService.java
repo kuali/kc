@@ -26,6 +26,15 @@ import org.kuali.core.web.ui.KeyLabelPair;
  */
 public interface KeyValueFinderService{
     public List<KeyLabelPair> getKeyValues(Class keyValClass,String codePropName,String valPropName);
-    public List<KeyLabelPair> getKeyValues(Class keyValClass,String codePropName,String valPropName,String groupPropName,String groupValue);
+
+    /**
+     * 
+     * This method is to get key values pair by providing additional query map as retrieving criteria.
+     * @param keyValClass
+     * @param codePropName
+     * @param valPropName
+     * @param queryMap
+     * @return
+     */
     public List<KeyLabelPair> getKeyValues(Class keyValClass, String codePropName, String valPropName, Map queryMap);
 }

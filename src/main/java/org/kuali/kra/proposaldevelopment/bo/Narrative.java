@@ -226,18 +226,17 @@ public class Narrative extends KraPersistableBusinessObjectBase {
      * @return
      */
     public String getInstitutionalAttachmentTypeCode() {
-        //return institutionalAttachmentTypeCode;
         return narrativeTypeCode;
     }
 
     /**
      * 
      * This method set the institutional attachment type.  Since instituteattachmenttypecode is set as 'required' in DD.
-     * So, it also set to narrativetypecode, and hence to return narrative type code.
+     * So, it is set to narrativetypecode, and hence to return narrative type code.
      * @param institutionalAttachmentTypeCode
      */
     public void setInstitutionalAttachmentTypeCode(String institutionalAttachmentTypeCode) {
-        this.institutionalAttachmentTypeCode = institutionalAttachmentTypeCode;
+        //this.institutionalAttachmentTypeCode = institutionalAttachmentTypeCode;
         this.narrativeTypeCode = institutionalAttachmentTypeCode;
     }
 
