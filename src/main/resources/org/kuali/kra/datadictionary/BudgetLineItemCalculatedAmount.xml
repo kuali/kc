@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount">
+
+        <inquiry>
+            <title>Budget Details Cal Amts</title>
+
+            <inquirySections><inquirySection title="Budget Details Cal Amts"><inquiryFields>
+            	<field attributeName="budgetPeriod" forceInquiry="true"/>
+				<field attributeName="lineItemNumber" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="rateClassCode" forceInquiry="true"/>
+				<field attributeName="rateTypeCode" forceInquiry="true"/>
+				<field attributeName="versionNumber" forceInquiry="true"/>
+				<field attributeName="applyRateFlag"/>
+				<field attributeName="calculatedCost"/>
+				<field attributeName="calculatedCostSharing"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Details Cal Amts Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Budget Details Cal Amts</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="budgetPeriod"/>
+					<sortAttribute attributeName="lineItemNumber"/>
+					<sortAttribute attributeName="proposalNumber"/>
+					<sortAttribute attributeName="rateClassCode"/>
+					<sortAttribute attributeName="rateTypeCode"/>
+					<sortAttribute attributeName="versionNumber"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="budgetPeriod" required="false"/>
+				<lookupField attributeName="lineItemNumber" required="false"/>
+				<lookupField attributeName="proposalNumber" required="false"/>
+				<lookupField attributeName="rateClassCode" required="false"/>
+				<lookupField attributeName="rateTypeCode" required="false"/>
+				<lookupField attributeName="versionNumber" required="false"/>
+				<lookupField attributeName="applyRateFlag" required="false"/>
+				<lookupField attributeName="calculatedCost" required="false"/>
+				<lookupField attributeName="calculatedCostSharing" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="budgetPeriod" forceInquiry="true"/>
+				<field attributeName="lineItemNumber" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="rateClassCode" forceInquiry="true"/>
+				<field attributeName="rateTypeCode" forceInquiry="true"/>
+				<field attributeName="versionNumber" forceInquiry="true"/>
+				<field attributeName="applyRateFlag" forceInquiry="false"/>
+				<field attributeName="calculatedCost" forceInquiry="false"/>
+				<field attributeName="calculatedCostSharing" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>budgetPeriod</titleAttribute>
+		<titleAttribute>lineItemNumber</titleAttribute>
+		<titleAttribute>proposalNumber</titleAttribute>
+		<titleAttribute>rateClassCode</titleAttribute>
+		<titleAttribute>rateTypeCode</titleAttribute>
+		<titleAttribute>versionNumber</titleAttribute>
+        <attributes>
+
+	        <attribute name="budgetPeriod">
+			<label>Budget Period </label>
+			<shortLabel>Budget Period </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Budget Period </summary>
+			<description>Budget Period </description>
+			</attribute>
+
+			<attribute name="lineItemNumber">
+			<label>Line Item Number </label>
+			<shortLabel>Line Item Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Line Item Number </summary>
+			<description>Line Item Number </description>
+			</attribute>
+
+			<attribute name="proposalNumber">
+			<label>Proposal Number </label>
+			<shortLabel>Proposal Number </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Proposal Number </summary>
+			<description>Proposal Number </description>
+			</attribute>
+
+			<attribute name="rateClassCode">
+			<label>Rate Class Code </label>
+			<shortLabel>Rate Class Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Rate Class Code </summary>
+			<description>Rate Class Code </description>
+			</attribute>
+
+			<attribute name="rateTypeCode">
+			<label>Rate Type Code </label>
+			<shortLabel>Rate Type Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Rate Type Code </summary>
+			<description>Rate Type Code </description>
+			</attribute>
+
+			<attribute name="versionNumber">
+			<label>Version Number </label>
+			<shortLabel>Version Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Version Number </summary>
+			<description>Version Number </description>
+			</attribute>
+
+			<attribute name="applyRateFlag">
+			<label>Apply Rate Flag </label>
+			<shortLabel>Apply Rate Flag </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>Apply Rate Flag </summary>
+			<description>Apply Rate Flag </description>
+			</attribute>
+
+			<attribute name="calculatedCost">
+			<label>Calculated Cost </label>
+			<shortLabel>Calculated Cost </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Calculated Cost </summary>
+			<description>Calculated Cost </description>
+			</attribute>
+
+			<attribute name="calculatedCostSharing">
+			<label>Calculated Cost Sharing </label>
+			<shortLabel>Calculated Cost Sharing </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Calculated Cost Sharing </summary>
+			<description>Calculated Cost Sharing </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>

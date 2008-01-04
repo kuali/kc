@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetLineItem">
+
+        <inquiry>
+            <title>Budget Details</title>
+
+            <inquirySections><inquirySection title="Budget Details"><inquiryFields>
+            	<field attributeName="budgetPeriod" forceInquiry="true"/>
+				<field attributeName="lineItemNumber" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="versionNumber" forceInquiry="true"/>
+				<field attributeName="applyInRateFlag"/>
+				<field attributeName="basedOnLineItem"/>
+				<field attributeName="budgetCategoryCode"/>
+				<field attributeName="budgetJustification"/>
+				<field attributeName="costElement"/>
+				<field attributeName="costSharingAmount"/>
+				<field attributeName="endDate"/>
+				<field attributeName="lineItemCost"/>
+				<field attributeName="lineItemDescription"/>
+				<field attributeName="lineItemSequence"/>
+				<field attributeName="onOffCampusFlag"/>
+				<field attributeName="quantity"/>
+				<field attributeName="startDate"/>
+				<field attributeName="underrecoveryAmount"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Details Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Budget Details</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="budgetPeriod"/>
+					<sortAttribute attributeName="lineItemNumber"/>
+					<sortAttribute attributeName="proposalNumber"/>
+					<sortAttribute attributeName="versionNumber"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="budgetPeriod" required="false"/>
+				<lookupField attributeName="lineItemNumber" required="false"/>
+				<lookupField attributeName="proposalNumber" required="false"/>
+				<lookupField attributeName="versionNumber" required="false"/>
+				<lookupField attributeName="applyInRateFlag" required="false"/>
+				<lookupField attributeName="basedOnLineItem" required="false"/>
+				<lookupField attributeName="budgetCategoryCode" required="false"/>
+				<lookupField attributeName="budgetJustification" required="false"/>
+				<lookupField attributeName="costElement" required="false"/>
+				<lookupField attributeName="costSharingAmount" required="false"/>
+				<lookupField attributeName="endDate" required="false"/>
+				<lookupField attributeName="lineItemCost" required="false"/>
+				<lookupField attributeName="lineItemDescription" required="false"/>
+				<lookupField attributeName="lineItemSequence" required="false"/>
+				<lookupField attributeName="onOffCampusFlag" required="false"/>
+				<lookupField attributeName="quantity" required="false"/>
+				<lookupField attributeName="startDate" required="false"/>
+				<lookupField attributeName="underrecoveryAmount" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="budgetPeriod" forceInquiry="true"/>
+				<field attributeName="lineItemNumber" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="versionNumber" forceInquiry="true"/>
+				<field attributeName="applyInRateFlag" forceInquiry="false"/>
+				<field attributeName="basedOnLineItem" forceInquiry="false"/>
+				<field attributeName="budgetCategoryCode" forceInquiry="false"/>
+				<field attributeName="budgetJustification" forceInquiry="false"/>
+				<field attributeName="costElement" forceInquiry="false"/>
+				<field attributeName="costSharingAmount" forceInquiry="false"/>
+				<field attributeName="endDate" forceInquiry="false"/>
+				<field attributeName="lineItemCost" forceInquiry="false"/>
+				<field attributeName="lineItemDescription" forceInquiry="false"/>
+				<field attributeName="lineItemSequence" forceInquiry="false"/>
+				<field attributeName="onOffCampusFlag" forceInquiry="false"/>
+				<field attributeName="quantity" forceInquiry="false"/>
+				<field attributeName="startDate" forceInquiry="false"/>
+				<field attributeName="underrecoveryAmount" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>budgetPeriod</titleAttribute>
+		<titleAttribute>lineItemNumber</titleAttribute>
+		<titleAttribute>proposalNumber</titleAttribute>
+		<titleAttribute>versionNumber</titleAttribute>
+        <attributes>
+
+	        <attribute name="budgetPeriod">
+			<label>Budget Period </label>
+			<shortLabel>Budget Period </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Budget Period </summary>
+			<description>Budget Period </description>
+			</attribute>
+
+			<attribute name="lineItemNumber">
+			<label>Line Item Number </label>
+			<shortLabel>Line Item Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Line Item Number </summary>
+			<description>Line Item Number </description>
+			</attribute>
+
+			<attribute name="proposalNumber">
+			<label>Proposal Number </label>
+			<shortLabel>Proposal Number </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Proposal Number </summary>
+			<description>Proposal Number </description>
+			</attribute>
+
+			<attribute name="versionNumber">
+			<label>Version Number </label>
+			<shortLabel>Version Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Version Number </summary>
+			<description>Version Number </description>
+			</attribute>
+
+			<attribute name="applyInRateFlag">
+			<label>Apply In Rate Flag </label>
+			<shortLabel>Apply In Rate Flag </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>Apply In Rate Flag </summary>
+			<description>Apply In Rate Flag </description>
+			</attribute>
+
+			<attribute name="basedOnLineItem">
+			<label>Based On Line Item </label>
+			<shortLabel>Based On Line Item </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Based On Line Item </summary>
+			<description>Based On Line Item </description>
+			</attribute>
+
+			<attribute name="budgetCategoryCode">
+			<label>Budget Category Code </label>
+			<shortLabel>Budget Category Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Budget Category Code </summary>
+			<description>Budget Category Code </description>
+			</attribute>
+
+			<attribute name="budgetJustification">
+			<label>Budget Justification </label>
+			<shortLabel>Budget Justification </shortLabel>
+			<maxLength>0</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="0" />
+			</control>
+			<summary>Budget Justification </summary>
+			<description>Budget Justification </description>
+			</attribute>
+
+			<attribute name="costElement">
+			<label>Cost Element </label>
+			<shortLabel>Cost Element </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Cost Element </summary>
+			<description>Cost Element </description>
+			</attribute>
+
+			<attribute name="costSharingAmount">
+			<label>Cost Sharing Amount </label>
+			<shortLabel>Cost Sharing Amount </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Cost Sharing Amount </summary>
+			<description>Cost Sharing Amount </description>
+			</attribute>
+
+			<attribute name="endDate">
+			<label>End Date </label>
+			<shortLabel>End Date </shortLabel>
+			<maxLength>7</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="7" />
+			</control>
+			<summary>End Date </summary>
+			<description>End Date </description>
+			</attribute>
+
+			<attribute name="lineItemCost">
+			<label>Line Item Cost </label>
+			<shortLabel>Line Item Cost </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Line Item Cost </summary>
+			<description>Line Item Cost </description>
+			</attribute>
+
+			<attribute name="lineItemDescription">
+			<label>Line Item Description </label>
+			<shortLabel>Line Item Description </shortLabel>
+			<maxLength>80</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="80" />
+			</control>
+			<summary>Line Item Description </summary>
+			<description>Line Item Description </description>
+			</attribute>
+
+			<attribute name="lineItemSequence">
+			<label>Line Item Sequence </label>
+			<shortLabel>Line Item Sequence </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Line Item Sequence </summary>
+			<description>Line Item Sequence </description>
+			</attribute>
+
+			<attribute name="onOffCampusFlag">
+			<label>On Off Campus Flag </label>
+			<shortLabel>On Off Campus Flag </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>On Off Campus Flag </summary>
+			<description>On Off Campus Flag </description>
+			</attribute>
+
+			<attribute name="quantity">
+			<label>Quantity </label>
+			<shortLabel>Quantity </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Quantity </summary>
+			<description>Quantity </description>
+			</attribute>
+
+			<attribute name="startDate">
+			<label>Start Date </label>
+			<shortLabel>Start Date </shortLabel>
+			<maxLength>7</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="7" />
+			</control>
+			<summary>Start Date </summary>
+			<description>Start Date </description>
+			</attribute>
+
+			<attribute name="underrecoveryAmount">
+			<label>Underrecovery Amount </label>
+			<shortLabel>Underrecovery Amount </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Underrecovery Amount </summary>
+			<description>Underrecovery Amount </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>

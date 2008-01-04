@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.kra.bo.InstituteRate</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>WorkflowAdmin</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>InstituteRatesMaintenanceDocument</documentTypeName>
+        <documentTypeCode>INRA</documentTypeCode>
+
+        <label>InstituteRates Maintenance Document</label>
+        <shortLabel>instituteRatesMaintDoc</shortLabel>
+
+        <summary>InstituteRates Maintenance Document</summary>
+        <description>Document used to create or update InstituteRates Reference objects</description>
+
+        <lockingKeys>
+        	<field attributeName="activityTypeCode"/>
+			<field attributeName="fiscalYear"/>
+			<field attributeName="onOffCampusFlag"/>
+			<field attributeName="rateClassCode"/>
+			<field attributeName="rateTypeCode"/>
+			<field attributeName="startDate"/>
+			<field attributeName="unitNumber"/>
+
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit InstituteRates">
+                <maintainableItems>
+                	<maintainableField name="activityTypeCode" required="true"/>
+					<maintainableField name="fiscalYear" required="true"/>
+					<maintainableField name="onOffCampusFlag" required="true"/>
+					<maintainableField name="rateClassCode" required="true"/>
+					<maintainableField name="rateTypeCode" required="true"/>
+					<maintainableField name="startDate" required="true"/>
+					<maintainableField name="unitNumber" required="true"/>
+					<maintainableField name="rate" required="true"/>
+
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>
