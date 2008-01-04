@@ -16,7 +16,7 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="displayKeywordPanel" value="<%=request.getAttribute(Constants.KEYWORD_PANEL_DISPLAY)%>" />
+<c:set var="displayKeywordPanel" value="<%=session.getAttribute(Constants.KEYWORD_PANEL_DISPLAY)%>" />
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 
