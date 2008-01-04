@@ -85,7 +85,7 @@
 		<collection-descriptor name="narratives" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<query-customizer
-      			class="org.kuali.kra.proposaldevelopment.dao.NarrativeQueryCustomizer">
+      			class="org.kuali.kra.proposaldevelopment.dao.ProposalQueryCustomizer">
 	          <attribute
 	              attribute-name="narrativeType.narrativeTypeGroup"
 	              attribute-value="proposalNarrativeTypeGroup"
@@ -95,7 +95,7 @@
 		<collection-descriptor name="instituteAttachments" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Narrative" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<query-customizer
-      			class="org.kuali.kra.proposaldevelopment.dao.NarrativeQueryCustomizer">
+      			class="org.kuali.kra.proposaldevelopment.dao.ProposalQueryCustomizer">
 	          <attribute
 	              attribute-name="narrativeType.narrativeTypeGroup"
 	              attribute-value="instituteNarrativeTypeGroup"

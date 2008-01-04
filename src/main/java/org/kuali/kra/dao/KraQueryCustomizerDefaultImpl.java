@@ -45,7 +45,7 @@ import org.kuali.core.service.KualiConfigurationService;
  * @author KRADEV team
  * @version 1.0
  */
-public class QueryCustomizerDefaultImpl extends org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl {
+public class KraQueryCustomizerDefaultImpl extends org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl {
     private final Map<String,String> queryMap = new HashMap<String,String>();
     private final Map<String,String> proposalSystemQueryMap = new HashMap<String,String>();
     
