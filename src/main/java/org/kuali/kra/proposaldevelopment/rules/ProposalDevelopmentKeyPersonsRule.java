@@ -53,7 +53,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -63,7 +63,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-            return processSaveKeyPersonBusinessRules((ProposalDevelopmentDocument) document);
+        return processSaveKeyPersonBusinessRules((ProposalDevelopmentDocument) document);
     }
 
     /**
@@ -118,44 +118,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) document;
-        boolean retval = true;
-        
-        if (!hasPrincipalInvestigator(pd)) {
-            retval = false;
-            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_INVESTIGATOR_LOWBOUND);
-        }
-
-        retval &= processSaveKeyPersonBusinessRules(pd);
-
-        for (ProposalPerson person : pd.getProposalPersons()) {
-            retval &= validateInvestigator(person);
-        }                    
-        
-        retval &= validateCreditSplit((ProposalDevelopmentDocument) document);
-
-        return retval;
+        return true;
     }
-
-    /**
-     * Check if credit split totals validate
-     *
-     * @param document <code>{@link ProposalDevelopmentDocument}</code> instance to validate
-     * credit splits of
-     * @boolean is the credit split valid?
-     * @see CreditSplitValidator#validate(ProposalDevelopmentDocument)
-     */
-    protected boolean validateCreditSplit(ProposalDevelopmentDocument document) {
-        boolean retval = true;
-        boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME);
-        
-        if (creditSplitEnabled) {
-            retval &= new CreditSplitValidator().validate(document);
-        }
-        
-        return retval;
-    }
-
 
     /**
      * Validate the following
@@ -186,50 +150,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         return retval;
     }
-        
-    /**
-     *
-     * @param person <code>{@link ProposalPerson}</code> instance that is also an investigator to validate
-     * @boolean investigator is valid
-     * @Wsee #validateInvestigatorUnits(ProposalPerson)
-     */
-    protected boolean validateInvestigator(ProposalPerson person) {
-        boolean retval = true;
-        
-        if (!isInvestigator(person)) {
-            return retval;
-        }
-
-        retval &= validateInvestigatorUnits(person);
-        
-        return retval;
-    }
-    
-    /**
-     *
-     * @param person <code>{@link ProposalPerson}</code> instance who's units we want to validate
-     * @return boolean Investigator Units are valid
-     */
-    protected boolean validateInvestigatorUnits(ProposalPerson person) {
-        boolean retval = true;
-        
-        if (person.getUnits().size() < 1) {
-            LOG.debug("error.investigatorUnits.limit");
-            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_INVESTIGATOR_UNITS_UPBOUND);
-        }
-        
-        for (ProposalPersonUnit unit : person.getUnits()) {
-            if (isBlank(unit.getUnitNumber())) {
-                LOG.debug("error.investigatorUnits.limit");
-                reportErrorWithPrefix("newProposalPerson", "newPproposalPerson", ERROR_INVESTIGATOR_UNITS_UPBOUND);
-            }
             
-            retval &= validateUnit(unit);
-        }
-        
-        return retval;
-    }
-    
     /**
      * @see org.kuali.kra.rules.ResearchDocumentRuleBase#reportError(String, String, String...)
      */
@@ -237,15 +158,6 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         GlobalVariables.getErrorMap().addToErrorPath(errorPathPrefix);
         super.reportError(propertyName, errorKey, errorParams);
         GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);        
-    }
-
-    /**
-     * Locate in Spring the <code>{@link KualiConfigurationService}</code> singleton instance
-     * 
-     * @return KualiConfigurationService
-     */
-    private KualiConfigurationService getConfigurationService() {
-        return getService(KualiConfigurationService.class);
     }
 
     /**
