@@ -19,7 +19,6 @@
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
 <c:set var="textAreaFieldName" value="newInstituteAttachment.moduleTitle" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
-<c:set var="numOfInstAtt" value="0"/>	
 
 
 <kul:tab tabTitle="Institutional Attachments (${fn:length(KualiForm.document.instituteAttachments)})" defaultOpen="true" tabErrorKey="document.instituteAttachment*,newInstituteAttachment*">
@@ -82,15 +81,13 @@
                 	    ${instituteAttachment.authorPersonName}
 	                </td>
 	                <td>                	
-                	    <input type="hidden" name="document.instituteAttachment[${status.index}].institutionalAttachmentTypeCode" value="${instituteAttachment.institutionalAttachmentTypeCode}" />
-                         ${instituteAttachment.narrativeType.description}	                </td>
-                	    <!-- <kul:htmlControlAttribute property="document.instituteAttachment[${status.index}].narrativeType.description" readOnly="true" attributeEntry="${narrativeAttributes.narrativeType.description}" /> -->
+                         ${instituteAttachment.narrativeType.description}	                
 					</td>
 	                <td>
-	                	<kul:htmlControlAttribute property="document.instituteAttachment[${status.index}].moduleTitle" readOnly="true" attributeEntry="${narrativeAttributes.moduleTitle}" />
+	                    ${instituteAttachment.moduleTitle}
 					</td>
 	                <td>
-	                    <kul:htmlControlAttribute property="document.instituteAttachment[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
+	                    ${instituteAttachment.fileName}
 	                </td>
 	                <td>
 					<div align=center>
