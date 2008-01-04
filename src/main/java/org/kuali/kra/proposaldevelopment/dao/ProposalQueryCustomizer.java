@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.dao;
 
-import org.kuali.kra.dao.QueryCustomizerDefaultImpl;
+import org.kuali.kra.dao.KraQueryCustomizerDefaultImpl;
 
-public class NarrativeQueryCustomizer extends QueryCustomizerDefaultImpl {
+public class ProposalQueryCustomizer extends KraQueryCustomizerDefaultImpl {
     public void addAttribute(String name, String value) {
         super.addProposalSystemAttribute(name, value);
     }
