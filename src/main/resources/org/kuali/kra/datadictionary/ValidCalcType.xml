@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.ValidCalcType">
+
+        <inquiry>
+            <title>Valid Calc Types</title>
+
+            <inquirySections><inquirySection title="Valid Calc Types"><inquiryFields>
+            	<field attributeName="calcTypeId" forceInquiry="true"/>
+				<field attributeName="dependentSeqNumber" forceInquiry="true"/>
+				<field attributeName="rateClassType" forceInquiry="true"/>
+				<field attributeName="dependentRateClassType"/>
+				<field attributeName="rateClassCode"/>
+				<field attributeName="rateTypeCode"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Valid Calc Types Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Valid Calc Types</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="calcTypeId"/>
+					<sortAttribute attributeName="dependentSeqNumber"/>
+					<sortAttribute attributeName="rateClassType"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="calcTypeId" required="false"/>
+				<lookupField attributeName="dependentSeqNumber" required="false"/>
+				<lookupField attributeName="rateClassType" required="false"/>
+				<lookupField attributeName="dependentRateClassType" required="false"/>
+				<lookupField attributeName="rateClassCode" required="false"/>
+				<lookupField attributeName="rateTypeCode" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="calcTypeId" forceInquiry="true"/>
+				<field attributeName="dependentSeqNumber" forceInquiry="true"/>
+				<field attributeName="rateClassType" forceInquiry="true"/>
+				<field attributeName="dependentRateClassType" forceInquiry="false"/>
+				<field attributeName="rateClassCode" forceInquiry="false"/>
+				<field attributeName="rateTypeCode" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>calcTypeId</titleAttribute>
+		<titleAttribute>dependentSeqNumber</titleAttribute>
+		<titleAttribute>rateClassType</titleAttribute>
+        <attributes>
+
+	        <attribute name="calcTypeId">
+			<label>Calc Type Id </label>
+			<shortLabel>Calc Type Id </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Calc Type Id </summary>
+			<description>Calc Type Id </description>
+			</attribute>
+
+			<attribute name="dependentSeqNumber">
+			<label>Dependent Seq Number </label>
+			<shortLabel>Dependent Seq Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Dependent Seq Number </summary>
+			<description>Dependent Seq Number </description>
+			</attribute>
+
+			<attribute name="rateClassType">
+			<label>Rate Class Type </label>
+			<shortLabel>Rate Class Type </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>Rate Class Type </summary>
+			<description>Rate Class Type </description>
+			</attribute>
+
+			<attribute name="dependentRateClassType">
+			<label>Dependent Rate Class Type </label>
+			<shortLabel>Dependent Rate Class Type </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>Dependent Rate Class Type </summary>
+			<description>Dependent Rate Class Type </description>
+			</attribute>
+
+			<attribute name="rateClassCode">
+			<label>Rate Class Code </label>
+			<shortLabel>Rate Class Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Rate Class Code </summary>
+			<description>Rate Class Code </description>
+			</attribute>
+
+			<attribute name="rateTypeCode">
+			<label>Rate Type Code </label>
+			<shortLabel>Rate Type Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Rate Type Code </summary>
+			<description>Rate Type Code </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
