@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
-import static org.kuali.kra.infrastructure.Constants.NEW_PERSON_LOOKUP_FLAG;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +34,10 @@ import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -78,6 +80,35 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         if (proposalDevelopmentForm.isAuditActivated()) {
             KNSServiceLocator.getBean(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
         }
+        
+        //if(proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()!=null){
+            proposalDevelopmentForm.setAdditionalDocInfo1(new KeyLabelPair("DataDictionary.Sponsor.attributes.sponsorCode",proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()));    
+        //}
+        
+        String principalInvestigator=null;
+        //ProposalPerson key = null;
+        String role = null;
+        
+        if(proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalPersons()!=null){
+            //Iterator<ProposalPerson> iter = (proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalPersons()).iterator();
+            //while(iter.hasNext()){
+            for(ProposalPerson key: (proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalPersons())){                
+                role = key.getProposalPersonRoleId();
+                if(role.equals(PRINCIPAL_INVESTIGATOR_ROLE)){        
+                    principalInvestigator = key.getFullName();
+                }       
+            }
+        }
+        //if(isPrincipalInvestigator){
+            proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator",principalInvestigator));
+        //}
+        
+        /*if(proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()!=null){
+            proposalDevelopmentForm.setAdditionalDocInfo1(new KeyLabelPair("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()));
+        }
+        if(proposalDevelopmentForm.getProposalDevelopmentDocument().getPrincipalInvestigator()!=null){
+            proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("${Document.DataDictionary.ProposalDevelopmentDocument.attributes.sponsorCode.label}",proposalDevelopmentForm.getProposalDevelopmentDocument().getPrincipalInvestigator().getFullName()));
+        }*/
 
         // setup any Proposal Development System Parameters that will be needed
         KualiConfigurationService configService = (KualiConfigurationService)KraServiceLocator.getService(KualiConfigurationService.class);
