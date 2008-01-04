@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetProposalRates">
+
+        <inquiry>
+            <title>Prop Rates</title>
+
+            <inquirySections><inquirySection title="Prop Rates"><inquiryFields>
+            	<field attributeName="fiscalYear" forceInquiry="true"/>
+				<field attributeName="onOffCampusFlag" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="rateClassCode" forceInquiry="true"/>
+				<field attributeName="rateTypeCode" forceInquiry="true"/>
+				<field attributeName="startDate" forceInquiry="true"/>
+				<field attributeName="versionNumber" forceInquiry="true"/>
+				<field attributeName="activityTypeCode"/>
+				<field attributeName="applicableRate"/>
+				<field attributeName="instituteRate"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Prop Rates Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Prop Rates</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="fiscalYear"/>
+					<sortAttribute attributeName="onOffCampusFlag"/>
+					<sortAttribute attributeName="proposalNumber"/>
+					<sortAttribute attributeName="rateClassCode"/>
+					<sortAttribute attributeName="rateTypeCode"/>
+					<sortAttribute attributeName="startDate"/>
+					<sortAttribute attributeName="versionNumber"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="fiscalYear" required="false"/>
+				<lookupField attributeName="onOffCampusFlag" required="false"/>
+				<lookupField attributeName="proposalNumber" required="false"/>
+				<lookupField attributeName="rateClassCode" required="false"/>
+				<lookupField attributeName="rateTypeCode" required="false"/>
+				<lookupField attributeName="startDate" required="false"/>
+				<lookupField attributeName="versionNumber" required="false"/>
+				<lookupField attributeName="activityTypeCode" required="false"/>
+				<lookupField attributeName="applicableRate" required="false"/>
+				<lookupField attributeName="instituteRate" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="fiscalYear" forceInquiry="true"/>
+				<field attributeName="onOffCampusFlag" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="rateClassCode" forceInquiry="true"/>
+				<field attributeName="rateTypeCode" forceInquiry="true"/>
+				<field attributeName="startDate" forceInquiry="true"/>
+				<field attributeName="versionNumber" forceInquiry="true"/>
+				<field attributeName="activityTypeCode" forceInquiry="false"/>
+				<field attributeName="applicableRate" forceInquiry="false"/>
+				<field attributeName="instituteRate" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>fiscalYear</titleAttribute>
+		<titleAttribute>onOffCampusFlag</titleAttribute>
+		<titleAttribute>proposalNumber</titleAttribute>
+		<titleAttribute>rateClassCode</titleAttribute>
+		<titleAttribute>rateTypeCode</titleAttribute>
+		<titleAttribute>startDate</titleAttribute>
+		<titleAttribute>versionNumber</titleAttribute>
+        <attributes>
+
+	        <attribute name="fiscalYear">
+			<label>Fiscal Year </label>
+			<shortLabel>Fiscal Year </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Fiscal Year </summary>
+			<description>Fiscal Year </description>
+			</attribute>
+
+			<attribute name="onOffCampusFlag">
+			<label>On Off Campus Flag </label>
+			<shortLabel>On Off Campus Flag </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>On Off Campus Flag </summary>
+			<description>On Off Campus Flag </description>
+			</attribute>
+
+			<attribute name="proposalNumber">
+			<label>Proposal Number </label>
+			<shortLabel>Proposal Number </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Proposal Number </summary>
+			<description>Proposal Number </description>
+			</attribute>
+
+			<attribute name="rateClassCode">
+			<label>Rate Class Code </label>
+			<shortLabel>Rate Class Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Rate Class Code </summary>
+			<description>Rate Class Code </description>
+			</attribute>
+
+			<attribute name="rateTypeCode">
+			<label>Rate Type Code </label>
+			<shortLabel>Rate Type Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Rate Type Code </summary>
+			<description>Rate Type Code </description>
+			</attribute>
+
+			<attribute name="startDate">
+			<label>Start Date </label>
+			<shortLabel>Start Date </shortLabel>
+			<maxLength>7</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="7" />
+			</control>
+			<summary>Start Date </summary>
+			<description>Start Date </description>
+			</attribute>
+
+			<attribute name="versionNumber">
+			<label>Version Number </label>
+			<shortLabel>Version Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Version Number </summary>
+			<description>Version Number </description>
+			</attribute>
+
+			<attribute name="activityTypeCode">
+			<label>Activity Type Code </label>
+			<shortLabel>Activity Type Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Activity Type Code </summary>
+			<description>Activity Type Code </description>
+			</attribute>
+
+			<attribute name="applicableRate">
+			<label>Applicable Rate </label>
+			<shortLabel>Applicable Rate </shortLabel>
+			<maxLength>5</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="5" />
+			</control>
+			<summary>Applicable Rate </summary>
+			<description>Applicable Rate </description>
+			</attribute>
+
+			<attribute name="instituteRate">
+			<label>Institute Rate </label>
+			<shortLabel>Institute Rate </shortLabel>
+			<maxLength>5</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="5" />
+			</control>
+			<summary>Institute Rate </summary>
+			<description>Institute Rate </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
