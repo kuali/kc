@@ -137,6 +137,20 @@
 				<description>The creation or last modification timestamp.</description>
 			</attributeReference>
 			
+			<attribute name="principalInvestigator">
+				<label>Principal Investigator</label>
+				<shortLabel>PI</shortLabel>
+				<maxLength>20</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<text size="20" />
+				</control>
+				<summary>Principal Investigator</summary>
+				<description>Principal Investigator.</description>
+			</attribute>
+			
         </attributes>
     </businessObject>
 </dictionaryEntry>
