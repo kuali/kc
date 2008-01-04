@@ -143,6 +143,31 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
         verifySavedRequiredFields(doc, "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "2007-08-14", "2007-08-21", "1");
     }
+    
+    @Test
+    public void testHeaderFields() throws Exception {
+        final WebClient webClient = new WebClient();
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+        final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+        
+        assertContains(page3,"Sponsor Code:");
+        assertContains(page3,"PI:");
+        
+        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+
+        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) kualiForm.getInputByName("document.documentHeader.documentNumber");
+
+        final HtmlPage page4 = clickButton(page3, kualiForm,"methodToCall.save",IMAGE_INPUT);
+        assertEquals("Kuali :: Proposal Development Document", page4.getTitleText());
+
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber.getDefaultValue());
+
+        assertNotNull(doc);
+
+        assertContains(page3,"Sponsor Code:");
+        assertContains(page3,"PI:");        
+    }
 
     @Test
     public void testSaveProposalDevelopmentDocumentNotNewWeb() throws Exception {
