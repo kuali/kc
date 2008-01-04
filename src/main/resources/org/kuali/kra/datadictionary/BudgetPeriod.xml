@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetPeriod">
+
+        <inquiry>
+            <title>Budget Periods</title>
+
+            <inquirySections><inquirySection title="Budget Periods"><inquiryFields>
+            	<field attributeName="budgetPeriod" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="versionNumber" forceInquiry="true"/>
+				<field attributeName="comments"/>
+				<field attributeName="costSharingAmount"/>
+				<field attributeName="endDate"/>
+				<field attributeName="startDate"/>
+				<field attributeName="totalCost"/>
+				<field attributeName="totalCostLimit"/>
+				<field attributeName="totalDirectCost"/>
+				<field attributeName="totalIndirectCost"/>
+				<field attributeName="underrecoveryAmount"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Periods Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Budget Periods</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="budgetPeriod"/>
+					<sortAttribute attributeName="proposalNumber"/>
+					<sortAttribute attributeName="versionNumber"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="budgetPeriod" required="false"/>
+				<lookupField attributeName="proposalNumber" required="false"/>
+				<lookupField attributeName="versionNumber" required="false"/>
+				<lookupField attributeName="comments" required="false"/>
+				<lookupField attributeName="costSharingAmount" required="false"/>
+				<lookupField attributeName="endDate" required="false"/>
+				<lookupField attributeName="startDate" required="false"/>
+				<lookupField attributeName="totalCost" required="false"/>
+				<lookupField attributeName="totalCostLimit" required="false"/>
+				<lookupField attributeName="totalDirectCost" required="false"/>
+				<lookupField attributeName="totalIndirectCost" required="false"/>
+				<lookupField attributeName="underrecoveryAmount" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="budgetPeriod" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="versionNumber" forceInquiry="true"/>
+				<field attributeName="comments" forceInquiry="false"/>
+				<field attributeName="costSharingAmount" forceInquiry="false"/>
+				<field attributeName="endDate" forceInquiry="false"/>
+				<field attributeName="startDate" forceInquiry="false"/>
+				<field attributeName="totalCost" forceInquiry="false"/>
+				<field attributeName="totalCostLimit" forceInquiry="false"/>
+				<field attributeName="totalDirectCost" forceInquiry="false"/>
+				<field attributeName="totalIndirectCost" forceInquiry="false"/>
+				<field attributeName="underrecoveryAmount" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>budgetPeriod</titleAttribute>
+		<titleAttribute>proposalNumber</titleAttribute>
+		<titleAttribute>versionNumber</titleAttribute>
+        <attributes>
+
+	        <attribute name="budgetPeriod">
+			<label>Budget Period </label>
+			<shortLabel>Budget Period </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Budget Period </summary>
+			<description>Budget Period </description>
+			</attribute>
+
+			<attribute name="proposalNumber">
+			<label>Proposal Number </label>
+			<shortLabel>Proposal Number </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Proposal Number </summary>
+			<description>Proposal Number </description>
+			</attribute>
+
+			<attribute name="versionNumber">
+			<label>Version Number </label>
+			<shortLabel>Version Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Version Number </summary>
+			<description>Version Number </description>
+			</attribute>
+
+			<attribute name="comments">
+			<label>Comments </label>
+			<shortLabel>Comments </shortLabel>
+			<maxLength>0</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="0" />
+			</control>
+			<summary>Comments </summary>
+			<description>Comments </description>
+			</attribute>
+
+			<attribute name="costSharingAmount">
+			<label>Cost Sharing Amount </label>
+			<shortLabel>Cost Sharing Amount </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Cost Sharing Amount </summary>
+			<description>Cost Sharing Amount </description>
+			</attribute>
+
+			<attribute name="endDate">
+			<label>End Date </label>
+			<shortLabel>End Date </shortLabel>
+			<maxLength>7</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="7" />
+			</control>
+			<summary>End Date </summary>
+			<description>End Date </description>
+			</attribute>
+
+			<attribute name="startDate">
+			<label>Start Date </label>
+			<shortLabel>Start Date </shortLabel>
+			<maxLength>7</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="7" />
+			</control>
+			<summary>Start Date </summary>
+			<description>Start Date </description>
+			</attribute>
+
+			<attribute name="totalCost">
+			<label>Total Cost </label>
+			<shortLabel>Total Cost </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Total Cost </summary>
+			<description>Total Cost </description>
+			</attribute>
+
+			<attribute name="totalCostLimit">
+			<label>Total Cost Limit </label>
+			<shortLabel>Total Cost Limit </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Total Cost Limit </summary>
+			<description>Total Cost Limit </description>
+			</attribute>
+
+			<attribute name="totalDirectCost">
+			<label>Total Direct Cost </label>
+			<shortLabel>Total Direct Cost </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Total Direct Cost </summary>
+			<description>Total Direct Cost </description>
+			</attribute>
+
+			<attribute name="totalIndirectCost">
+			<label>Total Indirect Cost </label>
+			<shortLabel>Total Indirect Cost </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Total Indirect Cost </summary>
+			<description>Total Indirect Cost </description>
+			</attribute>
+
+			<attribute name="underrecoveryAmount">
+			<label>Underrecovery Amount </label>
+			<shortLabel>Underrecovery Amount </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Underrecovery Amount </summary>
+			<description>Underrecovery Amount </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>

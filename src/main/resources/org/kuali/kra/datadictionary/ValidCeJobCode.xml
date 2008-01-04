@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.ValidCeJobCode">
+
+        <inquiry>
+            <title>Valid Ce Job Codes</title>
+
+            <inquirySections><inquirySection title="Valid Ce Job Codes"><inquiryFields>
+            	<field attributeName="costElement" forceInquiry="true"/>
+				<field attributeName="jobCode" forceInquiry="true"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Valid Ce Job Codes Lookup</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Valid Ce Job Codes</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="costElement"/>
+					<sortAttribute attributeName="jobCode"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="costElement" required="false"/>
+				<lookupField attributeName="jobCode" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="costElement" forceInquiry="true"/>
+				<field attributeName="jobCode" forceInquiry="true"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>costElement</titleAttribute>
+		<titleAttribute>jobCode</titleAttribute>
+        <attributes>
+
+	        <attribute name="costElement">
+			<label>Cost Element </label>
+			<shortLabel>Cost Element </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Cost Element </summary>
+			<description>Cost Element </description>
+			</attribute>
+
+			<attribute name="jobCode">
+			<label>Job Code </label>
+			<shortLabel>Job Code </shortLabel>
+			<maxLength>6</maxLength>
+			<validationPattern></validationPattern>
+			<control>
+				<text size="6" />
+			</control>
+			<summary>Job Code </summary>
+			<description>Job Code </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
