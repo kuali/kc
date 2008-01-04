@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Rolodex;
@@ -53,7 +54,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
         
-        setKeywordsPanelFlag(request);
+        setKeywordsPanelFlag(request);        
         ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm)form).getProposalDevelopmentDocument();
 
         KraServiceLocator.getService(ProposalDevelopmentService.class).initializeUnitOrganzationLocation(proposalDevelopmentDocument);
@@ -105,10 +106,9 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      * @param request
      */
     private void setKeywordsPanelFlag(HttpServletRequest request){
-        String keywordPanelDisplay = KNSServiceLocator.getKualiConfigurationService().getParameterValue(
+        String keywordPanelDisplay = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
                 Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);
-        request.setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);       
-        
+        request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
     }
 
     /**
