@@ -132,6 +132,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         proposalYnqs = new ArrayList<ProposalYnq>();
         ynqGroupNames = new ArrayList<YnqGroupName>();
         budgetVersionOverviews = new TypedArrayList(BudgetVersionOverview.class);
+        investigators = new ArrayList<ProposalPerson>();
     }
 
     public void initialize() {

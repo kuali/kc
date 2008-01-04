@@ -65,13 +65,24 @@ public interface Constants {
     public static final String DEADLINE_DATE_KEY = "document.deadlineDate";
     public static final String SPONSOR_PROPOSAL_NUMBER_LABEL = "Sponsor Proposal ID";
 
+    public static final String AUDIT_ERRORS = "Errors";
     public static final String AUDIT_WARNINGS = "Warnings";
 
     public static final String PROPOSAL_PAGE = "proposal";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR = "SponsorProgramInformation";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_NAME = "Sponsor & Program Information";
-    public static final String PROPOSAL_PERSON_INVESTIGATOR = "investigator";
 
+    // Key Personnel Mojo
+    public static final String KEY_PERSONNEL_PAGE = "keyPersonnel";
+    public static final String PROPOSAL_PERSON_INVESTIGATOR = "investigator";
+    public static final String KEY_PERSONNEL_PANEL_ANCHOR = "KeyPersonnel";
+    public static final String KEY_PERSONNEL_PANEL_NAME = "Key Personnel Information";
+    public static final String PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY = "fieldName";
+    public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "invCreditTypeCode";
+    public static final String EMPTY_STRING = "";
+    public static final String PROPOSAL_PERSON_KEY = "document.propoosalPerson*";
+
+   
     /* set values for ynq */
     public static final Integer ANSWER_YES_NO = 2;
     public static final Integer ANSWER_YES_NO_NA = 3;
@@ -81,8 +92,5 @@ public interface Constants {
     public static final String YNQ_REVIEW_DATE_REQUIRED = "Date required: if answer = ";
     public static final String QUESTION_STATUS_ACTIVE = "A";
 
-    public static final String PERSON_EDITABLE_FIELD_NAME_PROPERTY_KEY = "fieldName";
-    public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "invCreditTypeCode";
-    public static final String EMPTY_STRING = "";
 
 }

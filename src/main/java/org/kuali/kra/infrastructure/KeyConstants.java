@@ -32,15 +32,15 @@ public class KeyConstants {
 
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW = "proposaldevelopment.proposaltype.new";
     
+    // Key Personnel Mojo
     public static final String ERROR_INVESTIGATOR_UNITS_UPBOUND = "error.investigatorUnits.upbound";
     public static final String ERROR_INVESTIGATOR_UPBOUND = "error.principalInvestigators.upbound";
     public static final String ERROR_INVESTIGATOR_LOWBOUND = "error.principalInvestigators.lowbound";
     public static final String ERROR_MISSING_PERSON_ROLE = "error.missingPersonRole";
-
     public static final String ERROR_ALL_PERSON_CREDIT_SPLIT_UPBOUND = "error.allPersonCreditSplit.upbound";
     public static final String ERROR_PERSON_CREDIT_SPLIT_UPBOUND = "error.personCreditSplit.upbound";
-    public static final String ERROR_REQUIRED_FOR_FILE_NAME="error.required.for.fileName";
     
+    public static final String ERROR_REQUIRED_FOR_FILE_NAME="error.required.for.fileName";
     public static final String ERROR_ABSTRACT_TYPE_NOT_SELECTED = "error.abstractType.notselected";
     public static final String ERROR_ABSTRACT_TYPE_INVALID = "error.abstractType.invalid";
     public static final String ERROR_ABSTRACT_TYPE_DUPLICATE = "error.abstractType.duplicate";
