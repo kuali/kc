@@ -46,10 +46,6 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
             rulePassed = false;
             reportError(errorPath+".proposalPersonNumber", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
         }
-        if(StringUtils.isBlank(proposalPersonBiography.getDescription())){
-            rulePassed = false;
-            reportError(errorPath+".description", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRITPION_REQUIRED);
-        }
         if (StringUtils.isBlank(proposalPersonBiography.getFileName())) {
             rulePassed = false;
             errorPath = errorPath;
