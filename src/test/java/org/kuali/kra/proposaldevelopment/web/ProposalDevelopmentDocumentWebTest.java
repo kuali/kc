@@ -406,7 +406,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
                 SUBMIT_INPUT_BY_NAME);
         assertTrue(abstractAttachmentPage.asText().contains("Document was successfully saved"));
         // really is in abstracts & attachments page
-        assertTrue(abstractAttachmentPage.asText().contains("Add Institutional Attachments &nbsp Posted Timestamp Uploaded By"));
+        assertTrue(abstractAttachmentPage.asText().contains("Add Internal Attachments &nbsp Posted Timestamp Uploaded By"));
         HtmlForm form1 = (HtmlForm) abstractAttachmentPage.getForms().get(0);
 
         final HtmlPage pageAfterAddAttachment =setInstituteAttachmentLine(abstractAttachmentPage,form1,getFileName(ATTACHMENT_FILE_NAME_1)+SEMI_COLON+INSTITUTE_ATTACHMENT_TYPE_1+SEMI_COLON+description[0]);
