@@ -21,10 +21,10 @@
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
 
 
-<kul:tab tabTitle="Institutional Attachments (${fn:length(KualiForm.document.instituteAttachments)})" defaultOpen="true" tabErrorKey="document.instituteAttachment*,newInstituteAttachment*">
+<kul:tab tabTitle="Internal Attachments (${fn:length(KualiForm.document.instituteAttachments)})" defaultOpen="true" tabErrorKey="document.instituteAttachment*,newInstituteAttachment*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
-    		<span class="subhead-left"><h2>Add Institutional Attachments</h2></span>
+    		<span class="subhead-left"><h2>Add Internal Attachments</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
         
