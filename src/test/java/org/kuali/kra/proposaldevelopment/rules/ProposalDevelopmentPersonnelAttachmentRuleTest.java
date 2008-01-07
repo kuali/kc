@@ -127,31 +127,6 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
     }
     
-    /**
-     * Test adding a personnel attachment with unspecified description
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testUnspecifiedDescription() throws Exception {
-        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        assertNotNull(documentTypes);
-        assertTrue(documentTypes.size()>1);
-        
-        ProposalPersonBiography newProposalPersonBiography = new ProposalPersonBiography();
-        newProposalPersonBiography.setDocumentTypeCode(documentTypes.get(1).getDocumentTypeCode());
-        //newProposalPersonBiography.setDescription("description");
-        newProposalPersonBiography.setFileName("test.dat");
-        newProposalPersonBiography.setProposalPersonNumber(new Integer(2));
-        AddPersonnelAttachmentEvent addPersonnelAttachmentEvent = new AddPersonnelAttachmentEvent(EMPTY_STRING,document,newProposalPersonBiography);
-        assertFalse(rule.processAddPersonnelAttachmentBusinessRules(addPersonnelAttachmentEvent));
-        
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROP_PERSON_BIO+".description");
-        assertTrue(errors.size() == 1);
-        
-        ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRITPION_REQUIRED);
-    }
 
     /**
      * 
