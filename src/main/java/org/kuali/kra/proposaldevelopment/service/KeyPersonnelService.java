@@ -36,7 +36,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface KeyPersonnelService {
     /**
@@ -81,19 +81,10 @@ public interface KeyPersonnelService {
      * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup on the 
      * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPersonUnit}</code> instance.
      *
-     * @param unit
-     * @return ProposalPersonUnit
-     */
-    public ProposalPersonUnit createProposalPersonUnit(Unit unit, ProposalPerson person);
-
-    /**
-     * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup on the 
-     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPersonUnit}</code> instance.
-     *
      * @param unitId
      * @return ProposalPersonUnit
      */
-    public ProposalPersonUnit createProposalPersonUnitFromId(String unitId, ProposalPerson person);
+    public ProposalPersonUnit createProposalPersonUnit(String unitId, ProposalPerson person);
 
     /**
      * Uses a <code>personId</code> obtained from the <code>{@link Person}</code> lookup on the 
