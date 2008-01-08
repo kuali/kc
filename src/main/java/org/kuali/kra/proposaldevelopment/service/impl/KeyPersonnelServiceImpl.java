@@ -51,7 +51,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -253,41 +253,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      * @param person Principal 
      */
     private void assignLeadUnit(ProposalPerson person, String unitNumber) {
-        ProposalPersonUnit unit = createProposalPersonUnitFromId(unitNumber, person);
+        ProposalPersonUnit unit = createProposalPersonUnit(unitNumber, person);
+        unit.setLeadUnit(true);
         person.setHomeUnit(unitNumber);
         addUnitToPerson(person, unit);
     }
-    
-    /**
-     * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup on the 
-     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPersonUnit}</code> instance.
-     *
-     * @param unit
-     * @return ProposalPersonUnit
-     */
-    public ProposalPersonUnit createProposalPersonUnit(Unit unit, ProposalPerson person) {
-        ProposalPersonUnit retval = new ProposalPersonUnit();
-        Map valueMap = new HashMap();
-        valueMap.put("unitNumber", unit.getUnitNumber());
-        Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, valueMap);
         
-        for (Unit found : units) {
-            retval.setUnitNumber(found.getUnitNumber());
-        }
-
-        for (InvestigatorCreditType creditType : getInvestigatorCreditTypes()) {
-            ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
-            creditSplit.setProposalNumber(person.getProposalNumber());
-            creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
-            creditSplit.setUnitNumber(unit.getUnitNumber());
-            creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
-            creditSplit.setCredit(new KualiDecimal(0));
-            retval.getCreditSplits().add(creditSplit);
-        }
-
-        return retval;
-    }
-    
     /**
      * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup on the 
      * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPersonUnit}</code> instance.
@@ -295,11 +266,28 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      * @param unitId
      * @return ProposalPersonUnit
      */
-    public ProposalPersonUnit createProposalPersonUnitFromId(String unitId, ProposalPerson person) {
-        Unit unit = new Unit();
-        unit.setUnitNumber(unitId);
+    public ProposalPersonUnit createProposalPersonUnit(String unitId, ProposalPerson person) {
+        ProposalPersonUnit retval = new ProposalPersonUnit();
+        Map valueMap = new HashMap();
+        valueMap.put("unitNumber", unitId);
+        Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, valueMap);
+        
+        for (Unit found : units) {
+            retval.setUnitNumber(found.getUnitNumber());
+            retval.setUnit(found);
+        }
 
-        return createProposalPersonUnit(unit, person);
+        for (InvestigatorCreditType creditType : getInvestigatorCreditTypes()) {
+            ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
+            creditSplit.setProposalNumber(person.getProposalNumber());
+            creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
+            creditSplit.setUnitNumber(unitId);
+            creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
+            creditSplit.setCredit(new KualiDecimal(0));
+            retval.getCreditSplits().add(creditSplit);
+        }
+
+        return retval;        
     }
     
     /**
