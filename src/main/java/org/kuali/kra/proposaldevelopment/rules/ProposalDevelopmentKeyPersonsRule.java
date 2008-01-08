@@ -22,7 +22,6 @@ import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Unit;
@@ -53,7 +52,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.24 $
+ * @version $Revision: 1.25 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -89,7 +88,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                 personIndex++;
             }
         }
-
+        
         if (pi_cnt > 1) {
             retval = false;
             reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);            
