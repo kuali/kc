@@ -31,6 +31,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ALL_PERSON_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,7 @@ import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.AuditError;
@@ -75,8 +77,9 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
             auditErrors.add(new AuditError(PROPOSAL_PERSON_KEY, ERROR_INVESTIGATOR_LOWBOUND, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
         }
 
+        // Include normal save document business rules
         retval &= new ProposalDevelopmentKeyPersonsRule().processCustomSaveDocumentBusinessRules(pd);
-
+        
         for (ProposalPerson person : pd.getProposalPersons()) {
             retval &= validateInvestigator(person);
         }                    
@@ -85,7 +88,6 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
 
         if (!retval) {
             getAuditErrorMap().put("keyPersonnelErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
-
         }
         
         return retval;
@@ -170,6 +172,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
            retval = false;
        }
 
+       LOG.info("Validating " + source);
        LOG.info("validateUnit = " + retval);
        
        return retval;
