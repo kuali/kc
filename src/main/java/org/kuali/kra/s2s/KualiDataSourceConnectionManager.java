@@ -11,14 +11,13 @@ import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-//import edu.mit.coeus.utils.dbengine.DBConnection;
+import edu.mit.coeus.utils.dbengine.DBConnection;
 
 /**
  * @author geo
  *
  */
-//public class KualiDataSourceConnectionManager implements DBConnection {
-public class KualiDataSourceConnectionManager {
+public class KualiDataSourceConnectionManager implements DBConnection {
     private static final String DATA_SOURCE = "dataSource";
     private static final Logger LOG = Logger.getLogger(KualiDataSourceConnectionManager.class);
 	
