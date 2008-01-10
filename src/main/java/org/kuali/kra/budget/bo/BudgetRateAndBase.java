@@ -4,20 +4,21 @@ import java.util.LinkedHashMap;
 import java.sql.Date;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetRateAndBase extends KraPersistableBusinessObjectBase {
 	private Integer budgetPeriod;
 	private Integer lineItemNumber;
 	private String proposalNumber;
-	private Integer rateClassCode;
+	private String rateClassCode;
 	private Integer rateNumber;
-	private Integer rateTypeCode;
+	private String rateTypeCode;
 	private Integer budgetVersionNumber;
-	private Double appliedRate;
-	private Double baseCost;
-	private Double baseCostSharing;
-	private Double calculatedCost;
-	private Double calculatedCostSharing;
+	private BudgetDecimal appliedRate;
+	private BudgetDecimal baseCost;
+	private BudgetDecimal baseCostSharing;
+	private BudgetDecimal calculatedCost;
+	private BudgetDecimal calculatedCostSharing;
 	private Date endDate;
 	private Boolean onOffCampusFlag;
 	private Date startDate;
@@ -46,11 +47,11 @@ public class BudgetRateAndBase extends KraPersistableBusinessObjectBase {
 		this.proposalNumber = proposalNumber;
 	}
 
-	public Integer getRateClassCode() {
+	public String getRateClassCode() {
 		return rateClassCode;
 	}
 
-	public void setRateClassCode(Integer rateClassCode) {
+	public void setRateClassCode(String rateClassCode) {
 		this.rateClassCode = rateClassCode;
 	}
 
@@ -62,11 +63,11 @@ public class BudgetRateAndBase extends KraPersistableBusinessObjectBase {
 		this.rateNumber = rateNumber;
 	}
 
-	public Integer getRateTypeCode() {
+	public String getRateTypeCode() {
 		return rateTypeCode;
 	}
 
-	public void setRateTypeCode(Integer rateTypeCode) {
+	public void setRateTypeCode(String rateTypeCode) {
 		this.rateTypeCode = rateTypeCode;
 	}
 
@@ -78,43 +79,43 @@ public class BudgetRateAndBase extends KraPersistableBusinessObjectBase {
 		this.budgetVersionNumber = budgetVersionNumber;
 	}
 
-	public Double getAppliedRate() {
+	public BudgetDecimal getAppliedRate() {
 		return appliedRate;
 	}
 
-	public void setAppliedRate(Double appliedRate) {
+	public void setAppliedRate(BudgetDecimal appliedRate) {
 		this.appliedRate = appliedRate;
 	}
 
-	public Double getBaseCost() {
+	public BudgetDecimal getBaseCost() {
 		return baseCost;
 	}
 
-	public void setBaseCost(Double baseCost) {
+	public void setBaseCost(BudgetDecimal baseCost) {
 		this.baseCost = baseCost;
 	}
 
-	public Double getBaseCostSharing() {
+	public BudgetDecimal getBaseCostSharing() {
 		return baseCostSharing;
 	}
 
-	public void setBaseCostSharing(Double baseCostSharing) {
+	public void setBaseCostSharing(BudgetDecimal baseCostSharing) {
 		this.baseCostSharing = baseCostSharing;
 	}
 
-	public Double getCalculatedCost() {
+	public BudgetDecimal getCalculatedCost() {
 		return calculatedCost;
 	}
 
-	public void setCalculatedCost(Double calculatedCost) {
+	public void setCalculatedCost(BudgetDecimal calculatedCost) {
 		this.calculatedCost = calculatedCost;
 	}
 
-	public Double getCalculatedCostSharing() {
+	public BudgetDecimal getCalculatedCostSharing() {
 		return calculatedCostSharing;
 	}
 
-	public void setCalculatedCostSharing(Double calculatedCostSharing) {
+	public void setCalculatedCostSharing(BudgetDecimal calculatedCostSharing) {
 		this.calculatedCostSharing = calculatedCostSharing;
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.sql.Date;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetLineItem extends KraPersistableBusinessObjectBase {
 	private Integer budgetPeriod;
@@ -16,19 +17,55 @@ public class BudgetLineItem extends KraPersistableBusinessObjectBase {
 	private Integer budgetCategoryCode;
 	private String budgetJustification;
 	private String costElement;
-	private Double costSharingAmount;
+	private BudgetDecimal costSharingAmount;
 	private Date endDate;
-	private Double lineItemCost;
+	private BudgetDecimal lineItemCost;
 	private String lineItemDescription;
 	private Integer lineItemSequence;
 	private Boolean onOffCampusFlag;
 	private Integer quantity;
 	private Date startDate;
-	private Double underrecoveryAmount;
+	private BudgetDecimal underrecoveryAmount;
 	private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
 	private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 	private BudgetCategory budgetCategory;
-	public Integer getBudgetPeriod() {
+	
+	private BudgetDecimal directCost;
+	private BudgetDecimal indirectCost;
+	
+	/**
+     * Gets the directCost attribute. 
+     * @return Returns the directCost.
+     */
+    public BudgetDecimal getDirectCost() {
+        return directCost;
+    }
+
+    /**
+     * Sets the directCost attribute value.
+     * @param directCost The directCost to set.
+     */
+    public void setDirectCost(BudgetDecimal directCost) {
+        this.directCost = directCost;
+    }
+
+    /**
+     * Gets the indirectCost attribute. 
+     * @return Returns the indirectCost.
+     */
+    public BudgetDecimal getIndirectCost() {
+        return indirectCost;
+    }
+
+    /**
+     * Sets the indirectCost attribute value.
+     * @param indirectCost The indirectCost to set.
+     */
+    public void setIndirectCost(BudgetDecimal indirectCost) {
+        this.indirectCost = indirectCost;
+    }
+
+    public Integer getBudgetPeriod() {
 		return budgetPeriod;
 	}
 
@@ -100,11 +137,11 @@ public class BudgetLineItem extends KraPersistableBusinessObjectBase {
 		this.costElement = costElement;
 	}
 
-	public Double getCostSharingAmount() {
+	public BudgetDecimal getCostSharingAmount() {
 		return costSharingAmount;
 	}
 
-	public void setCostSharingAmount(Double costSharingAmount) {
+	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
 		this.costSharingAmount = costSharingAmount;
 	}
 
@@ -116,11 +153,11 @@ public class BudgetLineItem extends KraPersistableBusinessObjectBase {
 		this.endDate = endDate;
 	}
 
-	public Double getLineItemCost() {
+	public BudgetDecimal getLineItemCost() {
 		return lineItemCost;
 	}
 
-	public void setLineItemCost(Double lineItemCost) {
+	public void setLineItemCost(BudgetDecimal lineItemCost) {
 		this.lineItemCost = lineItemCost;
 	}
 
@@ -164,11 +201,11 @@ public class BudgetLineItem extends KraPersistableBusinessObjectBase {
 		this.startDate = startDate;
 	}
 
-	public Double getUnderrecoveryAmount() {
+	public BudgetDecimal getUnderrecoveryAmount() {
 		return underrecoveryAmount;
 	}
 
-	public void setUnderrecoveryAmount(Double underrecoveryAmount) {
+	public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
 		this.underrecoveryAmount = underrecoveryAmount;
 	}
 
@@ -220,4 +257,5 @@ public class BudgetLineItem extends KraPersistableBusinessObjectBase {
     public void setBudgetCategory(BudgetCategory budgetCategory) {
         this.budgetCategory = budgetCategory;
     }
+
 }

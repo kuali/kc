@@ -7,10 +7,10 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class ValidCalcType extends KraPersistableBusinessObjectBase {
 	private String calcTypeId;
 	private Integer dependentSeqNumber;
-	private Boolean rateClassType;
-	private Boolean dependentRateClassType;
-	private Integer rateClassCode;
-	private Integer rateTypeCode;
+	private String rateClassType;
+	private String dependentRateClassType;
+	private String rateClassCode;
+	private String rateTypeCode;
 
 	public String getCalcTypeId() {
 		return calcTypeId;
@@ -28,35 +28,35 @@ public class ValidCalcType extends KraPersistableBusinessObjectBase {
 		this.dependentSeqNumber = dependentSeqNumber;
 	}
 
-	public Boolean getRateClassType() {
+	public String getRateClassType() {
 		return rateClassType;
 	}
 
-	public void setRateClassType(Boolean rateClassType) {
+	public void setRateClassType(String rateClassType) {
 		this.rateClassType = rateClassType;
 	}
 
-	public Boolean getDependentRateClassType() {
+	public String getDependentRateClassType() {
 		return dependentRateClassType;
 	}
 
-	public void setDependentRateClassType(Boolean dependentRateClassType) {
+	public void setDependentRateClassType(String dependentRateClassType) {
 		this.dependentRateClassType = dependentRateClassType;
 	}
 
-	public Integer getRateClassCode() {
+	public String getRateClassCode() {
 		return rateClassCode;
 	}
 
-	public void setRateClassCode(Integer rateClassCode) {
+	public void setRateClassCode(String rateClassCode) {
 		this.rateClassCode = rateClassCode;
 	}
 
-	public Integer getRateTypeCode() {
+	public String getRateTypeCode() {
 		return rateTypeCode;
 	}
 
-	public void setRateTypeCode(Integer rateTypeCode) {
+	public void setRateTypeCode(String rateTypeCode) {
 		this.rateTypeCode = rateTypeCode;
 	}
 

@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.BudgetDecimal;
 
 /**
  * Class representation of a Budget Overview Business Object.  This BO maps to
@@ -33,17 +34,17 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
     private Integer budgetVersionNumber;
     private String documentNumber;
     private String documentDescription;
-    private Long costSharingAmount;
+    private BudgetDecimal costSharingAmount;
     private Date endDate;
     private Date startDate;
     private boolean finalVersionFlag;
-    private Integer ohRateTypeCode;
-    private Long residualFunds;
-    private Long totalCost;
-    private Long totalDirectCost;
-    private Long totalIndirectCost;
-    private Long totalCostLimit;
-    private Long underrecoveryAmount;
+    private String ohRateTypeCode;
+    private BudgetDecimal residualFunds;
+    private BudgetDecimal totalCost;
+    private BudgetDecimal totalDirectCost;
+    private BudgetDecimal totalIndirectCost;
+    private BudgetDecimal totalCostLimit;
+    private BudgetDecimal underrecoveryAmount;
     private String comments;
     
     private String name;
@@ -57,11 +58,11 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
         this.budgetVersionNumber = budgetVersionNumber;
     }
 
-    public Long getCostSharingAmount() {
+    public BudgetDecimal getCostSharingAmount() {
         return costSharingAmount;
     }
 
-    public void setCostSharingAmount(Long costSharingAmount) {
+    public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
 
@@ -73,11 +74,11 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
         this.finalVersionFlag = finalVersionFlag;
     }
 
-    public Integer getOhRateTypeCode() {
+    public String getOhRateTypeCode() {
         return ohRateTypeCode;
     }
 
-    public void setOhRateTypeCode(Integer ohRateTypeCode) {
+    public void setOhRateTypeCode(String ohRateTypeCode) {
         this.ohRateTypeCode = ohRateTypeCode;
     }
 
@@ -97,43 +98,43 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
         this.documentNumber = documentNumber;
     }
 
-    public Long getResidualFunds() {
+    public BudgetDecimal getResidualFunds() {
         return residualFunds;
     }
 
-    public void setResidualFunds(Long residualFunds) {
+    public void setResidualFunds(BudgetDecimal residualFunds) {
         this.residualFunds = residualFunds;
     }
 
-    public Long getTotalCost() {
+    public BudgetDecimal getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(Long totalCost) {
+    public void setTotalCost(BudgetDecimal totalCost) {
         this.totalCost = totalCost;
     }
 
-    public Long getTotalDirectCost() {
+    public BudgetDecimal getTotalDirectCost() {
         return totalDirectCost;
     }
 
-    public void setTotalDirectCost(Long totalDirectCost) {
+    public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
         this.totalDirectCost = totalDirectCost;
     }
 
-    public Long getTotalIndirectCost() {
+    public BudgetDecimal getTotalIndirectCost() {
         return totalIndirectCost;
     }
 
-    public void setTotalIndirectCost(Long totalIndirectCost) {
+    public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
         this.totalIndirectCost = totalIndirectCost;
     }
 
-    public Long getUnderrecoveryAmount() {
+    public BudgetDecimal getUnderrecoveryAmount() {
         return underrecoveryAmount;
     }
 
-    public void setUnderrecoveryAmount(Long underrecoveryAmount) {
+    public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
         this.underrecoveryAmount = underrecoveryAmount;
     }
     
@@ -169,11 +170,11 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
         this.startDate = startDate;
     }
 
-    public Long getTotalCostLimit() {
+    public BudgetDecimal getTotalCostLimit() {
         return totalCostLimit;
     }
 
-    public void setTotalCostLimit(Long totalCostLimit) {
+    public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
         this.totalCostLimit = totalCostLimit;
     }
     

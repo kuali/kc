@@ -5,15 +5,15 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BudgetCategoryMapping extends KraPersistableBusinessObjectBase {
-	private Integer coeusCategoryCode;
+	private String coeusCategoryCode;
 	private String mappingName;
 	private String targetCategoryCode;
 
-	public Integer getCoeusCategoryCode() {
+	public String getCoeusCategoryCode() {
 		return coeusCategoryCode;
 	}
 
-	public void setCoeusCategoryCode(Integer coeusCategoryCode) {
+	public void setCoeusCategoryCode(String coeusCategoryCode) {
 		this.coeusCategoryCode = coeusCategoryCode;
 	}
 
