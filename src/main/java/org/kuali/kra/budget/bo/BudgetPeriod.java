@@ -4,20 +4,21 @@ import java.util.LinkedHashMap;
 import java.sql.Date;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	private Integer budgetPeriod;
 	private String proposalNumber;
 	private Integer budgetBudgetVersionNumber;
 	private String comments;
-	private Double costSharingAmount;
+	private BudgetDecimal costSharingAmount;
 	private Date endDate;
 	private Date startDate;
-	private Double totalCost;
-	private Double totalCostLimit;
-	private Double totalDirectCost;
-	private Double totalIndirectCost;
-	private Double underrecoveryAmount;
+	private BudgetDecimal totalCost;
+	private BudgetDecimal totalCostLimit;
+	private BudgetDecimal totalDirectCost;
+	private BudgetDecimal totalIndirectCost;
+	private BudgetDecimal underrecoveryAmount;
 
 	public Integer getBudgetPeriod() {
 		return budgetPeriod;
@@ -51,11 +52,11 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 		this.comments = comments;
 	}
 
-	public Double getCostSharingAmount() {
+	public BudgetDecimal getCostSharingAmount() {
 		return costSharingAmount;
 	}
 
-	public void setCostSharingAmount(Double costSharingAmount) {
+	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
 		this.costSharingAmount = costSharingAmount;
 	}
 
@@ -75,43 +76,43 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 		this.startDate = startDate;
 	}
 
-	public Double getTotalCost() {
+	public BudgetDecimal getTotalCost() {
 		return totalCost;
 	}
 
-	public void setTotalCost(Double totalCost) {
+	public void setTotalCost(BudgetDecimal totalCost) {
 		this.totalCost = totalCost;
 	}
 
-	public Double getTotalCostLimit() {
+	public BudgetDecimal getTotalCostLimit() {
 		return totalCostLimit;
 	}
 
-	public void setTotalCostLimit(Double totalCostLimit) {
+	public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
 		this.totalCostLimit = totalCostLimit;
 	}
 
-	public Double getTotalDirectCost() {
+	public BudgetDecimal getTotalDirectCost() {
 		return totalDirectCost;
 	}
 
-	public void setTotalDirectCost(Double totalDirectCost) {
+	public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
 		this.totalDirectCost = totalDirectCost;
 	}
 
-	public Double getTotalIndirectCost() {
+	public BudgetDecimal getTotalIndirectCost() {
 		return totalIndirectCost;
 	}
 
-	public void setTotalIndirectCost(Double totalIndirectCost) {
+	public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
 		this.totalIndirectCost = totalIndirectCost;
 	}
 
-	public Double getUnderrecoveryAmount() {
+	public BudgetDecimal getUnderrecoveryAmount() {
 		return underrecoveryAmount;
 	}
 
-	public void setUnderrecoveryAmount(Double underrecoveryAmount) {
+	public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
 		this.underrecoveryAmount = underrecoveryAmount;
 	}
 

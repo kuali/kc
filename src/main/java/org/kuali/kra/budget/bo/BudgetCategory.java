@@ -5,23 +5,23 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BudgetCategory extends KraPersistableBusinessObjectBase {
-	private Integer budgetCategoryCode;
-	private Boolean categoryType;
+	private String budgetCategoryCode;
+	private String categoryType;
 	private String description;
 
-	public Integer getBudgetCategoryCode() {
+	public String getBudgetCategoryCode() {
 		return budgetCategoryCode;
 	}
 
-	public void setBudgetCategoryCode(Integer budgetCategoryCode) {
+	public void setBudgetCategoryCode(String budgetCategoryCode) {
 		this.budgetCategoryCode = budgetCategoryCode;
 	}
 
-	public Boolean getCategoryType() {
+	public String getCategoryType() {
 		return categoryType;
 	}
 
-	public void setCategoryType(Boolean categoryType) {
+	public void setCategoryType(String categoryType) {
 		this.categoryType = categoryType;
 	}
 
