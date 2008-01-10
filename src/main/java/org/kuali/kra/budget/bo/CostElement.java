@@ -7,7 +7,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class CostElement extends KraPersistableBusinessObjectBase {
 	private String costElement;
-	private Integer budgetCategoryCode;
+	private String budgetCategoryCode;
 	private String description;
 	private Boolean onOffCampusFlag;
 	private List<ValidCeRateType> validaCeRateTypes;
@@ -20,11 +20,11 @@ public class CostElement extends KraPersistableBusinessObjectBase {
 		this.costElement = costElement;
 	}
 
-	public Integer getBudgetCategoryCode() {
+	public String getBudgetCategoryCode() {
 		return budgetCategoryCode;
 	}
 
-	public void setBudgetCategoryCode(Integer budgetCategoryCode) {
+	public void setBudgetCategoryCode(String budgetCategoryCode) {
 		this.budgetCategoryCode = budgetCategoryCode;
 	}
 
