@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.sql.Date;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetPersonnelDetails extends KraPersistableBusinessObjectBase {
 	private Integer budgetPeriod;
@@ -13,20 +14,20 @@ public class BudgetPersonnelDetails extends KraPersistableBusinessObjectBase {
 	private Integer budgetVersionNumber;
 	private Boolean applyInRateFlag;
 	private String budgetJustification;
-	private Double costSharingAmount;
-	private Double costSharingPercent;
+	private BudgetDecimal costSharingAmount;
+	private BudgetDecimal costSharingPercent;
 	private Date endDate;
 	private String jobCode;
 	private String lineItemDescription;
 	private Boolean onOffCampusFlag;
-	private Double percentCharged;
-	private Double percentEffort;
+	private BudgetDecimal percentCharged;
+	private BudgetDecimal percentEffort;
 	private String periodType;
 	private String personId;
-	private Double salaryRequested;
+	private BudgetDecimal salaryRequested;
 	private Integer sequenceNumber;
 	private Date startDate;
-	private Double underrecoveryAmount;
+	private BudgetDecimal underrecoveryAmount;
 
 	public Integer getBudgetPeriod() {
 		return budgetPeriod;
@@ -84,19 +85,19 @@ public class BudgetPersonnelDetails extends KraPersistableBusinessObjectBase {
 		this.budgetJustification = budgetJustification;
 	}
 
-	public Double getCostSharingAmount() {
+	public BudgetDecimal getCostSharingAmount() {
 		return costSharingAmount;
 	}
 
-	public void setCostSharingAmount(Double costSharingAmount) {
+	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
 		this.costSharingAmount = costSharingAmount;
 	}
 
-	public Double getCostSharingPercent() {
+	public BudgetDecimal getCostSharingPercent() {
 		return costSharingPercent;
 	}
 
-	public void setCostSharingPercent(Double costSharingPercent) {
+	public void setCostSharingPercent(BudgetDecimal costSharingPercent) {
 		this.costSharingPercent = costSharingPercent;
 	}
 
@@ -132,19 +133,19 @@ public class BudgetPersonnelDetails extends KraPersistableBusinessObjectBase {
 		this.onOffCampusFlag = onOffCampusFlag;
 	}
 
-	public Double getPercentCharged() {
+	public BudgetDecimal getPercentCharged() {
 		return percentCharged;
 	}
 
-	public void setPercentCharged(Double percentCharged) {
+	public void setPercentCharged(BudgetDecimal percentCharged) {
 		this.percentCharged = percentCharged;
 	}
 
-	public Double getPercentEffort() {
+	public BudgetDecimal getPercentEffort() {
 		return percentEffort;
 	}
 
-	public void setPercentEffort(Double percentEffort) {
+	public void setPercentEffort(BudgetDecimal percentEffort) {
 		this.percentEffort = percentEffort;
 	}
 
@@ -164,11 +165,11 @@ public class BudgetPersonnelDetails extends KraPersistableBusinessObjectBase {
 		this.personId = personId;
 	}
 
-	public Double getSalaryRequested() {
+	public BudgetDecimal getSalaryRequested() {
 		return salaryRequested;
 	}
 
-	public void setSalaryRequested(Double salaryRequested) {
+	public void setSalaryRequested(BudgetDecimal salaryRequested) {
 		this.salaryRequested = salaryRequested;
 	}
 
@@ -188,11 +189,11 @@ public class BudgetPersonnelDetails extends KraPersistableBusinessObjectBase {
 		this.startDate = startDate;
 	}
 
-	public Double getUnderrecoveryAmount() {
+	public BudgetDecimal getUnderrecoveryAmount() {
 		return underrecoveryAmount;
 	}
 
-	public void setUnderrecoveryAmount(Double underrecoveryAmount) {
+	public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
 		this.underrecoveryAmount = underrecoveryAmount;
 	}
 

@@ -4,18 +4,19 @@ import java.util.LinkedHashMap;
 import java.sql.Date;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetProposalRate extends KraPersistableBusinessObjectBase {
 	private String fiscalYear;
 	private Boolean onOffCampusFlag;
 	private String proposalNumber;
-	private Integer rateClassCode;
-	private Integer rateTypeCode;
+	private String rateClassCode;
+	private String rateTypeCode;
 	private Date startDate;
 	private Integer budgetVersionNumber;
 	private Integer activityTypeCode;
-	private Double applicableRate;
-	private Double instituteRate;
+	private BudgetDecimal applicableRate;
+	private BudgetDecimal instituteRate;
 
 	public String getFiscalYear() {
 		return fiscalYear;
@@ -41,19 +42,19 @@ public class BudgetProposalRate extends KraPersistableBusinessObjectBase {
 		this.proposalNumber = proposalNumber;
 	}
 
-	public Integer getRateClassCode() {
+	public String getRateClassCode() {
 		return rateClassCode;
 	}
 
-	public void setRateClassCode(Integer rateClassCode) {
+	public void setRateClassCode(String rateClassCode) {
 		this.rateClassCode = rateClassCode;
 	}
 
-	public Integer getRateTypeCode() {
+	public String getRateTypeCode() {
 		return rateTypeCode;
 	}
 
-	public void setRateTypeCode(Integer rateTypeCode) {
+	public void setRateTypeCode(String rateTypeCode) {
 		this.rateTypeCode = rateTypeCode;
 	}
 
@@ -81,19 +82,19 @@ public class BudgetProposalRate extends KraPersistableBusinessObjectBase {
 		this.activityTypeCode = activityTypeCode;
 	}
 
-	public Double getApplicableRate() {
+	public BudgetDecimal getApplicableRate() {
 		return applicableRate;
 	}
 
-	public void setApplicableRate(Double applicableRate) {
+	public void setApplicableRate(BudgetDecimal applicableRate) {
 		this.applicableRate = applicableRate;
 	}
 
-	public Double getInstituteRate() {
+	public BudgetDecimal getInstituteRate() {
 		return instituteRate;
 	}
 
-	public void setInstituteRate(Double instituteRate) {
+	public void setInstituteRate(BudgetDecimal instituteRate) {
 		this.instituteRate = instituteRate;
 	}
 

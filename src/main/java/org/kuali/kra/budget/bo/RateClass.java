@@ -5,15 +5,15 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class RateClass extends KraPersistableBusinessObjectBase {
-	private Integer rateClassCode;
+	private String rateClassCode;
 	private String description;
 	private Boolean rateClassType;
 
-	public Integer getRateClassCode() {
+	public String getRateClassCode() {
 		return rateClassCode;
 	}
 
-	public void setRateClassCode(Integer rateClassCode) {
+	public void setRateClassCode(String rateClassCode) {
 		this.rateClassCode = rateClassCode;
 	}
 

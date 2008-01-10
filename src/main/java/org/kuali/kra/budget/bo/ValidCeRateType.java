@@ -6,8 +6,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ValidCeRateType extends KraPersistableBusinessObjectBase {
 	private String costElement;
-	private Integer rateClassCode;
-	private Integer rateTypeCode;
+	private String rateClassCode;
+	private String rateTypeCode;
 
 	public String getCostElement() {
 		return costElement;
@@ -17,19 +17,19 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
 		this.costElement = costElement;
 	}
 
-	public Integer getRateClassCode() {
+	public String getRateClassCode() {
 		return rateClassCode;
 	}
 
-	public void setRateClassCode(Integer rateClassCode) {
+	public void setRateClassCode(String rateClassCode) {
 		this.rateClassCode = rateClassCode;
 	}
 
-	public Integer getRateTypeCode() {
+	public String getRateTypeCode() {
 		return rateTypeCode;
 	}
 
-	public void setRateTypeCode(Integer rateTypeCode) {
+	public void setRateTypeCode(String rateTypeCode) {
 		this.rateTypeCode = rateTypeCode;
 	}
 
