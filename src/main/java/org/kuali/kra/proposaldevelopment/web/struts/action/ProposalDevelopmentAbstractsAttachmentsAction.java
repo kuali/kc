@@ -234,8 +234,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward deleteProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        String questionId = CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY;
-        return confirm(buildDeleteAttachmentConfirmationQuestion(mapping, form, request, response, questionId), questionId, EMPTY_STRING);
+        return confirm(buildDeleteAttachmentConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY), CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY, EMPTY_STRING);
     }
 
     /**
