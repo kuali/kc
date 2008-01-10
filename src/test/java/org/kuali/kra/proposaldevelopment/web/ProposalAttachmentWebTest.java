@@ -33,6 +33,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 
     private static final String KEY_PERSONNEL_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.keyPersonnel.x";
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
+    public static final String YES_BTN_ID =  "methodToCall.processAnswer.button0";
 
     @Test
     public void testProposalAttachment() throws Exception {
@@ -169,12 +170,13 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 
     private HtmlPage testDeleteProposalAttachment(HtmlPage page, int i,int tabIndex) throws Exception{
         String commentToBeDeleted = getFieldValue(page, "document.narrative["+i+"].comments");
-        HtmlPage deletedPage = clickOn(page, "methodToCall.deleteProposalAttachment.line"+i+".anchor"+tabIndex);
+
+        HtmlPage confirmationPage = clickOn(page, "methodToCall.deleteProposalAttachment.line"+i+".anchor"+tabIndex);
+        HtmlPage deletedPage = clickOn(confirmationPage, YES_BTN_ID);
         if(i>0)
             assertNotSame(commentToBeDeleted,getFieldValue(deletedPage, "document.narrative["+(--i)+"].comments"));
         return deletedPage;
     }
-
 
     private Map<String, String> getKeyMap(String propertyBaseString,String[] values) {
         Map<String,String> keyVal = new HashMap<String,String>();
