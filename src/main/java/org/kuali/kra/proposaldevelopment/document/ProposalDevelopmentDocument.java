@@ -159,18 +159,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     }
 
     public List<ProposalPerson> getInvestigators() {
-        // TODO : investigators are not saved, so new load will not have value
-        if ((investigators==null || investigators.isEmpty()) && proposalPersons!=null && !proposalPersons.isEmpty()) {
-            if (investigators==null) {
-                investigators=new ArrayList<ProposalPerson>();
-            }
-            for (ProposalPerson proposalPerson : proposalPersons) {
-                if (proposalPerson.isInvestigator()) {
-                    investigators.add(proposalPerson);
-                }                
-            }
-            
-        }
         return investigators;
     }
     
