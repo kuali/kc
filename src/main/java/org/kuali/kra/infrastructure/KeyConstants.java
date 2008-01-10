@@ -37,6 +37,7 @@ public class KeyConstants {
     public static final String ERROR_INVESTIGATOR_UPBOUND = "error.principalInvestigators.upbound";
     public static final String ERROR_INVESTIGATOR_LOWBOUND = "error.principalInvestigators.lowbound";
     public static final String ERROR_MISSING_PERSON_ROLE = "error.missingPersonRole";
+    public static final String ERROR_PROPOSAL_PERSON_EXISTS = "error.proposalPersonExists";
     public static final String ERROR_ALL_PERSON_CREDIT_SPLIT_UPBOUND = "error.allPersonCreditSplit.upbound";
     public static final String ERROR_PERSON_CREDIT_SPLIT_UPBOUND = "error.personCreditSplit.upbound";
     
