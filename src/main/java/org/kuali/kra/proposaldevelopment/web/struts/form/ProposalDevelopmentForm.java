@@ -123,7 +123,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
     @Override
     public void populate(HttpServletRequest request) {
-
+        setMethodToCall(null);
         super.populate(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument=getProposalDevelopmentDocument();
 
