@@ -15,9 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_CLOSE_PAGE;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE;
+import static org.kuali.kra.infrastructure.Constants.INSTITUTIONAL_ATTACHMENT_TYPE_NAME;
+import static org.kuali.kra.infrastructure.Constants.PERSONNEL_ATTACHMENT_TYPE_NAME;
+import static org.kuali.kra.infrastructure.Constants.PROPOSAL_ATTACHMENT_TYPE_NAME;
+import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_ABSTRACT_CONFIRMATION;
+import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayOutputStream;
@@ -29,14 +35,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
-import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -45,8 +48,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
@@ -61,7 +62,9 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
+
 /**
  * <code>Struts Action</code> class process requests from Proposal Abstract Attachments page.
  * It handles Proposal attachments, Institutional attachments, Personnel attachments and Abstracts.
@@ -80,6 +83,10 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAbstractsAttachmentsAction.class);
     private static final String LINE_NUMBER = "line";
     private static final String CONFIRM_DELETE_ABSTRACT_KEY = "confirmDeleteAbstract";
+    private static final String CONFIRM_DELETE_INSTITUTIONAL_ATTACHMENT_KEY = "confirmDeleteInstitutionalAttachment";
+    private static final String CONFIRM_DELETE_PERSONNEL_ATTACHMENT_KEY = "confirmDeletePersonnelAttachment";
+    private static final String CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY = "confirmDeleteProposalAttachment";
+    
     /**
      * Overridden method from ProposalDevelopmentAction. It populates Narrative module user rights
      * before the save.
@@ -120,7 +127,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiConfigurationService configService = (KualiConfigurationService)KraServiceLocator.getService(KualiConfigurationService.class);
+        KualiConfigurationService configService = getService(KualiConfigurationService.class);
         ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("proposalNarrativeTypeGroup", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "proposalNarrativeTypeGroup"));
 //        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
 //        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
@@ -227,11 +234,49 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward deleteProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getProposalDevelopmentDocument().deleteProposalAttachment(getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        String questionId = CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY;
+        return confirm(buildDeleteAttachmentConfirmationQuestion(mapping, form, request, response, questionId), questionId, EMPTY_STRING);
+    }
+
+    /**
+     * 
+     * This method is used to delete the proposal attachment
+     * @param mapping The mapping associated with this action.
+     * @param form The Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @throws Exception
+     */
+    public ActionForward confirmDeleteProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return deleteAttachment(mapping, form, request, response, CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY, "deleteProposalAttachment");
     }
     
+    /**
+     * @param mapping The mapping associated with this action.
+     * @param form The Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @param key Name of the key for this confirmation
+     * @param deleteMethodName String name of the delete method to use.
+     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @throws Exception
+     */
+    public ActionForward deleteAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String key, String deleteMethodName) throws Exception {
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        
+        if (key.equals(question)) {
+            ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
+            
+            LOG.info("Running delete '" + deleteMethodName + "' on " + document + " for " + getLineToDelete(request));
+            document.getClass().getMethod(deleteMethodName, int.class).invoke(document, getLineToDelete(request));
+        }
+        
+        return mapping.findForward(MAPPING_BASIC);
+       
+    }
+
    /**
     * 
     * This method used to get the proposal user rights
@@ -299,7 +344,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if (updateUser.length() > 8) {
             updateUser = updateUser.substring(0, 8);
         }
-        bo.setUpdateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        bo.setUpdateTimestamp((getService(DateTimeService.class)).getCurrentTimestamp());
         bo.setUpdateUser(updateUser);
     }
     
@@ -348,48 +393,86 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @throws Exception
      */
     public ActionForward deleteAbstract(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        
-        Object question = request.getParameter(RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        int lineNum = getLineToDelete(request);
-        
-        // Check to see if we have confirmed the deletion with the user.  If not,
-        // then ask the confirmation question.
-        
-        if (question == null) {
-            String description = doc.getProposalAbstracts().get(lineNum).getAbstractType().getDescription();
-            return this.performQuestionWithoutInput(mapping, form, request, response, CONFIRM_DELETE_ABSTRACT_KEY, 
-                                                    buildDeleteAbstractConfirmationQuestion(description),
-                                                    RiceConstants.CONFIRMATION_QUESTION, "deleteAbstract", EMPTY_STRING);
-        }
-        else {
-            // If the user has indicated that the deletion should occur, then go
-            // ahead and remove it from the list of abstracts.
-            
-            Object buttonClicked = request.getParameter(RiceConstants.QUESTION_CLICKED_BUTTON);
-            if ((CONFIRM_DELETE_ABSTRACT_KEY.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalAbstracts().remove(lineNum);
-            }
-            return mapping.findForward(Constants.MAPPING_BASIC);
-        }
+        return confirm(buildDeleteAbstractConfirmationQuestion(mapping, form, request, response), CONFIRM_DELETE_ABSTRACT_KEY, EMPTY_STRING);
     }
-    
+
     /**
-     * Builds the Delete Abstract Confirmation Question.  
+     * Method dispatched from <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for when a "yes" condition is met.
      * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @throws Exception
+     * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
+     */
+    public ActionForward confirmDeleteAbstract(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        
+        int lineNum = getLineToDelete(request);
+
+        if (CONFIRM_DELETE_ABSTRACT_KEY.equals(question)) { 
+            ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getProposalAbstracts().remove(lineNum);
+        }
+        
+        return mapping.findForward(MAPPING_BASIC);
+    }        
+
+    /**
+     * Builds the Delete Abstract Confirmation Question as a <code>{@link StrutsConfirmation}</code> instance.<br/>  
+     * <br/>
      * The confirmation question is extracted from the resource bundle
      * and the parameter {0} is replaced with the name of the abstract type
      * that will be deleted.
      * 
-     * @param abstractDescription the abstract's human-readable description
+     * @param mapping The mapping associated with this action.
+     * @param form The Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
      * @return the confirmation question
      * @throws Exception
+     * @see buildParameterizedConfirmationQuestion
      */
-    private String buildDeleteAbstractConfirmationQuestion(String abstractDescription) throws Exception {
-        KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
-        return StringUtils.replace(kualiConfiguration.getPropertyString(KeyConstants.QUESTION_DELETE_ABSTRACT_CONFIRMATION), "{0}", abstractDescription);
+    private StrutsConfirmation buildDeleteAbstractConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentDocument doc = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
+        String description = doc.getProposalAbstracts().get(getLineToDelete(request)).getAbstractType().getDescription();
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_ABSTRACT_KEY, QUESTION_DELETE_ABSTRACT_CONFIRMATION, description);
+    }
+
+    /**
+     * Builds the Delete Abstract Confirmation Question as a <code>{@link StrutsConfirmation}</code> instance.<br/>  
+     * <br/>
+     * The confirmation question is extracted from the resource bundle
+     * and the parameter {0} is replaced with the name of the abstract type
+     * that will be deleted.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @param questionId String questionId. This needs to be unique for each type of attachment because there are different attachments to delete.
+     * @return the confirmation question
+     * @throws Exception
+     * @see buildParameterizedConfirmationQuestion
+     */
+    private StrutsConfirmation buildDeleteAttachmentConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionId) throws Exception {
+        ProposalDevelopmentDocument doc = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
+        String description = null;
+        String fileName = null;
+        if (CONFIRM_DELETE_INSTITUTIONAL_ATTACHMENT_KEY.equals(questionId)) {
+            description = INSTITUTIONAL_ATTACHMENT_TYPE_NAME;
+            fileName = doc.getInstituteAttachment(getLineToDelete(request)).getFileName();
+        }
+        else if (CONFIRM_DELETE_PERSONNEL_ATTACHMENT_KEY.equals(questionId)) {
+            description = PERSONNEL_ATTACHMENT_TYPE_NAME;
+            fileName = doc.getPropPersonBio(getLineToDelete(request)).getFileName();
+        }
+        else if (CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY.equals(questionId)) {
+            description = PROPOSAL_ATTACHMENT_TYPE_NAME;
+            fileName = doc.getNarrative(getLineToDelete(request)).getFileName();
+        }
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, questionId, QUESTION_DELETE_ATTACHMENT_CONFIRMATION, description, fileName);
     }
 
     private BusinessObjectService getBusinessObjectService() {
@@ -439,8 +522,25 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward deletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().deleteProposalPersonBiography(getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        String questionId = CONFIRM_DELETE_PERSONNEL_ATTACHMENT_KEY;
+        return confirm(buildDeleteAttachmentConfirmationQuestion(mapping, form, request, response, questionId), questionId, EMPTY_STRING);
+    }
+
+    /**
+     * Deletes a personnel attachment from the Proposal Development Document.
+     * 
+     * Removed the personnel attachment from the document's list of personnel attachments.
+     * 
+     * @param mapping The mapping associated with this action.
+     * @param form The Proposal Development form.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @throws Exception
+     */
+    public ActionForward confirmDeletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return deleteAttachment(mapping, form, request, response, CONFIRM_DELETE_PERSONNEL_ATTACHMENT_KEY, "deleteProposalPersonBiography");
     }
 
     /**
@@ -506,13 +606,24 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @throws Exception
      */
     public ActionForward deleteInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //return deleteProposalAttachment(mapping, form, request, response);
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        proposalDevelopmentForm.getProposalDevelopmentDocument().deleteInstitutionalAttachment(getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_BASIC);
-
+        String questionId = CONFIRM_DELETE_INSTITUTIONAL_ATTACHMENT_KEY;
+        return confirm(buildDeleteAttachmentConfirmationQuestion(mapping, form, request, response, questionId), questionId, EMPTY_STRING);
     }
-    
+
+    /**
+     * 
+     * Delete an institutional attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward confirmDeleteInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return deleteAttachment(mapping, form, request, response, CONFIRM_DELETE_INSTITUTIONAL_ATTACHMENT_KEY, "deleteInstitutionalAttachment");
+    }
+
     /**
      * 
      * View an institutional attachment file.

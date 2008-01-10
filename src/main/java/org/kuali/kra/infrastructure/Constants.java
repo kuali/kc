@@ -52,6 +52,9 @@ public interface Constants {
     public static final String PROPOSAL_PERSON_NUMBER = "proposalDevelopment.proposalPerson.proposalPersonNumber";
     public static final String PROPOSAL_NARRATIVE_TYPE_GROUP = "proposalNarrativeTypeGroup";
     public static final String INSTITUTE_NARRATIVE_TYPE_GROUP = "instituteNarrativeTypeGroup";
+    public static final String INSTITUTIONAL_ATTACHMENT_TYPE_NAME = "Institutional Attachment";
+    public static final String PERSONNEL_ATTACHMENT_TYPE_NAME = "Personnel Attachment";
+    public static final String PROPOSAL_ATTACHMENT_TYPE_NAME = "Proposal Attachment";
 
     public static final String PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX = "proposaldevelopment.personrole.";
 
