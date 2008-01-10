@@ -23,6 +23,7 @@ import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
 import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -115,7 +116,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         // Figure out what the caller is. We want the direct caller of confirm()
         question.setCaller(new Throwable().getStackTrace()[1].getMethodName());
         LOG.info("Caller is " + question.getCaller());
-        LOG.info("Setting caller from stacktrace " + new Throwable().getStackTrace());
+        LOG.info("Setting caller from stacktrace " + Arrays.asList(new Throwable().getStackTrace()));
+        LOG.info("Current action is " + getClass());
         
         if (question.hasQuestionInstAttributeName()) {
             Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
