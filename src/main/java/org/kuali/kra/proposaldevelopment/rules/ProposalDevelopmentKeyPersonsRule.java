@@ -44,6 +44,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBO
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
@@ -52,7 +53,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.25 $
+ * @version $Revision: 1.26 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -126,6 +127,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * <ul>
      *   <li>One principal investigator at a time</li>
      *   <li>0 or more Key Persons or Co-Investigators are allowed</li>
+     *   <li>A person cannot have multiple roles, ie. a person can only be added as a key person once.</li>
      * </ul>
      * @see org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument,ProposalPerson)
      */
@@ -137,13 +139,21 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
         if (isPrincipalInvestigator(person) && hasPrincipalInvestigator(document)) {
             LOG.debug("error.principalInvestigator.limit");
-            reportErrorWithPrefix("newProposalPerson*", "newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);
+            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);
             retval = false;
         }
         
         if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
             LOG.debug("Tried to add person without role");
-            reportErrorWithPrefix("newProposalPerson*", "newProposalPerson", ERROR_MISSING_PERSON_ROLE);
+            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_MISSING_PERSON_ROLE);
+            retval = false;
+        }
+        
+        LOG.info("Does document contain a proposal person with PERSON_ID " + person.getPersonId() + "?");
+        LOG.info(document.getProposalPersons().contains(person)+ "");
+        
+        if (document.getProposalPersons().contains(person)) {
+            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS, person.getFullName());
             retval = false;
         }
         
