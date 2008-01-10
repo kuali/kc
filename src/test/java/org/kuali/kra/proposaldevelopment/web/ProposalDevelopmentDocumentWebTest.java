@@ -68,6 +68,9 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
     private static final String SEMI_COLON=";";
     private static final String INSTITUTE_ATTACHMENT_TYPE_1 = "59";
     private static final String INSTITUTE_ATTACHMENT_TYPE_2 = "60";
+    public static final String YES_BTN_ID =  "methodToCall.processAnswer.button0";
+
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -423,7 +426,8 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         validateInstituteAttachments(documentNumber, 1, INSTITUTE_ATTACHMENT_TYPE_2+SEMI_COLON+description[1]+SEMI_COLON+ATTACHMENT_FILE_NAME_2);
         
         // delete attachment
-        final HtmlPage pageAfterDeleteAttachment = clickButton(pageWithTwoAttachments, formWithTwoAttachments, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlPage confirmationPage = clickButton(pageWithTwoAttachments, formWithTwoAttachments, "methodToCall.deleteInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlPage pageAfterDeleteAttachment = clickOn(confirmationPage, YES_BTN_ID);
         final HtmlForm formAfterDeleteAttachment = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
         assertFalse(pageAfterDeleteAttachment.asText().contains(attachmentTypes[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME_1));
         assertTrue(pageAfterDeleteAttachment.asText().contains(attachmentTypes[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME_2));
@@ -515,7 +519,8 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         validatePropPersonBios(documentNumber, 1, documentTypeCode[1]+SEMI_COLON+personNumber[1]+SEMI_COLON+description[1]+SEMI_COLON+ATTACHMENT_FILE_NAME_2);
 
         // delete attachment
-        final HtmlPage pageAfterDeleteAttachment = clickButton(pageWithTwoAttachments, formWithTwoAttachments, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlPage confirmationPage = clickButton(pageWithTwoAttachments, formWithTwoAttachments, "methodToCall.deletePersonnelAttachment.line0.anchor", IMAGE_INPUT);
+        final HtmlPage pageAfterDeleteAttachment = clickOn(confirmationPage, YES_BTN_ID); 
         final HtmlForm formAfterDeleteAttachment = (HtmlForm) pageAfterDeleteAttachment.getForms().get(0);
         assertFalse(pageAfterDeleteAttachment.asText().contains(personName[0]+SPACE+documentTypeDescription[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME_1));
         assertTrue(pageAfterDeleteAttachment.asText().contains(personName[1]+SPACE+documentTypeDescription[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME_2));
