@@ -19,6 +19,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class the bo class of mail type.
+ */
 public class MailType extends KraPersistableBusinessObjectBase {
     
     private String mailType;
