@@ -144,8 +144,6 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
      * @throws Exception
      */
     public ActionForward deleteLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO : do we want to put logic to check whether this is the only one
-        // or we'll let the business rule handle 'at least one location' rule?
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().remove(getLineToDelete(request));
         return mapping.findForward("basic");

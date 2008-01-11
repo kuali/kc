@@ -16,19 +16,27 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.MailBy;
 
 public class MailByValuesFinder extends KeyValuesBase {
     
     public List getKeyValues() {
-        // TODO: Generate list of mail_by.  Not sure what the key is, use "1" and "2" for now
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select:"));
-        keyValues.add(new KeyLabelPair("1", "OSP"));
-        keyValues.add(new KeyLabelPair("2", "Department"));
-        return keyValues;
-    }
+            KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+            Collection mailBys = keyValuesService.findAll(MailBy.class);
+            List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+            keyValues.add(new KeyLabelPair("", "select:"));
+            for (Iterator iter = mailBys.iterator(); iter.hasNext();) {
+                MailBy mailBy = (MailBy) iter.next();
+                keyValues.add(new KeyLabelPair(mailBy.getMailByCode(), mailBy.getDescription()));
+            }
+            return keyValues;
+        }
 }
