@@ -6,6 +6,10 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 
+/**
+ * 
+ * This is bo class for proposal location.
+ */
 public class ProposalLocation extends KraPersistableBusinessObjectBase {
 	private String location;
 	private Integer proposalNumber;
