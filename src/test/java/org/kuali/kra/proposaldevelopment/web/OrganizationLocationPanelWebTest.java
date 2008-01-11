@@ -62,14 +62,11 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
        // the default location line will be recreated
        HtmlPage page6 = clickOn(page5, "methodToCall.save", "Kuali :: Proposal Development Document");
 
-       // one of the following to check save is OK
+       // need at least one location
        assertContains(page6, ERRORS_FOUND_ON_PAGE);
        assertDoesNotContain(page6, "Document was successfully saved");
 
        // performing org lookup
-//       final HtmlPage page7 = lookup(webClient, page6, form3, "methodToCall.performLookup.(!!org.kuali.kra.bo.Organization!!).(((organizationId:document.performingOrganizationId,", "000002",
-//               "proposalDevelopmentProposal.do?document.performingOrganization.", "organizationId");
-
        HtmlPage page7 = lookup(page6, "document.performingOrganizationId", "organizationId", "000002");
 
        assertEquals("000002", getFieldValue(page7, "document.performingOrganizationId"));
@@ -125,7 +122,7 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
        // one of the following to check save is OK
        assertDoesNotContain(page14, ERRORS_FOUND_ON_PAGE);
        assertContains(page14, "Document was successfully saved");
-       // verify for is still ok
+       // verify form is still ok
        assertEquals("000001", getFieldValue(page14, "document.organizationId"));
        assertContains(page14, "Congressional District: Eighth");
        assertContains(page14, "Applicant Organization: University");
