@@ -1552,15 +1552,15 @@
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="budgetVersionNumber"/>
 		</collection-descriptor>
-		<reference-descriptor name="budgetCategory" class-ref="org.kuali.kra.budget.bo.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budgetCategory" class-ref="org.kuali.kra.budget.bo.BudgetCategory" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetCategoryCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="budgetPeriod" class-ref="org.kuali.kra.budget.bo.BudgetPeriod" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budgetPeriod" class-ref="org.kuali.kra.budget.bo.BudgetPeriod" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetPeriod"/> 
 			<foreignkey field-ref="proposalNumber"/> 
 			<foreignkey field-ref="budgetVersionNumber"/> 
 		</reference-descriptor>
-		<reference-descriptor name="costElement" class-ref="org.kuali.kra.budget.bo.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="costElementBO" class-ref="org.kuali.kra.budget.bo.CostElement" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="costElement"/> 
 		</reference-descriptor>
 	</class-descriptor>
@@ -1785,6 +1785,23 @@
 		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.bo.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
+		</reference-descriptor> -->
+	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.budget.bo.BudgetProposalLaRate" table="PROP_LA_RATES">
+		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="CHAR" primarykey="true"/>
+		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" primarykey="true" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="rateClassCode" column="RATE_CLASS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="rateTypeCode" column="RATE_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" primarykey="true"/>
+		<field-descriptor name="budgetVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="applicableRate" column="APPLICABLE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="instituteRate" column="INSTITUTE_RATE" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<!-- <reference-descriptor name="Budget" class-ref="org.kuali.kra.budget.bo.Budget" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="proposalNumber"/> 
+			<foreignkey field-ref="versionNumber"/> 
 		</reference-descriptor> -->
 	</class-descriptor>
 </descriptor-repository>
