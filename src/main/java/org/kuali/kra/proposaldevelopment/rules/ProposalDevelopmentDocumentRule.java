@@ -262,9 +262,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getProposalLocations().size()==0 ||
                 (proposalDevelopmentDocument.getProposalLocations().size()==1 && ((ProposalLocation)(proposalDevelopmentDocument.getProposalLocations().get(0))).getLocationSequenceNumber()==null))) {
-            errorMap.addToErrorPath("newPropLocation");
-            errorMap.putError("location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
-            errorMap.removeFromErrorPath("newPropLocation");
+            errorMap.removeFromErrorPath("document");
+            reportError("newPropLocation.location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
+            errorMap.addToErrorPath("document");
             valid = false;
         }
         return valid;
