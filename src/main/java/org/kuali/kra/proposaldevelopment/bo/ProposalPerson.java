@@ -30,7 +30,7 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -529,13 +529,19 @@ public class ProposalPerson extends Person implements CreditSplitable {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        
+        // Assume if obj is a String, then it must represent the PERSON_ID or ROLODEX_ID
         if (obj instanceof String) {
             return (obj.equals(getPersonId()) || obj.equals(getRolodexId()));
         }
        
         if (obj instanceof ProposalPerson) {
             ProposalPerson p = (ProposalPerson) obj;
-            return (getPersonId().equals(p.getPersonId()) || getRolodexId().equals(p.getRolodexId()));
+            return ((getPersonId() != null && getPersonId().equals(p.getPersonId())) 
+                    || (getRolodexId() != null && getRolodexId().equals(p.getRolodexId())));
         }
         return false;
     }
