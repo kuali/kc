@@ -29,8 +29,8 @@
         
         <table cellpadding=0 cellspacing=0 summary="">
              <tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.organizationId}" /></div></th>
-                <td align="left" valign="middle"  class="infoline">
+				<th width="50%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.organizationId}" /></div></th>
+                <td align="left" valign="middle"  class="infoline" width="50%">
                 	<kul:htmlControlAttribute property="document.organizationId" attributeEntry="${proposalDevelopmentAttributes.organizationId}" />
                     <c:out value="${KualiForm.document.organization.organizationName}"/>
                     <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
@@ -53,15 +53,7 @@
 				<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${organizationAttributes.congressionalDistrict}" /></div></th>
                 <td class="infoline">
-                   <c:choose>
-                    <c:when test="${empty KualiForm.document.organization.congressionalDistrict}" >
-					  <!--  to make the panel looks a little balanced -->
-                      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                    </c:when>
-                    <c:otherwise>
                 	<c:out value="${KualiForm.document.organization.congressionalDistrict}"/>
-                	</c:otherwise>
-                   </c:choose>
                 </td>
             </tr>
         	<tr>
