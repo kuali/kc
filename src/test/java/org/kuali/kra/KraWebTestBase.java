@@ -740,7 +740,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         assertEquals(getFieldValue(textPage, id), text1);
 
         setFieldValue(textPage, id, text2);
-        HtmlPage returnPage = clickOn(textPage, "save");
+        HtmlPage returnPage = clickOn(textPage, "return");
 
         assertEquals(getFieldValue(returnPage, id), text2);
 
