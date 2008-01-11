@@ -63,8 +63,8 @@
 			<div id="globalbuttons" class="globalbuttons"><input
 				type="image" name="methodToCall.postTextAreaToParent.anchor${textAreaFieldAnchor}"
 				onclick='javascript:postValueToParentWindow();return false'
-				src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif"
-				class="globalbuttons" title="save" alt="save"></div>
+				src="${ConfigProperties.kra.externalizable.images.url}buttonsmall_return.gif"
+				class="globalbuttons" title="return" alt="return"></div>
 			</td>
 		</tr>
 	</table>
