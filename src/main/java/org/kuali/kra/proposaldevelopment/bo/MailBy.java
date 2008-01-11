@@ -4,6 +4,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * 
+ * This class is the bo class of mailby code.
+ */
 public class MailBy extends KraPersistableBusinessObjectBase {
 	
 	private String mailByCode;
