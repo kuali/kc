@@ -17,35 +17,24 @@
 		<property name="targetObject" ref="config" />
 		<property name="targetMethod" value="getProperties" />
 	</bean>
-	
-	<bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
-		<property name="forceShutdown" value="true"/>
-		<property name="transactionTimeout" value="300" />
-	</bean>
-	
-	<bean id="AtomikosUsrTx" class="com.atomikos.icatch.jta.UserTransactionImp"/>
-		
-	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
-		<property name="userTransaction">
-			<ref local="AtomikosUsrTx" />
-		</property>
-		<property name="transactionManager">
-			<ref local="AtomikosTxMgr" />
-		</property>
-	</bean>
-	
-	<bean id="MYDB" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
-		<property name="user" value="${datasource.username}" />
-		<property name="password" value="${datasource.password}" />
-		<property name="url" value="${datasource.url}" />
+
+	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean" />
+
+	<bean id="dataSource" class="temp.rice.database.XAPoolDataSource">
+		<property name="transactionManager" ref="jotm" />
 		<property name="driverClassName" value="${datasource.driver.name}" />
-		<property name="poolSize" value="5" />
-		<property name="connectionTimeout" value="3600" />
+		<property name="maxSize" value="${datasource.pool.maxSize}" />
+		<property name="minSize" value="${datasource.pool.minSize}" />
+		<property name="maxWait" value="${datasource.pool.maxWait}" />
+		<property name="validationQuery" value="${datasource.pool.validationQuery}" />
+		<property name="url" value="${datasource.url}" />
+		<property name="username" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
 	</bean>
 
   <bean id="dbPlatformFactory" class="org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory">
     <property name="ojbPlatform" value="${datasource.ojb.platform}" />
-    <property name="dataSource" ref="MYDB" />
+    <property name="dataSource" ref="dataSource" />
   </bean>
 
   <bean id="dbPlatform" factory-bean="dbPlatformFactory" factory-method="getPlatform" />
@@ -71,9 +60,9 @@
 	</bean>	
 
 	<bean id="rice" class="org.kuali.rice.config.RiceConfigurer">
-		<property name="dataSource" ref="MYDB" />
-		<property name="transactionManager" ref="AtomikosTxMgr" />
-		<property name="userTransaction" ref="AtomikosUsrTx" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="jotm" />
+		<property name="userTransaction" ref="jotm" />
 		<property name="rootConfig" ref="config" />
 		<property name="rootResourceLoader" ref="kraRootResourceLoader" />
 		<property name="messageEntity" value="KRA" />
