@@ -306,6 +306,14 @@
 	</users>
 	<workgroups xmlns="ns:workflow/Workgroup" xsi:schemaLocation="ns:workflow/Workgroup resource:Workgroup">
 		<workgroup>
+			<id>1</id>
+			<workgroupName>WorkflowAdmin</workgroupName>
+			<description>WorkflowAdmin</description>
+			<members>
+				<authenticationId>quickstart</authenticationId>
+			</members>
+		</workgroup>
+		<workgroup>
 			<id>2</id>
 			<workgroupName>KUALI_PED</workgroupName>
 			<description>KUALI_PED</description>
@@ -452,7 +460,7 @@
 			<postProcessorName>edu.iu.uis.eden.doctype.DocumentTypePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/en/DocumentType.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/en/DocumentType.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies />
 			<routePaths>
@@ -475,7 +483,7 @@
 			<postProcessorName>edu.iu.uis.eden.routetemplate.RulePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/en/Rule.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/en/Rule.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies />
 			<routePaths>
@@ -499,7 +507,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/en/Workgroup.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/en/Workgroup.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>1</routingVersion>
 			<routePaths>
@@ -530,7 +538,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/travelDocument2.do?methodToCall=docHandler</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/travelDocument2.do?methodToCall=docHandler</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" nextNode="DestinationApproval" />
@@ -566,7 +574,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/docHandler.do</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/docHandler.do</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />
@@ -586,7 +594,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/docHandler.do</docHandler>
+			<docHandler>http://localhost:8080/SampleRiceClient/docHandler.do</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />
@@ -598,30 +606,6 @@
 				</start>
 			</routeNodes>
 		</documentType>
-		<documentType>
-		      <name>ParameterMaintenanceDocument</name>
-		      <description>Create/edit a parameter</description>
-		      <label>Parameter Maintenance Document</label>
-		      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-		      <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-		      <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-		      <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-		      <docHandler>http://localhost:8080/kr-dev/kr/maintenance.do?methodToCall=docHandler</docHandler>
-		      <active>true</active>
-		      <routingVersion>2</routingVersion>
-		      <routePaths>
-		        <routePath>
-		          <start name="Initiated" />
-		        </routePath>
-		      </routePaths>
-		      <routeNodes>
-		        <start name="Initiated">
-		          <activationType>P</activationType>
-		          <mandatoryRoute>false</mandatoryRoute>
-		          <finalApproval>false</finalApproval>
-		        </start>
-		      </routeNodes>
-    	</documentType>		
 	</documentTypes>
 	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
 		<rule>
