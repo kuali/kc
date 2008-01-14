@@ -80,6 +80,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private Map<String, Parameter> proposalDevelopmentParameters;
     private Integer answerYesNo;
     private Integer answerYesNoNA;
+    private String newBudgetVersionName;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -521,6 +522,14 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
     public Integer getAnswerYesNoNA() {
         return Constants.ANSWER_YES_NO_NA;
+    }
+
+    public String getNewBudgetVersionName() {
+        return newBudgetVersionName;
+    }
+
+    public void setNewBudgetVersionName(String newBudgetVersionName) {
+        this.newBudgetVersionName = newBudgetVersionName;
     }
 
 }
