@@ -68,7 +68,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         BudgetDocument budgetDocument = (BudgetDocument) docService.getNewDocument(BudgetDocument.class);
         budgetDocument.setProposalNumber(pdDoc.getProposalNumber());
         budgetDocument.setBudgetVersionNumber(newBudgetVersion);
-        budgetDocument.getDocumentHeader().setFinancialDocumentDescription("Budget for proposal " + pdDoc.getProposalNumber());
+        budgetDocument.getDocumentHeader().setFinancialDocumentDescription(pdForm.getNewBudgetVersionName());
         budgetDocument.setStartDate(pdDoc.getRequestedStartDateInitial());
         budgetDocument.setEndDate(pdDoc.getRequestedEndDateInitial());
         budgetDocument.setOhRateClassCode(1);

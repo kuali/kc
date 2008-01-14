@@ -16,11 +16,18 @@
 package org.kuali.kra.budget.bo;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * Class representation of a Budget Overview Business Object.  This BO maps to
@@ -192,6 +199,21 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+    
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
+     */
+    @Override
+    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        // The purpose of this lookup is to get the document description from the doc header,
+        // without mapping the enire doc header (which can be large) in ojb.
+        super.afterLookup(persistenceBroker);
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map keyMap = new HashMap();
+        keyMap.put("documentNumber", this.documentNumber);
+        DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
+        this.documentDescription = docHeader.getFinancialDocumentDescription();
     }
 
     /**
