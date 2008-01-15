@@ -1,28 +1,23 @@
 #
-# $Id: load_person_editable_fields.sql,v 1.3 2007-10-18 15:55:12 lprzybyl Exp $
+# $Id: load_person_editable_fields.sql,v 1.4 2008-01-15 02:29:45 lprzybyl Exp $
 #
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('fullName', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('emailAddress', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('userName', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('primaryTitle', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('directoryTitle', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('officePhone', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('homeUnit', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('school', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('faxNumber', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('eraCommonsUserName', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('pagerNumber', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('mobilePhoneNumber', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('officeLocation', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('secondaryOfficeLocation', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('addressLine1', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('addressLine2', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('addressLine3', sysdate, 'kradev');v
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('county', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('city', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('state', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('country', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('postalCode', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('percentageEffort', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('faculty', sysdate, 'kradev');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('emailAddress', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('primaryTitle', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('directoryTitle', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('officePhone', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('faxNumber', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('eraCommonsUserName', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('pagerNumber', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('mobilePhoneNumber', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('officeLocation', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('addressLine1', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('addressLine2', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('addressLine3', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('county', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('city', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('state', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('country', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('postalCode', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('percentageEffort', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('faculty', sysdate, 'kradev', 'Y');
