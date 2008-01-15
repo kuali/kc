@@ -22,7 +22,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 
 public enum ProposalPersonFixture {
-    INVESTIGATOR_SPLIT_ADDS_TO_ONE(PRINCIPAL_INVESTIGATOR_ROLE);
+    INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED(PRINCIPAL_INVESTIGATOR_ROLE);
 
     private ProposalPerson person;
     
@@ -32,7 +32,7 @@ public enum ProposalPersonFixture {
     private ProposalPersonFixture(String roleId) {
         person = new ProposalPerson();
         person.setProposalPersonRoleId(roleId);
-        person.setPercentageEffort(new KualiDecimal(1.0));
+        person.setPercentageEffort(new KualiDecimal(100.0));
     }
 
     public ProposalPerson getPerson() {
