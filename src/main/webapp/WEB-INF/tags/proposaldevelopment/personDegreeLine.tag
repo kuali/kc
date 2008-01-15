@@ -21,7 +21,7 @@
 <c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
 <c:set var="actionMethod" value="insertDegree.personIndex${personIndex}" />
 <c:set var="actionTitle" value="Add a Degree" />
-<c:set var="degreeIndexHeader" value="add:" />
+<c:set var="degreeIndexHeader" value="Add:" />
 <c:set var="degreeCodeProperty" value="${degree}.degreeCode" />
 <c:set var="degreeCodeAttribute" value="${DataDictionary.ProposalPersonDegree.attributes.degreeCode}" />
 <c:set var="tdClass" value="infoline" />

@@ -28,7 +28,7 @@
                     <th>&nbsp;</th>
                   </tr>
                   <tr>
-                    <th scope="row" align="center">add:</th>
+                    <th scope="row" align="center">Add:</th>
                     <td class="infoline">
                      <html:hidden property="newProposalPersonUnit[${personIndex}].unitName" />
    					<div id="newProposalPersonUnit[${personIndex}].unitName.div" class="same-line">
