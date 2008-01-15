@@ -131,7 +131,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
 
 		// Temporary hack for KRACOEUS-489
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
-            ((ActionFormUtilMap) getActionFormUtilMap()).setCacheValueFinderResults(false);
+            ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }
 
     }
