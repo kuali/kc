@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ALL_PERSON_CREDIT_
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERSON_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,51 +41,47 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * traversing the tree of <code>{@link ProposalPerson}</code> <code>{@link ProposalPersonUnit}</code> instances.
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class CreditSplitValidator {
-    private static final KualiDecimal CREDIT_UPBOUND = new KualiDecimal(1.0);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidator.class);
+    private static final KualiDecimal CREDIT_UPBOUND = new KualiDecimal(100.0);
     
     /**
      * Validates the credit splits of an entire document by traversing it. If the Investigator is instead a Principal Investigator,
-     * the units should all add up to 1.0.
+     * the units should all add up to 100.0.
      *
      * @param document The document to validate the credit splits of
      * @return boolean
      */
     public boolean validate(ProposalDevelopmentDocument document) {
+        Collection<InvestigatorCreditType> creditTypes = getKeyPersonnelService().getInvestigatorCreditTypes();
         boolean retval = true;
-
-        KualiDecimal allPersonCreditTotal = KualiDecimal.ZERO;
-        retval &= validate(document.getInvestigators().iterator(), CreditSplitable.class, allPersonCreditTotal);
         
-        // Reloop investigators. Maybe there's a better way to do this.
-        for (ProposalPerson investigator : document.getInvestigators()) {
-            if (getKeyPersonnelService().isPrincipalInvestigator(investigator)) {
-                retval &= validate(investigator.getUnits().iterator(), CreditSplitable.class, KualiDecimal.ZERO);
+        for (InvestigatorCreditType creditType : creditTypes) {
+            if (creditType.addsToHundred()) {
+                retval &= validate(document.getInvestigators(), creditType.getInvCreditTypeCode());
             }
         }
         
-        return retval;        
+        return retval;
     }
     
-    /**
-     * Delegates to either <code>{@link #validateCreditSplitable(Iterator, KualiDecimal)}</code> or 
-     * <code>{@link #validateCreditSplit(Iterator, KualiDecimal)}</code> for generic access. Kind of a 
-     * hack/workaround, but all the ways of doing this are really hacks because of erasures.
-     * 
-     * @param collection_it iterator collection that is validated
-     * @param iterator_type the type of iterator since the erasure hides this (erases it really)
-     * @param cummulative the amount to accumulate through recursion.
-     * @param boolean is valid?
-     */
-    public boolean validate(Iterator collection_it, Class<?> iterator_type, KualiDecimal cummulative) {
-        if (CreditSplit.class.isAssignableFrom(iterator_type)) {
-            return validateCreditSplit((Iterator<? extends CreditSplit>) collection_it, cummulative);
+    public boolean validate(Collection<ProposalPerson> investigators, String creditTypeCode) {
+        boolean retval = true;
+        
+        KualiDecimal investigatorCreditTotal = KualiDecimal.ZERO;
+        for (ProposalPerson investigator : investigators) {
+            KualiDecimal unitCreditTotal = KualiDecimal.ZERO;
+            
+            retval &= validateCreditSplit(investigator.getCreditSplits().iterator(), creditTypeCode, investigatorCreditTotal);
+
+            retval &= validateCreditSplitable(investigator.getUnits().iterator(), creditTypeCode, unitCreditTotal);
         }
-        return validateCreditSplitable((Iterator<? extends CreditSplitable>) collection_it, cummulative);
+        
+        return retval;
     }
-    
+
     /**
      * Validates a collection of anything splitable. This implies that it contains <code>{@link CreditSplit}</code> instances.
      * 
@@ -92,7 +89,7 @@ public class CreditSplitValidator {
      * @param greaterCummulative
      * @return boolean is valid?
      */
-    public boolean validateCreditSplitable(Iterator<? extends CreditSplitable> splitable_it, KualiDecimal greaterCummulative) {
+    public boolean validateCreditSplitable(Iterator<? extends CreditSplitable> splitable_it, String creditTypeCode, KualiDecimal greaterCummulative) {
         boolean retval = true;
      
         if (!splitable_it.hasNext()) {
@@ -102,11 +99,11 @@ public class CreditSplitValidator {
         CreditSplitable splitable = splitable_it.next();
      
         KualiDecimal lesserCummulative = KualiDecimal.ZERO;        
-        retval &= validate(splitable.getCreditSplits().iterator(), CreditSplit.class, lesserCummulative);
+        retval &= validateCreditSplit(splitable.getCreditSplits().iterator(), creditTypeCode, lesserCummulative);
      
         greaterCummulative.add(lesserCummulative);
      
-        return validateCreditSplitable(splitable_it, greaterCummulative);
+        return validateCreditSplitable(splitable_it, creditTypeCode, greaterCummulative);
     }
 
 
@@ -117,15 +114,17 @@ public class CreditSplitValidator {
      * @param lesserCummulative
      * @return boolean is valid?
      */
-    public boolean validateCreditSplit(Iterator<? extends CreditSplit> creditSplit_it, KualiDecimal lesserCummulative) {
+    public boolean validateCreditSplit(Iterator<? extends CreditSplit> creditSplit_it, String creditTypeCode, KualiDecimal lesserCummulative) {
         if (!creditSplit_it.hasNext()) {
             return CREDIT_UPBOUND.compareTo(lesserCummulative) >= 0;
         }
         
         CreditSplit creditSplit = creditSplit_it.next();
-        lesserCummulative.add(creditSplit.getCredit());
+        if (creditTypeCode.equals(creditSplit.getInvCreditTypeCode())) {
+            lesserCummulative.add(creditSplit.getCredit());
+        }
      
-        return validateCreditSplit(creditSplit_it, lesserCummulative);
+        return validateCreditSplit(creditSplit_it, creditTypeCode, lesserCummulative);
     }
 
     private KeyPersonnelService getKeyPersonnelService() {
