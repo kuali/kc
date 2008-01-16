@@ -51,7 +51,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -66,6 +66,19 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      */
     public void populateDocument(ProposalDevelopmentDocument document) {
         document.setInvestigatorCreditTypes(getInvestigatorCreditTypes());
+        
+        if (document.getInvestigators().isEmpty() && !document.getProposalPersons().isEmpty()) {
+            LOG.info("Need to repopulate investigator list");
+            
+            for (ProposalPerson person : document.getProposalPersons()) {
+                person.setInvestigatorFlag(isInvestigator(person));
+                
+                if (person.isInvestigator()) {
+                    LOG.info("Adding investigator " + person.getFullName());
+                    document.getInvestigators().add(person);
+                }
+            }
+        }
     }
 
     /**
@@ -88,7 +101,13 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             assignLeadUnit(person, document.getOwnedByUnitNumber());
         }
         
-        person.setInvestigatorFlag(isInvestigator(person));
+        if (isInvestigator(person)) {
+            person.setInvestigatorFlag(true);
+            document.getInvestigators().add(person);
+        }
+        else {
+            person.setInvestigatorFlag(false);
+        }
         
         person.refreshReferenceObject("role");
     }
