@@ -29,6 +29,7 @@ public interface Constants {
     public static final Integer APPROVAL_STATUS = 2;
     public static final String MAINTENANCE_NEW_ACTION = "New";
 
+    public static final String KEY_PERSON_ROLE = "KP";
     public static final String PRINCIPAL_INVESTIGATOR_ROLE = "PI";
     public static final String CO_INVESTIGATOR_ROLE = "COI";
     public static final String MULTIPLE_VALUE = "multipleValues";

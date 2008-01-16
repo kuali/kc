@@ -30,7 +30,7 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -545,4 +545,5 @@ public class ProposalPerson extends Person implements CreditSplitable {
         }
         return false;
     }
+
 }
