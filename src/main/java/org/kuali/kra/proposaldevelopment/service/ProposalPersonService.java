@@ -16,10 +16,20 @@
 package org.kuali.kra.proposaldevelopment.service;
 
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public interface ProposalPersonService {
     public String getPersonName(ProposalDevelopmentDocument doc, String userId);
 
     public Person getPerson(String loggedInUser);
+
+    /**
+     * Retrieve a persisted <code>{@link ProposalPerson}</code> instance using the <code>proposalNumber</code>
+     * and <code>proposalPersonNumber</code> 
+     * 
+     * @param proposalNumber
+     * @param proposalPersonNumber
+     */
+    public ProposalPerson getProposalPersonById(Integer proposalNumber, Integer proposalPersonNumber);
 }

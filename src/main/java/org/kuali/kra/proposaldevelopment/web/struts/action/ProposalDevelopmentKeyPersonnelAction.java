@@ -41,6 +41,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.bo.Unit;
@@ -62,7 +63,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.39 $
+ * @version $Revision: 1.40 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -284,8 +285,15 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
         
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
-        selectedPerson.getUnits().remove(getSelectedLine(request));
+        ProposalPersonUnit unit = selectedPerson.getUnit(getSelectedLine(request));
         
+        // check any business rules
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, document, selectedPerson, unit));
+
+        if (rulePassed) {
+            selectedPerson.getUnits().remove(getSelectedLine(request));
+            getBusinessObjectService().delete(unit);
+        }
 
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -418,5 +426,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         super.loadDocument(kualiDocumentFormBase);
 
 
+    }
+    
+    private BusinessObjectService getBusinessObjectService() {
+        return getService(BusinessObjectService.class);
     }
 }
