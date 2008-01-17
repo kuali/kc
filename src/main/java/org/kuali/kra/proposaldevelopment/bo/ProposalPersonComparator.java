@@ -17,6 +17,8 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.Comparator;
 
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -60,7 +62,12 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
         }
         
         if (retval == 0) {
-            retval = person1.getFullName().compareTo(person2.getFullName());
+            if (isNotBlank(person1.getFullName())) {
+                retval = person1.getFullName().compareTo(person2.getFullName());
+            }
+            else if (isNotBlank(person2.getFullName())) {
+                retval++; 
+            }
         }
         
         LOG.info("retval = " + retval);
