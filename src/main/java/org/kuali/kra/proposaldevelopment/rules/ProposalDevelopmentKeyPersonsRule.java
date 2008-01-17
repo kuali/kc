@@ -16,13 +16,13 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -32,11 +32,13 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 import static java.util.Map.Entry;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.core.util.GlobalVariables.getErrorMap;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
@@ -45,6 +47,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOU
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_DELETE_LEAD_UNIT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
@@ -53,7 +56,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.26 $
+ * @version $Revision: 1.27 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -164,9 +167,9 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @see org.kuali.kra.rules.ResearchDocumentRuleBase#reportError(String, String, String...)
      */
     protected void reportErrorWithPrefix(String errorPathPrefix, String propertyName, String errorKey, String... errorParams) {
-        GlobalVariables.getErrorMap().addToErrorPath(errorPathPrefix);
+        getErrorMap().addToErrorPath(errorPathPrefix);
         super.reportError(propertyName, errorKey, errorParams);
-        GlobalVariables.getErrorMap().removeFromErrorPath(errorPathPrefix);        
+        getErrorMap().removeFromErrorPath(errorPathPrefix);        
     }
 
     /**
@@ -229,7 +232,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval &= validateDegree((ProposalPersonDegree) source);
         }
         else if (source instanceof ProposalPersonUnit) {
-            retval &= validateUnit((ProposalPersonUnit) source);
+            retval &= validateUnit((ProposalPersonUnit) source, proposalPerson);
         }
         
         return retval;
@@ -241,13 +244,15 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @param source
      * @return boolean pass or fail
      */
-    private boolean validateUnit(ProposalPersonUnit source) {
+    private boolean validateUnit(ProposalPersonUnit source, ProposalPerson person) {
         boolean retval = true;
         
         if (source == null) {
             LOG.info("validated null unit");
             return false;
         }
+        
+        LOG.info("Validating unit " + source);
         
         if (source.getUnit() == null && isBlank(source.getUnitNumber())) {
             retval = false;
@@ -257,9 +262,35 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
 
+        LOG.info("isLeadUnit = " + source.isLeadUnit());
+        
+        if (isDeletingUnitFromPrincipalInvestigator(source, person)) {            
+            reportErrorWithPrefix("proposalPerson*", "proposalPerson*", ERROR_DELETE_LEAD_UNIT);
+            retval = false;
+        }
+
         LOG.info("validateUnit = " + retval);
         
         return retval;
+    }
+    
+    /**
+     * Determine if we are deleting a Lead Unit from a PI
+     * 
+     * @param unit intending to be deleted
+     * @param person possible PI
+     * @return boolean
+     */
+    private boolean isDeletingUnitFromPrincipalInvestigator(ProposalPersonUnit unit, ProposalPerson person) {
+        boolean retval = false;
+        
+        for (Iterator<ProposalPersonUnit> unit_it = person.getUnits().iterator(); unit_it.hasNext() && !retval;) {
+            retval = unit_it.next().getUnitNumber().equals(unit.getUnitNumber());
+        }
+        
+        LOG.info("person " + person.getProposalPersonNumber() + " has unit " + unit.getUnitNumber());
+        
+        return retval && unit.isLeadUnit() && getKeyPersonnelService().isPrincipalInvestigator(person);
     }
 
     /**
@@ -332,6 +363,15 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             }
         }
         return false;
+    }
+    
+    /**
+     * Locate <code>{@link ProposalPersonService}</code> instance withing Spring and return it.
+     * 
+     * @return ProposalPersonService
+     */
+    private ProposalPersonService getProposalPersonService() {
+        return getService(ProposalPersonService.class);
     }
 }
 
