@@ -21,7 +21,18 @@
 	documentTypeName="BudgetDocument"
   	headerDispatch="save"
   	headerTabActive="versions">
-<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+
+	<kra-b:budgetVersions budgetVersionOverviews="${KualiForm.document.proposal.budgetVersionOverviews}"/>
+
+	<kul:documentControls 
+		transactionalDocument="false"
+		suppressRoutingControls="true"
+		extraButtonSource="${extraButtonSource}"
+		extraButtonProperty="${extraButtonProperty}"
+		extraButtonAlt="${extraButtonAlt}"
+		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		/>
+
 	<center>Under Construction</center>
 
 </kul:documentPage>

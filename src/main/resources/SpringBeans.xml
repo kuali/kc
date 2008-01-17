@@ -93,6 +93,14 @@
 	<bean id="businessObjectService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="businessObjectService" />
 	</bean>
+	
+	<bean id="documentService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="documentService" />
+	</bean>
+	
+	<bean id="routeHeaderService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="enDocumentRouteHeaderService" />
+	</bean>
 
 	<bean id="keyValueFinderService" class="org.kuali.kra.lookup.keyvalue.KeyValueFinderServiceImpl">
 		<property name="businessObjectService">
@@ -203,6 +211,18 @@
 	  <bean id="s2SService" class="org.kuali.kra.s2s.service.impl.S2SServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
+	<bean id="researchDocumentService" class="org.kuali.kra.service.impl.ResearchDocumentServiceImpl">
+		<property name="routeHeaderService">
+			<ref bean="routeHeaderService"/>
+		</property>
+	</bean>
+	
+	<bean id="budgetDocumentService" class="org.kuali.kra.budget.service.impl.BudgetDocumentServiceImpl">
+		<property name="documentService">
+			<ref bean="documentService"/>
 		</property>
 	</bean>
 	

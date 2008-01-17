@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.web.struts.form;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -26,21 +25,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ActionFormUtilMap;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
@@ -49,16 +43,16 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 /**
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase {
+public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentForm.class);
     private String primeSponsorName;
     private ProposalLocation newPropLocation;
@@ -81,6 +75,7 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
     private Integer answerYesNo;
     private Integer answerYesNoNA;
     private String newBudgetVersionName;
+    private Integer finalBudgetVersion;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -532,4 +527,12 @@ public class ProposalDevelopmentForm extends KualiTransactionalDocumentFormBase 
         this.newBudgetVersionName = newBudgetVersionName;
     }
 
+    public Integer getFinalBudgetVersion() {
+        return finalBudgetVersion;
+    }
+
+    public void setFinalBudgetVersion(Integer finalBudgetVersion) {
+        this.finalBudgetVersion = finalBudgetVersion;
+    }
+    
 }
