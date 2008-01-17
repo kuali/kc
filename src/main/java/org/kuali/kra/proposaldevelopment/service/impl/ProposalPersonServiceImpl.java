@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +63,17 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("userName", loggedInUser);
         return (Person)businessObjectService.findByPrimaryKey(Person.class, queryMap);
+    }
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonService#getProposalPersonById(java.lang.Integer, java.lang.Integer)
+     */
+    public ProposalPerson getProposalPersonById(Integer proposalNumber, Integer proposalPersonNumber) {
+        Map<String, String> keys = new HashMap<String, String>();
+        keys.put("proposalNumber", proposalNumber.toString());
+        keys.put("proposalPersonNumber", proposalPersonNumber.toString());
+        
+        return (ProposalPerson) getBusinessObjectService().findByPrimaryKey(ProposalPerson.class, keys);
     }
     
 }
