@@ -18,13 +18,14 @@ package org.kuali.kra.budget.bo;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -56,6 +57,12 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
     
     private String name;
     private String status;
+    
+    private List budgetStatusTypes;
+    
+    public BudgetVersionOverview() {
+        this.budgetStatusTypes = new TypedArrayList(BudgetStatus.class);
+    }
     
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
@@ -92,6 +99,11 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
     public Integer getProposalNumber() {
         return proposalNumber;
     }
+    
+//  TODO Temporary setter for fieldconversions from ProposalDevelopmentDocument (since it's Integer there, String on BudgetDocument)
+//    public void setProposalNumber(String proposalNumber) {
+//        this.proposalNumber = Integer.parseInt(proposalNumber);
+//    }
 
     public void setProposalNumber(Integer proposalNumber) {
         this.proposalNumber = proposalNumber;
@@ -199,6 +211,14 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+    
+    public List getBudgetStatusTypes() {
+        return budgetStatusTypes;
+    }
+
+    public void setBudgetStatusTypes(List budgetStatusTypes) {
+        this.budgetStatusTypes = budgetStatusTypes;
     }
     
     /**

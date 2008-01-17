@@ -16,9 +16,11 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<%@ attribute name="budgetVersionOverviews" required="true" type="java.util.List"%>
+
 <c:set var="budgetAttributes" value="${DataDictionary.BudgetDocument.attributes}" />
 
-<kul:tabTop tabTitle="Budget Versions (${KualiForm.document.requestedStartDateInitial} - ${KualiForm.document.requestedEndDateInitial})" defaultOpen="true" >
+<kul:tabTop tabTitle="Budget Versions (${KualiForm.document.requestedStartDateInitial} - ${KualiForm.document.requestedEndDateInitial})" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Budget Versions</h2></span>
@@ -51,7 +53,7 @@
 					</div>
 				</td>
           	</tr>
-          	<c:forEach var="budgetVersion" items="${KualiForm.document.budgetVersionOverviews}" varStatus="status">
+          	<c:forEach var="budgetVersion" items="${budgetVersionOverviews}" varStatus="status">
           		<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
           		<c:set var="parentTab" value="Budget Versions" scope="request"/>
           		<c:set var="tabTitle" value="${status.index}" scope="request"/>
@@ -93,13 +95,12 @@
 			                <option>select</option>
 			                <option selected>incomplete</option>
 			                <option>complete</option>
-			                <option>none</option>
 			              </select>
 		            	</div>
             		</td>
 	            	<td class="tab-subhead1">
 	            		<div align="center">
-	              			<input name="radio" type="radio" class="radio" id="final2" value="final" checked>
+	            			<html:radio name="KualiForm" property="finalBudgetVersion" value="${budgetVersion.budgetVersionNumber}"/>
 	            		</div>
 	            	</td>
            			<td nowrap class="tab-subhead1">
