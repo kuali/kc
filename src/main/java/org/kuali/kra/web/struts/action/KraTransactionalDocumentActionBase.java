@@ -20,12 +20,11 @@ import static org.apache.commons.lang.StringUtils.replace;
 import static org.kuali.RiceConstants.CONFIRMATION_QUESTION;
 import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
-import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,14 +37,17 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
 import org.kuali.core.question.ConfirmationQuestion;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.service.ResearchDocumentService;
+import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.notification.util.NotificationConstants;
+
+import edu.iu.uis.eden.clientapp.IDocHandler;
 
 // TODO : should move this class to org.kuali.kra.web.struts.action
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
@@ -183,6 +185,32 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         return this.performQuestionWithoutInput(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(), 
                                                 question.getQuestionId(), question.getQuestionText(), question.getQuestionType(),
                                                 question.getCaller(), context);
+    }
+    
+    protected String buildForwardUrl(Long routeHeaderId) {
+        ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
+        String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
+        if (forward.indexOf("?") == -1) {
+            forward += "?";
+        } else {
+            forward += "&";
+        }
+        forward += IDocHandler.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
+        forward += "&" + IDocHandler.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
+//        if (getUserSession(request).isBackdoorInUse()) {
+//            forward += "&" + IDocHandler.BACKDOOR_ID_PARAMETER + "=" + getUserSession(request).getNetworkId();
+//        }
+        return forward;
+    }
+    
+    protected void setFinalBudgetVersion(Integer finalBudgetVersion, List<BudgetVersionOverview> budgetVersions) {
+        for (BudgetVersionOverview budgetVersion: budgetVersions) {
+            if (budgetVersion.getBudgetVersionNumber().equals(finalBudgetVersion)) {
+                budgetVersion.setFinalVersionFlag(true);
+            } else {
+                budgetVersion.setFinalVersionFlag(false);
+            }
+        }
     }
 
 }

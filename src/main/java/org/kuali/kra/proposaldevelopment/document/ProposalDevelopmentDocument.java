@@ -26,7 +26,6 @@ import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
-import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.Organization;
@@ -114,7 +113,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     private List<ProposalYnq> proposalYnqs;
     private List<YnqGroupName> ynqGroupNames;
-    private List<BudgetVersionOverview> budgetVersionOverviews;
+    private List budgetVersionOverviews;
 
     public ProposalDevelopmentDocument() {
         super();
@@ -1113,6 +1112,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
             LOG.error("InvocationTargetException copying properties: " + e);
             throw new RuntimeException(e);
         }
-        this.budgetVersionOverviews.add(budgetVersion);
+        this.getBudgetVersionOverviews().add(budgetVersion);
     }
 }
