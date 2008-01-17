@@ -194,6 +194,12 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.proposal = proposal;
     }
 
-
+    public Date getRequestedStartDateInitial() {
+        return this.getProposal().getRequestedStartDateInitial();
+    }
+    
+    public Date getRequestedEndDateInitial() {
+        return this.getProposal().getRequestedEndDateInitial();
+    }
 
 }

@@ -19,14 +19,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
-public class BudgetForm extends KualiTransactionalDocumentFormBase {
+public class BudgetForm extends KraTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
 
+    private String newBudgetVersionName;
+    private Integer finalBudgetVersion;
+    
     public BudgetForm() {
         super();
         this.setDocument(new BudgetDocument());
@@ -42,12 +45,26 @@ public class BudgetForm extends KualiTransactionalDocumentFormBase {
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.budget.document.BudgetDocument.class.getName())).getHeaderTabNavigation());
     }
 
-
     public BudgetDocument getBudgetDocument() {
         return (BudgetDocument) this.getDocument();
     }
+    
+    public String getNewBudgetVersionName() {
+        return newBudgetVersionName;
+    }
 
- 
+    public void setNewBudgetVersionName(String newBudgetVersionName) {
+        this.newBudgetVersionName = newBudgetVersionName;
+    }
+    
+    public Integer getFinalBudgetVersion() {
+        return finalBudgetVersion;
+    }
+
+    public void setFinalBudgetVersion(Integer finalBudgetVersion) {
+        this.finalBudgetVersion = finalBudgetVersion;
+    }
+
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         // if there are more ...

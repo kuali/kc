@@ -103,6 +103,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument);
+        valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument);
 
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
@@ -269,6 +270,14 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         }
         return valid;
 
+    }
+    
+    private boolean processBudgetVersionsBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        boolean valid = true;
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        return valid;
     }
 
 

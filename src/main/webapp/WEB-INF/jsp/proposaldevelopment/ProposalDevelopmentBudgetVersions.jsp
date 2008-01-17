@@ -22,7 +22,7 @@
   	headerDispatch="save"
   	headerTabActive="budgetVersions">
   	
-  	<kra-b:budgetVersions/>
+  	<kra-b:budgetVersions budgetVersionOverviews="${KualiForm.document.budgetVersionOverviews}"/>
   	
   	<kul:documentControls 
 		transactionalDocument="false"
