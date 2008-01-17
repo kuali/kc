@@ -45,6 +45,8 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole
  */
 public class ProposalPersonComparatorTest extends KraTestBase {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonComparatorTest.class);
+    
     
     private Comparator<ProposalPerson> comparator;
     
@@ -93,6 +95,10 @@ public class ProposalPersonComparatorTest extends KraTestBase {
         sortedList.add(person4);
 
         sort(sortedList, comparator);
+        
+        for (ProposalPerson person: sortedList) {
+            LOG.info("person full Name = " + person.getFullName());
+        }
         
         // This is the order we expect to find them in by personId
         assertEquals("000000003", sortedList.get(0).getPersonId());
