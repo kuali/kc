@@ -20,6 +20,7 @@ import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
+import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.RiceConstants.METHOD_TO_CALL_ATTRIBUTE;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
@@ -63,7 +64,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.40 $
+ * @version $Revision: 1.41 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -78,7 +79,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         prepare(form, request);
         return retval;
     }
-    
+
     /**
      * Common helper method for preparing to <code>{@link #execute(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)}</code>
      * @param form ActionForm
@@ -86,7 +87,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     public void prepare(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        request.setAttribute(NEW_PERSON_LOOKUP_FLAG, "");
+        request.setAttribute(NEW_PERSON_LOOKUP_FLAG, EMPTY_STRING);
 
         pdform.populatePersonEditableFields();
         populateInvestigators(pdform);    
@@ -169,15 +170,15 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
 
-        // Person needs to be setup before validation
-        getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
-
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new AddKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, pdform.getDocument(), pdform.getNewProposalPerson()));
                 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             document.addProposalPerson(pdform.getNewProposalPerson());
+            LOG.info("Added Proposal Person with proposalNumber = " + pdform.getNewProposalPerson().getProposalNumber());
+            LOG.info("Added Proposal Person with proposalPersonNumber = " + pdform.getNewProposalPerson().getProposalPersonNumber());
+            getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
             sort(document.getProposalPersons(), new ProposalPersonComparator());
             sort(document.getInvestigators(), new ProposalPersonComparator());
             pdform.setNewProposalPerson(new ProposalPerson());
@@ -425,7 +426,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
 
-
+        getKeyPersonnelService().populateDocument(((ProposalDevelopmentForm) kualiDocumentFormBase).getProposalDevelopmentDocument());
     }
     
     private BusinessObjectService getBusinessObjectService() {
