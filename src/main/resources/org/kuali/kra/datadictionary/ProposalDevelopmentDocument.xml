@@ -121,8 +121,8 @@
 
                 <required>true</required>
 
-                <control>
-                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ActivityTypeValuesFinder" />
+                <control>                    
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ActivityType" keyAttribute="activityTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
                 </control>
 
                 <summary>Activity Type summary</summary>
