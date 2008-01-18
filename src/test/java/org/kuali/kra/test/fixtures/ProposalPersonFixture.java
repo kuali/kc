@@ -31,6 +31,9 @@ public enum ProposalPersonFixture {
     PHILIP_CO_INVESTIGATOR("000000002", CO_INVESTIGATOR_ROLE),
     BRYAN_CO_INVESTIGATOR("000000005", CO_INVESTIGATOR_ROLE),
     ANDY_KEY_PERSON("000000006", KEY_PERSON_ROLE);
+    
+    private String personId;
+    private String roleId;
 
     private ProposalPerson person;
     
@@ -38,17 +41,15 @@ public enum ProposalPersonFixture {
     }
  
     private ProposalPersonFixture(String personId, String roleId) {
-        person = new ProposalPerson();
-        person.setPersonId(personId);
-        person.setProposalPersonRoleId(roleId);
-        person.setPercentageEffort(new KualiDecimal(100.0));
+        this.roleId = roleId;
+        this.personId = personId;
     }
 
     public ProposalPerson getPerson() {
-        return person;
-    }
-
-    public void setPerson(ProposalPerson person) {
-        this.person = person;
+        ProposalPerson retval = new ProposalPerson();
+        retval.setPersonId(personId);
+        retval.setProposalPersonRoleId(roleId);
+        retval.setPercentageEffort(new KualiDecimal(100.0));
+        return retval;
     }
 }
