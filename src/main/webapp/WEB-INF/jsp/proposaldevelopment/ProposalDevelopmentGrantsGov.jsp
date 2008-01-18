@@ -13,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+<%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <kul:documentPage
@@ -24,7 +25,9 @@
 	auditCount="0"
   	headerDispatch="save"
   	headerTabActive="grantsGov">
-
 <center>Under Construction</center>
+<kra-pd:proposalDevelopmentGrantsGovOpportunitySearch />
 
+<kul:panelFooter />
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 </kul:documentPage>
