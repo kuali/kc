@@ -51,7 +51,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -69,14 +69,29 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         
         if (document.getInvestigators().isEmpty() && !document.getProposalPersons().isEmpty()) {
             LOG.info("Need to repopulate investigator list");
-            
-            for (ProposalPerson person : document.getProposalPersons()) {
-                person.setInvestigatorFlag(isInvestigator(person));
-                
-                if (person.isInvestigator()) {
-                    LOG.info("Adding investigator " + person.getFullName());
-                    document.getInvestigators().add(person);
-                }
+            populateInvestigators(document);
+        }
+    }
+
+    /**
+     * Populate investigators
+     * 
+     * @param document The <code>{@link ProposalDevelopmentDocument}</code> to populate
+     * investigators on
+     */
+    public void populateInvestigators(ProposalDevelopmentDocument document) {
+        // Populate Investigators from a proposal document's persons
+        LOG.debug("Populating Investigators");
+        LOG.debug("Clearing investigator list");
+        document.getInvestigators().clear();
+
+        for (ProposalPerson person : document.getProposalPersons()) {
+            LOG.debug(person.getFullName() + " is " + isInvestigator(person));
+            person.setInvestigatorFlag(isInvestigator(person));
+
+            if (person.isInvestigator()) {
+                LOG.info("Adding investigator " + person.getFullName());
+                document.getInvestigators().add(person);
             }
         }
     }
@@ -87,15 +102,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     public void populateProposalPerson(ProposalPerson person, ProposalDevelopmentDocument document) {
         /* populate certification questions for new person */
         person = ynqService.getPersonYNQ(person);
-
-        for (InvestigatorCreditType creditType : (Collection<InvestigatorCreditType>) getInvestigatorCreditTypes()) {
-            ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
-            creditSplit.setProposalNumber(document.getProposalNumber());
-            creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
-            creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
-            creditSplit.setCredit(new KualiDecimal(0));
-            person.getCreditSplits().add(creditSplit);
-        }
         
         if (isPrincipalInvestigator(person)) {
             assignLeadUnit(person, document.getOwnedByUnitNumber());
@@ -104,12 +110,23 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         if (isInvestigator(person)) {
             person.setInvestigatorFlag(true);
             document.getInvestigators().add(person);
+            
+            for (InvestigatorCreditType creditType : (Collection<InvestigatorCreditType>) getInvestigatorCreditTypes()) {
+                ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
+                creditSplit.setProposalNumber(document.getProposalNumber());
+                creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
+                creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
+                creditSplit.setCredit(new KualiDecimal(0));
+                person.getCreditSplits().add(creditSplit);
+            }
         }
         else {
             person.setInvestigatorFlag(false);
         }
         
         person.refreshReferenceObject("role");
+        person.setRoleChanged(false);
+
     }
 
     /**

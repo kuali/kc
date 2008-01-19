@@ -30,7 +30,7 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.23 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -54,6 +54,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private boolean delete;
     private Person person;
     private boolean isInvestigator;
+    private boolean roleChanged;
     private List<ProposalPersonYnq> proposalPersonYnqs;
     private List<ProposalPersonUnit> units;
     private List<ProposalPersonDegree> proposalPersonDegrees;
@@ -68,6 +69,9 @@ public class ProposalPerson extends Person implements CreditSplitable {
         units = new ArrayList<ProposalPersonUnit>();
         creditSplits = new ArrayList<ProposalPersonCreditSplit>();
         proposalPersonYnqs = new ArrayList<ProposalPersonYnq>();
+        roleChanged = false;
+        isInvestigator = false;
+        delete = false;
     }
     
     /**
@@ -309,6 +313,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
     public void setProposalPersonRoleId(String argPropPersonRoleId) {
         this.proposalPersonRoleId = argPropPersonRoleId;
         
+        setRoleChanged(true);
+        
         if (isBlank(proposalPersonRoleId)) {
             role = null;
         }
@@ -544,6 +550,24 @@ public class ProposalPerson extends Person implements CreditSplitable {
                     || (getRolodexId() != null && getRolodexId().equals(p.getRolodexId())));
         }
         return false;
+    }
+
+    /**
+     * Determine if the <code>{@link ProposalPerson}</code> instance role has changed
+     * 
+     * @return boolean
+     */
+    public boolean isRoleChanged() {
+        return roleChanged;
+    }
+
+    /**
+     * Trigger a role change
+     * 
+     * @param roleChanged
+     */
+    public void setRoleChanged(boolean roleChanged) {
+        this.roleChanged = roleChanged;
     }
 
 }
