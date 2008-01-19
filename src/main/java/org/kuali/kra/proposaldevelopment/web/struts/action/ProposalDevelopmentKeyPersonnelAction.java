@@ -66,7 +66,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.42 $
+ * @version $Revision: 1.43 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -148,6 +148,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         if (!person.isInvestigator()) {
             // Cleanup from investigator related stuff
             document.getInvestigators().remove(person);
+            
+            // If they are not an Investigator, the homeUnit is not necessary
+            person.setHomeUnit(EMPTY_STRING);
             
             List<PersistableBusinessObject> units = new ArrayList<PersistableBusinessObject>();
             units.addAll(person.getUnits());
