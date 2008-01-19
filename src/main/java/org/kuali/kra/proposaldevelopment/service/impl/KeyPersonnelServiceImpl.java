@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import static java.util.Arrays.asList;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
+import org.kuali.core.util.ObjectUtils;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
@@ -32,7 +32,6 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.Ynq;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -51,7 +50,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -102,31 +101,50 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     public void populateProposalPerson(ProposalPerson person, ProposalDevelopmentDocument document) {
         /* populate certification questions for new person */
         person = ynqService.getPersonYNQ(person);
+
+        person.setInvestigatorFlag(isInvestigator(person));
         
-        if (isPrincipalInvestigator(person)) {
-            assignLeadUnit(person, document.getOwnedByUnitNumber());
-        }
-        
-        if (isInvestigator(person)) {
-            person.setInvestigatorFlag(true);
-            document.getInvestigators().add(person);
+        if (person.isInvestigator()) {
             
-            for (InvestigatorCreditType creditType : (Collection<InvestigatorCreditType>) getInvestigatorCreditTypes()) {
-                ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
-                creditSplit.setProposalNumber(document.getProposalNumber());
-                creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
-                creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
-                creditSplit.setCredit(new KualiDecimal(0));
-                person.getCreditSplits().add(creditSplit);
+            if (!document.getInvestigators().contains(person)) {
+                document.getInvestigators().add(person);
+            }
+            populateCreditTypes(person);
+
+            // handle lead unit for investigators respective to coi or pi
+            if (isPrincipalInvestigator(person)) {
+                assignLeadUnit(person, document.getOwnedByUnitNumber());
+            }
+            else {
+                person.getUnit(document.getOwnedByUnitNumber()).setLeadUnit(false);
             }
         }
-        else {
-            person.setInvestigatorFlag(false);
-        }
-        
+
+
         person.refreshReferenceObject("role");
         person.setRoleChanged(false);
 
+    }
+    
+    /**
+     * Initializes credit splits for new investigators
+     * 
+     * @param person
+     */
+    private void populateCreditTypes(ProposalPerson person) {
+        if (!person.getCreditSplits().isEmpty()) {
+            return;
+        }
+
+        for (InvestigatorCreditType creditType : (Collection<InvestigatorCreditType>) getInvestigatorCreditTypes()) {
+            ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
+            creditSplit.setProposalNumber(person.getProposalNumber());
+            creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
+            creditSplit.setInvCreditTypeCode(creditType.getInvCreditTypeCode());
+            creditSplit.setCredit(new KualiDecimal(0));
+            person.getCreditSplits().add(creditSplit);
+        }
+        
     }
 
     /**
@@ -289,6 +307,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      * @param person Principal 
      */
     private void assignLeadUnit(ProposalPerson person, String unitNumber) {
+        if (person.containsUnit(unitNumber)) {
+            person.getUnit(unitNumber).setLeadUnit(true);
+            return;
+        }
+        
         ProposalPersonUnit unit = createProposalPersonUnit(unitNumber, person);
         unit.setLeadUnit(true);
         person.setHomeUnit(unitNumber);
