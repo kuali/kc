@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import org.kuali.core.util.ObjectUtils;
+import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
@@ -50,7 +51,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -116,10 +117,13 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
                 assignLeadUnit(person, document.getOwnedByUnitNumber());
             }
             else {
+                // Lead Unit information needs to be removed in case the person used to be a PI
                 ProposalPersonUnit unit = person.getUnit(document.getOwnedByUnitNumber());
                 if (unit != null) {
                     unit.setLeadUnit(false);
                 }
+                
+                person.setHomeUnit(EMPTY_STRING);
             }
         }
 
