@@ -30,7 +30,7 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -477,6 +477,26 @@ public class ProposalPerson extends Person implements CreditSplitable {
     }
 
     /**
+     * Gets unit with unitNumber from the units list.
+     * 
+     * @param unitNumber
+     * @return <code>{@link ProposalPersonUnit}</code> instance at index i
+     */
+    public ProposalPersonUnit getUnit(String unitNumber) {
+        if (unitNumber == null) {
+            return null;
+        }
+        
+        for (ProposalPersonUnit unit : getUnits()) {
+            if (unit != null && unitNumber.equals(unit.getUnitNumber())) {
+                return unit;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
      * Read access to a flag that determines if this instance should be deleted from a list of other instances.
      * 
      * @return boolean
@@ -570,4 +590,23 @@ public class ProposalPerson extends Person implements CreditSplitable {
         this.roleChanged = roleChanged;
     }
 
+    /**
+     * Loops through units to determine if the person has a <code>{@link ProposalPersonUnit}</code> with the given number.
+     * 
+     * @param unitNumber
+     * @return if the unit exists
+     */
+    public boolean containsUnit(String unitNumber) {
+        if (unitNumber == null) {
+            return false;
+        }
+        
+        for (ProposalPersonUnit unit : getUnits()) {
+            if (unit != null && unitNumber.equals(unit.getUnitNumber())) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }
