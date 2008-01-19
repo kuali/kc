@@ -36,7 +36,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public interface KeyPersonnelService {
     /**
@@ -54,8 +54,20 @@ public interface KeyPersonnelService {
      */
     public void populateProposalPerson(ProposalPerson person, ProposalDevelopmentDocument document);
     
+    /**
+     * Create a <code>{@link Collection}</code> from all the ACTIVE <code>{@link InvestigatorCreditTypes}</code>
+     * stored persistently.
+     * 
+     * @return a <code>{@link Collection}</code> of <code>{@link InvestigatorCreditType}</code> instances.
+     */
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes();
 
+    /**
+     * Add a <code>{@link ProposalPersonUnit}</code> instance to a <code>{@link ProposalPerson}</code>. 
+     * 
+     * @param person
+     * @param unit
+     */
     public void addUnitToPerson(ProposalPerson person, ProposalPersonUnit unit);
 
     /**
