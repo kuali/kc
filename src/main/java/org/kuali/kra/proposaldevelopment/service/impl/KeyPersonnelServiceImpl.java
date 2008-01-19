@@ -50,7 +50,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -116,7 +116,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
                 assignLeadUnit(person, document.getOwnedByUnitNumber());
             }
             else {
-                person.getUnit(document.getOwnedByUnitNumber()).setLeadUnit(false);
+                ProposalPersonUnit unit = person.getUnit(document.getOwnedByUnitNumber());
+                if (unit != null) {
+                    unit.setLeadUnit(false);
+                }
             }
         }
 
