@@ -33,6 +33,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +43,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -64,7 +66,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.41 $
+ * @version $Revision: 1.42 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -85,12 +87,12 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      * @param form ActionForm
      * @param request HttpServletRequest
      */
-    public void prepare(ActionForm form, HttpServletRequest request) {
+    void prepare(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         request.setAttribute(NEW_PERSON_LOOKUP_FLAG, EMPTY_STRING);
 
         pdform.populatePersonEditableFields();
-        populateInvestigators(pdform);    
+        handleRoleChangeEvents(pdform.getProposalDevelopmentDocument());
     
         try {
             boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
@@ -104,6 +106,61 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
 
     
+    /**
+     * Called to handle situations when the <code>{@link ProposalPersonRole}</code> is changed on a <code>{@link ProposalPerson}</code>. It
+     * does this by looping through a <code>{@link List}</code> of <code>{@link ProposalPerson}</code> instances in a 
+     * <code>{@link ProposalDevelopmentDocument}</code>
+     *  
+     * @param document <code>{@link ProposalDevelopmentDocument}</code> instance with <code>{@link List}</code> of 
+     * <code>{@link ProposalPerson}</code> instances. 
+     */
+    private void handleRoleChangeEvents(ProposalDevelopmentDocument document) {
+        for (ProposalPerson person : document.getProposalPersons()) {
+            LOG.info("roleChanged for person " + person.getFullName() + " = " + person.isRoleChanged());
+            
+            if (person.isRoleChanged()) {
+                changeRole(person, document);
+            }
+        }
+    }
+
+    /**
+     * Takes the necessary steps to change a role of a <code>{@link ProposalPerson}</code> instance.<br/>
+     * <br/>
+     * This includes:
+     * <ul>
+     *   <li>Updating investigator flag on <code>{@link ProposalPerson}</code></li>
+     *   <li>Removing or adding to the investigators <code>{@link List}</code> in the
+     *   <code>{@link ProposalDevelopmentDocument}</code> </li>
+     *   <li>Adding credit split defaults for investigators</li>
+     *   <li>Deleting units and credit splits from key persons</li>
+     * </ul>
+     * <br/> 
+     * This method is typically called from <code>{@link #handleRoleChangeEvents(ProposalDevelopmentDocument)</code>
+     * 
+     * @param person
+     * @param document
+     * @see {@link #handleRoleChangeEvents(ProposalDevelopmentDocument)}
+     */
+    private void changeRole(ProposalPerson person, ProposalDevelopmentDocument document) {
+        getKeyPersonnelService().populateProposalPerson(person, document);
+
+        if (!person.isInvestigator()) {
+            // Cleanup from investigator related stuff
+            document.getInvestigators().remove(person);
+            
+            List<PersistableBusinessObject> units = new ArrayList<PersistableBusinessObject>();
+            units.addAll(person.getUnits());
+            List<PersistableBusinessObject> creditSplits = new ArrayList<PersistableBusinessObject>();
+            units.addAll(person.getCreditSplits());
+            
+            getBusinessObjectService().delete(units);
+            person.getUnits().clear();
+            getBusinessObjectService().delete(creditSplits);
+            person.getCreditSplits().clear();
+        }
+    }
+
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest,
      *      HttpServletResponse)
@@ -184,9 +241,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             pdform.setNewProposalPerson(new ProposalPerson());
             pdform.setNewRolodexId("");
             pdform.setNewPersonId("");
-
-            // repopulate form investigators
-            populateInvestigators(pdform);
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -398,26 +452,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return selectedPersonIndex;
     }
 
-    /**
-     * Populate investigators
-     * 
-     * @param form The <code>{@link ProposalDevelopmentForm}</code> containing the <code>{@link ProposalDevelopmentDocument}</code> to populate
-     * investigators on
-     */
-    public void populateInvestigators(ProposalDevelopmentForm form) {
-        // Populate Investigators from a proposal document's persons
-        LOG.debug("Populating Investigators");
-        LOG.debug("Clearing investigator list");
-        form.getProposalDevelopmentDocument().setInvestigators(new ArrayList<ProposalPerson>());
 
-        for (ProposalPerson person : form.getProposalDevelopmentDocument().getProposalPersons()) {
-            LOG.debug(person.getFullName() + " is " + getKeyPersonnelService().isInvestigator(person));
-            person.setInvestigatorFlag(getKeyPersonnelService().isInvestigator(person));
-            if (getKeyPersonnelService().isInvestigator(person) && !form.getProposalDevelopmentDocument().getInvestigators().contains(person)) {
-                form.getProposalDevelopmentDocument().getInvestigators().add(person);
-            }
-        }
-    }
     
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
