@@ -116,7 +116,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      */
     public ActionForward confirm(StrutsConfirmation question, String yesMethodName, String noMethodName) throws Exception {
         // Figure out what the caller is. We want the direct caller of confirm()
-        question.setCaller(new Throwable().getStackTrace()[1].getMethodName());
+        question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
         LOG.info("Caller is " + question.getCaller());
         LOG.info("Setting caller from stacktrace " + Arrays.asList(new Throwable().getStackTrace()));
         LOG.info("Current action is " + getClass());
