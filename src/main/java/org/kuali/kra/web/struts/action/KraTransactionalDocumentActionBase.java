@@ -44,7 +44,6 @@ import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchDocumentService;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.notification.util.NotificationConstants;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
