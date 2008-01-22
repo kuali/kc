@@ -54,6 +54,7 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
  */
 public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentForm.class);
+    
     private String primeSponsorName;
     private ProposalLocation newPropLocation;
     private ProposalSpecialReview newPropSpecialReview;
@@ -74,8 +75,6 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
     private Map<String, Parameter> proposalDevelopmentParameters;
     private Integer answerYesNo;
     private Integer answerYesNoNA;
-    private String newBudgetVersionName;
-    private Integer finalBudgetVersion;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -519,20 +518,4 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
         return Constants.ANSWER_YES_NO_NA;
     }
 
-    public String getNewBudgetVersionName() {
-        return newBudgetVersionName;
-    }
-
-    public void setNewBudgetVersionName(String newBudgetVersionName) {
-        this.newBudgetVersionName = newBudgetVersionName;
-    }
-
-    public Integer getFinalBudgetVersion() {
-        return finalBudgetVersion;
-    }
-
-    public void setFinalBudgetVersion(Integer finalBudgetVersion) {
-        this.finalBudgetVersion = finalBudgetVersion;
-    }
-    
 }
