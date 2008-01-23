@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +42,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
-import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -76,29 +76,28 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         // TODO: not sure it's should be here - for audit error display.
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         if (proposalDevelopmentForm.isAuditActivated()) {
-            KNSServiceLocator.getBean(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
+            getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
         }
         
         //if(proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()!=null){
             proposalDevelopmentForm.setAdditionalDocInfo1(new KeyLabelPair("DataDictionary.Sponsor.attributes.sponsorCode",proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()));    
         //}
         
-        String principalInvestigator=null;
-        //ProposalPerson key = null;
-        String role = null;
-        
-        if(proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalPersons()!=null){
-            //Iterator<ProposalPerson> iter = (proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalPersons()).iterator();
-            //while(iter.hasNext()){
-            for(ProposalPerson key: (proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalPersons())){                
-                role = key.getProposalPersonRoleId();
-                if(role.equals(PRINCIPAL_INVESTIGATOR_ROLE)){        
-                    principalInvestigator = key.getFullName();
-                }       
+        if (getKeyPersonnelService().hasPrincipalInvestigator(proposalDevelopmentForm.getProposalDevelopmentDocument())) {
+            boolean found = false;
+            
+            for(Iterator<ProposalPerson> person_it = proposalDevelopmentForm.getProposalDevelopmentDocument().getInvestigators().iterator();
+                person_it.hasNext() && !found; ){
+                ProposalPerson investigator = person_it.next();
+                
+                if (getKeyPersonnelService().isPrincipalInvestigator(investigator)) {
+                    found = true; // Will break out of the loop as soon as the PI is found
+                    proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", investigator.getFullName()));
+                }
             }
         }
+        
         //if(isPrincipalInvestigator){
-            proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator",principalInvestigator));
         //}
         
         /*if(proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()!=null){
@@ -109,7 +108,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         }*/
 
         // setup any Proposal Development System Parameters that will be needed
-        KualiConfigurationService configService = (KualiConfigurationService)KraServiceLocator.getService(KualiConfigurationService.class);
+        KualiConfigurationService configService = getService(KualiConfigurationService.class);
         ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("deliveryInfoDisplayIndicator", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "deliveryInfoDisplayIndicator"));
         ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("proposalNarrativeTypeGroup", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "proposalNarrativeTypeGroup"));
 
