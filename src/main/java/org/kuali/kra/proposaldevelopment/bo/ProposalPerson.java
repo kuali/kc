@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.kra.bo.Person;
 import org.kuali.core.util.KualiDecimal;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 /**
  * Class representation of the Proposal Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
@@ -30,7 +30,7 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.24 $
+ * @version $Revision: 1.25 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -311,15 +311,11 @@ public class ProposalPerson extends Person implements CreditSplitable {
      * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
      */
     public void setProposalPersonRoleId(String argPropPersonRoleId) {
-        this.proposalPersonRoleId = argPropPersonRoleId;
-        
-        setRoleChanged(true);
-        
-        if (isBlank(proposalPersonRoleId)) {
-            role = null;
-        }
-        else {
+                
+        if (isNotBlank(argPropPersonRoleId)) {
+            this.proposalPersonRoleId = argPropPersonRoleId;
             refreshReferenceObject("role");
+            setRoleChanged(true);
         }
     }
 
