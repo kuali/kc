@@ -56,21 +56,23 @@
                  <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
                     fieldConversions="rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName,lastName:document.rolodex.lastName,addressLine1:document.rolodex.addressLine1,addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3,city:document.rolodex.city,state:document.rolodex.state" anchor="${currentTabIndex}"/> <br>
 
+                    <c:if test="${!empty KualiForm.document.rolodex.firstName}" >
+                    <c:out value="${KualiForm.document.rolodex.firstName}"/><br/>
+                    </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.addressLine1}" >
-                      
-                    <c:out value="${KualiForm.document.rolodex.addressLine1}"/><br>
+                    <c:out value="${KualiForm.document.rolodex.addressLine1}"/><br/>
                     </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.addressLine2}" >
-                    <c:out value="${KualiForm.document.rolodex.addressLine2}"/><br>
+                    <c:out value="${KualiForm.document.rolodex.addressLine2}"/><br/>
                     </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.addressLine3}" >
-                    <c:out value="${KualiForm.document.rolodex.addressLine3}"/><br>
+                    <c:out value="${KualiForm.document.rolodex.addressLine3}"/><br/>
                     </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.city}" >
-                    <c:out value="${KualiForm.document.rolodex.city}"/><br>
+                    <c:out value="${KualiForm.document.rolodex.city}"/><br/>
                     </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.state}" >
-                    <c:out value="${KualiForm.document.rolodex.state}"/><br>
+                    <c:out value="${KualiForm.document.rolodex.state}"/><br/>
                     </c:if>
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailDescription}"  /></div></th>
