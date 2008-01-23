@@ -57,7 +57,7 @@
                     fieldConversions="rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName,lastName:document.rolodex.lastName,addressLine1:document.rolodex.addressLine1,addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3,city:document.rolodex.city,state:document.rolodex.state" anchor="${currentTabIndex}"/> <br>
 
                     <c:if test="${!empty KualiForm.document.rolodex.firstName}" >
-                    <c:out value="${KualiForm.document.rolodex.firstName}"/><br/>
+                    ${KualiForm.document.rolodex.firstName} ${KualiForm.document.rolodex.middleName} ${KualiForm.document.rolodex.lastName}<br/>
                     </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.addressLine1}" >
                     <c:out value="${KualiForm.document.rolodex.addressLine1}"/><br/>
