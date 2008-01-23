@@ -144,7 +144,7 @@
 
                     <td><kul:htmlControlAttribute property="${proposalPerson}.addressLine3" 
                                             attributeEntry="${proposalPersonAttributes.addressLine3}" 
-                                                  readOnly="${!personEditableFields['fullName'] || addressLine3}" />
+                                                  readOnly="${!personEditableFields['addressLine3'] || addressLine3}" />
                     </td>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.city}"  /></div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.city" 
@@ -181,8 +181,8 @@
                     <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.percentageEffort}"  /></div></th>
                     <td align="left"><span>
                       <kul:htmlControlAttribute property="${proposalPerson}.percentageEffort" 
-                                          attributeEntry="${proposalPersonAttributes.percentEffort}" 
-                                                readOnly="${!personEditableFields['percentEffort'] }" />
+                                          attributeEntry="${proposalPersonAttributes.percentageEffort}" 
+                                                readOnly="${!personEditableFields['percentageEffort'] }" />
                     </span></td>
                     <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.facultyFlag}"  /></div></th>
 
