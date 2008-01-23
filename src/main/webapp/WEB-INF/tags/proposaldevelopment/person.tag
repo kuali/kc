@@ -228,7 +228,6 @@
   </table>
 </kul:innerTab>
 </c:if>
-
 </td></tr>
 </table>
            </div>
