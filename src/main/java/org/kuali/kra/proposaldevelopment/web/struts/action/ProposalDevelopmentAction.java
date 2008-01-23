@@ -98,7 +98,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
             }
         }
         else {
-            proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING);
+            proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
         }
         
         //if(isPrincipalInvestigator){
