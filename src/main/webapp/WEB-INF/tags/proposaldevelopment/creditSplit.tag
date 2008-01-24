@@ -23,7 +23,7 @@
 
 <c:if test="${creditSplitEnabledFlag}">
 
-<kul:tab tabTitle="Combined Credit Split" defaultOpen="true" tabErrorKey="">
+<kul:tab tabTitle="Combined Credit Split" defaultOpen="true" tabErrorKey="document.creditSplit" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.creditSplit">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Combined Credit Split</h2></span>

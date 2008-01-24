@@ -20,18 +20,16 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
 import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_NAME;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_KEY;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ALL_PERSON_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +40,6 @@ import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.AuditError;
@@ -52,6 +49,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
 
 /**
  * Rules that invoke audit mode for KeyPersonnel
@@ -69,12 +67,10 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) document;
         boolean retval = true;
 
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
-        
         if (!hasPrincipalInvestigator(pd)) {
             retval = false;
 
-            auditErrors.add(new AuditError(PROPOSAL_PERSON_KEY, ERROR_INVESTIGATOR_LOWBOUND, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
+            getAuditErrors().add(new AuditError(PROPOSAL_PERSON_KEY, ERROR_INVESTIGATOR_LOWBOUND, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
         }
 
         // Include normal save document business rules
@@ -85,10 +81,6 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         }                    
         
         retval &= validateCreditSplit((ProposalDevelopmentDocument) document);
-
-        if (!retval) {
-            getAuditErrorMap().put("keyPersonnelErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
-        }
         
         return retval;
 
@@ -144,7 +136,8 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
        }
        
        if (auditErrors.size() > 0) {
-           getAuditErrorMap().put("keyPersonnelErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+           LOG.info("Got audit errors " + auditErrors);
+           getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
        }
        
        return retval;
@@ -274,6 +267,25 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         return getService(BusinessObjectService.class);
     }
 
+    /**
+     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
+     * to the auditErrorMap.
+     * 
+     * @return List of AuditError instances
+     */
+    private List<AuditError> getAuditErrors() {
+        List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
+        
+        if (!getAuditErrorMap().containsKey("keyPersonnelAuditErrors")) {
+            getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+        }
+        else {
+            auditErrors = ((AuditCluster) getAuditErrorMap().get("keyPersonnelAuditErrors")).getAuditErrorList();
+        }
+        
+        return auditErrors;
+    }
+    
     /**
      * Check if credit split totals validate
      *
