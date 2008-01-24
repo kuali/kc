@@ -66,7 +66,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.43 $
+ * @version $Revision: 1.44 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -456,17 +456,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
 
 
-    
-    /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#loadDocument(KualiDocumentFormBase)
-     */
-    @Override
-    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.loadDocument(kualiDocumentFormBase);
-
-        getKeyPersonnelService().populateDocument(((ProposalDevelopmentForm) kualiDocumentFormBase).getProposalDevelopmentDocument());
-    }
-    
     private BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
     }

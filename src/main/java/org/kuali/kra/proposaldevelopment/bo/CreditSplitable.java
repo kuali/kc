@@ -22,7 +22,7 @@ import java.util.List;
  * this is a <code>{@link ProposalPerson}</code> or the like.
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface CreditSplitable {
     /**
@@ -31,4 +31,11 @@ public interface CreditSplitable {
      * @return List<T>
      */ 
     public List<? extends CreditSplit> getCreditSplits();
+    
+    /**
+     * Name for which to refer to this splitable by
+     * 
+     * @return String
+     */
+    public String getName();
 }

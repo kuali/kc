@@ -20,10 +20,11 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Used to describe a <code>{@link BusinessObject}</code> that represents a credit split. 
  *
- * @author $Author: rmancher $
- * @version $Revision: 1.2 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.3 $
  */
 public interface CreditSplit {
+    
     /**
      * Get the value of the split
      *
