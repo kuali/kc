@@ -128,7 +128,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         getKeyPersonnelService().populateProposalPerson(person, document);
         document.addProposalPerson(person);
         
-        assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertFalse("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
         assertEquals(0, getAuditErrorMap().size());
     }
 
