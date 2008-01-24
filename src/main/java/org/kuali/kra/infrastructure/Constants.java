@@ -64,7 +64,7 @@ public interface Constants {
     public static final String INSTITUTE_NARRATIVE_TYPE_GROUP_CODE = "O";
     public static final String NARRATIVE_MODULE_STATUS_COMPLETE = "C";
 
-    public static final String ABSTRACTS_PROPERTY_KEY = "document.proposalAbstracts";
+    public static final String ABSTRACTS_PROPERTY_KEY = "newProposalAbstract";
     public static final String SPONSOR_PROPOSAL_NUMBER_PROPERTY_KEY = "sponsorProposalNumber";
     public static final String DEADLINE_DATE_KEY = "document.deadlineDate";
     public static final String SPONSOR_PROPOSAL_NUMBER_LABEL = "Sponsor Proposal ID";
@@ -95,6 +95,4 @@ public interface Constants {
     public static final String YNQ_EXPLANATION_REQUIRED = "Explanation required: if answer = ";
     public static final String YNQ_REVIEW_DATE_REQUIRED = "Date required: if answer = ";
     public static final String QUESTION_STATUS_ACTIVE = "A";
-
-
 }
