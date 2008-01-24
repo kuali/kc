@@ -85,6 +85,7 @@ public interface Constants {
     public static final String INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY = "invCreditTypeCode";
     public static final String EMPTY_STRING = "";
     public static final String PROPOSAL_PERSON_KEY = "document.propoosalPerson*";
+    public static final String CREDIT_SPLIT_KEY = "document.creditSplit";
 
    
     /* set values for ynq */

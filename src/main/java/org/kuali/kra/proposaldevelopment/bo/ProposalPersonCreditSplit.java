@@ -24,8 +24,8 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Class representation of the Proposal Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
  *
- * @author $Id: ProposalPersonCreditSplit.java,v 1.4 2007-10-24 19:32:23 rmancher Exp $
- * @version $Revision: 1.4 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.5 $
  */
 public final class ProposalPersonCreditSplit extends KraPersistableBusinessObjectBase implements CreditSplit {
     private Integer proposalNumber;
@@ -33,8 +33,7 @@ public final class ProposalPersonCreditSplit extends KraPersistableBusinessObjec
     private String invCreditTypeCode;
     private KualiDecimal credit;
     private InvestigatorCreditType invCreditType;
-
-
+    
     /**
      * Gets the value of invCreditType
      *

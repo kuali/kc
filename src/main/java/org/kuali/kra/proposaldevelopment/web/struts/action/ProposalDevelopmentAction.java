@@ -125,6 +125,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
+        getKeyPersonnelService().populateDocument(((ProposalDevelopmentForm) kualiDocumentFormBase).getProposalDevelopmentDocument());
     }
 
     @Override

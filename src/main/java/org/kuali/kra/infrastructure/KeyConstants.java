@@ -38,8 +38,9 @@ public class KeyConstants {
     public static final String ERROR_INVESTIGATOR_LOWBOUND = "error.principalInvestigators.lowbound";
     public static final String ERROR_MISSING_PERSON_ROLE = "error.missingPersonRole";
     public static final String ERROR_PROPOSAL_PERSON_EXISTS = "error.proposalPersonExists";
-    public static final String ERROR_ALL_PERSON_CREDIT_SPLIT_UPBOUND = "error.allPersonCreditSplit.upbound";
-    public static final String ERROR_PERSON_CREDIT_SPLIT_UPBOUND = "error.personCreditSplit.upbound";
+    public static final String ERROR_TOTAL_CREDIT_SPLIT_UPBOUND = "error.totalCreditSplit.upbound";
+    public static final String ERROR_CREDIT_SPLIT_LOWBOUND = "error.creditSplit.lowbound";
+    public static final String ERROR_CREDIT_SPLIT_UPBOUND = "error.creditSplit.upbound";
     public static final String ERROR_DELETE_LEAD_UNIT = "error.deleteLeadUnit";
     
     public static final String ERROR_REQUIRED_FOR_FILE_NAME="error.required.for.fileName";
