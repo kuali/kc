@@ -76,10 +76,12 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
         proposalAbstract.setAbstractTypeCode("");
         assertFalse(rule.processAddAbstractBusinessRules(document, proposalAbstract));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY + ".abstractTypeCode");
+        assertNotNull(errors);
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertNotNull(message);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_ABSTRACT_TYPE_NOT_SELECTED);
     }
     
@@ -96,9 +98,11 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
         assertFalse(rule.processAddAbstractBusinessRules(document, proposalAbstract));
         
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
+        assertNotNull(errors);
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertNotNull(message);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_ABSTRACT_TYPE_INVALID);
     }
     
@@ -118,9 +122,11 @@ public class ProposalDevelopmentAbstractsRuleTest extends ProposalDevelopmentRul
         assertFalse(rule.processAddAbstractBusinessRules(document, proposalAbstract));
         
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.ABSTRACTS_PROPERTY_KEY);
+        assertNotNull(errors);
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertNotNull(message);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_ABSTRACT_TYPE_DUPLICATE);
     }
     
