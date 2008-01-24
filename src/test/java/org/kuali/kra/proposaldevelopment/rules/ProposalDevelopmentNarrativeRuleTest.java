@@ -113,7 +113,7 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddNarrativeBusinessRules(addNarrativeEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(DOCUMENT_NARRATIVES);
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("newNarrative.narrativeTypeCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
@@ -138,7 +138,7 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddNarrativeBusinessRules(addNarrativeEvent));
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(DOCUMENT_NARRATIVES);
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("newNarrative.moduleStatusCode");
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);

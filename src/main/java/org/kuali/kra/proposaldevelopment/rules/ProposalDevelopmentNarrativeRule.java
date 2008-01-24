@@ -111,11 +111,11 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         boolean rulePassed = true;
         if(StringUtils.isBlank(narrative.getNarrativeTypeCode())){
             rulePassed = false;
-            reportError(DOCUMENT_NARRATIVES, ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
+            reportError("newNarrative.narrativeTypeCode", ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
         }
         if(StringUtils.isBlank(narrative.getModuleStatusCode())){
             rulePassed = false;
-            reportError(DOCUMENT_NARRATIVES, ERROR_ATTACHMENT_STATUS_NOT_SELECTED);
+            reportError("newNarrative.moduleStatusCode", ERROR_ATTACHMENT_STATUS_NOT_SELECTED);
         }
         if (rulePassed) {
             populateNarrativeType(narrative);
