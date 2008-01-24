@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.s2s.service.impl;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -28,17 +27,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.kuali.kra.s2s.service.S2SService;
 
-import org.acegisecurity.context.GlobalSecurityContextHolderStrategy;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.log4j.Logger;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
-import org.kuali.kra.s2s.KualiDataSourceConnectionManager;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.kra.s2s.service.S2SService;
 import org.xml.sax.SAXException;
 
 import edu.mit.coeus.bean.CoeusMessageResourcesBean;
@@ -46,8 +42,6 @@ import edu.mit.coeus.exception.CoeusException;
 import edu.mit.coeus.s2s.GetAppStatusDetails;
 import edu.mit.coeus.s2s.GetApplication;
 import edu.mit.coeus.s2s.GetOpportunity;
-import edu.mit.coeus.s2s.ReplyFormater;
-import edu.mit.coeus.s2s.S2SRequestCreator;
 import edu.mit.coeus.s2s.SubmissionEngine;
 import edu.mit.coeus.s2s.bean.ApplicationInfoBean;
 import edu.mit.coeus.s2s.bean.OpportunityInfoBean;
@@ -83,10 +77,8 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         userTxn = new UserMaintDataTxnBean();
         try {
             reportFolder = CoeusProperties.getProperty(CoeusPropertyKeys.REPORT_GENERATED_PATH, "Reports");
-
             debugMode = CoeusProperties.getProperty(CoeusPropertyKeys.GENERATE_XML_FOR_DEBUGGING);
             reportPath = reportFolder + "/";
-
         }
         catch (IOException e) {
             LOG.error("Cannot initialize S2SService", e);
@@ -101,10 +93,10 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             return s2sSubmissionTxnBean.isS2SCandidate(proposalNumber.toString());
         }
         catch (DBException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
         }
         catch (CoeusException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
         }
         return false;
     }
@@ -123,11 +115,11 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             subEngine.validateData(header);
         }
         catch (S2SValidationException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
             return false;
         }
         catch (CoeusException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -139,8 +131,8 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         subEngine.setLoggedInUser(loggedinUser);
         subEngine.setLogDir(reportPath);
         subEngine.submitApplication(header);
-        }catch(Exception ex){
-            LOG.error("Cannot initialize S2SService", ex);
+        }catch(Exception e){
+            LOG.error(e.getMessage(), e);
             return false;
         }
         return true;
@@ -153,7 +145,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             return new GetAppStatusDetails().getStatusDetails(ggTrackingId, proposalNumber);
         }
         catch (Exception e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
         }
         return null;
     }
@@ -197,8 +189,8 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             }
             s2sSubmissionTxnBean.addUpdDeleteSubmissionDetails(localSubInfo);
         }
-        catch (Exception ex) {
-            LOG.error("Cannot initialize S2SService", ex);
+        catch (Exception e) {
+            LOG.error(e.getMessage(), e);
         }
     }
     public List<S2sOpportunity> searchOpportunity(String cfdaNumber,String opportunityId,String competitionId) {
@@ -213,11 +205,11 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             return convert(oppInfList,S2sOpportunity.class);
         }
         catch (S2SValidationException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
 
         }
         catch (CoeusException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
         }
         return null;
     }
@@ -226,19 +218,17 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         Object destObject = null;
         try {
             destObject = destClazz.newInstance();
+            ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
             BeanUtils.copyProperties(destObject, origObject);
         }
         catch (InstantiationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         catch (InvocationTargetException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return destObject;
     }
@@ -256,16 +246,16 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             return convert(new OpportunitySchemaParser().getFormsList(opportunityInfoBean.getSchemaUrl()),S2sOppForms.class);
         }
         catch (ParserConfigurationException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
         }
         catch (SAXException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
         }
         catch (IOException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
         }
         catch (CoeusException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
         }
         return null;
     }
@@ -280,13 +270,13 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             return rightFlags;
         }
         catch (DBException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
         }
         catch (CoeusException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
         }
         catch (java.lang.Exception e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e);
         }
         return null;
     }
@@ -296,10 +286,10 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             return new CoeusFunctions().getParameterValue("DEFAULT_S2S_SUBMISSION_TYPE");
         }
         catch (CoeusException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e); 
         }
         catch (DBException e) {
-            LOG.error("Cannot initialize S2SService", e);
+            LOG.error(e.getMessage(), e); 
         }
         return null;
     }
