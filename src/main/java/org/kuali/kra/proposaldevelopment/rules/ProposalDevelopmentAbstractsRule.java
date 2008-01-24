@@ -53,7 +53,7 @@ public class ProposalDevelopmentAbstractsRule extends ResearchDocumentRuleBase i
             // If the user didn't select an abstract type, i.e. he/she choose the "select:" option,
             // then the Abstract Type Code will be "blank".
             isValid = false;
-            GlobalVariables.getErrorMap().putError(Constants.ABSTRACTS_PROPERTY_KEY, 
+            GlobalVariables.getErrorMap().putError(Constants.ABSTRACTS_PROPERTY_KEY + ".abstractTypeCode", 
                                                    KeyConstants.ERROR_ABSTRACT_TYPE_NOT_SELECTED);
         }
         else if (isInvalid(abstractTypeCode)) {

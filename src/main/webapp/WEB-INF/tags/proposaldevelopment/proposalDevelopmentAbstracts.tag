@@ -22,7 +22,7 @@
 
 <kul:tab tabTitle="Abstracts" defaultOpen="false" 
          tabItemCount="${fn:length(KualiForm.document.proposalAbstracts)}" 
-         tabErrorKey="document.proposalAbstract*">
+         tabErrorKey="document.proposalAbstract*,newProposalAbstract*">
          
 	<div class="tab-container" align="center">
     	<div class="h2-container">
