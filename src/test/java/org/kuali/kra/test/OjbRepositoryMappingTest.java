@@ -32,16 +32,29 @@ import org.xml.sax.helpers.DefaultHandler;
 public class OjbRepositoryMappingTest {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(OjbRepositoryMappingTest.class);
 
+    /**
+     * 
+     * This method...
+     */
     @Before
     public void setUp() {
         
     }
-    
+
+    /**
+     * 
+     * This method...
+     */
     @After 
     public void tearDown() {
         
     }
-    
+
+    /**
+     * 
+     * This method...
+     * @throws Exception
+     */
     @Test
     public void xmlValidation() throws Exception { 
         LOG.info("Starting XML validation");
