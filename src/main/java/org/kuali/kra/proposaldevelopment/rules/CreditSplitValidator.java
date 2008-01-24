@@ -15,25 +15,32 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.core.util.GlobalVariables.getErrorMap;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ALL_PERSON_CREDIT_SPLIT_UPBOUND;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERSON_CREDIT_SPLIT_UPBOUND;
+import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
+import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_KEY;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_NAME;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_LOWBOUND;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_UPBOUND;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.util.AuditCluster;
+import org.kuali.core.util.AuditError;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplitable;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
 /**
@@ -41,11 +48,12 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * traversing the tree of <code>{@link ProposalPerson}</code> <code>{@link ProposalPersonUnit}</code> instances.
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class CreditSplitValidator {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidator.class);
-    private static final KualiDecimal CREDIT_UPBOUND = new KualiDecimal(100.0);
+    private static final KualiDecimal CREDIT_UPBOUND = new KualiDecimal(100.00);
+    private static final KualiDecimal CREDIT_LOWBOUND = KualiDecimal.ZERO;
     
     /**
      * Validates the credit splits of an entire document by traversing it. If the Investigator is instead a Principal Investigator,
@@ -59,24 +67,33 @@ public class CreditSplitValidator {
         boolean retval = true;
         
         for (InvestigatorCreditType creditType : creditTypes) {
+            LOG.info("validating credit type " + creditType.getDescription());
             if (creditType.addsToHundred()) {
-                retval &= validate(document.getInvestigators(), creditType.getInvCreditTypeCode());
+                retval &= validate(document.getInvestigators(), creditType);
             }
         }
         
         return retval;
     }
     
-    public boolean validate(Collection<ProposalPerson> investigators, String creditTypeCode) {
+    /**
+     * 
+     * This method...
+     * @param investigators
+     * @param creditTypeCode
+     * @return
+     */
+    public boolean validate(Collection<ProposalPerson> investigators, InvestigatorCreditType creditType) {
         boolean retval = true;
         
-        KualiDecimal investigatorCreditTotal = KualiDecimal.ZERO;
-        for (ProposalPerson investigator : investigators) {
-            KualiDecimal unitCreditTotal = KualiDecimal.ZERO;
-            
-            retval &= validateCreditSplit(investigator.getCreditSplits().iterator(), creditTypeCode, investigatorCreditTotal);
+        DecimalHolder investigatorCreditTotal = new DecimalHolder(KualiDecimal.ZERO);
 
-            retval &= validateCreditSplitable(investigator.getUnits().iterator(), creditTypeCode, unitCreditTotal);
+        retval &= validateCreditSplitable(investigators.iterator(), creditType, investigatorCreditTotal);
+
+        for (ProposalPerson investigator : investigators) {
+            DecimalHolder unitCreditTotal = new DecimalHolder(KualiDecimal.ZERO);
+            
+            retval &= validateCreditSplitable(investigator.getUnits().iterator(), creditType, unitCreditTotal);
         }
         
         return retval;
@@ -86,24 +103,30 @@ public class CreditSplitValidator {
      * Validates a collection of anything splitable. This implies that it contains <code>{@link CreditSplit}</code> instances.
      * 
      * @param splitable_it
+     * @param creditType
      * @param greaterCummulative
      * @return boolean is valid?
      */
-    public boolean validateCreditSplitable(Iterator<? extends CreditSplitable> splitable_it, String creditTypeCode, KualiDecimal greaterCummulative) {
-        boolean retval = true;
-     
+    public boolean validateCreditSplitable(Iterator<? extends CreditSplitable> splitable_it, InvestigatorCreditType creditType, DecimalHolder greaterCummulative) {
         if (!splitable_it.hasNext()) {
-            return CREDIT_UPBOUND.compareTo(greaterCummulative) > 0;
+            if (CREDIT_UPBOUND.compareTo(greaterCummulative.getValue()) != 0) {
+                addAuditError(ERROR_TOTAL_CREDIT_SPLIT_UPBOUND, creditType.getDescription());
+                return false;
+            }
+            
+            return true;
         }
+        boolean retval = true;
         
         CreditSplitable splitable = splitable_it.next();
+        LOG.info("Validating " + splitable.getName());
      
-        KualiDecimal lesserCummulative = KualiDecimal.ZERO;        
-        retval &= validateCreditSplit(splitable.getCreditSplits().iterator(), creditTypeCode, lesserCummulative);
+        DecimalHolder lesserCummulative = new DecimalHolder(KualiDecimal.ZERO);        
+        retval &= validateCreditSplit(splitable.getCreditSplits().iterator(), creditType, lesserCummulative);
      
         greaterCummulative.add(lesserCummulative);
-     
-        return validateCreditSplitable(splitable_it, creditTypeCode, greaterCummulative);
+             
+        return retval & validateCreditSplitable(splitable_it, creditType, greaterCummulative);
     }
 
 
@@ -111,23 +134,160 @@ public class CreditSplitValidator {
      * Validates a collection of anything splits. 
      * 
      * @param creditSplit_it
+     * @param creditType
      * @param lesserCummulative
      * @return boolean is valid?
      */
-    public boolean validateCreditSplit(Iterator<? extends CreditSplit> creditSplit_it, String creditTypeCode, KualiDecimal lesserCummulative) {
+    public boolean validateCreditSplit(Iterator<? extends CreditSplit> creditSplit_it, InvestigatorCreditType creditType, DecimalHolder lesserCummulative) {
         if (!creditSplit_it.hasNext()) {
-            return CREDIT_UPBOUND.compareTo(lesserCummulative) >= 0;
+            return true;                
         }
         
+        boolean retval = true;
+        
         CreditSplit creditSplit = creditSplit_it.next();
-        if (creditTypeCode.equals(creditSplit.getInvCreditTypeCode())) {
+        if (creditType.getInvCreditTypeCode().equals(creditSplit.getInvCreditTypeCode())) {
             lesserCummulative.add(creditSplit.getCredit());
+            
+            // Validate that the current credit split isn't greater than 100% or less than 0%
+            if (CREDIT_UPBOUND.compareTo(creditSplit.getCredit()) < 0) {                
+                retval = false;
+                addAuditError(ERROR_CREDIT_SPLIT_UPBOUND, creditType.getDescription());
+            }
+            else if (CREDIT_LOWBOUND.compareTo(creditSplit.getCredit()) > 0) {               
+                retval = false;
+                addAuditError(ERROR_CREDIT_SPLIT_LOWBOUND, creditType.getDescription());
+            }
+            
+            // Found the credit split we're looking for, so now we return
+            return retval;
         }
      
-        return validateCreditSplit(creditSplit_it, creditTypeCode, lesserCummulative);
+        return validateCreditSplit(creditSplit_it, creditType, lesserCummulative);
+    }
+    
+    /**
+     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
+     * to the auditErrorMap.
+     * 
+     * @return List of AuditError instances
+     */
+    private List<AuditError> getAuditErrors() {
+        List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
+        
+        if (!getAuditErrorMap().containsKey("keyPersonnelAuditErrors")) {
+            getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
+        }
+        else {
+            auditErrors = ((AuditCluster) getAuditErrorMap().get("keyPersonnelAuditErrors")).getAuditErrorList();
+        }
+        
+        return auditErrors;
+    }
+    
+    private void addAuditError(String messageKey) {
+        addAuditError(messageKey, null);
     }
 
+    private void addAuditError(String messageKey, String ... params) {
+        AuditError error = new CreditSplitAuditError(messageKey, params);
+        
+        if (!getAuditErrors().contains(error)) {
+            getAuditErrors().add(error);
+            LOG.info("Adding " + messageKey + " error");
+        }
+    }
+    
     private KeyPersonnelService getKeyPersonnelService() {
         return getService(KeyPersonnelService.class);
     }
+    
+    /**
+     * 
+     * This class...
+     */
+    final class DecimalHolder implements Comparable<DecimalHolder> {
+        private KualiDecimal value;
+        
+        public DecimalHolder(KualiDecimal val) {
+            value = val;
+        }
+
+        public KualiDecimal getValue() {
+            return value;
+        }
+
+        public void setValue(KualiDecimal value) {
+            this.value = value;
+        }
+        
+        
+        public void add(KualiDecimal val) {
+            value = value.add(val);
+        }
+        
+        public void add(DecimalHolder val) {
+            value = value.add(val.getValue());
+        }
+
+        /**
+         * @see java.lang.Comparable#compareTo(java.lang.Object)
+         */
+        public int compareTo(DecimalHolder obj) {
+            return value.compareTo(obj.getValue());
+        }
+        
+        /**
+         * @see java.lang.Object#toString()
+         */
+        public String toString() {
+            return value.toString();
+        }
+    }
+
+    /**
+     * Mock inherited <code>{@link AuditError}</code> class that allows comparisons of <code>{@link AuditError}</code> objects for
+     * credit split.
+     */
+    final class CreditSplitAuditError extends AuditError {
+        
+        /**
+         * 
+         * @param messageKey to be delegated to <code>{@link AuditError}</code> superclass
+         * @param params varargs array of parameters for the messagekey
+         */
+        public CreditSplitAuditError(String messageKey) {
+            this(messageKey, null);
+        }
+        
+        /**
+         * 
+         * @param messageKey to be delegated to <code>{@link AuditError}</code> superclass
+         * @param params varargs array of parameters for the messagekey
+         */
+        public CreditSplitAuditError(String messageKey, String ... params) {
+            super(CREDIT_SPLIT_KEY, messageKey, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, params);
+        }
+        
+        /**
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            
+            AuditError error = (AuditError) obj;
+            boolean retval = true;
+            
+            retval &= getErrorKey().equals(error.getErrorKey());
+            retval &= getMessageKey().equals(error.getMessageKey());
+            retval &= getLink().equals(error.getLink());
+            
+            retval &= Arrays.equals(getParams(), error.getParams());
+            
+            return retval;
+        }
+    }
 }
+

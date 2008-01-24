@@ -73,7 +73,6 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         
         // Cleanup proposal persons
         NORMAL_DOCUMENT.getDocument().getProposalPersons().clear();
-        // NORMAL_DOCUMENT.getDocument().setProposalPersons(new ArrayList<ProposalPerson>());
         super.tearDown();
     }
     

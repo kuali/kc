@@ -30,7 +30,7 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: lprzybyl $
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase implements CreditSplitable {
     private Integer proposalNumber;
@@ -184,8 +184,13 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
         }
         return (ProposalUnitCreditSplit) getCreditSplits().get(index);
     }
-    
-    
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.bo.CreditSplitable#getName()
+     */
+    public String getName() {
+        return getUnitNumber();
+    }
 }
 
 
