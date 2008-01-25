@@ -35,7 +35,6 @@ import edu.iu.uis.eden.clientapp.WorkflowDocument;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 import edu.iu.uis.eden.exception.WorkflowRuntimeException;
-import edu.iu.uis.eden.test.TestUtilities;
 
 public class KraHierarchyProviderWithMetaRuleTest extends KraTestBase  {
     // this matches the hierarchy of meta-rules defined
