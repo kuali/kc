@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<users xmlns="ns:workflow/User" xsi:schemaLocation="ns:workflow/User resource:User">
+	    <!-- real users -->
+		<!--<user>
+			<workflowId>000000000000</workflowId>
+			<emplId>0000000000</emplId>
+			<authenticationId>rkirkend</authenticationId>
+			<uuId>0000000000</uuId>
+			<emailAddress>someone@indiana.edu</emailAddress>
+			<displayName>Someone Anyone</displayName>
+			<givenName>Someone</givenName>
+			<lastName>Anyone</lastName>
+			<createDate>01/01/2000</createDate>
+			<lastUpdateDate>12/31/2005</lastUpdateDate>
+			<identificationMissingIndicator>false(true)</identificationMissingIndicator>
+		</user>-->
+		<user>
+			<workflowId>101</workflowId>
+			<emplId>101</emplId>
+			<authenticationId>ewestfal</authenticationId>
+			<uuId>101</uuId>
+			<emailAddress>ewestfal@indiana.edu</emailAddress>
+			<displayName>Eric Westfall</displayName>
+			<givenName>Eric</givenName>
+			<lastName>Westfall</lastName>
+		</user>
+		<user>
+			<workflowId>2</workflowId>
+			<emplId>2</emplId>
+			<authenticationId>rkirkend</authenticationId>
+			<uuId>2</uuId>
+			<emailAddress>rkirkend@indiana.edu</emailAddress>
+			<displayName>Ryan Kirkendall</displayName>
+			<givenName>Ryan</givenName>
+			<lastName>Kirkendall</lastName>
+		</user>
+		<user>
+			<workflowId>3</workflowId>
+			<emplId>3</emplId>
+			<authenticationId>jhopf</authenticationId>
+			<uuId>3</uuId>
+			<emailAddress>jhopf@indiana.edu</emailAddress>
+			<displayName>Jeremy Hopf</displayName>
+			<givenName>Jeremy</givenName>
+			<lastName>Hopf</lastName>
+		</user>
+		<user>
+			<workflowId>4</workflowId>
+			<emplId>4</emplId>
+			<authenticationId>bmcgough</authenticationId>
+			<uuId>4</uuId>
+			<emailAddress>bmcgough@indiana.edu</emailAddress>
+			<displayName>Brian McGough</displayName>
+			<givenName>Brian</givenName>
+			<lastName>McGough</lastName>
+		</user>
+		<user>
+			<workflowId>5</workflowId>
+			<emplId>5</emplId>
+			<authenticationId>temay</authenticationId>
+			<uuId>5</uuId>
+			<emailAddress>temay@indiana.edu</emailAddress>
+			<displayName>Teresa May</displayName>
+			<givenName>Teresa</givenName>
+			<lastName>May</lastName>
+		</user>
+		<user>
+			<workflowId>6</workflowId>
+			<emplId>6</emplId>
+			<authenticationId>xqi</authenticationId>
+			<uuId>6</uuId>
+			<emailAddress>xqi@indiana.edu</emailAddress>
+			<displayName>Xiaofeng Qi</displayName>
+			<givenName>Xiaofeng</givenName>
+			<lastName>Qi</lastName>
+		</user>
+		<user>
+			<workflowId>7</workflowId>
+			<emplId>7</emplId>
+			<authenticationId>natjohns</authenticationId>
+			<uuId>7</uuId>
+			<emailAddress>natjohns@indiana.edu</emailAddress>
+			<displayName>Nate Johnson</displayName>
+			<givenName>Nate</givenName>
+			<lastName>Johnson</lastName>
+		</user>
+		<user>
+			<workflowId>8</workflowId>
+			<emplId>8</emplId>
+			<authenticationId>pmckown</authenticationId>
+			<uuId>8</uuId>
+			<emailAddress>pmckown@indiana.edu</emailAddress>
+			<displayName>Phil McKown</displayName>
+			<givenName>Phil</givenName>
+			<lastName>McKown</lastName>
+		</user>
+		<user>
+			<workflowId>9</workflowId>
+			<emplId>9</emplId>
+			<authenticationId>jthomas</authenticationId>
+			<uuId>9</uuId>
+			<emailAddress>jthomas@indiana.edu</emailAddress>
+			<displayName>Jim Thomas</displayName>
+			<givenName>Jim</givenName>
+			<lastName>Thomas</lastName>
+		</user>
+		<user>
+			<workflowId>10</workflowId>
+			<emplId>10</emplId>
+			<authenticationId>tbazler</authenticationId>
+			<uuId>10</uuId>
+			<emailAddress>tbazler@indiana.edu</emailAddress>
+			<displayName>Tara Bazler</displayName>
+			<givenName>Tara</givenName>
+			<lastName>Bazler</lastName>
+		</user>
+		<user>
+			<workflowId>11</workflowId>
+			<emplId>11</emplId>
+			<authenticationId>jitrue</authenticationId>
+			<uuId>11</uuId>
+			<emailAddress>jitrue@indiana.edu</emailAddress>
+			<displayName>Jim True</displayName>
+			<givenName>Jim</givenName>
+			<lastName>True</lastName>
+		</user>
+		<user>
+			<workflowId>12</workflowId>
+			<emplId>12</emplId>
+			<authenticationId>shenl</authenticationId>
+			<uuId>12</uuId>
+			<emailAddress>shenl@indiana.edu</emailAddress>
+			<displayName>Li Shen</displayName>
+			<givenName>Li</givenName>
+			<lastName>Shen</lastName>
+		</user>
+		<user>
+			<workflowId>13</workflowId>
+			<emplId>13</emplId>
+			<authenticationId>arh14</authenticationId>
+			<uuId>13</uuId>
+			<emailAddress>arh14@cornell.edu</emailAddress>
+			<displayName>Aaron Hamid</displayName>
+			<givenName>Aaron</givenName>
+			<lastName>Hamid</lastName>
+		</user>
+		<user>
+			<workflowId>14</workflowId>
+			<emplId>14</emplId>
+			<authenticationId>pzhang</authenticationId>
+			<uuId>14</uuId>
+			<emailAddress>pzhang@indiana.edu</emailAddress>
+			<displayName>Pan Zhang</displayName>
+			<givenName>Pan</givenName>
+			<lastName>Zhang</lastName>
+		</user>
+		<user>
+			<workflowId>15</workflowId>
+			<emplId>3234598234</emplId>
+			<authenticationId>delyea</authenticationId>
+			<uuId>3234598234</uuId>
+			<emailAddress>delyea@indiana.edu</emailAddress>
+			<displayName>David Elyea</displayName>
+			<givenName>David</givenName>
+			<lastName>Elyea</lastName>
+		</user>
+
+        <!-- test users, range starting at id 1000 -->
+		<user>
+			<workflowId>1001</workflowId>
+			<emplId>1001</emplId>
+			<authenticationId>user1</authenticationId>
+			<uuId>1001</uuId>
+			<emailAddress>user1@indiana.edu</emailAddress>
+			<displayName>User One</displayName>
+			<givenName>User</givenName>
+			<lastName>One</lastName>
+		</user>
+		<user>
+			<workflowId>1002</workflowId>
+			<emplId>1002</emplId>
+			<authenticationId>user2</authenticationId>
+			<uuId>1002</uuId>
+			<emailAddress>user2@indiana.edu</emailAddress>
+			<displayName>User Two</displayName>
+			<givenName>User</givenName>
+			<lastName>Two</lastName>
+		</user>
+		<user>
+			<workflowId>1003</workflowId>
+			<emplId>1003</emplId>
+			<authenticationId>user3</authenticationId>
+			<uuId>1003</uuId>
+			<emailAddress>user3@indiana.edu</emailAddress>
+			<displayName>User Three</displayName>
+			<givenName>User</givenName>
+			<lastName>Three</lastName>
+		</user>
+		<user>
+			<workflowId>1004</workflowId>
+			<emplId>1004</emplId>
+			<authenticationId>dewey</authenticationId>
+			<uuId>1004</uuId>
+			<emailAddress>dewey@indiana.edu</emailAddress>
+			<displayName>Dewey Decimal</displayName>
+			<givenName>Dewey</givenName>
+			<lastName>Decimal</lastName>
+		</user>
+		<!-- 
+		<user>
+			<workflowId>1005</workflowId>
+			<emplId>1005</emplId>
+			<authenticationId>quickstart</authenticationId>
+			<uuId>1005</uuId>
+			<emailAddress>quickstart@cornell.edu</emailAddress>
+			<displayName>Quick Start</displayName>
+			<givenName>Quick</givenName>
+			<lastName>Start</lastName>
+		</user> -->
+        <user>
+            <workflowId>1006</workflowId>
+            <emplId>1006</emplId>
+            <authenticationId>admin</authenticationId>
+            <uuId>1006</uuId>
+            <emailAddress>admin@localhost</emailAddress>
+            <displayName>Administrator</displayName>
+            <givenName>admin</givenName>
+            <lastName>admin</lastName>
+        </user>
+	</users>
+	<workgroups xmlns="ns:workflow/Workgroup" xsi:schemaLocation="ns:workflow/Workgroup resource:Workgroup">
+		<workgroup>
+			<id>1</id>
+			<workgroupName>TestWorkgroup</workgroupName>
+			<description>TestWorkgroup</description>
+			<members>
+				<authenticationId>ewestfal</authenticationId>
+				<authenticationId>rkirkend</authenticationId>
+				<authenticationId>jhopf</authenticationId>
+				<authenticationId>bmcgough</authenticationId>
+				<authenticationId>temay</authenticationId>
+				<authenticationId>xqi</authenticationId>
+				<authenticationId>natjohns</authenticationId>
+				<authenticationId>pmckown</authenticationId>
+				<authenticationId>jthomas</authenticationId>
+				<authenticationId>jitrue</authenticationId>
+			</members>
+		</workgroup>
+		<workgroup allowOverwrite="true">
+			<id>2</id>
+			<workgroupName>WorkflowAdmin</workgroupName>
+			<description>WorkflowAdmin</description>
+			<members>
+				<authenticationId>ewestfal</authenticationId>
+				<authenticationId>rkirkend</authenticationId>
+				<authenticationId>jhopf</authenticationId>
+				<authenticationId>bmcgough</authenticationId>
+				<authenticationId>shenl</authenticationId>
+				<authenticationId>quickstart</authenticationId>
+			</members>
+		</workgroup>
+		<workgroup>
+			<id>3</id>
+			<workgroupName>NonSIT</workgroupName>
+			<description>NonSIT</description>
+			<members>
+				<authenticationId>user1</authenticationId>
+				<authenticationId>user2</authenticationId>
+				<authenticationId>user3</authenticationId>
+				<authenticationId>dewey</authenticationId>
+			</members>
+		</workgroup>
+		<workgroup>
+			<id>4</id>
+			<workgroupName>BlanketApproveWorkgroup</workgroupName>
+			<description>BlanketApproveWorkgroup</description>
+			<members>
+				<authenticationId>ewestfal</authenticationId>
+				<authenticationId>rkirkend</authenticationId>
+				<authenticationId>jhopf</authenticationId>
+				<authenticationId>bmcgough</authenticationId>
+				<authenticationId>temay</authenticationId>
+				<authenticationId>xqi</authenticationId>
+				<authenticationId>natjohns</authenticationId>
+				<authenticationId>pmckown</authenticationId>
+				<authenticationId>jthomas</authenticationId>
+				<authenticationId>jitrue</authenticationId>
+			</members>
+		</workgroup>
+	</workgroups>
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>TestRuleAttribute</name>
+			<className>edu.iu.uis.eden.routetemplate.TestRuleAttribute</className>
+			<label>Test Rule Attribute</label>
+			<description>Test Rule Attribute</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+				<ruleAttribute>
+			<name>TestRuleAttribute2</name>
+			<className>edu.iu.uis.eden.routetemplate.TestRuleAttribute</className>
+			<label>Test Rule Attribute 2</label>
+			<description>Test Rule Attribute 2</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>TestRuleAttribute3</name>
+			<className>edu.iu.uis.eden.routetemplate.TestRuleAttribute</className>
+			<label>Test Rule Attribute 3</label>
+			<description>Test Rule Attribute 3</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
+		
+	</ruleAttributes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate allowOverwrite="true">
+			<name>TestRuleTemplate</name>
+			<description>TestRuleTemplate</description>
+			<attributes>
+				<attribute>
+					<name>TestRuleAttribute</name>
+					<required>true</required>
+				</attribute>
+			</attributes>
+		</ruleTemplate>
+	</ruleTemplates>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>TestDocumentType</name>
+			<!-- <description>TestDocumentType</description> -->
+			<label>TestDocumentType</label>
+			<postProcessorName>edu.iu.uis.eden.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserWorkgroupName>TestWorkgroup</superUserWorkgroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveWorkgroupName>TestWorkgroup</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>TestWorkgroup</defaultExceptionWorkgroupName>
+			<messageEntity>KEW</messageEntity>
+			<policies>
+				<policy>
+					<name>PRE_APPROVE</name>
+					<value>false</value>
+				</policy>
+				<policy>
+					<name>DEFAULT_APPROVE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RouteLevel1" />
+					<requests name="RouteLevel1" nextNode="RouteLevel2" />
+					<requests name="RouteLevel2" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc">
+					<activationType>S</activationType>
+				</start>
+				<requests name="RouteLevel1">
+					<activationType>S</activationType>
+					<routeModule>edu.iu.uis.eden.routemodule.TestRouteModule</routeModule>
+				</requests>
+				<requests name="RouteLevel2">
+					<activationType>P</activationType>
+					<ruleTemplate>TestRuleTemplate</ruleTemplate>
+					<finalApproval>true</finalApproval>
+				</requests>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>TestDocumentType2</name>
+			<parent>TestDocumentType</parent>
+			<!-- <description>TestDocumentType</description> -->
+			<label>TestDocumentType</label>
+			<postProcessorName>edu.iu.uis.eden.postprocessor.DefaultPostProcessor</postProcessorName>
+			<superUserWorkgroupName>TestWorkgroup</superUserWorkgroupName>
+			<docHandler>_blank</docHandler>
+			<blanketApproveWorkgroupName>TestWorkgroup</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>TestWorkgroup</defaultExceptionWorkgroupName>
+			<!-- This is set to KEWNEW for the RouteQueueTest.testGetNextDocumentsWithMessageEntity() -->
+			<messageEntity>KEWNEW</messageEntity>
+		</documentType>
+	</documentTypes>
+	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+		<rule>
+			<documentType>TestDocumentType</documentType>
+			<ruleTemplate>TestRuleTemplate</ruleTemplate>
+			<description>TestRule1</description>
+			<ignorePrevious>false</ignorePrevious>
+			<responsibilities>
+				<responsibility>
+					<role>edu.iu.uis.eden.routetemplate.TestRuleAttribute!TestRole</role>
+					<actionRequested>A</actionRequested>
+					<priority>1</priority>
+				</responsibility>
+			</responsibilities>
+		</rule>
+	</rules>
+</data>

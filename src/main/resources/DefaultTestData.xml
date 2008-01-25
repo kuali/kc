@@ -460,7 +460,7 @@
 			<postProcessorName>edu.iu.uis.eden.doctype.DocumentTypePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/en/DocumentType.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/en/DocumentType.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies />
 			<routePaths>
@@ -483,7 +483,7 @@
 			<postProcessorName>edu.iu.uis.eden.routetemplate.RulePostProcessor</postProcessorName>
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/en/Rule.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/en/Rule.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<policies />
 			<routePaths>
@@ -507,7 +507,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/en/Workgroup.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/en/Workgroup.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>1</routingVersion>
 			<routePaths>
@@ -538,7 +538,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/travelDocument2.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/travelDocument2.do?methodToCall=docHandler</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" nextNode="DestinationApproval" />
@@ -574,7 +574,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/docHandler.do</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/docHandler.do</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />
@@ -594,7 +594,7 @@
 			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>http://localhost:8080/SampleRiceClient/docHandler.do</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/docHandler.do</docHandler>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />

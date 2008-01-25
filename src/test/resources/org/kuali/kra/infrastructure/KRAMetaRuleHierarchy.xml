@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>KRAMetaRuleHierarchyTest</name>
+            <label>KRAMetaRuleHierarchyTest doc label</label>
+            <docHandler>has to be defined</docHandler>
+            <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+            <routePaths>
+                <routePath>
+                    <start name="initial" nextNode="hierarchy" />
+                    <requests name="hierarchy"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="initial"/>
+                <dynamic name="hierarchy">
+                    <activationType>S</activationType>
+                    <type>edu.iu.uis.eden.engine.node.hierarchyrouting.HierarchyRoutingNode</type>
+                    <hierarchyProvider>org.kuali.kra.hierarchyrouting.KraHierarchyProvider</hierarchyProvider>
+                    <ruleSelector>HierarchicalNamed</ruleSelector>
+                </dynamic>
+            </routeNodes>
+        </documentType>
+    </documentTypes>
+
+    <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        <rule>
+            <name>xqi</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>xqi mandatory description</description>
+            <responsibilities>
+                <responsibility><user>xqi</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>arh14</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>arh14 mandatory description</description>
+            <responsibilities>
+                <responsibility><user>arh14</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>shenl</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>shenl mandatory description</description>
+            <responsibilities>
+                <responsibility><user>shenl</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>jhopf</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>jhopf mandatory description</description>
+            <responsibilities>
+                <responsibility><user>jhopf</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>ewestfal</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>ewestfal mandatory description</description>
+            <responsibilities>
+                <responsibility><user>ewestfal</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>rkirkend</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>rkirkend mandatory description</description>
+            <responsibilities>
+                <responsibility><user>rkirkend</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>user1</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>user1 mandatory description</description>
+            <responsibilities>
+                <responsibility><user>user1</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>user2</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>user2 mandatory description</description>
+            <responsibilities>
+                <responsibility><user>user2</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>user3</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>user3 mandatory description</description>
+            <responsibilities>
+                <responsibility><user>user3</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>natjohns</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>natjohns mandatory description</description>
+            <responsibilities>
+                <responsibility><user>natjohns</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>temay</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>temay mandatory description</description>
+            <responsibilities>
+                <responsibility><user>temay</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>dewey</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>dewey mandatory description</description>
+            <responsibilities>
+                <responsibility><user>dewey</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>jthomas</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>jthomas mandatory description</description>
+            <responsibilities>
+                <responsibility><user>jthomas</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>bmcgough</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>bmcgough mandatory description</description>
+            <responsibilities>
+                <responsibility><user>bmcgough</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>pmckown</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>pmckown mandatory description</description>
+            <responsibilities>
+                <responsibility><user>pmckown</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>jitrue</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>jitrue mandatory description</description>
+            <responsibilities>
+                <responsibility><user>jitrue</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>tbazler</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>tbazler mandatory description</description>
+            <responsibilities>
+                <responsibility><user>tbazler</user></responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <name>pzhang</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>pzhang mandatory description</description>
+            <responsibilities>
+                <responsibility><user>pzhang</user></responsibility>
+            </responsibilities>
+        </rule>
+        
+        <!-- the meta-rules -->
+        <rule>
+            <name>hierarchy-000000</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-000000 mandatory description</description>
+            <expression type="KRAMeta">
+              xqi: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-000001</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-000001 mandatory description</description>
+            <expression type="KRAMeta">
+              jthomas: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-IU-UNIV</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-IU-UNIV mandatory description</description>
+            <expression type="KRAMeta">
+              bmcgough: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-BL-BL</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-BL-BL mandatory description</description>
+            <expression type="KRAMeta">
+              natjohns: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-BL-RUGS</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-BL-RUGS mandatory description</description>
+            <expression type="KRAMeta">
+              arh14: true;
+              jitrue: next;
+              <!--  tbazler: false; -->
+              rkirkend: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-BL-RCEN</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-BL-RCEN mandatory description</description>
+            <expression type="KRAMeta">
+              user2: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-BL-IIDC</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-BL-IIDC mandatory description</description>
+            <expression type="KRAMeta">
+              shenl: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-IN-IN</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-IN-IN mandatory description</description>
+            <expression type="KRAMeta">
+              dewey: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-IN-MED</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-IN-MED mandatory description</description>
+            <expression type="KRAMeta">
+              pmckown: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-IN-MDEP</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-IN-MDEP mandatory description</description>
+            <expression type="KRAMeta">
+              temay: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-IN-CARD</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-IN-CARD mandatory description</description>
+            <expression type="KRAMeta">
+              user1: true;
+              tbazler: false;
+              pzhang:true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-IN-CARR</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-IN-CARR mandatory description</description>
+            <expression type="KRAMeta">
+              jhopf: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-IN-PED</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-IN-PED mandatory description</description>
+            <expression type="KRAMeta">
+              user3: true;
+            </expression>
+        </rule>
+        <rule>
+            <name>hierarchy-IN-PERS</name>
+            <documentType>KRAMetaRuleHierarchyTest</documentType>
+            <description>hierarchy-IN-PERS mandatory description</description>
+            <expression type="KRAMeta">
+              ewestfal: true;
+            </expression>
+        </rule>
+    </rules>
+</data>
