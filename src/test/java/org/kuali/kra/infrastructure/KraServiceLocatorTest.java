@@ -75,7 +75,7 @@ public class KraServiceLocatorTest extends KraTestBase {
 
         List parameters = configService.getParameters(criteria);
         assertNotNull(parameters);
-        assertEquals(13, parameters.size());
+        assertEquals(17, parameters.size());
     }
 
 }

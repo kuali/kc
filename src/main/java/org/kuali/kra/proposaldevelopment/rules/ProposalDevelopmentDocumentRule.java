@@ -218,18 +218,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         boolean valid = true;
 
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-
-        // "Sponsor Proposal Id" must be entered if the proposal type is not new (i.e. resubmission)
-        // or if the proposal type is new and the grants.gov submission type is "changed/corrected".
-        String proposalTypeCodeNew = getKualiConfigurationService().getParameter(
-                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW).getParameterValue();
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-        if (StringUtils.isNotEmpty(proposalDevelopmentDocument.getProposalTypeCode()) &&
-                !proposalDevelopmentDocument.getProposalTypeCode().equals(proposalTypeCodeNew) &&
-                StringUtils.isEmpty(proposalDevelopmentDocument.getContinuedFrom())) {
-            valid = false;
-            errorMap.putError("continuedFrom", KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "continuedFrom"));
-        }
+        
+        valid = validateProposalTypeField(proposalDevelopmentDocument);
 
         proposalDevelopmentDocument.refreshReferenceObject("sponsor");
         if (proposalDevelopmentDocument.getSponsorCode() != null && proposalDevelopmentDocument.getSponsor() == null) {
@@ -248,6 +239,72 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         }
         
         return valid;
+    }
+    
+    /**
+     * Validates business rules pertaining to the Proposal Type.  The rules are:
+     * 
+     * <ol>
+     * <li>If the Proposal Type is Renewal, Revision, or a Continuation, then the 
+     * Sponsor Proposal Id field must be assigned a value.</li>
+     * </ol>
+     * 
+     * @param proposalDevelopmentDocument the Proposal Development Document
+     * @return true if valid; otherwise false (if false, the Global ErrorMap is populated)
+     */
+    private boolean validateProposalTypeField(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        boolean valid = true;
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        
+        String proposalTypeCode = proposalDevelopmentDocument.getProposalTypeCode();
+        String sponsorProposalId = proposalDevelopmentDocument.getSponsorProposalNumber();
+
+        if (isProposalTypeRenewalRevisionContinuation(proposalTypeCode) && StringUtils.isEmpty(sponsorProposalId)) {
+            valid = false;
+            errorMap.putError("sponsorProposalNumber", KeyConstants.ERROR_REQUIRED_PROPOSAL_SPONSOR_ID, dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "sponsorProposalNumber"));
+        }
+        
+        // TODO: Must add in other validations regarding awards, etc.  see KRACOEUS-290.
+        
+        return valid;
+    }
+    
+    /**
+     * Is the Proposal Type set to Renewal, Revision, or a Continuation?
+     * @param proposalTypeCode proposal type code
+     * @return true or false
+     */
+    private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
+        
+        String proposalTypeCodeRenewal = getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL, "5");
+        String proposalTypeCodeRevision = getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION, "6");
+        String proposalTypeCodeCompetingContinuation = getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_COMPETING_CONT, "2");
+        String proposalTypeCodeNonCompetingContinuation = getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NON_COMPETING_CONT, "3");
+         
+        return !StringUtils.isEmpty(proposalTypeCode) &&
+               (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
+                proposalTypeCode.equals(proposalTypeCodeRevision) ||
+                proposalTypeCode.equals(proposalTypeCodeCompetingContinuation) ||
+                proposalTypeCode.equals(proposalTypeCodeNonCompetingContinuation));
+    }
+    
+    /**
+     * Get the value of a KRA System Parameter.
+     * @param paramName the name of the parameter
+     * @param defaultValue the default value to return if the parameter is not in the System Parameter table
+     * @return the value of the parameter
+     */
+    private String getParameterValue(String paramName, String defaultValue) {
+        String paramValue = null;
+        try {
+            paramValue = getKualiConfigurationService().getParameter(
+                Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, paramName).getParameterValue();
+        } catch (IllegalArgumentException ex) {
+            paramValue = defaultValue;
+        }
+        return paramValue;
     }
 
     /**
