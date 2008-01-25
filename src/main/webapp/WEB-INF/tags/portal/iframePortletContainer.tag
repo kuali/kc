@@ -18,6 +18,8 @@
 <%@ attribute name="channelTitle" required="true" %>
 <%@ attribute name="channelUrl" required="true" %>
 
-
+<!--  temp fix for htmlunit bug 
 <iframe src="${channelUrl}" onload='setFocusedIframeDimensions("iframeportlet", 500, true); setIframeAnchor("iframeportlet")' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: 500px;" title="E-Doc" frameborder="0" height="500" scrolling="auto" width="100%"></iframe>
+-->
+<iframe src="${channelUrl}" onload='setFocusedIframeDimensions("iframeportlet", 500, true)' name="iframeportlet" id="iframeportlet" hspace="0" vspace="0" style="height: 500px;" title="E-Doc" frameborder="0" height="500" scrolling="auto" width="100%"></iframe>
                      

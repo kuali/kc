@@ -82,7 +82,8 @@ public class KeywordPanelTest extends ProposalDevelopmentWebTestBase{
         final HtmlPage pageAfterKeywordLookup = saveAndVerifyData(pageKeywordLookup);
 
         /* Test javascript for select all */
-        final ScriptResult scriptResult = pageAfterKeywordLookup.executeJavaScriptIfPossible(JS_SELECT_ALL, "onSubmit", true, pageAfterKeywordLookup.getDocumentElement());
+        final ScriptResult scriptResult = pageAfterKeywordLookup.executeJavaScriptIfPossible(JS_SELECT_ALL, "onSubmit", pageAfterKeywordLookup.getDocumentElement());
+        //final ScriptResult scriptResult = pageAfterKeywordLookup.executeJavaScriptIfPossible(JS_SELECT_ALL, "onSubmit", true, pageAfterKeywordLookup.getDocumentElement());
         final HtmlPage pageAfterSelectAll = (HtmlPage)scriptResult.getNewPage();
 
         /* verify data after select all */
