@@ -81,7 +81,6 @@ public class OjbRepositoryMappingTest {
      */
     @Before
     public void setUp() throws Exception {
-        dsSchema = "LEOTST";
         configPath = System.getProperty("user.home") + separator + "kuali" + separator + "test" + separator + "dev" + separator + "kra-test-config.xml";
         
         BufferedReader reader = new BufferedReader(new FileReader(configPath));
@@ -108,9 +107,7 @@ public class OjbRepositoryMappingTest {
     }
     
     private String getValueFromConfig(String line, String name) {
-        LOG.info("Parsing line " + line);
         String tempLine = StringUtils.substringAfter(line, name + "\">");
-        LOG.info("Parsing temp line " + tempLine);
         return tempLine.substring(0, tempLine.indexOf("<"));
     }
 
@@ -516,7 +513,7 @@ public class OjbRepositoryMappingTest {
                     String columnNameResult = null;
                     while(results.next() && !found) {
                         columnNameResult = results.getString("COLUMN_NAME");
-                        LOG.info("Comparing " + columnName + " to " + columnNameResult);
+                        LOG.info("Comparing " + columnName + " to " + columnNameResult + " in table " + getCurrentTableName());
                         if (columnName.equals(columnNameResult)) {
                             found = true;
                         }
