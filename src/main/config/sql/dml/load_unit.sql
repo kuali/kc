@@ -51,4 +51,8 @@ Insert into unit
 Insert into unit
    (UNIT_NUMBER, UNIT_NAME, PARENT_UNIT_NUMBER, UPDATE_TIMESTAMP, UPDATE_USER)
  Values
+   ('IN-PED', 'PEDIATRICS', 'IN-MED', sysdate, user);
+Insert into unit
+   (UNIT_NUMBER, UNIT_NAME, PARENT_UNIT_NUMBER, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values
    ('IN-IN', 'IND UNIV-PURDUE UNIV INDPLS', 'IU-UNIV', sysdate, user);
