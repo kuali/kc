@@ -29,8 +29,8 @@
         
         <table cellpadding=0 cellspacing=0 summary="">
              <tr>
-				<th width="50%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.organizationId}" /></div></th>
-                <td align="left" valign="middle"  class="infoline" width="50%">
+				<th width="40%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.organizationId}" /></div></th>
+                <td align="left" valign="middle"  class="infoline" width="60%">
                 	<kul:htmlControlAttribute property="document.organizationId" attributeEntry="${proposalDevelopmentAttributes.organizationId}" />
                     <c:out value="${KualiForm.document.organization.organizationName}"/>
                     <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
