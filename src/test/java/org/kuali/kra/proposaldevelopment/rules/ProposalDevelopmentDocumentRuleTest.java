@@ -97,23 +97,23 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     }
 
     @Test public void testNonNewProposalTypeWithoutOriginalProposalId() throws Exception {
-        processType(PROPOSAL_TYPE_COMPETING_CONTINUATION, false);
-        processType(PROPOSAL_TYPE_NON_COMPETING_CONTINUATION, false);
-        processType(PROPOSAL_TYPE_SUPPLEMENT, false);
-        processType(PROPOSAL_TYPE_RENEWAL, false);
-        processType(PROPOSAL_TYPE_REVISION, false);
-        processType(PROPOSAL_TYPE_PRE_PROPOSAL, false);
-        processType(PROPOSAL_TYPE_ACCOMPLISHMENT_BASED_RENEWAL, false);
+        processType(PROPOSAL_TYPE_COMPETING_CONTINUATION, false, true);
+        processType(PROPOSAL_TYPE_NON_COMPETING_CONTINUATION, false, true);
+        processType(PROPOSAL_TYPE_SUPPLEMENT, false, false);
+        processType(PROPOSAL_TYPE_RENEWAL, false, true);
+        processType(PROPOSAL_TYPE_REVISION, false, true);
+        processType(PROPOSAL_TYPE_PRE_PROPOSAL, false, false);
+        processType(PROPOSAL_TYPE_ACCOMPLISHMENT_BASED_RENEWAL, false, false);
     }
 
     @Test public void testNonNewProposalTypeWithOriginalProposalId() throws Exception {
-        processType(PROPOSAL_TYPE_COMPETING_CONTINUATION, true);
-        processType(PROPOSAL_TYPE_NON_COMPETING_CONTINUATION, true);
-        processType(PROPOSAL_TYPE_SUPPLEMENT, true);
-        processType(PROPOSAL_TYPE_RENEWAL, true);
-        processType(PROPOSAL_TYPE_REVISION, true);
-        processType(PROPOSAL_TYPE_PRE_PROPOSAL, true);
-        processType(PROPOSAL_TYPE_ACCOMPLISHMENT_BASED_RENEWAL, true);
+        processType(PROPOSAL_TYPE_COMPETING_CONTINUATION, true, false);
+        processType(PROPOSAL_TYPE_NON_COMPETING_CONTINUATION, true, false);
+        processType(PROPOSAL_TYPE_SUPPLEMENT, true, false);
+        processType(PROPOSAL_TYPE_RENEWAL, true, false);
+        processType(PROPOSAL_TYPE_REVISION, true, false);
+        processType(PROPOSAL_TYPE_PRE_PROPOSAL, true, false);
+        processType(PROPOSAL_TYPE_ACCOMPLISHMENT_BASED_RENEWAL, true, false);
     }
 
     /**
@@ -123,7 +123,9 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
      * we shouldn't get any errors, but if it's missing we should get errors
      * @throws WorkflowException
      */
-    private void processType(String proposalTypeCode, boolean setContinuedFrom) throws WorkflowException {
+    private void processType(String proposalTypeCode, boolean setSponsorProposalId, boolean expectError) throws WorkflowException {
+        GlobalVariables.getErrorMap().clear();
+        
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
         setRequiredDocumentFields(document,
                 DOCUMENT_HEADER_DESCRIPTION,
@@ -134,19 +136,22 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
                 DEFAULT_PROPOSAL_ACTIVITY_TYPE,
                 proposalTypeCode,
                 DEFAULT_PROPOSAL_OWNED_BY_UNIT);
-
-        if (setContinuedFrom) {
-            document.setContinuedFrom("234567");
+        
+        if (setSponsorProposalId) {
+            document.setSponsorProposalNumber("234567");
+        }
+        if (!expectError) {
             assertTrue("Rule should NOT produce any errors", proposalDevelopmentDocumentRule.processCustomSaveDocumentBusinessRules(document));
             assertEquals(0, GlobalVariables.getErrorMap().size());
         } else {
             assertFalse("Rule should produce an errors", proposalDevelopmentDocumentRule.processCustomSaveDocumentBusinessRules(document));
             assertEquals(1, GlobalVariables.getErrorMap().size());
             ErrorMap errorMap = GlobalVariables.getErrorMap();
-            List<ErrorMessage> messages = errorMap.getMessages("document.continuedFrom");
+            List<ErrorMessage> messages = errorMap.getMessages("document.sponsorProposalNumber");
             ErrorMessage errorMessage = messages.get(0);
-            assertEquals(KeyConstants.ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW, errorMessage.getErrorKey());
-            assertEquals("Original Proposal ID (Original Proposal ID)", errorMessage.getMessageParameters()[0]);
+            assertEquals(KeyConstants.ERROR_REQUIRED_PROPOSAL_SPONSOR_ID, errorMessage.getErrorKey());
+            
+            assertEquals("Sponsor Proposal ID (Sponsor Proposal ID)", errorMessage.getMessageParameters()[0]);
         }
     }
 
