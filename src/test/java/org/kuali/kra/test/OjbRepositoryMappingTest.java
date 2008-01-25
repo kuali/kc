@@ -188,7 +188,7 @@ public class OjbRepositoryMappingTest {
      * 
      * @throws Exception
      */
-    // @Test
+    @Test
     public void verifyClasses() throws Exception {
         final DefaultHandler handler = new ClassValidationHandler(); 
         
@@ -498,6 +498,12 @@ public class OjbRepositoryMappingTest {
             handleFieldDescriptor(qName, attributes);
         }
 
+        /**
+         * 
+         * @param qName
+         * @param attributes
+         * @throws SAXParseException
+         */
         private void handleFieldDescriptor(String qName, Attributes attributes) throws SAXParseException {
             if (FIELD_DESCRIPTOR_NAME.equals(qName)) {
                 String columnName = attributes.getValue(COLUMN_ATTRIBUTE_NAME).toUpperCase();
@@ -510,6 +516,7 @@ public class OjbRepositoryMappingTest {
                     String columnNameResult = null;
                     while(results.next() && !found) {
                         columnNameResult = results.getString("COLUMN_NAME");
+                        LOG.info("Comparing " + columnName + " to " + columnNameResult);
                         if (columnName.equals(columnNameResult)) {
                             found = true;
                         }
