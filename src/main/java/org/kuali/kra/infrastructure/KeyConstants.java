@@ -25,12 +25,18 @@ public class KeyConstants {
     public static final String ERROR_REQUIRED_FOR_PROPLOCATION = "error.required.for.propLocation";
     public static final String ERROR_REQUIRED_FOR_PROPLOCATION_NAME = "error.required.for.locationName";
     public static final String ERROR_REQUIRED_FOR_PROPOSALTYPE_NOTNEW = "error.required.for.proposalType.notNew";
+    public static final String ERROR_REQUIRED_PROPOSAL_SPONSOR_ID = "error.required.proposalSponsorId";
     public static final String WARNING_EMPTY_DEADLINE_DATE = "warning.empty.deadline.date";
     public static final String WARNING_PAST_DEADLINE_DATE = "warning.past.deadline.date";
     public static final String ERROR_APPROVAL_DATE_BEFORE_APPLICATION_DATE_SPECIALREVIEW = "error.approvalDate.before.applicationDate.for.valid.specialReview";
     public static final String ERROR_START_DATE_AFTER_END_DATE = "error.start.date.after.end.date";
 
+    // Proposal Types System Parameter Names
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW = "proposaldevelopment.proposaltype.new";
+    public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL = "proposaldevelopment.proposaltype.renewal";
+    public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION = "proposaldevelopment.proposaltype.revision";
+    public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_COMPETING_CONT = "proposaldevelopment.proposaltype.competing.continuation";
+    public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_NON_COMPETING_CONT = "proposaldevelopment.proposaltype.noncompeting.continuation";
     
     // Key Personnel Mojo
     public static final String ERROR_INVESTIGATOR_UNITS_UPBOUND = "error.investigatorUnits.upbound";
@@ -69,5 +75,4 @@ public class KeyConstants {
     // proposal ynq errors
     public static final String ERROR_REQUIRED_FOR_EXPLANATION = "error.required.for.explanation";
     public static final String ERROR_REQUIRED_FOR_REVIEW_DATE = "error.required.for.reviewDate";
-    
 }

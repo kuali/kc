@@ -111,7 +111,8 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
 
         setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "2", "000001");
         document.setContinuedFrom("234567");
-
+        document.setSponsorProposalNumber("12345");
+        
         documentService.saveDocument(document);
 
         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
