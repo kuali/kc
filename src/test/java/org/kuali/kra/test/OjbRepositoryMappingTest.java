@@ -15,23 +15,27 @@
  */
 package org.kuali.kra.test;
 
+import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
+import static org.junit.Assert.fail;
+
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import oracle.jdbc.pool.OracleDataSource;
+
+import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.Attributes; 
+import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
-import static org.junit.Assert.fail;
 
 /**
  * Unit Tests for validating an OJB repository XML file. The objective is to validate without initializing OJB. If OJB starts up and the repository.xml
@@ -56,6 +60,10 @@ public class OjbRepositoryMappingTest {
     private static final String FOREIGN_KEY_NAME            = "foreignkey";
     private static final String INVERSE_FOREIGN_KEY_NAME    = "inverse-foreignkey";
     private static final String COLLECTION_CLASS_NAME       = "collection-class";
+    private static final String DATASOURCE_URL_NAME         = "datasource.url";
+    private static final String DATASOURCE_DRIVER_NAME      = "datasource.driver.name";
+    private static final String DATASOURCE_USERNAME_NAME    = "datasource.username";
+    private static final String DATASOURCE_PASSWORD_NAME    = "datasource.password";
 
     /**
      * 
@@ -96,14 +104,42 @@ public class OjbRepositoryMappingTest {
             parser.parse(repositoryUrl.getFile(), new DefaultHandler());
         }
         catch (Exception e) {
+            e.printStackTrace();
             fail("Test should not encounter exceptions during parsing.");
         }
     }
     
-    @Test
-    public void verifyTables() {
+    // @Test
+    public void verifyTables() throws Exception {
+        final OracleDataSource ods = new OracleDataSource();
+        ods.setURL("jdbc:oracle:thin:@localhost:1521:KUALI");
+        ods.setUser("leotst");
+        ods.setPassword("tst174leo");
         
+        final Connection conn = ods.getConnection();
+        final DefaultHandler handler = new TableValidationHandler(conn); 
         
+        LOG.info("Starting XML validation");
+        final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
+        final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
+        
+        LOG.info("Found dtd url " + dtdUrl);
+        LOG.info("Found repository url " + repositoryUrl);
+
+        final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        saxParserFactory.setValidating(true);
+        saxParserFactory.setNamespaceAware(false);
+        
+        final SAXParser parser = saxParserFactory.newSAXParser();
+        try {
+            parser.parse(repositoryUrl.getFile(), handler);
+        }
+        finally {
+            try {
+                conn.close();
+            }
+            catch (Exception e) { }
+        }
     }
     
     /**
@@ -127,12 +163,7 @@ public class OjbRepositoryMappingTest {
         saxParserFactory.setNamespaceAware(false);
         
         final SAXParser parser = saxParserFactory.newSAXParser();
-        try {
-            parser.parse(repositoryUrl.getFile(), handler);
-        }
-        catch (Exception e) {
-            fail("Test should not encounter exceptions during parsing.");
-        }
+        parser.parse(repositoryUrl.getFile(), handler);
     }
 
     /**
@@ -354,33 +385,112 @@ public class OjbRepositoryMappingTest {
         
     }
 
+    /**
+     * For parsing the repository.xml file and validating database table information as it goes. Primarily, this will verify that 
+     * tables exist in the database, and that the fields of each table exist as they are mapped in the repository.xml file.
+     * 
+     */
     class TableValidationHandler extends DefaultHandler {
-        private boolean parsingClassDescriptor;
+        private Connection connection;
         private Locator locator;
-        private Class currentMappedClass;
-        
-        public TableValidationHandler() {
-            parsingClassDescriptor = false;
+        private String currentTableName;
+
+        /**
+         * Default Constructor
+         */
+        public TableValidationHandler(Connection conn) {
+            connection = conn;
         }
         
+        /**
+         * Used for constructing <code>{@link SAXParseException}</code> instances
+         * 
+         * @see org.xml.sax.helpers.DefaultHandler#setDocumentLocator(org.xml.sax.Locator)
+         * @see org.xml.sax.SAXParseException
+         */
         public void setDocumentLocator(Locator locator) {
             super.setDocumentLocator(locator);
             this.locator = locator;
         }
 
         /**
-         * 
          * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
          */
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXParseException {
             if (CLASS_DESCRIPTOR_NAME.equals(qName)) {
+                setCurrentTableName(attributes.getValue(TABLE_ATTRIBUTE_NAME));
+                // LOG.info("Looking for table " + getCurrentTableName());
+                ResultSet results = null;
                 try {
-                    setCurrentMappedClass(Class.forName(attributes.getValue(CLASS_ATTRIBUTE_NAME)));
+                    results = getConnection().getMetaData().getTables(null, null, getCurrentTableName(), new String[] {"TABLE"});
+                    
+                    boolean found = false;
+                    while(results.next() && !found) {
+                        String tableNameResult = results.getString("TABLE_NAME");
+                        if (getCurrentTableName().equals(tableNameResult)) {
+                            found = true;
+                        }
+                    }
+                    
+                    if (!found) {
+                        LOG.info("Not found table " + getCurrentTableName());
+                        
+                        // throw createSaxParseException("There is no table named " + attributes.getValue(TABLE_ATTRIBUTE_NAME));
+                    }
+                    else {
+                        LOG.info("Found table " + getCurrentTableName());
+                    }
                 }
                 catch (Exception e) {
-                    throw createSaxParseException("There is no class named " + attributes.getValue(CLASS_ATTRIBUTE_NAME), e);
+                    throw createSaxParseException("There is no table named " + attributes.getValue(TABLE_ATTRIBUTE_NAME), e);
+                }
+                finally {
+                    if (results != null) {
+                        try {
+                            results.close();
+                        }
+                        catch (Exception e) {}
+                    }
                 }
             }
+            
+            handleFieldDescriptor(qName, attributes);
+        }
+
+        private void handleFieldDescriptor(String qName, Attributes attributes) throws SAXParseException {
+            if (FIELD_DESCRIPTOR_NAME.equals(qName)) {
+                String columnName = attributes.getValue(COLUMN_ATTRIBUTE_NAME);
+
+                ResultSet results = null;
+                try {
+                    results = getConnection().getMetaData().getColumns(null, null, getCurrentTableName(), columnName);
+                    
+                    boolean found = false;
+                    String columnNameResult = null;
+                    while(results.next() && !found) {
+                        columnNameResult = results.getString("COLUMN_NAME");
+                        if (columnName.equals(columnNameResult)) {
+                            found = true;
+                        }
+                    }
+                    
+                    if (!found) {
+                        throw createSaxParseException("There is no table named " + attributes.getValue(COLUMN_ATTRIBUTE_NAME));
+                    }
+                }
+                catch (Exception e) {
+                    throw createSaxParseException("There is no column named " + attributes.getValue(COLUMN_ATTRIBUTE_NAME) + " in table " + getCurrentTableName(), e);
+                }
+                finally {
+                    if (results != null) {
+                        try {
+                            results.close();
+                        }
+                        catch (Exception e) {}
+                    }
+                }
+            }
+            
         }
 
         /**
@@ -404,12 +514,20 @@ public class OjbRepositoryMappingTest {
             return new SAXParseException(msg, locator);
         }
 
-        public Class getCurrentMappedClass() {
-            return currentMappedClass;
+        public String getCurrentTableName() {
+            return currentTableName;
         }
 
-        public void setCurrentMappedClass(Class currentMappedClass) {
-            this.currentMappedClass = currentMappedClass;
+        public void setCurrentTableName(String currentTableName) {
+            this.currentTableName = currentTableName;
+        }
+
+        public Connection getConnection() {
+            return connection;
+        }
+
+        public void setConnection(Connection connection) {
+            this.connection = connection;
         }
     }
 }
