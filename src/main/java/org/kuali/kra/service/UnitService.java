@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.service;
 
+import java.util.Collection;
+
+import org.kuali.kra.bo.Unit;
+
 public interface UnitService {
     /**
      * This method returns the Unit name for a given Unit Number.
@@ -23,4 +27,10 @@ public interface UnitService {
      */
     public String getUnitName(String unitNumber);
 
+    /**
+     * 
+     * This method is to get all units.
+     * @return
+     */
+    public Collection<Unit> getUnits();
 }
