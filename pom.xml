@@ -248,7 +248,7 @@
 				<dependency>
 					<groupId>htmlunit</groupId>
 					<artifactId>htmlunit</artifactId>
-					<version>1.11</version>
+					<version>1.13</version>
 					<exclusions>
 						<exclusion>
 							<artifactId>servlet-api</artifactId>
