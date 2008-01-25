@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.service.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.service.UnitService;
 
@@ -44,6 +44,11 @@ public class UnitServiceImpl implements UnitService {
         }
 
         return unitName;
+    }
+
+    public Collection<Unit> getUnits() {
+        return getBusinessObjectService().findAll(Unit.class);
+
     }
 
     /**
