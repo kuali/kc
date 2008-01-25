@@ -20,7 +20,9 @@ import java.util.Map;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
 public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     
@@ -33,11 +35,30 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         Map editModeMap = super.getEditMode(d, u);
         // For now if they can access they can edit (even in Final mode) - will change when roles come along.
         if (hasInitiateAuthorization(d, u)) {
-            String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-            editModeMap.put(editMode, "TRUE");
+            editModeMap.remove(AuthorizationConstants.EditMode.VIEW_ONLY);
+            editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
         }
         
         return editModeMap;
+    }
+    
+    /**
+     * Adds settings for transactional-document-specific flags.
+     * 
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(Document, UniversalUser)
+     */
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        boolean hasInitiateAuthorization = hasInitiateAuthorization(document, user);
+        
+        // Allow finalized budgets to be edited
+        if (workflowDocument.stateIsFinal()) {
+            flags.setCanSave(hasInitiateAuthorization);
+        }
+        
+        return flags;
     }
 
 }
