@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.test;
 
+import static java.io.File.separator;
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.junit.Assert.fail;
 
 import java.beans.PropertyDescriptor;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -29,6 +32,7 @@ import javax.xml.parsers.SAXParserFactory;
 import oracle.jdbc.pool.OracleDataSource;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,12 +69,49 @@ public class OjbRepositoryMappingTest {
     private static final String DATASOURCE_USERNAME_NAME    = "datasource.username";
     private static final String DATASOURCE_PASSWORD_NAME    = "datasource.password";
 
+    private String dsUrl;
+    private String dsDriver;
+    private String dsUser;
+    private String dsPass;
+    private String dsSchema;
+    private String configPath;
+    
     /**
      * 
      */
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        dsSchema = "LEOTST";
+        configPath = System.getProperty("user.home") + separator + "kuali" + separator + "test" + separator + "dev" + separator + "kra-test-config.xml";
         
+        BufferedReader reader = new BufferedReader(new FileReader(configPath));
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            if (StringUtils.contains(line, DATASOURCE_URL_NAME)) {
+                dsUrl = getValueFromConfig(line, DATASOURCE_URL_NAME);
+            }
+            else if (StringUtils.contains(line, DATASOURCE_DRIVER_NAME)) {
+                dsDriver = getValueFromConfig(line, DATASOURCE_DRIVER_NAME);
+            }
+            else if (StringUtils.contains(line, DATASOURCE_USERNAME_NAME)) {
+                dsUser = getValueFromConfig(line, DATASOURCE_USERNAME_NAME);
+            }
+            else if (StringUtils.contains(line, DATASOURCE_PASSWORD_NAME)) {
+                dsPass = getValueFromConfig(line, DATASOURCE_PASSWORD_NAME);
+            }
+        }
+        
+        LOG.info("dsUrl = " + dsUrl);
+        LOG.info("dsUser = " + dsUser);
+        LOG.info("dsPass = " + dsPass);
+        LOG.info("dsSchema = " + dsSchema);
+    }
+    
+    private String getValueFromConfig(String line, String name) {
+        LOG.info("Parsing line " + line);
+        String tempLine = StringUtils.substringAfter(line, name + "\">");
+        LOG.info("Parsing temp line " + tempLine);
+        return tempLine.substring(0, tempLine.indexOf("<"));
     }
 
     /**
@@ -109,12 +150,12 @@ public class OjbRepositoryMappingTest {
         }
     }
     
-    // @Test
+    @Test
     public void verifyTables() throws Exception {
         final OracleDataSource ods = new OracleDataSource();
-        ods.setURL("jdbc:oracle:thin:@localhost:1521:KUALI");
-        ods.setUser("leotst");
-        ods.setPassword("tst174leo");
+        ods.setURL(dsUrl);
+        ods.setUser(dsUser);
+        ods.setPassword(dsPass);
         
         final Connection conn = ods.getConnection();
         final DefaultHandler handler = new TableValidationHandler(conn); 
@@ -147,7 +188,7 @@ public class OjbRepositoryMappingTest {
      * 
      * @throws Exception
      */
-    @Test
+    // @Test
     public void verifyClasses() throws Exception {
         final DefaultHandler handler = new ClassValidationHandler(); 
         
@@ -422,7 +463,7 @@ public class OjbRepositoryMappingTest {
                 // LOG.info("Looking for table " + getCurrentTableName());
                 ResultSet results = null;
                 try {
-                    results = getConnection().getMetaData().getTables(null, null, getCurrentTableName(), new String[] {"TABLE"});
+                    results = getConnection().getMetaData().getTables(null, dsSchema, getCurrentTableName(), new String[] {"TABLE"});
                     
                     boolean found = false;
                     while(results.next() && !found) {
@@ -459,11 +500,11 @@ public class OjbRepositoryMappingTest {
 
         private void handleFieldDescriptor(String qName, Attributes attributes) throws SAXParseException {
             if (FIELD_DESCRIPTOR_NAME.equals(qName)) {
-                String columnName = attributes.getValue(COLUMN_ATTRIBUTE_NAME);
+                String columnName = attributes.getValue(COLUMN_ATTRIBUTE_NAME).toUpperCase();
 
                 ResultSet results = null;
                 try {
-                    results = getConnection().getMetaData().getColumns(null, null, getCurrentTableName(), columnName);
+                    results = getConnection().getMetaData().getColumns(null, dsSchema, getCurrentTableName(), columnName);
                     
                     boolean found = false;
                     String columnNameResult = null;
@@ -475,7 +516,7 @@ public class OjbRepositoryMappingTest {
                     }
                     
                     if (!found) {
-                        throw createSaxParseException("There is no table named " + attributes.getValue(COLUMN_ATTRIBUTE_NAME));
+                        throw createSaxParseException("There is no column named " + attributes.getValue(COLUMN_ATTRIBUTE_NAME) + " in table " + getCurrentTableName());
                     }
                 }
                 catch (Exception e) {
