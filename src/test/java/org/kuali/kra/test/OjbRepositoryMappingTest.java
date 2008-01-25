@@ -472,8 +472,7 @@ public class OjbRepositoryMappingTest {
                     
                     if (!found) {
                         LOG.info("Not found table " + getCurrentTableName());
-                        
-                        // throw createSaxParseException("There is no table named " + attributes.getValue(TABLE_ATTRIBUTE_NAME));
+                        throw createSaxParseException("There is no table named " + attributes.getValue(TABLE_ATTRIBUTE_NAME));
                     }
                     else {
                         LOG.info("Found table " + getCurrentTableName());
