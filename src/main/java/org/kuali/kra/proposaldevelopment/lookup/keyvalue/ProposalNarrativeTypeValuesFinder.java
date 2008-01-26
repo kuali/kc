@@ -15,38 +15,33 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
-import static org.apache.commons.beanutils.PropertyUtils.getProperty;
 import static org.kuali.core.util.GlobalVariables.getKualiForm;
-import static org.kuali.core.util.ObjectUtils.equalByKeys;
-import static org.kuali.kra.infrastructure.Constants.PROPOSAL_NARRATIVE_TYPE_GROUP;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.Constants.PROPOSAL_NARRATIVE_TYPE_GROUP;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+
 /**
  * Finds the available set of supported Narrative Types.  See
  * the method <code>getKeyValues()</code> for a full description.
  * 
  * @author KRADEV team
  */
-
 public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObjectValuesFinder {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalNarrativeTypeValuesFinder.class);
     
@@ -68,38 +63,33 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> retval = super.getKeyValues();
         ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) getKualiForm()).getProposalDevelopmentDocument();
-        final Collection<NarrativeType> allNarrativeTypes = (Collection<NarrativeType>) getBusinessObjectService().findMatching(getBusinessObjectClass(),getQueryMap());
+        List<KeyLabelPair> forRemoval = new ArrayList<KeyLabelPair>();
         
-        try {
-            for (NarrativeType ntype : allNarrativeTypes) {
-                if (!existsInDocument(document, ntype)) {
-                    Object key = getProperty(ntype, getKeyAttributeName());
-                    String label = (String)getProperty(ntype, getLabelAttributeName());
-                    if (isIncludeKeyInDescription()) {
-                        label = key + " - " + label;
-                    }
-                    retval.add(new KeyLabelPair(key, label));
-                }
+        for (KeyLabelPair pair : retval) {
+            if (existsInDocument(document, (String) pair.getKey())) {
+                forRemoval.add(pair);
             }
-        } catch (IllegalAccessException e) {
-            LOG.debug(e.getMessage(), e);
-            LOG.error(e.getMessage());
-            throw new RuntimeException("IllegalAccessException occurred while trying to build keyValues List. businessObjectClass: " + getBusinessObjectClass() + "; keyAttributeName: " + getKeyAttributeName() + "; labelAttributeName: " + getLabelAttributeName() + "; includeKeyInDescription: " + isIncludeKeyInDescription(), e);
-        } catch (InvocationTargetException e) {
-            LOG.debug(e.getMessage(), e);
-            LOG.error(e.getMessage());
-            throw new RuntimeException("InvocationTargetException occurred while trying to build keyValues List. businessObjectClass: " + getBusinessObjectClass() + "; keyAttributeName: " + getKeyAttributeName() + "; labelAttributeName: " + getLabelAttributeName() + "; includeKeyInDescription: " + isIncludeKeyInDescription(), e);
-        } catch (NoSuchMethodException e) {
-            LOG.debug(e.getMessage(), e);
-            LOG.error(e.getMessage());
-            throw new RuntimeException("NoSuchMethodException occurred while trying to build keyValues List. businessObjectClass: " + getBusinessObjectClass() + "; keyAttributeName: " + getKeyAttributeName() + "; labelAttributeName: " + getLabelAttributeName() + "; includeKeyInDescription: " + isIncludeKeyInDescription(), e);
+            else {
+                LOG.info("Not removing narrative type " + pair.getLabel());
+            }
         }
+        
+        // Remove any KeyLabelPair instances for narratives with these type codes already in the document
+        retval.removeAll(forRemoval);
+        
         return retval;
     }
     
-    private boolean existsInDocument(ProposalDevelopmentDocument document, NarrativeType nt) {
+    /**
+     * Used to compare which Narrative Types already exist in the document.
+     * 
+     * @param document
+     * @param narrativeTypeCode <code>{@link NarrativeType}</code> code
+     * @return true if the narrative type is in the document and false otherwise
+     */
+    private boolean existsInDocument(ProposalDevelopmentDocument document, String narrativeTypeCode) {
         for (Narrative narrative : document.getNarratives()) {
-            if (narrative.getNarrativeTypeCode().equals(nt.getNarrativeTypeCode())) {
+            if (narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
                 return true;
             }
         }
@@ -107,10 +97,20 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
         return false;
     }
     
+    /**
+     * Locate within Spring the <code>{@link KeyValueFinderService}</code> singleton
+     * 
+     * @return KeyValueFinderService
+     */
     private KeyValueFinderService getKeyValueFinderService() {
         return getService(KeyValueFinderService.class);
     }
     
+    /**
+     * Locate within Spring the <code>{@link BusinessObjectSedvice}</code> singleton
+     * 
+     * @return BusinessObjectService
+     */
     private BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
     }
