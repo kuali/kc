@@ -242,7 +242,7 @@
 				</validationPattern>
 				<required>true</required>
 				<control>
-                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalNarrativeTypeValuesFinder" businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeType" keyAttribute="activityTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
+                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalNarrativeTypeValuesFinder" businessObjectClass="org.kuali.kra.proposaldevelopment.bo.NarrativeType" keyAttribute="narrativeTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
 				</control>
 				<summary>The Types that the Proposal Attachment be</summary>
 				<description>Types of the Proposal Attachments</description>
