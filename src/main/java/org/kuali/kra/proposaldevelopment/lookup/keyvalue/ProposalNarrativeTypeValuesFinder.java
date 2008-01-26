@@ -50,6 +50,13 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObjectValuesFinder {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalNarrativeTypeValuesFinder.class);
     
+    private Map<String, String> getQueryMap() {
+        Map<String,String> queryMap = new HashMap<String,String>();
+        queryMap.put("narrativeTypeGroup", getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_NARRATIVE_TYPE_GROUP););
+        queryMap.put("systemGenerated", "N");
+        return queryMap;
+    }
+    
     /**
      * Constructs the list of Proposal Narrative Types. The list populates
      * from NARRATIVE_TYPE database table via the "KeyValueFinderService".
@@ -60,15 +67,11 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> retval = super.getKeyValues();
-        String proposalNarrativeTypeGroup = getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_NARRATIVE_TYPE_GROUP);
-        Map<String,String> queryMap = new HashMap<String,String>();
-        queryMap.put("narrativeTypeGroup", proposalNarrativeTypeGroup);
-        queryMap.put("systemGenerated", "N");
-
         ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) getKualiForm()).getProposalDevelopmentDocument();
+        final Collection<NarrativeType> allNarrativeTypes = (Collection<NarrativeType>) getBusinessObjectService().findMatching(getBusinessObjectClass(),getQueryMap());
         
         try {
-            for (NarrativeType ntype : (Collection<NarrativeType>) getBusinessObjectService().findMatching(NarrativeType.class,queryMap)) {
+            for (NarrativeType ntype : allNarrativeTypes) {
                 if (!existsInDocument(document, ntype)) {
                     Object key = getProperty(ntype, getKeyAttributeName());
                     String label = (String)getProperty(ntype, getLabelAttributeName());
