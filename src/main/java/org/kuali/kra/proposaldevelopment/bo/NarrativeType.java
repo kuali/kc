@@ -17,8 +17,15 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * Business Object for narratives added to a proposal. Narratives are the same as Proposal Attachments and vice-versa.
+ * 
+ * 
+ * @version $Revision: 1.2 $
+ */
 public class NarrativeType extends KraPersistableBusinessObjectBase {
     
     private String narrativeTypeCode;
@@ -58,6 +65,9 @@ public class NarrativeType extends KraPersistableBusinessObjectBase {
         this.systemGenerated = systemGenerated;
     }
     
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap propMap = new LinkedHashMap();
