@@ -52,7 +52,7 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
     
     private Map<String, String> getQueryMap() {
         Map<String,String> queryMap = new HashMap<String,String>();
-        queryMap.put("narrativeTypeGroup", getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_NARRATIVE_TYPE_GROUP););
+        queryMap.put("narrativeTypeGroup", getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_NARRATIVE_TYPE_GROUP));
         queryMap.put("systemGenerated", "N");
         return queryMap;
     }
