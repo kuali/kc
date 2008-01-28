@@ -18,8 +18,12 @@ package org.kuali.kra.budget.service;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
-public interface BudgetDocumentService {
+import edu.iu.uis.eden.exception.WorkflowException;
+
+public interface BudgetService {
     
-    public BudgetDocument getNewBudgetVersion(ProposalDevelopmentDocument pdDoc, String documentDescription);
+    public BudgetDocument getNewBudgetVersion(ProposalDevelopmentDocument pdDoc, String documentDescription) throws WorkflowException;
+    
+    public BudgetDocument copyBudgetVersion(BudgetDocument budgetDocument) throws WorkflowException;
     
 }

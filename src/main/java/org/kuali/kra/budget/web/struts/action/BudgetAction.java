@@ -52,7 +52,6 @@ public class BudgetAction extends KraTransactionalDocumentActionBase {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-
         return actionForward;
     }
 
@@ -63,6 +62,9 @@ public class BudgetAction extends KraTransactionalDocumentActionBase {
     }
 
     public ActionForward versions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        BudgetForm budgetForm = (BudgetForm) form;
+        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews()));
+        setProposalStatuses(budgetForm.getBudgetDocument().getProposal());
         return mapping.findForward("versions");
     }
 

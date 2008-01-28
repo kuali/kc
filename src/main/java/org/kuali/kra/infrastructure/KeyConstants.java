@@ -75,4 +75,8 @@ public class KeyConstants {
     // proposal ynq errors
     public static final String ERROR_REQUIRED_FOR_EXPLANATION = "error.required.for.explanation";
     public static final String ERROR_REQUIRED_FOR_REVIEW_DATE = "error.required.for.reviewDate";
+    
+    // Budget Versions errors
+    public static final String ERROR_NO_FINAL_BUDGET = "error.final.budget.required";
+    
 }

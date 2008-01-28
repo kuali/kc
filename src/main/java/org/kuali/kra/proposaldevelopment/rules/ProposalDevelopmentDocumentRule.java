@@ -42,14 +42,15 @@ import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
 import org.kuali.kra.proposaldevelopment.rule.AddPersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.AddProposalLocationRule;
 import org.kuali.kra.proposaldevelopment.rule.AddProposalSpecialReviewRule;
-import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
+import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.DocumentValidationService;
@@ -103,7 +104,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument);
-        valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument);
+        valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument.getBudgetVersionOverviews());
 
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
@@ -329,15 +330,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
     }
     
-    private boolean processBudgetVersionsBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        boolean valid = true;
-        
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        
-        return valid;
-    }
-
-
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }

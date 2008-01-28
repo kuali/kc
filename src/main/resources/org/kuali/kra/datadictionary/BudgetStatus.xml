@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.BudgetStatus">
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.BudgetStatus">
 
         <inquiry>
             <title>Budget Status</title>
