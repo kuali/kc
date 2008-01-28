@@ -104,4 +104,6 @@ public interface Constants {
     public static final String BUDGET_STATUS_INCOMPLETE_CODE = "budgetStatusIncompleteCode";
     public static final String PROPOSAL_BUDGET_VERSION_NUMBER = "proposalDevelopment.budget.versionNumber";
 
+    // KIM Authorization Namespace for KRA
+    public static final String KRA_NAMESPACE = "KRA";
 }

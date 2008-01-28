@@ -235,12 +235,73 @@
 	</bean>
 		<bean id="documentValidationService" class="org.kuali.kra.service.impl.DocumentValidationServiceImpl">
 	</bean>
+
 	  <bean id="s2SService" class="org.kuali.kra.s2s.service.impl.S2SServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+ 
+ 	<bean id="personService" class="org.kuali.kra.service.impl.PersonServiceImpl">
+ 		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+ 	</bean>
+ 	
+	<bean id="kimPersonService" class="org.kuali.kra.kim.service.impl.PersonServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 	
+	<bean id="kimRoleService" class="org.kuali.kra.kim.service.impl.RoleServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
+	<bean id="kimQualifiedRoleService" class="org.kuali.kra.kim.service.impl.QualifiedRoleServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
+	<bean id="systemAuthorizationService" class="org.kuali.kra.service.impl.SystemAuthorizationServiceImpl">
+		<property name="kimPersonService">
+			<ref bean="kimPersonService" />
+		</property>
+		<property name="kimRoleService">
+			<ref bean="kimRoleService" />
+		</property>
+	</bean>
+
+	<bean id="unitAuthorizationService" class="org.kuali.kra.service.impl.UnitAuthorizationServiceImpl">
+		<property name="systemAuthorizationService">
+			<ref bean="systemAuthorizationService" />
+		</property>
+		<property name="kimPersonService">
+			<ref bean="kimPersonService" />
+		</property>
+		<property name="kimRoleService">
+			<ref bean="kimRoleService" />
+		</property>
+		<property name="unitService">
+			<ref bean="unitService" />
+		</property>
+	</bean>
+	
+	<bean id="proposalAuthorizationService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAuthorizationServiceImpl">
+		<property name="unitAuthorizationService">
+			<ref bean="unitAuthorizationService" />
+		</property>
+		<property name="kimPersonService">
+			<ref bean="kimPersonService" />
+		</property>
+		<property name="kimQualifiedRoleService">
+			<ref bean="kimQualifiedRoleService" />
+		</property>
+	</bean>
+
 	<bean id="researchDocumentService" class="org.kuali.kra.service.impl.ResearchDocumentServiceImpl">
 		<property name="routeHeaderService">
 			<ref bean="routeHeaderService"/>
