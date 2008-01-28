@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,14 +26,26 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.BudgetDocumentService;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
+import edu.iu.uis.eden.clientapp.IDocHandler;
+
 public class BudgetVersionsAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetVersionsAction.class);
+    
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        BudgetForm budgetForm = (BudgetForm) form;
+        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews()));
+        setProposalStatuses(budgetForm.getBudgetDocument().getProposal());
+        
+        return forward;
+    }
 
     /**
      * Action called to create a new budget version.
@@ -50,7 +60,7 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
-        BudgetDocumentService budgetService = KraServiceLocator.getService(BudgetDocumentService.class);
+        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, budgetForm.getNewBudgetVersionName());
         pdDoc.addNewBudgetVersion(newBudgetDoc);
         
@@ -72,11 +82,37 @@ public class BudgetVersionsAction extends BudgetAction {
         return new ActionForward(forward, true);
     }
     
+    public ActionForward copyBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
+        ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
+        BudgetVersionOverview budgetToCopy = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
+        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetDocument newBudgetDocument = budgetService.copyBudgetVersion(budgetDocToCopy);
+        pdDoc.addNewBudgetVersion(newBudgetDocument);
+        Long routeHeaderId = newBudgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String forward = buildForwardUrl(routeHeaderId);
+        return new ActionForward(forward, true);
+    }
+    
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         setFinalBudgetVersion(budgetForm.getFinalBudgetVersion(), budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews());
+        setProposalStatus(budgetForm.getBudgetDocument().getProposal());
         return super.save(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.reload(mapping, form, request, response);
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
+        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetDoc.getProposal().getBudgetVersionOverviews()));
+        setProposalStatuses(budgetDoc.getProposal());
+        return forward;
     }
     
 }

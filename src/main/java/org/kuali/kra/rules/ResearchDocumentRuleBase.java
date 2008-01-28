@@ -16,19 +16,22 @@
 package org.kuali.kra.rules;
 
 
+import java.util.List;
+
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 
 /**
  * Base implementation class for KRA document business rules
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.3 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.4 $
  */
 public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);
@@ -47,6 +50,34 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
         if (LOG.isDebugEnabled()) {
             LOG.debug("rule failure at " + ExceptionUtils.describeStackLevels(1, 2));
         }
+    }
+    
+    /**
+     * 
+     * This method checks budget versions business rules
+     * @param proposalDevelopmentDocument
+     * @return
+     */
+    protected boolean processBudgetVersionsBusinessRule(List<BudgetVersionOverview> budgetVersionOverviews) {
+        boolean valid = true;
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        String budgetStatusCompleteCode = getKualiConfigurationService().getParameter(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+        
+        int index = 0;
+        for (BudgetVersionOverview budgetVersion: budgetVersionOverviews) {
+            if (budgetVersion.getBudgetStatus()!= null 
+                    && budgetVersion.getBudgetStatus().equals(budgetStatusCompleteCode) 
+                    && !budgetVersion.isFinalVersionFlag()) {
+                errorMap.putError("budgetVersionOverview[" + index + "].budgetStatus", KeyConstants.ERROR_NO_FINAL_BUDGET);
+                valid = false;
+            }
+            index++;
+        }
+        
+        return valid;
     }
 
 }

@@ -31,6 +31,33 @@
 		<property name="username" value="${datasource.username}" />
 		<property name="password" value="${datasource.password}" />
 	</bean>
+	
+	<!-- 
+	<bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
+		<property name="forceShutdown" value="true"/>
+		<property name="transactionTimeout" value="300" />
+	</bean>
+	
+	<bean id="AtomikosUsrTx" class="com.atomikos.icatch.jta.UserTransactionImp"/>
+	
+	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
+		<property name="userTransaction">
+			<ref local="AtomikosUsrTx" />
+		</property>
+		<property name="transactionManager">
+			<ref local="AtomikosTxMgr" />
+		</property>
+	</bean>
+	 
+	<bean id="dataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
+		<property name="driverClassName" value="${datasource.driver.name}" />
+		<property name="poolSize" value="${datasource.poolSize}" />
+		<property name="connectionTimeout" value="${datasource.connectionTimeout}" />
+		<property name="url" value="${datasource.url}" />
+		<property name="user" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
+	</bean>
+	-->
 
   <bean id="dbPlatformFactory" class="org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory">
     <property name="ojbPlatform" value="${datasource.ojb.platform}" />
@@ -220,7 +247,7 @@
 		</property>
 	</bean>
 	
-	<bean id="budgetDocumentService" class="org.kuali.kra.budget.service.impl.BudgetDocumentServiceImpl">
+	<bean id="budgetService" class="org.kuali.kra.budget.service.impl.BudgetServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService"/>
 		</property>

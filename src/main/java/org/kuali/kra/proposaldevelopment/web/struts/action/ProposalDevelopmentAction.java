@@ -16,11 +16,9 @@
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.RiceConstants.EMPTY_STRING;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +33,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -179,13 +176,8 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     
     public ActionForward budgetVersions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        List<BudgetVersionOverview> budgetVersions = pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews();
-        for (BudgetVersionOverview budgetVersion: budgetVersions) {
-            if (budgetVersion.isFinalVersionFlag()) {
-                pdForm.setFinalBudgetVersion(budgetVersion.getBudgetVersionNumber());
-                break;
-            }
-        }
+        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews()));
+        setProposalStatuses(pdForm.getProposalDevelopmentDocument());
         return mapping.findForward("budgetVersions");
     }
     
@@ -243,7 +235,7 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
         }
          return mapping.findForward("auditMode");
     }
-
+    
     /**
      * Grabs the <code>{@link KeyPersonnelService} from Spring!
      * 

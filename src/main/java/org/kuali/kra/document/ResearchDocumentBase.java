@@ -26,10 +26,6 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.ResearchDocumentService;
-import org.kuali.notification.util.NotificationConstants;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
 
 public class ResearchDocumentBase extends TransactionalDocumentBase {
 

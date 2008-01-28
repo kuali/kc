@@ -15,8 +15,36 @@
  */
 package org.kuali.kra.budget.rules;
 
+import org.kuali.core.document.Document;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class BudgetDocumentRule extends ResearchDocumentRuleBase {
+    
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        if (!(document instanceof BudgetDocument)) {
+            return false;
+        }
+
+        boolean valid = true;
+        
+        BudgetDocument budgetDocument = (BudgetDocument) document;
+        
+        GlobalVariables.getErrorMap().addToErrorPath("document");
+        
+        GlobalVariables.getErrorMap().addToErrorPath("proposal");
+        if (ObjectUtils.isNull(budgetDocument.getProposal())) {
+            budgetDocument.refreshReferenceObject("proposal");
+        }
+        valid &= processBudgetVersionsBusinessRule(budgetDocument.getProposal().getBudgetVersionOverviews());
+        GlobalVariables.getErrorMap().removeFromErrorPath("proposal");
+        
+        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+        
+        return true;
+    }
 
 }
