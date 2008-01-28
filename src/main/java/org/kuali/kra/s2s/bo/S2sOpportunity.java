@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.sql.Timestamp;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -34,6 +35,7 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 	private String revisionOtherDescription;
 	private Integer s2sSubmissionTypeCode;
 	private String schemaUrl;
+	private List<S2sOppForms> s2sOppForms;
 
 	public String getProposalNumber() {
 		return proposalNumber;
@@ -158,4 +160,12 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 		hashMap.put("schemaUrl", getSchemaUrl());
 		return hashMap;
 	}
+
+    public List<S2sOppForms> getS2sOppForms() {
+        return s2sOppForms;
+    }
+
+    public void setS2sOppForms(List<S2sOppForms> oppForms) {
+        s2sOppForms = oppForms;
+    }
 }
