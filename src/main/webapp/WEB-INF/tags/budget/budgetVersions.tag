@@ -17,10 +17,15 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <%@ attribute name="budgetVersionOverviews" required="true" type="java.util.List"%>
+<%@ attribute name="pathToVersions" required="true"%>
+<%@ attribute name="requestedStartDateInitial" required="true" %>
+<%@ attribute name="requestedEndDateInitial" required="true" %>
+<%@ attribute name="errorKey" required="false"%>
 
 <c:set var="budgetAttributes" value="${DataDictionary.BudgetDocument.attributes}" />
+<c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 
-<kul:tabTop tabTitle="Budget Versions (${KualiForm.document.requestedStartDateInitial} - ${KualiForm.document.requestedEndDateInitial})" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}">
+<kul:tabTop tabTitle="Budget Versions (${requestedStartDateInitial} - ${requestedEndDateInitial})" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS},${errorKey}">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Budget Versions</h2></span>
@@ -54,6 +59,7 @@
 				</td>
           	</tr>
           	<c:forEach var="budgetVersion" items="${budgetVersionOverviews}" varStatus="status">
+          		<c:set var="version" value="${pathToVersions}.budgetVersionOverview[${status.index}]" />
           		<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
           		<c:set var="parentTab" value="Budget Versions" scope="request"/>
           		<c:set var="tabTitle" value="${status.index}" scope="request"/>
@@ -91,11 +97,7 @@
 		            <td class="tab-subhead1"><div align="right">${budgetVersion.totalCost}</div></td>
 		            <td class="tab-subhead1">
 		            	<div align="center">
-			              <select onchange="dataChanged()" name="activityType">
-			                <option>select</option>
-			                <option selected>incomplete</option>
-			                <option>complete</option>
-			              </select>
+		            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" />
 		            	</div>
             		</td>
 	            	<td class="tab-subhead1">
@@ -106,7 +108,7 @@
            			<td nowrap class="tab-subhead1">
            				<div align=center>
            					<html:image property="methodToCall.openBudgetVersion.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-open.gif' alt="open budget" />
-           					<img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-copy2.gif" alt="copy budget" width=40 height=15 hspace=3 vspace=0 border=0>
+           					<html:image property="methodToCall.copyBudgetVersion.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy2.gif' alt="copy budget" />
            				</div>
            			</td>
          		</tr>

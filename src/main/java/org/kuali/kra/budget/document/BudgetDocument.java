@@ -22,6 +22,8 @@ import org.kuali.core.document.SessionDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
 
     private Integer proposalNumber;
@@ -48,6 +50,12 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
 
     public void initialize() {
+    }
+    
+    @Override
+    public void toCopy() throws WorkflowException, IllegalStateException {
+        super.toCopy();
+        setBudgetVersionNumber(proposal.getNextBudgetVersionNumber());
     }
 
     public Integer getProposalNumber() {
@@ -192,14 +200,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public void setProposal(ProposalDevelopmentDocument proposal) {
         this.proposal = proposal;
-    }
-
-    public Date getRequestedStartDateInitial() {
-        return this.getProposal().getRequestedStartDateInitial();
-    }
-    
-    public Date getRequestedEndDateInitial() {
-        return this.getProposal().getRequestedEndDateInitial();
     }
 
 }

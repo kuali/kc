@@ -22,7 +22,13 @@
   	headerDispatch="save"
   	headerTabActive="versions">
 
-	<kra-b:budgetVersions budgetVersionOverviews="${KualiForm.document.proposal.budgetVersionOverviews}"/>
+	<kra-b:budgetVersions 
+		budgetVersionOverviews="${KualiForm.document.proposal.budgetVersionOverviews}"
+		pathToVersions="document.proposal"
+		errorKey="document.proposal.budgetVersion*"
+		requestedStartDateInitial="${KualiForm.document.proposal.requestedStartDateInitial}"
+		requestedEndDateInitial="${KualiForm.document.proposal.requestedEndDateInitial}"
+		/>
 
 	<kul:documentControls 
 		transactionalDocument="false"
@@ -32,7 +38,5 @@
 		extraButtonAlt="${extraButtonAlt}"
 		viewOnly="${KualiForm.editingMode['viewOnly']}"
 		/>
-
-	<center>Under Construction</center>
 
 </kul:documentPage>
