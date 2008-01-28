@@ -99,9 +99,9 @@
 				<div class="innerTab-container" align="left">
 					<table class=tab cellpadding=0 cellspacing=0 summary="">
 			          	<tr>
-			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}"/></div></th>
+			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}" /></div></th>
 			                <td align="left" valign="middle">
-			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].narrativeTypeCode" attributeEntry="${narrativeAttributes.narrativeTypeCode}" />
+			                	<kul:htmlControlAttribute property="document.narrative[${status.index}].narrativeType.description" attributeEntry="${narrativeAttributes.narrativeType.description}" readOnly="true" />
 							</td>
 			          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}"/></div></th>
 			                <td align="left" valign="middle">

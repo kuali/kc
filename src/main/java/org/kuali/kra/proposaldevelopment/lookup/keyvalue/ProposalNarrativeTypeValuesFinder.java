@@ -65,14 +65,14 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
         ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) getKualiForm()).getProposalDevelopmentDocument();
         List<KeyLabelPair> forRemoval = new ArrayList<KeyLabelPair>();
         
-//        for (KeyLabelPair pair : retval) {
-//            if (existsInDocument(document, (String) pair.getKey())) {
-//                forRemoval.add(pair);
-//            }
-//            else {
-//                LOG.info("Not removing narrative type " + pair.getLabel());
-//            }
-//        }
+        for (KeyLabelPair pair : retval) {
+            if (existsInDocument(document, (String) pair.getKey())) {
+                forRemoval.add(pair);
+            }
+            else {
+                LOG.info("Not removing narrative type " + pair.getLabel());
+            }
+        }
         
         // Remove any KeyLabelPair instances for narratives with these type codes already in the document
         retval.removeAll(forRemoval);
