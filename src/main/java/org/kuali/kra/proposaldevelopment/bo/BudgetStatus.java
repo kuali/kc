@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.bo;
+package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
@@ -42,7 +42,7 @@ public class BudgetStatus extends KraPersistableBusinessObjectBase {
 
     @Override 
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashMap = new LinkedHashMap();
+        LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("budgetStatusCode", getBudgetStatusCode());
         hashMap.put("description", getDescription());
         return hashMap;

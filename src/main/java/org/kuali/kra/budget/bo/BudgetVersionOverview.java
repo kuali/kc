@@ -18,14 +18,12 @@ package org.kuali.kra.budget.bo;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -36,7 +34,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
  * 
  * @author kualidev@oncourse.iu.edu
  */
-public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
+public class BudgetVersionOverview extends KraPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
     
     private Integer proposalNumber;
     private Integer budgetVersionNumber;
@@ -56,13 +54,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
     private String comments;
     
     private String name;
-    private String status;
-    
-    private List budgetStatusTypes;
-    
-    public BudgetVersionOverview() {
-        this.budgetStatusTypes = new TypedArrayList(BudgetStatus.class);
-    }
+    private String budgetStatus;
     
     public Integer getBudgetVersionNumber() {
         return budgetVersionNumber;
@@ -165,12 +157,12 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
         this.name = name;
     }
 
-    public String getStatus() {
-        return status;
+    public String getBudgetStatus() {
+        return budgetStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setBudgetStatus(String budgetStatus) {
+        this.budgetStatus = budgetStatus;
     }
     
     public Date getEndDate() {
@@ -213,14 +205,6 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
         this.comments = comments;
     }
     
-    public List getBudgetStatusTypes() {
-        return budgetStatusTypes;
-    }
-
-    public void setBudgetStatusTypes(List budgetStatusTypes) {
-        this.budgetStatusTypes = budgetStatusTypes;
-    }
-    
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
      */
@@ -230,7 +214,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
         // without mapping the enire doc header (which can be large) in ojb.
         super.afterLookup(persistenceBroker);
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        Map keyMap = new HashMap();
+        Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("documentNumber", this.documentNumber);
         DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
         this.documentDescription = docHeader.getFinancialDocumentDescription();
@@ -241,11 +225,20 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase {
      */
     @Override
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap propMap = new LinkedHashMap();
+        LinkedHashMap<String, Object> propMap = new LinkedHashMap<String, Object>();
         propMap.put("proposalNumber", this.getProposalNumber());
         propMap.put("budgetVersionNumber", this.getBudgetVersionNumber());
         propMap.put("updateTimestamp", this.getUpdateTimestamp());
         propMap.put("updateUser", this.getUpdateUser());
         return propMap;
     }
+    
+    /**
+     * 
+     * @see java.lang.Comparable
+     */
+    public int compareTo(BudgetVersionOverview otherVersion) {
+        return this.budgetVersionNumber.compareTo(otherVersion.getBudgetVersionNumber());
+    }
+    
 }

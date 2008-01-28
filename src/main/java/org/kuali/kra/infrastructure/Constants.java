@@ -96,4 +96,12 @@ public interface Constants {
     public static final String YNQ_EXPLANATION_REQUIRED = "Explanation required: if answer = ";
     public static final String YNQ_REVIEW_DATE_REQUIRED = "Date required: if answer = ";
     public static final String QUESTION_STATUS_ACTIVE = "A";
+
+    public static final String PARAMETER_MODULE_BUDGET = "KRA-B";
+    
+    // Budget Versions Constants
+    public static final String BUDGET_STATUS_COMPLETE_CODE = "budgetStatusCompleteCode";
+    public static final String BUDGET_STATUS_INCOMPLETE_CODE = "budgetStatusIncompleteCode";
+    public static final String PROPOSAL_BUDGET_VERSION_NUMBER = "proposalDevelopment.budget.versionNumber";
+
 }

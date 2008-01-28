@@ -517,6 +517,23 @@
                 <summary>performingOrganizationId</summary>
                 <description>This field is the name of the institution(s) in which the main project effort will take place.  </description>
 			</attribute>
+			
+			<attribute name="budgetStatus">
+                <label>Budget Status</label>
+                <shortLabel>Budget Status</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+
+                <control>                    
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" keyAttribute="budgetStatusCode" labelAttribute="description" includeKeyInLabel="false"/>
+                </control>
+
+                <summary>Budget Status summary</summary>
+                <description>The status of the final budget version for this Proposal Development Document</description>
+            </attribute>
 
 <!--
             <attribute name="organizationId">

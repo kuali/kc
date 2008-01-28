@@ -21,6 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -100,6 +101,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String newDescription;
     private Sponsor sponsor;
     private Integer nextProposalPersonNumber;
+    private String budgetStatus;
     private List<Narrative> narratives;
     private List<ProposalUserRoles> proposalUserRoles;
     private List<ProposalAbstract> proposalAbstracts;
@@ -113,8 +115,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     private List<ProposalYnq> proposalYnqs;
     private List<YnqGroupName> ynqGroupNames;
-    private List budgetVersionOverviews;
+    private List<BudgetVersionOverview> budgetVersionOverviews;
 
+    @SuppressWarnings("unchecked")
     public ProposalDevelopmentDocument() {
         super();
         propScienceKeywords = new TypedArrayList(PropScienceKeyword.class);
@@ -1076,6 +1079,14 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public YnqService getYnqService() {
         return getService(YnqService.class);
     }
+    
+    public String getBudgetStatus() {
+        return budgetStatus;
+    }
+
+    public void setBudgetStatus(String budgetStatus) {
+        this.budgetStatus = budgetStatus;
+    }
 
     public List<BudgetVersionOverview> getBudgetVersionOverviews() {
         return budgetVersionOverviews;
@@ -1098,6 +1109,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         return (BudgetVersionOverview) getBudgetVersionOverviews().get(index);
     }
     
+    /**
+     * 
+     * This method adds a new BudgetVersionOverview based on budgetDocument to the list.
+     * @param budgetDocument
+     */
     public void addNewBudgetVersion(BudgetDocument budgetDocument) {
         BudgetVersionOverview budgetVersion = new BudgetVersionOverview();
         try {
@@ -1113,5 +1129,20 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
             throw new RuntimeException(e);
         }
         this.getBudgetVersionOverviews().add(budgetVersion);
+    }
+    
+    /**
+     * 
+     * This method gets the next budget version number for this proposal.
+     * @return Integer
+     */
+    public Integer getNextBudgetVersionNumber() {
+        List<BudgetVersionOverview> versions = getBudgetVersionOverviews();
+        if (versions.isEmpty()) {
+            return 1;
+        }
+        Collections.sort(versions);
+        BudgetVersionOverview lastVersion = versions.get(versions.size() - 1);
+        return lastVersion.getBudgetVersionNumber() + 1;
     }
 }
