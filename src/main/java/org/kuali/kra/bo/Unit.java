@@ -106,5 +106,19 @@ public class Unit extends KraPersistableBusinessObjectBase {
         managedLists.add(getUnitAdministrators());
         return managedLists;
     }
+    
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
+        if (!(obj instanceof Unit))
+            return false;
+        Unit unit = (Unit) obj;
+        return unitNumber.equals(unit.unitNumber);
+    }
 
 }
