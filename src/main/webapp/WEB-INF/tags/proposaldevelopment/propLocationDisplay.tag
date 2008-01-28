@@ -22,7 +22,7 @@
 	value="${DataDictionary.ProposalLocation.attributes}" />
 
 <tr>
-	<th class="infoline">
+	<th class="infoline" width="10%">
 		<c:choose>
 			<c:when test="${index == -1}">
 			        <c:set var="class" value="infoline" />
@@ -35,12 +35,12 @@
 		</c:choose>
         <input type="hidden" name="${docLocation}.proposalNumber" value="${KualiForm.document.proposalNumber}">
 	</th>
-	<td class="${class}">
+	<td class="${class}" width="20%">
 		<kul:htmlControlAttribute
 			property="${docLocation}.location"
 			attributeEntry="${propLocationAttributes.location}" />
 	</td>
-	<td class="${class}">
+	<td class="${class}" width="45%">
 		<kul:htmlControlAttribute
 			property="${docLocation}.rolodexId"
 			attributeEntry="${propLocationAttributes.rolodexId}" />
@@ -77,7 +77,7 @@
             <c:out value="${locationIter.rolodex.postalCode}" />
 		</c:if>
 	</td>
-	<td class="${class}">
+	<td class="${class}" width="25%">
 		<c:choose>
 			<c:when test="${index == -1}">
 				<div align=center>
