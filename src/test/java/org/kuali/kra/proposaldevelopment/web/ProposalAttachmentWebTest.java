@@ -57,16 +57,20 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         String moreText = "More text";
         checkExpandedTextArea(propAttPage,"newNarrative.comments",values0[5],moreText);
         Map<String,String> keyVal0 = getKeyMap("document.narrative[0]",values0);
+        keyVal0.remove("document.narrative[0].narrativeTypeCode");
+
         HtmlPage addedPage = testAddProposalAttachment(propAttPage,keyVal0);
         
         String[] values1 = { "2","I","Test Another Contact Name","t1@t1.com","1234567","Test Comments again","Test Module Title again"};
         setProposalAttachmentLine(addedPage, getKeyMap("newNarrative",values1));
         Map<String,String> keyVal1 = getKeyMap("document.narrative[1]",values1);
+        keyVal1.remove("document.narrative[1].narrativeTypeCode");
         addedPage = testAddProposalAttachment(addedPage,keyVal1);
         String[] values2 = { "3","I","Contact Name 2","t2@t2.com","12345678","Test Comments 2","Test Module Title 2"};
         setProposalAttachmentLine(addedPage, getKeyMap("newNarrative",values2));
         
         Map<String,String> keyVal2 = getKeyMap("document.narrative[2]",values2);
+        keyVal2.remove("document.narrative[2].narrativeTypeCode");
         addedPage = testAddProposalAttachment(addedPage,keyVal2);
         
         HtmlPage pageAfterDeletion = testDeleteProposalAttachment(addedPage,1,2);
@@ -75,6 +79,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         
         validatePage(savedPage,keyVal0);
         Map<String,String> key1Val2 = getKeyMap("document.narrative[1]",values2);
+        key1Val2.remove("document.narrative[1].narrativeTypeCode");
         validatePage(savedPage,key1Val2);
         
         HtmlPage uploadedPage = testUploadAttachment(savedPage);
@@ -155,6 +160,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         setProposalAttachmentLine(page, getKeyMap("newNarrative",values4));
         setFieldValue(page, "newNarrative.narrativeFile", filePath);
         Map<String,String> keyVal4 = getKeyMap("document.narrative[2]",values4);
+        keyVal4.remove("document.narrative[2].narrativeTypeCode");
         HtmlPage addedPage = testAddProposalAttachment(page,keyVal4);
         HtmlPage savedPage = testSaveProposalAttachment(addedPage);
         assertEquals(getFieldValue(savedPage, "document.narrative[2].fileName"), "ProposalAttachmentWebTest.class");
