@@ -46,6 +46,8 @@
 	<param name="datasource.pool.minSize">0</param>
 	<param name="datasource.pool.maxSize">50</param>
 	<param name="datasource.password">ask your team</param>
+	<param name="datasource.poolSize">5</param>
+	<param name="datasource.connectionTimeout">30000</param>
 
 	<param name="keystore.alias">onestartsharedservices-devandtst</param>
 	<param name="keystore.location">/opt/sa_forms/java/dev/edu/iu/uis/security/en/onestartsharedservices-devandtst_keystore</param>
