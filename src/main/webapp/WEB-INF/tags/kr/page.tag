@@ -23,6 +23,7 @@
 <%@ attribute name="htmlFormAction" required="false" %>
 <%@ attribute name="renderMultipart" required="false" %>
 <%@ attribute name="showTabButtons" required="false" %>
+<%@ attribute name="extraTopButtons" required="false" type="java.util.List" %>
 <%@ attribute name="headerDispatch" required="false" %>
 <%@ attribute name="lookup" required="false" description="indicates whether the lookup page specific page should be shown" %>
 
@@ -304,6 +305,11 @@
 			 <kul:messages/>
 		  </div>
 		  <div class="right">
+		  	<c:if test="${!empty extraTopButtons}">
+		        <c:forEach items="${extraTopButtons}" var="extraButton">
+		        	<html:image src="${extraButton.extraButtonSource}" styleClass="tinybutton" property="${extraButton.extraButtonProperty}" alt="${extraButton.extraButtonAltText}"/> &nbsp;&nbsp;
+		        </c:forEach>
+	        </c:if>
 			<c:if test="${showTabButtons != '' && showTabButtons == true}">
 			 <div class="excol">
 				<html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="javascript: return expandAllTab(document, tabStatesSize); " />
