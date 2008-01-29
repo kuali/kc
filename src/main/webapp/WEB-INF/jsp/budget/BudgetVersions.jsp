@@ -20,7 +20,9 @@
 	htmlFormAction="budgetVersions"
 	documentTypeName="BudgetDocument"
   	headerDispatch="save"
-  	headerTabActive="versions">
+  	headerTabActive="versions"
+  	extraTopButtons="${KualiForm.extraTopButtons}"
+  	>
 
 	<kra-b:budgetVersions 
 		budgetVersionOverviews="${KualiForm.document.proposal.budgetVersionOverviews}"

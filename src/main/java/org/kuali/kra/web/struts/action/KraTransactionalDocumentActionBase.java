@@ -38,6 +38,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
@@ -197,9 +198,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         forward += IDocHandler.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
         forward += "&" + IDocHandler.COMMAND_PARAMETER + "=" + NotificationConstants.NOTIFICATION_DETAIL_VIEWS.DOC_SEARCH_VIEW;
-//        if (getUserSession(request).isBackdoorInUse()) {
-//            forward += "&" + IDocHandler.BACKDOOR_ID_PARAMETER + "=" + getUserSession(request).getNetworkId();
-//        }
+        if (GlobalVariables.getUserSession().isBackdoorInUse()) {
+            forward += "&" + IDocHandler.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getNetworkId();
+        }
         return forward;
     }
     
