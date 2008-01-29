@@ -214,6 +214,7 @@
 							<excludes><exclude></exclude></excludes>
 							<forkMode>once</forkMode>
 							<reportFormat>plain</reportFormat>
+							<argLine>-Xmx1024m -XX:MaxPermSize=512m</argLine>
 						</configuration>
 					</plugin>
 					<plugin>
