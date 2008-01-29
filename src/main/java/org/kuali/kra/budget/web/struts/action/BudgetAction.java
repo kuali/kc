@@ -23,7 +23,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -102,6 +105,15 @@ public class BudgetAction extends KraTransactionalDocumentActionBase {
 
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("actions");
+    }
+    
+    public ActionForward returnToProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+        ProposalDevelopmentDocument pdDoc = 
+            (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(budgetForm.getBudgetDocument().getProposal().getDocumentNumber());
+        String forward = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        return new ActionForward(forward, true);
     }
 
 }
