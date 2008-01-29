@@ -15,10 +15,15 @@
  */
 package org.kuali.kra.budget.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -27,6 +32,8 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 public class BudgetForm extends KraTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
 
+    private List<ExtraButton> extraTopButtons;
+    
     public BudgetForm() {
         super();
         this.setDocument(new BudgetDocument());
@@ -40,6 +47,14 @@ public class BudgetForm extends KraTransactionalDocumentFormBase {
     public void initialize() {
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.budget.document.BudgetDocument.class.getName())).getHeaderTabNavigation());
+        setExtraTopButtons(new ArrayList<ExtraButton>());
+        ExtraButton returnToProposal = new ExtraButton();
+        returnToProposal.setExtraButtonProperty("methodToCall.returnToProposal");
+        KualiConfigurationService configService = KraServiceLocator.getService(KualiConfigurationService.class);
+        String imagesUrl = configService.getPropertyString("kra.externalizable.images.url");
+        returnToProposal.setExtraButtonSource(imagesUrl + "tinybutton-retprop.gif");
+        returnToProposal.setExtraButtonAltText("return to proposal");
+        extraTopButtons.add(returnToProposal);
     }
 
     public BudgetDocument getBudgetDocument() {
@@ -51,4 +66,12 @@ public class BudgetForm extends KraTransactionalDocumentFormBase {
         // if there are more ...
     }
 
+    public List<ExtraButton> getExtraTopButtons() {
+        return extraTopButtons;
+    }
+
+    public void setExtraTopButtons(List<ExtraButton> extraTopButtons) {
+        this.extraTopButtons = extraTopButtons;
+    }
+    
 }

@@ -23,6 +23,7 @@
 <%@ attribute name="htmlFormAction" required="false" %>
 <%@ attribute name="renderMultipart" required="false" %>
 <%@ attribute name="showTabButtons" required="false" %>
+<%@ attribute name="extraTopButtons" required="false" type="java.util.List" %>
 <%@ attribute name="headerDispatch" required="false" %>
 <%@ attribute name="headerTabActive" required="false" %>
 <%@ attribute name="feedbackKey" required="false" %>
@@ -32,6 +33,6 @@
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
 
 <kul:page docTitle="${documentEntry.label}" transactionalDocument="${documentEntry.transactionalDocument}"
-  headerMenuBar="${headerMenuBar}" showDocumentInfo="${showDocumentInfo}" headerTitle="${headerTitle}" htmlFormAction="${htmlFormAction}" renderMultipart="${renderMultipart}" showTabButtons="${showTabButtons}" headerDispatch="${headerDispatch}" headerTabActive="${headerTabActive}" feedbackKey="${feedbackKey}" auditCount="${auditCount}">
+  headerMenuBar="${headerMenuBar}" showDocumentInfo="${showDocumentInfo}" headerTitle="${headerTitle}" htmlFormAction="${htmlFormAction}" renderMultipart="${renderMultipart}" showTabButtons="${showTabButtons}" extraTopButtons="${extraTopButtons}" headerDispatch="${headerDispatch}" headerTabActive="${headerTabActive}" feedbackKey="${feedbackKey}" auditCount="${auditCount}">
     <jsp:doBody/>
 </kul:page>
