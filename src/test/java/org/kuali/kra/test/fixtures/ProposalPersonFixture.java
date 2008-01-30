@@ -18,16 +18,220 @@ package org.kuali.kra.test.fixtures;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
 /**
  * Fixtures used as <code>{@link ProposalPerson}</code> instances for tests. This is NOT test data. Test data is loaded by scripts. These are 
  * test fixtures.
  */
 public enum ProposalPersonFixture {
-    INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED("000000003", PRINCIPAL_INVESTIGATOR_ROLE),
+    
+    /**
+     * Fully valid Principal Investigator with valid credit splits adding to a hundred and valid lead unit with valid credit splits
+     */
+    INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+        
+        /**
+         * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid. 
+         * 
+         * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
+         */
+        public ProposalPerson getPerson() {
+            ProposalPerson retval = super.getPerson();
+            ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+            getService(KeyPersonnelService.class).populateProposalPerson(retval, document);
+            
+            for (ProposalPersonCreditSplit creditSplit : retval.getCreditSplits()) {
+                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                    creditSplit.setCredit(new KualiDecimal(100.00));
+                }
+            }
+            
+            for (ProposalPersonUnit unit : retval.getUnits()) {
+                for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
+                    if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                        creditSplit.setCredit(new KualiDecimal(100.00));
+                    }
+                }
+            }
+            
+            document.addProposalPerson(retval);
+            
+            return retval;
+        }        
+    },
+    /**
+     * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit
+     */
+    INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+        
+        /**
+         * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. 
+         * 
+         * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
+         */
+        public ProposalPerson getPerson() {
+            ProposalPerson retval = super.getPerson();
+            ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+            getService(KeyPersonnelService.class).populateProposalPerson(retval, document);
+            
+            for (ProposalPersonCreditSplit creditSplit : retval.getCreditSplits()) {
+                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                    creditSplit.setCredit(new KualiDecimal(100.00));
+                }
+            }
+            
+            document.addProposalPerson(retval);
+
+            return retval;
+        }        
+    },
+    /**
+     * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit
+     */
+    INVESTIGATOR_OVER_ONE_HUNDRED("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+        
+        /**
+         * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. 
+         * 
+         * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
+         */
+        public ProposalPerson getPerson() {
+            ProposalPerson retval = super.getPerson();
+            ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+            getService(KeyPersonnelService.class).populateProposalPerson(retval, document);
+            
+            ProposalPersonCreditSplit saveOne = null;
+            for (ProposalPersonCreditSplit creditSplit : retval.getCreditSplits()) {
+                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                    creditSplit.setCredit(new KualiDecimal(100.00));
+                    saveOne = creditSplit;
+                }                
+            }
+            
+            saveOne.setCredit(new KualiDecimal(200.00));
+            
+            document.addProposalPerson(retval);
+
+            return retval;
+        }        
+    },
+    /**
+     * Fully valid Principal Investigator with valid credit splits adding to a hundred except for one is negative. No 
+     * <code>{@link ProposalUnitCreditSplit}</code> instances.
+     */
+    INVESTIGATOR_UNDER_ZERO("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+        
+        /**
+         * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. 
+         * 
+         * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
+         */
+        public ProposalPerson getPerson() {
+            ProposalPerson retval = super.getPerson();
+            ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+            getService(KeyPersonnelService.class).populateProposalPerson(retval, document);
+            
+            ProposalPersonCreditSplit saveOne = null;
+            for (ProposalPersonCreditSplit creditSplit : retval.getCreditSplits()) {
+                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                    creditSplit.setCredit(new KualiDecimal(100.00));
+                    saveOne = creditSplit;
+                }
+            }
+                        
+            saveOne.setCredit(new KualiDecimal(-10.00));
+
+            document.addProposalPerson(retval);
+
+            return retval;
+        }        
+    },
+    /**
+     * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit that goes over 100%
+     */
+    INVESTIGATOR_UNIT_OVER_ONE_HUNDRED("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+        
+        /**
+         * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except unit is over 100% 
+         * 
+         * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
+         */
+        public ProposalPerson getPerson() {
+            ProposalPerson retval = super.getPerson();
+            ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+            getService(KeyPersonnelService.class).populateProposalPerson(retval, document);
+            
+            for (ProposalPersonCreditSplit creditSplit : retval.getCreditSplits()) {
+                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                    creditSplit.setCredit(new KualiDecimal(100.00));
+                }
+                
+            }
+
+            ProposalUnitCreditSplit saveOne = null;            
+            for (ProposalPersonUnit unit : retval.getUnits()) {
+                for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
+                    if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                        creditSplit.setCredit(new KualiDecimal(100.00));
+                        saveOne = creditSplit;
+                    }
+                }
+            }
+
+            saveOne.setCredit(new KualiDecimal(200.00));
+            
+            document.addProposalPerson(retval);
+            
+            return retval;
+        }        
+    },
+    /**
+     * Fully valid Principal Investigator with valid credit splits adding to a hundred and invalid lead unit
+     */
+    INVESTIGATOR_UNIT_UNDER_ZERO("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+        
+        /**
+         * Use a normally valid <code>{@link ProposalPerson}</code> instance. Set all credit splits up to be valid except for units. Units are under 0%
+         * 
+         * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
+         */
+        public ProposalPerson getPerson() {
+            ProposalPerson retval = super.getPerson();
+            ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+            getService(KeyPersonnelService.class).populateProposalPerson(retval, document);
+            
+            for (ProposalPersonCreditSplit creditSplit : retval.getCreditSplits()) {
+                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                    creditSplit.setCredit(new KualiDecimal(100.00));
+                }
+            }
+                        
+            ProposalUnitCreditSplit saveOne = null;
+            for (ProposalPersonUnit unit : retval.getUnits()) {
+                for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
+                    if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                        creditSplit.setCredit(new KualiDecimal(100.00));
+                        saveOne = creditSplit;
+                    }
+                }
+            }
+            saveOne.setCredit(new KualiDecimal(-10.00));
+
+            document.addProposalPerson(retval);
+
+            return retval;
+        }        
+    },
     PHILIP_CO_INVESTIGATOR("000000002", CO_INVESTIGATOR_ROLE),
     BRYAN_CO_INVESTIGATOR("000000005", CO_INVESTIGATOR_ROLE),
     ANDY_KEY_PERSON("000000006", KEY_PERSON_ROLE);
@@ -35,8 +239,6 @@ public enum ProposalPersonFixture {
     private String personId;
     private String roleId;
 
-    private ProposalPerson person;
-    
     private ProposalPersonFixture() {
     }
  

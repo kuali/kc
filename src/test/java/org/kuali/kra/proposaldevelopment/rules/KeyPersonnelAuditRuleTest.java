@@ -16,26 +16,17 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
-import static org.kuali.core.util.GlobalVariables.setUserSession;
 import static org.kuali.core.util.GlobalVariables.setAuditErrorMap;
+import static org.kuali.core.util.GlobalVariables.setUserSession;
 import static org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.UserSession;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -123,14 +114,10 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
     @Test
     public void validProposalInvestigatorNormal() throws Exception {
         ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
-        
         ProposalPerson person = INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.getPerson();
-        getKeyPersonnelService().populateProposalPerson(person, document);
         document.addProposalPerson(person);
-        
-        
-        // assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
-        // assertEquals(0, getAuditErrorMap().size());
+        assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertEquals(0, getAuditErrorMap().size());
     }
 
     /**
