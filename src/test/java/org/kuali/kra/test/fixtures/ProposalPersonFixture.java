@@ -45,22 +45,8 @@ public enum ProposalPersonFixture {
          * 
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
-        public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
-            getService(KeyPersonnelService.class).populateProposalPerson(person, document);
-            
-            for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
-                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                    creditSplit.setCredit(new KualiDecimal(100.00));
-                }
-            }
-            
-            for (ProposalPersonUnit unit : person.getUnits()) {
-                for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
-                    if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                        creditSplit.setCredit(new KualiDecimal(100.00));
-                    }
-                }
-            }
+        public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {       
+            super.populatePerson(document, person);
         }        
     },
     /**
@@ -74,8 +60,6 @@ public enum ProposalPersonFixture {
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
-            getService(KeyPersonnelService.class).populateProposalPerson(person, document);
-            
             for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
                 if (creditSplit.getInvestigatorCreditType().addsToHundred()){
                     creditSplit.setCredit(new KualiDecimal(100.00));
@@ -94,8 +78,6 @@ public enum ProposalPersonFixture {
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
-            getService(KeyPersonnelService.class).populateProposalPerson(person, document);
-            
             ProposalPersonCreditSplit saveOne = null;
             for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
                 if (creditSplit.getInvestigatorCreditType().addsToHundred()){
@@ -119,8 +101,6 @@ public enum ProposalPersonFixture {
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
-            getService(KeyPersonnelService.class).populateProposalPerson(person, document);
-            
             ProposalPersonCreditSplit saveOne = null;
             for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
                 if (creditSplit.getInvestigatorCreditType().addsToHundred()){
@@ -143,8 +123,6 @@ public enum ProposalPersonFixture {
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
-            getService(KeyPersonnelService.class).populateProposalPerson(person, document);
-            
             for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
                 if (creditSplit.getInvestigatorCreditType().addsToHundred()){
                     creditSplit.setCredit(new KualiDecimal(100.00));
@@ -176,8 +154,6 @@ public enum ProposalPersonFixture {
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
-            getService(KeyPersonnelService.class).populateProposalPerson(person, document);
-            
             for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
                 if (creditSplit.getInvestigatorCreditType().addsToHundred()){
                     creditSplit.setCredit(new KualiDecimal(100.00));
@@ -212,8 +188,7 @@ public enum ProposalPersonFixture {
     }
 
     public ProposalPerson getPerson() {
-        ProposalPerson retval = new ProposalPerson();
-        retval.setPersonId(personId);
+        ProposalPerson retval = getService(KeyPersonnelService.class).createProposalPersonFromPersonId(personId);
         retval.setProposalPersonRoleId(roleId);
         retval.setPercentageEffort(new KualiDecimal(100.0));
         return retval;
@@ -221,5 +196,21 @@ public enum ProposalPersonFixture {
     
     public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) { 
         getService(KeyPersonnelService.class).populateProposalPerson(person, document);
+        
+        for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
+            creditSplit.refreshReferenceObject("investigatorCreditType");
+            if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                creditSplit.setCredit(new KualiDecimal(100.00));
+            }
+        }
+        
+        for (ProposalPersonUnit unit : person.getUnits()) {
+            for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
+                creditSplit.refreshReferenceObject("investigatorCreditType");
+                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                    creditSplit.setCredit(new KualiDecimal(100.00));
+                }
+            }
+        }
     }
 }

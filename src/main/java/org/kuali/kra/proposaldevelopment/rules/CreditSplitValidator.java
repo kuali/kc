@@ -48,7 +48,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * traversing the tree of <code>{@link ProposalPerson}</code> <code>{@link ProposalPersonUnit}</code> instances.
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class CreditSplitValidator {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidator.class);
@@ -77,11 +77,14 @@ public class CreditSplitValidator {
     }
     
     /**
+     * Validates credit splits of all investigators in a <code>{@link ProposalDevelopmentDocument}</code>. Takes a 
+     * <code>{@link Collection}</code> of investigators for a given credit type, and validates credit splits 
+     * for each investigator as well as iterating and validating credit splits for each unit belonging to an 
+     * investigator.
      * 
-     * This method...
      * @param investigators
      * @param creditTypeCode
-     * @return
+     * @return true if the investigator collection is valid for the credit type, and false if it's invalid
      */
     public boolean validate(Collection<ProposalPerson> investigators, InvestigatorCreditType creditType) {
         boolean retval = true;
@@ -89,11 +92,13 @@ public class CreditSplitValidator {
         DecimalHolder investigatorCreditTotal = new DecimalHolder(KualiDecimal.ZERO);
 
         retval &= validateCreditSplitable(investigators.iterator(), creditType, investigatorCreditTotal);
+        LOG.info("Passed investigator validation " + retval);
 
         for (ProposalPerson investigator : investigators) {
             DecimalHolder unitCreditTotal = new DecimalHolder(KualiDecimal.ZERO);
             
             retval &= validateCreditSplitable(investigator.getUnits().iterator(), creditType, unitCreditTotal);
+            LOG.info("Passed unit validation " + retval);
         }
         
         return retval;
@@ -185,10 +190,35 @@ public class CreditSplitValidator {
         return auditErrors;
     }
     
+    /**
+     * Delegates to <code>{@link #addAuditError(String, String...)}</code>
+     * 
+     * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.<br/>
+     * <br/>
+     * The <code>{@link AuditError}</code> that is added is.<br/>
+     * <code>CREDIT_SPLIT_KEY, messageKey, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR</code>
+     * 
+     * @param messageKey
+     * @see CreditSplitAuditError
+     * @see AuditError
+     * @see GlobalVariables#getAuditErrorMap()
+     * @see #addAuditError(String, String...)
+     */
     private void addAuditError(String messageKey) {
         addAuditError(messageKey, null);
     }
 
+    /**
+     * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.<br/>
+     * <br/>
+     * The <code>{@link AuditError}</code> that is added is.<br/>
+     * <code>CREDIT_SPLIT_KEY, messageKey, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR</code>
+     * 
+     * @param messageKey
+     * @see CreditSplitAuditError
+     * @see AuditError
+     * @see GlobalVariables#getAuditErrorMap()
+     */
     private void addAuditError(String messageKey, String ... params) {
         AuditError error = new CreditSplitAuditError(messageKey, params);
         
@@ -203,16 +233,33 @@ public class CreditSplitValidator {
     }
     
     /**
+     * A class for holding a <code>{@link KualiDecimal}</code> instance. There is no way to add to
+     * or modify the value of a <code>{@link KualiDecimal}</code> without changing its reference; therefore,
+     * pointing to a new instance. This causes a problem where a <code>{@link KualiDecimal}</code> instance
+     * is used in a memento pattern.<br/>
+     * <br/>
+     * <code>{@link DecimalHolder}</code> is created to handle that case. <code>{@link DecimalHolder}</code> becomes
+     * the memento for a changing <code>{@link KualiDecimal}</code> instance.
      * 
-     * This class...
+     * @see KualiDecimal
      */
     final class DecimalHolder implements Comparable<DecimalHolder> {
         private KualiDecimal value;
         
+        /**
+         * Create a <code>{@link DecimalHolder}</code> from a <code>{@link KualiDecimal}</code>.
+         * 
+         * @param val a <code>{@link KualiDecimal}</code> instance
+         */
         public DecimalHolder(KualiDecimal val) {
             value = val;
         }
 
+        /**
+         * Get the contained <code>{@link KualiDecimal}</code> instance.
+         * 
+         * @return KualiDecimal
+         */
         public KualiDecimal getValue() {
             return value;
         }
