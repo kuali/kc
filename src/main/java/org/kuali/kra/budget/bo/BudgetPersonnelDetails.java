@@ -1,49 +1,23 @@
 package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.sql.Date;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
-public class BudgetPersonnelDetails extends KraPersistableBusinessObjectBase {
-	private Integer budgetPeriod;
-	private Integer lineItemNumber;
-	private Integer personNumber;
-	private String proposalNumber;
-	private Integer budgetVersionNumber;
-	private Boolean applyInRateFlag;
-	private String budgetJustification;
-	private BudgetDecimal costSharingAmount;
+public class BudgetPersonnelDetails extends BudgetLineItemBase {
+    private Integer personNumber;
 	private BudgetDecimal costSharingPercent;
-	private Date endDate;
 	private String jobCode;
-	private String lineItemDescription;
-	private Boolean onOffCampusFlag;
 	private BudgetDecimal percentCharged;
 	private BudgetDecimal percentEffort;
 	private String periodType;
 	private String personId;
 	private BudgetDecimal salaryRequested;
 	private Integer sequenceNumber;
-	private Date startDate;
-	private BudgetDecimal underrecoveryAmount;
-
-	public Integer getBudgetPeriod() {
-		return budgetPeriod;
-	}
-
-	public void setBudgetPeriod(Integer budgetPeriod) {
-		this.budgetPeriod = budgetPeriod;
-	}
-
-	public Integer getLineItemNumber() {
-		return lineItemNumber;
-	}
-
-	public void setLineItemNumber(Integer lineItemNumber) {
-		this.lineItemNumber = lineItemNumber;
-	}
+	private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
 
 	public Integer getPersonNumber() {
 		return personNumber;
@@ -51,46 +25,6 @@ public class BudgetPersonnelDetails extends KraPersistableBusinessObjectBase {
 
 	public void setPersonNumber(Integer personNumber) {
 		this.personNumber = personNumber;
-	}
-
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
-
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
-
-	public Integer getBudgetVersionNumber() {
-		return budgetVersionNumber;
-	}
-
-	public void setBudgetVersionNumber(Integer budgetVersionNumber) {
-		this.budgetVersionNumber = budgetVersionNumber;
-	}
-
-	public Boolean getApplyInRateFlag() {
-		return applyInRateFlag;
-	}
-
-	public void setApplyInRateFlag(Boolean applyInRateFlag) {
-		this.applyInRateFlag = applyInRateFlag;
-	}
-
-	public String getBudgetJustification() {
-		return budgetJustification;
-	}
-
-	public void setBudgetJustification(String budgetJustification) {
-		this.budgetJustification = budgetJustification;
-	}
-
-	public BudgetDecimal getCostSharingAmount() {
-		return costSharingAmount;
-	}
-
-	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
-		this.costSharingAmount = costSharingAmount;
 	}
 
 	public BudgetDecimal getCostSharingPercent() {
@@ -101,36 +35,12 @@ public class BudgetPersonnelDetails extends KraPersistableBusinessObjectBase {
 		this.costSharingPercent = costSharingPercent;
 	}
 
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
 	public String getJobCode() {
 		return jobCode;
 	}
 
 	public void setJobCode(String jobCode) {
 		this.jobCode = jobCode;
-	}
-
-	public String getLineItemDescription() {
-		return lineItemDescription;
-	}
-
-	public void setLineItemDescription(String lineItemDescription) {
-		this.lineItemDescription = lineItemDescription;
-	}
-
-	public Boolean getOnOffCampusFlag() {
-		return onOffCampusFlag;
-	}
-
-	public void setOnOffCampusFlag(Boolean onOffCampusFlag) {
-		this.onOffCampusFlag = onOffCampusFlag;
 	}
 
 	public BudgetDecimal getPercentCharged() {
@@ -180,24 +90,6 @@ public class BudgetPersonnelDetails extends KraPersistableBusinessObjectBase {
 	public void setSequenceNumber(Integer sequenceNumber) {
 		this.sequenceNumber = sequenceNumber;
 	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public BudgetDecimal getUnderrecoveryAmount() {
-		return underrecoveryAmount;
-	}
-
-	public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
-		this.underrecoveryAmount = underrecoveryAmount;
-	}
-
-
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
@@ -224,4 +116,20 @@ public class BudgetPersonnelDetails extends KraPersistableBusinessObjectBase {
 		hashMap.put("underrecoveryAmount", getUnderrecoveryAmount());
 		return hashMap;
 	}
+
+    /**
+     * Gets the budgetPersonnelCalculatedAmounts attribute. 
+     * @return Returns the budgetPersonnelCalculatedAmounts.
+     */
+    public List<BudgetPersonnelCalculatedAmount> getBudgetPersonnelCalculatedAmounts() {
+        return budgetPersonnelCalculatedAmounts;
+    }
+
+    /**
+     * Sets the budgetPersonnelCalculatedAmounts attribute value.
+     * @param budgetPersonnelCalculatedAmounts The budgetPersonnelCalculatedAmounts to set.
+     */
+    public void setBudgetPersonnelCalculatedAmounts(List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts) {
+        this.budgetPersonnelCalculatedAmounts = budgetPersonnelCalculatedAmounts;
+    }
 }

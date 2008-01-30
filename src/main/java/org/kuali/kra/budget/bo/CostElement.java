@@ -10,7 +10,7 @@ public class CostElement extends KraPersistableBusinessObjectBase {
 	private String budgetCategoryCode;
 	private String description;
 	private Boolean onOffCampusFlag;
-	private List<ValidCeRateType> validaCeRateTypes;
+	private List<ValidCeRateType> validCeRateTypes;
 
 	public String getCostElement() {
 		return costElement;
@@ -55,11 +55,11 @@ public class CostElement extends KraPersistableBusinessObjectBase {
 		return hashMap;
 	}
 
-    public List<ValidCeRateType> getValidaCeRateTypes() {
-        return validaCeRateTypes;
+    public List<ValidCeRateType> getValidCeRateTypes() {
+        return validCeRateTypes;
     }
 
-    public void setValidaCeRateTypes(List<ValidCeRateType> validaCeRateTypes) {
-        this.validaCeRateTypes = validaCeRateTypes;
+    public void setValidaCRateTypes(List<ValidCeRateType> validCeRateTypes) {
+        this.validCeRateTypes = validCeRateTypes;
     }
 }
