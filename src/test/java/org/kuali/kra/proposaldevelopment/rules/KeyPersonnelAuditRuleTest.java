@@ -20,6 +20,14 @@ import static org.kuali.core.util.GlobalVariables.setAuditErrorMap;
 import static org.kuali.core.util.GlobalVariables.setUserSession;
 import static org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNDER_ZERO;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_OVER_ONE_HUNDRED;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_OVER_ONE_HUNDRED;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_UNDER_ZERO;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED;
+
+
+
 
 import java.util.HashMap;
 
@@ -118,6 +126,51 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         document.addProposalPerson(person);
         assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
         assertEquals(0, getAuditErrorMap().size());
+    }
+
+    @Test
+    public void invalidProposalInvestigatorFail() throws Exception {
+        ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+        ProposalPerson person = INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.getPerson();
+        document.addProposalPerson(person);
+        assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertFalse(getAuditErrorMap().size() < 1);
+    }
+    
+    @Test
+    public void invalidProposalInvestigatorOverHundred() throws Exception {
+        ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+        ProposalPerson person = INVESTIGATOR_OVER_ONE_HUNDRED.getPerson();
+        document.addProposalPerson(person);
+        assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertFalse(getAuditErrorMap().size() < 1);
+    }
+
+    @Test
+    public void invalidProposalInvestigatorUnderZero() throws Exception {
+        ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+        ProposalPerson person = INVESTIGATOR_UNDER_ZERO.getPerson();
+        document.addProposalPerson(person);
+        assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertFalse(getAuditErrorMap().size() < 1);
+    }
+
+    @Test
+    public void invalidProposalInvestigatorUnitsUnderZero() throws Exception {
+        ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+        ProposalPerson person = INVESTIGATOR_UNIT_UNDER_ZERO.getPerson();
+        document.addProposalPerson(person);
+        assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertFalse(getAuditErrorMap().size() < 1);
+    }
+
+    @Test
+    public void invalidProposalInvestigatorUnitsOverHundred() throws Exception {
+        ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+        ProposalPerson person = INVESTIGATOR_UNIT_OVER_ONE_HUNDRED.getPerson();
+        document.addProposalPerson(person);
+        assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertFalse(getAuditErrorMap().size() < 1);
     }
 
     /**
