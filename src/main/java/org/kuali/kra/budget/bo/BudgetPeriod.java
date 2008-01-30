@@ -1,6 +1,7 @@
 package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.sql.Date;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -19,6 +20,7 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	private BudgetDecimal totalDirectCost;
 	private BudgetDecimal totalIndirectCost;
 	private BudgetDecimal underrecoveryAmount;
+	private List<BudgetLineItem> budgetLineItems;
 
 	public Integer getBudgetPeriod() {
 		return budgetPeriod;
@@ -134,4 +136,20 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 		hashMap.put("underrecoveryAmount", getUnderrecoveryAmount());
 		return hashMap;
 	}
+
+    /**
+     * Gets the budgetLineItems attribute. 
+     * @return Returns the budgetLineItems.
+     */
+    public List<BudgetLineItem> getBudgetLineItems() {
+        return budgetLineItems;
+    }
+
+    /**
+     * Sets the budgetLineItems attribute value.
+     * @param budgetLineItems The budgetLineItems to set.
+     */
+    public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
+        this.budgetLineItems = budgetLineItems;
+    }
 }
