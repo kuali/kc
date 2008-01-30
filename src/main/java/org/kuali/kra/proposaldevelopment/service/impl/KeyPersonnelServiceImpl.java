@@ -51,7 +51,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -106,7 +106,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         person.setInvestigatorFlag(isInvestigator(person));
         
         if (person.isInvestigator()) {
-            
             if (!document.getInvestigators().contains(person)) {
                 document.getInvestigators().add(person);
             }

@@ -84,7 +84,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
      * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
      * @see org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule
      */
-    @Test
+    // @Test
     public void validProposalInvestigatorCount() throws Exception {
         ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
         assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
@@ -99,7 +99,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
      * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
      * @see org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule
      */
-    @Test
+    // @Test
     public void validProposalInvestigatorUpperBound() throws Exception {
         ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
         ProposalPerson person = INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.getPerson();
@@ -121,12 +121,14 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
      */
     @Test
     public void validProposalInvestigatorNormal() throws Exception {
+        LOG.info("Starting validProposalInvetigatorNormal");
         ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
         ProposalPerson person = INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.getPerson();
         INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.populatePerson(document, person);
         document.addProposalPerson(person);
         assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
         assertEquals(0, getAuditErrorMap().size());
+        LOG.info("Ending validProposalInvetigatorNormal");
     }
 
     /*
