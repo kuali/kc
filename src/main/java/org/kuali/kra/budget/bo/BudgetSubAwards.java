@@ -1,6 +1,7 @@
 package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.sql.Timestamp;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -20,6 +21,7 @@ public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
 	private String xfdUpdateUser;
 	private Timestamp xmlUpdateTimestamp;
 	private String xmlUpdateUser;
+	private List<BudgetSubAwardAttachment> budgetSubAwardAttachments;
 
 	public String getProposalNumber() {
 		return proposalNumber;
@@ -153,4 +155,20 @@ public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
 		hashMap.put("xmlUpdateUser", getXmlUpdateUser());
 		return hashMap;
 	}
+
+    /**
+     * Gets the budgetSubAwardAttachments attribute. 
+     * @return Returns the budgetSubAwardAttachments.
+     */
+    public List<BudgetSubAwardAttachment> getBudgetSubAwardAttachments() {
+        return budgetSubAwardAttachments;
+    }
+
+    /**
+     * Sets the budgetSubAwardAttachments attribute value.
+     * @param budgetSubAwardAttachments The budgetSubAwardAttachments to set.
+     */
+    public void setBudgetSubAwardAttachments(List<BudgetSubAwardAttachment> budgetSubAwardAttachments) {
+        this.budgetSubAwardAttachments = budgetSubAwardAttachments;
+    }
 }

@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.sql.Timestamp;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -30,6 +31,7 @@ public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
 	private Timestamp lastNotifiedDate;
 	private Timestamp receivedDate;
 	private String status;
+	private List<S2sApplication> s2sApplication;
 
 	public String getProposalNumber() {
 		return proposalNumber;
@@ -118,4 +120,20 @@ public class S2sAppSubmission extends KraPersistableBusinessObjectBase {
 		hashMap.put("status", getStatus());
 		return hashMap;
 	}
+
+    /**
+     * Gets the s2sApplications attribute. 
+     * @return Returns the s2sApplications.
+     */
+    public List<S2sApplication> getS2sApplication() {
+        return s2sApplication;
+    }
+
+    /**
+     * Sets the s2sApplications attribute value.
+     * @param applications The s2sApplications to set.
+     */
+    public void setS2sApplication(List<S2sApplication> s2sApplication) {
+        this.s2sApplication = s2sApplication;
+    }
 }

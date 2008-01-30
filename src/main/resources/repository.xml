@@ -1423,7 +1423,7 @@
 		<field-descriptor name="application" column="APPLICATION" jdbc-type="CLOB"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<collection-descriptor name="S2sAppAttachments" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sAppAttachments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="s2sAppAttachmentList" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sAppAttachments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
 	</class-descriptor>
@@ -1452,7 +1452,7 @@
 		<field-descriptor name="xfdUpdateUser" column="XFD_UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="xmlUpdateTimestamp" column="XML_UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="xmlUpdateUser" column="XML_UPDATE_USER" jdbc-type="VARCHAR"/>
-		<collection-descriptor name="budgetSubAwardAttachment" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetSubAwardAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="budgetSubAwardAttachments" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetSubAwardAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="subAwardNumber"/>
 			<inverse-foreignkey field-ref="budgetVersionNumber"/>
