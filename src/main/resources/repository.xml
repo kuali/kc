@@ -1889,7 +1889,7 @@
 	
 	<class-descriptor class="org.kuali.kra.kim.bo.AttributeType" table="KIM_ATTRIBUTE_TYPES_T">
 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="attributeTypeName" column="NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
@@ -1916,7 +1916,7 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimNamespaceDefaultAttribute" table="KIM_DFLT_ATTRIBS_T">
+	<class-descriptor class="org.kuali.kra.kim.bo.KimNamespaceDefaultAttribute" table="KIM_NAMESPACE_DFLT_ATTRIBS_T">
 		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="namespaceId" column="NAMESPACE_ID" jdbc-type="BIGINT"/>
 		<field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
