@@ -62,8 +62,6 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
-        
-        LOG.info("Audit rule for Key Personnel got called.");
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) document;
         boolean retval = true;
 
@@ -120,15 +118,16 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
        boolean retval = true;
        
        List<AuditError> auditErrors = new ArrayList<AuditError>();
+       LOG.info("validating units for " + person.getPersonId() + " " + person.getFullName());
        
        if (person.getUnits().size() < 1) {
-           LOG.debug("error.investigatorUnits.limit");
+           LOG.info("error.investigatorUnits.limit");
            auditErrors.add(new AuditError(PROPOSAL_PERSON_KEY,ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
        }
        
        for (ProposalPersonUnit unit : person.getUnits()) {
            if (isBlank(unit.getUnitNumber())) {
-               LOG.debug("error.investigatorUnits.limit");
+               LOG.trace("error.investigatorUnits.limit");
                auditErrors.add(new AuditError(PROPOSAL_PERSON_KEY,ERROR_INVESTIGATOR_UNITS_UPBOUND , KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR));
            }
            
@@ -136,7 +135,6 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
        }
        
        if (auditErrors.size() > 0) {
-           LOG.info("Got audit errors " + auditErrors);
            getAuditErrorMap().put("keyPersonnelAuditErrors", new AuditCluster(KEY_PERSONNEL_PANEL_NAME, auditErrors, AUDIT_ERRORS));
        }
        
@@ -165,8 +163,8 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
            retval = false;
        }
 
-       LOG.info("Validating " + source);
-       LOG.info("validateUnit = " + retval);
+       LOG.debug("Validating " + source);
+       LOG.debug("validateUnit = " + retval);
        
        return retval;
    }
