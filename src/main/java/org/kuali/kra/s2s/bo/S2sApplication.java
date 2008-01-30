@@ -16,12 +16,14 @@
 package org.kuali.kra.s2s.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class S2sApplication extends KraPersistableBusinessObjectBase {
 	private String proposalNumber;
 	private String application;
+	private List<S2sAppAttachments> s2sAppAttachmentList; 
 
 	public String getProposalNumber() {
 		return proposalNumber;
@@ -47,4 +49,20 @@ public class S2sApplication extends KraPersistableBusinessObjectBase {
 		hashMap.put("application", getApplication());
 		return hashMap;
 	}
+
+    /**
+     * Gets the s2sAttachments attribute. 
+     * @return Returns the s2sAttachments.
+     */
+    public List<S2sAppAttachments> getS2sAppAttachmentList() {
+        return s2sAppAttachmentList;
+    }
+
+    /**
+     * Sets the s2sAttachments attribute value.
+     * @param attachments The s2sAttachments to set.
+     */
+    public void setS2sAttachments(List<S2sAppAttachments> s2sAppAttachmentList) {
+        this.s2sAppAttachmentList = s2sAppAttachmentList;
+    }
 }
