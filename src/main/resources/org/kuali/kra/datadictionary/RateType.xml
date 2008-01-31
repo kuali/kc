@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.RateType">
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.RateType">
 
         <inquiry>
             <title>Rate Type</title>
@@ -62,7 +62,7 @@
         </lookup>
 
         <titleAttribute>rateClassCode</titleAttribute>
-		<titleAttribute>rateTypeCode</titleAttribute>
+		<!-- <titleAttribute>rateTypeCode</titleAttribute> -->
         <attributes>
 
 	        <attribute name="rateClassCode">
@@ -93,7 +93,7 @@
 			<label>Description </label>
 			<shortLabel>Description </shortLabel>
 			<maxLength>200</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="200" />
 			</control>

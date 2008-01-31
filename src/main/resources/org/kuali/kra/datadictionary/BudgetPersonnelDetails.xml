@@ -119,10 +119,10 @@
         </lookup>
 
         <titleAttribute>budgetPeriod</titleAttribute>
-		<titleAttribute>lineItemNumber</titleAttribute>
+		<!-- <titleAttribute>lineItemNumber</titleAttribute>
 		<titleAttribute>personNumber</titleAttribute>
 		<titleAttribute>proposalNumber</titleAttribute>
-		<titleAttribute>versionNumber</titleAttribute>
+		<titleAttribute>versionNumber</titleAttribute> -->
         <attributes>
 
 	        <attribute name="budgetPeriod">
@@ -164,10 +164,10 @@
 			<attribute name="proposalNumber">
 			<label>Proposal Number </label>
 			<shortLabel>Proposal Number </shortLabel>
-			<maxLength>8</maxLength>
-			<validationPattern></validationPattern>
+			<maxLength>12</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-				<text size="8" />
+				<text size="12" />
 			</control>
 			<summary>Proposal Number </summary>
 			<description>Proposal Number </description>
@@ -189,7 +189,7 @@
 			<label>Apply In Rate Flag </label>
 			<shortLabel>Apply In Rate Flag </shortLabel>
 			<maxLength>1</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="1" />
 			</control>
@@ -201,7 +201,7 @@
 			<label>Budget Justification </label>
 			<shortLabel>Budget Justification </shortLabel>
 			<maxLength>0</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="0" />
 			</control>
@@ -233,23 +233,20 @@
 			<description>Cost Sharing Percent </description>
 			</attribute>
 
-			<attribute name="endDate">
-			<label>End Date </label>
-			<shortLabel>End Date </shortLabel>
-			<maxLength>7</maxLength>
-			<validationPattern></validationPattern>
-			<control>
-				<text size="7" />
-			</control>
-			<summary>End Date </summary>
-			<description>End Date </description>
-			</attribute>
+            <attributeReference name="endDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>End Date</label>
+                <shortLabel>End Date</shortLabel>
+
+
+                <summary>End Date</summary>
+                <description>End Date.</description>
+      		</attributeReference>
 
 			<attribute name="jobCode">
 			<label>Job Code </label>
 			<shortLabel>Job Code </shortLabel>
 			<maxLength>6</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="6" />
 			</control>
@@ -261,7 +258,7 @@
 			<label>Line Item Description </label>
 			<shortLabel>Line Item Description </shortLabel>
 			<maxLength>80</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="80" />
 			</control>
@@ -273,7 +270,7 @@
 			<label>On Off Campus Flag </label>
 			<shortLabel>On Off Campus Flag </shortLabel>
 			<maxLength>1</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="1" />
 			</control>
@@ -309,7 +306,7 @@
 			<label>Period Type </label>
 			<shortLabel>Period Type </shortLabel>
 			<maxLength>2</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="2" />
 			</control>
@@ -321,7 +318,7 @@
 			<label>Person Id </label>
 			<shortLabel>Person Id </shortLabel>
 			<maxLength>9</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="9" />
 			</control>
@@ -353,17 +350,13 @@
 			<description>Sequence Number </description>
 			</attribute>
 
-			<attribute name="startDate">
-			<label>Start Date </label>
-			<shortLabel>Start Date </shortLabel>
-			<maxLength>7</maxLength>
-			<validationPattern></validationPattern>
-			<control>
-				<text size="7" />
-			</control>
-			<summary>Start Date </summary>
-			<description>Start Date </description>
-			</attribute>
+            <attributeReference name="startDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>Start Date</label>
+                <shortLabel>Start Date</shortLabel>
+
+                <summary>Start Date</summary>
+                <description>Start Date.</description>
+      		</attributeReference>
 
 			<attribute name="underrecoveryAmount">
 			<label>Underrecovery Amount </label>
