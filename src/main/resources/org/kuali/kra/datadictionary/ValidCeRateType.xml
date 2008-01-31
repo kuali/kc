@@ -63,15 +63,15 @@
         </lookup>
 
         <titleAttribute>costElement</titleAttribute>
-		<titleAttribute>rateClassCode</titleAttribute>
-		<titleAttribute>rateTypeCode</titleAttribute>
+		<!-- <titleAttribute>rateClassCode</titleAttribute>
+		<titleAttribute>rateTypeCode</titleAttribute> -->
         <attributes>
 
 	        <attribute name="costElement">
 			<label>Cost Element </label>
 			<shortLabel>Cost Element </shortLabel>
 			<maxLength>8</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="8" />
 			</control>

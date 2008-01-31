@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetCategoryMaps">
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetCategoryMap">
 
         <inquiry>
             <title>Budget Category Maps</title>
@@ -65,14 +65,14 @@
         </lookup>
 
         <titleAttribute>mappingName</titleAttribute>
-		<titleAttribute>targetCategoryCode</titleAttribute>
+		<!-- <titleAttribute>targetCategoryCode</titleAttribute> -->
         <attributes>
 
 	        <attribute name="mappingName">
 			<label>Mapping Name </label>
 			<shortLabel>Mapping Name </shortLabel>
 			<maxLength>100</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="100" />
 			</control>
@@ -84,7 +84,7 @@
 			<label>Target Category Code </label>
 			<shortLabel>Target Category Code </shortLabel>
 			<maxLength>15</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="15" />
 			</control>
@@ -96,7 +96,7 @@
 			<label>Category Type </label>
 			<shortLabel>Category Type </shortLabel>
 			<maxLength>200</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="200" />
 			</control>
@@ -108,7 +108,7 @@
 			<label>Description </label>
 			<shortLabel>Description </shortLabel>
 			<maxLength>200</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="200" />
 			</control>

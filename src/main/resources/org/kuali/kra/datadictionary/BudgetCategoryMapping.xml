@@ -62,8 +62,8 @@
             </resultFields>
         </lookup>
 
-        <titleAttribute>coeusCategoryCode</titleAttribute>
-		<titleAttribute>mappingName</titleAttribute>
+        <!-- <titleAttribute>coeusCategoryCode</titleAttribute>
+		<titleAttribute>mappingName</titleAttribute> -->
 		<titleAttribute>targetCategoryCode</titleAttribute>
         <attributes>
 
@@ -83,7 +83,7 @@
 			<label>Mapping Name </label>
 			<shortLabel>Mapping Name </shortLabel>
 			<maxLength>100</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="100" />
 			</control>
@@ -95,7 +95,7 @@
 			<label>Target Category Code </label>
 			<shortLabel>Target Category Code </shortLabel>
 			<maxLength>15</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="15" />
 			</control>
