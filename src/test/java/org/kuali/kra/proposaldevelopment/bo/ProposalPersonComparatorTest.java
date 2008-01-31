@@ -101,10 +101,14 @@ public class ProposalPersonComparatorTest extends KraTestBase {
         }
         
         // This is the order we expect to find them in by personId
+        LOG.info(" person1 = " + sortedList.get(0).getPersonId());
+        LOG.info(" person2 = " + sortedList.get(1).getPersonId());
+        LOG.info(" person3 = " + sortedList.get(2).getPersonId());
+        LOG.info(" person4 = " + sortedList.get(3).getPersonId());
         assertEquals("000000003", sortedList.get(0).getPersonId());
         assertEquals("000000002", sortedList.get(1).getPersonId());
-        assertEquals("000000005", sortedList.get(2).getPersonId());
-        assertEquals("000000006", sortedList.get(3).getPersonId());
+        assertEquals("000000006", sortedList.get(2).getPersonId());
+        assertEquals("000000005", sortedList.get(3).getPersonId());
     }
     
     /**
