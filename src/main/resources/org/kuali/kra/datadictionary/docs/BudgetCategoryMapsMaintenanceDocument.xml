@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.bo.BudgetCategoryMaps</businessObjectClass>
+        <businessObjectClass>org.kuali.kra.budget.bo.BudgetCategoryMap</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>

@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.bo.JobCode">
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.JobCode">
 
         <inquiry>
             <title>Job Code</title>
@@ -64,7 +64,7 @@
 			<label>Job Code </label>
 			<shortLabel>Job Code </shortLabel>
 			<maxLength>6</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="6" />
 			</control>
@@ -76,7 +76,7 @@
 			<label>Job Title </label>
 			<shortLabel>Job Title </shortLabel>
 			<maxLength>50</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="50" />
 			</control>
