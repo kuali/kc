@@ -72,15 +72,15 @@
         </lookup>
 
         <titleAttribute>calcTypeId</titleAttribute>
-		<titleAttribute>dependentSeqNumber</titleAttribute>
-		<titleAttribute>rateClassType</titleAttribute>
+		<!-- <titleAttribute>dependentSeqNumber</titleAttribute>
+		<titleAttribute>rateClassType</titleAttribute> -->
         <attributes>
 
 	        <attribute name="calcTypeId">
 			<label>Calc Type Id </label>
 			<shortLabel>Calc Type Id </shortLabel>
 			<maxLength>8</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="8" />
 			</control>
@@ -104,7 +104,7 @@
 			<label>Rate Class Type </label>
 			<shortLabel>Rate Class Type </shortLabel>
 			<maxLength>1</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="1" />
 			</control>
@@ -116,7 +116,7 @@
 			<label>Dependent Rate Class Type </label>
 			<shortLabel>Dependent Rate Class Type </shortLabel>
 			<maxLength>1</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="1" />
 			</control>

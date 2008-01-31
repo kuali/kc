@@ -59,14 +59,14 @@
         </lookup>
 
         <titleAttribute>costElement</titleAttribute>
-		<titleAttribute>jobCode</titleAttribute>
+		<!-- <titleAttribute>jobCode</titleAttribute> -->
         <attributes>
 
 	        <attribute name="costElement">
 			<label>Cost Element </label>
 			<shortLabel>Cost Element </shortLabel>
 			<maxLength>8</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="8" />
 			</control>
@@ -78,7 +78,7 @@
 			<label>Job Code </label>
 			<shortLabel>Job Code </shortLabel>
 			<maxLength>6</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="6" />
 			</control>

@@ -82,12 +82,12 @@
         </lookup>
 
         <titleAttribute>activityTypeCode</titleAttribute>
-		<titleAttribute>fiscalYear</titleAttribute>
+		<!-- <titleAttribute>fiscalYear</titleAttribute>
 		<titleAttribute>onOffCampusFlag</titleAttribute>
 		<titleAttribute>rateClassCode</titleAttribute>
 		<titleAttribute>rateTypeCode</titleAttribute>
 		<titleAttribute>startDate</titleAttribute>
-		<titleAttribute>unitNumber</titleAttribute>
+		<titleAttribute>unitNumber</titleAttribute> -->
         <attributes>
 
 	        <attribute name="activityTypeCode">
@@ -106,7 +106,7 @@
 			<label>Fiscal Year </label>
 			<shortLabel>Fiscal Year </shortLabel>
 			<maxLength>4</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="4" />
 			</control>
@@ -118,7 +118,7 @@
 			<label>On Off Campus Flag </label>
 			<shortLabel>On Off Campus Flag </shortLabel>
 			<maxLength>1</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="1" />
 			</control>
@@ -150,23 +150,19 @@
 			<description>Rate Type Code </description>
 			</attribute>
 
-			<attribute name="startDate">
-			<label>Start Date </label>
-			<shortLabel>Start Date </shortLabel>
-			<maxLength>7</maxLength>
-			<validationPattern></validationPattern>
-			<control>
-				<text size="7" />
-			</control>
-			<summary>Start Date </summary>
-			<description>Start Date </description>
-			</attribute>
+            <attributeReference name="startDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>Start Date</label>
+                <shortLabel>Start Date</shortLabel>
+
+                <summary>Start Date</summary>
+                <description>Start Date.</description>
+      		</attributeReference>
 
 			<attribute name="unitNumber">
 			<label>Unit Number </label>
 			<shortLabel>Unit Number </shortLabel>
 			<maxLength>8</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="8" />
 			</control>

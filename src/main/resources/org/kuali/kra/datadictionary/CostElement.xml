@@ -70,7 +70,7 @@
 			<label>Cost Element </label>
 			<shortLabel>Cost Element </shortLabel>
 			<maxLength>8</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="8" />
 			</control>
@@ -94,7 +94,7 @@
 			<label>Description </label>
 			<shortLabel>Description </shortLabel>
 			<maxLength>200</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="200" />
 			</control>
@@ -106,7 +106,7 @@
 			<label>On Off Campus Flag </label>
 			<shortLabel>On Off Campus Flag </shortLabel>
 			<maxLength>1</maxLength>
-			<validationPattern></validationPattern>
+			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<text size="1" />
 			</control>
