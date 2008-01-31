@@ -34,6 +34,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * test fixtures.
  */
 public enum ProposalPersonFixture {
+    PRINCIPAL_INVESTIGATOR("000000003", PRINCIPAL_INVESTIGATOR_ROLE),
     
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and valid lead unit with valid credit splits
@@ -60,9 +61,11 @@ public enum ProposalPersonFixture {
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
-            for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
+            super.populatePerson(document, person);
+
+            for (ProposalUnitCreditSplit creditSplit : person.getUnit(0).getCreditSplits()) {
                 if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                    creditSplit.setCredit(new KualiDecimal(100.00));
+                    creditSplit.setCredit(new KualiDecimal(0.00));
                 }
             }
         }        
@@ -78,15 +81,10 @@ public enum ProposalPersonFixture {
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
-            ProposalPersonCreditSplit saveOne = null;
-            for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
-                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                    creditSplit.setCredit(new KualiDecimal(100.00));
-                    saveOne = creditSplit;
-                }                
-            }
+            super.populatePerson(document, person);
             
-            saveOne.setCredit(new KualiDecimal(200.00));
+            person.getCreditSplit(0).setCredit(new KualiDecimal(200.00));
+            
         }        
     },
     /**
@@ -101,15 +99,9 @@ public enum ProposalPersonFixture {
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
-            ProposalPersonCreditSplit saveOne = null;
-            for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
-                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                    creditSplit.setCredit(new KualiDecimal(100.00));
-                    saveOne = creditSplit;
-                }
-            }
-                        
-            saveOne.setCredit(new KualiDecimal(-10.00));
+            super.populatePerson(document, person);
+            
+            person.getCreditSplit(0).setCredit(new KualiDecimal(-10.00));
         }        
     },
     /**
@@ -123,24 +115,9 @@ public enum ProposalPersonFixture {
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
-            for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
-                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                    creditSplit.setCredit(new KualiDecimal(100.00));
-                }
-                
-            }
-
-            ProposalUnitCreditSplit saveOne = null;            
-            for (ProposalPersonUnit unit : person.getUnits()) {
-                for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
-                    if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                        creditSplit.setCredit(new KualiDecimal(100.00));
-                        saveOne = creditSplit;
-                    }
-                }
-            }
-
-            saveOne.setCredit(new KualiDecimal(200.00));
+            super.populatePerson(document, person);
+            
+            person.getUnit(0).getCreditSplit(0).setCredit(new KualiDecimal(200.00));
         }        
     },
     /**
@@ -154,22 +131,9 @@ public enum ProposalPersonFixture {
          * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
          */
         public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
-            for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
-                if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                    creditSplit.setCredit(new KualiDecimal(100.00));
-                }
-            }
-                        
-            ProposalUnitCreditSplit saveOne = null;
-            for (ProposalPersonUnit unit : person.getUnits()) {
-                for (ProposalUnitCreditSplit creditSplit : unit.getCreditSplits()) {
-                    if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                        creditSplit.setCredit(new KualiDecimal(100.00));
-                        saveOne = creditSplit;
-                    }
-                }
-            }
-            saveOne.setCredit(new KualiDecimal(-10.00));
+            super.populatePerson(document, person);
+            
+            person.getUnit(0).getCreditSplit(0).setCredit(new KualiDecimal(-10.00));
         }        
     },
     PHILIP_CO_INVESTIGATOR("000000002", CO_INVESTIGATOR_ROLE),
