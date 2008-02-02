@@ -36,7 +36,7 @@
 	<param name="application.url">${app.host}/${app.context.name}</param>
 	<param name="serviceServletUrl">${app.host}/${app.context.name}/remoting/</param>
 
-	<param name="datasource.url">jdbc:oracle:thin:@esdb12-k.uits.indiana.edu:1521:KUALI</param>
+	<param name="datasource.url">jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
 	<param name="datasource.platform">edu.iu.uis.eden.database.platform.OraclePlatform</param>
