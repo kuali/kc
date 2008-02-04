@@ -30,7 +30,7 @@
         </inquiry>
 
         <lookup>
-            <title>NSF Code Lookup</title>
+            <title>NSF Science Code Lookup</title>
 			<menubar>
 				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
@@ -79,8 +79,8 @@
             </attribute>
 
             <attribute name="nsfCode">
-                <label>NSF Code</label>
-                <shortLabel>NSF Code</shortLabel>
+                <label>NSF Science Code</label>
+                <shortLabel>NSF Science Code</shortLabel>
 
                 <maxLength>15</maxLength>
                 <validationPattern><alphaNumeric /></validationPattern>
@@ -89,8 +89,8 @@
                     <text size="10" />
                 </control>
 
-                <summary>NSF Code</summary>
-                <description>NSF Code</description>
+                <summary>NSF Science Code</summary>
+                <description>NSF Science Code</description>
 			</attribute>
 
             <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
