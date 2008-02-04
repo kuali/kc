@@ -424,13 +424,13 @@
 				<label>Mail Account ID</label>
 				<shortLabel>Mail Account ID</shortLabel>
 
-				<maxLength>7</maxLength>
+				<maxLength>9</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
 
 				<required>false</required>
 
 				<control>
-					<text size="8"/>
+					<text size="10"/>
 				</control>
 
 				<summary>Mail Account ID</summary>
