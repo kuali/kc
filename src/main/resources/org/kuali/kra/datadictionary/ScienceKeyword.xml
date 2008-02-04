@@ -30,7 +30,7 @@
         </inquiry>
 
         <lookup>
-            <title>Science Keyword Lookup</title>
+            <title>Keyword Lookup</title>
 			<menubar>
 				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
@@ -58,7 +58,7 @@
         <attributes>
 
             <attribute name="scienceKeywordCode">
-                <label>Science Keyword</label>
+                <label>Keyword</label>
                 <shortLabel>Science Keyword</shortLabel>
 
                 <maxLength>15</maxLength>
