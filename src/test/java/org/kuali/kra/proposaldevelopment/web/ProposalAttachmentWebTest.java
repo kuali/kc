@@ -44,12 +44,12 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         final HtmlPage keyPersonnelPage = clickOn(getProposalDevelopmentPage(), KEY_PERSONNEL_IMAGE_NAME);
         
         
-      final HtmlPage propAttPage = clickOn(addKeyPerson(keyPersonnelPage), "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x");
+        final HtmlPage propAttPage = clickOn(addKeyPerson(keyPersonnelPage), "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x");
       
         assertTrue(propAttPage.asText().contains("Document was successfully saved"));
         // really is in proposal attachment page
         assertTrue(propAttPage.asText().contains("Attachment Type"));
-        String[] values0 = { "1","C","Test Contact Name","t0@t0.com","123456","Test Comments","Test Module Title"};
+        String[] values0 = { "1","I","Test Contact Name","t0@t0.com","123456","Test Comments","Test Module Title"};
         
         setProposalAttachmentLine(propAttPage, getKeyMap("newNarrative",values0));
 //        testTextAreaPopup(propAttPage,"newNarrative.comments"," More text","proposalDevelopmentAbstractsAttachments","Comments","");
@@ -172,7 +172,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage pageAfterSave = clickOn(pageAfterDeletion,"methodToCall.save");
         return pageAfterSave;
     }
-
+  
 
     private HtmlPage testDeleteProposalAttachment(HtmlPage page, int i,int tabIndex) throws Exception{
         String commentToBeDeleted = getFieldValue(page, "document.narrative["+i+"].comments");

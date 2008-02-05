@@ -19,6 +19,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_STATUS_
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DUPLICATE;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_STATUS_INVALID;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
@@ -57,7 +58,8 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
     private static final String DOCUMENT_NARRATIVES = "document.narratives";
     private static final String PROPOSAL = "Proposal";
     private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
-
+    private static final String MODULE_STATUS_CODE_COMPLETED = "C";
+    
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentNarrativeRule.class);
     /**
      * This method is used to validate narratives and institute proposal attachments before adding.
@@ -69,9 +71,20 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         Narrative narrative = narrativeEvent.getNarrative();
         boolean rulePassed = true;
         populateNarrativeType(narrative);
+        ErrorMap map = GlobalVariables.getErrorMap();
+
         if(narrative.getNarrativeType()==null)
             rulePassed = false;
-        ErrorMap map = GlobalVariables.getErrorMap();
+        
+        String[] param = {PROPOSAL, narrative.getModuleStatusCode()};
+        if(!StringUtils.isBlank(narrative.getModuleStatusCode()) 
+                && narrative.getModuleStatusCode().equalsIgnoreCase(MODULE_STATUS_CODE_COMPLETED)
+                && StringUtils.isBlank(narrative.getFileName())) {
+            LOG.debug(ERROR_NARRATIVE_STATUS_INVALID);
+            reportError("newNarrative", ERROR_NARRATIVE_STATUS_INVALID, param);
+            rulePassed = false;
+        }
+        
         map.addToErrorPath("newNarrative");
         getService(DictionaryValidationService.class).validateBusinessObject(narrative,false);
         map.removeFromErrorPath("newNarrative");
@@ -92,6 +105,14 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         boolean rulePassed = true;
         for (int i = 0; i < size; i++) {
             Narrative narrative = narrativeList.get(0);
+            
+            if(!StringUtils.isBlank(narrative.getModuleStatusCode()) 
+                    && narrative.getModuleStatusCode().equalsIgnoreCase(MODULE_STATUS_CODE_COMPLETED)
+                    && StringUtils.isBlank(narrative.getFileName())) {
+                LOG.debug(ERROR_NARRATIVE_STATUS_INVALID);
+                rulePassed = false;
+            }
+            
             narrativeList.remove(narrative);
             //--size;
             rulePassed &= checkNarrative(narrativeList,narrative);
