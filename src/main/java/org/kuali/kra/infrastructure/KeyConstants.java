@@ -62,6 +62,8 @@ public class KeyConstants {
     public static final String ERROR_PERSONNEL_ATTACHMENT_DESCRITPION_REQUIRED = "error.personnelAttachment.description.required";
     public static final String ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED = "error.personnelAttachment.person.required";
     
+    public static final String ERROR_NARRATIVE_STATUS_INVALID = "error.proposalAttachment.moduleStatusCode.invalid";
+    
     public static final String ERROR_MISSING = "error.missing";
     public static final String ERROR_INVALUD = "error.invalid";
     
