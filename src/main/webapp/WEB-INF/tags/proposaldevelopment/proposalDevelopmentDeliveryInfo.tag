@@ -59,6 +59,9 @@
                     <c:if test="${!empty KualiForm.document.rolodex.firstName}" >
                     ${KualiForm.document.rolodex.firstName} ${KualiForm.document.rolodex.middleName} ${KualiForm.document.rolodex.lastName}<br/>
                     </c:if>                      
+                    <c:if test="${!empty KualiForm.document.rolodex.organization}" >
+                    ${KualiForm.document.rolodex.organization}<br/>
+                    </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.addressLine1}" >
                     <c:out value="${KualiForm.document.rolodex.addressLine1}"/><br/>
                     </c:if>                      
