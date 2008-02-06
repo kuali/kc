@@ -66,7 +66,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.44 $
+ * @version $Revision: 1.45 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -344,6 +344,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         
         ProposalPerson selectedPerson = getSelectedPerson(request, document);
         ProposalPersonUnit unit = selectedPerson.getUnit(getSelectedLine(request));
+        unit.setDelete(true);
         
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, document, selectedPerson, unit));
@@ -352,6 +353,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             selectedPerson.getUnits().remove(getSelectedLine(request));
             getBusinessObjectService().delete(unit);
         }
+        
+        unit.setDelete(false);
 
         return mapping.findForward(MAPPING_BASIC);
     }
