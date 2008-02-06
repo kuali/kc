@@ -75,6 +75,7 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
     private Map<String, Parameter> proposalDevelopmentParameters;
     private Integer answerYesNo;
     private Integer answerYesNoNA;
+    private boolean newProposalPersonRoleRendered;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -109,6 +110,7 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
+        newProposalPersonRoleRendered = false;
     }
 
 
@@ -516,6 +518,24 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
 
     public Integer getAnswerYesNoNA() {
         return Constants.ANSWER_YES_NO_NA;
+    }
+
+    /**
+     * Used to indicate to the values finder whether the role has already been rendered
+     * 
+     * @return true if the role has been rendered already, false otherwise
+     */
+    public boolean isNewProposalPersonRoleRendered() {
+        return newProposalPersonRoleRendered;
+    }
+
+    /**
+     * Used to indicate to the values finder whether the role has already been rendered
+     * 
+     * @param newProposalPersonRoleRendered
+     */
+    public void setNewProposalPersonRoleRendered(boolean newProposalPersonRoleRendered) {
+        this.newProposalPersonRoleRendered = newProposalPersonRoleRendered;
     }
 
 }
