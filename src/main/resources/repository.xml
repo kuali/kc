@@ -75,7 +75,7 @@
 
 		<!-- GENERATE NEXT VALUE -->
    		<collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="proposalNumber" />
+			<inverse-foreignkey field-ref="documentKey" /> 
 		</collection-descriptor>
 		<!-- GENERATE NEXT VALUE -->
 
@@ -140,11 +140,11 @@
 	  </collection-descriptor>
 
 	</class-descriptor>
-
+  
 	<!-- GENERATE NEXT VALUE -->
-	<class-descriptor class="org.kuali.kra.bo.DocumentNextvalue" table="PROPOSAL_NEXTVALUE">
+	<class-descriptor class="org.kuali.kra.bo.DocumentNextvalue" table="DOCUMENT_NEXTVALUE">
 		<field-descriptor name="propertyName" column="PROPERTY_NAME" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="documentKey" column="DOCUMENT_NUMBER" jdbc-type="INTEGER" primarykey="true"/> 
 		<field-descriptor name="nextValue" column="NEXT_VALUE" jdbc-type="INTEGER"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>

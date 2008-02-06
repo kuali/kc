@@ -64,7 +64,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 newProposalLocation.setLocation(proposalOrganization.getOrganizationName());
                 newProposalLocation.setRolodexId(proposalOrganization.getContactAddressId());
                 newProposalLocation.refreshReferenceObject("rolodex");
-                newProposalLocation.setLocationSequenceNumber(proposalDevelopmentDocument.getProposalNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
+                newProposalLocation.setLocationSequenceNumber(proposalDevelopmentDocument.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
                 proposalDevelopmentDocument.getProposalLocations().add(0, newProposalLocation);
             }
             

@@ -678,7 +678,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      * @param p person to add
      */
     public void addProposalPerson(ProposalPerson p) {
-        p.setProposalPersonNumber(this.getProposalNextValue(Constants.PROPOSAL_PERSON_NUMBER));
+        p.setProposalPersonNumber(this.getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER));
         getProposalPersons().add(p);
     }
 
