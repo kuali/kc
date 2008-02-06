@@ -14,7 +14,14 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
+<c:choose>
+<c:when test="${empty KualiForm.document.proposalPersons[personIndex].fullName}">
+<c:set var="parentTabName" value="" />
+</c:when>
+<c:otherwise>
 <bean:define id="parentTabName" name="KualiForm" property="${proposalPerson}.fullName"/>
+</c:otherwise>
+</c:choose>
 <div class="tab-container" align="center">
 <bean:define id="personEditableFields" name="KualiForm" property="personEditableFields" />
           <!-- TAB -->
