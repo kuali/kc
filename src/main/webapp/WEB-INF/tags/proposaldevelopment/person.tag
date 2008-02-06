@@ -36,8 +36,7 @@
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /></div></th>
                     <td colspan="3">
                     <jsp:useBean id="paramMap" class="java.util.HashMap"/>
-                    <c:set var="paramMap.businessObjectClass" value="org.kuali.kra.proposaldevelopment.ProposalPersonRole" />
-                    <c:set var="paramMap.forAddedPerson" value="true" />
+                    <c:set target="${paramMap}" property="forAddedPerson" value="true" />
                     <kul:checkErrors keyMatch="${proposalPerson}.proposalPersonRoleId" auditMatch="${proposalPerson}.proposalPersonRoleId"/>  
                     <c:set var="roleStyle" value=""/>
                     <c:if test="${hasErrors==true}">
@@ -45,7 +44,14 @@
                     </c:if>
                     <html:select property="${proposalPerson}.proposalPersonRoleId" tabindex="0" style="${roleStyle}">
                     <c:forEach items="${krafn:getOptionList('org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder', paramMap)}" var="option">
+                    <c:choose>
+                        <c:when test="${KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == option.key}">
+                        <option value="${option.key}" selected>${option.label}</option>
+                        </c:when>
+                        <c:otherwise>
                         <option value="${option.key}">${option.label}</option>
+                        </c:otherwise>
+                    </c:choose>
                     </c:forEach>
                     </html:select>
                     <%--
