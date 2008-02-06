@@ -25,7 +25,7 @@
 
             <inquirySections><inquirySection title="Proposal Nextvalue"><inquiryFields>
             	<field attributeName="propertyName" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="documentKey" forceInquiry="true"/>
 				<field attributeName="nextValue"/>
 
             </inquiryFields></inquirySection></inquirySections>
@@ -41,27 +41,27 @@
             <defaultSort sortAscending="true">
                 <sortAttributes>
                 	<sortAttribute attributeName="propertyName"/>
-					<sortAttribute attributeName="proposalNumber"/>
+					<sortAttribute attributeName="documentKey"/>
 
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
             	<lookupField attributeName="propertyName" required="false"/>
-				<lookupField attributeName="proposalNumber" required="false"/>
+				<lookupField attributeName="documentKey" required="false"/>
 				<lookupField attributeName="nextValue" required="false"/>
 
             </lookupFields>
 
             <resultFields>
             	<field attributeName="propertyName" forceInquiry="true"/>
-				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="documentKey" forceInquiry="true"/>
 				<field attributeName="nextValue" forceInquiry="false"/>
 
             </resultFields>
         </lookup>
 
-		<titleAttribute>proposalNumber</titleAttribute>
+		<titleAttribute>documentKey</titleAttribute>
         <attributes>
 
 	        <attribute name="propertyName">
@@ -76,16 +76,16 @@
 			<description>Property Name </description>
 			</attribute>
 
-			<attribute name="proposalNumber">
-			<label>Proposal Number </label>
-			<shortLabel>Proposal Number </shortLabel>
+			<attribute name="documentKey">
+			<label>Document Number </label>
+			<shortLabel>Document Number </shortLabel>
 			<maxLength>12</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
-			<summary>Proposal Number </summary>
-			<description>Proposal Number </description>
+			<summary>Document Number </summary>
+			<description>Document Number </description>
 			</attribute>
 
 			<attribute name="nextValue">
