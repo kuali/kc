@@ -30,7 +30,7 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: lprzybyl $
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase implements CreditSplitable {
     private Integer proposalNumber;
@@ -39,6 +39,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
     private boolean leadUnit;
     private Unit unit;
     private List<ProposalUnitCreditSplit> creditSplits;
+    private boolean delete;
 
     /**
      * Default constructor
@@ -190,6 +191,24 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
      */
     public String getName() {
         return getUnitNumber();
+    }
+
+    /**
+     * Flag to tag for deletion
+     * 
+     * @return true or false
+     */
+    public boolean isDelete() {
+        return delete;
+    }
+
+    /**
+     * Flag to tag for deletion
+     * 
+     * @param delete
+     */
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }
 
