@@ -43,13 +43,13 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * Temporary class until this can be gotten working via table.
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
     
-    private boolean forAddedPerson;
-    
+    private String forAddedPerson;
+       
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
      */
@@ -67,7 +67,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
             boolean showRole = true;
             
             // If the person has already been added, then exclude Key Person
-            if (isForAddedPerson()) {
+            if (isPersonAdded()) {
                 showRole = !KEY_PERSON_ROLE.equals(role.getProposalPersonRoleId());
             }
             // If the person has is not added, check for an existing PI in the document. There cannot be multiple PI's added.
@@ -131,12 +131,16 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private KeyValuesService getKeyValuesService() {
         return getService(KeyValuesService.class);
     }
+    
+    private Boolean isPersonAdded() {
+        return new Boolean(getForAddedPerson());
+    }
 
-    public boolean isForAddedPerson() {
+    public String getForAddedPerson() {
         return forAddedPerson;
     }
 
-    public void setForAddedPerson(boolean forAddedPerson) {
+    public void setForAddedPerson(String forAddedPerson) {
         this.forAddedPerson = forAddedPerson;
     }
 }
