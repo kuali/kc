@@ -42,7 +42,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
             ProposalPersonBiography proposalPersonBiography) {
         proposalPersonBiography.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
         proposalPersonBiography.setBiographyNumber(proposaldevelopmentDocument
-                .getProposalNextValue(Constants.PROP_PERSON_BIO_NUMBER));
+                .getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
         proposalPersonBiography.setPropPerDocType(new PropPerDocType());
         ProposalPerson proposalPerson = getPerson(proposaldevelopmentDocument, proposalPersonBiography.getProposalPersonNumber());
         if (proposalPerson != null) {
@@ -71,8 +71,8 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         catch (Exception e) {
             proposalPersonBiography.getPersonnelAttachmentList().clear();
         }
-        DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalue(Constants.PROP_PERSON_BIO_NUMBER);
-        documentNextvalue.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
+        DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalueBo(Constants.PROP_PERSON_BIO_NUMBER);
+        documentNextvalue.setDocumentKey(proposaldevelopmentDocument.getProposalNumber());
         List<BusinessObject> businessObjects = new ArrayList<BusinessObject>();
         businessObjects.add(documentNextvalue);
         businessObjects.add(proposalPersonBiography);

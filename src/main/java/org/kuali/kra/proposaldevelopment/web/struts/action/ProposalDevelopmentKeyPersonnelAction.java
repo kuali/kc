@@ -65,8 +65,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.45 $
+ * @author $Author: chandran $
+ * @version $Revision: 1.46 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -262,8 +262,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         int selectedPersonIndex = getSelectedPersonIndex(request, document);
         ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
         ProposalPersonDegree degree = pdform.getNewProposalPersonDegree().get(selectedPersonIndex);
-        degree.setDegreeSequenceNumber(pdform.getProposalDevelopmentDocument().getProposalNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
-        
+        degree.setDegreeSequenceNumber(pdform.getProposalDevelopmentDocument().getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
+         
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, document, person, degree));
 

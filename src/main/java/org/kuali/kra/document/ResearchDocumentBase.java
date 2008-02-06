@@ -75,7 +75,7 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         return documentNextvalues;
     }
 
-    public Integer getProposalNextValue(String propertyName) {
+    public Integer getDocumentNextValue(String propertyName) {
         Integer propNextValue = 1;
         // search for property and get the latest number - increment for next call
         for(Iterator iter = documentNextvalues.iterator(); iter.hasNext();) {
@@ -98,7 +98,7 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
     }
 
     // TODO : this is for the attachment that save attachment only when click 'add
-    public DocumentNextvalue getDocumentNextvalue(String propertyName) {
+    public DocumentNextvalue getDocumentNextvalueBo(String propertyName) {
         for(Iterator iter = documentNextvalues.iterator(); iter.hasNext();) {
             DocumentNextvalue documentNextvalue = (DocumentNextvalue)iter.next();
             if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
@@ -110,6 +110,6 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         documentNextvalue.setNextValue(1);
         documentNextvalue.setPropertyName(propertyName);
         return documentNextvalue;
-    }
+    } 
     
 }
