@@ -16,40 +16,17 @@
 -->
 <taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd" version="2.0">
 
-    <description>Kuali functions library</description>
-    <display-name>Kuali functions</display-name>
+    <description>KRA functions library</description>
+    <display-name>KRA functions</display-name>
     <tlib-version>1.0</tlib-version>
-    <short-name>kfunc</short-name>
+    <short-name>kra-fn</short-name>
     <uri>http://www.kuali.org/jsp/jstl/functions</uri>
 
     <function>
         <description>Sorts Proposal persons</description>
-        <name>sortProposalPersons</name>
-        <function-class>org.kuali.kra.proposaldevelopment</function-class>
-        <function-signature>java.lang.String scrubWhitespace(java.lang.String)</function-signature>
-        <example>&lt;c:out value="${kfunc:scrubWhitespace(stringWithTonsAndTonsOfWhitespaceInItLikeAllTheStringsBuiltInJSP)}"></example>
-    </function>
-    
-    <function>
-        <description>Returns the TabState for the given tab key in the action form.</description>
-        <name>getTabState</name>
-        <function-class>org.kuali.core.util.WebUtils</function-class>
-        <function-signature>org.kuali.core.util.TabState getTabState(org.kuali.core.web.struts.form.KualiForm, java.lang.String)</function-signature>
-        <example>&lt;c:set var="tabState" value="${kfunc:getTabState(KualiForm, tabTitle)}"></example>
-    </function>
-    
-    <function>
-        <description>Generates a key from a string that can be used for the tab state key.</description>
-        <name>generateTabKey</name>
-        <function-class>org.kuali.core.util.WebUtils</function-class>
-        <function-signature>java.lang.String generateTabKey(java.lang.String)</function-signature>
-        <example>&lt;c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"></example>
-    </function>
-    <function>
-        <description>Increment tabindex and add a new TabState to the HashMap.</description>
-        <name>incrementTabIndex</name>
-        <function-class>org.kuali.core.util.WebUtils</function-class>
-        <function-signature>void incrementTabIndex(org.kuali.core.web.struts.form.KualiForm, java.lang.String)</function-signature>
-        <example>${kfunc:incrementTabIndex(kualiForm)}</example>
+        <name>getOptionList</name>
+        <function-class>org.kuali.kra.web.JstlFunctions</function-class>
+        <function-signature>java.util.List getOptionList(java.lang.String, java.util.Map)</function-signature>
+        <example>&lt;c:forEach items="${kra-fn:getOptionList()}"&gt;></example>
     </function>
 </taglib>

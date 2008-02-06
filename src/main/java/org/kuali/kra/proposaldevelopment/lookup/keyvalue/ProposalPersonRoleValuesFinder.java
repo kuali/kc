@@ -32,6 +32,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 import static org.kuali.core.util.GlobalVariables.getKualiForm;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
@@ -42,10 +43,12 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  * Temporary class until this can be gotten working via table.
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
+    
+    private boolean forAddedPerson;
     
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
@@ -60,7 +63,20 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         for (ProposalPersonRole role : roles) {
             LOG.debug("Adding role " + role.getProposalPersonRoleId());
             LOG.debug("With description " + findRoleDescription(role));
-            if (!hasPrincipalInvestigator || !PRINCIPAL_INVESTIGATOR_ROLE.equals(role.getProposalPersonRoleId())) {
+            
+            boolean showRole = true;
+            
+            // If the person has already been added, then exclude Key Person
+            if (isForAddedPerson()) {
+                showRole = !KEY_PERSON_ROLE.equals(role.getProposalPersonRoleId());
+            }
+            // If the person has is not added, check for an existing PI in the document. There cannot be multiple PI's added.
+            else {
+                showRole = (!hasPrincipalInvestigator || !PRINCIPAL_INVESTIGATOR_ROLE.equals(role.getProposalPersonRoleId()));
+            }
+            LOG.debug("showRole = " + showRole);
+            
+            if (showRole) {
                 keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findRoleDescription(role)));
             }
         }
@@ -78,6 +94,15 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
                                                            PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
                                                            + getRoleIdPrefix()
                                                            + role.getProposalPersonRoleId().toLowerCase());    
+    }
+        
+    /**
+     * Used to indicate to the values finder whether the role has already been rendered
+     * 
+     * @return true if the role has been rendered already, false otherwise
+     */
+    private boolean isNewProposalPersonRoleRendered() {
+        return ((ProposalDevelopmentForm) getKualiForm()).isNewProposalPersonRoleRendered();
     }
 
     /**
@@ -105,5 +130,13 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
      */
     private KeyValuesService getKeyValuesService() {
         return getService(KeyValuesService.class);
+    }
+
+    public boolean isForAddedPerson() {
+        return forAddedPerson;
+    }
+
+    public void setForAddedPerson(boolean forAddedPerson) {
+        this.forAddedPerson = forAddedPerson;
     }
 }
