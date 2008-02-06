@@ -48,6 +48,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_DELETE_LEAD_UNIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ADD_EXISTING_UNIT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
@@ -56,7 +57,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.27 $
+ * @version $Revision: 1.28 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -88,14 +89,14 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             if (!isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
                 LOG.debug("error.missingPersonRole");
                 String personProperty = "document.proposalPerson[" + personIndex + "]";
-                reportErrorWithPrefix(personProperty + "*", personProperty, ERROR_MISSING_PERSON_ROLE);
+                reportError(personProperty, ERROR_MISSING_PERSON_ROLE);
                 personIndex++;
             }
         }
         
         if (pi_cnt > 1) {
             retval = false;
-            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);            
+            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);            
         }        
 
         return retval;
@@ -142,13 +143,13 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
         if (isPrincipalInvestigator(person) && hasPrincipalInvestigator(document)) {
             LOG.debug("error.principalInvestigator.limit");
-            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);
+            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);
             retval = false;
         }
         
         if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
             LOG.debug("Tried to add person without role");
-            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_MISSING_PERSON_ROLE);
+            reportError("newProposalPerson", ERROR_MISSING_PERSON_ROLE);
             retval = false;
         }
         
@@ -156,7 +157,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         LOG.info(document.getProposalPersons().contains(person)+ "");
         
         if (document.getProposalPersons().contains(person)) {
-            reportErrorWithPrefix("newProposalPerson", "newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS, person.getFullName());
+            reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS, person.getFullName());
             retval = false;
         }
         
@@ -264,14 +265,37 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
         LOG.info("isLeadUnit = " + source.isLeadUnit());
         
-        if (isDeletingUnitFromPrincipalInvestigator(source, person)) {            
-            reportErrorWithPrefix("proposalPerson*", "proposalPerson*", ERROR_DELETE_LEAD_UNIT);
+        if (isDeletingUnitFromPrincipalInvestigator(source, person)) {     
+            reportErrorWithPrefix("document", "proposalPerson*", ERROR_DELETE_LEAD_UNIT);
+            retval = false;
+        }
+
+        if (unitExists(source, person)) {
+            reportErrorWithPrefix("document", "proposalPerson*", ERROR_ADD_EXISTING_UNIT, source.getUnitNumber(), person.getFullName());
             retval = false;
         }
 
         LOG.info("validateUnit = " + retval);
         
         return retval;
+    }
+    
+    /**
+     * Determine whether the <code>{@link ProposalPersonUnit}</code> already exists by Unit Number in the 
+     * given <code>{@link ProposalPerson}</code>
+     * 
+     * @param source
+     * @param person
+     * @return true or false
+     */
+    private boolean unitExists(ProposalPersonUnit source, ProposalPerson person) {
+        for (ProposalPersonUnit unit : person.getUnits()) {
+            if (unit.getUnitNumber().equals(source.getUnitNumber())) { 
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     /**
@@ -290,7 +314,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         LOG.info("person " + person.getProposalPersonNumber() + " has unit " + unit.getUnitNumber());
         
-        return retval && unit.isLeadUnit() && getKeyPersonnelService().isPrincipalInvestigator(person);
+        return retval && unit.isDelete() && unit.isLeadUnit() && getKeyPersonnelService().isPrincipalInvestigator(person);
     }
 
     /**
