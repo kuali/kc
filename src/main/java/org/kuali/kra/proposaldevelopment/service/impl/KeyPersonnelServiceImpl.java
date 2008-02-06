@@ -51,7 +51,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -390,8 +390,14 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             prop_person.setPostalCode(rolodex.getPostalCode());
             prop_person.setState(rolodex.getState());
             prop_person.setPrimaryTitle(rolodex.getTitle());
-            if (isNotBlank(rolodex.getFirstName()+" "+rolodex.getLastName())) {
-                prop_person.setFullName(rolodex.getFirstName()+" "+rolodex.getLastName());
+            if (isNotBlank(rolodex.getFirstName())) {
+                prop_person.setFullName(rolodex.getFirstName());
+            }
+            if (isNotBlank(rolodex.getMiddleName())) {
+                prop_person.setFullName(prop_person.getFullName() + " " + rolodex.getMiddleName());                		
+            }
+            if (isNotBlank(rolodex.getLastName())) {
+                prop_person.setFullName(prop_person.getFullName() + " " + rolodex.getLastName());                     
             }
         }
         
