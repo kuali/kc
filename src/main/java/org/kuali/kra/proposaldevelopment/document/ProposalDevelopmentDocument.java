@@ -680,7 +680,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void addProposalPerson(ProposalPerson p) {
         p.setProposalPersonNumber(this.getProposalNextValue(Constants.PROPOSAL_PERSON_NUMBER));
         getProposalPersons().add(p);
-        //setNextProposalPersonNumber(getNextProposalPersonNumber().intValue() + 1);
     }
 
     public ProposalPerson getProposalPerson(int index) {

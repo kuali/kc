@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
+import org.apache.commons.beanutils.PropertyUtils;
 
 import static java.lang.Class.forName;
 import static org.apache.commons.beanutils.PropertyUtils.setProperty;
@@ -27,7 +28,7 @@ import static org.apache.commons.beanutils.PropertyUtils.setProperty;
  * Full of static methods for JSTL function access.
  * 
  * @author $Author: lprzybyl $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class JstlFunctions {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(JstlFunctions.class);
@@ -75,11 +76,16 @@ public class JstlFunctions {
                 }
                 catch (Exception e) {
                     LOG.warn("Could not set property " +  entry.getKey() + " in " + buildTraceMessage(e));
+                    e.printStackTrace();
                 }
             }
         }
 
         return retval;
+    }
+    
+    private Object buildPropertyParameter(Object obj, String propertyName) throws Exception {
+        return PropertyUtils.getPropertyDescriptor(obj, propertyName).getWriteMethod().getParameterTypes()[0];
     }
 
     /**
@@ -91,6 +97,6 @@ public class JstlFunctions {
     private static String buildTraceMessage(Throwable thrownObj) {
         return thrownObj.getStackTrace()[0].getClassName() + "#" 
             + thrownObj.getStackTrace()[0].getMethodName() + ":" 
-                + thrownObj.getStackTrace()[0].getLineNumber() + " " + thrownObj.getClass().getSimpleName();
+                + thrownObj.getStackTrace()[0].getLineNumber() + " " + thrownObj.getClass().getSimpleName() + "\n" + thrownObj.getMessage();
     }
 }
