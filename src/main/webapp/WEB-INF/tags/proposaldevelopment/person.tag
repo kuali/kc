@@ -34,7 +34,24 @@
                 <tbody id="G1">
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /></div></th>
-                    <td colspan="3"><kul:htmlControlAttribute property="${proposalPerson}.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /></td>
+                    <td colspan="3">
+                    <jsp:useBean id="paramMap" class="java.util.HashMap"/>
+                    <c:set var="paramMap.businessObjectClass" value="org.kuali.kra.proposaldevelopment.ProposalPersonRole" />
+                    <c:set var="paramMap.forAddedPerson" value="true" />
+                    <kul:checkErrors keyMatch="${proposalPerson}.proposalPersonRoleId" auditMatch="${proposalPerson}.proposalPersonRoleId"/>  
+                    <c:set var="roleStyle" value=""/>
+                    <c:if test="${hasErrors==true}">
+                        <c:set var="roleStyle" value="background-color:#FFD5D5"/>
+                    </c:if>
+                    <html:select property="${proposalPerson}.proposalPersonRoleId" tabindex="0" style="${roleStyle}">
+                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder', paramMap)}" var="option">
+                        <option value="${option.key}">${option.label}</option>
+                    </c:forEach>
+                    </html:select>
+                    <%--
+                    <kul:htmlControlAttribute property="${proposalPerson}.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" />
+                    --%>
+                    </td>
                   </tr>              
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.fullName}"  /></div></th>
@@ -61,6 +78,7 @@
                                                                            readOnly="${!personEditableFields['officePhone'] }" />
                     </td>
                   </tr>
+               
                   <tr>
                     <th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.primaryTitle}"  /> </div></th>
 
