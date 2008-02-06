@@ -78,7 +78,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             // populate 1st location.  Not sure yet
             ProposalLocation propLocation=new ProposalLocation();
             propLocation.setLocation(proposalDevelopmentDocument.getOrganization().getOrganizationName());
-            propLocation.setLocationSequenceNumber(proposalDevelopmentDocument.getProposalNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
+            propLocation.setLocationSequenceNumber(proposalDevelopmentDocument.getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
             proposalDevelopmentDocument.getProposalLocations().add(propLocation);
         }
 
@@ -125,7 +125,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalLocation newProposalLocation = proposalDevelopmentForm.getNewPropLocation();
         if(getKualiRuleService().applyRules(new AddProposalLocationEvent(Constants.EMPTY_STRING, proposalDevelopmentForm.getProposalDevelopmentDocument(), newProposalLocation))){
-            newProposalLocation.setLocationSequenceNumber(proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
+            newProposalLocation.setLocationSequenceNumber(proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNextValue(Constants.PROPOSAL_LOCATION_SEQUENCE_NUMBER));
             proposalDevelopmentForm.getProposalDevelopmentDocument().getProposalLocations().add(newProposalLocation);
             proposalDevelopmentForm.setNewPropLocation(new ProposalLocation());
         }
