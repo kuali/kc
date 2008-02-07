@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package org.kuali.kra.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kra.kim.pojo.Permission;
 import org.kuali.kra.kim.pojo.Role;
 
@@ -50,9 +49,9 @@ public interface SystemAuthorizationService {
     /**
      * Does the given user have the given permission?
      * 
-     * @param user the user 
+     * @param username the user's username
      * @param permissionName the permission name
      * @return true if the user has the given permission; otherwise false.
      */
-    public boolean hasPermission(UniversalUser user, String permissionName);
+    public boolean hasPermission(String username, String permissionName);
 }

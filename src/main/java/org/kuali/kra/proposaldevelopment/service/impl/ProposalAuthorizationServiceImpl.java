@@ -15,12 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.QualifiedRoleService;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -93,26 +96,74 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
     }
     
     /**
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#hasPermission(org.kuali.core.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
      */
-    public boolean hasPermission(UniversalUser user, ProposalDevelopmentDocument doc, String permissionName) {
-        String userId = user.getPersonUserIdentifier();
+    public boolean hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber().toString());
-        boolean userHasPermission = kimPersonService.hasQualifiedPermission(userId, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
+        boolean userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
         if (!userHasPermission) {
             String unitNumber = doc.getOwnedByUnitNumber();
-            userHasPermission = unitAuthorizationService.hasPermission(user, unitNumber, permissionName);
+            userHasPermission = unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
         
         }
         return userHasPermission;
     }
 
     /**
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#hasPermission(org.kuali.core.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.Narrative, java.lang.String)
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.Narrative, java.lang.String)
      */
-    public boolean hasPermission(UniversalUser user, ProposalDevelopmentDocument doc, Narrative narrative, String permissionName) {
+    public boolean hasPermission(String username, ProposalDevelopmentDocument doc, Narrative narrative, String permissionName) {
         // TODO Auto-generated method stub
         return false;
+    }
+   
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#hasRole(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
+     */
+    public boolean hasRole(String username, ProposalDevelopmentDocument doc, String roleName) {
+        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber().toString());
+        return kimPersonService.hasQualifiedRole(username, roleName, qualifiedRoleAttributes);
+    }
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#getRoles(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public List<String> getRoles(String username, ProposalDevelopmentDocument doc) {
+        List<String> roleNames = new ArrayList<String>();
+        Integer proposalNbr = doc.getProposalNumber();
+        if (proposalNbr != null) {
+            String nbr = proposalNbr.toString();
+            List<QualifiedRole> roles = kimPersonService.getQualifiedRoles(username);
+            for (QualifiedRole role : roles) {
+                Map<String, String> attrs = role.getQualifiedRoleAttributes();
+                if (attrs.containsKey(PROPOSAL_KEY)) {
+                    String value = attrs.get(PROPOSAL_KEY);
+                    if (value.equals(nbr)) {
+                        roleNames.add(role.getRoleName());
+                    }
+                }
+            }
+        }
+        return roleNames;
+    }
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#getPersonsInRole(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
+     */
+    public List<Person> getPersonsInRole(ProposalDevelopmentDocument doc, String roleName) {
+        List<Person> persons = new ArrayList<Person>();
+        Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
+        qualifiedRoleAttrs.put(PROPOSAL_KEY, doc.getProposalNumber().toString());
+        List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
+        for (String username : usernames) {
+            org.kuali.kra.service.PersonService personService = KraServiceLocator.getService(org.kuali.kra.service.PersonService.class);
+            Person person = personService.getPersonByName(username);
+            if (person != null) {
+                persons.add(person);
+            }
+        }
+        return persons;
     }
 }

@@ -47,8 +47,9 @@ public class LeadUnitValuesFinder extends KeyValuesBase {
         keyValues.add(new KeyLabelPair("", "select:"));
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String username = user.getPersonUserIdentifier();
         UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      
-        List<Unit> userUnits = authService.getUnits(user, PermissionConstants.CREATE_PROPOSAL);
+        List<Unit> userUnits = authService.getUnits(username, PermissionConstants.CREATE_PROPOSAL);
 
         // Sort the list of units by Unit Number.  If there are lots of units,
         // the sort will make it easier for the user to find when they view

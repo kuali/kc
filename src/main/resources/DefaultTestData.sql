@@ -74,6 +74,7 @@ insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(2,'Aggregator','Proposal Ag
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(3,'Narrative Writer','Proposal Narrative Writer');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(4,'Budget Creator','Proposal Budget Creator');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(5,'Viewer','Proposal Viewer');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(6,'unassigned','Unassigned - no permissions');
 ;
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(1,1);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,2);

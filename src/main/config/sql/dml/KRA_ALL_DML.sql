@@ -665,7 +665,7 @@ COMMIT;
 
 /* Load data for degree_type Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.2 2008-01-28 15:50:10 dbarre Exp $
+# $Id: KRA_ALL_DML.sql,v 1.3 2008-02-07 18:30:16 dbarre Exp $
 #
 insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) values ('AS', 'Associate in Science', sysdate, 'kradev');
 insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) values ('BA', 'Bachelor of Arts', sysdate, 'kradev');
@@ -722,7 +722,7 @@ COMMIT;
 
 /* Load data for eps_prop_person_role Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.2 2008-01-28 15:50:10 dbarre Exp $
+# $Id: KRA_ALL_DML.sql,v 1.3 2008-02-07 18:30:16 dbarre Exp $
 #
 insert into EPS_PROP_PERSON_ROLE (PROP_PERSON_ROLE_ID, DESCRIPTION, CERTIFICATION_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('PI', 'Principal Investigator', 'Y', sysdate, 'kradev');
 insert into EPS_PROP_PERSON_ROLE (PROP_PERSON_ROLE_ID, DESCRIPTION, CERTIFICATION_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('COI', 'Co-Investigator', 'Y', sysdate, 'kradev');
@@ -777,7 +777,7 @@ COMMIT;
 
 /* Load data for inv_credit_type Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.2 2008-01-28 15:50:10 dbarre Exp $
+# $Id: KRA_ALL_DML.sql,v 1.3 2008-02-07 18:30:16 dbarre Exp $
 #
 insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('0', 'Recognition', 'N', sysdate, 'kradev');
 insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('1', 'Responsibility', 'N', sysdate, 'kradev');
@@ -1436,7 +1436,7 @@ COMMIT;
 
 /* Load data for person_editable_fields Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.2 2008-01-28 15:50:10 dbarre Exp $
+# $Id: KRA_ALL_DML.sql,v 1.3 2008-02-07 18:30:16 dbarre Exp $
 #
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('fullName', sysdate, 'kradev');
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('emailAddress', sysdate, 'kradev');
@@ -3519,6 +3519,7 @@ insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(2,'Aggregator','Proposal Ag
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(3,'Narrative Writer','Proposal Narrative Writer');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(4,'Budget Creator','Proposal Budget Creator');
 insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(5,'Viewer','Proposal Viewer');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(6,'unassigned','Unassigned - no permissions');
 
 COMMIT;
 

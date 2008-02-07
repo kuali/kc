@@ -32,5 +32,9 @@
 			<param name="beanName" value="unitService" />
 			<include method="getUnitName" />
 		</create>
+		<create creator="spring" javascript="PersonService">
+			<param name="beanName" value="personService" />
+			<include method="getPersonFullname" />
+		</create>
 	</allow>
 </dwr>

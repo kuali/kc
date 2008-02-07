@@ -15,22 +15,18 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="proposalDevelopmentPermissions"
-	documentTypeName="ProposalDevelopmentDocument"
-	renderMultipart="false"
-	showTabButtons="true"
-	auditCount="0"
-  	headerDispatch="save"
-  	headerTabActive="permissions">
-
-	<kra-pd:proposalDevelopmentAssignedRoles /> 
-	<kra-pd:proposalDevelopmentPermissionUsers />
-	<kul:panelFooter />	
-	
-	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<kul:page lookup="true" 
+          docTitle="Roles" 
+          transactionalDocument="true" 
+          htmlFormAction="proposalDevelopmentPermissions">
+          
 	<script language="javascript" src="scripts/kuali_application.js"></script>
-	<script language="javascript" src="dwr/interface/PersonService.js"></script>
-	<script>loadPersonName('newProposalUser.username', 'fullname');</script>
-</kul:documentPage>
+	<div align="center" style="margin:10px">
+		<kra-pd:proposalDevelopmentPermissionsEditRoles />
+		<kul:panelFooter />
+				
+		<div id="globalbuttons" class="globalbuttons">
+			<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.setEditRoles" title="save" alt="save" />	
+		</div>
+	</div>
+</kul:page>
