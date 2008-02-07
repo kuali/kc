@@ -64,7 +64,7 @@
           <forward name="attachmentRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentAttachmentRights.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentCustomData.jsp" />
           <forward name="actions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentActions.jsp" />
-          <forward name="auditMode" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentAuditMode.jsp" redirect="false" />
+       
           <forward name="grantsGov" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentGrantsGov.jsp" />
           <forward name="permissions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissions.jsp" />
           <forward name="permissionsRoleRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsRoleRights.jsp" />
