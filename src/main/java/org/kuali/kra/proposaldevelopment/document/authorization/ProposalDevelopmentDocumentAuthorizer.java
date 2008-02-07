@@ -56,7 +56,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         // is accessed for modification.  New proposals under creation don't have a proposal number.
         // For a new proposal, we have to know if the user has the permission to create a proposal.
         // For a current proposal, we have to know if the user the permission to modify or view the proposal.
-
+        
+        String username = user.getPersonUserIdentifier();
         if (proposalNbr == null) {
             if (hasCreatePermission(user)) {
                 editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
@@ -64,10 +65,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, "TRUE");
             }
         } else {
-            if (proposalAuthService.hasPermission(user, proposalDoc, PermissionConstants.MODIFY_PROPOSAL)) {
+            if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.MODIFY_PROPOSAL)) {
                 editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
             }
-            else if (proposalAuthService.hasPermission(user, proposalDoc, PermissionConstants.VIEW_PROPOSAL)) {
+            else if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.VIEW_PROPOSAL)) {
                 editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, "TRUE");
             }
             else {
@@ -103,8 +104,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @return true if the user has the CREATE_PROPOSAL permission in at least one unit; otherwise false
      */
     private boolean hasCreatePermission(UniversalUser user) {
+        String username = user.getPersonUserIdentifier();
         UnitAuthorizationService auth = (UnitAuthorizationService) KraServiceLocator.getService(UnitAuthorizationService.class);
-        return auth.hasPermission(user, PermissionConstants.CREATE_PROPOSAL);
+        return auth.hasPermission(username, PermissionConstants.CREATE_PROPOSAL);
     }
 
     /**

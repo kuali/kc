@@ -1845,176 +1845,176 @@
 	</class-descriptor>
 	
 	<!-- KIM OJB Mappings -->
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimPerson" table="KIM_PERSONS_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="username" column="USERNAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="password" column="PASSWORD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>	
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimGroup" table="KIM_GROUPS_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimPermission" table="KIM_PERMISSIONS_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="namespaceId" column="NAMESPACE_ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>	
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimRole" table="KIM_ROLES_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimNamespace" table="KIM_NAMESPACES_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.AttributeType" table="KIM_ATTRIBUTE_TYPES_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="attributeTypeName" column="NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimPersonAttribute" table="KIM_PERSON_ATTRIBUTES_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT" />
-		<field-descriptor name="namespaceId" column="SPONSOR_NAMESPACE_ID" jdbc-type="BIGINT" />
-		<field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="BIGINT"/>	
-		<field-descriptor name="attributeValue" column="ATTRIBUTE_VALUES" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimGroupAttribute" table="KIM_GROUP_ATTRIBUTES_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="INTEGER"/>
-		<field-descriptor name="attributeValue" column="ATTRIBUTE_VALUES" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimNamespaceDefaultAttribute" table="KIM_NAMESPACE_DFLT_ATTRIBS_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="namespaceId" column="NAMESPACE_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimRoleAttribute" table="KIM_ROLE_ATTRIBUTES_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="attributeValue" column="ATTRIBUTE_VALUE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimPersonQualifiedRoleAttribute" table="KIM_PERSON_QUAL_ATTR_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="rolePersonId" column="ROLE_PERSON_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="attributeValue" column="ATTRIBUTE_VALUE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimGroupQualifiedRoleAttribute" table="KIM_GROUP_QUAL_ATTR_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="roleGroupId" column="ROLE_GROUP_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="attributeValue" column="ATTRIBUTE_VALUE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimRolePermission" table="KIM_ROLES_PERMISSIONS_T">
-		<field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="permissionId" column="PERMISSION_ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimRolePerson" table="KIM_ROLES_PERSONS_T">
-	    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" />
-		<field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimRoleGroup" table="KIM_ROLES_GROUPS_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" />
-		<field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimQualifiedRolePerson" table="KIM_ROLES_PERSONS_QUAL_T">
-	    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" />
-		<field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    	
-    	<collection-descriptor name="qualifiedRoleAttributes" proxy="true" element-class-ref="org.kuali.kra.kim.bo.KimPersonQualifiedRoleAttribute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="rolePersonId"/>
-		</collection-descriptor>
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimQualifiedRoleGroup" table="KIM_ROLES_GROUPS_QUAL_T">
-		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" />
-		<field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    	
-    	<collection-descriptor name="qualifiedRoleAttributes" proxy="true" element-class-ref="org.kuali.kra.kim.bo.KimGroupQualifiedRoleAttribute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="roleGroupId"/>
-		</collection-descriptor>
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimGroupPerson" table="KIM_GROUPS_PERSONS_T">
-		<field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.kra.kim.bo.KimGroupGroup" table="KIM_GROUPS_GROUPS_T">
-		<field-descriptor name="parentGroupId" column="PARENT_GROUP_ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="memberGroupId" column="MEMBER_GROUP_ID" jdbc-type="BIGINT" primarykey="true"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<!-- End KIM OJB Mappings -->
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimPerson" table="KIM_PERSONS_T">
+    	<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"/>
+        <field-descriptor name="username" column="USERNAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="password" column="PASSWORD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimGroup" table="KIM_GROUPS_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_GROUPS_ID"/>
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimPermission" table="KIM_PERMISSIONS_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_PERMISSIONS_ID"/>
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="namespaceId" column="NAMESPACE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimRole" table="KIM_ROLES_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLES_ID"/>
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimNamespace" table="KIM_NAMESPACES_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_NAMESPACES_ID"/>
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.AttributeType" table="KIM_ATTRIBUTE_TYPES_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ATTRIBUTE_TYPE_ID"/>
+        <field-descriptor name="attributeTypeName" column="NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimPersonAttribute" table="KIM_PERSON_ATTRIBUTES_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" />
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="namespaceId" column="SPONSOR_NAMESPACE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="attributeValue" column="ATTRIBUTE_VALUES" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimGroupAttribute" table="KIM_GROUP_ATTRIBUTES_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_GROUP_ATTRIBUTES_ID"/>
+        <field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="INTEGER"/>
+        <field-descriptor name="attributeValue" column="ATTRIBUTE_VALUES" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimNamespaceDefaultAttribute" table="KIM_NAMESPACE_DFLT_ATTRIBS_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_NS_DFLT_ATTRIBS_ID"/>
+        <field-descriptor name="namespaceId" column="NAMESPACE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimRoleAttribute" table="KIM_ROLE_ATTRIBUTES_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLE_ATTRIBUTES_ID"/>
+        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeTypeId" column="ATTRIBUTE_TYPE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="attributeValue" column="ATTRIBUTE_VALUE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimPersonQualifiedRoleAttribute" table="KIM_PERSON_QUAL_ATTR_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_PERSON_QUAL_ATTR_ID"/>
+        <field-descriptor name="rolePersonId" column="ROLE_PERSON_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeValue" column="ATTRIBUTE_VALUE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimGroupQualifiedRoleAttribute" table="KIM_GROUP_QUAL_ATTR_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_GROUP_QUAL_ATTR_ID"/>
+        <field-descriptor name="roleGroupId" column="ROLE_GROUP_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="attributeName" column="ATTRIBUTE_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeValue" column="ATTRIBUTE_VALUE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimRolePermission" table="KIM_ROLES_PERMISSIONS_T">
+        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"/>
+        <field-descriptor name="permissionId" column="PERMISSION_ID" jdbc-type="BIGINT" primarykey="true"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimRolePerson" table="KIM_ROLES_PERSONS_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLES_PERSONS_ID"/>
+        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimRoleGroup" table="KIM_ROLES_GROUPS_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLES_GROUPS_ID"/>
+        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimQualifiedRolePerson" table="KIM_ROLES_PERSONS_QUAL_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLES_PERSONS_QUAL_ID"/>
+        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    
+        <collection-descriptor name="qualifiedRoleAttributes" proxy="true" element-class-ref="org.kuali.kra.kim.bo.KimPersonQualifiedRoleAttribute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="rolePersonId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimQualifiedRoleGroup" table="KIM_ROLES_GROUPS_QUAL_T">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_ROLES_GROUPS_QUAL_ID" />
+        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    
+        <collection-descriptor name="qualifiedRoleAttributes" proxy="true" element-class-ref="org.kuali.kra.kim.bo.KimGroupQualifiedRoleAttribute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="roleGroupId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimGroupPerson" table="KIM_GROUPS_PERSONS_T">
+        <field-descriptor name="groupId" column="GROUP_ID" jdbc-type="BIGINT" primarykey="true"/>
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="BIGINT" primarykey="true"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.kra.kim.bo.KimGroupGroup" table="KIM_GROUPS_GROUPS_T">
+        <field-descriptor name="parentGroupId" column="PARENT_GROUP_ID" jdbc-type="BIGINT" primarykey="true"/>
+        <field-descriptor name="memberGroupId" column="MEMBER_GROUP_ID" jdbc-type="BIGINT" primarykey="true"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <!-- End KIM OJB Mappings -->
 	
 </descriptor-repository>
