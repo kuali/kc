@@ -15,10 +15,9 @@
  */
 package org.kuali.kra.rules;
 
-
 import java.util.List;
 
-import org.kuali.core.document.Document;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
@@ -26,12 +25,15 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 
 /**
  * Base implementation class for KRA document business rules
  *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.4 $
+ * @author $Author: dbarre $
+ * @version $Revision: 1.5 $
  */
 public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);
@@ -80,4 +82,53 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
         return valid;
     }
 
+    /**
+     * Does the current user have the given permission for the proposal?
+     * @param doc the Proposal Development Document
+     * @param permissionName the name of the permission
+     * @return true if user has permission; otherwise false
+     */
+    protected boolean hasPermission(ProposalDevelopmentDocument doc, String permissionName) {
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String username = user.getPersonUserIdentifier();
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        return proposalAuthService.hasPermission(username, doc, permissionName);
+    }
+    
+    /**
+     * Does the current user have the given role for the proposal?
+     * @param doc the Proposal Development Document
+     * @param roleName the name of the role
+     * @return true if user has role; otherwise false
+     */
+    protected boolean hasRole(ProposalDevelopmentDocument doc, String roleName) {
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String username = user.getPersonUserIdentifier();
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        return proposalAuthService.hasRole(username, doc, roleName);
+    }
+
+    /**
+     * Does the given user have the given permission for the proposal?
+     * @param username the user's username
+     * @param doc the Proposal Development Document
+     * @param permissionName the name of the permission
+     * @return true if user has permission; otherwise false
+     */
+    protected boolean hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        return proposalAuthService.hasPermission(username, doc, permissionName);
+    }
+    
+    /**
+     * Does the given user have the given role for the proposal?
+     * @param username the user's username
+     * @param doc the Proposal Development Document
+     * @param roleName the name of the role
+     * @return true if user has role; otherwise false
+     */
+    protected boolean hasRole(String username, ProposalDevelopmentDocument doc, String roleName) {
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        return proposalAuthService.hasRole(username, doc, roleName);   
+    }
 }

@@ -106,4 +106,12 @@ public interface Constants {
 
     // KIM Authorization Namespace for KRA
     public static final String KRA_NAMESPACE = "KRA";
+    
+    // Key Permissions Info
+    public static final String CONFIRM_DELETE_PROPOSAL_USER_KEY = "confirmDeleteProposalUser";
+    public static final String PERMISSION_USERS_PROPERTY_KEY = "newProposalUser";
+    public static final String EDIT_ROLES_PROPERTY_KEY = "proposalUserEditRole";
+    public static final String MAPPING_PERMISSIONS_ROLE_RIGHTS_PAGE = "permissionsRoleRights";
+    public static final String MAPPING_PERMISSIONS_EDIT_ROLES_PAGE = "permissionsEditRoles";
+    public static final String MAPPING_PERMISSIONS_CLOSE_EDIT_ROLES_PAGE = "permissionsCloseEditRoles";
 }

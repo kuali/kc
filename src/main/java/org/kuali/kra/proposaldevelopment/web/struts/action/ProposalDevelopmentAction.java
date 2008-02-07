@@ -23,21 +23,26 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 
@@ -127,8 +132,23 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.save(mapping, form, request, response);
+
+        // We will need to determine if the proposal is being saved for the first time.
+        
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        String originalStatus = getStatus(doc);
+        
+        ActionForward forward = super.save(mapping, form, request, response);
+       
+        // Special processing on the initial save of a proposal goes here!
+        
+        if (isInitialSave(originalStatus)) {
+            initializeProposalUsers(doc); 
+        }
+        return forward;
     }
+    
 
     public ActionForward proposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("proposal");
@@ -252,5 +272,39 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
      */
     protected KualiConfigurationService getConfigurationService() {
         return getService(KualiConfigurationService.class);
+    }
+    
+    /**
+     * Get the current status of the document.  
+     * @param doc the Proposal Development Document
+     * @return the status (INITIATED, SAVED, etc.)
+     */
+    private String getStatus(ProposalDevelopmentDocument doc) {
+        return doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
+    }
+    
+    /**
+     * Is this the initial save of the document?
+     * @param status the original status before the save operation
+     * @return true if the initial save; otherwise false
+     */
+    private boolean isInitialSave(String status) {
+        return GlobalVariables.getErrorMap().isEmpty() &&
+               StringUtils.equals("INITIATED", status);
+    }
+    
+    /**
+     * Create the original set of Proposal Users for a new Proposal Development Document.
+     * The creator the proposal is assigned to the AGGREGATOR role.
+     * @param doc the Proposal Development Document
+     */
+    private void initializeProposalUsers(ProposalDevelopmentDocument doc) {
+        
+        // Assign the creator of the proposal to the AGGREGATOR role.
+        
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String username = user.getPersonUserIdentifier();
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
     }
 }
