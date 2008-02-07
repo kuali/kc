@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package org.kuali.kra.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kra.bo.Unit;
 
 /**
@@ -33,31 +32,31 @@ public interface UnitAuthorizationService {
      * If the user has the permission in the global space, this method will 
      * return true.  Likewise, true will be returned in the user has this
      * permission in any qualified role.
-     * @param user the user
+     * @param username the user's username
      * @param permissionName the name of the permission
      * @return true if the user has permission; otherwise false
      */
-    public boolean hasPermission(UniversalUser user, String permissionName);
+    public boolean hasPermission(String username, String permissionName);
     
     /**
      * Does the user have the given permission in the specified unit?  
      * Along with checking the specific unit, if the user has the permission
      * in the global space, this method will also return true.
-     * @param user the user
+     * @param username the user's username
      * @param unitNumber the Unit's unique number
      * @param permissionName the name of the permission
      * @return true if the user has permission; otherwise false
      */
-    public boolean hasPermission(UniversalUser user, String unitNumber, String permissionName);
+    public boolean hasPermission(String username, String unitNumber, String permissionName);
     
     /**
      * Get the units that the user has the given permission in.
      * If the user has the permission in the global space, all of
      * the units will be returned.  If the user doesn't have permission
      * in any unit, an empty list is returned.
-     * @param user the user
+     * @param username the user's username
      * @param permissionName the name of the permission
      * @return the list of units the user has this permission in
      */
-    public List<Unit> getUnits(UniversalUser user, String permissionName);
+    public List<Unit> getUnits(String username, String permissionName);
 }

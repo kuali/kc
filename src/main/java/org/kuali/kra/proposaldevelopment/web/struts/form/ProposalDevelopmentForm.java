@@ -19,22 +19,28 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ActionFormUtilMap;
+import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.kim.pojo.Permission;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
@@ -44,8 +50,14 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
+import org.kuali.kra.service.SystemAuthorizationService;
+import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 /**
@@ -75,6 +87,10 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
     private Map<String, Parameter> proposalDevelopmentParameters;
     private Integer answerYesNo;
     private Integer answerYesNoNA;
+    private ProposalUser newProposalUser;
+    private String newBudgetVersionName;
+    private List<ProposalUserRoles> proposalUserRolesList = null;
+    private ProposalUserEditRoles proposalUserEditRoles;
     private boolean newProposalPersonRoleRendered;
 
     /**
@@ -106,6 +122,7 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
         setNewProposalPersonDegree(new ArrayList<ProposalPersonDegree>());
         setNewProposalPersonUnit(new ArrayList<Unit>());
         setNewProposalAbstract(new ProposalAbstract());
+        setNewProposalUser(new ProposalUser());
         setCopyCriteria(new ProposalCopyCriteria());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
@@ -193,6 +210,16 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
         for(int i=0; i<keywords.size(); i++) {
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword)keywords.get(i);
             propScienceKeyword.setSelectKeyword(false);
+        }
+        
+        // Clear the edit roles so that they can then be set by struts
+        // when the form is submitted.
+        ProposalUserEditRoles editRoles = this.getProposalUserEditRoles();
+        if (editRoles != null) {
+            editRoles.setAggregator(Boolean.FALSE);
+            editRoles.setBudgetCreator(Boolean.FALSE);
+            editRoles.setNarrativeWriter(Boolean.FALSE);
+            editRoles.setViewer(Boolean.FALSE);
         }
     }
 
@@ -519,6 +546,267 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
     public Integer getAnswerYesNoNA() {
         return Constants.ANSWER_YES_NO_NA;
     }
+    
+    /**
+     * Get the names of the Aggregators for this proposal from 
+     * the Proposal's ACL only.  Used by the JSP tags to display
+     * the Aggregators.
+     * @return a list of the names of the Aggregators.
+     */
+    public List<String> getAggregatorsByName() {
+        return getUsersInRole(RoleConstants.AGGREGATOR);
+    }
+    
+    /**
+     * Get the names of the Budget Creators for this proposal from 
+     * the Proposal's ACL only.  Used by the JSP tags to display
+     * the Budget Creators.
+     * @return a list of the names of the Budget Creators.
+     */
+    public List<String> getBudgetCreatorsByName() {
+        return getUsersInRole(RoleConstants.BUDGET_CREATOR);
+    }
+    
+    /**
+     * Get the names of the Narrative Writers for this proposal from 
+     * the Proposal's ACL only.  Used by the JSP tags to display
+     * the Narrative Writers.
+     * @return a list of the names of the Narrative Writers.
+     */
+    public List<String> getNarrativeWritersByName() {
+        return getUsersInRole(RoleConstants.NARRATIVE_WRITER);
+    }
+    
+    /**
+     * Get the names of the Proposal Viewers for this proposal from 
+     * the Proposal's ACL only.  Used by the JSP tags to display
+     * the Viewers.
+     * @return a list of the names of the Proposal Viewers.
+     */
+    public List<String> getViewersByName() {
+        return getUsersInRole(RoleConstants.VIEWER);
+    }
+    
+    /**
+     * Get the full names of the users with the given role in the proposal.
+     * @param roleName the name of the role
+     * @return the names of users with the role in the document
+     */
+    private List<String> getUsersInRole(String roleName) {
+        List<String> names = new ArrayList<String>();
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        List<Person> persons = proposalAuthService.getPersonsInRole(this.getProposalDevelopmentDocument(), roleName);
+        for (Person person : persons) {
+            names.add(person.getFullName());
+        }
+        
+        // Sort the list of names.
+        
+        Collections.sort(names, new Comparator() {
+            public int compare(Object o1, Object o2) {
+                String name1 = (String) o1;
+                String name2 = (String) o2;
+                if (name1 == null && name2 == null) return 0;
+                if (name1 == null) return -1;
+                return name1.compareTo(name2);
+            }
+        });
+        return names;
+    }
+    
+    /**
+     * Get the list of permissions for the Aggregator role.
+     * @return the list of Aggregator permissions
+     */
+    public List<Permission> getAggregatorPermissions() {
+        SystemAuthorizationService systemAuthService = KraServiceLocator.getService(SystemAuthorizationService.class);
+        return systemAuthService.getPermissionsForRole(RoleConstants.AGGREGATOR);
+    }
+    
+    /**
+     * Get the list of permissions for the Budget Creator role.
+     * @return the list of Budget Creator permissions
+     */
+    public List<Permission> getBudgetCreatorPermissions() {
+        SystemAuthorizationService systemAuthService = KraServiceLocator.getService(SystemAuthorizationService.class);
+        return systemAuthService.getPermissionsForRole(RoleConstants.BUDGET_CREATOR);
+    }
+    
+    /**
+     * Get the list of permissions for the Narrative Writer role.
+     * @return the list of Narrative Writer permissions
+     */
+    public List<Permission> getNarrativeWriterPermissions() {
+        SystemAuthorizationService systemAuthService = KraServiceLocator.getService(SystemAuthorizationService.class);
+        return systemAuthService.getPermissionsForRole(RoleConstants.NARRATIVE_WRITER);
+    }
+    
+    /**
+     * Get the list of permissions for the Viewer role.
+     * @return the list of Viewer permissions
+     */
+    public List<Permission> getViewerPermissions() {
+        SystemAuthorizationService systemAuthService = (SystemAuthorizationService) KraServiceLocator.getService(SystemAuthorizationService.class);
+        return systemAuthService.getPermissionsForRole(RoleConstants.VIEWER);
+    }
+    
+    /** 
+     * Gets the new proposal user.  This is the proposal user that is filled
+     * in by the user on the form before pressing the add button.
+     *
+     * @return the new proposal user
+     */
+    public ProposalUser getNewProposalUser() {
+        return newProposalUser;
+    }
+
+    /**
+     * Sets the new proposal user.  This is the proposal user that will be
+     * shown on the form.
+     *
+     * @param newProposalUser the new proposal user
+     */
+    public void setNewProposalUser(ProposalUser newProposalUser) {
+        this.newProposalUser = newProposalUser;
+    }
+    
+    /**
+     * Get the list of Proposal User Roles.  Each user has one or more
+     * roles assigned to the proposal.  This method builds the list each
+     * time it is invoked.  It is always invoked when the Permissions page
+     * is displayed.  After the list is built, the list can be obtained
+     * via the getCurrentProposalUserRoles() method.  Typically, the 
+     * getCurrentProposalUserRoles() is invoked from the Permission Actions.
+     * 
+     * @return the list of users with proposal roles and sorted by their full name
+     */
+    public synchronized List<ProposalUserRoles> getProposalUserRoles() {
+        proposalUserRolesList = new ArrayList<ProposalUserRoles>();
+        
+        // Add persons into the ProposalUserRolesList for each of the roles.
+        
+        addPersons(proposalUserRolesList, RoleConstants.AGGREGATOR);
+        addPersons(proposalUserRolesList, RoleConstants.BUDGET_CREATOR);
+        addPersons(proposalUserRolesList, RoleConstants.NARRATIVE_WRITER);
+        addPersons(proposalUserRolesList, RoleConstants.VIEWER);
+        addPersons(proposalUserRolesList, RoleConstants.UNASSIGNED);
+        
+        // Sort the list of users by their full name.
+        
+        Collections.sort(proposalUserRolesList, new Comparator() {
+            public int compare(Object o1, Object o2) {
+                ProposalUserRoles user1 = (ProposalUserRoles) o1;
+                ProposalUserRoles user2 = (ProposalUserRoles) o2;
+                return user1.getFullname().compareTo(user2.getFullname());
+            }
+        });
+        
+        return proposalUserRolesList;
+    }
+    
+    /**
+     * Get the current list of Proposal User Roles.
+     * @return the list of users with proposal roles
+     */
+    public List<ProposalUserRoles> getCurrentProposalUserRoles() {
+        if (proposalUserRolesList == null) {
+            getProposalUserRoles();
+        }
+        return proposalUserRolesList;
+    }
+    
+    /**
+     * Add a set of persons to the proposalUserRolesList for a given role.
+     * 
+     * @param proposalUserRolesList the list to add to
+     * @param roleName the name of role to query for persons assigned to that role
+     */
+    private void addPersons(List<ProposalUserRoles> proposalUserRolesList, String roleName) {
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
+        
+        List<Person> persons = proposalAuthService.getPersonsInRole(doc, roleName);
+        for (Person person : persons) {
+            ProposalUserRoles proposalUserRoles = findProposalUserRoles(proposalUserRolesList, person.getUserName());
+            if (proposalUserRoles != null) {
+                proposalUserRoles.addRoleName(roleName);
+            } else {
+                proposalUserRolesList.add(buildProposalUserRoles(person, roleName));
+            }
+        }
+    }
+    
+    /**
+     * Find a user in the list of proposalUserRolesList based upon the user's username.
+     * 
+     * @param proposalUserRolesList the list to search
+     * @param username the user's username to search for
+     * @return the proposalUserRoles or null if not found
+     */
+    private ProposalUserRoles findProposalUserRoles(List<ProposalUserRoles> proposalUserRolesList, String username) {
+        for (ProposalUserRoles proposalUserRoles : proposalUserRolesList) {
+            if (StringUtils.equals(username, proposalUserRoles.getUsername())) {
+                return proposalUserRoles;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Build a ProposalUserRoles instance.  Assemble the information about
+     * the user (person) into a ProposalUserRoles along with the home unit
+     * info for that person.
+     * 
+     * @param person the person
+     * @param roleName the name of the role
+     * @return a new ProposalUserRoles instance
+     */
+    private ProposalUserRoles buildProposalUserRoles(Person person, String roleName) {
+        ProposalUserRoles proposalUserRoles = new ProposalUserRoles();
+        
+        // Set the person's username, rolename, fullname, and home unit.
+
+        proposalUserRoles.setUsername(person.getUserName());
+        proposalUserRoles.addRoleName(roleName);
+        proposalUserRoles.setFullname(person.getFullName());
+        proposalUserRoles.setUnitNumber(person.getHomeUnit());
+        
+        // Query the database to find the name of the unit.
+            
+        UnitService unitService = KraServiceLocator.getService(UnitService.class);
+        Unit unit = unitService.getUnit(person.getHomeUnit());
+        if (unit != null) {
+            proposalUserRoles.setUnitName(unit.getUnitName());
+        }
+        
+        return proposalUserRoles;
+    }
+
+    /**
+     * Get the Edit Roles BO that is simply a form filled in by a
+     * user via the Edit Roles web page.
+     * 
+     * @return the edit roles object
+     */
+    public ProposalUserEditRoles getProposalUserEditRoles() {
+        return proposalUserEditRoles;
+    }
+
+    /**
+     * Set the Edit Roles BO.
+     * @param proposalUserEditRoles the Edit Roles BO
+     */
+    public void setProposalUserEditRoles(ProposalUserEditRoles proposalUserEditRoles) {
+        this.proposalUserEditRoles = proposalUserEditRoles;
+    }
+
+    public String getNewBudgetVersionName() {
+        return newBudgetVersionName;
+    }
+
+    public void setNewBudgetVersionName(String newBudgetVersionName) {
+        this.newBudgetVersionName = newBudgetVersionName;
+    }
 
     /**
      * Used to indicate to the values finder whether the role has already been rendered
@@ -537,5 +825,4 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
     public void setNewProposalPersonRoleRendered(boolean newProposalPersonRoleRendered) {
         this.newProposalPersonRoleRendered = newProposalPersonRoleRendered;
     }
-
 }
