@@ -92,6 +92,7 @@
         <br>
               <div align=center><html:image property="methodToCall.recalculateCreditSplit" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate" alt="Recalculate" styleClass="tinybutton"/>
     </div>
+    </div>
 </kul:tab>
 
 </c:if>
