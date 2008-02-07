@@ -633,11 +633,11 @@
             <navigateTo>actions</navigateTo>
             <displayName>Proposal Actions</displayName>
           </headerNavigationTab>
-          <headerNavigationTab>
+         <!--    <headerNavigationTab>
 		    <navigateTo>auditMode</navigateTo>
-		    <displayName>Audit Mode</displayName>
-		  </headerNavigationTab>
-        </headerNavigation>
+		    <displayName>Audit Mode</displayName> 
+		  </headerNavigationTab>-->
+        </headerNavigation> 
 
         <allowsErrorCorrection>false</allowsErrorCorrection>
     </transactionalDocument>
