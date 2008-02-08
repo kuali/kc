@@ -31,7 +31,7 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.KraTestBase;
-import org.kuali.kra.proposaldevelopment.bo.CarrierType;
+import org.kuali.kra.proposaldevelopment.bo.MailType;
 
 /**
  * This class tests the KraServiceLocator
@@ -62,7 +62,7 @@ public class KraServiceLocatorTest extends KraTestBase {
         BusinessObjectDao businessObjectDao = (BusinessObjectDao)KraServiceLocator.getService(Constants.BUSINESS_OBJECT_DAO_NAME);
         assertNotNull(businessObjectDao);
 
-        Collection carrierTypes = businessObjectDao.findAll(CarrierType.class);
+        Collection carrierTypes = businessObjectDao.findAll(MailType.class);
         assertEquals(3, carrierTypes.size());
     }
 
