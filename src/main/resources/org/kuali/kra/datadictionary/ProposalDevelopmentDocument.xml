@@ -263,17 +263,17 @@
 				<label>Sponsor Div Code</label>
 				<shortLabel>Sponsor Div Code</shortLabel>
 
-				<maxLength>3</maxLength>
-				<validationPattern><alphaNumeric /></validationPattern>
+				<maxLength>50</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
 				<required>false</required>
 
 				<control>
-					<text size="20"/>
+					<text size="50"/>
 				</control>
 
 				<summary>The Sponsor Division Code for this Proposal.</summary>
-				<description>A 3-digit code that is unique to each NSF division.  Currently specific to the NSF only.</description>
+				<description>A code that is unique to each NSF division.  Currently specific to the NSF only.</description>
 			</attribute>
 
 			<attribute name="programAnnouncementTitle">
@@ -372,17 +372,17 @@
 				<label>Sponsor Program Code</label>
 				<shortLabel>Sponsor Program Code</shortLabel>
 
-				<maxLength>3</maxLength>
-				<validationPattern><alphaNumeric /></validationPattern>
+				<maxLength>50</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
 				<required>false</required>
 
                 <control>
-					<text size="20"/>
+					<text size="50"/>
                 </control>
 
 				<summary>The Sponsor Program Code for this Proposal.</summary>
-				<description>A 3-digit code that is unique to each NSF program.  Currently specific to the NSF only.</description>
+				<description>A code that is unique to each NSF program.  Currently specific to the NSF only.</description>
 			</attribute>
 
 <!-- delivery info -->
