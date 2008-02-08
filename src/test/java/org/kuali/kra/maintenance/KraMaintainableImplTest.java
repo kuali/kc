@@ -24,7 +24,8 @@ import org.kuali.core.UserSession;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.proposaldevelopment.bo.CarrierType;
+//import org.kuali.kra.proposaldevelopment.bo.CarrierType;
+import org.kuali.kra.proposaldevelopment.bo.MailType;
 
 /**
  * This class tests KraMaintainableImpl.
@@ -40,7 +41,7 @@ public class KraMaintainableImplTest extends KraTestBase {
     @Test public void testPrepareForSaveInsertQuickstart() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
 
-        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new CarrierType();
+        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
@@ -58,7 +59,7 @@ public class KraMaintainableImplTest extends KraTestBase {
     @Test public void testPrepareForSaveUpdateQuickstart() throws Exception {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
 
-        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new CarrierType();
+        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
@@ -76,7 +77,7 @@ public class KraMaintainableImplTest extends KraTestBase {
     @Test public void testPrepareForSaveInsertUser4() throws Exception {
         GlobalVariables.setUserSession(new UserSession("user4"));
 
-        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new CarrierType();
+        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
@@ -94,7 +95,7 @@ public class KraMaintainableImplTest extends KraTestBase {
     @Test public void testPrepareForSaveUpdateUser4() throws Exception {
         GlobalVariables.setUserSession(new UserSession("user4"));
 
-        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new CarrierType();
+        KraPersistableBusinessObjectBase kraPersistableBusinessObjectBase = new MailType();
         KraMaintainableImpl kraMaintainableImpl = new KraMaintainableImpl();
         kraMaintainableImpl.setBusinessObject(kraPersistableBusinessObjectBase);
 
