@@ -32,8 +32,9 @@
 			    <c:set var="class" value="" />
 				${index+1}
 			</c:otherwise>
+			 
 		</c:choose>
-        <input type="hidden" name="${docLocation}.proposalNumber" value="${KualiForm.document.proposalNumber}">
+		<input type="hidden" name="${docLocation}.proposalNumber" value="${KualiForm.document.proposalNumber}">
 	</th>
 	<td class="${class}" width="20%">
 		<kul:htmlControlAttribute
@@ -41,6 +42,7 @@
 			attributeEntry="${propLocationAttributes.location}" />
 	</td>
 	<td class="${class}" width="45%">
+	
 		<kul:htmlControlAttribute
 			property="${docLocation}.rolodexId"
 			attributeEntry="${propLocationAttributes.rolodexId}" />
@@ -57,8 +59,16 @@
 				name="${docLocation}.rolodex.rolodexId"
 				value="${locationIter.rolodexId}">
 		</c:if>
-		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex"
-			fieldConversions="rolodexId:${docLocation}.rolodexId,postalCode:${docLocation}.rolodex.postalCode,addressLine1:${docLocation}.rolodex.addressLine1,addressLine2:${docLocation}.rolodex.addressLine2,addressLine3:${docLocation}.rolodex.addressLine3,city:${docLocation}.rolodex.city,state:${docLocation}.rolodex.state"  anchor="${currentTabIndex}"/>
+		
+	<c:choose>
+			<c:when test="${index == -1}">
+		(select)<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:${docLocation}.rolodexId,postalCode:${docLocation}.rolodex.postalCode,addressLine1:${docLocation}.rolodex.addressLine1,addressLine2:${docLocation}.rolodex.addressLine2,addressLine3:${docLocation}.rolodex.addressLine3,city:${docLocation}.rolodex.city,state:${docLocation}.rolodex.state"  anchor="${currentTabIndex}"/>
+	</c:when>
+	<c:otherwise>
+		<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:${docLocation}.rolodexId,postalCode:${docLocation}.rolodex.postalCode,addressLine1:${docLocation}.rolodex.addressLine1,addressLine2:${docLocation}.rolodex.addressLine2,addressLine3:${docLocation}.rolodex.addressLine3,city:${docLocation}.rolodex.city,state:${docLocation}.rolodex.state"  anchor="${currentTabIndex}"/>
+			</c:otherwise>
+		</c:choose>
+		
 		<c:if test="${index != -1}">
             <kul:directInquiry boClassName="org.kuali.kra.bo.Rolodex" inquiryParameters="${docLocation}.rolodexId:rolodexId" anchor="${currentTabIndex}"/>
 		</c:if>
@@ -78,6 +88,7 @@
 		</c:if>
 	</td>
 	<td class="${class}" width="25%">
+	
 		<c:choose>
 			<c:when test="${index == -1}">
 				<div align=center>
@@ -87,6 +98,7 @@
 			</c:when>
 			<c:otherwise>
 				<div align=center>
+				
 					<html:image property="methodToCall.clearAddress.line${index}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-clraddress.gif' />
 					<html:image property="methodToCall.deleteLocation.line${index}.anchor${currentTabIndex}"
