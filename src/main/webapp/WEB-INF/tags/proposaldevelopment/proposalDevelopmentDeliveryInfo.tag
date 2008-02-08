@@ -52,10 +52,18 @@
                 	<kul:htmlControlAttribute property="document.mailingAddressId" attributeEntry="${proposalDevelopmentAttributes.mailingAddressId}" />
                     <c:if test="${!empty KualiForm.document.rolodex.lastName}" >
                     <c:out value="${KualiForm.document.rolodex.lastName}, ${KualiForm.document.rolodex.firstName}"/>
-                    </c:if>           
-                 <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
-                    fieldConversions="rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName,lastName:document.rolodex.lastName,addressLine1:document.rolodex.addressLine1,addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3,city:document.rolodex.city,state:document.rolodex.state" anchor="${currentTabIndex}"/> <br>
-
+                    </c:if>    
+                          
+                        <c:choose>
+                        <c:when test="${!empty KualiForm.document.rolodex.addressLine1 || !empty KualiForm.document.rolodex.addressLine2 || !empty KualiForm.document.rolodex.addressLine3 ||!empty KualiForm.document.rolodex.city ||!empty KualiForm.document.rolodex.state}">  
+                          
+                <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
+                    fieldConversions="rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName,lastName:document.rolodex.lastName,addressLine1:document.rolodex.addressLine1,addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3,city:document.rolodex.city,state:document.rolodex.state" anchor="${currentTabIndex}"/><br>
+	                   </c:when>
+	                   <c:otherwise>
+	(select)<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName,lastName:document.rolodex.lastName,addressLine1:document.rolodex.addressLine1,addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3,city:document.rolodex.city,state:document.rolodex.state" anchor="${currentTabIndex}"/><br>
+	</c:otherwise>
+		</c:choose>
                     <c:if test="${!empty KualiForm.document.rolodex.firstName}" >
                     ${KualiForm.document.rolodex.firstName} ${KualiForm.document.rolodex.middleName} ${KualiForm.document.rolodex.lastName}<br/>
                     </c:if>                      
