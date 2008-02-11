@@ -8,7 +8,15 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetPersonnelDetails extends BudgetLineItemBase {
-    private Integer personNumber;
+	private Integer budgetPeriod;
+	private Integer lineItemNumber;
+	private Integer personNumber;
+	private Integer proposalNumber;
+	private Integer budgetVersionNumber;
+	private Boolean applyInRateFlag;
+	private String budgetJustification;
+	private BudgetDecimal costSharingAmount;
+	private Date endDate;
 	private BudgetDecimal costSharingPercent;
 	private String jobCode;
 	private BudgetDecimal percentCharged;
@@ -25,6 +33,46 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 
 	public void setPersonNumber(Integer personNumber) {
 		this.personNumber = personNumber;
+	}
+
+	public Integer getProposalNumber() {
+		return proposalNumber;
+	}
+
+	public void setProposalNumber(Integer proposalNumber) {
+		this.proposalNumber = proposalNumber;
+	}
+
+	public Integer getBudgetVersionNumber() {
+		return budgetVersionNumber;
+	}
+
+	public void setBudgetVersionNumber(Integer budgetVersionNumber) {
+		this.budgetVersionNumber = budgetVersionNumber;
+	}
+
+	public Boolean getApplyInRateFlag() {
+		return applyInRateFlag;
+	}
+
+	public void setApplyInRateFlag(Boolean applyInRateFlag) {
+		this.applyInRateFlag = applyInRateFlag;
+	}
+
+	public String getBudgetJustification() {
+		return budgetJustification;
+	}
+
+	public void setBudgetJustification(String budgetJustification) {
+		this.budgetJustification = budgetJustification;
+	}
+
+	public BudgetDecimal getCostSharingAmount() {
+		return costSharingAmount;
+	}
+
+	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+		this.costSharingAmount = costSharingAmount;
 	}
 
 	public BudgetDecimal getCostSharingPercent() {

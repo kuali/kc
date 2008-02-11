@@ -7,7 +7,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class RateClass extends KraPersistableBusinessObjectBase {
 	private String rateClassCode;
 	private String description;
-	private Boolean rateClassType;
+	private String rateClassType;
 
 	public String getRateClassCode() {
 		return rateClassCode;
@@ -25,11 +25,11 @@ public class RateClass extends KraPersistableBusinessObjectBase {
 		this.description = description;
 	}
 
-	public Boolean getRateClassType() {
+	public String getRateClassType() {
 		return rateClassType;
 	}
 
-	public void setRateClassType(Boolean rateClassType) {
+	public void setRateClassType(String rateClassType) {
 		this.rateClassType = rateClassType;
 	}
 
