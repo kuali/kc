@@ -226,7 +226,7 @@
 			<label>Cost Sharing Amount </label>
 			<shortLabel>Cost Sharing Amount </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
@@ -247,7 +247,7 @@
 			<label>Line Item Cost </label>
 			<shortLabel>Line Item Cost </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
@@ -259,7 +259,6 @@
 			<label>Line Item Description </label>
 			<shortLabel>Line Item Description </shortLabel>
 			<maxLength>80</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="80" />
 			</control>

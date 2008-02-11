@@ -97,6 +97,7 @@ public interface Constants {
     public static final String YNQ_REVIEW_DATE_REQUIRED = "Date required: if answer = ";
     public static final String QUESTION_STATUS_ACTIVE = "A";
 
+    public static final String DEFAULT_DATE_FORMAT_PATTERN = "MM/dd/yyyy";
     public static final String PARAMETER_MODULE_BUDGET = "KRA-B";
     
     // Budget Versions Constants
