@@ -8,7 +8,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.RoleRight;
 
 public class ProposalUserRoles extends KraPersistableBusinessObjectBase {
-	private Integer proposalNumber;
+	private String proposalNumber;
 	private Integer roleId;
 	private String userId;
 	private List<RoleRight> roleRightsList;
@@ -16,11 +16,11 @@ public class ProposalUserRoles extends KraPersistableBusinessObjectBase {
 	public ProposalUserRoles(){
 	    roleRightsList = new ArrayList<RoleRight>();
 	}
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 

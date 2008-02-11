@@ -24,7 +24,7 @@ import org.kuali.kra.lookup.keyvalue.YnqAnswersValuesFinder;
 public class ProposalPersonYnq extends KraPersistableBusinessObjectBase {
 
 	private Integer proposalPersonNumber;
-	private Integer proposalNumber;
+	private String proposalNumber;
 	private String questionId;
 	private String answer;
     private String dummyAnswer;
@@ -43,11 +43,11 @@ public class ProposalPersonYnq extends KraPersistableBusinessObjectBase {
 		this.proposalPersonNumber = proposalPersonNumber;
 	}
 
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 

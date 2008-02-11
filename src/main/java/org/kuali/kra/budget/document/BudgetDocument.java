@@ -37,7 +37,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
 
-    private Integer proposalNumber;
+    private String proposalNumber;
     private Integer budgetVersionNumber;
     private String comments;
     private BudgetDecimal costSharingAmount; // = new BudgetDecimal(0);
@@ -79,11 +79,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         setBudgetVersionNumber(proposal.getNextBudgetVersionNumber());
     }
 
-    public Integer getProposalNumber() {
+    public String getProposalNumber() {
         return proposalNumber;
     }
 
-    public void setProposalNumber(Integer proposalNumber) {
+    public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
 

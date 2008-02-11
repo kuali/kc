@@ -10,7 +10,7 @@ import org.kuali.kra.bo.ValidSpecialReviewApproval;
 
 public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     // TODO : temporarily change proposalnumber from string to integer to see if ojb willwork
-    private Integer proposalNumber;
+    private String proposalNumber;
     private Integer specialReviewNumber;
     private Date applicationDate;
     private Date approvalDate;
@@ -23,11 +23,11 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
 
     private ValidSpecialReviewApproval validSpecialReviewApproval;
 
-    public Integer getProposalNumber() {
+    public String getProposalNumber() {
         return proposalNumber;
     }
 
-    public void setProposalNumber(Integer proposalNumber) {
+    public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
 

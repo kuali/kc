@@ -28,12 +28,12 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * @author $Author: lprzybyl $
- * @version $Revision: 1.6 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.7 $
  */
 public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     private Integer proposalPersonNumber;
-    private Integer proposalNumber;
+    private String proposalNumber;
     private Integer degreeSequenceNumber;
     private String graduationYear;
     private String degreeCode;
@@ -68,7 +68,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
      *
      * @return the value of proposalNumber
      */
-    public final Integer getProposalNumber() {
+    public final String getProposalNumber() {
         return this.proposalNumber;
     }
     
@@ -77,7 +77,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
      *
      * @param argProposalNumber Value to assign to this.proposalNumber
      */
-    public final void setProposalNumber(Integer argProposalNumber) {
+    public final void setProposalNumber(String argProposalNumber) {
         this.proposalNumber = argProposalNumber;
     }
     

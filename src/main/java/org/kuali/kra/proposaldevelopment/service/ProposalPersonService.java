@@ -31,5 +31,5 @@ public interface ProposalPersonService {
      * @param proposalNumber
      * @param proposalPersonNumber
      */
-    public ProposalPerson getProposalPersonById(Integer proposalNumber, Integer proposalPersonNumber);
+    public ProposalPerson getProposalPersonById(String proposalNumber, Integer proposalPersonNumber);
 }

@@ -22,7 +22,7 @@ import org.kuali.kra.bo.Person;
 
 public class NarrativeUserRights extends KraPersistableBusinessObjectBase {
 	private Integer moduleNumber;
-	private Integer proposalNumber;
+	private String proposalNumber;
 	private String userId;
 	private String accessType;
 	private String personName;
@@ -35,11 +35,11 @@ public class NarrativeUserRights extends KraPersistableBusinessObjectBase {
 		this.moduleNumber = moduleNumber;
 	}
 
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 

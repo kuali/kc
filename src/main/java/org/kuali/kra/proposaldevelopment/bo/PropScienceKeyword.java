@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class PropScienceKeyword extends KraPersistableBusinessObjectBase {
-	private Integer proposalNumber;
+	private String proposalNumber;
 	private String scienceKeywordCode;
 	private String scienceKeywordDescription;
     private ScienceKeyword scienceKeyword;
@@ -22,18 +22,18 @@ public class PropScienceKeyword extends KraPersistableBusinessObjectBase {
      * @param proposalNumber
      * @param scienceKeyword
      */
-    public PropScienceKeyword(Integer proposalNumber, ScienceKeyword scienceKeyword) {
+    public PropScienceKeyword(String proposalNumber, ScienceKeyword scienceKeyword) {
         this.proposalNumber = proposalNumber;
         this.scienceKeywordDescription = scienceKeyword.getDescription();
         this.scienceKeywordCode = scienceKeyword.getScienceKeywordCode();
         this.scienceKeyword = scienceKeyword;
     }
 
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 
