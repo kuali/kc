@@ -132,7 +132,7 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
      */
     public List<String> getRoles(String username, ProposalDevelopmentDocument doc) {
         List<String> roleNames = new ArrayList<String>();
-        Integer proposalNbr = doc.getProposalNumber();
+        String proposalNbr = doc.getProposalNumber();
         if (proposalNbr != null) {
             String nbr = proposalNbr.toString();
             List<QualifiedRole> roles = kimPersonService.getQualifiedRoles(username);

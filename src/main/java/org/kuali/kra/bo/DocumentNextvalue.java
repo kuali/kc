@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 
 public class DocumentNextvalue extends KraPersistableBusinessObjectBase {
 	private String propertyName; 
-	private Integer documentKey;
+	private String documentKey;
 	private Integer nextValue;
 
 	public String getPropertyName() {
@@ -23,11 +23,11 @@ public class DocumentNextvalue extends KraPersistableBusinessObjectBase {
 		this.nextValue = nextValue;
 	}
 
-    public Integer getDocumentKey() {
+    public String getDocumentKey() {
         return documentKey;
     }
 
-    public void setDocumentKey(Integer documentKey) {
+    public void setDocumentKey(String documentKey) {
         this.documentKey = documentKey;
     }
 

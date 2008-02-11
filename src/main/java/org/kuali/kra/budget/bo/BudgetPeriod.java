@@ -11,7 +11,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	private Integer budgetPeriod;
-	private Integer proposalNumber;
+	private String proposalNumber;
 	private Integer budgetVersionNumber;
 	private String comments;
 	private BudgetDecimal costSharingAmount;
@@ -32,11 +32,11 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 		this.budgetPeriod = budgetPeriod;
 	}
 
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 

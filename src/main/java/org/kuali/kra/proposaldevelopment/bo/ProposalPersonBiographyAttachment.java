@@ -12,7 +12,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
 
 	private Integer proposalPersonNumber;
-    private Integer proposalNumber;
+    private String proposalNumber;
     private Integer biographyNumber;
 	private byte[] biographyData;
 //	private String fileName;
@@ -30,11 +30,11 @@ public class ProposalPersonBiographyAttachment extends AttachmentDataSource {
 		this.proposalPersonNumber = proposalPersonNumber;
 	}
 
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 

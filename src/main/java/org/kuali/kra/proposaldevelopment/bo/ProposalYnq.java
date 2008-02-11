@@ -25,7 +25,7 @@ import org.kuali.kra.infrastructure.YnqConstants;
 
 public class ProposalYnq extends KraPersistableBusinessObjectBase {
 
-	private Integer proposalNumber;
+	private String proposalNumber;
 	private String questionId;
 	private String answer;
 	private String explanation;
@@ -50,11 +50,11 @@ public class ProposalYnq extends KraPersistableBusinessObjectBase {
 		super();
 	}
 
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 

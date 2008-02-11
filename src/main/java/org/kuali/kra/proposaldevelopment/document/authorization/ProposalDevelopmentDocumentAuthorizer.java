@@ -50,7 +50,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         UnitAuthorizationService unitAuthService = (UnitAuthorizationService) KraServiceLocator.getService(UnitAuthorizationService.class);
         
         Map editModeMap = new HashMap();
-        Integer proposalNbr = proposalDoc.getProposalNumber();
+        String proposalNbr = proposalDoc.getProposalNumber();
         
         // The getEditMode() method is invoked when a proposal is accessed for creation and when it
         // is accessed for modification.  New proposals under creation don't have a proposal number.
