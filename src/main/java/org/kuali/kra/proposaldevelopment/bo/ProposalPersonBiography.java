@@ -16,7 +16,7 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
 
 	private Integer proposalPersonNumber;
 	private String personId;
-    private Integer proposalNumber;
+    private String proposalNumber;
     private Integer biographyNumber;
     private Integer rolodexId;
 	private String description;
@@ -47,11 +47,11 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase {
 		this.personId = personId;
 	}
 
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 

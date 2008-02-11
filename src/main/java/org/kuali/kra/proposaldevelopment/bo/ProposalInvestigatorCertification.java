@@ -25,12 +25,12 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.3 $
  */
 public class ProposalInvestigatorCertification  extends KraPersistableBusinessObjectBase {
     private Integer proposalPersonNumber;
-    private Integer proposalNumber;
+    private String proposalNumber;
     private Boolean certified;
     private Date dateCertified;
     private Date dateReceivedByOsp;
@@ -58,7 +58,7 @@ public class ProposalInvestigatorCertification  extends KraPersistableBusinessOb
      *
      * @return the value of proposalNumber
      */
-    public final Integer getProposalNumber() {
+    public final String getProposalNumber() {
         return this.proposalNumber;
     }
 
@@ -67,7 +67,7 @@ public class ProposalInvestigatorCertification  extends KraPersistableBusinessOb
      *
      * @param argProposalNumber Value to assign to this.proposalNumber
      */
-    public final void setProposalNumber(Integer argProposalNumber) {
+    public final void setProposalNumber(String argProposalNumber) {
         this.proposalNumber = argProposalNumber;
     }
 

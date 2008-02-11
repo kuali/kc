@@ -33,7 +33,7 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
      * Each Abstract is associated with one and only one proposal
      * which is identified by its unique <code>proposalNumber</code>.
      */
-    private Integer proposalNumber;
+    private String proposalNumber;
     
     /**
      * Identifies what type of abstract this is.
@@ -67,7 +67,7 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 	 * @return the proposal number this abstract is associated with; 
 	 *         null if not associated with any proposal.
 	 */
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
@@ -75,7 +75,7 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
 	 * Sets the proposal number that this abstract is associated with.
 	 * @param proposalNumber a Proposal's unique number; may be null.
 	 */
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 

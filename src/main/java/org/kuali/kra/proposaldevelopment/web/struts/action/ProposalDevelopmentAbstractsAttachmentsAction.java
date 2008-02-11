@@ -191,9 +191,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @return NarrativeAttachment
      */
     private NarrativeAttachment findNarrativeAttachment(Narrative narrative){
-        Map<String,Integer> narrativeAttachemntMap = new HashMap<String,Integer>();
+        Map<String,String> narrativeAttachemntMap = new HashMap<String,String>();
         narrativeAttachemntMap.put(PROPOSAL_NUMBER, narrative.getProposalNumber());
-        narrativeAttachemntMap.put(MODULE_NUMBER, narrative.getModuleNumber());
+        narrativeAttachemntMap.put(MODULE_NUMBER, narrative.getModuleNumber()+"");
         return (NarrativeAttachment)getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, narrativeAttachemntMap);
     }
     /**
@@ -559,10 +559,10 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         ProposalPersonBiography propPersonBio = pd.getPropPersonBios().get(lineNumber);
-        Map<String,Integer> propPersonBioAttVal = new HashMap<String,Integer>();
+        Map<String,String> propPersonBioAttVal = new HashMap<String,String>();
         propPersonBioAttVal.put(PROPOSAL_NUMBER, propPersonBio.getProposalNumber());
-        propPersonBioAttVal.put(BIOGRAPHY_NUMBER, propPersonBio.getBiographyNumber());
-        propPersonBioAttVal.put(PROPOSAL_PERSON_NUMBER, propPersonBio.getProposalPersonNumber());
+        propPersonBioAttVal.put(BIOGRAPHY_NUMBER, propPersonBio.getBiographyNumber()+"");
+        propPersonBioAttVal.put(PROPOSAL_PERSON_NUMBER, propPersonBio.getProposalPersonNumber()+"");
         ProposalPersonBiographyAttachment propPersonBioAttachment = (ProposalPersonBiographyAttachment)getBusinessObjectService().findByPrimaryKey(ProposalPersonBiographyAttachment.class, propPersonBioAttVal);
         if(propPersonBioAttachment==null && !propPersonBio.getPersonnelAttachmentList().isEmpty()){//get it from the memory
             propPersonBioAttachment = propPersonBio.getPersonnelAttachmentList().get(0);

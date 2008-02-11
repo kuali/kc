@@ -41,7 +41,7 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         String propPersonName = null;
         List<ProposalPerson> proposalPersons = doc.getProposalPersons();
         if(proposalPersons.isEmpty()){
-            Map<String,Integer> queryMap = new HashMap<String,Integer>();
+            Map<String,String> queryMap = new HashMap<String,String>();
             queryMap.put("proposalNumber", doc.getProposalNumber());
             proposalPersons = (List)getBusinessObjectService().findMatching(ProposalPerson.class, queryMap);
         }
@@ -68,7 +68,7 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
     /**
      * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonService#getProposalPersonById(java.lang.Integer, java.lang.Integer)
      */
-    public ProposalPerson getProposalPersonById(Integer proposalNumber, Integer proposalPersonNumber) {
+    public ProposalPerson getProposalPersonById(String proposalNumber, Integer proposalPersonNumber) {
         Map<String, String> keys = new HashMap<String, String>();
         keys.put("proposalNumber", proposalNumber.toString());
         keys.put("proposalPersonNumber", proposalPersonNumber.toString());
