@@ -17,7 +17,7 @@ public class BudgetLineItem extends BudgetLineItemBase {
 		hashMap.put("budgetPeriod", getBudgetPeriod());
 		hashMap.put("lineItemNumber", getLineItemNumber());
 		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("versionNumber", getVersionNumber());
+		hashMap.put("budgetVersionNumber", getBudgetVersionNumber());
 		hashMap.put("applyInRateFlag", getApplyInRateFlag());
 		hashMap.put("basedOnLineItem", getBasedOnLineItem());
 		hashMap.put("budgetCategoryCode", getBudgetCategoryCode());
