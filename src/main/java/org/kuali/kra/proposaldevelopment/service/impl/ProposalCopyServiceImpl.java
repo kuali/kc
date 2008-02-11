@@ -379,9 +379,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param narrative the narrative for which to load the contents.
      */
     private void loadAttachmentContent(Narrative narrative){
-        Map<String,Integer> primaryKey = new HashMap<String,Integer>();
+        Map<String,String> primaryKey = new HashMap<String,String>();
         primaryKey.put(PROPOSAL_NUMBER, narrative.getProposalNumber());
-        primaryKey.put(MODULE_NUMBER, narrative.getModuleNumber());
+        primaryKey.put(MODULE_NUMBER, narrative.getModuleNumber()+"");
         NarrativeAttachment attachment = (NarrativeAttachment)businessObjectService.findByPrimaryKey(NarrativeAttachment.class, primaryKey);
         narrative.getNarrativeAttachmentList().clear();
         narrative.getNarrativeAttachmentList().add(attachment);
@@ -393,10 +393,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param bio the personal attachment for which to load the contents.
      */
     private void loadBioContent(ProposalPersonBiography bio){
-        Map<String,Integer> primaryKey = new HashMap<String,Integer>();
+        Map<String,String> primaryKey = new HashMap<String,String>();
         primaryKey.put(PROPOSAL_NUMBER, bio.getProposalNumber());
-        primaryKey.put("biographyNumber", bio.getBiographyNumber());
-        primaryKey.put("proposalPersonNumber", bio.getProposalPersonNumber());
+        primaryKey.put("biographyNumber", bio.getBiographyNumber()+"");
+        primaryKey.put("proposalPersonNumber", bio.getProposalPersonNumber()+"");
         ProposalPersonBiographyAttachment attachment = (ProposalPersonBiographyAttachment)businessObjectService.findByPrimaryKey(ProposalPersonBiographyAttachment.class, primaryKey);
         bio.getPersonnelAttachmentList().clear();
         bio.getPersonnelAttachmentList().add(attachment);

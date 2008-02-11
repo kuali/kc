@@ -35,7 +35,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
  * This class is BO for narrarive
  */
 public class Narrative extends KraPersistableBusinessObjectBase {
-    private Integer proposalNumber;
+    private String proposalNumber;
     private Integer moduleNumber;
     private String comments;
     private String contactName;
@@ -72,11 +72,11 @@ public class Narrative extends KraPersistableBusinessObjectBase {
         this.moduleNumber = moduleNumber;
     }
 
-    public Integer getProposalNumber() {
+    public String getProposalNumber() {
         return proposalNumber;
     }
 
-    public void setProposalNumber(Integer proposalNumber) {
+    public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
 

@@ -29,8 +29,8 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * @author $Author: lprzybyl $
- * @version $Revision: 1.27 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.28 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -46,7 +46,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private Boolean fedrDelqFlag;
     private Integer rolodexId;
     private String  personId;
-    private Integer proposalNumber;
+    private String proposalNumber;
     private Integer proposalPersonNumber;
     private String  proposalPersonRoleId;
     private ProposalInvestigatorCertification certification;
@@ -284,7 +284,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @return the value of proposalNumber
      */
-    public Integer getProposalNumber() {
+    public String getProposalNumber() {
         return this.proposalNumber;
     }
 
@@ -293,7 +293,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
      *
      * @param argProposalNumber Value to assign to this.proposalNumber
      */
-    public void setProposalNumber(Integer argProposalNumber) {
+    public void setProposalNumber(String argProposalNumber) {
         this.proposalNumber = argProposalNumber;
     }
 

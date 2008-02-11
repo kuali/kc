@@ -29,11 +29,11 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * @author $Author: lprzybyl $
- * @version $Revision: 1.12 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.13 $
  */
 public class ProposalPersonUnit extends KraPersistableBusinessObjectBase implements CreditSplitable {
-    private Integer proposalNumber;
+    private String proposalNumber;
     private Integer proposalPersonNumber;
     private String unitNumber;
     private boolean leadUnit;
@@ -70,7 +70,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
      *
      * @return the value of proposalNumber
      */
-    public final Integer getProposalNumber() {
+    public final String getProposalNumber() {
         return this.proposalNumber;
     }
 
@@ -79,7 +79,7 @@ public class ProposalPersonUnit extends KraPersistableBusinessObjectBase impleme
      *
      * @param argProposalNumber Value to assign to this.proposalNumber
      */
-    public final void setProposalNumber(Integer argProposalNumber) {
+    public final void setProposalNumber(String argProposalNumber) {
         this.proposalNumber = argProposalNumber;
     }
 

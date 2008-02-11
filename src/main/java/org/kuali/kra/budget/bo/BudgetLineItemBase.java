@@ -10,7 +10,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	private Integer budgetPeriod;
 	private Integer lineItemNumber;
-	private Integer proposalNumber;
+	private String proposalNumber;
 	private Integer budgetVersionNumber;
 	private Boolean applyInRateFlag;
 	private Integer basedOnLineItem;
@@ -83,11 +83,11 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 		this.lineItemNumber = lineItemNumber;
 	}
 
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 

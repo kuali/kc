@@ -36,7 +36,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
  */
 public class BudgetVersionOverview extends KraPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
     
-    private Integer proposalNumber;
+    private String proposalNumber;
     private Integer budgetVersionNumber;
     private String documentNumber;
     private String documentDescription;
@@ -88,7 +88,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         this.ohRateTypeCode = ohRateTypeCode;
     }
 
-    public Integer getProposalNumber() {
+    public String getProposalNumber() {
         return proposalNumber;
     }
     
@@ -97,7 +97,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
 //        this.proposalNumber = Integer.parseInt(proposalNumber);
 //    }
 
-    public void setProposalNumber(Integer proposalNumber) {
+    public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
     

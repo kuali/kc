@@ -11,7 +11,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 	private Integer budgetPeriod;
 	private Integer lineItemNumber;
 	private Integer personNumber;
-	private Integer proposalNumber;
+	private String proposalNumber;
 	private Integer budgetVersionNumber;
 	private Boolean applyInRateFlag;
 	private String budgetJustification;
@@ -35,11 +35,11 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 		this.personNumber = personNumber;
 	}
 
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 

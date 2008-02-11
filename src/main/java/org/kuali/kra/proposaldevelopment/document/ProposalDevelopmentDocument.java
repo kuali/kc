@@ -57,7 +57,7 @@ import org.kuali.kra.service.YnqService;
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
     
-    private Integer proposalNumber;
+    private String proposalNumber;
     private String proposalTypeCode;
     private String continuedFrom;
     private String sponsorCode;
@@ -245,11 +245,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.title = title;
     }
 
-    public Integer getProposalNumber() {
+    public String getProposalNumber() {
         return proposalNumber;
     }
 
-    public void setProposalNumber(Integer proposalNumber) {
+    public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
 

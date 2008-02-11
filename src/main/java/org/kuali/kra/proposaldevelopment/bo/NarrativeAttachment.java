@@ -21,7 +21,7 @@ import org.apache.struts.upload.FormFile;
 
 public class NarrativeAttachment extends AttachmentDataSource{
 	private Integer moduleNumber;
-	private Integer proposalNumber;
+	private String proposalNumber;
 //	private String fileName;
 //	private String contentType;
     private byte[] narrativeData;
@@ -34,11 +34,11 @@ public class NarrativeAttachment extends AttachmentDataSource{
 		this.moduleNumber = moduleNumber;
 	}
 
-	public Integer getProposalNumber() {
+	public String getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(Integer proposalNumber) {
+	public void setProposalNumber(String proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 
