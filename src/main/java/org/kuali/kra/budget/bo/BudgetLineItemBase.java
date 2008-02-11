@@ -10,11 +10,11 @@ import org.kuali.kra.budget.BudgetDecimal;
 public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	private Integer budgetPeriod;
 	private Integer lineItemNumber;
-	private String proposalNumber;
+	private Integer proposalNumber;
 	private Integer budgetVersionNumber;
 	private Boolean applyInRateFlag;
 	private Integer basedOnLineItem;
-	private Integer budgetCategoryCode;
+	private String budgetCategoryCode;
 	private String budgetJustification;
 	private String costElement;
 	private BudgetDecimal costSharingAmount;
@@ -83,11 +83,11 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 		this.lineItemNumber = lineItemNumber;
 	}
 
-	public String getProposalNumber() {
+	public Integer getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(String proposalNumber) {
+	public void setProposalNumber(Integer proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 
@@ -115,11 +115,11 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 		this.basedOnLineItem = basedOnLineItem;
 	}
 
-	public Integer getBudgetCategoryCode() {
+	public String getBudgetCategoryCode() {
 		return budgetCategoryCode;
 	}
 
-	public void setBudgetCategoryCode(Integer budgetCategoryCode) {
+	public void setBudgetCategoryCode(String budgetCategoryCode) {
 		this.budgetCategoryCode = budgetCategoryCode;
 	}
 

@@ -1,16 +1,18 @@
 package org.kuali.kra.budget.bo;
 
+import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.sql.Date;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	private Integer budgetPeriod;
-	private String proposalNumber;
-	private Integer budgetBudgetVersionNumber;
+	private Integer proposalNumber;
+	private Integer budgetVersionNumber;
 	private String comments;
 	private BudgetDecimal costSharingAmount;
 	private Date endDate;
@@ -30,20 +32,20 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 		this.budgetPeriod = budgetPeriod;
 	}
 
-	public String getProposalNumber() {
+	public Integer getProposalNumber() {
 		return proposalNumber;
 	}
 
-	public void setProposalNumber(String proposalNumber) {
+	public void setProposalNumber(Integer proposalNumber) {
 		this.proposalNumber = proposalNumber;
 	}
 
 	public Integer getBudgetVersionNumber() {
-		return budgetBudgetVersionNumber;
+		return budgetVersionNumber;
 	}
 
-	public void setBudgetVersionNumber(Integer budgetBudgetVersionNumber) {
-		this.budgetBudgetVersionNumber = budgetBudgetVersionNumber;
+	public void setBudgetVersionNumber(Integer budgetVersionNumber) {
+		this.budgetVersionNumber = budgetVersionNumber;
 	}
 
 	public String getComments() {
@@ -124,7 +126,7 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("budgetPeriod", getBudgetPeriod());
 		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("budgetBudgetVersionNumber", getBudgetVersionNumber());
+		hashMap.put("budgetVersionNumber", getBudgetVersionNumber());
 		hashMap.put("comments", getComments());
 		hashMap.put("costSharingAmount", getCostSharingAmount());
 		hashMap.put("endDate", getEndDate());
@@ -136,6 +138,7 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 		hashMap.put("underrecoveryAmount", getUnderrecoveryAmount());
 		return hashMap;
 	}
+
 
     /**
      * Gets the budgetLineItems attribute. 
