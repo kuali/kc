@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.web.struts.form;
 
+import java.util.List;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ActionFormUtilMap;
+import org.kuali.core.web.ui.ExtraButton;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -31,6 +37,7 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 public class BudgetForm extends KraTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
+    private BudgetPeriod newBudgetPeriod;
 
     private List<ExtraButton> extraTopButtons;
     
@@ -47,6 +54,7 @@ public class BudgetForm extends KraTransactionalDocumentFormBase {
     public void initialize() {
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.budget.document.BudgetDocument.class.getName())).getHeaderTabNavigation());
+        setNewBudgetPeriod(new BudgetPeriod());
         setExtraTopButtons(new ArrayList<ExtraButton>());
         ExtraButton returnToProposal = new ExtraButton();
         returnToProposal.setExtraButtonProperty("methodToCall.returnToProposal");
@@ -64,6 +72,55 @@ public class BudgetForm extends KraTransactionalDocumentFormBase {
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         // if there are more ...
+        for(Object displayedErrorsKey:getDisplayedErrors().keySet()) {
+            getDisplayedErrors().put(displayedErrorsKey, false);
+        }
+    }
+
+    public BudgetPeriod getNewBudgetPeriod() {
+        return newBudgetPeriod;
+    }
+
+    public void setNewBudgetPeriod(BudgetPeriod newBudgetPeriod) {
+        Integer budgetPeriod = 1;
+        if(getBudgetDocument().getBudgetPeriods() != null) {
+            budgetPeriod = getBudgetDocument().getBudgetPeriods().size() + 1;
+        }
+        newBudgetPeriod.setBudgetPeriod(budgetPeriod);
+        this.newBudgetPeriod = newBudgetPeriod;
+    }
+
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        String externalImageURL = "kra.externalizable.images.url";
+        String generatePeriodImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_generatePeriods.gif"; 
+        String calculatePeriodImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_calculatePeriods.gif"; 
+        String appExternalImageURL = "ConfigProperties.kra.externalizable.images.url"; 
+        addExtraButton("methodToCall.generateAllPeriods", generatePeriodImage, "Generate All Periods");
+        addExtraButton("methodToCall.calculateAllPeriods",calculatePeriodImage, "Calculate All Periods");
+        
+        return extraButtons;
+    }
+
+    /**
+     * This is a utility method to add a new button to the extra buttons
+     * collection.
+     *   
+     * @param property
+     * @param source
+     * @param altText
+     */ 
+    protected void addExtraButton(String property, String source, String altText){
+        
+        ExtraButton newButton = new ExtraButton();
+        
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+        
+        extraButtons.add(newButton);
     }
 
     public List<ExtraButton> getExtraTopButtons() {

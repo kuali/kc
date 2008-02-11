@@ -182,6 +182,12 @@
 		</property>
 	</bean>
 	
+	<bean id="budgetSummaryService" class="org.kuali.kra.budget.service.impl.BudgetSummaryServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
 	<bean id="proposalCopyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalCopyServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

@@ -15,13 +15,40 @@
  */
 package org.kuali.kra.budget.rules;
 
+import org.kuali.kra.budget.rule.AddBudgetPeriodRule;
+import org.kuali.kra.budget.rule.DeleteBudgetPeriodRule;
+import org.kuali.kra.budget.rule.GenerateBudgetPeriodRule;
+import org.kuali.kra.budget.rule.SaveBudgetPeriodRule;
+import org.kuali.kra.budget.rule.event.AddBudgetPeriodEvent;
+import org.kuali.kra.budget.rule.event.DeleteBudgetPeriodEvent;
+import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
+import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class BudgetDocumentRule extends ResearchDocumentRuleBase {
+public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule{
+
+    /**
+     * @see org.kuali.kra.budget.rule.AddBudgetPeriodRule#processAddBudgetPeriodBusinessRules(org.kuali.kra.budget.document.BudgetDocument,org.kuali.kra.budget.bo.BudgetPeriod)
+     */
+    public boolean processAddBudgetPeriodBusinessRules(AddBudgetPeriodEvent addBudgetPeriodEvent) {
+        return new BudgetPeriodRule().processAddBudgetPeriodBusinessRules(addBudgetPeriodEvent);    
+    }
+
+    public boolean processSaveBudgetPeriodBusinessRules(SaveBudgetPeriodEvent saveBudgetPeriodEvent) {
+        return new BudgetPeriodRule().processSaveBudgetPeriodBusinessRules(saveBudgetPeriodEvent);    
+    }
+    
+    public boolean processDeleteBudgetPeriodBusinessRules(DeleteBudgetPeriodEvent deleteBudgetPeriodEvent) {
+        return new BudgetPeriodRule().processDeleteBudgetPeriodBusinessRules(deleteBudgetPeriodEvent);    
+    }
+
+    public boolean processGenerateBudgetPeriodBusinessRules(GenerateBudgetPeriodEvent generateBudgetPeriodEvent) {
+        return new BudgetPeriodRule().processGenerateBudgetPeriodBusinessRules(generateBudgetPeriodEvent);    
+    }
     
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {

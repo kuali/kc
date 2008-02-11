@@ -13,7 +13,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="extraButtons" value="${KualiForm.extraButtons}" scope="request"/>
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -22,6 +24,13 @@
   	headerDispatch="save"
   	headerTabActive="summary">
 
-	<center>Under Construction</center>
-
+<kra-b:budgetSummary /> 
+<kra-b:budgetPeriodAndTotals /> 
+<script language="javascript" src="scripts/kuali_application.js"></script>
+<kul:documentControls 
+		transactionalDocument="true" 
+		suppressRoutingControls="true" 
+		extraButtons="${extraButtons}"
+		viewOnly="${KualiForm.editingMode['viewOnly']}"
+/>
 </kul:documentPage>
