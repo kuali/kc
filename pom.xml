@@ -28,7 +28,7 @@
 					<resource>
 						<directory>${basedir}/src/main/resources</directory>
 						<excludes>
-							<exclude>kra-config.xml</exclude>
+							<exclude>kra-config.xml</exclude> 
 						</excludes>
 					</resource>
 				</resources>
@@ -144,7 +144,7 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>0.0.1</version>
+					<version>0.0.2</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
@@ -275,7 +275,7 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>0.0.1</version>
+					<version>0.0.2</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
