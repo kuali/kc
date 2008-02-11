@@ -56,17 +56,14 @@
                 <summary>Proposal Number</summary>
                 <description>Proposal Number</description>
 			</attribute>
-			<attribute name="costSharingAmount">
+
+            <attributeReference name="costSharingAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Cost Sharing Amount </label>
 			<shortLabel>Cost Sharing Amount </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Cost Sharing Amount </summary>
 			<description>Cost Sharing Amount </description>
-			</attribute>
+			</attributeReference>
 
             <attributeReference name="endDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
                 <label>End Date</label>
@@ -77,14 +74,14 @@
       		</attributeReference>
 
             <attributeReference name="finalVersionFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Final Version Flag</label>
-                <shortLabel>Final Version Flag</shortLabel>
+                <label>Final?</label>
+                <shortLabel>Final?</shortLabel>
                 <summary>Final Version Flag</summary>
                 <description>Final Version Flag</description>
 			</attributeReference>
             <attributeReference name="modularBudgetFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Modular Budget Flag</label>
-                <shortLabel>Modular Budget Flag</shortLabel>
+                <label>Modular Budget?</label>
+                <shortLabel>Modular Budget?</shortLabel>
                 <summary>Modular Budget Flag</summary>
                 <description>Modular Budget Flag</description>
 			</attributeReference>
@@ -103,28 +100,24 @@
 			</attribute>
 
 			<attribute name="ohRateTypeCode">
-			<label>Oh Rate Type Code </label>
-			<shortLabel>Oh Rate Type Code </shortLabel>
+			<label>OverHead Rate Type</label>
+			<shortLabel>OverHead Rate Type</shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<text size="3" />
+                    <select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder" />
 			</control>
 			<summary>Oh Rate Type Code </summary>
 			<description>Oh Rate Type Code </description>
 			</attribute>
 
-			<attribute name="residualFunds">
+            <attributeReference name="residualFunds" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Residual Funds </label>
 			<shortLabel>Residual Funds </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Residual Funds </summary>
 			<description>Residual Funds </description>
-			</attribute>
+			</attributeReference>
 
             <attributeReference name="startDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
                 <label>Start Date</label>
@@ -134,73 +127,53 @@
                 <description>Start Date</description>
       		</attributeReference>
 
-			<attribute name="totalCost">
+            <attributeReference name="totalCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Total Cost </label>
 			<shortLabel>Total Cost </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Total Cost </summary>
 			<description>Total Cost </description>
-			</attribute>
+			</attributeReference>
 
-			<attribute name="totalCostLimit">
+            <attributeReference name="totalCostLimit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Total Cost Limit </label>
 			<shortLabel>Total Cost Limit </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Total Cost Limit </summary>
 			<description>Total Cost Limit </description>
-			</attribute>
+			</attributeReference>
 
-			<attribute name="totalDirectCost">
+            <attributeReference name="totalDirectCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Total Direct Cost </label>
 			<shortLabel>Total Direct Cost </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Total Direct Cost </summary>
 			<description>Total Direct Cost </description>
-			</attribute>
+			</attributeReference>
 
-			<attribute name="totalIndirectCost">
+            <attributeReference name="totalIndirectCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Total Indirect Cost </label>
 			<shortLabel>Total Indirect Cost </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Total Indirect Cost </summary>
 			<description>Total Indirect Cost </description>
-			</attribute>
+			</attributeReference>
 
-			<attribute name="underrecoveryAmount">
+            <attributeReference name="underrecoveryAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Underrecovery Amount </label>
 			<shortLabel>Underrecovery Amount </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Underrecovery Amount </summary>
 			<description>Underrecovery Amount </description>
-			</attribute>
+			</attributeReference>
 
 			<attribute name="urRateClassCode">
-			<label>Ur Rate Class Code </label>
-			<shortLabel>Ur Rate Class Code </shortLabel>
+			<label>Unrecovered F &amp; A Rate Type</label>
+			<shortLabel>Unrecovered F &amp; A Rate Type</shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<text size="3" />
+                    <select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder" />
 			</control>
 			<summary>Ur Rate Class Code </summary>
 			<description>Ur Rate Class Code </description>
@@ -216,7 +189,7 @@
 				<required>false</required>
 
 				<control>
-                    <textarea rows="3" cols="80" />
+                    <textarea rows="3" cols="30" />
 				</control>
 
 				<summary>The Comments for this budget.</summary>
