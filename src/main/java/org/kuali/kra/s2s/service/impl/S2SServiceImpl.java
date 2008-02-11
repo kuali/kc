@@ -28,6 +28,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.kuali.kra.s2s.service.S2SService;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.log4j.Logger;
@@ -44,6 +45,7 @@ import edu.mit.coeus.s2s.GetApplication;
 import edu.mit.coeus.s2s.GetOpportunity;
 import edu.mit.coeus.s2s.SubmissionEngine;
 import edu.mit.coeus.s2s.bean.ApplicationInfoBean;
+import edu.mit.coeus.s2s.bean.FormInfoBean;
 import edu.mit.coeus.s2s.bean.OpportunityInfoBean;
 import edu.mit.coeus.s2s.bean.S2SHeader;
 import edu.mit.coeus.s2s.bean.S2SSubmissionDataTxnBean;
@@ -127,10 +129,10 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
     public boolean submitApplication(String proposalNumber) {
         S2SHeader header = getS2SHeader(proposalNumber);
         try{
-        SubmissionEngine subEngine = new SubmissionEngine();
-        subEngine.setLoggedInUser(loggedinUser);
-        subEngine.setLogDir(reportPath);
-        subEngine.submitApplication(header);
+            SubmissionEngine subEngine = new SubmissionEngine();
+            subEngine.setLoggedInUser(loggedinUser);
+            subEngine.setLogDir(reportPath);
+            subEngine.submitApplication(header);
         }catch(Exception e){
             LOG.error(e.getMessage(), e);
             return false;
@@ -220,6 +222,10 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             destObject = destClazz.newInstance();
             ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
             BeanUtils.copyProperties(destObject, origObject);
+            if(origObject instanceof FormInfoBean && destClazz.equals(S2sOppForms.class)){
+                BeanUtils.setProperty(destObject, "oppNameSpace", BeanUtils.getProperty(origObject, "ns"));
+                BeanUtils.setProperty(destObject, "schemaUrl", BeanUtils.getProperty(origObject, "schUrl"));
+            }
         }
         catch (InstantiationException e) {
             LOG.error(e.getMessage(), e);
@@ -228,6 +234,9 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             LOG.error(e.getMessage(), e);
         }
         catch (InvocationTargetException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        catch (NoSuchMethodException e) {
             LOG.error(e.getMessage(), e);
         }
         return destObject;

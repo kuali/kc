@@ -22,10 +22,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class S2sOppForms extends KraPersistableBusinessObjectBase {
 	private String oppNameSpace;
 	private String proposalNumber;
-	private String available;
+	private Boolean available;
 	private String formName;
-	private String include;
-	private String mandatory;
+	private Boolean include;
+	private Boolean mandatory;
+	private String schemaUrl;
 
 	public String getOppNameSpace() {
 		return oppNameSpace;
@@ -43,11 +44,11 @@ public class S2sOppForms extends KraPersistableBusinessObjectBase {
 		this.proposalNumber = proposalNumber;
 	}
 
-	public String getAvailable() {
+	public Boolean isAvailable() {
 		return available;
 	}
 
-	public void setAvailable(String available) {
+	public void setAvailable(Boolean available) {
 		this.available = available;
 	}
 
@@ -59,19 +60,19 @@ public class S2sOppForms extends KraPersistableBusinessObjectBase {
 		this.formName = formName;
 	}
 
-	public String getInclude() {
+	public Boolean isInclude() {
 		return include;
 	}
 
-	public void setInclude(String include) {
+	public void setInclude(Boolean include) {
 		this.include = include;
 	}
 
-	public String getMandatory() {
+	public Boolean isMandatory() {
 		return mandatory;
 	}
 
-	public void setMandatory(String mandatory) {
+	public void setMandatory(Boolean mandatory) {
 		this.mandatory = mandatory;
 	}
 
@@ -81,10 +82,19 @@ public class S2sOppForms extends KraPersistableBusinessObjectBase {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("oppNameSpace", getOppNameSpace());
 		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("available", getAvailable());
+		hashMap.put("available", isAvailable());
 		hashMap.put("formName", getFormName());
-		hashMap.put("include", getInclude());
-		hashMap.put("mandatory", getMandatory());
+		hashMap.put("include", isInclude());
+		hashMap.put("mandatory", isMandatory());
+        hashMap.put("schemaUrl", getSchemaUrl());
 		return hashMap;
 	}
+
+    public String getSchemaUrl() {
+        return schemaUrl;
+    }
+
+    public void setSchemaUrl(String schemaUrl) {
+        this.schemaUrl = schemaUrl;
+    }
 }
