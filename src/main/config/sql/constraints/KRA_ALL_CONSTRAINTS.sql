@@ -50,6 +50,9 @@ REFERENCES "ABSTRACT_TYPE" ("ABSTRACT_TYPE_CODE") ENABLE;
 ALTER TABLE "EPS_PROP_LOCATION" ADD CONSTRAINT "FK_EPS_PROP_LOCATION_KRA"       
 FOREIGN KEY ("PROPOSAL_NUMBER")                                                 
 REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
+ALTER TABLE "EPS_PROP_LOCATION" ADD CONSTRAINT "FK_EPS_PROP_LOCATION_RLDEX_KRA" 
+FOREIGN KEY ("ROLODEX_ID")                                                      
+REFERENCES "ROLODEX" ("ROLODEX_ID") ENABLE;                                     
                                                                                 
                                                                                 
 ALTER TABLE "EPS_PROP_PERSON_BIO" ADD CONSTRAINT "FK1_EPS_PROP_PERSON_BIO_KRA"  
