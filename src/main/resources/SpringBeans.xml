@@ -303,5 +303,7 @@
 			<ref bean="documentService"/>
 		</property>
 	</bean>
+	<bean id="budgetCalculationService" class="org.kuali.kra.budget.service.impl.BudgetCalculationServiceImpl">
+	</bean>
 	
 </beans>
