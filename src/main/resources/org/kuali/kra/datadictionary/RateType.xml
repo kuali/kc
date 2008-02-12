@@ -61,8 +61,7 @@
             </resultFields>
         </lookup>
 
-        <titleAttribute>rateClassCode</titleAttribute>
-		<!-- <titleAttribute>rateTypeCode</titleAttribute> -->
+		<titleAttribute>rateTypeCode</titleAttribute>
         <attributes>
 
 	        <attribute name="rateClassCode">
@@ -93,7 +92,7 @@
 			<label>Description </label>
 			<shortLabel>Description </shortLabel>
 			<maxLength>200</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
 				<text size="200" />
 			</control>

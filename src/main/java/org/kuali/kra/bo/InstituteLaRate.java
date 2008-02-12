@@ -3,14 +3,16 @@ package org.kuali.kra.bo;
 import java.util.LinkedHashMap;
 import java.sql.Date;
 
+import org.kuali.kra.budget.BudgetDecimal;
+
 public class InstituteLaRate extends KraPersistableBusinessObjectBase {
 	private String fiscalYear;
 	private Boolean onOffCampusFlag;
-	private Integer rateClassCode;
-	private Integer rateTypeCode;
+	private String rateClassCode;
+	private String rateTypeCode;
 	private Date startDate;
 	private String unitNumber;
-	private Long rate;
+	private BudgetDecimal instituteRate;
 
 	public String getFiscalYear() {
 		return fiscalYear;
@@ -28,19 +30,19 @@ public class InstituteLaRate extends KraPersistableBusinessObjectBase {
 		this.onOffCampusFlag = onOffCampusFlag;
 	}
 
-	public Integer getRateClassCode() {
+	public String getRateClassCode() {
 		return rateClassCode;
 	}
 
-	public void setRateClassCode(Integer rateClassCode) {
+	public void setRateClassCode(String rateClassCode) {
 		this.rateClassCode = rateClassCode;
 	}
 
-	public Integer getRateTypeCode() {
+	public String getRateTypeCode() {
 		return rateTypeCode;
 	}
 
-	public void setRateTypeCode(Integer rateTypeCode) {
+	public void setRateTypeCode(String rateTypeCode) {
 		this.rateTypeCode = rateTypeCode;
 	}
 
@@ -60,12 +62,12 @@ public class InstituteLaRate extends KraPersistableBusinessObjectBase {
 		this.unitNumber = unitNumber;
 	}
 
-	public Long getRate() {
-		return rate;
+	public BudgetDecimal getInstituteRate() {
+		return instituteRate;
 	}
 
-	public void setRate(Long rate) {
-		this.rate = rate;
+	public void setInstituteRate(BudgetDecimal rate) {
+		this.instituteRate = rate;
 	}
 
 
@@ -78,7 +80,7 @@ public class InstituteLaRate extends KraPersistableBusinessObjectBase {
 		hashMap.put("rateTypeCode", getRateTypeCode());
 		hashMap.put("startDate", getStartDate());
 		hashMap.put("unitNumber", getUnitNumber());
-		hashMap.put("rate", getRate());
+		hashMap.put("instituterate", getInstituteRate());
 		return hashMap;
 	}
 }

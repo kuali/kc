@@ -1,5 +1,21 @@
+/*
+ * Copyright 2007 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.kra.budget.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.sql.Date;
@@ -14,7 +30,7 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	private Integer budgetVersionNumber;
 	private Boolean applyInRateFlag;
 	private Integer basedOnLineItem;
-	private String budgetCategoryCode;
+	private Integer budgetCategoryCode;
 	private String budgetJustification;
 	private String costElement;
 	private BudgetDecimal costSharingAmount;
@@ -34,7 +50,9 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	
 	private CostElement costElementBO;
 	
-
+	public BudgetLineItemBase(){
+	    budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
+	}
     /**
      * Gets the directCost attribute. 
      * @return Returns the directCost.
@@ -115,11 +133,11 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 		this.basedOnLineItem = basedOnLineItem;
 	}
 
-	public String getBudgetCategoryCode() {
+	public Integer getBudgetCategoryCode() {
 		return budgetCategoryCode;
 	}
 
-	public void setBudgetCategoryCode(String budgetCategoryCode) {
+	public void setBudgetCategoryCode(Integer budgetCategoryCode) {
 		this.budgetCategoryCode = budgetCategoryCode;
 	}
 
@@ -233,7 +251,14 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 		hashMap.put("quantity", getQuantity());
 		hashMap.put("startDate", getStartDate());
 		hashMap.put("underrecoveryAmount", getUnderrecoveryAmount());
-		return hashMap;
+        hashMap.put("directCost", getDirectCost());
+        hashMap.put("indirectCost", getIndirectCost());
+        List<BudgetLineItemCalculatedAmount> l = getBudgetLineItemCalculatedAmounts();
+        hashMap.put("budgetLineItemCalculatedAmounts",getBudgetLineItemCalculatedAmounts());
+        for (BudgetLineItemCalculatedAmount object : l) {
+            hashMap.put(object.getRateClassType(),object);
+        }
+        return hashMap;
 	}
 
     public List<BudgetLineItemCalculatedAmount> getBudgetLineItemCalculatedAmounts() {
