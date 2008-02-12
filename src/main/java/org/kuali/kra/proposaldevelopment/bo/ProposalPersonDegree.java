@@ -28,8 +28,8 @@ import static org.apache.commons.lang.StringUtils.isBlank;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * @author $Author: rmancher $
- * @version $Revision: 1.7 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.8 $
  */
 public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
     private Integer proposalPersonNumber;
@@ -120,7 +120,7 @@ public class ProposalPersonDegree extends KraPersistableBusinessObjectBase {
             degree = null;
         }
         else {
-            refreshReferenceObject("degree");
+            refreshReferenceObject("degreeType");
         }
     }
     
