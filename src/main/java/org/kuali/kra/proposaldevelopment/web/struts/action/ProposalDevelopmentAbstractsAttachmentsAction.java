@@ -19,6 +19,7 @@ import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_CLOSE_PAGE;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE;
+import static org.kuali.kra.infrastructure.Constants.MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE;
 import static org.kuali.kra.infrastructure.Constants.INSTITUTIONAL_ATTACHMENT_TYPE_NAME;
 import static org.kuali.kra.infrastructure.Constants.PERSONNEL_ATTACHMENT_TYPE_NAME;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_ATTACHMENT_TYPE_NAME;
@@ -119,6 +120,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
             narrativeToBeSaved.refreshNonUpdateableReferences();
         }
+        
         return super.save(mapping, form, request, response);
     }
     /**
@@ -160,6 +162,32 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    /**
+     * 
+     * This method used to stream the attachment byte array onto the browser.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward downloadInstituteAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        String line = request.getParameter(LINE_NUMBER);
+        int lineNumber = line == null ? 0 : Integer.parseInt(line);
+        ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        Narrative narrative = pd.getInstituteAttachments().get(lineNumber);
+        NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
+        if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
+            narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
+        }
+        streamToResponse(narrativeAttachment,response); 
+        return null;
+    }
+    
     /**
      * 
      * This method used to stream the attachment byte array onto the browser.
@@ -276,6 +304,28 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
        
     }
 
+    /**
+     * 
+     * This method used to get the proposal user rights
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return 
+     * @throws Exception
+     */
+     public ActionForward getInstituteAttachmentRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+             HttpServletResponse response) throws Exception {
+         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+         proposalDevelopmentForm.setShowMaintenanceLinks(false);
+         String line = request.getParameter(LINE_NUMBER);
+         int lineNumber = line == null ? getLineToDelete(request) : Integer.parseInt(line);
+         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
+         pd.populatePersonNameForInstituteAttachmentUserRights(lineNumber);
+         request.setAttribute(LINE_NUMBER, ""+lineNumber);
+         return mapping.findForward(MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE);
+     }
+     
    /**
     * 
     * This method used to get the proposal user rights
@@ -316,6 +366,22 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
     /**
      * 
+     * This method to send the request back to a page which closes by itself. Since Attachment right page 
+     * is opened in a new window, after saving, it should close by itself.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward of close page
+     * @throws Exception
+     */
+    public ActionForward addInstituteAttachmentRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return mapping.findForward(MAPPING_CLOSE_PAGE);
+    }
+
+    /**
+     * 
      * This method used to replace the attachment
      * @param mapping
      * @param form
@@ -329,6 +395,24 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         pd.replaceAttachment(getSelectedLine(request));
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method used to replace the attachment
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward replaceInstituteAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        pd.replaceInstituteAttachment(getSelectedLine(request));
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -570,6 +654,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         streamToResponse(propPersonBioAttachment,response);
         return  null;
     }
+
 
     /**
      * 
