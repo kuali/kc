@@ -1,5 +1,5 @@
 CREATE TABLE "NARRATIVE_ATTACHMENT"                                             
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "NARRATIVE_ATTACHMENTN1" NOT NULL   
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "NARRATIVE_ATTACHMENTN1" NOT NULL   
 ENABLE,                                                                         
 "MODULE_NUMBER" NUMBER(4,0) CONSTRAINT "NARRATIVE_ATTACHMENTN2" NOT NULL ENABLE,
 "NARRATIVE_DATA" BLOB,                                                          
@@ -17,7 +17,7 @@ CONSTRAINT "PK_NARRATIVE_ATTACHMENT_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",
                                                                                 
                                                                                 
 CREATE TABLE "EPS_PROP_ABSTRACT"                                                
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_ABSTRACTN1" NOT NULL      
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_ABSTRACTN1" NOT NULL      
 ENABLE,                                                                         
 "ABSTRACT_TYPE_CODE" VARCHAR2(3) CONSTRAINT "EPS_PROP_ABSTRACTN2" NOT NULL      
 ENABLE,                                                                         
@@ -294,7 +294,7 @@ CONSTRAINT "FS_LOOKUP_SELECTIONS_MTC0" UNIQUE ("OBJ_ID") ENABLE
          
                                                                                 
 CREATE TABLE "EPS_PROP_PERSON_BIO_ATTACHMENT"                                   
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_BIO_ATMTN1" NOT    
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_PERSON_BIO_ATMTN1" NOT    
 NULL ENABLE,                                                                    
 "PROP_PERSON_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_BIO_ATMTN2" NOT   
 NULL ENABLE,                                                                    
@@ -316,7 +316,7 @@ CONSTRAINT "PK_EPS_PROP_PSN_BIO_ATMT_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",
                                                                                 
                                                                                 
 CREATE TABLE "EPS_PROP_SPECIAL_REVIEW"                                          
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_SPECIAL_REVIEWN1" NOT NULL
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_SPECIAL_REVIEWN1" NOT NULL
 ENABLE,                                                                         
 "SPECIAL_REVIEW_NUMBER" NUMBER(3,0) CONSTRAINT "EPS_PROP_SPECIAL_REVIEWN2" NOT  
 NULL ENABLE,                                                                    
@@ -1599,7 +1599,7 @@ CONSTRAINT "TRV_ACCT_TYPE_P1" PRIMARY KEY ("ACCT_NUM", "ACCT_TYPE") ENABLE
                                                                                 
                                                                                 
 CREATE TABLE "EPS_PROP_PERSON_UNITS"                                            
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_UNITS_N2" NOT NULL 
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_PERSON_UNITS_N2" NOT NULL 
 ENABLE,                                                                         
 "PROP_PERSON_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_UNITS_N3" NOT NULL
 ENABLE,                                                                         
@@ -1616,7 +1616,7 @@ CONSTRAINT "EPS_PROP_PERSON_UNITS_N5" PRIMARY KEY ("PROPOSAL_NUMBER",
                              
                                                                                 
 CREATE TABLE "EPS_PROP_USER_ROLES"                                              
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_USER_ROLESN1" NOT NULL    
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_USER_ROLESN1" NOT NULL    
 ENABLE,                                                                         
 "USER_ID" VARCHAR2(10) CONSTRAINT "EPS_PROP_USER_ROLESN2" NOT NULL ENABLE,      
 "ROLE_ID" NUMBER(5,0) CONSTRAINT "EPS_PROP_USER_ROLESN3" NOT NULL ENABLE,       
@@ -1647,7 +1647,7 @@ CONSTRAINT "PERSON_EDITABLE_FIELDS_C0" UNIQUE ("OBJ_ID") ENABLE
                                                                             
                                                                                 
 CREATE TABLE "PROPOSAL_INV_CERTIFICATION"                                       
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "PROPOSAL_INV_CERTIFICATION_N1" NOT 
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "PROPOSAL_INV_CERTIFICATION_N1" NOT 
 NULL ENABLE,                                                                    
 "PROP_PERSON_NUMBER" NUMBER(12,0) CONSTRAINT "PROPOSAL_INV_CERTIFICATION_N2" NOT
 NULL ENABLE,                                                                    
@@ -1807,7 +1807,7 @@ CONSTRAINT "NOTICE_OF_OPPORTUNITY_TP1" PRIMARY KEY
        
                                                                                 
 CREATE TABLE "EPS_PROP_PER_CREDIT_SPLIT"                                        
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PER_CREDIT_SPLIT_N1" NOT  
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_PER_CREDIT_SPLIT_N1" NOT  
 NULL ENABLE,                                                                    
 "INV_CREDIT_TYPE_CODE" VARCHAR2(3) CONSTRAINT "EPS_PROP_PER_CREDIT_SPLIT_N3" NOT
 NULL ENABLE,                                                                    
@@ -1828,7 +1828,7 @@ CONSTRAINT "EPS_PROP_PER_CREDIT_SPLIT_C0" UNIQUE ("OBJ_ID") ENABLE
       
                                                                                 
 CREATE TABLE "EPS_PROP_UNIT_CREDIT_SPLIT"                                       
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_UNIT_CREDIT_SPLIT_N1" NOT 
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_UNIT_CREDIT_SPLIT_N1" NOT 
 NULL ENABLE,                                                                    
 "INV_CREDIT_TYPE_CODE" VARCHAR2(3) CONSTRAINT "EPS_PROP_UNIT_CREDIT_SPLIT_N3"   
 NOT NULL ENABLE,                                                                
@@ -1865,7 +1865,7 @@ CONSTRAINT "PK_YNQ_EXPLANATION_TYPE_KRA" PRIMARY KEY ("EXPLANATION_TYPE") ENABLE
                                                                             
                                                                                 
 CREATE TABLE "EPS_PROP_PERS_YNQ"                                                
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERS_YNQN1" NOT NULL      
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_PERS_YNQN1" NOT NULL      
 ENABLE,                                                                         
 "PROP_PERSON_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERS_YNQN2" NOT NULL     
 ENABLE,                                                                         
@@ -1883,7 +1883,7 @@ CONSTRAINT "PK_EPS_PROP_PERS_YNQ_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",
                                                                             
                                                                                 
 CREATE TABLE "EPS_PROP_YNQ"                                                     
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_YNQN1" NOT NULL ENABLE,   
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_YNQN1" NOT NULL ENABLE,   
 "QUESTION_ID" VARCHAR2(4) CONSTRAINT "EPS_PROP_YNQN2" NOT NULL ENABLE,          
 "ANSWER" CHAR(1),                                                               
 "EXPLANATION" LONG,                                                             
@@ -1899,7 +1899,7 @@ ENABLE
                                                                                 
                                                                                 
 CREATE TABLE "EPS_PROP_PERSON_BIO"                                              
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_BION1" NOT NULL    
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_PERSON_BION1" NOT NULL    
 ENABLE,                                                                         
 "PROP_PERSON_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_BION2" NOT NULL   
 ENABLE,                                                                         
@@ -1921,7 +1921,7 @@ CONSTRAINT "PK_EPS_PROP_PERSON_BIO_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",
                                                                                 
                                                                                 
 CREATE TABLE "BUDGET"                                                           
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "BUDGETN1" NOT NULL ENABLE,         
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGETN1" NOT NULL ENABLE,         
 "VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGETN2" NOT NULL ENABLE,             
 "DOCUMENT_NUMBER" NUMBER(10,0) CONSTRAINT "BUDGETN3" NOT NULL ENABLE,           
 "START_DATE" DATE CONSTRAINT "BUDGETN4" NOT NULL ENABLE,                        
@@ -1973,7 +1973,7 @@ CONSTRAINT "EN_OUT_BOX_ITM_T_PK" PRIMARY KEY ("ACTN_ITM_ID") ENABLE
      
                                                                                 
 CREATE TABLE "EPS_PROP_PERSON_DEGREE"                                           
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_DEGREE_N1" NOT NULL
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_PERSON_DEGREE_N1" NOT NULL
 ENABLE,                                                                         
 "PROP_PERSON_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_DEGREE_N2" NOT    
 NULL ENABLE,                                                                    
@@ -2333,7 +2333,7 @@ CONSTRAINT "PK_UNIT_KRA" PRIMARY KEY ("UNIT_NUMBER") ENABLE
                                                                                 
 CREATE TABLE "EPS_PROPOSAL"                                                     
 (	"DOCUMENT_NUMBER" NUMBER(10,0) CONSTRAINT "EPS_PROPOSAL_N1" NOT NULL ENABLE,  
-"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROPOSAL_N2" NOT NULL ENABLE,    
+"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROPOSAL_N2" NOT NULL ENABLE,    
 "PROPOSAL_TYPE_CODE" VARCHAR2(3),                                               
 "STATUS_CODE" NUMBER(3,0),                                                      
 "CREATION_STATUS_CODE" NUMBER(3,0),                                             
@@ -2391,7 +2391,7 @@ CONSTRAINT "EPS_PROPOSAL_C0" UNIQUE ("OBJ_ID") ENABLE
                    
                                                                                 
 CREATE TABLE "EPS_PROP_LOCATION"                                                
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_LOCATIONN1" NOT NULL      
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_LOCATIONN1" NOT NULL      
 ENABLE,                                                                         
 "LOCATION_SEQUENCE_NUMBER" NUMBER(3,0) CONSTRAINT "EPS_PROP_LOCATIONN2" NOT NULL
 ENABLE,                                                                         
@@ -2425,7 +2425,7 @@ ENABLE
                                                                                 
                                                                                 
 CREATE TABLE "EPS_PROP_SCIENCE_KEYWORD"                                         
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_SCIENCE_KEYWORDN1" NOT    
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_SCIENCE_KEYWORDN1" NOT    
 NULL ENABLE,                                                                    
 "SCIENCE_KEYWORD_CODE" VARCHAR2(3) CONSTRAINT "EPS_PROP_SCIENCE_KEYWORDN2" NOT  
 NULL ENABLE,                                                                    
@@ -2547,7 +2547,7 @@ CONSTRAINT "PK_UNIT_HIERARCHY_KRA" PRIMARY KEY ("UNIT_NUMBER") ENABLE
                                                                                 
                                                                                 
 CREATE TABLE "EPS_PROP_PERSON"                                                  
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_N1" NOT NULL       
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_PERSON_N1" NOT NULL       
 ENABLE,                                                                         
 "PROP_PERSON_NUMBER" NUMBER(12,0) CONSTRAINT "EPS_PROP_PERSON_N2" NOT NULL      
 ENABLE,                                                                         
@@ -2629,7 +2629,7 @@ CONSTRAINT "EPS_PROP_PERSON_C0" UNIQUE ("OBJ_ID") ENABLE
                 
                                                                                 
 CREATE TABLE "NARRATIVE"                                                        
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "NARRATIVEN1" NOT NULL ENABLE,      
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "NARRATIVEN1" NOT NULL ENABLE,      
 "MODULE_NUMBER" NUMBER(4,0) CONSTRAINT "NARRATIVEN2" NOT NULL ENABLE,           
 "MODULE_SEQUENCE_NUMBER" NUMBER(4,0) CONSTRAINT "NARRATIVEN3" NOT NULL ENABLE,  
 "MODULE_TITLE" VARCHAR2(150),                                                   
@@ -2665,7 +2665,7 @@ ENABLE
                                                                                 
                                                                                 
 CREATE TABLE "NARRATIVE_USER_RIGHTS"                                            
-(	"PROPOSAL_NUMBER" NUMBER(12,0) CONSTRAINT "NARRATIVE_USER_RIGHTSN1" NOT NULL  
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "NARRATIVE_USER_RIGHTSN1" NOT NULL  
 ENABLE,                                                                         
 "MODULE_NUMBER" NUMBER(4,0) CONSTRAINT "NARRATIVE_USER_RIGHTSN2" NOT NULL       
 ENABLE,                                                                         
