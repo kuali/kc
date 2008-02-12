@@ -79,7 +79,7 @@
 			<label>Description </label>
 			<shortLabel>Description </shortLabel>
 			<maxLength>200</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
 				<text size="200" />
 			</control>
@@ -91,7 +91,7 @@
 			<label>Rate Class Type </label>
 			<shortLabel>Rate Class Type </shortLabel>
 			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter/></validationPattern>
 			<control>
 				<text size="1" />
 			</control>

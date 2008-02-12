@@ -27,6 +27,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetProposalLaRate;
+import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.service.BudgetSummaryService;
@@ -44,8 +46,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private Date endDate;
     private boolean finalVersionFlag;
     private String modularBudgetFlag;
-    private Integer ohRateClassCode;
-    private Integer ohRateTypeCode;
+    private String ohRateClassCode;
+    private String ohRateTypeCode;
     private BudgetDecimal residualFunds;
     private Date startDate;
     private BudgetDecimal totalCost;
@@ -53,18 +55,25 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private BudgetDecimal totalDirectCost;
     private BudgetDecimal totalIndirectCost; // = new BudgetDecimal(0);
     private BudgetDecimal underrecoveryAmount; // = new BudgetDecimal(0);
-    private Integer urRateClassCode;
+    private String urRateClassCode;
     private ProposalDevelopmentDocument proposal;
     private RateClass rateClass;
+    private List<BudgetProposalRate> budgetProposalRates;
+    private List<BudgetProposalLaRate> budgetProposalLaRates;
     private List<BudgetPeriod> budgetPeriods;
+    
+    private String activityTypeCode="1";
     private List<BudgetLineItem> budgetLineItems;
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 
     private Date summaryPeriodStartDate;
     private Date summaryPeriodEndDate;
     
+
     public BudgetDocument(){
         super();
+        budgetProposalRates = new ArrayList<BudgetProposalRate>();
+        budgetProposalLaRates = new ArrayList<BudgetProposalLaRate>();
         budgetPeriods = new ArrayList<BudgetPeriod>();
         budgetLineItems = new ArrayList<BudgetLineItem>();
         budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
@@ -127,24 +136,24 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.modularBudgetFlag = modularBudgetFlag;
     }
 
-    public Integer getOhRateClassCode() {
+    public String getOhRateClassCode() {
         return ohRateClassCode;
     }
 
-    public void setOhRateClassCode(Integer ohRateClassCode) {
+    public void setOhRateClassCode(String ohRateClassCode) {
         this.ohRateClassCode = ohRateClassCode;
     }
 
-    public Integer getOhRateTypeCode() {
+    public String getOhRateTypeCode() {
         return ohRateTypeCode;
     }
 
-    public void setOhRateTypeCode(Integer ohRateTypeCode) {
+    public void setOhRateTypeCode(String ohRateTypeCode) {
         this.ohRateTypeCode = ohRateTypeCode;
     }
 
     public BudgetDecimal getResidualFunds() {
-        return residualFunds; // == null ?  new BudgetDecimal(0) : residualFunds;
+        return residualFunds;
     }
 
     public void setResidualFunds(BudgetDecimal residualFunds) {
@@ -168,7 +177,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
 
     public BudgetDecimal getTotalCostLimit() {
-        return totalCostLimit; // == null ?  new BudgetDecimal(0) : totalCostLimit;
+        return totalCostLimit;
     }
 
     public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
@@ -199,11 +208,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.underrecoveryAmount = underrecoveryAmount;
     }
 
-    public Integer getUrRateClassCode() {
+    public String getUrRateClassCode() {
         return urRateClassCode;
     }
 
-    public void setUrRateClassCode(Integer urRateClassCode) {
+    public void setUrRateClassCode(String urRateClassCode) {
         this.urRateClassCode = urRateClassCode;
     }
 
@@ -238,7 +247,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         }
         return budgetPeriods;
     }
-
     /**
      * Gets the BudgetSummary attribute. 
      * @return Returns the BudgetSummary.
@@ -257,7 +265,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(getBudgetPeriods());
         return managedLists;
     }
-
 
     /**
      * Gets index i from the budgetPeriods list.
@@ -302,6 +309,54 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
             summaryPeriodEndDate = endDate;
         }
         return summaryPeriodEndDate;
+    }
+
+    /**
+     * Gets the budgetProposalRates attribute. 
+     * @return Returns the budgetProposalRates.
+     */
+    public List<BudgetProposalRate> getBudgetProposalRates() {
+        return budgetProposalRates;
+    }
+
+    /**
+     * Sets the budgetProposalRates attribute value.
+     * @param budgetProposalRates The budgetProposalRates to set.
+     */
+    public void setBudgetProposalRates(List<BudgetProposalRate> budgetProposalRates) {
+        this.budgetProposalRates = budgetProposalRates;
+    }
+
+    /**
+     * Gets the budgetProposalLaRates attribute. 
+     * @return Returns the budgetProposalLaRates.
+     */
+    public List<BudgetProposalLaRate> getBudgetProposalLaRates() {
+        return budgetProposalLaRates;
+    }
+
+    /**
+     * Sets the budgetProposalLaRates attribute value.
+     * @param budgetProposalLaRates The budgetProposalLaRates to set.
+     */
+    public void setBudgetProposalLaRates(List<BudgetProposalLaRate> budgetProposalLaRates) {
+        this.budgetProposalLaRates = budgetProposalLaRates;
+    }
+
+    /**
+     * Gets the activityTypeCode attribute. 
+     * @return Returns the activityTypeCode.
+     */
+    public String getActivityTypeCode() {
+        return activityTypeCode;
+    }
+
+    /**
+     * Sets the activityTypeCode attribute value.
+     * @param activityTypeCode The activityTypeCode to set.
+     */
+    public void setActivityTypeCode(String activityTypeCode) {
+        this.activityTypeCode = activityTypeCode;
     }
 
 }

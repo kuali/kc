@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
@@ -8,15 +23,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetPersonnelDetails extends BudgetLineItemBase {
-	private Integer budgetPeriod;
-	private Integer lineItemNumber;
-	private Integer personNumber;
-	private String proposalNumber;
-	private Integer budgetVersionNumber;
-	private Boolean applyInRateFlag;
-	private String budgetJustification;
-	private BudgetDecimal costSharingAmount;
-	private Date endDate;
+    private Integer personNumber;
 	private BudgetDecimal costSharingPercent;
 	private String jobCode;
 	private BudgetDecimal percentCharged;
@@ -33,46 +40,6 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 
 	public void setPersonNumber(Integer personNumber) {
 		this.personNumber = personNumber;
-	}
-
-	public String getProposalNumber() {
-		return proposalNumber;
-	}
-
-	public void setProposalNumber(String proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
-
-	public Integer getBudgetVersionNumber() {
-		return budgetVersionNumber;
-	}
-
-	public void setBudgetVersionNumber(Integer budgetVersionNumber) {
-		this.budgetVersionNumber = budgetVersionNumber;
-	}
-
-	public Boolean getApplyInRateFlag() {
-		return applyInRateFlag;
-	}
-
-	public void setApplyInRateFlag(Boolean applyInRateFlag) {
-		this.applyInRateFlag = applyInRateFlag;
-	}
-
-	public String getBudgetJustification() {
-		return budgetJustification;
-	}
-
-	public void setBudgetJustification(String budgetJustification) {
-		this.budgetJustification = budgetJustification;
-	}
-
-	public BudgetDecimal getCostSharingAmount() {
-		return costSharingAmount;
-	}
-
-	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
-		this.costSharingAmount = costSharingAmount;
 	}
 
 	public BudgetDecimal getCostSharingPercent() {
@@ -140,20 +107,9 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 	}
 	@Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("budgetPeriod", getBudgetPeriod());
-		hashMap.put("lineItemNumber", getLineItemNumber());
+		LinkedHashMap hashMap = super.toStringMapper();
 		hashMap.put("personNumber", getPersonNumber());
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("budgetVersionNumber", getBudgetVersionNumber());
-		hashMap.put("applyInRateFlag", getApplyInRateFlag());
-		hashMap.put("budgetJustification", getBudgetJustification());
-		hashMap.put("costSharingAmount", getCostSharingAmount());
-		hashMap.put("costSharingPercent", getCostSharingPercent());
-		hashMap.put("endDate", getEndDate());
 		hashMap.put("jobCode", getJobCode());
-		hashMap.put("lineItemDescription", getLineItemDescription());
-		hashMap.put("onOffCampusFlag", getOnOffCampusFlag());
 		hashMap.put("percentCharged", getPercentCharged());
 		hashMap.put("percentEffort", getPercentEffort());
 		hashMap.put("periodType", getPeriodType());

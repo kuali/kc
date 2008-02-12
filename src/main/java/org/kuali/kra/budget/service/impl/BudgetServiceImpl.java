@@ -44,8 +44,8 @@ public class BudgetServiceImpl implements BudgetService {
         budgetDocument.getDocumentHeader().setFinancialDocumentDescription(documentDescription);
         budgetDocument.setStartDate(pdDoc.getRequestedStartDateInitial());
         budgetDocument.setEndDate(pdDoc.getRequestedEndDateInitial());
-        budgetDocument.setOhRateClassCode(1);
-        budgetDocument.setUrRateClassCode(1);
+        budgetDocument.setOhRateClassCode("1");
+        budgetDocument.setUrRateClassCode("1");
         budgetDocument.setModularBudgetFlag("N");
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
