@@ -839,10 +839,23 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }
     }
 
+    public void populatePersonNameForInstituteAttachmentUserRights(int lineNumber) {
+        if(!getInstituteAttachments().isEmpty()){
+            Narrative narrative = getInstituteAttachments().get(lineNumber);
+            getNarrativeService().populatePersonNameForNarrativeUserRights(this, narrative);
+        }
+    }
+
     public void replaceAttachment(int selectedLine) {
         Narrative narrative = getNarratives().get(selectedLine);
         getNarrativeService().replaceAttachment(narrative);
     }
+    
+    public void replaceInstituteAttachment(int selectedLine) {
+        Narrative narrative = getInstituteAttachments().get(selectedLine);
+        getNarrativeService().replaceAttachment(narrative);
+    }
+
 
     public void populateNarrativeRightsForLoggedinUser() {
         getNarrativeService().populateNarrativeRightsForLoggedinUser(this);

@@ -8,7 +8,7 @@ function selectAllKeywords(document) {
 	  	var name = 'document.propScienceKeyword[' + j + '].selectKeyword';
 	  	if (e.name == name) {
  		    e.checked = true;
-	  		j++;
+	  		j++; 
 	  	}
 	  }
 	}
@@ -160,14 +160,6 @@ function loadinfo(data) {
   DWRUtil.setValue("document.sponsorCode", data);
 }
 var propAttRightWindow;
-//function proposalAttachmentRightsPop(lineNumber){
-
-//  if (propAttRightWindow && propAttRightWindow.open && !propAttRightWindow.closed){
-//  	propAttRightWindow.focus();
-//  }else{
-//    propAttRightWindow = window.open(extractUrlBase()+"/proposalDevelopmentAbstractsAttachments.do?methodToCall=getProposalAttachmentRights&line="+lineNumber, "mywindow", "width=800, height=300, scrollbars=yes");
-//  }
-//}
 function proposalAttachmentRightsPop(lineNumber,docFormKey, sessionDocument){
   var documentWebScope
   if (sessionDocument == "true") {
@@ -178,6 +170,19 @@ function proposalAttachmentRightsPop(lineNumber,docFormKey, sessionDocument){
   	propAttRightWindow.focus();
   }else{
     propAttRightWindow = window.open(extractUrlBase()+"/proposalDevelopmentAbstractsAttachments.do?methodToCall=getProposalAttachmentRights&line="+lineNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "mywindow", "width=800, height=300, scrollbars=yes");
+  }
+}  
+
+var propInstAttRightWindow;
+function proposalInstituteAttachmentRightsPop(lineNumber,docFormKey, sessionDocument){
+  var documentWebScope
+  if (sessionDocument == "true") {
+      documentWebScope="session"
+  }
+  if (propInstAttRightWindow && propInstAttRightWindow.open && !propInstAttRightWindow.closed){
+  	propInstAttRightWindow.focus();
+  }else{
+    propInstAttRightWindow = window.open(extractUrlBase()+"/proposalDevelopmentAbstractsAttachments.do?methodToCall=getInstituteAttachmentRights&line="+lineNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "instAttWindow", "width=800, height=300, scrollbars=yes");
   }
 }
 var fileBrowseWindow;

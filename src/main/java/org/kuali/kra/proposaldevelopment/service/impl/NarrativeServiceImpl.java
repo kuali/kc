@@ -163,9 +163,12 @@ public class NarrativeServiceImpl implements NarrativeService {
         narrative.setModifyAttachment(true);
         narrative.refreshReferenceObject("narrativeType");
         narrative.populateAttachment();
+        
+        populateNarrativeUserRights(proposaldevelopmentDocument,narrative);  
+        
         getBusinessObjectService().save(narrative);
         narrative.clearAttachment();
-        proposaldevelopmentDocument.getInstituteAttachments().add(narrative);
+        proposaldevelopmentDocument.getInstituteAttachments().add(narrative);  
     }
 
     /**
@@ -192,6 +195,11 @@ public class NarrativeServiceImpl implements NarrativeService {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getNarratives();
         for (Narrative narrative : narrativeList) {
             populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
+        }
+        
+        List<Narrative> instituteAttachmentList = proposaldevelopmentDocument.getInstituteAttachments();
+        for (Narrative instituteAttachment : instituteAttachmentList) {
+            populateNarrativeUserRights(proposaldevelopmentDocument,instituteAttachment);
         }
     }
 

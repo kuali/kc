@@ -28,6 +28,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
         
+        
         <table cellpadding=0 cellspacing=0 summary="">
           	<tr>
           	    <th><div align="left">&nbsp</div></th> 
@@ -74,30 +75,52 @@
 					<th class="infoline" align="right">
 						${status.index + 1}:
 					</th>
+	                 <td class="infoline">                
+                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].updateTimestamp" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
+				</td>
+                <td class="infoline">
+                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].updateUser" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
+                </td>
+                <td class="infoline">                	
+                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].institutionalAttachmentTypeCode" attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}"  styleClass="fixed-size-select"/>
+				</td>
+                <td class="infoline">
+                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
+                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
+				</td>
 	                <td>
-                	    <kul:htmlControlAttribute property="document.instituteAttachment[${status.index}].updateTimestamp" readOnly="true" attributeEntry="${narrativeAttributes.updateTimestamp}" />
-					</td>
-	                <td>
-                	    ${instituteAttachment.authorPersonName}
-	                </td>
-	                <td>                	
-                         ${instituteAttachment.narrativeType.description}	                
-					</td>
-	                <td>
-	                    ${instituteAttachment.moduleTitle}
-					</td>
-	                <td>
-	                    ${instituteAttachment.fileName}
+	                    <div id="replaceInstDiv${status.index}" style="display:block;">
+					                <kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
+					                <c:if test="${(instituteAttachment.viewAttachment || instituteAttachment.modifyAttachment) }"> 
+						                (
+						                <c:if test="${instituteAttachment.viewAttachment && (!empty instituteAttachment.fileName)}">
+						                <html:link linkName="downloadInstituteAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadInstituteAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadInstituteAttachment.line${status.index}">download</html:link>
+							                <c:if test="${instituteAttachment.modifyAttachment}">
+							                &nbsp;|&nbsp;
+							                </c:if> 
+						                </c:if>
+						                <c:if test="${instituteAttachment.modifyAttachment}">
+						                <html:link linkName="replaceInstituteAttachment.line${status.index}" onclick="javascript: showHide('instFileDiv${status.index}','replaceInstDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.replaceInstituteAttachment.line${status.index}">replace</html:link>
+						                </c:if>
+						                )
+					                </c:if>
+				                </div>
+				                <div id="instFileDiv${status.index}" valign="middle" style="display:none;">
+				                	<html:file property="document.instituteAttachments[${status.index}].narrativeFile" />
+									<html:image property="methodToCall.replaceInstituteAttachment.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+								</div>
 	                </td>
 	                <td>
 					<div align=center>
-					    <c:if test="${!empty instituteAttachment.fileName}" >
-						   <html:image property="methodToCall.viewInstitutionalAttachment.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
-									onclick="javascript: openNewWindow('proposalDevelopmentAbstractsAttachments','viewInstitutionalAttachment',${status.index},${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
-						</c:if>			
 						<html:image property="methodToCall.deleteInstitutionalAttachment.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+							
+						<c:if test="${!empty instituteAttachment.fileName}" >
+						<html:image styleId="getInstituteAttachmentRights.line${status.index}" property="methodToCall.getInstituteAttachmentRights.line${status.index}.anchor${currentTabIndex}"
+										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
+										onclick="javascript: proposalInstituteAttachmentRightsPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
+						</c:if>	 
 					</div>
 	                </td>
 	            </tr>
