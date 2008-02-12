@@ -280,6 +280,7 @@ public class Narrative extends KraPersistableBusinessObjectBase {
           refreshReferenceObject("narrativeUserRights");
       for (NarrativeUserRights narrativeRight : narrativeUserRights) {
           if (StringUtils.equals(narrativeRight.getUserId(),loggedInUserPersonId)) {
+              
               return narrativeRight.getAccessType().equals(
                       NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType());
           }
