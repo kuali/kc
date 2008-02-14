@@ -132,17 +132,17 @@
 		</ruleAttribute>		
 	</ruleAttributes>
 
-<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-<documentType>
-<name>ProposalDevelopmentDocument</name>
-<description>Create an Awesome Development Proposal</description>
-<label>KRA Proposal Development</label>
-<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
-<active>true</active>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>ProposalDevelopmentDocument</name>
+			<description>Create an Awesome Development Proposal</description>
+			<label>KRA Proposal Development</label>
+			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
 			<attributes>
 				<attribute>
 					<name>AggregatorSearchAttribute</name>
@@ -160,20 +160,39 @@
 					<name>ApproverSearchAttribute</name>
 				</attribute>
 			</attributes>
-
-<routingVersion>2</routingVersion>
-<routePaths>
-<routePath>
-<start name="Initiated" />
-</routePath>
-</routePaths>
-<routeNodes>
-<start name="Initiated">
-<activationType>P</activationType>
-<mandatoryRoute>false</mandatoryRoute>
-<finalApproval>false</finalApproval>
-</start>
-</routeNodes>
-</documentType>
-</documentTypes>
+			<routingVersion>2</routingVersion>
+			<routePaths> 
+                <routePath>
+                    <start name="Initiated" nextNode="FirstApproval" />
+                    <requests name="FirstApproval" nextNode="SecondApproval" />
+                    <requests name="SecondApproval" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+                </start>
+                <requests name="FirstApproval">
+                    <activationType>S</activationType>
+                    <ruleTemplate>FirstApprovalRouting</ruleTemplate>
+                </requests>
+                <requests name="SecondApproval">
+                    <activationType>S</activationType>
+                    <ruleTemplate>SecondApprovalRouting</ruleTemplate>
+                </requests>
+            </routeNodes>
+		</documentType>
+	</documentTypes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        <ruleTemplate allowOverwrite="true">
+            <name>FirstApprovalRouting</name>
+            <description>First Approval Routing Rule Template</description>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>SecondApprovalRouting</name>
+            <description>Second Approval Routing Rule Template</description>
+        </ruleTemplate>
+    </ruleTemplates>
 </data>
