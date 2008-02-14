@@ -32,7 +32,7 @@
 	<kul:routeLog /> 
 	<kul:adHocRecipients /> 
 	<kul:panelFooter />
-	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+	<kul:documentControls transactionalDocument="true"/>
 	<script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>

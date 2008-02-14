@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        <rule>
+            <documentType>ProposalDevelopmentDocument</documentType>
+            <ruleTemplate>FirstApprovalRouting</ruleTemplate>
+            <description>First Approval Routing Rule Template</description>
+            <ignorePrevious>true</ignorePrevious>
+            <responsibilities>
+                <responsibility>
+	            	<user>quickstart</user>
+                    <approvePolicy>A</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <documentType>ProposalDevelopmentDocument</documentType>
+            <ruleTemplate>SecondApprovalRouting</ruleTemplate>
+            <description>Second Approval Routing Rule Template</description>
+            <ignorePrevious>true</ignorePrevious>
+            <responsibilities>
+                <responsibility>
+	            	<user>quickstart</user>
+                    <approvePolicy>A</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+    </rules>
+</data>
