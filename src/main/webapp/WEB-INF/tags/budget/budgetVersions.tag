@@ -41,7 +41,7 @@
 				<th>Total:</th>
 				<th>Status:</th>
 				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" /></th>
-				<th><div align="center">Action</div></th>
+				<th><div align="center">Actions</div></th>
 			</tr>
 			<tr>
             	<th width="50" align="right" scope="row"><div align="right">Add:</div></th>
