@@ -45,6 +45,8 @@ public class S2sSubmissionType extends KraPersistableBusinessObjectBase {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("s2sSubmissionTypeCode", getS2sSubmissionTypeCode());
 		hashMap.put("description", getDescription());
+		hashMap.put("updateTimestamp", this.getUpdateTimestamp());
+		hashMap.put("updateUser", this.getUpdateUser());
 		return hashMap;
 	}
 }
