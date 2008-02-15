@@ -35,7 +35,7 @@
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.documentTypeCode}" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.description}" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.fileName}" noColon="true" /></div></th>
-              	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
+              	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
 	  			             		
           	</tr>        
           	<tr>
