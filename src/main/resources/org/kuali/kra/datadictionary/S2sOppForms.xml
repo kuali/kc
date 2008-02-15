@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.s2s.bo.S2sOppForms">
+    
+    <inquiry>
+            <title>S2s Opp Forms</title>
+
+            <inquirySections><inquirySection title="S2s Opp Forms"><inquiryFields>
+            	<field attributeName="proposalNumber" forceInquiry="true"/>
+            	<field attributeName="oppNameSpace" />
+            	<field attributeName="available" />
+            	<field attributeName="formName" />
+            	<field attributeName="include" />
+            	<field attributeName="mandatory" />            	
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>S2s Opp Forms</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up an S2s Form</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="mandatory"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>            	
+				<lookupField attributeName="proposalNumber"  required="false"/>
+            	<lookupField attributeName="oppNameSpace"  required="false"/>
+            	<lookupField attributeName="available"  required="false"/>
+            	<lookupField attributeName="formName"  required="false"/>
+            	<lookupField attributeName="include"  required="false"/>
+            	<lookupField attributeName="mandatory"  required="false"/>            	
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="proposalNumber" forceInquiry="false"/>
+				<field attributeName="oppNameSpace" forceInquiry="false"/>
+				<field attributeName="available" forceInquiry="false"/>
+				<field attributeName="formName" forceInquiry="false"/>
+				<field attributeName="include" forceInquiry="false"/>
+				<field attributeName="mandatory" forceInquiry="false"/>				
+            </resultFields>
+        </lookup>
+		
+		<attributes>        
+			<attribute name="proposalNumber">
+				<label>Proposal Number </label>
+				<shortLabel>Proposal Number </shortLabel>
+				<maxLength>50</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden/>
+				</control>
+				<summary>Proposal Number </summary>
+				<description>Proposal Number </description>
+			</attribute>
+			
+			<attribute name="oppNameSpace">
+				<label>Namespace </label>
+				<shortLabel>Namespace</shortLabel>
+				<maxLength>200</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<control>
+					<text size="5"/>
+				</control>
+				<summary>Namespace</summary>
+				<description>Namespace</description>
+			</attribute>
+			
+			<attribute name="available">
+				<label>Desc </label>
+				<shortLabel>Desc</shortLabel>
+				<maxLength>1</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<control>
+					<hidden/>
+				</control>				
+				<summary>Available</summary>
+				<description>Available</description>
+			</attribute>
+			
+			<attribute name="formName">
+				<label>Form Name </label>
+				<shortLabel>Form Name  </shortLabel>
+				<maxLength>100</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<control>
+					<text size="20"/>
+				</control>
+				<summary>Form Name  </summary>
+				<description>Form Name  </description>
+			</attribute>
+			
+			<attribute name="include">
+				<label>Include </label>
+				<shortLabel>Include </shortLabel>
+				<maxLength>1</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<control>
+					<checkbox/>
+				</control>
+				<summary>Include </summary>
+				<description>Include </description>
+			</attribute>
+			
+			<attribute name="mandatory">
+				<label>Mandatory</label>
+				<shortLabel>Mandatory </shortLabel>
+				<maxLength>1</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<control>					
+					<checkbox/>
+				</control>
+				<summary>Mandatory </summary>
+				<description>Mandatory</description>
+			</attribute>			
+			
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+		
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
+        

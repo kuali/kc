@@ -66,6 +66,8 @@
 			<set>
 				<value>webAuthenticationService</value>
 				<value>enWebAuthenticationService</value>
+				<value>lookupableHelperService</value>	
+				<value>s2sOpportunityLookupable</value>	
 			</set>
 		</property>
 	</bean>	
@@ -112,7 +114,11 @@
 	<bean id="routeHeaderService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="enDocumentRouteHeaderService" />
 	</bean>
-
+	<!-- 
+	<bean id="lookupableHelperService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+    	<property name="serviceName" value="lookupableHelperService" />
+	</bean>
+ 	-->
 	<bean id="keyValueFinderService" class="org.kuali.kra.lookup.keyvalue.KeyValueFinderServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -123,6 +129,75 @@
 		<property name="validatePassword" value="false" />
 	</bean>
 	<alias name="webAuthenticationService" alias="enWebAuthenticationService" />
+
+	<bean id="persistenceStructureService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="persistenceStructureService" />
+	</bean>
+
+	<bean id="businessObjectDictionaryService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="businessObjectDictionaryService" />
+	</bean>
+	
+	<bean id="dataDictionaryService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="dataDictionaryService" />
+	</bean>
+	
+	<bean id="encryptionService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="encryptionService" />
+	</bean>
+	
+	<bean id="universalUserService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="universalUserService" />
+	</bean>
+	
+	<bean id="lookupService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="lookupService" />
+	</bean>
+	
+	<bean id="businessObjectMetaDataService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="businessObjectMetaDataService" />
+	</bean>
+	
+	<bean id="sequenceAccessorService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="sequenceAccessorService" />
+	</bean>
+	
+	<bean id="lookupResultsService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="lookupResultsService" />
+	</bean>
+	
+	<bean id="lookupableHelperService" class="org.kuali.core.lookup.KualiLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="encryptionService">
+			<ref bean="encryptionService" />
+		</property>
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="sequenceAccessorService">
+			<ref bean="sequenceAccessorService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="lookupResultsService">
+			<ref bean="lookupResultsService" />
+		</property>
+	</bean>
 	
 	<!--  DWR -->
 	<!--
@@ -305,5 +380,18 @@
 	</bean>
 	<bean id="budgetCalculationService" class="org.kuali.kra.budget.service.impl.BudgetCalculationServiceImpl">
 	</bean>
+	
+	<bean id="s2sOpportunityLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+  		<property name="lookupableHelperService">
+    		<ref bean="s2sOpportunityLookupableHelperService" />
+  		</property>  		
+	</bean>	
+
+	<bean id="s2sOpportunityLookupableHelperService" class="org.kuali.kra.lookup.S2sOpportunityLookupableHelperServiceImpl" 
+ 		singleton="false" parent="lookupableHelperService"> 
+ 		<property name="s2SService" >
+  			<ref bean="s2SService"/>
+  		</property>
+  	</bean>		
 	
 </beans>
