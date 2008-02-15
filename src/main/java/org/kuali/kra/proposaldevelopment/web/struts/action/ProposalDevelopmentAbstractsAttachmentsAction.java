@@ -107,9 +107,12 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 //            populateNarrativeUserRights(proposalDevelopmentDocument, narrative);
 //            populateNarrativeType(narrative);
 //        }
+        
+        Narrative newNarrative = proposalDevelopmentForm.getNewNarrative();
+        
         boolean rulePassed = true;
         // check any business rules
-        rulePassed &= getKualiRuleService().applyRules(new SaveNarrativesEvent(EMPTY_STRING,proposalDevelopmentDocument));
+        rulePassed &= getKualiRuleService().applyRules(new SaveNarrativesEvent(EMPTY_STRING,proposalDevelopmentDocument,newNarrative));
         rulePassed &= getKualiRuleService().applyRules(new SaveInstituteAttachmentsEvent(EMPTY_STRING,proposalDevelopmentDocument));
 
         if (!rulePassed){
