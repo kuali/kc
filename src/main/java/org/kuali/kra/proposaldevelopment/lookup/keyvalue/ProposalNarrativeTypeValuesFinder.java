@@ -17,8 +17,6 @@ package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import static org.kuali.core.util.GlobalVariables.getKualiForm;
 
-import gov.grants.apply.system.Global_V1_0.YesNoType;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
