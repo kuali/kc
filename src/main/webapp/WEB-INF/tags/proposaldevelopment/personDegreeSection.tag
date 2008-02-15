@@ -23,7 +23,7 @@
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonDegree.attributes.degree" />
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonDegree.attributes.graduationYear" />
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonDegree.attributes.school" />
-                    <th>&nbsp;</th>
+                    <th><div align="center">Actions</div></th>
                   <kra-pd:personDegreeLine proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
 
     <bean:define id="degrees" name="KualiForm" property="${proposalPerson}.proposalPersonDegrees"/>

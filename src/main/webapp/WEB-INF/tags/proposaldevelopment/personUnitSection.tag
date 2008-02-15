@@ -25,7 +25,7 @@
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.Unit.attributes.unitName" />
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.Unit.attributes.unitNumber" />
              
-                    <th>&nbsp;</th>
+                    <th><div align="center">Actions</div></th>
                   </tr>
                   <tr>
                     <th scope="row" align="center">Add:</th>
