@@ -93,16 +93,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
 
         GlobalVariables.getErrorMap().addToErrorPath("document");
-
-        // changing this to '0' so it doesn't validate reference objects within a list
-        // temporarily put validateDocumentRecursively, so it can check collections under document
-        //KNSServiceLocator.getDictionaryValidationService().validateDocumentRecursively(proposalDevelopmentDocument,0);
-        //KNSServiceLocator.getDictionaryValidationService().validateDocument(proposalDevelopmentDocument);
-        // TODO : temporary hack tied to KRACOESS-287.  Remove this after rice resolves this issue
-        // hack to get rid of message that contains '.documentBusinessObject.' in path
-        // rice should look into this problem ?
-        // The '.documentBusinessObject.' is filtered out in validateDocumentRecursively for now.
-        // getService(DocumentValidationService.class).validateDocumentRecursively(proposalDevelopmentDocument,10);
         
         getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), true, true);
 
