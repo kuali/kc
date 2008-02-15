@@ -25,8 +25,6 @@ import java.util.Vector;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.kuali.kra.s2s.service.S2SService;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -36,6 +34,8 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.s2s.service.S2SService;
+import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.SAXException;
 
 import edu.mit.coeus.bean.CoeusMessageResourcesBean;
@@ -62,6 +62,7 @@ import edu.mit.coeus.utils.dbengine.DBException;
 /**
  * This class...
  */
+@Transactional
 public class S2SServiceImpl implements S2SService, S2SConstants {
     private S2SSubmissionDataTxnBean s2sSubmissionTxnBean;
     private CoeusMessageResourcesBean coeusMessageResourcesBean;

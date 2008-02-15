@@ -65,8 +65,8 @@
 			<shortLabel>S2s Revision Type Code </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
-                <control>
-                    <text size="10" />
+                <control>                    
+                    <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.S2sRevisionType" keyAttribute="s2sRevisionTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
                 </control>
 			<summary>S2s Revision Type Code </summary>
 			<description>S2s Revision Type Code </description>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.s2s.bo.S2sOpportunity">
+
+        <inquiry>
+            <title>S2s Opportunity</title>
+
+            <inquirySections><inquirySection title="S2s Opportunity"><inquiryFields>
+            	<field attributeName="proposalNumber" forceInquiry="true"/>
+            	<field attributeName="cfdaNumber" />
+            	<field attributeName="closingDate" />
+            	<field attributeName="competetionId" />
+            	<field attributeName="instructionUrl" />
+            	<field attributeName="openingDate" />
+            	<field attributeName="opportunity" />
+            	<field attributeName="opportunityId" />
+            	<field attributeName="opportunityTitle" />
+            	<field attributeName="revisionCode" />
+            	<field attributeName="revisionOtherDescription" />
+            	<field attributeName="s2sSubmissionTypeCode" />
+            	<field attributeName="schemaUrl" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+  		<lookupableID>s2sOpportunityLookupable</lookupableID>
+            <title>Opportunity Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up an Opportunity</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="opportunityId"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>            	
+				<lookupField attributeName="opportunityId"  required="false"/>
+            	<lookupField attributeName="cfdaNumber"  required="false"/>
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="proposalNumber" forceInquiry="false"/>
+				<field attributeName="cfdaNumber" forceInquiry="false"/>
+				<field attributeName="closingDate" forceInquiry="false"/>
+				<field attributeName="competetionId" forceInquiry="false"/>
+				<field attributeName="instructionUrl" forceInquiry="false"/>
+				<field attributeName="openingDate" forceInquiry="false"/>
+				<field attributeName="opportunity" forceInquiry="false"/>
+				<field attributeName="opportunityId" forceInquiry="false"/>
+				<field attributeName="opportunityTitle" forceInquiry="false"/>
+				<field attributeName="revisionCode"  forceInquiry="false"/>
+				<field attributeName="revisionOtherDescription" forceInquiry="false"/>
+				<field attributeName="s2sSubmissionTypeCode" forceInquiry="false"/>
+				<field attributeName="schemaUrl" forceInquiry="false"/>
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>opportunityId</titleAttribute>
+        <attributes>
+
+	        <attribute name="proposalNumber">
+				<label>Proposal Number </label>
+				<shortLabel>Proposal Number </shortLabel>
+				<maxLength>8</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>Proposal Number </summary>
+				<description>Proposal Number </description>
+			</attribute>			
+<!-- 			
+			<attributeReference name="cfdaNumber" sourceClassName="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" sourceAttributeName="cfdaNumber" >
+				<control>
+					<text size="6" />
+				</control>
+			</attributeReference> -->
+      		<attribute name="cfdaNumber">
+				<label>CFDA Number</label>
+				<shortLabel>CFDA Number</shortLabel>
+				<maxLength>6</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+				<required>false</required>
+				<control>
+					<text size="20"/>
+				</control>
+				<summary>The CFDA Number for this Proposal.</summary>
+				<description>A unique identifier for the sponsor and the funding opportunity announcement.  AKA "Catalogue of Federal Domestic Assistance Number"</description>
+			</attribute>			
+			
+			<attributeReference name="closingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp" >
+				<label>Closing Date</label>
+			</attributeReference>				
+            
+            <attribute name="competetionId">
+				<label>Competition Id </label>
+				<shortLabel>Competition Id </shortLabel>
+				<maxLength>50</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<text size="20" />
+				</control>
+				<summary>Competition Id </summary>
+				<description>Competition Id </description>
+			</attribute>
+			
+			<attribute name="instructionUrl">
+				<label>Instruction Page</label>
+				<shortLabel>Instruction Page</shortLabel>
+				<maxLength>200</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+				<control>
+					<text size="200" />
+				</control>
+				<summary>Instruction Page </summary>
+				<description>Instruction Page </description>
+			</attribute>
+			
+            <attribute name="opportunity">
+				<label>Opportunity </label>
+				<shortLabel>Opportunity  </shortLabel>
+				<maxLength>4000</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>Opportunity </summary>
+				<description>Opportunity </description>
+			</attribute>
+			
+			<attributeReference name="openingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp" >
+				<label>Opening Date</label>			
+			</attributeReference>
+<!--			
+			<attributeReference name="opportunityId" sourceClassName="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" sourceAttributeName="programAnnouncementNumber">
+				<control>
+					<text size="50" />
+				</control>
+			</attributeReference>
+			
+			<attributeReference name="opportunityTitle" sourceClassName="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" sourceAttributeName="opportunityTitle" >
+				<control>
+					<text size="255" />
+				</control>
+			</attributeReference>-->			
+			
+			<attribute name="opportunityId">
+				<label>Opportunity ID</label>
+				<shortLabel>Opportunity ID</shortLabel>
+				<maxLength>50</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<required>false</required>
+				<control>
+					<text size="20"/>
+				</control>
+				<summary>The Opportunity ID for this Proposal.</summary>
+				<description>A unique identifier associated with each sponsor's funding opportunity announcement. AKA "Funding Opportunity Announcement number" or "FOA number"</description>
+			</attribute>			
+			
+			<attribute name="opportunityTitle">
+				<label>Opportunity Title</label>
+				<shortLabel>Opportunity Title</shortLabel>
+				<maxLength>255</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+				<required>false</required>
+				<control>
+                    <textarea rows="3" cols="80" />
+				</control>
+				<summary>The Opportunity Title for this Proposal.</summary>
+				<description>The title of a publicly available document, announcing a federal agency's intentions to award discretionary grants or cooperative agreements, usually as a result of competition for funds.  AKA  Funding opportunity announcements, notices of funding availability, or solicitations.</description>
+			</attribute>		
+			
+			<attributeReference name="revisionCode" sourceClassName="org.kuali.kra.bo.S2sRevisionType" sourceAttributeName="s2sRevisionTypeCode" />			
+			
+			<attribute name="revisionOtherDescription">
+				<label>Revision Other Description </label>
+				<shortLabel>Revision Other Description </shortLabel>
+				<maxLength>45</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>Revision Other Description </summary>
+				<description>Revision Other Description </description>
+			</attribute>
+				
+ 		<attributeReference name="s2sSubmissionTypeCode" sourceClassName="org.kuali.kra.s2s.bo.S2sSubmissionType" sourceAttributeName="s2sSubmissionTypeCode" />					
+	
+			<attribute name="schemaUrl">
+				<label>Schema URL</label>
+				<shortLabel>Schema URL</shortLabel>
+				<maxLength>200</maxLength>
+				<validationPattern><anyCharacter/></validationPattern>
+				<control>
+					<text size="200" />
+				</control>
+				<summary>Schema URL </summary>
+				<description>Schema URL </description>
+			</attribute>
+			
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
