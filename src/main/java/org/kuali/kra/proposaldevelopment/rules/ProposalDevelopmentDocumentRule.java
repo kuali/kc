@@ -104,17 +104,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         // The '.documentBusinessObject.' is filtered out in validateDocumentRecursively for now.
         // getService(DocumentValidationService.class).validateDocumentRecursively(proposalDevelopmentDocument,10);
         
-        /*
-         * TODO - Jack Frosch - fix for KRAFDBCK-255 (now KRACOEUS-641): commented out line below to forestall 
-         * adding list object validation errors to error list. DocumentRuleBase ~L169 already validated document 
-         * recursively
-         * 
-         * Note: Initial error was "When I try to add an attachment line item w/ an invalid email format, 
-         * system is duplicating the error message 2x."; however, this could not be duplicated. Perhaps the fix 
-         * to DocumentRuleBase also fixed this issue?
-         */ 
-//        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), true, true);
-
+        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), true, true);
 
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
