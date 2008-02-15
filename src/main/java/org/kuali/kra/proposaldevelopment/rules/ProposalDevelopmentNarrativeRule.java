@@ -76,12 +76,11 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         if(narrative.getNarrativeType()==null)
             rulePassed = false;
         
-        String[] param = {PROPOSAL, narrative.getModuleStatusCode()};
         if(!StringUtils.isBlank(narrative.getModuleStatusCode()) 
                 && narrative.getModuleStatusCode().equalsIgnoreCase(MODULE_STATUS_CODE_COMPLETED)
                 && StringUtils.isBlank(narrative.getFileName())) {
             LOG.debug(ERROR_NARRATIVE_STATUS_INVALID);
-            reportError("newNarrative", ERROR_NARRATIVE_STATUS_INVALID, param);
+            reportError("newNarrative.moduleStatusCode", ERROR_NARRATIVE_STATUS_INVALID);
             rulePassed = false;
         }
         
@@ -106,16 +105,19 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         for (int i = 0; i < size; i++) {
             Narrative narrative = narrativeList.get(0);
             
-            if(!StringUtils.isBlank(narrative.getModuleStatusCode()) 
-                    && narrative.getModuleStatusCode().equalsIgnoreCase(MODULE_STATUS_CODE_COMPLETED)
-                    && StringUtils.isBlank(narrative.getFileName())) {
-                LOG.debug(ERROR_NARRATIVE_STATUS_INVALID);
-                rulePassed = false;
-            }
-            
-            narrativeList.remove(narrative);
+            narrativeList.remove(narrative);  
             //--size;
             rulePassed &= checkNarrative(narrativeList,narrative);
+        }
+        
+        Narrative narrative = saveNarrativesEvent.getNarrative();
+        populateNarrativeType(narrative);
+        if(!StringUtils.isBlank(narrative.getModuleStatusCode()) 
+                && narrative.getModuleStatusCode().equalsIgnoreCase(MODULE_STATUS_CODE_COMPLETED)
+                && StringUtils.isBlank(narrative.getFileName())) {
+            LOG.debug(ERROR_NARRATIVE_STATUS_INVALID);
+            reportError("newNarrative.moduleStatusCode", ERROR_NARRATIVE_STATUS_INVALID);
+            rulePassed = false;
         }
         
         return rulePassed;
