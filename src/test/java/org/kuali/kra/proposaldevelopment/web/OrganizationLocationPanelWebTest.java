@@ -197,6 +197,7 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
   * Test organization/location panel on proposal page Applicant and Performing Organization Lookup
   * @throws Exception
   */
+  /*
  @Test
  public void testOrganizationLocationPanelOrganizationLookupExisting() throws Exception {   
      HtmlPage proposalPage = getProposalDevelopmentPage();
@@ -237,5 +238,5 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
      assertEquals("000002", doc.getOrganizationId());      
      
  }
-  
+  */
 }
