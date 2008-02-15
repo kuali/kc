@@ -27,8 +27,8 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
  * Event triggered when a Key Person is added to a
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
- * @author $Author: gthomas $
- * @version $Revision: 1.1 $
+ * @author $Author: chandran $
+ * @version $Revision: 1.2 $
  */
 public class SaveNarrativesEvent extends NarrativeEventBase{
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveNarrativesEvent.class);
@@ -39,8 +39,8 @@ public class SaveNarrativesEvent extends NarrativeEventBase{
      * @param proposalDevelopmentDocument
      * @param narrative
      */
-    public SaveNarrativesEvent(String errorPathPrefix, ProposalDevelopmentDocument document) {
-        super("Adding narrative to document " + getDocumentId(document), errorPathPrefix, document);
+    public SaveNarrativesEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative) {
+        super("Adding narrative to document " + getDocumentId(document), errorPathPrefix, document, narrative);
     }
 
     /**
@@ -50,8 +50,8 @@ public class SaveNarrativesEvent extends NarrativeEventBase{
      * @param document
      * @param narrative
      */
-    public SaveNarrativesEvent(String errorPathPrefix, Document document) {
-        this(errorPathPrefix, (ProposalDevelopmentDocument) document);
+    public SaveNarrativesEvent(String errorPathPrefix, Document document, Narrative narrative) {
+        this(errorPathPrefix, (ProposalDevelopmentDocument) document, narrative);
     }
 
     /**
