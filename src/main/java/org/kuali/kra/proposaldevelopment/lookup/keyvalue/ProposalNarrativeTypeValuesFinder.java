@@ -16,68 +16,89 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import static org.kuali.core.util.GlobalVariables.getKualiForm;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
-import static org.kuali.kra.infrastructure.Constants.PROPOSAL_NARRATIVE_TYPE_GROUP;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import gov.grants.apply.system.Global_V1_0.YesNoType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Finds the available set of supported Narrative Types.  See
  * the method <code>getKeyValues()</code> for a full description.
  * 
  * @author KRADEV team
+ * 
+ * Rewrite of class to implement filterable KeyLabelPair list.
+ * 
+ * A complete rewrite had to be done because super class was not editable, but the patterns used 
+ * here should be incorporated into super class. This class would then be refactored to again rely
+ * more on super class behavior. Super class rewrite should include isolating behaviors relying on 
+ * infrastructure into protected methods to allow unit tests to override with mocks and stub out 
+ * database and service lookups. 
  */
 public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObjectValuesFinder {
+    private static final String NO = "N";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalNarrativeTypeValuesFinder.class);
     
-    private Map<String, String> getQueryMap() {
-        Map<String,String> queryMap = new HashMap<String,String>();
-        queryMap.put("narrativeTypeGroup", getService(KualiConfigurationService.class).getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_NARRATIVE_TYPE_GROUP));
-        queryMap.put("systemGenerated", "N");
-        return queryMap;
+    @Override
+    public List<KeyLabelPair> getKeyValues() {
+        Collection<NarrativeType> allNarrativeTypes = loadAllNarrativeTypes();
+        return getFilteredKeyValues(allNarrativeTypes);
     }
     
-    /**
-     * Constructs the list of Proposal Narrative Types. The list populates
-     * from NARRATIVE_TYPE database table via the "KeyValueFinderService".
-     * 
-     * @return the list of &lt;key, value&gt; pairs of Narrative types.  The first entry
-     * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinderService#getKeyValues()
-     */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> retval = super.getKeyValues();
-        ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) getKualiForm()).getProposalDevelopmentDocument();
-        List<KeyLabelPair> forRemoval = new ArrayList<KeyLabelPair>();
+    public List<KeyLabelPair> getFilteredKeyValues(Collection<NarrativeType> allNarrativeTypes) {
+        Collection<NarrativeType> filteredCollection = filterCollection(allNarrativeTypes);
+        return buildKeyLabelPairsCollection(filteredCollection);
         
-        for (KeyLabelPair pair : retval) {
-            if (existsInDocument(document, (String) pair.getKey())) {
-                forRemoval.add(pair);
-            }
-            else {
-                LOG.info("Not removing narrative type " + pair.getLabel());
-            }
+    }
+
+    protected Collection<NarrativeType> filterCollection(Collection<NarrativeType> narrativeTypes) {
+        ProposalDevelopmentDocument document = getDocumentFromForm();
+        Collection<NarrativeType> forRemoval = new ArrayList<NarrativeType>();        
+        for (NarrativeType narrativeType : narrativeTypes) {
+            for (Narrative narrative : document.getNarratives()) {
+                if (filterCondition(narrative.getNarrativeType(), narrativeType)) {
+                    forRemoval.add(narrativeType);
+                } else {
+                    LOG.info("Not removing narrative type " + narrativeType.getDescription());
+                }
+            }            
         }
         
-        // Remove any KeyLabelPair instances for narratives with these type codes already in the document
-        retval.removeAll(forRemoval);
+        // Remove any instances for with these type codes already in the document
+        narrativeTypes.removeAll(forRemoval);
         
-        return retval;
+        return narrativeTypes;
+    }
+
+    private List<KeyLabelPair> buildKeyLabelPairsCollection(Collection<NarrativeType> narrativeTypes) {
+        List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
+        for (NarrativeType narrativeType : narrativeTypes) {
+            String key = narrativeType.getNarrativeTypeCode();
+            String label = narrativeType.getDescription();
+            keyLabelPairs.add(new KeyLabelPair(key, label));
+        }
+        return keyLabelPairs;
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected Collection<NarrativeType> loadAllNarrativeTypes() {
+        KeyValuesService boService = KNSServiceLocator.getKeyValuesService();
+        return (Collection<NarrativeType>) boService.findAll(getBusinessObjectClass());
+    }
+
+    protected ProposalDevelopmentDocument getDocumentFromForm() {
+        return ((ProposalDevelopmentForm) getKualiForm()).getProposalDevelopmentDocument();
     }
     
     /**
@@ -87,32 +108,11 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
      * @param narrativeTypeCode <code>{@link NarrativeType}</code> code
      * @return true if the narrative type is in the document and false otherwise
      */
-    private boolean existsInDocument(ProposalDevelopmentDocument document, String narrativeTypeCode) {
-        for (Narrative narrative : document.getNarratives()) {
-            if (narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Locate within Spring the <code>{@link KeyValueFinderService}</code> singleton
-     * 
-     * @return KeyValueFinderService
-     */
-    private KeyValueFinderService getKeyValueFinderService() {
-        return getService(KeyValueFinderService.class);
-    }
-    
-    /**
-     * Locate within Spring the <code>{@link BusinessObjectSedvice}</code> singleton
-     * 
-     * @return BusinessObjectService
-     */
-    private BusinessObjectService getBusinessObjectService() {
-        return getService(BusinessObjectService.class);
+    protected boolean filterCondition(NarrativeType documentNarrativeType, NarrativeType narrativeType) {
+        return documentNarrativeType.getNarrativeTypeCode().equals(narrativeType.getNarrativeTypeCode()) && multiplesNotAllowed(narrativeType);
     }
 
+    private boolean multiplesNotAllowed(NarrativeType narrativeType) {
+        return narrativeType.getAllowMultiple().equals(NO);
+    }
 }
