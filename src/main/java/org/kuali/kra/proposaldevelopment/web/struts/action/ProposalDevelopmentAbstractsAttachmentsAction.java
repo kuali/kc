@@ -257,7 +257,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @param form
      * @param request
      * @param response
-     * @return
+     * @return ActionForward
      * @throws Exception
      */
     public ActionForward deleteProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -475,9 +475,11 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @return the destination (always the original proposal web page that caused this action to be invoked)
      * @throws Exception
      */
+    // START SNIPPET: deleteAbstract
     public ActionForward deleteAbstract(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return confirm(buildDeleteAbstractConfirmationQuestion(mapping, form, request, response), CONFIRM_DELETE_ABSTRACT_KEY, EMPTY_STRING);
     }
+    // END SNIPPET: deleteAbstract
 
     /**
      * Method dispatched from <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for when a "yes" condition is met.
@@ -490,6 +492,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @throws Exception
      * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
      */
+    // START SNIPPET: confirmDeleteAbstract
     public ActionForward confirmDeleteAbstract(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         
@@ -501,6 +504,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         
         return mapping.findForward(MAPPING_BASIC);
     }        
+    // END SNIPPET: confirmDeleteAbstract
 
     /**
      * Builds the Delete Abstract Confirmation Question as a <code>{@link StrutsConfirmation}</code> instance.<br/>  
@@ -517,11 +521,16 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @throws Exception
      * @see buildParameterizedConfirmationQuestion
      */
+    // START SNIPPET: buildDeleteAbstractConfirmationQuestion
     private StrutsConfirmation buildDeleteAbstractConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // Abstracts are stored in a document. We need to document to retrieve the abstract.
         ProposalDevelopmentDocument doc = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
+
+        // Get the description. This will be used as a parameter to build the message for requesting confirmation feedback from the user.
         String description = doc.getProposalAbstracts().get(getLineToDelete(request)).getAbstractType().getDescription();
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_ABSTRACT_KEY, QUESTION_DELETE_ABSTRACT_CONFIRMATION, description);
     }
+    // END SNIPPET: buildDeleteAbstractConfirmationQuestion
 
     /**
      * Builds the Delete Abstract Confirmation Question as a <code>{@link StrutsConfirmation}</code> instance.<br/>  
