@@ -59,9 +59,12 @@ public class Narrative extends KraPersistableBusinessObjectBase {
     public Narrative() {
         narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
         narrativeUserRights = new ArrayList<NarrativeUserRights>();
+        loggedInUserPersonId = findLoggedInUserPersonId();
+    }
+    
+    protected String findLoggedInUserPersonId() {
         String loggedInUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
-        loggedInUserPersonId = getService(ProposalPersonService.class).getPerson(loggedInUser).getPersonId();//get person id for looged in user
-
+        return getService(ProposalPersonService.class).getPerson(loggedInUser).getPersonId();//get person id for looged in user
     }
 
     public Integer getModuleNumber() {
