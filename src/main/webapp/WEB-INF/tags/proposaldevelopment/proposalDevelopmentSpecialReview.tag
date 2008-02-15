@@ -34,7 +34,7 @@
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.approvalDate}"noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.comments}" noColon="true" /></div></th>
-              	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
+              	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	
           	</tr>        
              <tr>
