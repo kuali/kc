@@ -21,12 +21,16 @@
 	htmlFormAction="proposalDevelopmentGrantsGov"
 	documentTypeName="ProposalDevelopmentDocument"
 	renderMultipart="false"
-	showTabButtons="true"
+	showTabButtons="false"
 	auditCount="0"
   	headerDispatch="save"
   	headerTabActive="grantsGov">
 <center>Under Construction</center>
+
 <kra-pd:proposalDevelopmentGrantsGovOpportunitySearch />
+<kra-pd:proposalDevelopmentGrantsGovOpportunity />
+<kra-pd:proposalDevelopmentGrantsGovSubmissionDetails />
+<kra-pd:proposalDevelopmentGrantsGovForms />
 
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />

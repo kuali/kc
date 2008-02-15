@@ -56,6 +56,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
+import org.kuali.kra.s2s.bo.S2sOppForms;
+import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -92,6 +94,8 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
     private List<ProposalUserRoles> proposalUserRolesList = null;
     private ProposalUserEditRoles proposalUserEditRoles;
     private boolean newProposalPersonRoleRendered;
+    private S2sOpportunity newS2sOpportunity;
+    private S2sOppForms newS2sOppForms;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -824,5 +828,21 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
      */
     public void setNewProposalPersonRoleRendered(boolean newProposalPersonRoleRendered) {
         this.newProposalPersonRoleRendered = newProposalPersonRoleRendered;
+    }
+
+    public S2sOpportunity getNewS2sOpportunity() {
+        return newS2sOpportunity;
+    }
+
+    public void setNewS2sOpportunity(S2sOpportunity newS2sOpportunity) {
+        this.newS2sOpportunity = newS2sOpportunity;
+    }
+    
+    public S2sOppForms getNews2sForms(){
+    	return newS2sOppForms;
+    }
+    
+    public void setNews2sForms(S2sOppForms newS2sOppForms){
+        this.newS2sOppForms = newS2sOppForms;
     }
 }

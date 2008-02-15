@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.web;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 
@@ -146,4 +145,97 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
        assertEquals(new Integer(1727), doc.getProposalLocations().get(0).getRolodexId());
 
    }
+   
+   /**
+   *
+   * Test organization/location panel on proposal page Applicant and Performing Organization Lookup
+   * @throws Exception
+   */
+  @Test
+  public void testOrganizationLocationPanelOrganizationLookupNew() throws Exception {   
+      HtmlPage proposalPage = getProposalDevelopmentPage();
+
+      
+      
+      setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+
+      HtmlPage page1 = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");
+      
+      // applicant org lookup
+      HtmlPage page2 = lookup(page1, "document.organizationId", "organizationId", "000002");
+      
+      HtmlPage page3 = clickOn(page2, "methodToCall.save", "Kuali :: Proposal Development Document");
+      
+      String documentNumber = getFieldValue(page3, "document.documentHeader.documentNumber");
+      ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
+      
+      
+      assertEquals("000002", doc.getPerformingOrganizationId());
+      assertEquals("000002", doc.getOrganizationId());
+      
+      // performing org lookup
+      HtmlPage page4 = lookup(page3, "document.performingOrganizationId", "organizationId", "000005");
+      HtmlPage page5 = clickOn(page4, "methodToCall.save", "Kuali :: Proposal Development Document");
+      
+      doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
+      
+      assertEquals("000005", doc.getPerformingOrganizationId());
+      assertEquals("000002", doc.getOrganizationId());
+      
+      // applicant org lookup
+      HtmlPage page6 = lookup(page5, "document.organizationId", "organizationId", "000007");
+      
+      HtmlPage page7 = clickOn(page6, "methodToCall.save", "Kuali :: Proposal Development Document");
+      
+      doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
+      
+      assertEquals("000005", doc.getPerformingOrganizationId());
+      assertEquals("000007", doc.getOrganizationId());
+  }
+  /**
+  *
+  * Test organization/location panel on proposal page Applicant and Performing Organization Lookup
+  * @throws Exception
+  */
+ @Test
+ public void testOrganizationLocationPanelOrganizationLookupExisting() throws Exception {   
+     HtmlPage proposalPage = getProposalDevelopmentPage();
+
+     setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+     
+     // verify DB
+     String documentNumber = getFieldValue(proposalPage, "document.documentHeader.documentNumber");
+     
+     HtmlPage page1 = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");
+     
+     HtmlPage page55 = clickOn(page1, "methodToCall.close", "Kuali :: Question Dialog Page");
+     HtmlPage page56 = clickOn(page55, "methodToCall.processAnswer.button0", "Kuali Portal Index");
+//    HtmlPage page2 = clickOn(page1, "Main Menu", "Kuali Portal Index");
+     HtmlPage page57 = clickOn(page56, "Action List", "Kuali Portal Index");     
+//     HtmlPage page4 = clickOn(page57, documentNumber, "Kuali :: Proposal Development Document");    
+//     http://localhost:8080/kra-dev/en/DocHandler.do?docId=2241&command=displayActionListView
+     String url = "http://localhost:" + getPort() + "/kra-dev/en/DocHandler.do?docId=" + documentNumber + "&command=displayActionListView";
+     HtmlPage page4 = buildPageFromUrl(url,"Kuali :: Proposal Development Document");
+         // applicant org lookup
+     HtmlPage page5 = lookup(page4, "document.organizationId", "organizationId", "000002");
+     
+     HtmlPage page6 = clickOn(page5, "methodToCall.save", "Kuali :: Proposal Development Document");
+     
+     ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
+     
+     assertEquals("000002", doc.getOrganizationId());
+     assertEquals("000002", doc.getPerformingOrganizationId());
+     
+     
+     // performing org lookup
+     HtmlPage page7 = lookup(page6, "document.performingOrganizationId", "organizationId", "000005");
+     HtmlPage page8 = clickOn(page7, "methodToCall.save", "Kuali :: Proposal Development Document");
+     
+     doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
+     
+     assertEquals("000005", doc.getPerformingOrganizationId());
+     assertEquals("000002", doc.getOrganizationId());      
+     
+ }
+  
 }

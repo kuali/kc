@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.s2s.bo;
 
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.sql.Timestamp;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.S2sRevisionType;
 
 public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 	private String proposalNumber;
@@ -29,6 +30,8 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 	private String instructionUrl;
 	private Timestamp openingDate;
 	private String opportunity;
+	//private String programAnnouncementNumber;
+	//private String programAnnouncementTitle;
 	private String opportunityId;
 	private String opportunityTitle;
 	private String revisionCode;
@@ -36,8 +39,18 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 	private Integer s2sSubmissionTypeCode;
 	private String schemaUrl;
 	private List<S2sOppForms> s2sOppForms;
+	private S2sSubmissionType s2sSubmissionType;
+	private S2sRevisionType s2sRevisionType; 
 
-	public String getProposalNumber() {
+	public S2sSubmissionType getS2sSubmissionType() {
+        return s2sSubmissionType;
+    }
+
+    public void setS2sSubmissionType(S2sSubmissionType submissionType) {
+        s2sSubmissionType = submissionType;
+    }
+
+    public String getProposalNumber() {
 		return proposalNumber;
 	}
 
@@ -93,22 +106,22 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 		this.opportunity = opportunity;
 	}
 
-	public String getOpportunityId() {
-		return opportunityId;
+/*	public String getProgramAnnouncementNumber() {
+		return programAnnouncementNumber;
 	}
 
-	public void setOpportunityId(String opportunityId) {
-		this.opportunityId = opportunityId;
+	public void setProgramAnnouncementNumber(String programAnnouncementNumber) {
+		this.programAnnouncementNumber = programAnnouncementNumber;
 	}
 
-	public String getOpportunityTitle() {
-		return opportunityTitle;
+	public String getProgramAnnouncementTitle() {
+		return programAnnouncementTitle;
 	}
 
-	public void setOpportunityTitle(String opportunityTitle) {
-		this.opportunityTitle = opportunityTitle;
+	public void setProgramAnnouncementTitle(String programAnnouncementTitle) {
+		this.programAnnouncementTitle = programAnnouncementTitle;
 	}
-
+*/
 	public String getRevisionCode() {
 		return revisionCode;
 	}
@@ -153,11 +166,13 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 		hashMap.put("openingDate", getOpeningDate());
 		hashMap.put("opportunity", getOpportunity());
 		hashMap.put("opportunityId", getOpportunityId());
-		hashMap.put("opportunityTitle", getOpportunityTitle());
+		hashMap.put("popportunityTitle", getOpportunityTitle());
 		hashMap.put("revisionCode", getRevisionCode());
 		hashMap.put("revisionOtherDescription", getRevisionOtherDescription());
 		hashMap.put("s2sSubmissionTypeCode", getS2sSubmissionTypeCode());
 		hashMap.put("schemaUrl", getSchemaUrl());
+		hashMap.put("updateTimestamp", this.getUpdateTimestamp());
+		hashMap.put("updateUser", this.getUpdateUser());
 		return hashMap;
 	}
 
@@ -167,5 +182,29 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 
     public void setS2sOppForms(List<S2sOppForms> oppForms) {
         s2sOppForms = oppForms;
+    }
+
+    public S2sRevisionType getS2sRevisionType() {
+        return s2sRevisionType;
+    }
+
+    public void setS2sRevisionType(S2sRevisionType revisionType) {
+        s2sRevisionType = revisionType;
+    }
+
+    public String getOpportunityId() {
+        return opportunityId;
+    }
+
+    public void setOpportunityId(String opportunityId) {
+        this.opportunityId = opportunityId;
+    }
+
+    public String getOpportunityTitle() {
+        return opportunityTitle;
+    }
+
+    public void setOpportunityTitle(String opportunityTitle) {
+        this.opportunityTitle = opportunityTitle;
     }
 }

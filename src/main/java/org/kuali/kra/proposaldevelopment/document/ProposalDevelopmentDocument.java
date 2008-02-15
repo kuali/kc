@@ -25,6 +25,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.util.GlobalVariables;
@@ -52,6 +54,8 @@ import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
+import org.kuali.kra.s2s.bo.S2sOppForms;
+import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.YnqService;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
@@ -96,7 +100,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<ProposalSpecialReview> propSpecialReviews;
     private List<PropScienceKeyword> propScienceKeywords;
     private List<ProposalPerson> proposalPersons;
+    private List<S2sOppForms> s2sOppForms;    
     private ProposalPerson principalInvestigator;
+    private S2sOpportunity s2sOpportunity;
     private String newScienceKeywordCode;
     private String newDescription;
     private Sponsor sponsor;
@@ -135,6 +141,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         ynqGroupNames = new ArrayList<YnqGroupName>();
         budgetVersionOverviews = new TypedArrayList(BudgetVersionOverview.class);
         investigators = new ArrayList<ProposalPerson>();
+        s2sOppForms = new ArrayList<S2sOppForms>();        
     }
 
     public void initialize() {
@@ -1156,5 +1163,29 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         Collections.sort(versions);
         BudgetVersionOverview lastVersion = versions.get(versions.size() - 1);
         return lastVersion.getBudgetVersionNumber() + 1;
+    }
+
+    public List<S2sOppForms> getS2sOppForms() {
+        return s2sOppForms;
+    }
+
+    public void setS2sOppForms(List<S2sOppForms> oppForms) {
+        s2sOppForms = oppForms;
+    }
+
+    public void setS2sOpportunity(S2sOpportunity opportunity) {
+        s2sOpportunity = opportunity;
+    }
+
+    public S2sOpportunity getS2sOpportunity() {
+        return s2sOpportunity;
+    }
+    
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.beforeUpdate(persistenceBroker);
+        if(s2sOpportunity!=null && s2sOpportunity.getOpportunityId()==null){
+            s2sOpportunity = null;
+        }        
     }
 }

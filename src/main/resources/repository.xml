@@ -138,6 +138,10 @@
       <collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 	  	<inverse-foreignkey field-ref="proposalNumber"/>
 	  </collection-descriptor>
+	  
+	  <reference-descriptor name="s2sOpportunity" class-ref="org.kuali.kra.s2s.bo.S2sOpportunity" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<foreignkey field-ref="proposalNumber"/>
+	  </reference-descriptor>
 
 	</class-descriptor>
   
@@ -606,7 +610,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.bo.S2sSubmissionType" table="S2S_SUBMISSION_TYPE">
+	<class-descriptor class="org.kuali.kra.s2s.bo.S2sSubmissionType" table="S2S_SUBMISSION_TYPE">
 		<field-descriptor name="s2sSubmissionTypeCode" column="S2S_SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
@@ -1393,10 +1397,10 @@
 	<class-descriptor class="org.kuali.kra.s2s.bo.S2sOpportunity" table="S2S_OPPORTUNITY">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="closingDate" column="CLOSING_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="closingDate" column="CLOSING_DATE" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="competetionId" column="COMPETETION_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="instructionUrl" column="INSTRUCTION_URL" jdbc-type="VARCHAR"/>
-		<field-descriptor name="openingDate" column="OPENING_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="openingDate" column="OPENING_DATE" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="opportunity" column="OPPORTUNITY" jdbc-type="CLOB"/>
 		<field-descriptor name="opportunityId" column="OPPORTUNITY_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="opportunityTitle" column="OPPORTUNITY_TITLE" jdbc-type="VARCHAR"/>
@@ -1406,12 +1410,17 @@
 		<field-descriptor name="schemaUrl" column="SCHEMA_URL" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<collection-descriptor name="s2sOppForms" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sOppForms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="proposalNumber"/>
-		</collection-descriptor>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<reference-descriptor name="s2sSubmissionType" class-ref="org.kuali.kra.s2s.bo.S2sSubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="s2sSubmissionTypeCode"/> 
 		</reference-descriptor>
+		<collection-descriptor name="s2sOppForms" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sOppForms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>		
+<!-- 		<reference-descriptor name="s2sRevisionType" class-ref="org.kuali.kra.bo.S2sRevisionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="s2sRevisionTypeCode"/> 
+		</reference-descriptor> -->
 	</class-descriptor>    
 	<class-descriptor class="org.kuali.kra.s2s.bo.S2sAppSubmission" table="S2S_APP_SUBMISSION">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
@@ -1425,6 +1434,8 @@
 		<field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		<collection-descriptor name="s2sApplication" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sApplication" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
@@ -1432,12 +1443,14 @@
 	<class-descriptor class="org.kuali.kra.s2s.bo.S2sOppForms" table="S2S_OPP_FORMS">
 		<field-descriptor name="oppNameSpace" column="OPP_NAME_SPACE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="available" column="AVAILABLE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="available" column="AVAILABLE" conversion="org.kuali.core.util.OjbCharBooleanConversion" jdbc-type="VARCHAR"/>
 		<field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="include" column="INCLUDE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="mandatory" column="MANDATORY" jdbc-type="VARCHAR"/>
+		<field-descriptor name="include" column="INCLUDE" conversion="org.kuali.core.util.OjbCharBooleanConversion" jdbc-type="VARCHAR"/>
+		<field-descriptor name="mandatory" column="MANDATORY" conversion="org.kuali.core.util.OjbCharBooleanConversion" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />		
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.s2s.bo.S2sApplication" table="S2S_APPLICATION">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>

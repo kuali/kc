@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.s2s.bo.S2sAppSubmission">
+    
+    <inquiry>
+            <title>S2s App Submission</title>
+
+            <inquirySections><inquirySection title="S2s App Submission"><inquiryFields>
+            	<field attributeName="proposalNumber" forceInquiry="true"/>            	
+            	<field attributeName="submissionNumber" />
+            	<field attributeName="agencyTrackingId" />
+            	<field attributeName="comments" />
+            	<field attributeName="ggTrackingId" />
+            	<field attributeName="lastModifiedDate" />
+            	<field attributeName="lastNotifiedDate" />
+            	<field attributeName="receivedDate" />
+            	<field attributeName="status" />            	
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>S2s App Submission</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up an S2s App Submission</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="submissionNumber"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>            	
+				<lookupField attributeName="proposalNumber"  required="false"/>
+            	<lookupField attributeName="submissionNumber"  required="false"/>
+            	<lookupField attributeName="agencyTrackingId"  required="false"/>
+            	<lookupField attributeName="comments"  required="false"/>
+            	<lookupField attributeName="ggTrackingId"  required="false"/>
+            	<lookupField attributeName="lastModifiedDate"  required="false"/>
+            	<lookupField attributeName="lastNotifiedDate"  required="false"/>
+            	<lookupField attributeName="receivedDate"  required="false"/>
+            	<lookupField attributeName="status"  required="false"/>
+            	            	
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="proposalNumber" forceInquiry="false"/>
+				<field attributeName="submissionNumber" forceInquiry="false"/>
+				<field attributeName="agencyTrackingId" forceInquiry="false"/>
+				<field attributeName="comments" forceInquiry="false"/>
+				<field attributeName="ggTrackingId" forceInquiry="false"/>
+				<field attributeName="lastModifiedDate" forceInquiry="false"/>
+				<field attributeName="lastNotifiedDate" forceInquiry="false"/>
+				<field attributeName="receivedDate" forceInquiry="false"/>
+				<field attributeName="status" forceInquiry="false"/>				
+            </resultFields>
+        </lookup>
+		
+		<attributes>        
+			<attribute name="proposalNumber">
+				<label>Proposal Number </label>
+				<shortLabel>Proposal Number </shortLabel>
+				<maxLength>8</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>Proposal Number </summary>
+				<description>Proposal Number </description>
+			</attribute>
+			
+			<attribute name="submissionNumber">
+				<label>Submission Number </label>
+				<shortLabel>Submission Number </shortLabel>
+				<maxLength>3</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>Submission Number </summary>
+				<description>Submission Number </description>
+			</attribute>
+			
+			<attribute name="agencyTrackingId">
+				<label>Agency Tracking Id </label>
+				<shortLabel>Agency Tracking Id</shortLabel>
+				<maxLength>50</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>Agency Tracking Id</summary>
+				<description>Agency Tracking Id</description>
+			</attribute>
+			
+			<attribute name="comments">
+				<label>Comments </label>
+				<shortLabel>Comments</shortLabel>
+				<maxLength>2000</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>Comments</summary>
+				<description>Comments</description>
+			</attribute>
+			
+			<attribute name=""ggTrackingId"">
+				<label>"GG Tracking Id" </label>
+				<shortLabel>GG Tracking Id</shortLabel>
+				<maxLength>50</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>GG Tracking Id</summary>
+				<description>GG Tracking Id</description>
+			</attribute>
+			
+			<attributeReference name="lastModifiedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+				<label>Last Modified Date</label>
+				<control>
+					<text size="7" />
+				</control>
+			</attributeReference>	
+			
+			<attributeReference name="lastNotifiedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+				<label>Last Notified Date</label>
+				<control>
+					<text size="7" />
+				</control>
+			</attributeReference>	
+			
+			<attributeReference name="receivedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+				<label>Received Date</label>
+				<control>
+					<text size="7" />
+				</control>
+			</attributeReference>	
+			
+			<attribute name="status">
+				<label>Status </label>
+				<shortLabel>Status  </shortLabel>
+				<maxLength>50</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>Status </summary>
+				<description>Status </description>
+			</attribute>
+		
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
+        

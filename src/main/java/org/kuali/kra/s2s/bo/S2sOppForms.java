@@ -44,12 +44,12 @@ public class S2sOppForms extends KraPersistableBusinessObjectBase {
 		this.proposalNumber = proposalNumber;
 	}
 
-	public Boolean isAvailable() {
-		return available;
-	}
-
 	public void setAvailable(Boolean available) {
 		this.available = available;
+	}
+	
+	public Boolean getAvailable() {
+		return available;
 	}
 
 	public String getFormName() {
@@ -60,21 +60,21 @@ public class S2sOppForms extends KraPersistableBusinessObjectBase {
 		this.formName = formName;
 	}
 
-	public Boolean isInclude() {
-		return include;
-	}
-
 	public void setInclude(Boolean include) {
 		this.include = include;
 	}
-
-	public Boolean isMandatory() {
-		return mandatory;
-	}
+	
+	public Boolean getInclude() {
+		return include;
+	}	
 
 	public void setMandatory(Boolean mandatory) {
 		this.mandatory = mandatory;
 	}
+	
+	public Boolean getMandatory() {
+		return mandatory;
+	}	
 
 
 	@Override 
@@ -82,10 +82,10 @@ public class S2sOppForms extends KraPersistableBusinessObjectBase {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("oppNameSpace", getOppNameSpace());
 		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("available", isAvailable());
+		hashMap.put("available", getAvailable());
 		hashMap.put("formName", getFormName());
-		hashMap.put("include", isInclude());
-		hashMap.put("mandatory", isMandatory());
+		hashMap.put("include", getInclude());
+		hashMap.put("mandatory", getMandatory());
         hashMap.put("schemaUrl", getSchemaUrl());
 		return hashMap;
 	}
