@@ -97,7 +97,7 @@
  				<required>true</required>
 
                 <summary>The Start Date of the Proposal</summary>
-                <description>The date the project period will terminate.</description>
+                <description>The date the project period will begin.</description>
       		</attributeReference>
 
             <attributeReference name="requestedEndDateInitial" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
