@@ -15,15 +15,29 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.core.util.GlobalVariables.getErrorMap;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ADD_EXISTING_UNIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_DELETE_LEAD_UNIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOUND;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_INVALID;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.DegreeType;
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
@@ -35,29 +49,13 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-import static java.util.Map.Entry;
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.core.util.GlobalVariables.getErrorMap;
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOUND;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_DELETE_LEAD_UNIT;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ADD_EXISTING_UNIT;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 /**
  * Implementation of business rules required for the Key Persons Page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.28 $
+ * @version $Revision: 1.29 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -96,7 +94,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         if (pi_cnt > 1) {
             retval = false;
-            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);            
+            reportError("document.proposalPerson*", ERROR_INVESTIGATOR_UPBOUND);            
         }        
 
         return retval;
@@ -143,21 +141,27 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
         if (isPrincipalInvestigator(person) && hasPrincipalInvestigator(document)) {
             LOG.debug("error.principalInvestigator.limit");
-            reportError("newProposalPerson", ERROR_INVESTIGATOR_UPBOUND);
+            reportError("newProposalPerson*", ERROR_INVESTIGATOR_UPBOUND);
             retval = false;
         }
         
         if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
             LOG.debug("Tried to add person without role");
-            reportError("newProposalPerson", ERROR_MISSING_PERSON_ROLE);
+            reportError("newProposalPerson*", ERROR_MISSING_PERSON_ROLE);
             retval = false;
         }
         
-        LOG.info("Does document contain a proposal person with PERSON_ID " + person.getPersonId() + "?");
-        LOG.info(document.getProposalPersons().contains(person)+ "");
+        LOG.debug("Does document contain a proposal person with PERSON_ID " + person.getPersonId() + "?");
+        LOG.debug(document.getProposalPersons().contains(person)+ "");
         
         if (document.getProposalPersons().contains(person)) {
-            reportError("newProposalPerson", ERROR_PROPOSAL_PERSON_EXISTS, person.getFullName());
+            reportError("newProposalPerson*", ERROR_PROPOSAL_PERSON_EXISTS, person.getFullName());
+            retval = false;
+        }
+        
+        if (isInvalid(Person.class, keyValue("personId", person.getPersonId())) 
+            && isInvalid(Rolodex.class, keyValue("rolodexId", person.getRolodexId()))) {
+            reportError("newProposalPerson*", ERROR_PROPOSAL_PERSON_INVALID, person.getFullName());
             retval = false;
         }
         
@@ -266,12 +270,12 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         LOG.info("isLeadUnit = " + source.isLeadUnit());
         
         if (isDeletingUnitFromPrincipalInvestigator(source, person)) {     
-            reportErrorWithPrefix("document", "proposalPerson*", ERROR_DELETE_LEAD_UNIT);
+            reportError("document.proposalPerson*", ERROR_DELETE_LEAD_UNIT);
             retval = false;
         }
 
         if (unitExists(source, person)) {
-            reportErrorWithPrefix("document", "proposalPerson*", ERROR_ADD_EXISTING_UNIT, source.getUnitNumber(), person.getFullName());
+            reportError("document.proposalPerson*", ERROR_ADD_EXISTING_UNIT, source.getUnitNumber(), person.getFullName());
             retval = false;
         }
 
@@ -348,10 +352,12 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @param value
      * @return SimpleImmutableEntry
      */
-    private Entry<String, String> keyValue(String key, String value) {
-        return new DefaultMapEntry(key, value);
+    private Entry<String, String> keyValue(String key, Object value) {
+        if (value == null) {
+            return new DefaultMapEntry(key, "");            
+        }
+        return new DefaultMapEntry(key, value.toString());
     }
-    
    
     /**
      * The opposite of <code>{@link #isValid(Class, SimpleEntry...)}</code>
