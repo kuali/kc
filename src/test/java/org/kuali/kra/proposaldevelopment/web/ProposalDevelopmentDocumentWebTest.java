@@ -511,13 +511,8 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         final HtmlForm kualiForm = (HtmlForm) pageAfterLogin.getForms().get(0);
         setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
-        HtmlPage keyPersonnelPage=getProposalPerson(webClient,pageAfterLogin, kualiForm);
+        final HtmlPage keyPersonnelPage=getProposalPerson(webClient,pageAfterLogin, kualiForm);
         final HtmlForm keyPersonnelForm = (HtmlForm) keyPersonnelPage.getForms().get(0);
-
-        final HtmlPage afterPersonLookup = lookup(keyPersonnelPage, "org.kuali.kra.bo.Person");
-        setFieldValue(afterPersonLookup, "newProposalPerson.proposalPersonRoleId", "PI");
-        keyPersonnelPage = clickOn(getElementByName(afterPersonLookup, "methodToCall.insertProposalPerson", true));
-
 
         final HtmlPage abstractAttachmentPage = clickButton(keyPersonnelPage, keyPersonnelForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
                 SUBMIT_INPUT_BY_NAME);
@@ -534,7 +529,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         validatePropPersonBios(documentNumber, 0, documentTypeCode[0]+SEMI_COLON+personNumber[0]+SEMI_COLON+description[0]+SEMI_COLON+ATTACHMENT_FILE_NAME_1);
 
         // add 2nd line
-        final HtmlPage pageWithTwoAttachments =setPersonnelAttachmentLine(pageAfterAddAttachment,formWithOneAttachment,documentTypeCode[1]+SEMI_COLON+personNumber[1]+SEMI_COLON+description[1]+SEMI_COLON+getFileName("htdocs/"+ATTACHMENT_FILE_NAME_2));
+        final HtmlPage pageWithTwoAttachments =setPersonnelAttachmentLine(pageAfterAddAttachment,formWithOneAttachment,documentTypeCode[1], personNumber[1], description[1], getFileName("htdocs/"+ATTACHMENT_FILE_NAME_2));
         final HtmlForm formWithTwoAttachments = (HtmlForm) pageWithTwoAttachments.getForms().get(0);
         assertTrue(pageWithTwoAttachments.asText().contains(personName[0]+SPACE+documentTypeDescription[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME_1));
         assertTrue(pageWithTwoAttachments.asText().contains(personName[1]+SPACE+documentTypeDescription[1]+SPACE+description[1]+SPACE+ATTACHMENT_FILE_NAME_2));
