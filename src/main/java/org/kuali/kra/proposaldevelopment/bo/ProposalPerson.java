@@ -30,7 +30,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.29 $
+ * @version $Revision: 1.30 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -565,7 +565,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
         if (obj instanceof ProposalPerson) {
             ProposalPerson p = (ProposalPerson) obj;
             return ((getPersonId() != null && getPersonId().equals(p.getPersonId())) 
-                    || (getRolodexId() != null && getRolodexId().equals(p.getRolodexId())));
+                    || (getRolodexId() != -1 && getRolodexId().equals(p.getRolodexId())));
         }
         return false;
     }
