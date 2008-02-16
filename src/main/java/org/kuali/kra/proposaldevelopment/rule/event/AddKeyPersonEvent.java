@@ -26,29 +26,27 @@ import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class AddKeyPersonEvent extends KeyPersonEventBase implements KeyPersonEvent {
     /**
      * Constructs an AddKeyPersonEvent with the given errorPathPrefix, document, and proposalPerson.
      * 
-     * @param errorPathPrefix
      * @param document
      * @param proposalPerson
      */
-    public AddKeyPersonEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPerson person) {
-        super("adding key person to document " + getDocumentId(document), errorPathPrefix, document, person);
+    public AddKeyPersonEvent(ProposalDevelopmentDocument document, ProposalPerson person) {
+        super("adding key person to document " + getDocumentId(document), document, person);
     }
 
     /**
      * Constructs an AddKeyPersonEvent with the given errorPathPrefix, document, and proposalPerson.
      * 
-     * @param errorPathPrefix
      * @param document
      * @param proposalPerson
      */
-    public AddKeyPersonEvent(String errorPathPrefix, Document document, ProposalPerson person) {
-        this(errorPathPrefix, (ProposalDevelopmentDocument) document, person);
+    public AddKeyPersonEvent(Document document, ProposalPerson person) {
+        this((ProposalDevelopmentDocument) document, person);
     }
 
     /**

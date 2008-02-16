@@ -65,8 +65,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: chandran $
- * @version $Revision: 1.46 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.47 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
@@ -231,7 +231,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
 
         // check any business rules
-        boolean rulePassed = getKualiRuleService().applyRules(new AddKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, pdform.getDocument(), pdform.getNewProposalPerson()));
+        boolean rulePassed = getKualiRuleService().applyRules(new AddKeyPersonEvent(pdform.getDocument(), pdform.getNewProposalPerson()));
                 
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
@@ -265,7 +265,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         degree.setDegreeSequenceNumber(pdform.getProposalDevelopmentDocument().getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
          
         // check any business rules
-        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, document, person, degree));
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, person, degree));
 
         if (rulePassed) {
             person.addDegree(degree);
@@ -291,7 +291,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(pdform.getNewProposalPersonUnit().get(selectedPersonIndex).getUnitNumber(), person);
         
         // check any business rules
-        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, document, person, unit));
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, person, unit));
 
         if (rulePassed) {
             getKeyPersonnelService().addUnitToPerson(person, unit);
@@ -347,7 +347,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         unit.setDelete(true);
         
         // check any business rules
-        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(NEW_PROPOSAL_PERSON_PROPERTY_NAME, document, selectedPerson, unit));
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, selectedPerson, unit));
 
         if (rulePassed) {
             selectedPerson.getUnits().remove(getSelectedLine(request));
