@@ -25,7 +25,6 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * 
  * This class implements methods specified by BudgetDocumentService interface
  */
 public class BudgetServiceImpl implements BudgetService {
@@ -34,6 +33,9 @@ public class BudgetServiceImpl implements BudgetService {
     
     private DocumentService documentService;
     
+    /**
+     * @see org.kuali.kra.budget.service.BudgetService#getNewBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
+     */
     public BudgetDocument getNewBudgetVersion(ProposalDevelopmentDocument pdDoc, String documentDescription) throws WorkflowException {
         
         BudgetDocument budgetDocument;
@@ -53,6 +55,9 @@ public class BudgetServiceImpl implements BudgetService {
         return budgetDocument;
     }
     
+    /**
+     * @see org.kuali.kra.budget.service.BudgetService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
+     */
     public BudgetDocument copyBudgetVersion(BudgetDocument budgetDocument) throws WorkflowException {
         budgetDocument.toCopy();
         documentService.saveDocument(budgetDocument);

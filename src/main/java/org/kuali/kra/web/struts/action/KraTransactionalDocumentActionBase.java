@@ -192,6 +192,12 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                                                 question.getCaller(), context);
     }
     
+    /**
+     * Takes a routeHeaderId for a particular document and constructs the URL to forward to that document
+     * 
+     * @param routeHeaderId
+     * @return String
+     */
     protected String buildForwardUrl(Long routeHeaderId) {
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
@@ -209,8 +215,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
     
     /**
-     * 
      * This method looks for the version corresponding to finalBudgetVersion in the list, then marks that version as final.
+     * 
      * @param finalBudgetVersion
      * @param budgetVersions
      */
@@ -225,8 +231,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
     
     /**
-     * 
      * This method looks at the list of budgetVersions for the final version, then returns the version number.
+     * 
      * @param budgetVersions
      * @return
      */
@@ -240,8 +246,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
     
     /**
-     * 
      * This method sets the proposal budget status to the status of the final budget version.  If there is no final version, do nothing.
+     * 
      * @param proposalDevelopmentDocument
      */
     protected void setProposalStatus(ProposalDevelopmentDocument proposalDevelopmentDocument) {
@@ -254,9 +260,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
     
     /**
-     * 
      * This method sets the budget status of the 'final' budget version (if it exists) to the proposal budget status
      * as indicated in the proposal development document.
+     * 
      * @param proposalDevelopmentDocument
      */
     protected void setProposalStatuses(ProposalDevelopmentDocument proposalDevelopmentDocument) {

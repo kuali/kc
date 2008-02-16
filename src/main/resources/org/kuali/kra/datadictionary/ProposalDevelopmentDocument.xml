@@ -527,7 +527,7 @@
                     <alphaNumeric />
                 </validationPattern>
 
-                <control>                    
+                <control>
                     <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" keyAttribute="budgetStatusCode" labelAttribute="description" includeKeyInLabel="false"/>
                 </control>
 

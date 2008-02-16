@@ -43,8 +43,8 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="budgetStatusCode" required="true" />
-                <lookupField attributeName="description" required="true" />
+                <lookupField attributeName="budgetStatusCode" required="false" />
+                <lookupField attributeName="description" required="false" />
             </lookupFields>
 
             <resultFields>
