@@ -511,8 +511,12 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         final HtmlForm kualiForm = (HtmlForm) pageAfterLogin.getForms().get(0);
         setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
 
-        final HtmlPage keyPersonnelPage=getProposalPerson(webClient,pageAfterLogin, kualiForm);
+        HtmlPage keyPersonnelPage=getProposalPerson(webClient,pageAfterLogin, kualiForm);
         final HtmlForm keyPersonnelForm = (HtmlForm) keyPersonnelPage.getForms().get(0);
+
+        final HtmlPage afterPersonLookup = lookup(keyPersonnelPage, "org.kuali.kra.bo.Person");
+        setFieldValue(afterPersonLookup, "newProposalPerson.proposalPersonRoleId", "PI");
+        keyPersonnelPage = clickOn(getElementByName(afterPersonLookup, "methodToCall.insertProposalPerson", true));
 
 
         final HtmlPage abstractAttachmentPage = clickButton(keyPersonnelPage, keyPersonnelForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x",
@@ -522,7 +526,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         assertTrue(abstractAttachmentPage.asText().contains("Personnel Attachments &nbsp Posted Timestamp Uploaded By * Person"));
 
         // add new personnel attachment line - should be saved in DB
-        final HtmlPage pageAfterAddAttachment =setPersonnelAttachmentLine(abstractAttachmentPage,form1,documentTypeCode[0]+SEMI_COLON+personNumber[0]+SEMI_COLON+description[0]+SEMI_COLON+getFileName(ATTACHMENT_FILE_NAME_1));
+        final HtmlPage pageAfterAddAttachment = setPersonnelAttachmentLine(abstractAttachmentPage,form1,documentTypeCode[0], personNumber[0], description[0], getFileName(ATTACHMENT_FILE_NAME_1));
         final HtmlForm formWithOneAttachment = (HtmlForm) pageAfterAddAttachment.getForms().get(0);
         assertTrue(pageAfterAddAttachment.asText().contains(personName[0]+SPACE+documentTypeDescription[0]+SPACE+description[0]+SPACE+ATTACHMENT_FILE_NAME_1));
 
@@ -857,8 +861,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         return clickButton(htmlPage, kualiForm, "methodToCall.addInstitutionalAttachment.anchor", IMAGE_INPUT);
 
     }
-    private HtmlPage setPersonnelAttachmentLine(HtmlPage htmlPage, HtmlForm kualiForm, String paramList) throws Exception {
-        String[] params = paramList.split(";");
+    private HtmlPage setPersonnelAttachmentLine(HtmlPage htmlPage, HtmlForm kualiForm, String ... params) throws Exception {
         setFieldValue(kualiForm, SELECTED_INPUT, "newPropPersonBio.documentTypeCode", params[0],6);
         setFieldValue(kualiForm, SELECTED_INPUT, "newPropPersonBio.proposalPersonNumber", params[1],3);
         setFieldValue(kualiForm, TEXT_AREA, "newPropPersonBio.description", params[2]);
