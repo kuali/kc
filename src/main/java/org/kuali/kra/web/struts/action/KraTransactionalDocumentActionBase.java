@@ -107,13 +107,17 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
 
     /**
+     * Initiates a Confirmation. Part of the Question Framework for handling confirmations where a "yes" or "no" answer is required. <br/>
+     * <br/>
+     * A <code>yesMethodName</code> is provided as well as a <code>noMethodName</code>. These are callback methods for handling "yes" or "no"
+     * responses.
      * 
-     * This method...
-     * @param question
-     * @param yesMethodName
-     * @param noMethodName
+     * @param question a bean containing question information for the delegated <code>{@link #performQuestionWithoutInput(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse, String, String, String, String, String)}</code> method.
+     * @param yesMethodName "yes" response callback
+     * @param noMethodName "no" response callback
      * @return
-     * @throws Exception
+     * @throws Exception can be thrown as a result of a problem during dispatching 
+     * @see https://test.kuali.org/confluence/x/EoFXAQ
      */
     public ActionForward confirm(StrutsConfirmation question, String yesMethodName, String noMethodName) throws Exception {
         // Figure out what the caller is. We want the direct caller of confirm()
