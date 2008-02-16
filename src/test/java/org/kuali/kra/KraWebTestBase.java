@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
@@ -39,6 +40,7 @@ import com.gargoylesoftware.htmlunit.html.FrameWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
@@ -55,7 +57,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
-import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 
 public abstract class KraWebTestBase extends KraTestBase {
     private static final Logger LOG = Logger.getLogger(KraWebTestBase.class);
@@ -810,10 +811,13 @@ public abstract class KraWebTestBase extends KraTestBase {
             HtmlForm form = (HtmlForm) page.getForms().get(0);
             setFieldValue(page, "username", "quickstart");
             HtmlSubmitInput loginBtn = (HtmlSubmitInput) form.getInputByValue("Login");
+            //boolean javascriptEnabled = webClient.isJavaScriptEnabled();
+            //webClient.setThrowExceptionOnScriptError(false);
             page = (HtmlPage) loginBtn.click();
             if (page.getTitleText().equals("Central Authentication Service")) {
                 page = (HtmlPage) loginBtn.click();
             }
+            //webClient.setThrowExceptionOnScriptError(true);
         }
         return page;
     }
