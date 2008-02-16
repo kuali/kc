@@ -34,12 +34,11 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
     /**
      * Default Constructor
      * 
-     * @param errorPathPrefix
      * @param person
      * @param source
      */
-    public ChangeKeyPersonEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source) {
-        super("add BusinessObject to person " + person.getProposalPersonNumber(), errorPathPrefix, document, person);
+    public ChangeKeyPersonEvent(ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source) {
+        super("add BusinessObject to person " + person.getProposalPersonNumber(), document, person);
         this.source = source;
     }
 

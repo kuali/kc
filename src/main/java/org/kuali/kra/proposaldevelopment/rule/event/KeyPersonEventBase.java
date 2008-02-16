@@ -27,7 +27,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class KeyPersonEventBase extends KraDocumentEventBase implements KeyPersonEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonEventBase.class);
@@ -37,8 +37,8 @@ public abstract class KeyPersonEventBase extends KraDocumentEventBase implements
     /**
      * @see org.kuali.kra.rule.event.KraDocumentEventBase#KraDocumentEventBase(String, String, Document)
      */
-    protected KeyPersonEventBase(String description, String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPerson person) {
-        super(description, errorPathPrefix, document);
+    protected KeyPersonEventBase(String description, ProposalDevelopmentDocument document, ProposalPerson person) {
+        super(description, "", document);
 
         // by doing a deep copy, we are ensuring that the business rule class can't update
         // the original object by reference
