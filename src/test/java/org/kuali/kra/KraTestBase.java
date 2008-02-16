@@ -88,6 +88,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_user_roles.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_user_roles_all.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_valid_sp_rev_approval.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_budget_status.sql", delimiter = ";")
             }
         )
     )
