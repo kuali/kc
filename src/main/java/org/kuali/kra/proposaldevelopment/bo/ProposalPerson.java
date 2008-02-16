@@ -29,8 +29,8 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * @author $Author: rmancher $
- * @version $Revision: 1.28 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.29 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -73,6 +73,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
         isInvestigator = false;
         delete = false;
         setFullName(new String());
+        rolodexId = -1; // Invalid RolodexId
     }
     
     /**
