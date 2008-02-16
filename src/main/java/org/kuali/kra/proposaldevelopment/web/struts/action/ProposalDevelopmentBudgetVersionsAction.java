@@ -31,6 +31,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
+/**
+ * Struts Action class for the Propsoal Development Budget Versions page
+ */
 public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopmentAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentBudgetVersionsAction.class);
     
@@ -56,6 +59,16 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         return new ActionForward(forward, true);
     }
     
+    /**
+     * This method opens a particular budget version.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
@@ -67,6 +80,16 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         return new ActionForward(forward, true);
     }
     
+    /**
+     * This method copies a budget version's data to a new budget version.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward copyBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();

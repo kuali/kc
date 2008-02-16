@@ -45,7 +45,7 @@
                 <shortLabel>Proposal Number</shortLabel>
 
                 <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <validationPattern><alphaNumeric /></validationPattern>
 
                 <required>false</required>
 
@@ -195,8 +195,7 @@
 				<summary>The Comments for this budget.</summary>
 				<description>The Comments for this budget.</description>
 			</attribute>
-
-
+			
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

@@ -30,10 +30,10 @@ import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
-import edu.iu.uis.eden.clientapp.IDocHandler;
-
+/**
+ * Struts Action class for requests from the Budget Versions page.
+ */
 public class BudgetVersionsAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetVersionsAction.class);
     
@@ -70,6 +70,16 @@ public class BudgetVersionsAction extends BudgetAction {
         return new ActionForward(forward, true);
     }
     
+    /**
+     * This method opens a budget version.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
@@ -82,6 +92,16 @@ public class BudgetVersionsAction extends BudgetAction {
         return new ActionForward(forward, true);
     }
     
+    /**
+     * This method copies a budget version's data to a new budget version.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
     public ActionForward copyBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
@@ -100,6 +120,7 @@ public class BudgetVersionsAction extends BudgetAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
+        // FIXME These won't work until save proposal status from budget is resolved
         setFinalBudgetVersion(budgetForm.getFinalBudgetVersion(), budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews());
         setProposalStatus(budgetForm.getBudgetDocument().getProposal());
         return super.save(mapping, form, request, response);

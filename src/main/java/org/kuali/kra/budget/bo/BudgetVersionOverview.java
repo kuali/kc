@@ -32,7 +32,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
  * Class representation of a Budget Overview Business Object.  This BO maps to
  * the BudgetDocument table but excludes most references.
  * 
- * @author kualidev@oncourse.iu.edu
+ * @author kra-developers-l@indiana.edu
  */
 public class BudgetVersionOverview extends KraPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
     
@@ -92,11 +92,6 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         return proposalNumber;
     }
     
-//  TODO Temporary setter for fieldconversions from ProposalDevelopmentDocument (since it's Integer there, String on BudgetDocument)
-//    public void setProposalNumber(String proposalNumber) {
-//        this.proposalNumber = Integer.parseInt(proposalNumber);
-//    }
-
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }

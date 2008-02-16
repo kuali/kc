@@ -20,10 +20,27 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+/**
+ * Budget Service interface
+ */
 public interface BudgetService {
     
+    /**
+     * Returns a new finalized BudgetDocument based on the given ProposalDevelopmentDocument and documentDescription.
+     * 
+     * @param pdDoc
+     * @param documentDescription
+     * @return BudgetDocument
+     * @throws WorkflowException
+     */
     public BudgetDocument getNewBudgetVersion(ProposalDevelopmentDocument pdDoc, String documentDescription) throws WorkflowException;
     
+    /**
+     * Returns a new finalized BudgetDocument with the data from the given BudgetDocument copied over.
+     * @param budgetDocument
+     * @return BudgetDocument
+     * @throws WorkflowException
+     */
     public BudgetDocument copyBudgetVersion(BudgetDocument budgetDocument) throws WorkflowException;
     
 }

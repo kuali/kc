@@ -31,7 +31,7 @@
     		<span class="subhead-left"><h2>Budget Versions</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
-        <table cellpadding="0" cellspacing="0" summary="Budget Versions">
+        <table id="budget-versions-table" cellpadding="0" cellspacing="0" summary="Budget Versions">
 			<tr>
 				<th scope="row">&nbsp;</th>
 				<th><div align="left">*Name:</div></th>
