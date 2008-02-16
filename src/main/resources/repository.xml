@@ -1627,10 +1627,12 @@
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="versionNumber"/>
 		</collection-descriptor>-->
+		<!-- 
 		<reference-descriptor name="budgetVersionOverview" class-ref="org.kuali.kra.budget.bo.BudgetVersionOverview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalNumber"/> 
 			<foreignkey field-ref="budgetVersionNumber"/> 
 		</reference-descriptor>
+		 -->
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount" table="BUDGET_PERSONNEL_CAL_AMTS">
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" primarykey="true"/>
