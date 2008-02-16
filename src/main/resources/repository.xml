@@ -1297,8 +1297,8 @@
 		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="finalVersionFlag" column="FINAL_VERSION_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="modularBudgetFlag" column="MODULAR_BUDGET_FLAG" jdbc-type="VARCHAR"/>
-		<field-descriptor name="ohRateClassCode" column="OH_RATE_CLASS_CODE" jdbc-type="INTEGER"/>
-		<field-descriptor name="ohRateTypeCode" column="OH_RATE_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="ohRateClassCode" column="OH_RATE_CLASS_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="ohRateTypeCode" column="OH_RATE_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="residualFunds" column="RESIDUAL_FUNDS" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="totalCost" column="TOTAL_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
@@ -1306,7 +1306,7 @@
 		<field-descriptor name="totalDirectCost" column="TOTAL_DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="totalIndirectCost" column="TOTAL_INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="urRateClassCode" column="UR_RATE_CLASS_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="urRateClassCode" column="UR_RATE_CLASS_CODE" jdbc-type="VARCHAR"/>
     	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

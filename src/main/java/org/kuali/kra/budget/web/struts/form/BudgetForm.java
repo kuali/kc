@@ -37,8 +37,11 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 public class BudgetForm extends KraTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
+    
+    private String newBudgetPersonId;
+    
     private BudgetPeriod newBudgetPeriod;
-
+    
     private List<ExtraButton> extraTopButtons;
     
     public BudgetForm() {
@@ -129,6 +132,14 @@ public class BudgetForm extends KraTransactionalDocumentFormBase {
 
     public void setExtraTopButtons(List<ExtraButton> extraTopButtons) {
         this.extraTopButtons = extraTopButtons;
+    }
+
+    public String getNewBudgetPersonId() {
+        return newBudgetPersonId;
+    }
+
+    public void setNewBudgetPersonId(String newBudgetPersonId) {
+        this.newBudgetPersonId = newBudgetPersonId;
     }
     
 }
