@@ -338,6 +338,7 @@
 			</members>
 		</workgroup>
 	</workgroups>
+	<!-- Travel stuff
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
 			<name>DestinationAttribute</name>
@@ -406,6 +407,7 @@
 			</attributes>
 		</ruleTemplate>
 	</ruleTemplates>
+	 -->
 
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
