@@ -41,8 +41,9 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 	private List<S2sOppForms> s2sOppForms;
 	private S2sSubmissionType s2sSubmissionType;
 	private S2sRevisionType s2sRevisionType; 
+	private S2sAppSubmission s2sAppSubmission;
 
-	public S2sSubmissionType getS2sSubmissionType() {
+    public S2sSubmissionType getS2sSubmissionType() {
         return s2sSubmissionType;
     }
 
@@ -206,5 +207,13 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 
     public void setOpportunityTitle(String opportunityTitle) {
         this.opportunityTitle = opportunityTitle;
+    }
+    
+    public S2sAppSubmission getS2sAppSubmission() {
+        return s2sAppSubmission;
+    }
+
+    public void setS2sAppSubmission(S2sAppSubmission appSubmission) {
+        s2sAppSubmission = appSubmission;
     }
 }
