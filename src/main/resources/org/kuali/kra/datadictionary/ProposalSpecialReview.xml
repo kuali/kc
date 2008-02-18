@@ -111,7 +111,7 @@
  				<required>false</required>
 
                 <summary>The date the PI submitted a protocol/request for permission to the relevant institutional committee/person</summary>
-                <description>The date the PI submitted a protocol/request for permission to the relevant institutional committee/person</description>
+                <description>The application date is the date the PI submitted a protocol/request for permission to the relevant institutional committee/person for special Review.</description>
       		</attributeReference>
 
             <attributeReference name="approvalDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
@@ -121,7 +121,7 @@
  				<required>false</required>
 
                 <summary>The date the protocol/request for permission was approved by the relevant institutional committee/person</summary>
-                <description>The date the protocol/request for permission was approved by the relevant institutional committee/person</description>
+                <description>The approval date is the date the protocol/request for permission was approved by the relevant institutional committee/person.</description>
       		</attributeReference>
 
 
@@ -160,7 +160,7 @@
 				<text size="20" />
 			</control>
 			<summary>Protocol Number </summary>
-			<description> The protocol # is the number assigned to the protocol submitted by the PI to the institution’s relevant committee (e.g. IACUC, IRB, etc.). </description>
+			<description> The protocol # is the number assigned to the protocol submitted by the PI to the institution's relevant committee (e.g. IACUC, IRB, etc.). </description>
 			</attribute>
 
 			<attribute name="specialReviewCode">
