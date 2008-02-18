@@ -15,34 +15,31 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import java.util.Collection;
-import java.util.Iterator;
+import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_OPPORTUNITY_CONFIRMATION;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
-import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentAction {
-    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentGrantsGovAction.class);    
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentGrantsGovAction.class);  
+    private static final String CONFIRM_REMOVE_OPPRTUNITY_KEY = "confirmRemoveOpportunity";
+    private static final String EMPTY_STRING = "";
     
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response)throws Exception{                
@@ -71,7 +68,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         return actionForward;        
     }
     
-    public ActionForward removeOpportunity(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) throws Exception {
+    public ActionForward removeOpportunity1(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
@@ -116,6 +113,41 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
             }
         }*/
         return mapping.findForward("basic");
-    }    
+    }
+    
+    public ActionForward confirmRemoveOpportunity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_REMOVE_OPPRTUNITY_KEY.equals(question)) { 
+            ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+            ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+            BusinessObjectService businessObjectService = ((BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class));            
+            businessObjectService.delete(proposalDevelopmentDocument.getS2sOpportunity());
+            proposalDevelopmentDocument.setS2sOpportunity(null);
+            //return mapping.findForward("basic");
+            return super.save(mapping, form, request, response);
+        }
+        
+        return mapping.findForward("basic");
+    }
+    
+    public ActionForward removeOpportunity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return confirm(buildDeleteOpportunityConfirmationQuestion(mapping, form, request, response), CONFIRM_REMOVE_OPPRTUNITY_KEY, EMPTY_STRING);
+    }
+    
+    private StrutsConfirmation buildDeleteOpportunityConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // Opportunities are stored in a document. We need to document to retrieve the abstract.
+        ProposalDevelopmentDocument doc = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
+
+        // Get the description. This will be used as a parameter to build the message for requesting confirmation feedback from the user.
+        String description = doc.getS2sOpportunity().getOpportunityId();
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_REMOVE_OPPRTUNITY_KEY, QUESTION_DELETE_OPPORTUNITY_CONFIRMATION, description);
+    }
+    
+    public ActionForward submitToGrantsGov(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
+        S2SService s2SService = ((S2SService) KraServiceLocator.getService(S2SService.class)); 
+        s2SService.submitApplication(document.getProposalNumber());
+        return super.save(mapping, form, request, response);
+    }
 
 }

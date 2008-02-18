@@ -5,13 +5,13 @@
 <c:set var="action" value="proposalDevelopmentProposal" />
 
 
-<kul:subtab subTabTitle="Submission Details" width = "1" buttonAlt="false" lookedUpCollectionName="">
+<kul:tab tabTitle="Submission Details" defaultOpen="false">
 <div class="innerTab-container" align="left">
  <table class=tab cellpadding=0 cellspacing="0" summary=""> 
  <tbody id="G1">
  
  	   </tbody>
 </table></div>
-</kul:subtab>
+</kul:tab>
 
 
