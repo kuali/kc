@@ -15,12 +15,17 @@
  */
 package org.kuali.kra.lookup;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,13 +44,19 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
     }
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         
+        super.getSearchResults(LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues));
+        List<S2sOpportunity> s2sOpportunity=new ArrayList<S2sOpportunity>();
+        if(fieldValues!=null && (fieldValues.get("cfdaNumber")!=null && !StringUtils.equals(fieldValues.get("cfdaNumber").trim(),""))||(fieldValues.get("opportunityId")!=null && !StringUtils.equals(fieldValues.get("opportunityId").trim(),""))){
+            s2sOpportunity = s2SService.searchOpportunity(fieldValues.get("cfdaNumber"),fieldValues.get("opportunityId"),"");
+            return s2sOpportunity;
+        }else{            
+                errorMap.removeFromErrorPath("document");
+                GlobalVariables.getErrorMap().putError("document.cfdaNumber", KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);                            
+                errorMap.addToErrorPath("document");              
+        }
         
-        //List<S2sOpportunity> s2sOpportunity2 = (List<S2sOpportunity>) super.getSearchResults(LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues));
-        super.getSearchResults(LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues));        
-        List<S2sOpportunity> s2sOpportunity = s2SService.searchOpportunity(fieldValues.get("cfdaNumber"),fieldValues.get("opportunityId"),"");
-        //List<S2sOppForms> s2sOppForms = s2SService.parseOpportunityForms(s2sOpportunity);
-        return s2sOpportunity;
-        //return super.getSearchResults(LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues));
+            return s2sOpportunity;        
     }    
 }

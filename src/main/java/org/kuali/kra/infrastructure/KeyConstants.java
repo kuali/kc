@@ -63,6 +63,7 @@ public class KeyConstants {
     public static final String ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED = "error.proposalAttachment.description.required";
     public static final String ERROR_PERSONNEL_ATTACHMENT_DESCRITPION_REQUIRED = "error.personnelAttachment.description.required";
     public static final String ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED = "error.personnelAttachment.person.required";
+    public static final String QUESTION_DELETE_OPPORTUNITY_CONFIRMATION = "document.question.deleteOpportunity.text";
     
     public static final String ERROR_NARRATIVE_STATUS_INVALID = "error.proposalAttachment.moduleStatusCode.invalid";
     
@@ -109,4 +110,8 @@ public class KeyConstants {
     public static final String ERROR_DUPLICATE_PROPOSAL_USER = "error.duplicate.proposalUser";
     public static final String ERROR_AGGREGATOR_INCLUSIVE = "error.aggregator.inclusive";
     public static final String ERROR_LAST_AGGREGATOR = "error.last.aggregator";
+    
+    // Grants.gov
+    public static final String ERROR_IF_PROPOSALTYPE_IS_REVISION = "error.s2sopportunity.revisiontype";
+    public static final String ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL = "error.s2sopportunity.cfdaNumber";
 }
