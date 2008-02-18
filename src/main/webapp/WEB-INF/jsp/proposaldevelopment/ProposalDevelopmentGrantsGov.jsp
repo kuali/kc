@@ -34,4 +34,5 @@
 
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
+<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" property="methodToCall.submitToGrantsGov" title="Submit" alt="Submit"/>
 </kul:documentPage>

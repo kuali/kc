@@ -101,6 +101,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument);
         valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument.getBudgetVersionOverviews());
+        valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
 
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
@@ -324,6 +325,26 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         }
         return valid;
 
+    }
+    
+    /**
+    *
+    * Validate organization/location rule. specifically, at least one location is required.
+    * @param proposalDevelopmentDocument
+    * @return
+    */
+    private boolean processProposalGrantsGovBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        boolean valid = true;
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        if (proposalDevelopmentDocument.getProposalTypeCode()!=null && proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && proposalDevelopmentDocument.getProposalTypeCode().equals("6") && proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode()==null) {
+            errorMap.removeFromErrorPath("document");
+            reportError("document.s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION);
+            reportError("document.proposalTypeCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION);            
+            errorMap.addToErrorPath("document");
+            valid = false;
+        }
+        return valid;
     }
     
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
