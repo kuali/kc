@@ -47,7 +47,7 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
 
        assertEquals("000001", getFieldValue(locationPage, "document.organizationId"));
        assertContains(locationPage, "Congressional District: Eighth");
-       assertContains(locationPage, "Performing Organization: University");
+       //assertContains(locationPage, "Performing Organization: University");
        assertContains(locationPage, "Applicant Organization: University");
        assertContains(locationPage, "Authorized Representative Name & Address: First Name");
 
@@ -197,7 +197,7 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
   * Test organization/location panel on proposal page Applicant and Performing Organization Lookup
   * @throws Exception
   */
-  /*
+  
  @Test
  public void testOrganizationLocationPanelOrganizationLookupExisting() throws Exception {   
      HtmlPage proposalPage = getProposalDevelopmentPage();
@@ -238,5 +238,4 @@ public class OrganizationLocationPanelWebTest extends ProposalDevelopmentWebTest
      assertEquals("000002", doc.getOrganizationId());      
      
  }
-  */
 }

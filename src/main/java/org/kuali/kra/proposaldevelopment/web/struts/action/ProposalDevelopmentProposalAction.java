@@ -246,7 +246,18 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-
+        
+        if(proposalDevelopmentDocument!=null && proposalDevelopmentDocument.getPerformingOrganizationId()!=null 
+                && proposalDevelopmentDocument.getOwnedByUnit()!=null && proposalDevelopmentDocument.getOwnedByUnit().getOrganizationId()!=null 
+                && ((StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getPerformingOrganizationId(), proposalDevelopmentDocument.getOwnedByUnit().getOrganizationId()))
+                        ||(StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getPerformingOrganizationId().trim(), "")))){
+            proposalDevelopmentDocument.setPerformingOrganizationId(proposalDevelopmentDocument.getOrganizationId());
+            proposalDevelopmentDocument.refreshReferenceObject("organization");             
+            proposalDevelopmentDocument.refreshReferenceObject("performingOrganization");   
+        }
+        
+     
+        
         // check to see if we are coming back from a lookup
         if (Constants.MULTIPLE_VALUE.equals(proposalDevelopmentForm.getRefreshCaller())) {
             // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
