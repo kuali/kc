@@ -173,10 +173,10 @@ public abstract class KimQualifiedRoleAssignment extends PersistableBusinessObje
      */
     private boolean contains(List<KimQualifiedRoleAttribute> qualifiedRoleAttributes, String attrName, String attrValue) {
         for (KimQualifiedRoleAttribute qualifiedRoleAttribute : qualifiedRoleAttributes) {
-            if (!qualifiedRoleAttribute.matches(attrName, attrValue)) {
-                return false;
+            if (qualifiedRoleAttribute.matches(attrName, attrValue)) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 }

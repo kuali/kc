@@ -22,27 +22,32 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DUP
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_STATUS_INVALID;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.NarrativeRight;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule;
+import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.PersonService;
 
 
 /**
@@ -53,7 +58,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * @author kualidev@oncourse.iu.edu
  * @version 1.0
  */
-public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule,SaveNarrativesRule { 
+public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase implements AddNarrativeRule,SaveNarrativesRule, NewNarrativeUserRightsRule { 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
     private static final String DOCUMENT_NARRATIVES = "document.narratives";
     private static final String PROPOSAL = "Proposal";
@@ -168,4 +173,79 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         
     }
     
+    /**
+     * @see org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule#processNewNarrativeUserRightsBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.util.List, int)
+     */
+    public boolean processNewNarrativeUserRightsBusinessRules(ProposalDevelopmentDocument document,
+            List<NarrativeUserRights> newNarrativeUserRights, int narrativeIndex) {
+        
+        boolean isValid = true;
+        
+        // Must have at least one user with the right to modify narratives.
+       
+        if (!hasNarrativeRight(newNarrativeUserRights, NarrativeRight.MODIFY_NARRATIVE_RIGHT)) {
+            isValid = false;
+            this.reportError(Constants.NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY, 
+                             KeyConstants.ERROR_REQUIRE_ONE_NARRATIVE_MODIFY);
+        }
+        
+        // The users cannot be assigned narrative rights that are
+        // greater than their assigned permission.  For example, if someone
+        // only has the VIEW_NARRATIVES permission, they cannot be 
+        // assigned a narrative right of modify.
+        
+        PersonService personService = KraServiceLocator.getService(PersonService.class);
+        for (NarrativeUserRights userRights : newNarrativeUserRights) {
+            if (!hasPermission(userRights, document)) {
+                isValid = false;
+                Person person = personService.getPerson(userRights.getUserId());
+                this.reportError(Constants.NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY, 
+                                 KeyConstants.ERROR_NARRATIVE_USER_RIGHT_NO_PERMISSION, person.getFullName());
+            }
+        }
+        
+        return isValid;
+    }
+    
+    /**
+     * Do any of the users have the given narrative right?
+     * @param narrativeUserRights the list of narrative user rights
+     * @param narrativeRight the narrative right to look for
+     * @return true if at least one user has this narrative right; otherwise false
+     */
+    private boolean hasNarrativeRight(List<NarrativeUserRights> narrativeUserRights, NarrativeRight narrativeRight) {
+        for (NarrativeUserRights userRights : narrativeUserRights) {
+            if (StringUtils.equals(userRights.getAccessType(), narrativeRight.getAccessType())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Does this person have the necessary permission for the narrative right they
+     * have been assigned?  In other words, a person cannot be given the narrative
+     * right of modify if they don't have the MODIFY_NARRATIVE permssion.
+     * @param userRights the person's narrative right
+     * @param doc the Proposal Development Document
+     * @return true if the person has the necessary permission; otherwise false
+     */
+    private boolean hasPermission(NarrativeUserRights userRights, ProposalDevelopmentDocument doc) {
+        
+        PersonService personService = KraServiceLocator.getService(PersonService.class);
+        String personId = userRights.getUserId();
+        Person person = personService.getPerson(personId);
+        
+        if (StringUtils.equals(userRights.getAccessType(), NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType())) {
+            if (!hasPermission(person.getUserName(), doc, PermissionConstants.MODIFY_NARRATIVE)) {
+                return false;
+            }
+        }
+        else if (StringUtils.equals(userRights.getAccessType(), NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
+            if (!hasPermission(person.getUserName(), doc, PermissionConstants.VIEW_NARRATIVE)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -73,7 +73,7 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
      */
     public List<String> getUserNames(ProposalDevelopmentDocument doc, String roleName) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber().toString());
+        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber());
         return kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttributes);
     }
 
@@ -82,7 +82,7 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
      */
     public void addRole(String username, String roleName, ProposalDevelopmentDocument doc) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber().toString());
+        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber());
         kimPersonService.addQualifiedRole(username, roleName, qualifiedRoleAttributes);
     }
 
@@ -91,7 +91,7 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
      */
     public void removeRole(String username, String roleName, ProposalDevelopmentDocument doc) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber().toString());
+        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber());
         kimPersonService.removeQualifiedRole(username, roleName, qualifiedRoleAttributes);
     }
     
@@ -100,7 +100,7 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
      */
     public boolean hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber().toString());
+        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber());
         boolean userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
         if (!userHasPermission) {
             String unitNumber = doc.getOwnedByUnitNumber();
@@ -123,7 +123,7 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
      */
     public boolean hasRole(String username, ProposalDevelopmentDocument doc, String roleName) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber().toString());
+        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber());
         return kimPersonService.hasQualifiedRole(username, roleName, qualifiedRoleAttributes);
     }
     
@@ -134,13 +134,12 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
         List<String> roleNames = new ArrayList<String>();
         String proposalNbr = doc.getProposalNumber();
         if (proposalNbr != null) {
-            String nbr = proposalNbr.toString();
             List<QualifiedRole> roles = kimPersonService.getQualifiedRoles(username);
             for (QualifiedRole role : roles) {
                 Map<String, String> attrs = role.getQualifiedRoleAttributes();
                 if (attrs.containsKey(PROPOSAL_KEY)) {
                     String value = attrs.get(PROPOSAL_KEY);
-                    if (value.equals(nbr)) {
+                    if (value.equals(proposalNbr)) {
                         roleNames.add(role.getRoleName());
                     }
                 }
@@ -155,7 +154,7 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
     public List<Person> getPersonsInRole(ProposalDevelopmentDocument doc, String roleName) {
         List<Person> persons = new ArrayList<Person>();
         Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
-        qualifiedRoleAttrs.put(PROPOSAL_KEY, doc.getProposalNumber().toString());
+        qualifiedRoleAttrs.put(PROPOSAL_KEY, doc.getProposalNumber());
         List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
         for (String username : usernames) {
             org.kuali.kra.service.PersonService personService = KraServiceLocator.getService(org.kuali.kra.service.PersonService.class);

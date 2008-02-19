@@ -22,7 +22,7 @@
 	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="abstractsAttachments">
 <kra-pd:proposalDevelopmentAttachments /> 
 <kra-pd:proposalDevelopmentPersonnelAttachments /> 
