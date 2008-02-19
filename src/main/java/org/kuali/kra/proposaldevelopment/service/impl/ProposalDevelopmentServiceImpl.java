@@ -57,6 +57,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             proposalDevelopmentDocument.refreshReferenceObject("organization");
             proposalOrganization = proposalDevelopmentDocument.getOrganization();
             proposalDevelopmentDocument.setPerformingOrganizationId(organizationId);
+            proposalDevelopmentDocument.refreshReferenceObject("performingOrganization");
             
             //initialize Proposal Locations with Organization details
             if (proposalDevelopmentDocument.getProposalLocations().isEmpty()) {
