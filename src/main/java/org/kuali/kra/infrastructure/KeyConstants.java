@@ -121,4 +121,7 @@ public class KeyConstants {
     // Grants.gov
     public static final String ERROR_IF_PROPOSALTYPE_IS_REVISION = "error.s2sopportunity.revisiontype";
     public static final String ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL = "error.s2sopportunity.cfdaNumber";
+    public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_IS_REVISION="6";
+    public static final String S2S_REVISIONTYPE_OTHER="5";
+    public static final String ERROR_IF_REVISIONTYPE_IS_OTHER = "error.s2sopportunity.revisionTypeOther";
 }

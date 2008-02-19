@@ -198,9 +198,9 @@
 				<label>Revision Other Description </label>
 				<shortLabel>Revision Other Description </shortLabel>
 				<maxLength>45</maxLength>
-				<validationPattern><numeric /></validationPattern>
+				<validationPattern><alphaNumeric /></validationPattern>
 				<control>
-					<hidden />
+					<text size="45" />
 				</control>
 				<summary>Revision Other Description </summary>
 				<description>Revision Other Description </description>

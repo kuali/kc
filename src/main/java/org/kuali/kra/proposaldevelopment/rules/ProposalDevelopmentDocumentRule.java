@@ -334,7 +334,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     
     /**
     *
-    * Validate organization/location rule. specifically, at least one location is required.
+    * Validate Grants.gov business rules.
     * @param proposalDevelopmentDocument
     * @return
     */
@@ -342,12 +342,18 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         boolean valid = true;
         
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        if (proposalDevelopmentDocument.getProposalTypeCode()!=null && proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && proposalDevelopmentDocument.getProposalTypeCode().equals("6") && proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode()==null) {
+        if (proposalDevelopmentDocument.getProposalTypeCode()!=null && proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && proposalDevelopmentDocument.getProposalTypeCode().equals(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_IS_REVISION) && proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode()==null) {
             errorMap.removeFromErrorPath("document");
-            reportError("document.s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION);
-            reportError("document.proposalTypeCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION);            
+            reportError("document.s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION);                 
             errorMap.addToErrorPath("document");
             valid = false;
+        }
+        
+        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), KeyConstants.S2S_REVISIONTYPE_OTHER) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()==null||StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
+            errorMap.removeFromErrorPath("document");
+            reportError("document.s2sOpportunity.revisionCode",KeyConstants.ERROR_IF_REVISIONTYPE_IS_OTHER);
+            errorMap.addToErrorPath("document");
+            valid &= false;
         }
         return valid;
     }
