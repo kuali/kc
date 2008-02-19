@@ -314,7 +314,7 @@
 				<label>CFDA Number</label>
 				<shortLabel>CFDA Number</shortLabel>
 
-				<maxLength>6</maxLength>
+				<maxLength>7</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
 
 				<required>false</required>
