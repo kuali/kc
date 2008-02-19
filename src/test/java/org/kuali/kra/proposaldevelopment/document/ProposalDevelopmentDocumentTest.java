@@ -138,7 +138,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         document.setAgencyDivisionCode("123");
         document.setProgramAnnouncementTitle("we want to give you money");
         document.setNoticeOfOpportunityCode("2");
-        document.setCfdaNumber("123456");
+        document.setCfdaNumber("12.345a");
         // opportunity id
         document.setProgramAnnouncementNumber("123478");
         document.setSponsorProposalNumber("234567");
@@ -160,7 +160,7 @@ public class ProposalDevelopmentDocumentTest extends KraTestBase {
         assertEquals("123", savedDocument.getAgencyDivisionCode());
         assertEquals("we want to give you money", savedDocument.getProgramAnnouncementTitle());
         assertEquals("2", savedDocument.getNoticeOfOpportunityCode());
-        assertEquals("123456", savedDocument.getCfdaNumber());
+        assertEquals("12.345a", savedDocument.getCfdaNumber());
         assertEquals("123478", savedDocument.getProgramAnnouncementNumber());
         assertEquals("234567", savedDocument.getSponsorProposalNumber());
         assertEquals("98765432", savedDocument.getContinuedFrom());
