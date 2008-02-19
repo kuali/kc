@@ -62,6 +62,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.DocumentValidationService;
+import org.kuali.RiceKeyConstants;
 
 /**
  * Main Business Rule class for <code>{@link ProposalDevelopmentDocument}</code>. Responsible for delegating rules to independent rule classes.
@@ -104,7 +105,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument);
         valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument.getBudgetVersionOverviews());
         valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
-
+        valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
         return valid;
@@ -352,7 +353,26 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         return new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person);
     }
-
+   /**
+     * Validate Sponsor/program Information rule. Regex validation for CFDA number(7 digits with a period in the 3rd character and an optional alpha character in the 7th field).
+     * @param proposalDevelopmentDocument
+     * @return
+    */
+    private boolean processSponsorProgramBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        
+        boolean valid = true;
+        String regExpr = "(\\d{2})(\\.)(\\d{3})[a-zA-z]?";
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        if(StringUtils.isNotBlank(proposalDevelopmentDocument.getCfdaNumber()) && !(proposalDevelopmentDocument.getCfdaNumber().matches(regExpr)) && GlobalVariables.getErrorMap().getMessages("document.cfdaNumber") == null) 
+        {
+            errorMap.putError("cfdaNumber", RiceKeyConstants.ERROR_INVALID_FORMAT, new String []{dataDictionaryService.getAttributeErrorLabel(ProposalDevelopmentDocument.class, "cfdaNumber"), proposalDevelopmentDocument.getCfdaNumber() });
+            valid = false;
+         }
+        return valid;
+    }
+   
+      
     /**
      * @see org.kuali.kra.proposaldevelopment.rule.AddNarrativeRule#processAddNarrativeBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,org.kuali.kra.proposaldevelopment.bo.Narrative)
      */
