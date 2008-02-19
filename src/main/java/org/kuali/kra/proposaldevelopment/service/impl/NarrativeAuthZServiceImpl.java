@@ -20,20 +20,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.bo.RoleRight;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.NarrativeRight;
-import org.kuali.kra.infrastructure.RightConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 
 /**
  * This class...
  */
 public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
     private BusinessObjectService businessObjectService;
+    private ProposalAuthorizationService proposalAuthorizationService;
 
     /**
      * @see org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService#authorize(org.kuali.kra.proposaldevelopment.bo.Narrative)
@@ -73,24 +73,29 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-    public NarrativeRight getNarrativeRight(Integer roleId) {
-        
-        Map<String,Integer> proRoleMap = new HashMap<String,Integer>();
-        proRoleMap.put("ROLE_ID", roleId);
-        
-        Collection<RoleRight> roleRights = getBusinessObjectService().findMatching(RoleRight.class, proRoleMap);
-        NarrativeRight right = NarrativeRight.NO_NARRATIVE_RIGHT;
-        for (RoleRight roleRight : roleRights) {
-            String rightId = roleRight.getRightId();
-            if (roleRight.getRightId().equals(RightConstants.MODIFY_NARRATIVE)) {
-                right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;
-                break;
-            }else if (roleRight.getRightId().equals(RightConstants.VIEW_NARRATIVE)) {
-                right = NarrativeRight.VIEW_NARRATIVE_RIGHT;
-            }
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService#getDefaultNarrativeRight(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public NarrativeRight getDefaultNarrativeRight(String username, ProposalDevelopmentDocument doc) {
+        NarrativeRight right;
+        if (proposalAuthorizationService.hasPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE)) {
+            right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;
+        }
+        else if (proposalAuthorizationService.hasPermission(username, doc, PermissionConstants.VIEW_NARRATIVE)) {
+            right = NarrativeRight.VIEW_NARRATIVE_RIGHT;
+        }
+        else {
+            right = NarrativeRight.NO_NARRATIVE_RIGHT;
         }
         return right;
     }
-
-
+    
+    /**
+     * Set the Proposal Authorization Service.  Injected by the Spring Framework.
+     * @param proposalAuthorizationService the Proposal Authorization Service
+     */
+    public void setProposalAuthorizationService(ProposalAuthorizationService proposalAuthorizationService) {
+        this.proposalAuthorizationService = proposalAuthorizationService;
+    }
 }

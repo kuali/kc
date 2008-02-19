@@ -476,24 +476,26 @@ function getUsers() {
  * Load the person's full name based on the person's username.
  */
 function loadPersonName(usernameFieldName, fullnameElementId) {
-	var username = DWRUtil.getValue( usernameFieldName );
-	var fullNameElement = document.getElementById(fullnameElementId);
-	if (username == '') {
-		fullNameElement.innerHTML = "";
-	} else {
-		var dwrReply = {
-			callback:function(data) {
-				if ( data != null ) {
-				    fullNameElement.innerHTML = data;
-				} else {
+    if (document.getElementById(fullnameElementId) != null) {
+		var username = DWRUtil.getValue( usernameFieldName );
+		var fullNameElement = document.getElementById(fullnameElementId);
+		if (username == '') {
+			fullNameElement.innerHTML = "";
+		} else {
+			var dwrReply = {
+				callback:function(data) {
+					if ( data != null ) {
+					    fullNameElement.innerHTML = data;
+					} else {
+						fullNameElement.innerHTML = wrapError( "not found" );
+					}
+				},
+				errorHandler:function( errorMessage ) {
+					window.status = errorMessage;
 					fullNameElement.innerHTML = wrapError( "not found" );
 				}
-			},
-			errorHandler:function( errorMessage ) {
-				window.status = errorMessage;
-				fullNameElement.innerHTML = wrapError( "not found" );
-			}
-		};
-		PersonService.getPersonFullname(username, dwrReply);
+			};
+			PersonService.getPersonFullname(username, dwrReply);
+		}
 	}
 }

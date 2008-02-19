@@ -125,11 +125,11 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         accessTypes.add("R");
         accessTypes.add("N");
         do{
-            String accessType = getFieldValue(rightPage, "document.narrative["+lineNumber+"].narrativeUserRight["+(--roCnt)+"].accessType");
+            String accessType = getFieldValue(rightPage, "newNarrativeUserRight["+(--roCnt)+"].accessType");
           //Check accessTypes are one of (M R or N)
           assertTrue(accessTypes.contains(accessType));
         }while(roCnt>0);
-        setFieldValue(rightPage, "document.narrative["+lineNumber+"].narrativeUserRight[0].accessType", "M");
+        setFieldValue(rightPage, "newNarrativeUserRight[0].accessType", "M");
         HtmlPage closePage = clickOn(rightPage, "methodToCall.addProposalAttachmentRights");
         assertContains(closePage, "Empty Page");
 //        HtmlPage savedPage = testSaveProposalAttachment(propPage);

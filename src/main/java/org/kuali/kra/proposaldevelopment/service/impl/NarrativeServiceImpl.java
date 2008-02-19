@@ -25,9 +25,11 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
@@ -36,7 +38,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+import org.kuali.kra.service.PersonService;
 
 /**
  * This class is primarily to add/delete proposal/institute attachments. 
@@ -46,6 +50,7 @@ public class NarrativeServiceImpl implements NarrativeService {
     private ProposalPersonService proposalPersonService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
+    private PersonService personService;
     
     /**
      * 
@@ -98,35 +103,87 @@ public class NarrativeServiceImpl implements NarrativeService {
     }
 
     /**
+     * This method used to add narrative user rights to a narrative.  Each person
+     * that is added to a Proposal (see Permission's page) must also be in a
+     * narrative's list of users.  For each user that isn't currently associated
+     * with the narrative, we will add the user with a default narrative right
+     * based upon their permissions.
      * 
-     * This method used to add narrative user rights to narrative object
-     * It looks for proposal persons who has narrative rights and add it to narrative
-     * @param narrative
+     * @param proposalDevelopmentDocument the Proposal Development Document
+     * @param narrative the narrative to add the users to
      */
-    private void populateNarrativeUserRights(ProposalDevelopmentDocument proposalDevelopmentDocument,Narrative narrative) {
-        List<ProposalUserRoles> proposalUserRoles = proposalDevelopmentDocument.getProposalUserRoles();
+    private void populateNarrativeUserRights(ProposalDevelopmentDocument proposalDevelopmentDocument, Narrative narrative) {
+        List<Person> persons = getPersons(proposalDevelopmentDocument);
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
-        for (ProposalUserRoles proposalUserRole : proposalUserRoles) {
-            boolean continueFlag = false;
-            for (NarrativeUserRights narrativeUserRight : narrativeUserRights) {
-                if(StringUtils.equals(narrativeUserRight.getUserId(),proposalUserRole.getUserId())){
-                    continueFlag = true;
-                    break;
+        for (Person person : persons) {
+            if (!isPersonInNarrativeRights(person, narrativeUserRights)) {
+                NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(person.getUserName(), proposalDevelopmentDocument);
+                String personName = person.getFullName();
+                NarrativeUserRights narrUserRight = new NarrativeUserRights();
+                narrUserRight.setProposalNumber(narrative.getProposalNumber());
+                narrUserRight.setModuleNumber(narrative.getModuleNumber());
+                narrUserRight.setUserId(person.getPersonId());
+                narrUserRight.setAccessType(narrativeRight.getAccessType());
+                narrUserRight.setPersonName(personName);
+                updateUserTimestamp(narrUserRight);
+                narrativeUserRights.add(narrUserRight);
+            }
+        }
+    }
+    
+    /**
+     * Is this person in the list of narrative user rights?
+     * @param person the person to look for
+     * @param narrativeUserRights the list of narrative user rights
+     * @return true if the person is in the list; otherwise false
+     */
+    private boolean isPersonInNarrativeRights(Person person, List<NarrativeUserRights> narrativeUserRights) {
+        for (NarrativeUserRights right : narrativeUserRights) {
+            if (StringUtils.equals(right.getUserId(), person.getPersonId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Get the persons who have permissions relating to the proposal.
+     * @param proposalDevelopmentDocument the Proposal Development Document
+     * @return the list of persons (see Permission's page)
+     */
+    private List<Person> getPersons(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        String roleNames[] = { RoleConstants.AGGREGATOR, 
+                               RoleConstants.NARRATIVE_WRITER, 
+                               RoleConstants.BUDGET_CREATOR,
+                               RoleConstants.VIEWER,
+                               RoleConstants.UNASSIGNED };
+        
+        ProposalAuthorizationService proposalAuthorizationService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        List<Person> allPersons = new ArrayList<Person>();
+        for (String roleName : roleNames) {
+            List<Person> persons = proposalAuthorizationService.getPersonsInRole(proposalDevelopmentDocument, roleName);
+            for (Person person : persons) {
+                if (!isPersonInList(person, allPersons)) {
+                    allPersons.add(person);
                 }
             }
-            if(continueFlag) continue;
-    
-            NarrativeRight narrativeRight = narrativeAuthZService.getNarrativeRight(proposalUserRole.getRoleId());
-            String personName = proposalPersonService.getPersonName(proposalDevelopmentDocument, proposalUserRole.getUserId());
-            NarrativeUserRights narrUserRight = new NarrativeUserRights();
-            narrUserRight.setProposalNumber(narrative.getProposalNumber());
-            narrUserRight.setModuleNumber(narrative.getModuleNumber());
-            narrUserRight.setUserId(proposalUserRole.getUserId());
-            narrUserRight.setAccessType(narrativeRight.getAccessType());
-            narrUserRight.setPersonName(personName);
-            updateUserTimestamp(narrUserRight);
-            narrativeUserRights.add(narrUserRight);
         }
+        return allPersons;
+    }
+    
+    /**
+     * Is the person in the list of persons?
+     * @param person the person to look for
+     * @param persons the list of persons
+     * @return true if the person is in the list; otherwise false
+     */
+    private boolean isPersonInList(Person person, List<Person> persons) {
+        for (Person p : persons) {
+            if (StringUtils.equals(p.getPersonId(), person.getPersonId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void deleteProposalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete) {
@@ -304,4 +361,96 @@ public class NarrativeServiceImpl implements NarrativeService {
             propUserRoles.add(propUserRole);
         }
     }
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#deletePerson(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public void deletePerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        Person person = personService.getPersonByName(username);
+        List<Narrative> narratives = proposalDevelopmentDocument.getNarratives();
+        for (Narrative narrative : narratives) {
+            List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
+            for (NarrativeUserRights right : userRights) {
+                if (StringUtils.equals(right.getUserId(), person.getPersonId())) {
+                    getBusinessObjectService().delete(right);
+                    userRights.remove(right);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#readjustRights(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public void readjustRights(String username, ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        Person person = personService.getPersonByName(username);
+        List<Narrative> narratives = proposalDevelopmentDocument.getNarratives();
+        for (Narrative narrative : narratives) {
+            List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
+            for (NarrativeUserRights right : userRights) {
+                if (StringUtils.equals(right.getUserId(), person.getPersonId())) {
+                    String currentAccessType = right.getAccessType();
+                    
+                    // If the user currently has MODIFY rights, but his/her default (max) right has been down-graded,
+                    // then we will down-grade his/her current narrative rights.  Ditto if the user currently has 
+                    // VIEW rights.  
+                    
+                    if (StringUtils.equals(currentAccessType, NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType())) {
+                        NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(username, proposalDevelopmentDocument);
+                        String accessType = narrativeRight.getAccessType();
+                        if (StringUtils.equals(accessType, NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
+                            right.setAccessType(NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType());
+                            getBusinessObjectService().save(right);
+                        }
+                        else if (StringUtils.equals(accessType, NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType())) {
+                            right.setAccessType(NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType());
+                            getBusinessObjectService().save(right);
+                        }
+                    }
+                    else if (StringUtils.equals(currentAccessType, NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
+                        NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(username, proposalDevelopmentDocument);
+                        String accessType = narrativeRight.getAccessType();
+                        if (StringUtils.equals(accessType, NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType())) {
+                            right.setAccessType(NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType());
+                            getBusinessObjectService().save(right);
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#addPerson(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public void addPerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        Person person = personService.getPersonByName(username);
+        List<Narrative> narratives = proposalDevelopmentDocument.getNarratives();
+        for (Narrative narrative : narratives) {
+            List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
+           
+            NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(person.getUserName(), proposalDevelopmentDocument);
+            String personName = person.getFullName();
+            NarrativeUserRights narrUserRight = new NarrativeUserRights();
+            narrUserRight.setProposalNumber(narrative.getProposalNumber());
+            narrUserRight.setModuleNumber(narrative.getModuleNumber());
+            narrUserRight.setUserId(person.getPersonId());
+            narrUserRight.setAccessType(narrativeRight.getAccessType());
+            narrUserRight.setPersonName(personName);
+            updateUserTimestamp(narrUserRight);
+            userRights.add(narrUserRight);
+            getBusinessObjectService().save(narrUserRight);
+        }
+    }
+    
+    /**
+     * Set the Person Service.  Injected by Spring.
+     * @param personService the Person Service
+     */
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
+
 }

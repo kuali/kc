@@ -36,6 +36,7 @@ public interface Constants {
     public static final String KEYWORD_PANEL_DISPLAY = "proposaldevelopment.displayKeywordPanel";
 
     public static final String MAPPING_BASIC = "basic";
+    public static final String MAPPING_ERROR = "error";
     public static final String NEW_PROPOSAL_PERSON_PROPERTY_NAME = "newProposalPerson";
     public static final String NEW_PERSON_LOOKUP_FLAG = "newPersonLookupFlag";
     public static final String MAPPING_CLOSE_PAGE = "closePage";
@@ -57,6 +58,7 @@ public interface Constants {
     public static final String INSTITUTIONAL_ATTACHMENT_TYPE_NAME = "Institutional Attachment";
     public static final String PERSONNEL_ATTACHMENT_TYPE_NAME = "Personnel Attachment";
     public static final String PROPOSAL_ATTACHMENT_TYPE_NAME = "Proposal Attachment";
+    public static final String NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY = "newNarrativeUserRight";
 
     public static final String PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX = "proposaldevelopment.personrole.";
 
@@ -116,4 +118,7 @@ public interface Constants {
     public static final String MAPPING_PERMISSIONS_ROLE_RIGHTS_PAGE = "permissionsRoleRights";
     public static final String MAPPING_PERMISSIONS_EDIT_ROLES_PAGE = "permissionsEditRoles";
     public static final String MAPPING_PERMISSIONS_CLOSE_EDIT_ROLES_PAGE = "permissionsCloseEditRoles";
+    
+    // Task Authorization
+    public static final String TASK_AUTHORIZATION = "taskAuthorization";
 }

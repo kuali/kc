@@ -22,7 +22,7 @@
 	renderMultipart="false"
 	showTabButtons="false"
 	auditCount="0"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="specialReview">
 
 <kra-pd:proposalDevelopmentSpecialReview /> 

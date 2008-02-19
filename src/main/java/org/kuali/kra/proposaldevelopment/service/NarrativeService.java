@@ -30,5 +30,30 @@ public interface NarrativeService {
     public void deleteInstitutionalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete);
     public void populateDummyUserRoles(ProposalDevelopmentDocument proposalDevelopmentDocument);
     public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
-
+    
+    /**
+     * Delete a person from all of the narratives.  When a user is removed from the Permissions
+     * page, that user must also be removed from the narratives.
+     * @param username the name of the user
+     * @param proposalDevelopmentDocument the Proposal Development Document
+     */
+    public void deletePerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument);
+    
+    /**
+     * Re-adjust the narrative rights for a user.  If the user has lost some
+     * permissions regarding narratives, his/her narrative rights may need to
+     * be down-graded.
+     * @param username the name of the user
+     * @param proposalDevelopmentDocument the Proposal Development Document
+     */
+    public void readjustRights(String username, ProposalDevelopmentDocument proposalDevelopmentDocument);
+    
+    /**
+     * Add a person to all of the Narratives in a proposal.  When a new user is granted
+     * access to a proposal via the Permissions page, that user must be added to all of
+     * the narratives with the appropriate default narrative right based upon their permissions.
+     * @param username the name of the user
+     * @param proposalDevelopmentDocument the Proposal Development Document
+     */
+    public void addPerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument);
 }
