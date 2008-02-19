@@ -34,6 +34,7 @@ import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ActionFormUtilMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.Unit;
@@ -68,6 +69,7 @@ import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
  */
 public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentForm.class);
+    private static final String DELETE_SPECIAL_REVIEW_ACTION = "deleteSpecialReview";
     
     private String primeSponsorName;
     private ProposalLocation newPropLocation;
@@ -150,9 +152,12 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }
-
+        
+        if(getMethodToCall().equalsIgnoreCase(DELETE_SPECIAL_REVIEW_ACTION)) { 
+            GlobalVariables.getErrorMap().clear();
+        }  
+   
     }
-
 
     public ProposalLocation getNewPropLocation() {
         return newPropLocation;
