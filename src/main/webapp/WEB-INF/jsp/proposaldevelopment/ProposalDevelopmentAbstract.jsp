@@ -22,7 +22,7 @@
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="abstractPage">
 
 <center>Under Construction</center>

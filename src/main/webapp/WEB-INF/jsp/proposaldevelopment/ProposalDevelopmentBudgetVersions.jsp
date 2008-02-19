@@ -19,7 +19,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentBudgetVersions"
 	documentTypeName="ProposalDevelopmentDocument"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="budgetVersions">
   	
   	<kra-b:budgetVersions 

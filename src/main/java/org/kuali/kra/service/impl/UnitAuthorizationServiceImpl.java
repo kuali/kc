@@ -86,7 +86,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         // in the global space.
         
         boolean userHasPermission = systemAuthorizationService.hasPermission(username, permissionName);
-        if (!userHasPermission) {
+        if (!userHasPermission && unitNumber != null) {
             
             // Check the unit for the permission. If the user doesn't have the permission
             // in the given unit, traverse up the Unit Hierarchy to see if the user has

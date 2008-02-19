@@ -26,8 +26,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.Parameter;
@@ -43,6 +46,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.pojo.Permission;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
@@ -96,6 +100,8 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
     private List<ProposalUserRoles> proposalUserRolesList = null;
     private ProposalUserEditRoles proposalUserEditRoles;
     private boolean newProposalPersonRoleRendered;
+    private List<NarrativeUserRights> newNarrativeUserRights;
+    private int narrativeLineNumber;
     private S2sOpportunity newS2sOpportunity;
     private S2sOppForms newS2sOppForms;
 
@@ -109,6 +115,7 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
      * TODO: to be persisted in the lookup results service instead? See https://test.kuali.org/confluence/display/KULRNE/Using+multiple+value+lookups
      */
     private String lookupResultsBOClassName;
+
 
     public ProposalDevelopmentForm() {
         super();
@@ -833,6 +840,61 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
      */
     public void setNewProposalPersonRoleRendered(boolean newProposalPersonRoleRendered) {
         this.newProposalPersonRoleRendered = newProposalPersonRoleRendered;
+    }
+    
+    /**
+     * Get the Header Dispatch.  This determines the action that will occur
+     * when the user switches tabs for a proposal.  If the user can modify
+     * the proposal, the proposal is automatically saved.  If not (view-only),
+     * then a null op will be executed instead.
+     * @return the Header Dispatch action
+     */
+    public String getHeaderDispatch() {
+        return this.getDocumentActionFlags().getCanSave() ? "save" : "nullOp";
+    }
+
+    /**
+     * Set the New Narrative User Rights.  This is displayed on the View/Edit Rights
+     * web page for attachments.
+     * @param newNarrativeUserRights the new narrativer user rights
+     */
+    public void setNewNarrativeUserRights(List<NarrativeUserRights> newNarrativeUserRights) {
+        this.newNarrativeUserRights = newNarrativeUserRights;
+    }
+    
+    /**
+     * Get the New Narrative User Rights.
+     * @return the new narrative user rights
+     */
+    public List<NarrativeUserRights> getNewNarrativeUserRights() {
+        return this.newNarrativeUserRights;
+    }
+    
+    /**
+     * Get a New Narrative User Right.
+     * @param index the index into the list of narrative user rights
+     * @return a new narrative user right
+     */
+    public NarrativeUserRights getNewNarrativeUserRight(int index) {
+        return this.newNarrativeUserRights.get(index);
+    }
+    
+    /**
+     * Set the Narrative Line Number.  It is the index into the list
+     * of narratives for the narrative being viewed/edited in the Edit/View
+     * Rights web page for narrative rights.
+     * @param lineNumber the narrative line number
+     */
+    public void setNarrativeLineNumber(int lineNumber) {
+        this.narrativeLineNumber = lineNumber;
+    }
+    
+    /**
+     * Get the Narrative Line Number.
+     * @return the narrative line number
+     */
+    public int getNarrativeLineNumber() {
+        return this.narrativeLineNumber;
     }
 
     public S2sOpportunity getNewS2sOpportunity() {

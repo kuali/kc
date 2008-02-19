@@ -112,6 +112,12 @@ public class KeyConstants {
     public static final String ERROR_AGGREGATOR_INCLUSIVE = "error.aggregator.inclusive";
     public static final String ERROR_LAST_AGGREGATOR = "error.last.aggregator";
     
+    public static final String ERROR_REQUIRE_ONE_NARRATIVE_MODIFY="error.narrative.one.modify";
+    public static final String ERROR_NARRATIVE_USER_RIGHT_NO_PERMISSION="error.narrative.no.permission";
+    
+    // Authorization
+    public static final String AUTHORIZATION_VIOLATION = "error.authorization.violation";
+    
     // Grants.gov
     public static final String ERROR_IF_PROPOSALTYPE_IS_REVISION = "error.s2sopportunity.revisiontype";
     public static final String ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL = "error.s2sopportunity.cfdaNumber";

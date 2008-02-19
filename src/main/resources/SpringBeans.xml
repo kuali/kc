@@ -243,6 +243,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="proposalAuthorizationService">
+			<ref bean="proposalAuthorizationService" />
+		</property>
 	</bean>
 
 	<bean id="unitService" class="org.kuali.kra.service.impl.UnitServiceImpl">
@@ -284,6 +287,9 @@
 		</property>
 		<property name="proposalPersonService">
 			<ref bean="proposalPersonService" />
+		</property>
+		<property name="personService">
+			<ref bean="personService" />
 		</property>
 	</bean>
 
@@ -379,6 +385,41 @@
 		</property>
 	</bean>
 	<bean id="budgetCalculationService" class="org.kuali.kra.budget.service.impl.BudgetCalculationServiceImpl">
+	</bean>
+
+	<bean id="permissionsAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
+		<property name="taskAuthorizers">
+			<list>
+				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.MultiProposalAuthorizer">
+					<property name="tasks">
+					   <list>
+					       <value>addProposalUser</value>
+					       <value>deleteProposalUser</value>
+					       <value>setEditRoles</value>
+					   </list>
+					</property>
+					<property name="permission" value="MAINTAIN_PROPOSAL_ACCESS" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="proposalAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
+		<property name="taskAuthorizers">
+			<list>
+				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SaveProposalAuthorizer" />
+				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeRightsAuthorizer" />
+				<ref bean="permissionsAuthorizer" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="taskAuthorizationService" class="org.kuali.kra.service.impl.TaskAuthorizationServiceImpl">
+	    <property name="taskAuthorizers">
+		    <list>
+		        <ref bean="proposalAuthorizer" />
+		    </list>
+	    </property>
 	</bean>
 	
 	<bean id="s2sOpportunityLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">

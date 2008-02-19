@@ -18,7 +18,8 @@
 <c:set var="narrativeUserRightsAttributes" value="${DataDictionary.NarrativeUserRights.attributes}" />
 <c:set var="selectedProposalAttachment" value="${KualiForm.document.narratives[line]}"/>
 <%-- <kul:uncollapsable tabTitle="Rights"  > --%>
-<kul:tabTop defaultOpen="true" tabTitle="Rights">
+<kul:tabTop defaultOpen="true" tabTitle="Rights"
+            tabErrorKey="newNarrativeUserRight*">
 	<div class="tab-container" align="center">
 		<div class="h2-container">
     		<span class="subhead-left"><h2>Proposal Attachment Rights for ${line+1}. ${selectedProposalAttachment.narrativeType.description }</h2></span>
@@ -30,7 +31,7 @@
             		<c:out value="${narrUserRight.personName}"/>
 				</div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.narrative[${line}].narrativeUserRight[${status.index}].accessType" attributeEntry="${narrativeUserRightsAttributes.accessType}" />
+                	<kul:htmlControlAttribute property="newNarrativeUserRight[${status.index}].accessType" attributeEntry="${narrativeUserRightsAttributes.accessType}" />
 				</td>
         	</tr>
 	       </c:forEach>

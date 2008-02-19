@@ -25,7 +25,7 @@
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="keyPersonnel">
 
     <kul:uncollapsable tabTitle="Add Key Personnel" tabErrorKey="newProposalPerson*">

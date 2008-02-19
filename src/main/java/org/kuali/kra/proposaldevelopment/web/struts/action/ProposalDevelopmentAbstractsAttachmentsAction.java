@@ -29,6 +29,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -45,21 +47,28 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.WebUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.rule.event.AddAbstractEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.NewNarrativeUserRightsEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveInstituteAttachmentsEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
@@ -349,6 +358,12 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         int lineNumber = line == null ? getLineToDelete(request) : Integer.parseInt(line);
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         pd.populatePersonNameForNarrativeUserRights(lineNumber);
+        
+        Narrative narrative = pd.getNarratives().get(lineNumber);
+        List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
+        List<NarrativeUserRights> editUserRights = (List<NarrativeUserRights>) ObjectUtils.deepCopy((Serializable) userRights);
+        proposalDevelopmentForm.setNarrativeLineNumber(lineNumber);
+        proposalDevelopmentForm.setNewNarrativeUserRights(editUserRights);
         request.setAttribute(LINE_NUMBER, ""+lineNumber);
         return mapping.findForward(MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE);
     }
@@ -366,7 +381,27 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward addProposalAttachmentRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return mapping.findForward(MAPPING_CLOSE_PAGE);
+        
+        ActionForward forward;
+        
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        List<NarrativeUserRights> newNarrativeUserRights = proposalDevelopmentForm.getNewNarrativeUserRights();
+        int lineNumber = proposalDevelopmentForm.getNarrativeLineNumber();
+        
+        // check any business rules
+        boolean rulePassed = getKualiRuleService().applyRules(new NewNarrativeUserRightsEvent(proposalDevelopmentDocument, newNarrativeUserRights, lineNumber));
+        
+        if (!rulePassed) {
+            request.setAttribute(LINE_NUMBER, Integer.toString(lineNumber));
+            forward = mapping.findForward(MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE);
+        }
+        else {
+            proposalDevelopmentDocument.getNarrative(lineNumber).setNarrativeUserRights(newNarrativeUserRights);
+            forward = mapping.findForward(MAPPING_CLOSE_PAGE);
+        }
+        
+        return forward;
     }
 
     /**
@@ -749,5 +784,36 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
     }
     
-
+    /**
+     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#processAuthorizationViolation(java.lang.String, org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    protected ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = null;
+        if (!StringUtils.equals(taskName, "addProposalAttachmentRights")) {
+            forward = super.processAuthorizationViolation(taskName, mapping, form, request, response);
+        }
+        else {
+            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            errorMap.putError(Constants.NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY, KeyConstants.AUTHORIZATION_VIOLATION);
+            ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+            int lineNumber = proposalDevelopmentForm.getNarrativeLineNumber();
+            request.setAttribute(LINE_NUMBER, Integer.toString(lineNumber));
+            forward = mapping.findForward(MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE);
+        }
+        return forward;
+    }
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#buildTask(java.lang.String, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
+     */
+    protected ProposalTask buildTask(String taskName, ProposalDevelopmentForm form) {
+        ProposalTask task = null;
+        if (StringUtils.equals(taskName, "addProposalAttachmentRights")) {
+            task = new NarrativeTask(taskName, form.getProposalDevelopmentDocument(), form.getNarrativeLineNumber());
+        }
+        else {
+            task = super.buildTask(taskName, form);
+        }
+        return task;
+    }
 }

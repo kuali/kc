@@ -61,7 +61,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
             
             if (!isValidUser(proposalUser.getUsername())) {
                 isValid = false;
-                this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY+ ".username", 
+                this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".username", 
                                  KeyConstants.ERROR_UNKNOWN_USERNAME);
             }
             
