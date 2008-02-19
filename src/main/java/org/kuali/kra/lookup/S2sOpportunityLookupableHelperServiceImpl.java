@@ -48,15 +48,18 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
         
         super.getSearchResults(LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues));
         List<S2sOpportunity> s2sOpportunity=new ArrayList<S2sOpportunity>();
+        List<S2sOpportunity> s2sOpportunityTemp=new ArrayList<S2sOpportunity>();
         if(fieldValues!=null && (fieldValues.get("cfdaNumber")!=null && !StringUtils.equals(fieldValues.get("cfdaNumber").trim(),""))||(fieldValues.get("opportunityId")!=null && !StringUtils.equals(fieldValues.get("opportunityId").trim(),""))){
-            s2sOpportunity = s2SService.searchOpportunity(fieldValues.get("cfdaNumber"),fieldValues.get("opportunityId"),"");
+            s2sOpportunityTemp = s2SService.searchOpportunity(fieldValues.get("cfdaNumber"),fieldValues.get("opportunityId"),"");
+            if(s2sOpportunityTemp!=null){
+                s2sOpportunity = s2sOpportunityTemp;
+            }
             return s2sOpportunity;
         }else{            
                 errorMap.removeFromErrorPath("document");
                 GlobalVariables.getErrorMap().putError("document.cfdaNumber", KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);                            
                 errorMap.addToErrorPath("document");              
-        }
-        
-            return s2sOpportunity;        
+        }        
+        return s2sOpportunity;        
     }    
 }

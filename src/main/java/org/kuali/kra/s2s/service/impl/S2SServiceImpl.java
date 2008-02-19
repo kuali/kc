@@ -205,7 +205,10 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         
         try {
             List<OpportunityInfoBean> oppInfList =  new GetOpportunity().searchOpportunity(header);
-            return convert(oppInfList,S2sOpportunity.class);
+            if(oppInfList!=null){
+                return convert(oppInfList,S2sOpportunity.class);
+            }
+            return null;
         }
         catch (S2SValidationException e) {
             LOG.error(e.getMessage(), e);

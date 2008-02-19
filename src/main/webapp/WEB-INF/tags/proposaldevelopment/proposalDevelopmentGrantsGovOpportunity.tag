@@ -6,7 +6,7 @@
 <c:set var="action" value="proposalDevelopmentProposal" />
 
 
-<kul:tab tabTitle="Opportunity" defaultOpen="false" tabErrorKey="document.s2sOpportunity.opportunityId,document.s2sOpportunity.opportunityTitle,document.s2sOpportunity.s2sSubmissionTypeCode,document.s2sOpportunity.revisionCode,document.s2sOpportunity.cfdaNumber,document.s2sOpportunity.competetionId,document.s2sOpportunity.openingDate,document.s2sOpportunity.closingDate,document.s2sOpportunity.instructionUrl,document.s2sOpportunity.schemaUrl">
+<kul:tab tabTitle="Opportunity" defaultOpen="false" tabErrorKey="document.s2sOpportunity.opportunityId,document.s2sOpportunity.opportunityTitle,document.s2sOpportunity.s2sSubmissionTypeCode,document.s2sOpportunity.revisionCode,document.s2sOpportunity.cfdaNumber,document.s2sOpportunity.competetionId,document.s2sOpportunity.openingDate,document.s2sOpportunity.closingDate,document.s2sOpportunity.instructionUrl,document.s2sOpportunity.schemaUrl,document.s2sOpportunity.revisionOtherDescription">
 <div class="tab-container" align="left">
  <table class=tab cellpadding=0 cellspacing="0" summary=""> 
  <tbody id="G1">	
@@ -24,12 +24,15 @@
 		<td><kul:htmlControlAttribute property="document.s2sOpportunity.s2sSubmissionTypeCode" attributeEntry="${s2sOpportunity.s2sSubmissionTypeCode}" /></td>
 	</tr>	   	
 
-	<tr>
+	<tr>				
 		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${s2sOpportunity.revisionCode}" /></div></th>
-		<td><kul:htmlControlAttribute property="document.s2sOpportunity.revisionCode" attributeEntry="${s2sOpportunity.revisionCode}" /></td>
+		<td>
+			<kul:htmlControlAttribute property="document.s2sOpportunity.revisionCode" attributeEntry="${s2sOpportunity.revisionCode}" />
+			<kul:htmlControlAttribute property="document.s2sOpportunity.revisionOtherDescription" attributeEntry="${s2sOpportunity.revisionOtherDescription}" />			
+		</td>
 	</tr>
 	
-		<tr>
+	<tr>
 		<th ><div align="left"><kul:htmlAttributeLabel attributeEntry="${s2sOpportunity.cfdaNumber}" /></div></th>
         <td><kul:htmlControlAttribute property="document.s2sOpportunity.cfdaNumber" attributeEntry="${s2sOpportunity.cfdaNumber}" /></td>
         <!-- <td align="left" valign="middle"><kul:htmlControlAttribute property="document.currentAwardNumber" attributeEntry="${proposalDevelopmentAttributes.currentAwardNumber}" /></td>  --> 
