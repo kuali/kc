@@ -58,17 +58,9 @@
             </tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}"  /></div></th>
-                <td class="infoline">                	
-	               	<c:choose>
-	                	<c:when test="${!empty KualiForm.document.performingOrganization.organizationName}"> 
-	                    	<kul:htmlControlAttribute property="document.performingOrganizationId" attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}" />               
-	                    	<c:out value="${KualiForm.document.performingOrganization.organizationName}"/>
-	                	</c:when>
-	                	<c:otherwise>
-	                    	<input type="hidden" name="document.performingOrganizationId" value="${KualiForm.document.organizationId}">
-	                    	<c:out value="${KualiForm.document.organization.organizationName}"/>
-	                	</c:otherwise>   
-	                </c:choose>   
+                <td class="infoline">
+                   	<kul:htmlControlAttribute property="document.performingOrganizationId" attributeEntry="${proposalDevelopmentAttributes.performingOrganizationId}" />               
+                   	<c:out value="${KualiForm.document.performingOrganization.organizationName}"/>	                
                     <kul:lookup boClassName="org.kuali.kra.bo.Organization" 
                     fieldConversions="organizationId:document.performingOrganizationId,organizationName:document.performingOrganization.organizationName"  anchor="${currentTabIndex}"/>
                     <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.performingOrganizationId:organizationId" anchor="${currentTabIndex}"/>
