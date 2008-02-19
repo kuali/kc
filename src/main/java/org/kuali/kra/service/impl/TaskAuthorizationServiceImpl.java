@@ -21,11 +21,6 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizer;
 import org.kuali.kra.service.TaskAuthorizationService;
 
-// benefits:
-//     1. reusable; used outside of struts actions and business rules
-//     2. centralized groups
-//     3. can inject with spring in the future if needed
-//     4. separate from data validation (business rules)
 /**
  * The Task Authorization Service Implementation.
  */
