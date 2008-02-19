@@ -27,7 +27,7 @@
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="proposal">
 
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />

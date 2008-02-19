@@ -23,7 +23,7 @@
 	renderMultipart="false"
 	showTabButtons="false"
 	auditCount="0"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="grantsGov">
 <center>Under Construction</center>
 

@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import static org.kuali.kra.infrastructure.Constants.MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.List;
@@ -24,12 +25,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -40,6 +44,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalUserEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.DeleteProposalUserEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.EditUserProposalRolesEvent;
+import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -98,6 +103,12 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             ProposalAuthorizationService proposalAuthorizationService = KraServiceLocator.getService(ProposalAuthorizationService.class);
             proposalAuthorizationService.addRole(proposalUser.getUsername(), proposalUser.getRoleName(), doc);
             proposalDevelopmentForm.setNewProposalUser(new ProposalUser());
+            
+            // Add the person to the narratives.
+            
+            NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
+            narrativeService.addPerson(proposalUser.getUsername(), doc);
+       
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -167,6 +178,11 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             for (String roleName : roleNames) {
                 proposalAuthorizationService.removeRole(proposalUserRoles.getUsername(), roleName, doc);
             }
+            
+            // Remove the user from all of the Narratives.
+            
+            NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
+            narrativeService.deletePerson(proposalUserRoles.getUsername(), doc);
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -311,6 +327,13 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
                 proposalAuthorizationService.addRole(username, RoleConstants.UNASSIGNED, doc);
             }
             
+            // Re-adjust the narrative rights for this user.  If the user has lost some
+            // permissions regarding narratives, his/her narrative rights may need to
+            // be down-graded.
+            
+            NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
+            narrativeService.readjustRights(username, doc);
+       
             // If Javascript was enabled, we can simply cause the pop-up window to close.
             // If not, then we must return the user to the Permissions page.
             
@@ -361,6 +384,22 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         } catch (Exception ex) {
             return false;
         }
+    }
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#processAuthorizationViolation(java.lang.String, org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    protected ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = null;
+        if (!StringUtils.equals(taskName, "setEditRoles")) {
+            forward = super.processAuthorizationViolation(taskName, mapping, form, request, response);
+        }
+        else {
+            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            errorMap.putError(Constants.EDIT_ROLES_PROPERTY_KEY, KeyConstants.AUTHORIZATION_VIOLATION);
+            forward = mapping.findForward(Constants.MAPPING_PERMISSIONS_EDIT_ROLES_PAGE);
+        }
+        return forward;
     }
     
     /**

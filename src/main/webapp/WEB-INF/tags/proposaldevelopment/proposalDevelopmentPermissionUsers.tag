@@ -39,42 +39,46 @@
           		<th><div align="center">Unit #</div></th>
           		<th><div align="center">Unit Name</div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalUserAttributes.roleName}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
+          		<c:if test="${KualiForm.editingMode['modifyPermissions'] == 'Y'}">
+          		    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
+          		</c:if>
           	</tr>
           	
           	<%-- The input controls for adding a new user. --%>
-          	
-            <tr> 
-				<th class="infoline">
-					<c:out value="Add:" />
-				</th>
-				
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="newProposalUser.username" 
-                	                          attributeEntry="${proposalUserAttributes.username}" 
-                	                          onblur="loadPersonName('newProposalUser.username', 'fullname');"/>
-                	<kul:lookup boClassName="org.kuali.kra.bo.Person" 
-                	            fieldConversions="userName:newProposalUser.username" 
-                	            lookupParameters="lookup.ownedByUnitNumber:homeUnit"
-                	            anchor="${tabKey}" />                        
-				</td>
-				
-				<td id="fullname" align="left" valign="middle" />
-				<td />
-				<td />
-				
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="newProposalUser.roleName" 
-                	                          attributeEntry="${proposalUserAttributes.roleName}" />
-				</td>
- 
-				<td>
-					<div align="center">
-						<html:image property="methodToCall.addProposalUser.anchor${tabKey}"
-						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
-					</div>
-                </td>
-            </tr>
+          	<c:if test="${KualiForm.editingMode['modifyPermissions'] == 'Y'}">
+	            <tr> 
+					<th class="infoline">
+						<c:out value="Add:" />
+					</th>
+					
+	                <td align="left" valign="middle">
+	                	<kul:htmlControlAttribute property="newProposalUser.username" 
+	                	                          attributeEntry="${proposalUserAttributes.username}" 
+	                	                          onblur="loadPersonName('newProposalUser.username', 'fullname');"/>
+	                	<kul:lookup boClassName="org.kuali.kra.bo.Person" 
+	                	            fieldConversions="userName:newProposalUser.username" 
+	                	            lookupParameters="lookup.ownedByUnitNumber:homeUnit"
+	                	            anchor="${tabKey}" />                        
+					</td>
+					
+					<td id="fullname" align="left" valign="middle" />
+					<td />
+					<td />
+					
+	                <td align="left" valign="middle">
+	                	<kul:htmlControlAttribute property="newProposalUser.roleName" 
+	                	                          attributeEntry="${proposalUserAttributes.roleName}" />
+					</td>
+	 
+	 				
+					<td>
+						<div align="center">
+							<html:image property="methodToCall.addProposalUser.anchor${tabKey}"
+								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+						</div>
+		               </td>
+	            </tr>
+            </c:if>
             
             <%-- The list of current users --%>
             
@@ -91,18 +95,20 @@
 					       <nobr>${roleLabel}</nobr>
 					    </c:forEach>
 					</td>
-					<td align="center" valign="middle">
-					 	<div align="center">
-						<nobr>
-							<html:image property="methodToCall.editRoles.line${status.index}.anchor${tabKey}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-editrole.gif' 
-										onclick="javascript: editRolesPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
-							&nbsp;
-							<html:image property="methodToCall.deleteProposalUser.line${status.index}.anchor${tabKey}"
-									    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
-						</nobr>
-						</div>
-					</td>
+					<c:if test="${KualiForm.editingMode['modifyPermissions'] == 'Y'}">
+						<td align="center" valign="middle">
+						 	<div align="center">
+							<nobr>
+								<html:image property="methodToCall.editRoles.line${status.index}.anchor${tabKey}"
+											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-editrole.gif' 
+											onclick="javascript: editRolesPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
+								&nbsp;
+								<html:image property="methodToCall.deleteProposalUser.line${status.index}.anchor${tabKey}"
+										    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+							</nobr>
+							</div>
+						</td>
+					</c:if>
 				</tr>	
         	</c:forEach>
         </tbody>

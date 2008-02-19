@@ -22,7 +22,7 @@
 	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="questions">
 <kra-pd:proposalYnq /> 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
