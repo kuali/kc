@@ -61,18 +61,18 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         if (proposalNbr == null) {
             if (hasCreatePermission(user)) {
                 editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
-                setPermissions(username, proposalDoc, editModeMap);
+                setPrivileges(username, proposalDoc, editModeMap);
             } else {
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, "TRUE");
             }
         } else {
             if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.MODIFY_PROPOSAL)) {
                 editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
-                setPermissions(username, proposalDoc, editModeMap);
+                setPrivileges(username, proposalDoc, editModeMap);
             }
             else if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.VIEW_PROPOSAL)) {
                 editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, "TRUE");
-                setPermissions(username, proposalDoc, editModeMap);
+                setPrivileges(username, proposalDoc, editModeMap);
             }
             else {
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, "TRUE");
@@ -83,7 +83,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     }
     
     /**
-     * Set the Permissions to be used during the creation of the web pages.  
+     * Set the privileges to be used during the creation of the web pages.  
      * The JSP files can access the editModeMap (editingMode) to determine what
      * to display to the user.  For example, a JSP file may contain the following:
      * 
@@ -94,14 +94,14 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      *     </c:if>
      * 
      * In the above example, the contents are only rendered if the user is allowed
-     * to modify the proposal.  Note that permissions are always signified as 
+     * to modify the proposal.  Note that privileges are always signified as 
      * either Y (yes) or N (no).
      * 
      * @param username the user's unique username
      * @param doc the Proposal Development Document
      * @param editModeMap the edit mode map
      */
-    private void setPermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
+    private void setPrivileges(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
         ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
 
         editModeMap.put("modifyProposal", editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) ? "Y" : "N");
