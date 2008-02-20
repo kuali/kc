@@ -15,8 +15,15 @@
  */
 package org.kuali.kra.maintenance;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.struts.form.KualiMaintenanceForm;
+import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
@@ -42,7 +49,30 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
             
             ((KraPersistableBusinessObjectBase)businessObject).setUpdateUser(updateUser);
             ((KraPersistableBusinessObjectBase)businessObject).setUpdateUserSet(true);
+
+            // This is a solution to enable the lookreturn have a proper dropdown list ?
+            if (businessObject instanceof CustomAttribute && StringUtils.isNotBlank(((CustomAttribute)businessObject).getLookupClass())) {
+                    GlobalVariables.getUserSession().addObject("lookupClassName", (Object)((CustomAttribute)businessObject).getLookupClass());
+            }
+
         }
+
     }
 
+    public List getSections(Maintainable oldMaintainable) {
+
+        // businessObject is empty, so we have to dig into global variables
+        // this is used when retrieving doc from doc search
+        if (businessObject instanceof CustomAttribute) {
+            if (GlobalVariables.getKualiForm() != null) {
+                CustomAttribute customAttribute = (CustomAttribute)((MaintenanceDocumentBase)((KualiMaintenanceForm)GlobalVariables.getKualiForm()).getDocument()).getDocumentBusinessObject();
+                if (StringUtils.isNotBlank(customAttribute.getLookupClass())) {
+                    if (StringUtils.isBlank((String)GlobalVariables.getUserSession().retrieveObject("lookupClassName")) && ((((List)GlobalVariables.getUserSession().retrieveObject("lookupReturnFields"))) == null || ((List)GlobalVariables.getUserSession().retrieveObject("lookupReturnFields")).size() == 0)) {
+                        GlobalVariables.getUserSession().addObject("lookupClassName", (Object)customAttribute.getLookupClass());                    
+                    }
+                }
+            }
+        }
+        return super.getSections(oldMaintainable);
+    }
 }

@@ -36,5 +36,9 @@
 			<param name="beanName" value="personService" />
 			<include method="getPersonFullname" />
 		</create>
+		<create creator="spring" javascript="CustomAttributeService">
+			<param name="beanName" value="customAttributeService" />
+			<include method="getLookupReturnsForAjaxCall" />
+		</create>
 	</allow>
 </dwr>

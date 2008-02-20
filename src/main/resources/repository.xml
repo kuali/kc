@@ -2067,5 +2067,66 @@
     </class-descriptor>
 
     <!-- End KIM OJB Mappings -->
+		<!-- Custom Attributes: start -->
+
+	<class-descriptor class="org.kuali.kra.bo.CustomAttribute" table="CUSTOM_ATTRIBUTE">
+		<field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true"  sequence-name="SEQ_CUSTOM_ATTRIBUTE" autoincrement="true" />
+		<field-descriptor name="dataLength" column="DATA_LENGTH" jdbc-type="INTEGER"/>
+		<field-descriptor name="dataTypeCode" column="DATA_TYPE_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="defaultValue" column="DEFAULT_VALUE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="groupName" column="GROUP_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="label" column="LABEL" jdbc-type="VARCHAR"/>
+		<field-descriptor name="lookupClass" column="LOOKUP_CLASS" jdbc-type="VARCHAR"/>
+		<field-descriptor name="lookupReturn" column="LOOKUP_RETURN" jdbc-type="VARCHAR"/>
+		<field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<reference-descriptor name="customAttributeDataType" class-ref="org.kuali.kra.bo.CustomAttributeDataType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="dataTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.bo.CustomAttributeDataType" table="CUSTOM_ATTRIBUTE_DATA_TYPE">
+		<field-descriptor name="dataTypeCode" column="DATA_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.bo.CustomAttributeDocument" table="CUSTOM_ATTRIBUTE_DOCUMENT">
+		<field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="documentTypeCode" column="DOCUMENT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="required" column="IS_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="typeName" column="TYPE_NAME" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<reference-descriptor name="customAttribute" class-ref="org.kuali.kra.bo.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="customAttributeId"/>
+		</reference-descriptor>
+		<reference-descriptor name="documentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="documentTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.bo.CustomAttributeDocValue" table="CUSTOM_ATTRIBUTE_DOC_VALUE">
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<reference-descriptor name="customAttribute" class-ref="org.kuali.kra.bo.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="customAttributeId"/>
+		</reference-descriptor>
+	</class-descriptor>
+
+<!-- Custom Attributes:end -->
 	
 </descriptor-repository>

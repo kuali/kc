@@ -18,7 +18,11 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,12 +36,15 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.rule.event.DocumentAuditEvent;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -275,6 +282,37 @@ public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBas
     }
 
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        Map<String, List> customAttributeGroups = new HashMap<String, List>();
+
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+
+        Map<String, CustomAttributeDocument> customAttributeDocuments = doc.getCustomAttributeDocuments();
+        String documentNumber = doc.getDocumentNumber();
+        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
+            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
+            Map<String, Object> primaryKeys = new HashMap<String, Object>();
+            primaryKeys.put("documentNumber", documentNumber);
+            primaryKeys.put("customAttributeId", customAttributeDocument.getCustomAttributeId());
+
+            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+            if (customAttributeDocValue != null) {
+                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
+                proposalDevelopmentForm.getCustomAttributeValues().put("id" + customAttributeDocument.getCustomAttributeId().toString(), new String[]{customAttributeDocValue.getValue()});
+            }
+
+            String groupName = customAttributeDocument.getCustomAttribute().getGroupName();
+            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
+
+            if (customAttributeDocumentList == null) {
+                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+                customAttributeGroups.put(groupName, customAttributeDocumentList);
+            }
+            customAttributeDocumentList.add(customAttributeDocument);
+        }
+
+        ((ProposalDevelopmentForm)form).setCustomAttributeGroups(customAttributeGroups);
+
         return mapping.findForward("customData");
     }
 
