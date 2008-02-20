@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.CustomAttributeDocument">
+
+        <inquiry>
+            <title>Custom Attribute Document</title>
+
+            <inquirySections><inquirySection title="Custom Attribute Document"><inquiryFields>
+            	<field attributeName="customAttributeId" forceInquiry="true"/>
+				<field attributeName="documentTypeCode" forceInquiry="true"/>
+				<field attributeName="required"/>
+				<field attributeName="typeName"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Custom Attribute Document Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Custom Attribute Document</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="customAttributeId"/>
+					<sortAttribute attributeName="documentTypeCode"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="customAttributeId" required="false"/>
+				<lookupField attributeName="documentTypeCode" required="false"/>
+				<lookupField attributeName="required" required="false"/>
+				<lookupField attributeName="typeName" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="customAttributeId" forceInquiry="true"/>
+				<field attributeName="documentTypeCode" forceInquiry="true"/>
+				<field attributeName="required" forceInquiry="false"/>
+				<field attributeName="typeName" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>customAttributeId</titleAttribute>
+
+        <attributes>
+
+			<attributeReference name="customAttributeId" sourceClassName="org.kuali.kra.bo.CustomAttribute" sourceAttributeName="id">
+			    <label>Custom Attribute ID</label>
+                <shortLabel>Custom Attribute ID</shortLabel>
+                <summary>Custom Attribute ID</summary>
+                <description>Custom Attribute ID</description>
+			</attributeReference>
+
+			<attribute name="documentTypeCode">
+			<label>Document Type Code</label>
+			<shortLabel>Document Type Code</shortLabel>
+			<maxLength>19</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="19" />
+			</control>
+			<summary>Document Type Code</summary>
+			<description>Document Type Code</description>
+			</attribute>
+
+            <attributeReference name="required" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Required</label>
+                <shortLabel>Required</shortLabel>
+                <summary>Required</summary>
+                <description>Required</description>
+			</attributeReference>
+
+			<attribute name="typeName">
+			<label>Type Name </label>
+			<shortLabel>Type Name </shortLabel>
+			<maxLength>100</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<text size="100" />
+			</control>
+			<summary>Type Name </summary>
+			<description>Type Name </description>
+			</attribute>
+
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+		</attributes>
+		<relationships>
+			<relationship objectAttributeName="customAttribute">
+				<primitiveAttribute sourceName="customAttributeId" targetName="id" />
+			</relationship>
+			<relationship objectAttributeName="documentType">
+				<primitiveAttribute sourceName="documentTypeCode" targetName="financialDocumentTypeCode" />
+			</relationship>
+		</relationships>
+    </businessObject>
+
+</dictionaryEntry>

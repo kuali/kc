@@ -434,5 +434,8 @@
   			<ref bean="s2SService"/>
   		</property>
   	</bean>		
+	<bean id="customAttributeService" class="org.kuali.kra.service.impl.CustomAttributeServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 	
 </beans>

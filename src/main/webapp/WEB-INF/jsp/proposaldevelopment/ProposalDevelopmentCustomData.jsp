@@ -25,6 +25,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="customData">
 
-	<center>Under Construction</center>
+	<kra-pd:proposalDevelopmentCustomData />
+	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 
 </kul:documentPage>

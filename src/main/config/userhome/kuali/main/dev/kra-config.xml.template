@@ -9,7 +9,7 @@
 	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kra.externalizable.images.url">/${app.context.name}/static/images/</param>
 
-	<param name="javascript.files">scripts/kuali_application.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/UserService.js,kr/scripts/objectInfo.js</param>
+	<param name="javascript.files">scripts/kuali_application.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/UserService.js,kr/scripts/objectInfo.js,dwr/interface/CustomAttributeService.js</param>
   <param name="css.files">kr/css/kuali.css,css/kuali_application.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
 
 	<param name="kr.url">/${app.context.name}/kr</param>

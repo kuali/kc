@@ -17,25 +17,36 @@ package org.kuali.kra.document;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.CustomAttributeService;
 
 public class ResearchDocumentBase extends TransactionalDocumentBase {
 
     private String updateUser;
     private Timestamp updateTimestamp;
     private List<DocumentNextvalue> documentNextvalues;
+    private Map<String, CustomAttributeDocument> customAttributeDocuments;
 
     public ResearchDocumentBase() {
         super();
         documentNextvalues = new ArrayList<DocumentNextvalue>();
+        customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
+    }
+
+    public void initialize() {
+        populateCustomAttributes();
     }
 
     @Override
@@ -51,6 +62,26 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         setUpdateTimestamp(((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
         setUpdateUser(updateUser);
         //setProposalNextvalues(documentNextvalues);
+
+        //TODO: is this the right place for this logic?
+        CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
+        customAttributeService.saveCustomAttributeValues(this);
+    }
+
+    @Override
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
+        populateCustomAttributes();
+    }
+
+    /**
+     * This method populates the customAttributes for this document.
+     */
+    private void populateCustomAttributes() {
+        CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
+        String documentTypeCode = ((DocumentTypeService)KraServiceLocator.getService(DocumentTypeService.class)).getDocumentTypeCodeByClass(this.getClass());
+        Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultCustomAttributesForDocumentType(documentTypeCode, documentNumber);
+        setCustomAttributeDocuments(customAttributeDocuments);
     }
 
     public Timestamp getUpdateTimestamp() {
@@ -111,5 +142,37 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         documentNextvalue.setPropertyName(propertyName);
         return documentNextvalue;
     } 
-    
+
+    /**
+     * Sets the customAttributeDocuments attribute value.
+     * @param customAttributeDocuments The customAttributeDocuments to set.
+     */
+    public void setCustomAttributeDocuments(Map<String, CustomAttributeDocument> customAttributeDocuments) {
+        this.customAttributeDocuments = customAttributeDocuments;
+    }
+
+    /**
+     * Gets the customAttributeDocuments attribute.
+     * @return Returns the customAttributeDocuments.
+     */
+    public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
+        return customAttributeDocuments;
+    }
+
+    /**
+     * Gets the customAttributeDocuments attribute.
+     * @return Returns the customAttributeDocuments.
+     */
+    public CustomAttributeDocument getCustomAttributeDocuments(String key) {
+        return customAttributeDocuments.get(key);
+    }
+
+    /**
+     * Gets the customAttributeDocuments attribute.
+     * @return Returns the customAttributeDocuments.
+     */
+    public CustomAttributeDocument getCustomAttributeDocument(String key) {
+        return customAttributeDocuments.get(key);
+    }
+        
 }

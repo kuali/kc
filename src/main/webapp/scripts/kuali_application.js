@@ -499,3 +499,72 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
 		}
 	}
 }
+
+
+/*
+ * functions for custom attribute maintenance 
+ */	
+  
+  var lookupReturnName ;
+ function updateLookupReturn( lookupClassField, callbackFunction ) {
+    //alert ("enter update"+lookupClassField.name);
+	
+	if (lookupClassField.name == "lookupClass" ) {
+	    lookupReturnName = "lookupReturn" ;
+	} else {
+	    lookupReturnName =  findElPrefix( lookupClassField.name ) + ".lookupReturn" ;
+	}
+    //alert ("in update" +lookupClassField+"-"+lookupClassField.name+"-"+lookupReturn+lookupClassField.value);
+	//var lookupClass = getElementValue( lookupClassField.name ); // ie7 get nothing out of this
+    var lookupClass = lookupClassField.value;
+    //alert ('update ' +lookupClass);
+	if ( lookupClass != "") {
+		var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}
+		};
+		CustomAttributeService.getLookupReturnsForAjaxCall( lookupClass, dwrReply );
+	} else {
+	    kualiElements[lookupReturnName].options.length=1;
+	}
+}
+
+function updateLookupReturn_Callback( data ) {
+            //alert ("enter callback" +lookupReturnName);
+            //clearRecipients('document.newMaintainableObject.lookupReturn');
+            //var el = kualiElements["document.newMaintainableObject.lookupReturn"];
+            // e1.type.toLowerCase() is not working
+            //var el = document.getElementByName('document.newMaintainableObject.lookupReturn');
+                //alert("element "+kualiElements["document.newMaintainableObject.lookupReturn"].type.toLowerCase());
+                //alert("element "+kualiElements["document.newMaintainableObject.lookupReturn"].options.length);
+                //kualiElements["document.newMaintainableObject.lookupReturn"].options[1]=new Option("Music", "musicvalue");
+            //document.forms['KualiForm'].document.newMaintainableObject.lookupReturn.options[1]=new Option("Music", "musicvalue")
+            //alert ("options set ");
+			//setElementValue( "document.newMaintainableObject.lookupReturn", data );
+			
+			kualiElements[lookupReturnName].options.length=0; //reset 
+			var option_array=data.split(",");
+			var optionNum=0;
+			while (optionNum < option_array.length)
+			 {
+				  if (optionNum == 0) {
+				        //alert(optionNum+option_array[0])
+				        kualiElements[lookupReturnName].options[0]=new Option("select:","", true, true);
+				  } else {
+				        //alert("else"+optionNum+option_array[optionNum])
+				        kualiElements[lookupReturnName].options[optionNum]=new Option(option_array[optionNum], option_array[optionNum]);
+				  }
+				  optionNum+=1;
+			 }
+
+}
+
+
+
+//CustomAttributeService.js - put it in kra-config.xml
+//function CustomAttributeService() { }
+// CustomAttributeService._path = '../dwr'; 
+// CustomAttributeService.getLookupReturnsForAjaxCall = function(p0, callback) { DWREngine._execute(CustomAttributeService._path, 'CustomAttributeService', 'getLookupReturnsForAjaxCall', p0, callback); } 
+
