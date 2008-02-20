@@ -252,11 +252,10 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                 && ((StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getPerformingOrganizationId(), proposalDevelopmentDocument.getOwnedByUnit().getOrganizationId()))
                         ||(StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getPerformingOrganizationId().trim(), "")))){
             proposalDevelopmentDocument.setPerformingOrganizationId(proposalDevelopmentDocument.getOrganizationId());
-            proposalDevelopmentDocument.refreshReferenceObject("organization");             
-            proposalDevelopmentDocument.refreshReferenceObject("performingOrganization");   
         }
         
-     
+        proposalDevelopmentDocument.refreshReferenceObject("organization");             
+        proposalDevelopmentDocument.refreshReferenceObject("performingOrganization");   
         
         // check to see if we are coming back from a lookup
         if (Constants.MULTIPLE_VALUE.equals(proposalDevelopmentForm.getRefreshCaller())) {
