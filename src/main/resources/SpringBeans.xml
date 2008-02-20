@@ -387,21 +387,15 @@
 	<bean id="budgetCalculationService" class="org.kuali.kra.budget.service.impl.BudgetCalculationServiceImpl">
 	</bean>
 
-	<bean id="permissionsAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
-		<property name="taskAuthorizers">
+	<bean id="permissionsAuthorizer" class="org.kuali.kra.proposaldevelopment.document.authorizer.MultiProposalAuthorizer">
+		<property name="tasks">
 			<list>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.MultiProposalAuthorizer">
-					<property name="tasks">
-					   <list>
-					       <value>addProposalUser</value>
-					       <value>deleteProposalUser</value>
-					       <value>setEditRoles</value>
-					   </list>
-					</property>
-					<property name="permission" value="MAINTAIN_PROPOSAL_ACCESS" />
-				</bean>
+				<value>addProposalUser</value>
+				<value>deleteProposalUser</value>
+				<value>setEditRoles</value>
 			</list>
 		</property>
+		<property name="permission" value="MAINTAIN_PROPOSAL_ACCESS" />
 	</bean>
 	
 	<bean id="proposalAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
