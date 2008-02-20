@@ -129,7 +129,100 @@
 					</users>
 				</xmlSearchContent>
 			</searchingConfig>
-		</ruleAttribute>		
+		</ruleAttribute>	
+		
+		<!-- custom attribute -->
+		<ruleAttribute>
+            <name>CustomDataAttribute</name>
+            <className>edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <label>CustomDataAttribute</label>
+            <description>CustomDataAttribute</description>
+            <type>RuleXmlAttribute</type>
+            <routingConfig>
+                <!-- work in progress -->
+                <fieldDef name="billingElement" title="Billing Element" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="true" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='billingElement']/value) = wf:ruledata('billingElement')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="graduateStudentCount" title="Graduate Student Count" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="true" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='graduateStudentCount']/value) = wf:ruledata('graduateStudentCount')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="costSharingBudget" title="Cost Sharing Budget" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='costSharingBudget']/value) = wf:ruledata('costSharingBudget')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="numberOfTrainees" title="Number Of Trainees" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='numberOfTrainees']/value) = wf:ruledata('numberOfTrainees')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="tenured" title="Tenured" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='tenured']/value) = wf:ruledata('tenured')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="exportControls" title="Export Controls" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='exportControls']/value) = wf:ruledata('exportControls')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="inventions" title="Inventions" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" /> 
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='inventions']/value) = wf:ruledata('inventions')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="effDate" title="Effective Date" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='effDate']/value) = wf:ruledata('effDate')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </routingConfig>
+        </ruleAttribute>
+			
 	</ruleAttributes>
 
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">

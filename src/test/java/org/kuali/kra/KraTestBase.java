@@ -24,6 +24,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.lifecycle.Lifecycle;
 import org.kuali.rice.test.data.PerSuiteUnitTestData;
@@ -31,7 +32,6 @@ import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 import org.kuali.rice.testharness.KNSTestCase;
 import org.kuali.rice.testharness.TransactionalLifecycle;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 
 @PerSuiteUnitTestData(
         @UnitTestData(
@@ -89,6 +89,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_user_roles_all.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_valid_sp_rev_approval.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_budget_status.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_custom_attributes.sql", delimiter = ";")
             }
         )
     )

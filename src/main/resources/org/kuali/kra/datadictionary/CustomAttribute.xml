@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.CustomAttribute">
+
+        <inquiry>
+            <title>Custom Attribute</title>
+
+            <inquirySections><inquirySection title="Custom Attribute"><inquiryFields>
+            	<field attributeName="id" forceInquiry="true"/>
+				<field attributeName="dataLength"/>
+				<field attributeName="dataTypeCode"/>
+				<field attributeName="defaultValue"/>
+				<field attributeName="groupName"/>
+				<field attributeName="label"/>
+				<field attributeName="lookupClass"/>
+				<field attributeName="lookupReturn"/>
+				<field attributeName="name"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Custom Attribute Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Custom Attribute</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="id"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="id" required="false"/>
+				<lookupField attributeName="dataLength" required="false"/>
+				<lookupField attributeName="dataTypeCode" required="false"/>
+				<lookupField attributeName="defaultValue" required="false"/>
+				<lookupField attributeName="groupName" required="false"/>
+				<lookupField attributeName="label" required="false"/>
+				<lookupField attributeName="lookupClass" required="false"/>
+				<lookupField attributeName="lookupReturn" required="false"/>
+				<lookupField attributeName="name" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="id" forceInquiry="true"/>
+				<field attributeName="dataLength" forceInquiry="false"/>
+				<field attributeName="dataTypeCode" forceInquiry="false"/>
+				<field attributeName="defaultValue" forceInquiry="false"/>
+				<field attributeName="groupName" forceInquiry="false"/>
+				<field attributeName="label" forceInquiry="false"/>
+				<field attributeName="lookupClass" forceInquiry="false"/>
+				<field attributeName="lookupReturn" forceInquiry="false"/>
+				<field attributeName="name" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>id</titleAttribute>
+        <attributes>
+
+	        <attribute name="id">
+			<label>Id </label>
+			<shortLabel>Id </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Id </summary>
+			<description>Id </description>
+			</attribute>
+
+			<attribute name="dataLength">
+			<label>Data Length </label>
+			<shortLabel>Data Length </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Data Length </summary>
+			<description>Data Length </description>
+			</attribute>
+
+			<attribute name="dataTypeCode">
+			<label>Data Type Code </label>
+			<shortLabel>Data Type Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<select valuesFinderClass="org.kuali.kra.lookup.keyvalue.CustomAttributeDataTypeValuesFinder" />
+			</control>
+			<summary>Data Type Code </summary>
+			<description>Data Type Code </description>
+			</attribute>
+
+			<attribute name="defaultValue">
+				<label>Default Value </label>
+				<shortLabel>Default Value </shortLabel>
+				<maxLength>2000</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+	            <control>
+                    <textarea rows="3" cols="80" />
+                </control>
+				<summary>Default Value </summary>
+				<description>Default Value </description>
+			</attribute>
+
+			<attribute name="groupName">
+			<label>Group Name </label>
+			<shortLabel>Group Name </shortLabel>
+			<maxLength>250</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Group Name </summary>
+			<description>Group Name </description>
+			</attribute>
+
+			<attribute name="label">
+			<label>Label </label>
+			<shortLabel>Label </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Label </summary>
+			<description>Label </description>
+			</attribute>
+
+			<attribute name="lookupClass">
+				<label>Lookup Class </label>
+				<shortLabel>Lookup Class </shortLabel>
+				<maxLength>100</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupableBoValuesFinder" script="updateLookupReturn(this, updateLookupReturn_Callback)"/>
+                </control>
+				<summary>Lookup Class </summary>
+				<description>Lookup Class </description>
+			</attribute>
+
+			<attribute name="lookupReturn">
+			<label>Lookup Return </label>
+			<shortLabel>Lookup Return </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+                 <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.CustomAttributeLookupReturnValuesFinder" script="if ( typeof setReportsToChartCode == 'function' ) { setReportsToChartCode(); }"/>
+			</control>
+			<summary>Lookup Return </summary>
+			<description>Lookup Return </description>
+			</attribute>
+
+			<attribute name="name">
+			<label>Name </label>
+			<shortLabel>Name </shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Name </summary>
+			<description>Name </description>
+			</attribute>
+
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>

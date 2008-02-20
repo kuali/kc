@@ -26,9 +26,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -41,6 +43,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.ojb.broker.PBKey;
+import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.StatementCallback;
@@ -74,6 +78,18 @@ public class TestUtilities {
     private static Thread exceptionThreader;
 
     private static List<String> BUS_TABLES = new ArrayList<String>();
+    
+    // custom attributes
+
+    public static final String GROUP_NAME_1 = "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf";
+    public static final String GROUP_NAME_2 = "Personnel Items for Review";
+    public static final String GROUP_NAME_3 = "Project Details";
+    public static final String BILLING_ELEMENT_VALUE = "This is billing element";
+    public static final String GRADUATE_STUDENT_COUNT_VALUE = "5";
+    public static final String EFFECTIVE_DATE_VALUE = "02/08/2008";
+    public static final String TENURED_VALUE = "tdurkin";
+
+
     static {
     	BUS_TABLES.add("EN_SERVICE_DEF_T");
     	BUS_TABLES.add("EN_SERVICE_DEF_DUEX_T");
@@ -467,4 +483,81 @@ public class TestUtilities {
         }
         return null;
     }
+    
+    // custom attriutes
+    public static Map<String, CustomAttributeDocument> setupTestCustomAttributeDocuments() {
+        Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
+
+        CustomAttribute customAttribute = buildCustomAttribute(1, "billingElement", "Billing Element", "1", new Integer(40), GROUP_NAME_1);
+        CustomAttributeDocument customAttributeDocument = buildCustomAttributeDocument("PRDV", true, customAttribute);
+        customAttributeDocuments.put("1", customAttributeDocument);
+
+        customAttribute = buildCustomAttribute(2, "costSharingBudget", "Cost Sharing Budget", "1", new Integer(30), GROUP_NAME_1);
+        customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
+        customAttributeDocuments.put("2", customAttributeDocument);
+
+        customAttribute = buildCustomAttribute(3, "numberOfTrainees", "# of Trainees", "2", new Integer(6), GROUP_NAME_1);
+        customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
+        customAttributeDocuments.put("3", customAttributeDocument);
+
+        customAttribute = buildCustomAttribute(4, "graduateStudentCount", "Graduate Student Count", "2", new Integer(6), GROUP_NAME_2);
+        customAttributeDocument = buildCustomAttributeDocument("PRDV", true, customAttribute);
+        customAttributeDocuments.put("4", customAttributeDocument);
+
+        customAttribute = buildCustomAttribute(5, "tenured", "Tenured", "1", new Integer(30), GROUP_NAME_2, "org.kuali.kra.bo.Person", "userName");
+        customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
+        customAttributeDocuments.put("5", customAttributeDocument);
+
+        customAttribute = buildCustomAttribute(6, "exportControls", "Export Controls", "1", new Integer(30), GROUP_NAME_3);
+        customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
+        customAttributeDocuments.put("6", customAttributeDocument);
+
+        customAttribute = buildCustomAttribute(7, "inventions", "Inventions", "1", new Integer(30), GROUP_NAME_3, "org.kuali.kra.bo.Person", "userName");
+        customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
+        customAttributeDocuments.put("7", customAttributeDocument);
+
+        customAttribute = buildCustomAttribute(8, "effDate", "Effective Date", "3", new Integer(10), GROUP_NAME_3);
+        customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
+        customAttributeDocuments.put("8", customAttributeDocument);
+
+        return customAttributeDocuments;
+    }
+
+    /**
+     * This method...
+     * @return
+     */
+    private static CustomAttributeDocument buildCustomAttributeDocument(String documentTypeCode, boolean required, CustomAttribute customAttribute) {
+        CustomAttributeDocument customAttributeDocument = new CustomAttributeDocument();
+        customAttributeDocument.setCustomAttributeId(customAttribute.getId());
+        customAttributeDocument.setDocumentTypeCode(documentTypeCode);
+        customAttributeDocument.setRequired(required);
+
+        customAttributeDocument.setCustomAttribute(customAttribute);
+        return customAttributeDocument;
+    }
+
+    private static CustomAttribute buildCustomAttribute(Integer id, String name, String label, String dataTypeCode, Integer dataLength, String groupName) {
+        return buildCustomAttribute(id, name, label, dataTypeCode, dataLength, groupName, null, null);
+    }
+
+    /**
+     * This method...
+     * @return
+     */
+    private static CustomAttribute buildCustomAttribute(Integer id, String name, String label, String dataTypeCode, Integer dataLength, String groupName, String lookupClass, String lookupReturn) {
+        CustomAttribute customAttribute = new CustomAttribute();
+
+        customAttribute.setId(id);
+        customAttribute.setName(name);
+        customAttribute.setLabel(label);
+        customAttribute.setDataTypeCode(dataTypeCode);
+        customAttribute.setDataLength(dataLength);
+        customAttribute.setGroupName(groupName);
+        customAttribute.setLookupClass(lookupClass);
+        customAttribute.setLookupReturn(lookupReturn);
+
+        return customAttribute;
+    }
+
 }

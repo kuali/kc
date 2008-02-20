@@ -20,6 +20,7 @@ public interface Constants {
     public static final String KRA_SESSION_KEY = "kra.session";
     public static final String DATASOURCE = "kraDataSource";
     public static final String DATA_DICTIONARY_SERVICE_NAME = "dataDictionaryService";
+    public static final String BUSINESS_OBJECT_DICTIONARY_SERVICE_NAME = "businessObjectDictionaryService";
     public static final String DATE_TIME_SERVICE_NAME = "dateTimeService";
     public static final String BUSINESS_OBJECT_DAO_NAME = "businessObjectDao";
     public static final String HTML_FORM_ACTION = "htmlFormAction";
@@ -76,6 +77,7 @@ public interface Constants {
     public static final String AUDIT_WARNINGS = "Warnings";
 
     public static final String PROPOSAL_PAGE = "proposal";
+    public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR = "SponsorProgramInformation";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_NAME = "Sponsor & Program Information";
 

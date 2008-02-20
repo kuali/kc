@@ -338,6 +338,13 @@
 			</members>
 		</workgroup>
 	</workgroups>
+		<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+		<ruleTemplate allowOverwrite="true">
+			<name>WorkflowDocumentTemplate</name>
+			<description>Workflow Document Template</description>
+		</ruleTemplate>
+	</ruleTemplates>
+	
 	<!-- Travel stuff
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
@@ -532,6 +539,7 @@
 				</requests>
 			</routeNodes>
 		</documentType>
+		<!-- 
 		<documentType>
 			<name>TravelRequest</name>
 			<description>Create a New Travel Request</description>
@@ -588,6 +596,7 @@
 				</start>
 			</routeNodes>
 		</documentType>
+		-->
 		<documentType>
 			<name>FiscalOfficerMaintenanceDocument</name>
 			<description>Create a New Travel Fiscal Officer</description>
@@ -636,6 +645,7 @@
 				</responsibility>
 			</responsibilities>
 		</rule>
+		<!-- 
 		<rule>
 			<documentType>TravelRequest</documentType>
 			<ruleTemplate>TravelRequest-DestinationRouting</ruleTemplate>
@@ -702,5 +712,6 @@
 				</responsibility>
 			</responsibilities>
 		</rule>
+		-->
 	</rules>
 </data>
