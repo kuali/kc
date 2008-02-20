@@ -104,6 +104,8 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
     private int narrativeLineNumber;
     private S2sOpportunity newS2sOpportunity;
     private S2sOppForms newS2sOppForms;
+    private Map<String, List> customAttributeGroups;
+    private Map<String, String[]> customAttributeValues;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -136,6 +138,7 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
         setNewProposalPersonUnit(new ArrayList<Unit>());
         setNewProposalAbstract(new ProposalAbstract());
         setNewProposalUser(new ProposalUser());
+        customAttributeValues = new HashMap<String, String[]>();
         setCopyCriteria(new ProposalCopyCriteria());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
@@ -489,6 +492,14 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
         return auditActivated;
     }
 
+    /**
+     * Sets the customAttributeGroups attribute value.
+     * @param customAttributeGroups The customAttributeGroups to set.
+     */
+    public void setCustomAttributeGroups(Map<String, List> customAttributeGroups) {
+        this.customAttributeGroups = customAttributeGroups;
+    }
+
     private KeyPersonnelService getKeyPersonnelService() {
         return getService(KeyPersonnelService.class);
     }
@@ -525,6 +536,32 @@ public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
         return !(doc.getNarratives().size() > 0 ||
             doc.getInstituteAttachments().size() > 0 ||
             doc.getPropPersonBios().size() > 0);
+    }
+
+    /**
+     * Gets the customAttributeGroups attribute.
+     * @return Returns the customAttributeGroups.
+     */
+    public Map<String, List> getCustomAttributeGroups() {
+        return customAttributeGroups;
+    }
+
+
+    /**
+     * Sets the customAttributeValues attribute value.
+     * @param customAttributeValues The customAttributeValues to set.
+     */
+    public void setCustomAttributeValues(Map<String, String[]> customAttributeValues) {
+        this.customAttributeValues = customAttributeValues;
+    }
+
+
+    /**
+     * Gets the customAttributeValues attribute.
+     * @return Returns the customAttributeValues.
+     */
+    public Map<String, String[]> getCustomAttributeValues() {
+        return customAttributeValues;
     }
 
     /**

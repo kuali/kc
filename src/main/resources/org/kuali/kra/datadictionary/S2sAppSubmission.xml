@@ -125,7 +125,7 @@
 				<description>Comments</description>
 			</attribute>
 			
-			<attribute name=""ggTrackingId"">
+			<attribute name="ggTrackingId">
 				<label>"GG Tracking Id" </label>
 				<shortLabel>GG Tracking Id</shortLabel>
 				<maxLength>50</maxLength>

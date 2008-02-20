@@ -60,7 +60,7 @@
 					<maintainableField name="rateTypeCode" required="true"/>
 					<maintainableField name="startDate" required="true"/>
 					<maintainableField name="unitNumber" required="true"/>
-					<maintainableField name="rate" required="true"/>
+				<!-- can't find this in  InstituteLaRate' 	<maintainableField name="rate" required="true"/> -->
 
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

@@ -64,6 +64,9 @@ import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.DocumentValidationService;
+import org.kuali.kra.rule.CustomAttributeRule;
+import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.rules.KraCustomAttributeRule;
 import org.kuali.RiceKeyConstants;
 
 /**
@@ -74,7 +77,7 @@ import org.kuali.RiceKeyConstants;
  * @see org.kuali.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, SavePersonnelAttachmentRule, AddProposalLocationRule,AddProposalSpecialReviewRule , DocumentAuditRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, PermissionsRule, NewNarrativeUserRightsRule {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalLocationRule,AddProposalSpecialReviewRule , DocumentAuditRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, PermissionsRule, CustomAttributeRule  {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -498,4 +501,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             List<NarrativeUserRights> newNarrativeUserRights, int narrativeIndex) {
         return new ProposalDevelopmentNarrativeRule().processNewNarrativeUserRightsBusinessRules(document, newNarrativeUserRights, narrativeIndex);
     }
+    
+    public boolean processCustomAttributeRules(SaveCustomAttributeEvent saveCustomAttributeEvent) {
+        return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);    
+    }
+    
 }
