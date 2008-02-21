@@ -54,9 +54,6 @@ public class KraCustomAttributeRule extends ResearchDocumentRuleBase implements 
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
             CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
-            // CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue)
-            // KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class,
-            // primaryKeys);
             String errorKey = "customAttributeValues(id" + customAttribute.getId() + ")";
             if (StringUtils.isNotBlank(customAttribute.getValue())) {
                 valid &= validateAttributeFormat(customAttribute, errorKey);
