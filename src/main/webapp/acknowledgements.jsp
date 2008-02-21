@@ -20,15 +20,14 @@
 <link href="css/portal.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
- <div id="header" title="Kuali Research Administration">
-    <h1>Kuali Research Administration</h1>
+   <div id="header" title="Kuali Research Administration">
+    <h1 class="kra"></h1>Kuali Research Administration
   </div>
-
-</div>
 
  <table width="100%"  cellspacing="0" cellpadding="0" id="iframe_portlet_container_table">
     <tr valign="top" bgcolor="#FFFFFF">
 <td class="content" valign="top">
+<div>
 <BR/>
 <h3><a name="Acknowledgements-"></a><font color="maroon">Acknowledgments</font></h3>
 
