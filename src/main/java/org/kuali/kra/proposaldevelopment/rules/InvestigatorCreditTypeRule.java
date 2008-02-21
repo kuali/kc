@@ -60,7 +60,10 @@ public class InvestigatorCreditTypeRule extends MaintenanceDocumentRuleBase {
             
             for (InvestigatorCreditType existingField : (Collection<InvestigatorCreditType>) getBusinessObjectService().findAll(InvestigatorCreditType.class)) {
                 retval &= !equalByKeys(existingField, newField);
-                getErrorMap().putError(INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY, ERROR_INVESTIGATOR_CREDIT_TYPE_EXISTS, existingField.getInvCreditTypeCode()); 
+                
+                if(!retval) {
+                    getErrorMap().putError(INVESTIGATOR_CREDIT_TYPE_CODE_PROPERTY_KEY, ERROR_INVESTIGATOR_CREDIT_TYPE_EXISTS, existingField.getInvCreditTypeCode());
+                } 
             }
         }
         
