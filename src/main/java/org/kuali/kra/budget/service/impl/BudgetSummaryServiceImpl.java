@@ -178,20 +178,26 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
     }
     
-    public boolean budgetLineItemExists(Integer budgetPeriod) {
+    public boolean budgetLineItemExists(BudgetDocument budgetDocument, Integer budgetPeriod) {
         boolean lineItemExists = false;
-        Map budgetLineItemMap = new HashMap();
-        /* filter by budget period */
-        budgetLineItemMap.put("budgetPeriod", budgetPeriod+1);
-        Collection<BudgetLineItem> budgetLineItems = new ArrayList();
-        budgetLineItems = businessObjectService.findMatching(BudgetLineItem.class, budgetLineItemMap);
-        if(budgetLineItems.size() > 0) {
-            lineItemExists = true;
-        }else {
-            /* check personnel line item */
-            budgetLineItems = businessObjectService.findMatching(BudgetPersonnelDetails.class, budgetLineItemMap);
-            if(budgetLineItems.size() > 0) {
+        List<BudgetLineItem> budgetLineItems =  budgetDocument.getBudgetLineItems();
+        List<BudgetPersonnelDetails> budgetPersonnelDetailsList = budgetDocument.getBudgetPersonnelDetailsList();
+        /* check budget line item */
+        for(BudgetLineItem periodLineItem: budgetLineItems) {
+            Integer lineItemPeriod = periodLineItem.getBudgetPeriod();
+            if(budgetPeriod+1 == lineItemPeriod) {
                 lineItemExists = true;
+                break;
+            }
+        }
+        /* check personnel line item */
+        if(!lineItemExists) {
+            for(BudgetPersonnelDetails periodPersonnelLineItem: budgetPersonnelDetailsList) {
+                Integer lineItemPeriod = periodPersonnelLineItem.getBudgetPeriod();
+                if(budgetPeriod+1 == lineItemPeriod) {
+                    lineItemExists = true;
+                    break;
+                }
             }
         }
         return lineItemExists;
