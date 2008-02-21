@@ -2,6 +2,10 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+/**
+ * 
+ * This class is bo of CustomAttributeDocValue.
+ */
 public class CustomAttributeDocValue extends KraPersistableBusinessObjectBase {
 
 	private Integer customAttributeId;
