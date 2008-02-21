@@ -19,7 +19,7 @@
 
 <div id="workarea">
 	<c:set var="fieldCount" value="0" />
-	<c:forEach items="${KualiForm.customAttributeGroups}" var="customAttributeGroup" varStatus="status">
+	<c:forEach items="${KualiForm.customAttributeGroups}" var="customAttributeGroup" varStatus="groupStatus">
 	   	<c:set var="fullName" value="${customAttributeGroup.key}" />
         <c:set var="tabErrorKey" value=""/>
 	   	<c:forEach items="${KualiForm.customAttributeGroups[fullName]}" var="customAttributeDocument" varStatus="status">
@@ -34,7 +34,7 @@
 				</c:choose>
 		  </c:forEach>
 	   	
-	    <kul:tab tabTitle="${fn:substring(fullName, 0, 50)}" defaultOpen="false" transparentBackground="${status.first}" auditCluster="customAttributes.${customAttributeDocument.key}Errors" tabAuditKey="customData.*" tabErrorKey="${tabErrorKey}" >
+	    <kul:tab tabTitle="${fn:substring(fullName, 0, 50)}" defaultOpen="false" transparentBackground="${groupStatus.first}" auditCluster="customAttributes.${customAttributeDocument.key}Errors" tabAuditKey="customData.*" tabErrorKey="${tabErrorKey}" >
 			<kra-pd:customData fullName="${fullName}" fieldCount="${fieldCount}" />
 	    </kul:tab>
 	   	<c:set var="fieldCount" value="${fieldCount + fn:length(customAttributeGroup.value)}" />
