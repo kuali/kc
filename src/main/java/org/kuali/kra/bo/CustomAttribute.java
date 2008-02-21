@@ -2,6 +2,9 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+/**
+ * This is bo class of CustomAttribute.
+ */
 public class CustomAttribute extends KraPersistableBusinessObjectBase {
 
 	private Integer id;

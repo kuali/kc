@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.service.impl;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,10 +138,10 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         return businessObjectService;
     }
 
-    public Collection<CustomAttributeDataType> getCustomAttributeDataTypes() {
-        return businessObjectService.findAll(CustomAttributeDataType.class);
-        
-    }
+    /**
+     * 
+     * @see org.kuali.kra.service.CustomAttributeService#getCustomAttributeDataType(java.lang.String)
+     */
     public CustomAttributeDataType getCustomAttributeDataType(String dataTypeCode) {
 
         Map<String, String> primaryKeys = new HashMap<String, String>();
@@ -154,19 +153,20 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.service.CustomAttributeService#getLookupReturns(java.lang.String)
+     */
     public List getLookupReturns(String lookupClass) throws Exception {
         BusinessObjectDictionaryService businessDictionaryService = (BusinessObjectDictionaryService)KraServiceLocator.getService(Constants.BUSINESS_OBJECT_DICTIONARY_SERVICE_NAME);
-        //return lookupClass.substring(lookupClass.lastIndexOf(".")+1,lookupClass.length());
-        //Map attributes = dataDictionaryService.getDataDictionary().getDocumentEntry(lookupClass.substring(lookupClass.lastIndexOf(".")+1,lookupClass.length())).getAttributes();
-        //Map attributes = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(lookupClass).getAttributes();
         return businessDictionaryService.getLookupFieldNames(Class.forName(lookupClass));
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.service.CustomAttributeService#getLookupReturnsForAjaxCall(java.lang.String)
+     */
     public String getLookupReturnsForAjaxCall(String lookupClass) throws Exception {
-        BusinessObjectDictionaryService businessDictionaryService = (BusinessObjectDictionaryService)KraServiceLocator.getService(Constants.BUSINESS_OBJECT_DICTIONARY_SERVICE_NAME);
-        //return lookupClass.substring(lookupClass.lastIndexOf(".")+1,lookupClass.length());
-        //Map attributes = dataDictionaryService.getDataDictionary().getDocumentEntry(lookupClass.substring(lookupClass.lastIndexOf(".")+1,lookupClass.length())).getAttributes();
-        //Map attributes = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(lookupClass).getAttributes();
         List lookupFieldNames = getLookupReturns(lookupClass);
         String attributeNames="";
         for (Object attributeName : lookupFieldNames) {
