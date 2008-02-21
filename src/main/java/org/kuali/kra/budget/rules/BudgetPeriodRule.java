@@ -44,6 +44,10 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule{
 
     private static final String NEW_BUDGET_PERIOD = "newBudgetPeriod";
+    private Date projectStartDate;
+    private Date projectEndDate;
+    private Date previousPeriodEndDate;
+    private String[] errorParameter;
 
     /**
      * 
@@ -95,11 +99,11 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             rulePassed = false;
         }else if(!isValidBudgetPeriodBoundaries(document)){
             rulePassed = false;
-        }else if(!getBudgetSummaryService().budgetLineItemExists(budgetPeriodNumber)) {
+        }else if(!getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber)) {
             errorMap.addToErrorPath("noPanel");
             rulePassed = false;
             errorMap.putError("noFocus", KeyConstants.ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST);
-        }else if(getBudgetSummaryService().budgetLineItemExists(budgetPeriodNumber+1)) {
+        }else if(getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber+1)) {
             errorMap.addToErrorPath("noPanel");
             rulePassed = false;
             errorMap.putError("noFocus", KeyConstants.ERROR_GENERATE_PERIOD);
@@ -115,7 +119,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         
         boolean rulePassed = true;
 
-        if(getBudgetSummaryService().budgetLineItemExists(budgetPeriodNumber)) {
+        if(getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber)) {
             errorMap.addToErrorPath("document.budgetPeriods[" + budgetPeriodNumber + "]");
             rulePassed = false;
             errorMap.putError("startDate", KeyConstants.ERROR_LINE_ITEM_EXISTS);
@@ -129,10 +133,10 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         List<BudgetLineItem> budgetLineItems = budgetDocument.getBudgetLineItems();
         List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList();
-        //boolean validBudgetPeriod = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             String[] dateParams = {budgetPeriod.getBudgetPeriod()+""};
+            setErrorParameter(dateParams);
             /* get all line items for each budget period */
             Collection<BudgetLineItem> periodLineItems = new ArrayList();
             Collection<BudgetPersonnelDetails> periodPersonnelDetails = new ArrayList();
@@ -144,29 +148,35 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             periodPersonnelDetails = getBudgetSummaryService().getBudgetPersonnelDetailsForPeriod(budgetDocument, budgetPeriodNumber); 
             /* check line items */
             for(BudgetLineItem periodLineItem: periodLineItems) {
-                validBoundaries = isDateBefore(periodLineItem.getStartDate(), budgetPeriod.getStartDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                if(validBoundaries) {
-                    validBoundaries = isDateAfter(periodLineItem.getStartDate(), budgetPeriod.getEndDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                }
-                if(validBoundaries) {
-                    validBoundaries = isDateAfter(periodLineItem.getEndDate(), budgetPeriod.getEndDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                }
-                if(validBoundaries) {
-                    validBoundaries = isDateBefore(periodLineItem.getEndDate(), budgetPeriod.getStartDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
+                if(budgetPeriod.getBudgetPeriod() == periodLineItem.getBudgetPeriod()) {
+                    validBoundaries = isDateBefore(periodLineItem.getStartDate(), budgetPeriod.getStartDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
+                    if(validBoundaries) {
+                        validBoundaries = isDateAfter(periodLineItem.getStartDate(), budgetPeriod.getEndDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
+                    }
+                    if(validBoundaries) {
+                        validBoundaries = isDateAfter(periodLineItem.getEndDate(), budgetPeriod.getEndDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
+                    }
+                    if(validBoundaries) {
+                        validBoundaries = isDateBefore(periodLineItem.getEndDate(), budgetPeriod.getStartDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
+                    }
+                    break;
                 }
             }
             /* check personnel line items */
             if(validBoundaries) {
                 for(BudgetPersonnelDetails periodPersonnelDetail: periodPersonnelDetails) {
-                    validBoundaries = isDateBefore(periodPersonnelDetail.getStartDate(), budgetPeriod.getStartDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                    if(validBoundaries) {
-                        validBoundaries = isDateAfter(periodPersonnelDetail.getStartDate(), budgetPeriod.getEndDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                    }
-                    if(validBoundaries) {
-                        validBoundaries = isDateAfter(periodPersonnelDetail.getEndDate(), budgetPeriod.getEndDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                    }
-                    if(validBoundaries) {
-                        validBoundaries = isDateBefore(periodPersonnelDetail.getEndDate(), budgetPeriod.getStartDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
+                    if(budgetPeriod.getBudgetPeriod() == periodPersonnelDetail.getBudgetPeriod()) {
+                        validBoundaries = isDateBefore(periodPersonnelDetail.getStartDate(), budgetPeriod.getStartDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
+                        if(validBoundaries) {
+                            validBoundaries = isDateAfter(periodPersonnelDetail.getStartDate(), budgetPeriod.getEndDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
+                        }
+                        if(validBoundaries) {
+                            validBoundaries = isDateAfter(periodPersonnelDetail.getEndDate(), budgetPeriod.getEndDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
+                        }
+                        if(validBoundaries) {
+                            validBoundaries = isDateBefore(periodPersonnelDetail.getEndDate(), budgetPeriod.getStartDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
+                        }
+                        break;
                     }
                 }
             }
@@ -178,8 +188,8 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     }
 
     private boolean isValidBudgetPeriod(BudgetDocument budgetDocument, BudgetPeriod newBudgetPeriod) {
-        Date projectStartDate = budgetDocument.getStartDate();
-        Date projectEndDate = budgetDocument.getEndDate();
+        setProjectStartDate(budgetDocument.getStartDate());
+        setProjectEndDate(budgetDocument.getEndDate());
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         boolean validBudgetPeriod = true;
         Date previousPeriodStartDate = null;
@@ -219,6 +229,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             Date validDateBefore;
             boolean isDateNull = false;
             String[] dateParams = {index+1+""};
+            setErrorParameter(dateParams);
             if(periodStartDate == null) {
                 errorMap.putError("startDate", KeyConstants.ERROR_PERIOD_START_REQUIRED);
                 validBudgetPeriod = false;
@@ -229,51 +240,54 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
                 validBudgetPeriod = false;
                 isDateNull = true;
             }
-            
+            /* if date not null, validate budget period */
             if(!isDateNull){
                 /* check first record */
                 if(previousPeriodStartDate == null) {
-                    /* check entered budget period start date is before project/proposal start date */
                     validDateBefore = projectStartDate;
-                    validBudgetPeriod = isDateBefore(periodStartDate, projectStartDate, "startDate", KeyConstants.ERROR_PERIOD_START_BEFORE_PROJECT_START, errorMap, dateParams, validBudgetPeriod);
-                    /* check entered budget period start date is after project/proposal end date */ 
-                    validBudgetPeriod = isDateAfter(periodStartDate, projectEndDate, "startDate", KeyConstants.ERROR_PERIOD_START_AFTER_PROJECT_END, errorMap, dateParams, validBudgetPeriod);
-                    /* check entered budget period end date is after project/proposal end date */ 
-                    validBudgetPeriod = isDateAfter(periodEndDate, projectEndDate, "endDate", KeyConstants.ERROR_PERIOD_END_AFTER_PROJECT_END, errorMap, dateParams, validBudgetPeriod);
                 }else {
-                    /* check entered budget period start date is before previous period end date */ 
                     validDateBefore = previousPeriodEndDate;
-                    validBudgetPeriod = isDateBefore(periodStartDate, previousPeriodEndDate, "startDate", KeyConstants.ERROR_PERIOD_START_BEFORE_PREVIOUS_START, errorMap, dateParams, validBudgetPeriod);
-                    /* check entered budget period start date is after project/proposal end date */ 
-                    validBudgetPeriod = isDateAfter(periodStartDate, projectEndDate, "startDate", KeyConstants.ERROR_PERIOD_START_AFTER_PROJECT_END, errorMap, dateParams, validBudgetPeriod);
-                    /* check entered budget period end date is after project/proposal end date */ 
-                    validBudgetPeriod = isDateAfter(periodEndDate, projectEndDate, "endDate", KeyConstants.ERROR_PERIOD_END_AFTER_PROJECT_END, errorMap, dateParams, validBudgetPeriod);
+                }
+                int dateCompareValue = compareDate(periodStartDate, periodEndDate, previousPeriodEndDate);
+                if(dateCompareValue > 0) {
+                    saveErrors(dateCompareValue, errorMap);
+                    validBudgetPeriod = false;
                 }
                 errorMap.removeFromErrorPath("document.budgetPeriods[" + index + "]");
                 if(insertBudgetPeriod) {
+                    dateCompareValue = 0;
                     errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
                     /* check if new period start date is before current period start date */
                     if(newPeriodStartDate.before(periodStartDate) || (index == totalBudgetPeriods && newPeriodStartDate.after(periodEndDate))) {
-                        String errorKey = KeyConstants.ERROR_NEW_PERIOD_VALID;
+                        boolean lastRecord = false;
                         int periodNum = index;
                         if(index == totalBudgetPeriods) {
-                            errorKey = KeyConstants.ERROR_NEW_PERIOD_PROJECT_END;
+                            lastRecord = true;
                             periodNum = index + 1;
-                            //periodStartDate = periodEndDate;
                         }
                         String[] newPeriodDateParams = {periodNum+"", periodNum+1+""};
-                        /* check new budget period start date is before previous period end date */ 
-                        validBudgetPeriod = isDateBefore(newPeriodStartDate, validDateBefore, "startDate", KeyConstants.ERROR_NEW_PERIOD_VALID, errorMap, newPeriodDateParams, validBudgetPeriod);
-                        if(index < totalBudgetPeriods) {
-                            /* check new budget period end date is before next period start date */
-                            validBudgetPeriod = isDateAfter(newPeriodEndDate, periodStartDate, "endDate", errorKey, errorMap, newPeriodDateParams, validBudgetPeriod);
+                        setErrorParameter(newPeriodDateParams);
+                        /* check new budget period */
+                        if(newPeriodStartDate.before(getProjectStartDate())) {
+                            dateCompareValue = 18;
+                        }else if (newPeriodStartDate.after(getProjectEndDate())) {
+                            dateCompareValue = 40;
+                        }else if (newPeriodEndDate.after(getProjectEndDate())) {
+                            dateCompareValue = 41;
+                        }else if(newPeriodStartDate.before(validDateBefore)) {
+                            dateCompareValue = 28;
+                        }else if ((index < totalBudgetPeriods) && newPeriodEndDate.after(periodStartDate)) {
+                            if(!lastRecord) {
+                                dateCompareValue = 29;
+                            }else {
+                                dateCompareValue = 30;
+                            }
                         }
-                        /* check entered budget period start date is after project/proposal end date */ 
-                        validBudgetPeriod = isDateAfter(newPeriodStartDate, projectEndDate, "startDate", KeyConstants.ERROR_NEW_PERIOD_START_AFTER_PROJECT_END, errorMap, dateParams, validBudgetPeriod);
-                        /* check entered budget period end date is after project/proposal end date */ 
-                        validBudgetPeriod = isDateAfter(newPeriodEndDate, projectEndDate, "endDate", KeyConstants.ERROR_NEW_PERIOD_END_DATE, errorMap, dateParams, validBudgetPeriod);
+                        if(dateCompareValue > 0) {
+                            saveErrors(dateCompareValue, errorMap);
+                            validBudgetPeriod = false;
+                        }
                         insertBudgetPeriod = false;
-                        //System.out.println("****** setPeriodIndex " + periodNum);
                         newBudgetPeriod.setBudgetPeriod(periodNum+1);
                     }
                     errorMap.removeFromErrorPath(NEW_BUDGET_PERIOD);
@@ -285,36 +299,131 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         }
         return validBudgetPeriod;
     }
-
-    private boolean insertBudgetPeriod(Date periodStartDate, Date periodEndDate, BudgetPeriod newBudgetPeriod) {
-        boolean insertNewBudgetPeriod = false;
-        return insertNewBudgetPeriod;
+    
+    private void saveErrors(int dateCompareValue, ErrorMap errorMap) {
+        String errorKey = null;
+        String errorProperty = null;
+        switch(dateCompareValue) {
+            case 1: // period start date after project end date
+                errorProperty = "startDate";
+                errorKey = KeyConstants.ERROR_PERIOD_START_BEFORE_PROJECT_START;
+                break;
+            case 2: // period start date after period end date
+                errorProperty = "startDate";
+                errorKey = KeyConstants.ERROR_PERIOD_START_AFTER_PERIOD_END;
+                break;
+            case 3: // period start date before project start date
+                errorProperty = "startDate";
+                errorKey = KeyConstants.ERROR_PERIOD_START_AFTER_PROJECT_END;
+                break;
+            case 4: // period end date before project start date 
+                errorProperty = "endDate";
+                errorKey = KeyConstants.ERROR_PERIOD_END_BEFORE_PROJECT_START;
+                break;
+            case 5: // period end date after project end date
+                errorProperty = "endDate";
+                errorKey = KeyConstants.ERROR_PERIOD_END_AFTER_PROJECT_END;
+                break;
+            case 6: // period start date before previous period end date
+                errorProperty = "startDate";
+                errorKey = KeyConstants.ERROR_PERIOD_START_BEFORE_PREVIOUS_START;
+                break;
+            case 7: // period end date before previous period end date
+                errorProperty = "endDate";
+                errorKey = KeyConstants.ERROR_PERIOD_END_BEFORE_PREVIOUS_END;
+                break;
+            case 18: // new budget period start date less than project start date
+                errorProperty = "startDate";
+                errorKey = KeyConstants.ERROR_PERIOD_START_BEFORE_PROJECT_START;
+                break;
+            case 28: // new budget period start date is before previous period end date
+                errorProperty = "startDate";
+                errorKey = KeyConstants.ERROR_NEW_PERIOD_VALID;
+                break;
+            case 29: // new budget period end date is after next period start date
+                errorProperty = "endDate";
+                errorKey = KeyConstants.ERROR_NEW_PERIOD_VALID;;
+                break;
+            case 30: // new budget period end date is after next period start date
+                errorProperty = "endDate";
+                errorKey = KeyConstants.ERROR_NEW_PERIOD_PROJECT_END;;
+                break;
+            case 40: // new budget period start date is after project/proposal end date
+                errorProperty = "startDate";
+                errorKey = KeyConstants.ERROR_NEW_PERIOD_START_AFTER_PROJECT_END;
+                break;
+            case 41: // new budget period end date is after project/proposal end date
+                errorProperty = "endDate";
+                errorKey = KeyConstants.ERROR_NEW_PERIOD_END_DATE;
+                break;
+        }
+        errorMap.putError(errorProperty, errorKey, getErrorParameter());
     }
     
+    private int compareDate(Date periodStartDate, Date periodEndDate, Date previousPeriodEndDate){
+        int returnValue = 0;
+        if(periodStartDate.after(getProjectEndDate())) {
+            returnValue = 1;
+        }else if(periodStartDate.after(periodEndDate)) {
+            returnValue = 2;
+        }else if(periodStartDate.before(getProjectStartDate())) {
+            returnValue = 3;
+        }else if(periodEndDate.before(getProjectStartDate())) {
+            returnValue = 4;
+        }else if(periodEndDate.after(getProjectEndDate())) {
+            returnValue = 5;
+        }else if(previousPeriodEndDate != null && periodStartDate.before(previousPeriodEndDate)) {
+            returnValue = 6;
+        }else if(previousPeriodEndDate != null && periodEndDate.before(previousPeriodEndDate)) {
+            returnValue = 7;
+        }
+        return returnValue;
+    }
+
     private boolean isDateAfter(Date startDate, Date endDate, String errorProperty, String errorKey, ErrorMap errorMap, String[] dateParams, boolean budgetPeriodsValid) {
         boolean isValid = budgetPeriodsValid;
-        //String[] dateParams = {position+1+""};
-        
         if(startDate.after(endDate)) {
             errorMap.putError(errorProperty, errorKey, dateParams);
             isValid = false;
         }
         return isValid;
     }
-
+    
     private boolean isDateBefore(Date startDate, Date endDate,  String errorProperty, String errorKey, ErrorMap errorMap,  String[] dateParams, boolean budgetPeriodsValid) {
         boolean isValid = budgetPeriodsValid;
-        //String[] dateParams = {position+1+""};
         if(startDate.before(endDate)) {
             errorMap.putError(errorProperty, errorKey, dateParams);
             isValid = false;
         }
         return isValid;
     }
-
+    
     private BudgetSummaryService getBudgetSummaryService() {
         return getService(BudgetSummaryService.class);
     }
 
+    private void setProjectStartDate(Date projectStartDate) {
+        this.projectStartDate = projectStartDate;
+    }
+    
+    private Date getProjectStartDate() {
+        return projectStartDate;
+    }
+
+    private Date getProjectEndDate() {
+        return projectEndDate;
+    }
+
+    private void setProjectEndDate(Date projectEndDate) {
+        this.projectEndDate = projectEndDate;
+    }
+
+    public String[] getErrorParameter() {
+        return errorParameter;
+    }
+
+    public void setErrorParameter(String[] errorParameter) {
+        this.errorParameter = errorParameter;
+    }
 }
 
