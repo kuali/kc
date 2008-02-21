@@ -9,7 +9,7 @@
       <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
       <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
       <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-      <docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <routingVersion>2</routingVersion>
       <routePaths>
