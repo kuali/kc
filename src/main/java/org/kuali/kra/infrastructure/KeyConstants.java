@@ -81,8 +81,10 @@ public class KeyConstants {
     // proposal ynq errors
     public static final String ERROR_REQUIRED_FOR_EXPLANATION = "error.required.for.explanation";
     public static final String ERROR_REQUIRED_FOR_REVIEW_DATE = "error.required.for.reviewDate";
+    public static final String ERROR_REQUIRED_ANSWER = "error.required.answer";
     
 
+    // budget summary errors
     public static final String ERROR_PERIOD_START_BEFORE_PROJECT_START = "error.periodStartDate.before.projectStartDate";
     public static final String ERROR_PERIOD_START_AFTER_PROJECT_END = "error.periodStartDate.after.projectEndDate";
     public static final String ERROR_PERIOD_END_AFTER_PROJECT_END = "error.periodEndDate.after.projectEndDate";
@@ -99,8 +101,13 @@ public class KeyConstants {
     public static final String ERROR_LINE_ITEM_EXISTS = "error.lineItem.exists";
     public static final String ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST = "error.periodLineItem.doesNot.exist";
     public static final String ERROR_GENERATE_PERIOD="error.generatePeriod";
+    public static final String ERROR_PERIOD_START_AFTER_PERIOD_END = "error.periodStart.after.periodEnd";
+    public static final String ERROR_PERIOD_END_BEFORE_PROJECT_START = "error.periodEnd.before.projectStart"; 
+    public static final String ERROR_PERIOD_END_BEFORE_PREVIOUS_END = "error.periodEnd.before.previousEnd";
     
     public static final String ERROR_LINE_ITEM_DATE_DOESNOTMATCH = "error.lineItem.dateDoesNotmatch";
+
+    
     // Budget Versions errors
     public static final String ERROR_NO_FINAL_BUDGET = "error.final.budget.required";
     
