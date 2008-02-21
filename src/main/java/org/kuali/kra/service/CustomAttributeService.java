@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -41,22 +40,7 @@ public interface CustomAttributeService {
      *
      * @param document ResearchDocumentBase to persist custom attributes for.
      */
-    public void saveCustomAttributeValues(ResearchDocumentBase document);
-
-    /**
-     * 
-     * This method is to get all custom attribute data types
-     * @return
-     */
-    public Collection<CustomAttributeDataType> getCustomAttributeDataTypes();
-    
-    /**
-     * 
-     * This method is to get the custom attribute data type based on data type code
-     * @param dataTypeCode
-     * @return
-     */
-    public CustomAttributeDataType getCustomAttributeDataType(String dataTypeCode);
+    public void saveCustomAttributeValues(ResearchDocumentBase document);    
 
     /**
      * Accessor for <code>{@link BusinessObjectService}</code>
@@ -66,7 +50,30 @@ public interface CustomAttributeService {
     
     public void setCustomAttributeKeyValue(ResearchDocumentBase document, String attributeName, String networkId) throws Exception;
 
+    /**
+     * 
+     * This method is to get the custom attribute data type based on data type code
+     * @param dataTypeCode
+     * @return
+     */
+    public CustomAttributeDataType getCustomAttributeDataType(String dataTypeCode);
+
+    /**
+     * 
+     * This method is to get the lookupfields of the lookupclass.
+     * @param lookupClass
+     * @return
+     * @throws Exception
+     */
     public List getLookupReturns(String lookupClass) throws Exception ;
+    
+    /**
+     * 
+     * This method is to get the lookupfields of the lookupclass, and converted to string ans separated by ",".
+     * @param lookupClass
+     * @return
+     * @throws Exception
+     */
     public String getLookupReturnsForAjaxCall(String lookupClass) throws Exception ;
 
     /**

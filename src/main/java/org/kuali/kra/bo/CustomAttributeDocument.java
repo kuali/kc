@@ -4,6 +4,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.DocumentType;
 
+/**
+ * 
+ * This class bo of CustomAttributeDocument.
+ */
 public class CustomAttributeDocument extends KraPersistableBusinessObjectBase {
 
 	private Integer customAttributeId;

@@ -2,6 +2,10 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+/**
+ * 
+ * This class is bo of CustomAttributeDataType.
+ */
 public class CustomAttributeDataType extends KraPersistableBusinessObjectBase {
 
 	private String dataTypeCode;
