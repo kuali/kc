@@ -53,6 +53,17 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
             s2sOpportunityTemp = s2SService.searchOpportunity(fieldValues.get("cfdaNumber"),fieldValues.get("opportunityId"),"");
             if(s2sOpportunityTemp!=null){
                 s2sOpportunity = s2sOpportunityTemp;
+            }else{
+                if(fieldValues.get("cfdaNumber")!=null && !StringUtils.equals(fieldValues.get("cfdaNumber").trim(),"")){                    
+                    errorMap.removeFromErrorPath("document");
+                    GlobalVariables.getErrorMap().putError("document.cfdaNumber", KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);                            
+                    errorMap.addToErrorPath("document");                    
+                }
+                if(fieldValues.get("opportunityId")!=null && !StringUtils.equals(fieldValues.get("opportunityId").trim(),"")){                    
+                    errorMap.removeFromErrorPath("document");
+                    GlobalVariables.getErrorMap().putError("document.cfdaNumber", KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID);                            
+                    errorMap.addToErrorPath("document");                    
+                }
             }
             return s2sOpportunity;
         }else{            
