@@ -37,7 +37,7 @@ public interface BudgetSummaryService {
     public void addBudgetPeriod(BudgetDocument budgetDocument, BudgetPeriod newBudgetPeriod);
     public void deleteBudgetPeriod(BudgetDocument budgetDocument, int delPeriod);
     public boolean budgetPeriodExists(Integer budgetPeriod);
-    public boolean budgetLineItemExists(Integer budgetPeriod);
+    public boolean budgetLineItemExists(BudgetDocument budgetDocument, Integer budgetPeriod);
     public void generateAllPeriods(BudgetDocument budgetDocument);
     public void updateBudgetPeriods(BudgetDocument budgetDocument);
     public Collection<BudgetLineItem> getBudgetLineItemForPeriod(BudgetDocument budgetDocument, int budgetPeriodNumber);
