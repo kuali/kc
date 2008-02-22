@@ -35,10 +35,10 @@
         <documentTypeName>ScienceKeywordMaintenanceDocument</documentTypeName>
         <documentTypeCode>SCKC</documentTypeCode>
 
-        <label>Science Keyword Maintenance Document</label>
+        <label>Keyword Maintenance Document</label>
         <shortLabel>ScienceKeywordMaintDoc</shortLabel>
 
-        <summary>Science Keyword Maintenance Document</summary>
+        <summary>Keyword Maintenance Document</summary>
         <description>Document used to create or update Science Keyword Reference objects</description>
 
         <lockingKeys>
