@@ -35,6 +35,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
@@ -82,10 +83,15 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean retval = true;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
 
         retval &= super.processCustomRouteDocumentBusinessRules(document);
 
         retval &= new ProposalDevelopmentKeyPersonsRule().processCustomRouteDocumentBusinessRules(document);
+        
+        retval &= processProposalYNQBusinessRule(proposalDevelopmentDocument, true);
+        
+        retval &= processProposalPersonYNQBusinessRule(proposalDevelopmentDocument);
 
         return retval;
     }
@@ -107,7 +113,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
         valid &= processSpecialReviewBusinessRule(proposalDevelopmentDocument);
-        valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument);
+        valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
         valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument.getBudgetVersionOverviews());
         valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
         valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
@@ -169,15 +175,45 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return valid;
     }
 
+    /**
+    *
+    * Validate proposal person questions rule. 
+    * Answers are mandatory for routing
+    * @param proposalDevelopmentDocument
+    * @return
+    */
+    public boolean processProposalPersonYNQBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        boolean valid = true;
+
+        //checkErrors();
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        int i = 0;
+        List<ProposalPerson> proposalPersons = proposalDevelopmentDocument.getInvestigators();
+        for (ProposalPerson proposalPerson : proposalPersons) {
+            List<ProposalPersonYnq> proposalPersonYnqs = proposalPerson.getProposalPersonYnqs();
+            String errorPath = "proposalPerson[" + i + "]";
+            errorMap.addToErrorPath(errorPath);
+            for (ProposalPersonYnq proposalPersonYnq : proposalPersonYnqs) {
+                /* look for answers - required for routing */
+                if(StringUtils.isBlank(proposalPersonYnq.getAnswer())) {
+                    valid = false;
+                    errorMap.putError("answer", KeyConstants.ERROR_REQUIRED_ANSWER);
+                }
+            }
+            errorMap.removeFromErrorPath(errorPath);
+            i++;
+        }
+        return valid;
+    }
 
     /**
     *
     * Validate proposal questions rule. validate explanation required and date required fields based on 
-    * question configuration.
+    * question configuration. Answers are mandatory for routing
     * @param proposalDevelopmentDocument
     * @return
     */
-    private boolean processProposalYNQBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    public boolean processProposalYNQBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean docRouting) {
         boolean valid = true;
 
         //checkErrors();
@@ -188,6 +224,11 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             String groupName = proposalYnq.getYnq().getGroupName();
             String errorPath = "proposalYnq[" + groupName + "][" + i + "]";
             errorMap.addToErrorPath(errorPath);
+            /* look for answers - required for routing */
+            if(docRouting && StringUtils.isBlank(proposalYnq.getAnswer())) {
+                valid = false;
+                errorMap.putError("answer", KeyConstants.ERROR_REQUIRED_ANSWER);
+            }
             /* look for date requried */
             if (StringUtils.isNotBlank(proposalYnq.getAnswer()) && 
                     proposalYnq.getAnswer().equalsIgnoreCase(proposalYnq.getYnq().getDateRequiredFor()) && 
