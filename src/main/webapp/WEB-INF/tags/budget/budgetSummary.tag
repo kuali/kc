@@ -6,7 +6,7 @@
 <c:set var="action" value="budgetAction" />
 <c:set var="KRAConst" value="${org.kuali.kra.infrastructure.Constants}"/>
  
-<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="" >
+<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetSummary*" >
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Budget Overview</h2></span>
