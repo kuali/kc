@@ -109,7 +109,10 @@ public interface Constants {
     public static final String BUDGET_STATUS_COMPLETE_CODE = "budgetStatusCompleteCode";
     public static final String BUDGET_STATUS_INCOMPLETE_CODE = "budgetStatusIncompleteCode";
     public static final String PROPOSAL_BUDGET_VERSION_NUMBER = "proposalDevelopment.budget.versionNumber";
-
+    public static final String BUDGET_DEFAULT_OVERHEAD_RATE_CODE = "defaultOverheadRateClassCode";
+    public static final String BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE = "defaultUnderrecoveryRateClassCode";
+    public static final String BUDGET_DEFAULT_MODULAR_FLAG = "defaultModularFlag";
+    
     // KIM Authorization Namespace for KRA
     public static final String KRA_NAMESPACE = "KRA";
     

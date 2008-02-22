@@ -125,6 +125,10 @@
 		</property>
 	</bean>
 	
+	<bean id="kualiConfigurationService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+		<property name="serviceName" value="kualiConfigurationService" />
+	</bean>
+	
 	<bean id="webAuthenticationService" class="org.kuali.core.service.impl.WebAuthenticationServiceCas">
 		<property name="validatePassword" value="false" />
 	</bean>
@@ -389,7 +393,11 @@
 		<property name="documentService">
 			<ref bean="documentService"/>
 		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
 	</bean>
+	
 	<bean id="budgetCalculationService" class="org.kuali.kra.budget.service.impl.BudgetCalculationServiceImpl">
 	</bean>
 
