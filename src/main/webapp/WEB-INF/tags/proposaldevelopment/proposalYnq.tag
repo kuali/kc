@@ -37,6 +37,7 @@
       <c:set var="transparent" value="true" />
     </c:if> 
 <bean:define id="trunGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].truncGroupName"/>
+<bean:define id="fullGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].groupName"/>
 <kul:tab tabTitle="${trunGroupName}" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}">
 <c:set var="tabErrorKey" value="document.proposalYnq[${gps.index}]"/>
     <c:set var="proposalYnq" value="document.proposalYnqs[${gps.index}]" /> 
@@ -48,9 +49,9 @@
         </div>
     	<div align="left" style="padding:12px;">
     		<strong>Full Group Name:</strong> 
-        	<bean:write name="KualiForm" property="${proposalYnq}.ynq.groupName"/>
+    		${fullGroupName}
         </div>
-        <table cellpadding=0 cellspacing="0"  class="result-table" summary="">
+        <table id="${trunGroupName}" cellpadding=0 cellspacing="0"  class="result-table" summary="">
             <th width="10%">&nbsp;</th>
             <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.Ynq.attributes.description" />
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalYnq.attributes.answer" />
