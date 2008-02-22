@@ -44,6 +44,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule{
 
     private static final String NEW_BUDGET_PERIOD = "newBudgetPeriod";
+    private static final String BUDGET_SUMMARY = "budgetSummary";
     private Date projectStartDate;
     private Date projectEndDate;
     private Date previousPeriodEndDate;
@@ -76,6 +77,8 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         if (!isValidBudgetPeriod(document, newBudgetPeriod)) {
             rulePassed = false;
         }else if(!isValidBudgetPeriodBoundaries(document)){
+            rulePassed = false;
+        }else if(!isBudgetStatusValid(document)) {
             rulePassed = false;
         }
 
@@ -128,6 +131,24 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         return rulePassed;
     }
 
+    private boolean isBudgetStatusValid(BudgetDocument budgetDocument) {
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        boolean statusValid = true;
+        String budgetStatusCompleteCode = getKualiConfigurationService().getParameter(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+        String budgetStatus = budgetDocument.getProposal().getBudgetStatus();
+        boolean finalVersionFlag = budgetDocument.getFinalVersionFlag();
+        errorMap.addToErrorPath(BUDGET_SUMMARY);
+        if (budgetStatus!= null 
+                && budgetStatus.equals(budgetStatusCompleteCode) 
+                && !finalVersionFlag) {
+            errorMap.putError("document.proposal.budgetStatus", KeyConstants.ERROR_NO_FINAL_BUDGET);
+            finalVersionFlag = false;
+        }
+        errorMap.removeFromErrorPath(BUDGET_SUMMARY);
+        return statusValid;
+    }
+    
     private boolean isValidBudgetPeriodBoundaries(BudgetDocument budgetDocument) {
         boolean validBoundaries = true;
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();

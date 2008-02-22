@@ -15,27 +15,30 @@
  */
 package org.kuali.kra.budget.bo;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.sql.Date;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.service.BudgetSummaryService;
 
 public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	private Integer budgetPeriod;
 	private String proposalNumber;
 	private Integer budgetVersionNumber;
 	private String comments;
-	private BudgetDecimal costSharingAmount;
+	private KualiDecimal costSharingAmount;
 	private Date endDate;
 	private Date startDate;
-	private BudgetDecimal totalCost;
-	private BudgetDecimal totalCostLimit;
-	private BudgetDecimal totalDirectCost;
-	private BudgetDecimal totalIndirectCost;
-	private BudgetDecimal underrecoveryAmount;
+	private KualiDecimal totalCost;
+	private KualiDecimal totalCostLimit;
+	private KualiDecimal totalDirectCost;
+	private KualiDecimal totalIndirectCost;
+	private KualiDecimal underrecoveryAmount;
 	private List<BudgetLineItem> budgetLineItems;
 
 	public BudgetPeriod(){
@@ -73,11 +76,11 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 		this.comments = comments;
 	}
 
-	public BudgetDecimal getCostSharingAmount() {
-		return costSharingAmount;
+	public KualiDecimal getCostSharingAmount() {
+		return costSharingAmount == null ?  new KualiDecimal(0) : costSharingAmount;
 	}
 
-	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+	public void setCostSharingAmount(KualiDecimal costSharingAmount) {
 		this.costSharingAmount = costSharingAmount;
 	}
 
@@ -97,43 +100,43 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 		this.startDate = startDate;
 	}
 
-	public BudgetDecimal getTotalCost() {
-		return totalCost;
+	public KualiDecimal getTotalCost() {
+		return totalCost == null ?  new KualiDecimal(0) : totalCost;
 	}
 
-	public void setTotalCost(BudgetDecimal totalCost) {
+	public void setTotalCost(KualiDecimal totalCost) {
 		this.totalCost = totalCost;
 	}
 
-	public BudgetDecimal getTotalCostLimit() {
-		return totalCostLimit;
+	public KualiDecimal getTotalCostLimit() {
+		return totalCostLimit == null ?  new KualiDecimal(0) : totalCostLimit;
 	}
 
-	public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
+	public void setTotalCostLimit(KualiDecimal totalCostLimit) {
 		this.totalCostLimit = totalCostLimit;
 	}
 
-	public BudgetDecimal getTotalDirectCost() {
-		return totalDirectCost;
+	public KualiDecimal getTotalDirectCost() {
+		return totalDirectCost == null ?  new KualiDecimal(0) : totalDirectCost;
 	}
 
-	public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
+	public void setTotalDirectCost(KualiDecimal totalDirectCost) {
 		this.totalDirectCost = totalDirectCost;
 	}
 
-	public BudgetDecimal getTotalIndirectCost() {
-		return totalIndirectCost;
+	public KualiDecimal getTotalIndirectCost() {
+		return totalIndirectCost == null ?  new KualiDecimal(0) : totalIndirectCost;
 	}
 
-	public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
+	public void setTotalIndirectCost(KualiDecimal totalIndirectCost) {
 		this.totalIndirectCost = totalIndirectCost;
 	}
 
-	public BudgetDecimal getUnderrecoveryAmount() {
-		return underrecoveryAmount;
+	public KualiDecimal getUnderrecoveryAmount() {
+		return underrecoveryAmount == null ?  new KualiDecimal(0) : underrecoveryAmount;
 	}
 
-	public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
+	public void setUnderrecoveryAmount(KualiDecimal underrecoveryAmount) {
 		this.underrecoveryAmount = underrecoveryAmount;
 	}
 
@@ -171,4 +174,22 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
     public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
         this.budgetLineItems = budgetLineItems;
     }
+
+    public boolean getBudgetLineItemStatus() {
+        //return getBudgetSummaryService().budgetLineItemExists(getBudgetPeriod());
+        boolean lineItemExists = false;
+        for(BudgetLineItem periodLineItem: budgetLineItems) {
+            Integer lineItemPeriod = periodLineItem.getBudgetPeriod();
+            if(budgetPeriod == lineItemPeriod) {
+                lineItemExists = true;
+                break;
+            }
+        }
+        return lineItemExists;
+    }
+
+    private BudgetSummaryService getBudgetSummaryService() {
+        return getService(BudgetSummaryService.class);
+    }
+
 }

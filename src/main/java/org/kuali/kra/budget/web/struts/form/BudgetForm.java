@@ -43,7 +43,26 @@ public class BudgetForm extends KraTransactionalDocumentFormBase {
     private BudgetPeriod newBudgetPeriod;
     
     private List<ExtraButton> extraTopButtons;
+
+    private Integer viewBudgetPeriod;
+    private String viewLocation;
     
+    public Integer getViewBudgetPeriod() {
+        return viewBudgetPeriod;
+    }
+
+    public void setViewBudgetPeriod(Integer viewBudgetPeriod) {
+        this.viewBudgetPeriod = viewBudgetPeriod;
+    }
+
+    public String getViewLocation() {
+        return viewLocation;
+    }
+
+    public void setViewLocation(String viewLocation) {
+        this.viewLocation = viewLocation;
+    }
+
     public BudgetForm() {
         super();
         this.setDocument(new BudgetDocument());
