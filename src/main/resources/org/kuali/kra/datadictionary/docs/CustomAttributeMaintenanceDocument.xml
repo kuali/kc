@@ -22,7 +22,8 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.bo.CustomAttribute</businessObjectClass>
         <maintainableClass>org.kuali.kra.maintenance.KraMaintainableImpl</maintainableClass>
-        <preRulesCheckClass>org.kuali.kra.rules.CustomAttributePreRules</preRulesCheckClass>
+        <businessRulesClass>org.kuali.kra.rules.CustomAttributeMaintenanceDocumentRule</businessRulesClass>
+        <!--  <preRulesCheckClass>org.kuali.kra.rules.CustomAttributePreRules</preRulesCheckClass> -->
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
