@@ -24,13 +24,15 @@ import java.util.List;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
-import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.RateClass;
+import org.kuali.kra.budget.bo.RateClassType;
+import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -42,19 +44,19 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private String proposalNumber;
     private Integer budgetVersionNumber;
     private String comments;
-    private BudgetDecimal costSharingAmount; // = new BudgetDecimal(0);
+    private KualiDecimal costSharingAmount; // = new KualiDecimal(0);
     private Date endDate;
     private boolean finalVersionFlag;
     private String modularBudgetFlag;
     private String ohRateClassCode;
     private String ohRateTypeCode;
-    private BudgetDecimal residualFunds;
+    private KualiDecimal residualFunds;
     private Date startDate;
-    private BudgetDecimal totalCost;
-    private BudgetDecimal totalCostLimit; // = new BudgetDecimal(0);
-    private BudgetDecimal totalDirectCost;
-    private BudgetDecimal totalIndirectCost; // = new BudgetDecimal(0);
-    private BudgetDecimal underrecoveryAmount; // = new BudgetDecimal(0);
+    private KualiDecimal totalCost;
+    private KualiDecimal totalCostLimit; // = new KualiDecimal(0);
+    private KualiDecimal totalDirectCost;
+    private KualiDecimal totalIndirectCost; // = new KualiDecimal(0);
+    private KualiDecimal underrecoveryAmount; // = new KualiDecimal(0);
     private String urRateClassCode;
     private ProposalDevelopmentDocument proposal;
     private RateClass rateClass;
@@ -69,7 +71,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private Date summaryPeriodStartDate;
     private Date summaryPeriodEndDate;
     
-
+    private List<InstituteRate> instituteRates;
+    private List<RateClass> rateClasses;
+    private List<RateClassType> rateClassTypes;
+    
     public BudgetDocument(){
         super();
         budgetProposalRates = new ArrayList<BudgetProposalRate>();
@@ -77,6 +82,9 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         budgetPeriods = new ArrayList<BudgetPeriod>();
         budgetLineItems = new ArrayList<BudgetLineItem>();
         budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
+        instituteRates = new ArrayList<InstituteRate>();
+        rateClasses = new ArrayList<RateClass>();
+        rateClassTypes = new ArrayList<RateClassType>();
     }
 
     public void initialize() {
@@ -104,11 +112,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.comments = comments;
     }
 
-    public BudgetDecimal getCostSharingAmount() {
-        return costSharingAmount == null ?  new BudgetDecimal(0) : costSharingAmount;
+    public KualiDecimal getCostSharingAmount() {
+        return costSharingAmount == null ?  new KualiDecimal(0) : costSharingAmount;
     }
 
-    public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+    public void setCostSharingAmount(KualiDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
 
@@ -152,11 +160,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.ohRateTypeCode = ohRateTypeCode;
     }
 
-    public BudgetDecimal getResidualFunds() {
-        return residualFunds;
+    public KualiDecimal getResidualFunds() {
+        return residualFunds == null ?  new KualiDecimal(0) : residualFunds;
     }
 
-    public void setResidualFunds(BudgetDecimal residualFunds) {
+    public void setResidualFunds(KualiDecimal residualFunds) {
         this.residualFunds = residualFunds;
     }
 
@@ -168,43 +176,43 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.startDate = startDate;
     }
 
-    public BudgetDecimal getTotalCost() {
-        return totalCost == null ?  new BudgetDecimal(0) : totalCost;
+    public KualiDecimal getTotalCost() {
+        return totalCost == null ?  new KualiDecimal(0) : totalCost;
     }
 
-    public void setTotalCost(BudgetDecimal totalCost) {
+    public void setTotalCost(KualiDecimal totalCost) {
         this.totalCost = totalCost;
     }
 
-    public BudgetDecimal getTotalCostLimit() {
-        return totalCostLimit;
+    public KualiDecimal getTotalCostLimit() {
+        return totalCostLimit == null ?  new KualiDecimal(0) : totalCostLimit;
     }
 
-    public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
+    public void setTotalCostLimit(KualiDecimal totalCostLimit) {
         this.totalCostLimit = totalCostLimit;
     }
 
-    public BudgetDecimal getTotalDirectCost() {
-        return totalDirectCost == null ?  new BudgetDecimal(0) : totalDirectCost;
+    public KualiDecimal getTotalDirectCost() {
+        return totalDirectCost == null ?  new KualiDecimal(0) : totalDirectCost;
     }
 
-    public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
+    public void setTotalDirectCost(KualiDecimal totalDirectCost) {
         this.totalDirectCost = totalDirectCost;
     }
 
-    public BudgetDecimal getTotalIndirectCost() {
-        return totalIndirectCost == null ?  new BudgetDecimal(0) : totalIndirectCost;
+    public KualiDecimal getTotalIndirectCost() {
+        return totalIndirectCost == null ?  new KualiDecimal(0) : totalIndirectCost;
     }
 
-    public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
+    public void setTotalIndirectCost(KualiDecimal totalIndirectCost) {
         this.totalIndirectCost = totalIndirectCost;
     }
 
-    public BudgetDecimal getUnderrecoveryAmount() {
-        return underrecoveryAmount == null ?  new BudgetDecimal(0) : underrecoveryAmount;
+    public KualiDecimal getUnderrecoveryAmount() {
+        return underrecoveryAmount == null ?  new KualiDecimal(0) : underrecoveryAmount;
     }
 
-    public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
+    public void setUnderrecoveryAmount(KualiDecimal underrecoveryAmount) {
         this.underrecoveryAmount = underrecoveryAmount;
     }
 
@@ -316,6 +324,12 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      * @return Returns the budgetProposalRates.
      */
     public List<BudgetProposalRate> getBudgetProposalRates() {
+        /* check budget rates - if empty get all budget rates */
+        if(budgetProposalRates.isEmpty()) {
+            String unitNumber = getProposal().getOwnedByUnitNumber();
+            String activityTypeCode = getProposal().getActivityTypeCode();
+            getBudgetRatesService().getBudgetRates(activityTypeCode,unitNumber, this.rateClasses, this.instituteRates, this.budgetProposalRates);
+        }
         return budgetProposalRates;
     }
 
@@ -357,6 +371,41 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      */
     public void setActivityTypeCode(String activityTypeCode) {
         this.activityTypeCode = activityTypeCode;
+    }
+
+    public List<InstituteRate> getInstituteRates() {
+        return instituteRates;
+    }
+
+    public void setInstituteRates(List<InstituteRate> instituteRates) {
+        this.instituteRates = instituteRates;
+    }
+
+    /**
+     * Gets the BudgetRates attribute. 
+     * @return Returns the BudgetRates.
+     */
+    public BudgetRatesService getBudgetRatesService() {
+        return getService(BudgetRatesService.class);
+    }
+
+    public List<RateClass> getRateClasses() {
+        return rateClasses;
+    }
+
+    public void setRateClasses(List<RateClass> rateClasses) {
+        this.rateClasses = rateClasses;
+    }
+
+    public List<RateClassType> getRateClassTypes() {
+        if(rateClassTypes.isEmpty()) {
+            getBudgetRatesService().getBudgetRateClassTypes(this.rateClassTypes);
+        }
+        return rateClassTypes;
+    }
+
+    public void setRateClassTypes(List<RateClassType> rateClassTypes) {
+        this.rateClassTypes = rateClassTypes;
     }
 
 }
