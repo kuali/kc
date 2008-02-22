@@ -51,7 +51,6 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
-        pdDoc.addNewBudgetVersion(newBudgetDoc);
         
         // Below code is for forwarding to new Budget Document
         Long routeHeaderId = newBudgetDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
@@ -98,7 +97,6 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDocument = budgetService.copyBudgetVersion(budgetDocument);
-        pdDoc.addNewBudgetVersion(newBudgetDocument);
         Long routeHeaderId = newBudgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);

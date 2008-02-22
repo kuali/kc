@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.web.struts.form;
 
-import java.util.List;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +23,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.kra.web.struts.form.ProposalFormBase;
 
-public class BudgetForm extends KraTransactionalDocumentFormBase {
+public class BudgetForm extends ProposalFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
     
     private String newBudgetPersonId;

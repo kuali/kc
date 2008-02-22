@@ -27,11 +27,11 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.kra.web.struts.action.ProposalActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
-public class BudgetAction extends KraTransactionalDocumentActionBase {
+public class BudgetAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
 
     /**

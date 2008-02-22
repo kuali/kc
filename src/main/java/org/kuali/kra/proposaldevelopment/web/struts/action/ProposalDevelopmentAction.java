@@ -56,12 +56,12 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.kra.web.struts.action.ProposalActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 import edu.iu.uis.eden.exception.WorkflowException;
 
-public class ProposalDevelopmentAction extends KraTransactionalDocumentActionBase {
+public class ProposalDevelopmentAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
 
     /**

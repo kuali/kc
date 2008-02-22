@@ -18,8 +18,10 @@ package org.kuali.kra.budget.service.impl;
 import java.util.ArrayList;
 
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -32,6 +34,7 @@ public class BudgetServiceImpl implements BudgetService {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetServiceImpl.class);
     
     private DocumentService documentService;
+    private KualiConfigurationService kualiConfigurationService;
     
     /**
      * @see org.kuali.kra.budget.service.BudgetService#getNewBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
@@ -46,9 +49,12 @@ public class BudgetServiceImpl implements BudgetService {
         budgetDocument.getDocumentHeader().setFinancialDocumentDescription(documentDescription);
         budgetDocument.setStartDate(pdDoc.getRequestedStartDateInitial());
         budgetDocument.setEndDate(pdDoc.getRequestedEndDateInitial());
-        budgetDocument.setOhRateClassCode("1");
-        budgetDocument.setUrRateClassCode("1");
-        budgetDocument.setModularBudgetFlag("N");
+        budgetDocument.setOhRateClassCode(kualiConfigurationService.getParameterValue(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
+        budgetDocument.setUrRateClassCode(kualiConfigurationService.getParameterValue(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
+        budgetDocument.setModularBudgetFlag(kualiConfigurationService.getParameterValue(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         
@@ -67,6 +73,10 @@ public class BudgetServiceImpl implements BudgetService {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
     
 }
