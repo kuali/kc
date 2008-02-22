@@ -19,8 +19,17 @@ import java.util.LinkedHashMap;
 
 public class BudgetProposalRate extends BudgetProposalLaRate {
 	private String activityTypeCode;
+	private String viewLocation;
 
-	public String getActivityTypeCode() {
+	public String getViewLocation() {
+        return viewLocation;
+    }
+
+    public void setViewLocation(String viewLocation) {
+        this.viewLocation = viewLocation;
+    }
+
+    public String getActivityTypeCode() {
 		return activityTypeCode;
 	}
 

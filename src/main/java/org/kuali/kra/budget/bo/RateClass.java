@@ -23,6 +23,7 @@ public class RateClass extends KraPersistableBusinessObjectBase {
 	private String rateClassCode;
 	private String description;
 	private String rateClassType;
+	private String rateClassTypeDescription;
 
 	public String getRateClassCode() {
 		return rateClassCode;
@@ -57,4 +58,12 @@ public class RateClass extends KraPersistableBusinessObjectBase {
 		hashMap.put("rateClassType", getRateClassType());
 		return hashMap;
 	}
+
+    public String getRateClassTypeDescription() {
+        return rateClassTypeDescription;
+    }
+
+    public void setRateClassTypeDescription(String rateClassTypeDescription) {
+        this.rateClassTypeDescription = rateClassTypeDescription;
+    }
 }

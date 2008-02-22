@@ -1,9 +1,11 @@
 package org.kuali.kra.bo;
 
-import java.util.LinkedHashMap;
 import java.sql.Date;
+import java.util.LinkedHashMap;
 
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.bo.RateClass;
+import org.kuali.kra.budget.bo.RateType;
 
 public class InstituteLaRate extends KraPersistableBusinessObjectBase {
 	private String fiscalYear;
@@ -14,7 +16,26 @@ public class InstituteLaRate extends KraPersistableBusinessObjectBase {
 	private String unitNumber;
 	private BudgetDecimal instituteRate;
 
-	public String getFiscalYear() {
+	private RateClass rateClass;
+	private RateType rateType;
+	
+	public RateClass getRateClass() {
+        return rateClass;
+    }
+
+    public void setRateClass(RateClass rateClass) {
+        this.rateClass = rateClass;
+    }
+
+    public RateType getRateType() {
+        return rateType;
+    }
+
+    public void setRateType(RateType rateType) {
+        this.rateType = rateType;
+    }
+
+    public String getFiscalYear() {
 		return fiscalYear;
 	}
 
