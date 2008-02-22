@@ -30,7 +30,7 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	private Integer budgetVersionNumber;
 	private Boolean applyInRateFlag;
 	private Integer basedOnLineItem;
-	private Integer budgetCategoryCode;
+	private String budgetCategoryCode;
 	private String budgetJustification;
 	private String costElement;
 	private BudgetDecimal costSharingAmount;
@@ -133,11 +133,11 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 		this.basedOnLineItem = basedOnLineItem;
 	}
 
-	public Integer getBudgetCategoryCode() {
+	public String getBudgetCategoryCode() {
 		return budgetCategoryCode;
 	}
 
-	public void setBudgetCategoryCode(Integer budgetCategoryCode) {
+	public void setBudgetCategoryCode(String budgetCategoryCode) {
 		this.budgetCategoryCode = budgetCategoryCode;
 	}
 
