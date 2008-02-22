@@ -17,32 +17,52 @@ package org.kuali.kra.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceKeyConstants;
-import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.rules.PreRulesContinuationBase;
+import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.infrastructure.Constants;
 
-public class CustomAttributePreRules extends PreRulesContinuationBase {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomAttributePreRules.class);
+public class CustomAttributeMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
+    
+    /**
+     * Constructs a CustomAttributeMaintenanceDocumentRule.java.
+     */
+    public CustomAttributeMaintenanceDocumentRule() {
+        super();
+    }
+    
+    /**
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */ 
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        return checkLookupReturn(document);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
+    @Override
+    protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
+        return checkLookupReturn(document);
+    }
 
     /**
      * 
-     * This is to check the custom attribute.  
-     * - if lookupClass is selected, then lookupReturn becomes a required field.
+     * This method to check wheteher 'lookupreturn' is specified if lookupclass is selected.
+     * @param maintenanceDocument
+     * @return
      */
-    public boolean doRules(Document document) {
-        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
+    private boolean checkLookupReturn(MaintenanceDocument maintenanceDocument) {
 
-        LOG.debug("doRules");
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
         CustomAttribute newCustomAttribute = (CustomAttribute) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 
-        // FIXME : iffy solution
+        // FIXME : iffy solution - will be used to retrieve lookupreturn list by the valuesfinder class
         if (StringUtils.isNotBlank(newCustomAttribute.getLookupClass())) {
             GlobalVariables.getUserSession().addObject("lookupClassName", (Object)newCustomAttribute.getLookupClass());
         }
@@ -50,7 +70,6 @@ public class CustomAttributePreRules extends PreRulesContinuationBase {
                 && StringUtils.isBlank(newCustomAttribute.getLookupReturn())) {
             GlobalVariables.getErrorMap().putError("document.newMaintainableObject.lookupReturn", RiceKeyConstants.ERROR_REQUIRED,
                     new String[] { "Lookup Return" });
-            event.setActionForwardName(Constants.MAPPING_BASIC);
             return false;
         }
 
@@ -58,6 +77,4 @@ public class CustomAttributePreRules extends PreRulesContinuationBase {
         return true;
 
     }
-
-
 }
