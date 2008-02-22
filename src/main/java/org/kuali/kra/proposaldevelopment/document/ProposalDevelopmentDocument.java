@@ -1124,6 +1124,22 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     }
     
     /**
+     * This method gets the next budget version number for this proposal.
+     * We can't use documentNextVersionNumber because that requires a save and we don't
+     * want to save the proposal development document before forwarding to the budget document.
+     * @return Integer
+     */
+    public Integer getNextBudgetVersionNumber() {
+        List<BudgetVersionOverview> versions = getBudgetVersionOverviews();
+        if (versions.isEmpty()) {
+            return 1;
+        }
+        Collections.sort(versions);
+        BudgetVersionOverview lastVersion = versions.get(versions.size() - 1);
+        return lastVersion.getBudgetVersionNumber() + 1;
+    }
+    
+    /**
      * Gets index i from the budget versions list.
      * 
      * @param index
@@ -1136,43 +1152,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         return (BudgetVersionOverview) getBudgetVersionOverviews().get(index);
     }
     
-    /**
-     * 
-     * This method adds a new BudgetVersionOverview based on budgetDocument to the list.
-     * @param budgetDocument
-     */
-    public void addNewBudgetVersion(BudgetDocument budgetDocument) {
-        BudgetVersionOverview budgetVersion = new BudgetVersionOverview();
-        try {
-            PropertyUtils.copyProperties(budgetVersion, budgetDocument);
-        } catch (NoSuchMethodException e) {
-            LOG.error("NoSuchMethodException copying properties: " + e);
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            LOG.error("IllegalAccessException copying properties: " + e);
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            LOG.error("InvocationTargetException copying properties: " + e);
-            throw new RuntimeException(e);
-        }
-        this.getBudgetVersionOverviews().add(budgetVersion);
-    }
-    
-    /**
-     * 
-     * This method gets the next budget version number for this proposal.
-     * @return Integer
-     */
-    public Integer getNextBudgetVersionNumber() {
-        List<BudgetVersionOverview> versions = getBudgetVersionOverviews();
-        if (versions.isEmpty()) {
-            return 1;
-        }
-        Collections.sort(versions);
-        BudgetVersionOverview lastVersion = versions.get(versions.size() - 1);
-        return lastVersion.getBudgetVersionNumber() + 1;
-    }
-
     public List<S2sOppForms> getS2sOppForms() {
         return s2sOppForms;
     }
