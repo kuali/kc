@@ -183,7 +183,7 @@ public class LineItemCalculatorTest extends KraTestBase {
 //        bd.getBudgetPeriods().add(bp);
     }
 
-    private BudgetLineItem getLineItem(BudgetPeriod bp, int lineItemNumber, int budgetCategoryCode, String costElement) {
+    private BudgetLineItem getLineItem(BudgetPeriod bp, int lineItemNumber, String budgetCategoryCode, String costElement) {
         BudgetLineItem bli = new BudgetLineItem();
         bli.setProposalNumber(bp.getProposalNumber());
         bli.setBudgetVersionNumber(bp.getBudgetVersionNumber());
