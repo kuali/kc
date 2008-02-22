@@ -89,15 +89,15 @@
 			</attribute>
 
 			<attribute name="description">
-			<label>Description </label>
-			<shortLabel>Description </shortLabel>
+			<label>Rate Type</label>
+			<shortLabel>Rate Type</shortLabel>
 			<maxLength>200</maxLength>
 			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
 				<text size="200" />
 			</control>
-			<summary>Description </summary>
-			<description>Description </description>
+			<summary>Rate Type</summary>
+			<description>Rate Type</description>
 			</attribute>
 
 		</attributes>
