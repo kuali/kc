@@ -18,6 +18,7 @@ package org.kuali.kra.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
@@ -84,7 +85,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id1)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), "error.required");
+        assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_REQUIRED);
     }
 
     @Test
@@ -101,7 +102,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id4)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), "error.invalidFormat");
+        assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_INVALID_FORMAT);
     }
     
     @Test
@@ -118,7 +119,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id1)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), "error.maxLength");
+        assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_MAX_LENGTH);
     }
 
     @Test
@@ -135,7 +136,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id8)");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), "error.invalidFormat");
+        assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_INVALID_FORMAT);
     }
 
 
