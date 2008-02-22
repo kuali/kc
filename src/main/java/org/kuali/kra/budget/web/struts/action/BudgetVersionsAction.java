@@ -46,6 +46,8 @@ public class BudgetVersionsAction extends BudgetAction {
         
         return forward;
     }
+    
+    /* There is a certain amount of shared logic in the below methods. If you find yourself maintaining/refactoring this, consider consolidation. */
 
     /**
      * Action called to create a new budget version.
@@ -62,7 +64,6 @@ public class BudgetVersionsAction extends BudgetAction {
         ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, budgetForm.getNewBudgetVersionName());
-        pdDoc.addNewBudgetVersion(newBudgetDoc);
         
         // Below code is for forwarding to new Budget Document
         Long routeHeaderId = newBudgetDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
@@ -111,7 +112,6 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDocument = budgetService.copyBudgetVersion(budgetDocToCopy);
-        pdDoc.addNewBudgetVersion(newBudgetDocument);
         Long routeHeaderId = newBudgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);

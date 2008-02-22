@@ -20,20 +20,4 @@ import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 public class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KraTransactionalDocumentFormBase.class);
     
-    private String newBudgetVersionName;
-    private Integer finalBudgetVersion;
-    
-    public Integer getFinalBudgetVersion() {
-        return finalBudgetVersion;
-    }
-    public void setFinalBudgetVersion(Integer finalBudgetVersion) {
-        this.finalBudgetVersion = finalBudgetVersion;
-    }
-    public String getNewBudgetVersionName() {
-        return newBudgetVersionName;
-    }
-    public void setNewBudgetVersionName(String newBudgetVersionName) {
-        this.newBudgetVersionName = newBudgetVersionName;
-    }
-    
 }

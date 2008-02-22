@@ -26,11 +26,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.Parameter;
@@ -65,13 +62,13 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitService;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.kra.web.struts.form.ProposalFormBase;
 
 /**
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentForm extends KraTransactionalDocumentFormBase {
+public class ProposalDevelopmentForm extends ProposalFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentForm.class);
     private static final String DELETE_SPECIAL_REVIEW_ACTION = "deleteSpecialReview";
     
