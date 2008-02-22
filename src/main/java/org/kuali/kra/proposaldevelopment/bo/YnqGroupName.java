@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class YnqGroupName extends KraPersistableBusinessObjectBase {
+public class YnqGroupName extends KraPersistableBusinessObjectBase implements Comparator<YnqGroupName>{
     private String groupName;
     private String truncGroupName;
     private int groupNameMaxLength = 57;
@@ -49,5 +51,8 @@ public class YnqGroupName extends KraPersistableBusinessObjectBase {
         propMap.put("truncGroupName", this.getTruncGroupName());
         return propMap;
     }
-
+    
+    public int compare(YnqGroupName groupName1, YnqGroupName groupName2) {
+        return groupName1.getGroupName().compareTo(groupName2.getGroupName());
+    }
 }
