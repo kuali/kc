@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
+import static java.util.Collections.sort;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +44,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.lookup.keyvalue.KeyLabelPairComparator;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -938,6 +941,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         if(ynqGroupNames.isEmpty()) {
             getYnqService().populateProposalQuestions(this.proposalYnqs, this.ynqGroupNames);
         }
+        Collections.sort(ynqGroupNames, new YnqGroupName());
         return ynqGroupNames;
     }
     
