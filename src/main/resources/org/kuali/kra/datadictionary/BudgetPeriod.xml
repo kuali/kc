@@ -146,7 +146,7 @@
 			<label>Cost Sharing Amount </label>
 			<shortLabel>Cost Sharing Amount </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
@@ -175,7 +175,6 @@
 			<label>Total Cost </label>
 			<shortLabel>Total Cost </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
@@ -187,7 +186,7 @@
 			<label>Total Cost Limit </label>
 			<shortLabel>Total Cost Limit </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
@@ -199,7 +198,7 @@
 			<label>Total Direct Cost </label>
 			<shortLabel>Total Direct Cost </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
@@ -211,7 +210,7 @@
 			<label>Total Indirect Cost </label>
 			<shortLabel>Total Indirect Cost </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
@@ -223,7 +222,7 @@
 			<label>Underrecovery Amount </label>
 			<shortLabel>Underrecovery Amount </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>

@@ -24,8 +24,8 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
@@ -40,17 +40,17 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private Integer budgetVersionNumber;
     private String documentNumber;
     private String documentDescription;
-    private BudgetDecimal costSharingAmount;
+    private KualiDecimal costSharingAmount;
     private Date endDate;
     private Date startDate;
     private boolean finalVersionFlag;
     private String ohRateTypeCode;
-    private BudgetDecimal residualFunds;
-    private BudgetDecimal totalCost;
-    private BudgetDecimal totalDirectCost;
-    private BudgetDecimal totalIndirectCost;
-    private BudgetDecimal totalCostLimit;
-    private BudgetDecimal underrecoveryAmount;
+    private KualiDecimal residualFunds;
+    private KualiDecimal totalCost;
+    private KualiDecimal totalDirectCost;
+    private KualiDecimal totalIndirectCost;
+    private KualiDecimal totalCostLimit;
+    private KualiDecimal underrecoveryAmount;
     private String comments;
     
     private String name;
@@ -64,11 +64,11 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         this.budgetVersionNumber = budgetVersionNumber;
     }
 
-    public BudgetDecimal getCostSharingAmount() {
+    public KualiDecimal getCostSharingAmount() {
         return costSharingAmount;
     }
 
-    public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+    public void setCostSharingAmount(KualiDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
 
@@ -104,43 +104,43 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         this.documentNumber = documentNumber;
     }
 
-    public BudgetDecimal getResidualFunds() {
+    public KualiDecimal getResidualFunds() {
         return residualFunds;
     }
 
-    public void setResidualFunds(BudgetDecimal residualFunds) {
+    public void setResidualFunds(KualiDecimal residualFunds) {
         this.residualFunds = residualFunds;
     }
 
-    public BudgetDecimal getTotalCost() {
+    public KualiDecimal getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(BudgetDecimal totalCost) {
+    public void setTotalCost(KualiDecimal totalCost) {
         this.totalCost = totalCost;
     }
 
-    public BudgetDecimal getTotalDirectCost() {
+    public KualiDecimal getTotalDirectCost() {
         return totalDirectCost;
     }
 
-    public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
+    public void setTotalDirectCost(KualiDecimal totalDirectCost) {
         this.totalDirectCost = totalDirectCost;
     }
 
-    public BudgetDecimal getTotalIndirectCost() {
+    public KualiDecimal getTotalIndirectCost() {
         return totalIndirectCost;
     }
 
-    public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
+    public void setTotalIndirectCost(KualiDecimal totalIndirectCost) {
         this.totalIndirectCost = totalIndirectCost;
     }
 
-    public BudgetDecimal getUnderrecoveryAmount() {
+    public KualiDecimal getUnderrecoveryAmount() {
         return underrecoveryAmount;
     }
 
-    public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
+    public void setUnderrecoveryAmount(KualiDecimal underrecoveryAmount) {
         this.underrecoveryAmount = underrecoveryAmount;
     }
     
@@ -176,11 +176,11 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         this.startDate = startDate;
     }
 
-    public BudgetDecimal getTotalCostLimit() {
+    public KualiDecimal getTotalCostLimit() {
         return totalCostLimit;
     }
 
-    public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
+    public void setTotalCostLimit(KualiDecimal totalCostLimit) {
         this.totalCostLimit = totalCostLimit;
     }
     

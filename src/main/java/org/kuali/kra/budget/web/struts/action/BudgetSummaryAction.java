@@ -17,8 +17,6 @@ package org.kuali.kra.budget.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,6 +32,7 @@ import org.kuali.kra.budget.rule.event.AddBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.DeleteBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
+import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 
@@ -53,7 +52,7 @@ public class BudgetSummaryAction extends BudgetAction {
 
             return super.save(mapping, form, request, response);
         }
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     
@@ -76,7 +75,7 @@ public class BudgetSummaryAction extends BudgetAction {
             /* calculate all periods */
             budgetForm.setNewBudgetPeriod(new BudgetPeriod());
         }
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -98,7 +97,7 @@ public class BudgetSummaryAction extends BudgetAction {
             budgetForm.getBudgetDocument().getBudgetSummaryService().deleteBudgetPeriod(budgetDocument, delPeriod);
             /* calculate all periods */
         }
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -112,7 +111,7 @@ public class BudgetSummaryAction extends BudgetAction {
      */
     public ActionForward recalculateBudgetPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         /* calculate all periods */
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -136,7 +135,7 @@ public class BudgetSummaryAction extends BudgetAction {
 
             /* calculate all periods */
         }
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -149,11 +148,18 @@ public class BudgetSummaryAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward calculateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward("basic");
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetPeriod budgetPeriod = budgetDocument.getBudgetPeriod(0);
+        getBudgetCalculationService().calculateBudgetPeriod(budgetDocument, budgetPeriod);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     private KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
 
+    private BudgetCalculationService getBudgetCalculationService() {
+        return getService(BudgetCalculationService.class);
+    }
 }
