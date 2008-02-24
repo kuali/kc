@@ -53,7 +53,6 @@
         </inquiry>
 
         <lookup>
-            <lookupableId>nonOrganizationalRolodexLookupable</lookupableId>
             <title>Rolodex Lookup</title>
             <menubar>
                 <![CDATA[<a href="index.jsp">Main</a>]]>

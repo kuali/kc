@@ -456,7 +456,7 @@
     	
     <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService">
-            <bean id="nonOrganizationalRolodexHelperService" class="org.kuali.kra.lookup.NonOrganizationalLookupableHelperServiceImpl" 
+            <bean id="nonOrganizationalRolodexHelperService" class="org.kuali.kra.lookup.NonOrganizationalRolodexLookupableHelperServiceImpl" 
                 singleton="false" parent="lookupableHelperService">
                 <property name="rolodexDao" ref="rolodexDao" /> 
                 <property name="lookupService" ref="lookupService" />
