@@ -169,7 +169,7 @@
 	<bean id="lookupResultsService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="lookupResultsService" />
 	</bean>
-	
+
 	<bean id="lookupableHelperService" class="org.kuali.core.lookup.KualiLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
@@ -446,4 +446,21 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
+	<!--  Lookupable Helper for Rolodexes -->
+
+    <bean id="rolodexDao" class="org.kuali.kra.dao.ojb.RolodexDaoOjb" >
+        <!-- 
+        <property name="lookupDao" ref="lookupDao" />
+         -->
+    </bean>
+    	
+    <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <bean id="nonOrganizationalRolodexHelperService" class="org.kuali.kra.lookup.NonOrganizationalLookupableHelperServiceImpl" 
+                singleton="false" parent="lookupableHelperService">
+                <property name="rolodexDao" ref="rolodexDao" /> 
+                <property name="lookupService" ref="lookupService" />
+            </bean> 
+        </property>
+    </bean>
 </beans>
