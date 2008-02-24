@@ -51,8 +51,7 @@ public class RolodexDaoOjbTest extends KraTestBase {
         Criteria criteria = getRolodexDao().getNonOrganizationalRolodexCriteria(NonOrganizationalRolodex.class, fieldValues, false);
         
         assertNotNull(criteria);
-        assertEquals(criteria.toString(), 
-                "[organization LIKE National%, [firstName IS NOT NULL , firstName <> ], [lastName IS NOT NULL , lastName <> ]]");
+        assertEquals(criteria.toString(), "[UPPER(organization) LIKE NATIONAL%, firstName IS NOT NULL , lastName IS NOT NULL ]");
     }
 
     @Test
@@ -63,8 +62,7 @@ public class RolodexDaoOjbTest extends KraTestBase {
         
         Criteria criteria = getRolodexDao().getNonOrganizationalRolodexCriteria(NonOrganizationalRolodex.class, fieldValues, false);        
         assertNotNull(criteria);
-        assertEquals(criteria.toString(), 
-                    "[organization LIKE National%, firstName LIKE David, [firstName IS NOT NULL , firstName <> ], [lastName IS NOT NULL , lastName <> ]]");
+        assertEquals(criteria.toString(),"[UPPER(organization) LIKE NATIONAL%, UPPER(firstName) LIKE DAVID, firstName IS NOT NULL , lastName IS NOT NULL ]");
     }
     
     private RolodexDao getRolodexDao() {
