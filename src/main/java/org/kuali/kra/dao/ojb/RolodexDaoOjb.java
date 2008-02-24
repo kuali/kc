@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.dao.ojb;
 
+import static org.kuali.core.lookup.LookupUtils.applySearchResultsLimit;
+import static org.kuali.core.lookup.LookupUtils.getSearchResultsLimit;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,15 +31,10 @@ import org.kuali.core.dao.LookupDao;
 import org.kuali.core.dao.ojb.LookupDaoOjb;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.LookupService;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.dao.RolodexDao;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springmodules.orm.ojb.OjbOperationException;
-
-import static org.kuali.core.lookup.LookupUtils.getSearchResultsLimit;
-import static org.kuali.core.lookup.LookupUtils.applySearchResultsLimit;
 
 /**
  * OJB Implementation of <code>{@link RolodexDao}</code>
@@ -65,6 +63,8 @@ public class RolodexDaoOjb extends PlatformAwareDaoBaseOjb implements RolodexDao
                 matchingResultsCount = new Long(0);
             }
             searchResults = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Rolodex.class, criteria));
+            
+            LOG.info("Got results " + searchResults);
         }
         catch (OjbOperationException e) {
             throw new RuntimeException("LookupDaoOjb encountered exception during executeSearch", e);
@@ -86,10 +86,10 @@ public class RolodexDaoOjb extends PlatformAwareDaoBaseOjb implements RolodexDao
         }
         else {
             retval = getLookupDaoOjb().getCollectionCriteriaFromMap(checkBusinessObjectClass(businessObjectClass), fieldValues);   
-        }
+        }  
         
-        retval.addAndCriteria(createNotNullCriteria("firstName"));
-        retval.addAndCriteria(createNotNullCriteria("lastName"));
+        retval.addNotNull("firstName");
+        retval.addNotNull("lastName");
         
         LOG.info("NonOrganizationalQuery" + retval);
         
@@ -97,12 +97,8 @@ public class RolodexDaoOjb extends PlatformAwareDaoBaseOjb implements RolodexDao
     }
 
     
-    private Criteria createNotNullCriteria(String attributeName) {
-        Criteria retval = new Criteria();
-        retval.addNotNull(attributeName);
-        retval.addNotEqualTo(attributeName, "");
-        
-        return retval;
+    private void addNotNullCriteria(Criteria criteria, String attributeName) {
+        criteria.addNotNull(attributeName);
     }
 
     private PersistableBusinessObject checkBusinessObjectClass(Class businessObjectClass) {
@@ -126,6 +122,9 @@ public class RolodexDaoOjb extends PlatformAwareDaoBaseOjb implements RolodexDao
         return lookupDao;
     }
     
+    /**
+     * @see org.kuali.kra.dao.RolodexDao#getLookupDaoOjb()
+     */
     public LookupDaoOjb getLookupDaoOjb() {
         return (LookupDaoOjb) getLookupDao();
     }

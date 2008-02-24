@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.lookup;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.lookup.KualiLookupableImpl;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Rolodex;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getTypedService;
@@ -55,15 +57,29 @@ public class NonOrganizationalRolodexLookupableHelperServiceImplTest extends Kra
     }
     
     @Test
-    public void getResultsValid() {
+    public void getResultsNonOrganizational() {
         Map fieldValues = new HashMap();
-        fieldValues.put("organization", "Naval*"); // Search for organizations that start with National
-        fieldValues.put("firstName", "David"); // Search for organizations that start with National
+        fieldValues.put("organization", "Lockheed*"); // Search for organizations that start with National
+        fieldValues.put("firstName", "Chris"); // Search for organizations that start with National
         
         KualiLookupableImpl lookupableService = getTypedService("nonOrganizationalRolodexLookupable");
-        lookupableService.setBusinessObjectClass(Rolodex.class);
+        lookupableService.setBusinessObjectClass(NonOrganizationalRolodex.class);
         
-        lookupableService.getSearchResults(fieldValues);
+        Collection results = lookupableService.getSearchResults(fieldValues);
+
+        assertEquals(1, results.size());
     }
     
+    @Test
+    public void getResultsOrganizationalOnly() {
+        Map fieldValues = new HashMap();
+        fieldValues.put("organization", "Lockheed*"); // Search for organizations that start with National
+        
+        KualiLookupableImpl lookupableService = getTypedService("nonOrganizationalRolodexLookupable");
+        lookupableService.setBusinessObjectClass(NonOrganizationalRolodex.class);
+        
+        Collection results = lookupableService.getSearchResults(fieldValues);
+        
+        assertEquals(2, results.size());
+    }
 }
