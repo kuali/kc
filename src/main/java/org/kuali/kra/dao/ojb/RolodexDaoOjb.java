@@ -42,8 +42,10 @@ import static org.kuali.core.lookup.LookupUtils.applySearchResultsLimit;
  * OJB Implementation of <code>{@link RolodexDao}</code>
  * 
  */
-public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
+public class RolodexDaoOjb extends PlatformAwareDaoBaseOjb implements RolodexDao {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(RolodexDaoOjb.class);
+    
+    private LookupDao lookupDao;
     
     /**
      * @see org.kuali.kra.dao.RolodexDao#getNonOrganizationalRolodexResults(java.util.Map, boolean)
@@ -80,10 +82,10 @@ public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
         Criteria retval;
         
         if (usePrimaryKeys) {
-            retval = getCollectionCriteriaFromMapUsingPrimaryKeysOnly(businessObjectClass, fieldValues);
+            retval = getLookupDaoOjb().getCollectionCriteriaFromMapUsingPrimaryKeysOnly(businessObjectClass, fieldValues);
         }
         else {
-            retval = getCollectionCriteriaFromMap(checkBusinessObjectClass(businessObjectClass), fieldValues);   
+            retval = getLookupDaoOjb().getCollectionCriteriaFromMap(checkBusinessObjectClass(businessObjectClass), fieldValues);   
         }
         
         retval.addAndCriteria(createNotNullCriteria("firstName"));
@@ -118,5 +120,17 @@ public class RolodexDaoOjb extends LookupDaoOjb implements RolodexDao {
             throw new RuntimeException("LookupDaoOjb could not get instance of " + businessObjectClass.getName(), e);
         }
         return businessObject;
+    }
+
+    public LookupDao getLookupDao() {
+        return lookupDao;
+    }
+    
+    public LookupDaoOjb getLookupDaoOjb() {
+        return (LookupDaoOjb) getLookupDao();
+    }
+
+    public void setLookupDao(LookupDao lookupDao) {
+        this.lookupDao = lookupDao;
     }
 }
