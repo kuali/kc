@@ -49,8 +49,10 @@ public class RolodexDaoOjbTest extends KraTestBase {
         fieldValues.put("organization", "National*"); // Search for organizations that start with National
         
         Criteria criteria = getRolodexDao().getNonOrganizationalRolodexCriteria(NonOrganizationalRolodex.class, fieldValues, false);
-        
-        assertNotNull(criteria);
+
+        assertFalse(-1 == criteria.toString().indexOf("LIKE NATIONAL%"));
+        assertFalse(-1 == criteria.toString().indexOf("firstName IS NOT NULL"));
+        assertFalse(-1 == criteria.toString().indexOf("lastName IS NOT NULL"));
         assertEquals(criteria.toString(), "[UPPER(organization) LIKE NATIONAL%, firstName IS NOT NULL , lastName IS NOT NULL ]");
     }
 
@@ -62,7 +64,10 @@ public class RolodexDaoOjbTest extends KraTestBase {
         
         Criteria criteria = getRolodexDao().getNonOrganizationalRolodexCriteria(NonOrganizationalRolodex.class, fieldValues, false);        
         assertNotNull(criteria);
-        assertEquals(criteria.toString(),"[UPPER(organization) LIKE NATIONAL%, UPPER(firstName) LIKE DAVID, firstName IS NOT NULL , lastName IS NOT NULL ]");
+        assertFalse(-1 == criteria.toString().indexOf("LIKE NATIONAL%"));
+        assertFalse(-1 == criteria.toString().indexOf("LIKE DAVID"));
+        assertFalse(-1 == criteria.toString().indexOf("firstName IS NOT NULL"));
+        assertFalse(-1 == criteria.toString().indexOf("lastName IS NOT NULL"));
     }
     
     private RolodexDao getRolodexDao() {
