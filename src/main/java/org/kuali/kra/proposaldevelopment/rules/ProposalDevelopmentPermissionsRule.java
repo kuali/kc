@@ -47,32 +47,22 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
     public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUser proposalUser) {
         boolean isValid = true;
        
-        // The user must have permission to set user access to the proposal.
-        
-        if (!hasPermission(document, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS)) {
+        // The given username must be valid, i.e. it must correspond
+        // to a person in the database.
+            
+        if (!isValidUser(proposalUser.getUsername())) {
             isValid = false;
-            this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY, 
-                             KeyConstants.ERROR_NO_PERMISSION);
+            this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".username", 
+                             KeyConstants.ERROR_UNKNOWN_USERNAME);
         }
-        else {
             
-            // The given username must be valid, i.e. it must correspond
-            // to a person in the database.
+        // Don't add the same user to the list.  The "edit roles" button
+        // must be used to modify roles for an existing user.
             
-            if (!isValidUser(proposalUser.getUsername())) {
-                isValid = false;
-                this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".username", 
-                                 KeyConstants.ERROR_UNKNOWN_USERNAME);
-            }
-            
-            // Don't add the same user to the list.  The "edit roles" button
-            // must be used to modify roles for an existing user.
-            
-            else if (isDuplicate(proposalUser.getUsername(), proposalUserRolesList)) {
-                isValid = false;
-                this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".username", 
-                                 KeyConstants.ERROR_DUPLICATE_PROPOSAL_USER);
-            }
+        else if (isDuplicate(proposalUser.getUsername(), proposalUserRolesList)) {
+            isValid = false;
+            this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY + ".username", 
+                             KeyConstants.ERROR_DUPLICATE_PROPOSAL_USER);
         }
         
         return isValid;
@@ -84,23 +74,13 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
     public boolean processDeleteProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, int index) {
         boolean isValid = true;
         
-        // The user must have permission to set user access to the proposal.
-        
-        if (!hasPermission(document, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS)) {
+        // The user cannot delete the last Aggregator on a proposal.
+            
+        ProposalUserRoles userRoles = proposalUserRolesList.get(index);
+        if (isLastAggregator(userRoles.getUsername(), proposalUserRolesList)) {
             isValid = false;
             this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY, 
-                             KeyConstants.ERROR_NO_PERMISSION);
-        } 
-        else {
-            
-            // The user cannot delete the last Aggregator on a proposal.
-            
-            ProposalUserRoles userRoles = proposalUserRolesList.get(index);
-            if (isLastAggregator(userRoles.getUsername(), proposalUserRolesList)) {
-                isValid = false;
-                this.reportError(Constants.PERMISSION_USERS_PROPERTY_KEY, 
-                                 KeyConstants.ERROR_LAST_AGGREGATOR);
-            }
+                             KeyConstants.ERROR_LAST_AGGREGATOR);
         }
         
         return isValid;
@@ -112,32 +92,22 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
     public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserEditRoles editRoles) {
         boolean isValid = true;
         
-        // The user must have permission to set user access to the proposal.
-        
-        if (!hasPermission(document, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS)) {
+        // The Aggregator encompasses all of the other roles.  Therefore, if the
+        // user selects the Aggregator role, don't allow any of the other roles
+        // to be selected.
+            
+        if (editRoles.getAggregator() && (editRoles.getBudgetCreator() || editRoles.getNarrativeWriter() || editRoles.getViewer())) {
             isValid = false;
             this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
-                             KeyConstants.ERROR_NO_PERMISSION);
+                             KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
         }
-        else {
             
-            // The Aggregator encompasses all of the other roles.  Therefore, if the
-            // user selects the Aggregator role, don't allow any of the other roles
-            // to be selected.
+        // The user cannot delete the last Aggregator on a proposal.
             
-            if (editRoles.getAggregator() && (editRoles.getBudgetCreator() || editRoles.getNarrativeWriter() || editRoles.getViewer())) {
-                isValid = false;
-                this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
-                                 KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
-            }
-            
-            // The user cannot delete the last Aggregator on a proposal.
-            
-            else if (!editRoles.getAggregator() && isLastAggregator(editRoles.getUsername(), proposalUserRolesList)) {
-                isValid = false;
-                this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
-                                 KeyConstants.ERROR_LAST_AGGREGATOR);
-            }
+        else if (!editRoles.getAggregator() && isLastAggregator(editRoles.getUsername(), proposalUserRolesList)) {
+            isValid = false;
+            this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
+                             KeyConstants.ERROR_LAST_AGGREGATOR);
         }
         return isValid;
     }
