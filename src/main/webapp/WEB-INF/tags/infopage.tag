@@ -57,8 +57,9 @@
 				        <html:hidden property="formKey" value="${KualiForm.formKey}"/>	
 				        <html:hidden property="docFormKey" value="${KualiForm.formKey}"/>	
 							
-		                <div align="center">
+		                <div id="globalbuttons" class="globalbuttons">
 		                    <html:image property="methodToCall.${action}"
+		                                styleClass="globalbuttons"
 			                            src='${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif'
 			                            onclick="javascript: window.close();return false" />		
 		                </div>
