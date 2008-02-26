@@ -41,6 +41,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.YnqService;
 
@@ -51,10 +52,11 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.20 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
+    private NarrativeService narrativeService;
     private YnqService ynqService;
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelServiceImpl.class);
@@ -126,7 +128,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             }
         }
 
-
+        getNarrativeService().addDummyUserRole(document, person);
         person.refreshReferenceObject("role");
         person.setRoleChanged(false);
 
@@ -489,8 +491,40 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         return prop_person;
     }
 
+    /**
+     * Accessor method for dependency injection
+     * 
+     * @param ynqService
+     */
     public void setYnqService(YnqService ynqService) {
         this.ynqService = ynqService;
+    }
+
+    /**
+     * Accessor method for dependency injection
+     * 
+     * @return NarrativeService
+     */
+    public NarrativeService getNarrativeService() {
+        return narrativeService;
+    }
+
+    /**
+     * Accessor method for dependency injection
+     * 
+     * @param narrativeService
+     */
+    public void setNarrativeService(NarrativeService narrativeService) {
+        this.narrativeService = narrativeService;
+    }
+
+    /**
+     * Accessor method for dependency injection
+     * 
+     * @return YnqService
+     */
+    public YnqService getYnqService() {
+        return ynqService;
     }
 
 }
