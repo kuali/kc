@@ -90,13 +90,8 @@
 				</control>
 				<summary>Proposal Number </summary>
 				<description>Proposal Number </description>
-			</attribute>			
-<!-- 			
-			<attributeReference name="cfdaNumber" sourceClassName="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" sourceAttributeName="cfdaNumber" >
-				<control>
-					<text size="6" />
-				</control>
-			</attributeReference> -->
+			</attribute>
+			
       		<attribute name="cfdaNumber">
 				<label>CFDA Number</label>
 				<shortLabel>CFDA Number</shortLabel>
@@ -153,18 +148,6 @@
 			<attributeReference name="openingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp" >
 				<label>Opening Date</label>			
 			</attributeReference>
-<!--			
-			<attributeReference name="opportunityId" sourceClassName="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" sourceAttributeName="programAnnouncementNumber">
-				<control>
-					<text size="50" />
-				</control>
-			</attributeReference>
-			
-			<attributeReference name="opportunityTitle" sourceClassName="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" sourceAttributeName="opportunityTitle" >
-				<control>
-					<text size="255" />
-				</control>
-			</attributeReference>-->			
 			
 			<attribute name="opportunityId">
 				<label>Opportunity ID</label>
@@ -206,7 +189,7 @@
 				<description>Revision Other Description </description>
 			</attribute>
 				
- 		<attributeReference name="s2sSubmissionTypeCode" sourceClassName="org.kuali.kra.s2s.bo.S2sSubmissionType" sourceAttributeName="s2sSubmissionTypeCode" />					
+ 			<attributeReference name="s2sSubmissionTypeCode" sourceClassName="org.kuali.kra.s2s.bo.S2sSubmissionType" sourceAttributeName="s2sSubmissionTypeCode" />					
 	
 			<attribute name="schemaUrl">
 				<label>Schema URL</label>
