@@ -184,7 +184,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
             
         // We will need to determine if the proposal is being saved for the first time.
-            
+
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         String originalStatus = getStatus(doc);
@@ -196,6 +196,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         if (isInitialSave(originalStatus)) {
             initializeProposalUsers(doc); 
         }
+
         return forward;
     }
     
