@@ -453,6 +453,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         //final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
         final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.getInstituteAttachmentRights.line0.anchor", IMAGE_INPUT);
         //assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
+        LOG.info("INSTITUTE VIEW ATTACHMENT "+attachmentFilePage.asText());
         assertTrue(attachmentFilePage.asText().contains("Internal Attachment Rights"));
 
     }
