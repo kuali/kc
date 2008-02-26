@@ -183,6 +183,9 @@ function proposalInstituteAttachmentRightsPop(lineNumber,docFormKey, sessionDocu
   	propInstAttRightWindow.focus();
   }else{
     propInstAttRightWindow = window.open(extractUrlBase()+"/proposalDevelopmentAbstractsAttachments.do?methodToCall=getInstituteAttachmentRights&line="+lineNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "instAttWindow", "width=800, height=300, scrollbars=yes");
+    if (window.focus) {
+         propInstAttRightWindow.focus()
+    }
   }
 }
 var fileBrowseWindow;
