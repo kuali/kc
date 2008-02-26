@@ -26,12 +26,14 @@ import java.util.Vector;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.log4j.Logger;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
@@ -129,12 +131,20 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
     }
     public boolean submitApplication(String proposalNumber) {
         S2SHeader header = getS2SHeader(proposalNumber);
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
         try{
             SubmissionEngine subEngine = new SubmissionEngine();
             subEngine.setLoggedInUser(loggedinUser);
             subEngine.setLogDir(reportPath);
-            subEngine.submitApplication(header);
-        }catch(Exception e){
+            subEngine.submitApplication(header);            
+        }catch(S2SValidationException e){
+            LOG.error(e.getMessage(), e);
+            errorMap.removeFromErrorPath("document");
+            //GlobalVariables.getErrorMap().putError("document.s2sOpportunity.s2sSubmissionTypeCode",KeyConstants.ERROR_IF_PROPOSAL_TYPE_IS_NEW_AND_S2S_SUBMISSION_TYPE_IS_CHANGED_CORRECTED);
+            errorMap.addToErrorPath("document");
+            return false;            
+        }
+        catch(Exception e){
             LOG.error(e.getMessage(), e);
             return false;
         }

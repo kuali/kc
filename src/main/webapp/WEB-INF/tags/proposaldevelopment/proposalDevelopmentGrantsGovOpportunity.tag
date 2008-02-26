@@ -6,7 +6,7 @@
 <c:set var="action" value="proposalDevelopmentProposal" />
 
 
-<kul:tab tabTitle="Opportunity" defaultOpen="false" tabErrorKey="document.s2sOpportunity.opportunityId,document.s2sOpportunity.opportunityTitle,document.s2sOpportunity.s2sSubmissionTypeCode,document.s2sOpportunity.revisionCode,document.s2sOpportunity.cfdaNumber,document.s2sOpportunity.competetionId,document.s2sOpportunity.openingDate,document.s2sOpportunity.closingDate,document.s2sOpportunity.instructionUrl,document.s2sOpportunity.schemaUrl,document.s2sOpportunity.revisionOtherDescription">
+<kul:tab tabTitle="Opportunity" defaultOpen="false" tabErrorKey="document.s2sOpportunity.opportunityId,document.s2sOpportunity.opportunityTitle,document.s2sOpportunity.s2sSubmissionTypeCode,document.s2sOpportunity.revisionCode,document.s2sOpportunity.cfdaNumber,document.s2sOpportunity.competetionId,document.s2sOpportunity.openingDate,document.s2sOpportunity.closingDate,document.s2sOpportunity.instructionUrl,document.s2sOpportunity.schemaUrl,document.s2sOpportunity.revisionOtherDescription" auditCluster="grantsGovAuditWarnings" tabAuditKey="document.s2sOpportunity.submissionTypeCode">
 <div class="tab-container" align="left">
  <table class=tab cellpadding=0 cellspacing="0" summary=""> 
  <tbody id="G1">	
