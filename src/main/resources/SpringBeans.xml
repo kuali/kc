@@ -251,6 +251,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="systemAuthorizationService">
+			<ref bean="systemAuthorizationService" />
+		</property>
 		<property name="proposalAuthorizationService">
 			<ref bean="proposalAuthorizationService" />
 		</property>

@@ -60,6 +60,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
@@ -644,10 +645,11 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     private List<String> getUsersInRole(String roleName) {
         List<String> names = new ArrayList<String>();
-        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
-        List<Person> persons = proposalAuthService.getPersonsInRole(this.getProposalDevelopmentDocument(), roleName);
-        for (Person person : persons) {
-            names.add(person.getFullName());
+        List<ProposalUserRoles> proposalUsers = getProposalUserRoles();
+        for (ProposalUserRoles proposalUser : proposalUsers) {
+            if (proposalUser.getRoleNames().contains(roleName)) {
+                names.add(proposalUser.getFullname());
+            }
         }
         
         // Sort the list of names.
@@ -731,16 +733,36 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * @return the list of users with proposal roles and sorted by their full name
      */
     public synchronized List<ProposalUserRoles> getProposalUserRoles() {
-        proposalUserRolesList = new ArrayList<ProposalUserRoles>();
+        if (proposalUserRolesList == null) {
+            proposalUserRolesList = new ArrayList<ProposalUserRoles>();
+            
+            // Add persons into the ProposalUserRolesList for each of the roles.
+            
+            addPersons(proposalUserRolesList, RoleConstants.AGGREGATOR);
+            addPersons(proposalUserRolesList, RoleConstants.BUDGET_CREATOR);
+            addPersons(proposalUserRolesList, RoleConstants.NARRATIVE_WRITER);
+            addPersons(proposalUserRolesList, RoleConstants.VIEWER);
+            addPersons(proposalUserRolesList, RoleConstants.UNASSIGNED);
+            
+            sortProposalUsers();  
+        }
         
-        // Add persons into the ProposalUserRolesList for each of the roles.
+        return proposalUserRolesList;
+    }
+    
+    public List<ProposalUserRoles> getCurrentProposalUserRoles() {
+        List<ProposalUserRoles> current = new ArrayList<ProposalUserRoles>();
         
-        addPersons(proposalUserRolesList, RoleConstants.AGGREGATOR);
-        addPersons(proposalUserRolesList, RoleConstants.BUDGET_CREATOR);
-        addPersons(proposalUserRolesList, RoleConstants.NARRATIVE_WRITER);
-        addPersons(proposalUserRolesList, RoleConstants.VIEWER);
-        addPersons(proposalUserRolesList, RoleConstants.UNASSIGNED);
+        addPersons(current, RoleConstants.AGGREGATOR);
+        addPersons(current, RoleConstants.BUDGET_CREATOR);
+        addPersons(current, RoleConstants.NARRATIVE_WRITER);
+        addPersons(current, RoleConstants.VIEWER);
+        addPersons(current, RoleConstants.UNASSIGNED);
         
+        return current;
+    }
+    
+    private void sortProposalUsers() {
         // Sort the list of users by their full name.
         
         Collections.sort(proposalUserRolesList, new Comparator() {
@@ -750,19 +772,14 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
                 return user1.getFullname().compareTo(user2.getFullname());
             }
         });
-        
-        return proposalUserRolesList;
     }
     
-    /**
-     * Get the current list of Proposal User Roles.
-     * @return the list of users with proposal roles
-     */
-    public List<ProposalUserRoles> getCurrentProposalUserRoles() {
-        if (proposalUserRolesList == null) {
-            getProposalUserRoles();
-        }
-        return proposalUserRolesList;
+    public void addProposalUser(ProposalUser proposalUser) {
+        PersonService personService = KraServiceLocator.getService(PersonService.class);
+        Person person = personService.getPersonByName(proposalUser.getUsername());
+        ProposalUserRoles userRoles = buildProposalUserRoles(person, proposalUser.getRoleName());
+        proposalUserRolesList.add(userRoles);
+        sortProposalUsers();
     }
     
     /**
