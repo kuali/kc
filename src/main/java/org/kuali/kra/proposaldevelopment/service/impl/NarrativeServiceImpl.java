@@ -46,6 +46,8 @@ import org.kuali.kra.service.PersonService;
  * This class is primarily to add/delete proposal/institute attachments. 
  */
 public class NarrativeServiceImpl implements NarrativeService {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NarrativeServiceImpl.class);
+    
     private NarrativeAuthZService narrativeAuthZService;
     private ProposalPersonService proposalPersonService;
     private BusinessObjectService businessObjectService;
@@ -344,22 +346,46 @@ public class NarrativeServiceImpl implements NarrativeService {
      */
     public void populateDummyUserRoles(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         List<ProposalPerson> propPersons = proposalDevelopmentDocument.getProposalPersons();
-        List<ProposalUserRoles> propUserRoles = proposalDevelopmentDocument.getProposalUserRoles();
         for (ProposalPerson proposalPerson : propPersons) {
-            boolean continueFlag = false;
-            for (ProposalUserRoles proposalUserRole : propUserRoles) {
-                if(StringUtils.equals(proposalUserRole.getUserId(),proposalPerson.getPersonId())){
-                    continueFlag = true;
-                    break;
-                }
-            }
-            if(continueFlag) continue;
-            ProposalUserRoles propUserRole = new ProposalUserRoles();
-            propUserRole.setProposalNumber(proposalDevelopmentDocument.getProposalNumber());
-            propUserRole.setRoleId(new Integer(102));
-            propUserRole.setUserId(proposalPerson.getPersonId());
-            propUserRoles.add(propUserRole);
+            addDummyUserRole(proposalDevelopmentDocument, proposalPerson);
         }
+
+    }
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#addDummyUserRole(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     */
+    public void addDummyUserRole(ProposalDevelopmentDocument document, ProposalPerson person) {
+        if (person.getPersonId() == null) {
+            return;
+        }
+        
+        if (userRoleExists(document, person.getPersonId())) {
+            return;
+        }
+
+        LOG.info("Adding user with id " + person.getPerson());
+        
+        ProposalUserRoles propUserRole = new ProposalUserRoles();
+        propUserRole.setProposalNumber(document.getProposalNumber());
+        propUserRole.setRoleId(new Integer(102));
+        propUserRole.setUserId(person.getPersonId());
+        document.getProposalUserRoles().add(propUserRole);
+    }
+    
+    /**
+     * Compares the user id against user roles in the <code>{@link ProposalDevelopmentDocument}</code> to see if the user id already
+     * has a role.
+     * 
+     * @return the user id is already bound to a role
+     */
+    private boolean userRoleExists(ProposalDevelopmentDocument document, String userId) {
+        for (ProposalUserRoles proposalUserRole : document.getProposalUserRoles()) {
+            if(StringUtils.equals(proposalUserRole.getUserId(), userId)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
