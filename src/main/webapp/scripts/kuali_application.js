@@ -278,7 +278,7 @@ function proposalRoleRightsPop(docFormKey, sessionDocument) {
     	                               "&docFormKey=" + docFormKey + 
     	                               "&documentWebScope=" + documentWebScope, 
     	                               "permissionsRoleRights", 
-    	                               "width=800, height=700, scrollbars=yes, resizable=yes");
+    	                               "width=800, height=750, scrollbars=yes, resizable=yes");
     
 }
 
@@ -305,7 +305,7 @@ function editRolesPop(lineNumber, docFormKey, sessionDocument) {
     	                               "&docFormKey=" + docFormKey + 
     	                               "&documentWebScope=" + documentWebScope, 
     	                               "permissionsEditRoles", 
-    	                               "width=800, height=400, scrollbars=yes, resizable=yes");
+    	                               "width=800, height=350, scrollbars=yes, resizable=yes");
 }
 
 /**
