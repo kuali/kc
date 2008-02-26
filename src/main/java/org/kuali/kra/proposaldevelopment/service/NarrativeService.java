@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
+import java.util.List;
+
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -45,8 +47,9 @@ public interface NarrativeService {
      * be down-graded.
      * @param username the name of the user
      * @param proposalDevelopmentDocument the Proposal Development Document
+     * @param roleNames the roles the user is in
      */
-    public void readjustRights(String username, ProposalDevelopmentDocument proposalDevelopmentDocument);
+    public void readjustRights(String username, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames);
     
     /**
      * Add a person to all of the Narratives in a proposal.  When a new user is granted
@@ -54,6 +57,7 @@ public interface NarrativeService {
      * the narratives with the appropriate default narrative right based upon their permissions.
      * @param username the name of the user
      * @param proposalDevelopmentDocument the Proposal Development Document
+     * @param roleName the initial proposal role of the user
      */
-    public void addPerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument);
+    public void addPerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName);
 }

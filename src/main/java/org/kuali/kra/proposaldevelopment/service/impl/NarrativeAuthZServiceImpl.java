@@ -15,24 +15,30 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.kim.pojo.Permission;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.service.SystemAuthorizationService;
 
 /**
  * This class...
  */
 public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
     private BusinessObjectService businessObjectService;
+    private SystemAuthorizationService systemAuthorizationService;
     private ProposalAuthorizationService proposalAuthorizationService;
 
     /**
@@ -89,6 +95,65 @@ public class NarrativeAuthZServiceImpl implements NarrativeAuthZService {
             right = NarrativeRight.NO_NARRATIVE_RIGHT;
         }
         return right;
+    }
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService#getDefaultNarrativeRight(java.lang.String)
+     */
+    public NarrativeRight getDefaultNarrativeRight(String roleName) {
+        List<Permission> permissions = systemAuthorizationService.getPermissionsForRole(roleName);
+        NarrativeRight right;
+        if (isPermissionInList(PermissionConstants.MODIFY_NARRATIVE, permissions)) {
+            right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;
+        }
+        else if (isPermissionInList(PermissionConstants.VIEW_NARRATIVE, permissions)) {
+            right = NarrativeRight.VIEW_NARRATIVE_RIGHT;
+        }
+        else {
+            right = NarrativeRight.NO_NARRATIVE_RIGHT;
+        }
+        return right;
+    }
+    
+    public NarrativeRight getDefaultNarrativeRight(List<String> roleNames) {
+        List<Permission> permissions = new ArrayList<Permission>();
+        for (String roleName : roleNames) {
+            permissions.addAll(systemAuthorizationService.getPermissionsForRole(roleName));
+        }
+        NarrativeRight right;
+        if (isPermissionInList(PermissionConstants.MODIFY_NARRATIVE, permissions)) {
+            right = NarrativeRight.MODIFY_NARRATIVE_RIGHT;
+        }
+        else if (isPermissionInList(PermissionConstants.VIEW_NARRATIVE, permissions)) {
+            right = NarrativeRight.VIEW_NARRATIVE_RIGHT;
+        }
+        else {
+            right = NarrativeRight.NO_NARRATIVE_RIGHT;
+        }
+        return right;
+    }
+    
+    /**
+     * Is the permission in this list of permissions?
+     * @param permissionName the name of the permission
+     * @param permissions the list of permissions to search through
+     * @return true if in the list; otherwise false
+     */
+    private boolean isPermissionInList(String permissionName, List<Permission> permissions) {
+        for (Permission permission : permissions) {
+            if (StringUtils.equals(permissionName, permission.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Set the Proposal Authorization Service.  Injected by the Spring Framework.
+     * @param proposalAuthorizationService the Proposal Authorization Service
+     */
+    public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
+        this.systemAuthorizationService = systemAuthorizationService;
     }
     
     /**

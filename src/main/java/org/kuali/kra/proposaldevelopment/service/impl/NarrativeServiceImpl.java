@@ -372,7 +372,6 @@ public class NarrativeServiceImpl implements NarrativeService {
             List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
             for (NarrativeUserRights right : userRights) {
                 if (StringUtils.equals(right.getUserId(), person.getPersonId())) {
-                    getBusinessObjectService().delete(right);
                     userRights.remove(right);
                     break;
                 }
@@ -380,10 +379,8 @@ public class NarrativeServiceImpl implements NarrativeService {
         }
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#readjustRights(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
-    public void readjustRights(String username, ProposalDevelopmentDocument proposalDevelopmentDocument) {
+   
+    public void readjustRights(String username, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames) {
         Person person = personService.getPersonByName(username);
         List<Narrative> narratives = proposalDevelopmentDocument.getNarratives();
         for (Narrative narrative : narratives) {
@@ -401,11 +398,9 @@ public class NarrativeServiceImpl implements NarrativeService {
                         String accessType = narrativeRight.getAccessType();
                         if (StringUtils.equals(accessType, NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
                             right.setAccessType(NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType());
-                            getBusinessObjectService().save(right);
                         }
                         else if (StringUtils.equals(accessType, NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType())) {
                             right.setAccessType(NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType());
-                            getBusinessObjectService().save(right);
                         }
                     }
                     else if (StringUtils.equals(currentAccessType, NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
@@ -413,7 +408,6 @@ public class NarrativeServiceImpl implements NarrativeService {
                         String accessType = narrativeRight.getAccessType();
                         if (StringUtils.equals(accessType, NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType())) {
                             right.setAccessType(NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType());
-                            getBusinessObjectService().save(right);
                         }
                     }
                     break;
@@ -422,16 +416,14 @@ public class NarrativeServiceImpl implements NarrativeService {
         }
     }
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#addPerson(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
-    public void addPerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    
+    public void addPerson(String username, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName) {
         Person person = personService.getPersonByName(username);
         List<Narrative> narratives = proposalDevelopmentDocument.getNarratives();
         for (Narrative narrative : narratives) {
             List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
            
-            NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(person.getUserName(), proposalDevelopmentDocument);
+            NarrativeRight narrativeRight = narrativeAuthZService.getDefaultNarrativeRight(roleName);
             String personName = person.getFullName();
             NarrativeUserRights narrUserRight = new NarrativeUserRights();
             narrUserRight.setProposalNumber(narrative.getProposalNumber());
@@ -441,7 +433,6 @@ public class NarrativeServiceImpl implements NarrativeService {
             narrUserRight.setPersonName(personName);
             updateUserTimestamp(narrUserRight);
             userRights.add(narrUserRight);
-            getBusinessObjectService().save(narrUserRight);
         }
     }
     

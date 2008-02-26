@@ -635,7 +635,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         managedLists.add(getProposalLocations());
         managedLists.add(getPropSpecialReviews());
         managedLists.add(getProposalPersons());
-        managedLists.add(getNarratives());
+        
+        List<Narrative> narratives = getNarratives();
+        for (Narrative narrative : narratives) {
+            managedLists.add(narrative.getNarrativeUserRights());
+        }
+        managedLists.add(narratives);
+        
         managedLists.add(getPropScienceKeywords());
         managedLists.add(getProposalAbstracts());
         managedLists.add(getPropPersonBios());

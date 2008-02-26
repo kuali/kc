@@ -358,5 +358,11 @@ public class Narrative extends KraPersistableBusinessObjectBase {
     public void clearAttachment() {
         getNarrativeAttachmentList().clear();
     }
-
+    
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getNarrativeUserRights());
+        return managedLists;
+    }
 }
