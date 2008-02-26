@@ -21,9 +21,9 @@
     <businessObject businessObjectClass="org.kuali.kra.bo.NonOrganizationalRolodex">
 
         <inquiry>
-            <title>Rolodex</title>
+            <title>Non-Organizational Rolodex</title>
 
-            <inquirySections><inquirySection title="Rolodex"><inquiryFields>
+            <inquirySections><inquirySection title="Non-Organizational Rolodex"><inquiryFields>
                 <field attributeName="rolodexId" forceInquiry="true"/>
                 <field attributeName="addressLine1"/>
                 <field attributeName="addressLine2"/>
@@ -54,11 +54,11 @@
 
         <lookup>
             <lookupableID>nonOrganizationalRolodexLookupable</lookupableID>
-            <title>Rolodex Lookup</title>
+            <title>Non-Organizational Rolodex Lookup</title>
             <menubar>
                 <![CDATA[<a href="index.jsp">Main</a>]]>
             </menubar>
-            <instructions>Look up a Rolodex</instructions>
+            <instructions>Look up a Non-Organizational Rolodex</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
