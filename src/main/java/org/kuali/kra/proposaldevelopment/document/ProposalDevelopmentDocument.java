@@ -15,36 +15,28 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
-import static java.util.Collections.sort;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyLabelPairComparator;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -59,10 +51,10 @@ import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
+import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.YnqService;
-import org.kuali.kra.service.CustomAttributeService;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
@@ -109,6 +101,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<S2sOppForms> s2sOppForms;    
     private ProposalPerson principalInvestigator;
     private S2sOpportunity s2sOpportunity;
+    private S2sAppSubmission s2sAppSubmission;
     private String newScienceKeywordCode;
     private String newDescription;
     private Sponsor sponsor;
@@ -1166,8 +1159,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         s2sOppForms = oppForms;
     }
 
-    public void setS2sOpportunity(S2sOpportunity opportunity) {
-        s2sOpportunity = opportunity;
+    public void setS2sOpportunity(S2sOpportunity s2sOpportunity) {
+        this.s2sOpportunity = s2sOpportunity;
     }
 
     public S2sOpportunity getS2sOpportunity() {
@@ -1180,5 +1173,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         if(s2sOpportunity!=null && s2sOpportunity.getOpportunityId()==null){
             s2sOpportunity = null;
         }        
+    }
+
+    public S2sAppSubmission getS2sAppSubmission() {
+        return s2sAppSubmission;
+    }
+
+    public void setS2sAppSubmission(S2sAppSubmission s2sAppSubmission) {
+        this.s2sAppSubmission = s2sAppSubmission;
     }
 }

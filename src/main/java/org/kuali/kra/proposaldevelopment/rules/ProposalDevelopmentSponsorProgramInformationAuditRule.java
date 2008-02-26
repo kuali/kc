@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.util.AuditCluster;
@@ -52,6 +53,21 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         } else if (proposalDevelopmentDocument.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
             valid = false;
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_PAST_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+        }
+        if(proposalDevelopmentDocument.getS2sOpportunity()!=null && proposalDevelopmentDocument.getS2sOpportunity()!=null){
+            if(proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId() != null && proposalDevelopmentDocument.getProgramAnnouncementNumber() != null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId(),proposalDevelopmentDocument.getProgramAnnouncementNumber())){
+                valid &= false;
+                auditErrors.add(new AuditError(Constants.OPPORTUNITY_ID_KEY, KeyConstants.WARNING_OPPORTUNITY_ID_DIFFER , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+            }
+            if(proposalDevelopmentDocument.getS2sOpportunity().getCfdaNumber() != null && proposalDevelopmentDocument.getCfdaNumber() != null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getCfdaNumber(),proposalDevelopmentDocument.getCfdaNumber())){
+                valid &= false;
+                auditErrors.add(new AuditError(Constants.CFDA_NUMBER_KEY, KeyConstants.WARNING_CFDA_NUMBER_DIFFER , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+            }
+            if(proposalDevelopmentDocument.getProgramAnnouncementTitle() == null || StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProgramAnnouncementTitle().trim(),"")){
+                valid &= false;
+                auditErrors.add(new AuditError(Constants.OPPORTUNITY_TITLE_KEY, KeyConstants.WARNING_OPPORTUNITY_TITLE_DELETED , Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
+            }            
+            
         }
 
         if (auditErrors.size() > 0) {

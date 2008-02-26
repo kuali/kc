@@ -30,8 +30,6 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 	private String instructionUrl;
 	private Timestamp openingDate;
 	private String opportunity;
-	//private String programAnnouncementNumber;
-	//private String programAnnouncementTitle;
 	private String opportunityId;
 	private String opportunityTitle;
 	private String revisionCode;
@@ -107,22 +105,6 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 		this.opportunity = opportunity;
 	}
 
-/*	public String getProgramAnnouncementNumber() {
-		return programAnnouncementNumber;
-	}
-
-	public void setProgramAnnouncementNumber(String programAnnouncementNumber) {
-		this.programAnnouncementNumber = programAnnouncementNumber;
-	}
-
-	public String getProgramAnnouncementTitle() {
-		return programAnnouncementTitle;
-	}
-
-	public void setProgramAnnouncementTitle(String programAnnouncementTitle) {
-		this.programAnnouncementTitle = programAnnouncementTitle;
-	}
-*/
 	public String getRevisionCode() {
 		return revisionCode;
 	}
@@ -153,28 +135,6 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 
 	public void setSchemaUrl(String schemaUrl) {
 		this.schemaUrl = schemaUrl;
-	}
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("cfdaNumber", getCfdaNumber());
-		hashMap.put("closingDate", getClosingDate());
-		hashMap.put("competetionId", getCompetetionId());
-		hashMap.put("instructionUrl", getInstructionUrl());
-		hashMap.put("openingDate", getOpeningDate());
-		hashMap.put("opportunity", getOpportunity());
-		hashMap.put("opportunityId", getOpportunityId());
-		hashMap.put("popportunityTitle", getOpportunityTitle());
-		hashMap.put("revisionCode", getRevisionCode());
-		hashMap.put("revisionOtherDescription", getRevisionOtherDescription());
-		hashMap.put("s2sSubmissionTypeCode", getS2sSubmissionTypeCode());
-		hashMap.put("schemaUrl", getSchemaUrl());
-		hashMap.put("updateTimestamp", this.getUpdateTimestamp());
-		hashMap.put("updateUser", this.getUpdateUser());
-		return hashMap;
 	}
 
     public List<S2sOppForms> getS2sOppForms() {
@@ -216,4 +176,25 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
     public void setS2sAppSubmission(S2sAppSubmission appSubmission) {
         s2sAppSubmission = appSubmission;
     }
+    
+    @Override 
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap hashMap = new LinkedHashMap();
+        hashMap.put("proposalNumber", getProposalNumber());
+        hashMap.put("cfdaNumber", getCfdaNumber());
+        hashMap.put("closingDate", getClosingDate());
+        hashMap.put("competetionId", getCompetetionId());
+        hashMap.put("instructionUrl", getInstructionUrl());
+        hashMap.put("openingDate", getOpeningDate());
+        hashMap.put("opportunity", getOpportunity());
+        hashMap.put("opportunityId", getOpportunityId());
+        hashMap.put("popportunityTitle", getOpportunityTitle());
+        hashMap.put("revisionCode", getRevisionCode());
+        hashMap.put("revisionOtherDescription", getRevisionOtherDescription());
+        hashMap.put("s2sSubmissionTypeCode", getS2sSubmissionTypeCode());
+        hashMap.put("schemaUrl", getSchemaUrl());
+        hashMap.put("updateTimestamp", this.getUpdateTimestamp());
+        hashMap.put("updateUser", this.getUpdateUser());
+        return hashMap;
+    }    
 }
