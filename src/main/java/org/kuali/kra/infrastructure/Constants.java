@@ -75,7 +75,7 @@ public interface Constants {
 
     public static final String AUDIT_ERRORS = "Errors";
     public static final String AUDIT_WARNINGS = "Warnings";
-
+    
     public static final String PROPOSAL_PAGE = "proposal";
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR = "SponsorProgramInformation";
@@ -126,4 +126,15 @@ public interface Constants {
     
     // Task Authorization
     public static final String TASK_AUTHORIZATION = "taskAuthorization";
+    
+    //Grants.gov
+    public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_IS_REVISION = "6";
+    public static final String S2S_REVISIONTYPE_OTHER="5";
+    public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.s2sOpportunity.s2sSubmissionTypeCode";
+    public static final String GRANTS_GOV_PANEL_ANCHOR  = "Opportunity";
+    public static final String GRANTS_GOV_OPPORTUNITY_PANEL = "GrantsGov";
+    public static final String OPPORTUNITY_ID_KEY="document.programAnnouncementNumber";
+    public static final String OPPORTUNITY_TITLE_KEY="document.programAnnouncementTitle";
+    public static final String CFDA_NUMBER_KEY="document.cfdaNumber";
+    public static final String GRANTS_GOV_PAGE = "grantsGov";
 }

@@ -29,20 +29,20 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
 import org.springframework.transaction.annotation.Transactional;
-
+/**
+ * 
+ * This class implements a custom lookup for S2S Grants.gov Opportunity Lookup
+ */
 @Transactional
 public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     
     private S2SService s2SService;
-
-    public S2SService getS2SService() {
-        return s2SService;
-    }
-
-    public void setS2SService(S2SService service) {
-        s2SService = service;
-    }
-
+    
+    /**
+     * 
+     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * It calls the S2sService#searchOpportunity service to look up the opportunity
+     */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         
@@ -72,5 +72,13 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
                 errorMap.addToErrorPath("document");              
         }        
         return s2sOpportunity;        
+    }
+
+    public S2SService getS2SService() {
+        return s2SService;
+    }
+
+    public void setS2SService(S2SService service) {
+        s2SService = service;
     }    
 }
