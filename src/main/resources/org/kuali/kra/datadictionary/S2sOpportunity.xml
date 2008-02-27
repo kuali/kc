@@ -181,7 +181,7 @@
 				<label>Revision Other Description </label>
 				<shortLabel>Revision Other Description </shortLabel>
 				<maxLength>45</maxLength>
-				<validationPattern><alphaNumeric /></validationPattern>
+				<validationPattern><alphaNumeric allowWhitespace="true"/></validationPattern>
 				<control>
 					<text size="45" />
 				</control>
