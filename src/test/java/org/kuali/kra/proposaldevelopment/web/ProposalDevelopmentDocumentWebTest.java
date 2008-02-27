@@ -31,9 +31,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
@@ -412,7 +412,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
      */
     @Test
     public void testInstituteAttachment() throws Exception {
-        final WebClient webClient = new WebClient();
+        final WebClient webClient = new WebClient(BrowserVersion.FIREFOX_2);
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
         String[] attachmentTypes = {"Institutional Attachment 1","Institutional Attachment 2"};
         String[] description = {"desc","desc1"};
@@ -455,12 +455,9 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.getInstituteAttachmentRights.line0.anchor", IMAGE_INPUT);
         //assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
         // htmlunit has problem to generated popup sometimes ?
-        if (!attachmentFilePage.asText().contains("Internal Attachment Rights")) {
-            LOG.info("INSTITUTE VIEW ATTACHMENT "+attachmentFilePage.asText());
-            final HtmlPage attachmentFilePage1 = clickButton(attachmentFilePage, formAfterDeleteAttachment, "methodToCall.getInstituteAttachmentRights.line0.anchor", IMAGE_INPUT);
-            LOG.info("INSTITUTE VIEW ATTACHMENT 2nd "+attachmentFilePage1.asText());
-            assertTrue(attachmentFilePage1.asText().contains("Internal Attachment Rights"));
-        }    
+        LOG.info("INSTITUTE VIEW ATTACHMENT "+attachmentFilePage.asText());
+        assertTrue(attachmentFilePage.asText().contains("Internal Attachment Rights"));
+            
 
     }
 
