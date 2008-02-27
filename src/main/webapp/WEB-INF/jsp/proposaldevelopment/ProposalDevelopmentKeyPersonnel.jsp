@@ -39,8 +39,8 @@
                 <label> Employee Search</label>
                   <label><kul:lookup boClassName="org.kuali.kra.bo.Person" 
                                 fieldConversions="personId:newPersonId" /></label><br>
-                  <label>Non-employee Search</label> 
-                  <label><kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
+                  <label>Non-employee Search blah</label> 
+                  <label><kul:lookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
                                 fieldConversions="rolodexId:newRolodexId" /></label></td>
   </c:when>
   <c:otherwise>
