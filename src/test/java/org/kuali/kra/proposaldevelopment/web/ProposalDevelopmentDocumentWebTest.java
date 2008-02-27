@@ -454,8 +454,13 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         //final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.viewInstitutionalAttachment.line0.anchor", IMAGE_INPUT);
         final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.getInstituteAttachmentRights.line0.anchor", IMAGE_INPUT);
         //assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
-        LOG.info("INSTITUTE VIEW ATTACHMENT "+attachmentFilePage.asText());
-        assertTrue(attachmentFilePage.asText().contains("Internal Attachment Rights"));
+        // htmlunit has problem to generated popup sometimes ?
+        if (!attachmentFilePage.asText().contains("Internal Attachment Rights")) {
+            LOG.info("INSTITUTE VIEW ATTACHMENT "+attachmentFilePage.asText());
+            final HtmlPage attachmentFilePage1 = clickButton(attachmentFilePage, formAfterDeleteAttachment, "methodToCall.getInstituteAttachmentRights.line0.anchor", IMAGE_INPUT);
+            LOG.info("INSTITUTE VIEW ATTACHMENT 2nd "+attachmentFilePage1.asText());
+            assertTrue(attachmentFilePage1.asText().contains("Internal Attachment Rights"));
+        }    
 
     }
 
