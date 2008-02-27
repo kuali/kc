@@ -21,11 +21,10 @@
 	htmlFormAction="proposalDevelopmentGrantsGov"
 	documentTypeName="ProposalDevelopmentDocument"
 	renderMultipart="false"
-	showTabButtons="false"
+	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="grantsGov">
-<center>Under Construction</center>
 
 <kra-pd:proposalDevelopmentGrantsGovOpportunitySearch />
 <kra-pd:proposalDevelopmentGrantsGovOpportunity />
@@ -33,6 +32,5 @@
 <kra-pd:proposalDevelopmentGrantsGovForms />
 
 <kul:panelFooter />
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
-<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" property="methodToCall.submitToGrantsGov" title="Submit" alt="Submit"/>
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" extraButtonSource="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" extraButtonProperty="methodToCall.submitToGrantsGov" extraButtonAlt="Submit"/>
 </kul:documentPage>

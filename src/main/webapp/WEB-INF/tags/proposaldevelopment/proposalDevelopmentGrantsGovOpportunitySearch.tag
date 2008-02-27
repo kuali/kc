@@ -9,7 +9,7 @@
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Opportunity Search</h2></span>
-    		<span class="subhead-right"><a>www.grants.gov</><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+    		<span class="subhead-right"><a href="http://www.grants.gov" target="_blank">www.grants.gov</a><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
         
         <input type="hidden" name="document.cfdaNumber" value="${KualiForm.document.cfdaNumber}">	
