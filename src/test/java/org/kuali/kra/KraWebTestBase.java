@@ -389,6 +389,40 @@ public abstract class KraWebTestBase extends KraTestBase {
      */
     protected final HtmlPage lookup(HtmlPage page, String tag, String searchFieldId, String searchValue) throws IOException {
 
+        return lookup(page, tag, searchFieldId, searchValue,false);
+    }
+
+    /**
+     * Performs a single value Lookup.  The following occurs on a lookup:
+     * <ol>
+     * <li>The Lookup icon is clicked on.</li>
+     * <li>In the Lookup web page, the given field is filled in with the given value.</li>
+     * <li>In the Lookup web page, the search button is clicked on.</li>
+     * <li>If the lookup does not return any results; the resulting no data found page is returned.</li>
+     * <li>Otherwise the first item in the results is returned.</li>
+     * <li>The web page resulting from clicking on "return value" is returned in later case.</li>
+     * <li>Additional parameter checkNoDataFoundCase is passed as true if No Data Found Condition needs to be tested</li>
+     * </ol>
+     * To find the Lookup HTML element, the name attribute of the HTML lookup
+     * elements are examined to see if they contain the given <i>id</i>.  As soon as
+     * a match is found, that HTML element is clicked on.  Users should be sure to pick
+     * a part of the Lookup's name that is unique for that Lookup.
+     *
+     * The test will fail for any of the following reasons:
+     * <ul>
+     * <li>The HTML lookup element was not found.</li>
+     * <li>The search field HTML element was not found.</li>
+     * </ul>
+     *
+     * @param page the original web page with the Lookup icon.
+     * @param tag identifies the Lookup icon to click on.
+     * @param searchFieldId the id of the HTML field element (may be null).
+     * @param searchValue the value to insert into the search field (may be null if searchFieldId is null).
+     * @param checkNoDataFoundCase the value to be passed to lookup method if no data found condition needs to be tested
+     * @return the resulting web page.
+     * @throws IOException
+     */
+    protected final HtmlPage lookup(HtmlPage page, String tag, String searchFieldId, String searchValue, Boolean checkNoDataFoundCase) throws IOException {    
         HtmlPage lookupPage = clickOnLookup(page, tag);
 
         if (searchFieldId != null) {
@@ -401,17 +435,20 @@ public abstract class KraWebTestBase extends KraTestBase {
         HtmlPage resultsPage = (HtmlPage) searchBtn.click();
 
         HtmlTable table = (HtmlTable) getElement(resultsPage, "row");
-        assertTrue("No data to return", table != null);
+        HtmlAnchor anchor;
+        if(!checkNoDataFoundCase){
+            assertTrue("No data to return", table != null);
+            HtmlTableBody body = (HtmlTableBody) table.getBodies().get(0);
+            List rows = body.getRows();
 
-        HtmlTableBody body = (HtmlTableBody) table.getBodies().get(0);
-        List rows = body.getRows();
-
-        HtmlTableRow row = (HtmlTableRow) rows.get(0);
-        List cells = row.getCells();
-        HtmlTableCell cell = (HtmlTableCell) cells.get(cells.size() - 1);
-        HtmlAnchor anchor = (HtmlAnchor) getFirstChild(cell);
-        page = (HtmlPage) anchor.click();
-
+            HtmlTableRow row = (HtmlTableRow) rows.get(0);
+            List cells = row.getCells();
+            HtmlTableCell cell = (HtmlTableCell) cells.get(cells.size() - 1);
+            anchor = (HtmlAnchor) getFirstChild(cell);
+            page = (HtmlPage) anchor.click();
+        }else{
+            page = resultsPage;
+        }
         return page;
     }
 
