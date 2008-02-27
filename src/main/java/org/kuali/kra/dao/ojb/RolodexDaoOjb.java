@@ -67,10 +67,10 @@ public class RolodexDaoOjb extends PlatformAwareDaoBaseOjb implements RolodexDao
             LOG.info("Got results " + searchResults);
         }
         catch (OjbOperationException e) {
-            throw new RuntimeException("LookupDaoOjb encountered exception during executeSearch", e);
+            throw new RuntimeException("RolodexDaoOjb encountered exception during executeSearch", e);
         }
         catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("LookupDaoOjb encountered exception during executeSearch", e);
+            throw new RuntimeException("RolodexDaoOjb encountered exception during executeSearch", e);
         }
         return new CollectionIncomplete(searchResults, matchingResultsCount);    
     }
