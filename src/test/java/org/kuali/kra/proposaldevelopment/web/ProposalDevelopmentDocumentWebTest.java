@@ -681,37 +681,6 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     }
     
-    /**
-     * Sets the Mailing Name and Address on the Delivery Info Panel and verifies that the correct data appears
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void mailingInfoValidation() throws Exception {
-        HtmlPage proposalDevelopmentPage = lookup(getProposalDevelopmentPage(), "mailingAddressId", "organization", "Lockheed*");
-        
-        HtmlElement firstName = getElementById(proposalDevelopmentPage, "mailingFirstName");
-        HtmlElement middleName = getElementById(proposalDevelopmentPage, "mailingMiddleName");
-        HtmlElement lastName = getElementById(proposalDevelopmentPage, "mailingLastName");
-        HtmlElement organization = getElementById(proposalDevelopmentPage, "mailingOrganization");
-        HtmlElement addressLine1 = getElementById(proposalDevelopmentPage, "mailingAddressLine1");
-        HtmlElement addressLine2 = getElementById(proposalDevelopmentPage, "mailingAddressLine2");
-        HtmlElement addressLine3 = getElementById(proposalDevelopmentPage, "mailingAddressLine3");
-        HtmlElement city = getElementById(proposalDevelopmentPage, "mailingCity");
-        HtmlElement state = getElementById(proposalDevelopmentPage, "mailingState");
-
-        assertNotNull(organization);
-        assertEquals("Chris", firstName.asText());
-        assertNull(middleName);
-        assertEquals("Joyce", lastName.asText());
-        assertEquals("Lockheed Missiles & Space Company", organization.asText());
-        assertEquals("Procurement Office", addressLine1.asText());
-        assertEquals("1111 Lockheed Way", addressLine2.asText());
-        assertEquals("Orgn. 67-21, Building 107", addressLine3.asText());
-        assertEquals("Sunnyvale", city.asText());
-        assertEquals("CA", state.asText());
-    }
-
     /* multiple return value lookup - select all records and return data */
     private HtmlPage multipleValuelookup(HtmlPage htmlPage, HtmlForm htmlForm, String uniqueLookupButtonName, String selectedFieldValue,
             String searchField) throws Exception {
