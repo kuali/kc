@@ -39,32 +39,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
     private static final String GRANTS_GOV_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.grantsGov.x";
     
-    /*
-    @Test
-    public void testS2sOpportunity() throws Exception{
-        HtmlPage proposalPage = getProposalDevelopmentPage();
-
-        setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);
-        
-        setFieldValue(proposalPage, "document.programAnnouncementTitle", "we want to give you money");
-        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
-        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
-        
-        HtmlPage savedProposalPage = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");
-        
-        String documentNumber = getFieldValue(savedProposalPage, "document.documentHeader.documentNumber");
-        
-        HtmlPage page1 = clickOn(savedProposalPage, GRANTS_GOV_IMAGE_NAME);
-        
-        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber");
-        
-        clickOn(page2, "methodToCall.save", "Kuali :: Proposal Development Document");
-        
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber);
-        
-        assertEquals("84.264",doc.getS2sOpportunity().getCfdaNumber());
-    }*/
-    
+    /**
+     * 
+     * Test Grants.gov lookup when both CFDA Number and Opportunity Id are passed to the lookup helper service
+     * @throws Exception
+     */
     @Test
     public void testS2sOpportunityCfdaNumberOpportunityIDPassedInLookup() throws Exception{
         HtmlPage proposalPage = getProposalDevelopmentPage();
@@ -82,7 +61,11 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         assertContains(page2,"84.264");
         assertContains(page2,"ED-GRANTS-102003-003");
     }
-
+    
+    /**
+     * Test Grants.gov lookup when only CFDA Number is passed to the lookup helper service
+     * @throws Exception
+     */
     @Test
     public void testS2sOpportunityOnlyCfdaNumberPassedInLookup() throws Exception{
         HtmlPage proposalPage = getProposalDevelopmentPage();
@@ -97,6 +80,10 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         assertContains(page2,"84.264");
     }    
     
+    /**
+     * Test Grants.gov lookup when only Opportunity Id is passed to the lookup helper service
+     * @throws Exception
+     */
     @Test
     public void testS2sOpportunityOnlyOpportunityIdPassedInLookup() throws Exception{
         HtmlPage proposalPage = getProposalDevelopmentPage();
@@ -110,7 +97,13 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
                        
         assertContains(page2,"ED-GRANTS-102003-003");           
     }        
-   
+    
+    /**
+     * 
+     * Test Grants.gov lookup for the correct error message when invalid Opportunity Id is passed to the
+     * lookup helper service
+     * @throws Exception
+     */
     @Test
     public void testS2sOpportunityOnlyInvalidOpportunityIdPassedInLookup() throws Exception{
         HtmlPage proposalPage = getProposalDevelopmentPage();
@@ -124,7 +117,12 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         
         assertContains(page2,"Not a S2S Candidate");                     
     }        
-
+    
+    /**
+     * Test Grants.gov lookup for the correct error message when invalid CFDA Number is passed to the
+     * lookup helper service 
+     * @throws Exception
+     */
     @Test
     public void testS2sOpportunityOnlyInvalidCfdaNumberPassedInLookup() throws Exception{
         HtmlPage proposalPage = getProposalDevelopmentPage();
@@ -138,7 +136,12 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         
         assertContains(page2,"Not a valid CFDA number");         
     }
-
+    
+    /**
+     * 
+     * Test Grants.gov page for looking up an opportunity and saving it.
+     * @throws Exception
+     */
     @Test
     public void testS2sOpportunitySave() throws Exception{
         HtmlPage proposalPage = getProposalDevelopmentPage();
@@ -167,7 +170,13 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         assertEquals(doc.getS2sOpportunity().getCfdaNumber(),"84.264");
         assertEquals(doc.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
     }
-        
+    
+    /**
+     * 
+     * Test Saving an opportunity for validation error message when Revision Type selected is other
+     * and text box for other is left blank.
+     * @throws Exception
+     */
     @Test
     public void testS2sOpportunitySaveRevisionTypeOtherTextFieldBlank() throws Exception{
         HtmlPage proposalPage = getProposalDevelopmentPage();
@@ -191,7 +200,12 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         
         assertContains(page3,"If Revision Type is Other, the Description must be present for it");                
     }    
-
+    
+    /**
+     * 
+     * Test Saving an opportunity for when Revision Type selected is other and text for other is present.
+     * @throws Exception
+     */
     @Test
     public void testS2sOpportunitySaveRevisionTypeOtherTextFieldmNotBlank() throws Exception{
         HtmlPage proposalPage = getProposalDevelopmentPage();
@@ -225,7 +239,12 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         assertEquals(doc.getS2sOpportunity().getRevisionOtherDescription(),"RevisionType Is Other");
     }   
     
-
+    /**
+     * 
+     * Test Saving an opportunity to make sure when Revision Type selected is not other and text for 
+     * other is present; the text is not persisted to database. 
+     * @throws Exception
+     */
     @Test
     public void testS2sOpportunitySaveRevisionTypeNotOtherTextFieldNotBlank() throws Exception{
         HtmlPage proposalPage = getProposalDevelopmentPage();
@@ -259,6 +278,11 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         assertNull(doc.getS2sOpportunity().getRevisionOtherDescription());        
     }
     
+    /**
+     * 
+     * Test removing an opportunity.
+     * @throws Exception
+     */
     @Test
     public void testS2sRemoveOpportunity() throws Exception{
         HtmlPage proposalPage = getProposalDevelopmentPage();
