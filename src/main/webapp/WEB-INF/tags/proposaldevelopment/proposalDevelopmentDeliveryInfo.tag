@@ -56,34 +56,39 @@
                           
                         <c:choose>
                         <c:when test="${!empty KualiForm.document.rolodex.addressLine1 || !empty KualiForm.document.rolodex.addressLine2 || !empty KualiForm.document.rolodex.addressLine3 ||!empty KualiForm.document.rolodex.city ||!empty KualiForm.document.rolodex.state}">  
-                          
-                <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" 
-                    fieldConversions="rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName,lastName:document.rolodex.lastName,addressLine1:document.rolodex.addressLine1,addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3,city:document.rolodex.city,state:document.rolodex.state" anchor="${currentTabIndex}"/><br>
+                        <c:set var="mailingInfo" value="" />
 	                   </c:when>
 	                   <c:otherwise>
-	(select)<kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName,lastName:document.rolodex.lastName,organization:document.rolodex.organization,addressLine1:document.rolodex.addressLine1,addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3,city:document.rolodex.city,state:document.rolodex.state" anchor="${currentTabIndex}"/><br>
+                        <c:set var="mailingInfo" value="(select)" />
 	</c:otherwise>
 		</c:choose>
+    ${mailingInfo} <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:document.mailingAddressId,firstName:document.rolodex.firstName,lastName:document.rolodex.lastName,organization:document.rolodex.organization,addressLine1:document.rolodex.addressLine1,addressLine2:document.rolodex.addressLine2,addressLine3:document.rolodex.addressLine3,city:document.rolodex.city,state:document.rolodex.state" anchor="${currentTabIndex}"/><br>
                     <c:if test="${!empty KualiForm.document.rolodex.firstName}" >
-                    ${KualiForm.document.rolodex.firstName} ${KualiForm.document.rolodex.middleName} ${KualiForm.document.rolodex.lastName}<br/>
+                    <span id="mailingFirstName">${KualiForm.document.rolodex.firstName}</span>&nbsp;
+                    </c:if>                      
+                    <c:if test="${!empty KualiForm.document.rolodex.middleName}" >
+                    <span id="mailingMiddleName">${KualiForm.document.rolodex.middleName}</span>&nbsp;
+                    </c:if>                      
+                    <c:if test="${!empty KualiForm.document.rolodex.lastName}" >
+                    <span id="mailingLastName">${KualiForm.document.rolodex.lastName}</span><br/>
                     </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.organization}" >
-                    ${KualiForm.document.rolodex.organization}<br/>
-                    </c:if>                      
+                    <span id="mailingOrganization">${KualiForm.document.rolodex.organization}</span><br/>
+                    </c:if>
                     <c:if test="${!empty KualiForm.document.rolodex.addressLine1}" >
-                    <c:out value="${KualiForm.document.rolodex.addressLine1}"/><br/>
+                    <span id="mailingAddressLine1"><c:out value="${KualiForm.document.rolodex.addressLine1}"/></span><br/>
                     </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.addressLine2}" >
-                    <c:out value="${KualiForm.document.rolodex.addressLine2}"/><br/>
+                    <span id="mailingAddressLine2"><c:out value="${KualiForm.document.rolodex.addressLine2}"/></span><br/>
                     </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.addressLine3}" >
-                    <c:out value="${KualiForm.document.rolodex.addressLine3}"/><br/>
+                    <span id="mailingAddressLine3"><c:out value="${KualiForm.document.rolodex.addressLine3}"/></span><br/>
                     </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.city}" >
-                    <c:out value="${KualiForm.document.rolodex.city}"/><br/>
+                    <span id="mailingCity"><c:out value="${KualiForm.document.rolodex.city}"/></span><br/>
                     </c:if>                      
                     <c:if test="${!empty KualiForm.document.rolodex.state}" >
-                    <c:out value="${KualiForm.document.rolodex.state}"/><br/>
+                    <span id="mailingState"><c:out value="${KualiForm.document.rolodex.state}"/></span><br/>
                     </c:if>
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailDescription}"  /></div></th>
