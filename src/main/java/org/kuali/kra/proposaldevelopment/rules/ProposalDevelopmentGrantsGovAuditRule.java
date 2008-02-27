@@ -42,11 +42,11 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         
         if(proposalDevelopmentDocument.getS2sOpportunity()!=null && proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode()!=null && StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1")){
             valid = false;
-            auditErrors.add(new AuditError(Constants.S2S_SUBMISSIONTYPE_CODE_KEY, KeyConstants.WARNING_NOT_SELECTED_SUBMISSION_TYPE, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
+            auditErrors.add(new AuditError(Constants.S2S_SUBMISSIONTYPE_CODE_KEY, KeyConstants.ERROR_NOT_SELECTED_SUBMISSION_TYPE, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
         }
 
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("grantsGovAuditWarnings", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.AUDIT_WARNINGS));
+            GlobalVariables.getAuditErrorMap().put("grantsGovAuditWarnings", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.AUDIT_ERRORS));
         }
 
         return valid;
