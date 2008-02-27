@@ -15,19 +15,19 @@
  */
 package org.kuali.kra.budget.bo;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.budget.service.BudgetSummaryService;
 
 public class BudgetPeriod extends KraPersistableBusinessObjectBase {
-	private Integer budgetPeriod;
+    private static final long serialVersionUID = -7318331486891820078L;
+    
+    private Integer budgetPeriod;
 	private String proposalNumber;
 	private Integer budgetVersionNumber;
 	private String comments;
@@ -41,11 +41,24 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	private KualiDecimal underrecoveryAmount;
 	private List<BudgetLineItem> budgetLineItems;
 
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+
 	public BudgetPeriod(){
 	    budgetLineItems = new ArrayList<BudgetLineItem>();
 	}
+	
 	public Integer getBudgetPeriod() {
-		return budgetPeriod;
+	    return budgetPeriod;
+	}
+	
+	public String getLabel() {	    
+        return new StringBuilder()
+		            .append(budgetPeriod)
+		            .append(": ")
+		            .append(dateFormatter.format(startDate))
+		            .append(" - ")
+		            .append(dateFormatter.format(endDate))
+		            .toString();
 	}
 
 	public void setBudgetPeriod(Integer budgetPeriod) {
@@ -141,7 +154,8 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	}
 
 
-	@Override 
+	@SuppressWarnings("unchecked")
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("budgetPeriod", getBudgetPeriod());
@@ -188,8 +202,8 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
         return lineItemExists;
     }
 
-    private BudgetSummaryService getBudgetSummaryService() {
-        return getService(BudgetSummaryService.class);
-    }
+//    private BudgetSummaryService getBudgetSummaryService() {
+//        return getService(BudgetSummaryService.class);
+//    }
 
 }
