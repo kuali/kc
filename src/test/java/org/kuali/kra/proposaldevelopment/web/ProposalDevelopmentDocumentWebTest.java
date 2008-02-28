@@ -412,7 +412,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
      */
     @Test
     public void testInstituteAttachment() throws Exception {
-        final WebClient webClient = new WebClient(BrowserVersion.FIREFOX_2);
+        final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
         String[] attachmentTypes = {"Institutional Attachment 1","Institutional Attachment 2"};
         String[] description = {"desc","desc1"};
