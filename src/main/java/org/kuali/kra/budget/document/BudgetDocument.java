@@ -458,7 +458,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         super.processAfterRetrieve();
         
 //      Retrieve the status.
-        getProposal().setBudgetStatus(getProposalStatus(getProposalNumber()).getBudgetStatusCode());
+        ProposalStatus proposalStatus = getProposalStatus(getProposalNumber());
+        if (proposalStatus != null) {
+            getProposal().setBudgetStatus(proposalStatus.getBudgetStatusCode());
+        }
     }
 
 }
