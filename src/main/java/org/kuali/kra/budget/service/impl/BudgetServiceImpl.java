@@ -19,9 +19,12 @@ import java.util.ArrayList;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -42,10 +45,11 @@ public class BudgetServiceImpl implements BudgetService {
     public BudgetDocument getNewBudgetVersion(ProposalDevelopmentDocument pdDoc, String documentDescription) throws WorkflowException {
         
         BudgetDocument budgetDocument;
+        Integer budgetVersionNumber = pdDoc.getNextBudgetVersionNumber();
         
         budgetDocument = (BudgetDocument) documentService.getNewDocument(BudgetDocument.class);
         budgetDocument.setProposalNumber(pdDoc.getProposalNumber());
-        budgetDocument.setBudgetVersionNumber(pdDoc.getNextBudgetVersionNumber());
+        budgetDocument.setBudgetVersionNumber(budgetVersionNumber);
         budgetDocument.getDocumentHeader().setFinancialDocumentDescription(documentDescription);
         budgetDocument.setStartDate(pdDoc.getRequestedStartDateInitial());
         budgetDocument.setEndDate(pdDoc.getRequestedEndDateInitial());
@@ -55,6 +59,27 @@ public class BudgetServiceImpl implements BudgetService {
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         budgetDocument.setModularBudgetFlag(kualiConfigurationService.getParameterValue(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
+        
+        // Copy in key personnel
+        for (ProposalPerson proposalPerson: pdDoc.getProposalPersons()) {
+            BudgetPerson budgetPerson = new BudgetPerson();
+            budgetPerson.setProposalNumber(pdDoc.getProposalNumber());
+            budgetPerson.setBudgetVersionNumber(budgetVersionNumber);
+            if (proposalPerson.getPersonId() != null) {
+                budgetPerson.setPersonId(proposalPerson.getPersonId());
+                budgetPerson.setNonEmployeeFlag("N");
+            } else {
+                budgetPerson.setPersonId(proposalPerson.getRolodexId().toString());
+                budgetPerson.setNonEmployeeFlag("Y");
+            }
+            budgetPerson.setPersonName(proposalPerson.getName());
+            budgetPerson.setJobCode("0");
+            budgetPerson.setAppointmentType("0");
+            budgetPerson.setCalculationBase(new KualiDecimal(0));
+            budgetPerson.setEffectiveDate(pdDoc.getRequestedStartDateInitial());
+            budgetDocument.addBudgetPerson(budgetPerson);
+        }
+        
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         

@@ -453,5 +453,7 @@ REFERENCES "YNQ" ("QUESTION_ID") ENABLE;
 ALTER TABLE "YNQ_EXPLANATION" ADD CONSTRAINT "FK_YNQ_EXPLANATION_TYPE_KRA"      
 FOREIGN KEY ("EXPLANATION_TYPE")                                                
 REFERENCES "YNQ_EXPLANATION_TYPE" ("EXPLANATION_TYPE") ENABLE;                  
-                                                                                
-                                                                                
+
+ALTER TABLE "EPS_PROPOSAL_STATUS" ADD CONSTRAINT "FK_EPS_PROPOSAL_STATUS_KRA" FOREIGN
+KEY ("PROPOSAL_NUMBER")
+REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;

@@ -21,12 +21,15 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.Organization;
@@ -45,6 +48,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalStatus;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
@@ -1172,9 +1176,30 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         super.beforeUpdate(persistenceBroker);
         if(s2sOpportunity!=null && s2sOpportunity.getOpportunityId()==null){
             s2sOpportunity = null;
-        }        
+        }
+        
+        // Update the status.
+        ProposalStatus proposalStatus = getProposalStatus(getProposalNumber());
+        if (proposalStatus == null) {
+            // This is the first update; create proposal status.
+            proposalStatus = new ProposalStatus();
+            proposalStatus.setProposalNumber(getProposalNumber());
+        }
+        proposalStatus.setBudgetStatusCode(getBudgetStatus());
+        KraServiceLocator.getService(BusinessObjectService.class).save(proposalStatus);
     }
-
+    
+    @Override
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
+        
+//      Retrieve the status.
+        ProposalStatus proposalStatus = getProposalStatus(getProposalNumber());
+        if (proposalStatus != null) {
+            setBudgetStatus(proposalStatus.getBudgetStatusCode());
+        } // else proposal status hasn't been set yet; do nothing.
+    }
+    
     public S2sAppSubmission getS2sAppSubmission() {
         return s2sAppSubmission;
     }
