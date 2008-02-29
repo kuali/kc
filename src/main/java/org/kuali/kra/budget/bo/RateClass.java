@@ -24,6 +24,7 @@ public class RateClass extends KraPersistableBusinessObjectBase {
 	private String description;
 	private String rateClassType;
 	private String rateClassTypeDescription;
+	private RateClassType rateClassTypeT;
 
 	public String getRateClassCode() {
 		return rateClassCode;
@@ -65,5 +66,13 @@ public class RateClass extends KraPersistableBusinessObjectBase {
 
     public void setRateClassTypeDescription(String rateClassTypeDescription) {
         this.rateClassTypeDescription = rateClassTypeDescription;
+    }
+
+    public RateClassType getRateClassTypeT() {
+        return rateClassTypeT;
+    }
+
+    public void setRateClassTypeT(RateClassType rateClassTypeT) {
+        this.rateClassTypeT = rateClassTypeT;
     }
 }

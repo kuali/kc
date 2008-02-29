@@ -16,16 +16,15 @@
 package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
-import java.sql.Date;
 
 import org.kuali.kra.bo.InstituteLaRate;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetProposalLaRate extends InstituteLaRate {
 	private String proposalNumber;
 	private Integer budgetVersionNumber;
 	private BudgetDecimal applicableRate;
+    private BudgetDecimal oldApplicableRate;
 
 	public String getProposalNumber() {
 		return proposalNumber;
@@ -50,6 +49,7 @@ public class BudgetProposalLaRate extends InstituteLaRate {
 
 	public void setApplicableRate(BudgetDecimal applicableRate) {
 		this.applicableRate = applicableRate;
+		setOldApplicableRate(applicableRate);
 	}
 
 	@Override 
@@ -60,4 +60,14 @@ public class BudgetProposalLaRate extends InstituteLaRate {
 		hashMap.put("applicableRate", getApplicableRate());
 		return hashMap;
 	}
+
+    public BudgetDecimal getOldApplicableRate() {
+        return oldApplicableRate;
+    }
+
+    public void setOldApplicableRate(BudgetDecimal oldApplicableRate) {
+        if(this.oldApplicableRate == null) {
+            this.oldApplicableRate = oldApplicableRate;
+        }
+    }
 }

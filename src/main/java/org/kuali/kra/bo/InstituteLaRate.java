@@ -7,7 +7,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateType;
 
-public class InstituteLaRate extends KraPersistableBusinessObjectBase {
+public class InstituteLaRate extends KraPersistableBusinessObjectBase implements Comparable<InstituteLaRate>{
 	private String fiscalYear;
 	private Boolean onOffCampusFlag;
 	private String rateClassCode;
@@ -104,4 +104,10 @@ public class InstituteLaRate extends KraPersistableBusinessObjectBase {
 		hashMap.put("instituterate", getInstituteRate());
 		return hashMap;
 	}
+	
+	public int compareTo(InstituteLaRate instituteLaRate) {
+        int dataCmp = getRateType().getDescription().compareTo(instituteLaRate.getRateType().getDescription());
+        return (dataCmp != 0 ? dataCmp : getFiscalYear().compareTo(instituteLaRate.getFiscalYear()));
+    }
+	
 }

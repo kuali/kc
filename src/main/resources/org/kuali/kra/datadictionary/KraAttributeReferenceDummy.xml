@@ -150,7 +150,25 @@
 				<summary>Principal Investigator</summary>
 				<description>Principal Investigator.</description>
 			</attribute>
+            <attribute name="genericRate" forceUppercase="false">
+                <label>Rate</label>
+                <shortLabel>Rate</shortLabel>
+
+
+                <maxLength>7</maxLength>
+
+                <validationPattern>
+                    <fixedPoint allowNegative="false" precision="5" scale="2" />
+                </validationPattern>
+                <control>
+					<text size="5" />
+                </control>
+
+                <summary>A generic rate</summary>
+                <description>This attribute should always be overriden on the descriptive elements.</description>
+            </attribute>
 			
         </attributes>
+        
     </businessObject>
 </dictionaryEntry>

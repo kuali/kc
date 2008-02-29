@@ -196,7 +196,7 @@
 			<label>Calculated Cost </label>
 			<shortLabel>Calculated Cost </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
@@ -208,7 +208,7 @@
 			<label>Calculated Cost Sharing </label>
 			<shortLabel>Calculated Cost Sharing </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
