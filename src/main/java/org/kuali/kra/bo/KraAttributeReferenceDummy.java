@@ -16,13 +16,10 @@
 package org.kuali.kra.bo;
 
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.AttributeReferenceDummy;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiPercent;
+import org.kuali.kra.budget.BudgetDecimal;
 
 /**
  * Attribute Reference Dummy Business Object
@@ -38,6 +35,8 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
     private String updateUser;
     private Timestamp updateTimestamp;
     private String principalInvestigator;
+    private BudgetDecimal genericRate;
+    
 
     /**
      * Gets the value of city
@@ -160,5 +159,13 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
 
     public void setPrincipalInvestigator(String principalInvestigator) {
         this.principalInvestigator = principalInvestigator;
+    }
+
+    public final BudgetDecimal getGenericRate() {
+        return genericRate;
+    }
+
+    public final void setGenericRate(BudgetDecimal genericRate) {
+        this.genericRate = genericRate;
     }
 }
