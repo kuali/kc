@@ -23,6 +23,18 @@ public class ProposalFormBase extends KraTransactionalDocumentFormBase {
     private String newBudgetVersionName;
     private Integer finalBudgetVersion;
     
+    /**
+     * The type of result returned by the multi-value lookup
+     *
+     * TODO: to be persisted in the lookup results service instead? See https://test.kuali.org/confluence/display/KULRNE/Using+multiple+value+lookups
+     */
+    private String lookupResultsBOClassName;
+    
+    /**
+     * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
+     */
+    private String lookupResultsSequenceNumber;
+    
     public Integer getFinalBudgetVersion() {
         return finalBudgetVersion;
     }
@@ -34,6 +46,22 @@ public class ProposalFormBase extends KraTransactionalDocumentFormBase {
     }
     public void setNewBudgetVersionName(String newBudgetVersionName) {
         this.newBudgetVersionName = newBudgetVersionName;
+    }
+    
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+    
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
     }
 
 }

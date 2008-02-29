@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
@@ -30,6 +31,7 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalStatus;
 import org.kuali.kra.service.CustomAttributeService;
 
 public class ResearchDocumentBase extends TransactionalDocumentBase {
@@ -173,6 +175,20 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
      */
     public CustomAttributeDocument getCustomAttributeDocument(String key) {
         return customAttributeDocuments.get(key);
+    }
+    
+    /**
+     * 
+     * This method returns the ProposalStatus that corresponds to the given proposal.
+     * @param proposalNumber
+     * @return ProposalStatus
+     */
+    protected ProposalStatus getProposalStatus(String proposalNumber) {
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+        keyMap.put("proposalNumber", proposalNumber);
+        ProposalStatus proposalStatus = (ProposalStatus) boService.findByPrimaryKey(ProposalStatus.class, keyMap);
+        return proposalStatus;
     }
         
 }
