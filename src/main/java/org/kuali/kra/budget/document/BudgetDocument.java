@@ -449,8 +449,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         
         // Update the status.
         ProposalStatus proposalStatus = getProposalStatus(getProposalNumber());
-        proposalStatus.setBudgetStatusCode(getProposal().getBudgetStatus());
-        KraServiceLocator.getService(BusinessObjectService.class).save(proposalStatus);
+        if (proposalStatus != null) {
+            proposalStatus.setBudgetStatusCode(getProposal().getBudgetStatus());
+            KraServiceLocator.getService(BusinessObjectService.class).save(proposalStatus);
+        }
     }
     
     @Override
