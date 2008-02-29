@@ -19,13 +19,20 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kra.bo.InstituteRate;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.document.BudgetDocument;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 public interface BudgetRatesService {
-    public void getBudgetRates(String activityTypeCode, String unitNumber, List<RateClass> rateClasses, 
-            List<InstituteRate> instituteRates, List<BudgetProposalRate> budgetProposalRates);
-    public void getBudgetRateClassTypes(List<RateClassType> rateClassTypes);
+    public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument);
+    public void resetBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument);
+    public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument);
+    public void syncAllBudgetRates(BudgetDocument budgetDocument);
+    public void resetAllBudgetRates(BudgetDocument budgetDocument);
+    public void viewLocation(String viewLocation, Integer budgetPeriod, BudgetDocument budgetDocument);
+    public List<BudgetPeriod> getBudgetPeriods();
 }
