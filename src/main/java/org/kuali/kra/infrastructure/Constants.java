@@ -126,6 +126,11 @@ public interface Constants {
     
     // Task Authorization
     public static final String TASK_AUTHORIZATION = "taskAuthorization";
+
+    //Budget Rates
+    public static final String ON_CAMUS_FLAG = "N";
+    public static final String OFF_CAMUS_FLAG = "F";
+
     
     //Grants.gov
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_IS_REVISION = "6";
