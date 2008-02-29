@@ -127,7 +127,7 @@
                 <description>Start Date</description>
       		</attributeReference>
 
-            <attributeReference name="totalCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference  name="totalCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Total Cost </label>
 			<shortLabel>Total Cost </shortLabel>
 			<maxLength>12</maxLength>

@@ -120,6 +120,7 @@
 			<description>On Off Campus Flag </description>
 			</attribute>
 
+
 			<attribute name="viewLocation">
 			<label>Location</label>
 			<shortLabel>Location</shortLabel>
@@ -130,6 +131,18 @@
 				</control>
 			<summary>On Off Campus Flag </summary>
 			<description>On Off Campus Flag </description>
+			</attribute>
+
+			<attribute name="budgetPeriod">
+			<label>Budget Period</label>
+			<shortLabel>Budget Period</shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+				<control>
+					<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRatesBudgetPeriodValuesFinder" />
+				</control>
+			<summary>Budget Period</summary>
+			<description>Budget Period </description>
 			</attribute>
 
 			<attribute name="proposalNumber">
@@ -197,31 +210,32 @@
 			</control>
 			<summary>Activity Type Code </summary>
 			<description>Activity Type Code </description>
+			
 			</attribute>
 
-			<attribute name="applicableRate">
+            <attribute name="applicableRate">
 			<label>Applicable Rate </label>
 			<shortLabel>Applicable Rate </shortLabel>
-			<maxLength>5</maxLength>
+			<maxLength>7</maxLength>
 			<validationPattern><fixedPoint allowNegative="false" precision="5" scale="2"/></validationPattern>
 			<control>
 				<text size="5" />
 			</control>
 			<summary>Applicable Rate </summary>
 			<description>Applicable Rate </description>
-			</attribute>
+      		</attribute>
 
-			<attribute name="instituteRate">
+            <attribute name="instituteRate" >
 			<label>Institute Rate </label>
 			<shortLabel>Institute Rate </shortLabel>
-			<maxLength>5</maxLength>
+			<maxLength>7</maxLength>
 			<validationPattern><fixedPoint allowNegative="false" precision="5" scale="2"/></validationPattern>
 			<control>
 				<text size="5" />
 			</control>
 			<summary>Institute Rate </summary>
 			<description>Institute Rate </description>
-			</attribute>
+      		</attribute>
 
 		</attributes>
     </businessObject>

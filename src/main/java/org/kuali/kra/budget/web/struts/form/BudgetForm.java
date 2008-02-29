@@ -122,6 +122,19 @@ public class BudgetForm extends ProposalFormBase {
         return extraButtons;
     }
 
+    public List<ExtraButton> getRatesExtraButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        String externalImageURL = "kra.externalizable.images.url";
+        String syncAllImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_syncallrates.gif"; 
+        String resetAllImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_resetallrates.gif"; 
+        String appExternalImageURL = "ConfigProperties.kra.externalizable.images.url"; 
+        addExtraButton("methodToCall.syncAllRates", syncAllImage, "Sync All Rates");
+        addExtraButton("methodToCall.resetAllRates",resetAllImage, "Reset All Rates");
+        
+        return extraButtons;
+    }
+
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
