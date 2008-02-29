@@ -20,16 +20,21 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.RateClass;
+import org.kuali.kra.budget.service.BudgetRatesService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
-public class BudgetRatesLocationValuesFinder extends KeyValuesBase{
+public class BudgetRatesBudgetPeriodValuesFinder  extends KeyValuesBase{
 
     public List getKeyValues() {
+        BudgetRatesService budgetRatesService = KraServiceLocator.getService(BudgetRatesService.class);
+        List<BudgetPeriod> budgetPeriods = budgetRatesService.getBudgetPeriods();
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "View All"));
-        keyValues.add(new KeyLabelPair(Constants.ON_CAMUS_FLAG, "On Campus"));
-        keyValues.add(new KeyLabelPair(Constants.OFF_CAMUS_FLAG, "Off Campus"));
+        for(BudgetPeriod budgetPeriod: budgetPeriods) {
+            keyValues.add(new KeyLabelPair(budgetPeriod.getBudgetPeriod(), budgetPeriod.getLabel()));
+        }
         return keyValues;
-        
     }
 }

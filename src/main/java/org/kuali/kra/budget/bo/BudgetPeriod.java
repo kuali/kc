@@ -202,8 +202,4 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
         return lineItemExists;
     }
 
-//    private BudgetSummaryService getBudgetSummaryService() {
-//        return getService(BudgetSummaryService.class);
-//    }
-
 }

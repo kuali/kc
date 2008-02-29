@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="extraButtons" value="${KualiForm.ratesExtraButtons}" scope="request"/>
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -22,6 +23,13 @@
   	headerDispatch="save"
   	headerTabActive="rates">
 
-	<center>Under Construction</center>
+<kra-b:budgetRates /> 
 
+<script language="javascript" src="scripts/kuali_application.js"></script>
+<kul:documentControls 
+		transactionalDocument="true" 
+		suppressRoutingControls="true" 
+		extraButtons="${extraButtons}"
+		viewOnly="${KualiForm.editingMode['viewOnly']}"
+/>
 </kul:documentPage>
