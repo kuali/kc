@@ -105,18 +105,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private Map<String, List> customAttributeGroups;
     private Map<String, String[]> customAttributeValues;
 
-    /**
-     * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
-     */
-    private String lookupResultsSequenceNumber;
-    /**
-     * The type of result returned by the multi-value lookup
-     *
-     * TODO: to be persisted in the lookup results service instead? See https://test.kuali.org/confluence/display/KULRNE/Using+multiple+value+lookups
-     */
-    private String lookupResultsBOClassName;
-
-
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
@@ -276,15 +264,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         this.newPersonId = argNewPersonId;
     }
 
-    public String getLookupResultsSequenceNumber() {
-        return lookupResultsSequenceNumber;
-    }
-
-    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
-        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
-    }
-
-
     /**
      * Gets the value of newProposalPerson
      *
@@ -363,14 +342,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public void setNewRolodexId(String argNewRolodexId) {
         this.newRolodexId = argNewRolodexId;
-    }
-
-    public String getLookupResultsBOClassName() {
-        return lookupResultsBOClassName;
-    }
-
-    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
-        this.lookupResultsBOClassName = lookupResultsBOClassName;
     }
 
     /**

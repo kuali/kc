@@ -19,14 +19,20 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
@@ -35,6 +41,8 @@ import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalStatus;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -67,6 +75,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private String activityTypeCode="1";
     private List<BudgetLineItem> budgetLineItems;
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
+    private List<BudgetPerson> budgetPersons;
 
     private Date summaryPeriodStartDate;
     private Date summaryPeriodEndDate;
@@ -85,6 +94,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         instituteRates = new ArrayList<InstituteRate>();
         rateClasses = new ArrayList<RateClass>();
         rateClassTypes = new ArrayList<RateClassType>();
+        budgetPersons = new ArrayList<BudgetPerson>();
     }
 
     public void initialize() {
@@ -406,6 +416,49 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public void setRateClassTypes(List<RateClassType> rateClassTypes) {
         this.rateClassTypes = rateClassTypes;
+    }
+
+    public List<BudgetPerson> getBudgetPersons() {
+        return budgetPersons;
+    }
+
+    public void setBudgetPersons(List<BudgetPerson> budgetPersons) {
+        this.budgetPersons = budgetPersons;
+    }
+    
+    /**
+     * Gets index i from the budgetPeriods list.
+     * 
+     * @param index
+     * @return Budget Period at index i
+     */
+    public BudgetPerson getBudgetPerson(int index) {
+        while (getBudgetPersons().size() <= index) {
+            getBudgetPersons().add(new BudgetPerson());
+        }
+        return (BudgetPerson) getBudgetPersons().get(index);
+    }
+    
+    public void addBudgetPerson(BudgetPerson budgetPerson) {
+        getBudgetPersons().add(budgetPerson);
+    }
+    
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.beforeUpdate(persistenceBroker);
+        
+        // Update the status.
+        ProposalStatus proposalStatus = getProposalStatus(getProposalNumber());
+        proposalStatus.setBudgetStatusCode(getProposal().getBudgetStatus());
+        KraServiceLocator.getService(BusinessObjectService.class).save(proposalStatus);
+    }
+    
+    @Override
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
+        
+//      Retrieve the status.
+        getProposal().setBudgetStatus(getProposalStatus(getProposalNumber()).getBudgetStatusCode());
     }
 
 }

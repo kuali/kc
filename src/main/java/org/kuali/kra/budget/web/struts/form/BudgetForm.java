@@ -33,7 +33,8 @@ import org.kuali.kra.web.struts.form.ProposalFormBase;
 public class BudgetForm extends ProposalFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
     
-    private String newBudgetPersonId;
+    private String newBudgetPersons;
+    private String newBudgetRolodexes;
     
     private BudgetPeriod newBudgetPeriod;
     
@@ -148,12 +149,20 @@ public class BudgetForm extends ProposalFormBase {
         this.extraTopButtons = extraTopButtons;
     }
 
-    public String getNewBudgetPersonId() {
-        return newBudgetPersonId;
+    public String getNewBudgetPersons() {
+        return newBudgetPersons;
     }
 
-    public void setNewBudgetPersonId(String newBudgetPersonId) {
-        this.newBudgetPersonId = newBudgetPersonId;
+    public void setNewBudgetPersons(String newBudgetPersons) {
+        this.newBudgetPersons = newBudgetPersons;
     }
-    
+
+    public String getNewBudgetRolodexes() {
+        return newBudgetRolodexes;
+    }
+
+    public void setNewBudgetRolodexes(String newBudgetRolodexes) {
+        this.newBudgetRolodexes = newBudgetRolodexes;
+    }
+
 }
