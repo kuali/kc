@@ -15,12 +15,14 @@
  */
 package org.kuali.kra.budget.bo;
 
-import java.util.LinkedHashMap;
 import java.sql.Date;
+import java.util.LinkedHashMap;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BudgetPerson extends KraPersistableBusinessObjectBase {
+    
 	private Date effectiveDate;
 	private String jobCode;
 	private String nonEmployeeFlag;
@@ -28,7 +30,7 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
 	private String proposalNumber;
 	private Integer budgetVersionNumber;
 	private String appointmentType;
-	private Double calculationBase;
+	private KualiDecimal calculationBase;
 	private String personName;
 
 	public Date getEffectiveDate() {
@@ -87,11 +89,11 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
 		this.appointmentType = appointmentType;
 	}
 
-	public Double getCalculationBase() {
+	public KualiDecimal getCalculationBase() {
 		return calculationBase;
 	}
 
-	public void setCalculationBase(Double calculationBase) {
+	public void setCalculationBase(KualiDecimal calculationBase) {
 		this.calculationBase = calculationBase;
 	}
 
@@ -103,10 +105,9 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
 		this.personName = personName;
 	}
 
-
 	@Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
+		LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
 		hashMap.put("effectiveDate", getEffectiveDate());
 		hashMap.put("jobCode", getJobCode());
 		hashMap.put("nonEmployeeFlag", getNonEmployeeFlag());

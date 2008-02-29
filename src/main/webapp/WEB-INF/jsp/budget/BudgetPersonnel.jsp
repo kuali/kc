@@ -21,7 +21,34 @@
 	documentTypeName="BudgetDocument"
   	headerDispatch="save"
   	headerTabActive="personnel">
-
-	<center>Under Construction</center>
-
+  	
+  	<center>Under Construction</center>
+  	
+  	<kul:uncollapsable tabTitle="Add Budget Personnel" tabErrorKey="newBudgetPerson">
+  		<div align="center">
+            <table cellpadding="0" cellspacing="0" class="grid" summary="">
+              	<tr>
+                	<th class="grid"><div align="right">Person:</div></th>
+                	<td nowrap class="grid">
+                		<label>Employee Search</label>
+                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.Person" 
+                        	lookedUpCollectionName="newBudgetPersons" /></label><br>
+                  		<label>Non-employee Search</label> 
+                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.Rolodex" 
+                        	lookedUpCollectionName="newBudgetRolodexes" /></label>
+                	</td>
+              	</tr>
+            </table>
+        </div>
+	</kul:uncollapsable>
+	<br/>
+	
+	<kra-b:projectPersonnel/>
+	
+	<kul:documentControls 
+		transactionalDocument="false"
+		suppressRoutingControls="true"
+		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		/>
+	
 </kul:documentPage>

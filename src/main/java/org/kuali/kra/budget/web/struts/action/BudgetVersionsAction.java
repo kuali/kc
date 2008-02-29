@@ -120,7 +120,6 @@ public class BudgetVersionsAction extends BudgetAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        // FIXME These won't work until save proposal status from budget is resolved
         setFinalBudgetVersion(budgetForm.getFinalBudgetVersion(), budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews());
         setProposalStatus(budgetForm.getBudgetDocument().getProposal());
         return super.save(mapping, form, request, response);
