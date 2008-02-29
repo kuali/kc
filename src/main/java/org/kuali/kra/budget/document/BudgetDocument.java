@@ -29,7 +29,9 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.web.format.Formatter;
 import org.kuali.kra.bo.InstituteRate;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
@@ -41,6 +43,7 @@ import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalStatus;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -94,6 +97,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         instituteRates = new ArrayList<InstituteRate>();
         rateClasses = new ArrayList<RateClass>();
         rateClassTypes = new ArrayList<RateClassType>();
+        Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
         budgetPersons = new ArrayList<BudgetPerson>();
     }
 
@@ -334,12 +338,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      * @return Returns the budgetProposalRates.
      */
     public List<BudgetProposalRate> getBudgetProposalRates() {
-        /* check budget rates - if empty get all budget rates */
-        if(budgetProposalRates.isEmpty()) {
-            String unitNumber = getProposal().getOwnedByUnitNumber();
-            String activityTypeCode = getProposal().getActivityTypeCode();
-            getBudgetRatesService().getBudgetRates(activityTypeCode,unitNumber, this.rateClasses, this.instituteRates, this.budgetProposalRates);
-        }
         return budgetProposalRates;
     }
 
@@ -408,8 +406,9 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
 
     public List<RateClassType> getRateClassTypes() {
+        /* check budget rates - if empty get all budget rates */
         if(rateClassTypes.isEmpty()) {
-            getBudgetRatesService().getBudgetRateClassTypes(this.rateClassTypes);
+            getBudgetRatesService().getBudgetRates(this.rateClassTypes, this);
         }
         return rateClassTypes;
     }
