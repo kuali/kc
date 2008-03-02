@@ -95,6 +95,7 @@
                 <field attributeName="createUser" forceInquiry="false"/>
 
             </resultFields>
+            <resultSetLimit>50</resultSetLimit>
         </lookup>
 
         <titleAttribute>sponsorCode</titleAttribute>
