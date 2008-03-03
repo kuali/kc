@@ -22,6 +22,8 @@ import java.util.Map;
 import org.kuali.kra.KraWebTestBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -32,13 +34,14 @@ import org.junit.Before;
 /**
  * Base class for all htmlunit tests involving the Proposal Development Page.
  * 
- * @author $Author: gthomas $
- * @version $Revision: 1.11 $
+ * @author $Author: dbarre $
+ * @version $Revision: 1.12 $
  */
 public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     
-    private static final String ABSTRACTS_ATTACHMENTS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x";
-    private static final String ACTIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.actions.x";
+    protected static final String ABSTRACTS_ATTACHMENTS_LINK_NAME = "abstractsAttachments.x";
+    protected static final String ACTIONS_LINK_NAME = "actions.x";
+    protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.financialDocumentDescription";
     protected static final String PROPOSAL_SPONSOR_CODE_ID = "document.sponsorCode";
@@ -56,7 +59,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected static final String DEFAULT_PROPOSAL_REQUESTED_END_DATE = "08/21/2007";
     protected static final String DEFAULT_PROPOSAL_ACTIVITY_TYPE = "2"; // Dept Research
     protected static final String DEFAULT_PROPOSAL_TYPE_CODE = "1"; // New
-    protected static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "IN-CARD";
+    protected static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "000001";
     
     private HtmlPage proposalDevelopmentPage;
     private HtmlPage portalPage;
@@ -207,7 +210,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected HtmlPage getAbstractsAndAttachmentsPage() throws Exception {
         HtmlPage proposalPage = this.getProposalDevelopmentPage();
         this.setDefaultRequiredFields(proposalPage);
-        HtmlPage abstractsAndAttachmentsPage = clickOn(proposalPage, ABSTRACTS_ATTACHMENTS_LINK_NAME);
+        HtmlPage abstractsAndAttachmentsPage = clickOnTab(proposalPage, ABSTRACTS_ATTACHMENTS_LINK_NAME);
         return abstractsAndAttachmentsPage;
     }
     
@@ -222,8 +225,28 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected HtmlPage getActionsPage() throws Exception {
         HtmlPage proposalPage = this.getProposalDevelopmentPage();
         this.setDefaultRequiredFields(proposalPage);
-        HtmlPage actionsPage = clickOn(proposalPage, ACTIONS_LINK_NAME);
+        HtmlPage actionsPage = clickOnTab(proposalPage, ACTIONS_LINK_NAME);
         return actionsPage;
+    }
+    
+    /**
+     * Get the Permissions Web Page. To do this, we first get the Proposal Development 
+     * Web Page and fill in the required fields with some default values.  We can 
+     * then navigate to the Permissions Web Page.
+     * 
+     * @return the Permissions Web Page.
+     * @throws Exception
+     */
+    protected HtmlPage getPermissionsPage() throws Exception {
+        HtmlPage proposalPage = this.getProposalDevelopmentPage();
+        this.setDefaultRequiredFields(proposalPage);
+        HtmlPage permissionsPage = clickOnTab(proposalPage, PERMISSIONS_LINK_NAME);
+        return permissionsPage;
+    }
+    
+    protected HtmlPage clickOnTab(HtmlPage page, String tabName) throws Exception {
+        HtmlElement element = getElementByNameEndsWith(page, tabName);
+        return clickOn(element);
     }
     
     /**
@@ -233,7 +256,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
      * @throws Exception
      */
     protected HtmlPage clickActionsHyperlink(HtmlPage page) throws Exception {
-        return clickOn(page, ACTIONS_LINK_NAME);
+        return clickOnTab(page, ACTIONS_LINK_NAME);
     }
 
     /**

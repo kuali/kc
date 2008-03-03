@@ -65,7 +65,7 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
      */
     protected HtmlPage saveAndSearch(HtmlPage docPage) throws Exception {
         HtmlPage proposalPage = saveAndSearchDoc(docPage);
-        return clickOn(proposalPage, ABSTRACTS_ATTACHMENTS_LINK_NAME);
+        return clickOnTab(proposalPage, ABSTRACTS_ATTACHMENTS_LINK_NAME);
     }
 
     /***********************************************************************
