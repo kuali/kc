@@ -786,6 +786,15 @@ public abstract class KraWebTestBase extends KraTestBase {
 
         return returnPage;
     }
+    
+    /**
+     * Find out if the page contains one or more errors.
+     * @param page the web page
+     * @return true if there is an error; otherwise false
+     */
+    protected final boolean hasError(HtmlPage page) {
+        return page.asText().contains("error(s) found on page");
+    }
 
     /**
      * Gets the error messages for a specific panel.  If an operation
@@ -857,6 +866,31 @@ public abstract class KraWebTestBase extends KraTestBase {
             //webClient.setThrowExceptionOnScriptError(true);
         }
         return page;
+    }
+    
+    /**
+     * Logs a user in via the backdoor.
+     * @param username the user's username
+     * @return the portal page
+     * @throws Exception
+     */
+    protected void backdoorLogin(String username) throws Exception {
+        HtmlPage portalPage = this.getPortalPage();
+        HtmlElement element = getElement(portalPage, "backdoorId");
+        if (element == null) {
+            portalPage = clickOn(portalPage, "Administration");
+        }
+        setFieldValue(portalPage, "backdoorId", username);
+        clickOn(portalPage, "imageField");
+    }
+    
+    /**
+     * Logs in via the backdoor as "jtester".
+     * @return the portal page
+     * @throws Exception
+     */
+    protected void loginAsTester() throws Exception {
+        backdoorLogin("jtester");
     }
 
     /**
@@ -1049,7 +1083,55 @@ public abstract class KraWebTestBase extends KraTestBase {
         }
         return null;
     }
+    
+    /**
+     * Gets an HTML element in the web page.  Searches the web page for
+     * the first HTML element whose name attribute ends with the given name.
+     *
+     * HTML web pages may contain Inline Frames (iframes) which are not expanded
+     * within HtmlUnit.  The inline frames contain inner web pages that must
+     * also be searched.
+     *
+     * @param page the HTML web page to search.
+     * @param name the name to search for.
+     * @param startsWith if true, only match against the start of the name.
+     * @return the HTML element or null if not found.
+     */
+    protected final HtmlElement getElementByNameEndsWith(HtmlPage page, String name) {
+        HtmlElement element = getElementByNameEndsWith(page.getDocumentElement(), name);
 
+        if (element == null) {
+            List<HtmlPage> innerPages = getInnerPages(page);
+            for (HtmlPage innerPage : innerPages) {
+                element = getElementByNameEndsWith(innerPage, name);
+                if (element != null) break;
+            }
+        }
+
+        return element;
+    }
+
+    /**
+     * Gets an HTML element in a parent HTML element.  Searches the parent HTML
+     * element for the first HTML element whose name attribute ends with the given name.
+     *
+     * @param element the parent HTML element to search.
+     * @param name the name to search for.
+     * @param startsWith if true, only match against the start of the name.
+     * @return the HTML element or null if not found.
+     */
+    protected final HtmlElement getElementByNameEndsWith(HtmlElement element, String name) {
+        Iterator iterator = element.getAllHtmlChildElements();
+        while (iterator.hasNext()) {
+            HtmlElement e = (HtmlElement) iterator.next();
+            String value = e.getAttributeValue("name");
+            if (value.endsWith(name)) {
+                return e;
+            }
+        }
+        return null;
+    }
+    
     /**
      * Gets an HTML element in the web page.  Searches the web page for
      * the first HTML element whose title attribute matches the given title.
@@ -1114,6 +1196,8 @@ public abstract class KraWebTestBase extends KraTestBase {
         }
         return null;
     }
+    
+    
 
     /**
      * Gets a Lookup HTML element.  The searching for Lookup HTML elements
