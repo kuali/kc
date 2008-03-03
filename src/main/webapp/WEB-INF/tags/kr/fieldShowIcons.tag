@@ -24,7 +24,9 @@
 
 <kul:fieldShowLookupIcon isReadOnly="${isReadOnly}" field="${field}" anchor="${currentTabIndex}"/>
 <kul:fieldShowDirectInquiryIcon isReadOnly="${isReadOnly}" field="${field}" anchor="${currentTabIndex}"/>
+<c:if test="${field.fieldLevelHelpEnabled || (!field.fieldLevelHelpDisabled && KualiForm.fieldLevelHelpEnabled)}">
 <kul:fieldShowHelpIcon isReadOnly="${isReadOnly}" field="${field}" />
+</c:if>
 
 <%-- don't render the field changed icon if readonly since the fieldShowReadOnly tag will render it when the field is readonly --%>
 <c:if test="${addHighlighting && field.highlightField && !isReadOnly}">

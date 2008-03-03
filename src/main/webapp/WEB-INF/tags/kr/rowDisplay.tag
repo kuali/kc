@@ -602,10 +602,12 @@
 								  onblur="${onblur}"
 								  highlight="${addHighlighting && field.highlightField}">
 							<jsp:attribute name="helpLink" trim="true">
+							    <c:if test="${field.fieldLevelHelpEnabled || (!field.fieldLevelHelpDisabled && KualiForm.fieldLevelHelpEnabled)}">
 								<kul:help
 									businessObjectClassName="${field.businessObjectClassName}"
 									attributeName="${field.fieldHelpName}"
 									altText="${field.fieldHelpSummary}" />	    
+                                </c:if>
 							</jsp:attribute>
 						</kul:user>
 					</td>

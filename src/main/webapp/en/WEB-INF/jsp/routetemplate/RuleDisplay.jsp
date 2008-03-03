@@ -30,6 +30,14 @@
 				  </c:if>
 				<td class="datacell"><c:out value="${rule.ruleBaseValuesId}" /></td>			
 			</tr>
+			<td class="thnormal" >Rule Name</td>
+                  <c:if test="${rule.name != null}">
+                        <td class="datacell"><c:out value="${rule.name}" /></td>
+                  </c:if>
+                  <c:if test="${rule.previousVersion.name} != null">
+                        <td class="datacell"><c:out value="${rule.previousVersion.name}" /></td>
+                  </c:if>            
+            </tr>
 			<tr>
 		  	<td class="thnormal" >Active</td>
 				  <c:if test="${rule.previousVersionId != null}">

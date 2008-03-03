@@ -47,7 +47,10 @@ Largest Pool Size: <c:out value="${ThreadPoolForm.threadPool.largestPoolSize}"/>
 Keep Alive Time: <c:out value="${ThreadPoolForm.threadPool.keepAliveTime}"/><br>
 Task Count: <c:out value="${ThreadPoolForm.threadPool.taskCount}"/><br>
 Completed Task Count: <c:out value="${ThreadPoolForm.threadPool.completedTaskCount}"/><br>
+RouteQueue.TimeIncrement: <html-el:text property="timeIncrement"/><br>
+RouteQueue.maxRetryAttempts: <html-el:text property="maxRetryAttempts"/><br>
 <br>
+<html-el:checkbox property="allServers"/> Execute Across All Servers with Message Entity <c:out value="${ThreadPoolForm.messageEntity}"/><br/>
 <input type="button" value="Update" onclick="setMethodToCallAndSubmit('update')"/>
 </td>
 </tr>

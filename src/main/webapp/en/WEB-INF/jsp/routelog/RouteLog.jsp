@@ -349,6 +349,11 @@
                 		<c:choose>
 	                		<c:when test="${RouteLogForm.showFuture}">
 		                		<td>
+		                			<c:choose>
+		                				<c:when test="${RouteLogForm.showFutureHasError}">
+		                					<div class="exception-error-div"><span class="exception-error"><c:out value="${RouteLogForm.showFutureError}"/></span></div>
+		                				</c:when>
+		                				<c:otherwise>
 					                <table width="100%" border=0 cellspacing=0 cellpadding=0>
 					                  <tr>
 					                    <td align="center" class="headercell4" width="5%">&nbsp;</td>
@@ -371,6 +376,8 @@
 					                    </td>
 					                  </tr>
 					                </table>
+		                				</c:otherwise>
+		                			</c:choose>
 		                		</td>
 		                	</c:when>
 		                	<c:otherwise>

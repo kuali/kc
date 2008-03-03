@@ -80,6 +80,15 @@
             <textarea name="annotation" cols=50 rows=6></textarea>
           </td>
         </tr>
+        <tr>
+          <td align=right valign=top class="thnormal">Perform Post Processor Logic:</td>
+          <td class="datacell">
+            Value Before: ${SuperUserForm.runPostProcessorLogic}
+            <html-el:checkbox property="runPostProcessorLogic" value="true"/>
+            <html-el:hidden property="runPostProcessorLogic" value=""/>
+            <html-el:image src="images/test.gif" property="methodToCall.test"/>
+          </td>
+        </tr>
       </table>
     </td>
   </tr>

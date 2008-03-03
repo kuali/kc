@@ -75,7 +75,7 @@
                       <kul:htmlAttributeHeaderCell literalLabel="Attachment Type" scope="col" align="left"/>
                     </c:if>
                     <c:if test="${allowsNoteFYI}" >
-                      <kul:htmlAttributeHeaderCell literalLabel="FYI Recipient" scope="col"/>
+                      <kul:htmlAttributeHeaderCell literalLabel="Notification Recipient" scope="col"/>
                     </c:if>
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
@@ -178,16 +178,21 @@
 
                             <c:if test="${allowsNoteFYI}" >
                               <td class="infoline">
-	                    	     <kul:user userIdFieldName="${propPrefix}boNote[${status.index}].fyiNoteRecipient.id" 
-	                    			  userId="${note.fyiNoteRecipient.id}" 
+                                <c:if test="${KualiForm.documentActionFlags.canAdHocRoute}">
+	                    	     <kul:user userIdFieldName="${propPrefix}boNote[${status.index}].adHocRouteRecipient.id" 
+	                    			  userId="${note.adHocRouteRecipient.id}" 
 	                    			  universalIdFieldName=""
 	                    			  universalId=""
-	                    			  userNameFieldName="${propPrefix}boNote[${status.index}].fyiNoteRecipient.name"
-	                    			  userName="${note.fyiNoteRecipient.name}"
+	                    			  userNameFieldName="${propPrefix}boNote[${status.index}].adHocRouteRecipient.name"
+	                    			  userName="${note.adHocRouteRecipient.name}"
 	                    			  readOnly="false" 
 	                    			  renderOtherFields="true"
-	                    			  fieldConversions="personUserIdentifier:${propPrefix}boNote[${status.index}].fyiNoteRecipient.id,personName:${propPrefix}boNote[${status.index}].fyiNoteRecipient.name" 
-	                    			  lookupParameters="${propPrefix}boNote[${status.index}].fyiNoteRecipient.id:personUserIdentifier" />
+	                    			  fieldConversions="personUserIdentifier:${propPrefix}boNote[${status.index}].adHocRouteRecipient.id,personName:${propPrefix}boNote[${status.index}].adHocRouteRecipient.name" 
+	                    			  lookupParameters="${propPrefix}boNote[${status.index}].adHocRouteRecipient.id:personUserIdentifier" />
+	                    	    </c:if>
+	                    	    <c:if test="${!KualiForm.documentActionFlags.canAdHocRoute}">
+	                    	      &nbsp;
+	                    	    </c:if>
                              </td>
                            </c:if>
                            
@@ -195,8 +200,10 @@
                           <c:if test="${allowsNoteDelete}">
                             <html:image property="methodToCall.deleteBONote.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Delete a Note" alt="Delete a Note" styleClass="tinybutton"/>
                           </c:if> &nbsp;
-                          <c:if test="${allowsNoteFYI}" >
-                            <html:image property="methodToCall.sendNoteFYI.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-send.gif" title="Send FYI" alt="Send FYI" styleClass="tinybutton"/>
+                          <c:if test="${allowsNoteFYI && KualiForm.documentActionFlags.canAdHocRoute}" >
+                            <c:if test="${KualiForm.documentActionFlags.canAdHocRoute}">
+                              <html:image property="methodToCall.sendNoteWorkflowNotification.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-send.gif" title="Send FYI" alt="Send FYI" styleClass="tinybutton"/>
+                            </c:if>
                           </c:if>  
                         </div></td>
                     </tr>
