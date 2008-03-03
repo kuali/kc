@@ -100,6 +100,10 @@
   <td width="30%" class="datacell"><c:out value="${rule.ruleBaseValuesId}" default="N/A"/></td>
 </tr>
 <tr>
+  <td width="20%" align=right colspan="2" class="thnormal">Rule Name:</td>
+  <td width="30%" class="datacell"><c:out value="${rule.name}" default="<none>"/></td>
+</tr>
+<tr>
   <td width="20%" align=right colspan="2" class="thnormal">Active:</td>
   <td width="30%" class="datacell"><c:out value="${rule.activeInd}"/></td>
 </tr>

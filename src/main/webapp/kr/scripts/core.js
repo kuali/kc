@@ -67,6 +67,8 @@ function hideTab(doc, tabKey) {
 var formHasAlreadyBeenSubmitted = false;
 var excludeSubmitRestriction = false;
 function hasFormAlreadyBeenSubmitted() {
+
+	if ( document.getElementById( "formComplete" ) ) { 
     if (formHasAlreadyBeenSubmitted && !excludeSubmitRestriction) {
        alert("Page already being processed by the server.");
        return false;
@@ -75,6 +77,13 @@ function hasFormAlreadyBeenSubmitted() {
        return true;
     }
     excludeSubmitRestriction = false;
+    } 
+    /* gmcgrego - commenting out 'cause it keeps happening when it's not supposed to
+    else {
+	       alert("Page has not finished loading.");
+	       return false;
+	}
+	*/
 }
 
 function submitForm() {

@@ -89,12 +89,12 @@
 	  	   </c:when>	  	
 	  	   <c:otherwise>
   	       <logic-el:iterate id="routeNodeState" name="DocumentOperationForm" property="routeNodeInstance[${ctr}].state" indexId="ctr1">
-  	         <html-el:hidden property="routeNodeInstance[${ctr}].state[${ctr1}].nodeStateId"/>
-  	         <html-el:hidden property="routeNodeInstance[${ctr}].state[${ctr1}].lockVerNbr"/>
-  	         <c:set var="nodeStateIndex" value="${nodeStateIndex + 1}"/>
+  	         <html-el:hidden property="routeNodeInstance[${ctr}].nodeStateByIndex[${ctr1}].nodeStateId"/>
+  	         <html-el:hidden property="routeNodeInstance[${ctr}].nodeStateByIndex[${ctr1}].lockVerNbr"/>
   	         Route Node State: <c:out value="${routeNodeState.nodeStateId}"/>&nbsp;&nbsp;&nbsp;&nbsp; <html-el:button property="nodeStateDeleteOp[${nodeStateIndex}].value" value="delete ${routeNodeState.nodeStateId}" onclick="changeValue(this,${ctr},${ctr1})"/><br>
-  	         Key: &nbsp;&nbsp;&nbsp;&nbsp;<html-el:text property="routeNodeInstance[${ctr}].state[${ctr1}].key"/><br>
-  	         Value: &nbsp;&nbsp;<html-el:text property="routeNodeInstance[${ctr}].state[${ctr1}].value"/><br>
+  	         Key: &nbsp;&nbsp;&nbsp;&nbsp;<html-el:text property="routeNodeInstance[${ctr}].nodeStateByIndex[${ctr1}].key"/><br>
+  	         Value: &nbsp;&nbsp;<html-el:text property="routeNodeInstance[${ctr}].nodeStateByIndex[${ctr1}].value"/><br>
+  	         <c:set var="nodeStateIndex" value="${nodeStateIndex + 1}"/>
   	       </logic-el:iterate>
   	       </c:otherwise>
   	       </c:choose>
