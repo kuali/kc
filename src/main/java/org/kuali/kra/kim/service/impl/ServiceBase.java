@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -56,14 +55,14 @@ import org.kuali.kra.kim.pojo.PersonAttribute;
 import org.kuali.kra.kim.pojo.Role;
 
 /**
- * Base class for all KIM Service Implementations.
+ * General Service class for all of the KIM Service Implementations.
  * Provides a set of common methods for operating on KIM objects.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ServiceBase {
 
-    protected BusinessObjectService businessObjectService = null;
+    private BusinessObjectService businessObjectService = null;
 
     /**
      * Set the Business Object Service.  This service is used
@@ -82,7 +81,7 @@ public class ServiceBase {
      * Save the business object to the database.
      * @param bo the business object to save
      */
-    protected final void saveToDatabase(PersistableBusinessObject bo) {
+    public final void saveToDatabase(PersistableBusinessObject bo) {
         if (bo != null) {
             businessObjectService.save(bo);
         }
@@ -92,7 +91,7 @@ public class ServiceBase {
      * Delete the business object from the database.
      * @param bo the business object to delete
      */
-    protected final void deleteFromDatabase(PersistableBusinessObject bo) {
+    public final void deleteFromDatabase(PersistableBusinessObject bo) {
         if (bo != null) {
             businessObjectService.delete(bo);
         }
@@ -105,7 +104,7 @@ public class ServiceBase {
      * @param fieldValue the field's value
      * @return the list of matching business objects
      */
-    protected final Collection findMatching(Class clazz, String fieldName, Object fieldValue) {
+    public final Collection findMatching(Class clazz, String fieldName, Object fieldValue) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(fieldName, fieldValue);
         return businessObjectService.findMatching(clazz, fieldValues);
@@ -120,7 +119,7 @@ public class ServiceBase {
      * @param fieldValue2 the second field's value
      * @return the list of matching business objects
      */
-    protected final Collection findMatching(Class clazz, String fieldName1, Object fieldValue1,
+    public final Collection findMatching(Class clazz, String fieldName1, Object fieldValue1,
                                                          String fieldName2, Object fieldValue2) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(fieldName1, fieldValue1);
@@ -135,7 +134,7 @@ public class ServiceBase {
      * @param fieldValue the field's value
      * @return the list of matching business objects
      */
-    protected final int countMatching(Class clazz, String fieldName, Object fieldValue) {
+    public final int countMatching(Class clazz, String fieldName, Object fieldValue) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(fieldName, fieldValue);
         return businessObjectService.countMatching(clazz, fieldValues);
@@ -150,7 +149,7 @@ public class ServiceBase {
      * @param fieldValue2 the seocnd field's value
      * @return the list of matching business objects
      */
-    protected final int countMatching(Class clazz, String fieldName1, Object fieldValue1,
+    public final int countMatching(Class clazz, String fieldName1, Object fieldValue1,
                                                    String fieldName2, Object fieldValue2) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(fieldName1, fieldValue1);
@@ -165,7 +164,7 @@ public class ServiceBase {
      * @param keyValue the primary key's value
      * @return the business object or null if not found
      */
-    protected final PersistableBusinessObject findByPrimaryKey(Class clazz, String keyName, Object keyValue) {
+    public final PersistableBusinessObject findByPrimaryKey(Class clazz, String keyName, Object keyValue) {
         Map<String, Object> primaryKey = new HashMap<String, Object>();
         primaryKey.put(keyName, keyValue);
         return businessObjectService.findByPrimaryKey(clazz, primaryKey);
@@ -179,7 +178,7 @@ public class ServiceBase {
      * Get all of the KIM Namespaces.
      * @return the KIM Namespaces
      */
-    protected final Collection<KimNamespace> getAllNamespaces() {
+    public final Collection<KimNamespace> getAllNamespaces() {
         return businessObjectService.findAll(KimNamespace.class);
     }
     
@@ -188,7 +187,7 @@ public class ServiceBase {
      * @param namespaceId the Namespace's ID
      * @return the KIM Namespace
      */
-    protected final KimNamespace getNamespace(Long namespaceId) {
+    public final KimNamespace getNamespace(Long namespaceId) {
         return (KimNamespace) findByPrimaryKey(KimNamespace.class, "id", namespaceId);
     }
     
@@ -197,7 +196,7 @@ public class ServiceBase {
      * @param namespaceName the Namespace's Name
      * @return the KIM Namespace
      */
-    protected final KimNamespace getNamespaceByName(String namespaceName) {
+    public final KimNamespace getNamespaceByName(String namespaceName) {
         Collection<KimNamespace> namespaces = findMatching(KimNamespace.class, "name", namespaceName);
         if (namespaces.size() != 1) {
             throw new UnknownNamespaceNameException(namespaceName);
@@ -210,7 +209,7 @@ public class ServiceBase {
      * @param namespaceName the name of the Namespace
      * @return the Namespace's ID
      */
-    protected final Long getNamespaceId(String namespaceName) {
+    public final Long getNamespaceId(String namespaceName) {
         KimNamespace namespace = getNamespaceByName(namespaceName);
         return namespace.getId();
     }
@@ -220,7 +219,7 @@ public class ServiceBase {
      * @param namespaceId the Namespace ID
      * @return the KIM Permissions
      */
-    protected final Collection<KimPermission> getNamespacePermissions(Long namespaceId) {
+    public final Collection<KimPermission> getNamespacePermissions(Long namespaceId) {
         return findMatching(KimPermission.class, "namespaceId", namespaceId);
     }
     
@@ -229,7 +228,7 @@ public class ServiceBase {
      * @param kimNamespace the KIM Namespace
      * @return the Namespace
      */
-    protected final Namespace buildNamespace(KimNamespace kimNamespace) {
+    public final Namespace buildNamespace(KimNamespace kimNamespace) {
         Namespace namespace = new Namespace();
         namespace.setName(kimNamespace.getName());
         namespace.setDescription(kimNamespace.getDescription());
@@ -245,7 +244,7 @@ public class ServiceBase {
      * @param permissionId the Permission's ID
      * @return the KIM Permission
      */
-    protected final KimPermission getPermission(Long permissionId) {
+    public final KimPermission getPermission(Long permissionId) {
         Map<String, Object> primaryKey = new HashMap<String, Object>();
         primaryKey.put("id", permissionId);
         return (KimPermission) businessObjectService.findByPrimaryKey(KimPermission.class, primaryKey);
@@ -257,7 +256,7 @@ public class ServiceBase {
      * @param permissionName the name of the Permission
      * @return the Permission's ID
      */
-    protected final Long getPermissionId(Long namespaceId, String permissionName) {
+    public final Long getPermissionId(Long namespaceId, String permissionName) {
         Collection<KimPermission> permissions = findMatching(KimPermission.class, 
                                                              "namespaceId", namespaceId,
                                                              "name", permissionName);
@@ -273,7 +272,7 @@ public class ServiceBase {
      * @param kimPermission the KIM Permission
      * @return the Permission
      */
-    protected final Permission buildPermission(KimPermission kimPermission) {
+    public final Permission buildPermission(KimPermission kimPermission) {
         Permission permission = new Permission();
         permission.setName(kimPermission.getName());
         permission.setDescription(kimPermission.getDescription());
@@ -290,7 +289,7 @@ public class ServiceBase {
      * Get all of the KIM Roles.
      * @return the KIM Roles
      */
-    protected final Collection<KimRole> getAllRoles() {
+    public final Collection<KimRole> getAllRoles() {
         return businessObjectService.findAll(KimRole.class);
     }
 
@@ -299,7 +298,7 @@ public class ServiceBase {
      * @param roleName the name of the Role
      * @return the Role's ID
      */
-    protected final Long getRoleId(String roleName) {
+    public final Long getRoleId(String roleName) {
         KimRole role = getRoleByName(roleName);
         return role.getId();
     }
@@ -309,7 +308,7 @@ public class ServiceBase {
      * @param roleId the Role's ID
      * @return the KIM Role or null if not found
      */
-    protected final KimRole getRole(Long roleId) {
+    public final KimRole getRole(Long roleId) {
         Map<String, Object> primaryKey = new HashMap<String, Object>();
         primaryKey.put("id", roleId);
         return (KimRole) businessObjectService.findByPrimaryKey(KimRole.class, primaryKey);
@@ -320,7 +319,7 @@ public class ServiceBase {
      * @param roleName the Role's name
      * @return the KIM Role or null if not found
      */
-    protected final KimRole getRoleByName(String roleName) {
+    public final KimRole getRoleByName(String roleName) {
         Collection<KimRole> roles = findMatching(KimRole.class, "name", roleName);
 		if (roles.size() != 1) {
 		    throw new UnknownRoleNameException(roleName);
@@ -334,7 +333,7 @@ public class ServiceBase {
      * @param kimRole the KIM Role
      * @return the Role
      */
-    protected final Role buildRole(KimRole kimRole) {
+    public final Role buildRole(KimRole kimRole) {
         Role role = new Role();
         role.setName(kimRole.getName());
         role.setDescription(kimRole.getDescription());
@@ -355,7 +354,7 @@ public class ServiceBase {
      * @param roleId the Role's ID
      * @return the Permissions in the Role
      */
-    protected final List<KimPermission> getRolePermissions(Long roleId) {
+    public final List<KimPermission> getRolePermissions(Long roleId) {
         List<KimPermission> permissions = new ArrayList<KimPermission>();
         Collection<KimRolePermission> rolePermissions = findMatching(KimRolePermission.class, "roleId", roleId);
         for (KimRolePermission rolePermission : rolePermissions) {
@@ -369,7 +368,7 @@ public class ServiceBase {
      * @param roleId the Role's ID
      * @return the list of Persons
      */
-    protected final List<KimPerson> getRolePersons(Long roleId) {
+    public final List<KimPerson> getRolePersons(Long roleId) {
         List<KimPerson> persons = new ArrayList<KimPerson>();
         Collection<KimRolePerson> rolePersons = findMatching(KimRolePerson.class, "roleId", roleId);
         for (KimRolePerson rolePerson : rolePersons) {
@@ -383,7 +382,7 @@ public class ServiceBase {
      * @param roleId the Role's ID
      * @return the list of Groups 
      */
-    protected final List<KimGroup> getRoleGroups(Long roleId) {
+    public final List<KimGroup> getRoleGroups(Long roleId) {
         List<KimGroup> groups = new ArrayList<KimGroup>();
         Collection<KimRoleGroup> roleGroups = findMatching(KimRoleGroup.class, "roleId", roleId);
         for (KimRoleGroup roleGroup : roleGroups) {
@@ -398,7 +397,7 @@ public class ServiceBase {
      * @param permissionId the Permission's ID
      * @return true if the role does have this permission; otherwise false
      */
-    protected final boolean hasPermission(Long roleId, Long permissionId) {
+    public final boolean hasPermission(Long roleId, Long permissionId) {
         Map<String, Object> primaryKey = new HashMap<String, Object>();
         primaryKey.put("roleId", roleId);
         primaryKey.put("permissionId", permissionId);
@@ -412,7 +411,7 @@ public class ServiceBase {
      * @param permissionId the Permission ID
      * @return true if any of the roles has the permission; otherwise false
      */
-    protected final boolean hasPermission(Collection<Long> roleIds, Long permissionId) {
+    public final boolean hasPermission(Collection<Long> roleIds, Long permissionId) {
         for (Long roleId : roleIds) {
             if (hasPermission(roleId, permissionId)) {
                 return true;
@@ -429,7 +428,7 @@ public class ServiceBase {
      * Get all of the KIM Persons.
      * @return the KIM Persons
      */
-    protected final Collection<KimPerson> getAllPersons() {
+    public final Collection<KimPerson> getAllPersons() {
         return businessObjectService.findAll(KimPerson.class);
     }
 
@@ -438,7 +437,7 @@ public class ServiceBase {
      * @param username the username of the Person
      * @return Person's ID
      */
-    protected final Long getPersonId(String username) {
+    public final Long getPersonId(String username) {
         KimPerson person = getPersonByName(username);
         return person.getId();
     }
@@ -448,7 +447,7 @@ public class ServiceBase {
      * @param personId the Person's ID
      * @return the KIM Person or null if not found
      */
-    protected final KimPerson getPerson(Long personId) {
+    public final KimPerson getPerson(Long personId) {
         Map<String, Object> primaryKey = new HashMap<String, Object>();
         primaryKey.put("id", personId);
         return (KimPerson) businessObjectService.findByPrimaryKey(KimPerson.class, primaryKey);
@@ -459,7 +458,7 @@ public class ServiceBase {
      * @param username the username of the Person
      * @return the Person
      */
-    protected final KimPerson getPersonByName(String username) {
+    public final KimPerson getPersonByName(String username) {
         Collection<KimPerson> persons = findMatching(KimPerson.class, "username", username);
         if (persons.size() != 1) {
             throw new UnknownUsernameException(username);
@@ -472,7 +471,7 @@ public class ServiceBase {
      * @param kimPerson the KIM Person
      * @return the Person
      */
-    protected final Person buildPerson(KimPerson kimPerson) {
+    public final Person buildPerson(KimPerson kimPerson) {
         Person person = new Person();
         person.setUsername(kimPerson.getUsername());
         person.setPassword(kimPerson.getPassword());
@@ -492,7 +491,7 @@ public class ServiceBase {
      * @param kimAttr the KIM Person Attribute
      * @return the Person Attribute
      */
-    protected final PersonAttribute buildPersonAttribute(KimPersonAttribute kimAttr) {
+    public final PersonAttribute buildPersonAttribute(KimPersonAttribute kimAttr) {
         String namespaceName = getNamespace(kimAttr.getNamespaceId()).getName();
         String name = kimAttr.getAttributeName();
         String value = kimAttr.getAttributeValue();
@@ -506,7 +505,7 @@ public class ServiceBase {
      *        otherwise only find the immediate Groups the Person is in
      * @return the set of Group IDs the Person is in
      */
-    protected final Set<Long> getPersonGroupIds(Long personId, boolean traverse) {
+    public final Set<Long> getPersonGroupIds(Long personId, boolean traverse) {
         Set<Long> groupIds = new HashSet<Long>();
         Collection<KimGroupPerson> groupPersons = findMatching(KimGroupPerson.class, "personId", personId);
         for (KimGroupPerson groupPerson : groupPersons) {
@@ -528,7 +527,7 @@ public class ServiceBase {
      *        otherwise only find the Roles the Person is directly assigned to
      * @return the set of Role IDs the Person has
      */
-    protected final Set<Long> getPersonRoleIds(Long personId, boolean traverse) {
+    public final Set<Long> getPersonRoleIds(Long personId, boolean traverse) {
         Set<Long> roleIds = new HashSet<Long>();
         Collection<KimRolePerson> rolePersons = findMatching(KimRolePerson.class, "personId", personId);
         for (KimRolePerson rolePerson : rolePersons) {
@@ -551,7 +550,7 @@ public class ServiceBase {
      * @param attrName the attribute's name
      * @return the value of the attribute or null if not found
      */
-    protected String getPersonAttributeValue(Long personId, Long namespaceId, String attrName) {
+    public String getPersonAttributeValue(Long personId, Long namespaceId, String attrName) {
         String attrValue = null;
         
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -574,7 +573,7 @@ public class ServiceBase {
      * @param attrValue the attribute value
      * @return true if the Person has this attribute; otherwise false
      */
-    protected boolean hasPersonAttribute(Long personId, Long namespaceId, String attrName, String attrValue) {  
+    public boolean hasPersonAttribute(Long personId, Long namespaceId, String attrName, String attrValue) {  
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
         fieldValues.put("namespaceId", namespaceId);
@@ -590,9 +589,9 @@ public class ServiceBase {
      * @param personAttributes the attributes to match against
      * @return the Persons who have these attributes
      */
-    protected List<KimPerson> getPersons(Long namespaceId, Map<String, String> personAttributes) {
+    public List<KimPerson> getPersons(Long namespaceId, Map<String, String> personAttributes) {
         List<KimPerson> persons = new ArrayList<KimPerson>();
-        Collection<KimPerson> allPersons = this.getAllPersons();
+        Collection<KimPerson> allPersons = getAllPersons();
         for (KimPerson person : allPersons) {
             List<KimPersonAttribute> attributes = getPersonAttributes(person.getId());
             if (containsAttrs(attributes, namespaceId, personAttributes)) {
@@ -607,7 +606,7 @@ public class ServiceBase {
      * @param personId the Person's ID
      * @return the list of Person Attributes
      */
-    protected List<KimPersonAttribute> getPersonAttributes(Long personId) {
+    public List<KimPersonAttribute> getPersonAttributes(Long personId) {
         List<KimPersonAttribute> personAttributes = new ArrayList<KimPersonAttribute>();
         personAttributes.addAll(findMatching(KimPersonAttribute.class, "personId", personId));
         return personAttributes;
@@ -621,9 +620,7 @@ public class ServiceBase {
      * @return true if the Person Attributes contains these attributes; otherwise false
      */
     private boolean containsAttrs(List<KimPersonAttribute> personAttributes, Long namespaceId, Map<String, String> attributes) {
-        Iterator<Entry<String, String>> iterator = attributes.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Entry<String, String> entry = iterator.next();
+        for (Entry<String, String> entry : attributes.entrySet()) {
             if (!containsAttr(personAttributes, namespaceId, entry.getKey(), entry.getValue())) {
                 return false;
             }
@@ -657,7 +654,7 @@ public class ServiceBase {
      * Get all of the KIM Groups.
      * @return the KIM Groups
      */
-    protected final Collection<KimGroup> getAllGroups() {
+    public final Collection<KimGroup> getAllGroups() {
         return businessObjectService.findAll(KimGroup.class);
     }
 
@@ -666,7 +663,7 @@ public class ServiceBase {
      * @param groupId the Group's ID
      * @return the KIM Group or null if not found
      */
-    protected final KimGroup getGroup(Long groupId) {
+    public final KimGroup getGroup(Long groupId) {
         return (KimGroup) findByPrimaryKey(KimGroup.class, "id", groupId);
     }
     
@@ -675,7 +672,7 @@ public class ServiceBase {
      * @param groupName the Group's Name
      * @return the KIM Group or null if not found
      */
-    protected final KimGroup getGroupByName(String groupName) {
+    public final KimGroup getGroupByName(String groupName) {
         Collection<KimGroup> groups = findMatching(KimGroup.class, "name", groupName);
         if (groups.size() != 1) {
             throw new UnknownGroupNameException(groupName);
@@ -689,7 +686,7 @@ public class ServiceBase {
      * @param groupName the name of the Group
      * @return the Group's ID
      */
-    protected final Long getGroupId(String groupName) {
+    public final Long getGroupId(String groupName) {
         KimGroup group = getGroupByName(groupName);
         return group.getId();
     }
@@ -699,7 +696,7 @@ public class ServiceBase {
      * @param groupId the group's ID
      * @return the group's attributes
      */
-    protected final Collection<KimGroupAttribute> getGroupAttributes(Long groupId) {
+    public final Collection<KimGroupAttribute> getGroupAttributes(Long groupId) {
         return findMatching(KimGroupAttribute.class, "groupId", groupId);
     }
     
@@ -710,7 +707,7 @@ public class ServiceBase {
      * @param attrValue the attribute value to search for
      * @return true if the (name, value) pair is in the list; otherwise false
      */
-    protected final boolean containsAttr(Collection<KimGroupAttribute> kimGroupAttributes, String attrName, String attrValue) {
+    public final boolean containsAttr(Collection<KimGroupAttribute> kimGroupAttributes, String attrName, String attrValue) {
         for (KimGroupAttribute kimGroupAttribute : kimGroupAttributes) {
             if (kimGroupAttribute.getAttributeName().equals(attrName) &&
                 kimGroupAttribute.getAttributeValue().equals(attrValue)) {
@@ -726,10 +723,8 @@ public class ServiceBase {
      * @param attributes the set of (name, value) pairs to look for
      * @return true if all of the (name, value) pairs are in the Group Attributes; otherwise false
      */
-    protected final boolean containsAttrs(Collection<KimGroupAttribute> kimGroupAttributes, Map<String, String> attributes) {
-        Iterator<Entry<String, String>> iterator = attributes.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Entry<String, String> entry = iterator.next();
+    public final boolean containsAttrs(Collection<KimGroupAttribute> kimGroupAttributes, Map<String, String> attributes) {
+        for (Entry<String, String> entry : attributes.entrySet()) {
             if (containsAttr(kimGroupAttributes, entry.getKey(), entry.getValue())) {
                 return false;
             }
@@ -742,7 +737,7 @@ public class ServiceBase {
      * @param kimGroup the KIM Group
      * @return the Group
      */
-    protected final Group buildGroup(KimGroup kimGroup) {
+    public final Group buildGroup(KimGroup kimGroup) {
         Group group = new Group();
         group.setName(kimGroup.getName());
         group.setDescription(kimGroup.getDescription());
@@ -765,7 +760,7 @@ public class ServiceBase {
      *        otherwise only find the immediate Groups the Group is in
      * @return the set of Group IDs the Person is in
      */
-    protected final Set<Long> getGroupParentGroupIds(Long groupId, boolean traverse) {
+    public final Set<Long> getGroupParentGroupIds(Long groupId, boolean traverse) {
         Set<Long> groupIds = new HashSet<Long>();
         Collection<KimGroupGroup> groupGroups = findMatching(KimGroupGroup.class, "memberGroupId", groupId);
         for (KimGroupGroup groupGroup : groupGroups) {
@@ -787,7 +782,7 @@ public class ServiceBase {
      *        otherwise only find the Roles the Group is directly assigned to
      * @return the set of Role IDs the Group has
      */
-    protected final Set<Long> getGroupRoleIds(Long groupId, boolean traverse) {
+    public final Set<Long> getGroupRoleIds(Long groupId, boolean traverse) {
         Set<Long> roleIds = new HashSet<Long>();
         Collection<KimRoleGroup> roleGroups = findMatching(KimRoleGroup.class, "groupId", groupId);
         for (KimRoleGroup roleGroup : roleGroups) {
@@ -808,7 +803,7 @@ public class ServiceBase {
      * @param groupId the Group's ID
      * @return the Roles a Group is in
      */
-    protected final List<KimRole> getGroupRoles(Long groupId) {
+    public final List<KimRole> getGroupRoles(Long groupId) {
         List<KimRole> groupRoles = new ArrayList<KimRole>();
         Set<Long> roleIds = getGroupRoleIds(groupId, true);
         for (Long roleId : roleIds) {
@@ -822,11 +817,11 @@ public class ServiceBase {
      * @param groupId the Group's ID
      * @return all of the Group's Permissions
      */
-    protected final Set<KimPermission> getGroupPermissions(Long groupId) {
+    public final Set<KimPermission> getGroupPermissions(Long groupId) {
         Set<KimPermission> groupPermissions = new HashSet<KimPermission>();
         Set<Long> roleIds = getGroupRoleIds(groupId, true);
         for (Long roleId : roleIds) {
-            List<KimPermission> rolePermissions = this.getRolePermissions(roleId);
+            List<KimPermission> rolePermissions = getRolePermissions(roleId);
             groupPermissions.addAll(rolePermissions);
         }
         return groupPermissions;
@@ -837,7 +832,7 @@ public class ServiceBase {
      * @param groupId the Group's ID
      * @return the list of Person IDs in the Group
      */
-    protected final List<Long> getGroupMemberPersonIds(Long groupId) {
+    public final List<Long> getGroupMemberPersonIds(Long groupId) {
         List<Long> personIds = new ArrayList<Long>();
         Collection<KimGroupPerson> groupPersons = findMatching(KimGroupPerson.class, "groupId", groupId);
         for (KimGroupPerson groupPerson : groupPersons) {
@@ -851,7 +846,7 @@ public class ServiceBase {
      * @param groupId the Group's ID
      * @return the list of Persons
      */
-    protected final List<KimPerson> getGroupMemberPersons(Long groupId) {
+    public final List<KimPerson> getGroupMemberPersons(Long groupId) {
         List<KimPerson> persons = new ArrayList<KimPerson>();
         List<Long> personIds = getGroupMemberPersonIds(groupId);
         for (Long personId : personIds) {
@@ -865,7 +860,7 @@ public class ServiceBase {
      * @param groupId the Group's ID
      * @return the list of Group IDs in the Group
      */
-    protected final List<Long> getGroupMemberGroupIds(Long groupId) {
+    public final List<Long> getGroupMemberGroupIds(Long groupId) {
         List<Long> groupIds = new ArrayList<Long>();
         Collection<KimGroupGroup> groupGroups = findMatching(KimGroupGroup.class, "parentGroupId", groupId);
         for (KimGroupGroup groupGroup : groupGroups) {
@@ -879,7 +874,7 @@ public class ServiceBase {
      * @param groupId the Group's ID
      * @return the list of Groups
      */
-    protected final List<KimGroup> getGroupMemberGroups(Long groupId) {
+    public final List<KimGroup> getGroupMemberGroups(Long groupId) {
         List<KimGroup> groups = new ArrayList<KimGroup>();
         List<Long> groupIds = getGroupMemberPersonIds(groupId);
         for (Long memberGroupId : groupIds) {
@@ -898,7 +893,7 @@ public class ServiceBase {
      * @param personId the Person's ID
      * @return the Role-Person association
      */
-    protected final KimRolePerson getRolePerson(Long roleId, Long personId) {
+    public final KimRolePerson getRolePerson(Long roleId, Long personId) {
         KimRolePerson rolePerson = null;
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("roleId", roleId);
@@ -918,7 +913,7 @@ public class ServiceBase {
      * @param attrValue the attribute's value
      * @return
      */
-    protected final KimQualifiedRolePerson getQualifiedRolePerson(Long roleId, Long personId,
+    public final KimQualifiedRolePerson getQualifiedRolePerson(Long roleId, Long personId,
                                                          Map<String, String> qualifiedRoleAttributes) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("roleId", roleId);
@@ -929,6 +924,7 @@ public class ServiceBase {
         for (KimQualifiedRolePerson rolePerson : rolePersons) {
             if (rolePerson.matches(qualifiedRoleAttributes)) {
                 return rolePerson;
+                
             }
         }
         return null;
@@ -947,7 +943,7 @@ public class ServiceBase {
      * @param qualifiedRoleAttributes the qualified attributes
      * @return true if the person has the qualified role; otherwise false
      */
-    protected final boolean hasPersonQualifiedRole(Long personId, Long roleId, Map<String, String> qualifiedRoleAttributes) {
+    public final boolean hasPersonQualifiedRole(Long personId, Long roleId, Map<String, String> qualifiedRoleAttributes) {
         boolean hasQualifiedRole = false;
         
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -973,7 +969,7 @@ public class ServiceBase {
      * @param qualifiedRoleAttributes the qualified attributes to match against
      * @return the set of Role IDs
      */
-    protected final Set<Long> getPersonQualifiedRoleIds(Long personId, Map<String, String> qualifiedRoleAttributes) {
+    public final Set<Long> getPersonQualifiedRoleIds(Long personId, Map<String, String> qualifiedRoleAttributes) {
         // Get all of the Qualified Roles that the Person is in.
         List<KimQualifiedRolePerson> qualifiedRoles = getPersonQualifiedRoles(personId);
         
@@ -995,7 +991,7 @@ public class ServiceBase {
      * @param personId the Person's ID
      * @return the list of Qualified Roles the Person is in
      */
-    protected List<KimQualifiedRolePerson> getPersonQualifiedRoles(Long personId) {
+    public List<KimQualifiedRolePerson> getPersonQualifiedRoles(Long personId) {
         List<KimQualifiedRolePerson> qualifiedRoles = new ArrayList<KimQualifiedRolePerson>();
         qualifiedRoles.addAll(findMatching(KimQualifiedRolePerson.class, "personId", personId));
         return qualifiedRoles;
@@ -1014,7 +1010,7 @@ public class ServiceBase {
      * @param qualifiedRoleAttributes the qualified attributes
      * @return true if the group has the qualified role; otherwise false
      */
-    protected final boolean hasGroupQualifiedRole(Long groupId, Long roleId, Map<String, String> qualifiedRoleAttributes) {
+    public final boolean hasGroupQualifiedRole(Long groupId, Long roleId, Map<String, String> qualifiedRoleAttributes) {
         boolean hasQualifiedRole = false;
         
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -1039,7 +1035,7 @@ public class ServiceBase {
      * @param qualifiedRoleAttributes the qualified attributes to match against
      * @return the set of Role IDs
      */
-    protected final Set<Long> getGroupQualifiedRoleIds(Long groupId, Map<String, String> qualifiedRoleAttributes) {  
+    public final Set<Long> getGroupQualifiedRoleIds(Long groupId, Map<String, String> qualifiedRoleAttributes) {  
         
         // Get all of the Qualified Roles that the Person is in.
         List<KimQualifiedRoleGroup> qualifiedRoles = getGroupQualifiedRoles(groupId);
@@ -1062,7 +1058,7 @@ public class ServiceBase {
      * @param groupId the Group's ID
      * @return the list of Qualified Roles the Group is in
      */
-    protected List<KimQualifiedRoleGroup> getGroupQualifiedRoles(Long groupId) {
+    public List<KimQualifiedRoleGroup> getGroupQualifiedRoles(Long groupId) {
         List<KimQualifiedRoleGroup> qualifiedRoles = new ArrayList<KimQualifiedRoleGroup>();
         qualifiedRoles.addAll(findMatching(KimQualifiedRoleGroup.class, "groupId", groupId));
         return qualifiedRoles;
