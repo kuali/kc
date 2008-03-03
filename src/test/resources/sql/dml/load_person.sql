@@ -1,18 +1,21 @@
 insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR)
- values ('000000003','McGregor','Geoff','Geoff McGregor','quickstart','Indiana University','00000001',SYSDATE,'KRADEV','1')
+ values ('000000003','McGregor','Geoff','Geoff McGregor','quickstart','Indiana University','000001',SYSDATE,'KRADEV','1')
  ;
 insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR)
- values ('000000004','OConnor','Lora','Lora OConnor','ljoconno','Indiana University','00000001',SYSDATE,'KRADEV','1')
+ values ('000000004','OConnor','Lora','Lora OConnor','ljoconno','Indiana University','000001',SYSDATE,'KRADEV','1')
  ;
 insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR)
- values ('000000005','Hutchinson','Bryan','Bryan Hutchinson','bhutchin','Cornell University','00000001',SYSDATE,'KRADEV','1')
+ values ('000000005','Hutchinson','Bryan','Bryan Hutchinson','bhutchin','Cornell University','000001',SYSDATE,'KRADEV','1')
  ;
 insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR)
- values ('000000006','Slusar','Andrew','Andrew Slusar','aslusar','Cornell University','00000001',SYSDATE,'KRADEV','1')
+ values ('000000006','Slusar','Andrew','Andrew Slusar','aslusar','Cornell University','000001',SYSDATE,'KRADEV','1')
  ;
 insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR)
- values ('000000001','Durkin','Terry','Terry Durkin','tdurkin','Indiana University','00000001',SYSDATE,'KRADEV','1')
+ values ('000000001','Durkin','Terry','Terry Durkin','tdurkin','Indiana University','000001',SYSDATE,'KRADEV','1')
  ;
 insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR)
- values ('000000002','Berg','Philip','Philip Berg','pcberg','Indiana University','00000001',SYSDATE,'KRADEV','1')
+ values ('000000002','Berg','Philip','Philip Berg','pcberg','Indiana University','000001',SYSDATE,'KRADEV','1')
+ ;
+insert into PERSON (PERSON_ID, LAST_NAME, FIRST_NAME, FULL_NAME, USER_NAME, OFFICE_LOCATION, HOME_UNIT, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR)
+ values ('000000008','Tester','Joe','Joe Tester','jtester','Indiana University','000001',SYSDATE,'KRADEV','1')
  ;
