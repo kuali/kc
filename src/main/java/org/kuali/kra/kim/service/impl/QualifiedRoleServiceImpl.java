@@ -36,19 +36,29 @@ import org.kuali.kra.kim.service.QualifiedRoleService;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class QualifiedRoleServiceImpl extends ServiceBase implements QualifiedRoleService {
+public class QualifiedRoleServiceImpl implements QualifiedRoleService {
 
+    private ServiceBase helper;
+    
+    /**
+     * Set the Service Helper.  Injected by the Spring Framework.
+     * @param helper the service helper
+     */
+    public void setServiceHelper(ServiceBase helper) {
+        this.helper = helper;
+    }
+    
     /**
      * @see org.kuali.kra.kim.service.QualifiedRoleService#getGroupNames(java.lang.String, java.util.Map)
      */
     public List<String> getGroupNames(String roleName, Map<String, String> qualifiedRoleAttributes) {
         List<String> groupNames = new ArrayList<String>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
 
-        Collection<KimQualifiedRoleGroup> roleGroups = findMatching(KimQualifiedRoleGroup.class, "roleId", roleId);
+        Collection<KimQualifiedRoleGroup> roleGroups = helper.findMatching(KimQualifiedRoleGroup.class, "roleId", roleId);
         for (KimQualifiedRoleGroup roleGroup : roleGroups) {
             if (roleGroup.matches(qualifiedRoleAttributes)) {
-                KimGroup kimGroup = getGroup(roleGroup.getGroupId());
+                KimGroup kimGroup = helper.getGroup(roleGroup.getGroupId());
                 groupNames.add(kimGroup.getName());
             }
         }
@@ -60,13 +70,13 @@ public class QualifiedRoleServiceImpl extends ServiceBase implements QualifiedRo
      */
     public List<Group> getGroups(String roleName, Map<String, String> qualifiedRoleAttributes) {
         List<Group> groups = new ArrayList<Group>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
 
-        Collection<KimQualifiedRoleGroup> roleGroups = findMatching(KimQualifiedRoleGroup.class, "roleId", roleId);
+        Collection<KimQualifiedRoleGroup> roleGroups = helper.findMatching(KimQualifiedRoleGroup.class, "roleId", roleId);
         for (KimQualifiedRoleGroup roleGroup : roleGroups) {
             if (roleGroup.matches(qualifiedRoleAttributes)) {
-                KimGroup kimGroup = getGroup(roleGroup.getGroupId());
-                Group group = buildGroup(kimGroup);
+                KimGroup kimGroup = helper.getGroup(roleGroup.getGroupId());
+                Group group = helper.buildGroup(kimGroup);
                 groups.add(group);
             }
         }
@@ -78,12 +88,12 @@ public class QualifiedRoleServiceImpl extends ServiceBase implements QualifiedRo
      */
     public List<String> getPersonUsernames(String roleName, Map<String, String> qualifiedRoleAttributes) {
         List<String> personNames = new ArrayList<String>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
         
-        Collection<KimQualifiedRolePerson> rolePersons = findMatching(KimQualifiedRolePerson.class, "roleId", roleId);
+        Collection<KimQualifiedRolePerson> rolePersons = helper.findMatching(KimQualifiedRolePerson.class, "roleId", roleId);
         for (KimQualifiedRolePerson rolePerson : rolePersons) {
             if (rolePerson.matches(qualifiedRoleAttributes)) {
-                KimPerson kimPerson = getPerson(rolePerson.getPersonId());
+                KimPerson kimPerson = helper.getPerson(rolePerson.getPersonId());
                 personNames.add(kimPerson.getUsername());
             }
         }
@@ -95,13 +105,13 @@ public class QualifiedRoleServiceImpl extends ServiceBase implements QualifiedRo
      */
     public List<Person> getPersons(String roleName, Map<String, String> qualifiedRoleAttributes) {
         List<Person> persons = new ArrayList<Person>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
         
-        Collection<KimQualifiedRolePerson> rolePersons = findMatching(KimQualifiedRolePerson.class, "roleId", roleId);
+        Collection<KimQualifiedRolePerson> rolePersons = helper.findMatching(KimQualifiedRolePerson.class, "roleId", roleId);
         for (KimQualifiedRolePerson rolePerson : rolePersons) {
             if (rolePerson.matches(qualifiedRoleAttributes)) {
-                KimPerson kimPerson = getPerson(rolePerson.getPersonId());
-                Person person = buildPerson(kimPerson);
+                KimPerson kimPerson = helper.getPerson(rolePerson.getPersonId());
+                Person person = helper.buildPerson(kimPerson);
                 persons.add(person);
             }
         }
