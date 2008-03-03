@@ -34,6 +34,9 @@ import org.kuali.kra.service.UnitAuthorizationService;
  */
 public class SaveProposalAuthorizer extends ProposalAuthorizer {
 
+    /**
+     * @see org.kuali.kra.proposaldevelopment.document.authorization.ProposalAuthorizer#isResponsible(org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
+     */
     public boolean isResponsible(ProposalTask task) {
         return StringUtils.equals("save", task.getTaskName());
     }

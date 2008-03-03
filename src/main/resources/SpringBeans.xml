@@ -334,28 +334,34 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
- 
+	
  	<bean id="personService" class="org.kuali.kra.service.impl.PersonServiceImpl">
  		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
  	</bean>
- 
-	<bean id="kimPersonService" class="org.kuali.kra.kim.service.impl.PersonServiceImpl">
-		<property name="businessObjectService">
+ 	
+    <bean id="kimServiceHelper" class="org.kuali.kra.kim.service.impl.ServiceBase">
+ 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+ 	</bean>
+ 	
+	<bean id="kimPersonService" class="org.kuali.kra.kim.service.impl.PersonServiceImpl">
+		<property name="serviceHelper">
+			<ref bean="kimServiceHelper" />
 		</property>
 	</bean>
 	
 	<bean id="kimRoleService" class="org.kuali.kra.kim.service.impl.RoleServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
+		<property name="serviceHelper">
+			<ref bean="kimServiceHelper" />
 		</property>
 	</bean>
 	
 	<bean id="kimQualifiedRoleService" class="org.kuali.kra.kim.service.impl.QualifiedRoleServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
+		<property name="serviceHelper">
+			<ref bean="kimServiceHelper" />
 		</property>
 	</bean>
 	

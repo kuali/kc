@@ -37,16 +37,26 @@ import org.kuali.kra.kim.service.GroupService;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class GroupServiceImpl extends ServiceBase implements GroupService {
+public class GroupServiceImpl implements GroupService {
+    
+    private ServiceBase helper;
+    
+    /**
+     * Set the Service Helper.  Injected by the Spring Framework.
+     * @param helper the service helper
+     */
+    public void setServiceHelper(ServiceBase helper) {
+        this.helper = helper;
+    }
 
     /**
      * @see org.kuali.kra.kim.service.GroupService#getGroupNames(java.lang.String)
      */
     public List<String> getGroupNames(String groupName) {
         List<String> groupNames = new ArrayList<String>();
-        Long groupId = getGroupId(groupName);
+        Long groupId = helper.getGroupId(groupName);
         if (groupId != null) {
-            List<KimGroup> kimGroups = getGroupMemberGroups(groupId);
+            List<KimGroup> kimGroups = helper.getGroupMemberGroups(groupId);
             for (KimGroup kimGroup : kimGroups) {
                 groupNames.add(kimGroup.getName());
             }
@@ -59,10 +69,10 @@ public class GroupServiceImpl extends ServiceBase implements GroupService {
      */
     public List<Group> getGroups(String groupName) {
         List<Group> groups = new ArrayList<Group>();
-        Long groupId = getGroupId(groupName);
-        List<KimGroup> kimGroups = getGroupMemberGroups(groupId);
+        Long groupId = helper.getGroupId(groupName);
+        List<KimGroup> kimGroups = helper.getGroupMemberGroups(groupId);
         for (KimGroup kimGroup : kimGroups) {
-            Group group = buildGroup(kimGroup);
+            Group group = helper.buildGroup(kimGroup);
             groups.add(group);
         }
         return groups;
@@ -73,10 +83,10 @@ public class GroupServiceImpl extends ServiceBase implements GroupService {
      */
     public List<String> getGroupNames(Map<String, String> groupAttributes) {
         List<String> groupNames = new ArrayList<String>();
-        Collection<KimGroup> allGroups = getAllGroups();
+        Collection<KimGroup> allGroups = helper.getAllGroups();
         for (KimGroup kimGroup : allGroups) {
-            Collection<KimGroupAttribute> kimGroupAttributes = getGroupAttributes(kimGroup.getId());
-            if (containsAttrs(kimGroupAttributes, groupAttributes)) {
+            Collection<KimGroupAttribute> kimGroupAttributes = helper.getGroupAttributes(kimGroup.getId());
+            if (helper.containsAttrs(kimGroupAttributes, groupAttributes)) {
                 groupNames.add(kimGroup.getName());
             }
         }
@@ -88,11 +98,11 @@ public class GroupServiceImpl extends ServiceBase implements GroupService {
      */
     public List<Group> getGroups(Map<String, String> groupAttributes) {
         List<Group> groups = new ArrayList<Group>();
-        Collection<KimGroup> allGroups = getAllGroups();
+        Collection<KimGroup> allGroups = helper.getAllGroups();
         for (KimGroup kimGroup : allGroups) {
-            Collection<KimGroupAttribute> kimGroupAttributes = getGroupAttributes(kimGroup.getId());
-            if (containsAttrs(kimGroupAttributes, groupAttributes)) {
-                Group group = buildGroup(kimGroup);
+            Collection<KimGroupAttribute> kimGroupAttributes = helper.getGroupAttributes(kimGroup.getId());
+            if (helper.containsAttrs(kimGroupAttributes, groupAttributes)) {
+                Group group = helper.buildGroup(kimGroup);
                 groups.add(group);
             }
         }
@@ -104,8 +114,8 @@ public class GroupServiceImpl extends ServiceBase implements GroupService {
      */
     public List<String> getPermissionNames(String groupName) {
         List<String> permissionNames = new ArrayList<String>();
-        Long groupId = getGroupId(groupName);
-        Set<KimPermission> kimPermissions = getGroupPermissions(groupId);
+        Long groupId = helper.getGroupId(groupName);
+        Set<KimPermission> kimPermissions = helper.getGroupPermissions(groupId);
         for (KimPermission kimPermission : kimPermissions) {
             permissionNames.add(kimPermission.getName());
         }
@@ -117,10 +127,10 @@ public class GroupServiceImpl extends ServiceBase implements GroupService {
      */
     public List<Permission> getPermissions(String groupName) {
         List<Permission> permissions = new ArrayList<Permission>();
-        Long groupId = getGroupId(groupName);
-        Set<KimPermission> kimPermissions = getGroupPermissions(groupId);
+        Long groupId = helper.getGroupId(groupName);
+        Set<KimPermission> kimPermissions = helper.getGroupPermissions(groupId);
         for (KimPermission kimPermission : kimPermissions) {
-            Permission permission = buildPermission(kimPermission);
+            Permission permission = helper.buildPermission(kimPermission);
             permissions.add(permission);
         }
         return permissions;
@@ -131,8 +141,8 @@ public class GroupServiceImpl extends ServiceBase implements GroupService {
      */
     public List<String> getPersonUsernames(String groupName) {
         List<String> personNames = new ArrayList<String>();
-        Long groupId = getGroupId(groupName);
-        List<KimPerson> kimPersons = getGroupMemberPersons(groupId);
+        Long groupId = helper.getGroupId(groupName);
+        List<KimPerson> kimPersons = helper.getGroupMemberPersons(groupId);
         for (KimPerson kimPerson : kimPersons) {
             personNames.add(kimPerson.getUsername());
         }
@@ -144,10 +154,10 @@ public class GroupServiceImpl extends ServiceBase implements GroupService {
      */
     public List<Person> getPersons(String groupName) {
         List<Person> persons = new ArrayList<Person>();
-        Long groupId = getGroupId(groupName);
-        List<KimPerson> kimPersons = getGroupMemberPersons(groupId);
+        Long groupId = helper.getGroupId(groupName);
+        List<KimPerson> kimPersons = helper.getGroupMemberPersons(groupId);
         for (KimPerson kimPerson : kimPersons) {
-            Person person = buildPerson(kimPerson);
+            Person person = helper.buildPerson(kimPerson);
             persons.add(person);
         }
         return persons;
@@ -158,8 +168,8 @@ public class GroupServiceImpl extends ServiceBase implements GroupService {
      */
     public List<String> getRoleNames(String groupName) {
         List<String> roleNames = new ArrayList<String>();
-        Long groupId = getGroupId(groupName);
-        List<KimRole> kimRoles = getGroupRoles(groupId);
+        Long groupId = helper.getGroupId(groupName);
+        List<KimRole> kimRoles = helper.getGroupRoles(groupId);
         for (KimRole kimRole : kimRoles) {
             roleNames.add(kimRole.getName());
         }
@@ -171,10 +181,10 @@ public class GroupServiceImpl extends ServiceBase implements GroupService {
      */
     public List<Role> getRoles(String groupName) {
         List<Role> roles = new ArrayList<Role>();
-        Long groupId = getGroupId(groupName);
-        List<KimRole> kimRoles = getGroupRoles(groupId);
+        Long groupId = helper.getGroupId(groupName);
+        List<KimRole> kimRoles = helper.getGroupRoles(groupId);
         for (KimRole kimRole : kimRoles) {
-            Role role = buildRole(kimRole);
+            Role role = helper.buildRole(kimRole);
             roles.add(role);
         }
         return roles;
@@ -184,9 +194,9 @@ public class GroupServiceImpl extends ServiceBase implements GroupService {
      * @see org.kuali.kra.kim.service.GroupService#hasAttributes(java.lang.String, java.util.Map)
      */
     public boolean hasAttributes(String groupName, Map<String, String> groupAttributes) {
-        Long groupId = getGroupId(groupName);
-        Collection<KimGroupAttribute> kimGroupAttributes = getGroupAttributes(groupId);
-        return containsAttrs(kimGroupAttributes, groupAttributes);
+        Long groupId = helper.getGroupId(groupName);
+        Collection<KimGroupAttribute> kimGroupAttributes = helper.getGroupAttributes(groupId);
+        return helper.containsAttrs(kimGroupAttributes, groupAttributes);
     }
 
     /**
@@ -194,20 +204,20 @@ public class GroupServiceImpl extends ServiceBase implements GroupService {
      */
     public boolean hasQualifiedPermission(String groupName, String namespaceName, String permissionName, Map<String, String> qualifiedRoleAttributes) {
         boolean hasPermission = false;
-        Long groupId = getGroupId(groupName);
-        Long namespaceId = getNamespaceId(namespaceName);
-        Long permissionId = getPermissionId(namespaceId, permissionName);
+        Long groupId = helper.getGroupId(groupName);
+        Long namespaceId = helper.getNamespaceId(namespaceName);
+        Long permissionId = helper.getPermissionId(namespaceId, permissionName);
          
-        Set<Long> roleIds = this.getGroupQualifiedRoleIds(groupId, qualifiedRoleAttributes);
-        if (this.hasPermission(roleIds, permissionId)) {
+        Set<Long> roleIds = helper.getGroupQualifiedRoleIds(groupId, qualifiedRoleAttributes);
+        if (helper.hasPermission(roleIds, permissionId)) {
             hasPermission = true;
         }
        
         if (!hasPermission) { // try groups
-            Set<Long> parentGroupIds = this.getGroupParentGroupIds(groupId, true);
+            Set<Long> parentGroupIds = helper.getGroupParentGroupIds(groupId, true);
             for (Long parentGroupId : parentGroupIds) {
-                roleIds = this.getGroupQualifiedRoleIds(parentGroupId, qualifiedRoleAttributes);
-                if (this.hasPermission(roleIds, permissionId)) {
+                roleIds = helper.getGroupQualifiedRoleIds(parentGroupId, qualifiedRoleAttributes);
+                if (helper.hasPermission(roleIds, permissionId)) {
                     hasPermission = true;
                     break;
                 }

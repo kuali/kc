@@ -35,14 +35,24 @@ import org.kuali.kra.kim.service.KIMService;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class KIMServiceImpl extends ServiceBase implements KIMService {
+public class KIMServiceImpl implements KIMService {
+
+    private ServiceBase helper;
+    
+    /**
+     * Set the Service Helper.  Injected by the Spring Framework.
+     * @param helper the service helper
+     */
+    public void setServiceHelper(ServiceBase helper) {
+        this.helper = helper;
+    }
 
     /**
      * @see org.kuali.kra.kim.service.KIMService#getGroupNames()
      */
     public List<String> getGroupNames() {
         List<String> groupNames = new ArrayList<String>();
-        Collection<KimGroup> kimGroups = getAllGroups();
+        Collection<KimGroup> kimGroups = helper.getAllGroups();
         for (KimGroup kimGroup : kimGroups) {
             groupNames.add(kimGroup.getName());
         }
@@ -54,9 +64,9 @@ public class KIMServiceImpl extends ServiceBase implements KIMService {
      */
     public List<Group> getGroups() {
         List<Group> groups = new ArrayList<Group>();
-        Collection<KimGroup> kimGroups = getAllGroups();
+        Collection<KimGroup> kimGroups = helper.getAllGroups();
         for (KimGroup kimGroup : kimGroups) {
-            Group group = buildGroup(kimGroup);
+            Group group = helper.buildGroup(kimGroup);
             groups.add(group);
         }
         return groups;
@@ -67,7 +77,7 @@ public class KIMServiceImpl extends ServiceBase implements KIMService {
      */
     public List<String> getNamespaceNames() {
         List<String> namespaceNames = new ArrayList<String>();
-        Collection<KimNamespace> kimNamespaces = getAllNamespaces();
+        Collection<KimNamespace> kimNamespaces = helper.getAllNamespaces();
         for (KimNamespace kimNamespace : kimNamespaces) {
             namespaceNames.add(kimNamespace.getName());
         }
@@ -79,9 +89,9 @@ public class KIMServiceImpl extends ServiceBase implements KIMService {
      */
     public List<Namespace> getNamespaces() {
         List<Namespace> namespaces = new ArrayList<Namespace>();
-        Collection<KimNamespace> kimNamespaces = getAllNamespaces();
+        Collection<KimNamespace> kimNamespaces = helper.getAllNamespaces();
         for (KimNamespace kimNamespace : kimNamespaces) {
-            Namespace namespace = buildNamespace(kimNamespace);
+            Namespace namespace = helper.buildNamespace(kimNamespace);
             namespaces.add(namespace);
         }
         return namespaces;
@@ -92,7 +102,7 @@ public class KIMServiceImpl extends ServiceBase implements KIMService {
      */
     public List<String> getPersonUsernames() {
         List<String> personNames = new ArrayList<String>();
-        Collection<KimPerson> kimPersons = getAllPersons();
+        Collection<KimPerson> kimPersons = helper.getAllPersons();
         for (KimPerson kimPerson : kimPersons) {
             personNames.add(kimPerson.getUsername());
         }
@@ -104,9 +114,9 @@ public class KIMServiceImpl extends ServiceBase implements KIMService {
      */
     public List<Person> getPersons() {
         List<Person> persons = new ArrayList<Person>();
-        Collection<KimPerson> kimPersons = getAllPersons();
+        Collection<KimPerson> kimPersons = helper.getAllPersons();
         for (KimPerson kimPerson : kimPersons) {
-            Person person = buildPerson(kimPerson);
+            Person person = helper.buildPerson(kimPerson);
             persons.add(person);
         }
         return persons;
@@ -117,7 +127,7 @@ public class KIMServiceImpl extends ServiceBase implements KIMService {
      */
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
-        Collection<KimRole> kimRoles = getAllRoles();
+        Collection<KimRole> kimRoles = helper.getAllRoles();
         for (KimRole kimRole : kimRoles) {
             roleNames.add(kimRole.getName());
         }
@@ -129,9 +139,9 @@ public class KIMServiceImpl extends ServiceBase implements KIMService {
      */
     public List<Role> getRoles() {
         List<Role> roles = new ArrayList<Role>();
-        Collection<KimRole> kimRoles = getAllRoles();
+        Collection<KimRole> kimRoles = helper.getAllRoles();
         for (KimRole kimRole : kimRoles) {
-            Role role = buildRole(kimRole);
+            Role role = helper.buildRole(kimRole);
             roles.add(role);
         }
         return roles;
