@@ -26,7 +26,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.QualifiedRoleService;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -105,17 +104,8 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
         if (!userHasPermission) {
             String unitNumber = doc.getOwnedByUnitNumber();
             userHasPermission = unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
-        
         }
         return userHasPermission;
-    }
-
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.Narrative, java.lang.String)
-     */
-    public boolean hasPermission(String username, ProposalDevelopmentDocument doc, Narrative narrative, String permissionName) {
-        // TODO Auto-generated method stub
-        return false;
     }
    
     /**

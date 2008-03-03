@@ -42,14 +42,24 @@ import org.kuali.kra.kim.service.RoleService;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class RoleServiceImpl extends ServiceBase implements RoleService {
+public class RoleServiceImpl implements RoleService {
+
+    private ServiceBase helper;
+    
+    /**
+     * Set the Service Helper.  Injected by the Spring Framework.
+     * @param helper the service helper
+     */
+    public void setServiceHelper(ServiceBase helper) {
+        this.helper = helper;
+    }
     
     /**
      * @see org.kuali.kra.kim.service.RoleService#getRole(java.lang.String)
      */
     public Role getRole(String roleName) {
-        KimRole kimRole = getRoleByName(roleName);
-        return buildRole(kimRole);
+        KimRole kimRole = helper.getRoleByName(roleName);
+        return helper.buildRole(kimRole);
     }
     
     /**
@@ -57,9 +67,9 @@ public class RoleServiceImpl extends ServiceBase implements RoleService {
      */
     public List<String> getGroupNames(String roleName) {
         List<String> groupNames = new ArrayList<String>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
    
-        List<KimGroup> kimGroups = getRoleGroups(roleId);
+        List<KimGroup> kimGroups = helper.getRoleGroups(roleId);
         for (KimGroup kimGroup : kimGroups) {
             groupNames.add(kimGroup.getName());
         }
@@ -71,11 +81,11 @@ public class RoleServiceImpl extends ServiceBase implements RoleService {
      */
     public List<Group> getGroups(String roleName) {
         List<Group> groups = new ArrayList<Group>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
 
-        List<KimGroup> kimGroups = getRoleGroups(roleId);
+        List<KimGroup> kimGroups = helper.getRoleGroups(roleId);
         for (KimGroup kimGroup : kimGroups) {
-            Group group = buildGroup(kimGroup);
+            Group group = helper.buildGroup(kimGroup);
             groups.add(group);
         }
         return groups;
@@ -86,11 +96,11 @@ public class RoleServiceImpl extends ServiceBase implements RoleService {
      */
     public List<GroupQualifiedRole> getGroupQualifiedRoles(String roleName) {
         List<GroupQualifiedRole> qualifiedRoles = new ArrayList<GroupQualifiedRole>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
 
-        Collection<KimQualifiedRoleGroup> roleGroups = findMatching(KimQualifiedRoleGroup.class, "roleId", roleId);
+        Collection<KimQualifiedRoleGroup> roleGroups = helper.findMatching(KimQualifiedRoleGroup.class, "roleId", roleId);
         for (KimQualifiedRoleGroup roleGroup : roleGroups) {
-            KimGroup group = getGroup(roleGroup.getGroupId());
+            KimGroup group = helper.getGroup(roleGroup.getGroupId());
                 
             GroupQualifiedRole qualifiedRole = new GroupQualifiedRole();
             qualifiedRole.setRoleName(roleName);
@@ -106,12 +116,12 @@ public class RoleServiceImpl extends ServiceBase implements RoleService {
      */
     public List<GroupQualifiedRole> getGroupQualifiedRoles(String roleName, Map<String, String> qualifiedRoleAttributes) {
         List<GroupQualifiedRole> qualifiedRoles = new ArrayList<GroupQualifiedRole>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
 
-        Collection<KimQualifiedRoleGroup> roleGroups = findMatching(KimQualifiedRoleGroup.class, "roleId", roleId);
+        Collection<KimQualifiedRoleGroup> roleGroups = helper.findMatching(KimQualifiedRoleGroup.class, "roleId", roleId);
         for (KimQualifiedRoleGroup roleGroup : roleGroups) {
             if (roleGroup.matches(qualifiedRoleAttributes)) {
-                KimGroup group = getGroup(roleGroup.getGroupId());
+                KimGroup group = helper.getGroup(roleGroup.getGroupId());
                     
                 GroupQualifiedRole qualifiedRole = new GroupQualifiedRole();
                 qualifiedRole.setRoleName(roleName);
@@ -128,9 +138,9 @@ public class RoleServiceImpl extends ServiceBase implements RoleService {
      */
     public List<String> getPermissionNames(String roleName) {
         List<String> permissionNames = new ArrayList<String>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
         
-        List<KimPermission> kimPermissions = getRolePermissions(roleId);
+        List<KimPermission> kimPermissions = helper.getRolePermissions(roleId);
         for (KimPermission kimPermission : kimPermissions) {
             permissionNames.add(kimPermission.getName());
         }
@@ -142,11 +152,11 @@ public class RoleServiceImpl extends ServiceBase implements RoleService {
      */
     public List<Permission> getPermissions(String roleName) {
         List<Permission> permissions = new ArrayList<Permission>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
 
-        List<KimPermission> kimPermissions = getRolePermissions(roleId);
+        List<KimPermission> kimPermissions = helper.getRolePermissions(roleId);
         for (KimPermission kimPermission : kimPermissions) {
-            Permission permission = buildPermission(kimPermission);
+            Permission permission = helper.buildPermission(kimPermission);
             permissions.add(permission);
         }
         return permissions;
@@ -156,11 +166,11 @@ public class RoleServiceImpl extends ServiceBase implements RoleService {
      * @see org.kuali.kra.kim.service.RoleService#hasPermission(java.lang.String, java.lang.String, java.lang.String)
      */
     public boolean hasPermission(String roleName, String namespaceName, String permissionName) {
-        Long roleId = getRoleId(roleName);
-        Long namespaceId = getNamespaceId(namespaceName);
-        Long permissionId = getPermissionId(namespaceId, permissionName);
+        Long roleId = helper.getRoleId(roleName);
+        Long namespaceId = helper.getNamespaceId(namespaceName);
+        Long permissionId = helper.getPermissionId(namespaceId, permissionName);
      
-        int cnt = countMatching(KimRolePermission.class, "roleId", roleId,
+        int cnt = helper.countMatching(KimRolePermission.class, "roleId", roleId,
                                                          "permissionId", permissionId);
         return cnt > 0;
     }
@@ -170,11 +180,11 @@ public class RoleServiceImpl extends ServiceBase implements RoleService {
      */
     public List<PersonQualifiedRole> getPersonQualifiedRoles(String roleName) {
         List<PersonQualifiedRole> qualifiedRoles = new ArrayList<PersonQualifiedRole>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
         
-        Collection<KimQualifiedRolePerson> rolePersons = findMatching(KimQualifiedRolePerson.class, "roleId", roleId);
+        Collection<KimQualifiedRolePerson> rolePersons = helper.findMatching(KimQualifiedRolePerson.class, "roleId", roleId);
         for (KimQualifiedRolePerson rolePerson : rolePersons) {
-            KimPerson person = getPerson(rolePerson.getPersonId());
+            KimPerson person = helper.getPerson(rolePerson.getPersonId());
                 
             PersonQualifiedRole qualifiedRole = new PersonQualifiedRole();
             qualifiedRole.setRoleName(roleName);
@@ -190,12 +200,12 @@ public class RoleServiceImpl extends ServiceBase implements RoleService {
      */
     public List<PersonQualifiedRole> gePersonQualifiedRoles(String roleName, Map<String, String> qualifiedRoleAttributes) {
         List<PersonQualifiedRole> qualifiedRoles = new ArrayList<PersonQualifiedRole>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
 
-        Collection<KimQualifiedRolePerson> rolePersons = findMatching(KimQualifiedRolePerson.class, "roleId", roleId);
+        Collection<KimQualifiedRolePerson> rolePersons = helper.findMatching(KimQualifiedRolePerson.class, "roleId", roleId);
         for (KimQualifiedRolePerson rolePerson : rolePersons) {
             if (rolePerson.matches(qualifiedRoleAttributes)) {
-                KimPerson person = getPerson(rolePerson.getPersonId());
+                KimPerson person = helper.getPerson(rolePerson.getPersonId());
                     
                 PersonQualifiedRole qualifiedRole = new PersonQualifiedRole();
                 qualifiedRole.setRoleName(roleName);
@@ -212,9 +222,9 @@ public class RoleServiceImpl extends ServiceBase implements RoleService {
      */
     public List<String> getPersonUsernames(String roleName) {
         List<String> personNames = new ArrayList<String>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
 
-        List<KimPerson> kimPersons = getRolePersons(roleId);
+        List<KimPerson> kimPersons = helper.getRolePersons(roleId);
         for (KimPerson kimPerson : kimPersons) {
             personNames.add(kimPerson.getUsername());
         }
@@ -226,11 +236,11 @@ public class RoleServiceImpl extends ServiceBase implements RoleService {
      */
     public List<Person> getPersons(String roleName) {
         List<Person> persons = new ArrayList<Person>();
-        Long roleId = getRoleId(roleName);
+        Long roleId = helper.getRoleId(roleName);
 
-        List<KimPerson> kimPersons = getRolePersons(roleId);
+        List<KimPerson> kimPersons = helper.getRolePersons(roleId);
         for (KimPerson kimPerson : kimPersons) {
-            Person person = buildPerson(kimPerson);
+            Person person = helper.buildPerson(kimPerson);
             persons.add(person);
         }
         return persons;

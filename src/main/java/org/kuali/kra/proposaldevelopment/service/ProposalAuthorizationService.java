@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.service;
 import java.util.List;
 
 import org.kuali.kra.bo.Person;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
@@ -63,16 +62,6 @@ public interface ProposalAuthorizationService {
      * @return true if the user has permission; otherwise false
      */
     public boolean hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName);
-
-    /**
-     * Does the user have the given permission with respect to the narrative within the given Proposal Development Document?
-     * @param username the user's username
-     * @param doc the Proposal Development Document
-     * @param narrative the Narrative
-     * @param permissionName the name of the Permission
-     * @return true if the user has permission; otherwise false
-     */
-    public boolean hasPermission(String username, ProposalDevelopmentDocument doc, Narrative narrative, String permissionName);
 
     /**
      * Does the user have the given role for the given Proposal Development Document?
