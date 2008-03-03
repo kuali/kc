@@ -1,12 +1,12 @@
 
 -- insert into en_wrkgrp_t values (1,1,'WorkflowAdmin',1,'W','Workflow Administrator Workgroup',1,-1,0);
 
-insert into EN_WRKGRP_MBR_T (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR, DB_LOCK_VER_NBR)
-values ('quickstart',1,'U',1,0)
-;
-insert into EN_WRKGRP_MBR_T (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR, DB_LOCK_VER_NBR)
-values ('user4',1,'U',1,0)
-;
+--insert into EN_WRKGRP_MBR_T (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR, DB_LOCK_VER_NBR)
+--values ('quickstart',1,'U',1,0)
+--;
+--insert into EN_WRKGRP_MBR_T (WRKGRP_MBR_PRSN_EN_ID, WRKGRP_ID, WRKGRP_MBR_TYP, WRKGRP_VER_NBR, DB_LOCK_VER_NBR)
+--values ('user4',1,'U',1,0)
+--;
 INSERT INTO kr_qrtz_locks values('TRIGGER_ACCESS')
 ;
 INSERT INTO kr_qrtz_locks values('JOB_ACCESS')
