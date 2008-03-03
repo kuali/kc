@@ -5,7 +5,6 @@
 <%@ taglib uri="../../tld/fmt.tld" prefix="fmt" %>
 <%@ taglib uri="../../tld/displaytag.tld" prefix="display-el" %>
 
-<c:set var="Constants" value="${org.kuali.rice.RiceConstants}"/>
 <c:set var="hasAnyRows" value="${false}" />
 <c:if test="${!empty MessageQueueForm.messageQueueRows}">
 	<c:if test="${MessageQueueForm.messageQueueRowsSize > 0}">
@@ -34,6 +33,7 @@
     <td>&nbsp;&nbsp;</td>
   </tr>
 </table>
+
 
 <html-el:form action="/MessageQueue.do">
 <html-el:hidden property="methodToCall" />
@@ -72,7 +72,7 @@
   					Message ID:&nbsp;
   				</td>
   				<td class="datacell">
-						<html-el:text property="routeQueueId${Constants.ROUTE_QUEUE_FILTER_SUFFIX}" size="20"/>
+						<html-el:text property="routeQueueId${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="20"/>
 						&nbsp;
    				</td>
    			</tr>
@@ -81,7 +81,7 @@
    					Service Name:&nbsp;
   				</td>
   				<td class="datacell">
-   					<html-el:text property="serviceName${Constants.ROUTE_QUEUE_FILTER_SUFFIX}" />
+   					<html-el:text property="serviceName${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" />
    				</td>
    			</tr>
    			<tr>
@@ -89,7 +89,7 @@
    					Message Entity:&nbsp;
   				</td>
   				<td class="datacell">
-   					<html-el:text property="messageEntity${Constants.ROUTE_QUEUE_FILTER_SUFFIX}" />
+   					<html-el:text property="messageEntity${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" />
    				</td>
    			</tr>
    			<tr>
@@ -97,7 +97,7 @@
   					IP Number:&nbsp;
   				</td>
   				<td class="datacell">
-   					<html-el:text property="ipNumber${Constants.ROUTE_QUEUE_FILTER_SUFFIX}" size="20" maxlength="15" />
+   					<html-el:text property="ipNumber${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="20" maxlength="15" />
    					&nbsp;
    				</td>
    			</tr>
@@ -106,11 +106,11 @@
   					Queue Status:&nbsp;
   				</td>
   				<td class="datacell">
-						<html-el:select property="queueStatus${Constants.ROUTE_QUEUE_FILTER_SUFFIX}">
+						<html-el:select property="queueStatus${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}">
 							<html-el:option value=""></html-el:option>
-							<html-el:option value="${Constants.ROUTE_QUEUE_QUEUED}"><c:out value="${Constants.ROUTE_QUEUE_QUEUED_LABEL}" /></html-el:option>
-							<html-el:option value="${Constants.ROUTE_QUEUE_ROUTING}"><c:out value="${Constants.ROUTE_QUEUE_ROUTING_LABEL}" /></html-el:option>
-							<html-el:option value="${Constants.ROUTE_QUEUE_EXCEPTION}"><c:out value="${Constants.ROUTE_QUEUE_EXCEPTION_LABEL}" /></html-el:option>
+							<html-el:option value="${rice_constant.ROUTE_QUEUE_QUEUED}"><c:out value="${rice_constant.ROUTE_QUEUE_QUEUED_LABEL}" /></html-el:option>
+							<html-el:option value="${rice_constant.ROUTE_QUEUE_ROUTING}"><c:out value="${rice_constant.ROUTE_QUEUE_ROUTING_LABEL}" /></html-el:option>
+							<html-el:option value="${rice_constant.ROUTE_QUEUE_EXCEPTION}"><c:out value="${rice_constant.ROUTE_QUEUE_EXCEPTION_LABEL}" /></html-el:option>
 						</html-el:select>
 						&nbsp;
    				</td>
@@ -120,7 +120,7 @@
   					App Specific Value 1:&nbsp;
   				</td>
   				<td class="datacell">
-						<html-el:text property="value1${Constants.ROUTE_QUEUE_FILTER_SUFFIX}" size="40"/>
+						<html-el:text property="value1${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="40"/>
 						&nbsp;
    				</td>
    			</tr>
@@ -129,7 +129,7 @@
   					App Specific Value 2:&nbsp;
   				</td>
   				<td class="datacell">
-						<html-el:text property="value2${Constants.ROUTE_QUEUE_FILTER_SUFFIX}" size="40"/>
+						<html-el:text property="value2${rice_constant.ROUTE_QUEUE_FILTER_SUFFIX}" size="40"/>
 						&nbsp;
    				</td>
    			</tr>
@@ -181,7 +181,6 @@
     <td width="20" height="20">&nbsp;</td>
     <td>
 
-		  <%-- Table layout of the search results --%>
 		  <display-el:table excludedParams="*" pagesize="${MessageQueueForm.pageSize}" class="bord-r-t" style="width:100%" cellspacing="0" cellpadding="0" name="${MessageQueueForm.messageQueueRows}" export="true" id="result" requestURI="MessageQueue.do?methodToCall=start&filterApplied=${filterApplied}&queueStatusFilter=${queueStatusFilter}&ipNumberFilter=${ipNumberFilter}&serviceNameFilter=${serviceNameFilter}&messageEntityFilter=${messageEntityFilter}" defaultsort="1" defaultorder="descending"
 				decorator="edu.iu.uis.eden.messaging.web.KSBTableDecorator">
 		    <display-el:setProperty name="paging.banner.placement" value="both" />
@@ -200,14 +199,14 @@
 		    </display-el:column>
 		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Queue<br />Status</div>" >
 		    	<c:choose>
-			    	<c:when test="${result.queueStatus == Constants.ROUTE_QUEUE_QUEUED}">
-			    		<c:out value="${Constants.ROUTE_QUEUE_QUEUED_LABEL}" />&nbsp;
+			    	<c:when test="${result.queueStatus == rice_constant.ROUTE_QUEUE_QUEUED}">
+			    		<c:out value="${rice_constant.ROUTE_QUEUE_QUEUED_LABEL}" />&nbsp;
 			    	</c:when>
-			    	<c:when test="${result.queueStatus == Constants.ROUTE_QUEUE_ROUTING}">
-			    		<c:out value="${Constants.ROUTE_QUEUE_ROUTING_LABEL}" />&nbsp;
+			    	<c:when test="${result.queueStatus == rice_constant.ROUTE_QUEUE_ROUTING}">
+			    		<c:out value="${rice_constant.ROUTE_QUEUE_ROUTING_LABEL}" />&nbsp;
 			    	</c:when>
-			    	<c:when test="${result.queueStatus == Constants.ROUTE_QUEUE_EXCEPTION}">
-			    		<c:out value="${Constants.ROUTE_QUEUE_EXCEPTION_LABEL}" />&nbsp;
+			    	<c:when test="${result.queueStatus == rice_constant.ROUTE_QUEUE_EXCEPTION}">
+			    		<c:out value="${rice_constant.ROUTE_QUEUE_EXCEPTION_LABEL}" />&nbsp;
 			    	</c:when>
 			    	<c:otherwise>
 				    	<c:out value="${result.queueStatus}"/>&nbsp;
@@ -218,10 +217,10 @@
 		    	<c:out value="${result.queuePriority}"/>&nbsp;
 		    </display-el:column>
 		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Queue<br />Date</div>" sortProperty="queueDate.time">
-		    	<fmt:formatDate value="${result.queueDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;
+		    	<fmt:formatDate value="${result.queueDate}" pattern="${rice_constant.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;
 		    </display-el:column>
 		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Expiration<br />Date</div>" sortProperty="expirationDate.time">
-		    	<fmt:formatDate value="${result.queueDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;
+		    	<fmt:formatDate value="${result.queueDate}" pattern="${rice_constant.DEFAULT_DATE_FORMAT_PATTERN}" />&nbsp;
 		    </display-el:column>
 		    <display-el:column style="text-align:center;vertical-align:middle;" class="datacell" sortable="true" title="<div style='text-align:center;vertical-align:top;'>Retry<br />Count</div>" >
 		    	<c:out value="${result.retryCount}"/>&nbsp;
@@ -246,7 +245,6 @@
   </tr>
   </c:if>
 </table>
-
     <jsp:include page="../Footer.jsp"/>
 
 </body>

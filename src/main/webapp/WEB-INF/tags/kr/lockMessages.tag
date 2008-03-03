@@ -1,5 +1,5 @@
 <%--
- Copyright 2005-2007 The Kuali Foundation.
+ Copyright 2005-2006 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -13,17 +13,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="tldHeader.jsp"%>
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<kul:page showDocumentInfo="false" headerTitle="Errors in Request"
-	docTitle="" transactionalDocument="false" htmlFormAction="Exception">
 
-	<br>
-
-	<table width="100%" border=0 cellspacing=0 cellpadding=0>
-
-		<kul:errors  />
-
-	</table>
-
-</kul:page>
+<c:forEach items="${DocumentPessimisticLockMessages}" var="message">
+${message}<br>
+</c:forEach>	

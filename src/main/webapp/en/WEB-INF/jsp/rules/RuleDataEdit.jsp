@@ -82,7 +82,10 @@
 </tr>--%>
 <tr>
   <td width="20%" colspan="2" align=right class="thnormal">Rule Template:</td>
-  <td width="30%" class="datacell"><c:out value="${rule.ruleTemplateName}"/></td>
+  <td width="30%" class="datacell">
+    <c:out value="${rule.ruleTemplateName}"/>
+    <div class="error-message"><html-el:errors property="${ruleProperty}.ruleTemplateId"/></div>
+  </td>
 </tr>
 <tr>
   <td width="20%" colspan="2" align=right class="thnormal">Description:</td>

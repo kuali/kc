@@ -1,42 +1,53 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
 <struts-config>
-    <!-- ========== form bean definitions ================================== -->
-    <form-beans>
-      <form-bean name="MessageQueueForm" type="edu.iu.uis.eden.messaging.web.MessageQueueForm" />
-      <form-bean name="ServiceRegistryForm" type="edu.iu.uis.eden.messaging.web.ServiceRegistryForm" />
-      <form-bean name="ThreadPoolForm" type="edu.iu.uis.eden.messaging.web.ThreadPoolForm" />
-    </form-beans>
+	<!-- ========== form bean definitions ================================== -->
+	<form-beans>
+		<form-bean name="MessageQueueForm" type="edu.iu.uis.eden.messaging.web.MessageQueueForm" />
+		<form-bean name="ServiceRegistryForm" type="edu.iu.uis.eden.messaging.web.ServiceRegistryForm" />
+		<form-bean name="ThreadPoolForm" type="edu.iu.uis.eden.messaging.web.ThreadPoolForm" />
+		<form-bean name="QuartzForm" type="edu.iu.uis.eden.messaging.web.QuartzQueueForm" />
+		<form-bean name="JavaSecurityManagementForm" type="edu.iu.uis.eden.security.admin.web.JavaSecurityManagementForm" />
+	</form-beans>
 
-    <global-forwards type="org.apache.struts.action.ActionForward">
-        <forward name="NotAuthorized" path="/WEB-INF/jsp/NotAuthorized.jsp" />
-    </global-forwards>
+	<global-forwards type="org.apache.struts.action.ActionForward">
+		<forward name="NotAuthorized" path="/WEB-INF/jsp/NotAuthorized.jsp" />
+	</global-forwards>
 
-    <action-mappings>
+	<action-mappings>
 
-      <action path="/MessageQueue" name="MessageQueueForm" scope="request" input="/WEB-INF/jsp/messagequeue/MessageEntry.jsp"
-      			validate="false" type="edu.iu.uis.eden.messaging.web.MessageQueueAction" parameter="methodToCall">
-	      <forward name="report" path="/WEB-INF/jsp/messagequeue/MessageQueue.jsp"/>
-	      <forward name="basic" path="/WEB-INF/jsp/messagequeue/MessageEntry.jsp"/>
-	      <forward name="restart" path="/MessageQueue.do?methodToCall=start" redirect="true"/>
-          <forward name="payload" path="/WEB-INF/jsp/messagequeue/Message.jsp" />
-      </action>
+		<action path="/MessageQueue" name="MessageQueueForm" scope="request" input="/WEB-INF/jsp/messagequeue/MessageEntry.jsp" validate="false"
+			type="edu.iu.uis.eden.messaging.web.MessageQueueAction" parameter="methodToCall">
+			<forward name="report" path="/WEB-INF/jsp/messagequeue/MessageQueue.jsp" />
+			<forward name="basic" path="/WEB-INF/jsp/messagequeue/MessageEntry.jsp" />
+			<forward name="restart" path="/MessageQueue.do?methodToCall=start" redirect="true" />
+			<forward name="payload" path="/WEB-INF/jsp/messagequeue/Message.jsp" />
+		</action>
 
-      <action path="/ServiceRegistry" name="ServiceRegistryForm" scope="request" input="/WEB-INF/jsp/registry/ServiceRegistry.jsp"
-            validate="false" type="edu.iu.uis.eden.messaging.web.ServiceRegistryAction" parameter="methodToCall">
-        <forward name="basic" path="/WEB-INF/jsp/registry/ServiceRegistry.jsp"/>
-      </action>
+		<action path="/JavaSecurityManagement" name="JavaSecurityManagementForm" scope="request" input="/WEB-INF/jsp/javasecurity/JavaSecurityManagement.jsp" validate="false"
+			type="edu.iu.uis.eden.security.admin.web.JavaSecurityManagementAction" parameter="methodToCall">
+			<forward name="report" path="/WEB-INF/jsp/javasecurity/JavaSecurityManagement.jsp" />
+			<forward name="restart" path="/JavaSecurityManagement.do?methodToCall=start" redirect="true" />
+		</action>
 
-      <action path="/ThreadPool" name="ThreadPoolForm" scope="request" input="/WEB-INF/jsp/threadpool/ThreadPool.jsp"
-            validate="false" type="edu.iu.uis.eden.messaging.web.ThreadPoolAction" parameter="methodToCall">
-        <forward name="basic" path="/WEB-INF/jsp/threadpool/ThreadPool.jsp"/>
-      </action>
+		<action path="/ServiceRegistry" name="ServiceRegistryForm" scope="request" input="/WEB-INF/jsp/registry/ServiceRegistry.jsp" validate="false"
+			type="edu.iu.uis.eden.messaging.web.ServiceRegistryAction" parameter="methodToCall">
+			<forward name="basic" path="/WEB-INF/jsp/registry/ServiceRegistry.jsp" />
+		</action>
 
+		<action path="/ThreadPool" name="ThreadPoolForm" scope="request" input="/WEB-INF/jsp/threadpool/ThreadPool.jsp" validate="false"
+			type="edu.iu.uis.eden.messaging.web.ThreadPoolAction" parameter="methodToCall">
+			<forward name="basic" path="/WEB-INF/jsp/threadpool/ThreadPool.jsp" />
+		</action>
 
-    </action-mappings>
+		<action path="/Quartz" name="QuartzForm" scope="request" type="edu.iu.uis.eden.messaging.web.QuartzQueueAction" parameter="methodToCall">
+			<forward name="joblisting" path="/WEB-INF/jsp/messagequeue/Quartz.jsp" />
+		</action>
 
-    <controller processorClass="edu.iu.uis.eden.messaging.web.KSBStrutsRequestProcessor" />
+	</action-mappings>
 
-    <message-resources parameter="edu.iu.uis.eden.messaging.web.ApplicationResources" />
+	<controller processorClass="edu.iu.uis.eden.messaging.web.KSBStrutsRequestProcessor" />
+
+	<message-resources parameter="edu.iu.uis.eden.messaging.web.ApplicationResources" />
 
 </struts-config>

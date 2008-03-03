@@ -31,5 +31,5 @@
     </action-mappings>
 
     <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
-    <message-resources parameter="ApplicationResources" />
+    <message-resources parameter="KR-ApplicationResources" />
 </struts-config>
