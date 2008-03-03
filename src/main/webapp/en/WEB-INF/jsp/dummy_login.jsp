@@ -33,7 +33,7 @@
         <table border="0" cellpadding="0" cellspacing="0" summary="">
           <tbody>
             <tr>
-              <td align="right">User name:</td><td align="left"><input type="text" name="__login_user" value="quickstart" size="20"/>
+              <td align="right">User name:</td><td align="left"><input type="text" name="__login_user" value="admin" size="20"/>
             </tr>
             <tr>
               <td align="center" colspan="2"><input type="submit" value="Login"/></td>

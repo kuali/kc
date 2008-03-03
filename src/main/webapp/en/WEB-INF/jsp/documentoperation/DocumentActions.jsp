@@ -11,6 +11,10 @@
 	  <tr>
 		<td class="thnormal" colspan=2 align=center height=30><strong>Document Actions</strong></td>
 	  </tr>
+	      <tr>
+	  	    <td width="33%" align="right" class="thnormal"><input type="button" value="Flush Rule Cache" onclick="setMethodToCallAndSubmit('flushRuleCache')"></td>
+	  	    <td width="66%" class="datacell">&nbsp;</td>
+	  	  </tr>
 		  <tr>
 	  	    <td width="33%" align="right" class="thnormal"><input type="button" value="Queue Document" onclick="setMethodToCallAndSubmit('queueDocument')"></td>
 	  	    <td width="66%" class="datacell">&nbsp;</td>

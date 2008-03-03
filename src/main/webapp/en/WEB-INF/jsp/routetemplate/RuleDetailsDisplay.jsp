@@ -23,6 +23,19 @@
                               <td class="bord-r-t" width="50%" valign="top">
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
+                              <td class="thnormal" align="right">Rule Name:</td>
+                              <td class="datacell">
+                                  <c:choose>
+                                    <c:when test="${rule.name != null}">
+                                      <c:out value="${rule.name}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                      &lt;none&gt;
+                                    </c:otherwise>
+                                  </c:choose>
+                              </td>
+                            </tr>
+                            <tr>
                               <td class="thnormal" align="right">Rule Template</td>
                               <td class="datacell">
                             	  <c:out value="${rule.ruleTemplateName}"/>

@@ -94,7 +94,7 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-kns</artifactId>
-					<version>0.9.2-SNAPSHOT</version>
+					<version>0.9.3-kra-SNAPSHOT</version>
 					<exclusions>
 						<exclusion>
 							<groupId>junit</groupId>
@@ -244,7 +244,7 @@
 				<dependency>
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-kns</artifactId>
-					<version>0.9.2-SNAPSHOT</version>
+					<version>0.9.3-kra-SNAPSHOT</version>
 				</dependency>
 				<dependency>
 					<groupId>htmlunit</groupId>

@@ -1,3 +1,4 @@
+<%@ page import="org.apache.commons.beanutils.BeanUtils" %>
 <%@ taglib uri="../../tld/struts-html-el.tld" prefix="html-el" %>
 <%@ taglib uri="../../tld/struts-bean-el.tld" prefix="bean-el" %>
 <%@ taglib uri="../../tld/struts-logic-el.tld" prefix="logic-el"%>
@@ -32,7 +33,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="thnormal" align="right">Request Date</td>
+							<td class="thnormal" align="right" width="25%">Request Date</td>
 							<td class="datacell" align="left"><fmt:formatDate value="${actionRequest.createDate}" pattern="${Constants.DEFAULT_DATE_FORMAT_PATTERN}"/>&nbsp;</td>
 						</tr>
 						<tr>
@@ -62,6 +63,25 @@
 						<tr>
 							<td class="thnormal" align="right">Action Request Id</td>
 							<td class="datacell" align="left"><c:out value="${actionRequest.actionRequestId}" />&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="thnormal" align="right">Perform Post Processor Logic</td>
+							<td class="datacell" align="left">
+							  <c:set var="foundMatchingValue" value="false"/>
+							  <c:choose>
+							    <c:when test="${empty SuperUserForm.actionRequestPostProcessorCheck}">
+							      <c:set var="foundMatchingValue" value="true"/>
+							    </c:when>
+							    <c:otherwise>
+							      <c:forEach var="actionRequestId" items="${SuperUserForm.actionRequestPostProcessorCheck}">
+							        <c:if test="${actionRequestId eq actionRequest.actionRequestId}">
+							          <c:set var="foundMatchingValue" value="true"/>
+							        </c:if>
+							      </c:forEach>
+							    </c:otherwise>
+							  </c:choose>
+						      <input type="checkbox" name="actionRequestRunPostProcessorCheck" value="${actionRequest.actionRequestId}" <c:if test="${foundMatchingValue}">checked="checked"</c:if> />
+							</td>
 						</tr>
 						<tr>
 	                        <td height="30" colspan="2" class="headercell1" align="center">
