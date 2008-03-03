@@ -211,6 +211,16 @@
 			<lastName>quickstart</lastName>
 		</user>
 		<user>
+			<workflowId>jtester</workflowId>
+			<emplId>jtester</emplId>
+			<authenticationId>jtester</authenticationId>
+			<uuId>jtester</uuId>
+			<emailAddress>jtester@indiana.edu</emailAddress>
+			<displayName>Joe Tester</displayName>
+			<givenName>Joe</givenName>
+			<lastName>Tester</lastName>
+		</user>
+		<user>
 			<workflowId>user4</workflowId>
 			<emplId>user4</emplId>
 			<authenticationId>user4</authenticationId>
@@ -311,6 +321,7 @@
 			<description>WorkflowAdmin</description>
 			<members>
 				<authenticationId>quickstart</authenticationId>
+				<authenticationId>jtester</authenticationId>
 			</members>
 		</workgroup>
 		<workgroup>

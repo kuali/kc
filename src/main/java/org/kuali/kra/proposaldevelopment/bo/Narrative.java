@@ -20,6 +20,8 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -27,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 
@@ -173,6 +176,19 @@ public class Narrative extends KraPersistableBusinessObjectBase {
     }
 
     public List<NarrativeUserRights> getNarrativeUserRights() {
+        if (narrativeUserRights != null) {
+            Collections.sort(this.narrativeUserRights, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    NarrativeUserRights r1 = (NarrativeUserRights) o1;
+                    NarrativeUserRights r2 = (NarrativeUserRights) o2;
+                    if (r1 == null || r2 == null) return 0;
+                    String name1 = r1.getPersonName();
+                    String name2 = r2.getPersonName();
+                    if (name1 == null || name2 == null) return 0;
+                    return name1.compareTo(name2);
+                }
+            });
+        }
         return narrativeUserRights;
     }
 
