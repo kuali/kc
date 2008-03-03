@@ -39,7 +39,5 @@
 --;
 --INSERT INTO SH_PARM_T(SH_PARM_NMSPC_CD, SH_PARM_DTL_TYP_CD, SH_PARM_NM, OBJ_ID, VER_NBR, SH_PARM_TYP_CD, SH_PARM_TXT, SH_PARM_DESC, SH_PARM_CONS_CD, WRKGRP_NM) VALUES('KR-NS', 'All', 'ENABLE_DIRECT_INQUIRIES_IND', sys_guid(), 1, 'CONFG', 'Y', 'Flag for enabling/disabling direct inquiries on screens that are drawn by the nervous system (i.e. lookups and maintenance documents)', 'A', 'KUALI_FMSOPS')
 --;
---insert into SH_NTE_TYP_T values ('BO', '2D3C44FE49415102E043814FD8815102',	1,	'DOCUMENT BUSINESS OBJECT', 'Y')
---;
---insert into SH_NTE_TYP_T values ('DH', '2D3C44FE49425102E043814FD8815102',	1,	'DOCUMENT HEADER', 'Y')
---;
+--insert into SH_NTE_TYP_T values ('BO', '2D3C44FE49415102E043814FD8815102', 1, 'DOCUMENT BUSINESS OBJECT', 'Y');
+--insert into SH_NTE_TYP_T values ('DH', '2D3C44FE49425102E043814FD8815102', 1,	'DOCUMENT HEADER', 'Y');

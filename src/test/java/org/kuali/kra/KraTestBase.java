@@ -65,6 +65,7 @@ import org.kuali.rice.testharness.TransactionalLifecycle;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_mail_type.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_narrative_status.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_narrative_type.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_note_type.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_notice_of_opportunity.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_nsf_codes.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_organization.sql", delimiter = ";")
