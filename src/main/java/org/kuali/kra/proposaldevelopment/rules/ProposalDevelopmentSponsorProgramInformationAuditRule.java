@@ -27,14 +27,15 @@ import org.kuali.core.util.AuditError;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.SystemParameterRetrievalService;
 
 /**
  * This class processes audit rules (warnings) for the Sponsor & Program Information related
  * data of the ProposalDevelopmenDocument.
  */
-public class ProposalDevelopmentSponsorProgramInformationAuditRule implements DocumentAuditRule {
-
+public class ProposalDevelopmentSponsorProgramInformationAuditRule implements DocumentAuditRule {    
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
@@ -43,6 +44,8 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
         List<AuditError> auditErrors = new ArrayList<AuditError>();
+        
+        SystemParameterRetrievalService systemParameterRetrievalService = ((SystemParameterRetrievalService)KraServiceLocator.getService(SystemParameterRetrievalService.class));
 
         //The Proposal Deadline Date should return a warning during validation for the
         //following conditions: a) if the date entered is older than the current date,
@@ -77,10 +80,10 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         }
         
         if(proposalDevelopmentDocument.getProposalTypeCode()!=null && 
-                proposalDevelopmentDocument.getProposalTypeCode().equals("1") && 
+                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(),systemParameterRetrievalService.getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW, "1")) && 
                 proposalDevelopmentDocument.getS2sOpportunity()!=null &&
                 proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode()!=null &&
-                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode().toString(), "3")){            
+                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode().toString(), systemParameterRetrievalService.getParameterValue(KeyConstants.S2S_SUBMISSIONTYPE_OTHER, "3"))){            
             auditErrors.add(new AuditError(Constants.ORIGINAL_PROPOSAL_ID_KEY, KeyConstants.ERROR_IF_PROPOSAL_TYPE_IS_NEW_AND_S2S_SUBMISSION_TYPE_IS_CHANGED_CORRECTED, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
             valid &= false;
         }

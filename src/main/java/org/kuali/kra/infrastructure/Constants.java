@@ -133,8 +133,6 @@ public interface Constants {
 
     
     //Grants.gov
-    public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_IS_REVISION = "6";
-    public static final String S2S_REVISIONTYPE_OTHER="5";
     public static final String S2S_SUBMISSIONTYPE_CODE_KEY="document.s2sOpportunity.s2sSubmissionTypeCode";
     public static final String GRANTS_GOV_PANEL_ANCHOR  = "Opportunity";
     public static final String GRANTS_GOV_OPPORTUNITY_PANEL = "GrantsGov";

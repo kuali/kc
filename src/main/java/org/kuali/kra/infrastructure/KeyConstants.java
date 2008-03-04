@@ -137,4 +137,8 @@ public class KeyConstants {
     public static final String ERROR_OPPORTUNITY_TITLE_DELETED = "error.opportunityTitle.deleted";
     public static final String ERROR_CFDA_NUMBER_DIFFER = "error.cfdaNumber.differ";
     public static final String ERROR_IF_REVISIONTYPE_IS_NOT_OTHER_SPECIFY_NOT_BLANK = "error.s2sopportunity.revisionTypeNotOtherSpecifyNotBlank";
+    
+    // Grants.gov System Parameters
+    public static final String S2S_REVISIONTYPE_OTHER = "s2s.revisiontype.other";
+    public static final String S2S_SUBMISSIONTYPE_OTHER = "s2s.submissiontype.changedCorrected";
 }
