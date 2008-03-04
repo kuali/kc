@@ -123,7 +123,7 @@ public class BudgetDecimal extends KualiDecimal{
      *         default rounding behavior (if necessary)
      */
     public BudgetDecimal setScale(int scale) {
-        return new BudgetDecimal(super.setScale(scale).bigDecimalValue());
+        return new BudgetDecimal(this.bigDecimalValue().setScale(scale));
     }
 
     /**
