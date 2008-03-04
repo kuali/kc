@@ -30,9 +30,9 @@
 					<c:if test="${customAttributeDocument.required}">*</c:if>${customAttributeDocument.customAttribute.label}*${customAttributeDocument.customAttributeId}
 				</th>
 				<td >
-				<c:forEach var="x" items="${KualiForm.document.customAttributeDocuments}" > 
-				  	<c:if test="${x.key == customAttributeDocument.customAttributeId}" >
-				  	   <c:set var="customAttributeValue" value="${x.value.customAttribute.value}" />
+				<c:forEach var="customAttributeDocument1" items="${KualiForm.document.customAttributeDocuments}" > 
+				  	<c:if test="${customAttributeDocument1.key == customAttributeDocument.customAttributeId}" >
+				  	   <c:set var="customAttributeValue" value="${customAttributeDocument1.value.customAttribute.value}" />
 				  	</c:if>
 				</c:forEach>
 				<c:set var="customAttributeId" value="customAttributeValues(id${customAttributeDocument.customAttributeId})" />
