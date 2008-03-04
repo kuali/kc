@@ -37,11 +37,15 @@ import org.kuali.kra.service.PersonService;
  */
 public class NarrativeRightsAuthorizer extends ProposalAuthorizer {
 
+    private static final String ACTION_NAME = "AbstractsAttachments";
+    private static final String TASK_NAME = "addProposalAttachmentRights";
+    
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorization.ProposalAuthorizer#isResponsible(org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
      */
     public boolean isResponsible(ProposalTask task) {
-        return StringUtils.equals("addProposalAttachmentRights", task.getTaskName());
+        return StringUtils.equals(ACTION_NAME, task.getActionName()) &&
+               StringUtils.equals(TASK_NAME, task.getTaskName());
     }
     
     /**

@@ -43,6 +43,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -81,29 +82,6 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         return forward;
     }
     
-    /**
-     * By overriding the dispatchMethod(), we can check the user's authorization to
-     * perform the given action/task.  
-     * @see org.apache.struts.actions.DispatchAction#dispatchMethod(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String)
-     */
-    @Override
-    protected ActionForward dispatchMethod(ActionMapping mapping,
-                                           ActionForm form,
-                                           HttpServletRequest request,
-                                           HttpServletResponse response,
-                                           String taskName) throws Exception {
-        
-        ActionForward actionForward = null;
-        if (!isTaskAuthorized(taskName, form)) {
-            actionForward = processAuthorizationViolation(taskName, mapping, form, request, response);
-        } 
-        else {
-            actionForward = super.dispatchMethod(mapping, form, request, response, taskName);
-        }
-        return actionForward;
-    }
-
-
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
@@ -391,52 +369,29 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
     
     /**
-     * Check the authorization for executing a task.  A task corresponds to a Struts action.
-     * The name of a task always corresponds to the name of the Struts action method.  For
-     * Proposal Development, we always submit a Proposal Task to the Task Authorization Service
-     * along with the user's username to determine if he/she has the necessary authority.
-     * @param form the submitted form
-     * @param request the HTTP request
-     * @throws AuthorizationException
+     * Get the name of the action.  Every Proposal Action class has the
+     * naming convention of
+     * 
+     *      ProposalDevelopment<name>Action
+     * 
+     * This method extracts the <name> from the above class name.
+     * 
+     * @return the action's name
      */
-    private boolean isTaskAuthorized(String taskName, ActionForm form) {
-        boolean isAuthorized = true;
-        if (form instanceof ProposalDevelopmentForm) {
-            TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-            UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-            String username = user.getPersonUserIdentifier();
-            ProposalTask task = buildTask(taskName, (ProposalDevelopmentForm)form);
-            isAuthorized = taskAuthorizationService.isAuthorized( username, task );
-            if (!isAuthorized) {
-                LOG.error("User not authorized to perform " + taskName + " for document: " + ((KualiDocumentFormBase)form).getDocument().getClass().getName() );
-            }
-        }
-        return isAuthorized;
+    protected String getActionName() {
+        String name = getClass().getSimpleName();
+        int endIndex = name.indexOf("Action");
+        return name.substring(19, endIndex);
     }
     
     /**
-     * Build a Proposal Task.  Subclasses may override this method to create a
-     * different type of Proposal Task, e.g. one with narrative data.
+     * Build a Proposal Task.
      * @param taskName the name of the task
      * @param form the Proposal Development Form
      * @return the Proposal Task
      */
-    protected ProposalTask buildTask(String taskName, ProposalDevelopmentForm form) {
-        return new ProposalTask(taskName, form.getProposalDevelopmentDocument());
-    }
-    
-    /**
-     * Process an Authorization Violation.
-     * @param mapping the Action Mapping
-     * @param form the form
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @return the next action to go to
-     * @throws Exception
-     */
-    protected ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        errorMap.putErrorWithoutFullErrorPath(Constants.TASK_AUTHORIZATION, KeyConstants.AUTHORIZATION_VIOLATION);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+    protected Task buildTask(String actionName, String taskName, ActionForm form) {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        return new ProposalTask(actionName, taskName, proposalDevelopmentForm.getProposalDevelopmentDocument());
     }
 }
