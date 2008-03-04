@@ -9,8 +9,7 @@
 			<description>Create a New Activity Type</description>
 			<label>Activity Type</label>
 			<postProcessorName>
-				org.kuali.workflow.postprocessor.KualiPostProcessor
-			</postProcessorName>
+				org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>
 				WorkflowAdmin
 			</superUserWorkgroupName>
@@ -21,8 +20,7 @@
 				WorkflowAdmin
 			</defaultExceptionWorkgroupName>
 			<docHandler>
-				${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler
-			</docHandler>
+				${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<routePaths>
