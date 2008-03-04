@@ -4,12 +4,14 @@
 <c:set var="textAreaFieldName" value="document.programAnnouncementTitle" />
 <c:set var="action" value="proposalDevelopmentProposal" />
 
-
-<kul:tab tabTitle="Submission Details" defaultOpen="false">
+<!--  <kul:tab tabTitle="Submission Details" defaultOpen="false">-->
+          	<tr>
+				<td>
+<kul:innerTab parentTab="Opportunity Search" defaultOpen="false" tabTitle="Submission Details">
 <div class="innerTab-container" align="left">
  <table class=tab cellpadding=0 cellspacing="0" summary=""> 
  <tbody id="G1">
- <c:choose>
+ <c:choose>	
  	<c:when test ="${empty document.s2sAppSubmission.submissionNumber}">
  		<tr><td>
  			Submission details will be available after the proposal is submitted.
@@ -23,6 +25,8 @@
  </c:choose>
  	   </tbody>
 </table></div>
-</kul:tab>
+</kul:innerTab>
+</td></tr>
+<!-- </kul:tab> -->
 
 

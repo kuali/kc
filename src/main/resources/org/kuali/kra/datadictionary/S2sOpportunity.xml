@@ -61,23 +61,17 @@
             </lookupFields>
 
             <resultFields>
-            	<field attributeName="proposalNumber" forceInquiry="false"/>
 				<field attributeName="cfdaNumber" forceInquiry="false"/>
 				<field attributeName="closingDate" forceInquiry="false"/>
 				<field attributeName="competetionId" forceInquiry="false"/>
 				<field attributeName="instructionUrl" forceInquiry="false"/>
 				<field attributeName="openingDate" forceInquiry="false"/>
-				<field attributeName="opportunity" forceInquiry="false"/>
 				<field attributeName="opportunityId" forceInquiry="false"/>
 				<field attributeName="opportunityTitle" forceInquiry="false"/>
-				<field attributeName="revisionCode"  forceInquiry="false"/>
-				<field attributeName="revisionOtherDescription" forceInquiry="false"/>
-				<field attributeName="s2sSubmissionTypeCode" forceInquiry="false"/>
 				<field attributeName="schemaUrl" forceInquiry="false"/>
             </resultFields>
         </lookup>
-
-        <titleAttribute>opportunityId</titleAttribute>
+                
         <attributes>
 
 	        <attribute name="proposalNumber">
@@ -124,10 +118,10 @@
 			<attribute name="instructionUrl">
 				<label>Instruction Page</label>
 				<shortLabel>Instruction Page</shortLabel>
-				<maxLength>200</maxLength>
+				<maxLength>300</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 				<control>
-					<text size="200" />
+					<text size="300" />
 				</control>
 				<summary>Instruction Page </summary>
 				<description>Instruction Page </description>
@@ -156,7 +150,7 @@
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 				<required>false</required>
 				<control>
-					<text size="20"/>
+					<text size="50"/>
 				</control>
 				<summary>The Opportunity ID for this Proposal.</summary>
 				<description>A unique identifier associated with each sponsor's funding opportunity announcement. AKA "Funding Opportunity Announcement number" or "FOA number"</description>
@@ -194,10 +188,10 @@
 			<attribute name="schemaUrl">
 				<label>Schema URL</label>
 				<shortLabel>Schema URL</shortLabel>
-				<maxLength>200</maxLength>
+				<maxLength>300</maxLength>
 				<validationPattern><anyCharacter/></validationPattern>
 				<control>
-					<text size="200" />
+					<text size="300" />
 				</control>
 				<summary>Schema URL </summary>
 				<description>Schema URL </description>

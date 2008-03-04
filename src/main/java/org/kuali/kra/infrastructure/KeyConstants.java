@@ -133,7 +133,8 @@ public class KeyConstants {
     public static final String ERROR_IF_OPPORTUNITY_ID_IS_INVALID = "error.s2sopportunity.opportunityIdInvalid";
     public static final String ERROR_IF_PROPOSAL_TYPE_IS_NEW_AND_S2S_SUBMISSION_TYPE_IS_CHANGED_CORRECTED = "error.s2sopportunity.s2ssubmissiontype";
     public static final String ERROR_NOT_SELECTED_SUBMISSION_TYPE = "error.notSelected.submissionType";
-    public static final String WARNING_OPPORTUNITY_ID_DIFFER = "warning.opportunityId.differ";
-    public static final String WARNING_OPPORTUNITY_TITLE_DELETED = "warning.opportunityTitle.deleted";
-    public static final String WARNING_CFDA_NUMBER_DIFFER = "warning.cfdaNumber.differ";
+    public static final String ERROR_OPPORTUNITY_ID_DIFFER = "error.opportunityId.differ";
+    public static final String ERROR_OPPORTUNITY_TITLE_DELETED = "error.opportunityTitle.deleted";
+    public static final String ERROR_CFDA_NUMBER_DIFFER = "error.cfdaNumber.differ";
+    public static final String ERROR_IF_REVISIONTYPE_IS_NOT_OTHER_SPECIFY_NOT_BLANK = "error.s2sopportunity.revisionTypeNotOtherSpecifyNotBlank";
 }
