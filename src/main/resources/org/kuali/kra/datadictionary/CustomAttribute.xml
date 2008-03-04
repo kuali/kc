@@ -171,7 +171,7 @@
 			<maxLength>30</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-                 <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.CustomAttributeLookupReturnValuesFinder" script="if ( typeof setReportsToChartCode == 'function' ) { setReportsToChartCode(); }"/>
+                 <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.CustomAttributeLookupReturnValuesFinder" />
 			</control>
 			<summary>Lookup Return </summary>
 			<description>Lookup Return </description>
