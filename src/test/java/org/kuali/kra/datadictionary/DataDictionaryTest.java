@@ -26,15 +26,15 @@ import org.kuali.rice.KNSServiceLocator;
  */
 public class DataDictionaryTest extends KraTestBase {
 
-    private DataDictionaryBuilder builder = null;
-
-    private static final String PACKAGE = "org/kuali/kra/datadictionary/";
-
-    @Test
-    public void testDataDictionaryFiles() throws Exception {
-        builder = new DataDictionaryBuilder(KNSServiceLocator.getValidationCompletionUtils());
-        builder.addUniqueEntries(PACKAGE, true);
-        builder.getDataDictionary().forceCompleteDataDictionaryLoad();
-    }
+//    private DataDictionaryBuilder builder = null;
+//
+//    private static final String PACKAGE = "org/kuali/kra/datadictionary/";
+//
+//    @Test
+//    public void testDataDictionaryFiles() throws Exception {
+//        builder = new DataDictionaryBuilder(KNSServiceLocator.getValidationCompletionUtils());
+//        builder.addUniqueEntries(PACKAGE, true);
+//        builder.getDataDictionary().forceCompleteDataDictionaryLoad();
+//    }
 
 }
