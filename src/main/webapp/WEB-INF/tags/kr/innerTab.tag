@@ -18,6 +18,9 @@
 <%@ attribute name="parentTab" required="true" %>
 <%@ attribute name="tabDescription" required="false" %>
 <%@ attribute name="defaultOpen" required="true" %>
+<%@ attribute name="tabErrorKey" required="false" %>
+<%@ attribute name="auditCluster" required="false" %>
+<%@ attribute name="tabAuditKey" required="false" %>
 
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
@@ -77,6 +80,13 @@
         	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="${auditCluster}" keyMatch="${tabAuditKey}" isLink="false" includesTitle="true"/></div></div>
       	</c:if>
       	--%>
+        <c:if test="${! (empty tabAuditKey)}">
+        	<div class="tab-container-error"><div class="left-errmsg-tab">
+				<c:forEach items="${fn:split(auditCluster,',')}" var="cluster">
+        	   		<kul:auditErrors cluster="${cluster}" keyMatch="${tabAuditKey}" isLink="false" includesTitle="true"/>
+				</c:forEach>
+        	</div></div>
+      	</c:if>
       
         <!-- Before the jsp:doBody of the kul:tab tag -->            
         <jsp:doBody/>            

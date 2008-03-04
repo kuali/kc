@@ -250,8 +250,6 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage proposalPage = getProposalDevelopmentPage();
 
         setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);
-        
-        String documentNumber = getFieldValue(proposalPage, "document.documentHeader.documentNumber");
                 
         setFieldValue(proposalPage, "document.programAnnouncementTitle", "we want to give you money");
         setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
@@ -267,15 +265,9 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         setFieldValue(page2,"document.s2sOpportunity.s2sSubmissionTypeCode","1");
         setFieldValue(page2,"document.s2sOpportunity.revisionCode","1");
         setFieldValue(page2,"document.s2sOpportunity.revisionOtherDescription","RevisionType Is Other");
-        clickOn(page2, "methodToCall.save", "Kuali :: Proposal Development Document");
+        HtmlPage page3 = clickOn(page2, "methodToCall.save", "Kuali :: Proposal Development Document");
         
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
-        
-        assertEquals(doc.getS2sOpportunity().getOpportunityId(),"ED-GRANTS-102003-003");
-        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),"84.264");
-        assertEquals(doc.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
-        assertEquals(doc.getS2sOpportunity().getRevisionCode().toString(),"1");
-        assertNull(doc.getS2sOpportunity().getRevisionOtherDescription());        
+        assertContains(page3,"The revision 'specify' field is only applicable when the revision type is \"Other\"");                
     }
     
     /**
@@ -312,9 +304,10 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         assertEquals(doc.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
         
         HtmlPage page4 = clickOn(page3, "methodToCall.removeOpportunity", "Kuali :: Question Dialog Page");
+        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) getDocument(documentNumber);
+        assertContains(page4,"Are you sure you want to delete the "+document.getS2sOpportunity().getOpportunityId() + " opportunity?");
         clickOn(page4, "methodToCall.processAnswer.button0", "Kuali :: Proposal Development Document");
-        doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
+        doc = (ProposalDevelopmentDocument) getDocument(documentNumber);  
         assertNull(doc.getS2sOpportunity());
     }
-
 }

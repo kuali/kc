@@ -4,7 +4,7 @@
 <c:set var="textAreaFieldName" value="document.programAnnouncementTitle" />
 <c:set var="action" value="proposalDevelopmentProposal" />
 
-<kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" tabErrorKey="document.deadlineDate,document.noticeOfOpportunityCode,document.deadlineType,document.cfdaNumber,document.programAnnouncementNumber,document.primeSponsorCode,document.sponsorProposalNumber,document.nsfCode,document.subcontracts,document.agencyDivisionCode,document.agencyProgramCode,document.programAnnouncementTitle" auditCluster="sponsorProgramInformationAuditWarnings" tabAuditKey="document.deadlineDate,document.programAnnouncementNumber,document.cfdaNumber,document.programAnnouncementTitle"  useRiceAuditMode="true">
+<kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" tabErrorKey="document.deadlineDate,document.noticeOfOpportunityCode,document.deadlineType,document.cfdaNumber,document.programAnnouncementNumber,document.primeSponsorCode,document.sponsorProposalNumber,document.nsfCode,document.subcontracts,document.agencyDivisionCode,document.agencyProgramCode,document.programAnnouncementTitle" auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" tabAuditKey="document.deadlineDate,document.programAnnouncementNumber,document.cfdaNumber,document.programAnnouncementTitle,document.sponsorProposalNumber" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Sponsor & Program Information</h2></span>
