@@ -868,11 +868,11 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * Get the Header Dispatch.  This determines the action that will occur
      * when the user switches tabs for a proposal.  If the user can modify
      * the proposal, the proposal is automatically saved.  If not (view-only),
-     * then a null op will be executed instead.
+     * then a reload will be executed instead.
      * @return the Header Dispatch action
      */
     public String getHeaderDispatch() {
-        return this.getDocumentActionFlags().getCanSave() ? "save" : "nullOp";
+        return this.getDocumentActionFlags().getCanSave() ? "save" : "reload";
     }
 
     /**

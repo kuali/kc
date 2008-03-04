@@ -39,6 +39,9 @@ import org.kuali.kra.service.UnitAuthorizationService;
  */
 public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
    
+    private static final String TRUE = "TRUE";
+    private static final String FALSE = "FALSE";
+    
     /**
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
@@ -60,22 +63,22 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         String username = user.getPersonUserIdentifier();
         if (proposalNbr == null) {
             if (hasCreatePermission(user)) {
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
-                setPrivileges(username, proposalDoc, editModeMap);
+                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+                setPermissions(username, proposalDoc, editModeMap);
             } else {
-                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, "TRUE");
+                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
             }
         } else {
             if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.MODIFY_PROPOSAL)) {
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
-                setPrivileges(username, proposalDoc, editModeMap);
+                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+                setPermissions(username, proposalDoc, editModeMap);
             }
             else if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.VIEW_PROPOSAL)) {
-                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, "TRUE");
-                setPrivileges(username, proposalDoc, editModeMap);
+                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+                setPermissions(username, proposalDoc, editModeMap);
             }
             else {
-                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, "TRUE");
+                editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
             }
         }
  
@@ -83,32 +86,42 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     }
     
     /**
-     * Set the privileges to be used during the creation of the web pages.  
+     * Set the permissions to be used during the creation of the web pages.  
      * The JSP files can access the editModeMap (editingMode) to determine what
      * to display to the user.  For example, a JSP file may contain the following:
      * 
-     *     <c:if test="${KualiForm.editingMode['modifyProposal'] == 'Y'}">
+     *     <kra:section permission="modifyProposal">
      *         .
      *         .
      *         .
-     *     </c:if>
+     *     </kra:section>
      * 
      * In the above example, the contents are only rendered if the user is allowed
-     * to modify the proposal.  Note that privileges are always signified as 
-     * either Y (yes) or N (no).
+     * to modify the proposal.  Note that permissions are always signified as 
+     * either TRUE or FALSE.
      * 
      * @param username the user's unique username
      * @param doc the Proposal Development Document
      * @param editModeMap the edit mode map
      */
-    private void setPrivileges(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
-        ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
-
-        editModeMap.put("modifyProposal", editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) ? "Y" : "N");
+    private void setPermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
+        editModeMap.put("modifyProposal", editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) ? TRUE : FALSE);
        //editModeMap.put("copyNarratives", proposalAuthService.hasPermission(username, doc, PermissionConstants.))
-        editModeMap.put("modifyPermissions", proposalAuthService.hasPermission(username, doc, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS) ? "Y" : "N");
-        editModeMap.put("modifyNarratives", proposalAuthService.hasPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE) ? "Y" : "N");
-        editModeMap.put("viewNarratives", proposalAuthService.hasPermission(username, doc, PermissionConstants.VIEW_NARRATIVE) ? "Y" : "N");
+        editModeMap.put("modifyPermissions", hasPermission(username, doc, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS));
+        editModeMap.put("modifyNarratives", hasPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE));
+        editModeMap.put("viewNarratives", hasPermission(username, doc, PermissionConstants.VIEW_NARRATIVE));
+    }
+    
+    /**
+     * Does the user have the given permission for the given proposal?
+     * @param username the user's username
+     * @param doc the proposal development document
+     * @param permissionName the name of the permission
+     * @return "TRUE" if has permission; otherwise "FALSE"
+     */
+    private String hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
+        ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
+        return proposalAuthService.hasPermission(username, doc, permissionName) ? TRUE : FALSE;
     }
 
     /**

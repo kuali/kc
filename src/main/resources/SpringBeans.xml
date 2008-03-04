@@ -420,6 +420,7 @@
 	</bean>
 
 	<bean id="permissionsAuthorizer" class="org.kuali.kra.proposaldevelopment.document.authorizer.MultiProposalAuthorizer">
+		<property name="action" value="Permissions" />
 		<property name="tasks">
 			<list>
 				<value>addProposalUser</value>
