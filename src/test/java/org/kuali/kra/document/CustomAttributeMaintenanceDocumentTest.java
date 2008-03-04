@@ -45,13 +45,8 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
 
     @Test
     public void testDocumentCreation() throws Exception {
-        MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getNewDocument(DOCTYPE);
-        assertNotNull(document.getDocumentNumber());
-        assertNotNull(document.getDocumentHeader());
-        assertNotNull(document.getDocumentHeader().getDocumentNumber());
+        testDocumentCreation(DOCTYPE);
     }
-
-
 
     @Test
     public void testCreateNewCustomAttribute() throws Exception {
@@ -95,20 +90,5 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         
     }
 
-    private final HtmlPage getCustomAttributeMaintenanceDocumentPage() throws IOException {
-        HtmlPage adminPage = clickOn(getPortalPage(), "Administration", "Kuali Portal Index");
-        // customAttributeHyperlink is not actually the lookup page - not sure why
-        //final HtmlAnchor customAttributeHyperlink = adminPage.getAnchorByHref("portal.do?channelTitle=Custom Attribute&channelUrl=kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.CustomAttribute&returnLocation=http://localhost:9925/kra-dev/portal.do&hideReturnLink=true&docFormKey=88888888");
-        HtmlPage customAttributeLookupPage = clickOn(adminPage, "Custom Attribute", "Kuali Portal Index");
-        //HtmlPage customAttributeLookupPage = clickOn(customAttributeHyperlink, "Kuali :: Lookup");
-        assertTrue("Kuali Portal Index".equals(customAttributeLookupPage.getTitleText()));
-        // this dummy step will load lookup page properly
-        HtmlPage lookupPage = clickOn(getPortalPage(), "Create a new record", "Kuali :: Lookup");
-        HtmlAnchor createNewHyperlink = lookupPage.getAnchorByHref("maintenance.do?businessObjectClassName=org.kuali.kra.bo.CustomAttribute&methodToCall=start");
-        HtmlPage customAttributeMaintenancePage = clickOn(createNewHyperlink, "Kuali :: CustomAttribute Maintenance Document");
-
-        
-        return customAttributeMaintenancePage;
-    }
 
 }
