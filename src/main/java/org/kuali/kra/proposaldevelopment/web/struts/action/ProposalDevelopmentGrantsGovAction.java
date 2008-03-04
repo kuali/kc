@@ -23,15 +23,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -67,13 +64,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
             }
             if(proposalDevelopmentDocument.getS2sOpportunity().getCfdaNumber()!=null){
                 proposalDevelopmentDocument.setCfdaNumber(proposalDevelopmentDocument.getS2sOpportunity().getCfdaNumber());                
-            }                
-            if(!StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), "5")){
-                proposalDevelopmentDocument.getS2sOpportunity().setRevisionOtherDescription(null);
             }
-            
         }
-        
         ActionForward actionForward = super.execute(mapping, form, request, response);
         return actionForward;        
     }
@@ -106,6 +98,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
      * @return
      * @throws Exception
      */
+   
     public ActionForward confirmRemoveOpportunity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_REMOVE_OPPRTUNITY_KEY.equals(question)) { 
@@ -135,6 +128,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     public ActionForward removeOpportunity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return confirm(buildDeleteOpportunityConfirmationQuestion(mapping, form, request, response), CONFIRM_REMOVE_OPPRTUNITY_KEY, EMPTY_STRING);        
     }
+    
     /**
      * 
      * This method builds a Opportunity Delete Confirmation Question as part of the Questions Framework
@@ -151,6 +145,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         String description = proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId();
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_REMOVE_OPPRTUNITY_KEY, QUESTION_DELETE_OPPORTUNITY_CONFIRMATION, description);
     }
+    
     /**
      * 
      * This method does an S2S submission of proposal to Grants.gov
