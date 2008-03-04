@@ -45,10 +45,7 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
 
     @Test
     public void testDocumentCreation() throws Exception {
-        MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getNewDocument(DOCTYPE);
-        assertNotNull(document.getDocumentNumber());
-        assertNotNull(document.getDocumentHeader());
-        assertNotNull(document.getDocumentHeader().getDocumentNumber());
+        testDocumentCreation(DOCTYPE);
     }
 
 
@@ -77,17 +74,6 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
         
     }
 
-    private final HtmlPage getCustomAttributeDocumentMaintenanceDocumentPage() throws IOException {
-        HtmlPage adminPage = clickOn(getPortalPage(), "Administration", "Kuali Portal Index");
-        HtmlPage customAttributeDocumentLookupPage = clickOn(adminPage, "Custom Attribute Document", "Kuali Portal Index");
-        assertTrue("Kuali Portal Index".equals(customAttributeDocumentLookupPage.getTitleText()));
-        HtmlPage lookupPage = clickOn(getPortalPage(), "Create a new record", "Kuali :: Lookup");
-        HtmlAnchor createNewHyperlink = lookupPage.getAnchorByHref("maintenance.do?businessObjectClassName=org.kuali.kra.bo.CustomAttributeDocument&methodToCall=start");
-        HtmlPage customAttributeDocumentMaintenancePage = clickOn(createNewHyperlink, "Kuali :: CustomAttributeDocument Maintenance Document");
-
-        
-        return customAttributeDocumentMaintenancePage;
-    }
 
 }
 
