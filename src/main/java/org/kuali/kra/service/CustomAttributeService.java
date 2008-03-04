@@ -43,11 +43,13 @@ public interface CustomAttributeService {
     public void saveCustomAttributeValues(ResearchDocumentBase document);    
 
     /**
-     * Accessor for <code>{@link BusinessObjectService}</code>
-     *
-     * @param bos BusinessObjectService
+     * 
+     * This method is to set up the the custom attribute in attribute content
+     * @param document
+     * @param attributeName
+     * @param networkId
+     * @throws Exception
      */
-    
     public void setCustomAttributeKeyValue(ResearchDocumentBase document, String attributeName, String networkId) throws Exception;
 
     /**

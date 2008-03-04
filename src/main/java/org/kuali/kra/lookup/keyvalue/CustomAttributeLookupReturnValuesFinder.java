@@ -41,14 +41,9 @@ public class CustomAttributeLookupReturnValuesFinder extends KeyValuesBase {
         List lookupReturnFields = null;
         try {
             if (StringUtils.isNotBlank(lookupClass)) {
-                // remove () at the end
-                // String lookupClass = message.getErrorKey().substring(0, message.getErrorKey().indexOf("(") - 1);
-
                 lookupReturnFields = KraServiceLocator.getService(CustomAttributeService.class).getLookupReturns(lookupClass);
                 GlobalVariables.getUserSession().addObject("lookupReturnFields", lookupReturnFields);
-                // GlobalVariables.getErrorMap().clearErrorPath();
                 GlobalVariables.getUserSession().removeObject("lookupClassName");
-
             }
             else {
                 lookupReturnFields = (List) GlobalVariables.getUserSession().retrieveObject("lookupReturnFields");
