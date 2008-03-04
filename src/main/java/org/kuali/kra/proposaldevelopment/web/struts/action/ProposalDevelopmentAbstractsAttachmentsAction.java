@@ -51,6 +51,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.WebUtils;
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -806,13 +807,14 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     /**
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#buildTask(java.lang.String, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
-    protected ProposalTask buildTask(String taskName, ProposalDevelopmentForm form) {
-        ProposalTask task = null;
+    protected Task buildTask(String actionName, String taskName, ActionForm form) {
+        Task task = null;
         if (StringUtils.equals(taskName, "addProposalAttachmentRights")) {
-            task = new NarrativeTask(taskName, form.getProposalDevelopmentDocument(), form.getNarrativeLineNumber());
+            ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+            task = new NarrativeTask(actionName, taskName, proposalDevelopmentForm.getProposalDevelopmentDocument(), proposalDevelopmentForm.getNarrativeLineNumber());
         }
         else {
-            task = super.buildTask(taskName, form);
+            task = super.buildTask(actionName, taskName, form);
         }
         return task;
     }

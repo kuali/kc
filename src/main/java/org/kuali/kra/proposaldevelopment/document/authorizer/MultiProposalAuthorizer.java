@@ -34,8 +34,17 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
  */
 public class MultiProposalAuthorizer extends ProposalAuthorizer {
    
+    private String actionName = null;
     private List<String> taskNames = null;
     private String permissionName = null;
+    
+    /**
+     * Set the name of the task.  Injected by the Spring Framework.
+     * @param taskName the name of the task
+     */
+    public void setAction(String actionName) {
+        this.actionName = actionName;
+    }
     
     /**
      * Set the names of the tasks.  Injected by the Spring Framework.
@@ -58,8 +67,15 @@ public class MultiProposalAuthorizer extends ProposalAuthorizer {
      */
     public boolean isResponsible(ProposalTask task) {
         for (String taskName : taskNames) {
-            if (StringUtils.equals(taskName, task.getTaskName())) {
-                return true;
+            if (actionName == null) {
+                if (StringUtils.equals(taskName, task.getTaskName())) {
+                    return true;
+                }
+            } else {
+                if ((StringUtils.equals(actionName, task.getActionName())) &&
+                    (StringUtils.equals(taskName, task.getTaskName()))) {
+                    return true;
+                }
             }
         }
         return false;

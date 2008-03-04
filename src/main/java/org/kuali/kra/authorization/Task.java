@@ -24,16 +24,27 @@ package org.kuali.kra.authorization;
  */
 public class Task {
 
+    private String actionName;
     private String taskName;
     
     /**
      * Constructs a Task.
+     * @param actionName the name of the action
      * @param taskName the name of the task
      */
-    public Task(String taskName) {
+    public Task(String actionName, String taskName) {
+        this.actionName = actionName;
         this.taskName = taskName;
     }
-
+    
+    /**
+     * Get the name of the action.
+     * @return the task's action name
+     */
+    public String getActionName() {
+        return actionName;
+    }
+    
     /**
      * Get the name of the task.
      * @return the task's name
@@ -46,6 +57,6 @@ public class Task {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        return taskName;
+        return actionName + ":" + taskName;
     }
 }

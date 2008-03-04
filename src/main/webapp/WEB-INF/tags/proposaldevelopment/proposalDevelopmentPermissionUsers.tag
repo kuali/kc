@@ -39,13 +39,14 @@
           		<th><div align="center">Unit #</div></th>
           		<th><div align="center">Unit Name</div></th>
           		<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${proposalUserAttributes.roleName}" skipHelpUrl="true" noColon="true" /></div></th>
-          		<c:if test="${KualiForm.editingMode['modifyPermissions'] == 'Y'}">
+          		<kra:section permission="modifyPermissions">
           		    <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
-          		</c:if>
+          		</kra:section>
           	</tr>
           	
           	<%-- The input controls for adding a new user. --%>
-          	<c:if test="${KualiForm.editingMode['modifyPermissions'] == 'Y'}">
+
+          	<kra:section permission="modifyPermissions">
 	            <tr> 
 					<th class="infoline">
 						<c:out value="Add:" />
@@ -70,7 +71,6 @@
 	                	                          attributeEntry="${proposalUserAttributes.roleName}" />
 					</td>
 	 
-	 				
 					<td>
 						<div align="center">
 							<html:image property="methodToCall.addProposalUser.anchor${tabKey}"
@@ -78,7 +78,7 @@
 						</div>
 		               </td>
 	            </tr>
-            </c:if>
+            </kra:section>
             
             <%-- The list of current users --%>
             
@@ -95,7 +95,7 @@
 					       <nobr>${roleLabel}</nobr>
 					    </c:forEach>
 					</td>
-					<c:if test="${KualiForm.editingMode['modifyPermissions'] == 'Y'}">
+					<kra:section permission="modifyPermissions">
 						<td align="center" valign="middle">
 						 	<div align="center">
 							<nobr>
@@ -108,7 +108,7 @@
 							</nobr>
 							</div>
 						</td>
-					</c:if>
+					</kra:section>
 				</tr>	
         	</c:forEach>
         </tbody>

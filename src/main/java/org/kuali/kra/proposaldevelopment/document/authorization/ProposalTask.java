@@ -29,11 +29,12 @@ public class ProposalTask extends Task {
     
     /**
      * Constructs a ProposalTask.
+     * @param actionName the name of the action
      * @param taskName the name of the task
      * @param doc the Proposal Development Document
      */
-    public ProposalTask(String taskName, ProposalDevelopmentDocument document) {
-        super(taskName);
+    public ProposalTask(String actionName, String taskName, ProposalDevelopmentDocument document) {
+        super(actionName, taskName);
         this.document = document;
     }
 

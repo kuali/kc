@@ -24,7 +24,6 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,16 +35,21 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.ResearchDocumentService;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.notification.util.NotificationConstants;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -53,6 +57,28 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 // TODO : should move this class to org.kuali.kra.web.struts.action
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
     private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentActionBase.class);
+
+    /**
+     * By overriding the dispatchMethod(), we can check the user's authorization to
+     * perform the given action/task.  
+     * @see org.apache.struts.actions.DispatchAction#dispatchMethod(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String)
+     */
+    @Override
+    protected ActionForward dispatchMethod(ActionMapping mapping,
+                                           ActionForm form,
+                                           HttpServletRequest request,
+                                           HttpServletResponse response,
+                                           String taskName) throws Exception {
+        
+        ActionForward actionForward = null;
+        if (!isTaskAuthorized(taskName, form)) {
+            actionForward = processAuthorizationViolation(taskName, mapping, form, request, response);
+        } 
+        else {
+            actionForward = super.dispatchMethod(mapping, form, request, response, taskName);
+        }
+        return actionForward;
+    }
 
     @Override
     /**
@@ -213,5 +239,59 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         return forward;
     }
+
+    /**
+     * Check the authorization for executing a task.  A task corresponds to a Struts action.
+     * The name of a task always corresponds to the name of the Struts action method. 
+     * @param form the submitted form
+     * @param request the HTTP request
+     * @throws AuthorizationException
+     */
+    private boolean isTaskAuthorized(String taskName, ActionForm form) {
+        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String username = user.getPersonUserIdentifier();
+        String actionName = getActionName();
+        Task task = buildTask(actionName, taskName, form);
+        boolean isAuthorized = taskAuthorizationService.isAuthorized( username, task );
+        if (!isAuthorized) {
+            LOG.error("User not authorized to perform " + taskName + " for document: " + ((KualiDocumentFormBase)form).getDocument().getClass().getName() );
+        }
+        return isAuthorized;
+    }
     
+    /**
+     * Get the name of the action.  This method is normally overridden.
+     * @return the action's name
+     */
+    protected String getActionName() {
+        return getClass().getSimpleName();
+    }
+    
+    /**
+     * Build a Task.  Subclasses may override this method to create a
+     * different type of Task, e.g. one for proposals.
+     * @param actionName the name of the action
+     * @param taskName the name of the task
+     * @param form the Form
+     * @return the Task
+     */
+    protected Task buildTask(String actionName, String taskName, ActionForm form) {
+        return new Task(actionName, taskName);
+    }
+    
+    /**
+     * Process an Authorization Violation.
+     * @param mapping the Action Mapping
+     * @param form the form
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the next action to go to
+     * @throws Exception
+     */
+    protected ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        errorMap.putErrorWithoutFullErrorPath(Constants.TASK_AUTHORIZATION, KeyConstants.AUTHORIZATION_VIOLATION);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }

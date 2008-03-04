@@ -28,8 +28,17 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
  */
 public class BasicProposalAuthorizer extends ProposalAuthorizer {
    
+    private String actionName = null;
     private String taskName = null;
     private String permissionName = null;
+    
+    /**
+     * Set the name of the task.  Injected by the Spring Framework.
+     * @param taskName the name of the task
+     */
+    public void setAction(String actionName) {
+        this.actionName = actionName;
+    }
     
     /**
      * Set the name of the task.  Injected by the Spring Framework.
@@ -51,7 +60,12 @@ public class BasicProposalAuthorizer extends ProposalAuthorizer {
      * @see org.kuali.kra.proposaldevelopment.document.authorization.ProposalAuthorizer#isResponsible(org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
      */
     public boolean isResponsible(ProposalTask task) {
-        return StringUtils.equals(taskName, task.getTaskName());
+        if (actionName == null) {
+            return StringUtils.equals(taskName, task.getTaskName());
+        } else {
+            return StringUtils.equals(actionName, task.getActionName()) &&
+                   StringUtils.equals(taskName, task.getTaskName());
+        }
     }
     
     /**
