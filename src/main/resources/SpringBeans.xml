@@ -479,4 +479,10 @@
     <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService" ref="nonOrganizationalRolodexHelperService" />
     </bean>
+    
+    <bean id="systemParameterRetrievalService" class="org.kuali.kra.proposaldevelopment.service.impl.SystemParameterRetrievalServiceImpl">
+     	<property name="kualiConfigurationService" >
+  			<ref bean="kualiConfigurationService"/>
+  		</property>
+	</bean>
 </beans>
