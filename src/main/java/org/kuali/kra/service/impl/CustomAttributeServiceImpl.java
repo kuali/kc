@@ -61,6 +61,10 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
             CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
             if (customAttributeDocValue != null) {
                 customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
+            } else {
+                if (StringUtils.isNotBlank(customAttributeDocument.getCustomAttribute().getDefaultValue())) {
+                    customAttributeDocument.getCustomAttribute().setValue(customAttributeDocument.getCustomAttribute().getDefaultValue());
+                }
             }
             customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
         }
@@ -98,6 +102,10 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         }
     }
     
+    /**
+     * 
+     * @see org.kuali.kra.service.CustomAttributeService#setCustomAttributeKeyValue(org.kuali.kra.document.ResearchDocumentBase, java.lang.String, java.lang.String)
+     */
     public void setCustomAttributeKeyValue(ResearchDocumentBase document, String attributeName, String networkId) throws Exception {
         WorkflowDocument workflowDocument = new WorkflowDocument(new NetworkIdVO(networkId),new Long (Long.parseLong(document.getDocumentHeader().getDocumentNumber()))); 
         //WorkflowDocument document = proposalDevelopmentForm.getWorkflowDocument().getInitiatorNetworkId();
@@ -173,6 +181,23 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
             attributeNames += "," + attributeName;
         }
         return attributeNames;
+    }
+
+    public CustomAttributeDocValue getCustomAttributeDocValue(String documentNumber, Integer customAttributeId,
+            List customAttributeDocValues) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Map<String, CustomAttributeDocument> getDefaultCustomAttributesForDocumentType(String documentTypeCode,
+            ResearchDocumentBase document) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List getGroupNames(List customAttributeDocValues) {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }
