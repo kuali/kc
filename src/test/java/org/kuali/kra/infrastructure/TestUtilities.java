@@ -86,7 +86,7 @@ public class TestUtilities {
     public static final String GROUP_NAME_3 = "Project Details";
     public static final String BILLING_ELEMENT_VALUE = "This is billing element";
     public static final String GRADUATE_STUDENT_COUNT_VALUE = "5";
-    public static final String EFFECTIVE_DATE_VALUE = "02/08/2008";
+    public static final String LOCAL_REVIEW_DATE_VALUE = "02/08/2008";
     public static final String TENURED_VALUE = "tdurkin";
 
 
@@ -516,7 +516,7 @@ public class TestUtilities {
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("7", customAttributeDocument);
 
-        customAttribute = buildCustomAttribute(8, "effDate", "Effective Date", "3", new Integer(10), GROUP_NAME_3);
+        customAttribute = buildCustomAttribute(8, "localReviewDate", "Local Review Date", "3", new Integer(10), GROUP_NAME_1);
         customAttributeDocument = buildCustomAttributeDocument("PRDV", false, customAttribute);
         customAttributeDocuments.put("8", customAttributeDocument);
 
