@@ -400,17 +400,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             valid &= false;
         }
         
-        if(proposalDevelopmentDocument.getProposalTypeCode()!=null && 
-                proposalDevelopmentDocument.getProposalTypeCode().equals(getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW, "1")) && 
-                proposalDevelopmentDocument.getS2sOpportunity()!=null &&
-                proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode()!=null &&
-                StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode().toString(), "3")){
+        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), Constants.S2S_REVISIONTYPE_OTHER) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()!=null && !StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
             errorMap.removeFromErrorPath("document");
-            reportError("document.s2sOpportunity.s2sSubmissionTypeCode",KeyConstants.ERROR_IF_PROPOSAL_TYPE_IS_NEW_AND_S2S_SUBMISSION_TYPE_IS_CHANGED_CORRECTED);            
+            reportError("document.s2sOpportunity.revisionOtherDescription",KeyConstants.ERROR_IF_REVISIONTYPE_IS_NOT_OTHER_SPECIFY_NOT_BLANK);
             errorMap.addToErrorPath("document");
             valid &= false;
-        }
-                
+        }        
         return valid;
     }
     

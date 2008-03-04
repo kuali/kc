@@ -6,7 +6,12 @@
 <c:set var="action" value="proposalDevelopmentProposal" />
 
 
-<kul:tab tabTitle="Forms" defaultOpen="false">
+<!-- <kul:tab tabTitle="Forms" defaultOpen="false"> -->
+
+
+          	<tr>
+				<td>
+<kul:innerTab parentTab="Opportunity Search" defaultOpen="false" tabTitle="Forms">
 <div class="innerTab-container" align="left">
  <table class=tab cellpadding=0 cellspacing="0" summary=""> 
  <tbody id="G1">
@@ -62,6 +67,8 @@
     	</c:forEach>        
 	   </tbody>
 </table></div>    
-</kul:tab>
+</kul:innerTab>
+</td></tr></table></div>
+<!-- </kul:tab> -->
 
 

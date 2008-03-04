@@ -20,11 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
@@ -44,32 +45,26 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
      * It calls the S2sService#searchOpportunity service to look up the opportunity
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        
-        super.getSearchResults(LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues));
-        List<S2sOpportunity> s2sOpportunity=new ArrayList<S2sOpportunity>();
-        List<S2sOpportunity> s2sOpportunityTemp=new ArrayList<S2sOpportunity>();
-        if(fieldValues!=null && (fieldValues.get("cfdaNumber")!=null && !StringUtils.equals(fieldValues.get("cfdaNumber").trim(),""))||(fieldValues.get("opportunityId")!=null && !StringUtils.equals(fieldValues.get("opportunityId").trim(),""))){
-            s2sOpportunityTemp = s2SService.searchOpportunity(fieldValues.get("cfdaNumber"),fieldValues.get("opportunityId"),"");
-            if(s2sOpportunityTemp!=null){
-                s2sOpportunity = s2sOpportunityTemp;
+        LookupUtils.removeHiddenCriteriaFields( getBusinessObjectClass(), fieldValues );
+        setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
+        setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
+        List<S2sOpportunity> s2sOpportunity=new ArrayList<S2sOpportunity>();        
+        if(fieldValues!=null && (fieldValues.get(Constants.CFDA_NUMBER)!=null && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER).trim(),""))||(fieldValues.get(Constants.OPPORTUNITY_ID)!=null && !StringUtils.equals(fieldValues.get(Constants.OPPORTUNITY_ID).trim(),""))){
+            s2sOpportunity = s2SService.searchOpportunity(fieldValues.get(Constants.CFDA_NUMBER),fieldValues.get(Constants.OPPORTUNITY_ID),"");
+            if(s2sOpportunity!=null){
+                return s2sOpportunity;
             }else{
-                if(fieldValues.get("cfdaNumber")!=null && !StringUtils.equals(fieldValues.get("cfdaNumber").trim(),"")){                    
-                    errorMap.removeFromErrorPath("document");
-                    GlobalVariables.getErrorMap().putError("document.cfdaNumber", KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);                            
-                    errorMap.addToErrorPath("document");                    
+                if(fieldValues.get(Constants.CFDA_NUMBER)!=null && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER).trim(),"")){
+                    GlobalVariables.getErrorMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
                 }
-                if(fieldValues.get("opportunityId")!=null && !StringUtils.equals(fieldValues.get("opportunityId").trim(),"")){                    
-                    errorMap.removeFromErrorPath("document");
-                    GlobalVariables.getErrorMap().putError("document.cfdaNumber", KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID);                            
-                    errorMap.addToErrorPath("document");                    
+                if(fieldValues.get(Constants.OPPORTUNITY_ID)!=null && !StringUtils.equals(fieldValues.get(Constants.OPPORTUNITY_ID).trim(),"")){
+                    GlobalVariables.getErrorMap().putError(Constants.OPPORTUNITY_ID, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID);
                 }
             }
-            return s2sOpportunity;
-        }else{            
-                errorMap.removeFromErrorPath("document");
-                GlobalVariables.getErrorMap().putError("document.cfdaNumber", KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);                            
-                errorMap.addToErrorPath("document");              
+            return new ArrayList<S2sOpportunity>();
+        }else{
+            GlobalVariables.getErrorMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);              
         }        
         return s2sOpportunity;        
     }

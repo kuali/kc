@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
             valid = false;
             auditErrors.add(new AuditError(Constants.S2S_SUBMISSIONTYPE_CODE_KEY, KeyConstants.ERROR_NOT_SELECTED_SUBMISSION_TYPE, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
         }
-
+        
         if (auditErrors.size() > 0) {
             GlobalVariables.getAuditErrorMap().put("grantsGovAuditWarnings", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.AUDIT_ERRORS));
         }
