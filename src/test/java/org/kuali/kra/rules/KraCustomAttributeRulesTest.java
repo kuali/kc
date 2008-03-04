@@ -66,7 +66,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
 
         document.getCustomAttributeDocuments().get("1").getCustomAttribute().setValue(TestUtilities.BILLING_ELEMENT_VALUE);
         document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.EFFECTIVE_DATE_VALUE);
+        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
         SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
         assertTrue(rule.processCustomAttributeRules(saveCustomAttributeEvent));
     }
@@ -79,7 +79,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
 
         //billing element is not set
         document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.EFFECTIVE_DATE_VALUE);
+        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
           SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
         assertFalse(rule.processCustomAttributeRules(saveCustomAttributeEvent));
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id1)");
@@ -96,7 +96,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
 
         document.getCustomAttributeDocuments().get("1").getCustomAttribute().setValue(TestUtilities.BILLING_ELEMENT_VALUE);
         document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE+"a");
-        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.EFFECTIVE_DATE_VALUE);
+        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
         SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
         assertFalse(rule.processCustomAttributeRules(saveCustomAttributeEvent));
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id4)");
@@ -113,7 +113,7 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
 
         document.getCustomAttributeDocuments().get("1").getCustomAttribute().setValue(TestUtilities.BILLING_ELEMENT_VALUE+"123456789012345678901234567890");
         document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.EFFECTIVE_DATE_VALUE);
+        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
         SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
         assertFalse(rule.processCustomAttributeRules(saveCustomAttributeEvent));
         TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id1)");

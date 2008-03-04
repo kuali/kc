@@ -20,8 +20,11 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.core.UserSession;
+import org.kuali.core.document.MaintenanceDocumentBase;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraWebTestBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -40,6 +43,28 @@ public abstract class MaintenanceDocumentTestBase extends KraWebTestBase {
         super.tearDown();
     }
 
+    /**
+     * 
+     * This method to test the document is set up properly
+     * @param docType
+     * @throws Exception
+     */
+    protected void testDocumentCreation(String docType) throws Exception {
+        MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getNewDocument(docType);
+        assertNotNull(document.getDocumentNumber());
+        assertNotNull(document.getDocumentHeader());
+        assertNotNull(document.getDocumentHeader().getDocumentNumber());
+    }
+
+    /**
+     * 
+     * This method is to go to admin tab and return maintenance document creation page
+     * @param documentTitle
+     * @param maintenanceDocumentBoClassName
+     * @param maintenanceDocumentPageTitle
+     * @return
+     * @throws IOException
+     */
     protected final HtmlPage getMaintenanceDocumentPage(String documentTitle, String maintenanceDocumentBoClassName, String maintenanceDocumentPageTitle) throws IOException {
         HtmlPage adminPage = clickOn(getPortalPage(), "Administration", "Kuali Portal Index");
         // customAttributeHyperlink is not actually the lookup page - not sure why
