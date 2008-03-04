@@ -28,12 +28,13 @@ public class NarrativeTask extends ProposalTask {
     
     /**
      * Constructs a NarrativeTask.
+     * @param actionName the name of the action
      * @param taskName the name of the task
      * @param document the Proposal Development Document
      * @param narrativeIndex the index of the narrative in the proposal
      */
-    public NarrativeTask(String taskName, ProposalDevelopmentDocument document, int narrativeIndex) {
-        super(taskName, document);
+    public NarrativeTask(String actionName, String taskName, ProposalDevelopmentDocument document, int narrativeIndex) {
+        super(actionName, taskName, document);
         this.narrativeIndex = narrativeIndex;
     }
 
