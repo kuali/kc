@@ -50,7 +50,7 @@ public class CustomAttributeMaintenanceDocumentRule extends MaintenanceDocumentR
 
     /**
      * 
-     * This method to check wheteher 'lookupreturn' is specified if lookupclass is selected.
+     * This method to check whether 'lookupreturn' is specified if lookupclass is selected.
      * @param maintenanceDocument
      * @return
      */

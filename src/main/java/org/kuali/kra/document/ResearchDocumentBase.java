@@ -65,7 +65,6 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         setUpdateUser(updateUser);
         //setProposalNextvalues(documentNextvalues);
 
-        //TODO: is this the right place for this logic?
         CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
         customAttributeService.saveCustomAttributeValues(this);
     }
