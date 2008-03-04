@@ -63,8 +63,9 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
 
         // businessObject is empty, so we have to dig into global variables
         // this is used when retrieving doc from doc search
+        // GlobalVariables.getKualiForm() may have issue if it is from different thread
         if (businessObject instanceof CustomAttribute) {
-            if (GlobalVariables.getKualiForm() != null) {
+            if (GlobalVariables.getKualiForm() != null && GlobalVariables.getKualiForm() instanceof KualiMaintenanceForm) {
                 CustomAttribute customAttribute = (CustomAttribute)((MaintenanceDocumentBase)((KualiMaintenanceForm)GlobalVariables.getKualiForm()).getDocument()).getDocumentBusinessObject();
                 if (StringUtils.isNotBlank(customAttribute.getLookupClass())) {
                     if (StringUtils.isBlank((String)GlobalVariables.getUserSession().retrieveObject("lookupClassName")) && ((((List)GlobalVariables.getUserSession().retrieveObject("lookupReturnFields"))) == null || ((List)GlobalVariables.getUserSession().retrieveObject("lookupReturnFields")).size() == 0)) {
