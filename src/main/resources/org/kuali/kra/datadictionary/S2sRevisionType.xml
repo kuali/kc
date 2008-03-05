@@ -61,8 +61,8 @@
         <attributes>
 
 	        <attribute name="s2sRevisionTypeCode">
-			<label>S2s Revision Type Code </label>
-			<shortLabel>S2s Revision Type Code </shortLabel>
+			<label>Revision</label>
+			<shortLabel>Revision</shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
                 <control>                    
