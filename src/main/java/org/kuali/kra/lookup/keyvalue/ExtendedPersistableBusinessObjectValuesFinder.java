@@ -34,13 +34,13 @@ public class ExtendedPersistableBusinessObjectValuesFinder extends PersistableBu
     /**
      * Build the list of KeyLabelPairs using the key (keyAttributeName) and
      * label (labelAttributeName) of the list of all business objects found
-     * for the BO class specified along with a "select:" entry.
+     * for the BO class specified along with a "select" entry.
      */
     public List<KeyLabelPair> getKeyValues(){
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
        
         Object key = "";
-        String label = "select:";
+        String label = "select";
         
         labels = super.getKeyValues();
         labels.add(0, new KeyLabelPair(key,label));    
