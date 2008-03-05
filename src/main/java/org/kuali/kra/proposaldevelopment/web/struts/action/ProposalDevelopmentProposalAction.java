@@ -256,6 +256,10 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         
         proposalDevelopmentDocument.refreshReferenceObject("organization");             
         proposalDevelopmentDocument.refreshReferenceObject("performingOrganization");
+                
+        for(ProposalLocation proposalLocation: proposalDevelopmentDocument.getProposalLocations()){
+            proposalLocation.refreshReferenceObject("rolodex");
+        }
         
         // check to see if we are coming back from a lookup
         if (Constants.MULTIPLE_VALUE.equals(proposalDevelopmentForm.getRefreshCaller())) {
