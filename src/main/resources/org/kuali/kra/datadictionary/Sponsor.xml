@@ -238,8 +238,8 @@
             <shortLabel>Sponsor Type Code </shortLabel>
             <maxLength>3</maxLength>
             <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-            <control>
-                <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.SponsorTypeValuesFinder" />
+            <control>                
+                <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.SponsorType" keyAttribute="sponsorTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
             </control>
             <summary>Sponsor Type Code </summary>
             <description>Sponsor Type Code </description>

@@ -158,8 +158,8 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<required> true </required> 
-			<control>
-                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.PropPerDocTypeValuesFinder" />
+			<control>                    
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.PropPerDocType" keyAttribute="documentTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
 			</control>
 			<summary>Document Type Code </summary>
 			<description>This field contains a list of personnel attachment types </description>
