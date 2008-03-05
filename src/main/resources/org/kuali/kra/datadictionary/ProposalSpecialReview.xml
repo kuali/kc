@@ -169,8 +169,8 @@
 			<maxLength>3</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<required>true</required>
-			<control>
-                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.SpecialReviewValuesFinder" />
+			<control>                    
+                <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.SpecialReview" keyAttribute="specialReviewCode" labelAttribute="description" includeKeyInLabel="false"/>
 			</control>
 			<summary>Special Review Code </summary>
 			<description>The type indicates which special review, if any, is relevant to the document (proposal/award/irb).</description>
