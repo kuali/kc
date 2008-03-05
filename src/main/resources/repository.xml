@@ -1331,6 +1331,12 @@
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="budgetVersionNumber"/>
 		</collection-descriptor>
+		
+		<collection-descriptor name="budgetProjectIncomes" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetProjectIncome" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="budgetPeriodNumber" sort="ASC" /> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<inverse-foreignkey field-ref="budgetVersionNumber"/>
+		</collection-descriptor>
 
 		<collection-descriptor name="budgetLineItems" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetLineItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="budgetPeriod" sort="ASC" /> 
@@ -1584,7 +1590,7 @@
 		</reference-descriptor>
 		 
 	</class-descriptor>
-		<class-descriptor class="org.kuali.kra.budget.bo.BudgetLineItem" table="BUDGET_DETAILS">
+	<class-descriptor class="org.kuali.kra.budget.bo.BudgetLineItem" table="BUDGET_DETAILS">
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="lineItemNumber" column="LINE_ITEM_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
@@ -1660,6 +1666,24 @@
 			<foreignkey field-ref="budgetVersionNumber"/> 
 		</reference-descriptor>
 		 -->
+	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.budget.bo.BudgetProjectIncome" table="BUDGET_PROJECT_INCOMES">
+		<field-descriptor name="budgetPeriodNumber" column="BUDGET_PERIOD_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="budgetVersionNumber" column="BUDGET_VERSION_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		
+		<field-descriptor name="projectIncome" column="PROJECT_INCOME" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+		
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="budgetPeriod" class-ref="org.kuali.kra.budget.bo.BudgetPeriod" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="budgetPeriodNumber"/> 
+			<foreignkey field-ref="proposalNumber"/> 
+			<foreignkey field-ref="budgetVersionNumber"/> 
+		</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount" table="BUDGET_PERSONNEL_CAL_AMTS">
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" primarykey="true"/>
