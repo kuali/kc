@@ -15,21 +15,23 @@
  */
 package org.kuali.kra.budget.rules;
 
-import org.kuali.kra.budget.rule.AddBudgetPeriodRule;
-import org.kuali.kra.budget.rule.DeleteBudgetPeriodRule;
-import org.kuali.kra.budget.rule.GenerateBudgetPeriodRule;
-import org.kuali.kra.budget.rule.SaveBudgetPeriodRule;
-import org.kuali.kra.budget.rule.event.AddBudgetPeriodEvent;
-import org.kuali.kra.budget.rule.event.DeleteBudgetPeriodEvent;
-import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
-import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.rule.AddBudgetPeriodRule;
+import org.kuali.kra.budget.rule.AddBudgetProjectIncomeRule;
+import org.kuali.kra.budget.rule.DeleteBudgetPeriodRule;
+import org.kuali.kra.budget.rule.GenerateBudgetPeriodRule;
+import org.kuali.kra.budget.rule.SaveBudgetPeriodRule;
+import org.kuali.kra.budget.rule.event.AddBudgetPeriodEvent;
+import org.kuali.kra.budget.rule.event.AddBudgetProjectIncomeEvent;
+import org.kuali.kra.budget.rule.event.DeleteBudgetPeriodEvent;
+import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
+import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule{
+public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule{
 
     /**
      * @see org.kuali.kra.budget.rule.AddBudgetPeriodRule#processAddBudgetPeriodBusinessRules(org.kuali.kra.budget.document.BudgetDocument,org.kuali.kra.budget.bo.BudgetPeriod)
@@ -38,6 +40,13 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         return new BudgetPeriodRule().processAddBudgetPeriodBusinessRules(addBudgetPeriodEvent);    
     }
 
+    /**
+     * @see org.kuali.kra.budget.rule.AddBudgetProjectIncomeRule#processAddBudgetProjectIncomeBusinessRules(org.kuali.kra.budget.rule.event.AddBudgetProjectIncomeEvent)
+     */
+    public boolean processAddBudgetProjectIncomeBusinessRules(AddBudgetProjectIncomeEvent addBudgetIncomeEvent) {
+        return new BudgetProjectIncomeRuleImpl().processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent);
+    }
+    
     public boolean processSaveBudgetPeriodBusinessRules(SaveBudgetPeriodEvent saveBudgetPeriodEvent) {
         return new BudgetPeriodRule().processSaveBudgetPeriodBusinessRules(saveBudgetPeriodEvent);    
     }
@@ -73,5 +82,4 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         
         return true;
     }
-
 }
