@@ -330,6 +330,7 @@
 			<id>kuali</id>
 			<name>Kuali Repository</name>
 			<url>https://test.kuali.org/maven</url>
+			<snapshots><enabled>true</enabled></snapshots>
 		</repository>
 	</repositories>
 	<reporting>
