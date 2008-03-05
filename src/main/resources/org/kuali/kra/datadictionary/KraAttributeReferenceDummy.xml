@@ -85,8 +85,8 @@
 				<shortLabel>State </shortLabel>
 				<maxLength>30</maxLength>
 				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-				<control>
-					<select valuesFinderClass="org.kuali.kra.lookup.keyvalue.StateValuesFinder" />
+				<control>					
+					<select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.State" keyAttribute="stateCode" labelAttribute="description" includeKeyInLabel="false"/>
 				</control>
 				<summary>State </summary>
 				<description>State </description>
@@ -97,8 +97,8 @@
                 <shortLabel>Country Code </shortLabel>
                 <maxLength>3</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <control>
-                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryValuesFinder" />
+                <control>                    
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.Country" keyAttribute="countryCode" labelAttribute="countryName" includeKeyInLabel="false"/>                    
                 </control>
                 <summary>Country Code </summary>
                 <description>Country Code </description>

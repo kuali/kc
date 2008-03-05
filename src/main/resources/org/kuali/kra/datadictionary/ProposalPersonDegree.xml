@@ -112,8 +112,8 @@
                 <label>Degree Type</label>
                 <shortLabel>Degree Type</shortLabel>
                 <maxLength>6</maxLength>
-                <control>
-                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.DegreeTypeValuesFinder" />
+                <control>                    
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.DegreeType" keyAttribute="degreeCode" labelAttribute="description" includeKeyInLabel="false"/>
                 </control>
                 <summary>Degree Code</summary>
             	<description>Degree Code</description>

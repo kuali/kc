@@ -156,7 +156,7 @@
                 <required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ProposalTypeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalType" keyAttribute="proposalTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
                 </control>
 
                 <summary>The Types that the Proposal Could be.</summary>
@@ -217,8 +217,8 @@
 
                 <required>false</required>
 
-                <control>
-                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.DeadlineTypeValuesFinder" />
+                <control>                    
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.proposaldevelopment.bo.DeadlineType" keyAttribute="deadlineTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
                 </control>
 
                 <summary>The Deadline Type for this Proposal.</summary>
@@ -251,8 +251,8 @@
 
 				<required>false</required>
 
-				<control>
-                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.NsfCodeValuesFinder" />
+				<control>                    
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.NsfCode" keyAttribute="nsfCode" labelAttribute="description" includeKeyInLabel="false"/>
 				</control>
 
                 <summary>The NSF Science Code for this Proposal.</summary>
@@ -396,8 +396,8 @@
 
                 <required>false</required>
 
-                <control>
-                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.MailByValuesFinder" />
+                <control>                    
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailBy" keyAttribute="mailByCode" labelAttribute="description" includeKeyInLabel="false"/>
                 </control>
 
                 <summary>Mail By</summary>
@@ -413,8 +413,8 @@
 
                 <required>false</required>
 
-                <control>
-                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.MailTypeValuesFinder" />
+                <control>                    
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.proposaldevelopment.bo.MailType" keyAttribute="mailType" labelAttribute="description" includeKeyInLabel="false"/>
                 </control>
 
                 <summary>Mail Type</summary>
