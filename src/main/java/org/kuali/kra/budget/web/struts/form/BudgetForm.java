@@ -25,6 +25,7 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -37,6 +38,8 @@ public class BudgetForm extends ProposalFormBase {
     private String newBudgetRolodexes;
     
     private BudgetPeriod newBudgetPeriod;
+    private Integer newBudgetPeriodNumber = 0;
+    private BudgetProjectIncome newBudgetProjectIncome;
     
     private List<ExtraButton> extraTopButtons;
 
@@ -81,8 +84,10 @@ public class BudgetForm extends ProposalFormBase {
         returnToProposal.setExtraButtonSource(imagesUrl + "tinybutton-retprop.gif");
         returnToProposal.setExtraButtonAltText("return to proposal");
         extraTopButtons.add(returnToProposal);
+        
+        newBudgetProjectIncome = new BudgetProjectIncome();
     }
-
+    
     public BudgetDocument getBudgetDocument() {
         return (BudgetDocument) this.getDocument();
     }
@@ -90,7 +95,7 @@ public class BudgetForm extends ProposalFormBase {
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         // if there are more ...
-        for(Object displayedErrorsKey:getDisplayedErrors().keySet()) {
+        for(Object displayedErrorsKey: getDisplayedErrors().keySet()) {
             getDisplayedErrors().put(displayedErrorsKey, false);
         }
     }
@@ -174,8 +179,23 @@ public class BudgetForm extends ProposalFormBase {
         return newBudgetRolodexes;
     }
 
+    public BudgetProjectIncome getNewBudgetProjectIncome() {
+        return newBudgetProjectIncome;
+    }
+
+    public Integer getNewBudgetPeriodNumber() {
+        return newBudgetPeriodNumber;
+    }
+
+    public void setNewBudgetPeriodNumber(Integer newBudgetPeriodNo) {
+        this.newBudgetPeriodNumber = newBudgetPeriodNo;
+    }
+
+    public void setNewBudgetProjectIncome(BudgetProjectIncome newBudgetProjectIncome) {
+        this.newBudgetProjectIncome = newBudgetProjectIncome;
+    }
+
     public void setNewBudgetRolodexes(String newBudgetRolodexes) {
         this.newBudgetRolodexes = newBudgetRolodexes;
     }
-
 }

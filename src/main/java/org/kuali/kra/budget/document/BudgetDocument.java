@@ -19,9 +19,9 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -36,6 +36,7 @@ import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.RateClass;
@@ -74,6 +75,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<BudgetProposalRate> budgetProposalRates;
     private List<BudgetProposalLaRate> budgetProposalLaRates;
     private List<BudgetPeriod> budgetPeriods;
+    private List<BudgetProjectIncome> budgetProjectIncomes;
     
     private String activityTypeCode="1";
     private List<BudgetLineItem> budgetLineItems;
@@ -89,6 +91,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     
     public BudgetDocument(){
         super();
+        budgetProjectIncomes = new ArrayList<BudgetProjectIncome>();
         budgetProposalRates = new ArrayList<BudgetProposalRate>();
         budgetProposalLaRates = new ArrayList<BudgetProposalLaRate>();
         budgetPeriods = new ArrayList<BudgetPeriod>();
@@ -98,7 +101,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         rateClasses = new ArrayList<RateClass>();
         rateClassTypes = new ArrayList<RateClassType>();
         Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
-        budgetPersons = new ArrayList<BudgetPerson>();
+        budgetPersons = new ArrayList<BudgetPerson>();        
     }
 
     public void initialize() {
@@ -109,7 +112,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         super.toCopy();
         setBudgetVersionNumber(proposal.getNextBudgetVersionNumber());
     }
-
+    
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -122,6 +125,33 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return comments;
     }
 
+    public List<KualiDecimal> getProjectIncomePeriodTotals() {
+        Map<Integer, KualiDecimal> incomes = new TreeMap<Integer, KualiDecimal>();
+        for(BudgetProjectIncome budgetProjectIncome: budgetProjectIncomes) {
+            Integer budgetPeriodNumber = budgetProjectIncome.getBudgetPeriodNumber();
+            KualiDecimal amount = incomes.get(budgetPeriodNumber);
+            amount = (amount == null) ? budgetProjectIncome.getProjectIncome() : amount.add(budgetProjectIncome.getProjectIncome());
+            
+            incomes.put(budgetPeriodNumber, amount);
+        }
+                
+        List<KualiDecimal> periodIncomeTotals = new ArrayList<KualiDecimal>(incomes.size());
+        for(Integer periodNo: incomes.keySet()) {
+            KualiDecimal periodIncomeTotal = incomes.get(periodNo);
+            periodIncomeTotals.add(periodIncomeTotal);
+        }
+        
+        return periodIncomeTotals;
+    }
+    
+    public KualiDecimal getProjectIncomeTotal() {
+        KualiDecimal projectIncomeTotal = new KualiDecimal(0.0);
+        for(BudgetProjectIncome budgetProjectIncome: budgetProjectIncomes) {
+            projectIncomeTotal = projectIncomeTotal.add(budgetProjectIncome.getProjectIncome()); 
+        }
+        return projectIncomeTotal;
+    }
+    
     public void setComments(String comments) {
         this.comments = comments;
     }
@@ -285,6 +315,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getBudgetPeriods());
+//        managedLists.add(getBudgetProjectIncomes());
         return managedLists;
     }
 
@@ -417,6 +448,23 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.rateClassTypes = rateClassTypes;
     }
 
+    public List<BudgetProjectIncome> getBudgetProjectIncomes() {
+        return budgetProjectIncomes;
+    }
+
+    public void setBudgetProjectIncomes(List<BudgetProjectIncome> budgetProjectIncomes) {
+        this.budgetProjectIncomes = budgetProjectIncomes;
+    }
+
+    public void add(BudgetProjectIncome budgetProjectIncome) {
+        if(budgetProjectIncome != null) {
+            budgetProjectIncome.setProposalNumber(getProposalNumber());
+            budgetProjectIncome.setBudgetVersionNumber(getBudgetVersionNumber());
+            budgetProjectIncome.setBudgetDocument(this);
+            this.getBudgetProjectIncomes().add(budgetProjectIncome);
+        }
+    }
+
     public List<BudgetPerson> getBudgetPersons() {
         return budgetPersons;
     }
@@ -463,6 +511,15 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         if (proposalStatus != null) {
             getProposal().setBudgetStatus(proposalStatus.getBudgetStatusCode());
         }
+    }
+
+    public void add(BudgetPeriod budgetPeriod) {
+        budgetPeriod.setBudgetVersionNumber(getBudgetVersionNumber());
+        getBudgetPeriods().add(budgetPeriod);        
+    }
+
+    public void remove(BudgetProjectIncome budgetProjectIncome) {
+        getBudgetProjectIncomes().remove(budgetProjectIncome);
     }
 
 }

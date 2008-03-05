@@ -56,6 +56,8 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         // Allow finalized budgets to be edited
         if (workflowDocument.stateIsFinal()) {
             flags.setCanSave(hasInitiateAuthorization);
+            flags.setCanCancel(hasInitiateAuthorization);
+            flags.setCanCopy(false);
         }
         
         return flags;
