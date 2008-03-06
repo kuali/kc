@@ -23,17 +23,25 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.web.format.Formatter;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.Constants;
 
 public class BudgetRatesAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetRatesAction.class);
 
+
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        /* calculate all periods */
+        budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
+        return super.save(mapping, form, request, response);
+    }
+    
+    
     /**
      * Action called to reset budget rates for each panel.
      * 

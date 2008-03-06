@@ -84,29 +84,6 @@ public class KeyConstants {
     public static final String ERROR_REQUIRED_ANSWER = "error.required.answer";
     
 
-    // budget summary errors
-    public static final String ERROR_PERIOD_START_BEFORE_PROJECT_START = "error.periodStartDate.before.projectStartDate";
-    public static final String ERROR_PERIOD_START_AFTER_PROJECT_END = "error.periodStartDate.after.projectEndDate";
-    public static final String ERROR_PERIOD_END_AFTER_PROJECT_END = "error.periodEndDate.after.projectEndDate";
-    public static final String ERROR_PERIOD_START_BEFORE_PREVIOUS_START = "error.periodStartDate.before.previousEndDate";
-    
-    public static final String ERROR_NEW_PERIOD_VALID = "error.newPeriod.validDate";
-    public static final String ERROR_NEW_PERIOD_PROJECT_END = "error.newPeriod.projectEnd";
-    public static final String ERROR_NEW_PERIOD_END_DATE = "error.newPeriod.endDate";
-    public static final String ERROR_NEW_PERIOD_START_AFTER_PROJECT_END = "error.new.PeriodStartDate.after.projectEndDate";
-    
-    public static final String ERROR_PERIOD_START_REQUIRED = "error.periodStartDate.required";
-    public static final String ERROR_PERIOD_END_REQUIRED = "error.periodEndDate.required";
-    
-    public static final String ERROR_LINE_ITEM_EXISTS = "error.lineItem.exists";
-    public static final String ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST = "error.periodLineItem.doesNot.exist";
-    public static final String ERROR_GENERATE_PERIOD="error.generatePeriod";
-    public static final String ERROR_PERIOD_START_AFTER_PERIOD_END = "error.periodStart.after.periodEnd";
-    public static final String ERROR_PERIOD_END_BEFORE_PROJECT_START = "error.periodEnd.before.projectStart"; 
-    public static final String ERROR_PERIOD_END_BEFORE_PREVIOUS_END = "error.periodEnd.before.previousEnd";
-    
-    public static final String ERROR_LINE_ITEM_DATE_DOESNOTMATCH = "error.lineItem.dateDoesNotmatch";
-
     
     // Budget Versions errors
     public static final String ERROR_NO_FINAL_BUDGET = "error.final.budget.required";
