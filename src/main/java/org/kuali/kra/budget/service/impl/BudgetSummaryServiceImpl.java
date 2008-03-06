@@ -29,11 +29,13 @@ import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
 
 public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     private BusinessObjectService businessObjectService;
+    private BudgetCalculationService budgetCalculationService;
     
     /**
      * @see org.kuali.kra.proposaldevelopment.service.BudgetSummaryService#updateBudgetPeriods()
@@ -102,8 +104,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
      */
     public void generateAllPeriods(BudgetDocument budgetDocument) {
         
-        /* calculate before generating budget periods */
-        
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         List<BudgetLineItem> budgetLineItems = budgetDocument.getBudgetLineItems();
         List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList();
@@ -152,7 +152,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         Calendar cl = Calendar.getInstance();
         
         Date periodStartDate = projectStartDate;
-        //Date projectEndDate = projectEndDate;
         int budgetPeriodNum = 1;
         while(budgetPeriodExists) {
             cl.setTime(periodStartDate);
@@ -316,6 +315,11 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         budgetPersonnelDetails.addAll(newBudgetPersonnelDetails);
     }
 
+    /* call budget calculation service to calculate budget */
+    public void calculateBudget(BudgetDocument budgetDocument) {
+        getBudgetCalculationService().calculateBudget(budgetDocument);
+    }
+
     public void deleteBudgetPeriod(BudgetDocument budgetDocument, int delPeriod) {
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         List<BudgetLineItem> budgetLineItems = budgetDocument.getBudgetLineItems();
@@ -356,6 +360,14 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public final BudgetCalculationService getBudgetCalculationService() {
+        return budgetCalculationService;
+    }
+
+    public final void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
+        this.budgetCalculationService = budgetCalculationService;
     }
 
 

@@ -42,4 +42,5 @@ public interface BudgetSummaryService {
     public void updateBudgetPeriods(BudgetDocument budgetDocument);
     public Collection<BudgetLineItem> getBudgetLineItemForPeriod(BudgetDocument budgetDocument, int budgetPeriodNumber);
     public Collection<BudgetPersonnelDetails> getBudgetPersonnelDetailsForPeriod(BudgetDocument budgetDocument, int budgetPeriodNumber);
+    public void calculateBudget(BudgetDocument budgetDocument);
 }
