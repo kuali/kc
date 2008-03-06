@@ -143,4 +143,5 @@ public interface Constants {
     public static final String ORIGINAL_PROPOSAL_ID_KEY = "document.sponsorProposalNumber";
     public static final String CFDA_NUMBER = "cfdaNumber";
     public static final String OPPORTUNITY_ID= "opportunityId";
+    public static final String NO_FIELD= "noField";
 }
