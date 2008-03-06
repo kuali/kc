@@ -49,7 +49,7 @@ public class OjbOnOffCampusFlagFieldConversion implements FieldConversion {
 
     /**
      * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#sqlToJava(java.lang.Object)
-     * 'N' means 'ON', returns true, 'F' means 'OF' returns false
+     * 'N' means 'ON', returns true, 'F' means 'OFF' returns false
      */
     public Object sqlToJava(Object source) throws ConversionException {
         try {

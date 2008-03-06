@@ -29,24 +29,24 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	private String proposalNumber;
 	private Integer budgetVersionNumber;
 	private Boolean applyInRateFlag;
-	private Integer basedOnLineItem;
-	private String budgetCategoryCode;
 	private String budgetJustification;
 	private String costElement;
 	private BudgetDecimal costSharingAmount;
 	private Date endDate;
 	private BudgetDecimal lineItemCost;
 	private String lineItemDescription;
-	private Integer lineItemSequence;
 	private Boolean onOffCampusFlag;
-	private Integer quantity;
 	private Date startDate;
 	private BudgetDecimal underrecoveryAmount;
 	private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
-	private BudgetCategory budgetCategory;
 	
+    private String budgetCategoryCode;
+    private Integer basedOnLineItem;
+    private Integer quantity;
 	private BudgetDecimal directCost;
 	private BudgetDecimal indirectCost;
+    private BudgetCategory budgetCategory;
+    private Integer lineItemSequence;
 	
 	private CostElement costElementBO;
 	
@@ -261,11 +261,11 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
         return hashMap;
 	}
 
-    public List<BudgetLineItemCalculatedAmount> getBudgetLineItemCalculatedAmounts() {
+    public List getBudgetLineItemCalculatedAmounts() {
         return budgetLineItemCalculatedAmounts;
     }
 
-    public void setBudgetLineItemCalculatedAmounts(List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts) {
+    public void setBudgetLineItemCalculatedAmounts(List budgetLineItemCalculatedAmounts) {
         this.budgetLineItemCalculatedAmounts = budgetLineItemCalculatedAmounts;
     }
 
