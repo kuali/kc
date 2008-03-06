@@ -19,9 +19,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -37,6 +35,7 @@ import org.kuali.kra.budget.rule.event.DeleteBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
 import org.kuali.kra.budget.service.BudgetSummaryService;
+import org.kuali.kra.infrastructure.BudgetSummaryErrorConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -105,11 +104,13 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         }else if(!getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber)) {
             errorMap.addToErrorPath("noPanel");
             rulePassed = false;
-            errorMap.putError("noFocus", KeyConstants.ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST);
+            saveErrors("ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST", errorMap);
+            //errorMap.putError("noFocus", KeyConstants.ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST);
         }else if(getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber+1)) {
             errorMap.addToErrorPath("noPanel");
             rulePassed = false;
-            errorMap.putError("noFocus", KeyConstants.ERROR_GENERATE_PERIOD);
+            saveErrors("ERROR_GENERATE_PERIOD", errorMap);
+            //errorMap.putError("noFocus", KeyConstants.ERROR_GENERATE_PERIOD);
         }
         errorMap.removeFromErrorPath("noPanel");
         return rulePassed;
@@ -125,7 +126,8 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         if(getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber)) {
             errorMap.addToErrorPath("document.budgetPeriods[" + budgetPeriodNumber + "]");
             rulePassed = false;
-            errorMap.putError("startDate", KeyConstants.ERROR_LINE_ITEM_EXISTS);
+            saveErrors("ERROR_LINE_ITEM_EXISTS", errorMap);
+            //errorMap.putError("startDate", KeyConstants.ERROR_LINE_ITEM_EXISTS);
             errorMap.removeFromErrorPath("document.budgetPeriods[" + budgetPeriodNumber + "]");
         }
         return rulePassed;
@@ -165,20 +167,17 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             Integer budgetPeriodNumber = budgetPeriod.getBudgetPeriod();
             int index = budgetPeriodNumber - 1;
             errorMap.addToErrorPath("document.budgetPeriods[" + index + "]");
-            periodLineItems = getBudgetSummaryService().getBudgetLineItemForPeriod(budgetDocument, budgetPeriodNumber); 
-            periodPersonnelDetails = getBudgetSummaryService().getBudgetPersonnelDetailsForPeriod(budgetDocument, budgetPeriodNumber); 
+            periodLineItems = budgetDocument.getBudgetLineItems(); //getBudgetSummaryService().getBudgetLineItemForPeriod(budgetDocument, budgetPeriodNumber); 
+            periodPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList(); //getBudgetSummaryService().getBudgetPersonnelDetailsForPeriod(budgetDocument, budgetPeriodNumber); 
             /* check line items */
             for(BudgetLineItem periodLineItem: periodLineItems) {
                 if(budgetPeriod.getBudgetPeriod() == periodLineItem.getBudgetPeriod()) {
-                    validBoundaries = isDateBefore(periodLineItem.getStartDate(), budgetPeriod.getStartDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                    if(validBoundaries) {
-                        validBoundaries = isDateAfter(periodLineItem.getStartDate(), budgetPeriod.getEndDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                    }
-                    if(validBoundaries) {
-                        validBoundaries = isDateAfter(periodLineItem.getEndDate(), budgetPeriod.getEndDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                    }
-                    if(validBoundaries) {
-                        validBoundaries = isDateBefore(periodLineItem.getEndDate(), budgetPeriod.getStartDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
+                    if((periodLineItem.getStartDate().before(budgetPeriod.getStartDate())) || 
+                    (periodLineItem.getStartDate().after(budgetPeriod.getEndDate())) || 
+                    (periodLineItem.getEndDate().after(budgetPeriod.getEndDate())) ||
+                    (periodLineItem.getEndDate().before(budgetPeriod.getStartDate()))){
+                        saveErrors("ERROR_LINE_ITEM_DATE_DOESNOTMATCH", errorMap);
+                        validBoundaries = false;
                     }
                     break;
                 }
@@ -187,27 +186,120 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             if(validBoundaries) {
                 for(BudgetPersonnelDetails periodPersonnelDetail: periodPersonnelDetails) {
                     if(budgetPeriod.getBudgetPeriod() == periodPersonnelDetail.getBudgetPeriod()) {
-                        validBoundaries = isDateBefore(periodPersonnelDetail.getStartDate(), budgetPeriod.getStartDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                        if(validBoundaries) {
-                            validBoundaries = isDateAfter(periodPersonnelDetail.getStartDate(), budgetPeriod.getEndDate(), "startDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                        }
-                        if(validBoundaries) {
-                            validBoundaries = isDateAfter(periodPersonnelDetail.getEndDate(), budgetPeriod.getEndDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                        }
-                        if(validBoundaries) {
-                            validBoundaries = isDateBefore(periodPersonnelDetail.getEndDate(), budgetPeriod.getStartDate(), "endDate", KeyConstants.ERROR_LINE_ITEM_DATE_DOESNOTMATCH, errorMap, dateParams, validBoundaries);
-                        }
+                        if((periodPersonnelDetail.getStartDate().before(budgetPeriod.getStartDate())) || 
+                                (periodPersonnelDetail.getStartDate().after(budgetPeriod.getEndDate())) || 
+                                (periodPersonnelDetail.getEndDate().after(budgetPeriod.getEndDate())) ||
+                                (periodPersonnelDetail.getEndDate().before(budgetPeriod.getStartDate()))){
+                                    saveErrors("ERROR_LINE_ITEM_DATE_DOESNOTMATCH", errorMap);
+                                    validBoundaries = false;
+                                }
                         break;
                     }
                 }
             }
             errorMap.removeFromErrorPath("document.budgetPeriods[" + index + "]");
-            /* check cal amounts */
         }
         return validBoundaries;
         
     }
 
+    /* check new budget period */
+    private boolean isValidNewBudgetPeriod(BudgetDocument budgetDocument, BudgetPeriod newBudgetPeriod) {
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        boolean validNewBudgetPeriod = true;
+        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+        Date previousPeriodStartDate = null;
+        Date previousPeriodEndDate = null;
+        Date periodStartDate = null;
+        Date periodEndDate = null;
+        Date newPeriodStartDate = null;
+        Date newPeriodEndDate = null;
+        int index = 0;
+
+        /* check new budget period */
+        newPeriodStartDate = newBudgetPeriod.getStartDate();
+        newPeriodEndDate = newBudgetPeriod.getEndDate();
+        errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
+        if(newPeriodStartDate == null) {
+            saveErrors("ERROR_PERIOD_START_REQUIRED", errorMap);
+            validNewBudgetPeriod = false;
+        }
+        if(newPeriodEndDate == null) {
+            saveErrors("ERROR_PERIOD_END_REQUIRED", errorMap);
+            validNewBudgetPeriod = false;
+        }
+        errorMap.removeFromErrorPath(NEW_BUDGET_PERIOD);
+
+        /* if dates are valid, check further where we can insert this new date */
+        if(validNewBudgetPeriod) {
+            int totalBudgetPeriods = budgetPeriods.size() - 1;
+            errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
+            for(BudgetPeriod budgetPeriod: budgetPeriods) {
+                Date validDateBefore;
+                periodStartDate = budgetPeriod.getStartDate();
+                periodEndDate = budgetPeriod.getEndDate();
+                String dateCompareValue = null; 
+                /* check first record */
+                if(previousPeriodStartDate == null) {
+                    validDateBefore = projectStartDate;
+                }else {
+                    validDateBefore = previousPeriodEndDate;
+                }
+                /* check if entered new period already exists in budget periods list */
+                int periodNum = index;
+                String[] newPeriodDateParams = {periodNum+"", periodNum+1+""};
+                String invalidErrorMessage = null;
+                setErrorParameter(newPeriodDateParams);
+                if(index == 0 || index == totalBudgetPeriods) {
+                    invalidErrorMessage = "ERROR_NEW_PERIOD_INVALID";
+                }else {
+                    invalidErrorMessage = "ERROR_NEW_PERIOD_VALID";
+                }
+                if((newPeriodStartDate.compareTo(periodStartDate) == 0) || (newPeriodEndDate.compareTo(periodEndDate) == 0)) {
+                    saveErrors(invalidErrorMessage, errorMap);
+                    validNewBudgetPeriod = false;
+                    break;
+                }else if(newPeriodStartDate.before(periodStartDate) || (index == totalBudgetPeriods && newPeriodStartDate.after(periodEndDate))) {     
+                    /* check if new period start date is before current period start date */
+                    boolean lastRecord = false;
+                    if(index == totalBudgetPeriods) {
+                        lastRecord = true;
+                        periodNum = index + 1;
+                    }
+                    /* check new budget period */
+                    if(newPeriodStartDate.before(getProjectStartDate())) {
+                        dateCompareValue = "ERROR_PERIOD_START_BEFORE_PROJECT_START"; 
+                    }else if (newPeriodStartDate.after(getProjectEndDate())) {
+                        dateCompareValue = "ERROR_NEW_PERIOD_START_AFTER_PROJECT_END"; 
+                    }else if (newPeriodEndDate.after(getProjectEndDate())) {
+                        dateCompareValue = "ERROR_NEW_PERIOD_END_DATE"; 
+                    }else if(newPeriodStartDate.before(validDateBefore)) {
+                        dateCompareValue = invalidErrorMessage; 
+                    }else if ((index < totalBudgetPeriods) && newPeriodEndDate.after(periodStartDate)) {
+                        if(!lastRecord) {
+                            dateCompareValue = invalidErrorMessage; 
+                        }else {
+                            dateCompareValue = "ERROR_NEW_PERIOD_PROJECT_END"; 
+                        }
+                    }
+                    if(dateCompareValue != null) {
+                        saveErrors(dateCompareValue, errorMap);
+                        validNewBudgetPeriod = false;
+                    }else {
+                        newBudgetPeriod.setBudgetPeriod(periodNum+1);
+                    }
+                    break;
+                }
+                previousPeriodStartDate = budgetPeriod.getStartDate();
+                previousPeriodEndDate = budgetPeriod.getEndDate();
+                index++;
+            }
+            errorMap.removeFromErrorPath(NEW_BUDGET_PERIOD);
+        }
+        return validNewBudgetPeriod;
+    }
+
+    /* check existing budget periods */
     private boolean isValidBudgetPeriod(BudgetDocument budgetDocument, BudgetPeriod newBudgetPeriod) {
         setProjectStartDate(budgetDocument.getStartDate());
         setProjectEndDate(budgetDocument.getEndDate());
@@ -220,26 +312,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         int index = 0;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
 
-        Date newPeriodStartDate = null;
-        Date newPeriodEndDate = null;
         boolean insertBudgetPeriod = false;
-        
-        /* check new budget period */
-        if (newBudgetPeriod != null) {
-            newPeriodStartDate = newBudgetPeriod.getStartDate();
-            newPeriodEndDate = newBudgetPeriod.getEndDate();
-            errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
-            if(newPeriodStartDate == null) {
-                errorMap.putError("startDate", KeyConstants.ERROR_PERIOD_START_REQUIRED);
-                validBudgetPeriod = false;
-            }
-            if(newPeriodEndDate == null) {
-                errorMap.putError("endDate", KeyConstants.ERROR_PERIOD_END_REQUIRED);
-                validBudgetPeriod = false;
-            }
-            insertBudgetPeriod = validBudgetPeriod;
-            errorMap.removeFromErrorPath(NEW_BUDGET_PERIOD);
-        }
         
         int totalBudgetPeriods = budgetPeriods.size() - 1;
         /* verify existing budget periods */
@@ -251,13 +324,15 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             boolean isDateNull = false;
             String[] dateParams = {index+1+""};
             setErrorParameter(dateParams);
+            /* check for changes - start date is null */
             if(periodStartDate == null) {
-                errorMap.putError("startDate", KeyConstants.ERROR_PERIOD_START_REQUIRED);
+                saveErrors("ERROR_PERIOD_START_REQUIRED", errorMap);
                 validBudgetPeriod = false;
                 isDateNull = true;
             }
+            /* check for changes - end date is null */
             if(periodEndDate == null) {
-                errorMap.putError("endDate", KeyConstants.ERROR_PERIOD_END_REQUIRED);
+                saveErrors("ERROR_PERIOD_END_REQUIRED", errorMap);
                 validBudgetPeriod = false;
                 isDateNull = true;
             }
@@ -269,156 +344,52 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
                 }else {
                     validDateBefore = previousPeriodEndDate;
                 }
-                int dateCompareValue = compareDate(periodStartDate, periodEndDate, previousPeriodEndDate);
-                if(dateCompareValue > 0) {
+                String dateCompareValue = compareDate(periodStartDate, periodEndDate, previousPeriodEndDate);
+                if(dateCompareValue != null) {
                     saveErrors(dateCompareValue, errorMap);
                     validBudgetPeriod = false;
                 }
                 errorMap.removeFromErrorPath("document.budgetPeriods[" + index + "]");
-                if(insertBudgetPeriod) {
-                    dateCompareValue = 0;
-                    errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
-                    /* check if new period start date is before current period start date */
-                    if(newPeriodStartDate.before(periodStartDate) || (index == totalBudgetPeriods && newPeriodStartDate.after(periodEndDate))) {
-                        boolean lastRecord = false;
-                        int periodNum = index;
-                        if(index == totalBudgetPeriods) {
-                            lastRecord = true;
-                            periodNum = index + 1;
-                        }
-                        String[] newPeriodDateParams = {periodNum+"", periodNum+1+""};
-                        setErrorParameter(newPeriodDateParams);
-                        /* check new budget period */
-                        if(newPeriodStartDate.before(getProjectStartDate())) {
-                            dateCompareValue = 18;
-                        }else if (newPeriodStartDate.after(getProjectEndDate())) {
-                            dateCompareValue = 40;
-                        }else if (newPeriodEndDate.after(getProjectEndDate())) {
-                            dateCompareValue = 41;
-                        }else if(newPeriodStartDate.before(validDateBefore)) {
-                            dateCompareValue = 28;
-                        }else if ((index < totalBudgetPeriods) && newPeriodEndDate.after(periodStartDate)) {
-                            if(!lastRecord) {
-                                dateCompareValue = 29;
-                            }else {
-                                dateCompareValue = 30;
-                            }
-                        }
-                        if(dateCompareValue > 0) {
-                            saveErrors(dateCompareValue, errorMap);
-                            validBudgetPeriod = false;
-                        }
-                        insertBudgetPeriod = false;
-                        newBudgetPeriod.setBudgetPeriod(periodNum+1);
-                    }
-                    errorMap.removeFromErrorPath(NEW_BUDGET_PERIOD);
-                }
             }
             previousPeriodStartDate = budgetPeriod.getStartDate();
             previousPeriodEndDate = budgetPeriod.getEndDate();
             index++;
         }
+        /* if validation passed, then validate new budget period if it exists */
+        if(validBudgetPeriod && (newBudgetPeriod != null)) {
+            validBudgetPeriod = isValidNewBudgetPeriod(budgetDocument, newBudgetPeriod);
+        }
+
         return validBudgetPeriod;
     }
     
-    private void saveErrors(int dateCompareValue, ErrorMap errorMap) {
-        String errorKey = null;
-        String errorProperty = null;
-        switch(dateCompareValue) {
-            case 1: // period start date after project end date
-                errorProperty = "startDate";
-                errorKey = KeyConstants.ERROR_PERIOD_START_BEFORE_PROJECT_START;
-                break;
-            case 2: // period start date after period end date
-                errorProperty = "startDate";
-                errorKey = KeyConstants.ERROR_PERIOD_START_AFTER_PERIOD_END;
-                break;
-            case 3: // period start date before project start date
-                errorProperty = "startDate";
-                errorKey = KeyConstants.ERROR_PERIOD_START_AFTER_PROJECT_END;
-                break;
-            case 4: // period end date before project start date 
-                errorProperty = "endDate";
-                errorKey = KeyConstants.ERROR_PERIOD_END_BEFORE_PROJECT_START;
-                break;
-            case 5: // period end date after project end date
-                errorProperty = "endDate";
-                errorKey = KeyConstants.ERROR_PERIOD_END_AFTER_PROJECT_END;
-                break;
-            case 6: // period start date before previous period end date
-                errorProperty = "startDate";
-                errorKey = KeyConstants.ERROR_PERIOD_START_BEFORE_PREVIOUS_START;
-                break;
-            case 7: // period end date before previous period end date
-                errorProperty = "endDate";
-                errorKey = KeyConstants.ERROR_PERIOD_END_BEFORE_PREVIOUS_END;
-                break;
-            case 18: // new budget period start date less than project start date
-                errorProperty = "startDate";
-                errorKey = KeyConstants.ERROR_PERIOD_START_BEFORE_PROJECT_START;
-                break;
-            case 28: // new budget period start date is before previous period end date
-                errorProperty = "startDate";
-                errorKey = KeyConstants.ERROR_NEW_PERIOD_VALID;
-                break;
-            case 29: // new budget period end date is after next period start date
-                errorProperty = "endDate";
-                errorKey = KeyConstants.ERROR_NEW_PERIOD_VALID;;
-                break;
-            case 30: // new budget period end date is after next period start date
-                errorProperty = "endDate";
-                errorKey = KeyConstants.ERROR_NEW_PERIOD_PROJECT_END;;
-                break;
-            case 40: // new budget period start date is after project/proposal end date
-                errorProperty = "startDate";
-                errorKey = KeyConstants.ERROR_NEW_PERIOD_START_AFTER_PROJECT_END;
-                break;
-            case 41: // new budget period end date is after project/proposal end date
-                errorProperty = "endDate";
-                errorKey = KeyConstants.ERROR_NEW_PERIOD_END_DATE;
-                break;
-        }
+    private void saveErrors(String errorValue, ErrorMap errorMap) {
+        BudgetSummaryErrorConstants budgetSummaryErrorConstants =  BudgetSummaryErrorConstants.valueOf(errorValue);
+        String errorKey = budgetSummaryErrorConstants.errorKey();
+        String errorProperty = budgetSummaryErrorConstants.errorProperty();
         errorMap.putError(errorProperty, errorKey, getErrorParameter());
     }
     
-    private int compareDate(Date periodStartDate, Date periodEndDate, Date previousPeriodEndDate){
-        int returnValue = 0;
+    private String compareDate(Date periodStartDate, Date periodEndDate, Date previousPeriodEndDate){
+        String returnErrorValue = null;
         if(periodStartDate.after(getProjectEndDate())) {
-            returnValue = 1;
+            returnErrorValue = "ERROR_PERIOD_START_BEFORE_PROJECT_START"; 
         }else if(periodStartDate.after(periodEndDate)) {
-            returnValue = 2;
+            returnErrorValue = "ERROR_PERIOD_START_AFTER_PERIOD_END"; 
         }else if(periodStartDate.before(getProjectStartDate())) {
-            returnValue = 3;
+            returnErrorValue = "ERROR_PERIOD_START_AFTER_PROJECT_END";
         }else if(periodEndDate.before(getProjectStartDate())) {
-            returnValue = 4;
+            returnErrorValue = "ERROR_PERIOD_END_BEFORE_PROJECT_START"; 
         }else if(periodEndDate.after(getProjectEndDate())) {
-            returnValue = 5;
+            returnErrorValue = "ERROR_PERIOD_END_AFTER_PROJECT_END"; 
         }else if(previousPeriodEndDate != null && periodStartDate.before(previousPeriodEndDate)) {
-            returnValue = 6;
+            returnErrorValue = "ERROR_PERIOD_START_BEFORE_PREVIOUS_START"; 
         }else if(previousPeriodEndDate != null && periodEndDate.before(previousPeriodEndDate)) {
-            returnValue = 7;
+            returnErrorValue = "ERROR_PERIOD_END_BEFORE_PREVIOUS_END"; 
         }
-        return returnValue;
+        return returnErrorValue;
     }
 
-    private boolean isDateAfter(Date startDate, Date endDate, String errorProperty, String errorKey, ErrorMap errorMap, String[] dateParams, boolean budgetPeriodsValid) {
-        boolean isValid = budgetPeriodsValid;
-        if(startDate.after(endDate)) {
-            errorMap.putError(errorProperty, errorKey, dateParams);
-            isValid = false;
-        }
-        return isValid;
-    }
-    
-    private boolean isDateBefore(Date startDate, Date endDate,  String errorProperty, String errorKey, ErrorMap errorMap,  String[] dateParams, boolean budgetPeriodsValid) {
-        boolean isValid = budgetPeriodsValid;
-        if(startDate.before(endDate)) {
-            errorMap.putError(errorProperty, errorKey, dateParams);
-            isValid = false;
-        }
-        return isValid;
-    }
-    
     private BudgetSummaryService getBudgetSummaryService() {
         return getService(BudgetSummaryService.class);
     }
