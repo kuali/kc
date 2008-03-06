@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.budget.service;
 
+import java.util.List;
+
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
+import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -58,12 +61,12 @@ public interface BudgetCalculationService {
      * @param budgetLineItem
      * @throws BudgetException
      */
-    public void calculateCalculatedAmount(BudgetLineItem budgetLineItem);
+    public void populateCalculatedAmount(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem);
     /**
      * 
      * This method...
      * @param budgetPersnnelLineItem
      * @throws BudgetException
      */
-    public void calculateSalary(BudgetPersonnelDetails budgetPersnnelLineItem) ;
+    public void calculateSalary(BudgetDocument budgetDocument,BudgetPersonnelDetails budgetPersnnelLineItem) ;
 }

@@ -35,7 +35,7 @@ public class BreakUpInterval{
     private BudgetDecimal underRecovery; 
     private QueryList<BudgetProposalRate> breakupIntervalRates; 
     private QueryList<BudgetProposalLaRate> breakUpIntervalLaRates; 
-    private QueryList<RateAndCost> amountList;  
+    private QueryList<RateAndCost> breakupCalculatedAmounts;  
     private FormulaMaker formulaMaker; 
     private BudgetDecimal applicableAmt; 
     private BudgetDecimal applicableAmtCostSharing; 
@@ -124,7 +124,7 @@ public class BreakUpInterval{
                
                //get all the matching RateClassTypes from cvAmountDetails
                eqRCType = new Equals("rateClassType", rateClassType);
-               QueryList<RateAndCost> rateAndCostList = amountList.filter(eqRCType);
+               QueryList<RateAndCost> rateAndCostList = breakupCalculatedAmounts.filter(eqRCType);
                
                /**
                 *if RateClassType = 'E'(Employee Benefits) then remove all EBonLA
@@ -303,7 +303,7 @@ public class BreakUpInterval{
             equalsRC = new Equals("rateClassCode", EBonLARateClassCode);
             equalsRT = new Equals("rateTypeCode", EBonLARateTypeCode);
             RCandRT = new And(equalsRC, equalsRT);
-            cvEBonLAAmtDetails = amountList.filter(RCandRT);
+            cvEBonLAAmtDetails = breakupCalculatedAmounts.filter(RCandRT);
             if (cvEBonLAAmtDetails.size() > 0) {
                 amountBean = (RateAndCost) cvEBonLAAmtDetails.get(0);
                 rateClassCode = amountBean.getRateClassCode();
@@ -337,7 +337,7 @@ public class BreakUpInterval{
             equalsRC = new Equals("rateClassCode", VAonLARateClassCode);
             equalsRT = new Equals("rateTypeCode", VAonLARateTypeCode);
             RCandRT = new And(equalsRC, equalsRT);
-            cvVAonLAAmtDetails = amountList.filter(RCandRT);
+            cvVAonLAAmtDetails = breakupCalculatedAmounts.filter(RCandRT);
             if (cvVAonLAAmtDetails.size() > 0) {
                 amountBean = (RateAndCost) cvVAonLAAmtDetails.get(0);
                 rateClassCode = amountBean.getRateClassCode();
@@ -411,8 +411,8 @@ public class BreakUpInterval{
         neRCandneRTOrneRT = new Or(neRCAndneRT, notEqualsRT);
         eqRCTypeAndneRCAndneRTOrneRT = new And(equalsRCType, neRCandneRTOrneRT);
         //sum up all the EB amts
-        EBCalculatedCost = new BudgetDecimal(amountList.sum("calculatedCost", eqRCTypeAndneRCAndneRTOrneRT));
-        EBCalculatedCostSharing = new BudgetDecimal(amountList.sum("calculatedCostSharing", eqRCTypeAndneRCAndneRTOrneRT));
+        EBCalculatedCost = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCost", eqRCTypeAndneRCAndneRTOrneRT),false);
+        EBCalculatedCostSharing = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCostSharing", eqRCTypeAndneRCAndneRTOrneRT),false);
         //get all the VA amts. Take care to exclude VA on LA
         equalsRCType = new Equals("rateClassType", RateClassType.VACATION.getRateClassType());
         notEqualsRC = new NotEquals("rateClassCode", VAonLARateClassCode);
@@ -421,8 +421,8 @@ public class BreakUpInterval{
         neRCandneRTOrneRT = new Or(neRCAndneRT, notEqualsRT);
         eqRCTypeAndneRCAndneRTOrneRT = new And(equalsRCType, neRCandneRTOrneRT);
         //sum up all the VA amts
-         VACalculatedCost = new BudgetDecimal(amountList.sum("calculatedCost", eqRCTypeAndneRCAndneRTOrneRT));
-        VACalculatedCostSharing = new BudgetDecimal(amountList.sum("calculatedCostSharing", eqRCTypeAndneRCAndneRTOrneRT));
+         VACalculatedCost = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCost", eqRCTypeAndneRCAndneRTOrneRT),false);
+        VACalculatedCostSharing = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCostSharing", eqRCTypeAndneRCAndneRTOrneRT),false);
         
         //Now calculate OH & Under-recovery amounts
         int amtDetailsSize = cvOHAmtDetails.size();
@@ -541,14 +541,14 @@ public class BreakUpInterval{
      * @return Value of property cvAmountDetails.
      */
     public QueryList<RateAndCost> getRateAndCosts() {
-        return amountList;
+        return breakupCalculatedAmounts;
     }
     
     /** Setter for property cvAmountDetails.
-     * @param amountList New value of property cvAmountDetails.
+     * @param breakupCalculatedAmounts New value of property cvAmountDetails.
      */
     public void setRateAndCosts(QueryList<RateAndCost> cvAmountDetails) {
-        this.amountList = cvAmountDetails;
+        this.breakupCalculatedAmounts = cvAmountDetails;
     }
     
     /** Getter for property applicableAmt.

@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetPeriod extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -7318331486891820078L;
@@ -31,14 +31,14 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	private String proposalNumber;
 	private Integer budgetVersionNumber;
 	private String comments;
-	private KualiDecimal costSharingAmount;
+	private BudgetDecimal costSharingAmount;
 	private Date endDate;
 	private Date startDate;
-	private KualiDecimal totalCost;
-	private KualiDecimal totalCostLimit;
-	private KualiDecimal totalDirectCost;
-	private KualiDecimal totalIndirectCost;
-	private KualiDecimal underrecoveryAmount;
+	private BudgetDecimal totalCost;
+	private BudgetDecimal totalCostLimit;
+	private BudgetDecimal totalDirectCost;
+	private BudgetDecimal totalIndirectCost;
+	private BudgetDecimal underrecoveryAmount;
 	private List<BudgetLineItem> budgetLineItems;
 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -89,11 +89,11 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 		this.comments = comments;
 	}
 
-	public KualiDecimal getCostSharingAmount() {
-		return costSharingAmount == null ?  new KualiDecimal(0) : costSharingAmount;
+	public BudgetDecimal getCostSharingAmount() {
+		return costSharingAmount == null ?  new BudgetDecimal(0) : costSharingAmount;
 	}
 
-	public void setCostSharingAmount(KualiDecimal costSharingAmount) {
+	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
 		this.costSharingAmount = costSharingAmount;
 	}
 
@@ -113,43 +113,43 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 		this.startDate = startDate;
 	}
 
-	public KualiDecimal getTotalCost() {
-		return totalCost == null ?  new KualiDecimal(0) : totalCost;
+	public BudgetDecimal getTotalCost() {
+		return totalCost == null ?  new BudgetDecimal(0) : totalCost;
 	}
 
-	public void setTotalCost(KualiDecimal totalCost) {
+	public void setTotalCost(BudgetDecimal totalCost) {
 		this.totalCost = totalCost;
 	}
 
-	public KualiDecimal getTotalCostLimit() {
-		return totalCostLimit == null ?  new KualiDecimal(0) : totalCostLimit;
+	public BudgetDecimal getTotalCostLimit() {
+		return totalCostLimit == null ?  new BudgetDecimal(0) : totalCostLimit;
 	}
 
-	public void setTotalCostLimit(KualiDecimal totalCostLimit) {
+	public void setTotalCostLimit(BudgetDecimal totalCostLimit) {
 		this.totalCostLimit = totalCostLimit;
 	}
 
-	public KualiDecimal getTotalDirectCost() {
-		return totalDirectCost == null ?  new KualiDecimal(0) : totalDirectCost;
+	public BudgetDecimal getTotalDirectCost() {
+		return totalDirectCost == null ?  new BudgetDecimal(0) : totalDirectCost;
 	}
 
-	public void setTotalDirectCost(KualiDecimal totalDirectCost) {
+	public void setTotalDirectCost(BudgetDecimal totalDirectCost) {
 		this.totalDirectCost = totalDirectCost;
 	}
 
-	public KualiDecimal getTotalIndirectCost() {
-		return totalIndirectCost == null ?  new KualiDecimal(0) : totalIndirectCost;
+	public BudgetDecimal getTotalIndirectCost() {
+		return totalIndirectCost == null ?  new BudgetDecimal(0) : totalIndirectCost;
 	}
 
-	public void setTotalIndirectCost(KualiDecimal totalIndirectCost) {
+	public void setTotalIndirectCost(BudgetDecimal totalIndirectCost) {
 		this.totalIndirectCost = totalIndirectCost;
 	}
 
-	public KualiDecimal getUnderrecoveryAmount() {
-		return underrecoveryAmount == null ?  new KualiDecimal(0) : underrecoveryAmount;
+	public BudgetDecimal getUnderrecoveryAmount() {
+		return underrecoveryAmount == null ?  new BudgetDecimal(0) : underrecoveryAmount;
 	}
 
-	public void setUnderrecoveryAmount(KualiDecimal underrecoveryAmount) {
+	public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
 		this.underrecoveryAmount = underrecoveryAmount;
 	}
 
