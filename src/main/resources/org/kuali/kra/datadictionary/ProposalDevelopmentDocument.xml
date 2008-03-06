@@ -424,7 +424,7 @@
 				<label>Mail Account ID</label>
 				<shortLabel>Mail Account ID</shortLabel>
 
-				<maxLength>9</maxLength>
+				<maxLength>7</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>
 
 				<required>false</required>
