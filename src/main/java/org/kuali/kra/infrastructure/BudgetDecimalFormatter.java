@@ -27,4 +27,3 @@ public class BudgetDecimalFormatter extends BigDecimalFormatter {
         return new BudgetDecimal(target);
     }
 }
-

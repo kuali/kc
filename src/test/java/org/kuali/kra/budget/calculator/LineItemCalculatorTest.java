@@ -17,6 +17,7 @@ package org.kuali.kra.budget.calculator;
 
 import java.sql.Timestamp;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -31,7 +32,10 @@ import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -41,7 +45,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
- * This class...
+ * This class is for testing Line item calculations
  */
 //@PerTestUnitTestData(
 //        @UnitTestData(order = { 
@@ -75,59 +79,228 @@ public class LineItemCalculatorTest extends KraTestBase {
         documentService = null;
         super.tearDown();
     }
+    private BudgetDocument createBudgetDocument() throws Exception{
+        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        Date requestedStartDateInitial = new Date(System.currentTimeMillis());
+        Date requestedEndDateInitial = new Date(System.currentTimeMillis());
+        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
+        documentService.saveDocument(document);
+        BudgetDocument bd = (BudgetDocument)documentService.getNewDocument("BudgetDocument");
+        setBaseDocumentFields(bd,document.getProposalNumber());
+        documentService.saveDocument(bd);
+        BudgetDocument savedBudgetDocument = (BudgetDocument)documentService.getByDocumentHeaderId(bd.getDocumentNumber());
+        populateDummyRates(savedBudgetDocument);
+        assertNotNull("Budget document not saved",savedBudgetDocument);
+        return savedBudgetDocument;
+    }
     @Test
     public void calculateLineItemTest() throws Exception{
+        BudgetDocument bd = createBudgetDocument();
+        assertNotNull("Budget document not saved",bd);
         
+        List<BudgetPeriod> periods = bd.getBudgetPeriods();
+        BudgetPeriod bp = getBudgetPeriod(bd,1,"2004-01-01","2005-12-31");
+        bd.getBudgetPeriods().add(bp);
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
+                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        bp.getBudgetLineItems().add(bli);
+        BudgetCalculationService bcs = getService(BudgetCalculationService.class);
+        bcs.calculateBudgetLineItem(bd,bli);
+        List<BudgetLineItemCalculatedAmount> calcAmounts = bli.getBudgetLineItemCalculatedAmounts();
+        for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
+            LOG.info(budgetLineItemCalculatedAmount);
+        }
+        BudgetDecimal directCost = bli.getDirectCost();
+        assertEquals(new BudgetDecimal(15932.437),directCost );
+        bd.getBudgetPeriods().add(bp);
         
-//        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-//
-//        Date requestedStartDateInitial = new Date(System.currentTimeMillis());
-//        Date requestedEndDateInitial = new Date(System.currentTimeMillis());
-//
-//        setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
-//        
-//        documentService.saveDocument(document);
-//
-//        ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(document.getDocumentNumber());
-//        
-//        BudgetDocument bd = (BudgetDocument)documentService.getNewDocument("BudgetDocument");
-//        
-//        setBaseDocumentFields(bd,document.getProposalNumber());
-//        documentService.saveDocument(bd);
-//        
-//        populateDummyRates(bd);
-//        
-//        assertNotNull("Budget document not saved",bd);
-//        
-//        List<BudgetPeriod> periods = bd.getBudgetPeriods();
-//        BudgetPeriod bp = getBudgetPeriod(bd,1,"2005-01-01","2005-12-31");
-//        bd.getBudgetPeriods().add(bp);
-//        BudgetLineItem bli = getLineItem(bp,1,1,"400250");
-//        bp.getBudgetLineItems().add(bli);
-//        BudgetCalculationService bcs = getService(BudgetCalculationService.class);
-////        bcs.calculateBudgetLineItem(bd,bli);
-//        BudgetDecimal directCost = bli.getDirectCost();
-////        assertEquals(directCost, new BudgetDecimal(15800.00));
-//        
-//        bd.getBudgetPeriods().add(bp);
-//        BudgetLineItem bli1 = getLineItem(bp,1,1,"420128");
-//        bp.getBudgetLineItems().add(bli1);
-////        bcs.calculateBudgetLineItem(bd,bli1);
-//        BudgetDecimal directCost1 = bli1.getDirectCost();
-////        assertEquals(directCost1, new BudgetDecimal(15837.03));
-//        bcs.calculateBudgetPeriod(bd,bp);
-////        assertEquals(bli1.getIndirectCost(), new BudgetDecimal(023.03));
-//        
-//        
-//        
-//        
-//        LOG.info(bli.toString());
-//        LOG.info(bp.toString());
-//        
-////        bcs.calculateBudget(bd);
-//        System.out.println(bd.toString());
+        BudgetLineItem bli1 = getLineItem(bp, 1, "400025",java.sql.Date.valueOf("2005-01-01"),
+                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        bp.getBudgetLineItems().add(bli1);
+        bcs.calculateBudgetLineItem(bd,bli1);
+        BudgetDecimal directCost1 = bli1.getDirectCost();
+        assertEquals(new BudgetDecimal(15081.623),directCost1);
+        
+        bcs.calculateBudgetPeriod(bd,bp);
+        assertEquals(new BudgetDecimal(31014.060),bp.getTotalDirectCost());
+        assertEquals(new BudgetDecimal(7661.434),bp.getTotalIndirectCost());
+        assertEquals(new BudgetDecimal(38675.494),bp.getTotalCost());
+        
     }
-    
+
+    @Test
+    public void calculateUnderrecoveryTest() throws Exception{
+        BudgetDocument bd = createBudgetDocument();
+        assertNotNull("Budget document not saved",bd);
+        bd.setUrRateClassCode("2");
+        
+        List<BudgetPeriod> periods = bd.getBudgetPeriods();
+        BudgetPeriod bp = getBudgetPeriod(bd,1,"2004-01-01","2005-12-31");
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
+                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        BudgetCalculationService bcs = getService(BudgetCalculationService.class);
+        bcs.calculateBudgetLineItem(bd,bli);
+        assertEquals(new BudgetDecimal(15932.437),bli.getDirectCost() );
+        assertEquals(new BudgetDecimal(540.305),bli.getUnderrecoveryAmount());
+//        LOG.info(bli.getDirectCost());
+//        LOG.info(bli.getUnderrecoveryAmount());
+        
+    }
+    @Test
+    public void calculatePersonnelLineItemTest() throws Exception{
+        BudgetDocument bd = createBudgetDocument();
+        assertNotNull("Budget document not saved",bd);
+        
+        List<BudgetPeriod> periods = bd.getBudgetPeriods();
+        BudgetPeriod bp = getBudgetPeriod(bd,1,"2005-01-01","2005-12-31");
+        bd.getBudgetPeriods().add(bp);
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
+                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+
+        BudgetPerson bper = getBudgetPerson("8888888",1,2000,"7","TJC","2005-01-01");
+        bd.getBudgetPersons().add(bper);
+        BudgetPerson bper1 = getBudgetPerson("9999999",2,4000,"7","TJC","2005-01-01");
+        bd.getBudgetPersons().add(bper1);
+        
+        BudgetCalculationService bcs = getService(BudgetCalculationService.class);
+        
+        BudgetPersonnelDetails bpli = getPersonnelLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
+                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d,1,2,"9999999","TJC",100.00d,50.00d);
+        bli.getBudgetPersonnelDetailsList().add(bpli);
+        bcs.calculateBudgetLineItem(bd,bpli);
+        assertEquals(new BudgetDecimal(1000.016), bpli.getSalaryRequested());
+        assertEquals(new BudgetDecimal(50.000), bpli.getCostSharingPercent());
+        assertEquals(new BudgetDecimal(2982.046), bpli.getCostSharingAmount());
+        assertEquals(new BudgetDecimal(2187.034), bpli.getDirectCost());
+        assertEquals(new BudgetDecimal(795.012), bpli.getIndirectCost());
+//        LOG.info("Salary requested=> "+bpli.getSalaryRequested());
+//        LOG.info("Cost sharing percentage=>"+bpli.getCostSharingPercent());
+//        LOG.info("Cost sharing amount =>"+bpli.getCostSharingAmount());
+//        LOG.info("Direct cost =>"+bpli.getDirectCost());
+//        LOG.info("Indirect cost =>"+bpli.getIndirectCost());
+        
+        BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
+                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d,1,1,"8888888","TJC",100.00d,100.00d);
+        bli.getBudgetPersonnelDetailsList().add(bpli1);
+
+        bcs.calculateBudgetLineItem(bd,bpli1);
+        assertEquals(new BudgetDecimal(999.984), bpli1.getSalaryRequested());
+        assertEquals(new BudgetDecimal(0.000), bpli1.getCostSharingPercent());
+        assertEquals(new BudgetDecimal(0.000), bpli1.getCostSharingAmount());
+        assertEquals(new BudgetDecimal(2186.965), bpli1.getDirectCost());
+        assertEquals(new BudgetDecimal(794.987), bpli1.getIndirectCost());
+//        LOG.info("Salary requested=> "+bpli1.getSalaryRequested());
+//        LOG.info("Cost sharing percentage=>"+bpli1.getCostSharingPercent());
+//        LOG.info("Cost sharing percentage amount =>"+bpli1.getCostSharingAmount());
+//        LOG.info("Direct cost =>"+bpli1.getDirectCost());
+//        LOG.info("Indirect cost =>"+bpli1.getIndirectCost());
+        
+//        LOG.info(bp.toString());
+    }
+
+    private BudgetPerson getBudgetPerson(String personId, int personSequenceNumber, int calcBase, String appointTypeCode, String jobCode, String effectiveDate) {
+        BudgetPerson bper = new BudgetPerson();
+        bper.setPersonId(personId);
+        bper.setPersonSequenceNumber(personSequenceNumber);
+        bper.setCalculationBase(new BudgetDecimal(calcBase));
+        bper.setAppointmentTypeCode(appointTypeCode);
+        bper.setJobCode(jobCode);
+        bper.setEffectiveDate(java.sql.Date.valueOf(effectiveDate));
+        return bper;
+    }
+
+    @Test
+    public void calculateSalaryTest() throws Exception{
+        BudgetDocument bd = createBudgetDocument();
+        assertNotNull("Budget document not saved",bd);
+        
+        List<BudgetPeriod> periods = bd.getBudgetPeriods();
+        BudgetPeriod bp = getBudgetPeriod(bd,1,"2005-01-01","2005-12-31");
+        bd.getBudgetPeriods().add(bp);
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
+                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        
+        BudgetPerson bper = getBudgetPerson("8888888",1,2000,"7","TJC","2005-01-01");
+        bd.getBudgetPersons().add(bper);
+        BudgetPerson bper1 = getBudgetPerson("9999999",2,4000,"7","TJC","2005-01-01");
+        bd.getBudgetPersons().add(bper1);
+        
+//        bp.getBudgetLineItems().add(bli);
+        
+        BudgetPersonnelDetails bpli = getPersonnelLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
+                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d,1,2,"9999999","TJC",100.00d,100.00d);
+        bli.getBudgetPersonnelDetailsList().add(bpli);
+        
+        BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
+                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d,1,1,"8888888","TJC",100.00d,100.00d);
+        bli.getBudgetPersonnelDetailsList().add(bpli1);
+
+        BudgetCalculationService bcs = getService(BudgetCalculationService.class);
+        bcs.calculateBudgetLineItem(bd,bli);
+        assertEquals(new BudgetDecimal(2000.032), bpli.getSalaryRequested());
+        assertEquals(new BudgetDecimal(999.984), bpli1.getSalaryRequested());
+//        LOG.info("Salary requested=>"+bpli.getSalaryRequested());
+//        LOG.info("Salary requested=>"+bpli1.getSalaryRequested());
+//        
+//        LOG.info("Direct cost =>"+bli.getDirectCost());
+//        LOG.info("Indirect cost =>"+bli.getIndirectCost());
+    }
+
+    @Test
+    public void populateCalculatedAmountsTest() throws Exception{
+        BudgetDocument bd = createBudgetDocument();
+        assertNotNull("Budget document not saved",bd);
+        List<BudgetPeriod> periods = bd.getBudgetPeriods();
+        BudgetPeriod bp = getBudgetPeriod(bd,1,"2005-01-01","2005-12-31");
+        bd.getBudgetPeriods().add(bp);
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
+                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        BudgetCalculationService bcs = getService(BudgetCalculationService.class);
+        bcs.populateCalculatedAmount(bd,bli);
+        List<BudgetLineItemCalculatedAmount> calcAmounts = bli.getBudgetLineItemCalculatedAmounts();
+        assertEquals(8, calcAmounts.size());
+        List<String> possibleRateClassRateTypes = new ArrayList<String>();
+        possibleRateClassRateTypes.add("1,1");
+        possibleRateClassRateTypes.add("10,1");
+        possibleRateClassRateTypes.add("11,1");
+        possibleRateClassRateTypes.add("12,1");
+        possibleRateClassRateTypes.add("5,1");
+        possibleRateClassRateTypes.add("8,1");
+        possibleRateClassRateTypes.add("5,3");
+        possibleRateClassRateTypes.add("8,2");
+        for (BudgetLineItemCalculatedAmount calcAmt : calcAmounts) {
+            assertTrue("Unexpected rateclass ratetype combination "+calcAmt, 
+                    possibleRateClassRateTypes.contains(calcAmt.getRateClassCode()+","+calcAmt.getRateTypeCode()));
+        }
+    }
+
+    private BudgetPersonnelDetails getPersonnelLineItem(BudgetPeriod bp, int lineItemNumber, 
+            String costElement,Date startDate,Date endDate,
+            double lineItemCost,double costSharingAmount, int personNumber,int personSequenceNumber,String personId,String jobCode,double effort,double charged) {
+        BudgetPersonnelDetails bli = new BudgetPersonnelDetails();
+        bli.setProposalNumber(bp.getProposalNumber());
+        bli.setBudgetVersionNumber(bp.getBudgetVersionNumber());
+        bli.setBudgetPeriod(bp.getBudgetPeriod());
+        bli.setStartDate(startDate);
+        bli.setEndDate(endDate);
+        bli.setApplyInRateFlag(true);
+        bli.setOnOffCampusFlag(true);
+        bli.setLineItemNumber(lineItemNumber);
+        bli.setBudgetCategoryCode("1");
+        bli.setCostElement(costElement);
+        bli.setLineItemCost(new BudgetDecimal(lineItemCost));
+        bli.setCostSharingAmount(new BudgetDecimal(costSharingAmount));
+        bli.setUpdateTimestamp(bp.getUpdateTimestamp());
+        bli.setUpdateUser(bp.getUpdateUser());
+        bli.setPersonNumber(personNumber);
+        bli.setPersonSequenceNumber(personSequenceNumber);
+        bli.setPersonId(personId);
+        bli.setJobCode(jobCode);
+        bli.setPercentEffort(new BudgetDecimal(effort));
+        bli.setPercentCharged(new BudgetDecimal(charged));
+        return bli;
+    }
+
     private void populateDummyRates(BudgetDocument bd) {
         List<BudgetProposalRate> budgetProposalRates = bd.getBudgetProposalRates();
         List<InstituteRate> instRates = (List)bos.findAll(InstituteRate.class);
@@ -183,24 +356,25 @@ public class LineItemCalculatorTest extends KraTestBase {
 //        bd.getBudgetPeriods().add(bp);
     }
 
-    private BudgetLineItem getLineItem(BudgetPeriod bp, int lineItemNumber, String budgetCategoryCode, String costElement) {
+    private BudgetLineItem getLineItem(BudgetPeriod bp, int lineItemNumber, 
+                String costElement,Date startDate,Date endDate,
+                double lineItemCost,double costSharingAmount) {
         BudgetLineItem bli = new BudgetLineItem();
         bli.setProposalNumber(bp.getProposalNumber());
         bli.setBudgetVersionNumber(bp.getBudgetVersionNumber());
         bli.setBudgetPeriod(bp.getBudgetPeriod());
-        bli.setStartDate(bp.getStartDate());
-        bli.setEndDate(bp.getEndDate());
+        bli.setStartDate(startDate);
+        bli.setEndDate(endDate);
         bli.setApplyInRateFlag(true);
         bli.setOnOffCampusFlag(true);
         bli.setLineItemNumber(lineItemNumber);
-        bli.setBudgetCategoryCode(budgetCategoryCode);
+        bli.setBudgetCategoryCode("1");
         bli.setCostElement(costElement);
-        bli.setLineItemCost(new BudgetDecimal(10000));
-        bli.setCostSharingAmount(new BudgetDecimal(100));
+        bli.setLineItemCost(new BudgetDecimal(lineItemCost));
+        bli.setCostSharingAmount(new BudgetDecimal(costSharingAmount));
         bli.setUpdateTimestamp(bp.getUpdateTimestamp());
         bli.setUpdateUser(bp.getUpdateUser());
         return bli;
-//        bp.getBudgetLineItems().add(bli);
         
     }
 

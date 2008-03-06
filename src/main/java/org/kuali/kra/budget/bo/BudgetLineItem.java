@@ -24,6 +24,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetLineItem extends BudgetLineItemBase {
+    
 	private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 	
 	public BudgetLineItem(){

@@ -23,16 +23,19 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetPersonnelDetails extends BudgetLineItemBase {
+    
     private Integer personNumber;
-	private BudgetDecimal costSharingPercent;
+	private BudgetDecimal costSharingPercent=BudgetDecimal.ZERO;
 	private String jobCode;
-	private BudgetDecimal percentCharged;
-	private BudgetDecimal percentEffort;
+    private Boolean nonEmployeeFlag;
+	private BudgetDecimal percentCharged=BudgetDecimal.ZERO;
+	private BudgetDecimal percentEffort=BudgetDecimal.ZERO;
 	private String periodType;
 	private String personId;
-	private BudgetDecimal salaryRequested;
+	private BudgetDecimal salaryRequested=BudgetDecimal.ZERO;
 	private Integer sequenceNumber;
-	private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
+	private Integer personSequenceNumber;
+	private BudgetPerson budgetPerson;
 
 	public Integer getPersonNumber() {
 		return personNumber;
@@ -122,18 +125,66 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 	}
 
     /**
-     * Gets the budgetPersonnelCalculatedAmounts attribute. 
-     * @return Returns the budgetPersonnelCalculatedAmounts.
+     * Gets the nonEmployeeFlag attribute. 
+     * @return Returns the nonEmployeeFlag.
      */
-    public List<BudgetPersonnelCalculatedAmount> getBudgetPersonnelCalculatedAmounts() {
-        return budgetPersonnelCalculatedAmounts;
+    public Boolean getNonEmployeeFlag() {
+        return nonEmployeeFlag;
     }
 
     /**
-     * Sets the budgetPersonnelCalculatedAmounts attribute value.
-     * @param budgetPersonnelCalculatedAmounts The budgetPersonnelCalculatedAmounts to set.
+     * Sets the nonEmployeeFlag attribute value.
+     * @param nonEmployeeFlag The nonEmployeeFlag to set.
      */
-    public void setBudgetPersonnelCalculatedAmounts(List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts) {
-        this.budgetPersonnelCalculatedAmounts = budgetPersonnelCalculatedAmounts;
+    public void setNonEmployeeFlag(Boolean nonEmployeeFlag) {
+        this.nonEmployeeFlag = nonEmployeeFlag;
     }
+
+    /**
+     * Gets the personSequenceNumber attribute. 
+     * @return Returns the personSequenceNumber.
+     */
+    public Integer getPersonSequenceNumber() {
+        return personSequenceNumber;
+    }
+
+    /**
+     * Sets the personSequenceNumber attribute value.
+     * @param personSequenceNumber The personSequenceNumber to set.
+     */
+    public void setPersonSequenceNumber(Integer personSequenceNumber) {
+        this.personSequenceNumber = personSequenceNumber;
+    }
+
+    /**
+     * Gets the budgetPerson attribute. 
+     * @return Returns the budgetPerson.
+     */
+    public BudgetPerson getBudgetPerson() {
+        return budgetPerson;
+    }
+
+    /**
+     * Sets the budgetPerson attribute value.
+     * @param budgetPerson The budgetPerson to set.
+     */
+    public void setBudgetPerson(BudgetPerson budgetPerson) {
+        this.budgetPerson = budgetPerson;
+    }
+
+//    /**
+//     * Gets the budgetPersonnelCalculatedAmounts attribute. 
+//     * @return Returns the budgetPersonnelCalculatedAmounts.
+//     */
+//    public List<BudgetPersonnelCalculatedAmount> getBudgetPersonnelCalculatedAmounts() {
+//        return budgetPersonnelCalculatedAmounts;
+//    }
+//
+//    /**
+//     * Sets the budgetPersonnelCalculatedAmounts attribute value.
+//     * @param budgetPersonnelCalculatedAmounts The budgetPersonnelCalculatedAmounts to set.
+//     */
+//    public void setBudgetPersonnelCalculatedAmounts(List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts) {
+//        this.budgetPersonnelCalculatedAmounts = budgetPersonnelCalculatedAmounts;
+//    }
 }

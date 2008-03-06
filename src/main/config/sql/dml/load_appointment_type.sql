@@ -1,7 +1,7 @@
-insert into appointment_type (appointment_type_code,description,duration,update_timestamp,update_user) values('1','REG Employee',0,sysdate,'kradba');
-insert into appointment_type (appointment_type_code,description,duration,update_timestamp,update_user) values('2','SUM Employee',0,sysdate,'kradba');
-insert into appointment_type (appointment_type_code,description,duration,update_timestamp,update_user) values('3','TMP Employee',0,sysdate,'kradba');
-insert into appointment_type (appointment_type_code,description,duration,update_timestamp,update_user) values('4','9M Duration',0,sysdate,'kradba');
-insert into appointment_type (appointment_type_code,description,duration,update_timestamp,update_user) values('5','10M Duration',0,sysdate,'kradba');
-insert into appointment_type (appointment_type_code,description,duration,update_timestamp,update_user) values('6','11M Duration',0,sysdate,'kradba');
-insert into appointment_type (appointment_type_code,description,duration,update_timestamp,update_user) values('7','12M Duration',0,sysdate,'kradba');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('1','TEMPERRORY EMPLOYEE',1,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'32B1907D6F72486885B49CC996B08A66');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('2','SUMMER EMPLOYEE',3,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'B0EC170DEBBD4AD0AA428D3D12A439F8');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('3','9M DURATION',9,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'BC0DB87EDF21411597A0881D25ABEED8');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('4','10M DURATION',10,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'4EB3EE428A1C4649A809DB73DC037770');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('5','11M DURATION',11,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'F6C2A3E40430450BAC8F433E35B851A8');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('6','12M DURATION',12,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'6F772A60519E467FA2AC7D2416211946');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('7','REGULAR EMPLOYEE',12,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'A9893947B37D4994BF3DA670BA1F3422');
