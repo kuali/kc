@@ -20,6 +20,7 @@ import static org.kuali.rice.KNSServiceLocator.getDateTimeService;
 import java.util.*;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
@@ -34,6 +35,8 @@ public class Boundary {
     private Calendar calendar = Calendar.getInstance();
     private Map<Date,Integer> noOfDaysList;
     private DateTimeService dateTimeService;
+    private BudgetDecimal applicableCost;
+    private BudgetDecimal applicableCostSharing;
     
 /**
  * Default Constructor...
@@ -50,11 +53,15 @@ public class Boundary {
  * @param startDate 
  * @param endDate 
  */
-    public  Boundary(Date startDate, Date endDate) {        
+    public  Boundary(Date startDate, Date endDate) {   
+        this();
         this.startDate = startDate;
         this.endDate = endDate;
     } 
 
+    public int getNumberOfDays(){
+        return dateTimeService.dateDiff(getStartDate(), getEndDate(), true);
+    }
     
 /**
  * Returns the startDate Month
@@ -195,6 +202,38 @@ public class Boundary {
         strBffr.append("End date=>"+endDate);  
         strBffr.append("\n");
         return strBffr.toString();
+    }
+
+    /**
+     * Gets the applicableCost attribute. 
+     * @return Returns the applicableCost.
+     */
+    public BudgetDecimal getApplicableCost() {
+        return applicableCost;
+    }
+
+    /**
+     * Sets the applicableCost attribute value.
+     * @param applicableCost The applicableCost to set.
+     */
+    public void setApplicableCost(BudgetDecimal applicableCost) {
+        this.applicableCost = applicableCost;
+    }
+
+    /**
+     * Gets the applicableCostSharing attribute. 
+     * @return Returns the applicableCostSharing.
+     */
+    public BudgetDecimal getApplicableCostSharing() {
+        return applicableCostSharing;
+    }
+
+    /**
+     * Sets the applicableCostSharing attribute value.
+     * @param applicableCostSharing The applicableCostSharing to set.
+     */
+    public void setApplicableCostSharing(BudgetDecimal applicableCostSharing) {
+        this.applicableCostSharing = applicableCostSharing;
     }
     
     /** For testing **/

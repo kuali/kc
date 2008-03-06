@@ -365,7 +365,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         /* search budget personnel line item calculated amounts */
         List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList();
         for(BudgetPersonnelDetails budgetPersonnelDetail : budgetPersonnelDetails) {
-            List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts = budgetPersonnelDetail.getBudgetPersonnelCalculatedAmounts();
+            List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts = budgetPersonnelDetail.getBudgetLineItemCalculatedAmounts();
             for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersonnelCalculatedAmounts) {
                 String rateClassRateType = budgetPersonnelCalculatedAmount.getRateClassCode().concat(budgetPersonnelCalculatedAmount.getRateTypeCode());
                 String dispBudgetPeriod = budgetPersonnelCalculatedAmount.getBudgetPeriod().toString();

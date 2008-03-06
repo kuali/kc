@@ -33,6 +33,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -64,9 +65,9 @@ public class BudgetPersonnelAction extends BudgetAction {
                 budgetPerson.setPersonId(person.getPersonId());
                 budgetPerson.setPersonName(person.getFullName());
                 budgetPerson.setJobCode("0");
-                budgetPerson.setNonEmployeeFlag("N");
-                budgetPerson.setAppointmentType("0");
-                budgetPerson.setCalculationBase(new KualiDecimal(0));
+                budgetPerson.setNonEmployeeFlag(false);
+                budgetPerson.setAppointmentTypeCode("1");
+                budgetPerson.setCalculationBase(BudgetDecimal.ZERO);
                 budgetPerson.setEffectiveDate(KraServiceLocator.getService(DateTimeService.class).getCurrentSqlDate());
                 budgetForm.getBudgetDocument().addBudgetPerson(budgetPerson);
             }
@@ -77,9 +78,9 @@ public class BudgetPersonnelAction extends BudgetAction {
                 budgetPerson.setPersonId(rolodex.getRolodexId().toString());
                 budgetPerson.setPersonName(rolodex.getFirstName() + " " + rolodex.getLastName());
                 budgetPerson.setJobCode("0");
-                budgetPerson.setNonEmployeeFlag("Y");
-                budgetPerson.setAppointmentType("0");
-                budgetPerson.setCalculationBase(new KualiDecimal(0));
+                budgetPerson.setNonEmployeeFlag(true);
+                budgetPerson.setAppointmentTypeCode("1");
+                budgetPerson.setCalculationBase(BudgetDecimal.ZERO);
                 budgetPerson.setEffectiveDate(KraServiceLocator.getService(DateTimeService.class).getCurrentSqlDate());
                 budgetForm.getBudgetDocument().addBudgetPerson(budgetPerson);
             }
