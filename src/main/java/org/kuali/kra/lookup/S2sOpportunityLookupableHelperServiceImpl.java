@@ -64,7 +64,7 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
             }
             return new ArrayList<S2sOpportunity>();
         }else{
-            GlobalVariables.getErrorMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);              
+            GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);              
         }        
         return s2sOpportunity;        
     }

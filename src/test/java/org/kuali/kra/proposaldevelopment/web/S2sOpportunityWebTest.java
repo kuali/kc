@@ -115,7 +115,7 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage page1 = clickOn(savedProposalPage, GRANTS_GOV_IMAGE_NAME);        
         HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId","InValidOpportunityID",true);
         
-        assertContains(page2,"Not a S2S Candidate");                     
+        assertContains(page2,"Not an S2S Candidate");                     
     }        
     
     /**
