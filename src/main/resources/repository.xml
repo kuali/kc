@@ -1784,10 +1784,10 @@
 			<foreignkey field-ref="rateClassCode"/> 
 		</reference-descriptor>
 		 
+		<!--
 		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="activityTypeCode"/> 
 		</reference-descriptor>
-		<!--
 		<reference-descriptor name="budgetVersionOverview" class-ref="org.kuali.kra.budget.bo.BudgetVersionOverview" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalNumber"/> 
 			<foreignkey field-ref="budgetVersionNumber"/> 
@@ -1808,6 +1808,13 @@
 		<field-descriptor name="instituteRate" column="RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.bo.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="rateClassCode"/> 
+			<foreignkey field-ref="rateTypeCode"/> 
+		</reference-descriptor>
+		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.bo.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="rateClassCode"/> 
+		</reference-descriptor>
 		<!--  <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="unitNumber"/> 
 		</reference-descriptor>
