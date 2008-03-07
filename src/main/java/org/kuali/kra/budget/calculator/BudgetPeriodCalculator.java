@@ -29,75 +29,26 @@ public class BudgetPeriodCalculator {
     private BudgetCalculationService budgetCalculationService;
     public BudgetPeriodCalculator(){
         budgetCalculationService = getService(BudgetCalculationService.class);
-        
     }
-    public void calculate(BudgetDocument bd, BudgetPeriod period){
-        period.setTotalDirectCost(BudgetDecimal.ZERO);
-        period.setTotalIndirectCost(BudgetDecimal.ZERO);
-        period.setCostSharingAmount(BudgetDecimal.ZERO);
-        period.setTotalCost(BudgetDecimal.ZERO);
-        period.setUnderrecoveryAmount(BudgetDecimal.ZERO);
-        List<BudgetLineItem> cvLineItemDetails = period.getBudgetLineItems();
+    /**
+     * 
+     * This method calculates and sync the budget period
+     * @param budgetDocument
+     * @param budgetPeriod
+     */
+    public void calculate(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod){
+        budgetPeriod.setTotalDirectCost(BudgetDecimal.ZERO);
+        budgetPeriod.setTotalIndirectCost(BudgetDecimal.ZERO);
+        budgetPeriod.setCostSharingAmount(BudgetDecimal.ZERO);
+        budgetPeriod.setTotalCost(BudgetDecimal.ZERO);
+        budgetPeriod.setUnderrecoveryAmount(BudgetDecimal.ZERO);
+        List<BudgetLineItem> cvLineItemDetails = budgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : cvLineItemDetails) {
-            budgetCalculationService.calculateBudgetLineItem(bd, budgetLineItem);
-            period.setTotalDirectCost(period.getTotalDirectCost().add(budgetLineItem.getDirectCost()));
-            period.setTotalIndirectCost(period.getTotalIndirectCost().add(budgetLineItem.getIndirectCost()));
-            period.setTotalCost(period.getTotalIndirectCost().add(period.getTotalDirectCost()));
+            budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItem);
+            budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().add(budgetLineItem.getDirectCost()));
+            budgetPeriod.setTotalIndirectCost(budgetPeriod.getTotalIndirectCost().add(budgetLineItem.getIndirectCost()));
+            budgetPeriod.setTotalCost(budgetPeriod.getTotalIndirectCost().add(budgetPeriod.getTotalDirectCost()));
         }
-//        BudgetDetailBean budgetDetailBean;
-//        QueryList cvPersonnelLineItems;
-//        int lineItemNo = 0;
-//        Equals equalsBudgetPeriod = new Equals("budgetPeriod", new Integer(budgetPeriod));
-//        Equals equalsLineItem;
-//        And eQBudgetPeriodAndeQLineItem;
-//        //Loop through all the budget line item details & calculate
-//        if (cvLineItemDetails != null && cvLineItemDetails.size() > 0) {
-//            int size = cvLineItemDetails.size();
-//            for (int index = 0; index < size; index++) {
-//                budgetDetailBean = (BudgetDetailBean) cvLineItemDetails.get(index);
-//                
-//                //Enhancement ID : 709 Case 3 - Starts here
-//                //Check whether the cost element is having UR Rate
-//                setURRateValidForCE(checkURRateValidForCE(budgetDetailBean));
-//                //Enhancement ID : 709 Case 3 - Ends here
-//                
-//                //Check whether personnel line items are present
-//                lineItemNo = budgetDetailBean.getLineItemNumber();
-//                equalsLineItem = new Equals("lineItemNumber", new Integer(lineItemNo));
-//                eQBudgetPeriodAndeQLineItem = new And(equalsBudgetPeriod, equalsLineItem);
-//                
-//                cvPersonnelLineItems = queryEngine.getActiveData(key,
-//                                                BudgetPersonnelDetailsBean.class, eQBudgetPeriodAndeQLineItem);
-//                if (cvPersonnelLineItems != null && cvPersonnelLineItems.size() > 0) {
-//                    
-//                    //Enhancement ID : 709 Case 3 - Starts here
-//                    //calculatePersonnelLineItem(budgetPeriod, lineItemNo);
-//                    calculatePersonnelLineItem(budgetPeriod, lineItemNo,
-//                        budgetDetailBean.getCostElement());
-//                    // Case Id #1811 - start
-//                    filterPersonnelRateAndBase();
-//                    // Case Id 1811 - End
-//                    //Enhancement ID : 709 Case 3 - Ends here
-//                    
-//                } else {
-//                    //Its a non personnel line item
-//                    lineItemCalculator.setURRateValidForCE(isURRateValidForCE()); //Enhancement ID : 709 Case 3
-//                    lineItemCalculator.calculate(budgetDetailBean);
-//                   
-//                }
-//            }
-//            //Get the list of rates not available messages
-//            //vecMessages = lineItemCalculator.getVecMessages();
-//            if (lineItemCalculator.getVecMessages().size() > 0) {
-//                vecMessages.addAll(lineItemCalculator.getVecMessages());
-//                //Initialize the vec messages for the next period
-//                vecMessages.removeAllElements();
-//                //lineItemCalculator = new LineItemCalculator();
-//            }
-//        }
-//        //Refresh Budget Period costs
-//        syncBudgetTotals();
-        
-        
+//        syncBudgetTotals(budgetDocument);
     }
 }
