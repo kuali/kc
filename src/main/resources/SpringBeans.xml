@@ -20,10 +20,12 @@
 
 	<bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
 		<property name="forceShutdown" value="true"/>
-		<property name="transactionTimeout" value="300" />
+		<property name="transactionTimeout" value="${transaction.timeout}" />
 	</bean>
 	
-	<bean id="AtomikosUsrTx" class="com.atomikos.icatch.jta.UserTransactionImp"/>
+	<bean id="AtomikosUsrTx" class="com.atomikos.icatch.jta.UserTransactionImp">
+		<property name="transactionTimeout" value="${transaction.timeout}"/>
+	</bean>
 	
 	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
 		<property name="userTransaction">
@@ -410,6 +412,8 @@
 		</property>
 	</bean>
 	
+	<!--  bean id="budgetPersonService" class="org.kuali.kra.budget.service.impl.BudgetPersonServiceImpl"/> -->
+	
 	<bean id="budgetService" class="org.kuali.kra.budget.service.impl.BudgetServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService"/>
@@ -417,6 +421,9 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService"/>
 		</property>
+		<!-- property name="budgetPersonService">
+			<ref bean="budgetPersonService"/>
+		</property>  -->
 	</bean>
 	
 	<bean id="budgetCalculationService" class="org.kuali.kra.budget.service.impl.BudgetCalculationServiceImpl">
