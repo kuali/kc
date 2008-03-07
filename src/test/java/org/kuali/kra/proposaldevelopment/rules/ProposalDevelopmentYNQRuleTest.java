@@ -48,32 +48,26 @@ public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestB
     public void setUp() throws Exception {
         super.setUp();
         rule = new ProposalDevelopmentDocumentRule();
-        //dateFormat = DateFormat.getDateInstance();
         bos = KraServiceLocator.getService(BusinessObjectService.class);
         proposalYnqs = (List)bos.findAll(ProposalYnq.class);
-        //specialReviewCodes = (List)bos.findAll(SpecialReview.class);
     }
 
     @After
     public void tearDown() throws Exception {
         rule = null;
-        //dateFormat = null;
         bos = null;
         proposalYnqs=null;
-        //specialReviewCodes=null;
         super.tearDown();
     }
 
     /** 
      * 
-     * This method approval type and special review codes are OK before do the real rule test
+     * This method is used to check ynqs are OK before do the real rule test
      */
     @Test
     public void checkCodes() {
         assertNotNull(proposalYnqs);
-        //assertNotNull(specialReviewCodes);
         assertTrue(proposalYnqs.size()>1);
-        //assertTrue(specialReviewCodes.size()>1);
     }
 
 
