@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
+package org.kuali.kra.budget.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +37,13 @@ import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
  */
 public class BudgetPeriodValuesFinder extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+    
     /**
      * Constructs the list of Budget Periods.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
      * status code and the "value" is the textual description that is viewed
-     * by a user.  The list is obtained from the BUDGET_PERIOD database table
+     * by a user.  The list is obtained from the BudgetDocument if any are defined there. 
+     * Otherwise, it is obtained from a lookup of the BUDGET_PERIOD database table
      * via the "KeyValueFinderService".
      * 
      * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
