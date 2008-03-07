@@ -18,29 +18,14 @@ package org.kuali.kra.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.budget.document.BudgetDocument;
 
-public class BudgetProjectIncome extends KraPersistableBusinessObjectBase {
-    // TODO - JF
+public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent {
     private static final long serialVersionUID = 1L;
     
-    private BudgetDocument budgetDocument;
-    
-    private String proposalNumber;
-    private Integer budgetVersionNumber;
     private Integer budgetPeriodNumber;
     private String description;
     private KualiDecimal projectIncome;
 
-    public void setProposalNumber(String proposalNumber) {
-        this.proposalNumber = proposalNumber;
-    }
-
-    public void setBudgetVersionNumber(Integer budgetVersionNumber) {
-        this.budgetVersionNumber = budgetVersionNumber;
-    }
-    
     public Integer getBudgetPeriodNumber() {
         return budgetPeriodNumber;
     }
@@ -53,14 +38,6 @@ public class BudgetProjectIncome extends KraPersistableBusinessObjectBase {
         return projectIncome;
     }
 
-    public String getProposalNumber() {
-        return proposalNumber;
-    }
-    
-    public Integer getBudgetVersionNumber() {
-        return budgetVersionNumber; 
-    }
-    
     public void setBudgetPeriodNumber(Integer budgetPeriodNumber) {
         this.budgetPeriodNumber = (budgetPeriodNumber != null && budgetPeriodNumber.intValue() > 0) ? budgetPeriodNumber : null;
     }
@@ -76,18 +53,10 @@ public class BudgetProjectIncome extends KraPersistableBusinessObjectBase {
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> hashMap = new LinkedHashMap();
+        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
         hashMap.put("budgetPeriodNumber", getBudgetPeriodNumber());
         hashMap.put("description", getDescription());
         hashMap.put("income", getProjectIncome());
         return hashMap;
-    }
-
-    public BudgetDocument getBudgetDocument() {
-        return budgetDocument;
-    }
-
-    public void setBudgetDocument(BudgetDocument document) {
-        this.budgetDocument = document;
     }
 }

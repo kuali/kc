@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.document.Copyable;
@@ -53,7 +55,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
-
+    private static final Log LOG = LogFactory.getLog(BudgetDocument.class);
+    
     private String proposalNumber;
     private Integer budgetVersionNumber;
     private String comments;
@@ -463,8 +466,9 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         if(budgetProjectIncome != null) {
             budgetProjectIncome.setProposalNumber(getProposalNumber());
             budgetProjectIncome.setBudgetVersionNumber(getBudgetVersionNumber());
-            budgetProjectIncome.setBudgetDocument(this);
             this.getBudgetProjectIncomes().add(budgetProjectIncome);
+        } else {
+            LOG.warn("Attempt to add a null budgetProjectIncome was ignored");
         }
     }
 
