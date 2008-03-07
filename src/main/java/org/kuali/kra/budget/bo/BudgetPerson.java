@@ -28,7 +28,7 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
 	private String jobCode;
 	private Boolean nonEmployeeFlag;
 	private String personId;
-    private String rolodexId;
+    private Integer rolodexId;
 	private String proposalNumber;
 	private Integer budgetVersionNumber;
 	private String appointmentTypeCode;
@@ -154,7 +154,7 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
      * Gets the rolodexId attribute. 
      * @return Returns the rolodexId.
      */
-    public String getRolodexId() {
+    public Integer getRolodexId() {
         return rolodexId;
     }
 
@@ -162,7 +162,7 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
      * Sets the rolodexId attribute value.
      * @param rolodexId The rolodexId to set.
      */
-    public void setRolodexId(String rolodexId) {
+    public void setRolodexId(Integer rolodexId) {
         this.rolodexId = rolodexId;
     }
 
