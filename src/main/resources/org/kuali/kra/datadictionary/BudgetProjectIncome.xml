@@ -57,7 +57,7 @@
 				<required>true</required>
 				<control>
 					<select
-						valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.BudgetPeriodValuesFinder" />
+						valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetPeriodValuesFinder" />
 				</control>
 				<summary>Budget Period </summary>
 				<description>Budget Period </description>
