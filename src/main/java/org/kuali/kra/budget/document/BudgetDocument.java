@@ -321,7 +321,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getBudgetPeriods());
-//        managedLists.add(getBudgetProjectIncomes());
+        managedLists.add(getBudgetProjectIncomes());
         return managedLists;
     }
 
