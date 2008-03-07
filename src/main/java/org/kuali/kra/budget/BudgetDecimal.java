@@ -36,7 +36,7 @@ public class BudgetDecimal extends Number implements Comparable {
     // are equidistant, in which case, round towards the even neighbor.
     public static final int ROUND_BEHAVIOR = BigDecimal.ROUND_HALF_UP;
 
-    public static final int SCALE = 3;
+    public static final int SCALE = 2;
 
     private final BigDecimal value;
     
