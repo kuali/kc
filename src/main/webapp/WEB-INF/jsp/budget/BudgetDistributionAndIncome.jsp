@@ -66,7 +66,7 @@
 			</kul:tab>
 			
 			
-			<kra-b:projectIncome />
+			<kra-b:budgetProjectIncome />
 				
 		</div>
 	</div>
