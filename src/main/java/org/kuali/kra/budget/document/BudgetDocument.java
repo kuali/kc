@@ -30,6 +30,7 @@ import org.kuali.core.document.SessionDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.Formatter;
+import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -86,6 +87,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private Date summaryPeriodEndDate;
     
     private List<InstituteRate> instituteRates;
+    private List<InstituteLaRate> instituteLaRates;
     private List<RateClass> rateClasses;
     private List<RateClassType> rateClassTypes;
     
@@ -98,6 +100,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         budgetLineItems = new ArrayList<BudgetLineItem>();
         budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
         instituteRates = new ArrayList<InstituteRate>();
+        instituteLaRates = new ArrayList<InstituteLaRate>();
         rateClasses = new ArrayList<RateClass>();
         rateClassTypes = new ArrayList<RateClassType>();
         Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
@@ -520,6 +523,14 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public void remove(BudgetProjectIncome budgetProjectIncome) {
         getBudgetProjectIncomes().remove(budgetProjectIncome);
+    }
+
+    public final List<InstituteLaRate> getInstituteLaRates() {
+        return instituteLaRates;
+    }
+
+    public final void setInstituteLaRates(List<InstituteLaRate> instituteLaRates) {
+        this.instituteLaRates = instituteLaRates;
     }
 
 }

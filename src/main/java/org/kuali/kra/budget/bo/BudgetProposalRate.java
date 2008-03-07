@@ -19,19 +19,7 @@ import java.util.LinkedHashMap;
 
 public class BudgetProposalRate extends BudgetProposalLaRate {
 	private String activityTypeCode;
-	private String viewLocation;
-	private boolean displayLocation = true;
-    private String budgetPeriod;
-	private String affectedBudgetPeriod;
-    private String trackAffectedPeriod;
 
-	public String getViewLocation() {
-        return viewLocation;
-    }
-
-    public void setViewLocation(String viewLocation) {
-        this.viewLocation = viewLocation;
-    }
 
     public String getActivityTypeCode() {
 		return activityTypeCode;
@@ -48,35 +36,4 @@ public class BudgetProposalRate extends BudgetProposalLaRate {
 		return hashMap;
 	}
 
-    public boolean isDisplayLocation() {
-        return displayLocation;
-    }
-
-    public void setDisplayLocation(boolean displayLocation) {
-        this.displayLocation = displayLocation;
-    }
-
-    public String getBudgetPeriod() {
-        return budgetPeriod;
-    }
-
-    public void setBudgetPeriod(String budgetPeriod) {
-        this.budgetPeriod = budgetPeriod;
-    }
-
-    public final String getAffectedBudgetPeriod() {
-        return affectedBudgetPeriod;
-    }
-
-    public final void setAffectedBudgetPeriod(String affectedBudgetPeriod) {
-        this.affectedBudgetPeriod = affectedBudgetPeriod;
-    }
-
-    public final String getTrackAffectedPeriod() {
-        return trackAffectedPeriod;
-    }
-
-    public final void setTrackAffectedPeriod(String trackAffectedPeriod) {
-        this.trackAffectedPeriod = trackAffectedPeriod;
-    }
 }
