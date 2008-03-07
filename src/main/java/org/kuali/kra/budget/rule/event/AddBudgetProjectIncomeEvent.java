@@ -24,7 +24,7 @@ import org.kuali.kra.budget.rule.AddBudgetProjectIncomeRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 public class AddBudgetProjectIncomeEvent extends KraDocumentEventBase {
-    private static final Log LOG = LogFactory.getLog(BudgetPeriodEventBase.class);
+    private static final Log LOG = LogFactory.getLog(AddBudgetProjectIncomeEvent.class);
     
     private BudgetProjectIncome budgetProjectIncome;
     
