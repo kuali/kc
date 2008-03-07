@@ -100,10 +100,10 @@ public class OjbRepositoryMappingTest {
             }
         }
         
-        LOG.info("dsUrl = " + dsUrl);
-        LOG.info("dsUser = " + dsUser);
-        LOG.info("dsPass = " + dsPass);
-        LOG.info("dsSchema = " + dsSchema);
+        LOG.debug("dsUrl = " + dsUrl);
+        LOG.debug("dsUser = " + dsUser);
+        LOG.debug("dsPass = " + dsPass);
+        LOG.debug("dsSchema = " + dsSchema);
     }
     
     private String getValueFromConfig(String line, String name) {
