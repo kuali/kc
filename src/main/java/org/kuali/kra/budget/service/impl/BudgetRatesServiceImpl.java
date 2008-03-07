@@ -26,12 +26,14 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateClassType;
@@ -66,7 +68,36 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         return allInstituteRates;
     }
 
-    /* get all rates within project start and end date rang 
+    /* get all institute rates - based on 
+     * and unit number 
+     * */
+    private Collection<InstituteLaRate> getInstituteLaRates(BudgetDocument budgetDocument) {
+        String unitNumber = budgetDocument.getProposal().getOwnedByUnitNumber();
+        
+        Collection<InstituteLaRate> allInstituteLaRates = new ArrayList();
+        Map rateFilterMap = new HashMap();
+
+        rateFilterMap.put("unitNumber", unitNumber);
+        allInstituteLaRates = businessObjectService.findMatching(InstituteLaRate.class, rateFilterMap);
+        return allInstituteLaRates;
+    }
+
+    /* get all LA rates within project start and end date rang 
+     *  
+     * */
+    private List<InstituteLaRate> getLaRatesForProjectDates(Collection<InstituteLaRate> allInstituteRates) {
+        List<InstituteLaRate> instituteRates = new ArrayList();
+        for(InstituteLaRate instituteRate : allInstituteRates) {
+            Date rateStartDate = instituteRate.getStartDate();
+            if(rateStartDate.after(getProjectStartDate()) && rateStartDate.before(getProjectEndDate())) {
+                instituteRates.add(instituteRate);
+            }
+            
+        }
+        return instituteRates;
+    }
+
+    /* get all rates within project start and end date range 
      *  
      * */
     private List<InstituteRate> getRatesForProjectDates(Collection<InstituteRate> allInstituteRates) {
@@ -80,7 +111,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         }
         return instituteRates;
     }
-
+    
     /* get applicable rates before project start date  
      * get the latest 
      * */
@@ -92,7 +123,35 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
             if(rateStartDate.before(getProjectStartDate())) {
                 String instRateClassCode = instituteRate.getRateClassCode();
                 String instRateTypeCode = instituteRate.getRateTypeCode();
-                String onOffFlag = instituteRate.getOnOffCampusFlag() ? "Y" :"N";
+                String onOffFlag = instituteRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
+                String hKey = instRateClassCode + instRateTypeCode + onOffFlag;
+                InstituteRate instRate = (InstituteRate)instRates.get(hKey);
+                if((instRate != null) && (instRate.getStartDate().before(rateStartDate))) {
+                    Date currentStartDate = instRate.getStartDate();
+                    if(currentStartDate.before(rateStartDate)) {
+                        instRates.remove(hKey);
+                    }
+                }
+                instRates.put(hKey, instituteRate);
+            }
+            
+        }
+        instituteRates.addAll(instRates.values());
+        return instituteRates;
+    }
+
+    /* get applicable rates before project start date  
+     * get the latest 
+     * */
+    private List<InstituteLaRate> getApplicableLaRates(Collection<InstituteLaRate> allInstituteRates) {
+        List<InstituteLaRate> instituteRates = new ArrayList();
+        HashMap instRates = new HashMap();
+        for(InstituteLaRate instituteRate : allInstituteRates) {
+            Date rateStartDate = instituteRate.getStartDate();
+            if(rateStartDate.before(getProjectStartDate())) {
+                String instRateClassCode = instituteRate.getRateClassCode();
+                String instRateTypeCode = instituteRate.getRateTypeCode();
+                String onOffFlag = instituteRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
                 String hKey = instRateClassCode + instRateTypeCode + onOffFlag;
                 InstituteRate instRate = (InstituteRate)instRates.get(hKey);
                 if((instRate != null) && (instRate.getStartDate().before(rateStartDate))) {
@@ -125,13 +184,34 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         return instituteRates;
     }
 
+    /* filter institute LA rates - get rates applicable for 
+     * the project 
+     * */
+    private List<InstituteLaRate> getFilteredInstituteLaRates(BudgetDocument budgetDocument, Collection<InstituteLaRate> allInstituteLaRates) {
+
+        List<InstituteLaRate> instituteLaRates = new ArrayList();
+        
+        /* get rates for the project start and end date range */
+        instituteLaRates.addAll(getLaRatesForProjectDates(allInstituteLaRates));
+
+        /* get applicable rates before project start date */
+        instituteLaRates.addAll(getApplicableLaRates(allInstituteLaRates));
+        
+        return instituteLaRates;
+    }
+    
     /* reset all budget rates 
      *  
      * */
     public void resetAllBudgetRates(BudgetDocument budgetDocument) {
         List<BudgetProposalRate> budgetProposalRates = budgetDocument.getBudgetProposalRates();
+        List<BudgetProposalLaRate> budgetProposalLaRates = budgetDocument.getBudgetProposalLaRates();
         for(BudgetProposalRate budgetProposalRate: budgetProposalRates) {
             budgetProposalRate.setApplicableRate(budgetProposalRate.getOldApplicableRate()); 
+        }
+        /* reset la rates */
+        for(BudgetProposalLaRate budgetProposalLaRate: budgetProposalLaRates) {
+            budgetProposalLaRate.setApplicableRate(budgetProposalLaRate.getOldApplicableRate()); 
         }
     }
     
@@ -141,11 +221,18 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
     public void resetBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument) {
         List<BudgetProposalRate> budgetProposalRates = budgetDocument.getBudgetProposalRates();
         List<RateClass> rateClasses = budgetDocument.getRateClasses();
+        List<BudgetProposalLaRate> budgetProposalLaRates = budgetDocument.getBudgetProposalLaRates();
         for(RateClass rateClass: rateClasses) {
             if(rateClass.getRateClassType().equalsIgnoreCase(rateClassType)) {
                 for(BudgetProposalRate budgetProposalRate: budgetProposalRates) {
                     if(budgetProposalRate.getRateClassCode().equalsIgnoreCase(rateClass.getRateClassCode())) {
                         budgetProposalRate.setApplicableRate(budgetProposalRate.getOldApplicableRate()); 
+                    }
+                }
+                /* reset la rates */
+                for(BudgetProposalLaRate budgetProposalLaRate: budgetProposalLaRates) {
+                    if(budgetProposalLaRate.getRateClassCode().equalsIgnoreCase(rateClass.getRateClassCode())) {
+                        budgetProposalLaRate.setApplicableRate(budgetProposalLaRate.getOldApplicableRate()); 
                     }
                 }
             }
@@ -160,7 +247,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         for(InstituteRate instituteRate: allInstituteRates) {
             String instRateClassCode = instituteRate.getRateClassCode();
             String instRateTypeCode = instituteRate.getRateTypeCode();
-            String onOffFlag = instituteRate.getOnOffCampusFlag() ? "Y" :"N";
+            String onOffFlag = instituteRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
             String startDate = instituteRate.getStartDate().toString();
             String hKey = instRateClassCode + instRateTypeCode + startDate + onOffFlag;
             instituteRates.put(hKey, instituteRate);
@@ -168,22 +255,53 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         return instituteRates;
     }
     
+    /* load institute LA rates to hashmap
+     *  
+     * */
+    private HashMap getInstituteLaRateMap(Collection<InstituteLaRate> allInstituteLaRates) {
+        HashMap instituteLaRates = new HashMap();
+        for(InstituteLaRate instituteLaRate: allInstituteLaRates) {
+            String instRateClassCode = instituteLaRate.getRateClassCode();
+            String instRateTypeCode = instituteLaRate.getRateTypeCode();
+            String onOffFlag = instituteLaRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
+            String startDate = instituteLaRate.getStartDate().toString();
+            String hKey = instRateClassCode + instRateTypeCode + startDate + onOffFlag;
+            instituteLaRates.put(hKey, instituteLaRate);
+        }
+        return instituteLaRates;
+    }
+
     /* sync all budget rates
      *  
      * */
     public void syncAllBudgetRates(BudgetDocument budgetDocument) {
         List<BudgetProposalRate> budgetProposalRates = budgetDocument.getBudgetProposalRates();
+        List<BudgetProposalLaRate> budgetProposalLaRates = budgetDocument.getBudgetProposalLaRates();
         Collection<InstituteRate> allInstituteRates = getInstituteRates(budgetDocument);
+        Collection<InstituteLaRate> allInstituteLaRates = getInstituteLaRates(budgetDocument);
         HashMap instRateMap = getInstituteRateMap(allInstituteRates);
+        HashMap instLaRateMap = getInstituteLaRateMap(allInstituteLaRates);
         for(BudgetProposalRate budgetProposalRate: budgetProposalRates) {
             String instRateClassCode = budgetProposalRate.getRateClassCode();
             String instRateTypeCode = budgetProposalRate.getRateTypeCode();
-            String onOffFlag = budgetProposalRate.getOnOffCampusFlag() ? "Y" :"N";
+            String onOffFlag = budgetProposalRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
             String startDate = budgetProposalRate.getStartDate().toString();
             String hKey = instRateClassCode + instRateTypeCode + startDate + onOffFlag;
             InstituteRate instituteRate = (InstituteRate)instRateMap.get(hKey);
             budgetProposalRate.setInstituteRate(instituteRate.getInstituteRate()); 
             budgetProposalRate.setApplicableRate(instituteRate.getInstituteRate()); 
+        }
+        
+        /* sync la rates */
+        for(BudgetProposalLaRate budgetProposalLaRate: budgetProposalLaRates) {
+            String instRateClassCode = budgetProposalLaRate.getRateClassCode();
+            String instRateTypeCode = budgetProposalLaRate.getRateTypeCode();
+            String onOffFlag = budgetProposalLaRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
+            String startDate = budgetProposalLaRate.getStartDate().toString();
+            String hKey = instRateClassCode + instRateTypeCode + startDate + onOffFlag;
+            InstituteRate instituteRate = (InstituteRate)instRateMap.get(hKey);
+            budgetProposalLaRate.setInstituteRate(instituteRate.getInstituteRate()); 
+            budgetProposalLaRate.setApplicableRate(instituteRate.getInstituteRate()); 
         }
     }
 
@@ -192,6 +310,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
      * */
     public void viewLocation(String viewLocation, Integer budgetPeriod, BudgetDocument budgetDocument) {
         List<BudgetProposalRate> budgetProposalRates = budgetDocument.getBudgetProposalRates();
+        List<BudgetProposalLaRate> budgetProposalLaRates = budgetDocument.getBudgetProposalLaRates();
         for(BudgetProposalRate budgetProposalRate: budgetProposalRates) {
             boolean displayRate = true;
 
@@ -213,6 +332,30 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
             }
             budgetProposalRate.setDisplayLocation(displayRate); 
         }
+        
+        /* la rates */
+        for(BudgetProposalLaRate budgetProposalLaRate: budgetProposalLaRates) {
+            boolean displayRate = true;
+
+            /* check view location */
+            String onOffCampusFlag = budgetProposalLaRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG : Constants.OFF_CAMUS_FLAG;
+            if(viewLocation == null || (viewLocation.equalsIgnoreCase(onOffCampusFlag))) {
+                displayRate = true; 
+            }else { 
+                displayRate  = false;
+            }
+            
+            /* check budget Period */
+            if(displayRate && budgetPeriod != null) {
+                String trackAffectedPeriod = budgetProposalLaRate.getTrackAffectedPeriod();
+                String formattedBudgetPeriod = PERIOD_SEARCH_SEPARATOR + budgetPeriod + PERIOD_SEARCH_SEPARATOR;
+                if(trackAffectedPeriod == null || (trackAffectedPeriod.indexOf(formattedBudgetPeriod) < 0)) {
+                    displayRate  = false;
+                }
+            }
+            budgetProposalLaRate.setDisplayLocation(displayRate); 
+        }
+    
     }
     
     /* sync budget rates for a panel
@@ -220,21 +363,37 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
      * */
     public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument) {
         List<BudgetProposalRate> budgetProposalRates = budgetDocument.getBudgetProposalRates();
+        List<BudgetProposalLaRate> budgetProposalLaRates = budgetDocument.getBudgetProposalLaRates();
         List<RateClass> rateClasses = budgetDocument.getRateClasses();
         Collection<InstituteRate> allInstituteRates = getInstituteRates(budgetDocument);
+        Collection<InstituteLaRate> allInstituteLaRates = getInstituteLaRates(budgetDocument);
         HashMap instRateMap = getInstituteRateMap(allInstituteRates);
+        HashMap instLaRateMap = getInstituteLaRateMap(allInstituteLaRates);
         for(RateClass rateClass: rateClasses) {
             if(rateClass.getRateClassType().equalsIgnoreCase(rateClassType)) {
                 for(BudgetProposalRate budgetProposalRate: budgetProposalRates) {
                     if(budgetProposalRate.getRateClassCode().equalsIgnoreCase(rateClass.getRateClassCode())) {
                         String instRateClassCode = budgetProposalRate.getRateClassCode();
                         String instRateTypeCode = budgetProposalRate.getRateTypeCode();
-                        String onOffFlag = budgetProposalRate.getOnOffCampusFlag() ? "Y" :"N";
+                        String onOffFlag = budgetProposalRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
                         String startDate = budgetProposalRate.getStartDate().toString();
                         String hKey = instRateClassCode + instRateTypeCode + startDate + onOffFlag;
                         InstituteRate instituteRate = (InstituteRate)instRateMap.get(hKey);
                         budgetProposalRate.setInstituteRate(instituteRate.getInstituteRate()); 
                         budgetProposalRate.setApplicableRate(instituteRate.getInstituteRate()); 
+                    }
+                }
+                /* la rates */
+                for(BudgetProposalLaRate budgetProposalLaRate: budgetProposalLaRates) {
+                    if(budgetProposalLaRate.getRateClassCode().equalsIgnoreCase(rateClass.getRateClassCode())) {
+                        String instRateClassCode = budgetProposalLaRate.getRateClassCode();
+                        String instRateTypeCode = budgetProposalLaRate.getRateTypeCode();
+                        String onOffFlag = budgetProposalLaRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
+                        String startDate = budgetProposalLaRate.getStartDate().toString();
+                        String hKey = instRateClassCode + instRateTypeCode + startDate + onOffFlag;
+                        InstituteRate instituteRate = (InstituteRate)instRateMap.get(hKey);
+                        budgetProposalLaRate.setInstituteRate(instituteRate.getInstituteRate()); 
+                        budgetProposalLaRate.setApplicableRate(instituteRate.getInstituteRate()); 
                     }
                 }
             }
@@ -256,11 +415,20 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
     private void updateBudgetPeriodsAffected(BudgetDocument budgetDocument) {
         HashMap periodsAffected = buildRatesForEachRateClassRateType(budgetDocument);
         List<BudgetProposalRate> budgetProposalRates = budgetDocument.getBudgetProposalRates();
+        List<BudgetProposalLaRate> budgetProposalLaRates = budgetDocument.getBudgetProposalLaRates();
         for(BudgetProposalRate budgetProposalRate: budgetProposalRates) {
             String rateClassRateType = budgetProposalRate.getRateClassCode().concat(budgetProposalRate.getRateTypeCode());
             String periodAffected = (String)periodsAffected.get(rateClassRateType);
             budgetProposalRate.setTrackAffectedPeriod(periodAffected);
             budgetProposalRate.setAffectedBudgetPeriod(getFormattedAffectedBudgetPeriod(periodAffected));
+        }
+        
+        /* la rates */
+        for(BudgetProposalLaRate budgetProposalLaRate: budgetProposalLaRates) {
+            String rateClassRateType = budgetProposalLaRate.getRateClassCode().concat(budgetProposalLaRate.getRateTypeCode());
+            String periodAffected = (String)periodsAffected.get(rateClassRateType);
+            budgetProposalLaRate.setTrackAffectedPeriod(periodAffected);
+            budgetProposalLaRate.setAffectedBudgetPeriod(getFormattedAffectedBudgetPeriod(periodAffected));
         }
     }
     
@@ -272,6 +440,67 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
             budgetPeriodAffected = budgetPeriodAffected.substring(1, budgetPeriodAffected.length()- 1);
         }
         return budgetPeriodAffected;
+    }
+
+    /* get budget LA rates applicable for the proposal - based on 
+     * unit number 
+     * */
+    public void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument) {
+        List<InstituteLaRate> instituteLaRates = budgetDocument.getInstituteLaRates();
+        setProjectStartDate(budgetDocument.getStartDate());
+        setProjectEndDate(budgetDocument.getEndDate());
+        String unitNumber = budgetDocument.getProposal().getOwnedByUnitNumber();
+        String activityTypeCode = budgetDocument.getProposal().getActivityTypeCode();
+        List<RateClass> rateClasses = budgetDocument.getRateClasses();
+        List<BudgetProposalLaRate> budgetProposalLaRates = budgetDocument.getBudgetProposalLaRates();
+        boolean isBudgetProposalRatesEmpty = true;
+        Map rateClassMap = new HashMap();
+        Map rateClassTypeMap = new HashMap();
+        
+        Collection<InstituteLaRate> allInstituteLaRates = getInstituteLaRates(budgetDocument);
+        /* check budget proposal LA rates exists. If not get institute rates to initialize
+         * proposal rates.
+         */
+        if(budgetProposalLaRates.size() > 0) {
+            isBudgetProposalRatesEmpty = false;
+        }
+        instituteLaRates.clear();
+        instituteLaRates = getFilteredInstituteLaRates(budgetDocument, allInstituteLaRates);
+        for(InstituteLaRate instituteRate: instituteLaRates) {
+            String rateClassCode = instituteRate.getRateClassCode();
+            String rateClassType = instituteRate.getRateClass().getRateClassType();
+            /* Add applicable rate class */
+            if(rateClassMap.get(rateClassCode) == null) {
+                RateClass rateClass = instituteRate.getRateClass();
+                rateClassMap.put(rateClassCode, instituteRate.getRateClass());
+            }
+            /* Add applicable rate class types */
+            if(rateClassTypeMap.get(rateClassType) == null) {
+                RateClass rateClass = instituteRate.getRateClass();
+                rateClassTypeMap.put(rateClassType, instituteRate.getRateClass().getRateClassTypeT());
+            }
+            if(isBudgetProposalRatesEmpty) {
+                /* initialize budget proposal rates */
+                BudgetProposalLaRate budgetProposalRate = new BudgetProposalLaRate();
+                budgetProposalRate.setApplicableRate(instituteRate.getInstituteRate());
+                budgetProposalRate.setFiscalYear(instituteRate.getFiscalYear());
+                budgetProposalRate.setInstituteRate(instituteRate.getInstituteRate());
+                budgetProposalRate.setOnOffCampusFlag(instituteRate.getOnOffCampusFlag());
+                budgetProposalRate.setRateClass(instituteRate.getRateClass());
+                budgetProposalRate.setRateClassCode(rateClassCode);
+                budgetProposalRate.setRateType(instituteRate.getRateType());
+                budgetProposalRate.setRateTypeCode(instituteRate.getRateTypeCode());
+                budgetProposalRate.setStartDate(instituteRate.getStartDate());
+                budgetProposalRate.setUnitNumber(unitNumber);
+                budgetProposalRate.setOldApplicableRate(instituteRate.getInstituteRate());
+                budgetProposalLaRates.add(budgetProposalRate);
+            }
+        }
+        rateClasses.addAll(rateClassMap.values());
+        rateClassTypes.addAll(rateClassTypeMap.values());
+        updateBudgetPeriodsAffected(budgetDocument);
+        Collections.sort(budgetDocument.getBudgetProposalLaRates());
+        
     }
 
     /* get budget rates applicable for the proposal - based on activity type
@@ -334,6 +563,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         rateClassTypes.addAll(rateClassTypeMap.values());
         updateBudgetPeriodsAffected(budgetDocument);
         Collections.sort(budgetDocument.getBudgetProposalRates());
+        getBudgetLaRates(rateClassTypes, budgetDocument);
+        System.out.println("la rates size ===> " + budgetDocument.getBudgetProposalLaRates().size());
     }
 
     /**
