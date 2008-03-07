@@ -42,6 +42,7 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
     private UnitAuthorizationService unitAuthorizationService;
     private PersonService kimPersonService;
     private QualifiedRoleService kimQualifiedRoleService;
+    private org.kuali.kra.service.PersonService personService;
 
     /**
      * Set the Unit Authorization Service.  Injected by Spring.
@@ -50,7 +51,15 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
         this.unitAuthorizationService = unitAuthorizationService;
     }
-
+    
+    /**
+     * Set the KRA Person Service.  Injected by Spring.
+     * @param personService the KRA Person Service
+     */
+    public void setPersonService(org.kuali.kra.service.PersonService personService) {
+        this.personService = personService;
+    }
+    
     /**
      * Set the KIM Person Service.  Injected by Spring.
      * @param personService the KIM Person Service
@@ -147,7 +156,6 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
         qualifiedRoleAttrs.put(PROPOSAL_KEY, doc.getProposalNumber());
         List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
         for (String username : usernames) {
-            org.kuali.kra.service.PersonService personService = KraServiceLocator.getService(org.kuali.kra.service.PersonService.class);
             Person person = personService.getPersonByName(username);
             if (person != null) {
                 persons.add(person);

@@ -398,6 +398,9 @@
 		<property name="unitAuthorizationService">
 			<ref bean="unitAuthorizationService" />
 		</property>
+		<property name="personService">
+			<ref bean="personService" />
+		</property>
 		<property name="kimPersonService">
 			<ref bean="kimPersonService" />
 		</property>
