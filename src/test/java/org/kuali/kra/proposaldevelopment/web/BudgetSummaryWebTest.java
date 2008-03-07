@@ -42,7 +42,7 @@ public class BudgetSummaryWebTest extends ProposalDevelopmentWebTestBase {
     private static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "IN-CARD";
     private static final String PERIOD2_START_DATE = "01/01/2001";
     private static final String PERIOD2_END_DATE = "12/31/2001";
-    private static final String DEL_ERROR_MESSAGE = "New Period start date should be greater than Period 2 end date and less than Period 3 start date";
+    private static final String ADD_ERROR_MESSAGE = "New Period start date should be greater than Period 1 end date and less than Period 2 start date";
     
     @Test
     public void testSaveBudgetSummary() throws Exception {
@@ -79,7 +79,7 @@ public class BudgetSummaryWebTest extends ProposalDevelopmentWebTestBase {
         setFieldValue(budgetSummaryPage, ADD_NEW_BUDGET_END, PERIOD2_END_DATE);
         HtmlElement addBtn = getElementByName(budgetSummaryPage, ADD_BUDGET_PERIOD_BUTTON, true);
         budgetSummaryPage = clickOn(addBtn);
-        assertContains(budgetSummaryPage, DEL_ERROR_MESSAGE);
+        assertContains(budgetSummaryPage, ADD_ERROR_MESSAGE);
     }
 
     @Test
