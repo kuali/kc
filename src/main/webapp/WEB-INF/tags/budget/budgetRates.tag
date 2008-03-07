@@ -69,65 +69,13 @@
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.applicableRate" />
 			<c:set var="rowIndex" value="1" />
 			<c:forEach items="${KualiForm.document.budgetProposalRates}" var="proposalRates" varStatus="status">
-    			  <c:set var="budgetProposalRate" value="document.budgetProposalRates[${status.index}]" /> 
-				  <bean:define id="irateClassType" name="KualiForm" property="${budgetProposalRate}.rateClass.rateClassType"/>
-				  <bean:define id="displayRow" name="KualiForm" property="${budgetProposalRate}.displayLocation"/>
-    			  <c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">
-                  <tr>
-                    <td width="10%" class="${tdClass}">
-                    	<div align=left>
-                    	<span class="copy">
-                    		<bean:write name="KualiForm" property="${budgetProposalRate}.rateType.description"/>
-                      	</span>
-                      	</div>
-                    </td>
-                    <td width="10%" class="${tdClass}">
-                    	<div align=left>
-                    	<span class="copy">
-                    		<bean:write name="KualiForm" property="${budgetProposalRate}.onOffCampusFlag"/>
-                      	</span>
-                      	</div>
-                    </td>
-                    <td width="10%" class="${tdClass}">
-                    	<div align=left>
-                    	<span class="copy">
-                    		<bean:write name="KualiForm" property="${budgetProposalRate}.fiscalYear"/>
-                      	</span>
-                      	</div>
-                    </td>
-                    <td width="15%" class="${tdClass}">
-                    	<div align=left>
-                    	<span class="copy">
-					        &nbsp;
-		                    <bean:write name="KualiForm" property="${budgetProposalRate}.affectedBudgetPeriod"/>
-                      	</span>
-                      	</div>
-                    </td>
-                    <td width="10%" class="${tdClass}">
-                    	<div align=center>
-                    	<span class="copy">
-	                    	<bean:write name="KualiForm" property="${budgetProposalRate}.startDate"/>
-                      	</span>
-                      	</div>
-                    </td>
-                    <td width="10%" class="${tdClass}">
-                    	<div align=center>
-                    	<span class="copy">
-	                    	<bean:write name="KualiForm" property="${budgetProposalRate}.instituteRate"/>
-                      	</span>
-                      	</div>
-                    </td>
-                    <td width="10%" class="${tdClass}">
-                    	<div align=center>
-                    	<span class="copy">
-                			<kul:htmlControlAttribute property="${budgetProposalRate}.applicableRate" attributeEntry="${budgetProposalRatesAttributes.applicableRate}" />
-                      	</span>
-                      	</div>
-                    </td>
-                  </tr>
-				  <c:set var="rowIndex" value="${rowIndex+1}" />
-                  </c:if>
-		</c:forEach>
+    	 	  	<c:set var="budgetProposalRate" value="document.budgetProposalRates[${status.index}]" /> 
+	 			<kra-b:budgetRatesTab budgetProposalRate="${budgetProposalRate}" rateClassType="${rateClassType}"/>
+			</c:forEach>
+			<c:forEach items="${KualiForm.document.budgetProposalLaRates}" var="proposalLaRates" varStatus="laStatus">
+    	 	  	<c:set var="budgetProposalLaRate" value="document.budgetProposalLaRates[${laStatus.index}]" /> 
+	 			<kra-b:budgetRatesTab budgetProposalRate="${budgetProposalLaRate}" rateClassType="${rateClassType}"/>
+			</c:forEach>
         <tr>
         	<td colspan="7" class="infoline">
            		<div align=center>
