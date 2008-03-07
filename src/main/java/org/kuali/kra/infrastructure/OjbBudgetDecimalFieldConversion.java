@@ -33,8 +33,8 @@ public class OjbBudgetDecimalFieldConversion implements FieldConversion {
     public Object javaToSql(Object source) throws ConversionException {
         Object converted = source;
 
-        if (source instanceof KualiDecimal) {
-            converted = ((KualiDecimal) source).bigDecimalValue();
+        if (source instanceof BudgetDecimal) {
+            converted = ((BudgetDecimal) source).bigDecimalValue();
         }
 
         return converted;
