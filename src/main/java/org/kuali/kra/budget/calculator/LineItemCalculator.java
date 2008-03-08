@@ -96,9 +96,9 @@ public class LineItemCalculator extends CalculatorBase {
         BudgetDecimal lineItemCost = bli.getLineItemCost();
         BudgetDecimal lineItemCostSharing = bli.getCostSharingAmount();
         boundary.setApplicableCost(lineItemCost==null?BudgetDecimal.ZERO:
-            lineItemCost.divide(new BudgetDecimal(totalNumOfDays)).multiply(new BudgetDecimal(boundaryNumOfDays)).setScale());
+            lineItemCost.divide(new BudgetDecimal(totalNumOfDays)).multiply(new BudgetDecimal(boundaryNumOfDays)));
         boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:
             lineItemCostSharing.divide(new BudgetDecimal(totalNumOfDays)).
-                multiply(new BudgetDecimal(boundaryNumOfDays)).setScale());
+                multiply(new BudgetDecimal(boundaryNumOfDays)));
     }
 }
