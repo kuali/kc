@@ -95,6 +95,7 @@ public class LineItemCalculatorTest extends KraTestBase {
     }
     @Test
     public void calculateLineItemTest() throws Exception{
+        List<String> errors = new ArrayList<String>();
         BudgetDocument bd = createBudgetDocument();
         assertNotNull("Budget document not saved",bd);
         
@@ -111,7 +112,12 @@ public class LineItemCalculatorTest extends KraTestBase {
             LOG.info(budgetLineItemCalculatedAmount);
         }
         BudgetDecimal directCost = bli.getDirectCost();
-        assertEquals(new BudgetDecimal(14934.309),directCost );
+        try{
+        assertEquals(new BudgetDecimal(15933.09),directCost );
+        }catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+
         bd.getBudgetPeriods().add(bp);
         
         BudgetLineItem bli1 = getLineItem(bp, 1, "400025",java.sql.Date.valueOf("2005-01-01"),
@@ -119,17 +125,37 @@ public class LineItemCalculatorTest extends KraTestBase {
         bp.getBudgetLineItems().add(bli1);
         bcs.calculateBudgetLineItem(bd,bli1);
         BudgetDecimal directCost1 = bli1.getDirectCost();
-        assertEquals(new BudgetDecimal(15081.623),directCost1);
-        
+        try{
+        assertEquals(new BudgetDecimal(15082.18),directCost1);
+        }catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+
         bcs.calculateBudgetPeriod(bd,bp);
-        assertEquals(new BudgetDecimal(31014.060),bp.getTotalDirectCost());
-        assertEquals(new BudgetDecimal(7661.434),bp.getTotalIndirectCost());
-        assertEquals(new BudgetDecimal(38675.494),bp.getTotalCost());
+        try{
+        assertEquals(new BudgetDecimal(31015.27),bp.getTotalDirectCost());
+        }catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+        try{
+        assertEquals(new BudgetDecimal(7662.28),bp.getTotalIndirectCost());
+        }catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+        try{
+        assertEquals(new BudgetDecimal(38677.55),bp.getTotalCost());
+        }catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+        if(!errors.isEmpty()){
+            throw new AssertionError(errors.toString());
+        }
         
     }
 
     @Test
     public void calculateUnderrecoveryTest() throws Exception{
+        List<String> errors = new ArrayList<String>();
         BudgetDocument bd = createBudgetDocument();
         assertNotNull("Budget document not saved",bd);
         bd.setUrRateClassCode("2");
@@ -140,14 +166,26 @@ public class LineItemCalculatorTest extends KraTestBase {
                 java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudgetLineItem(bd,bli);
-        assertEquals(new BudgetDecimal(15932.437),bli.getDirectCost() );
-        assertEquals(new BudgetDecimal(540.305),bli.getUnderrecoveryAmount());
+        try{
+        assertEquals(new BudgetDecimal(15933.09),bli.getDirectCost() );
+        }catch (Exception e) {
+            errors.add(e.getMessage());
+        }try{
+        assertEquals(new BudgetDecimal(540.28),bli.getUnderrecoveryAmount());
+        }catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+        if(!errors.isEmpty()){
+            throw new AssertionError(errors.toString());
+        }
+        
 //        LOG.info(bli.getDirectCost());
 //        LOG.info(bli.getUnderrecoveryAmount());
         
     }
     @Test
     public void calculatePersonnelLineItemTest() throws Exception{
+        List<String> errors = new ArrayList<String>();
         BudgetDocument bd = createBudgetDocument();
         assertNotNull("Budget document not saved",bd);
         
@@ -168,12 +206,28 @@ public class LineItemCalculatorTest extends KraTestBase {
                 java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d,1,2,"9999999","TJC",100.00d,50.00d);
         bli.getBudgetPersonnelDetailsList().add(bpli);
         bcs.calculateBudgetLineItem(bd,bpli);
-        assertEquals(new BudgetDecimal(1000.016), bpli.getSalaryRequested());
-        assertEquals(new BudgetDecimal(50.000), bpli.getCostSharingPercent());
+        try{
+        assertEquals(new BudgetDecimal(999.80), bpli.getSalaryRequested());
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }try{
+        assertEquals(new BudgetDecimal(50.00), bpli.getCostSharingPercent());
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }try{
 //        assertEquals(new BudgetDecimal(2982.046), bpli.getCostSharingAmount());have to re-investigate
-        assertEquals(new BudgetDecimal(2784.042), bpli.getCostSharingAmount());
-        assertEquals(new BudgetDecimal(2187.034), bpli.getDirectCost());
-        assertEquals(new BudgetDecimal(795.012), bpli.getIndirectCost());
+        assertEquals(new BudgetDecimal(2981.37), bpli.getCostSharingAmount());
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }try{
+        assertEquals(new BudgetDecimal(2186.54), bpli.getDirectCost());
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }try{
+        assertEquals(new BudgetDecimal(794.83), bpli.getIndirectCost());
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }
 //        LOG.info("Salary requested=> "+bpli.getSalaryRequested());
 //        LOG.info("Cost sharing percentage=>"+bpli.getCostSharingPercent());
 //        LOG.info("Cost sharing amount =>"+bpli.getCostSharingAmount());
@@ -185,11 +239,30 @@ public class LineItemCalculatorTest extends KraTestBase {
         bli.getBudgetPersonnelDetailsList().add(bpli1);
 
         bcs.calculateBudgetLineItem(bd,bpli1);
-        assertEquals(new BudgetDecimal(999.984), bpli1.getSalaryRequested());
-        assertEquals(new BudgetDecimal(0.000), bpli1.getCostSharingPercent());
-        assertEquals(new BudgetDecimal(0.000), bpli1.getCostSharingAmount());
-        assertEquals(new BudgetDecimal(2186.965), bpli1.getDirectCost());
-        assertEquals(new BudgetDecimal(794.987), bpli1.getIndirectCost());
+        try{
+        assertEquals(new BudgetDecimal(1000.72), bpli1.getSalaryRequested());
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }try{
+        assertEquals(new BudgetDecimal(0.00), bpli1.getCostSharingPercent());
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }try{
+        assertEquals(new BudgetDecimal(0.00), bpli1.getCostSharingAmount());
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }try{
+        assertEquals(new BudgetDecimal(2188.46), bpli1.getDirectCost());
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }try{
+        assertEquals(new BudgetDecimal(795.43), bpli1.getIndirectCost());
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }
+        if(!errors.isEmpty()){
+            throw new AssertionError(errors.toString());
+        }
 //        LOG.info("Salary requested=> "+bpli1.getSalaryRequested());
 //        LOG.info("Cost sharing percentage=>"+bpli1.getCostSharingPercent());
 //        LOG.info("Cost sharing percentage amount =>"+bpli1.getCostSharingAmount());
@@ -199,6 +272,22 @@ public class LineItemCalculatorTest extends KraTestBase {
 //        LOG.info(bp.toString());
     }
 
+    @Test
+    public void calculateBudgetTest() throws Exception{
+        List<String> errors = new ArrayList<String>();
+        BudgetDocument bd = createBudgetDocument();
+        assertNotNull("Budget document not saved",bd);
+        
+//        List<BudgetPeriod> periods = bd.getBudgetPeriods();
+        BudgetPeriod bp = getBudgetPeriod(bd,1,"2005-01-01","2005-12-31");
+        bd.getBudgetPeriods().add(bp);
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
+                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        bd.getBudgetLineItems().add(bli);
+        BudgetCalculationService bcs = getService(BudgetCalculationService.class);
+        bcs.calculateBudget(bd);
+        LOG.info(bd);
+    }
     private BudgetPerson getBudgetPerson(String personId, int personSequenceNumber, int calcBase, String appointTypeCode, String jobCode, String effectiveDate) {
         BudgetPerson bper = new BudgetPerson();
         bper.setPersonId(personId);
@@ -235,11 +324,23 @@ public class LineItemCalculatorTest extends KraTestBase {
         BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
                 java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d,1,1,"8888888","TJC",100.00d,100.00d);
         bli.getBudgetPersonnelDetailsList().add(bpli1);
-
+        List<String> errors = new ArrayList<String>();
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudgetLineItem(bd,bli);
-        assertEquals(new BudgetDecimal(2000.032), bpli.getSalaryRequested());
-        assertEquals(new BudgetDecimal(999.984), bpli1.getSalaryRequested());
+        try{
+        assertEquals(new BudgetDecimal(1999.60), bpli.getSalaryRequested());
+        }catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+        try{
+        assertEquals(new BudgetDecimal(1000.72), bpli1.getSalaryRequested());
+        }catch (Exception e) {
+            errors.add(e.getMessage());
+        }
+        if(!errors.isEmpty()){
+            throw new AssertionError(errors.toString());
+        }
+
 //        LOG.info("Salary requested=>"+bpli.getSalaryRequested());
 //        LOG.info("Salary requested=>"+bpli1.getSalaryRequested());
 //        
