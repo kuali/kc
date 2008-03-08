@@ -93,6 +93,7 @@ import org.kuali.rice.testharness.TransactionalLifecycle;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_appointment_type.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_ynq_explanation_type.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_ynq.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/LOAD_RATE_CLASS_TYPE.SQL", delimiter = ";")
             }
         )
     )
