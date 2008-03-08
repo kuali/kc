@@ -126,14 +126,14 @@ public class LineItemCalculatorTest extends KraTestBase {
         bcs.calculateBudgetLineItem(bd,bli1);
         BudgetDecimal directCost1 = bli1.getDirectCost();
         try{
-        assertEquals(new BudgetDecimal(15082.18),directCost1);
+        assertEquals(new BudgetDecimal(14678.85),directCost1);
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
 
         bcs.calculateBudgetPeriod(bd,bp);
         try{
-        assertEquals(new BudgetDecimal(31015.27),bp.getTotalDirectCost());
+        assertEquals(new BudgetDecimal(30208.61),bp.getTotalDirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
@@ -143,7 +143,7 @@ public class LineItemCalculatorTest extends KraTestBase {
             errors.add(e.getMessage());
         }
         try{
-        assertEquals(new BudgetDecimal(38677.55),bp.getTotalCost());
+        assertEquals(new BudgetDecimal(37870.89),bp.getTotalCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
