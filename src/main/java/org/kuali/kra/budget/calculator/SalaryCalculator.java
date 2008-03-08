@@ -203,8 +203,8 @@ public class SalaryCalculator {
     public void calculate() {
         Boundary boundary = new Boundary(startDate,endDate);
         calculate(boundary);
-        personnelLineItem.setSalaryRequested(boundary.getApplicableCost().setScale());
-        personnelLineItem.setCostSharingAmount(boundary.getApplicableCostSharing().setScale());
+        personnelLineItem.setSalaryRequested(boundary.getApplicableCost());
+        personnelLineItem.setCostSharingAmount(boundary.getApplicableCostSharing());
         personnelLineItem.setCostSharingPercent(calculateCostSharingPercentage());
     }
     private BudgetDecimal calculateCostSharingPercentage() {

@@ -222,17 +222,17 @@ public abstract class CalculatorBase {
                 RCandRT = new And(equalsRC, equalsRT);
                 totalCalculatedCost = cvCombinedAmtDetails.sumObjects("calculatedCost", RCandRT);
 
-                calculatedAmount.setCalculatedCost(totalCalculatedCost.setScale());
+                calculatedAmount.setCalculatedCost(totalCalculatedCost);
 
                 totalCalculatedCostSharing = cvCombinedAmtDetails.sumObjects("calculatedCostSharing", RCandRT);
-                calculatedAmount.setCalculatedCostSharing(totalCalculatedCostSharing.setScale());
+                calculatedAmount.setCalculatedCostSharing(totalCalculatedCostSharing);
             }
 
             /*
              * Sum up all the underRecovery costs for each breakup interval and then update the line item details.
              */
             totalUnderRecovery = new QueryList<BreakUpInterval>(cvLIBreakupIntervals).sumObjects("underRecovery");
-            budgetLineItem.setUnderrecoveryAmount(totalUnderRecovery.setScale());
+            budgetLineItem.setUnderrecoveryAmount(totalUnderRecovery);
 
             /*
              * Sum up all direct costs ie, rates for RateClassType <> 'O', for each breakup interval plus the line item cost, and
@@ -240,14 +240,14 @@ public abstract class CalculatorBase {
              */
             NotEquals notEqualsOH = new NotEquals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
             directCost = cvCombinedAmtDetails.sumObjects("calculatedCost", notEqualsOH);
-            budgetLineItem.setDirectCost(directCost.add(budgetLineItem.getLineItemCost()).setScale());
+            budgetLineItem.setDirectCost(directCost.add(budgetLineItem.getLineItemCost()));
             /*
              * Sum up all Indirect costs ie, rates for RateClassType = 'O', for each breakup interval and then update the line item
              * details.
              */
             Equals equalsOH = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
             indirectCost = cvCombinedAmtDetails.sumObjects("calculatedCost", equalsOH);
-            budgetLineItem.setIndirectCost(indirectCost.setScale());
+            budgetLineItem.setIndirectCost(indirectCost);
 
             /*
              * Sum up all Cost Sharing amounts ie, rates for RateClassType <> 'O' and set in the calculatedCostSharing field of line
@@ -257,8 +257,8 @@ public abstract class CalculatorBase {
             // bli.setTotalCostSharingAmount(bli.getCostSharingAmount().add(totalCalculatedCostSharing));
 
             budgetLineItem.setCostSharingAmount(budgetLineItem.getCostSharingAmount() == null ? 
-                        totalCalculatedCostSharing.setScale() : 
-                        budgetLineItem.getCostSharingAmount().add(totalCalculatedCostSharing).setScale());
+                        totalCalculatedCostSharing : 
+                        budgetLineItem.getCostSharingAmount().add(totalCalculatedCostSharing));
 
         }
     }

@@ -411,8 +411,8 @@ public class BreakUpInterval{
         neRCandneRTOrneRT = new Or(neRCAndneRT, notEqualsRT);
         eqRCTypeAndneRCAndneRTOrneRT = new And(equalsRCType, neRCandneRTOrneRT);
         //sum up all the EB amts
-        EBCalculatedCost = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCost", eqRCTypeAndneRCAndneRTOrneRT),false);
-        EBCalculatedCostSharing = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCostSharing", eqRCTypeAndneRCAndneRTOrneRT),false);
+        EBCalculatedCost = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCost", eqRCTypeAndneRCAndneRTOrneRT));
+        EBCalculatedCostSharing = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCostSharing", eqRCTypeAndneRCAndneRTOrneRT));
         //get all the VA amts. Take care to exclude VA on LA
         equalsRCType = new Equals("rateClassType", RateClassType.VACATION.getRateClassType());
         notEqualsRC = new NotEquals("rateClassCode", VAonLARateClassCode);
@@ -421,8 +421,8 @@ public class BreakUpInterval{
         neRCandneRTOrneRT = new Or(neRCAndneRT, notEqualsRT);
         eqRCTypeAndneRCAndneRTOrneRT = new And(equalsRCType, neRCandneRTOrneRT);
         //sum up all the VA amts
-         VACalculatedCost = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCost", eqRCTypeAndneRCAndneRTOrneRT),false);
-        VACalculatedCostSharing = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCostSharing", eqRCTypeAndneRCAndneRTOrneRT),false);
+         VACalculatedCost = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCost", eqRCTypeAndneRCAndneRTOrneRT));
+        VACalculatedCostSharing = new BudgetDecimal(breakupCalculatedAmounts.sum("calculatedCostSharing", eqRCTypeAndneRCAndneRTOrneRT));
         
         //Now calculate OH & Under-recovery amounts
         int amtDetailsSize = cvOHAmtDetails.size();
