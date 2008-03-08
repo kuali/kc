@@ -474,10 +474,15 @@
   			<ref bean="s2SService"/>
   		</property>
   	</bean>		
+	<bean id="proposalPersonRoleService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonRoleServiceImpl">
+		<property name="businessObjectService"
+		 ref="businessObjectService">
+		 </property>
+	</bean>  
+	
 	<bean id="customAttributeService" class="org.kuali.kra.service.impl.CustomAttributeServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
-	
 	<!--  Lookupable Helper for Rolodexes -->
 
     <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.RolodexDaoOjb" >
