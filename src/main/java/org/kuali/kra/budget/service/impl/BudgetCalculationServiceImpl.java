@@ -15,18 +15,26 @@
  */
 package org.kuali.kra.budget.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
+import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.bo.CostElement;
+import org.kuali.kra.budget.bo.RateType;
 import org.kuali.kra.budget.calculator.BudgetPeriodCalculator;
 import org.kuali.kra.budget.calculator.LineItemCalculator;
 import org.kuali.kra.budget.calculator.PersonnelLineItemCalculator;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.SalaryCalculator;
+import org.kuali.kra.budget.calculator.query.And;
+import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 
@@ -114,6 +122,75 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         budgetDocument.setTotalCost(totalCost);
         budgetDocument.setUnderrecoveryAmount(totalUnderrecoveryAmount);
         budgetDocument.setCostSharingAmount(totalCostSharingAmount);
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.budget.service.BudgetCalculationService#calculateBudgetTotals(org.kuali.kra.budget.document.BudgetDocument)
+     */
+    public void calculateBudgetTotals(BudgetDocument budgetDocument){
+        // do we need to cache the totals ?
+        Map<CostElement, List> objectCodeTotals = new HashMap <CostElement, List> ();
+        Map<RateType, List> calculatedExpenseTotals = new HashMap <RateType, List> ();
+        for (BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
+            List <CostElement> objectCodes = new ArrayList<CostElement>();
+            QueryList lineItemQueryList = new QueryList();
+            lineItemQueryList.addAll(budgetPeriod.getBudgetLineItems());
+            budgetPeriod.setExpenseTotal(BudgetDecimal.ZERO);
+            // probably need to add '0' to the period that has no such object code or ratetype ?
+            for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+                if (budgetLineItem.getCostElementBO() == null) {
+                    budgetLineItem.refreshReferenceObject("costElementBO");
+                }
+                CostElement costElement = budgetLineItem.getCostElementBO();
+                if (!objectCodes.contains(costElement)) {
+                    objectCodes.add(costElement);
+                    Equals equalsCostElement = new Equals("costElement", budgetLineItem.getCostElement());
+                    BudgetDecimal objectCodeTotalInThisPeriod = lineItemQueryList.sumObjects("lineItemCost", equalsCostElement);
+                    if (!objectCodeTotals.containsKey(costElement)) {
+                        // set up for all periods and put into map
+                        List <BudgetDecimal> periodTotals = new ArrayList<BudgetDecimal>();
+                        for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
+                            periodTotals.add(i,BudgetDecimal.ZERO);
+                        }
+                        objectCodeTotals.put(costElement, periodTotals);
+                    }
+                    objectCodeTotals.get(costElement).set(budgetPeriod.getBudgetPeriod() - 1, objectCodeTotalInThisPeriod);
+                    budgetPeriod.setExpenseTotal(budgetPeriod.getExpenseTotal().add(objectCodeTotalInThisPeriod));
+                }
+                // get calculated expenses
+                QueryList lineItemCalcAmtQueryList = new QueryList();
+                lineItemCalcAmtQueryList.addAll(budgetLineItem.getBudgetLineItemCalculatedAmounts());
+                List <RateType> rateTypes = new ArrayList<RateType>();
+
+                for ( Object item : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                    BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount) item;
+                    if (budgetLineItemCalculatedAmount.getRateType() == null) {
+                        budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
+                    }
+                    RateType rateType = budgetLineItemCalculatedAmount.getRateType();
+                    if (!rateTypes.contains(rateType)) {
+                        rateTypes.add(rateType);
+                        Equals equalsRC = new Equals("rateClassCode", budgetLineItemCalculatedAmount.getRateClassCode());
+                        Equals equalsRT = new Equals("rateTypeCode", budgetLineItemCalculatedAmount.getRateTypeCode());
+                        And RCandRT = new And(equalsRC, equalsRT);
+                        BudgetDecimal rateTypeTotalInThisPeriod = lineItemCalcAmtQueryList.sumObjects("calculatedCost", RCandRT);
+                        if (!calculatedExpenseTotals.containsKey(rateType)) {
+                            List <BudgetDecimal> rateTypePeriodTotals = new ArrayList<BudgetDecimal>();
+                            for (int i = 0; i < budgetDocument.getBudgetPeriods().size(); i++) {
+                                rateTypePeriodTotals.add(i,BudgetDecimal.ZERO);
+                            }
+                            calculatedExpenseTotals.put(budgetLineItemCalculatedAmount.getRateType(), rateTypePeriodTotals);
+                        }
+                        calculatedExpenseTotals.get(rateType).set(budgetPeriod.getBudgetPeriod() - 1,((BudgetDecimal)calculatedExpenseTotals.get(rateType).get(budgetPeriod.getBudgetPeriod() - 1)).add(rateTypeTotalInThisPeriod));
+                        budgetPeriod.setExpenseTotal(budgetPeriod.getExpenseTotal().add(rateTypeTotalInThisPeriod));
+                   }
+                }
+            }
+        }
+        budgetDocument.setObjectCodeTotals(objectCodeTotals);
+        budgetDocument.setCalculatedExpenseTotals(calculatedExpenseTotals);
+
     }
 
 }
