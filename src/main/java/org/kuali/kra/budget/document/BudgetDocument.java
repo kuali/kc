@@ -42,8 +42,11 @@ import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
+import org.kuali.kra.budget.bo.CostElement;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateClassType;
+import org.kuali.kra.budget.bo.RateType;
+import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -93,6 +96,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<InstituteLaRate> instituteLaRates;
     private List<RateClass> rateClasses;
     private List<RateClassType> rateClassTypes;
+    private Map <CostElement, List> objectCodeTotals ;
+    private Map <RateType, List> calculatedExpenseTotals ;
     
     public BudgetDocument(){
         super();
@@ -535,6 +540,26 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public final void setInstituteLaRates(List<InstituteLaRate> instituteLaRates) {
         this.instituteLaRates = instituteLaRates;
+    }
+
+    public void getBudgetTotals() {
+        KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetTotals(this);
+    }
+
+    public Map<CostElement, List> getObjectCodeTotals() {
+        return objectCodeTotals;
+    }
+
+    public void setObjectCodeTotals(Map<CostElement, List> objectCodeTotals) {
+        this.objectCodeTotals = objectCodeTotals;
+    }
+
+    public Map<RateType, List> getCalculatedExpenseTotals() {
+        return calculatedExpenseTotals;
+    }
+
+    public void setCalculatedExpenseTotals(Map<RateType, List> calculatedExpenseTotals) {
+        this.calculatedExpenseTotals = calculatedExpenseTotals;
     }
 
 }

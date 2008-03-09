@@ -51,10 +51,16 @@ public class BudgetAction extends ProposalActionBase {
         return forward;
     }
 
-
+    /**
+     * Need to suppress buttons here when 'Totals' tab is clicked.
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        if (("totals").equals(actionForward.getName())) { 
+            ((BudgetForm)form).suppressButtonsForTotalPage();
+        }        		
         return actionForward;
     }
 
@@ -96,6 +102,8 @@ public class BudgetAction extends ProposalActionBase {
     }
 
     public ActionForward totals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        BudgetForm budgetForm = (BudgetForm) form;
+        budgetForm.getBudgetDocument().getBudgetTotals();
         return mapping.findForward("totals");
     }
 

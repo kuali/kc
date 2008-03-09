@@ -201,10 +201,10 @@
 			<attribute name="budgetJustification">
 			<label>Budget Justification </label>
 			<shortLabel>Budget Justification </shortLabel>
-			<maxLength>0</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<maxLength>200</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
-				<text size="0" />
+				<text size="200" />
 			</control>
 			<summary>Budget Justification </summary>
 			<description>Budget Justification </description>
@@ -314,7 +314,7 @@
 			<label>Underrecovery Amount </label>
 			<shortLabel>Underrecovery Amount </shortLabel>
 			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>

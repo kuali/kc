@@ -236,7 +236,7 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 		hashMap.put("budgetPeriod", getBudgetPeriod());
 		hashMap.put("lineItemNumber", getLineItemNumber());
 		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("versionNumber", getVersionNumber());
+		hashMap.put("budgetVersionNumber", getBudgetVersionNumber());
 		hashMap.put("applyInRateFlag", getApplyInRateFlag());
 		hashMap.put("basedOnLineItem", getBasedOnLineItem());
 		hashMap.put("budgetCategoryCode", getBudgetCategoryCode());
@@ -255,9 +255,10 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
         hashMap.put("indirectCost", getIndirectCost());
         List<BudgetLineItemCalculatedAmount> l = getBudgetLineItemCalculatedAmounts();
         hashMap.put("budgetLineItemCalculatedAmounts",getBudgetLineItemCalculatedAmounts());
-        for (BudgetLineItemCalculatedAmount object : l) {
-            hashMap.put(object.getRateClassType(),object);
-        }
+// TODO : rateclasstype is null - not sure what is this for ?
+//        for (BudgetLineItemCalculatedAmount object : l) {
+//            hashMap.put(object.getRateClassType(),object);
+//        }
         return hashMap;
 	}
 
