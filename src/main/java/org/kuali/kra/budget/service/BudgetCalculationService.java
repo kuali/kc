@@ -69,4 +69,12 @@ public interface BudgetCalculationService {
      * @throws BudgetException
      */
     public void calculateSalary(BudgetDocument budgetDocument,BudgetPersonnelDetails budgetPersnnelLineItem) ;
+    
+    /**
+     * 
+     * This method is to calculate the budget totals for budget total page
+     * @param budgetDocument
+     */
+    public void calculateBudgetTotals(BudgetDocument budgetDocument);
+
 }

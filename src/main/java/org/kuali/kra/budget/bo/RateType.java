@@ -15,46 +15,74 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class RateType extends KraPersistableBusinessObjectBase {
-	private String rateClassCode;
-	private String rateTypeCode;
-	private String description;
-
-	public String getRateClassCode() {
-		return rateClassCode;
-	}
-
-	public void setRateClassCode(String rateClassCode) {
-		this.rateClassCode = rateClassCode;
-	}
-
-	public String getRateTypeCode() {
-		return rateTypeCode;
-	}
-
-	public void setRateTypeCode(String rateTypeCode) {
-		this.rateTypeCode = rateTypeCode;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    private String rateClassCode;
+    private String rateTypeCode;
+    private String description;
+    private RateClass rateClass;
+    private static Map<String, String> rateClassPrefixes = new HashMap<String, String>();
+    static {
+        rateClassPrefixes.put("O", "OH");
+        rateClassPrefixes.put("E", "Employee Benefits");
+        rateClassPrefixes.put("V", "Vacation");
+    }
 
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("rateClassCode", getRateClassCode());
-		hashMap.put("rateTypeCode", getRateTypeCode());
-		hashMap.put("description", getDescription());
-		return hashMap;
-	}
+    public String getRateClassCode() {
+        return rateClassCode;
+    }
+
+    public void setRateClassCode(String rateClassCode) {
+        this.rateClassCode = rateClassCode;
+    }
+
+    public String getRateTypeCode() {
+        return rateTypeCode;
+    }
+
+    public void setRateTypeCode(String rateTypeCode) {
+        this.rateTypeCode = rateTypeCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap hashMap = new LinkedHashMap();
+        hashMap.put("rateClassCode", getRateClassCode());
+        hashMap.put("rateTypeCode", getRateTypeCode());
+        hashMap.put("description", getDescription());
+        return hashMap;
+    }
+
+    /**
+     * 
+     * This is helper method to get prefix for total page display.
+     * @return
+     */
+    public String getRateClassPrefix() {
+        //this.refreshReferenceObject("rateClass");
+        return rateClassPrefixes.get(getRateClass().getRateClassType());
+    }
+
+    public RateClass getRateClass() {
+        return rateClass;
+    }
+
+    public void setRateClass(RateClass rateClass) {
+        this.rateClass = rateClass;
+    }
 }
