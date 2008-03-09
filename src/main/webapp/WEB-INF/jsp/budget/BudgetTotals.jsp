@@ -19,9 +19,17 @@
 	showDocumentInfo="true"
 	htmlFormAction="budgetTotals"
 	documentTypeName="BudgetDocument"
-  	headerDispatch="save"
-  	headerTabActive="totals">
+  	headerDispatch="reload"
+  	headerTabActive="totals"
+  	extraTopButtons="${KualiForm.extraTopButtons}">
 
-	<center>Under Construction</center>
+<kra-b:budgetTotals /> 
+
+<kul:documentControls 
+		transactionalDocument="true" 
+		suppressRoutingControls="true" 
+		extraButtons="${extraButtons}"
+		viewOnly="true"
+/>
 
 </kul:documentPage>

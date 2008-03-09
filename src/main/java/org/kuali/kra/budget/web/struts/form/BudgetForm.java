@@ -196,6 +196,15 @@ public class BudgetForm extends ProposalFormBase {
     }
 
     public void setNewBudgetRolodexes(String newBudgetRolodexes) {
-        this.newBudgetRolodexes = newBudgetRolodexes;
+        this.newBudgetRolodexes = newBudgetRolodexes; 
+    }
+
+    /**
+     * 
+     * This method to suppress copy/reload buttons for 'Totals' page
+     */
+    public void suppressButtonsForTotalPage() {
+        this.getDocumentActionFlags().setCanCopy(false);
+        this.getDocumentActionFlags().setCanReload(false);
     }
 }

@@ -40,6 +40,9 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	private BudgetDecimal totalIndirectCost;
 	private BudgetDecimal underrecoveryAmount;
 	private List<BudgetLineItem> budgetLineItems;
+	// expences total for 'totals' page
+	// if 'totalCost' is intended for 'totals' page, then this is not needed
+    private BudgetDecimal expenseTotal;
 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -200,6 +203,14 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
             }
         }
         return lineItemExists;
+    }
+
+    public BudgetDecimal getExpenseTotal() {
+        return expenseTotal;
+    }
+
+    public void setExpenseTotal(BudgetDecimal expenseTotal) {
+        this.expenseTotal = expenseTotal;
     }
 
 }

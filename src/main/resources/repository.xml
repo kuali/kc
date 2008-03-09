@@ -1884,6 +1884,9 @@
 			<inverse-foreignkey field-ref="rateClassCode"/>
 			<inverse-foreignkey field-ref="rateTypeCode"/>
 		</collection-descriptor> -->
+		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.bo.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="rateClassCode"/> 
+		</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.budget.bo.ValidCalcType" table="VALID_CALC_TYPES">
 		<field-descriptor name="calcTypeId" column="CALC_TYPE_ID" jdbc-type="VARCHAR" primarykey="true"/>
