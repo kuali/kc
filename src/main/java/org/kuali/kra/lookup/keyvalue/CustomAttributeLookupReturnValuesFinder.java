@@ -35,7 +35,7 @@ public class CustomAttributeLookupReturnValuesFinder extends KeyValuesBase {
     public List<KeyLabelPair> getKeyValues() {
         // this will be called twice for each maintenancedocument page load
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select:"));
+        keyValues.add(new KeyLabelPair("", "select"));
         String lookupClass = (String) GlobalVariables.getUserSession().retrieveObject("lookupClassName");
 
         List lookupReturnFields = null;
