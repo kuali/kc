@@ -42,7 +42,7 @@ public class AbstractTypeValuesFinderTest extends ValuesFinderTestBase {
      */
     @Override
     protected void addKeyValues() {
-        this.addKeyValue("", "select:");
+        this.addKeyValue("", "select");
         this.addKeyValue("1", "Project Summary");
         this.addKeyValue("2", "Technical Abstract");
         this.addKeyValue("3", "Layman Abstract");

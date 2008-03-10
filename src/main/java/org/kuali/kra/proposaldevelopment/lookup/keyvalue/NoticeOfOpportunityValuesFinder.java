@@ -40,7 +40,7 @@ public class NoticeOfOpportunityValuesFinder extends KeyValuesBase {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection noticesOfOpportunity = keyValuesService.findAll(NoticeOfOpportunity.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select:"));
+        keyValues.add(new KeyLabelPair("", "select"));
         for (Iterator iter = noticesOfOpportunity.iterator(); iter.hasNext();) {
             NoticeOfOpportunity noticeOfOpportunity = (NoticeOfOpportunity) iter.next();
             keyValues.add(new KeyLabelPair(noticeOfOpportunity.getNoticeOfOpportunityCode(), noticeOfOpportunity.getDescription()));

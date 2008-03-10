@@ -25,7 +25,7 @@ import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
  * This class extends the PersistableBusinessObjectValuesFinder - the Generic ValuesFinder - 
- * to add a "select:" entry.
+ * to add a "select" entry.
  */
 public class ExtendedPersistableBusinessObjectValuesFinder extends PersistableBusinessObjectValuesFinder {
 
