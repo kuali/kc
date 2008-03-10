@@ -15,21 +15,30 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.keyvalue.ValuesFinderTestBase;
+import org.kuali.kra.keyvalue.PersistableBusinessObjectValuesFinderTestBase;
+import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 
 /**
  * This class tests DeadlineTypeValuesFinder.
  */
-public class DeadlineTypeValuesFinderTest extends ValuesFinderTestBase {
-
+public class DeadlineTypeValuesFinderTest extends PersistableBusinessObjectValuesFinderTestBase{
+    
     public DeadlineTypeValuesFinderTest() {
-        setTestClass(DeadlineTypeValuesFinder.class);
+        setValuesFinderClass(ExtendedPersistableBusinessObjectValuesFinder.class);
+        setBusinessObjectClass(org.kuali.kra.proposaldevelopment.bo.DeadlineType.class);
+        setKeyAttributeName("deadlineTypeCode");
+        setLabelAttributeName("description");
+        setIncludeKeyInDescription(false);
     }
-
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -43,12 +52,10 @@ public class DeadlineTypeValuesFinderTest extends ValuesFinderTestBase {
     @Test public void testGetKeyValues() throws Exception {
         super.testGetKeyValues();
     }
-
-    @Override
+    
     protected void addKeyValues() {
-        testKeyValues.add(new KeyLabelPair("", "select:"));
+        testKeyValues.add(new KeyLabelPair("", "select"));
         testKeyValues.add(new KeyLabelPair("P", "Postmark"));
         testKeyValues.add(new KeyLabelPair("R", "Receipt"));
     }
-
 }
