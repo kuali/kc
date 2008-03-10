@@ -19,15 +19,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.keyvalue.ValuesFinderTestBase;
+import org.kuali.kra.keyvalue.PersistableBusinessObjectValuesFinderTestBase;
 
 /**
  * This class tests NsfCodeValuesFinder.
  */
-public class NsfCodeValuesFinderTest extends ValuesFinderTestBase {
+public class NsfCodeValuesFinderTest extends PersistableBusinessObjectValuesFinderTestBase {
 
     public NsfCodeValuesFinderTest() {
-        setTestClass(NsfCodeValuesFinder.class);
+        setValuesFinderClass(ExtendedPersistableBusinessObjectValuesFinder.class);
+        setBusinessObjectClass(org.kuali.kra.bo.NsfCode.class);
+        setKeyAttributeName("nsfCode");
+        setLabelAttributeName("description");
+        setIncludeKeyInDescription(false);
     }
 
     @Before
@@ -46,7 +50,7 @@ public class NsfCodeValuesFinderTest extends ValuesFinderTestBase {
 
     @Override
     protected void addKeyValues() {
-        testKeyValues.add(new KeyLabelPair("", "select:"));
+        testKeyValues.add(new KeyLabelPair("", "select"));
         testKeyValues.add(new KeyLabelPair("J.02","Law - Non-Science and Engineering Fields: J.02"));
         testKeyValues.add(new KeyLabelPair("A.01","Aeronautical and Astronautical - Engineering: A.01"));
         testKeyValues.add(new KeyLabelPair("F.01","Agricultural - Life Sciences: F.01"));
