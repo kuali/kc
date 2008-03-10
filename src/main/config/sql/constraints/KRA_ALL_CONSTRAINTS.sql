@@ -3,9 +3,49 @@ ALTER TABLE "BUDGET" ADD CONSTRAINT "FK_BUDGET_KRA" FOREIGN KEY
 REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
                                                                                 
                                                                                 
+ALTER TABLE "BUDGET_PERSONNEL_DETAILS" ADD CONSTRAINT                           
+"FK_BUDGET_PER_DET_BGT_PER_KRA" FOREIGN KEY ("PROPOSAL_NUMBER",                 
+"VERSION_NUMBER", "PERSON_SEQUENCE_NUMBER")                                     
+REFERENCES "BUDGET_PERSONS" ("PROPOSAL_NUMBER", "VERSION_NUMBER",               
+"PERSON_SEQUENCE_NUMBER") ENABLE;                                               
+                                                                                
+                                                                                
+ALTER TABLE "BUDGET_PERSONS" ADD CONSTRAINT "FK_APPOINTMENT_TYPE_CODE_KRA"      
+FOREIGN KEY ("APPOINTMENT_TYPE_CODE")                                           
+REFERENCES "APPOINTMENT_TYPE" ("APPOINTMENT_TYPE_CODE") ENABLE;                 
+                                                                                
+                                                                                
+ALTER TABLE "BUDGET_PROJECT_INCOMES" ADD CONSTRAINT "FK_BUDGET_PROJ_INC_BP_KRA" 
+FOREIGN KEY ("PROPOSAL_NUMBER", "BUDGET_VERSION_NUMBER", "BUDGET_PERIOD_NUMBER")
+REFERENCES "BUDGET_PERIODS" ("PROPOSAL_NUMBER", "VERSION_NUMBER",               
+"BUDGET_PERIOD") ENABLE;                                                        
+ALTER TABLE "BUDGET_PROJECT_INCOMES" ADD CONSTRAINT                             
+"FK_BUDGET_PROJ_INC_BUDGET_KRA" FOREIGN KEY ("PROPOSAL_NUMBER",                 
+"BUDGET_VERSION_NUMBER")                                                        
+REFERENCES "BUDGET" ("PROPOSAL_NUMBER", "VERSION_NUMBER") ENABLE;               
+                                                                                
+                                                                                
 ALTER TABLE "COST_ELEMENT" ADD CONSTRAINT "FK_COST_ELEMENT_CATEGORY_KRA" FOREIGN
 KEY ("BUDGET_CATEGORY_CODE")                                                    
 REFERENCES "BUDGET_CATEGORY" ("BUDGET_CATEGORY_CODE") ENABLE;                   
+                                                                                
+                                                                                
+ALTER TABLE "CUSTOM_ATTRIBUTE" ADD CONSTRAINT "FK_CUST_ATTR_DATA_TYPE" FOREIGN  
+KEY ("DATA_TYPE_CODE")                                                          
+REFERENCES "CUSTOM_ATTRIBUTE_DATA_TYPE" ("DATA_TYPE_CODE") ENABLE;              
+                                                                                
+                                                                                
+ALTER TABLE "CUSTOM_ATTRIBUTE_DOCUMENT" ADD CONSTRAINT                          
+"FK_CUST_ATTR_DOC_CUST_ATTR" FOREIGN KEY ("CUSTOM_ATTRIBUTE_ID")                
+REFERENCES "CUSTOM_ATTRIBUTE" ("ID") ENABLE;                                    
+ALTER TABLE "CUSTOM_ATTRIBUTE_DOCUMENT" ADD CONSTRAINT                          
+"FK_CUST_ATTR_DOC_DOC_TYPE" FOREIGN KEY ("DOCUMENT_TYPE_CODE")                  
+REFERENCES "FP_DOC_TYPE_T" ("FDOC_TYP_CD") ENABLE;                              
+                                                                                
+                                                                                
+ALTER TABLE "CUSTOM_ATTRIBUTE_DOC_VALUE" ADD CONSTRAINT                         
+"FK_CUST_ATTR_DOC_VAL_CUST_ATTR" FOREIGN KEY ("CUSTOM_ATTRIBUTE_ID")            
+REFERENCES "CUSTOM_ATTRIBUTE" ("ID") ENABLE;                                    
                                                                                 
                                                                                 
 ALTER TABLE "EN_RTE_NODE_CFG_PARM_T" ADD CONSTRAINT "EN_RTE_NODE_CFG_PARM_TR1"  
@@ -37,6 +77,11 @@ REFERENCES "EN_WRKGRP_TYP_T" ("WRKGRP_TYP_ID") ENABLE;
 ALTER TABLE "EN_WRKGRP_TYP_ATTRIB_T" ADD CONSTRAINT "EN_WRKGRP_TYP_ATTRIB_TR2"  
 FOREIGN KEY ("ATTRIB_ID")                                                       
 REFERENCES "EN_RULE_ATTRIB_T" ("RULE_ATTRIB_ID") ENABLE;                        
+                                                                                
+                                                                                
+ALTER TABLE "EPS_PROPOSAL_STATUS" ADD CONSTRAINT "FK_EPS_PROPOSAL_STATUS_KRA"   
+FOREIGN KEY ("PROPOSAL_NUMBER")                                                 
+REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
                                                                                 
                                                                                 
 ALTER TABLE "EPS_PROP_ABSTRACT" ADD CONSTRAINT "FK_EPS_PROP_ABSTRACT_KRA"       
@@ -453,7 +498,4 @@ REFERENCES "YNQ" ("QUESTION_ID") ENABLE;
 ALTER TABLE "YNQ_EXPLANATION" ADD CONSTRAINT "FK_YNQ_EXPLANATION_TYPE_KRA"      
 FOREIGN KEY ("EXPLANATION_TYPE")                                                
 REFERENCES "YNQ_EXPLANATION_TYPE" ("EXPLANATION_TYPE") ENABLE;                  
-
-ALTER TABLE "EPS_PROPOSAL_STATUS" ADD CONSTRAINT "FK_EPS_PROPOSAL_STATUS_KRA" FOREIGN
-KEY ("PROPOSAL_NUMBER")
-REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;
+                                                                                
