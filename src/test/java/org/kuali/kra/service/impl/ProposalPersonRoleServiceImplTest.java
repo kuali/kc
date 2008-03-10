@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.service.impl;
 
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+
+
 
 import java.sql.Date;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,19 +27,14 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.calculator.LineItemCalculatorTest;
-import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonRoleService;
-import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.KNSServiceLocator;
 import java.util.*;
 
 public class ProposalPersonRoleServiceImplTest extends KraTestBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LineItemCalculatorTest.class);
     private DocumentService documentService = null;
     private BusinessObjectService bos;
     @Before
@@ -60,7 +54,7 @@ public class ProposalPersonRoleServiceImplTest extends KraTestBase {
 
     @Test public void testProposalPersonRole() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-        String documentid1=document.getDocumentHeader().getDocumentNumber();
+       
          Date requestedStartDateInitial = new Date(System.currentTimeMillis());
          Date requestedEndDateInitial = new Date(System.currentTimeMillis());
          List<ProposalPerson> ProposalPersons= new ArrayList<ProposalPerson>();
@@ -105,6 +99,7 @@ public class ProposalPersonRoleServiceImplTest extends KraTestBase {
          ProposalPersons.add(person2);
          ProposalPersons.add(person3);
          ProposalPersons.add(person4);
+         
          setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
          document.setProposalPersons(ProposalPersons);
          documentService.saveDocument(document);
@@ -115,27 +110,17 @@ public class ProposalPersonRoleServiceImplTest extends KraTestBase {
          List<String> proposalinvestigators=prs.getProposalInvestigators(documentid);
          List<String> proposalpersons=prs.getProposalPersons(documentid);
          List<String> keypersons=prs.getProposalKeyPersons(documentid);
-              
-         List<ProposalPerson> prop=document.getProposalPersons();
-        
          assertEquals(proposalinvestigator.get(0),person.getPersonId());
-         
          assertEquals(coinvestigator.get(0),person1.getRolodexId().toString());
          assertEquals(coinvestigator.get(1),person2.getPersonId());
-         
-         
-         
          assertEquals(proposalinvestigators.get(0),person.getPersonId());
          assertEquals(proposalinvestigators.get(1),person1.getRolodexId().toString());
          assertEquals(proposalinvestigators.get(2),person2.getPersonId());
-         
          assertEquals(proposalpersons.get(0),person.getPersonId());
          assertEquals(proposalpersons.get(1),person1.getRolodexId().toString());
          assertEquals(proposalpersons.get(2),person2.getPersonId());
          assertEquals(proposalpersons.get(3),person3.getPersonId());
          assertEquals(proposalpersons.get(4),person4.getRolodexId().toString());
-         
-         
          assertEquals(keypersons.get(0),person3.getPersonId());
          assertEquals(keypersons.get(1),person4.getRolodexId().toString());
          
@@ -156,10 +141,6 @@ public class ProposalPersonRoleServiceImplTest extends KraTestBase {
         document.setOwnedByUnitNumber(ownedByUnit);
     }
  
-    private void setproposalpersons()
-    {
-    
-    }
     
 }
 
