@@ -43,7 +43,7 @@ public class KeyValueFinderServiceImpl implements KeyValueFinderService {
     public List<KeyLabelPair> getKeyValues(Class keyValClass,String codePropName,String valPropName) {
         Collection keyVals = businessObjectService.findAll(keyValClass);
         List<KeyLabelPair> keyValueList = new ArrayList<KeyLabelPair>(keyVals.size());
-        keyValueList.add(new KeyLabelPair("", "select:"));
+        keyValueList.add(new KeyLabelPair("", "select"));
         for (Iterator iterator = keyVals.iterator(); iterator.hasNext();) {
             Object keyValObj = iterator.next();
             Method getCodeMeth;

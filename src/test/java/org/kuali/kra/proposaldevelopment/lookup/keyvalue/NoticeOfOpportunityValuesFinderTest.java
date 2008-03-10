@@ -46,7 +46,7 @@ public class NoticeOfOpportunityValuesFinderTest extends ValuesFinderTestBase {
 
     @Override
     protected void addKeyValues() {
-        testKeyValues.add(new KeyLabelPair("", "select:"));
+        testKeyValues.add(new KeyLabelPair("", "select"));
         testKeyValues.add(new KeyLabelPair("1", "Federal Solicitation"));
         testKeyValues.add(new KeyLabelPair("2", "Unsolicited"));
         testKeyValues.add(new KeyLabelPair("3", "Verbal Request for Proposal"));

@@ -29,7 +29,7 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
 
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select:"));
+        keyValues.add(new KeyLabelPair("", "select"));
 
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
         // this only has entries that have been loaded - force load?

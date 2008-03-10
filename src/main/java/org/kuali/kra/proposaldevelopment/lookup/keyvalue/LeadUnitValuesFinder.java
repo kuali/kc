@@ -44,7 +44,7 @@ public class LeadUnitValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select:"));
+        keyValues.add(new KeyLabelPair("", "select"));
         
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();

@@ -42,8 +42,8 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 /**
  * Temporary class until this can be gotten working via table.
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.8 $
+ * @author $Author: vsoni $
+ * @version $Revision: 1.9 $
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
@@ -58,7 +58,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         final ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) getKualiForm()).getProposalDevelopmentDocument();
         final boolean hasPrincipalInvestigator = getKeyPersonnelService().hasPrincipalInvestigator(document);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select:"));
+        keyValues.add(new KeyLabelPair("", "select"));
 
         for (ProposalPersonRole role : roles) {
             LOG.debug("Adding role " + role.getProposalPersonRoleId());

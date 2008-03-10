@@ -36,8 +36,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 /**
  * Lookup acceptable values for <code>{@link PersonEditableField}</code> business object
  *  
- * @author $Author: lprzybyl $
- * @version $Revision: 1.3 $
+ * @author $Author: vsoni $
+ * @version $Revision: 1.4 $
  */
 public class PersonEditableFieldValuesFinder extends KeyValuesBase {
     Map<String, AttributeDefinition> attributes; 
@@ -56,7 +56,7 @@ public class PersonEditableFieldValuesFinder extends KeyValuesBase {
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> retval = new ArrayList<KeyLabelPair>();
-        retval.add(new KeyLabelPair("", "select:"));
+        retval.add(new KeyLabelPair("", "select"));
 
         for (AttributeDefinition attribute : getAttributeMap().values()) {
             if (!getExcludedAttributes().contains(attribute.getName())) {
