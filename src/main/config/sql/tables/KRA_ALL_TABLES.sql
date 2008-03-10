@@ -254,7 +254,8 @@ CREATE TABLE "NOTIFICATION_CONTENT_TYPES"
 "NAMESPACE" VARCHAR2(1000) NOT NULL ENABLE,                                     
 "XSD" CLOB NOT NULL ENABLE,                                                     
 "XSL" CLOB NOT NULL ENABLE,                                                     
-CONSTRAINT "NOTIFICATION_CONTENT_TYPE_UK1" UNIQUE ("NAME") ENABLE,              
+"VERSION" NUMBER(8,0) DEFAULT '0' NOT NULL ENABLE,                              
+"CUR_IND" CHAR(1) DEFAULT 'T' NOT NULL ENABLE,                                  
 CONSTRAINT "NOTIFICATION_CONTENT_TYPE_PK" PRIMARY KEY ("ID") ENABLE
    ) ;
      
@@ -707,37 +708,13 @@ CONSTRAINT "PK_S2S_APPLICATION_KRA" PRIMARY KEY ("PROPOSAL_NUMBER") ENABLE
 ) ;                                                                             
                                                                                 
                                                                                 
-CREATE TABLE "BUDGET_PERIODS"                                                   
-(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_PERIODSN1" NOT NULL ENABLE, 
-"VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PERIODSN2" NOT NULL ENABLE,     
-"BUDGET_PERIOD" NUMBER(3,0) CONSTRAINT "BUDGET_PERIODSN3" NOT NULL ENABLE,      
-"START_DATE" DATE CONSTRAINT "BUDGET_PERIODSN4" NOT NULL ENABLE,                
-"END_DATE" DATE CONSTRAINT "BUDGET_PERIODSN5" NOT NULL ENABLE,                  
-"TOTAL_COST" NUMBER(12,2),                                                      
-"TOTAL_DIRECT_COST" NUMBER(12,2),                                               
-"TOTAL_INDIRECT_COST" NUMBER(12,2),                                             
-"COST_SHARING_AMOUNT" NUMBER(12,2),                                             
-"UNDERRECOVERY_AMOUNT" NUMBER(12,2),                                            
-"TOTAL_COST_LIMIT" NUMBER(12,2),                                                
-"COMMENTS" LONG,                                                                
-"UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGET_PERIODSN6" NOT NULL ENABLE,          
-"UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET_PERIODSN7" NOT NULL ENABLE,        
-"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGET_PERIODSN8" NOT NULL ENABLE,  
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "BUDGET_PERIODSN9" NOT NULL 
-ENABLE,                                                                         
-CONSTRAINT "PK_BUDGET_PERIODS_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",              
-"VERSION_NUMBER", "BUDGET_PERIOD") ENABLE
-   ) ;
-                               
-                                                                                
 CREATE TABLE "BUDGET_PERSONS"                                                   
 (	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_PERSONSN1" NOT NULL ENABLE, 
 "VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PERSONSN2" NOT NULL ENABLE,     
-"PERSON_ID" VARCHAR2(9) CONSTRAINT "BUDGET_PERSONSN3" NOT NULL ENABLE,          
+"PERSON_ID" VARCHAR2(9),                                                        
 "JOB_CODE" VARCHAR2(6) CONSTRAINT "BUDGET_PERSONSN4" NOT NULL ENABLE,           
 "EFFECTIVE_DATE" DATE CONSTRAINT "BUDGET_PERSONSN5" NOT NULL ENABLE,            
 "CALCULATION_BASE" NUMBER(12,2),                                                
-"APPOINTMENT_TYPE" VARCHAR2(30),                                                
 "PERSON_NAME" VARCHAR2(90),                                                     
 "NON_EMPLOYEE_FLAG" VARCHAR2(1) CONSTRAINT "BUDGET_PERSONSN6" NOT NULL ENABLE,  
 "UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGET_PERSONSN7" NOT NULL ENABLE,          
@@ -745,11 +722,15 @@ CREATE TABLE "BUDGET_PERSONS"
 "VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGET_PERSONSN9" NOT NULL ENABLE,  
 "OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "BUDGET_PERSONSN10" NOT NULL
 ENABLE,                                                                         
+"PERSON_SEQUENCE_NUMBER" NUMBER(3,0) NOT NULL ENABLE,                           
+"ROLODEX_ID" NUMBER(6,0),                                                       
+"APPOINTMENT_TYPE_CODE" VARCHAR2(3),                                            
 CONSTRAINT "PK_BUDGET_PERSONS_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",              
-"VERSION_NUMBER", "PERSON_ID", "JOB_CODE", "EFFECTIVE_DATE",                    
-"NON_EMPLOYEE_FLAG") ENABLE                                                     
-) ;                                                                             
-                                                                                
+"VERSION_NUMBER", "PERSON_SEQUENCE_NUMBER") ENABLE,                             
+CONSTRAINT "UK_BUDGET_PERSONS_KRA" UNIQUE ("PROPOSAL_NUMBER", "VERSION_NUMBER", 
+"PERSON_ID", "ROLODEX_ID", "JOB_CODE", "EFFECTIVE_DATE") ENABLE
+   ) ;
+         
                                                                                 
 CREATE TABLE "BUDGET_RATE_AND_BASE"                                             
 (	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_RATE_AND_BASEN1" NOT NULL   
@@ -864,48 +845,6 @@ CONSTRAINT "PK_EPS_PROP_RATES_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",
 ) ;                                                                             
                                                                                 
                                                                                 
-CREATE TABLE "BUDGET_PERSONNEL_DETAILS"                                         
-(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN1" NOT    
-NULL ENABLE,                                                                    
-"VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN2" NOT NULL   
-ENABLE,                                                                         
-"BUDGET_PERIOD" NUMBER(3,0) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN3" NOT NULL    
-ENABLE,                                                                         
-"LINE_ITEM_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN4" NOT NULL 
-ENABLE,                                                                         
-"PERSON_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN5" NOT NULL    
-ENABLE,                                                                         
-"PERSON_ID" VARCHAR2(9) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN6" NOT NULL ENABLE,
-"JOB_CODE" VARCHAR2(6) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN7" NOT NULL ENABLE, 
-"START_DATE" DATE CONSTRAINT "BUDGET_PERSONNEL_DETAILSN8" NOT NULL ENABLE,      
-"END_DATE" DATE CONSTRAINT "BUDGET_PERSONNEL_DETAILSN9" NOT NULL ENABLE,        
-"PERIOD_TYPE" VARCHAR2(2),                                                      
-"LINE_ITEM_DESCRIPTION" VARCHAR2(80),                                           
-"SEQUENCE_NUMBER" NUMBER(3,0),                                                  
-"SALARY_REQUESTED" NUMBER(12,2),                                                
-"PERCENT_CHARGED" NUMBER(5,2),                                                  
-"PERCENT_EFFORT" NUMBER(5,2),                                                   
-"COST_SHARING_PERCENT" NUMBER(5,2),                                             
-"COST_SHARING_AMOUNT" NUMBER(12,2),                                             
-"UNDERRECOVERY_AMOUNT" NUMBER(12,2),                                            
-"ON_OFF_CAMPUS_FLAG" CHAR(1) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN10" NOT NULL  
-ENABLE,                                                                         
-"APPLY_IN_RATE_FLAG" CHAR(1) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN11" NOT NULL  
-ENABLE,                                                                         
-"BUDGET_JUSTIFICATION" LONG,                                                    
-"UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGET_PERSONNEL_DETAILSN12" NOT NULL       
-ENABLE,                                                                         
-"UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN13" NOT NULL     
-ENABLE,                                                                         
-"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGET_PERSONNEL_DETAILSN14" NOT    
-NULL ENABLE,                                                                    
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT                             
-"BUDGET_PERSONNEL_DETAILSN15" NOT NULL ENABLE,                                  
-CONSTRAINT "PK_BUDGET_PERSONNEL_DET_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",        
-"VERSION_NUMBER", "BUDGET_PERIOD", "LINE_ITEM_NUMBER", "PERSON_NUMBER") ENABLE  
-) ;                                                                             
-                                                                                
-                                                                                
 CREATE TABLE "BUDGET_PERSONNEL_CAL_AMTS"                                        
 (	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_PERSONNEL_CAL_AMTSN1" NOT   
 NULL ENABLE,                                                                    
@@ -980,36 +919,6 @@ ENABLE,
 "OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "BUDGET_CATEGORYN6" NOT NULL
 ENABLE,                                                                         
 CONSTRAINT "PK_BUDGET_CATEGORY_KRA" PRIMARY KEY ("BUDGET_CATEGORY_CODE") ENABLE 
-) ;                                                                             
-                                                                                
-                                                                                
-CREATE TABLE "BUDGET_DETAILS"                                                   
-(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_DETAILSN1" NOT NULL ENABLE, 
-"VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_DETAILSN2" NOT NULL ENABLE,     
-"BUDGET_PERIOD" NUMBER(3,0) CONSTRAINT "BUDGET_DETAILSN3" NOT NULL ENABLE,      
-"LINE_ITEM_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_DETAILSN4" NOT NULL ENABLE,   
-"BUDGET_CATEGORY_CODE" NUMBER(3,0) CONSTRAINT "BUDGET_DETAILSN5" NOT NULL       
-ENABLE,                                                                         
-"COST_ELEMENT" VARCHAR2(8) CONSTRAINT "BUDGET_DETAILSN6" NOT NULL ENABLE,       
-"LINE_ITEM_DESCRIPTION" VARCHAR2(80),                                           
-"BASED_ON_LINE_ITEM" NUMBER(3,0),                                               
-"LINE_ITEM_SEQUENCE" NUMBER(3,0),                                               
-"START_DATE" DATE CONSTRAINT "BUDGET_DETAILSN7" NOT NULL ENABLE,                
-"END_DATE" DATE CONSTRAINT "BUDGET_DETAILSN8" NOT NULL ENABLE,                  
-"LINE_ITEM_COST" NUMBER(12,2),                                                  
-"COST_SHARING_AMOUNT" NUMBER(12,2),                                             
-"UNDERRECOVERY_AMOUNT" NUMBER(12,2),                                            
-"ON_OFF_CAMPUS_FLAG" CHAR(1) CONSTRAINT "BUDGET_DETAILSN9" NOT NULL ENABLE,     
-"APPLY_IN_RATE_FLAG" CHAR(1) CONSTRAINT "BUDGET_DETAILSN10" NOT NULL ENABLE,    
-"BUDGET_JUSTIFICATION" LONG,                                                    
-"UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGET_DETAILSN11" NOT NULL ENABLE,         
-"UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET_DETAILSN12" NOT NULL ENABLE,       
-"QUANTITY" NUMBER(4,0),                                                         
-"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGET_DETAILSN13" NOT NULL ENABLE, 
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "BUDGET_DETAILSN14" NOT NULL
-ENABLE,                                                                         
-CONSTRAINT "PK_BUDGET_DETAILS_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",              
-"VERSION_NUMBER", "BUDGET_PERIOD", "LINE_ITEM_NUMBER") ENABLE                   
 ) ;                                                                             
                                                                                 
                                                                                 
@@ -1745,20 +1654,6 @@ ENABLE
 ) ;                                                                             
                                                                                 
                                                                                 
-CREATE TABLE "YNQ_EXPLANATION"                                                  
-(	"QUESTION_ID" VARCHAR2(4) CONSTRAINT "YNQ_EXPLANATIONN1" NOT NULL ENABLE,     
-"EXPLANATION_TYPE" CHAR(1) CONSTRAINT "YNQ_EXPLANATIONN2" NOT NULL ENABLE,      
-"EXPLANATION" LONG,                                                             
-"UPDATE_TIMESTAMP" DATE CONSTRAINT "YNQ_EXPLANATIONN3" NOT NULL ENABLE,         
-"UPDATE_USER" VARCHAR2(8) CONSTRAINT "YNQ_EXPLANATIONN4" NOT NULL ENABLE,       
-"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "YNQ_EXPLANATIONN5" NOT NULL ENABLE, 
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "YNQ_EXPLANATIONN6" NOT NULL
-ENABLE,                                                                         
-CONSTRAINT "PK_YNQ_EXPLANATION_KRA" PRIMARY KEY ("QUESTION_ID",                 
-"EXPLANATION_TYPE") ENABLE                                                      
-) ;                                                                             
-                                                                                
-                                                                                
 CREATE TABLE "PROPOSAL_RESPONSE"                                                
 (	"PROPOSAL_RESPONSE_CODE" VARCHAR2(3) CONSTRAINT "PROPOSAL_RESPONSE_N1" NOT    
 NULL ENABLE,                                                                    
@@ -1919,36 +1814,6 @@ CONSTRAINT "PK_EPS_PROP_PERSON_BIO_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",
 "PROP_PERSON_NUMBER", "BIO_NUMBER") ENABLE                                      
 ) ;                                                                             
                                                                                 
-                                                                                
-CREATE TABLE "BUDGET"                                                           
-(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGETN1" NOT NULL ENABLE,         
-"VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGETN2" NOT NULL ENABLE,             
-"DOCUMENT_NUMBER" NUMBER(10,0) CONSTRAINT "BUDGETN3" NOT NULL ENABLE,           
-"START_DATE" DATE CONSTRAINT "BUDGETN4" NOT NULL ENABLE,                        
-"END_DATE" DATE CONSTRAINT "BUDGETN5" NOT NULL ENABLE,                          
-"TOTAL_COST" NUMBER(12,2),                                                      
-"TOTAL_DIRECT_COST" NUMBER(12,2),                                               
-"TOTAL_INDIRECT_COST" NUMBER(12,2),                                             
-"COST_SHARING_AMOUNT" NUMBER(12,2),                                             
-"UNDERRECOVERY_AMOUNT" NUMBER(12,2),                                            
-"RESIDUAL_FUNDS" NUMBER(12,2),                                                  
-"TOTAL_COST_LIMIT" NUMBER(12,2),                                                
-"OH_RATE_CLASS_CODE" NUMBER(3,0) CONSTRAINT "BUDGETN6" NOT NULL ENABLE,         
-"OH_RATE_TYPE_CODE" NUMBER(3,0),                                                
-"COMMENTS" LONG,                                                                
-"FINAL_VERSION_FLAG" CHAR(1),                                                   
-"UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGETN7" NOT NULL ENABLE,                  
-"UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET87" NOT NULL ENABLE,                
-"UR_RATE_CLASS_CODE" NUMBER(3,0) DEFAULT 1 CONSTRAINT "BUDGETN9" NOT NULL       
-ENABLE,                                                                         
-"MODULAR_BUDGET_FLAG" VARCHAR2(1) DEFAULT 'N' CONSTRAINT "BUDGETN10" NOT NULL   
-ENABLE,                                                                         
-"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGETN11" NOT NULL ENABLE,         
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "BUDGETN12" NOT NULL ENABLE,
-CONSTRAINT "PK_BUDGET_KRA" PRIMARY KEY ("PROPOSAL_NUMBER", "VERSION_NUMBER")    
-ENABLE
-   ) ;
-                                                                  
                                                                                 
 CREATE TABLE "EN_OUT_BOX_ITM_T"                                                 
 (	"ACTN_ITM_ID" NUMBER(14,0) NOT NULL ENABLE,                                   
@@ -2368,7 +2233,7 @@ CREATE TABLE "EPS_PROPOSAL"
 "CARRIER_CODE_TYPE" VARCHAR2(3),                                                
 "CARRIER_CODE" VARCHAR2(20),                                                    
 "MAIL_DESCRIPTION" VARCHAR2(80),                                                
-"MAIL_ACCOUNT_NUMBER" CHAR(7),                                                  
+"MAIL_ACCOUNT_NUMBER" VARCHAR2(9),                                              
 "SUBCONTRACT_FLAG" CHAR(1),                                                     
 "NARRATIVE_STATUS" CHAR(1),                                                     
 "BUDGET_STATUS" CHAR(1),                                                        
@@ -2379,7 +2244,7 @@ CREATE TABLE "EPS_PROPOSAL"
 "UPDATE_USER" VARCHAR2(8) CONSTRAINT "EPS_PROPOSAL_N6" NOT NULL ENABLE,         
 "NSF_CODE" VARCHAR2(15),                                                        
 "PRIME_SPONSOR_CODE" CHAR(6),                                                   
-"CFDA_NUMBER" VARCHAR2(6),                                                      
+"CFDA_NUMBER" VARCHAR2(7),                                                      
 "AGENCY_PROGRAM_CODE" VARCHAR2(50),                                             
 "AGENCY_DIVISION_CODE" VARCHAR2(50),                                            
 "VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "EPS_PROPOSAL_N7" NOT NULL ENABLE,   
@@ -3567,6 +3432,49 @@ CONSTRAINT "EN_TRANSACTION_TST_ADDRS_T_PK" PRIMARY KEY ("ADDRS_ID") ENABLE
 ) ;
                                                                             
                                                                                 
+CREATE TABLE "APPOINTMENT_TYPE"                                                 
+(	"APPOINTMENT_TYPE_CODE" VARCHAR2(3) CONSTRAINT "APPOINTMENT_TYPE_N1" NOT NULL 
+ENABLE,                                                                         
+"DESCRIPTION" VARCHAR2(200) CONSTRAINT "APPOINTMENT_TYPE_N2" NOT NULL ENABLE,   
+"DURATION" NUMBER(2,0) NOT NULL ENABLE,                                         
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "APPOINTMENT_TYPE_N4" NOT NULL ENABLE,       
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "APPOINTMENT_TYPE_N5" NOT NULL ENABLE,     
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "APPOINTMENT_TYPE_N6" NOT NULL       
+ENABLE,                                                                         
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "APPOINTMENT_TYPE_N7" NOT   
+NULL ENABLE,                                                                    
+CONSTRAINT "APPOINTMENT_TYPE_P1" PRIMARY KEY ("APPOINTMENT_TYPE_CODE") ENABLE   
+) ;                                                                             
+                                                                                
+                                                                                
+CREATE TABLE "RATE_CLASS_TYPE"                                                  
+(	"RATE_CLASS_TYPE" CHAR(1) CONSTRAINT "RATE_CLASS_TYPEN1" NOT NULL ENABLE,     
+"DESCRIPTION" VARCHAR2(200) CONSTRAINT "RATE_CLASS_TYPEN2" NOT NULL ENABLE,     
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "RATE_CLASS_TYPEN3" NOT NULL ENABLE,         
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "RATE_CLASS_TYPEN4" NOT NULL ENABLE,       
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "RATE_CLASS_TYPEN5" NOT NULL ENABLE, 
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "RATE_CLASS_TYPEN6" NOT NULL
+ENABLE,                                                                         
+CONSTRAINT "PK_RATE_CLASS_TYPE_KRA" PRIMARY KEY ("RATE_CLASS_TYPE") ENABLE      
+) ;                                                                             
+                                                                                
+                                                                                
+CREATE TABLE "KNS_PESSIMISTIC_LOCK_T"                                           
+(	"LOCK_ID" NUMBER(14,0) CONSTRAINT "KNS_PESSIMISTIC_LOCK_TN1" NOT NULL ENABLE, 
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "KNS_PESSIMISTIC_LOCK_TN2"  
+NOT NULL ENABLE,                                                                
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "KNS_PESSIMISTIC_LOCK_TN3" NOT NULL  
+ENABLE,                                                                         
+"LOCK_DESCRIPTOR" VARCHAR2(4000),                                               
+"FDOC_NBR" VARCHAR2(14) CONSTRAINT "KNS_PESSIMISTIC_LOCK_TN4" NOT NULL ENABLE,  
+"LOCK_GENERATED_TS" DATE CONSTRAINT "KNS_PESSIMISTIC_LOCK_TN5" NOT NULL ENABLE, 
+"PERSON_UNVL_ID" VARCHAR2(10) CONSTRAINT "KNS_PESSIMISTIC_LOCK_TN6" NOT NULL    
+ENABLE,                                                                         
+CONSTRAINT "KNS_PESSIMISTIC_LOCK_TP1" PRIMARY KEY ("LOCK_ID") ENABLE,           
+CONSTRAINT "KNS_PESSIMISTIC_LOCK_TC0" UNIQUE ("OBJ_ID") ENABLE
+   ) ;
+          
+                                                                                
 CREATE TABLE "DOCUMENT_NEXTVALUE"                                               
 (	"DOCUMENT_NUMBER" NUMBER(12,0) CONSTRAINT "DOCUMENT_NEXTVALUE_N1" NOT NULL    
 ENABLE,                                                                         
@@ -3584,3 +3492,262 @@ CONSTRAINT "PK_DOCUMENT_NEXTVALUE" PRIMARY KEY ("DOCUMENT_NUMBER",
 ) ;                                                                             
                                                                                 
                                                                                 
+CREATE TABLE "CUSTOM_ATTRIBUTE"                                                 
+(	"ID" NUMBER(12,0) CONSTRAINT "CUSTOM_ATTRIBUTE_N1" NOT NULL ENABLE,           
+"NAME" VARCHAR2(30) CONSTRAINT "CUSTOM_ATTRIBUTE_N2" NOT NULL ENABLE,           
+"LABEL" VARCHAR2(30) CONSTRAINT "CUSTOM_ATTRIBUTE_N3" NOT NULL ENABLE,          
+"DATA_TYPE_CODE" VARCHAR2(3) CONSTRAINT "CUSTOM_ATTRIBUTE_N4" NOT NULL ENABLE,  
+"DATA_LENGTH" NUMBER(4,0),                                                      
+"DEFAULT_VALUE" VARCHAR2(2000),                                                 
+"LOOKUP_CLASS" VARCHAR2(100),                                                   
+"LOOKUP_RETURN" VARCHAR2(30),                                                   
+"GROUP_NAME" VARCHAR2(250),                                                     
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "CUSTOM_ATTRIBUTE_N5" NOT NULL ENABLE,       
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "CUSTOM_ATTRIBUTE_N6" NOT NULL ENABLE,     
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "CUSTOM_ATTRIBUTE_N7" NOT NULL       
+ENABLE,                                                                         
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "CUSTOM_ATTRIBUTE_N8" NOT   
+NULL ENABLE,                                                                    
+CONSTRAINT "CUSTOM_ATTRIBUTE_P1" PRIMARY KEY ("ID") ENABLE,                     
+CONSTRAINT "CUSTOM_ATTRIBUTE_C0" UNIQUE ("OBJ_ID") ENABLE
+   ) ;
+               
+                                                                                
+CREATE TABLE "CUSTOM_ATTRIBUTE_DATA_TYPE"                                       
+(	"DATA_TYPE_CODE" VARCHAR2(3) CONSTRAINT "CUSTOM_ATTRIBUTE_DATA_TYPE_N1" NOT   
+NULL ENABLE,                                                                    
+"DESCRIPTION" VARCHAR2(200) CONSTRAINT "CUSTOM_ATTRIBUTE_DATA_TYPE_N2" NOT NULL 
+ENABLE,                                                                         
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "CUSTOM_ATTRIBUTE_DATA_TYPE_N3" NOT NULL     
+ENABLE,                                                                         
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "CUSTOM_ATTRIBUTE_DATA_TYPE_N4" NOT NULL   
+ENABLE,                                                                         
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "CUSTOM_ATTRIBUTE_DATA_TYPE_N5" NOT  
+NULL ENABLE,                                                                    
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT                             
+"CUSTOM_ATTRIBUTE_DATA_TYPE_N6" NOT NULL ENABLE,                                
+CONSTRAINT "CUSTOM_ATTRIBUTE_DATA_TYPE_P1" PRIMARY KEY ("DATA_TYPE_CODE")       
+ENABLE,                                                                         
+CONSTRAINT "CUSTOM_ATTRIBUTE_DATA_TYPE_C0" UNIQUE ("OBJ_ID") ENABLE             
+) ;
+                                                                            
+                                                                                
+CREATE TABLE "CUSTOM_ATTRIBUTE_DOC_VALUE"                                       
+(	"DOCUMENT_NUMBER" NUMBER(10,0) CONSTRAINT "CUSTOM_ATTRIBUTE_DOC_VALUE_N1" NOT 
+NULL ENABLE,                                                                    
+"CUSTOM_ATTRIBUTE_ID" NUMBER(12,0) CONSTRAINT "CUSTOM_ATTRIBUTE_DOC_VALUE_N2"   
+NOT NULL ENABLE,                                                                
+"VALUE" VARCHAR2(2000),                                                         
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "CUSTOM_ATTRIBUTE_DOC_VALUE_N3" NOT NULL     
+ENABLE,                                                                         
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "CUSTOM_ATTRIBUTE_DOC_VALUE_N4" NOT NULL   
+ENABLE,                                                                         
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "CUSTOM_ATTRIBUTE_DOC_VALUE_N5" NOT  
+NULL ENABLE,                                                                    
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT                             
+"CUSTOM_ATTRIBUTE_DOC_VALUE_N6" NOT NULL ENABLE,                                
+CONSTRAINT "CUSTOM_ATTRIBUTE_DOC_VALUE_P1" PRIMARY KEY ("DOCUMENT_NUMBER",      
+"CUSTOM_ATTRIBUTE_ID") ENABLE,                                                  
+CONSTRAINT "CUSTOM_ATTRIBUTE_DOC_VALUE_C0" UNIQUE ("OBJ_ID") ENABLE
+   ) ;
+     
+                                                                                
+CREATE TABLE "CUSTOM_ATTRIBUTE_DOCUMENT"                                        
+(	"DOCUMENT_TYPE_CODE" VARCHAR2(4) CONSTRAINT "CUSTOM_ATTRIBUTE_DOCUMENT_N1" NOT
+NULL ENABLE,                                                                    
+"CUSTOM_ATTRIBUTE_ID" NUMBER(12,0) CONSTRAINT "CUSTOM_ATTRIBUTE_DOCUMENT_N2" NOT
+NULL ENABLE,                                                                    
+"TYPE_NAME" VARCHAR2(100),                                                      
+"IS_REQUIRED" CHAR(1),                                                          
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "CUSTOM_ATTRIBUTE_DOCUMENT_N3" NOT NULL      
+ENABLE,                                                                         
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "CUSTOM_ATTRIBUTE_DOCUMENT_N4" NOT NULL    
+ENABLE,                                                                         
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "CUSTOM_ATTRIBUTE_DOCUMENT_N5" NOT   
+NULL ENABLE,                                                                    
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT                             
+"CUSTOM_ATTRIBUTE_DOCUMENT_N6" NOT NULL ENABLE,                                 
+CONSTRAINT "CUSTOM_ATTRIBUTE_DOCUMENT_P1" PRIMARY KEY ("DOCUMENT_TYPE_CODE",    
+"CUSTOM_ATTRIBUTE_ID") ENABLE,                                                  
+CONSTRAINT "CUSTOM_ATTRIBUTE_DOCUMENT_C0" UNIQUE ("OBJ_ID") ENABLE
+   ) ;
+      
+                                                                                
+CREATE TABLE "BUDGET_PROJECT_INCOMES"                                           
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_PROJECT_INCOME_PN" NOT NULL 
+ENABLE,                                                                         
+"BUDGET_VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PROJECT_INCOME_BV" NOT   
+NULL ENABLE,                                                                    
+"BUDGET_PERIOD_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PROJECT_INCOME_BP" NOT    
+NULL ENABLE,                                                                    
+"PROJECT_INCOME" NUMBER(19,2) CONSTRAINT "BUDGET_PROJECT_INCOME_PI" NOT NULL    
+ENABLE,                                                                         
+"DESCRIPTION" VARCHAR2(200) CONSTRAINT "BUDGET_PROJECT_INCOME_DE" NOT NULL      
+ENABLE,                                                                         
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGET_PROJECT_INCOME_UT" NOT NULL ENABLE,  
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET_PROJECT_INCOME_UU" NOT NULL ENABLE,
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGET_PROJECT_INCOME_VN" NOT NULL  
+ENABLE,                                                                         
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "BUDGET_PROJECT_INCOME_OI"  
+NOT NULL ENABLE,                                                                
+CONSTRAINT "PK_BUDGET_PROJECT_INCOME_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",       
+"BUDGET_VERSION_NUMBER", "BUDGET_PERIOD_NUMBER", "PROJECT_INCOME",              
+"DESCRIPTION") ENABLE                                                           
+   ) ;
+                                                                         
+                                                                                
+CREATE TABLE "EPS_PROPOSAL_STATUS"                                              
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROPOSAL_STATUS_N1" NOT NULL   
+ENABLE,                                                                         
+"BUDGET_STATUS_CODE" CHAR(1),                                                   
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "EPS_PROPOSAL_STATUS_N2" NOT NULL ENABLE,    
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "EPS_PROPOSAL__STATUS_N3" NOT NULL ENABLE, 
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "EPS_PROPOSAL_STATUS_N4" NOT NULL    
+ENABLE,                                                                         
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "EPS_PROPOSAL_STATUS_N5" NOT
+NULL ENABLE,                                                                    
+CONSTRAINT "EPS_PROPOSAL_STATUS_P1" PRIMARY KEY ("PROPOSAL_NUMBER") ENABLE,     
+CONSTRAINT "EPS_PROPOSAL_STATUS_C0" UNIQUE ("OBJ_ID") ENABLE
+   ) ;
+            
+                                                                                
+CREATE TABLE "BUDGET_PERIODS"                                                   
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_PERIODSN1" NOT NULL ENABLE, 
+"VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PERIODSN2" NOT NULL ENABLE,     
+"BUDGET_PERIOD" NUMBER(3,0) CONSTRAINT "BUDGET_PERIODSN3" NOT NULL ENABLE,      
+"START_DATE" DATE CONSTRAINT "BUDGET_PERIODSN4" NOT NULL ENABLE,                
+"END_DATE" DATE CONSTRAINT "BUDGET_PERIODSN5" NOT NULL ENABLE,                  
+"TOTAL_COST" NUMBER(12,2),                                                      
+"TOTAL_DIRECT_COST" NUMBER(12,2),                                               
+"TOTAL_INDIRECT_COST" NUMBER(12,2),                                             
+"COST_SHARING_AMOUNT" NUMBER(12,2),                                             
+"UNDERRECOVERY_AMOUNT" NUMBER(12,2),                                            
+"TOTAL_COST_LIMIT" NUMBER(12,2),                                                
+"COMMENTS" CLOB,                                                                
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGET_PERIODSN6" NOT NULL ENABLE,          
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET_PERIODSN7" NOT NULL ENABLE,        
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGET_PERIODSN8" NOT NULL ENABLE,  
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "BUDGET_PERIODSN9" NOT NULL 
+ENABLE,                                                                         
+CONSTRAINT "PK_BUDGET_PERIODS_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",              
+"VERSION_NUMBER", "BUDGET_PERIOD") ENABLE
+   ) ;
+                               
+                                                                                
+CREATE TABLE "BUDGET_PERSONNEL_DETAILS"                                         
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN1" NOT    
+NULL ENABLE,                                                                    
+"VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN2" NOT NULL   
+ENABLE,                                                                         
+"BUDGET_PERIOD" NUMBER(3,0) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN3" NOT NULL    
+ENABLE,                                                                         
+"LINE_ITEM_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN4" NOT NULL 
+ENABLE,                                                                         
+"PERSON_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN5" NOT NULL    
+ENABLE,                                                                         
+"PERSON_ID" VARCHAR2(9) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN6" NOT NULL ENABLE,
+"JOB_CODE" VARCHAR2(6) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN7" NOT NULL ENABLE, 
+"START_DATE" DATE CONSTRAINT "BUDGET_PERSONNEL_DETAILSN8" NOT NULL ENABLE,      
+"END_DATE" DATE CONSTRAINT "BUDGET_PERSONNEL_DETAILSN9" NOT NULL ENABLE,        
+"PERIOD_TYPE" VARCHAR2(2),                                                      
+"LINE_ITEM_DESCRIPTION" VARCHAR2(80),                                           
+"SEQUENCE_NUMBER" NUMBER(3,0),                                                  
+"SALARY_REQUESTED" NUMBER(12,2),                                                
+"PERCENT_CHARGED" NUMBER(5,2),                                                  
+"PERCENT_EFFORT" NUMBER(5,2),                                                   
+"COST_SHARING_PERCENT" NUMBER(5,2),                                             
+"COST_SHARING_AMOUNT" NUMBER(12,2),                                             
+"UNDERRECOVERY_AMOUNT" NUMBER(12,2),                                            
+"ON_OFF_CAMPUS_FLAG" CHAR(1) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN10" NOT NULL  
+ENABLE,                                                                         
+"APPLY_IN_RATE_FLAG" CHAR(1) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN11" NOT NULL  
+ENABLE,                                                                         
+"BUDGET_JUSTIFICATION" CLOB,                                                    
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGET_PERSONNEL_DETAILSN12" NOT NULL       
+ENABLE,                                                                         
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET_PERSONNEL_DETAILSN13" NOT NULL     
+ENABLE,                                                                         
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGET_PERSONNEL_DETAILSN14" NOT    
+NULL ENABLE,                                                                    
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT                             
+"BUDGET_PERSONNEL_DETAILSN15" NOT NULL ENABLE,                                  
+"PERSON_SEQUENCE_NUMBER" NUMBER(3,0),                                           
+CONSTRAINT "PK_BUDGET_PERSONNEL_DET_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",        
+"VERSION_NUMBER", "BUDGET_PERIOD", "LINE_ITEM_NUMBER", "PERSON_NUMBER") ENABLE  
+) ;                                                                             
+                                                                                
+                                                                                
+CREATE TABLE "BUDGET_DETAILS"                                                   
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_DETAILSN1" NOT NULL ENABLE, 
+"VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_DETAILSN2" NOT NULL ENABLE,     
+"BUDGET_PERIOD" NUMBER(3,0) CONSTRAINT "BUDGET_DETAILSN3" NOT NULL ENABLE,      
+"LINE_ITEM_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_DETAILSN4" NOT NULL ENABLE,   
+"BUDGET_CATEGORY_CODE" NUMBER(3,0) CONSTRAINT "BUDGET_DETAILSN5" NOT NULL       
+ENABLE,                                                                         
+"COST_ELEMENT" VARCHAR2(8) CONSTRAINT "BUDGET_DETAILSN6" NOT NULL ENABLE,       
+"LINE_ITEM_DESCRIPTION" VARCHAR2(80),                                           
+"BASED_ON_LINE_ITEM" NUMBER(3,0),                                               
+"LINE_ITEM_SEQUENCE" NUMBER(3,0),                                               
+"START_DATE" DATE CONSTRAINT "BUDGET_DETAILSN7" NOT NULL ENABLE,                
+"END_DATE" DATE CONSTRAINT "BUDGET_DETAILSN8" NOT NULL ENABLE,                  
+"LINE_ITEM_COST" NUMBER(12,2),                                                  
+"COST_SHARING_AMOUNT" NUMBER(12,2),                                             
+"UNDERRECOVERY_AMOUNT" NUMBER(12,2),                                            
+"ON_OFF_CAMPUS_FLAG" CHAR(1) CONSTRAINT "BUDGET_DETAILSN9" NOT NULL ENABLE,     
+"APPLY_IN_RATE_FLAG" CHAR(1) CONSTRAINT "BUDGET_DETAILSN10" NOT NULL ENABLE,    
+"BUDGET_JUSTIFICATION" CLOB,                                                    
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGET_DETAILSN11" NOT NULL ENABLE,         
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET_DETAILSN12" NOT NULL ENABLE,       
+"QUANTITY" NUMBER(4,0),                                                         
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGET_DETAILSN13" NOT NULL ENABLE, 
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "BUDGET_DETAILSN14" NOT NULL
+ENABLE,                                                                         
+CONSTRAINT "PK_BUDGET_DETAILS_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",              
+"VERSION_NUMBER", "BUDGET_PERIOD", "LINE_ITEM_NUMBER") ENABLE                   
+) ;                                                                             
+                                                                                
+                                                                                
+CREATE TABLE "YNQ_EXPLANATION"                                                  
+(	"QUESTION_ID" VARCHAR2(4) CONSTRAINT "YNQ_EXPLANATIONN1" NOT NULL ENABLE,     
+"EXPLANATION_TYPE" CHAR(1) CONSTRAINT "YNQ_EXPLANATIONN2" NOT NULL ENABLE,      
+"EXPLANATION" CLOB,                                                             
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "YNQ_EXPLANATIONN3" NOT NULL ENABLE,         
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "YNQ_EXPLANATIONN4" NOT NULL ENABLE,       
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "YNQ_EXPLANATIONN5" NOT NULL ENABLE, 
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "YNQ_EXPLANATIONN6" NOT NULL
+ENABLE,                                                                         
+CONSTRAINT "PK_YNQ_EXPLANATION_KRA" PRIMARY KEY ("QUESTION_ID",                 
+"EXPLANATION_TYPE") ENABLE                                                      
+) ;                                                                             
+                                                                                
+                                                                                
+CREATE TABLE "BUDGET"                                                           
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGETN1" NOT NULL ENABLE,         
+"VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGETN2" NOT NULL ENABLE,             
+"DOCUMENT_NUMBER" NUMBER(10,0) CONSTRAINT "BUDGETN3" NOT NULL ENABLE,           
+"START_DATE" DATE CONSTRAINT "BUDGETN4" NOT NULL ENABLE,                        
+"END_DATE" DATE CONSTRAINT "BUDGETN5" NOT NULL ENABLE,                          
+"TOTAL_COST" NUMBER(12,2),                                                      
+"TOTAL_DIRECT_COST" NUMBER(12,2),                                               
+"TOTAL_INDIRECT_COST" NUMBER(12,2),                                             
+"COST_SHARING_AMOUNT" NUMBER(12,2),                                             
+"UNDERRECOVERY_AMOUNT" NUMBER(12,2),                                            
+"RESIDUAL_FUNDS" NUMBER(12,2),                                                  
+"TOTAL_COST_LIMIT" NUMBER(12,2),                                                
+"OH_RATE_CLASS_CODE" VARCHAR2(3) CONSTRAINT "BUDGETN6" NOT NULL ENABLE,         
+"OH_RATE_TYPE_CODE" VARCHAR2(3),                                                
+"COMMENTS" CLOB,                                                                
+"FINAL_VERSION_FLAG" CHAR(1),                                                   
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGETN7" NOT NULL ENABLE,                  
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET87" NOT NULL ENABLE,                
+"UR_RATE_CLASS_CODE" VARCHAR2(3) DEFAULT 1 CONSTRAINT "BUDGETN9" NOT NULL       
+ENABLE,                                                                         
+"MODULAR_BUDGET_FLAG" VARCHAR2(1) DEFAULT 'N' CONSTRAINT "BUDGETN10" NOT NULL   
+ENABLE,                                                                         
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGETN11" NOT NULL ENABLE,         
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "BUDGETN12" NOT NULL ENABLE,
+CONSTRAINT "PK_BUDGET_KRA" PRIMARY KEY ("PROPOSAL_NUMBER", "VERSION_NUMBER")    
+ENABLE
+   ) ;
+                                                                  
+
