@@ -19,15 +19,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.keyvalue.PersistableBusinessObjectValuesFinderTestBase;
 import org.kuali.kra.keyvalue.ValuesFinderTestBase;
 
 /**
  * This class tests ProposalTypeValuesFinder.
  */
-public class ProposalTypeValuesFinderTest extends ValuesFinderTestBase {
+public class ProposalTypeValuesFinderTest extends PersistableBusinessObjectValuesFinderTestBase {
 
     public ProposalTypeValuesFinderTest() {
-        setTestClass(ProposalTypeValuesFinder.class);
+        setValuesFinderClass(ExtendedPersistableBusinessObjectValuesFinder.class);
+        setBusinessObjectClass(org.kuali.kra.proposaldevelopment.bo.ProposalType.class);
+        setKeyAttributeName("proposalTypeCode");
+        setLabelAttributeName("description");
+        setIncludeKeyInDescription(false);
     }
 
     @Before
@@ -46,7 +51,7 @@ public class ProposalTypeValuesFinderTest extends ValuesFinderTestBase {
 
     @Override
     protected void addKeyValues() {
-        testKeyValues.add(new KeyLabelPair("", "select:"));
+        testKeyValues.add(new KeyLabelPair("", "select"));
         testKeyValues.add(new KeyLabelPair("1", "New"));
         testKeyValues.add(new KeyLabelPair("2", "Competing Continuation"));
         testKeyValues.add(new KeyLabelPair("3", "Non-competing Continuation"));
