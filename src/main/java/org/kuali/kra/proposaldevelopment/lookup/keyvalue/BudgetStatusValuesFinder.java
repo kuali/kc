@@ -32,7 +32,7 @@ public class BudgetStatusValuesFinder extends KeyValuesBase {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection budgetStatusTypes = keyValuesService.findAll(BudgetStatus.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", "select:"));
+        keyValues.add(new KeyLabelPair("", "select"));
         for (Iterator iter = budgetStatusTypes.iterator(); iter.hasNext();) {
             BudgetStatus budgetStatus = (BudgetStatus) iter.next();
             keyValues.add(new KeyLabelPair(budgetStatus.getBudgetStatusCode(), budgetStatus.getDescription()));
