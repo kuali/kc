@@ -24,12 +24,17 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
+
+import edu.iu.uis.eden.clientapp.WorkflowInfo;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * The Proposal Development Document Authorizer.  Primarily responsible for determining if
@@ -46,7 +51,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     public Map getEditMode(Document doc, UniversalUser user) {
-
+   
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) doc;
         
         ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
@@ -77,6 +82,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
                 editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
                 setPermissions(username, proposalDoc, editModeMap);
             }
+            else if (hasWorkflowPermission(username, proposalDoc)) {
+                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+                setPermissions(username, proposalDoc, editModeMap);
+            } 
             else {
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
             }
@@ -85,6 +94,30 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         return editModeMap;
     }
     
+    /**
+     * Is the user in the proposal's workflow?  If so, then that user has 
+     * permission to access the proposal even if they are not given explicit
+     * permissions in KIM.
+     * @param username the user's username
+     * @param doc the proposal development document
+     * @return true if the user is in the workflow; otherwise false
+     */
+    private boolean hasWorkflowPermission(String username, ProposalDevelopmentDocument doc) {
+        boolean isInWorkflow = false;
+        KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+        if (workflowDoc != null) {
+            Long routeHeaderId = workflowDoc.getRouteHeader().getRouteHeaderId();
+            NetworkIdVO userId = new NetworkIdVO(username);
+            WorkflowInfo info = new WorkflowInfo();
+            try {
+                isInWorkflow = info.isUserAuthenticatedByRouteLog(routeHeaderId, userId, false);
+            }
+            catch (WorkflowException e) {
+            }
+        }
+        return isInWorkflow;
+    }
+
     /**
      * Set the permissions to be used during the creation of the web pages.  
      * The JSP files can access the editModeMap (editingMode) to determine what
@@ -191,5 +224,4 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
 
         return flags;
     }
-
 }
