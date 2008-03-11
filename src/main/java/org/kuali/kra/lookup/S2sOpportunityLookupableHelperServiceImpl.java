@@ -49,6 +49,7 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
         setBackLocation(fieldValues.get(RiceConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(RiceConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(RiceConstants.REFERENCES_TO_REFRESH));
+        GlobalVariables.getMessageList().add(Constants.GRANTS_GOV_LINK);
         List<S2sOpportunity> s2sOpportunity=new ArrayList<S2sOpportunity>();        
         if(fieldValues!=null && (fieldValues.get(Constants.CFDA_NUMBER)!=null && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER).trim(),""))||(fieldValues.get(Constants.OPPORTUNITY_ID)!=null && !StringUtils.equals(fieldValues.get(Constants.OPPORTUNITY_ID).trim(),""))){
             s2sOpportunity = s2SService.searchOpportunity(fieldValues.get(Constants.CFDA_NUMBER),fieldValues.get(Constants.OPPORTUNITY_ID),"");

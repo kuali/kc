@@ -306,7 +306,8 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage page4 = clickOn(page3, "methodToCall.removeOpportunity", "Kuali :: Question Dialog Page");
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) getDocument(documentNumber);
         assertContains(page4,"Are you sure you want to delete the "+document.getS2sOpportunity().getOpportunityId() + " opportunity?");
-        clickOn(page4, "methodToCall.processAnswer.button0", "Kuali :: Proposal Development Document");
+        HtmlPage page5 = clickOn(page4, "methodToCall.processAnswer.button0", "Kuali :: Proposal Development Document");
+        clickOn(page5, "methodToCall.save", "Kuali :: Proposal Development Document");
         doc = (ProposalDevelopmentDocument) getDocument(documentNumber);  
         assertNull(doc.getS2sOpportunity());
     }

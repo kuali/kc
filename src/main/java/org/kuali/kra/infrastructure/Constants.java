@@ -150,4 +150,5 @@ public interface Constants {
     public static final String CFDA_NUMBER = "cfdaNumber";
     public static final String OPPORTUNITY_ID= "opportunityId";
     public static final String NO_FIELD= "noField";
+    public static final String GRANTS_GOV_LINK="message.grantsgov.link";
 }

@@ -39,16 +39,7 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 	private List<S2sOppForms> s2sOppForms;
 	private S2sSubmissionType s2sSubmissionType;
 	private S2sRevisionType s2sRevisionType; 
-	private S2sAppSubmission s2sAppSubmission;
-
-    public S2sSubmissionType getS2sSubmissionType() {
-        return s2sSubmissionType;
-    }
-
-    public void setS2sSubmissionType(S2sSubmissionType submissionType) {
-        s2sSubmissionType = submissionType;
-    }
-
+	
     public String getProposalNumber() {
 		return proposalNumber;
 	}
@@ -169,14 +160,6 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
         this.opportunityTitle = opportunityTitle;
     }
     
-    public S2sAppSubmission getS2sAppSubmission() {
-        return s2sAppSubmission;
-    }
-
-    public void setS2sAppSubmission(S2sAppSubmission appSubmission) {
-        s2sAppSubmission = appSubmission;
-    }
-    
     @Override 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();
@@ -196,5 +179,13 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
         hashMap.put("updateTimestamp", this.getUpdateTimestamp());
         hashMap.put("updateUser", this.getUpdateUser());
         return hashMap;
+    }
+
+    public S2sSubmissionType getS2sSubmissionType() {
+        return s2sSubmissionType;
+    }
+
+    public void setS2sSubmissionType(S2sSubmissionType submissionType) {
+        s2sSubmissionType = submissionType;
     }    
 }
