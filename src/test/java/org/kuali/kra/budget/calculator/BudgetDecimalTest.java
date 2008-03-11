@@ -37,7 +37,6 @@ public class BudgetDecimalTest {
     public void divideTest() throws Exception{
         BudgetDecimal op1 = new BudgetDecimal(100);
         BudgetDecimal op2 = new BudgetDecimal(365);
-        System.out.println(op1.divide(op2));
         Assert.assertEquals(op1.divide(op2),new BudgetDecimal(100d/365d));
     }
 
