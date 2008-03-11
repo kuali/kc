@@ -18,13 +18,14 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.util.LinkedHashMap;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * Business Object for narratives added to a proposal. Narratives are the same as Proposal Attachments and vice-versa.
  * 
  * 
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class NarrativeType extends KraPersistableBusinessObjectBase {
     
@@ -79,5 +80,22 @@ public class NarrativeType extends KraPersistableBusinessObjectBase {
         propMap.put("updateTimestamp", this.getUpdateTimestamp());
         propMap.put("updateUser", this.getUpdateUser());
         return propMap;
+    }
+    
+    /**
+     * Determine if two NarrativeTypes have the same values.
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj instanceof NarrativeType) {
+            NarrativeType other = (NarrativeType) obj;
+            return StringUtils.equals(this.narrativeTypeCode, other.narrativeTypeCode) &&
+                   StringUtils.equals(this.description, other.description) &&
+                   StringUtils.equals(this.systemGenerated, other.systemGenerated) &&
+                   StringUtils.equals(this.allowMultiple, other.allowMultiple) &&
+                   StringUtils.equals(this.narrativeTypeGroup, other.narrativeTypeGroup);
+        }
+        return false;
     }
 }

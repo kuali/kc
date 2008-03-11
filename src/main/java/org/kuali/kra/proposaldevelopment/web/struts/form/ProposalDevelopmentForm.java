@@ -105,6 +105,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<S2sAppSubmission> newS2sAppSubmission;
     private Map<String, List> customAttributeGroups;
     private Map<String, String[]> customAttributeValues;
+    private List<Narrative> narratives;
 
     public ProposalDevelopmentForm() {
         super();
@@ -935,5 +936,21 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
 
     public void setNewS2sAppSubmission(List<S2sAppSubmission> newS2sAppSubmission) {
         this.newS2sAppSubmission = newS2sAppSubmission;
+    }
+    
+    /**
+     * Set the original list of narratives for comparison when a save occurs.
+     * @param narratives the list of narratives
+     */
+    public void setNarratives(List<Narrative> narratives) {
+        this.narratives = narratives;
+    }
+    
+    /**
+     * Get the original list of narratives.
+     * @return the original list of narratives
+     */
+    public List<Narrative> getNarratives() {
+        return this.narratives;
     }
 }

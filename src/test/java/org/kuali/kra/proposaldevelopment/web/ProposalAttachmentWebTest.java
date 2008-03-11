@@ -41,11 +41,8 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         final HtmlPage propDevPage = getProposalDevelopmentPage();
         setDefaultRequiredFields(propDevPage);
         
-        final HtmlPage keyPersonnelPage = clickOn(getProposalDevelopmentPage(), KEY_PERSONNEL_IMAGE_NAME);
+        final HtmlPage propAttPage = clickOnTab(propDevPage, ABSTRACTS_ATTACHMENTS_LINK_NAME);
         
-        
-        final HtmlPage propAttPage = clickOn(addKeyPerson(keyPersonnelPage), "methodToCall.headerTab.headerDispatch.save.navigateTo.abstractsAttachments.x");
-      
         assertTrue(propAttPage.asText().contains("Document was successfully saved"));
         // really is in proposal attachment page
         assertTrue(propAttPage.asText().contains("Attachment Type"));
@@ -94,19 +91,6 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         savedPage = testSaveProposalAttachment(uploadedPage);
         
         testReplaceAttachment(savedPage,2);
-    }
-
-    private HtmlPage addKeyPerson(HtmlPage keyPersonPage) throws Exception {
-        HtmlPage keyPersonnelPage = lookup(keyPersonPage, "org.kuali.kra.bo.Person","userName","quickstart");
-        assertEquals("Geoff McGregor", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
-        
-        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
-
-        clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
-
-        assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
-        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
-        return keyPersonnelPage;
     }
 
     private void testNarrUserRights(HtmlPage propPage,int lineNumber) throws Exception{

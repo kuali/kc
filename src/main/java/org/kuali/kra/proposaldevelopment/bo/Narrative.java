@@ -32,6 +32,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+import org.kuali.kra.service.PersonService;
 
 /**
  * 
@@ -66,8 +67,8 @@ public class Narrative extends KraPersistableBusinessObjectBase {
     }
     
     protected String findLoggedInUserPersonId() {
-        String loggedInUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
-        return getService(ProposalPersonService.class).getPerson(loggedInUser).getPersonId();//get person id for looged in user
+        String loggedInUser = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+        return getService(PersonService.class).getPersonByName(loggedInUser).getPersonId();//get person id for looged in user
     }
 
     public Integer getModuleNumber() {
@@ -265,9 +266,11 @@ public class Narrative extends KraPersistableBusinessObjectBase {
      * @return Returns the view.
      */
     public boolean getViewAttachment() {
-        List<NarrativeUserRights> narrativeUserRights = getNarrativeUserRights();
-        if(narrativeUserRights.isEmpty())
+        if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
+        }
+        List<NarrativeUserRights> narrativeUserRights = getNarrativeUserRights();
+        loggedInUserPersonId = findLoggedInUserPersonId();
         for (NarrativeUserRights narrativeRight : narrativeUserRights) {
             if (StringUtils.equals(narrativeRight.getUserId(),loggedInUserPersonId)) {
                 return (narrativeRight.getAccessType().equals(
@@ -294,12 +297,13 @@ public class Narrative extends KraPersistableBusinessObjectBase {
      * @return Returns the modify.
      */
     public boolean getModifyAttachment() {
-      List<NarrativeUserRights> narrativeUserRights = getNarrativeUserRights();
-      if(narrativeUserRights.isEmpty())
+      if (getNarrativeUserRights().isEmpty()) {
           refreshReferenceObject("narrativeUserRights");
+      }
+      List<NarrativeUserRights> narrativeUserRights = getNarrativeUserRights();
+      loggedInUserPersonId = findLoggedInUserPersonId();
       for (NarrativeUserRights narrativeRight : narrativeUserRights) {
           if (StringUtils.equals(narrativeRight.getUserId(),loggedInUserPersonId)) {
-              
               return narrativeRight.getAccessType().equals(
                       NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType());
           }
@@ -380,5 +384,30 @@ public class Narrative extends KraPersistableBusinessObjectBase {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getNarrativeUserRights());
         return managedLists;
+    }
+    
+    /**
+     * Determine if two Narratives have the same values.
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj instanceof Narrative) {
+            Narrative other = (Narrative) obj;
+            return StringUtils.equals(this.proposalNumber, other.proposalNumber) &&
+                   this.moduleNumber.equals(other.moduleNumber) &&
+                   StringUtils.equals(this.comments, other.comments) &&
+                   StringUtils.equals(this.contactName, other.contactName) &&
+                   StringUtils.equals(this.emailAddress, other.emailAddress) &&
+                   this.moduleSequenceNumber.equals(other.moduleSequenceNumber) &&
+                   StringUtils.equals(this.moduleStatusCode, other.moduleStatusCode) &&
+                   StringUtils.equals(this.moduleTitle, other.moduleTitle) &&
+                   StringUtils.equals(this.narrativeTypeCode, other.narrativeTypeCode) &&
+                   StringUtils.equals(this.phoneNumber, other.phoneNumber) &&
+                   this.narrativeType.equals(other.narrativeType) &&
+                   this.narrativeStatus.equals(other.narrativeStatus) &&
+                   StringUtils.equals(this.fileName, other.fileName);
+        }
+        return false;
     }
 }
