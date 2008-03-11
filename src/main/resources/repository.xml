@@ -1511,9 +1511,9 @@
 		<collection-descriptor name="s2sOppForms" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sOppForms" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>		
-<!-- 		<reference-descriptor name="s2sRevisionType" class-ref="org.kuali.kra.bo.S2sRevisionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="s2sRevisionTypeCode"/> 
-		</reference-descriptor> -->
+		<reference-descriptor name="s2sRevisionType" class-ref="org.kuali.kra.bo.S2sRevisionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="revisionCode"/> 
+		</reference-descriptor>
 	</class-descriptor>    
 	<class-descriptor class="org.kuali.kra.s2s.bo.S2sAppSubmission" table="S2S_APP_SUBMISSION">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>

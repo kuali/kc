@@ -32,5 +32,5 @@
 <kra-pd:proposalDevelopmentGrantsGovForms />
 
 <kul:panelFooter />
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" extraButtonSource="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" extraButtonProperty="methodToCall.submitToGrantsGov" extraButtonAlt="Submit"/>
+<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 </kul:documentPage>
