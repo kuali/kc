@@ -448,11 +448,38 @@
 		<property name="permission" value="MAINTAIN_PROPOSAL_ACCESS" />
 	</bean>
 	
+	<bean id="narrativeAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
+		<property name="taskAuthorizers">
+			<list>
+				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
+				    <property name="action" value="AbstractsAttachments" />
+				    <property name="task" value="addProposalAttachment" />
+				    <property name="permission" value="MODIFY_NARRATIVE" />
+				</bean>
+				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
+				    <property name="task" value="addProposalAttachmentRights" />
+				</bean>
+				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReadAuthorizer">
+				    <property name="task" value="downloadProposalAttachment" />
+				</bean>
+				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
+				    <property name="task" value="deleteProposalAttachment" />
+				</bean>
+				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
+				    <property name="task" value="replaceProposalAttachment" />
+				</bean>
+				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReadAuthorizer">
+				    <property name="task" value="getProposalAttachmentRights" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="proposalAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
 		<property name="taskAuthorizers">
 			<list>
 				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SaveProposalAuthorizer" />
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeRightsAuthorizer" />
+				<ref bean="narrativeAuthorizer" />
 				<ref bean="permissionsAuthorizer" />
 			</list>
 		</property>

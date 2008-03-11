@@ -25,69 +25,73 @@
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
 <kul:tabTop tabTitle="Proposal Attachments (${fn:length(KualiForm.document.narratives)})" defaultOpen="true" tabErrorKey="newNarrative*,document.narrative*">
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Add Proposal Attachments</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
-        </div>
+	    <kra:section permission="modifyNarratives">
+	    	<div class="h2-container">
+	    		<span class="subhead-left"><h2>Add Proposal Attachments</h2></span>
+	    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+	        </div>
+        </kra:section>
         <table cellpadding=0 cellspacing=0 summary="">
-           	<tr>
-         		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}"/></div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="newNarrative.narrativeTypeCode" attributeEntry="${narrativeAttributes.narrativeTypeCode}" />
-				</td>
-          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}"/></div></th>
-                <td align="left" valign="middle">
-                	<html:file property="newNarrative.narrativeFile" />
-				</td>
-          	</tr>
-          	<tr>
-          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}"/></div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="newNarrative.moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
-				</td>
-          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.contactName}" /></div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="newNarrative.contactName" attributeEntry="${narrativeAttributes.contactName}" />
-				</td>
-          	</tr>
-          	<tr>
-          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" /></div></th>
-                <td align="left" valign="middle">&nbsp;</td>
-          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.emailAddress}" /></div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="newNarrative.emailAddress" attributeEntry="${narrativeAttributes.emailAddress}" />
-				</td>
-          	</tr>
-          	<tr>
-          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" /></div></th>
-                <td align="left" valign="middle">&nbsp;</td>
-          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.phoneNumber}" /></div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="newNarrative.phoneNumber" attributeEntry="${narrativeAttributes.phoneNumber}" />
-				</td>
-          	</tr>
-          	<tr>
-          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.comments}" /></div></th>
-                <td align="left" valign="middle">
-                	<c:set var="textAreaFieldName" value="newNarrative.comments" />
-                	<kul:htmlControlAttribute property="newNarrative.comments" attributeEntry="${narrativeAttributes.comments}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.comments.label}" />
-				</td>
-          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" /></div></th>
-                <td align="left" valign="middle">
-                	<c:set var="textAreaFieldName" value="newNarrative.moduleTitle" />
-                	<kul:htmlControlAttribute property="newNarrative.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
-				</td>
-          	</tr>
-          	<tr>
-				<td colspan=4>
-					<div align="center">
-						<html:image property="methodToCall.addProposalAttachment"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
-					</div>
-                </td>
-            </tr>
+            <kra:section permission="modifyNarratives">
+	           	<tr>
+	         		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}"/></div></th>
+	                <td align="left" valign="middle">
+	                	<kul:htmlControlAttribute property="newNarrative.narrativeTypeCode" attributeEntry="${narrativeAttributes.narrativeTypeCode}" />
+					</td>
+	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}"/></div></th>
+	                <td align="left" valign="middle">
+	                	<html:file property="newNarrative.narrativeFile" />
+					</td>
+	          	</tr>
+	          	<tr>
+	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}"/></div></th>
+	                <td align="left" valign="middle">
+	                	<kul:htmlControlAttribute property="newNarrative.moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
+					</td>
+	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.contactName}" /></div></th>
+	                <td align="left" valign="middle">
+	                	<kul:htmlControlAttribute property="newNarrative.contactName" attributeEntry="${narrativeAttributes.contactName}" />
+					</td>
+	          	</tr>
+	          	<tr>
+	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" /></div></th>
+	                <td align="left" valign="middle">&nbsp;</td>
+	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.emailAddress}" /></div></th>
+	                <td align="left" valign="middle">
+	                	<kul:htmlControlAttribute property="newNarrative.emailAddress" attributeEntry="${narrativeAttributes.emailAddress}" />
+					</td>
+	          	</tr>
+	          	<tr>
+	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" /></div></th>
+	                <td align="left" valign="middle">&nbsp;</td>
+	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.phoneNumber}" /></div></th>
+	                <td align="left" valign="middle">
+	                	<kul:htmlControlAttribute property="newNarrative.phoneNumber" attributeEntry="${narrativeAttributes.phoneNumber}" />
+					</td>
+	          	</tr>
+	          	<tr>
+	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.comments}" /></div></th>
+	                <td align="left" valign="middle">
+	                	<c:set var="textAreaFieldName" value="newNarrative.comments" />
+	                	<kul:htmlControlAttribute property="newNarrative.comments" attributeEntry="${narrativeAttributes.comments}" />
+	                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.comments.label}" />
+					</td>
+	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" /></div></th>
+	                <td align="left" valign="middle">
+	                	<c:set var="textAreaFieldName" value="newNarrative.moduleTitle" />
+	                	<kul:htmlControlAttribute property="newNarrative.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
+	                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
+					</td>
+	          	</tr>
+	          	<tr>
+					<td colspan=4>
+						<div align="center">
+							<html:image property="methodToCall.addProposalAttachment"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+						</div>
+	                </td>
+	            </tr>
+            </kra:section>
             <tr>
             	<td colspan="4">
             	<div  align="left">
@@ -177,11 +181,13 @@
 			          	<tr>
 							<td colspan=4>
 								<div align="center">
-									<html:image styleId="deleteProposalAttachment.line${status.index}" property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
-										<html:image styleId="getProposalAttachmentRights.line${status.index}" property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
-										onclick="javascript: proposalAttachmentRightsPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
+								    <c:if test="${narrative.modifyAttachment}">
+										<html:image styleId="deleteProposalAttachment.line${status.index}" property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
+										            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+									</c:if>
+									<html:image styleId="getProposalAttachmentRights.line${status.index}" property="methodToCall.getProposalAttachmentRights.line${status.index}.anchor${currentTabIndex}"
+										        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
+										        onclick="javascript: proposalAttachmentRightsPop('${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false"/>
 								</div>
 			                </td>
 			            </tr>
