@@ -19,7 +19,7 @@
 <c:set var="budgetPersonAttributes" value="${DataDictionary.BudgetPerson.attributes}" />
 
 <div id="workarea">
-<kul:tabTop tabTitle="Project Personnel" defaultOpen="true">
+<kul:tabTop tabTitle="Project Personnel" defaultOpen="true" tabErrorKey="document.budgetPersons*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Project Personnel</h2></span>
@@ -38,22 +38,9 @@
             <c:forEach var="person" items="${KualiForm.document.budgetPersons}" varStatus="status">
             <tr>
               	<th scope="row"><div align="center">${status.index + 1}</div></th>
-              	<td>${person.personName} <span class="fineprint">(add role)</span></td>
+              	<td>${person.personName} <c:if test="${!empty person.role}"><span class="fineprint">(${person.role})</span></c:if></td>
               	<td><kul:htmlControlAttribute property="document.budgetPerson[${status.index}].jobCode" attributeEntry="${budgetPersonAttributes.jobCode}" /></td>
-              	<td><kul:htmlControlAttribute property="document.budgetPerson[${status.index}].appointmentType" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
-              		<%--
-              		<div align="center"><span>
-						<select name="prtcl_aprv_pnd_ind_param.0" value="">
-                    		<option value="">REG Employee</option>
-                    		<option value="P">SUM Employee</option>
-                    		<option value="A">TMP Employee</option>
-                    		<option>9M Duration</option>
-                    		<option>10M Duration</option>
-                    		<option>11M Duration</option>
-                    		<option>12M Duration</option>
-                  		</select>
-              		</span></div>
-              		 --%>
+              	<td><kul:htmlControlAttribute property="document.budgetPerson[${status.index}].appointmentTypeCode" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
               	</td>
               	<td>
               		<div align="center">
@@ -65,7 +52,7 @@
 						<kul:htmlControlAttribute property="document.budgetPerson[${status.index}].effectiveDate" attributeEntry="${budgetPersonAttributes.effectiveDate}" />
                   	</div>
                 </td>
-              	<td><div align=center><html:image property="methodToCall.deletePerson" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' /></div></td>
+              	<td><div align=center><html:image property="methodToCall.deleteBudgetPerson.line${status.index}" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' /></div></td>
 			</tr>
         	</c:forEach>
         </table>

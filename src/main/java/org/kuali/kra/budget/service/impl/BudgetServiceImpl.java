@@ -19,10 +19,9 @@ import java.util.ArrayList;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -39,6 +38,7 @@ public class BudgetServiceImpl implements BudgetService {
     
     private DocumentService documentService;
     private KualiConfigurationService kualiConfigurationService;
+    private BudgetPersonService budgetPersonService;
     
     /**
      * @see org.kuali.kra.budget.service.BudgetService#getNewBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
@@ -63,21 +63,11 @@ public class BudgetServiceImpl implements BudgetService {
         
         // Copy in key personnel
         for (ProposalPerson proposalPerson: pdDoc.getProposalPersons()) {
-            BudgetPerson budgetPerson = new BudgetPerson();
+            BudgetPerson budgetPerson = new BudgetPerson(proposalPerson);
             budgetPerson.setProposalNumber(pdDoc.getProposalNumber());
             budgetPerson.setBudgetVersionNumber(budgetVersionNumber);
-            if (proposalPerson.getPersonId() != null) {
-                budgetPerson.setPersonId(proposalPerson.getPersonId());
-                budgetPerson.setNonEmployeeFlag(proposalPerson.getPersonId()==null);
-            } else {
-                budgetPerson.setPersonId(proposalPerson.getRolodexId().toString());
-                budgetPerson.setNonEmployeeFlag(proposalPerson.getRolodexId()==null);
-            }
-            budgetPerson.setPersonName(proposalPerson.getName());
-            budgetPerson.setJobCode("0");
-            budgetPerson.setAppointmentTypeCode("1");
-            budgetPerson.setCalculationBase(BudgetDecimal.ZERO);
             budgetPerson.setEffectiveDate(pdDoc.getRequestedStartDateInitial());
+            budgetPersonService.populateBudgetPersonInstitutionData(budgetPerson);
             budgetDocument.addBudgetPerson(budgetPerson);
         }
         
@@ -103,6 +93,10 @@ public class BudgetServiceImpl implements BudgetService {
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setBudgetPersonService(BudgetPersonService budgetPersonService) {
+        this.budgetPersonService = budgetPersonService;
     }
     
 }
