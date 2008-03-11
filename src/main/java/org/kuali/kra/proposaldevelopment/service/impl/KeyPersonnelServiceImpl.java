@@ -52,7 +52,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -122,10 +122,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
                 ProposalPersonUnit unit = person.getUnit(document.getOwnedByUnitNumber());
                 if (unit != null) {
                     unit.setLeadUnit(false);
-                }
-                
-                person.setHomeUnit(EMPTY_STRING);
+                }                
             }
+        }
+        
+        if (isNotBlank(person.getHomeUnit())) {
+            addUnitToPerson(person,createProposalPersonUnit(person.getHomeUnit(), person));
         }
 
         getNarrativeService().addDummyUserRole(document, person);
@@ -301,11 +303,17 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#addUnitToPerson(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit)
      */
     public void addUnitToPerson(ProposalPerson person, ProposalPersonUnit unit) {
-        unit.setProposalNumber(person.getProposalNumber());
-        unit.setProposalPersonNumber(person.getProposalPersonNumber());
+        if (unit == null) {
+            throw new IllegalArgumentException("Cannot add null units to a ProposalPerson instance");
+        }
+        
+        if (!person.containsUnit(unit.getUnitNumber())) {
+            unit.setProposalNumber(person.getProposalNumber());
+            unit.setProposalPersonNumber(person.getProposalPersonNumber());
 
-        person.addUnit(unit);
-        unit.refreshReferenceObject("unit");
+            person.addUnit(unit);
+            unit.refreshReferenceObject("unit");
+        }
     }
 
     /**
@@ -322,7 +330,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         
         ProposalPersonUnit unit = createProposalPersonUnit(unitNumber, person);
         unit.setLeadUnit(true);
-        person.setHomeUnit(unitNumber);
         addUnitToPerson(person, unit);
     }
         
