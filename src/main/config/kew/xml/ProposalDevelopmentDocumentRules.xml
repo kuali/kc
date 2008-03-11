@@ -8,7 +8,63 @@
             <ignorePrevious>true</ignorePrevious>
             <responsibilities>
                 <responsibility>
-	            	<user>quickstart</user>
+	            	<role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!ProposalInvestigator</role>
+                    <approvePolicy>A</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <documentType>ProposalDevelopmentDocument</documentType>
+            <ruleTemplate>FirstApprovalRouting</ruleTemplate>
+            <description>First Approval Routing Rule Template</description>
+            <ignorePrevious>true</ignorePrevious>
+            <responsibilities>
+                <responsibility>
+	              	<role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!CoInvestigator</role>
+                    <approvePolicy>A</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <documentType>ProposalDevelopmentDocument</documentType>
+            <ruleTemplate>FirstApprovalRouting</ruleTemplate>
+            <description>First Approval Routing Rule Template</description>
+            <ignorePrevious>true</ignorePrevious>
+            <responsibilities>
+                <responsibility>
+	               	<role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!Investigators</role>
+                    <approvePolicy>A</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <documentType>ProposalDevelopmentDocument</documentType>
+            <ruleTemplate>FirstApprovalRouting</ruleTemplate>
+            <description>First Approval Routing Rule Template</description>
+            <ignorePrevious>true</ignorePrevious>
+            <responsibilities>
+                <responsibility>
+	               	<role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!KeyPerson</role>
+                    <approvePolicy>A</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+        <rule>
+            <documentType>ProposalDevelopmentDocument</documentType>
+            <ruleTemplate>FirstApprovalRouting</ruleTemplate>
+            <description>First Approval Routing Rule Template</description>
+            <ignorePrevious>true</ignorePrevious>
+            <responsibilities>
+                <responsibility>
+	               	<role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!ProposalPersons</role>
                     <approvePolicy>A</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
@@ -22,8 +78,8 @@
             <ignorePrevious>true</ignorePrevious>
             <responsibilities>
                 <responsibility>
-	            	<user>quickstart</user>
-                    <approvePolicy>A</approvePolicy>
+                   <user>quickstart</user>
+	               <approvePolicy>A</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
                 </responsibility>
