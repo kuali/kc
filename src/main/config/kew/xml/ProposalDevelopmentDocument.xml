@@ -222,6 +222,13 @@
                 </fieldDef>
             </routingConfig>
         </ruleAttribute>
+			<ruleAttribute>
+            <name>ProsalRoleAttribute</name>
+            <className>org.kuali.kra.workflow.ProposalPersonRoleAttribute</className>
+            <label>Proposal Routing</label>
+            <description>Proposal Routing</description>
+            <type>RuleAttribute</type>
+        </ruleAttribute>
 			
 	</ruleAttributes>
 
