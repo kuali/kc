@@ -83,10 +83,12 @@ public class KeyConstants {
     public static final String ERROR_REQUIRED_FOR_REVIEW_DATE = "error.required.for.reviewDate";
     public static final String ERROR_REQUIRED_ANSWER = "error.required.answer";
     
-
-    
     // Budget Versions errors
     public static final String ERROR_NO_FINAL_BUDGET = "error.final.budget.required";
+    
+    // Budget Personnel constants
+    public static final String ERROR_DUPLICATE_BUDGET_PERSON = "error.budgetPerson.duplicate";
+    public static final String QUESTION_DELETE_PERSON = "document.question.deletePerson.text";
     
     // KRA Proposal Permission 
     public static final String QUESTION_DELETE_PROPOSAL_USER_CONFIRMATION = "document.question.deleteProposalUser.text";

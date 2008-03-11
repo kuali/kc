@@ -19,6 +19,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -327,6 +328,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getBudgetPeriods());
         managedLists.add(getBudgetProjectIncomes());
+        managedLists.add(getBudgetPersons());
         return managedLists;
     }
 
@@ -499,6 +501,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
     
     public void addBudgetPerson(BudgetPerson budgetPerson) {
+        budgetPerson.setProposalNumber(getProposalNumber());
+        budgetPerson.setBudgetVersionNumber(getBudgetVersionNumber());
+        this.refreshReferenceObject("documentNextvalues");
+        budgetPerson.setPersonSequenceNumber(getDocumentNextValue("personSequenceNumber"));
         getBudgetPersons().add(budgetPerson);
     }
     

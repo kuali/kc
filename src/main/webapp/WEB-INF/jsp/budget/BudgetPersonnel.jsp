@@ -22,8 +22,6 @@
   	headerDispatch="save"
   	headerTabActive="personnel">
   	
-  	<center>Under Construction</center>
-  	
   	<kul:uncollapsable tabTitle="Add Budget Personnel" tabErrorKey="newBudgetPerson">
   		<div align="center">
             <table cellpadding="0" cellspacing="0" class="grid" summary="">
@@ -33,8 +31,8 @@
                 		<label>Employee Search</label>
                   		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.Person" 
                         	lookedUpCollectionName="newBudgetPersons" /></label><br>
-                  		<label>Non-employee Search</label> 
-                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.Rolodex" 
+                        <label>Non-employee Search</label> 
+                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
                         	lookedUpCollectionName="newBudgetRolodexes" /></label>
                 	</td>
               	</tr>
@@ -43,7 +41,7 @@
 	</kul:uncollapsable>
 	<br/>
 	
-	<kra-b:projectPersonnel/>
+	<kra-b:budgetPersonnel/>
 	
 	<kul:documentControls 
 		transactionalDocument="false"
