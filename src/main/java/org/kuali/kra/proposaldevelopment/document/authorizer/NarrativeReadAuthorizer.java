@@ -32,20 +32,30 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.service.PersonService;
 
 /**
- * The Narrative Rights Authorizer checks to see if the user has 
- * permission to edit the user rights for a narrative.
+ * The Narrative Read Authorizer checks to see if the user has 
+ * the necessary permission to read/view a specific narrative.
+ *
+ * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class NarrativeRightsAuthorizer extends ProposalAuthorizer {
+public class NarrativeReadAuthorizer extends ProposalAuthorizer {
 
     private static final String ACTION_NAME = "AbstractsAttachments";
-    private static final String TASK_NAME = "addProposalAttachmentRights";
+    private String taskName;
+    
+    /**
+     * Set the name of the narrative task.  Injected by the Spring Framework.
+     * @param taskName the name of the task
+     */
+    public void setTask(String taskName) {
+        this.taskName = taskName;
+    }
     
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorization.ProposalAuthorizer#isResponsible(org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
      */
     public boolean isResponsible(ProposalTask task) {
         return StringUtils.equals(ACTION_NAME, task.getActionName()) &&
-               StringUtils.equals(TASK_NAME, task.getTaskName());
+               StringUtils.equals(taskName, task.getTaskName());
     }
     
     /**
@@ -60,18 +70,20 @@ public class NarrativeRightsAuthorizer extends ProposalAuthorizer {
         
         ProposalDevelopmentDocument doc = task.getProposalDevelopmentDocument();
        
-        // First, the user must have the MODIFY_PROPOSAL permission.  This is really
-        // a sanity check.  If they have the MODIFY_NARRATIVE right, then they are
-        // required to have the MODIFY_PROPOSAL permission.
+        // First, the user must have the VIEW_NARRATIVE permission.  This is really
+        // a sanity check.  If they have the VIEW or MODIFY_NARRATIVE_RIGHT, then they are
+        // required to have the VIEW_NARRATIVE permission.
         
         boolean hasPermission = false;
-        if (auth.hasPermission(username, doc, PermissionConstants.MODIFY_PROPOSAL)) {
+        if (auth.hasPermission(username, doc, PermissionConstants.VIEW_NARRATIVE)) {
             Narrative narrative = narrativeTask.getNarrative();
             List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
             for (NarrativeUserRights userRights : userRightsList) {
                 Person person = personService.getPerson(userRights.getUserId());
                 if (StringUtils.equals(username, person.getUserName())) {
-                    if (StringUtils.equals(userRights.getAccessType(), NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType())) {
+                    if (StringUtils.equals(userRights.getAccessType(), NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType()) ||
+                        StringUtils.equals(userRights.getAccessType(), NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType())) {
+                       
                         hasPermission = true;
                     }
                     break;

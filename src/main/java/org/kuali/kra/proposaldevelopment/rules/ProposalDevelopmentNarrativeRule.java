@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NO
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DUPLICATE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_STATUS_INVALID;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_NOT_AUTHORIZED;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMap;
@@ -104,9 +106,12 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
      * @see org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule#processSaveNarrativesBusinessRules(org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent)
      */
     public boolean processSaveNarrativesBusinessRules(SaveNarrativesEvent saveNarrativesEvent) {
+        
+        boolean rulePassed = checkUserRights(saveNarrativesEvent);
+        
         List<Narrative> narrativeList = saveNarrativesEvent.getNarratives();
         int size = narrativeList.size();
-        boolean rulePassed = true;
+       
         for (int i = 0; i < size; i++) {
             Narrative narrative = narrativeList.get(0);
             
@@ -127,6 +132,69 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
         
         return rulePassed;
     }
+    
+    /**
+     * Check to see if the user modified a narrative and verify that the
+     * user has the necessary permission to make that modification.
+     * @param saveNarrativesEvent
+     * @return
+     */
+    private boolean checkUserRights(SaveNarrativesEvent saveNarrativesEvent) {
+        boolean isValid = true;
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String username = user.getPersonUserIdentifier();
+        
+        List<Narrative> narratives = saveNarrativesEvent.getNarratives();
+        List<Narrative> originalNarratives = saveNarrativesEvent.getOriginalNarratives();
+        for (Narrative origNarrative : originalNarratives) {
+            NarrativeUserRights userRights = getUserRights(username, origNarrative);
+            if ((StringUtils.equals(userRights.getAccessType(), NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) ||
+                (StringUtils.equals(userRights.getAccessType(), NarrativeRight.NO_NARRATIVE_RIGHT.getAccessType()))) {
+                
+                Narrative narrative = findNarrative(narratives, origNarrative);
+                if (!origNarrative.equals(narrative)) {
+                    isValid = false;
+                    reportError("newNarrative.narrativeTypeCode", ERROR_ATTACHMENT_NOT_AUTHORIZED, origNarrative.getNarrativeType().getDescription());
+                }
+            }
+        }
+        return isValid;
+    }
+    
+    /**
+     * Get the narrative rights for a user.
+     * @param username the user's unique username
+     * @param narrative the narrative to search through for the user's rights
+     * @return
+     */
+    private NarrativeUserRights getUserRights(String username, Narrative narrative) {
+        PersonService personService = KraServiceLocator.getService(PersonService.class);
+        List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
+        for (NarrativeUserRights userRights : userRightsList) {
+            Person person = personService.getPerson(userRights.getUserId());
+            if (StringUtils.equals(username, person.getUserName())) {
+                return userRights;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Find the narrative that matches the original narrative.  A match occurs
+     * if they have the same module number.
+     * @param narratives the list of narratives
+     * @param origNarrative the original narrative to compare against
+     * @return the found narrative or null if not found
+     */
+    private Narrative findNarrative(List<Narrative> narratives, Narrative origNarrative) {
+        for (Narrative narrative : narratives) {
+            if (narrative.getModuleNumber().equals(origNarrative.getModuleNumber())) {
+                return narrative;
+            }
+        }
+        return null;
+    }
+    
     /**
      * It checks for duplicate narrative types and mandatory description for narrative type 'Other'
      * This method...
