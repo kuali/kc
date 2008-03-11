@@ -15,13 +15,14 @@
  */
 package org.kuali.kra.budget.bo;
 
-import java.util.LinkedHashMap;
 import java.sql.Date;
+import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 public class BudgetPerson extends KraPersistableBusinessObjectBase {
 	private Date effectiveDate;
@@ -38,6 +39,7 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
 	private Integer personSequenceNumber;
 	private Person person;
 	private Rolodex rolodex;
+    private String role;
 
 	public Date getEffectiveDate() {
 		return effectiveDate;
@@ -46,6 +48,36 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
 	public void setEffectiveDate(Date effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
+    
+    public BudgetPerson() {
+        super();
+    }
+    
+    public BudgetPerson(Person person) {
+        super();
+        this.personId = person.getPersonId();
+        this.personName = person.getFullName();
+        this.nonEmployeeFlag = false;
+    }
+    
+    public BudgetPerson(Rolodex rolodex) {
+        super();
+        this.rolodexId = rolodex.getRolodexId();
+        this.personName = rolodex.getFirstName() + " " + rolodex.getLastName();
+        this.nonEmployeeFlag = true;
+    }
+    
+    public BudgetPerson(ProposalPerson proposalPerson) {
+        super();
+        if (proposalPerson.getPersonId() != null) {
+            this.personId = proposalPerson.getPersonId();
+            this.nonEmployeeFlag = false;
+        } else {
+            this.rolodexId = proposalPerson.getRolodexId();
+            this.nonEmployeeFlag = true;
+        }
+        this.personName = proposalPerson.getName();
+    }
 
 	/*
 	 * Helper method for calculator. This is used for sorting and filtering after combining with rates purpose
@@ -121,7 +153,7 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
 
 	@Override 
 	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
+		LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
 		hashMap.put("effectiveDate", getEffectiveDate());
 		hashMap.put("jobCode", getJobCode());
 		hashMap.put("nonEmployeeFlag", getNonEmployeeFlag());
@@ -229,4 +261,32 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
     public void setRolodex(Rolodex rolodex) {
         this.rolodex = rolodex;
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+    
+    /**
+     * This method determines if the given budgetPerson is the same person with the same job code & effective date
+     * @param budgetPerson
+     * @return boolean
+     */
+    public boolean isDuplicatePerson(BudgetPerson budgetPerson) {
+        if (this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag()) {
+            return this.getRolodexId().equals(budgetPerson.getRolodexId())
+                    && this.getJobCode().equals(budgetPerson.getJobCode())
+                    && this.getEffectiveDate().equals(budgetPerson.getEffectiveDate());
+        } else if (!this.getNonEmployeeFlag() && !budgetPerson.getNonEmployeeFlag()) {
+            return this.getPersonId().equals(budgetPerson.getPersonId())
+                    && this.getJobCode().equals(budgetPerson.getJobCode())
+                    && this.getEffectiveDate().equals(budgetPerson.getEffectiveDate());
+        }
+        // else non-employee vs. employee
+        return false;
+    }
+    
 }

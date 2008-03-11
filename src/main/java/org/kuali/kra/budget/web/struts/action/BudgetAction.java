@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,8 +26,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DocumentService;
+import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 
@@ -82,6 +87,9 @@ public class BudgetAction extends ProposalActionBase {
     }
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        BudgetForm budgetForm = (BudgetForm) form;
+        reconcilePersonnelRoles(budgetForm.getBudgetDocument());
+        
         return mapping.findForward("personnel");
     }
 
@@ -122,6 +130,20 @@ public class BudgetAction extends ProposalActionBase {
             (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(budgetForm.getBudgetDocument().getProposal().getDocumentNumber());
         String forward = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
         return new ActionForward(forward, true);
+    }
+    
+    public void reconcilePersonnelRoles(BudgetDocument budgetDocument) {
+//      Populate the person's proposal roles, if they exist
+        List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
+        for (BudgetPerson budgetPerson: budgetPersons) {
+            if (budgetPerson.getNonEmployeeFlag()) {
+                ProposalPersonRole role = budgetDocument.getProposal().getProposalNonEmployeeRole(budgetPerson.getRolodexId());
+                if (role != null) { budgetPerson.setRole(role.getDescription()); }
+            } else {
+                ProposalPersonRole role = budgetDocument.getProposal().getProposalEmployeeRole(budgetPerson.getPersonId());
+                if (role != null) { budgetPerson.setRole(role.getDescription()); }
+            }
+        }
     }
 
 }
