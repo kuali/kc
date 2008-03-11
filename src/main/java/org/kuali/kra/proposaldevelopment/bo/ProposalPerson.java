@@ -30,7 +30,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.30 $
+ * @version $Revision: 1.31 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -73,7 +73,6 @@ public class ProposalPerson extends Person implements CreditSplitable {
         isInvestigator = false;
         delete = false;
         setFullName(new String());
-        rolodexId = -1; // Invalid RolodexId
     }
     
     /**
@@ -565,7 +564,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
         if (obj instanceof ProposalPerson) {
             ProposalPerson p = (ProposalPerson) obj;
             return ((getPersonId() != null && getPersonId().equals(p.getPersonId())) 
-                    || (getRolodexId() != -1 && getRolodexId().equals(p.getRolodexId())));
+                    || (getRolodexId() != null && getRolodexId().equals(p.getRolodexId())));
         }
         return false;
     }
@@ -600,6 +599,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
         }
         
         for (ProposalPersonUnit unit : getUnits()) {
+            System.err.println("Found Unit with number " + unit.getUnitNumber());
             if (unit != null && unitNumber.equals(unit.getUnitNumber())) {
                 return true;
             }
