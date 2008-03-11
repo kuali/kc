@@ -31,6 +31,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.KraTestBase;
 
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
@@ -40,7 +41,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * <code>{@link KeyPersonnelService}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class KeyPersonnelServiceTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelServiceTest.class);
@@ -77,7 +78,12 @@ public class KeyPersonnelServiceTest extends KraTestBase {
         person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
         
         getKeyPersonnelService().populateProposalPerson(person, document);
-        assertEquals("000001", person.getHomeUnit());
+        
+        boolean personHasLeadUnit = false;
+        for (ProposalPersonUnit unit : person.getUnits()) {
+            personHasLeadUnit |= (unit.isLeadUnit() && unit.getUnitNumber().equals("000001")); 
+        }
+        assertTrue(personHasLeadUnit);
         assertTrue(person.isInvestigator());
     }
 
@@ -91,7 +97,7 @@ public class KeyPersonnelServiceTest extends KraTestBase {
         ProposalPerson person = new ProposalPerson();
         document.setOwnedByUnitNumber("000001");
         person.setProposalPersonRoleId("KP");
-        assertNotSame("000001", person.getHomeUnit());
+        assertNull(person.getHomeUnit());
         assertFalse(person.isInvestigator());
     }
     
