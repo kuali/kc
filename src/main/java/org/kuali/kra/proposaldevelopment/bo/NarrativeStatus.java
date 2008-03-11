@@ -2,6 +2,7 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class NarrativeStatus extends KraPersistableBusinessObjectBase {
@@ -31,5 +32,19 @@ public class NarrativeStatus extends KraPersistableBusinessObjectBase {
 		hashMap.put("narrativeStatusCode", getNarrativeStatusCode());
 		hashMap.put("description", getDescription());
 		return hashMap;
+	}
+	
+	/**
+	 * Determine if two NarrativeStatuses have the same values.
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals(Object obj) {
+	    if (obj == this) return true;
+	    if (obj instanceof NarrativeStatus) {
+	        NarrativeStatus other = (NarrativeStatus) obj;
+	        return StringUtils.equals(this.narrativeStatusCode, other.narrativeStatusCode) &&
+	               StringUtils.equals(this.description, other.description);
+	    }
+	    return false;
 	}
 }

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rule.event;
 
+import java.util.List;
+
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -27,11 +29,14 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
  * Event triggered when a Key Person is added to a
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
- * @author $Author: chandran $
- * @version $Revision: 1.2 $
+ * @author $Author: dbarre $
+ * @version $Revision: 1.3 $
  */
 public class SaveNarrativesEvent extends NarrativeEventBase{
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveNarrativesEvent.class);
+   
+    private List<Narrative> originalNarratives;
+    
     /**
      * Constructs an AddNarrativeEvent with the given errorPathPrefix, document, and proposalPerson.
      * 
@@ -39,8 +44,9 @@ public class SaveNarrativesEvent extends NarrativeEventBase{
      * @param proposalDevelopmentDocument
      * @param narrative
      */
-    public SaveNarrativesEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative) {
+    public SaveNarrativesEvent(String errorPathPrefix, ProposalDevelopmentDocument document, Narrative narrative, List<Narrative> originalNarratives) {
         super("Adding narrative to document " + getDocumentId(document), errorPathPrefix, document, narrative);
+        this.originalNarratives = originalNarratives;
     }
 
     /**
@@ -51,7 +57,15 @@ public class SaveNarrativesEvent extends NarrativeEventBase{
      * @param narrative
      */
     public SaveNarrativesEvent(String errorPathPrefix, Document document, Narrative narrative) {
-        this(errorPathPrefix, (ProposalDevelopmentDocument) document, narrative);
+        this(errorPathPrefix, (ProposalDevelopmentDocument) document, narrative, null);
+    }
+    
+    /**
+     * Get the original list of narratives to compare against.
+     * @return the original narratives
+     */
+    public List<Narrative> getOriginalNarratives() {
+        return this.originalNarratives;
     }
 
     /**

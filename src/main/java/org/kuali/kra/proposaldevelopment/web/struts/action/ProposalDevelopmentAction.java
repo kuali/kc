@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,6 +42,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.Task;
@@ -50,6 +52,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -235,28 +239,17 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         doc.populateNarrativeRightsForLoggedinUser();
-//        if (doc.getProposalPersons().isEmpty()) {
-//            List proposalPersons = new ArrayList();
-//            ProposalPerson proposalPerson=new ProposalPerson();
-//            proposalPerson.setProposalNumber(doc.getProposalNumber());
-//            proposalPerson.setProposalPersonNumber(1);
-//            proposalPerson.setPersonId("000000001");
-//            proposalPerson.setProposalPersonRoleId("KP");
-//            proposalPerson.setFirstName("Terry");
-//            proposalPerson.setLastName("Durkin");
-//            proposalPerson.setFullName("Durkin,Terry");
-//            proposalPersons.add(proposalPerson);
-//            ProposalPerson proposalPerson2=new ProposalPerson();
-//            proposalPerson2.setProposalNumber(doc.getProposalNumber());
-//            proposalPerson2.setProposalPersonNumber(2);
-//            proposalPerson2.setProposalPersonRoleId("KP");
-//            proposalPerson2.setPersonId("000000003");
-//            proposalPerson2.setFirstName("Geoff");
-//            proposalPerson2.setLastName("McGregor");
-//            proposalPerson2.setFullName("McGregor,Geoff");
-//            proposalPersons.add(proposalPerson2);
-//            doc.setProposalPersons(proposalPersons);
-//        }
+
+        /*
+         * Save the current set of narratives.  In some cases, a user can view the
+         * narrative panel info, but is not allowed to change it.  We will make a
+         * copy of the original narratives to use for comparison when a save occurs.
+         * If a user attempted to change a narrative they were not authorized to,
+         * then an error will be posted.
+         */
+        List<Narrative> narratives = (List<Narrative>) ObjectUtils.deepCopy((Serializable) doc.getNarratives());
+        proposalDevelopmentForm.setNarratives(narratives);
+        
         return mapping.findForward("abstractsAttachments");
     }
 

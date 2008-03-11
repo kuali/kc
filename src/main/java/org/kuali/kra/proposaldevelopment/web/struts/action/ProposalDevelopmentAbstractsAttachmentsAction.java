@@ -64,7 +64,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.rule.event.AddAbstractEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
@@ -111,6 +110,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        
 //        proposalDevelopmentDocument.mergeNarratives();
 //        List<Narrative> narrativeList = proposalDevelopmentDocument.getNarratives();
 //        
@@ -123,7 +123,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         
         boolean rulePassed = true;
         // check any business rules
-        rulePassed &= getKualiRuleService().applyRules(new SaveNarrativesEvent(EMPTY_STRING,proposalDevelopmentDocument,newNarrative));
+        rulePassed &= getKualiRuleService().applyRules(new SaveNarrativesEvent(EMPTY_STRING,proposalDevelopmentDocument,newNarrative, proposalDevelopmentForm.getNarratives()));
         rulePassed &= getKualiRuleService().applyRules(new SavePersonnelAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, proposalDevelopmentForm.getNewPropPersonBio()));
         rulePassed &= getKualiRuleService().applyRules(new SaveInstituteAttachmentsEvent(EMPTY_STRING,proposalDevelopmentDocument));
 
@@ -809,7 +809,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     protected Task buildTask(String actionName, String taskName, ActionForm form) {
         Task task = null;
-        if (StringUtils.equals(taskName, "addProposalAttachmentRights")) {
+        if (isNarrativeTask(taskName)) {
             ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
             task = new NarrativeTask(actionName, taskName, proposalDevelopmentForm.getProposalDevelopmentDocument(), proposalDevelopmentForm.getNarrativeLineNumber());
         }
@@ -817,5 +817,18 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             task = super.buildTask(actionName, taskName, form);
         }
         return task;
+    }
+    
+    /**
+     * Is this one of the narrative tasks?
+     * @param taskName the name of the task
+     * @return true if a narrative task; otherwise false
+     */
+    private boolean isNarrativeTask(String taskName) {
+        return StringUtils.equals(taskName, "addProposalAttachmentRights") ||
+               StringUtils.equals(taskName, "downloadProposalAttachment") ||
+               StringUtils.equals(taskName, "deleteProposalAttachment") ||
+               StringUtils.equals(taskName, "replaceProposalAttachment") ||
+               StringUtils.equals(taskName, "getProposalAttachmentRights");
     }
 }
