@@ -58,6 +58,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
+import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.PersonService;
@@ -101,7 +102,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<NarrativeUserRights> newNarrativeUserRights;
     private int narrativeLineNumber;
     private S2sOpportunity newS2sOpportunity;
-    private S2sOppForms newS2sOppForms;
+    private List<S2sAppSubmission> newS2sAppSubmission;
     private Map<String, List> customAttributeGroups;
     private Map<String, String[]> customAttributeValues;
 
@@ -124,6 +125,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         setNewProposalPersonUnit(new ArrayList<Unit>());
         setNewProposalAbstract(new ProposalAbstract());
         setNewProposalUser(new ProposalUser());
+        setNewS2sOpportunity(new S2sOpportunity());
         customAttributeValues = new HashMap<String, String[]>();
         setCopyCriteria(new ProposalCopyCriteria());
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
@@ -927,11 +929,11 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         this.newS2sOpportunity = newS2sOpportunity;
     }
     
-    public S2sOppForms getNews2sForms(){
-    	return newS2sOppForms;
+    public List<S2sAppSubmission> getNewS2sAppSubmission() {
+        return newS2sAppSubmission;
     }
-    
-    public void setNews2sForms(S2sOppForms newS2sOppForms){
-        this.newS2sOppForms = newS2sOppForms;
+
+    public void setNewS2sAppSubmission(List<S2sAppSubmission> newS2sAppSubmission) {
+        this.newS2sAppSubmission = newS2sAppSubmission;
     }
 }

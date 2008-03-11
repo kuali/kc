@@ -350,9 +350,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getProposalLocations().size()==0 ||
                 (proposalDevelopmentDocument.getProposalLocations().size()==1 && ((ProposalLocation)(proposalDevelopmentDocument.getProposalLocations().get(0))).getLocationSequenceNumber()==null))) {
-            errorMap.removeFromErrorPath("document");
             reportError("newPropLocation.location", KeyConstants.ERROR_REQUIRED_FOR_PROPLOCATION);
-            errorMap.addToErrorPath("document");
             valid = false;
         }
         return valid;
@@ -369,24 +367,18 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         boolean valid = true;
         
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        if (proposalDevelopmentDocument.getProposalTypeCode()!=null && proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && proposalDevelopmentDocument.getProposalTypeCode().equals(getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION, "6")) && proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode()==null) {
-            errorMap.removeFromErrorPath("document");
-            reportError("document.s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION);                 
-            errorMap.addToErrorPath("document");
+        if (proposalDevelopmentDocument.getProposalTypeCode()!=null && proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && proposalDevelopmentDocument.getProposalTypeCode().equals(getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION, "6")) && proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode()==null) {            
+            reportError("s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION);
             valid = false;
         }
         
         if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), getSystemParameterRetreivalService().getParameterValue(KeyConstants.S2S_REVISIONTYPE_OTHER, "5")) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()==null||StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
-            errorMap.removeFromErrorPath("document");
-            reportError("document.s2sOpportunity.revisionOtherDescription",KeyConstants.ERROR_IF_REVISIONTYPE_IS_OTHER);
-            errorMap.addToErrorPath("document");
+            reportError("s2sOpportunity.revisionOtherDescription",KeyConstants.ERROR_IF_REVISIONTYPE_IS_OTHER);
             valid &= false;
         }
         
         if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), getSystemParameterRetreivalService().getParameterValue(KeyConstants.S2S_REVISIONTYPE_OTHER, "5")) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()!=null && !StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
-            errorMap.removeFromErrorPath("document");
-            reportError("document.s2sOpportunity.revisionOtherDescription",KeyConstants.ERROR_IF_REVISIONTYPE_IS_NOT_OTHER_SPECIFY_NOT_BLANK);
-            errorMap.addToErrorPath("document");
+            reportError("s2sOpportunity.revisionOtherDescription",KeyConstants.ERROR_IF_REVISIONTYPE_IS_NOT_OTHER_SPECIFY_NOT_BLANK);
             valid &= false;
         }        
         return valid;
@@ -540,6 +532,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     }
     
     private SystemParameterRetrievalService getSystemParameterRetreivalService(){
-        return ((SystemParameterRetrievalService)KraServiceLocator.getService(SystemParameterRetrievalService.class));
+        return KraServiceLocator.getService(SystemParameterRetrievalService.class);
     }
 }

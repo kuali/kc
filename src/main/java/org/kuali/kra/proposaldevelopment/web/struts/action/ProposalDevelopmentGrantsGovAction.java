@@ -71,7 +71,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     }
     
     /**
-     * 
+     * Upon returning from Grants.gov lookup, this method gets called. It uses the schemaUrl returned from 
+     * lookup to retrieve the forms associated with the opportunity
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -79,11 +80,9 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-
-        S2SService s2SService =((S2SService) KraServiceLocator.getService(S2SService.class));
+        
         if(proposalDevelopmentDocument.getS2sOpportunity().getSchemaUrl()!=null){
-            List<S2sOppForms> s2sOppForms = s2SService.parseOpportunityForms(proposalDevelopmentDocument.getS2sOpportunity());
-            proposalDevelopmentDocument.getS2sOpportunity().setS2sOppForms(s2sOppForms);
+            proposalDevelopmentDocument.getS2sOpportunity().setS2sOppForms(KraServiceLocator.getService(S2SService.class).parseOpportunityForms(proposalDevelopmentDocument.getS2sOpportunity()));
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -144,28 +143,5 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         String description = proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId();
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_REMOVE_OPPRTUNITY_KEY, QUESTION_DELETE_OPPORTUNITY_CONFIRMATION, description);
-    }
-    
-    /**
-     * 
-     * This method does an S2S submission of proposal to Grants.gov
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward submitToGrantsGov(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Boolean submissionStatus = false;
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
-        S2SService s2SService = ((S2SService) KraServiceLocator.getService(S2SService.class)); 
-        submissionStatus = s2SService.submitApplication(proposalDevelopmentDocument.getProposalNumber());
-        
-        if(submissionStatus){
-            proposalDevelopmentDocument.refreshReferenceObject("S2sAppSubmission");
-        }
-        return super.save(mapping, form, request, response);
     }
 }
