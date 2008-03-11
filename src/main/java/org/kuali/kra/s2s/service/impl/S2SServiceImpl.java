@@ -214,7 +214,14 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         header.setCompetitionId(competitionId);
         
         try {
-            List<OpportunityInfoBean> oppInfList =  new GetOpportunity().searchOpportunity(header);
+//            List<OpportunityInfoBean> oppInfList =  new GetOpportunity().searchOpportunity(header);
+            GetOpportunity getOpportunity = new GetOpportunity();
+          List<OpportunityInfoBean> oppInfList =  getOpportunity.getOpportunityList(header);
+          if(oppInfList==null && header.getCfdaNumber()!=null){
+              //TODO: add error messages here.
+              header.setOpportunityId(null);
+              oppInfList = getOpportunity.getOpportunityList(header);
+          }
             if(oppInfList!=null){
                 return convert(oppInfList,S2sOpportunity.class);
             }
