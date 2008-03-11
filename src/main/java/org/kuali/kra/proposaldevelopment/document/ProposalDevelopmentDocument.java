@@ -21,9 +21,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -47,6 +45,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalStatus;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
@@ -1206,5 +1205,39 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public void setS2sAppSubmission(S2sAppSubmission s2sAppSubmission) {
         this.s2sAppSubmission = s2sAppSubmission;
+    }
+    
+    public ProposalPersonRole getProposalEmployeeRole(String personId) {
+        if (principalInvestigator != null && personId.equals(principalInvestigator.getPersonId())) {
+            return principalInvestigator.getRole();
+        }
+        for (ProposalPerson proposalPerson: getInvestigators()) {
+            if (personId.equals(proposalPerson.getPersonId())) {
+                return proposalPerson.getRole();
+            }
+        }
+        for (ProposalPerson proposalPerson: getProposalPersons()) {
+            if (personId.equals(proposalPerson.getPersonId())) {
+                return proposalPerson.getRole();
+            }
+        }
+        return null;
+    }
+    
+    public ProposalPersonRole getProposalNonEmployeeRole(Integer rolodexId) {
+        if (principalInvestigator != null && rolodexId.equals(principalInvestigator.getRolodexId())) {
+            return principalInvestigator.getRole();
+        }
+        for (ProposalPerson proposalPerson: getInvestigators()) {
+            if (rolodexId.equals(proposalPerson.getRolodexId())) {
+                return proposalPerson.getRole();
+            }
+        }
+        for (ProposalPerson proposalPerson: getProposalPersons()) {
+            if (rolodexId.equals(proposalPerson.getRolodexId())) {
+                return proposalPerson.getRole();
+            }
+        }
+        return null;
     }
 }

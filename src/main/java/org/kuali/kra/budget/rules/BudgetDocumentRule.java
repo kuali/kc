@@ -15,9 +15,13 @@
  */
 package org.kuali.kra.budget.rules;
 
+import java.util.List;
+
 import org.kuali.core.document.Document;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rule.AddBudgetPeriodRule;
 import org.kuali.kra.budget.rule.AddBudgetProjectIncomeRule;
@@ -29,6 +33,7 @@ import org.kuali.kra.budget.rule.event.AddBudgetProjectIncomeEvent;
 import org.kuali.kra.budget.rule.event.DeleteBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule{
@@ -78,8 +83,31 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         valid &= processBudgetVersionsBusinessRule(budgetDocument.getProposal().getBudgetVersionOverviews());
         GlobalVariables.getErrorMap().removeFromErrorPath("proposal");
         
+        valid &= processBudgetPersonnelBusinessRules(budgetDocument);
+        
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
         
         return true;
+    }
+    
+    protected boolean processBudgetPersonnelBusinessRules(BudgetDocument budgetDocument) {
+        boolean valid = true;
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
+        for (int i = 0; i < budgetPersons.size(); i++) {
+            BudgetPerson budgetPerson = (BudgetPerson) budgetPersons.get(i);
+            for (int j = i + 1; j < budgetPersons.size(); j++) {
+                BudgetPerson budgetPersonCompare = (BudgetPerson) budgetPersons.get(j);
+                if (budgetPerson.isDuplicatePerson(budgetPersonCompare)) {
+                    errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
+                    valid = false;
+                }
+            }
+            
+        }
+        
+        return valid;
     }
 }

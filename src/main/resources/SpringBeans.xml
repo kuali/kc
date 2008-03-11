@@ -415,7 +415,11 @@
 		</property>
 	</bean>
 	
-	<!--  bean id="budgetPersonService" class="org.kuali.kra.budget.service.impl.BudgetPersonServiceImpl"/> -->
+	<bean id="budgetPersonService" class="org.kuali.kra.budget.service.impl.BudgetPersonServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+	</bean>
 	
 	<bean id="budgetService" class="org.kuali.kra.budget.service.impl.BudgetServiceImpl">
 		<property name="documentService">
@@ -424,9 +428,9 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService"/>
 		</property>
-		<!-- property name="budgetPersonService">
+		<property name="budgetPersonService">
 			<ref bean="budgetPersonService"/>
-		</property>  -->
+		</property>
 	</bean>
 	
 	<bean id="budgetCalculationService" class="org.kuali.kra.budget.service.impl.BudgetCalculationServiceImpl">
