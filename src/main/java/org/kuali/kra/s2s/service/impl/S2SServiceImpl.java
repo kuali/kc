@@ -33,6 +33,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -218,7 +219,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             GetOpportunity getOpportunity = new GetOpportunity();
           List<OpportunityInfoBean> oppInfList =  getOpportunity.getOpportunityList(header);
           if(oppInfList==null && header.getCfdaNumber()!=null){
-              //TODO: add error messages here.
+              GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_IF_SEARCH_ON_ONLY_CFDA_NUMBER);
               header.setOpportunityId(null);
               oppInfList = getOpportunity.getOpportunityList(header);
           }

@@ -101,10 +101,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<ProposalSpecialReview> propSpecialReviews;
     private List<PropScienceKeyword> propScienceKeywords;
     private List<ProposalPerson> proposalPersons;
-    private List<S2sOppForms> s2sOppForms;    
     private ProposalPerson principalInvestigator;
     private S2sOpportunity s2sOpportunity;
-    private S2sAppSubmission s2sAppSubmission;
+    private List<S2sAppSubmission> s2sAppSubmission;
     private String newScienceKeywordCode;
     private String newDescription;
     private Sponsor sponsor;
@@ -142,8 +141,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         proposalYnqs = new ArrayList<ProposalYnq>();
         ynqGroupNames = new ArrayList<YnqGroupName>();
         budgetVersionOverviews = new TypedArrayList(BudgetVersionOverview.class);
-        investigators = new ArrayList<ProposalPerson>();
-        s2sOppForms = new ArrayList<S2sOppForms>();        
+        investigators = new ArrayList<ProposalPerson>();                
+        s2sAppSubmission = new ArrayList<S2sAppSubmission>();
     }
 
     public void initialize() {
@@ -1153,14 +1152,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }
         return (BudgetVersionOverview) getBudgetVersionOverviews().get(index);
     }
-    
-    public List<S2sOppForms> getS2sOppForms() {
-        return s2sOppForms;
-    }
-
-    public void setS2sOppForms(List<S2sOppForms> oppForms) {
-        s2sOppForms = oppForms;
-    }
 
     public void setS2sOpportunity(S2sOpportunity s2sOpportunity) {
         this.s2sOpportunity = s2sOpportunity;
@@ -1171,12 +1162,17 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     }
     
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    public void prepareForSave() {
+        super.prepareForSave();
         if(s2sOpportunity!=null && s2sOpportunity.getOpportunityId()==null){
             s2sOpportunity = null;
         }
-        
+    }
+   
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.beforeUpdate(persistenceBroker);
+       
         // Update the status.
         ProposalStatus proposalStatus = getProposalStatus(getProposalNumber());
         if (proposalStatus == null) {
@@ -1198,16 +1194,16 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
             setBudgetStatus(proposalStatus.getBudgetStatusCode());
         } // else proposal status hasn't been set yet; do nothing.
     }
-    
-    public S2sAppSubmission getS2sAppSubmission() {
+
+    public List<S2sAppSubmission> getS2sAppSubmission() {
         return s2sAppSubmission;
     }
 
-    public void setS2sAppSubmission(S2sAppSubmission s2sAppSubmission) {
-        this.s2sAppSubmission = s2sAppSubmission;
+    public void setS2sAppSubmission(List<S2sAppSubmission> appSubmission) {
+        s2sAppSubmission = appSubmission;
     }
     
-    public ProposalPersonRole getProposalEmployeeRole(String personId) {
+        public ProposalPersonRole getProposalEmployeeRole(String personId) {
         if (principalInvestigator != null && personId.equals(principalInvestigator.getPersonId())) {
             return principalInvestigator.getRole();
         }
