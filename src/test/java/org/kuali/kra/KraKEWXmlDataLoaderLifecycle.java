@@ -43,7 +43,8 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
     private String pathname;
 
     public KraKEWXmlDataLoaderLifecycle() {
-        this("C:/java/projects/kra_project/src/main/config/kew/xml/");
+        //this("C:/java/projects/kra_project/src/main/config/kew/xml/");
+        this("classpath:kew/xml");
     }
 
     public KraKEWXmlDataLoaderLifecycle(String pathname) {
@@ -68,12 +69,14 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
 
     
     private void loadKraKewXml() throws Exception {
-        Resource resource = getFileResource("classpath:kew/xml");
+        //Resource resource = getFileResource("classpath:kew/xml");
+        Resource resource = getFileResource(pathname);
         String filename;
         for (File file : resource.getFile().listFiles()) {
             filename=file.getName();
             if (filename.endsWith(".xml")) {
-                this.loadXmlFile("classpath:kew/xml/"+filename);
+                //this.loadXmlFile("classpath:kew/xml/"+filename);
+                this.loadXmlFile(pathname + File.separator + filename);
             }
         }
 
