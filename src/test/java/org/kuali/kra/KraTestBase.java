@@ -97,10 +97,10 @@ import org.kuali.rice.testharness.TransactionalLifecycle;
             }
         )
     )
-
+ 
 public abstract class KraTestBase extends KNSTestCase {
 
-    private TransactionalLifecycle transactionalLifecycle;
+    protected TransactionalLifecycle transactionalLifecycle;
     private DocumentService documentService = null;
 
     @Before

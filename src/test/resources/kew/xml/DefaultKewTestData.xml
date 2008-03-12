@@ -228,6 +228,16 @@
             <givenName>admin</givenName>
             <lastName>admin</lastName>
         </user>
+        <user>
+			<workflowId>jtester</workflowId>
+			<emplId>jtester</emplId>
+			<authenticationId>jtester</authenticationId>
+			<uuId>jtester</uuId>
+			<emailAddress>jtester@indiana.edu</emailAddress>
+			<displayName>Joe Tester</displayName>
+			<givenName>Joe</givenName>
+			<lastName>Tester</lastName>
+		</user>
 	</users>
 	<workgroups xmlns="ns:workflow/Workgroup" xsi:schemaLocation="ns:workflow/Workgroup resource:Workgroup">
 		<workgroup>
@@ -258,6 +268,7 @@
 				<authenticationId>bmcgough</authenticationId>
 				<authenticationId>shenl</authenticationId>
 				<authenticationId>quickstart</authenticationId>
+				<authenticationId>jtester</authenticationId>
 			</members>
 		</workgroup>
 		<workgroup>
