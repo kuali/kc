@@ -17,26 +17,20 @@ package org.kuali.kra.workflow.test;
 
 import java.net.URL;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.core.UserSession;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
-import org.kuali.kra.KraSQLDataLoaderLifecycle;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 import org.kuali.rice.KNSServiceLocator;
-import org.kuali.rice.config.spring.ConfigFactoryBean;
 import org.kuali.rice.lifecycle.Lifecycle;
-import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
@@ -51,17 +45,13 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 
 import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.batch.KEWXmlDataLoaderLifecycle;
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentDetailVO;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
 import edu.iu.uis.eden.clientapp.vo.UserIdVO;
-import edu.iu.uis.eden.doctype.DocumentTypeService;
 import edu.iu.uis.eden.engine.node.KeyValuePair;
-import edu.iu.uis.eden.test.JettyLifecycle;
 
 /**
  * This class tests the KraServiceLocator
