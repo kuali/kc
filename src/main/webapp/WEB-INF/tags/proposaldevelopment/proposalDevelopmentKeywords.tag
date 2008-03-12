@@ -40,7 +40,7 @@
                 <td>
                 	 ${KualiForm.document.propScienceKeywords[ctr].scienceKeyword.description}
 					<kul:lookup boClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" 
-					fieldConversions="scienceKeywordCode:document.propScienceKeyword[${ctr}].scienceKeywordCode,description:document.propScienceKeywor[${ctr}].scienceKeyword.description"
+					fieldConversions="scienceKeywordCode:document.propScienceKeyword[${ctr}].scienceKeywordCode,description:document.propScienceKeyword[${ctr}].scienceKeyword.description"
 					lookupParameters="" hideReturnLink="false" />
                 </td>
                 <td><div align="center">
