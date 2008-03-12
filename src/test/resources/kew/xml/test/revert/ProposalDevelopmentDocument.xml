@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>AggregatorSearchAttribute</name>
+			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>AggregatorSearchAttribute</label>
+			<description>AggregatorSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="aggregator" title="Aggregator">
+					<display>
+						<type>text</type>
+					</display>
+					<!-- This will probably use kimpersonservice ? -->
+					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />
+					<fieldEvaluation>
+					    <!-- not sure yet -->
+					    <!--  example //organization/organizationId -->
+						<xpathexpression>//universalUser/personUserIdentifier</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<users>
+						<aggregator>
+							<value>%aggregator%</value>
+						</aggregator>
+					</users>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>BudgetCreatorSearchAttribute</name>
+			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>BudgetCreatorSearchAttribute</label>
+			<description>BudgetCreatorSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>		
+			 <fieldDef name="budgetCreator" title="Budget Creator">
+					<display>
+						<type>text</type>
+					</display>
+					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> 
+					<fieldEvaluation>
+						<xpathexpression>//users/budgetCreator/value</xpathexpression>
+					</fieldEvaluation> 
+				</fieldDef>
+				<xmlSearchContent>
+					<users>
+						<budgetCreator>
+							<value>%budgetCreator%</value>
+						</budgetCreator>
+					</users>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>NarrativeWriterSearchAttribute</name>
+			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>NarrativeWriterSearchAttribute</label>
+			<description>NarrativeWriterSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>		
+				<fieldDef name="narrativeWriter" title="Narrative Writer">
+					<display>
+						<type>text</type>
+					</display>
+					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />
+					<fieldEvaluation>
+						<xpathexpression>//narrativeWriter/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<users>
+						<narrativeWriter>
+							<value>%narrativeWriter%</value>
+						</narrativeWriter>
+					</users>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>ViewerSearchAttribute</name>
+			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>ViewerSearchAttribute</label>
+			<description>ViewerSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>		
+				<fieldDef name="viewer" title="Viewer">
+					<display>
+						<type>text</type>
+					</display>
+					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />
+					<fieldEvaluation>
+						<xpathexpression>//viewer/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<users>
+						<viewer>
+							<value>%viewer%</value>
+						</viewer>
+					</users>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		<ruleAttribute>		
+			<name>ApproverSearchAttribute</name>
+			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+			<label>ApproverSearchAttribute</label>
+			<description>ApproverSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>		
+				<fieldDef name="approver" title="Approver">
+					<display>
+						<type>text</type>
+					</display>
+					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />
+					<fieldEvaluation>
+						<xpathexpression>//approver/value</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<users>
+						<approver>
+							<value>%approver%</value>
+						</approver>
+					</users>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>	
+		
+		<!-- custom attribute -->
+		<ruleAttribute>
+            <name>CustomDataAttribute</name>
+            <className>edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <label>CustomDataAttribute</label>
+            <description>CustomDataAttribute</description>
+            <type>RuleXmlAttribute</type>
+            <routingConfig>
+                <!-- work in progress -->
+                <fieldDef name="billingElement" title="Billing Element" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="true" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='billingElement']/value) = wf:ruledata('billingElement')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="graduateStudentCount" title="Graduate Student Count" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="true" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='graduateStudentCount']/value) = wf:ruledata('graduateStudentCount')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="costSharingBudget" title="Cost Sharing Budget" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='costSharingBudget']/value) = wf:ruledata('costSharingBudget')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="numberOfTrainees" title="Number Of Trainees" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='numberOfTrainees']/value) = wf:ruledata('numberOfTrainees')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="tenured" title="Tenured" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='tenured']/value) = wf:ruledata('tenured')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="exportControls" title="Export Controls" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='exportControls']/value) = wf:ruledata('exportControls')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="inventions" title="Inventions" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" /> 
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='inventions']/value) = wf:ruledata('inventions')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+                <fieldDef name="effDate" title="Effective Date" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false" />
+                    <fieldEvaluation>
+                        <!-- expectation: this is run and evaluates to true -->
+                        <xpathexpression>string(//xmlRouting/field[@name='effDate']/value) = wf:ruledata('effDate')</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </routingConfig>
+        </ruleAttribute>
+			
+	</ruleAttributes>
+
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>ProposalDevelopmentDocument</name>
+			<description>Create an Awesome Development Proposal</description>
+			<label>KRA Proposal Development</label>
+			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<attributes>
+				<attribute>
+					<name>AggregatorSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>BudgetCreatorSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>NarrativeWriterSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>ViewerSearchAttribute</name>
+				</attribute>
+				<attribute>
+					<name>ApproverSearchAttribute</name>
+				</attribute>
+			</attributes>
+			<routingVersion>2</routingVersion>
+			<routePaths> 
+                <routePath>
+                    <start name="Initiated" nextNode="FirstApproval" />
+                    <requests name="FirstApproval" nextNode="SecondApproval" />
+                    <requests name="SecondApproval" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+                </start>
+                <requests name="FirstApproval">
+                    <activationType>S</activationType>
+                    <ruleTemplate>FirstApprovalRouting</ruleTemplate>
+                </requests>
+                <requests name="SecondApproval">
+                    <activationType>S</activationType>
+                    <ruleTemplate>SecondApprovalRouting</ruleTemplate>
+                </requests>
+            </routeNodes>
+		</documentType>
+	</documentTypes>
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        <ruleTemplate allowOverwrite="true">
+            <name>FirstApprovalRouting</name>
+            <description>First Approval Routing Rule Template</description>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>SecondApprovalRouting</name>
+            <description>Second Approval Routing Rule Template</description>
+        </ruleTemplate>
+    </ruleTemplates>
+</data>
