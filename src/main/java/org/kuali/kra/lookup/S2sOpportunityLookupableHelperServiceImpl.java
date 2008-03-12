@@ -16,6 +16,8 @@
 package org.kuali.kra.lookup;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,9 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.struts.form.LookupForm;
+import org.kuali.core.web.ui.Column;
+import org.kuali.core.web.ui.ResultRow;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -65,9 +70,9 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
             }
             return new ArrayList<S2sOpportunity>();
         }else{
-            GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);              
+            GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL);
+            return s2sOpportunity;
         }        
-        return s2sOpportunity;        
     }
 
     public S2SService getS2SService() {
@@ -77,4 +82,23 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
     public void setS2SService(S2SService service) {
         s2SService = service;
     }    
+    
+    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded){
+        Collection displayList;
+        displayList = super.performLookup(lookupForm, resultTable, bounded);
+        ResultRow row;        
+        for (Iterator iter = resultTable.iterator(); iter.hasNext();){            
+            row = (ResultRow) iter.next();
+            List<Column> columns  = row.getColumns();
+            
+            for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
+                Column col = (Column) iterator.next();
+                
+                if(StringUtils.equalsIgnoreCase(col.getColumnTitle(), "Instruction Page")||StringUtils.equalsIgnoreCase(col.getColumnTitle(), "Schema URL")){
+                    col.setPropertyURL(col.getPropertyValue());
+                }
+            }
+        }
+        return displayList;
+    }
 }
