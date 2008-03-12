@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.ValidSpecialReviewApproval">
+
+        <inquiry>
+            <title>Valid Special Review Approval</title>
+
+            <inquirySections><inquirySection title="Valid Special Review Approval"><inquiryFields>
+                <field attributeName="specialReviewCode" forceInquiry="true" />
+                <field attributeName="approvalTypeCode" />
+                <field attributeName="applicationDateFlag" />
+                <field attributeName="approvalDateFlag" />
+                <field attributeName="protocolNumberFlag" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Valid Special Review Approval Lookup</title>
+            <menubar>
+                <![CDATA[<a href="index.jsp">Main</a>]]>
+            </menubar>
+            <instructions>Look up a Valid Special Review Approval</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="approvalTypeCode" />
+                    <sortAttribute attributeName="specialReviewCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="specialReviewCode" required="false" />
+                <lookupField attributeName="approvalTypeCode" required="false" />
+                <lookupField attributeName="applicationDateFlag" required="false" />
+                <lookupField attributeName="approvalDateFlag" required="false" />
+                <lookupField attributeName="protocolNumberFlag" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="specialReviewCode" forceInquiry="true" />
+                <field attributeName="approvalTypeCode" forceInquiry="false"/>
+                <field attributeName="applicationDateFlag" forceInquiry="false"/>
+                <field attributeName="approvalDateFlag" forceInquiry="false"/>
+                <field attributeName="protocolNumberFlag" forceInquiry="false"/>
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>specialReviewCode</titleAttribute>
+
+        <attributes>
+
+            <attributeReference name="specialReviewCode" sourceClassName="org.kuali.kra.bo.SpecialReview" sourceAttributeName="specialReviewCode" />
+            
+            <attributeReference name="approvalTypeCode" sourceClassName="org.kuali.kra.bo.SpecialReviewApprovalType" sourceAttributeName="approvalTypeCode" />
+            
+            <attributeReference name="applicationDateFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+                <label>Application Date Flag</label>
+                <shortLabel>App Dt Flag</shortLabel>
+                <summary>Application Date Flag</summary>
+                <description>Validate Application Date</description>
+            </attributeReference>
+            
+            <attributeReference name="approvalDateFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+                <label>Approval Date Flag</label>
+                <shortLabel>Approval Dt Flag</shortLabel>
+                <summary>Approval Date Flag</summary>
+                <description>Validate Approval Date</description>
+            </attributeReference>
+            
+            <attributeReference name="protocolNumberFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+                <label>Protocol Number Flag</label>
+                <shortLabel>Protocol Nbr Flag</shortLabel>
+                <summary>Protocol Number Flag</summary>
+                <description>Validate Protocol Number</description>
+            </attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+
+</dictionaryEntry>
