@@ -70,7 +70,8 @@
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.fullName}"  /></div></th>
 
                     <td>
-                      <kul:htmlControlAttribute property="${proposalPerson}.fullName" attributeEntry="${proposalPersonAttributes.fullName}" /> 
+                      <kul:htmlControlAttribute property="${proposalPerson}.fullName" attributeEntry="${proposalPersonAttributes.fullName}" 
+                                                readOnly="${!personEditableFields['fullName'] }"/> 
                     </td>
                     <th align="left" width="15%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.userName}"  /></div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.userName" 

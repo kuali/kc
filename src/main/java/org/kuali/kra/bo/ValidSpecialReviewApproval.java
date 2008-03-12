@@ -18,6 +18,9 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
+/**
+ * Class representation of the ValidSpecialReviewApproval business object of the KRA domain
+ */
 public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase {
 	private String approvalTypeCode;
 	private String specialReviewCode;
