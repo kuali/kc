@@ -58,8 +58,8 @@
         <attributes>
 
             <attribute name="scienceKeywordCode">
-                <label>Keyword</label>
-                <shortLabel>Science Keyword</shortLabel>
+                <label>Keyword Code</label>
+                <shortLabel>Science Keyword Code</shortLabel>
 
                 <maxLength>15</maxLength>
                 <validationPattern><alphaNumeric /></validationPattern>
@@ -68,8 +68,8 @@
                     <text size="10" />
                 </control>
 
-                <summary>Science Keyword</summary>
-                <description>Science Keyword</description>
+                <summary>Science Keyword Code</summary>
+                <description>Science Keyword Code</description>
 			</attribute>
 
             <attribute name="description" forceUppercase="false">
