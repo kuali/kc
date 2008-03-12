@@ -90,7 +90,7 @@
 				<description>The identification number of the organization or agency that is providing support for the sponsored project.</description>
 			</attribute>
 
-            <attributeReference name="requestedStartDateInitial" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+            <attributeReference name="requestedStartDateInitial" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericDate" >
                 <label>Project Start Date</label>
                 <shortLabel>Start Dt</shortLabel>
 
@@ -100,14 +100,14 @@
                 <description>The date the project period will begin.</description>
       		</attributeReference>
 
-            <attributeReference name="requestedEndDateInitial" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+            <attributeReference name="requestedEndDateInitial" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericDate" >
                 <label>Project End Date</label>
                 <shortLabel>Endt Dt</shortLabel>
 
  				<required>true</required>
 
                 <summary>The End Date of the Proposal</summary>
-                <description>The date the project period will terminate.</description>
+                <description>The date the project period will terminate. Use the date format (mm/dd/yyyy)</description>
       		</attributeReference>
 
       		<attribute name="activityTypeCode">

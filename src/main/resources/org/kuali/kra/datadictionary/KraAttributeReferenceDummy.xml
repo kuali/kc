@@ -136,6 +136,11 @@
 				<summary>Posted Timestamp</summary>
 				<description>The creation or last modification timestamp.</description>
 			</attributeReference>
+
+            <attributeReference name="genericDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+               <maxLength>10</maxLength>
+               <description>Create a date in the format (mm/dd/yyyy)</description>
+            </attributeReference>
 			
 			<attribute name="principalInvestigator">
 				<label>Principal Investigator</label>
