@@ -176,7 +176,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     @Test
     public void testSaveProposalDevelopmentDocumentNotNewWeb() throws Exception {
-        String proposalTypeCodes[] = { "2", "3", "5", "6" };
+        String proposalTypeCodes[] = { "2", "3", "5" };
         final WebClient webClient = new WebClient();
         
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
@@ -812,7 +812,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         setFieldValue(kualiForm, TEXT_INPUT, "document.requestedStartDateInitial", startDate);
         setFieldValue(kualiForm, TEXT_INPUT, "document.requestedEndDateInitial", endDate);
         setFieldValue(kualiForm, SELECTED_INPUT, "document.activityTypeCode", activityType, 10);
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.proposalTypeCode", proposalType, 10);
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.proposalTypeCode", proposalType, 7);
         setFieldValue(kualiForm, SELECTED_INPUT, "document.ownedByUnitNumber", ownedByUnit, -1);
     }
 

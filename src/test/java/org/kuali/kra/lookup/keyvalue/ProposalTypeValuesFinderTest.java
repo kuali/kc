@@ -53,14 +53,11 @@ public class ProposalTypeValuesFinderTest extends PersistableBusinessObjectValue
     protected void addKeyValues() {
         testKeyValues.add(new KeyLabelPair("", "select"));
         testKeyValues.add(new KeyLabelPair("1", "New"));
-        testKeyValues.add(new KeyLabelPair("2", "Competing Continuation"));
-        testKeyValues.add(new KeyLabelPair("3", "Non-competing Continuation"));
-        testKeyValues.add(new KeyLabelPair("4", "Supplement"));
-        testKeyValues.add(new KeyLabelPair("5", "Renewal"));
-        testKeyValues.add(new KeyLabelPair("6", "Revision"));
-        testKeyValues.add(new KeyLabelPair("7", "Pre-Proposal"));
-        testKeyValues.add(new KeyLabelPair("8", "Accomplishment-based Renewal"));
-        testKeyValues.add(new KeyLabelPair("9", "Task Order"));
+        testKeyValues.add(new KeyLabelPair("2", "Continuation"));
+        testKeyValues.add(new KeyLabelPair("3", "Renewal"));
+        testKeyValues.add(new KeyLabelPair("4", "Resubmission"));
+        testKeyValues.add(new KeyLabelPair("5", "Revision"));
+        testKeyValues.add(new KeyLabelPair("6", "Task Order"));
     }
 
 }

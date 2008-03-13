@@ -35,8 +35,7 @@ public class KeyConstants {
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW = "proposaldevelopment.proposaltype.new";
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL = "proposaldevelopment.proposaltype.renewal";
     public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION = "proposaldevelopment.proposaltype.revision";
-    public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_COMPETING_CONT = "proposaldevelopment.proposaltype.competing.continuation";
-    public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_NON_COMPETING_CONT = "proposaldevelopment.proposaltype.noncompeting.continuation";
+    public static final String PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION = "proposaldevelopment.proposaltype.continuation";
     
     // Key Personnel Mojo
     public static final String ERROR_INVESTIGATOR_UNITS_UPBOUND = "error.investigatorUnits.upbound";
