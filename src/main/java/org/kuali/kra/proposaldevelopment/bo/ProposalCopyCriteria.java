@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * The <b>ProposalCopyCriteria</b> is user-specified criteria used
@@ -48,6 +49,8 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
     private boolean includeAttachments;
     private boolean includeBudget;
     private String budgetVersions;
+    private String leadUnitNumber;
+    private String originalLeadUnitNumber;
 
     /**
      * Constructs a ProposalCopyCriteria.
@@ -56,6 +59,20 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
         this.includeAttachments = false;
         this.includeBudget = false;
         this.budgetVersions = BUDGET_ALL_VERSIONS;
+        this.leadUnitNumber = "";
+        this.originalLeadUnitNumber = "";
+    }
+
+    /**
+     * Constructs a ProposalCopyCriteria.
+     * @param doc the proposal development document
+     */
+    public ProposalCopyCriteria(ProposalDevelopmentDocument doc) {
+        this.includeAttachments = false;
+        this.includeBudget = false;
+        this.budgetVersions = BUDGET_ALL_VERSIONS;
+        this.leadUnitNumber = "";
+        this.originalLeadUnitNumber = doc.getOwnedByUnitNumber();
     }
     
     /**
@@ -112,12 +129,37 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
         this.budgetVersions = budgetVersions;
     }
 
+    /**
+     * Get the lead unit number.
+     * @return the lead unit number
+     */
+    public String getLeadUnitNumber() {
+        return leadUnitNumber;
+    }
+
+    /**
+     * Set the lead unit number.
+     * @param leadUnitNumber the lead unit number
+     */
+    public void setLeadUnitNumber(String leadUnitNumber) {
+        this.leadUnitNumber = leadUnitNumber;
+    }
+    
+    /**
+     * Get the original lead unit number.
+     * @return the original lead unit number
+     */
+    public String getOriginalLeadUnitNumber() {
+        return this.originalLeadUnitNumber;
+    }
+
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("includeAttachments", this.getIncludeAttachments());
         map.put("includeBudget", this.getIncludeBudget());
         map.put("budgetVersions", this.getBudgetVersions());
+        map.put("leadUnitNumber", getLeadUnitNumber());
         return map;
     }
 
