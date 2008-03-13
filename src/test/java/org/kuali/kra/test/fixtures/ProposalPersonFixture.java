@@ -26,6 +26,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
@@ -36,6 +37,22 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 public enum ProposalPersonFixture {
     PRINCIPAL_INVESTIGATOR("000000003", PRINCIPAL_INVESTIGATOR_ROLE),
     
+    /**
+     * Fully valid Principal Investigator with all the right valid stuff except no certifications.
+     */
+    INCOMPLETE_CERTIFICATIONS("000000003", PRINCIPAL_INVESTIGATOR_ROLE) {
+        /**
+         * Clear out the Yes/No Questions
+         * 
+         * @see org.kuali.kra.test.fixtures.ProposalPersonFixture#getPerson()
+         */
+        public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) {
+            super.populatePerson(document, person);
+            
+            person.getProposalPersonYnq(0).setAnswer(null);
+        }
+    },
+
     /**
      * Fully valid Principal Investigator with valid credit splits adding to a hundred and valid lead unit with valid credit splits
      */
@@ -174,6 +191,12 @@ public enum ProposalPersonFixture {
                 if (creditSplit.getInvestigatorCreditType().addsToHundred()){
                     creditSplit.setCredit(new KualiDecimal(100.00));
                 }
+            }
+        }
+        
+        if (getService(KeyPersonnelService.class).isPrincipalInvestigator(person)) {
+            for (ProposalPersonYnq ynq : person.getProposalPersonYnqs()) {  
+                ynq.setAnswer("Y");
             }
         }
     }
