@@ -26,7 +26,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class IFrameWebTestPortalPage extends KraWebTestBase {
+public class IFrameWebPortalPageTest extends KraWebTestBase {
     
     /**
      * Verify that the when clicked on Sponsor link on portal; it opens the Sponsor Lookup page within an iFrame
