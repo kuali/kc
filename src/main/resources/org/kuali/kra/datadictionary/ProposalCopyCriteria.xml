@@ -58,7 +58,23 @@
 				<summary>Budget Versions</summary>
 				<description>Budget Versions</description>
 			</attribute>
+			
+            <attribute name="leadUnitNumber">
+                <label>Lead Unit</label>
+                <shortLabel>Lead Unit</shortLabel>
 
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <required>false</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder" />
+                </control>
+
+                <summary>Lead Unit (Owned by Unit)</summary>
+                <description>The copied proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit.</description>
+            </attribute>
 		</attributes>
     </businessObject>
 
