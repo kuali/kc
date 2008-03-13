@@ -25,6 +25,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.RolePersons;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.mocks.MockKimDatabase;
 import org.kuali.kra.kim.mocks.MockKimPersonService;
 import org.kuali.kra.kim.mocks.MockKimQualifiedRoleService;
@@ -76,13 +78,13 @@ public class ProposalAuthorizationServiceImplTest extends KraTestBase {
     @Test
     public void testGetUsernames() {
         ProposalDevelopmentDocument doc = createProposal("1");
-        List<String> usernames = proposalAuthService.getUserNames(doc, "Aggregator");
+        List<String> usernames = proposalAuthService.getUserNames(doc, RoleConstants.AGGREGATOR);
         assertTrue(usernames.size() == 2);
         assertTrue(usernames.contains("don"));
         assertTrue(usernames.contains("gary"));
         
         doc = createProposal("101");
-        usernames = proposalAuthService.getUserNames(doc, "Aggregator");
+        usernames = proposalAuthService.getUserNames(doc, RoleConstants.AGGREGATOR);
         assertTrue(usernames.size() == 0);
     }
     
@@ -92,8 +94,8 @@ public class ProposalAuthorizationServiceImplTest extends KraTestBase {
     @Test
     public void testAddRole() {
         ProposalDevelopmentDocument doc = createProposal("99");
-        proposalAuthService.addRole("jordan", "Aggregator", doc);
-        List<String> usernames = proposalAuthService.getUserNames(doc, "Aggregator");
+        proposalAuthService.addRole("jordan", RoleConstants.AGGREGATOR, doc);
+        List<String> usernames = proposalAuthService.getUserNames(doc, RoleConstants.AGGREGATOR);
         assertTrue(usernames.size() == 1);
         assertTrue(usernames.contains("jordan"));
     }
@@ -106,12 +108,12 @@ public class ProposalAuthorizationServiceImplTest extends KraTestBase {
         testAddRole();
         
         ProposalDevelopmentDocument doc = createProposal("99");
-        proposalAuthService.removeRole("barre", "Aggregator", doc);
-        List<String> usernames = proposalAuthService.getUserNames(doc, "Aggregator");
+        proposalAuthService.removeRole("barre", RoleConstants.AGGREGATOR, doc);
+        List<String> usernames = proposalAuthService.getUserNames(doc, RoleConstants.AGGREGATOR);
         assertTrue(usernames.size() == 1);
         
-        proposalAuthService.removeRole("jordan", "Aggregator", doc);
-        usernames = proposalAuthService.getUserNames(doc, "Aggregator");
+        proposalAuthService.removeRole("jordan", RoleConstants.AGGREGATOR, doc);
+        usernames = proposalAuthService.getUserNames(doc, RoleConstants.AGGREGATOR);
         assertTrue(usernames.size() == 0);
     }
     
@@ -131,9 +133,9 @@ public class ProposalAuthorizationServiceImplTest extends KraTestBase {
     @Test
     public void testHasRole() {
         ProposalDevelopmentDocument doc = createProposal("1");
-        assertTrue(proposalAuthService.hasRole("don", doc, "Aggregator"));
-        assertTrue(proposalAuthService.hasRole("molly", doc, "Viewer"));
-        assertFalse(proposalAuthService.hasRole("don", doc, "Viewer"));
+        assertTrue(proposalAuthService.hasRole("don", doc, RoleConstants.AGGREGATOR));
+        assertTrue(proposalAuthService.hasRole("molly", doc, RoleConstants.VIEWER));
+        assertFalse(proposalAuthService.hasRole("don", doc, RoleConstants.VIEWER));
     }
     
     /**
@@ -144,8 +146,8 @@ public class ProposalAuthorizationServiceImplTest extends KraTestBase {
         ProposalDevelopmentDocument doc = createProposal("3");
         List<String> roles = proposalAuthService.getRoles("vicki", doc);
         assertTrue(roles.size() == 2);
-        assertTrue(roles.contains("Aggregator"));
-        assertTrue(roles.contains("Viewer"));
+        assertTrue(roles.contains(RoleConstants.AGGREGATOR));
+        assertTrue(roles.contains(RoleConstants.VIEWER));
     }
     
     /**
@@ -154,10 +156,37 @@ public class ProposalAuthorizationServiceImplTest extends KraTestBase {
     @Test
     public void testGetPersonsInRole() {
         ProposalDevelopmentDocument doc = createProposal("1");
-        List<Person> persons = proposalAuthService.getPersonsInRole(doc, "Aggregator");
+        List<Person> persons = proposalAuthService.getPersonsInRole(doc, RoleConstants.AGGREGATOR);
         assertEquals(2, persons.size());
         assertTrue(contains(persons, "don"));
         assertTrue(contains(persons, "gary"));
+    }
+    
+    /**
+     * Test the getAllRolePersons() service method.
+     */
+    @Test
+    public void testGetAllRolePersons() {
+        ProposalDevelopmentDocument doc = createProposal("1");
+        List<RolePersons> rolePersonsList = proposalAuthService.getAllRolePersons(doc);
+        assertEquals(5, rolePersonsList.size());
+        for (RolePersons rolePersons : rolePersonsList) {
+            String roleName = rolePersons.getRoleName();
+            List<Person> persons = rolePersons.getPersons();
+            if (StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
+                assertEquals(2, persons.size());
+                assertTrue(contains(persons, "don"));
+                assertTrue(contains(persons, "gary"));
+            } else if (StringUtils.equals(roleName, RoleConstants.VIEWER)) {
+                assertEquals(1, persons.size());
+                assertTrue(contains(persons, "molly"));
+            } else if (StringUtils.equals(roleName, RoleConstants.UNASSIGNED)) {
+                assertEquals(1, persons.size());
+                assertTrue(contains(persons, "leo"));
+            } else {
+                assertEquals(0, persons.size());
+            } 
+        }
     }
     
     /**
@@ -229,11 +258,11 @@ public class ProposalAuthorizationServiceImplTest extends KraTestBase {
         permissions.add("write");
         permissions.add("create");
         permissions.add("delete");
-        service.addRole("Aggregator", permissions);
+        service.addRole(RoleConstants.AGGREGATOR, permissions);
         
         permissions = new ArrayList<String>();
         permissions.add("read");
-        service.addRole("Viewer", permissions);
+        service.addRole(RoleConstants.VIEWER, permissions);
     }
     
     /**
@@ -243,39 +272,43 @@ public class ProposalAuthorizationServiceImplTest extends KraTestBase {
     private void addQualifiedRoles(MockKimDatabase service) {
         Map<String, String> qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("kra.proposal", "1");
-        service.addQualifiedRole("don", "Aggregator", qualifiedAttributes);
+        service.addQualifiedRole("don", RoleConstants.AGGREGATOR, qualifiedAttributes);
         
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("kra.proposal", "1");
-        service.addQualifiedRole("molly", "Viewer", qualifiedAttributes);
+        service.addQualifiedRole("molly", RoleConstants.VIEWER, qualifiedAttributes);
         
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("kra.proposal", "1");
-        service.addQualifiedRole("gary", "Aggregator", qualifiedAttributes);
+        service.addQualifiedRole("gary", RoleConstants.AGGREGATOR, qualifiedAttributes);
+        
+        qualifiedAttributes = new HashMap<String, String>();
+        qualifiedAttributes.put("kra.proposal", "1");
+        service.addQualifiedRole("leo", RoleConstants.UNASSIGNED, qualifiedAttributes);
 
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("kra.proposal", "2");
-        service.addQualifiedRole("nancy", "Aggregator", qualifiedAttributes);
+        service.addQualifiedRole("nancy", RoleConstants.AGGREGATOR, qualifiedAttributes);
         
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("kra.proposal", "3");
-        service.addQualifiedRole("vicki", "Viewer", qualifiedAttributes);
+        service.addQualifiedRole("vicki", RoleConstants.VIEWER, qualifiedAttributes);
         
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("kra.proposal", "3");
-        service.addQualifiedRole("vicki", "Aggregator", qualifiedAttributes);
+        service.addQualifiedRole("vicki", RoleConstants.AGGREGATOR, qualifiedAttributes);
         
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("bogus", "3");
-        service.addQualifiedRole("vicki", "Aggregator", qualifiedAttributes);
+        service.addQualifiedRole("vicki", RoleConstants.AGGREGATOR, qualifiedAttributes);
         
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("kra.proposal", "3");
-        service.addQualifiedRole("mickey", "Viewer", qualifiedAttributes);
+        service.addQualifiedRole("mickey", RoleConstants.VIEWER, qualifiedAttributes);
         
         qualifiedAttributes = new HashMap<String, String>();
         qualifiedAttributes.put("kra.proposal", "3");
-        service.addQualifiedRole("mickey", "Aggregator", qualifiedAttributes);
+        service.addQualifiedRole("mickey", RoleConstants.AGGREGATOR, qualifiedAttributes);
     }
     
     /**
@@ -291,6 +324,7 @@ public class ProposalAuthorizationServiceImplTest extends KraTestBase {
         service.addPerson("vicki");
         service.addPerson("mickey");
         service.addPerson("jordan");
+        service.addPerson("leo");
         return service;
     }
 }
