@@ -102,7 +102,6 @@ public class OjbRepositoryMappingTest {
         
         LOG.debug("dsUrl = " + dsUrl);
         LOG.debug("dsUser = " + dsUser);
-        // LOG.debug("dsPass = " + dsPass);
         LOG.debug("dsSchema = " + dsSchema);
     }
     
