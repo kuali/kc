@@ -18,9 +18,10 @@ package org.kuali.kra.budget.bo;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.util.AbstractKualiDecimal;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class CostElement extends KraPersistableBusinessObjectBase {
+public class CostElement extends KraPersistableBusinessObjectBase implements Comparable {
 	private String costElement;
 	private String budgetCategoryCode;
 	private String description;
@@ -77,4 +78,17 @@ public class CostElement extends KraPersistableBusinessObjectBase {
     public void setValidaCRateTypes(List<ValidCeRateType> validCeRateTypes) {
         this.validCeRateTypes = validCeRateTypes;
     }
+
+    /**
+     * This is for totals page to sort it by costelement
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(Object o) {
+        return compareTo((CostElement) o);
+    }
+    
+    public int compareTo(CostElement costElement) {
+        return this.costElement.compareTo(costElement.costElement);
+    }
+
 }
