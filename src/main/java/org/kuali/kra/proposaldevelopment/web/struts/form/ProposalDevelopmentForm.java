@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -103,7 +104,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private int narrativeLineNumber;
     private S2sOpportunity newS2sOpportunity;
     private List<S2sAppSubmission> newS2sAppSubmission;
-    private Map<String, List> customAttributeGroups;
+    private SortedMap<String, List> customAttributeGroups;
     private Map<String, String[]> customAttributeValues;
     private List<Narrative> narratives;
 
@@ -468,7 +469,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * Sets the customAttributeGroups attribute value.
      * @param customAttributeGroups The customAttributeGroups to set.
      */
-    public void setCustomAttributeGroups(Map<String, List> customAttributeGroups) {
+    public void setCustomAttributeGroups(SortedMap<String, List> customAttributeGroups) {
         this.customAttributeGroups = customAttributeGroups;
     }
 

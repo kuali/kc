@@ -9,7 +9,7 @@
         
         	<tr>
                 <th><div align="center">Object Code</div></th>
-                <th><div align="center">Description</div></th>
+                <th><div align="center">Object Code Name</div></th>
                 <c:forEach var="period" items="${KualiForm.document.budgetPeriods}" varStatus="status">
                 	<th><div align="center">Period ${period.budgetPeriod}</div></th>
         	    </c:forEach>        
@@ -35,7 +35,9 @@
         	    </c:forEach>        
 	                <td>
 	                	<div align="right">  	
+	                      <strong>
 	                		<fmt:formatNumber value="${cumTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />
+	                	  </strong>	
 	                	</div>
 	                </td>
                 
@@ -68,7 +70,9 @@
         	    </c:forEach>        
 	                <td>
 	                	<div align="right">  	
+	                      <strong>
 	                		<fmt:formatNumber value="${cumTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />
+	                      </strong>
 	                	</div>
 	                </td>
                 
@@ -96,7 +100,9 @@
 		      </c:forEach>
 	                <td>
 	                	<div align="right">  	
+	                      <strong>
 	                		<fmt:formatNumber value="${cumTotal}" type="currency" currencySymbol="" maxFractionDigits="2" />
+	                      </strong>
 	                	</div>
 	                </td>
                </tr>
