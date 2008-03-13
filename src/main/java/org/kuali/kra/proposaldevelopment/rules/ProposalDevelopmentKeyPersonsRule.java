@@ -55,7 +55,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.29 $
+ * @version $Revision: 1.30 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
@@ -175,15 +175,6 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         getErrorMap().addToErrorPath(errorPathPrefix);
         super.reportError(propertyName, errorKey, errorParams);
         getErrorMap().removeFromErrorPath(errorPathPrefix);        
-    }
-
-    /**
-     * Locate in Spring the <code>{@link BusinessObjectService}</code> singleton instance
-     * 
-     * @return BusinessObjectService
-     */
-    private BusinessObjectService getBusinessObjectService() {
-        return getService(BusinessObjectService.class);
     }
 
     /**
@@ -343,56 +334,6 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         }
         
         return retval;
-    }
-    
-    /**
-     * Convenience method for creating a <code>{@link SimpleEntry}</code> out of a key/value pair
-     * 
-     * @param key
-     * @param value
-     * @return SimpleImmutableEntry
-     */
-    private Entry<String, String> keyValue(String key, Object value) {
-        if (value == null) {
-            return new DefaultMapEntry(key, "");            
-        }
-        return new DefaultMapEntry(key, value.toString());
-    }
-   
-    /**
-     * The opposite of <code>{@link #isValid(Class, SimpleEntry...)}</code>
-     * 
-     * @param boClass the class of the business object to validate
-     * @param entries varargs array of <code>{@link SimpleEntry}</code> key/value pair instances
-     * @return true if invalid; false if valid
-     * @see #isValid(Class, SimpleImmutableEntry...)
-     */
-    private boolean isInvalid(Class<?> boClass, Entry<String, String> ... entries) {
-        return !isValid(boClass, entries);
-    }
-    
-    /**
-     * Is the given code valid?  Query the database for a matching code
-     * If found, it is valid; otherwise it is invalid.
-     * 
-     * @param boClass the class of the business object to validate
-     * @param entries varargs array of <code>{@link SimpleEntry}</code> key/value pair instances
-     * @return true if invalid; false if valid
-     * @see #isInvalid(Class, SimpleImmutableEntry...)
-     */
-    private boolean isValid(Class<?> boClass, Entry<String,String> ... entries) {
-        if (entries != null && entries.length > 0) {
-            Map<String,String> fieldValues = new HashMap<String,String>();
-            
-            for (Entry<String,String> entry : entries) {
-                fieldValues.put(entry.getKey(), entry.getValue());
-            }
-
-            if (getBusinessObjectService().countMatching(boClass, fieldValues) == 1) {
-                return true;
-            }
-        }
-        return false;
     }
     
     /**
