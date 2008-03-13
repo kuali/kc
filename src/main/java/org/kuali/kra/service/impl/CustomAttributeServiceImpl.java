@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.CustomAttributeDataType;
@@ -55,8 +56,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
         for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put("documentNumber", documentNumber);
-            primaryKeys.put("customAttributeId", customAttributeDocument.getCustomAttributeId());
+            primaryKeys.put(RicePropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
 
             CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
             if (customAttributeDocValue != null) {
@@ -85,8 +86,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
                 String documentNumber = document.getDocumentNumber();
 
                 Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                primaryKeys.put("customAttributeId", customAttributeId);
-                primaryKeys.put("documentNumber", documentNumber);
+                primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
+                primaryKeys.put(RicePropertyConstants.DOCUMENT_NUMBER, documentNumber);
                 CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
 
                 if (customAttributeDocValue == null) {
