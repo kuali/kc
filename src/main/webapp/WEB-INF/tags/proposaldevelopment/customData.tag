@@ -17,9 +17,19 @@
 <%@ attribute name="fullName" required="true"%>
 <%@ attribute name="fieldCount" required="true"%>
 
+<c:choose>
+		<c:when test="${fn:length(fullName) > 50}">
+ 					<c:set var="displayName" value="${fn:substring(fullName, 0, 50)}..."/>
+		</c:when>
+		<c:otherwise>
+ 					<c:set var="displayName" value="${fullName}"/>
+		</c:otherwise>
+
+</c:choose>
+
 <div class="tab-container" align="center">
 	<div class="h2-container">
-		<span class="subhead-left"><h2>${fn:substring(fullName, 0, 50)}...</h2></span>
+		<span class="subhead-left"><h2>${displayName}</h2></span>
 		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
 	</div>
 	<div align="left" style="padding:12px;"><strong> Full Group Name: </strong>${fullName}</div>
@@ -27,7 +37,7 @@
 		<c:forEach items="${KualiForm.customAttributeGroups[fullName]}" var="customAttributeDocument" varStatus="status">
 			<tr class="datatable">
 				<th  align="right">
-					<c:if test="${customAttributeDocument.required}">*</c:if>${customAttributeDocument.customAttribute.label}*${customAttributeDocument.customAttributeId}
+					<c:if test="${customAttributeDocument.required}">*</c:if>${customAttributeDocument.customAttribute.label}:
 				</th>
 				<td >
 				<c:forEach var="customAttributeDocument1" items="${KualiForm.document.customAttributeDocuments}" > 

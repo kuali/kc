@@ -24,6 +24,7 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.RicePropertyConstants;
 import org.kuali.core.UserSession;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
@@ -170,7 +171,7 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
 
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("customAttributeId", customAttributeId);
-        primaryKeys.put("documentNumber", documentNumber);
+        primaryKeys.put(RicePropertyConstants.DOCUMENT_NUMBER, documentNumber);
         CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
         assertNotNull("customAttributeDocValue should be found and not null", customAttributeDocValue);
         assertEquals(name + "Value", customAttributeDocValue.getValue());
