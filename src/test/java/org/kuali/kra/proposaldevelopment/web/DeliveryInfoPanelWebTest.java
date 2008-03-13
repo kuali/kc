@@ -34,7 +34,7 @@ public class DeliveryInfoPanelWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void mailingInfoValidation() throws Exception {
-        HtmlPage proposalDevelopmentPage = lookup(getProposalDevelopmentPage(), "mailingAddressId", "organization", "Lockheed*");
+        HtmlPage proposalDevelopmentPage = lookup(getProposalDevelopmentPage(), "mailingAddressId", "rolodexId", "21170");
         
         HtmlElement firstName = getElementById(proposalDevelopmentPage, "mailingFirstName");
         HtmlElement middleName = getElementById(proposalDevelopmentPage, "mailingMiddleName");
@@ -45,7 +45,7 @@ public class DeliveryInfoPanelWebTest extends ProposalDevelopmentWebTestBase {
         HtmlElement addressLine3 = getElementById(proposalDevelopmentPage, "mailingAddressLine3");
         HtmlElement city = getElementById(proposalDevelopmentPage, "mailingCity");
         HtmlElement state = getElementById(proposalDevelopmentPage, "mailingState");
-
+ 
         assertNotNull(organization);
         assertEquals("Chris", firstName.asText());
         assertNull(middleName);
