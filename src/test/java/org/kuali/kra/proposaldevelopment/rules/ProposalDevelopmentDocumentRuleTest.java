@@ -46,13 +46,11 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     private static final String DEFAULT_PROPOSAL_OWNED_BY_UNIT = "000002";
 
     private static final String PROPOSAL_TYPE_NEW = "1";
-    private static final String PROPOSAL_TYPE_COMPETING_CONTINUATION = "2";
-    private static final String PROPOSAL_TYPE_NON_COMPETING_CONTINUATION = "3";
-    private static final String PROPOSAL_TYPE_SUPPLEMENT = "4";
-    private static final String PROPOSAL_TYPE_RENEWAL = "5";
-    private static final String PROPOSAL_TYPE_REVISION = "6";
-    private static final String PROPOSAL_TYPE_PRE_PROPOSAL = "7";
-    private static final String PROPOSAL_TYPE_ACCOMPLISHMENT_BASED_RENEWAL = "8";
+    private static final String PROPOSAL_TYPE_CONTINUATION = "2";
+    private static final String PROPOSAL_TYPE_RENEWAL = "3";
+    private static final String PROPOSAL_TYPE_RESUBMISSION = "4";
+    private static final String PROPOSAL_TYPE_REVISION = "5";
+    private static final String PROPOSAL_TYPE_TASK_ORDER = "6";
     private static final String DOCUMENT_HEADER_DESCRIPTION = "ProposalDevelopmentDocumentWebTest test";
     private DocumentService documentService = null;
     private ProposalDevelopmentDocumentRule proposalDevelopmentDocumentRule = null;
@@ -97,23 +95,21 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     }
 
     @Test public void testNonNewProposalTypeWithoutOriginalProposalId() throws Exception {
-        processType(PROPOSAL_TYPE_COMPETING_CONTINUATION, false, true);
-        processType(PROPOSAL_TYPE_NON_COMPETING_CONTINUATION, false, true);
-        processType(PROPOSAL_TYPE_SUPPLEMENT, false, false);
+        processType(PROPOSAL_TYPE_NEW, false, false);
+        processType(PROPOSAL_TYPE_CONTINUATION, false, true);
         processType(PROPOSAL_TYPE_RENEWAL, false, true);
+        processType(PROPOSAL_TYPE_RESUBMISSION, false, false);
         processType(PROPOSAL_TYPE_REVISION, false, true);
-        processType(PROPOSAL_TYPE_PRE_PROPOSAL, false, false);
-        processType(PROPOSAL_TYPE_ACCOMPLISHMENT_BASED_RENEWAL, false, false);
+        processType(PROPOSAL_TYPE_TASK_ORDER, false, false);
     }
 
     @Test public void testNonNewProposalTypeWithOriginalProposalId() throws Exception {
-        processType(PROPOSAL_TYPE_COMPETING_CONTINUATION, true, false);
-        processType(PROPOSAL_TYPE_NON_COMPETING_CONTINUATION, true, false);
-        processType(PROPOSAL_TYPE_SUPPLEMENT, true, false);
+        processType(PROPOSAL_TYPE_NEW, true, false);
+        processType(PROPOSAL_TYPE_CONTINUATION, true, false);
         processType(PROPOSAL_TYPE_RENEWAL, true, false);
+        processType(PROPOSAL_TYPE_RESUBMISSION, true, false);
         processType(PROPOSAL_TYPE_REVISION, true, false);
-        processType(PROPOSAL_TYPE_PRE_PROPOSAL, true, false);
-        processType(PROPOSAL_TYPE_ACCOMPLISHMENT_BASED_RENEWAL, true, false);
+        processType(PROPOSAL_TYPE_TASK_ORDER, true, false);
     }
 
     /**
