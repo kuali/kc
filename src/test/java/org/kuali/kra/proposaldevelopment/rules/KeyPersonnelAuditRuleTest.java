@@ -19,6 +19,7 @@ import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
 import static org.kuali.core.util.GlobalVariables.setAuditErrorMap;
 import static org.kuali.core.util.GlobalVariables.setUserSession;
 import static org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INCOMPLETE_CERTIFICATIONS;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNDER_ZERO;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_OVER_ONE_HUNDRED;
@@ -73,6 +74,37 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         super.tearDown();
     }
     
+    /**
+     * A document with a PI and Unanswered Certification Questions should produce audit errros
+     * 
+     * @throws Exception for whatever reason
+     */
+    @Test
+    public void incompleteYesNoQuestions() throws Exception {
+        ProposalPerson person1 = INCOMPLETE_CERTIFICATIONS.getPerson();
+        INCOMPLETE_CERTIFICATIONS.populatePerson(document, person1);
+        document.addProposalPerson(person1);
+        
+        assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertEquals(1, getAuditErrorMap().size());
+
+    }
+ 
+    /**
+     * A document with a PI and completely answered Certification Questions shouldn't produce audit errros
+     * 
+     * @throws Exception for whatever reason
+     */
+    @Test
+    public void completeYesNoQuestions() throws Exception {
+        ProposalPerson person1 = PRINCIPAL_INVESTIGATOR.getPerson();
+        PRINCIPAL_INVESTIGATOR.populatePerson(document, person1);
+        document.addProposalPerson(person1);
+        
+        assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertEquals(0, getAuditErrorMap().size());
+
+    }
     
     /**
      * A <code>{@link ProposalDevelopmentDocument}</code> instance can only have one Proposal Investigator. Test that the rule applies.<br/> 

@@ -15,10 +15,17 @@
  */
 package org.kuali.kra.rules;
 
-import java.util.List;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.rules.DocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
@@ -32,8 +39,8 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 /**
  * Base implementation class for KRA document business rules
  *
- * @author $Author: dbarre $
- * @version $Revision: 1.5 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.6 $
  */
 public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);
@@ -130,5 +137,63 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
     protected boolean hasRole(String username, ProposalDevelopmentDocument doc, String roleName) {
         ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
         return proposalAuthService.hasRole(username, doc, roleName);   
+    }
+    
+    /**
+     * Convenience method for creating a <code>{@link SimpleEntry}</code> out of a key/value pair
+     * 
+     * @param key
+     * @param value
+     * @return SimpleImmutableEntry
+     */
+    protected Entry<String, String> keyValue(String key, Object value) {
+        if (value == null) {
+            return new DefaultMapEntry(key, "");            
+        }
+        return new DefaultMapEntry(key, value.toString());
+    }
+    /**
+     * The opposite of <code>{@link #isValid(Class, SimpleEntry...)}</code>
+     * 
+     * @param boClass the class of the business object to validate
+     * @param entries varargs array of <code>{@link SimpleEntry}</code> key/value pair instances
+     * @return true if invalid; false if valid
+     * @see #isValid(Class, SimpleImmutableEntry...)
+     */
+    protected boolean isInvalid(Class<?> boClass, Entry<String, String> ... entries) {
+        return !isValid(boClass, entries);
+    }
+    
+    /**
+     * Is the given code valid?  Query the database for a matching code
+     * If found, it is valid; otherwise it is invalid.
+     * 
+     * @param boClass the class of the business object to validate
+     * @param entries varargs array of <code>{@link SimpleEntry}</code> key/value pair instances
+     * @return true if invalid; false if valid
+     * @see #isInvalid(Class, SimpleImmutableEntry...)
+     */
+    protected boolean isValid(Class<?> boClass, Entry<String,String> ... entries) {
+        if (entries != null && entries.length > 0) {
+            Map<String,String> fieldValues = new HashMap<String,String>();
+            
+            for (Entry<String,String> entry : entries) {
+                fieldValues.put(entry.getKey(), entry.getValue());
+            }
+
+            if (getBusinessObjectService().countMatching(boClass, fieldValues) == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Locate in Spring the <code>{@link BusinessObjectService}</code> singleton instance
+     * 
+     * @return BusinessObjectService
+     */
+    protected final BusinessObjectService getBusinessObjectService() {
+        return getService(BusinessObjectService.class);
     }
 }

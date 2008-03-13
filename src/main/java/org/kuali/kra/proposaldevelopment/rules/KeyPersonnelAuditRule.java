@@ -28,27 +28,30 @@ import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_D
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_KEY;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_YNQ_INCOMPLETE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.AuditError;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rules.CreditSplitValidator.CreditSplitAuditError;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+
+import edu.emory.mathcs.backport.java.util.AbstractMap.SimpleEntry;
 
 
 /**
@@ -80,10 +83,57 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         
         retval &= validateCreditSplit((ProposalDevelopmentDocument) document);
         
+        retval &= validateYesNoQuestions((ProposalDevelopmentDocument) document);
+        
         return retval;
 
     }
        
+    /**
+     * Yes/No questions have to be submitted to Grants.gov on document route. If the submitter has not completed the certifications,
+     * errors should be displayed in audit mode. This does validation by iterating over each investigator until the PI is found.
+     * The PI Yes/No questions are then checked for completeness. 
+     * 
+     * @param document
+     * @return boolean true if the submitter has not completed the certifications
+     */
+    private boolean validateYesNoQuestions(ProposalDevelopmentDocument document) {
+        boolean retval = true;
+        
+        for (ProposalPerson investigator : document.getInvestigators()) {
+            if (isPrincipalInvestigator(investigator)) {
+                retval = validateYesNoQuestions(investigator);
+            }
+        }
+        
+        if (!retval) {
+            addAuditError(ERROR_YNQ_INCOMPLETE);
+        }
+        
+        return retval;
+    }
+    
+    /**
+     * Yes/No questions have to be submitted to Grants.gov on document route. If the submitter has not completed the certifications,
+     * errors should be displayed in audit mode.<br/> 
+     * <br/>
+     * This method differs from <code>{@link #validateYesNoQuestions(ProposalDevelopmentDocument)}</code> that it refers to a specific person.
+     * If any one of the Yes/No Questions is not completed, then this check will fail.
+     * 
+     * 
+     * @param investigator Proposal Investigator
+     * @return true if the given PI's Yes/No Questions are completed
+     */
+    private boolean validateYesNoQuestions(ProposalPerson investigator) {
+        boolean retval = true;
+        
+        for (ProposalPersonYnq question : investigator.getProposalPersonYnqs()) {
+            retval &= isNotBlank(question.getAnswer());
+        }
+               
+        return retval;
+    }
+
     /**
      * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
      */
@@ -179,43 +229,6 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
    private Entry<String, String> keyValue(String key, String value) {
        return new DefaultMapEntry(key, value);
    }
-   
-  
-   /**
-    * The opposite of <code>{@link #isValid(Class, SimpleEntry...)}</code>
-    * 
-    * @param boClass the class of the business object to validate
-    * @param entries varargs array of <code>{@link SimpleEntry}</code> key/value pair instances
-    * @return true if invalid; false if valid
-    * @see #isValid(Class, SimpleImmutableEntry...)
-    */
-   private boolean isInvalid(Class<?> boClass, Entry<String, String> ... entries) {
-       return !isValid(boClass, entries);
-   }
-   
-   /**
-    * Is the given code valid?  Query the database for a matching code
-    * If found, it is valid; otherwise it is invalid.
-    * 
-    * @param boClass the class of the business object to validate
-    * @param entries varargs array of <code>{@link SimpleEntry}</code> key/value pair instances
-    * @return true if invalid; false if valid
-    * @see #isInvalid(Class, SimpleImmutableEntry...)
-    */
-   private boolean isValid(Class<?> boClass, Entry<String,String> ... entries) {
-       if (entries != null && entries.length > 0) {
-           Map<String,String> fieldValues = new HashMap<String,String>();
-           
-           for (Entry<String,String> entry : entries) {
-               fieldValues.put(entry.getKey(), entry.getValue());
-           }
-
-           if (getBusinessObjectService().countMatching(boClass, fieldValues) == 1) {
-               return true;
-           }
-       }
-       return false;
-   }
 
    /**
      * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
@@ -255,15 +268,6 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
     private KualiConfigurationService getConfigurationService() {
         return getService(KualiConfigurationService.class);
     }
-    
-    /**
-     * Locate in Spring the <code>{@link BusinessObjectService}</code> singleton instance
-     * 
-     * @return BusinessObjectService
-     */
-    private BusinessObjectService getBusinessObjectService() {
-        return getService(BusinessObjectService.class);
-    }
 
     /**
      * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
@@ -282,6 +286,44 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         }
         
         return auditErrors;
+    }
+    
+    /**
+     * Delegates to <code>{@link #addAuditError(String, String...)}</code>
+     * 
+     * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.<br/>
+     * 
+     * @param messageKey
+     * @see CreditSplitAuditError
+     * @see AuditError
+     * @see GlobalVariables#getAuditErrorMap()
+     * @see #addAuditError(String, String...)
+     */
+    private void addAuditError(String messageKey) {
+        addAuditError(messageKey, null);
+    }
+
+    /**
+     * Convenience method for adding an <code>{@link AuditError}</code> with just a <code>messageKey</code>.<br/>
+     * <br/>
+     * The <code>{@link AuditError}</code> that is added is.<br/>
+     * 
+     * @param messageKey
+     * @see CreditSplitAuditError
+     * @see AuditError
+     * @see GlobalVariables#getAuditErrorMap()
+     */
+    private void addAuditError(String messageKey, String ... params) {
+        AuditError error = new AuditError(PROPOSAL_PERSON_KEY, messageKey, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR);
+
+        boolean found = false;
+        for (AuditError ae : getAuditErrors()) {
+            found |= ae.getMessageKey().equals(messageKey);
+        }
+        
+        if (!found) {          
+            getAuditErrors().add(error);
+        }
     }
     
     /**
