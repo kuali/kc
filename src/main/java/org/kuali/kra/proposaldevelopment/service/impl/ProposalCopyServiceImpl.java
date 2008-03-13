@@ -24,11 +24,14 @@ import java.util.Map;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
@@ -36,7 +39,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
@@ -94,7 +99,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * must not be copied during step 2.
      */
     private static String[] filteredProperties = { "ProposalNumber",
-                                                // "OwnedByUnitNumber",
+                                                   "OwnedByUnitNumber",
                                                    "Narratives",
                                                    "InstituteAttachments",
                                                    "PropPersonBios" };
@@ -134,6 +139,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             copyProposal(doc, newDoc, criteria);
             docService.saveDocument(newDoc);
             
+            // Can't initialize authorization until a proposal is saved
+            // and we have a new proposal number.
+            initializeAuthorization(newDoc);
+            
             newDocNbr = newDoc.getDocumentNumber();
         }
         
@@ -158,6 +167,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         // Copy over the document overview properties.
         
         copyOverviewProperties(src, dest);
+        
+        // Set lead unit.
+        
+        setLeadUnit(dest, criteria.getLeadUnitNumber());
         
         // Copy over the attachments if required by the user.
         
@@ -314,6 +327,29 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             }
         }
         return null;
+    }
+    
+    /**
+     * Set the lead unit for the new proposal.
+     * @param doc the new proposal development document
+     * @param leadUnitNumber the lead unit number
+     */
+    private void setLeadUnit(ProposalDevelopmentDocument doc, String leadUnitNumber) {
+        UnitService unitService = KraServiceLocator.getService(UnitService.class);
+        doc.setOwnedByUnitNumber(leadUnitNumber);
+        doc.setOwnedByUnit(unitService.getUnit(leadUnitNumber));
+    }
+    
+    /**
+     * Initialize the Authorizations for a new proposal.  The initiator/creator
+     * is assigned the Aggregator role.
+     * @param doc the proposal development document
+     */
+    private void initializeAuthorization(ProposalDevelopmentDocument doc) {
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String username = user.getPersonUserIdentifier();
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
     }
     
     /**

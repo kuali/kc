@@ -42,12 +42,15 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
                                                    "ProposalPersonBiographyService",
                                                    "NarrativeService"};
     
+    private static final String LEAD_UNIT_NBR = "000001";
+    
     private static final String ATTACHMENT_FILENAME = "/org/kuali/kra/proposaldevelopment/web/ProposalAttachmentWebTest.class";
 
     private static final String NARRATIVE_TYPE_CODE_ID = "newNarrative.narrativeTypeCode";
     private static final String NARRATIVE_FILE_ID = "newNarrative.narrativeFile";
     private static final String NARRATIVE_STATUS_ID = "newNarrative.moduleStatusCode";
     private static final String COPY_ATTACHMENTS_ID = "copyCriteria.includeAttachments";
+    private static final String COPY_LEAD_UNIT_ID = "copyCriteria.leadUnitNumber";
     
     private static final String PERSONAL_PERSON_ID = "newPropPersonBio.proposalPersonNumber";
     private static final String PERSONAL_ATTACHMENT_TYPE_ID = "newPropPersonBio.documentTypeCode";
@@ -84,20 +87,19 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void testSimpleCopy() throws Exception {
-        assertTrue(true);
-        /*
         HtmlPage actionsPage = buildDocument();
         
         ProposalDevelopmentDocument srcDoc = getProposalDevelopmentDocument(actionsPage);
         
         setFieldValue(actionsPage, COPY_ATTACHMENTS_ID, "off");
+        setFieldValue(actionsPage, COPY_LEAD_UNIT_ID, LEAD_UNIT_NBR);
         
         ProposalDevelopmentDocument destDoc = copyDocument(actionsPage);
        
         ProposalCopyCriteria criteria = new ProposalCopyCriteria();
         criteria.setIncludeAttachments(false);
+        criteria.setLeadUnitNumber(LEAD_UNIT_NBR);
         assertTrue(compareDocuments(srcDoc, destDoc, criteria));
-        */
     }
     
     /**
@@ -109,20 +111,19 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void testAttachmentCopy() throws Exception {
-        assertTrue(true);
-        /*
         HtmlPage actionsPage = buildDocument();
         
         ProposalDevelopmentDocument srcDoc = getProposalDevelopmentDocument(actionsPage);
         
         setFieldValue(actionsPage, COPY_ATTACHMENTS_ID, "on");
+        setFieldValue(actionsPage, COPY_LEAD_UNIT_ID, LEAD_UNIT_NBR);
         
         ProposalDevelopmentDocument destDoc = copyDocument(actionsPage);
        
         ProposalCopyCriteria criteria = new ProposalCopyCriteria();
         criteria.setIncludeAttachments(true);
+        criteria.setLeadUnitNumber(LEAD_UNIT_NBR);
         assertTrue(compareDocuments(srcDoc, destDoc, criteria));
-        */
     }
     
     /**
@@ -187,6 +188,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         String nbr1 = srcDoc.getDocumentNumber();
         String nbr2 = destDoc.getDocumentNumber();
         if (isSame(nbr1, nbr2)) {
+            System.out.println("HERE 1: " + nbr1 + ", " + nbr2);
             return false;
         }
         
@@ -195,6 +197,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         String desc1 = srcDoc.getDocumentHeader().getFinancialDocumentDescription();
         String desc2 = srcDoc.getDocumentHeader().getFinancialDocumentDescription();
         if (!isSame(desc1, desc2)) {
+            System.out.println("HERE 2");
             return false;
         }
         
@@ -203,6 +206,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         String org1 = srcDoc.getDocumentHeader().getOrganizationDocumentNumber();
         String org2 = srcDoc.getDocumentHeader().getOrganizationDocumentNumber();
         if (!isSame(org1, org2)) {
+            System.out.println("HERE 3");
             return false;
         }
         
@@ -213,6 +217,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
             Object value1 = property.getter.invoke(srcDoc);
             Object value2 = property.getter.invoke(destDoc);
             if (!equals(value1, value2)) {
+                System.out.println("HERE 4: " + property.getter.getName());
                 return false;
             }
         }

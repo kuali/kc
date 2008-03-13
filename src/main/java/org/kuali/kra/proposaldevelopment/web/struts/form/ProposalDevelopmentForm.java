@@ -129,7 +129,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         setNewProposalUser(new ProposalUser());
         setNewS2sOpportunity(new S2sOpportunity());
         customAttributeValues = new HashMap<String, String[]>();
-        setCopyCriteria(new ProposalCopyCriteria());
+        setCopyCriteria(new ProposalCopyCriteria(getProposalDevelopmentDocument()));
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
@@ -206,7 +206,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
-        this.setCopyCriteria(new ProposalCopyCriteria());
+        this.setCopyCriteria(new ProposalCopyCriteria(getProposalDevelopmentDocument()));
        // following reset the tab stats and will load as default when it returns from lookup.
        // TODO : Do we really need this?
        // implemented headerTab in KraTransactionalDocumentActionBase
