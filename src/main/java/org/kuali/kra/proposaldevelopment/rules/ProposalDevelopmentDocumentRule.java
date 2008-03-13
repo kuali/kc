@@ -293,7 +293,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * Validates business rules pertaining to the Proposal Type.  The rules are:
      * 
      * <ol>
-     * <li>If the Proposal Type is Renewal, Revision, or a Continuation, then the 
+     * <li>If the Proposal Type is Renewal, Revision, or Continuation, then the 
      * Sponsor Proposal Id field must be assigned a value.</li>
      * </ol>
      * 
@@ -325,16 +325,14 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @return true or false
      */
     private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {        
-        String proposalTypeCodeRenewal = getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL, "5");
-        String proposalTypeCodeRevision = getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION, "6");
-        String proposalTypeCodeCompetingContinuation = getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_COMPETING_CONT, "2");
-        String proposalTypeCodeNonCompetingContinuation = getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NON_COMPETING_CONT, "3");
+        String proposalTypeCodeRenewal = getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL, "3");
+        String proposalTypeCodeRevision = getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION, "5");
+        String proposalTypeCodeContinuation = getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION, "2");
          
         return !StringUtils.isEmpty(proposalTypeCode) &&
                (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
                 proposalTypeCode.equals(proposalTypeCodeRevision) ||
-                proposalTypeCode.equals(proposalTypeCodeCompetingContinuation) ||
-                proposalTypeCode.equals(proposalTypeCodeNonCompetingContinuation));
+                proposalTypeCode.equals(proposalTypeCodeContinuation));
     }
 
     /**
