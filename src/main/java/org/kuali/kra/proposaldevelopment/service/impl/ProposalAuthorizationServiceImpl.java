@@ -21,8 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.QualifiedRoleService;
@@ -162,5 +163,28 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
             }
         }
         return persons;
+    }
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#getAllRolePersons(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public List<RolePersons> getAllRolePersons(ProposalDevelopmentDocument doc) {
+        String[] roleNames = { RoleConstants.AGGREGATOR, 
+                               RoleConstants.BUDGET_CREATOR, 
+                               RoleConstants.NARRATIVE_WRITER, 
+                               RoleConstants.VIEWER, 
+                               RoleConstants.UNASSIGNED };
+        
+        List<RolePersons> rolePersonsList = new ArrayList<RolePersons>();
+        
+        for (String roleName : roleNames) {
+            List<Person> persons = getPersonsInRole(doc, roleName);
+            RolePersons rolePersons = new RolePersons();
+            rolePersons.setRoleName(roleName);
+            rolePersons.setPersons(persons);
+            rolePersonsList.add(rolePersons);
+        }
+        
+        return rolePersonsList;
     }
 }
