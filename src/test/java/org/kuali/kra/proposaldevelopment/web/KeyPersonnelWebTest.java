@@ -24,7 +24,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>
  *  @author $Author: lprzybyl $
- *  @version $Revision: 1.7 $
+ *  @version $Revision: 1.8 $
  */
 public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelWebTest.class);
@@ -113,10 +113,9 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
 
-        clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
 
         assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
-        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
 
         saveAndSearchDoc(keyPersonnelPage);
     }
