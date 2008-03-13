@@ -151,4 +151,7 @@ public interface Constants {
     public static final String OPPORTUNITY_ID= "opportunityId";
     public static final String NO_FIELD= "noField";
     public static final String GRANTS_GOV_LINK="message.grantsgov.link";
+    
+    // custom attribute
+    public static final String CUSTOM_ATTRIBUTE_ID = "customAttributeId";
 }
