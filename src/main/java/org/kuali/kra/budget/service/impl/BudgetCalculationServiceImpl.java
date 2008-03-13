@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -130,8 +132,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      */
     public void calculateBudgetTotals(BudgetDocument budgetDocument){
         // do we need to cache the totals ?
-        Map<CostElement, List> objectCodeTotals = new HashMap <CostElement, List> ();
-        Map<RateType, List> calculatedExpenseTotals = new HashMap <RateType, List> ();
+        SortedMap<CostElement, List> objectCodeTotals = new TreeMap <CostElement, List> ();
+        SortedMap<RateType, List> calculatedExpenseTotals = new TreeMap <RateType, List> ();
         for (BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
             List <CostElement> objectCodes = new ArrayList<CostElement>();
             QueryList lineItemQueryList = new QueryList();

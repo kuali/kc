@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
@@ -97,8 +98,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<InstituteLaRate> instituteLaRates;
     private List<RateClass> rateClasses;
     private List<RateClassType> rateClassTypes;
-    private Map <CostElement, List> objectCodeTotals ;
-    private Map <RateType, List> calculatedExpenseTotals ;
+    private SortedMap <CostElement, List> objectCodeTotals ;
+    private SortedMap <RateType, List> calculatedExpenseTotals ;
     
     public BudgetDocument(){
         super();
@@ -552,19 +553,19 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         KraServiceLocator.getService(BudgetCalculationService.class).calculateBudgetTotals(this);
     }
 
-    public Map<CostElement, List> getObjectCodeTotals() {
+    public SortedMap<CostElement, List> getObjectCodeTotals() {
         return objectCodeTotals;
     }
 
-    public void setObjectCodeTotals(Map<CostElement, List> objectCodeTotals) {
+    public void setObjectCodeTotals(SortedMap<CostElement, List> objectCodeTotals) {
         this.objectCodeTotals = objectCodeTotals;
     }
 
-    public Map<RateType, List> getCalculatedExpenseTotals() {
+    public SortedMap<RateType, List> getCalculatedExpenseTotals() {
         return calculatedExpenseTotals;
     }
 
-    public void setCalculatedExpenseTotals(Map<RateType, List> calculatedExpenseTotals) {
+    public void setCalculatedExpenseTotals(SortedMap<RateType, List> calculatedExpenseTotals) {
         this.calculatedExpenseTotals = calculatedExpenseTotals;
     }
 
