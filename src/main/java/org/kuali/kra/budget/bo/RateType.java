@@ -21,17 +21,12 @@ import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class RateType extends KraPersistableBusinessObjectBase {
+public class RateType extends KraPersistableBusinessObjectBase implements Comparable {
     private String rateClassCode;
     private String rateTypeCode;
     private String description;
     private RateClass rateClass;
     private static Map<String, String> rateClassPrefixes = new HashMap<String, String>();
-    static {
-        rateClassPrefixes.put("O", "OH");
-        rateClassPrefixes.put("E", "Employee Benefits");
-        rateClassPrefixes.put("V", "Vacation");
-    }
 
 
     public String getRateClassCode() {
@@ -74,8 +69,9 @@ public class RateType extends KraPersistableBusinessObjectBase {
      * @return
      */
     public String getRateClassPrefix() {
-        //this.refreshReferenceObject("rateClass");
-        return rateClassPrefixes.get(getRateClass().getRateClassType());
+        this.refreshReferenceObject("rateClass");
+        RateClassType rateClassType = getRateClass().getRateClassTypeT();
+        return rateClassType.getDescription();
     }
 
     public RateClass getRateClass() {
@@ -85,4 +81,20 @@ public class RateType extends KraPersistableBusinessObjectBase {
     public void setRateClass(RateClass rateClass) {
         this.rateClass = rateClass;
     }
+    
+    /**
+     * This is for totals page to sort it by rateclasstypecode
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(Object o) {
+        return compareTo((RateType) o);
+    }
+    
+    public int compareTo(RateType rateType) {
+        rateType.refreshReferenceObject("rateClass");
+        this.refreshReferenceObject("rateClass");
+
+        return this.rateClass.getRateClassCode().compareTo(rateType.rateClass.getRateClassCode());
+    }
+
 }
