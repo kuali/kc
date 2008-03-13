@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.service;
 import java.util.List;
 
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
@@ -87,4 +88,12 @@ public interface ProposalAuthorizationService {
      * @return the list of persons in the role for the proposal
      */
     public List<Person> getPersonsInRole(ProposalDevelopmentDocument doc, String roleName);
+    
+    /**
+     * Get the list of all of the proposal roles and the persons in those
+     * roles for a given proposal.
+     * @param doc the proposal development document
+     * @return the list of all roles and the people in those roles
+     */
+    public List<RolePersons> getAllRolePersons(ProposalDevelopmentDocument doc);
 }
