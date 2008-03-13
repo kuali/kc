@@ -34,6 +34,11 @@
         		<th align="right" valign="middle">Proposal:</th>
         		<td align="left" valign="middle">yes</td>
         	</tr>
+        	
+        	<tr>
+                <th align="right" valign="middle">Lead Unit:</th>
+                <td align="left" valign="middle">${KualiForm.copyCriteria.originalLeadUnitNumber}</td>
+            </tr>
         		
         	<tr>
         		<th align="right" valign="middle">
@@ -62,6 +67,17 @@
                 </td>
 			</tr>
 			
+			<tr>
+                <th align="right" valign="middle">
+                    <kul:htmlAttributeLabel attributeEntry="${proposalCopyCriteriaAttributes.leadUnitNumber}" />
+                </th>
+                
+                <td align="left" valign="middle">
+                    <kul:htmlControlAttribute property="copyCriteria.leadUnitNumber" 
+                                              attributeEntry="${proposalCopyCriteriaAttributes.leadUnitNumber}" />
+                </td>
+            </tr>
+            
 			<tr>
 				<td align="center" colspan="2">
 					<div align="center">
