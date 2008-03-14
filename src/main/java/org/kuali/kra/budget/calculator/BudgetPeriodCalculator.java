@@ -38,6 +38,7 @@ import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.GreaterThan;
 import org.kuali.kra.budget.calculator.query.LesserThan;
+import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.ObjectCloner;
 import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -46,6 +47,10 @@ import org.kuali.rice.KNSServiceLocator;
 
 public class BudgetPeriodCalculator {
     private static final String PERSONNEL_CATEGORY = "P";
+    /**
+     * Cannot perform this operation on a line item with personel budget details.
+     */
+    private static final String CANNOT_PERFORM_THIS_OPERATION_ON_PERSONNEL_LINE_ITEM = "Cannot perform this operation on a line item with personel budget details.";
     private BudgetCalculationService budgetCalculationService;
     private DateTimeService dateTimeService;
     private List<String> errorMessages;
@@ -75,13 +80,15 @@ public class BudgetPeriodCalculator {
             budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItem);
             budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().add(budgetLineItem.getDirectCost()));
             budgetPeriod.setTotalIndirectCost(budgetPeriod.getTotalIndirectCost().add(budgetLineItem.getIndirectCost()));
-            budgetPeriod.setTotalCost(budgetPeriod.getTotalIndirectCost().add(budgetPeriod.getTotalDirectCost()));
+            budgetPeriod.setTotalCost(budgetPeriod.getTotalCost().add(budgetLineItem.getDirectCost().add(budgetLineItem.getIndirectCost())));
+            budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getUnderrecoveryAmount().add(budgetLineItem.getUnderrecoveryAmount()));
+            budgetPeriod.setCostSharingAmount(budgetPeriod.getCostSharingAmount().add(budgetLineItem.getCostSharingAmount()));
         }
         // syncBudgetTotals(budgetDocument);
     }
 
     /** apply to later periods. */
-    public boolean applyToLaterPeriods(BudgetDocument budgetDocument, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
+    public void applyToLaterPeriods(BudgetDocument budgetDocument, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
         try {
             if (StringUtils.isNotBlank(budgetDetailBean.getCostElement())) {
                 Integer currentPeriod = budgetPeriodBean.getBudgetPeriod();
@@ -133,12 +140,12 @@ public class BudgetPeriodCalculator {
                         nextBudgetDetailBean = filteredBudgetLineItems.get(0);
                         vecBudgetPersonnelDetails = new QueryList<BudgetPersonnelDetails>(nextBudgetDetailBean
                                 .getBudgetPersonnelDetailsList());
-                        if (nextBudgetDetailBean.getBudgetCategory().getCategoryType() == PERSONNEL_CATEGORY
+                        if (nextBudgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode() == PERSONNEL_CATEGORY
                                 || (vecBudgetPersonnelDetails != null && vecBudgetPersonnelDetails.size() > 0)) {
                             errorMessages.add("This line item contains personnel budget details"
                                     + " and there is already a line item on period " + period + " based on this line item. \n"
                                     + "Cannot apply the changes to later periods.");
-                            return false;
+                            return;
                         }
                         // Display this message only Once.
                         // if(displayMessage) {
@@ -287,12 +294,12 @@ public class BudgetPeriodCalculator {
                     }// End For Copy Personnel Detail Beans
                 }// End For - Periods
             }
-            return true;
+            return;
         }
         catch (Exception ex) {
             LOG.error(ex);
             errorMessages.add(ex.getMessage());
-            return false;
+            return;
         }
     }
 
@@ -339,4 +346,113 @@ public class BudgetPeriodCalculator {
         }// End If vecCE != null ...
         return lineItemCost;
     }
+
+    /**
+     * Cost limit for this period is set to 0. Cannot sync a line item cost to zero limit.
+     */
+    private static final String CANNOT_SYNC_TO_ZERO_LIMIT = "Cost limit for this period is set to 0. Cannot sync a line item cost to zero limit.";
+    /**
+     * Cost limit and total cost for this period is already in sync.
+     */
+    private static final String TOTAL_COST_ALREADY_IN_SYNC = "Cost limit and total cost for this period is already in sync.";
+
+    /**
+     * Insufficient amount on the line item to sync with cost limit.
+     */
+    private static final String INSUFFICIENT_AMOUNT_TO_SYNC = "Insufficient amount on the line item to sync with cost limit.";
+
+    public void syncToPeriodCostLimit(BudgetDocument budgetDocument, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
+        // //If cost element is null disp msg "Cannot perform this operation if cost element is not present."
+        // if(budgetPeriodTableModel.getValueAt(selectedRow, COST_ELEMENT_COLUMN) == null ||
+        // budgetPeriodTableModel.getValueAt(selectedRow, COST_ELEMENT_COLUMN).equals(EMPTY_STRING)) {
+        // CoeusOptionPane.showInfoDialog(coeusMessageResources.parseMessageKey(
+        // COST_ELEMENT_NOT_PRESENT));
+        // return ;
+        // }
+        //        
+
+        Equals eqBudgetPeriod = new Equals("budgetPeriod", new Integer(budgetDetailBean.getBudgetPeriod()));
+        Equals eqLINumber = new Equals("lineItemNumber", new Integer(budgetDetailBean.getLineItemNumber()));
+        And eqBudgetPeriodAndEqLINumber = new And(eqBudgetPeriod, eqLINumber);
+
+        if (budgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode().equals(PERSONNEL_CATEGORY)) {
+            errorMessages.add(CANNOT_PERFORM_THIS_OPERATION_ON_PERSONNEL_LINE_ITEM);
+            return;
+        }
+
+        // if cost_limit is 0 disp msg "Cost limit for this period is set to 0. Cannot sync a line item cost to zero limit."
+        if (budgetPeriodBean.getTotalCostLimit().equals(BudgetDecimal.ZERO)) {
+            errorMessages.add(CANNOT_SYNC_TO_ZERO_LIMIT);
+            return;
+        }
+        calculate(budgetDocument, budgetPeriodBean);
+
+        // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."
+        BudgetDecimal periodTotal = budgetPeriodBean.getTotalCost();
+        BudgetDecimal costLimit = budgetPeriodBean.getTotalCostLimit();
+
+        if (periodTotal == costLimit) {
+            errorMessages.add(TOTAL_COST_ALREADY_IN_SYNC);
+            return;
+        }
+
+        // if(periodTotal.isGreaterThan(costLimit)) {
+        // //TODO: display confirmation
+        // //"Period total is greater than the cost limit for this period.Do you want to reduce this line item cost to make the
+        // total cost same as cost limit"
+        // }//End IF total_cost > cost_limit
+
+        // Set the Difference as TotalCostLimit minus TotalCost.
+        BudgetDecimal difference = costLimit.subtract(periodTotal);
+        BudgetDecimal lineItemCost = budgetDetailBean.getLineItemCost();
+        BudgetDecimal multifactor;
+
+        // If line_item_cost is 0 then set the value of line_item_cost in line_items to 10000.
+        if (lineItemCost.equals(BudgetDecimal.ZERO)) {
+            budgetDetailBean.setLineItemCost(new BudgetDecimal(10000));
+        }
+
+        calculate(budgetDocument, budgetPeriodBean);
+
+        QueryList<BudgetLineItemCalculatedAmount> vecCalAmts = new QueryList<BudgetLineItemCalculatedAmount>(budgetDetailBean
+                .getBudgetLineItemCalculatedAmounts());
+
+        BudgetDecimal totalNOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new NotEquals("rateClassType",
+            RateClassType.OVERHEAD.getRateClassType()));
+        BudgetDecimal totalOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new Equals("rateClassType",
+            RateClassType.OVERHEAD.getRateClassType()));
+
+        BudgetDecimal totalCost = budgetDetailBean.getLineItemCost().add(totalNOHCalcAmount).add(totalOHCalcAmount);
+
+        // If the lineItemCost <> 0, set multifactor to TotalCost divided by lineItemCost otherwise multifactor is TotalCost divided
+        // by 10000
+        if (!lineItemCost.equals(BudgetDecimal.ZERO)) {
+            multifactor = totalCost.divide(lineItemCost);
+        }else {
+            multifactor = totalCost.divide(new BudgetDecimal(10000));
+            budgetDetailBean.setLineItemCost(BudgetDecimal.ZERO);
+            calculate(budgetDocument, budgetPeriodBean);
+            totalCost = BudgetDecimal.ZERO;
+        }
+
+        if ((totalCost.add(difference)).isLessEqual(BudgetDecimal.ZERO)) {
+            errorMessages.add(INSUFFICIENT_AMOUNT_TO_SYNC);
+            // CoeusOptionPane.showErrorDialog(INSUFFICIENT_AMOUNT_TO_SYNC);
+            return;
+        }
+
+        // Set New Cost
+        BudgetDecimal newCost = lineItemCost.add((difference.divide(multifactor)));
+        budgetDetailBean.setLineItemCost(newCost);
+        calculate(budgetDocument, budgetPeriodBean);
+    }
+
+    public List<String> getErrorMessages() {
+        return errorMessages;
+    }
+
+    public void setErrorMessages(List<String> errorMessages) {
+        this.errorMessages = errorMessages;
+    }
+
 }
