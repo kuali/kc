@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.budget.bo;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -26,7 +24,6 @@ public class RateType extends KraPersistableBusinessObjectBase implements Compar
     private String rateTypeCode;
     private String description;
     private RateClass rateClass;
-    private static Map<String, String> rateClassPrefixes = new HashMap<String, String>();
 
 
     public String getRateClassCode() {
