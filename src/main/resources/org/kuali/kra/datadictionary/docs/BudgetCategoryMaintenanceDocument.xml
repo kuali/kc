@@ -50,7 +50,7 @@
             <maintainableSection title="Edit BudgetCategory">
                 <maintainableItems>
                 	<maintainableField name="budgetCategoryCode" required="true"/>
-					<maintainableField name="categoryType" required="false"/>
+					<maintainableField name="budgetCategoryTypeCode" required="false"/>
 					<maintainableField name="description" required="true"/>
 
                     <maintainableField name="versionNumber" />

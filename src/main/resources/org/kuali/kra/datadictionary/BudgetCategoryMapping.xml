@@ -24,7 +24,7 @@
             <title>Budget Category Mapping</title>
 
             <inquirySections><inquirySection title="Budget Category Mapping"><inquiryFields>
-            	<field attributeName="coeusCategoryCode" forceInquiry="true"/>
+            	<field attributeName="budgetCategoryCode" forceInquiry="true"/>
 				<field attributeName="mappingName" forceInquiry="true"/>
 				<field attributeName="targetCategoryCode" forceInquiry="true"/>
 
@@ -40,7 +40,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                	<sortAttribute attributeName="coeusCategoryCode"/>
+                	<sortAttribute attributeName="budgetCategoryCode"/>
 					<sortAttribute attributeName="mappingName"/>
 					<sortAttribute attributeName="targetCategoryCode"/>
 
@@ -48,14 +48,14 @@
             </defaultSort>
 
             <lookupFields>
-            	<lookupField attributeName="coeusCategoryCode" required="false"/>
+            	<lookupField attributeName="budgetCategoryCode" required="false"/>
 				<lookupField attributeName="mappingName" required="false"/>
 				<lookupField attributeName="targetCategoryCode" required="false"/>
 
             </lookupFields>
 
             <resultFields>
-            	<field attributeName="coeusCategoryCode" forceInquiry="true"/>
+            	<field attributeName="budgetCategoryCode" forceInquiry="true"/>
 				<field attributeName="mappingName" forceInquiry="true"/>
 				<field attributeName="targetCategoryCode" forceInquiry="true"/>
 
@@ -67,7 +67,7 @@
 		<titleAttribute>targetCategoryCode</titleAttribute>
         <attributes>
 
-	        <attribute name="coeusCategoryCode">
+	        <attribute name="budgetCategoryCode">
 			<label>Coeus Category Code </label>
 			<shortLabel>Coeus Category Code </shortLabel>
 			<maxLength>3</maxLength>
