@@ -42,7 +42,7 @@
         <description>Document used to create or update BudgetCategoryMapping Reference objects</description>
 
         <lockingKeys>
-        	<field attributeName="coeusCategoryCode"/>
+        	<field attributeName="budgetCategoryCode"/>
 			<field attributeName="mappingName"/>
 			<field attributeName="targetCategoryCode"/>
 
@@ -51,7 +51,7 @@
         <maintainableSections>
             <maintainableSection title="Edit BudgetCategoryMapping">
                 <maintainableItems>
-                	<maintainableField name="coeusCategoryCode" required="true"/>
+                	<maintainableField name="budgetCategoryCode" required="true"/>
 					<maintainableField name="mappingName" required="true"/>
 					<maintainableField name="targetCategoryCode" required="true"/>
 
