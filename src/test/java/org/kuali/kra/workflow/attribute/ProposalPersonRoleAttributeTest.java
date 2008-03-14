@@ -27,6 +27,7 @@ import org.kuali.core.UserSession;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -34,6 +35,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.workflow.ProposalPersonRoleAttribute;
 import org.kuali.rice.KNSServiceLocator;
 import edu.iu.uis.eden.Id;
+import edu.iu.uis.eden.KEWServiceLocator;
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
 import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
@@ -64,15 +66,13 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
     }
     @Test
     public void proposalpersontest() throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
-        setDocumentFields(document);
-        documentService.saveDocument(document);
+        ProposalDevelopmentDocument proposaldevelopmentdocument = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        setDocumentFields(proposaldevelopmentdocument);
+       documentService.saveDocument(proposaldevelopmentdocument);
+        DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(proposaldevelopmentdocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+        RouteContext routecontext=RouteContext.createNewRouteContext();
+        routecontext.setDocument(routeHeader);
         ProposalPersonRoleAttribute roleattribute=new ProposalPersonRoleAttribute();
-        RouteContext routecontext=new RouteContext();
-        DocumentRouteHeaderValue documentheadervalue=new DocumentRouteHeaderValue();
-        documentheadervalue.setDocumentTypeId(Long.parseLong(document.getDocumentHeader().getDocumentNumber()));
-        documentheadervalue.setDocTitle(document.getDocumentTitle());
-        routecontext.setDocument(documentheadervalue);
         ResolvedQualifiedRole resolvedrole=roleattribute.resolveQualifiedRole(routecontext, PROPOSAL_INVESTIGATOR_ROLE.getName(), PROPOSAL_INVESTIGATOR_ROLE.getBaseName());
        
         for (Iterator<Id> ids = resolvedrole.getRecipients().iterator(); ids.hasNext();) {
