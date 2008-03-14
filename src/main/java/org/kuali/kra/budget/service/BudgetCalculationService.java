@@ -77,4 +77,19 @@ public interface BudgetCalculationService {
      */
     public void calculateBudgetTotals(BudgetDocument budgetDocument);
 
+    /**
+     * This method is to apply budgetlineitem details to all later periods
+     * @param budgetDocument
+     * @param budgetPeriod
+     * @param budgetLineItem
+     */
+    public void applyToLaterPeriods(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
+    /**
+     * This method is to adjust the line item cost to total cost limit of a period
+     * @param budgetDocument
+     * @param budgetPeriod
+     * @param budgetLineItem
+     */
+    public void syncToPeriodCostLimit(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
+    
 }

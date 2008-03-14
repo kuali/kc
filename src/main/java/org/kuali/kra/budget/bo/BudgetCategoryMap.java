@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
@@ -24,6 +26,11 @@ public class BudgetCategoryMap extends KraPersistableBusinessObjectBase {
 	private String targetCategoryCode;
 	private String categoryType;
 	private String description;
+    private List<BudgetCategoryMapping> budgetCategoryMappings;
+
+    public BudgetCategoryMap(){
+        budgetCategoryMappings  = new ArrayList<BudgetCategoryMapping>();
+    }
 
 	public String getMappingName() {
 		return mappingName;
@@ -67,4 +74,20 @@ public class BudgetCategoryMap extends KraPersistableBusinessObjectBase {
 		hashMap.put("description", getDescription());
 		return hashMap;
 	}
+
+    /**
+     * Gets the budgetCategoryMappings attribute. 
+     * @return Returns the budgetCategoryMappings.
+     */
+    public List<BudgetCategoryMapping> getBudgetCategoryMappings() {
+        return budgetCategoryMappings;
+    }
+
+    /**
+     * Sets the budgetCategoryMappings attribute value.
+     * @param budgetCategoryMappings The budgetCategoryMappings to set.
+     */
+    public void setBudgetCategoryMappings(List<BudgetCategoryMapping> budgetCategoryMappings) {
+        this.budgetCategoryMappings = budgetCategoryMappings;
+    }
 }
