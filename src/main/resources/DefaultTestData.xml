@@ -21,15 +21,15 @@
 		</ApplicationConstant>
 		<ApplicationConstant>
 			<ConstantName>DocumentSearch.IsRouteLogPopup</ConstantName>
-			<ConstantValue>false</ConstantValue>
-		</ApplicationConstant>
-		<ApplicationConstant>
-			<ConstantName>DocumentSearch.IsDocumentPopup</ConstantName>
 			<ConstantValue>true</ConstantValue>
 		</ApplicationConstant>
 		<ApplicationConstant>
-			<ConstantName>ActionList.IsRouteLogPopup</ConstantName>
+			<ConstantName>DocumentSearch.IsDocumentPopup</ConstantName>
 			<ConstantValue>false</ConstantValue>
+		</ApplicationConstant>
+		<ApplicationConstant>
+			<ConstantName>ActionList.IsRouteLogPopup</ConstantName>
+			<ConstantValue>true</ConstantValue>
 		</ApplicationConstant>
 		<ApplicationConstant>
 			<ConstantName>ActionList.IsDocumentPopup</ConstantName>
@@ -198,6 +198,27 @@
 			<ConstantName>EDL.DebugTransform</ConstantName>
 			<ConstantValue>false</ConstantValue>
 		</ApplicationConstant>
+		<ApplicationConstant>
+			<ConstantName>ChartOrg.Search.Instruction</ConstantName>
+			<ConstantValue>Enter ChartOrg criteria and click the search button</ConstantValue>
+		</ApplicationConstant>
+		<ApplicationConstant>
+			<ConstantName>Config.Application.RunDeactivationDate</ConstantName>
+			<ConstantValue>false</ConstantValue>
+		</ApplicationConstant>
+		<ApplicationConstant>
+			<ConstantName>DocumentType.CreateNew.Instruction</ConstantName>
+			<ConstantValue>Create or modify a document type</ConstantValue>
+		</ApplicationConstant>
+		<ApplicationConstant>
+			<ConstantName>Rule.IsRouteLogPopup</ConstantName>
+			<ConstantValue>true</ConstantValue>
+		</ApplicationConstant>
+		<ApplicationConstant>
+			<ConstantName>SubAccount.Search.Instruction</ConstantName>
+			<ConstantValue>Enter SubAccount criteria and click the search button</ConstantValue>
+		</ApplicationConstant>
+		
 	</ApplicationConstants>
 	<users xmlns="ns:workflow/User" xsi:schemaLocation="ns:workflow/User resource:User">
 		<user>
@@ -273,7 +294,7 @@
 			<givenName>KULUSER</givenName>
 			<lastName>KULUSER</lastName>
 		</user>
-		<user>
+		<user> <!--  ?? -->
 			<workflowId>fred</workflowId>
 			<emplId>fred</emplId>
 			<authenticationId>fred</authenticationId>
@@ -349,7 +370,7 @@
 			</members>
 		</workgroup>
 	</workgroups>
-		<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
 		<ruleTemplate allowOverwrite="true">
 			<name>WorkflowDocumentTemplate</name>
 			<description>Workflow Document Template</description>
@@ -607,7 +628,7 @@
 				</start>
 			</routeNodes>
 		</documentType>
-		-->
+		
 		<documentType>
 			<name>FiscalOfficerMaintenanceDocument</name>
 			<description>Create a New Travel Fiscal Officer</description>
@@ -628,6 +649,7 @@
 				</start>
 			</routeNodes>
 		</documentType>
+		-->
 	</documentTypes>
 	<rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
 		<rule>
