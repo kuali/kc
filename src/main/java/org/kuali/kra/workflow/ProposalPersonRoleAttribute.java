@@ -57,7 +57,7 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         List<Id> members = new ArrayList<Id>();
         UserId roleUserId = null;
         ProposalPersonRoleService proposalpersonroleservice = KraServiceLocator.getService(ProposalPersonRoleService.class);
-        String  documentid= routeContext.getDocument().getDocumentTypeId().toString();
+        String  documentid= routeContext.getDocument().getRouteHeaderId().toString();
         if (StringUtils.equals(PROPOSAL_INVESTIGATOR_ROLE.getBaseName(), qualifiedRole)) {
             List<String> proposalinvestigator=proposalpersonroleservice.getProposalInvestigator(documentid);
             for (Iterator<String> pis = proposalinvestigator.iterator(); pis.hasNext();) {
