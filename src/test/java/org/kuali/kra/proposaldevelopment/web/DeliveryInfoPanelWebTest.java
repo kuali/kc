@@ -34,7 +34,7 @@ public class DeliveryInfoPanelWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void mailingInfoValidation() throws Exception {
-        HtmlPage proposalDevelopmentPage = lookup(getProposalDevelopmentPage(), "mailingAddressId", "rolodexId", "21170");
+        HtmlPage proposalDevelopmentPage = lookup(getProposalDevelopmentPage(), "mailingAddressId", "rolodexId", "1741");
         
         HtmlElement firstName = getElementById(proposalDevelopmentPage, "mailingFirstName");
         HtmlElement middleName = getElementById(proposalDevelopmentPage, "mailingMiddleName");
