@@ -1602,7 +1602,16 @@
 	</class-descriptor>    
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetCategory" table="BUDGET_CATEGORY">
 		<field-descriptor name="budgetCategoryCode" column="BUDGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="categoryType" column="CATEGORY_TYPE" jdbc-type="CHAR" />
+		<field-descriptor name="budgetCategoryTypeCode" column="CATEGORY_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="budgetCategoryType" class-ref="org.kuali.kra.budget.bo.BudgetCategoryType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="budgetCategoryTypeCode"/> 
+		</reference-descriptor>
+	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.budget.bo.BudgetCategoryType" table="BUDGET_CATEGORY_TYPE">
+		<field-descriptor name="budgetCategoryTypeCode" column="BUDGET_CATEGORY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -1614,13 +1623,20 @@
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<collection-descriptor name="budgetCategoryMappings" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetCategoryMapping" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="mappingName"/>
+			<inverse-foreignkey field-ref="targetCategoryCode"/>
+		</collection-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetCategoryMapping" table="BUDGET_CATEGORY_MAPPING">
-		<field-descriptor name="coeusCategoryCode" column="COEUS_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="budgetCategoryCode" column="COEUS_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="mappingName" column="MAPPING_NAME" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="targetCategoryCode" column="TARGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="budgetCategory" class-ref="org.kuali.kra.budget.bo.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="budgetCategoryCode"/>
+		</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount" table="BUDGET_DETAILS_CAL_AMTS">
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" primarykey="true"/>
