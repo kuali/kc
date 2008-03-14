@@ -21,9 +21,10 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BudgetCategory extends KraPersistableBusinessObjectBase {
 	private String budgetCategoryCode;
-	private String categoryType;
+	private String budgetCategoryTypeCode;
 	private String description;
-
+	private BudgetCategory budgetCategoryType;
+	
 	public String getBudgetCategoryCode() {
 		return budgetCategoryCode;
 	}
@@ -32,12 +33,12 @@ public class BudgetCategory extends KraPersistableBusinessObjectBase {
 		this.budgetCategoryCode = budgetCategoryCode;
 	}
 
-	public String getCategoryType() {
-		return categoryType;
+	public String getBudgetCategoryTypeCode() {
+		return budgetCategoryTypeCode;
 	}
 
-	public void setCategoryType(String categoryType) {
-		this.categoryType = categoryType;
+	public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
+		this.budgetCategoryTypeCode = budgetCategoryTypeCode;
 	}
 
 	public String getDescription() {
@@ -53,8 +54,25 @@ public class BudgetCategory extends KraPersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("budgetCategoryCode", getBudgetCategoryCode());
-		hashMap.put("categoryType", getCategoryType());
+		hashMap.put("categoryType", getBudgetCategoryTypeCode());
 		hashMap.put("description", getDescription());
 		return hashMap;
 	}
+
+    /**
+     * Gets the budgetCategoryType attribute. 
+     * @return Returns the budgetCategoryType.
+     */
+    public BudgetCategory getBudgetCategoryType() {
+        return budgetCategoryType;
+    }
+
+    /**
+     * Sets the budgetCategoryType attribute value.
+     * @param budgetCategoryType The budgetCategoryType to set.
+     */
+    public void setBudgetCategoryType(BudgetCategory budgetCategoryType) {
+        this.budgetCategoryType = budgetCategoryType;
+    }
+
 }
