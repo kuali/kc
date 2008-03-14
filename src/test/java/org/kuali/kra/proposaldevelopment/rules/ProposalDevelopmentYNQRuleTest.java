@@ -28,6 +28,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
+import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -49,7 +50,7 @@ public class ProposalDevelopmentYNQRuleTest extends ProposalDevelopmentRuleTestB
         super.setUp();
         rule = new ProposalDevelopmentDocumentRule();
         bos = KraServiceLocator.getService(BusinessObjectService.class);
-        proposalYnqs = (List)bos.findAll(ProposalYnq.class);
+        proposalYnqs = (List)bos.findAll(Ynq.class);
     }
 
     @After
