@@ -530,6 +530,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         instituteRates = getFilteredInstituteRates(budgetDocument, allInstituteRates);
         for(InstituteRate instituteRate: instituteRates) {
             String rateClassCode = instituteRate.getRateClassCode();
+            if(instituteRate.getRateClass()==null){
+                continue;
+            }
             String rateClassType = instituteRate.getRateClass().getRateClassType();
             /* Add applicable rate class */
             if(rateClassMap.get(rateClassCode) == null) {

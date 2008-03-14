@@ -15,21 +15,24 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class BudgetCategoryMapping extends KraPersistableBusinessObjectBase {
-	private String coeusCategoryCode;
+	private String budgetCategoryCode;
 	private String mappingName;
 	private String targetCategoryCode;
-
-	public String getCoeusCategoryCode() {
-		return coeusCategoryCode;
+	private BudgetCategory budgetCategory;
+	
+	public String getBudgetCategoryCode() {
+		return budgetCategoryCode;
 	}
 
-	public void setCoeusCategoryCode(String coeusCategoryCode) {
-		this.coeusCategoryCode = coeusCategoryCode;
+	public void setBudgetCategoryCode(String budgetCategoryCode) {
+		this.budgetCategoryCode = budgetCategoryCode;
 	}
 
 	public String getMappingName() {
@@ -52,9 +55,25 @@ public class BudgetCategoryMapping extends KraPersistableBusinessObjectBase {
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("coeusCategoryCode", getCoeusCategoryCode());
+		hashMap.put("budgetCategoryCode", getBudgetCategoryCode());
 		hashMap.put("mappingName", getMappingName());
 		hashMap.put("targetCategoryCode", getTargetCategoryCode());
 		return hashMap;
 	}
+
+    /**
+     * Gets the budgetCategory attribute. 
+     * @return Returns the budgetCategory.
+     */
+    public BudgetCategory getBudgetCategory() {
+        return budgetCategory;
+    }
+
+    /**
+     * Sets the budgetCategory attribute value.
+     * @param budgetCategory The budgetCategory to set.
+     */
+    public void setBudgetCategory(BudgetCategory budgetCategory) {
+        this.budgetCategory = budgetCategory;
+    }
 }

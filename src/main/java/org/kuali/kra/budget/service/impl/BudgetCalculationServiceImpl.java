@@ -195,4 +195,22 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 
     }
 
+    public void syncToPeriodCostLimit(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
+        BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
+        periodCalculator.syncToPeriodCostLimit(budgetDocument, budgetPeriod, budgetLineItem);
+        List<String> errors = periodCalculator.getErrorMessages();
+        if(!errors.isEmpty()){
+          //TODO:handle errors
+        }
+    }
+
+    public void applyToLaterPeriods(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
+        BudgetPeriodCalculator periodCalculator = new BudgetPeriodCalculator();
+        periodCalculator.applyToLaterPeriods(budgetDocument, budgetPeriod, budgetLineItem);
+        List<String> errors = periodCalculator.getErrorMessages();
+        if(!errors.isEmpty()){
+            //TODO:handle errors
+        }
+    }
+
 }
