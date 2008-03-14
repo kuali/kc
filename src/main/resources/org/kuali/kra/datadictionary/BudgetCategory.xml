@@ -25,7 +25,7 @@
 
             <inquirySections><inquirySection title="Budget Category"><inquiryFields>
             	<field attributeName="budgetCategoryCode" forceInquiry="true"/>
-				<field attributeName="categoryType"/>
+				<field attributeName="budgetCategoryTypeCode"/>
 				<field attributeName="description"/>
 
             </inquiryFields></inquirySection></inquirySections>
@@ -47,14 +47,14 @@
 
             <lookupFields>
             	<lookupField attributeName="budgetCategoryCode" required="false"/>
-				<lookupField attributeName="categoryType" required="false"/>
+				<lookupField attributeName="budgetCategoryTypeCode" required="false"/>
 				<lookupField attributeName="description" required="false"/>
 
             </lookupFields>
 
             <resultFields>
             	<field attributeName="budgetCategoryCode" forceInquiry="true"/>
-				<field attributeName="categoryType" forceInquiry="false"/>
+				<field attributeName="budgetCategoryTypeCode" forceInquiry="false"/>
 				<field attributeName="description" forceInquiry="false"/>
 
             </resultFields>
@@ -75,7 +75,7 @@
 			<description>Budget Category Code </description>
 			</attribute>
 
-			<attribute name="categoryType">
+			<attribute name="budgetCategoryTypeCode">
 			<label>Category Type </label>
 			<shortLabel>Category Type </shortLabel>
 			<maxLength>1</maxLength>
