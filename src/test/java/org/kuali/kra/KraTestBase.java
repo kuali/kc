@@ -36,7 +36,8 @@ import org.kuali.rice.testharness.TransactionalLifecycle;
 @PerSuiteUnitTestData(
         @UnitTestData(
             sqlFiles = {
-                @UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY.sql", delimiter = ";")
+                @UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY_TYPE.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY_MAPPING.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_CATEGORY_MAPS.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_COST_ELEMENT.sql", delimiter = ";")
