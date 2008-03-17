@@ -708,6 +708,27 @@ CONSTRAINT "PK_S2S_APPLICATION_KRA" PRIMARY KEY ("PROPOSAL_NUMBER") ENABLE
 ) ;                                                                             
                                                                                 
                                                                                 
+CREATE TABLE "BUDGET_COST_SHARES"                                               
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_COST_SHARE_PN" NOT NULL     
+ENABLE,                                                                         
+"BUDGET_VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_COST_SHARE_BV" NOT NULL  
+ENABLE,                                                                         
+"COST_SHARE_ID" NUMBER(5,0) CONSTRAINT "BUDGET_COST_SHARE_ID" NOT NULL ENABLE,  
+"FISCAL_YEAR" NUMBER(4,0),                                                      
+"SHARE_AMOUNT" NUMBER(12,2),                                                    
+"SHARE_PCT" NUMBER(6,2),                                                        
+"SOURCE_ACCOUNT" VARCHAR2(255),                                                 
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGET_COST_SHARE_UT" NOT NULL ENABLE,      
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET_COST_SHARE_UU" NOT NULL ENABLE,    
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGET_COST_SHARE_VN" NOT NULL      
+ENABLE,                                                                         
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "BUDGET_COST_SHARE_OI" NOT  
+NULL ENABLE,                                                                    
+CONSTRAINT "PK_BUDGET_COST_SHARE_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",           
+"BUDGET_VERSION_NUMBER", "COST_SHARE_ID") ENABLE
+   ) ;
+                        
+                                                                                
 CREATE TABLE "BUDGET_PERSONS"                                                   
 (	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_PERSONSN1" NOT NULL ENABLE, 
 "VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PERSONSN2" NOT NULL ENABLE,     
@@ -912,7 +933,7 @@ CREATE TABLE "BUDGET_CATEGORY"
 (	"BUDGET_CATEGORY_CODE" VARCHAR2(3) CONSTRAINT "BUDGET_CATEGORYN1" NOT NULL    
 ENABLE,                                                                         
 "DESCRIPTION" VARCHAR2(200) CONSTRAINT "BUDGET_CATEGORYN2" NOT NULL ENABLE,     
-"CATEGORY_TYPE" CHAR(1),                                                        
+"CATEGORY_TYPE" VARCHAR2(3),                                                    
 "UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGET_CATEGORYN3" NOT NULL ENABLE,         
 "UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET_CATEGORYN4" NOT NULL ENABLE,       
 "VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGET_CATEGORYN5" NOT NULL ENABLE, 
@@ -1776,22 +1797,6 @@ CONSTRAINT "PK_EPS_PROP_PERS_YNQ_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",
 "PROP_PERSON_NUMBER", "QUESTION_ID") ENABLE                                     
 ) ;
                                                                             
-                                                                                
-CREATE TABLE "EPS_PROP_YNQ"                                                     
-(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_YNQN1" NOT NULL ENABLE,   
-"QUESTION_ID" VARCHAR2(4) CONSTRAINT "EPS_PROP_YNQN2" NOT NULL ENABLE,          
-"ANSWER" CHAR(1),                                                               
-"EXPLANATION" LONG,                                                             
-"REVIEW_DATE" DATE,                                                             
-"UPDATE_TIMESTAMP" DATE CONSTRAINT "EPS_PROP_YNQN4" NOT NULL ENABLE,            
-"UPDATE_USER" VARCHAR2(8) CONSTRAINT "EPS_PROP_YNQN5" NOT NULL ENABLE,          
-"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "EPS_PROP_YNQN6" NOT NULL ENABLE,    
-"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "EPS_PROP_YNQN7" NOT NULL   
-ENABLE,                                                                         
-CONSTRAINT "PK_EPS_PROP_YNQ_KRA" PRIMARY KEY ("PROPOSAL_NUMBER", "QUESTION_ID") 
-ENABLE                                                                          
-) ;                                                                             
-                                                                                
                                                                                 
 CREATE TABLE "EPS_PROP_PERSON_BIO"                                              
 (	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_PERSON_BION1" NOT NULL    
@@ -3611,6 +3616,22 @@ CONSTRAINT "EPS_PROPOSAL_STATUS_C0" UNIQUE ("OBJ_ID") ENABLE
    ) ;
             
                                                                                 
+CREATE TABLE "BUDGET_CATEGORY_TYPE"                                             
+(	"BUDGET_CATEGORY_TYPE_CODE" VARCHAR2(3) CONSTRAINT "BUDGET_CATEGORY_TYPEN1"   
+NOT NULL ENABLE,                                                                
+"DESCRIPTION" VARCHAR2(200) CONSTRAINT "BUDGET_CATEGORY_TYPEN2" NOT NULL ENABLE,
+"SORT_ID" NUMBER(2,0),                                                          
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "BUDGET_CATEGORY_TYPEN3" NOT NULL ENABLE,    
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "BUDGET_CATEGORY_TYPEN4" NOT NULL ENABLE,  
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "BUDGET_CATEGORY_TYPEN5" NOT NULL    
+ENABLE,                                                                         
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "BUDGET_CATEGORY_TYPEN6" NOT
+NULL ENABLE,                                                                    
+CONSTRAINT "PK_BUDGET_CATEGORY_TYPE_KRA" PRIMARY KEY                            
+("BUDGET_CATEGORY_TYPE_CODE") ENABLE                                            
+  ) ;
+                                                                          
+                                                                                
 CREATE TABLE "BUDGET_PERIODS"                                                   
 (	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGET_PERIODSN1" NOT NULL ENABLE, 
 "VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGET_PERIODSN2" NOT NULL ENABLE,     
@@ -3721,6 +3742,22 @@ CONSTRAINT "PK_YNQ_EXPLANATION_KRA" PRIMARY KEY ("QUESTION_ID",
 ) ;                                                                             
                                                                                 
                                                                                 
+CREATE TABLE "EPS_PROP_YNQ"                                                     
+(	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "EPS_PROP_YNQN1" NOT NULL ENABLE,   
+"QUESTION_ID" VARCHAR2(4) CONSTRAINT "EPS_PROP_YNQN2" NOT NULL ENABLE,          
+"ANSWER" CHAR(1),                                                               
+"EXPLANATION" CLOB,                                                             
+"REVIEW_DATE" DATE,                                                             
+"UPDATE_TIMESTAMP" DATE CONSTRAINT "EPS_PROP_YNQN4" NOT NULL ENABLE,            
+"UPDATE_USER" VARCHAR2(8) CONSTRAINT "EPS_PROP_YNQN5" NOT NULL ENABLE,          
+"VER_NBR" NUMBER(8,0) DEFAULT 1 CONSTRAINT "EPS_PROP_YNQN6" NOT NULL ENABLE,    
+"OBJ_ID" VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT "EPS_PROP_YNQN7" NOT NULL   
+ENABLE,                                                                         
+CONSTRAINT "PK_EPS_PROP_YNQ_KRA" PRIMARY KEY ("PROPOSAL_NUMBER", "QUESTION_ID") 
+ENABLE                                                                          
+) ;                                                                             
+                                                                                
+                                                                                
 CREATE TABLE "BUDGET"                                                           
 (	"PROPOSAL_NUMBER" VARCHAR2(12) CONSTRAINT "BUDGETN1" NOT NULL ENABLE,         
 "VERSION_NUMBER" NUMBER(3,0) CONSTRAINT "BUDGETN2" NOT NULL ENABLE,             
@@ -3750,4 +3787,4 @@ CONSTRAINT "PK_BUDGET_KRA" PRIMARY KEY ("PROPOSAL_NUMBER", "VERSION_NUMBER")
 ENABLE
    ) ;
                                                                   
-
+                                                                                

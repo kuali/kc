@@ -3,6 +3,16 @@ ALTER TABLE "BUDGET" ADD CONSTRAINT "FK_BUDGET_KRA" FOREIGN KEY
 REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
                                                                                 
                                                                                 
+ALTER TABLE "BUDGET_CATEGORY" ADD CONSTRAINT "FK_BUDGET_CATEGORY_KRA" FOREIGN   
+KEY ("CATEGORY_TYPE")                                                           
+REFERENCES "BUDGET_CATEGORY_TYPE" ("BUDGET_CATEGORY_TYPE_CODE") ENABLE;         
+                                                                                
+                                                                                
+ALTER TABLE "BUDGET_COST_SHARES" ADD CONSTRAINT "FK_BUDGET_COSTSHARE_BUDGET_KRA"
+FOREIGN KEY ("PROPOSAL_NUMBER", "BUDGET_VERSION_NUMBER")                        
+REFERENCES "BUDGET" ("PROPOSAL_NUMBER", "VERSION_NUMBER") ENABLE;               
+                                                                                
+                                                                                
 ALTER TABLE "BUDGET_PERSONNEL_DETAILS" ADD CONSTRAINT                           
 "FK_BUDGET_PER_DET_BGT_PER_KRA" FOREIGN KEY ("PROPOSAL_NUMBER",                 
 "VERSION_NUMBER", "PERSON_SEQUENCE_NUMBER")                                     
@@ -498,4 +508,5 @@ REFERENCES "YNQ" ("QUESTION_ID") ENABLE;
 ALTER TABLE "YNQ_EXPLANATION" ADD CONSTRAINT "FK_YNQ_EXPLANATION_TYPE_KRA"      
 FOREIGN KEY ("EXPLANATION_TYPE")                                                
 REFERENCES "YNQ_EXPLANATION_TYPE" ("EXPLANATION_TYPE") ENABLE;                  
+                                                                                
                                                                                 
