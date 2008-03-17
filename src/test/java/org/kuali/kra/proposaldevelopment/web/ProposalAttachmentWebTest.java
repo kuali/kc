@@ -15,14 +15,17 @@
  */
 package org.kuali.kra.proposaldevelopment.web;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
 
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
@@ -34,6 +37,10 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
     private static final String KEY_PERSONNEL_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.keyPersonnel.x";
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     public static final String YES_BTN_ID =  "methodToCall.processAnswer.button0";
+    
+    private static final String USERNAME_FIELD_ID = "newProposalUser.username";
+    private static final String ROLENAME_FIELD_ID = "newProposalUser.roleName";
+    private static final String ADD_BTN_ID = "methodToCall.addProposalUser";
 
     @Test
     public void testProposalAttachment() throws Exception {
@@ -92,6 +99,136 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         
         testReplaceAttachment(savedPage,2);
     }
+    
+    /**
+     * Test the situation where the only user with rights to 
+     * modify a narrative is having his/her narrative rights
+     * changed to read.  This is bad.  There must always be at
+     * least one user with modify rights.
+     * @throws Exception
+     */
+    @Test
+    public void testUserRightsLastModifier() throws Exception {
+        HtmlPage page = initUserRightsTest();
+        HtmlPage userRightsPage = clickOnViewRights(page, 1);
+        
+        setNarrativeAccess(userRightsPage, 0, "R");
+        userRightsPage = clickOn(userRightsPage, "save");
+        List<String> errors = this.getErrors(userRightsPage, "tab-Rights-div");
+        assertEquals(1, errors.size());
+        assertTrue(containsError(errors, "At least one user"));
+    }
+    
+    /**
+     * Test the situation where a user's narrative rights are being
+     * set to a value above what their permission allows.  Specifically,
+     * a user only has the VIEW_NARRATIVE permission, but we will try
+     * to give that user the "modify" right for a narrative.  This 
+     * should result in an error.
+     * @throws Exception
+     */
+    @Test
+    public void testUserRightsNoPermission() throws Exception {
+        HtmlPage page = initUserRightsTest();
+        HtmlPage userRightsPage = clickOnViewRights(page, 1);
+        
+        setNarrativeAccess(userRightsPage, 1, "M");
+        userRightsPage = clickOn(userRightsPage, "save");
+        List<String> errors = this.getErrors(userRightsPage, "tab-Rights-div");
+        assertEquals(1, errors.size());
+        assertTrue(containsError(errors, "cannot exceed that of assigned role/permission"));
+    }
+    
+    /**
+     * Someone who doesn't have modify rights for a narrative, shouldn't
+     * be able to perform a save.  Therefore, make sure the save button
+     * isn't displayed.
+     * @throws Exception
+     */
+    @Test
+    public void testUserRightsForViewer() throws Exception {
+        boolean javaScriptEnabled = webClient.isJavaScriptEnabled();
+        webClient.setJavaScriptEnabled(false);
+        
+        HtmlPage page = initUserRightsTest();
+        String docNbr = getDocNbr(page);
+        clickOn(page, "save");
+        loginAsTester();
+        page = docSearch(docNbr);
+        page = clickOnTab(page, ABSTRACTS_ATTACHMENTS_LINK_NAME);
+        HtmlPage userRightsPage = clickOnViewRights(page, 1);
+        assertNull(getElement(userRightsPage, "save"));
+        
+        webClient.setJavaScriptEnabled(javaScriptEnabled);
+    }
+    
+    /**
+     * Create the proposal necessary for testing narrative user rights.
+     * We will need two proposal attachments and a user with the Viewer role.
+     * @return
+     * @throws Exception
+     */
+    private HtmlPage initUserRightsTest() throws Exception {
+        HtmlPage page = getAbstractsAndAttachmentsPage();
+        page = addNarrative(page, "4");
+        page = addNarrative(page, "5");
+        page = clickOnTab(page, PERMISSIONS_LINK_NAME);
+        page = addUser(page, "jtester", "Viewer");
+        return clickOnTab(page, ABSTRACTS_ATTACHMENTS_LINK_NAME);
+    }
+    
+    /**
+     * Click on the "edit/view rights" button for a narrative.
+     * @param page
+     * @param index
+     * @return
+     * @throws IOException
+     */
+    private HtmlPage clickOnViewRights(HtmlPage page, int index) throws IOException {
+        return clickOn(page, "getProposalAttachmentRights.line" + index);
+    }
+    
+    /**
+     * Set the narrative right for a user.  
+     * @param page
+     * @param index the index of the user
+     * @param value the new right ("M", "R", or "N")
+     */
+    private void setNarrativeAccess(HtmlPage page, int index, String value) {
+        setFieldValue(page, "newNarrativeUserRight[" + index + "].accessType", value);
+    }
+    
+    /**
+     * Add a single user to the proposal.
+     * @param page
+     * @param username
+     * @param roleName
+     * @return
+     * @throws Exception
+     */
+    private HtmlPage addUser(HtmlPage page, String username, String roleName) throws Exception {
+        setFieldValue(page, USERNAME_FIELD_ID, username);
+        setFieldValue(page, ROLENAME_FIELD_ID, roleName);
+        HtmlElement addBtn = getElementByName(page, ADD_BTN_ID, true);
+        return clickOn(addBtn);
+    }
+    
+    /**
+     * Add a narrative to the proposal.
+     * @param page
+     * @param type
+     * @return
+     * @throws Exception
+     */
+    private HtmlPage addNarrative(HtmlPage page, String type) throws Exception {
+        page = clickOnTab(page, ABSTRACTS_ATTACHMENTS_LINK_NAME);
+        assertTrue(!hasError(page));
+        setFieldValue(page, "newNarrative.narrativeTypeCode", type);
+        setFieldValue(page, "newNarrative.moduleStatusCode", "I");
+        page = clickOn(page, "methodToCall.addProposalAttachment");
+        return page;
+    }
+    
 
     private void testNarrUserRights(HtmlPage propPage,int lineNumber) throws Exception{
         assertNotNull(webClient);

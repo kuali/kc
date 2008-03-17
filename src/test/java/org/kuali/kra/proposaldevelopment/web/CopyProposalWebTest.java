@@ -188,7 +188,6 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         String nbr1 = srcDoc.getDocumentNumber();
         String nbr2 = destDoc.getDocumentNumber();
         if (isSame(nbr1, nbr2)) {
-            System.out.println("HERE 1: " + nbr1 + ", " + nbr2);
             return false;
         }
         
@@ -197,7 +196,6 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         String desc1 = srcDoc.getDocumentHeader().getFinancialDocumentDescription();
         String desc2 = srcDoc.getDocumentHeader().getFinancialDocumentDescription();
         if (!isSame(desc1, desc2)) {
-            System.out.println("HERE 2");
             return false;
         }
         
@@ -206,7 +204,6 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         String org1 = srcDoc.getDocumentHeader().getOrganizationDocumentNumber();
         String org2 = srcDoc.getDocumentHeader().getOrganizationDocumentNumber();
         if (!isSame(org1, org2)) {
-            System.out.println("HERE 3");
             return false;
         }
         
@@ -217,7 +214,6 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
             Object value1 = property.getter.invoke(srcDoc);
             Object value2 = property.getter.invoke(destDoc);
             if (!equals(value1, value2)) {
-                System.out.println("HERE 4: " + property.getter.getName());
                 return false;
             }
         }
