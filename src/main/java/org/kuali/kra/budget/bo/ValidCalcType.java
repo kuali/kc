@@ -26,6 +26,11 @@ public class ValidCalcType extends KraPersistableBusinessObjectBase {
 	private String dependentRateClassType;
 	private String rateClassCode;
 	private String rateTypeCode;
+    
+    private RateClassType rateClassTypeRef;
+    private RateClassType dependentRateClassTypeRef;
+    private RateClass rateClass;
+    private RateType rateType;
 
 	public String getCalcTypeId() {
 		return calcTypeId;
@@ -43,23 +48,39 @@ public class ValidCalcType extends KraPersistableBusinessObjectBase {
 		this.dependentSeqNumber = dependentSeqNumber;
 	}
 
-	public String getRateClassType() {
-		return rateClassType;
-	}
+    public String getDependentRateClassType() {
+        return dependentRateClassType;
+    }
 
-	public void setRateClassType(String rateClassType) {
-		this.rateClassType = rateClassType;
-	}
+    public void setDependentRateClassType(String dependentRateClassType) {
+        this.dependentRateClassType = dependentRateClassType;
+    }
 
-	public String getDependentRateClassType() {
-		return dependentRateClassType;
-	}
+    public RateClassType getDependentRateClassTypeRef() {
+        return dependentRateClassTypeRef;
+    }
 
-	public void setDependentRateClassType(String dependentRateClassType) {
-		this.dependentRateClassType = dependentRateClassType;
-	}
+    public void setDependentRateClassTypeRef(RateClassType dependentRateClassTypeRef) {
+        this.dependentRateClassTypeRef = dependentRateClassTypeRef;
+    }
 
-	public String getRateClassCode() {
+    public String getRateClassType() {
+        return rateClassType;
+    }
+
+    public void setRateClassType(String rateClassType) {
+        this.rateClassType = rateClassType;
+    }
+
+    public RateClassType getRateClassTypeRef() {
+        return rateClassTypeRef;
+    }
+
+    public void setRateClassTypeRef(RateClassType rateClassTypeRef) {
+        this.rateClassTypeRef = rateClassTypeRef;
+    }
+
+    public String getRateClassCode() {
 		return rateClassCode;
 	}
 
@@ -74,9 +95,24 @@ public class ValidCalcType extends KraPersistableBusinessObjectBase {
 	public void setRateTypeCode(String rateTypeCode) {
 		this.rateTypeCode = rateTypeCode;
 	}
+    
+    public RateClass getRateClass() {
+        return rateClass;
+    }
 
+    public void setRateClass(RateClass rateClass) {
+        this.rateClass = rateClass;
+    }
 
-	@Override 
+    public RateType getRateType() {
+        return rateType;
+    }
+
+    public void setRateType(RateType rateType) {
+        this.rateType = rateType;
+    }
+
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("calcTypeId", getCalcTypeId());
