@@ -474,18 +474,40 @@
 				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
 				    <property name="task" value="replaceProposalAttachment" />
 				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReadAuthorizer">
-				    <property name="task" value="getProposalAttachmentRights" />
-				</bean>
 			</list>
 		</property>
 	</bean>
-	
+
+	<bean id="institutionalAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
+                    <property name="action" value="AbstractsAttachments" />
+                    <property name="task" value="addInstitutionalAttachment" />
+                    <property name="permission" value="MODIFY_NARRATIVE" />
+                </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
+                    <property name="task" value="addInstituteAttachmentRights" />
+                </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReadAuthorizer">
+                    <property name="task" value="downloadInstituteAttachment" />
+                </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
+                    <property name="task" value="deleteInstitutionalAttachment" />
+                </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
+                    <property name="task" value="replaceInstituteAttachment" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
 	<bean id="proposalAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
 		<property name="taskAuthorizers">
 			<list>
 				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SaveProposalAuthorizer" />
 				<ref bean="narrativeAuthorizer" />
+				<ref bean="institutionalAuthorizer" />
 				<ref bean="permissionsAuthorizer" />
 			</list>
 		</property>

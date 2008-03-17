@@ -71,7 +71,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                                            String taskName) throws Exception {
         
         ActionForward actionForward = null;
-        if (!isTaskAuthorized(taskName, form)) {
+        if (!isTaskAuthorized(taskName, form, request)) {
             actionForward = processAuthorizationViolation(taskName, mapping, form, request, response);
         } 
         else {
@@ -247,12 +247,12 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @param request the HTTP request
      * @throws AuthorizationException
      */
-    private boolean isTaskAuthorized(String taskName, ActionForm form) {
+    private boolean isTaskAuthorized(String taskName, ActionForm form, HttpServletRequest request) {
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
         String actionName = getActionName();
-        Task task = buildTask(actionName, taskName, form);
+        Task task = buildTask(actionName, taskName, form, request);
         boolean isAuthorized = taskAuthorizationService.isAuthorized( username, task );
         if (!isAuthorized) {
             LOG.error("User not authorized to perform " + taskName + " for document: " + ((KualiDocumentFormBase)form).getDocument().getClass().getName() );
@@ -276,7 +276,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @param form the Form
      * @return the Task
      */
-    protected Task buildTask(String actionName, String taskName, ActionForm form) {
+    protected Task buildTask(String actionName, String taskName, ActionForm form, HttpServletRequest request) {
         return new Task(actionName, taskName);
     }
     
