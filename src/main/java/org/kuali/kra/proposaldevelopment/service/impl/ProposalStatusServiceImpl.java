@@ -38,6 +38,7 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
         
         if (proposalStatus == null) {
             if (pdDocument.getProposalNumber() != null) {
+                proposalStatus = new ProposalStatus();
                 proposalStatus.setProposalNumber(pdDocument.getProposalNumber());
                 proposalStatus.setBudgetStatusCode(pdDocument.getBudgetStatus());
                 businessObjectService.save(proposalStatus);
