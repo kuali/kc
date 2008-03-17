@@ -35,11 +35,11 @@
         <documentTypeName>CostElementMaintenanceDocument</documentTypeName>
         <documentTypeCode>COEL</documentTypeCode>
 
-        <label>CostElement Maintenance Document</label>
+        <label>Cost Element Maintenance Document</label>
         <shortLabel>costElementMaintDoc</shortLabel>
 
-        <summary>CostElement Maintenance Document</summary>
-        <description>Document used to create or update CostElement Reference objects</description>
+        <summary>Cost Element Maintenance Document</summary>
+        <description>Document used to create or update Cost Element Reference objects</description>
 
         <lockingKeys>
         	<field attributeName="costElement"/>
@@ -53,7 +53,6 @@
 					<maintainableField name="budgetCategoryCode" required="false"/>
 					<maintainableField name="description" required="true"/>
 					<maintainableField name="onOffCampusFlag" required="true"/>
-
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

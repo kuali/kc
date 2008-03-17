@@ -22,7 +22,6 @@
 
         <inquiry>
             <title>Valid Calc Types</title>
-
             <inquirySections><inquirySection title="Valid Calc Types"><inquiryFields>
             	<field attributeName="calcTypeId" forceInquiry="true"/>
 				<field attributeName="dependentSeqNumber" forceInquiry="true"/>
@@ -30,7 +29,6 @@
 				<field attributeName="dependentRateClassType"/>
 				<field attributeName="rateClassCode"/>
 				<field attributeName="rateTypeCode"/>
-
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -46,28 +44,23 @@
                 	<sortAttribute attributeName="calcTypeId"/>
 					<sortAttribute attributeName="dependentSeqNumber"/>
 					<sortAttribute attributeName="rateClassType"/>
-
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
             	<lookupField attributeName="calcTypeId" required="false"/>
-				<lookupField attributeName="dependentSeqNumber" required="false"/>
 				<lookupField attributeName="rateClassType" required="false"/>
 				<lookupField attributeName="dependentRateClassType" required="false"/>
 				<lookupField attributeName="rateClassCode" required="false"/>
 				<lookupField attributeName="rateTypeCode" required="false"/>
-
             </lookupFields>
 
             <resultFields>
             	<field attributeName="calcTypeId" forceInquiry="true"/>
-				<field attributeName="dependentSeqNumber" forceInquiry="true"/>
 				<field attributeName="rateClassType" forceInquiry="true"/>
 				<field attributeName="dependentRateClassType" forceInquiry="false"/>
 				<field attributeName="rateClassCode" forceInquiry="false"/>
 				<field attributeName="rateTypeCode" forceInquiry="false"/>
-
             </resultFields>
         </lookup>
 
@@ -145,6 +138,8 @@
 			<summary>Rate Type Code </summary>
 			<description>Rate Type Code </description>
 			</attribute>
+			
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
     </businessObject>

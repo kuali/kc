@@ -52,7 +52,6 @@
                 	<maintainableField name="rateClassCode" required="true"/>
 					<maintainableField name="description" required="true"/>
 					<maintainableField name="rateClassType" required="true"/>
-
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

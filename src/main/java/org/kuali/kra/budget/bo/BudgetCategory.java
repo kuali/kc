@@ -23,7 +23,7 @@ public class BudgetCategory extends KraPersistableBusinessObjectBase {
 	private String budgetCategoryCode;
 	private String budgetCategoryTypeCode;
 	private String description;
-	private BudgetCategory budgetCategoryType;
+	private BudgetCategoryType budgetCategoryType;
 	
 	public String getBudgetCategoryCode() {
 		return budgetCategoryCode;
@@ -63,7 +63,7 @@ public class BudgetCategory extends KraPersistableBusinessObjectBase {
      * Gets the budgetCategoryType attribute. 
      * @return Returns the budgetCategoryType.
      */
-    public BudgetCategory getBudgetCategoryType() {
+    public BudgetCategoryType getBudgetCategoryType() {
         return budgetCategoryType;
     }
 
@@ -71,7 +71,7 @@ public class BudgetCategory extends KraPersistableBusinessObjectBase {
      * Sets the budgetCategoryType attribute value.
      * @param budgetCategoryType The budgetCategoryType to set.
      */
-    public void setBudgetCategoryType(BudgetCategory budgetCategoryType) {
+    public void setBudgetCategoryType(BudgetCategoryType budgetCategoryType) {
         this.budgetCategoryType = budgetCategoryType;
     }
 
