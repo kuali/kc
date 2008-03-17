@@ -207,4 +207,15 @@ public class BudgetForm extends ProposalFormBase {
         this.getDocumentActionFlags().setCanCopy(false);
         this.getDocumentActionFlags().setCanReload(false);
     }
+    
+    /**
+     * Get the Header Dispatch.  This determines the action that will occur
+     * when the user switches tabs for a budget.  If the user can modify
+     * the budget, the budget is automatically saved.  If not (view-only),
+     * then a reload will be executed instead.
+     * @return the Header Dispatch action
+     */
+    public String getHeaderDispatch() {
+        return this.getDocumentActionFlags().getCanSave() ? "save" : "reload";
+    }
 }

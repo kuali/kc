@@ -19,7 +19,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="budgetPersonnel"
 	documentTypeName="BudgetDocument"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="personnel">
   	
   	<kul:uncollapsable tabTitle="Add Budget Personnel" tabErrorKey="newBudgetPerson">

@@ -20,7 +20,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="budgetRates"
 	documentTypeName="BudgetDocument"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="rates">
 
 <kra-b:budgetRates /> 

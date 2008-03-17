@@ -19,7 +19,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="budgetProposalHierarchy"
 	documentTypeName="BudgetDocument"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="proposalHierarchy">
 
 	<center>Under Construction</center>

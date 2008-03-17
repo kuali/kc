@@ -19,7 +19,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="budgetVersions"
 	documentTypeName="BudgetDocument"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="versions"
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	>
