@@ -21,7 +21,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="budgetSummary"
 	documentTypeName="BudgetDocument"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="summary">
 
 <kra-b:budgetSummary /> 

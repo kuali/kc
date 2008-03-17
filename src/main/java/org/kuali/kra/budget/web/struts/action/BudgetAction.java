@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DocumentService;
+import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -33,6 +34,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -148,4 +151,16 @@ public class BudgetAction extends ProposalActionBase {
         }
     }
 
+    /**
+     * Build a Proposal Task.  We build a Proposal Task because budget permissions are
+     * based upon its Proposal.  
+     * @param taskName the name of the task
+     * @param form the Budget Form
+     * @return the Proposal Task
+     */
+    protected Task buildTask(String actionName, String taskName, ActionForm form, HttpServletRequest request) {
+        BudgetForm budgetForm = (BudgetForm) form;
+        ProposalDevelopmentDocument proposalDoc = budgetForm.getBudgetDocument().getProposal();
+        return new ProposalTask(actionName, taskName, proposalDoc);
+    }
 }
