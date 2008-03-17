@@ -24,6 +24,7 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
 	private String rateClassCode;
 	private String rateTypeCode;
 	private RateClass rateClass;
+    private RateType rateType;
 
 	/**
      * Gets the rateClass attribute. 
@@ -64,9 +65,16 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
 	public void setRateTypeCode(String rateTypeCode) {
 		this.rateTypeCode = rateTypeCode;
 	}
+    
+	public RateType getRateType() {
+        return rateType;
+    }
 
+    public void setRateType(RateType rateType) {
+        this.rateType = rateType;
+    }
 
-	@Override 
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("costElement", getCostElement());
