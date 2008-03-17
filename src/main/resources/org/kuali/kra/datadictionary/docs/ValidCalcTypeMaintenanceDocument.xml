@@ -45,7 +45,6 @@
         	<field attributeName="calcTypeId"/>
 			<field attributeName="dependentSeqNumber"/>
 			<field attributeName="rateClassType"/>
-
         </lockingKeys>
 
         <maintainableSections>
@@ -57,7 +56,6 @@
 					<maintainableField name="dependentRateClassType" required="false"/>
 					<maintainableField name="rateClassCode" required="false"/>
 					<maintainableField name="rateTypeCode" required="false"/>
-
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

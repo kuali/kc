@@ -114,7 +114,7 @@
 			<maxLength>1</maxLength>
 			<validationPattern><anyCharacter/></validationPattern>
 			<control>
-				<text size="1" />
+				<checkbox />
 			</control>
 			<summary>On Off Campus Flag </summary>
 			<description>On Off Campus Flag </description>
@@ -148,8 +148,9 @@
 			<label>Start Date </label>
 			<shortLabel>Start Date </shortLabel>
 			<maxLength>7</maxLength>
+			<validationPattern><date /></validationPattern>
 			<control>
-				<text size="7" />
+				<text size="7" datePicker="true" />
 			</control>
 			<summary>Start Date </summary>
 			<description>Start Date </description>

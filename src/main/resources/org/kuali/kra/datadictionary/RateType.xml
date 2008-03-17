@@ -27,7 +27,6 @@
             	<field attributeName="rateClassCode" forceInquiry="true"/>
 				<field attributeName="rateTypeCode" forceInquiry="true"/>
 				<field attributeName="description"/>
-
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -42,7 +41,6 @@
                 <sortAttributes>
                 	<sortAttribute attributeName="rateClassCode"/>
 					<sortAttribute attributeName="rateTypeCode"/>
-
                 </sortAttributes>
             </defaultSort>
 
@@ -50,14 +48,12 @@
             	<lookupField attributeName="rateClassCode" required="false"/>
 				<lookupField attributeName="rateTypeCode" required="false"/>
 				<lookupField attributeName="description" required="false"/>
-
             </lookupFields>
 
             <resultFields>
             	<field attributeName="rateClassCode" forceInquiry="true"/>
 				<field attributeName="rateTypeCode" forceInquiry="true"/>
 				<field attributeName="description" forceInquiry="false"/>
-
             </resultFields>
         </lookup>
 
@@ -88,17 +84,9 @@
 			<description>Rate Type Code </description>
 			</attribute>
 
-			<attribute name="description">
-			<label>Rate Type</label>
-			<shortLabel>Rate Type</shortLabel>
-			<maxLength>200</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-			<control>
-				<text size="200" />
-			</control>
-			<summary>Rate Type</summary>
-			<description>Rate Type</description>
-			</attribute>
+			<attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
+
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
     </businessObject>

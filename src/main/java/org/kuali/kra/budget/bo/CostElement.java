@@ -75,7 +75,7 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
         return validCeRateTypes;
     }
 
-    public void setValidaCRateTypes(List<ValidCeRateType> validCeRateTypes) {
+    public void setValidCeRateTypes(List<ValidCeRateType> validCeRateTypes) {
         this.validCeRateTypes = validCeRateTypes;
     }
 
