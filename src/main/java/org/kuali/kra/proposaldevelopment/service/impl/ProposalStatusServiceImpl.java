@@ -25,7 +25,7 @@ import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalStatus;
+import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 
@@ -34,11 +34,11 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
     private BusinessObjectService businessObjectService;
     
     public void saveBudgetFinalVersionStatus(ProposalDevelopmentDocument pdDocument) {
-        ProposalStatus proposalStatus = getProposalStatus(pdDocument.getProposalNumber());
+        ProposalBudgetStatus proposalStatus = getProposalStatus(pdDocument.getProposalNumber());
         
         if (proposalStatus == null) {
             if (pdDocument.getProposalNumber() != null) {
-                proposalStatus = new ProposalStatus();
+                proposalStatus = new ProposalBudgetStatus();
                 proposalStatus.setProposalNumber(pdDocument.getProposalNumber());
                 proposalStatus.setBudgetStatusCode(pdDocument.getBudgetStatus());
                 businessObjectService.save(proposalStatus);
@@ -51,11 +51,11 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
     }
     
     public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
-        ProposalStatus proposalStatus = getProposalStatus(budgetDocument.getProposalNumber());
+        ProposalBudgetStatus proposalStatus = getProposalStatus(budgetDocument.getProposalNumber());
         
         if (proposalStatus == null) {
             if (budgetDocument.getProposalNumber() != null && budgetDocument.getProposal() != null) {
-                proposalStatus = new ProposalStatus();
+                proposalStatus = new ProposalBudgetStatus();
                 proposalStatus.setProposalNumber(budgetDocument.getProposalNumber());
                 proposalStatus.setBudgetStatusCode(budgetDocument.getProposal().getBudgetStatus());
                 businessObjectService.save(proposalStatus);
@@ -86,7 +86,7 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
     }
     
     public void loadBudgetStatus(ProposalDevelopmentDocument pdDocument) {
-        ProposalStatus proposalStatus = getProposalStatus(pdDocument.getProposalNumber());
+        ProposalBudgetStatus proposalStatus = getProposalStatus(pdDocument.getProposalNumber());
         if (proposalStatus != null) {
             pdDocument.setBudgetStatus(proposalStatus.getBudgetStatusCode());
         }
@@ -97,11 +97,11 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
      * @param proposalNumber
      * @return ProposalStatus
      */
-    private ProposalStatus getProposalStatus(String proposalNumber) {
+    private ProposalBudgetStatus getProposalStatus(String proposalNumber) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put(Constants.PROPOSAL_NUMBER, proposalNumber);
-        ProposalStatus proposalStatus = (ProposalStatus) boService.findByPrimaryKey(ProposalStatus.class, keyMap);
+        ProposalBudgetStatus proposalStatus = (ProposalBudgetStatus) boService.findByPrimaryKey(ProposalBudgetStatus.class, keyMap);
         return proposalStatus;
     }
     
