@@ -80,6 +80,13 @@ public interface Constants {
     public static final String CUSTOM_ATTRIBUTES_PAGE = "customData";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR = "SponsorProgramInformation";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_NAME = "Sponsor & Program Information";
+    
+    // Proposal Document Property Constants
+    public static final String PROPOSAL_NUMBER = "proposalNumber";
+    public static final String BUDGET_VERSION_OVERVIEWS = "budgetVersionOverviews";
+    
+    // Budget Document Property Constants
+    public static final String BUDGET_VERSION_NUMBER = "budgetVersionNumber";
 
     // Key Personnel Mojo
     public static final String KEY_PERSONNEL_PAGE = "keyPersonnel";
@@ -118,6 +125,7 @@ public interface Constants {
     public static final String BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE = "budgetPersonDefaultAppointmentType";
     public static final String BUDGET_PERSON_DEFAULT_CALCULATION_BASE = "budgetPersonDefaultCalculationBase";
     public static final String BUDGET_PERSON_DEFAULT_EFFECTIVE_DATE = "budgetPersonDefaultEffectiveDate";
+    public static final String PERSON_SEQUENCE_NUMBER = "personSequenceNumber";
     
     // KIM Authorization Namespace for KRA
     public static final String KRA_NAMESPACE = "KRA";

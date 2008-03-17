@@ -19,7 +19,6 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -27,11 +26,8 @@ import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.kra.bo.InstituteLaRate;
@@ -53,9 +49,10 @@ import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalStatus;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -118,6 +115,12 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
 
     public void initialize() {
+    }
+    
+    @Override
+    public void prepareForSave() {
+        super.prepareForSave();
+        KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
     }
     
     @Override
@@ -505,31 +508,14 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         budgetPerson.setProposalNumber(getProposalNumber());
         budgetPerson.setBudgetVersionNumber(getBudgetVersionNumber());
         this.refreshReferenceObject("documentNextvalues");
-        budgetPerson.setPersonSequenceNumber(getDocumentNextValue("personSequenceNumber"));
+        budgetPerson.setPersonSequenceNumber(getDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
         getBudgetPersons().add(budgetPerson);
-    }
-    
-    @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
-        
-        // Update the status.
-        ProposalStatus proposalStatus = getProposalStatus(getProposalNumber());
-        if (proposalStatus != null) {
-            proposalStatus.setBudgetStatusCode(getProposal().getBudgetStatus());
-            KraServiceLocator.getService(BusinessObjectService.class).save(proposalStatus);
-        }
     }
     
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
-        
-//      Retrieve the status.
-        ProposalStatus proposalStatus = getProposalStatus(getProposalNumber());
-        if (proposalStatus != null) {
-            getProposal().setBudgetStatus(proposalStatus.getBudgetStatusCode());
-        }
+        KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this.getProposal());
     }
 
     public void add(BudgetPeriod budgetPeriod) {

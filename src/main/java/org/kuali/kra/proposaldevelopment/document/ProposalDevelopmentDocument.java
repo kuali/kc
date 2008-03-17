@@ -27,7 +27,6 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.Organization;
@@ -47,13 +46,13 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
-import org.kuali.kra.proposaldevelopment.bo.ProposalStatus;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
+import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -101,9 +100,10 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<ProposalSpecialReview> propSpecialReviews;
     private List<PropScienceKeyword> propScienceKeywords;
     private List<ProposalPerson> proposalPersons;
+    private List<S2sOppForms> s2sOppForms;    
     private ProposalPerson principalInvestigator;
     private S2sOpportunity s2sOpportunity;
-    private List<S2sAppSubmission> s2sAppSubmission;
+    private S2sAppSubmission s2sAppSubmission;
     private String newScienceKeywordCode;
     private String newDescription;
     private Sponsor sponsor;
@@ -141,8 +141,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         proposalYnqs = new ArrayList<ProposalYnq>();
         ynqGroupNames = new ArrayList<YnqGroupName>();
         budgetVersionOverviews = new TypedArrayList(BudgetVersionOverview.class);
-        investigators = new ArrayList<ProposalPerson>();                
-        s2sAppSubmission = new ArrayList<S2sAppSubmission>();
+        investigators = new ArrayList<ProposalPerson>();
+        s2sOppForms = new ArrayList<S2sOppForms>();        
     }
 
     public void initialize() {
@@ -155,7 +155,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
             proposalDevelopmentService.initializeUnitOrganzationLocation(this);
         }
     }
-
+    
     /**
      * Gets the value of proposalPersons
      * 
@@ -1152,6 +1152,14 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }
         return (BudgetVersionOverview) getBudgetVersionOverviews().get(index);
     }
+    
+    public List<S2sOppForms> getS2sOppForms() {
+        return s2sOppForms;
+    }
+
+    public void setS2sOppForms(List<S2sOppForms> oppForms) {
+        s2sOppForms = oppForms;
+    }
 
     public void setS2sOpportunity(S2sOpportunity s2sOpportunity) {
         this.s2sOpportunity = s2sOpportunity;
@@ -1167,43 +1175,25 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         if(s2sOpportunity!=null && s2sOpportunity.getOpportunityId()==null){
             s2sOpportunity = null;
         }
-    }
-   
-    @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
-       
-        // Update the status.
-        ProposalStatus proposalStatus = getProposalStatus(getProposalNumber());
-        if (proposalStatus == null) {
-            // This is the first update; create proposal status.
-            proposalStatus = new ProposalStatus();
-            proposalStatus.setProposalNumber(getProposalNumber());
-        }
-        proposalStatus.setBudgetStatusCode(getBudgetStatus());
-        KraServiceLocator.getService(BusinessObjectService.class).save(proposalStatus);
+        
+        KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
     }
     
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
-        
-//      Retrieve the status.
-        ProposalStatus proposalStatus = getProposalStatus(getProposalNumber());
-        if (proposalStatus != null) {
-            setBudgetStatus(proposalStatus.getBudgetStatusCode());
-        } // else proposal status hasn't been set yet; do nothing.
+        KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this);
     }
-
-    public List<S2sAppSubmission> getS2sAppSubmission() {
+    
+    public S2sAppSubmission getS2sAppSubmission() {
         return s2sAppSubmission;
     }
 
-    public void setS2sAppSubmission(List<S2sAppSubmission> appSubmission) {
-        s2sAppSubmission = appSubmission;
+    public void setS2sAppSubmission(S2sAppSubmission s2sAppSubmission) {
+        this.s2sAppSubmission = s2sAppSubmission;
     }
     
-        public ProposalPersonRole getProposalEmployeeRole(String personId) {
+    public ProposalPersonRole getProposalEmployeeRole(String personId) {
         if (principalInvestigator != null && personId.equals(principalInvestigator.getPersonId())) {
             return principalInvestigator.getRole();
         }

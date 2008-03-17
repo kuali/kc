@@ -176,18 +176,4 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
         return customAttributeDocuments.get(key);
     }
     
-    /**
-     * 
-     * This method returns the ProposalStatus that corresponds to the given proposal.
-     * @param proposalNumber
-     * @return ProposalStatus
-     */
-    protected ProposalStatus getProposalStatus(String proposalNumber) {
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put("proposalNumber", proposalNumber);
-        ProposalStatus proposalStatus = (ProposalStatus) boService.findByPrimaryKey(ProposalStatus.class, keyMap);
-        return proposalStatus;
-    }
-        
 }
