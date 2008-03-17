@@ -382,7 +382,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
      * @param form the Proposal Development Form
      * @return the Proposal Task
      */
-    protected Task buildTask(String actionName, String taskName, ActionForm form) {
+    protected Task buildTask(String actionName, String taskName, ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         return new ProposalTask(actionName, taskName, proposalDevelopmentForm.getProposalDevelopmentDocument());
     }

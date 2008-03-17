@@ -101,7 +101,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private ProposalUserEditRoles proposalUserEditRoles;
     private boolean newProposalPersonRoleRendered;
     private List<NarrativeUserRights> newNarrativeUserRights;
-    private int narrativeLineNumber;
     private S2sOpportunity newS2sOpportunity;
     private List<S2sAppSubmission> newS2sAppSubmission;
     private SortedMap<String, List> customAttributeGroups;
@@ -903,24 +902,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public NarrativeUserRights getNewNarrativeUserRight(int index) {
         return this.newNarrativeUserRights.get(index);
-    }
-    
-    /**
-     * Set the Narrative Line Number.  It is the index into the list
-     * of narratives for the narrative being viewed/edited in the Edit/View
-     * Rights web page for narrative rights.
-     * @param lineNumber the narrative line number
-     */
-    public void setNarrativeLineNumber(int lineNumber) {
-        this.narrativeLineNumber = lineNumber;
-    }
-    
-    /**
-     * Get the Narrative Line Number.
-     * @return the narrative line number
-     */
-    public int getNarrativeLineNumber() {
-        return this.narrativeLineNumber;
     }
 
     public S2sOpportunity getNewS2sOpportunity() {

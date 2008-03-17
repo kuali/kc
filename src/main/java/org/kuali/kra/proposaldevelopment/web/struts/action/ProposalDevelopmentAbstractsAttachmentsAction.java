@@ -337,6 +337,12 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
          int lineNumber = line == null ? getLineToDelete(request) : Integer.parseInt(line);
          ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
          pd.populatePersonNameForInstituteAttachmentUserRights(lineNumber);
+         
+         Narrative narrative = pd.getInstituteAttachment(lineNumber);
+         List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
+         List<NarrativeUserRights> editUserRights = (List<NarrativeUserRights>) ObjectUtils.deepCopy((Serializable) userRights);
+         proposalDevelopmentForm.setNewNarrativeUserRights(editUserRights);
+         
          request.setAttribute(LINE_NUMBER, ""+lineNumber);
          return mapping.findForward(MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE);
      }
@@ -363,8 +369,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         Narrative narrative = pd.getNarratives().get(lineNumber);
         List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
         List<NarrativeUserRights> editUserRights = (List<NarrativeUserRights>) ObjectUtils.deepCopy((Serializable) userRights);
-        proposalDevelopmentForm.setNarrativeLineNumber(lineNumber);
         proposalDevelopmentForm.setNewNarrativeUserRights(editUserRights);
+        
         request.setAttribute(LINE_NUMBER, ""+lineNumber);
         return mapping.findForward(MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE);
     }
@@ -388,7 +394,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         List<NarrativeUserRights> newNarrativeUserRights = proposalDevelopmentForm.getNewNarrativeUserRights();
-        int lineNumber = proposalDevelopmentForm.getNarrativeLineNumber();
+        int lineNumber = getLineNumber(request);
         
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new NewNarrativeUserRightsEvent(proposalDevelopmentDocument, newNarrativeUserRights, lineNumber));
@@ -418,7 +424,27 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward addInstituteAttachmentRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return mapping.findForward(MAPPING_CLOSE_PAGE);
+        
+        ActionForward forward;
+
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        List<NarrativeUserRights> newNarrativeUserRights = proposalDevelopmentForm.getNewNarrativeUserRights();
+        int lineNumber = getLineNumber(request);
+        
+        // check any business rules
+        boolean rulePassed = getKualiRuleService().applyRules(new NewNarrativeUserRightsEvent(proposalDevelopmentDocument, newNarrativeUserRights, lineNumber));
+        
+        if (!rulePassed) {
+            request.setAttribute(LINE_NUMBER, Integer.toString(lineNumber));
+            forward = mapping.findForward(MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE);
+        }
+        else {
+            proposalDevelopmentDocument.getInstituteAttachment(lineNumber).setNarrativeUserRights(newNarrativeUserRights);
+            forward = mapping.findForward(MAPPING_CLOSE_PAGE);
+        }
+        
+        return forward;
     }
 
     /**
@@ -797,7 +823,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             ErrorMap errorMap = GlobalVariables.getErrorMap();
             errorMap.putError(Constants.NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY, KeyConstants.AUTHORIZATION_VIOLATION);
             ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-            int lineNumber = proposalDevelopmentForm.getNarrativeLineNumber();
+            int lineNumber = getLineNumber(request);
             request.setAttribute(LINE_NUMBER, Integer.toString(lineNumber));
             forward = mapping.findForward(MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE);
         }
@@ -807,14 +833,21 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     /**
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#buildTask(java.lang.String, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
-    protected Task buildTask(String actionName, String taskName, ActionForm form) {
+    protected Task buildTask(String actionName, String taskName, ActionForm form, HttpServletRequest request) {
         Task task = null;
         if (isNarrativeTask(taskName)) {
             ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-            task = new NarrativeTask(actionName, taskName, proposalDevelopmentForm.getProposalDevelopmentDocument(), proposalDevelopmentForm.getNarrativeLineNumber());
+            int index = getLineNumber(request);
+            Narrative narrative = proposalDevelopmentForm.getProposalDevelopmentDocument().getNarrative(index);
+            task = new NarrativeTask(actionName, taskName, proposalDevelopmentForm.getProposalDevelopmentDocument(), narrative);
         }
-        else {
-            task = super.buildTask(actionName, taskName, form);
+        else if (isInstitutionalTask(taskName)) {
+            ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+            int index = getLineNumber(request);
+            Narrative narrative = proposalDevelopmentForm.getProposalDevelopmentDocument().getInstituteAttachment(index);
+            task = new NarrativeTask(actionName, taskName, proposalDevelopmentForm.getProposalDevelopmentDocument(), narrative);
+        } else {
+            task = super.buildTask(actionName, taskName, form, request);
         }
         return task;
     }
@@ -828,7 +861,33 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         return StringUtils.equals(taskName, "addProposalAttachmentRights") ||
                StringUtils.equals(taskName, "downloadProposalAttachment") ||
                StringUtils.equals(taskName, "deleteProposalAttachment") ||
-               StringUtils.equals(taskName, "replaceProposalAttachment") ||
-               StringUtils.equals(taskName, "getProposalAttachmentRights");
+               StringUtils.equals(taskName, "replaceProposalAttachment");
+    }
+    
+    /**
+     * Is this one of the institutional tasks?
+     * @param taskName the name of the task
+     * @return true if an institutional task; otherwise false
+     */
+    private boolean isInstitutionalTask(String taskName) {
+        return StringUtils.equals(taskName, "addInstituteAttachmentRights") ||
+               StringUtils.equals(taskName, "downloadInstituteAttachment") ||
+               StringUtils.equals(taskName, "deleteInstitutionalAttachment") ||
+               StringUtils.equals(taskName, "replaceInstituteAttachment");
+    }
+    
+    private int getLineNumber(HttpServletRequest request) {
+        int lineNumber = 0;
+        String lineStr = request.getParameter(LINE_NUMBER);
+        if (lineStr == null) {
+            lineNumber = getLineToDelete(request);
+        } else {
+            try {
+                lineNumber = Integer.parseInt(lineStr);
+            } catch (Exception ex) {
+                // do nothing; 0 will be returned
+            }
+        }
+        return lineNumber;
     }
 }
