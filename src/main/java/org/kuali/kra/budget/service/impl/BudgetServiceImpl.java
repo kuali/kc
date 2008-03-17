@@ -86,7 +86,7 @@ public class BudgetServiceImpl implements BudgetService {
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         return budgetDocument;
     }
-
+    
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }

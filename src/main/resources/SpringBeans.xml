@@ -433,6 +433,12 @@
 		</property>
 	</bean>
 	
+	<bean id="proposalStatusService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStatusServiceImpl">
+		<property name="businessObjectService" >
+  			<ref bean="businessObjectService"/>
+  		</property>
+	</bean>
+	
 	<bean id="budgetCalculationService" class="org.kuali.kra.budget.service.impl.BudgetCalculationServiceImpl">
 	</bean>
 
@@ -535,4 +541,5 @@
   			<ref bean="kualiConfigurationService"/>
   		</property>
 	</bean>
+	
 </beans>

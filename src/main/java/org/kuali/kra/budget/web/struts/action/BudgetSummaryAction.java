@@ -27,12 +27,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rule.event.AddBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.DeleteBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
-import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 
@@ -48,6 +48,7 @@ public class BudgetSummaryAction extends BudgetAction {
         if(rulePassed){
             /* calculate all periods */
             budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
+            reconcileFinalBudgetFlags(budgetForm);
             return super.save(mapping, form, request, response);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -160,6 +161,20 @@ public class BudgetSummaryAction extends BudgetAction {
     
     private KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
+    }
+    
+    private void reconcileFinalBudgetFlags(BudgetForm budgetForm) {
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        if (budgetDocument.getFinalVersionFlag()) {
+            // This version has been marked as final - update other versions.
+            for (BudgetVersionOverview version: budgetDocument.getProposal().getBudgetVersionOverviews()) {
+                if (!budgetDocument.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
+                    version.setFinalVersionFlag(false);
+                }
+            }
+        } else {
+            budgetForm.setFinalBudgetVersion(null);
+        }
     }
 
 }
