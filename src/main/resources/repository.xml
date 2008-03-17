@@ -145,7 +145,7 @@
 
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalStatus" table="EPS_PROPOSAL_STATUS">
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus" table="EPS_PROPOSAL_BUDGET_STATUS">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="budgetStatusCode" column="BUDGET_STATUS_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
