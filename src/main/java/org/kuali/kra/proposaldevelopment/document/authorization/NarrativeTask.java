@@ -24,33 +24,25 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  */
 public class NarrativeTask extends ProposalTask {
 
-    private int narrativeIndex;
+    private Narrative narrative;
     
     /**
      * Constructs a NarrativeTask.
      * @param actionName the name of the action
      * @param taskName the name of the task
      * @param document the Proposal Development Document
-     * @param narrativeIndex the index of the narrative in the proposal
+     * @param narrative the narrative
      */
-    public NarrativeTask(String actionName, String taskName, ProposalDevelopmentDocument document, int narrativeIndex) {
+    public NarrativeTask(String actionName, String taskName, ProposalDevelopmentDocument document, Narrative narrative) {
         super(actionName, taskName, document);
-        this.narrativeIndex = narrativeIndex;
+        this.narrative = narrative;
     }
 
-    /**
-     * Get the Narrative Index.
-     * @return the Narrative Index
-     */
-    public int getNarrativeIndex() {
-        return narrativeIndex;
-    }
-    
     /**
      * Get the Narrative.
      * @return the Narrative
      */
     public Narrative getNarrative() {
-        return getProposalDevelopmentDocument().getNarrative(narrativeIndex);
+        return narrative;
     }
 }

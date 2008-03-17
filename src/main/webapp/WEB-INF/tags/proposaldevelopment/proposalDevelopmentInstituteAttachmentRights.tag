@@ -18,8 +18,9 @@
 <c:set var="narrativeUserRightsAttributes" value="${DataDictionary.NarrativeUserRights.attributes}" />
 <c:set var="selectedInstituteAttachment" value="${KualiForm.document.instituteAttachments[line]}"/>
 <%-- <kul:uncollapsable tabTitle="Rights"  > --%>
-<kul:tabTop defaultOpen="true" tabTitle="Rights">
+<kul:tabTop defaultOpen="true" tabTitle="Rights" tabErrorKey="newNarrativeUserRight*">
 	<div class="tab-container" align="center">
+	    <input type="hidden" name="line" value="${line}" />
 		<div class="h2-container">
     		<span class="subhead-left"><h2>Internal Attachment Rights for ${line+1}. ${selectedInstituteAttachment.narrativeType.description }</h2></span>
         </div>	
@@ -30,10 +31,12 @@
             		<c:out value="${narrUserRight.personName}"/>
 				</div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.instituteAttachments[${line}].narrativeUserRight[${status.index}].accessType" attributeEntry="${narrativeUserRightsAttributes.accessType}" />
+                    <kul:htmlControlAttribute property="newNarrativeUserRight[${status.index}].accessType" attributeEntry="${narrativeUserRightsAttributes.accessType}" />
 				</td>
         	</tr>
 	       </c:forEach>
+	       
+	    <c:if test="${selectedInstituteAttachment.modifyAttachment}"> 
 		<tr>
 			<td colspan="2">
 			<div id="globalbuttons" class="globalbuttons"><input
@@ -42,6 +45,7 @@
 				class="globalbuttons" title="save" alt="save"></div>
 			</td>
 		</tr>
+		</c:if>
 	       
         </table>
     </div>

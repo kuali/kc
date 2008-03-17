@@ -55,7 +55,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) doc;
         
         ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
-        UnitAuthorizationService unitAuthService = (UnitAuthorizationService) KraServiceLocator.getService(UnitAuthorizationService.class);
         
         Map editModeMap = new HashMap();
         String proposalNbr = proposalDoc.getProposalNumber();
@@ -139,7 +138,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      */
     private void setPermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
         editModeMap.put("modifyProposal", editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) ? TRUE : FALSE);
-       //editModeMap.put("copyNarratives", proposalAuthService.hasPermission(username, doc, PermissionConstants.))
+        editModeMap.put("modifyBudgets", hasPermission(username, doc, PermissionConstants.MODIFY_BUDGET));
+        editModeMap.put("viewBudgets", hasPermission(username, doc, PermissionConstants.VIEW_BUDGET));
         editModeMap.put("modifyPermissions", hasPermission(username, doc, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS));
         editModeMap.put("modifyNarratives", hasPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE));
         editModeMap.put("viewNarratives", hasPermission(username, doc, PermissionConstants.VIEW_NARRATIVE));

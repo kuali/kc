@@ -19,56 +19,62 @@
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
 <c:set var="textAreaFieldName" value="newInstituteAttachment.moduleTitle" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
-
+<c:set var="label" value="Internal Attachments" />
 
 <kul:tab tabTitle="Internal Attachments (${fn:length(KualiForm.document.instituteAttachments)})" defaultOpen="true" tabErrorKey="document.instituteAttachment*,newInstituteAttachment*">
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Add Internal Attachments</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
-        </div>
-        
+	
+	    <kra:section permission="modifyNarratives">
+	        <c:set var="label" value="Add Internal Attachments" />
+	    </kra:section>
+	    <div class="h2-container">
+	    	<span class="subhead-left"><h2>${label}</h2></span>
+	    	<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+	    </div>
         
         <table cellpadding=0 cellspacing=0 summary="">
-          	<tr>
-          	    <th><div align="left">&nbsp</div></th> 
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" noColon="true" /></div></th>
-          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.fileName}" noColon="true" /></div></th>
-              	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
-	  			             		
-          	</tr>        
-          	<tr>
-				<th class="infoline">
-					<c:out value="Add:" />
-				</th>
-
-                <td class="infoline">                
-                	<kul:htmlControlAttribute property="newInstituteAttachment.updateTimestamp" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
-				</td>
-                <td class="infoline">
-                	<kul:htmlControlAttribute property="newInstituteAttachment.updateUser" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
-                </td>
-                <td class="infoline">                	
-                	<kul:htmlControlAttribute property="newInstituteAttachment.institutionalAttachmentTypeCode" attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}"  styleClass="fixed-size-select"/>
-				</td>
-                <td class="infoline">
-                	<kul:htmlControlAttribute property="newInstituteAttachment.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
-				</td>
-                
-                <td class="infoline">
-                	<html:file property="newInstituteAttachment.narrativeFile" />
-                </td>
-				<td class="infoline">
-					<div align=center>
-						<html:image property="methodToCall.addInstitutionalAttachment.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
-					</div>
-                </td>
-            </tr>
+            
+	        <tr>
+	          	<th><div align="left">&nbsp</div></th> 
+	            <th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" noColon="true" /></div></th>
+	          	<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateUser}" noColon="true" /></div></th>
+	          	<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}" noColon="true" /></div></th>
+	          	<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleTitle}" noColon="true" /></div></th>
+	          	<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.fileName}" noColon="true" /></div></th>
+	            <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/> 		
+	        </tr>  
+	          
+	        <kra:section permission="modifyNarratives">    
+	          	<tr>
+					<th class="infoline">
+						<c:out value="Add:" />
+					</th>
+	
+	                <td class="infoline">                
+	                	<kul:htmlControlAttribute property="newInstituteAttachment.updateTimestamp" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
+					</td>
+	                <td class="infoline">
+	                	<kul:htmlControlAttribute property="newInstituteAttachment.updateUser" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
+	                </td>
+	                <td class="infoline">                	
+	                	<kul:htmlControlAttribute property="newInstituteAttachment.institutionalAttachmentTypeCode" attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}"  styleClass="fixed-size-select"/>
+					</td>
+	                <td class="infoline">
+	                	<kul:htmlControlAttribute property="newInstituteAttachment.moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
+	                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
+					</td>
+	                
+	                <td class="infoline">
+	                	<html:file property="newInstituteAttachment.narrativeFile" />
+	                </td>
+					<td class="infoline">
+						<div align=center>
+							<html:image property="methodToCall.addInstitutionalAttachment.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+						</div>
+	                </td>
+	            </tr>
+            </kra:section>
 
         	<c:forEach var="instituteAttachment" items="${KualiForm.document.instituteAttachments}" varStatus="status">
 	             <tr>
@@ -113,9 +119,10 @@
 	                </td>
 	                <td>
 					<div align=center>
-						<html:image property="methodToCall.deleteInstitutionalAttachment.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
-							
+					    <kra:section permission="modifyNarratives">
+							<html:image property="methodToCall.deleteInstitutionalAttachment.line${status.index}.anchor${currentTabIndex}"
+								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+					    </kra:section>
 						<c:if test="${!empty instituteAttachment.fileName}" >
 						<html:image styleId="getInstituteAttachmentRights.line${status.index}" property="methodToCall.getInstituteAttachmentRights.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 

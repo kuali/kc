@@ -92,6 +92,8 @@
 	                </td>
 	            </tr>
             </kra:section>
+            
+            <c:if test="${fn:length(KualiForm.document.narratives) > 0}">
             <tr>
             	<td colspan="4">
             	<div  align="left">
@@ -199,6 +201,7 @@
         	</div>
         	</td>
         	</tr>
+        	</c:if>
         </table>
     </div>
 </kul:tabTop>

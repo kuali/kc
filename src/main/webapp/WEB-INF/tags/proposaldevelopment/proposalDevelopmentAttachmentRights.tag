@@ -20,6 +20,7 @@
 <%-- <kul:uncollapsable tabTitle="Rights"  > --%>
 <kul:tabTop defaultOpen="true" tabTitle="Rights"
             tabErrorKey="newNarrativeUserRight*">
+    <input type="hidden" name="line" value="${line}" />
 	<div class="tab-container" align="center">
 		<div class="h2-container">
     		<span class="subhead-left"><h2>Proposal Attachment Rights for ${line+1}. ${selectedProposalAttachment.narrativeType.description }</h2></span>
@@ -35,6 +36,8 @@
 				</td>
         	</tr>
 	       </c:forEach>
+	       
+	    <c:if test="${selectedProposalAttachment.modifyAttachment}">
 		<tr>
 			<td colspan="2">
 			<div id="globalbuttons" class="globalbuttons"><input
@@ -43,6 +46,7 @@
 				class="globalbuttons" title="save" alt="save"></div>
 			</td>
 		</tr>
+		</c:if>
 	       
         </table>
     </div>
