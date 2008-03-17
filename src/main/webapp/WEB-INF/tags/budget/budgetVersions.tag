@@ -41,8 +41,12 @@
 				<th>Total:</th>
 				<th>Status:</th>
 				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" /></th>
-				<th><div align="center">Actions</div></th>
+				<kra:section permission="viewBudgets">
+				    <th><div align="center">Actions</div></th>
+				</kra:section>
 			</tr>
+			
+			<kra:section permission="modifyBudgets">
 			<tr>
             	<th width="50" align="right" scope="row"><div align="right">Add:</div></th>
             	<td class="infoline"><label><html:text name="KualiForm" property="newBudgetVersionName" size="16"/></label></td>
@@ -58,6 +62,8 @@
 					</div>
 				</td>
           	</tr>
+          	</kra:section>
+          	
           	<c:forEach var="budgetVersion" items="${budgetVersionOverviews}" varStatus="status">
           		<c:set var="version" value="${pathToVersions}.budgetVersionOverview[${status.index}]" />
           		<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
@@ -105,12 +111,16 @@
 	            			<html:radio name="KualiForm" property="finalBudgetVersion" value="${budgetVersion.budgetVersionNumber}"/>
 	            		</div>
 	            	</td>
-           			<td nowrap class="tab-subhead1">
-           				<div align=center>
-           					<html:image property="methodToCall.openBudgetVersion.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-open.gif' alt="open budget" />
-           					<html:image property="methodToCall.copyBudgetVersion.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy2.gif' alt="copy budget" />
-           				</div>
-           			</td>
+	            	<kra:section permission="viewBudgets">
+	           			<td nowrap class="tab-subhead1">
+	           				<div align=center>
+	           					<html:image property="methodToCall.openBudgetVersion.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-open.gif' alt="open budget" />
+	           					<kra:section permission="modifyBudgets">
+	           					    <html:image property="methodToCall.copyBudgetVersion.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy2.gif' alt="copy budget" />
+	           				    </kra:section>
+	           				</div>
+	           			</td>
+	           		</kra:section>
          		</tr>
          		<tbody style="${displayStyle}">
          		<tr>

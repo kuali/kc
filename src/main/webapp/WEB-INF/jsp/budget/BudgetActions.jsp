@@ -19,7 +19,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="budgetActions"
 	documentTypeName="BudgetDocument"
-  	headerDispatch="save"
+  	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="actions">
 
 	<center>Under Construction</center>
