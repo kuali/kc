@@ -212,7 +212,9 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("documentNumber", this.documentNumber);
         DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
-        this.documentDescription = docHeader.getFinancialDocumentDescription();
+        if (docHeader != null) {
+            this.documentDescription = docHeader.getFinancialDocumentDescription();
+        }
     }
 
     /**
