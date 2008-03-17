@@ -122,6 +122,12 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         setFinalBudgetVersion(budgetForm.getFinalBudgetVersion(), budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews());
         setProposalStatus(budgetForm.getBudgetDocument().getProposal());
+        if (budgetForm.getFinalBudgetVersion() != null 
+                && budgetForm.getFinalBudgetVersion().equals(budgetForm.getBudgetDocument().getBudgetVersionNumber())) {
+            budgetForm.getBudgetDocument().setFinalVersionFlag(true);
+        } else {
+            budgetForm.getBudgetDocument().setFinalVersionFlag(false);
+        }
         return super.save(mapping, form, request, response);
     }
     
