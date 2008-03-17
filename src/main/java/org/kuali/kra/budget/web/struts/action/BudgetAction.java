@@ -29,6 +29,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -77,6 +78,7 @@ public class BudgetAction extends ProposalActionBase {
 
     public ActionForward versions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
+        budgetForm.getBudgetDocument().getProposal().refreshReferenceObject(Constants.BUDGET_VERSION_OVERVIEWS);
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews()));
         setProposalStatuses(budgetForm.getBudgetDocument().getProposal());
         return mapping.findForward("versions");
