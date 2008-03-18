@@ -172,19 +172,19 @@ public class ProposalAuthorizationServiceImplTest extends KraTestBase {
         assertEquals(5, rolePersonsList.size());
         for (RolePersons rolePersons : rolePersonsList) {
             String roleName = rolePersons.getRoleName();
-            List<Person> persons = rolePersons.getPersons();
+            List<String> userNames = rolePersons.getUserNames();
             if (StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
-                assertEquals(2, persons.size());
-                assertTrue(contains(persons, "don"));
-                assertTrue(contains(persons, "gary"));
+                assertEquals(2, userNames.size());
+                assertTrue(userNames.contains("don"));
+                assertTrue(userNames.contains("gary"));
             } else if (StringUtils.equals(roleName, RoleConstants.VIEWER)) {
-                assertEquals(1, persons.size());
-                assertTrue(contains(persons, "molly"));
+                assertEquals(1, userNames.size());
+                assertTrue(userNames.contains("molly"));
             } else if (StringUtils.equals(roleName, RoleConstants.UNASSIGNED)) {
-                assertEquals(1, persons.size());
-                assertTrue(contains(persons, "leo"));
+                assertEquals(1, userNames.size());
+                assertTrue(userNames.contains("leo"));
             } else {
-                assertEquals(0, persons.size());
+                assertEquals(0, userNames.size());
             } 
         }
     }
