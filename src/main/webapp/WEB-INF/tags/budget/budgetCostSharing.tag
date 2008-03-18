@@ -101,6 +101,10 @@
 			    	</table></td>
 			    </tr>
 			</table>
+			<div align="center" style="padding-top: 2em;">
+				<html:image property="methodToCall.resetCostSharingToDefault" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-resettodefault.gif' />
+				<html:image property="methodToCall.recalculateCostSharing" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
+			</div>
 		</div>					
 	</div>
 </kul:tabTop>
