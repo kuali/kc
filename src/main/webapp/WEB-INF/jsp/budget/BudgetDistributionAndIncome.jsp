@@ -27,48 +27,10 @@
 	<center>Under Construction Still</center>
 	
 	<div align="center">
-		<kul:uncollapsable tabTitle="Select Budget Period:" tabErrorKey="projectIncome*">
-	          <div align="center">
-	            <table  cellpadding="0" cellspacing="0" class="grid" summary="">
-	              <tr>
-	                <th class="grid"><div align="right">Budget Period:</div></th>                
-	                <td class="grid" >
-	                	<html:select property="newBudgetPeriodNumber">
-	                    	<html:option value="0">Select</html:option>  		                    	
-	                    	<c:set var="budgetPeriods" value="${KualiForm.document.budgetPeriods}"/>
-    		            	<html:options collection="budgetPeriods" property="budgetPeriod" labelProperty="label"/>
-  			        	</html:select>
-	                </td>
-	              </tr>
-	            </table>
-	            <br>
-	            <html:image property="methodToCall.updateBudgetPeriodView" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
-			</div>
-		</kul:uncollapsable>
-		
-		<div style="padding-top: 3em;">
-			<kul:tabTop tabTitle="Cost Sharing (#)" defaultOpen="true" tabErrorKey="budget.projectIncome*">
-				<div class="tab-container" align="center">
-			    	<div class="h2-container">
-			    		<span class="subhead-left"><h2>Cost Sharing Distrbution List</h2></span>
-			    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
-			        </div>
-			    </div>
-			</kul:tabTop>
-			
-			<kul:tab tabTitle="Unrecovered F&A (#)" defaultOpen="true" tabErrorKey="budget.projectIncome*">
-				<div class="tab-container" align="center">
-			    	<div class="h2-container">
-			    		<span class="subhead-left"><h2>Unrecovered F&A Distrbution List</h2></span>
-			    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
-			        </div>
-			    </div>
-			</kul:tab>
-			
-			
-			<kra-b:budgetProjectIncome />
-				
-		</div>
+		<kra-b:budgetCostSharing />
+		<kra-b:budgetUnrecoveredFAndA />
+		<kra-b:budgetProjectIncome />
+		<kul:panelFooter />
 	</div>
 
 	<kul:documentControls 

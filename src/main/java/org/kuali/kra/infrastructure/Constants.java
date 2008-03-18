@@ -120,6 +120,9 @@ public interface Constants {
     public static final String BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE = "defaultUnderrecoveryRateClassCode";
     public static final String BUDGET_DEFAULT_MODULAR_FLAG = "defaultModularFlag";
     
+    // Budget Distribution And Income
+    public static final String BUDGET_CURRENT_FISCAL_YEAR = "budgetCurrentFiscalYear";
+    
     // Budget Personnel
     public static final String BUDGET_PERSON_DEFAULT_JOB_CODE = "budgetPersonDefaultJobCode";
     public static final String BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE = "budgetPersonDefaultAppointmentType";
