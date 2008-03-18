@@ -24,22 +24,27 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.ExtraButton;
+import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.document.BudgetDocumentContainer;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
 
-public class BudgetForm extends ProposalFormBase {
+public class BudgetForm extends ProposalFormBase implements BudgetDocumentContainer {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
     
     private String newBudgetPersons;
     private String newBudgetRolodexes;
     
     private BudgetPeriod newBudgetPeriod;
-    private Integer newBudgetPeriodNumber = 0;
+    
+    private Integer newBudgetPeriodNumber = 0;    
     private BudgetProjectIncome newBudgetProjectIncome;
+    
+    private BudgetCostShare newBudgetCostShare;
     
     private List<ExtraButton> extraTopButtons;
 
@@ -86,6 +91,7 @@ public class BudgetForm extends ProposalFormBase {
         extraTopButtons.add(returnToProposal);
         
         newBudgetProjectIncome = new BudgetProjectIncome();
+        newBudgetCostShare = new BudgetCostShare();
     }
     
     public BudgetDocument getBudgetDocument() {
@@ -206,6 +212,14 @@ public class BudgetForm extends ProposalFormBase {
     public void suppressButtonsForTotalPage() {
         this.getDocumentActionFlags().setCanCopy(false);
         this.getDocumentActionFlags().setCanReload(false);
+    }
+
+    public BudgetCostShare getNewBudgetCostShare() {
+        return newBudgetCostShare;
+    }
+
+    public void setNewBudgetCostShare(BudgetCostShare newBudgetCostShare) {
+        this.newBudgetCostShare = newBudgetCostShare;
     }
     
     /**

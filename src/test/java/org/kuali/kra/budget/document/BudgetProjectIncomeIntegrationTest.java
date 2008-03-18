@@ -34,14 +34,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 public class BudgetProjectIncomeIntegrationTest extends KraTestBase {
 
     private static final int BUDGET_PERIOD_1 = 1;
-    private static final int BUDGET_PERIOD_2 = 2;
-    private static final int BUDGET_PERIOD_3 = 3;
+//    private static final int BUDGET_PERIOD_2 = 2;
+//    private static final int BUDGET_PERIOD_3 = 3;
     private static final String DESCRIPTION_1 = "Budget Project Income 1";
-    private static final String DESCRIPTION_2 = "Budget Project Income 2";
-    private static final String DESCRIPTION_3 = "Budget Project Income 3";
+//    private static final String DESCRIPTION_2 = "Budget Project Income 2";
+//    private static final String DESCRIPTION_3 = "Budget Project Income 3";
     private static final double PROJECT_INCOME_1 = 1000.00;
-    private static final double PROJECT_INCOME_2 = 2000.00;
-    private static final double PROJECT_INCOME_3 = 3000.00;
+//    private static final double PROJECT_INCOME_2 = 2000.00;
+//    private static final double PROJECT_INCOME_3 = 3000.00;
     private BudgetDocument budgetDocument;
     private DocumentService documentService;
     private ProposalDevelopmentDocument proposalDocument;
@@ -120,7 +120,7 @@ public class BudgetProjectIncomeIntegrationTest extends KraTestBase {
     
     private BudgetProjectIncome createBudgetProjectIncome(Integer budgetPeriodNumber, double projectIncome, String description) {
         BudgetProjectIncome budgetProjectIncome = new BudgetProjectIncome();
-        budgetProjectIncome.setBudgetPeriodNumber(1);
+        budgetProjectIncome.setBudgetPeriodNumber(budgetPeriodNumber);
         budgetProjectIncome.setProjectIncome(new KualiDecimal(projectIncome));
         budgetProjectIncome.setDescription(description);
         return budgetProjectIncome;
