@@ -75,7 +75,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         HtmlPage routedCustomDataPage = clickOn(routeErrorCustomDataPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
         
         assertContains(routedCustomDataPage, "Document was successfully submitted.");
-        assertContains(routedCustomDataPage,"New Id: 99 Data Length: 8 Data Type Code: String Default Value: Group Name: test group Label: Test 99 Lookup Class: org.kuali.kra.bo.UserRole Lookup Return: roleId Name: test99");
+        assertContains(routedCustomDataPage,"New Id: 99 Data Length: 8 Data Type Code: String Default Value: Group Name: test group Label: Test 99 Lookup Class: User Roles Lookup Lookup Return: roleId Name: test99");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
