@@ -101,9 +101,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         boolean retval = true;
         
         for (ProposalPerson investigator : document.getInvestigators()) {
-            if (isPrincipalInvestigator(investigator)) {
-                retval = validateYesNoQuestions(investigator);
-            }
+            retval = validateYesNoQuestions(investigator);
         }
         
         if (!retval) {
