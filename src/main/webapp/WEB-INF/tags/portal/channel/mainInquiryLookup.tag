@@ -29,7 +29,7 @@
 
 <strong>Person and Workgroup</strong>
 <ul class="chan">
-  <li>Person</li>
+  <li><portal:portalLink displayTitle="true" title="Person" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Person&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   <li>Workgroup</li>
 </ul>
 </div>
