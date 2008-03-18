@@ -27,7 +27,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
@@ -42,6 +41,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
    
     public ActionForward addCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetCostShare budgetCostShare = budgetForm.getNewBudgetCostShare();
         boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetCostShare));
         
@@ -51,7 +51,8 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
                 budgetCostShare.setFiscalYear(0);
             }
             if(budgetCostShare.getShareAmount() == null) {
-                budgetCostShare.setShareAmount(defaultValue);
+                BudgetDecimal shareAmount = budgetCostShare.getFiscalYear() == 0 ? defaultValue : budgetDocument.findCostSharingForFiscalYear(budgetCostShare.getFiscalYear());                 
+                budgetCostShare.setShareAmount(shareAmount);
             }
             if(budgetCostShare.getSharePercentage() == null) {
                 budgetCostShare.setSharePercentage(defaultValue);
@@ -64,7 +65,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
 
         return mapping.findForward(MAPPING_BASIC);
     }
-    
+
     public ActionForward addProjectIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetProjectIncome budgetProjectIncome = budgetForm.getNewBudgetProjectIncome();
@@ -86,6 +87,23 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
     
     public ActionForward deleteCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ((BudgetForm) form).getBudgetDocument().getBudgetCostShares().remove(getLineToDelete(request));        
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    public ActionForward recalculateCostSharing(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // recalculation occurs on page render
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    public ActionForward resetCostSharingToDefault(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        for(BudgetCostShare budgetCostShare: budgetDocument.getBudgetCostShares()) {
+            Integer fiscalYear = budgetCostShare.getFiscalYear();
+            budgetCostShare.setSharePercentage(BudgetDecimal.ZERO);
+            BudgetDecimal shareAmount = (fiscalYear == null || fiscalYear == 0) ? BudgetDecimal.ZERO : budgetDocument.findCostSharingForFiscalYear(fiscalYear);
+            budgetCostShare.setShareAmount(shareAmount);
+        }
         return mapping.findForward(MAPPING_BASIC);
     }
     
