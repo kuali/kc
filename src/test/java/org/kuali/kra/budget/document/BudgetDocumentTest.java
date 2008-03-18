@@ -29,6 +29,7 @@ import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument.FiscalYearCostShare;
 
 public class BudgetDocumentTest {
+    private static final BudgetDecimal COST_SHARE_AMOUNT = new BudgetDecimal(100.0);
     private static final int DAY_1 = 1;
     private static final int DAY_2 = 2;
     private static final int DAY_30 = 30;
@@ -36,9 +37,8 @@ public class BudgetDocumentTest {
     private static final int YEAR_2007 = 2007;
     private static final int YEAR_2008 = 2008;
     private static final int YEAR_2009 = 2009;
+    private static final BudgetDecimal ZERO_COST_SHARING = BudgetDecimal.ZERO;
     
-    private static final BudgetDecimal COST_SHARE_AMOUNT = new BudgetDecimal(100.0);
-    private static final BudgetDecimal ZERO_COST_SHARING = new BudgetDecimal(0.0);
     private BudgetDocument budgetDocument;
     private Calendar calendar;
     private Date fiscalYearStart;
@@ -82,37 +82,6 @@ public class BudgetDocumentTest {
     }
     
     @Test
-    public void testIfCostSharingIsAvailable_BudgetPeriodPresentButNoCostSharing() {
-        Assert.assertFalse(budgetDocument.isCostSharingAvailable());
-    }
-    
-    @Test
-    public void testIfCostSharingIsAvailable_BudgetPeriodPresentWithNonZeroCostSharing() {
-        createAndAddBudgetPeriod(COST_SHARE_AMOUNT);
-        Assert.assertTrue(budgetDocument.isCostSharingAvailable());
-    }
-    
-    @Test
-    public void testIfCostSharingIsAvailable_BudgetPeriodPresentWithZeroCostSharing() {
-        createAndAddBudgetPeriod(ZERO_COST_SHARING);
-        Assert.assertFalse(budgetDocument.isCostSharingAvailable());
-    }
-
-    @Test
-    public void testIfCostSharingIsAvailable_BudgetPeriodsPresentWithCostSharingInOne() {
-        createAndAddBudgetPeriod(ZERO_COST_SHARING);        
-        createAndAddBudgetPeriod(ZERO_COST_SHARING);        
-        createAndAddBudgetPeriod(COST_SHARE_AMOUNT);
-        
-        Assert.assertTrue(budgetDocument.isCostSharingAvailable());
-    }
-
-    @Test
-    public void testIfCostSharingIsAvailable_NoBudgetPeriods() {
-        Assert.assertFalse(budgetDocument.isCostSharingAvailable());
-    }
-    
-    @Test
     public void testCorrectBudgetPeriodAssignedForFiscalYear() {
         createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.NOVEMBER, DAY_1), getDate(YEAR_2007, Calendar.DECEMBER, DAY_30), COST_SHARE_AMOUNT);
         createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.JULY, DAY_1), getDate(YEAR_2007, Calendar.SEPTEMBER, DAY_30), COST_SHARE_AMOUNT);
@@ -127,18 +96,17 @@ public class BudgetDocumentTest {
     }
     
     @Test
+    public void testFindingCostSharingForFiscalYear() throws Exception {
+        createBudgetPeriodsForThreeFiscalYears();
+        Assert.assertEquals(COST_SHARE_AMOUNT.add(COST_SHARE_AMOUNT), budgetDocument.findCostSharingForFiscalYear(YEAR_2007));
+        Assert.assertEquals(COST_SHARE_AMOUNT, budgetDocument.findCostSharingForFiscalYear(YEAR_2008));
+        Assert.assertEquals(COST_SHARE_AMOUNT.add(COST_SHARE_AMOUNT), budgetDocument.findCostSharingForFiscalYear(YEAR_2009));
+        Assert.assertEquals(ZERO_COST_SHARING, budgetDocument.findCostSharingForFiscalYear(YEAR_2000));
+    }
+    
+    @Test
     public void testGettingFiscalYearCostShareTotals() {
-        //FY 2007
-        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.JANUARY, DAY_1), getDate(YEAR_2007, Calendar.MARCH, DAY_30), COST_SHARE_AMOUNT);        
-        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.APRIL, DAY_1), getDate(YEAR_2007, Calendar.JUNE, DAY_30), ZERO_COST_SHARING);        
-        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.JULY, DAY_1), getDate(YEAR_2007, Calendar.SEPTEMBER, DAY_30), COST_SHARE_AMOUNT);
-        
-        //FY 2008
-        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.NOVEMBER, DAY_1), getDate(YEAR_2007, Calendar.DECEMBER, DAY_30), COST_SHARE_AMOUNT);
-        
-        //FY 2009
-        createAndAddBudgetPeriod(getDate(YEAR_2008, Calendar.OCTOBER, DAY_2), getDate(YEAR_2008, Calendar.DECEMBER, DAY_30), COST_SHARE_AMOUNT);
-        createAndAddBudgetPeriod(getDate(YEAR_2008, Calendar.OCTOBER, DAY_1), getDate(YEAR_2009, Calendar.OCTOBER, DAY_30), COST_SHARE_AMOUNT);
+        createBudgetPeriodsForThreeFiscalYears();
         
         List<FiscalYearCostShare> fiscalYearCostShareTotals = budgetDocument.getFiscalYearCostShareTotals();
         Assert.assertEquals(3, fiscalYearCostShareTotals.size());
@@ -158,6 +126,37 @@ public class BudgetDocumentTest {
         Assert.assertEquals(getDate(YEAR_2008, Calendar.OCTOBER, DAY_1), fiscalYearCostShare.getAssignedBudgetPeriod().getStartDate());
         Assert.assertEquals(COST_SHARE_AMOUNT.add(COST_SHARE_AMOUNT), fiscalYearCostShare.getCostShare());
     }
+
+    @Test
+    public void testIfCostSharingIsAvailable_BudgetPeriodPresentButNoCostSharing() {
+        Assert.assertFalse(budgetDocument.isCostSharingAvailable());
+    }
+
+    @Test
+    public void testIfCostSharingIsAvailable_BudgetPeriodPresentWithNonZeroCostSharing() {
+        createAndAddBudgetPeriod(COST_SHARE_AMOUNT);
+        Assert.assertTrue(budgetDocument.isCostSharingAvailable());
+    }
+    
+    @Test
+    public void testIfCostSharingIsAvailable_BudgetPeriodPresentWithZeroCostSharing() {
+        createAndAddBudgetPeriod(ZERO_COST_SHARING);
+        Assert.assertFalse(budgetDocument.isCostSharingAvailable());
+    }
+    
+    @Test
+    public void testIfCostSharingIsAvailable_BudgetPeriodsPresentWithCostSharingInOne() {
+        createAndAddBudgetPeriod(ZERO_COST_SHARING);        
+        createAndAddBudgetPeriod(ZERO_COST_SHARING);        
+        createAndAddBudgetPeriod(COST_SHARE_AMOUNT);
+        
+        Assert.assertTrue(budgetDocument.isCostSharingAvailable());
+    }
+
+    @Test
+    public void testIfCostSharingIsAvailable_NoBudgetPeriods() {
+        Assert.assertFalse(budgetDocument.isCostSharingAvailable());
+    }
     
     private BudgetPeriod createAndAddBudgetPeriod(BudgetDecimal costShareAmount) {
         BudgetPeriod budgetPeriod = new BudgetPeriod();
@@ -172,6 +171,20 @@ public class BudgetDocumentTest {
         budgetPeriod.setStartDate(startDate);
         budgetPeriod.setEndDate(endDate);
         return budgetPeriod;
+    }
+    
+    private void createBudgetPeriodsForThreeFiscalYears() {
+        //FY 2007
+        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.JANUARY, DAY_1), getDate(YEAR_2007, Calendar.MARCH, DAY_30), COST_SHARE_AMOUNT);        
+        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.APRIL, DAY_1), getDate(YEAR_2007, Calendar.JUNE, DAY_30), ZERO_COST_SHARING);        
+        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.JULY, DAY_1), getDate(YEAR_2007, Calendar.SEPTEMBER, DAY_30), COST_SHARE_AMOUNT);
+        
+        //FY 2008
+        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.NOVEMBER, DAY_1), getDate(YEAR_2007, Calendar.DECEMBER, DAY_30), COST_SHARE_AMOUNT);
+        
+        //FY 2009
+        createAndAddBudgetPeriod(getDate(YEAR_2008, Calendar.OCTOBER, DAY_2), getDate(YEAR_2008, Calendar.DECEMBER, DAY_30), COST_SHARE_AMOUNT);
+        createAndAddBudgetPeriod(getDate(YEAR_2008, Calendar.OCTOBER, DAY_1), getDate(YEAR_2009, Calendar.OCTOBER, DAY_30), COST_SHARE_AMOUNT);
     }
     
     private Date getDate(int year, int month, int date) {
