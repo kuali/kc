@@ -16,12 +16,13 @@
 package org.kuali.kra.rule.event;
 
 import org.kuali.core.rule.BusinessRule;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rule.CustomAttributeRule;
-import org.kuali.kra.rules.KraCustomAttributeRule;
 
-public class SaveCustomAttributeEvent extends CustomAttributeEventBase{
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveCustomAttributeEvent.class);
+public class SaveCustomAttributeEvent extends KraDocumentEventBase {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
+            .getLog(SaveCustomAttributeEvent.class);
 
     public SaveCustomAttributeEvent(String errorPathPrefix, ProposalDevelopmentDocument document) {
         super("Adding custom attribute to document " + getDocumentId(document), errorPathPrefix, document);
@@ -29,12 +30,12 @@ public class SaveCustomAttributeEvent extends CustomAttributeEventBase{
 
     @Override
     protected void logEvent() {
-        // TODO Auto-generated method stub
-        
+        LOG.info("Save custom attribute event");
     }
 
     public Class getRuleInterfaceClass() {
-        return CustomAttributeRule.class;    }
+        return CustomAttributeRule.class;
+    }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((CustomAttributeRule) rule).processCustomAttributeRules(this);
