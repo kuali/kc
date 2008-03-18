@@ -28,14 +28,14 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class RolePersons extends BusinessObjectBase {
     
     private String roleName;
-    private List<Person> persons;
+    private List<String> userNames;
     
     /**
      * Constructs a RolePersons.
      */
     public RolePersons() {
         this.roleName = null;
-        this.persons = null;
+        this.userNames = null;
     }
     
     /**
@@ -55,26 +55,26 @@ public class RolePersons extends BusinessObjectBase {
     }
 
     /**
-     * Get the persons in the role.
-     * @return the persons in the role
+     * Get the user names in the role.
+     * @return the user names in the role
      */
-    public List<Person> getPersons() {
-        return persons;
+    public List<String> getUserNames() {
+        return userNames;
     }
 
     /**
-     * Set the persons in the role.
-     * @param persons the persons in the role
+     * Set the user names in the role.
+     * @param userNames the user names in the role
      */
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
+    public void setUserNames(List<String> userNames) {
+        this.userNames = userNames;
     }
 
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("roleName", this.getRoleName());
-        map.put("persons", getPersons());
+        map.put("userNames", getUserNames());
         return map;
     }
 
