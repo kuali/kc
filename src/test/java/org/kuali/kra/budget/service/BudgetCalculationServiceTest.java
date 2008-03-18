@@ -46,7 +46,6 @@ public class BudgetCalculationServiceTest extends KraTestBase {
             .getLog(BudgetCalculationServiceTest.class);
     private BudgetCalculationService budgetCalculationService;
     private DocumentService documentService = null;
-    private BusinessObjectService bos;
     private static List objectCodes = new ArrayList();
     static {
         objectCodes.add(0, "400250");
@@ -85,7 +84,6 @@ public class BudgetCalculationServiceTest extends KraTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         budgetCalculationService = getService(BudgetCalculationService.class);
         documentService = KNSServiceLocator.getDocumentService();
-        bos = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
     @After
@@ -93,7 +91,6 @@ public class BudgetCalculationServiceTest extends KraTestBase {
         GlobalVariables.setUserSession(null);
         budgetCalculationService = null;
         documentService = null;
-        bos = null;
         super.tearDown();
     }
 
