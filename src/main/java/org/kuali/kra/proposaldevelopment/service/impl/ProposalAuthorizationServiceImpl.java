@@ -178,10 +178,12 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
         List<RolePersons> rolePersonsList = new ArrayList<RolePersons>();
         
         for (String roleName : roleNames) {
-            List<Person> persons = getPersonsInRole(doc, roleName);
+            Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
+            qualifiedRoleAttrs.put(PROPOSAL_KEY, doc.getProposalNumber());
+            List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
             RolePersons rolePersons = new RolePersons();
             rolePersons.setRoleName(roleName);
-            rolePersons.setPersons(persons);
+            rolePersons.setUserNames(usernames);
             rolePersonsList.add(rolePersons);
         }
         
