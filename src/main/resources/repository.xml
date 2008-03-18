@@ -228,6 +228,30 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor> -->
 
+    <class-descriptor class="org.kuali.kra.bo.PersonDegree" table="PERSON_DEGREE">
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="degreeCode" column="DEGREE_CODE" jdbc-type="VARCHAR" primaryKey="true"/>
+        <field-descriptor name="degree" column="DEGREE" jdbc-type="VARCHAR" primaryKey="true"/>
+        <field-descriptor name="graduationYear" column="GRADUATION_YEAR" jdbc-type="VARCHAR" />
+        <field-descriptor name="fieldOfStudy" column="FIELD_OF_STUDY" jdbc-type="VARCHAR" />
+        <field-descriptor name="specialization" column="SPECIALIZATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="school" column="SCHOOL" jdbc-type="VARCHAR" />
+        <field-descriptor name="schoolIdCode" column="SCHOOL_ID_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="schoolId" column="SCHOOL_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+        <reference-descriptor name="degreeType" class-ref="org.kuali.kra.bo.DegreeType"  auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="degreeCode" />
+        </reference-descriptor>
+
+        <reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person"  auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="personId" />
+        </reference-descriptor>
+    </class-descriptor>
+
 	<class-descriptor class="org.kuali.kra.bo.DegreeType" table="DEGREE_TYPE">
 		<field-descriptor name="degreeCode" column="DEGREE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
