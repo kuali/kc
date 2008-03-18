@@ -18,7 +18,6 @@ package org.kuali.kra.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.budget.document.BudgetDocument;
 
 public abstract class BudgetDistributionAndIncomeComponent extends KraPersistableBusinessObjectBase {
 

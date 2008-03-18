@@ -39,7 +39,7 @@ public class ValidationHelper {
         }
         
         return !isEmpty; 
-    }
+    }    
 
     /**
      * This method checks if field is null, or if a String, empty

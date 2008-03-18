@@ -27,15 +27,44 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.rule.event.AddBudgetCostShareEvent;
 import org.kuali.kra.budget.rule.event.AddBudgetProjectIncomeEvent;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 
 public class BudgetDistributionAndIncomeAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetDistributionAndIncomeAction.class);
+   
+    public ActionForward addCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetCostShare budgetCostShare = budgetForm.getNewBudgetCostShare();
+        boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetCostShare));
+        
+        if(passed) {
+            BudgetDecimal defaultValue = new BudgetDecimal(0.0);
+            if(budgetCostShare.getFiscalYear() == null) {
+                budgetCostShare.setFiscalYear(0);
+            }
+            if(budgetCostShare.getShareAmount() == null) {
+                budgetCostShare.setShareAmount(defaultValue);
+            }
+            if(budgetCostShare.getSharePercentage() == null) {
+                budgetCostShare.setSharePercentage(defaultValue);
+            }
+                       
+            budgetForm.getBudgetDocument().add(budgetCostShare);
+            budgetForm.setNewBudgetCostShare(new BudgetCostShare());
+            LOG.debug("Added new BudgetCostShare: " + budgetCostShare);
+        }  
 
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
     public ActionForward addProjectIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetProjectIncome budgetProjectIncome = budgetForm.getNewBudgetProjectIncome();
@@ -55,9 +84,13 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         return mapping.findForward(MAPPING_BASIC);
     }
     
-    public ActionForward updateBudgetPeriodView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getErrorMap().putError("newBudgetPeriodNo", "error.custom", "Update Budget Period View not yet implemented");
+    public ActionForward deleteCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ((BudgetForm) form).getBudgetDocument().getBudgetCostShares().remove(getLineToDelete(request));        
         return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    private AddBudgetCostShareEvent createRuleEvent(BudgetForm budgetForm, BudgetCostShare budgetCostShare) {
+        return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetCostShare);
     }
     
     private AddBudgetProjectIncomeEvent createRuleEvent(BudgetForm budgetForm, BudgetProjectIncome budgetProjectIncome) {
