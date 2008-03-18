@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.kra.bo.Person</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>WorkflowAdmin</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>PersonMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PERS</documentTypeCode>
+
+        <label>Person Maintenance Document</label>
+        <shortLabel>personMaintDoc</shortLabel>
+
+        <summary>Person Maintenance Document</summary>
+        <description>Document used to create or update Person Reference objects</description>
+
+        <lockingKeys>
+            <field attributeName="personId"/>
+
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Person">
+                <maintainableItems>
+                    <maintainableField name="personId" required="true"/>
+                    <maintainableField name="socialSecurityNumber" required="false"/>
+                    <maintainableField name="userName" required="false"/>
+                    <maintainableField name="fullName" required="false"/>
+                    <maintainableField name="addressLine1" required="false"/>
+                    <maintainableField name="addressLine2" required="false"/>
+                    <maintainableField name="addressLine3" required="false"/>
+                    <maintainableField name="city" required="false"/>
+                    <maintainableField name="countryCode" required="false"/>
+                    <maintainableField name="county" required="false"/>
+                    <maintainableField name="emailAddress" required="false"/>
+                    <maintainableField name="firstName" required="false"/>
+                    <maintainableField name="lastName" required="false"/>
+                    <maintainableField name="middleName" required="false"/>
+                    <maintainableField name="gender" required="false"/>
+                    <maintainableField name="age" required="false"/>
+                    <maintainableField name="ageByFiscalYear" required="false"/>
+                    <maintainableField name="dateOfBirth" required="false"/>
+                    <maintainableField name="race" required="false"/>
+                    <maintainableField name="educationLevel" required="false"/>
+                    <maintainableField name="degree" required="false"/>
+                    <maintainableField name="major" required="false"/>
+                    <maintainableField name="handicappedFlag" required="false"/>
+                    <maintainableField name="handicapType" required="false"/>
+                    <maintainableField name="veteranFlag" required="false"/>
+                    <maintainableField name="veteranType" required="false"/>
+                    <maintainableField name="hasVisa" required="false"/>
+                    <maintainableField name="visaType" required="false"/>
+                    <maintainableField name="visaCode" required="false"/>
+                    <maintainableField name="visaRenewalDate" required="false"/>
+                    <maintainableField name="officeLocation" required="false"/>
+                    <maintainableField name="officePhone" required="false"/>
+                    <maintainableField name="secondaryOfficePhone" required="false"/>
+                    <maintainableField name="secondaryOfficeLocation" required="false"/>
+                    <maintainableField name="school" required="false"/>
+                    <maintainableField name="yearGraduated" required="false"/>
+                    <maintainableField name="directoryDepartment" required="false"/>
+                    <maintainableField name="countryOfCitizenship" required="false"/>
+                    <maintainableField name="primaryTitle" required="false"/>
+                    <maintainableField name="directoryTitle" required="false"/>
+                    <maintainableField name="homeUnit" required="false"/>
+                    <maintainableField name="facultyFlag" required="false"/>
+                    <maintainableField name="graduateStudentStaffFlag" required="false"/>
+                    <maintainableField name="researchStaffFlag" required="false"/>
+                    <maintainableField name="serviceStaffFlag" required="false"/>
+                    <maintainableField name="supportStaffFlag" required="false"/>
+                    <maintainableField name="medicalStaffFlag" required="false"/>
+                    <maintainableField name="vacationAccrualFlag" required="false"/>
+                    <maintainableField name="onSabbaticalFlag" required="false"/>
+                    <maintainableField name="idProvided" required="false"/>
+                    <maintainableField name="idVerified" required="false"/>
+                    <maintainableField name="pagerNumber" required="false"/>
+                    <maintainableField name="faxNumber" required="false"/>
+                    <maintainableField name="mobilePhoneNumber" required="false"/>
+                    <maintainableField name="eraCommonsUserName" required="false"/>
+                    <maintainableField name="postalCode" required="false"/>
+                    <maintainableField name="state" required="false"/>
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>
