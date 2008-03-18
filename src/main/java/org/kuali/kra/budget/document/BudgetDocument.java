@@ -628,6 +628,20 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return availableCostShare;
     }
     
+    public BudgetDecimal findCostSharingForFiscalYear(Integer fiscalYear) {
+        BudgetDecimal costSharing = BudgetDecimal.ZERO;
+        
+        List<FiscalYearCostShare> costShareFiscalYears = calculateFiscalYearTotals(mapBudgetPeriodsToFiscalYears());
+        for(FiscalYearCostShare costShareFiscalYear: costShareFiscalYears) {
+            if(costShareFiscalYear.fiscalYear == fiscalYear) {
+                costSharing = costShareFiscalYear.costShare;
+                break;
+            }
+        }
+        
+        return costSharing;
+    }
+    
     /**
      * This method allows test cases to inject fiscalYearStart
      * @param fiscalYearStart
