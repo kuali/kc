@@ -23,11 +23,13 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
 import org.kuali.kra.budget.rule.AddBudgetPeriodRule;
 import org.kuali.kra.budget.rule.AddBudgetProjectIncomeRule;
 import org.kuali.kra.budget.rule.DeleteBudgetPeriodRule;
 import org.kuali.kra.budget.rule.GenerateBudgetPeriodRule;
 import org.kuali.kra.budget.rule.SaveBudgetPeriodRule;
+import org.kuali.kra.budget.rule.event.AddBudgetCostShareEvent;
 import org.kuali.kra.budget.rule.event.AddBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.AddBudgetProjectIncomeEvent;
 import org.kuali.kra.budget.rule.event.DeleteBudgetPeriodEvent;
@@ -36,8 +38,15 @@ import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule{
+public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule{
 
+    /** 
+     * @see org.kuali.kra.budget.rule.AddBudgetCostShareRule#processAddBudgetCostShareBusinessRules(org.kuali.kra.budget.rule.event.AddBudgetCostShareEvent)
+     */
+    public boolean processAddBudgetCostShareBusinessRules(AddBudgetCostShareEvent addBudgetCostShareEvent) {
+        return new BudgetCostShareRuleImpl().processAddBudgetCostShareBusinessRules(addBudgetCostShareEvent);
+    }
+    
     /**
      * @see org.kuali.kra.budget.rule.AddBudgetPeriodRule#processAddBudgetPeriodBusinessRules(org.kuali.kra.budget.document.BudgetDocument,org.kuali.kra.budget.bo.BudgetPeriod)
      */
@@ -80,6 +89,9 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         if (ObjectUtils.isNull(budgetDocument.getProposal())) {
             budgetDocument.refreshReferenceObject("proposal");
         }
+        
+        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), true, true);
+        
         valid &= processBudgetVersionsBusinessRule(budgetDocument.getProposal().getBudgetVersionOverviews());
         GlobalVariables.getErrorMap().removeFromErrorPath("proposal");
         

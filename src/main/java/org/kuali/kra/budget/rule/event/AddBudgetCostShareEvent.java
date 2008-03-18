@@ -19,19 +19,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.budget.bo.BudgetProjectIncome;
-import org.kuali.kra.budget.rule.AddBudgetProjectIncomeRule;
+import org.kuali.kra.budget.bo.BudgetCostShare;
+import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
-public class AddBudgetProjectIncomeEvent extends KraDocumentEventBase {
-    private static final Log LOG = LogFactory.getLog(AddBudgetProjectIncomeEvent.class);
+public class AddBudgetCostShareEvent extends KraDocumentEventBase {
+    private static final Log LOG = LogFactory.getLog(AddBudgetCostShareEvent.class);
     
-    private BudgetProjectIncome budgetProjectIncome;
+    private BudgetCostShare budgetCostShare;
     
-    public AddBudgetProjectIncomeEvent(String description, String errorPathPrefix, Document document, 
-                                    BudgetProjectIncome budgetProjectIncome) {
+    public AddBudgetCostShareEvent(String description, String errorPathPrefix, Document document, BudgetCostShare budgetCostShare) {
         super(description, errorPathPrefix, document);
-        this.budgetProjectIncome = budgetProjectIncome;
+        this.budgetCostShare = budgetCostShare;
     }
 
     @Override
@@ -39,21 +38,19 @@ public class AddBudgetProjectIncomeEvent extends KraDocumentEventBase {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");
 
-        //vary logging detail as needed
-        String msg = (budgetProjectIncome == null) ? "null budgetProjectIncome" : budgetProjectIncome.toString();
-        LOG.debug(msg);
+        LOG.debug((budgetCostShare == null) ? "null budgetCostShare" : budgetCostShare.toString());
     }
 
-    public Class<AddBudgetProjectIncomeRule> getRuleInterfaceClass() {
-        return AddBudgetProjectIncomeRule.class;
+    public Class<AddBudgetCostShareRule> getRuleInterfaceClass() {
+        return AddBudgetCostShareRule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddBudgetProjectIncomeRule) rule).processAddBudgetProjectIncomeBusinessRules(this);
+        return ((AddBudgetCostShareRule) rule).processAddBudgetCostShareBusinessRules(this);
     }
 
-    public BudgetProjectIncome getBudgetProjectIncome() {
-        return budgetProjectIncome;
+    public BudgetCostShare getBudgetCostShare() {
+        return budgetCostShare;
     }
 
 }

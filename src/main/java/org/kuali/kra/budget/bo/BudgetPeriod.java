@@ -18,9 +18,12 @@ package org.kuali.kra.budget.bo;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.util.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
@@ -58,12 +61,14 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
         return new StringBuilder()
 		            .append(budgetPeriod)
 		            .append(": ")
-		            .append(dateFormatter.format(startDate))
-		            .append(" - ")
-		            .append(dateFormatter.format(endDate))
+		            .append(getDateRangeLabel())
 		            .toString();
 	}
 
+	public String getDateRangeLabel() {
+	    return new StringBuilder().append(dateFormatter.format(startDate)).append(" - ").append(dateFormatter.format(endDate)).toString();
+	}
+	
 	public void setBudgetPeriod(Integer budgetPeriod) {
 		this.budgetPeriod = budgetPeriod;
 	}
@@ -211,6 +216,22 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 
     public void setExpenseTotal(BudgetDecimal expenseTotal) {
         this.expenseTotal = expenseTotal;
+    }
+
+    public int calculateFiscalYear(Date fiscalYearStartDateTime) {
+        if(startDate == null || fiscalYearStartDateTime == null) { return 0; }
+
+        Date fiscalYearStartDate = DateUtils.clearTimeFields(fiscalYearStartDateTime);
+        
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(startDate);
+        int startDateYear = calendar.get(Calendar.YEAR);
+        
+        calendar.setTime(fiscalYearStartDate);
+        calendar.set(Calendar.YEAR, startDateYear);
+        Date startDateYearFiscalYearBeginning = new Date(calendar.getTimeInMillis());
+
+        return startDate.compareTo(startDateYearFiscalYearBeginning) < 0 ? startDateYear : ++startDateYear;
     }
 
 }

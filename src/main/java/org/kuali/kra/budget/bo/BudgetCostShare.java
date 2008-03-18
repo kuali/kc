@@ -1,0 +1,136 @@
+/*
+ * Copyright 2008 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.budget.bo;
+
+import java.util.LinkedHashMap;
+
+import org.kuali.kra.budget.BudgetDecimal;
+
+public class BudgetCostShare extends BudgetDistributionAndIncomeComponent {
+    public static final String BUDGET_COST_SHARE_ID_KEY = "BUDGET_COST_SHARE_ID_KEY";
+    
+    private static final long serialVersionUID = 1L;  
+    
+    private Integer costShareId;
+    private Integer fiscalYear;
+    private BudgetDecimal shareAmount;
+    private BudgetDecimal sharePercentage;
+    private String sourceAccount;
+
+    public BudgetCostShare() {
+        super();
+    }
+    
+    public BudgetCostShare(Integer fiscalYear, BudgetDecimal sharePercentage, BudgetDecimal shareAmount, String sourceAccount) {
+        this();
+        this.fiscalYear = fiscalYear;
+        this.sharePercentage = sharePercentage;
+        this.shareAmount = shareAmount;
+        this.sourceAccount = sourceAccount;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof BudgetCostShare))
+            return false;
+        final BudgetCostShare other = (BudgetCostShare) obj;
+        if (fiscalYear == null) {
+            if (other.fiscalYear != null)
+                return false;
+        }
+        else if (!fiscalYear.equals(other.fiscalYear))
+            return false;
+        if (shareAmount == null) {
+            if (other.shareAmount != null)
+                return false;
+        }
+        else if (!shareAmount.equals(other.shareAmount))
+            return false;
+        if (sourceAccount == null) {
+            if (other.sourceAccount != null)
+                return false;
+        }
+        else if (!sourceAccount.equals(other.sourceAccount))
+            return false;
+        return true;
+    }
+
+    public Integer getCostShareId() {
+        return costShareId;
+    }
+
+    public Integer getFiscalYear() {
+        return fiscalYear;
+    }
+
+    public BudgetDecimal getShareAmount() {
+        return shareAmount;
+    }
+
+    public BudgetDecimal getSharePercentage() {
+        return sharePercentage;
+    }
+
+    public String getSourceAccount() {
+        return sourceAccount;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((fiscalYear == null) ? 0 : fiscalYear.hashCode());
+        result = prime * result + ((shareAmount == null) ? 0 : shareAmount.hashCode());
+        result = prime * result + ((sourceAccount == null) ? 0 : sourceAccount.hashCode());
+        return result;
+    }
+
+    public void setCostShareId(Integer costShareId) {
+        this.costShareId = costShareId;
+    }
+
+    public void setFiscalYear(Integer fiscalYear) {
+        this.fiscalYear = fiscalYear;
+    }
+
+    public void setShareAmount(BudgetDecimal shareAmount) {
+        this.shareAmount = shareAmount;
+    }
+
+    public void setSharePercentage(BudgetDecimal sharePercentage) {
+        this.sharePercentage = sharePercentage;
+    }
+
+    public void setSourceAccount(String sourceAcocunt) {
+        this.sourceAccount = sourceAcocunt;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap<String, Object> hashMap = super.toStringMapper();
+        hashMap.put("sharePercentage", getSharePercentage());
+        hashMap.put("fiscalYear", getFiscalYear());
+        hashMap.put("shareAmount", getShareAmount());
+        hashMap.put("sourceAccount", getSourceAccount());
+        
+        return hashMap;
+    }
+}

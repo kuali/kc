@@ -19,6 +19,10 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -28,11 +32,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
@@ -57,6 +63,8 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
+    private static final String DEFAULT_FISCAL_YEAR_START = "01/01/2000";
+
     private static final Log LOG = LogFactory.getLog(BudgetDocument.class);
     
     private String proposalNumber;
@@ -82,6 +90,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<BudgetProposalLaRate> budgetProposalLaRates;
     private List<BudgetPeriod> budgetPeriods;
     private List<BudgetProjectIncome> budgetProjectIncomes;
+    private List<BudgetCostShare> budgetCostShares;
     
     private String activityTypeCode="1";
     private List<BudgetLineItem> budgetLineItems;
@@ -89,7 +98,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<BudgetPerson> budgetPersons;
     
     private Date summaryPeriodStartDate;
-    private Date summaryPeriodEndDate;
+    private Date summaryPeriodEndDate;    
     
     private List<InstituteRate> instituteRates;
     private List<InstituteLaRate> instituteLaRates;
@@ -98,8 +107,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private SortedMap <CostElement, List> objectCodeTotals ;
     private SortedMap <RateType, List> calculatedExpenseTotals ;
     
+    private transient Date fiscalYearStart;
+    
     public BudgetDocument(){
         super();
+        budgetCostShares = new ArrayList<BudgetCostShare>();
         budgetProjectIncomes = new ArrayList<BudgetProjectIncome>();
         budgetProposalRates = new ArrayList<BudgetProposalRate>();
         budgetProposalLaRates = new ArrayList<BudgetProposalLaRate>();
@@ -159,6 +171,30 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         
         return periodIncomeTotals;
     }
+     
+    public List<FiscalYearCostShare> getFiscalYearCostShareTotals() {
+        Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = mapBudgetPeriodsToFiscalYears();
+        List<FiscalYearCostShare> fiscalYearCostShares = calculateFiscalYearTotals(budgetPeriodFiscalYears);
+        
+        return fiscalYearCostShares;
+    }
+    
+    public boolean isCostSharingAvailable() {
+        boolean costSharingAvailable = false;
+        for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
+            costSharingAvailable = budgetPeriod.getCostSharingAmount().isPositive();
+            if(costSharingAvailable) { break; }
+        }
+        return costSharingAvailable;
+    }
+    
+    public BudgetDecimal getAllocatedCostSharing() {
+        BudgetDecimal costShareTotal = new BudgetDecimal(0.0);
+        for(BudgetCostShare budgetCostShare: getBudgetCostShares()) {
+            costShareTotal = costShareTotal.add(budgetCostShare.getShareAmount()); 
+        }
+        return costShareTotal;
+    }
     
     public KualiDecimal getProjectIncomeTotal() {
         KualiDecimal projectIncomeTotal = new KualiDecimal(0.0);
@@ -174,6 +210,12 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public BudgetDecimal getCostSharingAmount() {
         return costSharingAmount == null ?  new BudgetDecimal(0) : costSharingAmount;
+    }
+
+    public BudgetDecimal getUnallocatedCostSharing() {
+        BudgetDecimal allocated = getAllocatedCostSharing();
+        BudgetDecimal available = getAvailableCostSharing();
+        return available.subtract(allocated);
     }
 
     public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
@@ -332,6 +374,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getBudgetPeriods());
         managedLists.add(getBudgetProjectIncomes());
+        managedLists.add(getBudgetCostShares());
         managedLists.add(getBudgetPersons());
         return managedLists;
     }
@@ -473,13 +516,27 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.budgetProjectIncomes = budgetProjectIncomes;
     }
 
+    public void add(BudgetCostShare budgetCostShare) {
+        if(budgetCostShare != null) {
+            budgetCostShare.setProposalNumber(getProposalNumber());
+            budgetCostShare.setBudgetVersionNumber(getBudgetVersionNumber());
+            refreshReferenceObject("documentNextvalues");
+            budgetCostShare.setCostShareId(getDocumentNextValue(BudgetCostShare.BUDGET_COST_SHARE_ID_KEY));            
+            getBudgetCostShares().add(budgetCostShare);
+            LOG.debug("Added budgetCostShare: " + budgetCostShare);
+        } else {
+            LOG.warn("Attempt to add null budgetCostShare was ignored");
+        }
+    }
+    
     public void add(BudgetProjectIncome budgetProjectIncome) {
         if(budgetProjectIncome != null) {
             budgetProjectIncome.setProposalNumber(getProposalNumber());
             budgetProjectIncome.setBudgetVersionNumber(getBudgetVersionNumber());
+            this.refreshReferenceObject("documentNextvalues");
             this.getBudgetProjectIncomes().add(budgetProjectIncome);
         } else {
-            LOG.warn("Attempt to add a null budgetProjectIncome was ignored");
+            LOG.warn("Attempt to add null budgetProjectIncome was ignored");
         }
     }
 
@@ -523,6 +580,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         getBudgetPeriods().add(budgetPeriod);        
     }
 
+    public void remove(BudgetCostShare budgetCostShare) {
+        getBudgetCostShares().remove(budgetCostShare);
+    }
+    
     public void remove(BudgetProjectIncome budgetProjectIncome) {
         getBudgetProjectIncomes().remove(budgetProjectIncome);
     }
@@ -533,6 +594,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public final void setInstituteLaRates(List<InstituteLaRate> instituteLaRates) {
         this.instituteLaRates = instituteLaRates;
+    }
+
+    public List<BudgetCostShare> getBudgetCostShares() {
+        return budgetCostShares;
     }
 
     public void getBudgetTotals() {
@@ -554,5 +619,134 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public void setCalculatedExpenseTotals(SortedMap<RateType, List> calculatedExpenseTotals) {
         this.calculatedExpenseTotals = calculatedExpenseTotals;
     }
+    
+    public BudgetDecimal getAvailableCostSharing() {
+        BudgetDecimal availableCostShare = new BudgetDecimal(0.0);
+        for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
+            availableCostShare = availableCostShare.add(budgetPeriod.getCostSharingAmount());
+        }
+        return availableCostShare;
+    }
+    
+    /**
+     * This method allows test cases to inject fiscalYearStart
+     * @param fiscalYearStart
+     */
+    public void setFiscalYearStart(Date fiscalYearStart) {
+        this.fiscalYearStart = fiscalYearStart;
+    }
+    
+    /**
+     * This method loads teh fiscal year start from the database. Protected to allow mocking out service call
+     * @return
+     */
+    protected Date loadFiscalYearStart() {
+        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+        return createDateFromString(kualiConfigurationService.getParameterValue("KRA-B", "D", Constants.BUDGET_CURRENT_FISCAL_YEAR));        
+    }
 
+    protected Date createDateFromString(String budgetFiscalYearStart) {
+        if (budgetFiscalYearStart == null) {
+            return null;
+        }
+        String[] dateParts = budgetFiscalYearStart.split("/"); // mm/dd/yyyy
+        
+        // using Calendar her because org.kuali.core.util.DateUtils.newdate(...) has hour value in time fields (UT?)
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.set(Integer.valueOf(dateParts[2]), Integer.valueOf(dateParts[0]) - 1, Integer.valueOf(dateParts[1]), 0, 0, 0);
+        return new Date(calendar.getTimeInMillis());
+    }
+    
+    private List<FiscalYearCostShare> calculateFiscalYearTotals(Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears) {
+        List<FiscalYearCostShare> fiscalYearCostShares = new ArrayList<FiscalYearCostShare>();
+        for(Integer fiscalYear: budgetPeriodFiscalYears.keySet()) {            
+            BudgetDecimal fiscalYearCostShareAmount = new BudgetDecimal(0.0);
+            List<BudgetPeriod> budgetPeriodsInFiscalYear = budgetPeriodFiscalYears.get(fiscalYear);
+            for(BudgetPeriod budgetPeriod: budgetPeriodsInFiscalYear) {
+                fiscalYearCostShareAmount = fiscalYearCostShareAmount.add(budgetPeriod.getCostSharingAmount());
+            }
+            fiscalYearCostShares.add(new FiscalYearCostShare(budgetPeriodsInFiscalYear.get(0), fiscalYear, fiscalYearCostShareAmount));
+        }
+        return fiscalYearCostShares;
+    }
+
+    private Map<Integer, List<BudgetPeriod>> mapBudgetPeriodsToFiscalYears() {
+        Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = new TreeMap<Integer, List<BudgetPeriod>>();
+        
+        for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
+            Integer fiscalYear = budgetPeriod.calculateFiscalYear(getFiscalYearStart());
+            
+            List<BudgetPeriod> budgetPeriodsInFiscalYear = budgetPeriodFiscalYears.get(fiscalYear);
+            if(budgetPeriodsInFiscalYear == null) {
+                budgetPeriodsInFiscalYear = new ArrayList<BudgetPeriod>();
+                budgetPeriodFiscalYears.put(fiscalYear, budgetPeriodsInFiscalYear);
+            }
+            budgetPeriodsInFiscalYear.add(budgetPeriod);
+            Collections.sort(budgetPeriodsInFiscalYear, new BudgetPeriodComparator());
+        }
+        return budgetPeriodFiscalYears;
+    }
+
+    /**
+     * This method returns the fiscalYearStart, loading it from the database if needed
+     *  
+     * @return
+     */
+    private Date getFiscalYearStart() {
+        if(fiscalYearStart == null) {
+            fiscalYearStart = loadFiscalYearStart();
+            if(fiscalYearStart == null) {
+                fiscalYearStart = createDateFromString(DEFAULT_FISCAL_YEAR_START);
+            }
+        }        
+        return fiscalYearStart;
+    }
+    
+    public class FiscalYearCostShare {
+        private int fiscalYear;
+        private BudgetPeriod assignedBudgetPeriod;
+        private BudgetDecimal costShare;
+        
+        public FiscalYearCostShare(BudgetPeriod assignedBudgetPeriod, int fiscalYear, BudgetDecimal costShare) {
+            super();
+            this.assignedBudgetPeriod = assignedBudgetPeriod;
+            this.fiscalYear = fiscalYear;
+            this.costShare = costShare;
+        }
+
+        public int getFiscalYear() {
+            return fiscalYear;
+        }
+
+        public BudgetPeriod getAssignedBudgetPeriod() {
+            return assignedBudgetPeriod;
+        }
+
+        public BudgetDecimal getCostShare() {
+            return costShare;
+        }
+    }
+    /**
+     * This class compares two BudgetPeriods to determine which should be considered earlier.
+     */
+    private class BudgetPeriodComparator implements Comparator<BudgetPeriod> {
+        private final static int FIRST_EQUALS_SECOND = 0;
+        private final static int FIRST_LESS_THAN_SECOND = -1;
+        
+        public int compare(BudgetPeriod bp1, BudgetPeriod bp2) {
+            int result = compareDates(bp1.getStartDate(), bp2.getStartDate());
+            if(result == FIRST_EQUALS_SECOND) {
+                result = compareDates(bp1.getEndDate(), bp2.getEndDate());
+            }
+            return result;
+        }
+        
+        private int compareDates(Date d1, Date d2) {
+            if(d1 != null) {
+                return d1.compareTo(d2);                
+            } else {
+                return (d2 != null) ? FIRST_LESS_THAN_SECOND : FIRST_EQUALS_SECOND;
+            }
+        }
+    };
 }
