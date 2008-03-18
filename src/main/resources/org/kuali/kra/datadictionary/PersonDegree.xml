@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.PersonDegree">
+
+        <inquiry>
+            <title>Person Degree</title>
+
+            <inquirySections><inquirySection title="Person Degree"><inquiryFields>
+                <field attributeName="personId" forceInquiry="true"/>
+                <field attributeName="graduationYear" forceInquiry="true" />
+                <field attributeName="degreeCode" forceInquiry="true" />
+                <field attributeName="degree" forceInquiry="true" />
+                <field attributeName="fieldOfStudy" />
+                <field attributeName="specialization" />
+                <field attributeName="school" />
+                <field attributeName="schoolIdCode" />
+                <field attributeName="schoolId" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Person Degree</title>
+            <menubar>
+                <![CDATA[<a href="index.jsp">Main</a>]]>
+            </menubar>
+            <instructions>Look up a Person Degree</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="personId" />
+                    <sortAttribute attributeName="graduationYear" />
+                    <sortAttribute attributeName="degreeCode" />
+                    <sortAttribute attributeName="degree" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="personId" />
+                <lookupField attributeName="graduationYear" />
+                <lookupField attributeName="degreeCode" />
+                <lookupField attributeName="degree" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="personId" forceInquiry="true"/>
+                <field attributeName="graduationYear" forceInquiry="true" />
+                <field attributeName="degreeCode" forceInquiry="true" />
+                <field attributeName="degree" forceInquiry="true" />
+                <field attributeName="fieldOfStudy" forceInquiry="false" />
+                <field attributeName="specialization" forceInquiry="false" />
+                <field attributeName="school" forceInquiry="false" />
+                <field attributeName="schoolIdCode" forceInquiry="false" />
+                <field attributeName="schoolId" forceInquiry="false" />
+           </resultFields>
+        </lookup>
+
+        <titleAttribute>degreeCode</titleAttribute>
+        <attributes>
+
+            <attributeReference name="personId" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="personId" />
+
+            <attribute name="graduationYear" >
+                <label>Graduation Year</label>
+                <shortLabel>Graduation Year</shortLabel>
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <control>
+                    <text size="5" />
+                </control>
+                <summary>Graduation Year</summary>
+                <description>Graduation Year</description>
+            </attribute>
+
+            <attribute name="degreeCode" >
+                <label>Degree Type</label>
+                <shortLabel>Degree Type</shortLabel>
+                <maxLength>6</maxLength>
+                <control>                    
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.DegreeType" keyAttribute="degreeCode" labelAttribute="description" includeKeyInLabel="false"/>
+                </control>
+                <summary>Degree Code</summary>
+                <description>Degree Code</description>
+            </attribute>
+
+            <attribute name="degree" >
+                <label>Degree Description</label>
+                <shortLabel>Degree Description</shortLabel>
+                <maxLength>80</maxLength>
+                <control>
+                    <text size="25" />
+                </control>
+                <summary>Degree</summary>
+                <description>Degree</description>
+            </attribute>
+
+            <attribute name="fieldOfStudy" >
+                <label>Field of Study</label>
+                <shortLabel>Field of Study</shortLabel>
+                <maxLength>80</maxLength>
+                <control>
+                    <text size="25" />
+                </control>
+                <summary>Field of Study</summary>
+                <description>Field of Study</description>
+            </attribute>
+
+            <attribute name="specialization" >
+                <label>Specialization</label>
+                <shortLabel>Specialization</shortLabel>
+                <maxLength>80</maxLength>
+                <control>
+                    <text size="25" />
+                </control>
+                <summary>Specialization</summary>
+                <description>Specialization</description>
+            </attribute>
+
+            <attribute name="school" >
+                <label>School</label>
+                <shortLabel>School</shortLabel>
+                <maxLength>50</maxLength>
+                <control>
+                    <text size="25" />
+                </control>
+                <summary>School</summary>
+                <description>School</description>
+            </attribute>
+
+            <attribute name="schoolIdCode" >
+                <label>School Id Code</label>
+                <shortLabel>School Id Cd</shortLabel>
+                <maxLength>3</maxLength>
+                <control>
+                    <text size="3" />
+                </control>
+                <summary>School Id Code</summary>
+                <description>School Id Code</description>
+            </attribute>
+
+            <attribute name="schoolId" >
+                <label>School Id</label>
+                <shortLabel>SchoolId </shortLabel>
+                <maxLength>20</maxLength>
+                <control>
+                    <text size="25" />
+                </control>
+                <summary>School Id</summary>
+                <description>School Id</description>
+            </attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
+    </businessObject>
+
+</dictionaryEntry>
