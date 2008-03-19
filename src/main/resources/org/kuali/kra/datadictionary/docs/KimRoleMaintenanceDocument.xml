@@ -35,7 +35,7 @@
         <documentTypeName>KimRoleMaintenanceDocument</documentTypeName>
         <documentTypeCode>KIMR</documentTypeCode>
 
-        <label>KIMRole Maintenance Document</label>
+        <label>KIM Role Maintenance Document</label>
         <shortLabel>kimRoleMaintDoc</shortLabel>
 
         <summary>KIM Role Maintenance Document</summary>
