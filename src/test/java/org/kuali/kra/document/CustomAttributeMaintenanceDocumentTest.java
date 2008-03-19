@@ -15,24 +15,22 @@
  */
 package org.kuali.kra.document;
 
-import java.io.IOException;
-
 import org.junit.Test;
 import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.service.DocumentService;
 import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestSql;
 
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 @PerTestUnitTestData(
     @UnitTestData(
             sqlStatements = {
-                    @UnitTestSql("delete from CUSTOM_ATTRIBUTE where id = 99")
+                    @UnitTestSql("delete from CUSTOM_ATTRIBUTE where id = 999")
 
             }
     )
@@ -54,7 +52,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         String documentNumber = getFieldValue(customAttributeMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(customAttributeMaintenancePage,"CustomAttribute New * Id: Data Length: * Data Type Code: select Default Value: Group Name: * Label: Lookup Class: select Lookup Return: select * Name");
         setFieldValue(customAttributeMaintenancePage, "document.documentHeader.financialDocumentDescription", "Custom Attribute - test");
-        setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.id", "99");
+        setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.id", "999");
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.dataLength", "8");
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.dataTypeCode", "1");
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.groupName", "test group");
@@ -71,17 +69,17 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         assertContains(routeErrorCustomDataPage, "Errors found in this Section: Lookup Return is a required field");
 
         // lookupreturn should be loaded during page reload
-        setFieldValue(routeErrorCustomDataPage, "document.newMaintainableObject.lookupReturn", "roleId");
+        setFieldValue(routeErrorCustomDataPage, Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN, "roleId");
         HtmlPage routedCustomDataPage = clickOn(routeErrorCustomDataPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
         
         assertContains(routedCustomDataPage, "Document was successfully submitted.");
-        assertContains(routedCustomDataPage,"New Id: 99 Data Length: 8 Data Type Code: String Default Value: Group Name: test group Label: Test 99 Lookup Class: User Roles Lookup Lookup Return: roleId Name: test99");
+        assertContains(routedCustomDataPage,"New Id: 999 Data Length: 8 Data Type Code: String Default Value: Group Name: test group Label: Test 99 Lookup Class: User Roles Lookup Lookup Return: roleId Name: test99");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         CustomAttribute customAttribute = (CustomAttribute)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(customAttribute.getId(),new Integer(99));
+        assertEquals(customAttribute.getId(),new Integer(999));
         assertEquals(customAttribute.getGroupName(),"test group");
         assertEquals(customAttribute.getLabel(),"Test 99");
         assertEquals(customAttribute.getName(),"test99");

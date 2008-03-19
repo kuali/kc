@@ -15,20 +15,26 @@
  */
 package org.kuali.kra.rules;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceKeyConstants;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
-public class CustomAttributeMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
+public class CustomAttributeDocumentMaintenanceDocumentRule  extends MaintenanceDocumentRuleBase {
     
     /**
      * Constructs a CustomAttributeMaintenanceDocumentRule.java.
      */
-    public CustomAttributeMaintenanceDocumentRule() {
+    public CustomAttributeDocumentMaintenanceDocumentRule() {
         super();
     }
     
@@ -37,7 +43,7 @@ public class CustomAttributeMaintenanceDocumentRule extends MaintenanceDocumentR
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */ 
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        return checkLookupReturn(document);
+        return checkOkToInActivate(document);
     }
     
     /**
@@ -46,36 +52,39 @@ public class CustomAttributeMaintenanceDocumentRule extends MaintenanceDocumentR
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        return checkLookupReturn(document);
+        return checkOkToInActivate(document);
     }
 
     /**
      * 
-     * This method to check whether 'lookupreturn' is specified if lookupclass is selected.
+     * This method to check whether it is ok to inactivate a custom attribute document.
      * @param maintenanceDocument
      * @return
      */
-    private boolean checkLookupReturn(MaintenanceDocument maintenanceDocument) {
+    private boolean checkOkToInActivate(MaintenanceDocument maintenanceDocument) {
 
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
-        CustomAttribute newCustomAttribute = (CustomAttribute) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        CustomAttributeDocument newCustomAttributeDocument = (CustomAttributeDocument) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 
-        // FIXME : iffy solution - will be used to retrieve lookupreturn list by the valuesfinder class
-        if (StringUtils.isNotBlank(newCustomAttribute.getLookupClass())) {
-            GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)newCustomAttribute.getLookupClass());
-        }
-        if (StringUtils.isNotBlank(newCustomAttribute.getLookupClass())
-                && StringUtils.isBlank(newCustomAttribute.getLookupReturn())) {
-            GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN, RiceKeyConstants.ERROR_REQUIRED,
-                    new String[] { "Lookup Return" });
-            return false;
+        if (newCustomAttributeDocument.getCustomAttributeId() != null && !newCustomAttributeDocument.isActive()) {
+            Map<String, String> queryMap = new HashMap<String, String>();
+            queryMap.put(Constants.CUSTOM_ATTRIBUTE_ID, newCustomAttributeDocument.getCustomAttributeId().toString());
+
+            List<CustomAttributeDocValue> customAttributeDocValueList = (List<CustomAttributeDocValue>)KraServiceLocator.getService(BusinessObjectService.class).findMatching(CustomAttributeDocValue.class, queryMap);
+
+            if (customAttributeDocValueList !=null && customAttributeDocValueList.size() > 0) {
+                GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_ACTIVE, KeyConstants.ERROR_INACTIVE_CUSTOM_ATT_DOC,
+                        new String[] {});
+                return false;
+            }
         }
 
 
         return true;
 
     }
+
 }

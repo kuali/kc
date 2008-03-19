@@ -165,4 +165,8 @@ public interface Constants {
     
     // custom attribute
     public static final String CUSTOM_ATTRIBUTE_ID = "customAttributeId";
+    public static final String DOCUMENT_NEWMAINTAINABLEOBJECT_ACTIVE = "document.newMaintainableObject.active";
+    public static final String DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN = "document.newMaintainableObject.lookupReturn";
+    public static final String LOOKUP_RETURN_FIELDS = "lookupReturnFields";
+    public static final String LOOKUP_CLASS_NAME = "lookupClassName";
 }
