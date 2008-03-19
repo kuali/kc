@@ -25,6 +25,10 @@ package org.kuali.kra.kim.bo;
  * 
  */
 public class KraQualifiedRolePerson extends KimQualifiedRolePerson {
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -3954928435359069216L;
     private static final String KRA_UNIT_NUMBER_ATTR_NAME = "kra.unitNumber";
     private static final String KRA_SUB_UNITS_ATTR_NAME = "kra.subunits";
     
