@@ -33,7 +33,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 @PerTestUnitTestData(
         @UnitTestData(
                 sqlStatements = {
-                        @UnitTestSql("delete from CUSTOM_ATTRIBUTE_DOCUMENT where DOCUMENT_TYPE_CODE = 'STTC' and CUSTOM_ATTRIBUTE_ID = 1")
+                        @UnitTestSql("delete from CUSTOM_ATTRIBUTE_DOCUMENT where DOCUMENT_TYPE_CODE = 'STTC' and CUSTOM_ATTRIBUTE_ID = 99"),
+                        @UnitTestSql("delete from CUSTOM_ATTRIBUTE where ID = 99"),
+                        @UnitTestSql("INSERT INTO CUSTOM_ATTRIBUTE (ID,NAME,LABEL,DATA_TYPE_CODE,DATA_LENGTH,DEFAULT_VALUE,LOOKUP_CLASS,LOOKUP_RETURN,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR) VALUES (99,'test99','Test 99','3',10,null,null,null,'Test group',sysdate,'quicksta',1)")
 
                 }
         )
@@ -56,19 +58,19 @@ public class CustomAttributeDocumentMaintenanceDocumentTest  extends Maintenance
         String documentNumber = getFieldValue(customAttributeDocumentMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(customAttributeDocumentMaintenancePage,"Edit CustomAttributeDocument New * Custom Attribute ID: * Document Type Code: Required: unchecked Type Name:");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.documentHeader.financialDocumentDescription", "Custom Attribute Document - test");
-        setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.customAttributeId", "1");
+        setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.customAttributeId", "99");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.documentTypeCode", "STTC");
         setFieldValue(customAttributeDocumentMaintenancePage, "document.newMaintainableObject.typeName", "Test Type");
         HtmlPage routedCustomAttributeDocumentPage = clickOn(customAttributeDocumentMaintenancePage, "methodToCall.route", "Kuali :: CustomAttributeDocument Maintenance Document");
         
         assertContains(routedCustomAttributeDocumentPage, "Document was successfully submitted.");
-        assertContains(routedCustomAttributeDocumentPage,"New Custom Attribute ID: 1 Document Type Code: STTC Required: No Type Name: Test Type ");
+        assertContains(routedCustomAttributeDocumentPage,"New Custom Attribute ID: 99 Document Type Code: STTC Required: No Type Name: Test Type Active: No ");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
         assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
         CustomAttributeDocument customAttributeDocument = (CustomAttributeDocument)document.getNewMaintainableObject().getBusinessObject();
-        assertEquals(customAttributeDocument.getCustomAttributeId(),new Integer(1));
+        assertEquals(customAttributeDocument.getCustomAttributeId(),new Integer(99));
         assertEquals(customAttributeDocument.getTypeName(),"Test Type");
         assertEquals(customAttributeDocument.getDocumentTypeCode(),"STTC");
         

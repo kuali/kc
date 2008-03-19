@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.bo.CustomAttributeDocument</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.kra.rules.CustomAttributeDocumentMaintenanceDocumentRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -54,6 +55,7 @@
 					<maintainableField name="documentTypeCode" required="true"/>
 					<maintainableField name="required" required="false"/>
 					<maintainableField name="typeName" required="false"/>
+					<maintainableField name="active" required="true"/>
 
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

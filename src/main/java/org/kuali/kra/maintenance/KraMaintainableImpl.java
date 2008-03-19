@@ -25,6 +25,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiMaintenanceForm;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * This class...
@@ -52,7 +53,7 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
 
             // This is a solution to enable the lookreturn have a proper dropdown list ?
             if (businessObject instanceof CustomAttribute && StringUtils.isNotBlank(((CustomAttribute)businessObject).getLookupClass())) {
-                    GlobalVariables.getUserSession().addObject("lookupClassName", (Object)((CustomAttribute)businessObject).getLookupClass());
+                    GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)((CustomAttribute)businessObject).getLookupClass());
             }
 
         }
@@ -68,8 +69,8 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
             if (GlobalVariables.getKualiForm() != null && GlobalVariables.getKualiForm() instanceof KualiMaintenanceForm) {
                 CustomAttribute customAttribute = (CustomAttribute)((MaintenanceDocumentBase)((KualiMaintenanceForm)GlobalVariables.getKualiForm()).getDocument()).getDocumentBusinessObject();
                 if (StringUtils.isNotBlank(customAttribute.getLookupClass())) {
-                    if (StringUtils.isBlank((String)GlobalVariables.getUserSession().retrieveObject("lookupClassName")) && ((((List)GlobalVariables.getUserSession().retrieveObject("lookupReturnFields"))) == null || ((List)GlobalVariables.getUserSession().retrieveObject("lookupReturnFields")).size() == 0)) {
-                        GlobalVariables.getUserSession().addObject("lookupClassName", (Object)customAttribute.getLookupClass());                    
+                    if (StringUtils.isBlank((String)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME)) && ((((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS))) == null || ((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS)).size() == 0)) {
+                        GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)customAttribute.getLookupClass());                    
                     }
                 }
             }
