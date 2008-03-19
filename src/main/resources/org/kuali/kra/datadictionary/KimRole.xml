@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.kim.bo.KimRole">
+
+        <inquiry>
+            <title>KIM Role</title>
+
+            <inquirySections><inquirySection title="KimRole"><inquiryFields>
+                <field attributeName="id" forceInquiry="true"/>
+                <field attributeName="name"/>
+                <field attributeName="description"/>
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>KIM Role Lookup</title>
+            <menubar>
+                <![CDATA[<a href="index.jsp">Main</a>]]>
+            </menubar>
+            <instructions>Look up a KIM Role</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="id"/>
+                    <sortAttribute attributeName="name"/>
+                    <sortAttribute attributeName="description"/>
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="id" required="false"/>
+                <lookupField attributeName="name" required="false"/>
+                <lookupField attributeName="description" required="false"/>
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="id" forceInquiry="true"/>
+                <field attributeName="name" forceInquiry="false"/>
+                <field attributeName="description" forceInquiry="false"/>
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>roleId</titleAttribute>
+        <attributes>
+            <attribute name="roleId">
+                <label>Role Id </label>
+                <shortLabel>Role Id </shortLabel>
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <control>
+                    <text size="8" />
+                </control>
+                <summary>Role Id </summary>
+                <description>Role Id </description>
+            </attribute>
+
+            <attribute name="name" >
+                <label>Role Name</label>
+                <shortLabel>Role Name</shortLabel>
+                <maxLength>500</maxLength>
+                <control>
+                    <text size="40" />
+                </control>
+                <summary>Role Name</summary>
+                <description>Role Name</description>
+            </attribute>
+
+            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="bigDescription">
+                <maxLength>4000</maxLength>
+            </attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
+    </businessObject>
+
+</dictionaryEntry>
