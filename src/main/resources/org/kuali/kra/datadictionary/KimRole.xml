@@ -58,9 +58,9 @@
             </resultFields>
         </lookup>
 
-        <titleAttribute>roleId</titleAttribute>
+        <titleAttribute>id</titleAttribute>
         <attributes>
-            <attribute name="roleId">
+            <attribute name="id">
                 <label>Role Id </label>
                 <shortLabel>Role Id </shortLabel>
                 <maxLength>8</maxLength>
