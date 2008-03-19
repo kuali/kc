@@ -17,15 +17,14 @@ package org.kuali.kra.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
 
@@ -36,18 +35,18 @@ public class CustomAttributeLookupReturnValuesFinder extends KeyValuesBase {
         // this will be called twice for each maintenancedocument page load
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
-        String lookupClass = (String) GlobalVariables.getUserSession().retrieveObject("lookupClassName");
+        String lookupClass = (String) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME);
 
         List lookupReturnFields = null;
         try {
             if (StringUtils.isNotBlank(lookupClass)) {
                 lookupReturnFields = KraServiceLocator.getService(CustomAttributeService.class).getLookupReturns(lookupClass);
-                GlobalVariables.getUserSession().addObject("lookupReturnFields", lookupReturnFields);
-                GlobalVariables.getUserSession().removeObject("lookupClassName");
+                GlobalVariables.getUserSession().addObject(Constants.LOOKUP_RETURN_FIELDS, lookupReturnFields);
+                GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_CLASS_NAME);
             }
             else {
-                lookupReturnFields = (List) GlobalVariables.getUserSession().retrieveObject("lookupReturnFields");
-                GlobalVariables.getUserSession().removeObject("lookupReturnFields");
+                lookupReturnFields = (List) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS);
+                GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
             }
         }
         catch (Exception e) {

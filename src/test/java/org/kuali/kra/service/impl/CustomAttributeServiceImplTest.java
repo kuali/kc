@@ -33,6 +33,7 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -170,7 +171,7 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
         customAttributeService.saveCustomAttributeValues(document);
 
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put("customAttributeId", customAttributeId);
+        primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
         primaryKeys.put(RicePropertyConstants.DOCUMENT_NUMBER, documentNumber);
         CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
         assertNotNull("customAttributeDocValue should be found and not null", customAttributeDocValue);

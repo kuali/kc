@@ -50,7 +50,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
 
         Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put("documentTypeCode", documentTypeCode);
+        queryMap.put(RicePropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
+        queryMap.put(RicePropertyConstants.ACTIVE, "Y");
 
         List<CustomAttributeDocument> customAttributeDocumentList = (List<CustomAttributeDocument>)getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
 
@@ -182,23 +183,6 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
             attributeNames += "," + attributeName;
         }
         return attributeNames;
-    }
-
-    public CustomAttributeDocValue getCustomAttributeDocValue(String documentNumber, Integer customAttributeId,
-            List customAttributeDocValues) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Map<String, CustomAttributeDocument> getDefaultCustomAttributesForDocumentType(String documentTypeCode,
-            ResearchDocumentBase document) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public List getGroupNames(List customAttributeDocValues) {
-        // TODO Auto-generated method stub
-        return null;
     }
     
 }

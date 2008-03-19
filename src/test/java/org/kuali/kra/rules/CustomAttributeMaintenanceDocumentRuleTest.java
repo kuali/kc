@@ -25,6 +25,7 @@ import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
 
 public class CustomAttributeMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
@@ -72,14 +73,14 @@ public class CustomAttributeMaintenanceDocumentRuleTest extends MaintenanceRuleT
         //customAttribute.setLookupReturn("roleId");
         MaintenanceDocument customAttributeDocument = newMaintDoc(customAttribute);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(customAttributeDocument));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.lookupReturn");
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN);
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_REQUIRED);
 
         // approve will have the same error too.
         assertFalse(rule.processCustomApproveDocumentBusinessRules(customAttributeDocument));
-        errors = GlobalVariables.getErrorMap().getMessages("document.newMaintainableObject.lookupReturn");
+        errors = GlobalVariables.getErrorMap().getMessages(Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN);
         assertTrue(errors.size() == 1);
         message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_REQUIRED);
