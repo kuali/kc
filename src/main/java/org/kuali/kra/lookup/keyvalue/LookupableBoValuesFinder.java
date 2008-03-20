@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.DataDictionaryService;
@@ -27,6 +28,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class LookupableBoValuesFinder extends KeyValuesBase {
 
+    /**
+     * Get a list of the lookupable classes
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
@@ -38,7 +43,7 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
     	Map<String, BusinessObjectEntry> businessObjectEntries = dataDictionaryService.getDataDictionary().getBusinessObjectEntries();
     	for (String businessObject: businessObjectEntries.keySet()) {
     	    if ((businessObjectEntries.get(businessObject).hasLookupDefinition()) && (businessObject.startsWith("org.kuali.kra"))) {
-        		KeyLabelPair keyLabelPair = new KeyLabelPair(businessObject, businessObjectEntries.get(businessObject).getLookupDefinition().getTitle());
+        		KeyLabelPair keyLabelPair = new KeyLabelPair(businessObject, StringUtils.removeEnd(businessObjectEntries.get(businessObject).getLookupDefinition().getTitle()," Lookup"));
         		if (!keyValues.contains(keyLabelPair)) {
         		    keyValues.add(keyLabelPair);
         		}
