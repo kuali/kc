@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -51,7 +52,8 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(RicePropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
-        queryMap.put(RicePropertyConstants.ACTIVE, "Y");
+        // still display the inactive in old doc
+        //queryMap.put(RicePropertyConstants.ACTIVE, "Y");
 
         List<CustomAttributeDocument> customAttributeDocumentList = (List<CustomAttributeDocument>)getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
 
@@ -68,7 +70,10 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
                     customAttributeDocument.getCustomAttribute().setValue(customAttributeDocument.getCustomAttribute().getDefaultValue());
                 }
             }
-            customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
+            // inactive cust_attr only displayed if existing in old doc
+            if (customAttributeDocValue != null || customAttributeDocument.isActive()) {
+                customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
+            }
         }
 
         return customAttributeDocuments;
@@ -180,7 +185,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         List lookupFieldNames = getLookupReturns(lookupClass);
         String attributeNames="";
         for (Object attributeName : lookupFieldNames) {
-            attributeNames += "," + attributeName;
+            attributeNames += "," + attributeName +";"+KraServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass,attributeName.toString());
         }
         return attributeNames;
     }
