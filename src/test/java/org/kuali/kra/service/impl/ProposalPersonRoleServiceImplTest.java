@@ -61,44 +61,36 @@ public class ProposalPersonRoleServiceImplTest extends KraTestBase {
          
          
          
-         ProposalPerson person = new ProposalPerson();
-         person.setProposalNumber("7");
-         person.setProposalPersonNumber(1);
-         person.setProposalPersonRoleId("PI");
-         person.setPersonId("000000001");
-         
-         
          ProposalPerson person1 = new ProposalPerson();
          person1.setProposalNumber("7");
-         person1.setProposalPersonNumber(2);
-         person1.setProposalPersonRoleId("COI");
-         person1.setRolodexId(1733);
+         person1.setProposalPersonNumber(1);
+         person1.setProposalPersonRoleId("PI");
+         person1.setPersonId("000000001");
+         person1.setUserName("tdurkin");
          
+                
          
          ProposalPerson person2 = new ProposalPerson();
          person2.setProposalNumber("7");
          person2.setProposalPersonNumber(3);
          person2.setProposalPersonRoleId("COI");
-         person2.setPersonId("000000002");
+         person2.setPersonId("000000004");
+         person2.setUserName("ljoconno");
          
          ProposalPerson person3= new ProposalPerson();
          person3.setProposalNumber("7");
          person3.setProposalPersonNumber(5);
-         person3.setProposalPersonRoleId("KP");
-         person3.setPersonId("000000005");
+         person3.setProposalPersonRoleId("COI");
+         person3.setPersonId("000000008");
+         person3.setUserName("jtester");
          
+    
          
-         ProposalPerson person4= new ProposalPerson();
-         person4.setProposalNumber("7");
-         person4.setProposalPersonNumber(4);
-         person4.setProposalPersonRoleId("KP");
-         person4.setRolodexId(1742);
-         
-         ProposalPersons.add(person);
          ProposalPersons.add(person1);
+        
          ProposalPersons.add(person2);
          ProposalPersons.add(person3);
-         ProposalPersons.add(person4);
+        
          
          setBaseDocumentFields(document, "ProposalDevelopmentDocumentTest test doc", "005770", "project title", requestedStartDateInitial, requestedEndDateInitial, "1", "1", "000001");
          document.setProposalPersons(ProposalPersons);
@@ -107,22 +99,11 @@ public class ProposalPersonRoleServiceImplTest extends KraTestBase {
          String documentid=document.getDocumentHeader().getDocumentNumber();
          List<String> coinvestigator=prs.getProposalCoInvestigators(documentid);
          List<String> proposalinvestigator=prs.getProposalInvestigator(documentid);
-         List<String> proposalinvestigators=prs.getProposalInvestigators(documentid);
-         List<String> proposalpersons=prs.getProposalPersons(documentid);
-         List<String> keypersons=prs.getProposalKeyPersons(documentid);
-         assertEquals(proposalinvestigator.get(0),person.getPersonId());
-         assertEquals(coinvestigator.get(0),person1.getRolodexId().toString());
-         assertEquals(coinvestigator.get(1),person2.getPersonId());
-         assertEquals(proposalinvestigators.get(0),person.getPersonId());
-         assertEquals(proposalinvestigators.get(1),person1.getRolodexId().toString());
-         assertEquals(proposalinvestigators.get(2),person2.getPersonId());
-         assertEquals(proposalpersons.get(0),person.getPersonId());
-         assertEquals(proposalpersons.get(1),person1.getRolodexId().toString());
-         assertEquals(proposalpersons.get(2),person2.getPersonId());
-         assertEquals(proposalpersons.get(3),person3.getPersonId());
-         assertEquals(proposalpersons.get(4),person4.getRolodexId().toString());
-         assertEquals(keypersons.get(0),person3.getPersonId());
-         assertEquals(keypersons.get(1),person4.getRolodexId().toString());
+          
+         assertEquals(proposalinvestigator.get(0),person1.getUserName());
+         assertEquals(coinvestigator.get(0),person2.getUserName());
+         assertEquals(coinvestigator.get(1),person3.getUserName());
+         
          
     }
     
