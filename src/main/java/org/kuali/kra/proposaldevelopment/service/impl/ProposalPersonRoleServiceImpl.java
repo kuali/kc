@@ -57,15 +57,11 @@ public class ProposalPersonRoleServiceImpl implements ProposalPersonRoleService 
         for (Iterator<ProposalPerson> person_it = proposaldevdocument.getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
             if((person!= null) && (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
-              if(person.getPersonId()!=null){
+              if(person.getUserName()!=null){
                   LOG.info("Adding the person id to  coinvestigator");
-                   coinvestigators.add(person.getPersonId());
+                   coinvestigators.add(person.getUserName());
                 }
-                else{
-                    
-                    LOG.info("Adding the Rolodex id to coinvestigator");
-                    coinvestigators.add(person.getRolodexId().toString());
-                }
+                
 
             }
 
@@ -93,16 +89,11 @@ public class ProposalPersonRoleServiceImpl implements ProposalPersonRoleService 
         for (Iterator<ProposalPerson> person_it = proposaldevdocument.getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
             if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE))){
-              if(person.getPersonId()!=null){
+              if(person.getUserName()!=null){
                   LOG.info("Adding the person id to  PrinicpalInvestigator");
-                  Principalinvestigator.add(person.getPersonId());
+                  Principalinvestigator.add(person.getUserName());
                 }
-                else{
-                    
-                    LOG.info("Adding the Rolodex id to PrinicpalInvestigator");
-                    Principalinvestigator.add(person.getRolodexId().toString());
-                }
-
+                
             }
 
         }
@@ -127,15 +118,11 @@ public class ProposalPersonRoleServiceImpl implements ProposalPersonRoleService 
         for (Iterator<ProposalPerson> person_it = proposaldevdocument.getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
             if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)) || (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
-              if(person.getPersonId()!=null){
+              if(person.getUserName()!=null){
                   LOG.info("Adding the person id to  Investigators(PI and CO-Is");
-                  Investigators.add(person.getPersonId());
+                  Investigators.add(person.getUserName());
                 }
-                else{
-                    
-                    LOG.info("Adding the Rolodex id to Investigators");
-                    Investigators.add(person.getRolodexId().toString());
-                }
+                
 
             }
 
@@ -157,15 +144,11 @@ public class ProposalPersonRoleServiceImpl implements ProposalPersonRoleService 
         for (Iterator<ProposalPerson> person_it = proposaldevdocument.getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
             if((person!= null) && (person.getProposalPersonRoleId().equals(KEY_PERSON_ROLE))){
-              if(person.getPersonId()!=null){
+              if(person.getUserName()!=null){
                   LOG.info("Adding the person id to  KeyPerson");
-                  KeyPersons.add(person.getPersonId());
+                  KeyPersons.add(person.getUserName());
                 }
-                else{
-                    
-                    LOG.info("Adding the Rolodex id to KeyPerson");
-                    KeyPersons.add(person.getRolodexId().toString());
-                }
+               
 
             }
 
@@ -188,15 +171,11 @@ public class ProposalPersonRoleServiceImpl implements ProposalPersonRoleService 
         for (Iterator<ProposalPerson> person_it = proposaldevdocument.getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
             if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)) ||  (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) || (person.getProposalPersonRoleId().equals(KEY_PERSON_ROLE))){
-              if(person.getPersonId()!=null){
+              if(person.getUserName()!=null){
                   LOG.info("Adding the person id to  ProposalPersons(PIs,CO-Is,KP)");
-                  ProposalPersons.add(person.getPersonId());
+                  ProposalPersons.add(person.getUserName());
                 }
-                else{
-                    
-                    LOG.info("Adding the Rolodex id to Investigators");
-                    ProposalPersons.add(person.getRolodexId().toString());
-                }
+                
 
             }
 
