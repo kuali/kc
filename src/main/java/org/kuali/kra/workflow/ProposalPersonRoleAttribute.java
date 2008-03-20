@@ -33,22 +33,22 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
 {
 
     private static final long serialVersionUID = 1L;
+    
     private static final Role PROPOSAL_INVESTIGATOR_ROLE = new Role(ProposalPersonRoleAttribute.class, "PROPOSALINVESTIGATOR", "ProposalInvestigator");
     private static final Role CO_INVESTIGATOR_ROLE = new Role(ProposalPersonRoleAttribute.class, "COINVESTIGATOR", "CoInvestigator");
-    private static final Role INVESTIGATORS = new Role(ProposalPersonRoleAttribute.class, "INVESTIGATORS", "Investigators");
-    private static final Role KEY_PERSON_ROLE = new Role(ProposalPersonRoleAttribute.class, "KEYPERSON", "KeyPerson");
-    private static final Role PROPOSAL_PERSON_ROLE = new Role(ProposalPersonRoleAttribute.class, "PROPOSALPERSONS", "ProposalPersons");
-    private static final List<Role> ROLES;
-    static {
-        List<Role> tmp = new ArrayList<Role>(1);
-        tmp.add(PROPOSAL_INVESTIGATOR_ROLE);
-        tmp.add(CO_INVESTIGATOR_ROLE);
-        tmp.add(INVESTIGATORS);
-        tmp.add(KEY_PERSON_ROLE);
-        tmp.add(PROPOSAL_PERSON_ROLE);
-        ROLES= Collections.unmodifiableList(tmp);
-    }
+    private static final String PROPOSAL_INVESTIGATOR_ROLE_KEY = "PROPOSALINVESTIGATOR";
+    private static final String COINVESTIGATOR_ROLE_KEY = "COINVESTIGATOR";
+    
 
+    
+    public List<Role> getRoleNames() {
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(PROPOSAL_INVESTIGATOR_ROLE);
+        roles.add(CO_INVESTIGATOR_ROLE);
+        return roles;
+    }
+    
+    
     public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole)
     throws EdenUserNotFoundException {
 
@@ -73,54 +73,43 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
                 roleUserId = new AuthenticationUserId(id);
                 members.add(roleUserId);
             }
-        } else if (StringUtils.equals(INVESTIGATORS.getBaseName(), qualifiedRole)) {
-            List<String> investigators=proposalpersonroleservice.getProposalInvestigators(documentid);
-            for (Iterator<String> ins = investigators.iterator(); ins.hasNext();) {
-                String  id = ins.next();
-                roleUserId = new AuthenticationUserId(id);
-                members.add(roleUserId);
-            }
-
-        }else if (StringUtils.equals(KEY_PERSON_ROLE.getBaseName(), qualifiedRole)) {
-            List<String> keypersons=proposalpersonroleservice.getProposalKeyPersons(documentid);
-            for (Iterator<String> kps = keypersons.iterator(); kps.hasNext();) {
-                String  id = kps.next();
-                roleUserId = new AuthenticationUserId(id);
-                members.add(roleUserId);
-            }
-        }else if (StringUtils.equals(PROPOSAL_PERSON_ROLE.getBaseName(), qualifiedRole)) {
-            List<String> proposalpersons=proposalpersonroleservice.getProposalPersons(documentid);
-            for (Iterator<String> pps = proposalpersons.iterator(); pps.hasNext();) {
-                String  id = pps.next();
-                roleUserId = new AuthenticationUserId(id);
-                members.add(roleUserId);
-            }
         } 
-        else {
-            // throw an exception if you get an unrecognized roleName
-            throw new WorkflowRuntimeException("unable to process unknown role '" + roleName + "'");
-        }
+         
 
         qualRole.setRecipients(members);
         return qualRole;
 
     }
 
-    public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) throws EdenUserNotFoundException {
+    /*public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) throws EdenUserNotFoundException {
         List<String> qualifiedRoleNames = new ArrayList<String>(); 
+        
         for (Iterator<Role> person_role = ROLES.iterator(); person_role.hasNext();) {
             Role rolenames = person_role.next();
-            if(rolenames!= null){
-
+            if(roleName.equals(PROPOSAL_INVESTIGATOR_ROLE.getBaseName())) 
+             {
+                qualifiedRoleNames.add(rolenames.getBaseName());
+            }
+            if(roleName.equals(CO_INVESTIGATOR_ROLE.getBaseName()))  {
                 qualifiedRoleNames.add(rolenames.getBaseName());
             }
         }
         return qualifiedRoleNames;
-    }
+    }*/
 
-    public List<Role> getRoleNames() {
-        // TODO Auto-generated method stub
-        return ROLES;
-    }
+   
+    public List<String> getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
+        List<String> qualifiedRoleNames = new ArrayList<String>();
 
+        if ( PROPOSAL_INVESTIGATOR_ROLE_KEY.equals(roleName)) {
+            
+            qualifiedRoleNames.add(PROPOSAL_INVESTIGATOR_ROLE_KEY);
+            
+        }
+        else if(COINVESTIGATOR_ROLE_KEY.equals(roleName))
+        {
+            qualifiedRoleNames.add(COINVESTIGATOR_ROLE_KEY);
+        }
+      return  qualifiedRoleNames;
+    }
 }
