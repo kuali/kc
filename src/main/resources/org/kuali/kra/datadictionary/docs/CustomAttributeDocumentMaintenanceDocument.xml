@@ -22,8 +22,9 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.bo.CustomAttributeDocument</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <!-- right now, inactive is allowed for custom attr doc that has been reference. so disable this rule for now.  
         <businessRulesClass>org.kuali.kra.rules.CustomAttributeDocumentMaintenanceDocumentRule</businessRulesClass>
-
+		-->
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -55,7 +56,7 @@
 					<maintainableField name="documentTypeCode" required="true"/>
 					<maintainableField name="required" required="false"/>
 					<maintainableField name="typeName" required="false"/>
-					<maintainableField name="active" required="true"/>
+					<maintainableField name="active" />
 
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
