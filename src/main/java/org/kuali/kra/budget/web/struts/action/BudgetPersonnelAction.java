@@ -36,6 +36,7 @@ import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.TbnPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -57,25 +58,33 @@ public class BudgetPersonnelAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         
         // Process return from person/rolodex multi-value lookup
-        String lookupResultsSequenceNumber = budgetForm.getLookupResultsSequenceNumber();
-        Class<?> lookupResultsBOClass = Class.forName(budgetForm.getLookupResultsBOClassName());
-        
-        Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
-            .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
-                    GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-        
-        BudgetPersonService budgetPersonService = KraServiceLocator.getService(BudgetPersonService.class);
-        if (lookupResultsBOClass.isAssignableFrom(Person.class)) {
-            for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
-                Person person = (Person) iter.next();
-                BudgetPerson budgetPerson = new BudgetPerson(person);
-                populateAndAddBudgetPerson(budgetPerson, budgetForm.getBudgetDocument(), budgetPersonService);
-            }
-        } else if (lookupResultsBOClass.isAssignableFrom(NonOrganizationalRolodex.class)) {
-            for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
-                Rolodex rolodex = (Rolodex) iter.next();
-                BudgetPerson budgetPerson = new BudgetPerson(rolodex);
-                populateAndAddBudgetPerson(budgetPerson, budgetForm.getBudgetDocument(), budgetPersonService);
+        if (budgetForm.getLookupResultsBOClassName() != null) {
+            String lookupResultsSequenceNumber = budgetForm.getLookupResultsSequenceNumber();
+            Class<?> lookupResultsBOClass = Class.forName(budgetForm.getLookupResultsBOClassName());
+            
+            Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
+                .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
+                        GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            
+            BudgetPersonService budgetPersonService = KraServiceLocator.getService(BudgetPersonService.class);
+            if (lookupResultsBOClass.isAssignableFrom(Person.class)) {
+                for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
+                    Person person = (Person) iter.next();
+                    BudgetPerson budgetPerson = new BudgetPerson(person);
+                    populateAndAddBudgetPerson(budgetPerson, budgetForm.getBudgetDocument(), budgetPersonService);
+                }
+            } else if (lookupResultsBOClass.isAssignableFrom(NonOrganizationalRolodex.class)) {
+                for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
+                    Rolodex rolodex = (Rolodex) iter.next();
+                    BudgetPerson budgetPerson = new BudgetPerson(rolodex);
+                    populateAndAddBudgetPerson(budgetPerson, budgetForm.getBudgetDocument(), budgetPersonService);
+                }
+            } else if (lookupResultsBOClass.isAssignableFrom(TbnPerson.class)) {
+                for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
+                    TbnPerson tbn = (TbnPerson) iter.next();
+                    BudgetPerson budgetPerson = new BudgetPerson(tbn);
+                    populateAndAddBudgetPerson(budgetPerson, budgetForm.getBudgetDocument(), budgetPersonService);
+                }
             }
         }
         
@@ -127,9 +136,14 @@ public class BudgetPersonnelAction extends BudgetAction {
         return forward;
     }
     
+    public ActionForward synchToProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        KraServiceLocator.getService(BudgetPersonService.class).synchBudgetPersonsToProposal(budgetForm.getBudgetDocument());
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
     private void populateAndAddBudgetPerson(BudgetPerson budgetPerson, BudgetDocument budgetDocument, BudgetPersonService budgetPersonService) {
-        budgetPerson.setEffectiveDate(budgetDocument.getProposal().getRequestedStartDateInitial());
-        budgetPersonService.populateBudgetPersonInstitutionData(budgetPerson);
+        budgetPersonService.populateBudgetPersonData(budgetDocument, budgetPerson);
         budgetDocument.addBudgetPerson(budgetPerson);
     }
     

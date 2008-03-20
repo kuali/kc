@@ -19,10 +19,10 @@
 <c:set var="budgetPersonAttributes" value="${DataDictionary.BudgetPerson.attributes}" />
 
 <div id="workarea">
-<kul:tabTop tabTitle="Project Personnel" defaultOpen="true" tabErrorKey="document.budgetPersons*">
+<kul:tabTop tabTitle="Budget Personnel" defaultOpen="true" tabErrorKey="document.budgetPersons*">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
-    		<span class="subhead-left"><h2>Project Personnel</h2></span>
+    		<span class="subhead-left"><h2>Budget Personnel</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
         <table cellpadding=0 cellspacing="0"  summary="">
@@ -39,7 +39,10 @@
             <tr>
               	<th scope="row"><div align="center">${status.index + 1}</div></th>
               	<td>${person.personName} <c:if test="${!empty person.role}"><span class="fineprint">(${person.role})</span></c:if></td>
-              	<td><kul:htmlControlAttribute property="document.budgetPerson[${status.index}].jobCode" attributeEntry="${budgetPersonAttributes.jobCode}" /></td>
+              	<td>
+              		<kul:htmlControlAttribute property="document.budgetPerson[${status.index}].jobCode" attributeEntry="${budgetPersonAttributes.jobCode}" />
+              		<kul:lookup boClassName="org.kuali.kra.budget.bo.JobCode" fieldConversions="jobCode:document.budgetPerson[${status.index}].jobCode" anchor="${tabKey}" />
+              	</td>
               	<td><kul:htmlControlAttribute property="document.budgetPerson[${status.index}].appointmentTypeCode" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
               	</td>
               	<td>
@@ -49,7 +52,7 @@
               	</td>
               	<td>
               		<div align="center">
-						<kul:htmlControlAttribute property="document.budgetPerson[${status.index}].effectiveDate" attributeEntry="${budgetPersonAttributes.effectiveDate}" />
+						<kul:htmlControlAttribute property="document.budgetPerson[${status.index}].effectiveDate" attributeEntry="${budgetPersonAttributes.effectiveDate}" datePicker="true" />
                   	</div>
                 </td>
               	<td><div align=center><html:image property="methodToCall.deleteBudgetPerson.line${status.index}" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' /></div></td>

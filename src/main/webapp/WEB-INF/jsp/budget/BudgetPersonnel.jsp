@@ -31,9 +31,12 @@
                 		<label>Employee Search</label>
                   		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.Person" 
                         	lookedUpCollectionName="newBudgetPersons" /></label><br>
-                        <label>Non-employee Search</label> 
+                        <label>Non-employee Search</label>
                   		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-                        	lookedUpCollectionName="newBudgetRolodexes" /></label>
+                        	lookedUpCollectionName="newBudgetRolodexes" /></label><br>
+                        <label>To be named</label>
+                       	<label><kul:multipleValueLookup boClassName="org.kuali.kra.budget.bo.TbnPerson" 
+                        	lookedUpCollectionName="newTbnPersons" /></label>
                 	</td>
               	</tr>
             </table>
@@ -47,6 +50,9 @@
 		transactionalDocument="false"
 		suppressRoutingControls="true"
 		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		extraButtonSource="fill me in"
+		extraButtonProperty="methodToCall.synchToProposal"
+		extraButtonAlt="Synch to Proposal"
 		/>
-	
+		
 </kul:documentPage>

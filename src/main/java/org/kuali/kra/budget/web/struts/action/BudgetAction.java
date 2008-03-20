@@ -141,10 +141,10 @@ public class BudgetAction extends ProposalActionBase {
 //      Populate the person's proposal roles, if they exist
         List<BudgetPerson> budgetPersons = budgetDocument.getBudgetPersons();
         for (BudgetPerson budgetPerson: budgetPersons) {
-            if (budgetPerson.getNonEmployeeFlag()) {
+            if (budgetPerson.getRolodexId() != null) {
                 ProposalPersonRole role = budgetDocument.getProposal().getProposalNonEmployeeRole(budgetPerson.getRolodexId());
                 if (role != null) { budgetPerson.setRole(role.getDescription()); }
-            } else {
+            } else if (budgetPerson.getPersonId() != null) {
                 ProposalPersonRole role = budgetDocument.getProposal().getProposalEmployeeRole(budgetPerson.getPersonId());
                 if (role != null) { budgetPerson.setRole(role.getDescription()); }
             }

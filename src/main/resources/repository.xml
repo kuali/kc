@@ -1848,6 +1848,7 @@
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="appointmentTypeCode" column="APPOINTMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER"/>
+		<field-descriptor name="tbnId" column="TBN_ID" jdbc-type="VARCHAR" />
 		<field-descriptor name="calculationBase" column="CALCULATION_BASE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
@@ -1862,6 +1863,20 @@
 			<foreignkey field-ref="rolodexId"/> 
 		</reference-descriptor>
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.budget.bo.TbnPerson" table="TBN">
+		<field-descriptor name="tbnId" column="TBN_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="personName" column="PERSON_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="jobCode" column="JOB_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="jobCodeReference" class-ref="org.kuali.kra.budget.bo.JobCode" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="jobCode"/>
+		</reference-descriptor>
+	</class-descriptor>
+	
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetRateAndBase" table="BUDGET_RATE_AND_BASE">
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="lineItemNumber" column="LINE_ITEM_NUMBER" jdbc-type="INTEGER" primarykey="true"/>

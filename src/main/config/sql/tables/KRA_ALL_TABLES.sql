@@ -748,9 +748,6 @@ ENABLE,
 "APPOINTMENT_TYPE_CODE" VARCHAR2(3),                                            
 CONSTRAINT "PK_BUDGET_PERSONS_KRA" PRIMARY KEY ("PROPOSAL_NUMBER",              
 "VERSION_NUMBER", "PERSON_SEQUENCE_NUMBER") ENABLE,                             
-CONSTRAINT "UK_BUDGET_PERSONS_KRA" UNIQUE ("PROPOSAL_NUMBER", "VERSION_NUMBER", 
-"PERSON_ID", "ROLODEX_ID", "JOB_CODE", "EFFECTIVE_DATE") ENABLE
-   ) ;
          
                                                                                 
 CREATE TABLE "BUDGET_RATE_AND_BASE"                                             
