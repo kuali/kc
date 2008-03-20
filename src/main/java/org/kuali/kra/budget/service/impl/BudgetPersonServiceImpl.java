@@ -18,24 +18,49 @@ package org.kuali.kra.budget.service.impl;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 public class BudgetPersonServiceImpl implements BudgetPersonService {
     
     private KualiConfigurationService kualiConfigurationService;
     
-    public void populateBudgetPersonInstitutionData(BudgetPerson budgetPerson) {
+    public void populateBudgetPersonData(BudgetDocument budgetDocument, BudgetPerson budgetPerson) {
         
-        budgetPerson.setJobCode(kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_JOB_CODE));
+        budgetPerson.setProposalNumber(budgetDocument.getProposalNumber());
+        budgetPerson.setBudgetVersionNumber(budgetDocument.getBudgetVersionNumber());
+        budgetDocument.refreshReferenceObject("documentNextvalues");
+        budgetPerson.setPersonSequenceNumber(budgetDocument.getDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
         
-        budgetPerson.setAppointmentTypeCode(kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE));
+        if (budgetDocument.getProposal() != null) {
+            budgetPerson.setEffectiveDate(budgetDocument.getProposal().getRequestedStartDateInitial());
+        }
         
         budgetPerson.setCalculationBase(new BudgetDecimal(kualiConfigurationService.getParameterValue(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
         
+    }
+    
+    public void synchBudgetPersonsToProposal(BudgetDocument budgetDocument) {
+        for (ProposalPerson proposalPerson: budgetDocument.getProposal().getProposalPersons()) {
+            boolean present = false;
+            for (BudgetPerson budgetPerson: budgetDocument.getBudgetPersons()) {
+                if (proposalPerson.getPersonId() != null && proposalPerson.getPersonId().equals(budgetPerson.getPersonId())) {
+                    present = true;
+                    break;
+                } else if (proposalPerson.getRolodexId() != null && proposalPerson.getRolodexId().equals(budgetPerson.getRolodexId())) {
+                    present = true;
+                    break;
+                }
+            }
+            if (!present) {
+                BudgetPerson newBudgetPerson = new BudgetPerson(proposalPerson);
+                populateBudgetPersonData(budgetDocument, newBudgetPerson);
+                budgetDocument.addBudgetPerson(newBudgetPerson);
+            }
+        }
     }
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {

@@ -20,9 +20,8 @@ REFERENCES "BUDGET_PERSONS" ("PROPOSAL_NUMBER", "VERSION_NUMBER",
 "PERSON_SEQUENCE_NUMBER") ENABLE;                                               
                                                                                 
                                                                                 
-ALTER TABLE "BUDGET_PERSONS" ADD CONSTRAINT "FK_APPOINTMENT_TYPE_CODE_KRA"      
-FOREIGN KEY ("APPOINTMENT_TYPE_CODE")                                           
-REFERENCES "APPOINTMENT_TYPE" ("APPOINTMENT_TYPE_CODE") ENABLE;                 
+ALTER TABLE "BUDGET_PERSONS" ADD CONSTRAINT "FK_BUDGET_PERSONS_KRA" FOREIGN KEY ("PROPOSAL_NUMBER", "VERSION_NUMBER")
+	REFERENCES "BUDGET" (PROPOSAL_NUMBER, VERSION_NUMBER) ENABLE;
                                                                                 
                                                                                 
 ALTER TABLE "BUDGET_PROJECT_INCOMES" ADD CONSTRAINT "FK_BUDGET_PROJ_INC_BP_KRA" 
@@ -89,9 +88,9 @@ FOREIGN KEY ("ATTRIB_ID")
 REFERENCES "EN_RULE_ATTRIB_T" ("RULE_ATTRIB_ID") ENABLE;                        
                                                                                 
                                                                                 
-ALTER TABLE "EPS_PROPOSAL_STATUS" ADD CONSTRAINT "FK_EPS_PROPOSAL_STATUS_KRA"   
-FOREIGN KEY ("PROPOSAL_NUMBER")                                                 
-REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
+ALTER TABLE "EPS_PROPOSAL_BUDGET_STATUS" ADD CONSTRAINT "FK_EPS_PROP_BUDGET_STATUS_KRA"
+FOREIGN KEY ("PROPOSAL_NUMBER")
+REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;
                                                                                 
                                                                                 
 ALTER TABLE "EPS_PROP_ABSTRACT" ADD CONSTRAINT "FK_EPS_PROP_ABSTRACT_KRA"       

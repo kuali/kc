@@ -64,10 +64,8 @@ public class BudgetServiceImpl implements BudgetService {
         // Copy in key personnel
         for (ProposalPerson proposalPerson: pdDoc.getProposalPersons()) {
             BudgetPerson budgetPerson = new BudgetPerson(proposalPerson);
-            budgetPerson.setProposalNumber(pdDoc.getProposalNumber());
-            budgetPerson.setBudgetVersionNumber(budgetVersionNumber);
+            budgetPersonService.populateBudgetPersonData(budgetDocument, budgetPerson);
             budgetPerson.setEffectiveDate(pdDoc.getRequestedStartDateInitial());
-            budgetPersonService.populateBudgetPersonInstitutionData(budgetPerson);
             budgetDocument.addBudgetPerson(budgetPerson);
         }
         

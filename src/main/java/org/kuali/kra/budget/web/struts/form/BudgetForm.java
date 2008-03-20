@@ -38,6 +38,7 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
     
     private String newBudgetPersons;
     private String newBudgetRolodexes;
+    private String newTbnPersons;
     
     private BudgetPeriod newBudgetPeriod;
     
@@ -203,6 +204,14 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
 
     public void setNewBudgetRolodexes(String newBudgetRolodexes) {
         this.newBudgetRolodexes = newBudgetRolodexes; 
+    }
+    
+    public String getNewTbnPersons() {
+        return newTbnPersons;
+    }
+
+    public void setNewTbnPersons(String newTbnPersons) {
+        this.newTbnPersons = newTbnPersons;
     }
 
     /**
