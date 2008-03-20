@@ -536,20 +536,11 @@ function loadPersonName(usernameFieldName, fullnameElementId) {
 
 function updateLookupReturn_Callback( data ) {
             //alert ("enter callback" +lookupReturnName);
-            //clearRecipients('document.newMaintainableObject.lookupReturn');
-            //var el = kualiElements["document.newMaintainableObject.lookupReturn"];
-            // e1.type.toLowerCase() is not working
-            //var el = document.getElementByName('document.newMaintainableObject.lookupReturn');
-                //alert("element "+kualiElements["document.newMaintainableObject.lookupReturn"].type.toLowerCase());
-                //alert("element "+kualiElements["document.newMaintainableObject.lookupReturn"].options.length);
-                //kualiElements["document.newMaintainableObject.lookupReturn"].options[1]=new Option("Music", "musicvalue");
-            //document.forms['KualiForm'].document.newMaintainableObject.lookupReturn.options[1]=new Option("Music", "musicvalue")
-            //alert ("options set ");
-			//setElementValue( "document.newMaintainableObject.lookupReturn", data );
 			
 			kualiElements[lookupReturnName].options.length=0; //reset 
 			var option_array=data.split(",");
 			var optionNum=0;
+			var nameLabelPair;
 			while (optionNum < option_array.length)
 			 {
 				  if (optionNum == 0) {
@@ -557,7 +548,8 @@ function updateLookupReturn_Callback( data ) {
 				        kualiElements[lookupReturnName].options[0]=new Option("select:","", true, true);
 				  } else {
 				        //alert("else"+optionNum+option_array[optionNum])
-				        kualiElements[lookupReturnName].options[optionNum]=new Option(option_array[optionNum], option_array[optionNum]);
+				        nameLabelPair = option_array[optionNum].split(";");
+				        kualiElements[lookupReturnName].options[optionNum]=new Option(nameLabelPair[1], nameLabelPair[0]);
 				  }
 				  optionNum+=1;
 			 }
