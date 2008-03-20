@@ -70,63 +70,23 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
         setDocumentFields(proposaldevelopmentdocument);
        documentService.saveDocument(proposaldevelopmentdocument);
         DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(proposaldevelopmentdocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-        RouteContext routecontext=RouteContext.createNewRouteContext();
+        RouteContext routecontext=RouteContext.createNewRouteContext();  
         routecontext.setDocument(routeHeader);
         ProposalPersonRoleAttribute roleattribute=new ProposalPersonRoleAttribute();
         ResolvedQualifiedRole resolvedrole=roleattribute.resolveQualifiedRole(routecontext, PROPOSAL_INVESTIGATOR_ROLE.getName(), PROPOSAL_INVESTIGATOR_ROLE.getBaseName());
        
         for (Iterator<Id> ids = resolvedrole.getRecipients().iterator(); ids.hasNext();) {
             AuthenticationUserId authid = (AuthenticationUserId) ids.next();
-            assertEquals(authid.getId(),"000000001");
+            assertEquals(authid.getId(),"tdurkin");
         }
 
         ResolvedQualifiedRole resolvedrole1=roleattribute.resolveQualifiedRole(routecontext, CO_INVESTIGATOR_ROLE.getName(), CO_INVESTIGATOR_ROLE.getBaseName());
-        List<String> proinvid=new ArrayList<String>();
          for (Iterator<Id> ids = resolvedrole1.getRecipients().iterator(); ids.hasNext();) {
             AuthenticationUserId authid = (AuthenticationUserId) ids.next();
-            proinvid.add(authid.getId());
-         }
-            assertEquals(proinvid.get(0),"1733");
-            assertEquals(proinvid.get(1),"000000002");
-                    
-
-        ResolvedQualifiedRole resolvedrole2=roleattribute.resolveQualifiedRole(routecontext, INVESTIGATORS.getName(), INVESTIGATORS.getBaseName());
-        List<String> invid=new ArrayList<String>();
-        for (Iterator<Id> ids = resolvedrole2.getRecipients().iterator(); ids.hasNext();) {
-            AuthenticationUserId authid = (AuthenticationUserId) ids.next();
-            invid.add(authid.getId());
-            
+            assertEquals(authid.getId(),"jtester");
         }
-            assertEquals(invid.get(0),"000000001");
-            assertEquals(invid.get(1),"1733");
-            assertEquals(invid.get(2),"000000002");
-                    
 
-        ResolvedQualifiedRole resolvedrole3=roleattribute.resolveQualifiedRole(routecontext, KEY_PERSON_ROLE.getName(), KEY_PERSON_ROLE.getBaseName());
-        List<String> kpid=new ArrayList<String>();
-        for (Iterator<Id> ids = resolvedrole3.getRecipients().iterator(); ids.hasNext();) {
-            AuthenticationUserId authid = (AuthenticationUserId) ids.next();
-            kpid.add(authid.getId());
-            
-        }
-            assertEquals(kpid.get(0),"000000005");
-            assertEquals(kpid.get(1),"1742");
-            
-
-        
-
-        ResolvedQualifiedRole resolvedrole4=roleattribute.resolveQualifiedRole(routecontext, PROPOSAL_PERSON_ROLE.getName(), PROPOSAL_PERSON_ROLE.getBaseName());
-        List<String> proid=new ArrayList<String>();
-        for (Iterator<Id> ids = resolvedrole4.getRecipients().iterator(); ids.hasNext();) {
-            AuthenticationUserId authid = (AuthenticationUserId) ids.next();
-            proid.add(authid.getId());
-        }
-            assertEquals(proid.get(0),"000000001");
-            assertEquals(proid.get(1),"1733");
-            assertEquals(proid.get(2),"000000002");
-            assertEquals(proid.get(3),"000000005");
-            assertEquals(proid.get(4),"1742");
-        
+    
     }
 
     private void setDocumentFields(ProposalDevelopmentDocument document) {
@@ -139,39 +99,23 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
         person.setProposalPersonNumber(1);
         person.setProposalPersonRoleId("PI");
         person.setPersonId("000000001");
+        person.setUserName("tdurkin");
 
-
-        ProposalPerson person1 = new ProposalPerson();
-        person1.setProposalNumber("7");
-        person1.setProposalPersonNumber(2);
-        person1.setProposalPersonRoleId("COI");
-        person1.setRolodexId(1733);
 
 
         ProposalPerson person2 = new ProposalPerson();
         person2.setProposalNumber("7");
         person2.setProposalPersonNumber(3);
         person2.setProposalPersonRoleId("COI");
-        person2.setPersonId("000000002");
+        person2.setPersonId("000000008");
+        person2.setUserName("jtester");
 
-        ProposalPerson person3= new ProposalPerson();
-        person3.setProposalNumber("7");
-        person3.setProposalPersonNumber(5);
-        person3.setProposalPersonRoleId("KP");
-        person3.setPersonId("000000005");
-
-
-        ProposalPerson person4= new ProposalPerson();
-        person4.setProposalNumber("7");
-        person4.setProposalPersonNumber(4);
-        person4.setProposalPersonRoleId("KP");
-        person4.setRolodexId(1742);
-
+        
         ProposalPersons.add(person);
-        ProposalPersons.add(person1);
+       
         ProposalPersons.add(person2);
-        ProposalPersons.add(person3);
-        ProposalPersons.add(person4);
+        
+        
         document.setProposalPersons(ProposalPersons);
         document.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
         document.setSponsorCode("005770");
