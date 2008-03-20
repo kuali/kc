@@ -17,17 +17,24 @@ package org.kuali.kra.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.CustomAttributeService;
 
+/**
+ * 
+ * This class get a list of lookup fileds for the selected lookup class
+ */
 public class CustomAttributeLookupReturnValuesFinder extends KeyValuesBase {
     private static final Log LOG = LogFactory.getLog(CustomAttributeLookupReturnValuesFinder.class);
 
@@ -37,26 +44,25 @@ public class CustomAttributeLookupReturnValuesFinder extends KeyValuesBase {
         keyValues.add(new KeyLabelPair("", "select"));
         String lookupClass = (String) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME);
 
-        List lookupReturnFields = null;
+        List lookupReturnFields = (List) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS);
         try {
-            if (StringUtils.isNotBlank(lookupClass)) {
-                lookupReturnFields = KraServiceLocator.getService(CustomAttributeService.class).getLookupReturns(lookupClass);
-                GlobalVariables.getUserSession().addObject(Constants.LOOKUP_RETURN_FIELDS, lookupReturnFields);
+            if (lookupReturnFields != null) {
+                GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
                 GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_CLASS_NAME);
             }
             else {
-                lookupReturnFields = (List) GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS);
-                GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
+                lookupReturnFields = KraServiceLocator.getService(CustomAttributeService.class).getLookupReturns(lookupClass);
+                GlobalVariables.getUserSession().addObject(Constants.LOOKUP_RETURN_FIELDS, lookupReturnFields);
             }
         }
         catch (Exception e) {
             LOG.info(e.getMessage());
             // TODO
         }
-
+        
         if (lookupReturnFields != null) {
             for (Object fieldName : lookupReturnFields) {
-                keyValues.add(new KeyLabelPair(fieldName.toString(), fieldName.toString()));
+                keyValues.add(new KeyLabelPair(fieldName.toString(), KraServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass,fieldName.toString())));
             }
         }
 

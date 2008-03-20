@@ -220,13 +220,12 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
         }
     }
     
-    @Test public void testGetLookupReturnsForAjaxCall() throws Exception {
-        String userRoleProperties = ",roleId,unitNumber,userId,descendFlag";
+    @Test
+    public void testGetLookupReturnsForAjaxCall() throws Exception {
+        String userRoleProperties = ",roleId;Role Id,unitNumber;Unit Number,userId;User Id,descendFlag;Descend Flag";
         String lookupReturnFields = customAttributeService.getLookupReturnsForAjaxCall("org.kuali.kra.bo.UserRole");
         assertEquals(userRoleProperties,lookupReturnFields);
     }
-
-
 
     private ProposalDevelopmentDocument getDocument() throws WorkflowException {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
