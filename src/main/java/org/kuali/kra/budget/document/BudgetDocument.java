@@ -562,10 +562,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
     
     public void addBudgetPerson(BudgetPerson budgetPerson) {
-        budgetPerson.setProposalNumber(getProposalNumber());
-        budgetPerson.setBudgetVersionNumber(getBudgetVersionNumber());
-        this.refreshReferenceObject("documentNextvalues");
-        budgetPerson.setPersonSequenceNumber(getDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
         getBudgetPersons().add(budgetPerson);
     }
     

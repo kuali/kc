@@ -30,6 +30,7 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
 	private Boolean nonEmployeeFlag;
 	private String personId;
     private Integer rolodexId;
+    private String tbnId;
 	private String proposalNumber;
 	private Integer budgetVersionNumber;
 	private String appointmentTypeCode;
@@ -65,6 +66,14 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
         this.rolodexId = rolodex.getRolodexId();
         this.personName = rolodex.getFirstName() + " " + rolodex.getLastName();
         this.nonEmployeeFlag = true;
+    }
+    
+    public BudgetPerson(TbnPerson tbn) {
+        super();
+        this.tbnId = tbn.getTbnId();
+        this.personName = tbn.getPersonName();
+        this.nonEmployeeFlag = true;
+        this.jobCode = tbn.getJobCode();
     }
     
     public BudgetPerson(ProposalPerson proposalPerson) {
@@ -245,6 +254,14 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
     public void setPersonSequenceNumber(Integer personSequenceNumber) {
         this.personSequenceNumber = personSequenceNumber;
     }
+    
+    public String getTbnId() {
+        return tbnId;
+    }
+
+    public void setTbnId(String tbnId) {
+        this.tbnId = tbnId;
+    }
 
     /**
      * Gets the rolodex attribute. 
@@ -276,14 +293,19 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
      * @return boolean
      */
     public boolean isDuplicatePerson(BudgetPerson budgetPerson) {
+        if (this.getJobCode() != budgetPerson.getJobCode()
+                || this.getEffectiveDate() != budgetPerson.getEffectiveDate()) {
+            return false;
+        }
         if (this.getNonEmployeeFlag() && budgetPerson.getNonEmployeeFlag()) {
-            return this.getRolodexId().equals(budgetPerson.getRolodexId())
-                    && this.getJobCode().equals(budgetPerson.getJobCode())
-                    && this.getEffectiveDate().equals(budgetPerson.getEffectiveDate());
+            if (this.getRolodexId() != null && budgetPerson.getRolodexId() != null) {
+                return this.getRolodexId().equals(budgetPerson.getRolodexId());
+            } else if (this.getTbnId() != null && budgetPerson.getTbnId() != null) {
+                return this.getTbnId().equals(budgetPerson.getTbnId());
+            }
+            return false;
         } else if (!this.getNonEmployeeFlag() && !budgetPerson.getNonEmployeeFlag()) {
-            return this.getPersonId().equals(budgetPerson.getPersonId())
-                    && this.getJobCode().equals(budgetPerson.getJobCode())
-                    && this.getEffectiveDate().equals(budgetPerson.getEffectiveDate());
+            return this.getPersonId().equals(budgetPerson.getPersonId());
         }
         // else non-employee vs. employee
         return false;
