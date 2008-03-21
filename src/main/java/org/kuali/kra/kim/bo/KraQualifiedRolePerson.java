@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.kim.bo;
 
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.Unit;
+
 /**
  * KRA implementation of the <code>{@link KimQualifiedRolePerson}</code>. It associates a <code>{@link Person}</code> with a 
  * <code>{@link KimRole}</code>. KRA has specific needs on the RolePerson, so this is a specialized version that takes
@@ -31,6 +34,11 @@ public class KraQualifiedRolePerson extends KimQualifiedRolePerson {
     private static final long serialVersionUID = -3954928435359069216L;
     private static final String KRA_UNIT_NUMBER_ATTR_NAME = "kra.unitNumber";
     private static final String KRA_SUB_UNITS_ATTR_NAME = "kra.subunits";
+    
+    private Unit unit;
+    private String unitName;
+    private Person person;
+    private String kraPersonId;
     
     
     /**
@@ -86,5 +94,61 @@ public class KraQualifiedRolePerson extends KimQualifiedRolePerson {
         attribute.setAttributeName(KRA_SUB_UNITS_ATTR_NAME);
         attribute.setAttributeValue(subUnitsAllowed);
         getQualifiedRoleAttributes().add(attribute);
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    /**
+     * Gets the unitName attribute. 
+     * @return Returns the unitName.
+     */
+    public String getUnitName() {
+        return unitName;
+    }
+
+    /**
+     * Sets the unitName attribute value.
+     * @param unitName The unitName to set.
+     */
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    /**
+     * Gets the kraPersonId attribute. 
+     * @return Returns the kraPersonId.
+     */
+    public String getKraPersonId() {
+        return kraPersonId;
+    }
+
+    /**
+     * Sets the kraPersonId attribute value.
+     * @param kraPersonId The kraPersonId to set.
+     */
+    public void setKraPersonId(String kraPersonId) {
+        this.kraPersonId = kraPersonId;
+    }
+
+    /**
+     * Gets the person attribute. 
+     * @return Returns the person.
+     */
+    public Person getPerson() {
+        return person;
+    }
+
+    /**
+     * Sets the person attribute value.
+     * @param person The person to set.
+     */
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }
