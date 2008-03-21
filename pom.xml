@@ -221,7 +221,6 @@
     					<artifactId>maven-resources-plugin</artifactId>
     					<version>2.2</version>
 					</plugin> 
-					<!-- 
 					<plugin>
 						<artifactId>maven-clover-plugin</artifactId>
 						<executions>
@@ -234,10 +233,14 @@
 						</executions>
 						<configuration>
 							<jdk>1.5</jdk>
-							<licenseLocation>src/test/config/clover.license</licenseLocation>
+							<generatePdf>true</generatePdf>
+                            <includesTestSourceRoots>false</includesTestSourceRoots>
+                            <excludes>
+                                <exclude>**/*Test/java</exclude>
+                            </excludes>
+							<licenseLocation>${basedir}/src/test/config/clover.license</licenseLocation>
 						</configuration>
 					</plugin>
-					 -->
 				</plugins>
 			</build>
 			<dependencies>
