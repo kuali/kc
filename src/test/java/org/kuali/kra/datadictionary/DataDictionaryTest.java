@@ -30,7 +30,7 @@ public class DataDictionaryTest extends KraTestBase {
 
     private static final String PACKAGE = "org/kuali/kra/datadictionary/";
 
-    @Test
+    // @Test
     public void testDataDictionaryFiles() throws Exception {
         builder = new DataDictionaryBuilder(KNSServiceLocator.getValidationCompletionUtils());
         builder.addUniqueEntries(PACKAGE, true);
