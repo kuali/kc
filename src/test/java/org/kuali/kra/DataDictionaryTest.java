@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra.datadictionary;
+package org.kuali.kra;
 
 import org.junit.Test;
 import org.kuali.core.datadictionary.DataDictionaryBuilder;
@@ -30,12 +30,18 @@ public class DataDictionaryTest extends KraTestBase {
 
     private static final String PACKAGE = "org/kuali/kra/datadictionary/";
 
+    /**
+     * Create a <code>{@link DataDictionaryBuilder}</code> instance to traverse the <code>PACKAGE</code> path
+     * and load every DataDictionary file there. Forced complete loading to turn of lazy loading of the 
+     * DataDictionary. This ensures that every DataDictionary file will be loaded and checked completely.
+     * 
+     * @throws Exception
+     */
     @Test
-    public void testDataDictionaryFiles() throws Exception {
-        
-//        builder = new DataDictionaryBuilder(KNSServiceLocator.getValidationCompletionUtils());
-//        builder.addUniqueEntries(PACKAGE, true);
-//        builder.getDataDictionary().forceCompleteDataDictionaryLoad();
+    public void validateDataDictionary() throws Exception {
+        builder = new DataDictionaryBuilder(KNSServiceLocator.getValidationCompletionUtils());
+        builder.addUniqueEntries(PACKAGE, true);
+        builder.getDataDictionary().forceCompleteDataDictionaryLoad();
     }
 
 }
