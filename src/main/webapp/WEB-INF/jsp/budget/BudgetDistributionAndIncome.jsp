@@ -28,7 +28,7 @@
 	
 	<div align="center">
 		<kra-b:budgetCostSharing />
-		<kra-b:budgetUnrecoveredFAndA />
+		<kra-b:budgetUnrecoveredFandA />
 		<kra-b:budgetProjectIncome />
 		<kul:panelFooter />
 	</div>

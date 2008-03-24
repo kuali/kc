@@ -19,19 +19,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.budget.bo.BudgetCostShare;
-import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
-import org.kuali.kra.budget.rule.BudgetValidationBudgetCostShareRule;
+import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
+import org.kuali.kra.budget.rule.AddBudgetUnrecoveredFandARule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
-public class BudgetValidationBudgetCostShareEvent extends KraDocumentEventBase {
-    private static final Log LOG = LogFactory.getLog(BudgetValidationBudgetCostShareEvent.class);
+public class AddBudgetUnrecoveredFandAEvent extends KraDocumentEventBase {
+    private static final Log LOG = LogFactory.getLog(AddBudgetUnrecoveredFandAEvent.class);
     
-    private BudgetCostShare budgetCostShare;
+    private BudgetUnrecoveredFandA budgetUnrecoveredFandA;
     
-    public BudgetValidationBudgetCostShareEvent(String description, String errorPathPrefix, Document document, BudgetCostShare budgetCostShare) {
+    public AddBudgetUnrecoveredFandAEvent(String description, String errorPathPrefix, Document document, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
         super(description, errorPathPrefix, document);
-        this.budgetCostShare = budgetCostShare;
+        this.budgetUnrecoveredFandA = budgetUnrecoveredFandA;
     }
 
     @Override
@@ -39,19 +38,21 @@ public class BudgetValidationBudgetCostShareEvent extends KraDocumentEventBase {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");
 
-        LOG.debug((budgetCostShare == null) ? "null budgetCostShare" : budgetCostShare.toString());
+        //vary logging detail as needed
+        String msg = (budgetUnrecoveredFandA == null) ? "null budgetUnrecoveredFandA" : budgetUnrecoveredFandA.toString();
+        LOG.debug(msg);
     }
 
-    public Class<AddBudgetCostShareRule> getRuleInterfaceClass() {
-        return AddBudgetCostShareRule.class;
+    public Class<AddBudgetUnrecoveredFandARule> getRuleInterfaceClass() {
+        return AddBudgetUnrecoveredFandARule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((BudgetValidationBudgetCostShareRule) rule).processBudgetValidationBudgetCostShareBusinessRules(this);
+        return ((AddBudgetUnrecoveredFandARule) rule).processAddBudgetUnrecoveredFandABusinessRules(this);
     }
 
-    public BudgetCostShare getBudgetCostShare() {
-        return budgetCostShare;
+    public BudgetUnrecoveredFandA getBudgetUnrecoveredFandA() {
+        return budgetUnrecoveredFandA;
     }
 
 }

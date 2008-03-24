@@ -23,6 +23,7 @@
     
 		<titleAttribute>budgetPeriod</titleAttribute>
         <attributes>
+        	<!-- PK fields -->
 			<attribute name="proposalNumber">
 				<label>Proposal Number </label>
 				<shortLabel>Proposal Number </shortLabel>
@@ -47,6 +48,19 @@
 				<description>Budget Version Number </description>
 			</attribute>
 			
+			<attribute name="documentComponentId">
+				<label>Document Component Id </label>
+				<shortLabel>Document Component Id </shortLabel>
+				<maxLength>3</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<text size="5" />
+				</control>
+				<summary>Document Component Id </summary>
+				<description>Document Component Id </description>
+			</attribute>
+			
+			<!-- Domain fields -->
 			<attribute name="budgetPeriodNumber">
 				<label>Budget Period </label>
 				<shortLabel>Budget Period </shortLabel>
@@ -85,6 +99,7 @@
 				<validationPattern>
 					<anyCharacter allowWhitespace="true"  />
 				</validationPattern>
+				<required>true</required>
 				<control>
 					<text size="60" />
 				</control>
