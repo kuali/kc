@@ -28,7 +28,7 @@ import static org.apache.commons.beanutils.PropertyUtils.setProperty;
  * Full of static methods for JSTL function access.
  * 
  * @author $Author: lprzybyl $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class JstlFunctions {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(JstlFunctions.class);
@@ -121,6 +121,10 @@ public class JstlFunctions {
         return retval;
     }
     
+    private Object buildPropertyParameter(Object obj, String propertyName) throws Exception {
+        return PropertyUtils.getPropertyDescriptor(obj, propertyName).getWriteMethod().getParameterTypes()[0];
+    }
+
     /**
      * Get the stack trace from a <code>{@link Throwable}</code> and create a log message from it for tracing purposes
      * 
