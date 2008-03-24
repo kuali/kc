@@ -19,16 +19,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
-import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
+import org.kuali.kra.budget.bo.BudgetCostShare;
+import org.kuali.kra.budget.rule.BudgetValidationCostShareRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
-public class AddBudgetCostShareEvent extends KraDocumentEventBase {
-    private static final Log LOG = LogFactory.getLog(AddBudgetCostShareEvent.class);
+public class BudgetValidationCostShareEvent extends KraDocumentEventBase {
+    private static final Log LOG = LogFactory.getLog(BudgetValidationCostShareEvent.class);
     
-    private BudgetDistributionAndIncomeComponent budgetCostShare;
+    private BudgetCostShare budgetCostShare;
     
-    public AddBudgetCostShareEvent(String description, String errorPathPrefix, Document document, BudgetDistributionAndIncomeComponent budgetCostShare) {
+    public BudgetValidationCostShareEvent(String description, String errorPathPrefix, Document document, BudgetCostShare budgetCostShare) {
         super(description, errorPathPrefix, document);
         this.budgetCostShare = budgetCostShare;
     }
@@ -41,15 +41,15 @@ public class AddBudgetCostShareEvent extends KraDocumentEventBase {
         LOG.debug((budgetCostShare == null) ? "null budgetCostShare" : budgetCostShare.toString());
     }
 
-    public Class<AddBudgetCostShareRule> getRuleInterfaceClass() {
-        return AddBudgetCostShareRule.class;
+    public Class<BudgetValidationCostShareRule> getRuleInterfaceClass() {
+        return BudgetValidationCostShareRule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddBudgetCostShareRule) rule).processAddBudgetCostShareBusinessRules(this);
+        return ((BudgetValidationCostShareRule) rule).processBudgetValidationCostShareBusinessRules(this);
     }
 
-    public BudgetDistributionAndIncomeComponent getBudgetCostShare() {
+    public BudgetCostShare getBudgetCostShare() {
         return budgetCostShare;
     }
 

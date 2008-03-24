@@ -2,7 +2,7 @@
 
 <c:set var="budgetCostShareAttributes" value="${DataDictionary.BudgetCostShare.attributes}" />
 
-<kul:tabTop tabTitle="Cost Sharing (${KualiForm.document.budgetVersionNumber})" defaultOpen="true" tabErrorKey="newCostShare*">
+<kul:tabTop tabTitle="Cost Sharing (${KualiForm.document.budgetVersionNumber})" defaultOpen="false" tabErrorKey="newCostShare*">
 	<div class="tab-container" align="center">
 		<div class="h2-container">
 	    	<div class="h2-container">
@@ -11,7 +11,7 @@
 	        </div>
 	    </div>
 		<div align="center">
-			<table id="budget-cost-sharing-table" cellpadding="0" cellspacing="0" summary="Budget Period Incomes">
+			<table id="budget-cost-sharing-table" cellpadding="0" cellspacing="0" summary="Budget Cost Shares">
 				<tr>
 					<th><div align="left">&nbsp</div></th>
 					<th><div align="center">Fiscal Year</div></th>
@@ -103,7 +103,7 @@
 			</table>
 			<div align="center" style="padding-top: 2em;">
 				<html:image property="methodToCall.resetCostSharingToDefault" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-resettodefault.gif' />
-				<html:image property="methodToCall.recalculateCostSharing" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
+				<html:image property="methodToCall.refreshTotals" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
 			</div>
 		</div>					
 	</div>

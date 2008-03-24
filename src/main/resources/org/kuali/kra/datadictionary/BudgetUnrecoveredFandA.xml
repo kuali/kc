@@ -14,16 +14,15 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE dictionaryEntry PUBLIC
-    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "dataDictionary-1_0.dtd">
+<!DOCTYPE dictionaryEntry PUBLIC "-//Kuali Project//DTD Data Dictionary 1.0//EN" "dataDictionary-1_0.dtd">
+
 <dictionaryEntry>
 
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetCostShare">
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetUnrecoveredFandA">
     
-		<titleAttribute>budgetCostShare</titleAttribute>
+		<titleAttribute>documentComponentId</titleAttribute>
         <attributes>
-        	<!-- PK Fields -->
+        	<!-- PK Attributes -->
 			<attribute name="proposalNumber">
 				<label>Proposal Number </label>
 				<shortLabel>Proposal Number </shortLabel>
@@ -51,7 +50,7 @@
 			<attribute name="documentComponentId">
 				<label>Document Component Id </label>
 				<shortLabel>Document Component Id </shortLabel>
-				<maxLength>3</maxLength>
+				<maxLength>5</maxLength>
 				<validationPattern><numeric /></validationPattern>
 				<control>
 					<text size="5" />
@@ -60,7 +59,50 @@
 				<description>Document Component Id </description>
 			</attribute>
 			
-			<!-- Domain Fields -->
+			<!-- Domain Attributes -->
+			<attribute name="amount">
+				<label>Amount </label>
+				<shortLabel>Amount </shortLabel>
+				<maxLength>12</maxLength>
+				<validationPattern>
+                    <fixedPoint allowNegative="false" precision="12" scale="2" />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <currency size="16" formattedMaxLength="22" />
+                </control>
+				<summary>Amount </summary>
+				<description>Amount </description>
+			</attribute>
+
+			<attribute name="applicableRate">
+				<label>Applicable Rate </label>
+				<shortLabel>Applicable Rate </shortLabel>
+				<maxLength>7</maxLength>
+				<validationPattern>
+					<fixedPoint allowNegative="false" precision="6" scale="3" />
+				</validationPattern>
+				<required>false</required>
+				<control>
+					<text size="7" />
+				</control>
+				<summary>Applicable Rate </summary>
+				<description>Applicable Rate </description>
+			</attribute>
+
+			<attribute name="onCampusFlag">
+				<label>On Campus Flag </label>
+				<shortLabel>On Campus Flag </shortLabel>
+				<maxLength>1</maxLength>
+				<validationPattern><alpha exactLength="1"/></validationPattern>
+				<required>false</required>
+				<control>
+					<text size="10" />
+				</control>
+				<summary>On Campus Flag </summary>
+				<description>On Campus Flag </description>
+			</attribute>
+
 			<attribute name="fiscalYear">
 				<label>Fiscal Year </label>
 				<shortLabel>Fiscal Year </shortLabel>
@@ -74,34 +116,6 @@
 				</control>
 				<summary>Fiscal Year </summary>
 				<description>Fiscal Year </description>
-			</attribute>
-			
-			<attribute name="shareAmount">
-				<label>Share Amount </label>
-				<shortLabel>Share Amount </shortLabel>
-				<maxLength>12</maxLength>
-				<validationPattern>
-                    <fixedPoint allowNegative="false" precision="12" scale="2" />
-                </validationPattern>
-                <required>false</required>
-                <control>
-                    <currency size="16" formattedMaxLength="22" />
-                </control>
-				<summary>Share Amount </summary>
-				<description>Share Amount </description>
-			</attribute>
-
-			<attribute name="sharePercentage">
-				<label>Share Percentage </label>
-				<shortLabel>Share Percentage </shortLabel>
-				<maxLength>10</maxLength>
-				<validationPattern><fixedPoint allowNegative="false" precision="6" scale="2" /></validationPattern>
-				<required>false</required>
-				<control>
-					<text size="10" />
-				</control>
-				<summary>Share Percentage </summary>
-				<description>Share Percentage </description>
 			</attribute>
 
 			<attribute name="sourceAccount">

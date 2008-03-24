@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.rule;
+package org.kuali.kra.infrastructure;
 
-import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.budget.rule.event.BudgetValidationBudgetCostShareEvent;
+import org.kuali.core.web.format.BigDecimalFormatter;
+import org.kuali.kra.budget.RateDecimal;
 
-public interface BudgetValidationBudgetCostShareRule  extends BusinessRule {
-    
-    /**
-     * Rule invoked upon validating a budget 
-     * <code>{@link org.kuali.kra.budget.document.BudgetDocument}</code>
-     *
-     * @return boolean
-     */
-    public boolean processBudgetValidationBudgetCostShareBusinessRules(BudgetValidationBudgetCostShareEvent addBudgetPeriodEvent);
+public class RateDecimalFormatter extends BigDecimalFormatter {
+    @Override
+    protected Object convertToObject(String target) {
+        return new RateDecimal(target);
+    }
 }
