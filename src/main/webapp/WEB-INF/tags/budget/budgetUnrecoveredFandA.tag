@@ -2,7 +2,7 @@
 
 <c:set var="ufaAttributes" value="${DataDictionary.BudgetUnrecoveredFandA.attributes}" />
 
-<kul:tab tabTitle="Unrecovered F&A (${KualiForm.document.budgetVersionNumber})" defaultOpen="true" tabErrorKey="newUnrecoveredFandA*">
+<kul:tab tabTitle="Unrecovered F&A (${KualiForm.document.budgetVersionNumber})" defaultOpen="false" tabErrorKey="newUnrecoveredFandA*">
 	<div class="tab-container" align="center">
 		<div class="h2-container">
 			<span class="subhead-left"><h2>Unrecovered F&A Distribution List</h2></span>
