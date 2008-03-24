@@ -16,6 +16,7 @@
 package org.kuali.kra.s2s;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -44,6 +45,11 @@ public class KualiDataSourceConnectionManagerTest extends KraTestBase {
         KualiDataSourceConnectionManager cnnMgr = new KualiDataSourceConnectionManager();
         Connection conn = cnnMgr.getDatabaseConnection();
         cnnMgr.freeDatabaseConnection(conn);
-        assertTrue(conn.isClosed());
+        try{
+            conn.rollback();
+            assertNull(conn);
+        }catch(SQLException ex){
+            assertNotNull(ex);
+        }
     }
 }
