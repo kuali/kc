@@ -18,16 +18,17 @@ package org.kuali.kra.budget.rules;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.budget.bo.BudgetCostShare;
+import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
 import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
-import org.kuali.kra.budget.rule.BudgetValidationBudgetCostShareRule;
+import org.kuali.kra.budget.rule.BudgetValidationCostShareRule;
 import org.kuali.kra.budget.rule.event.AddBudgetCostShareEvent;
-import org.kuali.kra.budget.rule.event.BudgetValidationBudgetCostShareEvent;
+import org.kuali.kra.budget.rule.event.BudgetValidationCostShareEvent;
 
 /**
  * Processes Budget Project Income rules
  */
-public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetValidationBudgetCostShareRule {
+public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetValidationCostShareRule {
 
     private static final String ADD_ERROR_KEY = "error.custom";
     
@@ -51,9 +52,9 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
     }
 
     /**
-     * @see org.kuali.kra.budget.rule.BudgetValidationBudgetCostShareRule#processBudgetValidationBudgetCostShareBusinessRules(org.kuali.kra.budget.rule.event.BudgetValidationBudgetCostShareEvent)
+     * @see org.kuali.kra.budget.rule.BudgetValidationCostShareRule#processBudgetValidationCostShareBusinessRules(org.kuali.kra.budget.rule.event.BudgetValidationCostShareEvent)
      */
-    public boolean processBudgetValidationBudgetCostShareBusinessRules(BudgetValidationBudgetCostShareEvent budgetCostShareEvent) {
+    public boolean processBudgetValidationCostShareBusinessRules(BudgetValidationCostShareEvent budgetCostShareEvent) {
         return areRequiredRulesSatisfied(budgetCostShareEvent.getBudgetCostShare());
     }
 
@@ -63,7 +64,7 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
      * @param budgetCostShare
      * @return
      */
-    private boolean areDuplicatesPresent(BudgetCostShare testBudgetCostShare) {
+    private boolean areDuplicatesPresent(BudgetDistributionAndIncomeComponent testBudgetCostShare) {
         boolean duplicate = false;
         
         if(testBudgetCostShare == null) {
@@ -74,7 +75,7 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
         if(form instanceof BudgetDocumentContainer) {
             BudgetDocumentContainer budgetContainerForm = (BudgetDocumentContainer) form;
             
-            for(BudgetCostShare budgetCostShare: budgetContainerForm.getBudgetDocument().getBudgetCostShares()) {
+            for(BudgetDistributionAndIncomeComponent budgetCostShare: budgetContainerForm.getBudgetDocument().getBudgetCostShares()) {
                 duplicate = checkForDuplicateFields(testBudgetCostShare, budgetCostShare);
                 if(duplicate) { break; }
             }            
@@ -89,9 +90,9 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
      * @return Validation state; true if all required fields are not null, and if String, not empty
      */
     private boolean areRequiredRulesSatisfied(BudgetCostShare budgetCostShare) {
-        boolean valid = validationHelper.checkRequiredField(budgetCostShare.getFiscalYear(), "newCostShare.fiscalYear", "Fiscal Year");
-        valid &= validationHelper.checkRequiredField(budgetCostShare.getShareAmount(), "newCostShare.shareAmount", "Amount");
-        valid &= validationHelper.checkRequiredField(budgetCostShare.getSourceAccount(), "newCostShare.sourceAccount", "Source Account");
+        boolean valid = validationHelper.checkRequiredField(budgetCostShare.getFiscalYear(), "budgetCostShare.fiscalYear", "Fiscal Year");
+        valid &= validationHelper.checkRequiredField(budgetCostShare.getShareAmount(), "budgetCostShare.shareAmount", "Amount");
+        valid &= validationHelper.checkRequiredField(budgetCostShare.getSourceAccount(), "budgetCostShare.sourceAccount", "Source Account");
         
         return valid;
     }
@@ -102,7 +103,7 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
      * @param budgetCostShare
      * @return
      */
-	private boolean checkForDuplicateFields(BudgetCostShare testBudgetCostShare, BudgetCostShare budgetCostShare) {
+	private boolean checkForDuplicateFields(BudgetDistributionAndIncomeComponent testBudgetCostShare, BudgetDistributionAndIncomeComponent budgetCostShare) {
         boolean duplicate = testBudgetCostShare.equals(budgetCostShare);
         if(duplicate) {
             GlobalVariables.getErrorMap().putError("newCostShare.*", ADD_ERROR_KEY, "A Cost Share with the same Fiscal Year, Source Account and Amount exists in the table");

@@ -20,7 +20,9 @@ import java.util.LinkedHashMap;
 import org.kuali.core.util.KualiDecimal;
 
 public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 8999969227018875501L;
+
+    public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_PROJECT_INCOME_KEY";
     
     private Integer budgetPeriodNumber;
     private String description;

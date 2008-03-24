@@ -38,7 +38,9 @@ import org.kuali.core.web.format.Formatter;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.bo.BudgetCostShare;
+import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
@@ -46,6 +48,7 @@ import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
+import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.bo.CostElement;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateClassType;
@@ -57,6 +60,7 @@ import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RateDecimalFormatter;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 
@@ -91,6 +95,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<BudgetPeriod> budgetPeriods;
     private List<BudgetProjectIncome> budgetProjectIncomes;
     private List<BudgetCostShare> budgetCostShares;
+    private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
     
     private String activityTypeCode="1";
     private List<BudgetLineItem> budgetLineItems;
@@ -118,12 +123,14 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         budgetPeriods = new ArrayList<BudgetPeriod>();
         budgetLineItems = new ArrayList<BudgetLineItem>();
         budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
+        budgetUnrecoveredFandAs = new ArrayList<BudgetUnrecoveredFandA>();
         instituteRates = new ArrayList<InstituteRate>();
         instituteLaRates = new ArrayList<InstituteLaRate>();
         rateClasses = new ArrayList<RateClass>();
-        rateClassTypes = new ArrayList<RateClassType>();
-        Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
+        rateClassTypes = new ArrayList<RateClassType>();       
         budgetPersons = new ArrayList<BudgetPerson>();
+        Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
+        Formatter.registerFormatter(RateDecimal.class, RateDecimalFormatter.class);
     }
 
     public void initialize() {
@@ -172,11 +179,14 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return periodIncomeTotals;
     }
      
-    public List<FiscalYearCostShare> getFiscalYearCostShareTotals() {
+    public List<FiscalYearSummary> getFiscalYearCostShareTotals() {
         Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = mapBudgetPeriodsToFiscalYears();
-        List<FiscalYearCostShare> fiscalYearCostShares = calculateFiscalYearTotals(budgetPeriodFiscalYears);
-        
-        return fiscalYearCostShares;
+        return calculateFiscalYearTotals(budgetPeriodFiscalYears);
+    }
+    
+    public List<FiscalYearSummary> getFiscalYearUnrecoveredFandATotals() {
+        Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = mapBudgetPeriodsToFiscalYears();
+        return calculateFiscalYearTotals(budgetPeriodFiscalYears); 
     }
     
     public boolean isCostSharingAvailable() {
@@ -188,12 +198,29 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return costSharingAvailable;
     }
     
+    public boolean isUnrecoveredFandAAvailable() {
+        boolean unrecoveredFandAAvailable = false;
+        for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
+            unrecoveredFandAAvailable = budgetPeriod.getUnderrecoveryAmount().isPositive();
+            if(unrecoveredFandAAvailable) { break; }
+        }
+        return unrecoveredFandAAvailable;
+    };
+    
     public BudgetDecimal getAllocatedCostSharing() {
         BudgetDecimal costShareTotal = new BudgetDecimal(0.0);
         for(BudgetCostShare budgetCostShare: getBudgetCostShares()) {
             costShareTotal = costShareTotal.add(budgetCostShare.getShareAmount()); 
         }
         return costShareTotal;
+    }
+    
+    public BudgetDecimal getAllocatedUnrecoveredFandA() {
+        BudgetDecimal allocatedUnrecoveredFandA = BudgetDecimal.ZERO;
+        for(BudgetUnrecoveredFandA unrecoveredFandA: getBudgetUnrecoveredFandAs()) {
+            allocatedUnrecoveredFandA = allocatedUnrecoveredFandA.add(unrecoveredFandA.getAmount()); 
+        }
+        return allocatedUnrecoveredFandA;
     }
     
     public KualiDecimal getProjectIncomeTotal() {
@@ -213,9 +240,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
 
     public BudgetDecimal getUnallocatedCostSharing() {
-        BudgetDecimal allocated = getAllocatedCostSharing();
-        BudgetDecimal available = getAvailableCostSharing();
-        return available.subtract(allocated);
+        return getAvailableCostSharing().subtract(getAllocatedCostSharing());
+    }
+    
+    public BudgetDecimal getUnallocatedUnrecoveredFandA() {
+        return getAvailableUnrecoveredFandA().subtract(getAllocatedUnrecoveredFandA());
     }
 
     public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
@@ -375,6 +404,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(getBudgetPeriods());
         managedLists.add(getBudgetProjectIncomes());
         managedLists.add(getBudgetCostShares());
+        managedLists.add(getBudgetUnrecoveredFandAs());
         managedLists.add(getBudgetPersons());
         return managedLists;
     }
@@ -518,10 +548,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public void add(BudgetCostShare budgetCostShare) {
         if(budgetCostShare != null) {
-            budgetCostShare.setProposalNumber(getProposalNumber());
-            budgetCostShare.setBudgetVersionNumber(getBudgetVersionNumber());
             refreshReferenceObject("documentNextvalues");
-            budgetCostShare.setCostShareId(getDocumentNextValue(BudgetCostShare.BUDGET_COST_SHARE_ID_KEY));            
+            budgetCostShare.setProposalNumber(getProposalNumber());
+            budgetCostShare.setBudgetVersionNumber(getBudgetVersionNumber());            
+            budgetCostShare.setDocumentComponentId(getDocumentNextValue(BudgetCostShare.DOCUMENT_COMPONENT_ID_KEY));            
             getBudgetCostShares().add(budgetCostShare);
             LOG.debug("Added budgetCostShare: " + budgetCostShare);
         } else {
@@ -533,10 +563,25 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         if(budgetProjectIncome != null) {
             budgetProjectIncome.setProposalNumber(getProposalNumber());
             budgetProjectIncome.setBudgetVersionNumber(getBudgetVersionNumber());
+            budgetProjectIncome.setDocumentComponentId(getDocumentNextValue(BudgetProjectIncome.DOCUMENT_COMPONENT_ID_KEY));
             this.refreshReferenceObject("documentNextvalues");
             this.getBudgetProjectIncomes().add(budgetProjectIncome);
+            LOG.debug("Added budgetProjectIncome: " + budgetProjectIncome);
         } else {
             LOG.warn("Attempt to add null budgetProjectIncome was ignored");
+        }
+    }
+    
+    public void add(BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
+        if(budgetUnrecoveredFandA != null) {
+            budgetUnrecoveredFandA.setProposalNumber(getProposalNumber());
+            budgetUnrecoveredFandA.setBudgetVersionNumber(getBudgetVersionNumber());
+            refreshReferenceObject("documentNextvalues");
+            budgetUnrecoveredFandA.setDocumentComponentId(getDocumentNextValue(BudgetUnrecoveredFandA.DOCUMENT_COMPONENT_ID_KEY));            
+            getBudgetUnrecoveredFandAs().add(budgetUnrecoveredFandA);
+            LOG.debug("Added budgetUnrecoveredFandA: " + budgetUnrecoveredFandA);
+        } else {
+            LOG.warn("Attempt to add null budgetUnrecoveredFandA was ignored");
         }
     }
 
@@ -576,12 +621,16 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         getBudgetPeriods().add(budgetPeriod);        
     }
 
-    public void remove(BudgetCostShare budgetCostShare) {
+    public void remove(BudgetDistributionAndIncomeComponent budgetCostShare) {
         getBudgetCostShares().remove(budgetCostShare);
     }
     
     public void remove(BudgetProjectIncome budgetProjectIncome) {
         getBudgetProjectIncomes().remove(budgetProjectIncome);
+    }
+    
+    public void remove(BudgetUnrecoveredFandA unrecoveredFandA) {
+        getBudgetUnrecoveredFandAs().remove(unrecoveredFandA);
     }
 
     public final List<InstituteLaRate> getInstituteLaRates() {
@@ -594,6 +643,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public List<BudgetCostShare> getBudgetCostShares() {
         return budgetCostShares;
+    }
+    
+    public List<BudgetUnrecoveredFandA> getBudgetUnrecoveredFandAs() {
+        return budgetUnrecoveredFandAs;
     }
 
     public void getBudgetTotals() {
@@ -617,18 +670,26 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
     
     public BudgetDecimal getAvailableCostSharing() {
-        BudgetDecimal availableCostShare = new BudgetDecimal(0.0);
+        BudgetDecimal availableCostShare = BudgetDecimal.ZERO;
         for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
             availableCostShare = availableCostShare.add(budgetPeriod.getCostSharingAmount());
         }
         return availableCostShare;
     }
     
+    public BudgetDecimal getAvailableUnrecoveredFandA() {
+        BudgetDecimal availableUnrecoveredFandA = BudgetDecimal.ZERO;
+        for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
+            availableUnrecoveredFandA = availableUnrecoveredFandA.add(budgetPeriod.getUnderrecoveryAmount());
+        }
+        return availableUnrecoveredFandA;
+    }
+    
     public BudgetDecimal findCostSharingForFiscalYear(Integer fiscalYear) {
         BudgetDecimal costSharing = BudgetDecimal.ZERO;
         
-        List<FiscalYearCostShare> costShareFiscalYears = calculateFiscalYearTotals(mapBudgetPeriodsToFiscalYears());
-        for(FiscalYearCostShare costShareFiscalYear: costShareFiscalYears) {
+        List<FiscalYearSummary> costShareFiscalYears = calculateFiscalYearTotals(mapBudgetPeriodsToFiscalYears());
+        for(FiscalYearSummary costShareFiscalYear: costShareFiscalYears) {
             if(costShareFiscalYear.fiscalYear == fiscalYear) {
                 costSharing = costShareFiscalYear.costShare;
                 break;
@@ -636,6 +697,20 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         }
         
         return costSharing;
+    }
+    
+    public BudgetDecimal findUnrecoveredFandAForFiscalYear(Integer fiscalYear) {
+        BudgetDecimal unrecoveredFandA = BudgetDecimal.ZERO;
+        
+        List<FiscalYearSummary> fiscalYearSummaries = calculateFiscalYearTotals(mapBudgetPeriodsToFiscalYears());
+        for(FiscalYearSummary fiscalYearSummary: fiscalYearSummaries) {
+            if(fiscalYearSummary.getFiscalYear() == fiscalYear) {
+                unrecoveredFandA = fiscalYearSummary.getUnrecoveredFandA();
+                break;
+            }
+        }
+        
+        return unrecoveredFandA;
     }
     
     /**
@@ -667,17 +742,19 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return new Date(calendar.getTimeInMillis());
     }
     
-    private List<FiscalYearCostShare> calculateFiscalYearTotals(Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears) {
-        List<FiscalYearCostShare> fiscalYearCostShares = new ArrayList<FiscalYearCostShare>();
+    private List<FiscalYearSummary> calculateFiscalYearTotals(Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears) {
+        List<FiscalYearSummary> fiscalYearSummaries = new ArrayList<FiscalYearSummary>();
         for(Integer fiscalYear: budgetPeriodFiscalYears.keySet()) {            
-            BudgetDecimal fiscalYearCostShareAmount = new BudgetDecimal(0.0);
+            BudgetDecimal fiscalYearCostShareAmount = BudgetDecimal.ZERO;
+            BudgetDecimal fiscalYearUnrecoveredFandA = BudgetDecimal.ZERO;
             List<BudgetPeriod> budgetPeriodsInFiscalYear = budgetPeriodFiscalYears.get(fiscalYear);
             for(BudgetPeriod budgetPeriod: budgetPeriodsInFiscalYear) {
                 fiscalYearCostShareAmount = fiscalYearCostShareAmount.add(budgetPeriod.getCostSharingAmount());
+                fiscalYearUnrecoveredFandA = fiscalYearUnrecoveredFandA.add(budgetPeriod.getUnderrecoveryAmount());
             }
-            fiscalYearCostShares.add(new FiscalYearCostShare(budgetPeriodsInFiscalYear.get(0), fiscalYear, fiscalYearCostShareAmount));
+            fiscalYearSummaries.add(new FiscalYearSummary(budgetPeriodsInFiscalYear.get(0), fiscalYear, fiscalYearCostShareAmount, fiscalYearUnrecoveredFandA));
         }
-        return fiscalYearCostShares;
+        return fiscalYearSummaries;
     }
 
     private Map<Integer, List<BudgetPeriod>> mapBudgetPeriodsToFiscalYears() {
@@ -705,23 +782,22 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private Date getFiscalYearStart() {
         if(fiscalYearStart == null) {
             fiscalYearStart = loadFiscalYearStart();
-            if(fiscalYearStart == null) {
-                fiscalYearStart = createDateFromString(DEFAULT_FISCAL_YEAR_START);
-            }
         }        
         return fiscalYearStart;
     }
     
-    public class FiscalYearCostShare {
+    public class FiscalYearSummary {
         private int fiscalYear;
         private BudgetPeriod assignedBudgetPeriod;
         private BudgetDecimal costShare;
+        private BudgetDecimal unrecoveredFandA;
         
-        public FiscalYearCostShare(BudgetPeriod assignedBudgetPeriod, int fiscalYear, BudgetDecimal costShare) {
+        public FiscalYearSummary(BudgetPeriod assignedBudgetPeriod, int fiscalYear, BudgetDecimal costShare, BudgetDecimal unrecoveredFandA) {
             super();
             this.assignedBudgetPeriod = assignedBudgetPeriod;
             this.fiscalYear = fiscalYear;
             this.costShare = costShare;
+            this.unrecoveredFandA = unrecoveredFandA;
         }
 
         public int getFiscalYear() {
@@ -734,6 +810,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
         public BudgetDecimal getCostShare() {
             return costShare;
+        }
+        
+        public BudgetDecimal getUnrecoveredFandA() {
+            return unrecoveredFandA;
         }
     }
     /**
@@ -758,5 +838,5 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
                 return (d2 != null) ? FIRST_LESS_THAN_SECOND : FIRST_EQUALS_SECOND;
             }
         }
-    };
+    }
 }
