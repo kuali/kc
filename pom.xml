@@ -144,7 +144,7 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>0.0.2</version>
+					<version>0.0.3</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
@@ -194,6 +194,15 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<build>
+				<resources>
+					<resource>
+						<filtering>true</filtering>
+						<directory>${basedir}/src/main/resources</directory>
+						<includes>
+							<include>soap_server.properties</include>
+						</includes>
+					</resource>
+				</resources>
 				<plugins>
 					<plugin>
 						<artifactId>maven-compiler-plugin</artifactId>
@@ -279,7 +288,7 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>0.0.2</version>
+					<version>0.0.3</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
