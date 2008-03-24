@@ -23,6 +23,7 @@ public abstract class BudgetDistributionAndIncomeComponent extends KraPersistabl
 
     private String proposalNumber;
     private Integer budgetVersionNumber;
+    private Integer documentComponentId;
 
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
@@ -46,7 +47,16 @@ public abstract class BudgetDistributionAndIncomeComponent extends KraPersistabl
         LinkedHashMap<String, Object> hashMap = new LinkedHashMap<String, Object>();
         hashMap.put("proposalNumber", getProposalNumber());
         hashMap.put("budgetVersionNumber", getBudgetVersionNumber());
+        hashMap.put("documentComponentId", getDocumentComponentId());
         return hashMap;
+    }
+
+    public Integer getDocumentComponentId() {
+        return documentComponentId;
+    }
+
+    public void setDocumentComponentId(Integer costShareId) {
+        this.documentComponentId = costShareId;
     }
     
 }

@@ -19,18 +19,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
-import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
+import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
+import org.kuali.kra.budget.rule.BudgetValidationUnrecoveredFandARule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
-public class AddBudgetCostShareEvent extends KraDocumentEventBase {
-    private static final Log LOG = LogFactory.getLog(AddBudgetCostShareEvent.class);
+public class BudgetValidationUnrecoveredFandAEvent extends KraDocumentEventBase {
+    private static final Log LOG = LogFactory.getLog(BudgetValidationUnrecoveredFandAEvent.class);
     
-    private BudgetDistributionAndIncomeComponent budgetCostShare;
+    private BudgetUnrecoveredFandA budgetUnrecoveredFandA;
     
-    public AddBudgetCostShareEvent(String description, String errorPathPrefix, Document document, BudgetDistributionAndIncomeComponent budgetCostShare) {
+    public BudgetValidationUnrecoveredFandAEvent(String description, String errorPathPrefix, Document document, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
         super(description, errorPathPrefix, document);
-        this.budgetCostShare = budgetCostShare;
+        this.budgetUnrecoveredFandA = budgetUnrecoveredFandA;
     }
 
     @Override
@@ -38,19 +38,19 @@ public class AddBudgetCostShareEvent extends KraDocumentEventBase {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
         logMessage.append(" with ");
 
-        LOG.debug((budgetCostShare == null) ? "null budgetCostShare" : budgetCostShare.toString());
+        LOG.debug((budgetUnrecoveredFandA == null) ? "null unrecoveredF&A" : budgetUnrecoveredFandA.toString());
     }
 
-    public Class<AddBudgetCostShareRule> getRuleInterfaceClass() {
-        return AddBudgetCostShareRule.class;
+    public Class<BudgetValidationUnrecoveredFandARule> getRuleInterfaceClass() {
+        return BudgetValidationUnrecoveredFandARule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddBudgetCostShareRule) rule).processAddBudgetCostShareBusinessRules(this);
+        return ((BudgetValidationUnrecoveredFandARule) rule).processBudgetValidationUnrecoveredFandABusinessRules(this);
     }
 
-    public BudgetDistributionAndIncomeComponent getBudgetCostShare() {
-        return budgetCostShare;
+    public BudgetUnrecoveredFandA getBudgetUnrecoveredFandA() {
+        return budgetUnrecoveredFandA;
     }
 
 }

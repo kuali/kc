@@ -20,11 +20,10 @@ import java.util.LinkedHashMap;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetCostShare extends BudgetDistributionAndIncomeComponent {
-    public static final String BUDGET_COST_SHARE_ID_KEY = "BUDGET_COST_SHARE_ID_KEY";
+    private static final long serialVersionUID = 6199797319981907016L;
+
+    public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_COST_SHARE_KEY";
     
-    private static final long serialVersionUID = 1L;  
-    
-    private Integer costShareId;
     private Integer fiscalYear;
     private BudgetDecimal shareAmount;
     private BudgetDecimal sharePercentage;
@@ -34,7 +33,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent {
         super();
     }
     
-    public BudgetCostShare(Integer fiscalYear, BudgetDecimal sharePercentage, BudgetDecimal shareAmount, String sourceAccount) {
+    public BudgetCostShare(Integer fiscalYear, BudgetDecimal shareAmount, BudgetDecimal sharePercentage, String sourceAccount) {
         this();
         this.fiscalYear = fiscalYear;
         this.sharePercentage = sharePercentage;
@@ -72,10 +71,6 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent {
         return true;
     }
 
-    public Integer getCostShareId() {
-        return costShareId;
-    }
-
     public Integer getFiscalYear() {
         return fiscalYear;
     }
@@ -100,10 +95,6 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent {
         result = prime * result + ((shareAmount == null) ? 0 : shareAmount.hashCode());
         result = prime * result + ((sourceAccount == null) ? 0 : sourceAccount.hashCode());
         return result;
-    }
-
-    public void setCostShareId(Integer costShareId) {
-        this.costShareId = costShareId;
     }
 
     public void setFiscalYear(Integer fiscalYear) {

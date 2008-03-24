@@ -27,6 +27,7 @@ import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
+import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
 import org.kuali.kra.infrastructure.Constants;
@@ -42,10 +43,11 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
     
     private BudgetPeriod newBudgetPeriod;
     
-    private Integer newBudgetPeriodNumber = 0;    
-    private BudgetProjectIncome newBudgetProjectIncome;
+    private Integer newBudgetPeriodNumber = 0; 
     
     private BudgetCostShare newBudgetCostShare;
+    private BudgetProjectIncome newBudgetProjectIncome;
+    private BudgetUnrecoveredFandA newBudgetUnrecoveredFandA;
     
     private List<ExtraButton> extraTopButtons;
 
@@ -93,6 +95,7 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
         
         newBudgetProjectIncome = new BudgetProjectIncome();
         newBudgetCostShare = new BudgetCostShare();
+        newBudgetUnrecoveredFandA = new BudgetUnrecoveredFandA();
     }
     
     public BudgetDocument getBudgetDocument() {
@@ -240,5 +243,13 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
      */
     public String getHeaderDispatch() {
         return this.getDocumentActionFlags().getCanSave() ? "save" : "reload";
+    }
+
+    public BudgetUnrecoveredFandA getNewBudgetUnrecoveredFandA() {
+        return newBudgetUnrecoveredFandA;
+    }
+
+    public void setNewBudgetUnrecoveredFandA(BudgetUnrecoveredFandA newBudgetUnrecoveredFandA) {
+        this.newBudgetUnrecoveredFandA = newBudgetUnrecoveredFandA;
     }
 }

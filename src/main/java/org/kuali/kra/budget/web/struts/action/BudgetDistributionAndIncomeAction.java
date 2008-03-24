@@ -28,11 +28,15 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.RateDecimal;
 import org.kuali.kra.budget.bo.BudgetCostShare;
+import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
+import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rule.event.AddBudgetCostShareEvent;
 import org.kuali.kra.budget.rule.event.AddBudgetProjectIncomeEvent;
+import org.kuali.kra.budget.rule.event.AddBudgetUnrecoveredFandAEvent;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 
@@ -65,6 +69,32 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
 
         return mapping.findForward(MAPPING_BASIC);
     }
+    
+    public ActionForward addUnrecoveredFandA(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetUnrecoveredFandA budgetUnrecoveredFandA = budgetForm.getNewBudgetUnrecoveredFandA();
+        boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetUnrecoveredFandA));
+        
+        if(passed) {;
+            if(budgetUnrecoveredFandA.getFiscalYear() == null) {
+                budgetUnrecoveredFandA.setFiscalYear(0);
+            }
+            if(budgetUnrecoveredFandA.getAmount() == null) {
+                BudgetDecimal shareAmount = budgetUnrecoveredFandA.getFiscalYear() == 0 ? BudgetDecimal.ZERO : budgetDocument.findUnrecoveredFandAForFiscalYear(budgetUnrecoveredFandA.getFiscalYear());                 
+                budgetUnrecoveredFandA.setAmount(shareAmount);
+            }
+            if(budgetUnrecoveredFandA.getApplicableRate() == null) {
+                budgetUnrecoveredFandA.setApplicableRate(RateDecimal.ZERO_RATE);
+            }
+                       
+            budgetForm.getBudgetDocument().add(budgetUnrecoveredFandA);
+            budgetForm.setNewBudgetUnrecoveredFandA(new BudgetUnrecoveredFandA());
+            LOG.debug("Added new BudgetCostShare: " + budgetUnrecoveredFandA);
+        }  
+
+        return mapping.findForward(MAPPING_BASIC);
+    }
 
     public ActionForward addProjectIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
@@ -90,7 +120,12 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         return mapping.findForward(MAPPING_BASIC);
     }
     
-    public ActionForward recalculateCostSharing(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteUnrecoveredFandA(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ((BudgetForm) form).getBudgetDocument().getBudgetUnrecoveredFandAs().remove(getLineToDelete(request));        
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    public ActionForward refreshTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // recalculation occurs on page render
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -107,12 +142,28 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         return mapping.findForward(MAPPING_BASIC);
     }
     
-    private AddBudgetCostShareEvent createRuleEvent(BudgetForm budgetForm, BudgetCostShare budgetCostShare) {
+    public ActionForward resetUnrecoveredFandAToDefault(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        for(BudgetUnrecoveredFandA budgetUnrecoveredFandA: budgetDocument.getBudgetUnrecoveredFandAs()) {
+            Integer fiscalYear = budgetUnrecoveredFandA.getFiscalYear();
+            budgetUnrecoveredFandA.setApplicableRate(RateDecimal.ZERO_RATE);
+            BudgetDecimal amount = (fiscalYear == null || fiscalYear == 0) ? BudgetDecimal.ZERO : budgetDocument.findUnrecoveredFandAForFiscalYear(fiscalYear);
+            budgetUnrecoveredFandA.setAmount(amount);
+        }
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    private AddBudgetCostShareEvent createRuleEvent(BudgetForm budgetForm, BudgetDistributionAndIncomeComponent budgetCostShare) {
         return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetCostShare);
     }
     
     private AddBudgetProjectIncomeEvent createRuleEvent(BudgetForm budgetForm, BudgetProjectIncome budgetProjectIncome) {
         return new AddBudgetProjectIncomeEvent("Add BudgetProjectIncome Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetProjectIncome);
+    }
+    
+    private AddBudgetUnrecoveredFandAEvent createRuleEvent(BudgetForm budgetForm, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
+        return new AddBudgetUnrecoveredFandAEvent("Add BudgetUnrecoveredFandA Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetUnrecoveredFandA);
     }
     
     private KualiRuleService getKualiRuleService() {
