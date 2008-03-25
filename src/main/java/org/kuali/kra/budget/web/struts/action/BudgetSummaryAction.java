@@ -73,7 +73,9 @@ public class BudgetSummaryAction extends BudgetAction {
             budgetForm.getBudgetDocument().getBudgetSummaryService().addBudgetPeriod(budgetDocument, newBudgetPeriod);
             /* set new period and calculate all periods */
             budgetForm.setNewBudgetPeriod(new BudgetPeriod());
-            budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
+           // TODO : per conversation with Geo.  comment it out for now.
+            //calculate should get called only when you press calculate or while saving
+           // budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
