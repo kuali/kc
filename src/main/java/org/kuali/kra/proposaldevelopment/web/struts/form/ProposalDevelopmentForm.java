@@ -136,12 +136,27 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
 
 
+    /**
+     * Multiple Value Lookups return values to the form, but in some instances do not clear previous values from other lookups. This is to set the Multiple
+     * Value Lookups to a good state. Values getting cleared are:
+     * <ul>
+     *   <li><code>lookupResultsSequenceNumber</code></li>
+     *   <li><code>lookupResultsBOClassName</code></li>
+     * </ul>
+     * 
+     */
+    private void clearMultipleValueLookupResults() {
+        setLookupResultsSequenceNumber(null);
+        setLookupResultsBOClassName(null);
+    }
+
     public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
         return (ProposalDevelopmentDocument) this.getDocument();
     }
 
     @Override
     public void populate(HttpServletRequest request) {
+        clearMultipleValueLookupResults();
         super.populate(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument=getProposalDevelopmentDocument();
 
