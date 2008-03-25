@@ -1430,6 +1430,12 @@
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="budgetVersionNumber"/>
 		</collection-descriptor>
+		
+		<collection-descriptor name="budgetUnrecoveredFandAs" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetUnrecoveredFandA" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="fiscalYear" sort="ASC" /> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<inverse-foreignkey field-ref="budgetVersionNumber"/>
+		</collection-descriptor>
 
 		<collection-descriptor name="budgetLineItems" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetLineItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="budgetPeriod" sort="ASC" /> 
@@ -1774,15 +1780,15 @@
 		 -->
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.budget.bo.BudgetCostShare" table="BUDGET_COST_SHARES">
+	<class-descriptor class="org.kuali.kra.budget.bo.BudgetCostShare" table="EPS_PROP_COST_SHARING">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="budgetVersionNumber" column="BUDGET_VERSION_NUMBER" jdbc-type="INTEGER" primarykey="true"/>		
-		<field-descriptor name="budgetVersionNumber" column="COST_SHARE_ID" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="documentComponentId" column="COST_SHARE_ID" jdbc-type="INTEGER" primarykey="true"/>
 		
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="INTEGER" />
 		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR"/>		
-		<field-descriptor name="shareAmount" column="SHARE_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="sharePercentage" column="SHARE_PCT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>		
+		<field-descriptor name="shareAmount" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="sharePercentage" column="COST_SHARING_PERCENTAGE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>		
 		
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -1790,23 +1796,42 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>		
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.budget.bo.BudgetProjectIncome" table="BUDGET_PROJECT_INCOMES">
+	<class-descriptor class="org.kuali.kra.budget.bo.BudgetProjectIncome" table="BUDGET_PROJECT_INCOME">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="budgetVersionNumber" column="BUDGET_VERSION_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
-		<field-descriptor name="budgetPeriodNumber" column="BUDGET_PERIOD_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="documentComponentId" column="PROJECT_INCOME_ID" jdbc-type="INTEGER" primarykey="true"/>
 		
-		<field-descriptor name="projectIncome" column="PROJECT_INCOME" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="budgetPeriodNumber" column="BUDGET_PERIOD" jdbc-type="INTEGER" primarykey="false"/>		
+		<field-descriptor name="projectIncome" column="AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		
 		<reference-descriptor name="budgetPeriod" class-ref="org.kuali.kra.budget.bo.BudgetPeriod" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="budgetPeriodNumber"/> 
 			<foreignkey field-ref="proposalNumber"/> 
-			<foreignkey field-ref="budgetVersionNumber"/> 
+			<foreignkey field-ref="budgetVersionNumber"/>
+			<foreignkey field-ref="budgetPeriodNumber"/> 
 		</reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.budget.bo.BudgetUnrecoveredFandA" table="EPS_PROP_IDC_RATE">
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="budgetVersionNumber" column="BUDGET_VERSION_NUMBER" jdbc-type="INTEGER" primarykey="true"/>		
+		<field-descriptor name="documentComponentId" column="UNRECOVERED_FNA_ID" jdbc-type="INTEGER" primarykey="true"/>
+		
+		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="INTEGER" />
+		<field-descriptor name="amount" column="UNDERRECOVERY_OF_IDC" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="applicableRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbRateDecimalFieldConversion"/>
+		<field-descriptor name="onCampusFlag" column="ON_CAMPUS_FLAG" jdbc-type="CHAR" />		
+		<field-descriptor name="sourceAccount" column="SOURCE_ACCOUNT" jdbc-type="VARCHAR"/>		
+		
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>		
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount" table="BUDGET_PERSONNEL_CAL_AMTS">
