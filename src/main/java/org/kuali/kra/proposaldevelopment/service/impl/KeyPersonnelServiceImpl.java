@@ -52,7 +52,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -192,15 +192,16 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         if (document.getInvestigatorCreditTypes() == null || document.getInvestigatorCreditTypes().size() == 0) {
             document.setInvestigatorCreditTypes(getInvestigatorCreditTypes());
         }
+        
         Collection<InvestigatorCreditType> creditTypes = document.getInvestigatorCreditTypes();
         
         for (ProposalPerson investigator : document.getInvestigators()) {
-            Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getFullName());
+            Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getSimpleName());
             Map<String,KualiDecimal> investigatorCreditTypeTotals = retval.get(PROPOSAL_PERSON_INVESTIGATOR);
 
             if (creditTypeTotals == null) {
                 creditTypeTotals = new HashMap<String,KualiDecimal>();
-                retval.put(investigator.getFullName(), creditTypeTotals);
+                retval.put(investigator.getSimpleName(), creditTypeTotals);
             }
             if (investigatorCreditTypeTotals == null) {
                 investigatorCreditTypeTotals = new HashMap<String,KualiDecimal>();
@@ -209,24 +210,24 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             
             // Initialize everything to zero
             for (InvestigatorCreditType creditType : creditTypes) {                
-                    KualiDecimal totalCredit = creditTypeTotals.get(creditType.getInvCreditTypeCode());
-                    
-                    if (totalCredit == null) {
-                        totalCredit = new KualiDecimal(0);
-                        creditTypeTotals.put(creditType.getInvCreditTypeCode(), totalCredit);
+                KualiDecimal totalCredit = creditTypeTotals.get(creditType.getInvCreditTypeCode());
+                
+                if (totalCredit == null) {
+                    totalCredit = new KualiDecimal(0);
+                    creditTypeTotals.put(creditType.getInvCreditTypeCode(), totalCredit);
+                }
+                KualiDecimal investigatorTotalCredit = investigatorCreditTypeTotals.get(creditType.getInvCreditTypeCode());
+                
+                if (investigatorTotalCredit == null) {
+                    investigatorTotalCredit = new KualiDecimal(0);
+                    investigatorCreditTypeTotals.put(creditType.getInvCreditTypeCode(), investigatorTotalCredit);
+                }
+                // set investigator credit total 
+                for (CreditSplit creditSplit : investigator.getCreditSplits()) {
+                    if (creditSplit.getInvCreditTypeCode().equals(creditType.getInvCreditTypeCode())) {
+                        investigatorCreditTypeTotals.put(creditType.getInvCreditTypeCode(), investigatorTotalCredit.add(creditSplit.getCredit()));
                     }
-                    KualiDecimal investigatorTotalCredit = investigatorCreditTypeTotals.get(creditType.getInvCreditTypeCode());
-                    
-                    if (investigatorTotalCredit == null) {
-                        investigatorTotalCredit = new KualiDecimal(0);
-                        investigatorCreditTypeTotals.put(creditType.getInvCreditTypeCode(), investigatorTotalCredit);
-                    }
-                    // set investigator credit total 
-                    for (CreditSplit creditSplit : investigator.getCreditSplits()) {
-                        if (creditSplit.getInvCreditTypeCode().equals(creditType.getInvCreditTypeCode())) {
-                            investigatorCreditTypeTotals.put(creditType.getInvCreditTypeCode(), investigatorTotalCredit.add(creditSplit.getCredit()));
-                        }
-                    }
+                }
             }
 
             for (ProposalPersonUnit unit : investigator.getUnits()) {

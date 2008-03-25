@@ -69,7 +69,7 @@
               <tr>
                 <td nowrap class="infoline"><strong>Unit Total:
                 </strong></td>
-  <bean:define id="totalMap" name="KualiForm" property="creditSplitTotals.${investigator.fullName}" />
+  <bean:define id="totalMap" name="KualiForm" property="creditSplitTotals.${investigator.simpleName}" />
   <c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
                 <td class="infoline"><div align="right"><strong>${totalMap[invType.invCreditTypeCode]}</strong></div></td>
   </c:forEach>
