@@ -39,6 +39,7 @@ public class KualiDataSourceConnectionManagerTest extends KraTestBase {
     public final void freeDatabaseConnectionTest() throws Exception{
         KualiDataSourceConnectionManager cnnMgr = new KualiDataSourceConnectionManager();
         Connection conn = cnnMgr.getDatabaseConnection();
+        assertNotNull(conn);
         cnnMgr.freeDatabaseConnection(conn);
         try{
             conn.rollback();
