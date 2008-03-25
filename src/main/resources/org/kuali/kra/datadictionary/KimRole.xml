@@ -24,7 +24,6 @@
             <title>KIM Role</title>
 
             <inquirySections><inquirySection title="KimRole"><inquiryFields>
-                <field attributeName="id" forceInquiry="true"/>
                 <field attributeName="name"/>
                 <field attributeName="description"/>
             </inquiryFields></inquirySection></inquirySections>
@@ -39,20 +38,17 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="id"/>
                     <sortAttribute attributeName="name"/>
                     <sortAttribute attributeName="description"/>
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="id" required="false"/>
                 <lookupField attributeName="name" required="false"/>
                 <lookupField attributeName="description" required="false"/>
             </lookupFields>
 
             <resultFields>
-                <field attributeName="id" forceInquiry="true"/>
                 <field attributeName="name" forceInquiry="false"/>
                 <field attributeName="description" forceInquiry="false"/>
             </resultFields>
@@ -66,7 +62,7 @@
                 <maxLength>8</maxLength>
                 <validationPattern><numeric /></validationPattern>
                 <control>
-                    <text size="8" />
+                    <hidden />
                 </control>
                 <summary>Role Id </summary>
                 <description>Role Id </description>
