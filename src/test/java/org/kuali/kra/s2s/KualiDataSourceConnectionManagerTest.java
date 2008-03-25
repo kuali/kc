@@ -36,11 +36,6 @@ public class KualiDataSourceConnectionManagerTest extends KraTestBase {
 		super.tearDown();
 	}
     @Test
-	public final void getDatabaseConnectionTest() throws Exception{
-        KualiDataSourceConnectionManager cnnMgr = new KualiDataSourceConnectionManager();
-        assertNotNull(cnnMgr.getDatabaseConnection());
-    }
-    @Test
     public final void freeDatabaseConnectionTest() throws Exception{
         KualiDataSourceConnectionManager cnnMgr = new KualiDataSourceConnectionManager();
         Connection conn = cnnMgr.getDatabaseConnection();
