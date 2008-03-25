@@ -22,6 +22,8 @@ import java.util.List;
 import org.kuali.kra.bo.Person;
 import org.kuali.core.util.KualiDecimal;
 
+import org.apache.commons.lang.StringUtils;
+
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 /**
@@ -30,7 +32,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.31 $
+ * @version $Revision: 1.32 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -59,6 +61,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private List<ProposalPersonUnit> units;
     private List<ProposalPersonDegree> proposalPersonDegrees;
     private List<ProposalPersonCreditSplit> creditSplits;
+    private String simpleName;
     
     /**
      *
@@ -73,6 +76,21 @@ public class ProposalPerson extends Person implements CreditSplitable {
         isInvestigator = false;
         delete = false;
         setFullName(new String());
+    }
+    
+    /**
+     * Overridden from {@link Person} to set the <code>simpleName</code> 
+     * 
+     * @see org.kuali.kra.bo.Person#setFullName(java.lang.String)
+     */
+    public void setFullName(String fullName) {
+        super.setFullName(fullName);
+        
+        simpleName = new String(getFullName());
+        
+        simpleName = simpleName.toLowerCase();
+        simpleName = StringUtils.deleteWhitespace(simpleName);
+        simpleName = StringUtils.remove(simpleName, '.');
     }
     
     /**
@@ -586,7 +604,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
     public void setRoleChanged(boolean roleChanged) {
         this.roleChanged = roleChanged;
     }
-
+    
     /**
      * Loops through units to determine if the person has a <code>{@link ProposalPersonUnit}</code> with the given number.
      * 
@@ -613,5 +631,25 @@ public class ProposalPerson extends Person implements CreditSplitable {
      */
     public String getName() {
         return getFullName();
+    }
+
+    /**
+     * Gets the simpleName attribute. <code>simpleName</code> is used for mapping credit split totals by person. They are mapped
+     * to the simpleName instead of a fullName because simpleName doesn't have any funny characters. 
+     * 
+     * @return Returns the simpleName.
+     */
+    public String getSimpleName() {
+        return simpleName;
+    }
+
+    /**
+     * Sets the simpleName attribute value. <code>simpleName</code> is used for mapping credit split totals by person. They are mapped
+     * to the simpleName instead of a fullName because simpleName doesn't have any funny characters.
+     * 
+     * @param simpleName The simpleName to set.
+     */
+    public void setSimpleName(String simpleName) {
+        this.simpleName = simpleName;
     }
 }
