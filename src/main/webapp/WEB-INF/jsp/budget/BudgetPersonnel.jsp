@@ -22,7 +22,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="personnel">
   	
-  	<kul:uncollapsable tabTitle="Add Budget Personnel" tabErrorKey="newBudgetPerson">
+  	<kul:uncollapsable tabTitle="Add Budget Personnel">
   		<div align="center">
             <table cellpadding="0" cellspacing="0" class="grid" summary="">
               	<tr>
