@@ -19,12 +19,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.kra.kim.bo.KimPerson;
+
 /**
  * Class representation of the Person <code>{@link org.kuali.core.bo.BusinessObject}</code>
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.5 2007-12-18 22:58:12 lprzybyl Exp $
+ * $Id: Person.java,v 1.6 2008-03-25 20:58:32 dbarre Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -87,12 +89,15 @@ public class Person extends KraPersistableBusinessObjectBase {
     private String pagerNumber;
     private String mobilePhoneNumber;
     private String eraCommonsUserName;
+    private Long kimPersonId;
+    private KimPerson kimPerson;
 
     private List<UserRole> userRoles = new ArrayList();
     
     
     public Person() {
         super();
+        kimPerson = new KimPerson();
     }
 
     /**
@@ -236,6 +241,11 @@ public class Person extends KraPersistableBusinessObjectBase {
      */
     public void setUserName(String argUserName) {
         this.userName = argUserName;
+        
+        // Keep the corresponding KIM Person in sync
+        if (kimPerson != null) {
+            kimPerson.setUsername(argUserName);
+        }
     }
 
     /**
@@ -1255,5 +1265,36 @@ public class Person extends KraPersistableBusinessObjectBase {
     public void setUserRoles(List<UserRole> userRoles) {
         this.userRoles = userRoles;
     }
-
+    
+    /**
+     * Get the KIM Person ID.
+     * @return the KIM Person ID
+     */
+    public Long getKimPersonId() {
+        return kimPersonId;
+    }
+    
+    /**
+     * Set the KIM Person ID.
+     * @param id the KIM Person ID
+     */
+    public void setKimPersonId(Long id) {
+        kimPersonId = id;
+    }
+    
+    /**
+     * Get the KIM Person.
+     * @return the KIM Person
+     */
+    public KimPerson getKimPerson() {
+        return kimPerson;
+    }
+    
+    /**
+     * Set the KIM Person.
+     * @param kimPerson the KIM Person
+     */
+    public void setKimPerson(KimPerson kimPerson) {
+        this.kimPerson = kimPerson;
+    }
 }
