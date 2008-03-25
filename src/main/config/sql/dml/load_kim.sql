@@ -46,7 +46,6 @@ insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (4, 'aslusar', '');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (5, 'tdurkin', '');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (6, 'pcberg', '');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (7, 'jtester', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (8, 'gthomas', '');
 
 
 insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (1, 1, 1);
@@ -138,17 +137,3 @@ insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUT
 insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (21, 1, 7);
 insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (41, 21, 'kra.unitNumber', 'IN-CARD');
 insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (42, 21, 'kra.subunits', 'Y');
-
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (22, 1, 8);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (43, 22, 'kra.unitNumber', '000001');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (44, 22, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (23, 1, 8);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (45, 23, 'kra.unitNumber', 'BL-IIDC');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (46, 23, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (24, 1, 8);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (47, 24, 'kra.unitNumber', 'IN-CARD');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (48, 24, 'kra.subunits', 'Y');
-
