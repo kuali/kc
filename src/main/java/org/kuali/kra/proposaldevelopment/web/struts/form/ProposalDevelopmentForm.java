@@ -150,12 +150,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
 		// Temporary hack for KRACOEUS-489
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
-        }
-        
-        if(getMethodToCall().equalsIgnoreCase(DELETE_SPECIAL_REVIEW_ACTION)) { 
-            GlobalVariables.getErrorMap().clear();
-        }  
-   
+        }           
     }
 
     public ProposalLocation getNewPropLocation() {
