@@ -5,10 +5,10 @@ import java.util.LinkedHashMap;
 public class UnitAdministrator extends KraPersistableBusinessObjectBase {
 
 	private String personId;
-	private Integer roleId;
+	private String unitAdministratorTypeCode;
 	private String unitNumber;
     private Person person;
-    private Role role;
+    private UnitAdministratorType unitAdministratorType;
     private Unit unit;
 
 	public UnitAdministrator(){
@@ -23,12 +23,12 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase {
 		this.personId = personId;
 	}
 
-	public Integer getRoleId() {
-		return roleId;
+	public String getUnitAdministratorTypeCode() {
+		return unitAdministratorTypeCode;
 	}
 
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
+	public void setUnitAdministratorTypeCode(String unitAdministratorTypeCode) {
+		this.unitAdministratorTypeCode = unitAdministratorTypeCode;
 	}
 
 	public String getUnitNumber() {
@@ -44,7 +44,7 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase {
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("personId", getPersonId());
-		hashMap.put("roleId", getRoleId());
+		hashMap.put("unitAdministratorTypeCode", getUnitAdministratorTypeCode());
 		hashMap.put("unitNumber", getUnitNumber());
 		return hashMap;
 	}
@@ -57,12 +57,12 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase {
         this.person = person;
     }
 
-    public Role getRole() {
-        return role;
+    public UnitAdministratorType getUnitAdministratorType() {
+        return unitAdministratorType;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setUnitAdministratorType(UnitAdministratorType unitAdministratorType) {
+        this.unitAdministratorType = unitAdministratorType;
     }
 
     public Unit getUnit() {
