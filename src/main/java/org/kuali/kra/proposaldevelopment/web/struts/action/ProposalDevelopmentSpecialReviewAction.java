@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
@@ -46,6 +47,9 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     public ActionForward deleteSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.getProposalDevelopmentDocument().getPropSpecialReviews().remove(getLineToDelete(request));
+
+        GlobalVariables.getErrorMap().clear();
+
         return mapping.findForward("basic");
     }
 
