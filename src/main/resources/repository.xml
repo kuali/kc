@@ -346,6 +346,10 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <collection-descriptor name="userRoles" proxy="true" element-class-ref="org.kuali.kra.bo.UserRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
       <inverse-foreignkey field-ref="userId"/>
+      <field-descriptor name="kimPersonId" column="KIM_PERSON_ID" jdbc-type="BIGINT" />
+      <reference-descriptor name="kimPerson" class-ref="org.kuali.kra.kim.bo.KimPerson" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <foreignkey field-ref="kimPersonId" />
+        </reference-descriptor>
     </collection-descriptor>
       
 	</class-descriptor>
@@ -2193,7 +2197,7 @@
 	<!-- KIM OJB Mappings -->
 
     <class-descriptor class="org.kuali.kra.kim.bo.KimPerson" table="KIM_PERSONS_T">
-    	<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"/>
+    	<field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_KIM_PERSONS_ID" />
         <field-descriptor name="username" column="USERNAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="password" column="PASSWORD" jdbc-type="VARCHAR"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
