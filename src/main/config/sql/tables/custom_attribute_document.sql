@@ -4,6 +4,7 @@ create table custom_attribute_document
   custom_attribute_id number(12,0) constraint custom_attribute_document_n2 not null,
   type_name           varchar2(100),
   is_required         char(1),
+  ACTIVE_FLAG        CHAR(1),
   update_timestamp    date constraint custom_attribute_document_n3 not null,
   update_user         varchar2 (8) constraint custom_attribute_document_n4 not null,
   ver_nbr             number(8,0) DEFAULT 1 constraint custom_attribute_document_n5 NOT NULL,
