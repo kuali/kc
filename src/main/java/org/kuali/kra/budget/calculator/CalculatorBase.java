@@ -17,6 +17,7 @@ package org.kuali.kra.budget.calculator;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -510,7 +511,7 @@ public abstract class CalculatorBase {
      * 
      * @return List of boundary objects
      */
-    public static List<Boundary> createBreakupBoundaries(QueryList<BudgetProposalLaRate> qlCombinedRates, Date liStartDate,
+    public List<Boundary> createBreakupBoundaries(QueryList<BudgetProposalLaRate> qlCombinedRates, Date liStartDate,
             Date liEndDate) {
         List<Boundary> boundaries = new ArrayList<Boundary>();
         if (qlCombinedRates != null && qlCombinedRates.size() > 0) {
@@ -529,7 +530,10 @@ public abstract class CalculatorBase {
                 rateChangeDate = laRate.getStartDate();
                 if (rateChangeDate.compareTo(tempStartDate) > 0) {
                     // rate changed so get the previous day date and use it as endDate
-                    tempEndDate = new Date(rateChangeDate.getTime() - 86400000);
+                    Calendar temEndCal = dateTimeService.getCalendar(rateChangeDate);
+                    temEndCal.add(Calendar.DAY_OF_MONTH, -1);
+//                    tempEndDate = new Date(rateChangeDate.getTime() - 86400000);
+                    tempEndDate = temEndCal.getTime();
                     Boundary boundary = new Boundary(tempStartDate, tempEndDate);
                     boundaries.add(boundary);
                     tempStartDate = rateChangeDate;
