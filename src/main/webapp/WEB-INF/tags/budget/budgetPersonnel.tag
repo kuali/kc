@@ -25,7 +25,7 @@
     		<span class="subhead-left"><h2>Budget Personnel</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
-        <table cellpadding=0 cellspacing="0"  summary="">
+        <table id="budget-personnel-table" cellpadding=0 cellspacing="0" summary="">
         	<tr>
 	        	<th>&nbsp;</th>
 	            <th>Person</th>
@@ -55,7 +55,7 @@
 						<kul:htmlControlAttribute property="document.budgetPerson[${status.index}].effectiveDate" attributeEntry="${budgetPersonAttributes.effectiveDate}" datePicker="true" />
                   	</div>
                 </td>
-              	<td><div align=center><html:image property="methodToCall.deleteBudgetPerson.line${status.index}" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' /></div></td>
+              	<td><div align=center><html:image property="methodToCall.deleteBudgetPerson.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' /></div></td>
 			</tr>
         	</c:forEach>
         </table>
