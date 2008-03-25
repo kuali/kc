@@ -19,6 +19,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
+/**
+ * To Be Named person business object
+ */
 public class TbnPerson extends KraPersistableBusinessObjectBase {
     
     private String tbnId;
