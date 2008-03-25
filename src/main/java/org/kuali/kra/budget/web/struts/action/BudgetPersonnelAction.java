@@ -45,12 +45,20 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
+/**
+ * Action class for Budget Personnel page
+ */
 public class BudgetPersonnelAction extends BudgetAction {
     
     private static final Log LOG = LogFactory.getLog(BudgetPersonnelAction.class);
     
     private static final String CONFIRM_DELETE_BUDGET_PERSON = "confirmDeleteBudgetPerson";
     
+    /**
+     * Overridden to populate BudgetPerson list with persons returned from lookups
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -128,6 +136,9 @@ public class BudgetPersonnelAction extends BudgetAction {
         return mapping.findForward(MAPPING_BASIC);
     }
     
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.reload(mapping, form, request, response);
@@ -136,12 +147,28 @@ public class BudgetPersonnelAction extends BudgetAction {
         return forward;
     }
     
+    /**
+     * This method synchs budget personnel with proposal personnel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward synchToProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         KraServiceLocator.getService(BudgetPersonService.class).synchBudgetPersonsToProposal(budgetForm.getBudgetDocument());
         return mapping.findForward(MAPPING_BASIC);
     }
     
+    /**
+     * Convenience method for adding populating a new budget person and adding to budget document
+     * 
+     * @param budgetPerson
+     * @param budgetDocument
+     * @param budgetPersonService
+     */
     private void populateAndAddBudgetPerson(BudgetPerson budgetPerson, BudgetDocument budgetDocument, BudgetPersonService budgetPersonService) {
         budgetPersonService.populateBudgetPersonData(budgetDocument, budgetPerson);
         budgetDocument.addBudgetPerson(budgetPerson);

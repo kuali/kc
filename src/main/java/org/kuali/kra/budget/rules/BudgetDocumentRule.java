@@ -102,6 +102,12 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         return true;
     }
     
+    /**
+     * This method checks business rules related to Budget Personnel functionality
+     * 
+     * @param budgetDocument
+     * @return
+     */
     protected boolean processBudgetPersonnelBusinessRules(BudgetDocument budgetDocument) {
         boolean valid = true;
         

@@ -24,6 +24,9 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
+/**
+ * BudgetPerson business object
+ */
 public class BudgetPerson extends KraPersistableBusinessObjectBase {
 	private Date effectiveDate;
 	private String jobCode;
