@@ -25,7 +25,7 @@
 
             <inquirySections><inquirySection title="Unit Administrator"><inquiryFields>
             	<field attributeName="personId" forceInquiry="true"/>
-				<field attributeName="roleId" forceInquiry="true"/>
+				<field attributeName="unitAdministratorTypeCode" forceInquiry="true"/>
 				<field attributeName="unitNumber" forceInquiry="true"/>
 
             </inquiryFields></inquirySection></inquirySections>
@@ -41,7 +41,7 @@
             <defaultSort sortAscending="true">
                 <sortAttributes>
                 	<sortAttribute attributeName="personId"/>
-					<sortAttribute attributeName="roleId"/>
+					<sortAttribute attributeName="unitAdministratorTypeCode"/>
 					<sortAttribute attributeName="unitNumber"/>
 
                 </sortAttributes>
@@ -49,14 +49,14 @@
 
             <lookupFields>
             	<lookupField attributeName="personId" required="false"/>
-				<lookupField attributeName="roleId" required="false"/>
+				<lookupField attributeName="unitAdministratorTypeCode" required="false"/>
 				<lookupField attributeName="unitNumber" required="false"/>
 
             </lookupFields>
 
             <resultFields>
             	<field attributeName="personId" forceInquiry="true"/>
-				<field attributeName="roleId" forceInquiry="true"/>
+				<field attributeName="unitAdministratorTypeCode" forceInquiry="true"/>
 				<field attributeName="unitNumber" forceInquiry="true"/>
 
             </resultFields>
@@ -81,16 +81,16 @@
 			<description>Person Id </description>
 			</attribute>
 
-			<attribute name="roleId">
-			<label>Role Id </label>
-			<shortLabel>Role Id </shortLabel>
-			<maxLength>5</maxLength>
+			<attribute name="unitAdministratorTypeCode">
+			<label>Unit Administrator Type Code </label>
+			<shortLabel>Unit Administrator Type Code</shortLabel>
+			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
 				<text size="5" />
 			</control>
-			<summary>Role Id </summary>
-			<description>Role Id </description>
+			<summary>Unit Administrator Type Code </summary>
+			<description>Unit Administrator Type Code </description>
 			</attribute>
 
 			<attribute name="unitNumber">
@@ -104,6 +104,7 @@
 			<summary>Unit Number </summary>
 			<description>Unit Number </description>
 			</attribute>
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
     </businessObject>

@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.bo.UnitAdministrator</businessObjectClass>
+        <businessObjectClass>org.kuali.kra.bo.UnitAdministratorType</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
@@ -32,28 +32,25 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>UnitAdministratorMaintenanceDocument</documentTypeName>
-        <documentTypeCode>UNAD</documentTypeCode>
+        <documentTypeName>UnitAdministratorTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>UADT</documentTypeCode>
 
-        <label>UnitAdministrator Maintenance Document</label>
-        <shortLabel>unitAdministratorMaintDoc</shortLabel>
+        <label>UnitAdministratorType Maintenance Document</label>
+        <shortLabel>unitAdministratorTypeMaintDoc</shortLabel>
 
-        <summary>UnitAdministrator Maintenance Document</summary>
-        <description>Document used to create or update UnitAdministrator Reference objects</description>
+        <summary>UnitAdministratorType Maintenance Document</summary>
+        <description>Document used to create or update UnitAdministratorType Reference objects</description>
 
         <lockingKeys>
-        	<field attributeName="personId"/>
-			<field attributeName="unitAdministratorTypeCode"/>
-			<field attributeName="unitNumber"/>
+        	<field attributeName="unitAdministratorTypeCode"/>
 
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit UnitAdministrator">
+            <maintainableSection title="Edit UnitAdministratorType">
                 <maintainableItems>
                 	<maintainableField name="unitAdministratorTypeCode" required="true"/>
-					<maintainableField name="personId" required="true"/>
-					<maintainableField name="unitNumber" required="true"/>
+					<maintainableField name="description" required="true"/>
 
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
