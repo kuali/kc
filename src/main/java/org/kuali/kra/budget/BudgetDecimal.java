@@ -80,7 +80,22 @@ public class BudgetDecimal extends AbstractKualiDecimal<BudgetDecimal> {
 //    }
 
     public BudgetDecimal percentage(BudgetDecimal rate){
-        return multiply(rate).divide(new BudgetDecimal(100));
+        return multiply(rate).divide(new BudgetDecimal(100)).setScale();
+    }
+    public BudgetDecimal setScale() {
+        return setScale(SCALE);
+    }
+
+    public BudgetDecimal setScale(int scale) {
+        return new BudgetDecimal(bigDecimalValue().setScale(scale,BigDecimal.ROUND_HALF_UP));
+    }
+    @Override
+    public BudgetDecimal divide(BudgetDecimal divisor){
+        return super.divide(divisor, false);
+    }
+    @Override
+    public BudgetDecimal multiply(BudgetDecimal multiplier){
+        return super.multiply(multiplier, false);
     }
     @Override
     protected BudgetDecimal newInstance(String value) {
