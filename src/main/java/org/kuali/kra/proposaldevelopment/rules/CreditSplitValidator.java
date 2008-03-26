@@ -26,6 +26,8 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_UPBOU
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,6 +38,7 @@ import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.AuditError;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.CreditSplitNameInfo;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplitable;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -48,7 +51,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * traversing the tree of <code>{@link ProposalPerson}</code> <code>{@link ProposalPersonUnit}</code> instances.
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class CreditSplitValidator {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidator.class);
@@ -72,7 +75,8 @@ public class CreditSplitValidator {
                 retval &= validate(document.getInvestigators(), creditType);
             }
         }
-        
+
+
         return retval;
     }
     
@@ -91,15 +95,24 @@ public class CreditSplitValidator {
         
         DecimalHolder investigatorCreditTotal = new DecimalHolder(KualiDecimal.ZERO);
 
-        retval &= validateCreditSplitable(investigators.iterator(), creditType, investigatorCreditTotal);
+        if (!validateCreditSplitable(investigators.iterator(), creditType, investigatorCreditTotal)) {
+            addAuditError(ERROR_TOTAL_CREDIT_SPLIT_UPBOUND, creditType.getDescription());                    
+            retval = false;
+        }
+
         LOG.info("Passed investigator validation " + retval);
 
         for (ProposalPerson investigator : investigators) {
             DecimalHolder unitCreditTotal = new DecimalHolder(KualiDecimal.ZERO);
             
-            retval &= validateCreditSplitable(investigator.getUnits().iterator(), creditType, unitCreditTotal);
+            if (!validateCreditSplitable(investigator.getUnits().iterator(), creditType, unitCreditTotal)) {
+                addAuditError(ERROR_CREDIT_SPLIT_UPBOUND, creditType.getDescription(), getCreditSplitableName(investigator));
+                retval = false;
+            }
+
             LOG.info("Passed unit validation " + retval);
         }
+        
         
         return retval;
     }
@@ -114,17 +127,12 @@ public class CreditSplitValidator {
      */
     public boolean validateCreditSplitable(Iterator<? extends CreditSplitable> splitable_it, InvestigatorCreditType creditType, DecimalHolder greaterCummulative) {
         if (!splitable_it.hasNext()) {
-            if (CREDIT_UPBOUND.compareTo(greaterCummulative.getValue()) != 0) {
-                addAuditError(ERROR_TOTAL_CREDIT_SPLIT_UPBOUND, creditType.getDescription());
-                return false;
-            }
-            
-            return true;
+            return isCreditSplitTotalValid(greaterCummulative.getValue());
         }
         boolean retval = true;
         
         CreditSplitable splitable = splitable_it.next();
-        LOG.info("Validating " + splitable.getName());
+        LOG.info("Validating " + getCreditSplitableName(splitable));
      
         DecimalHolder lesserCummulative = new DecimalHolder(KualiDecimal.ZERO);        
         retval &= validateCreditSplit(splitable.getCreditSplits().iterator(), creditType, lesserCummulative);
@@ -133,42 +141,69 @@ public class CreditSplitValidator {
              
         return retval & validateCreditSplitable(splitable_it, creditType, greaterCummulative);
     }
+    
+    /**
+     * Determines if the total credit split value for a {@link CreditSplitable} instance is valid or not. The upper and lower bounds for {@link CreditSplit} are 100.00 and 0.00.
+     * 0.00 is used as the lower bound and is significant because this is where {@link CreditSplit} is initiated. This is valid. 100.00 is the upper bound and represents an 
+     * adequate split of credit. Anything other than these is not considered valid 
+     *
+     * @param total value of the credit split
+     * @return <code>false</code> if the credit split total is anything other than 100.00 or 0.00; otherwise, return <code>true</code> 
+     */
+    private boolean isCreditSplitTotalValid(KualiDecimal total) {
+        return (CREDIT_UPBOUND.compareTo(total) == 0 || CREDIT_LOWBOUND.compareTo(total) == 0);
+    }
 
 
     /**
-     * Validates a collection of anything splits. 
+     * Validates a collection of anything splits. Negative values and values exceeding 100.00 are not permissible. 
      * 
      * @param creditSplit_it
      * @param creditType
      * @param lesserCummulative
-     * @return boolean is valid?
+     * @return boolean <code>true</code> if it is a valid percentage (falls between 0.00 and 100.00)
      */
     public boolean validateCreditSplit(Iterator<? extends CreditSplit> creditSplit_it, InvestigatorCreditType creditType, DecimalHolder lesserCummulative) {
         if (!creditSplit_it.hasNext()) {
-            return true;                
+            return false;                
         }
-        
+
         boolean retval = true;
+        
         
         CreditSplit creditSplit = creditSplit_it.next();
         if (creditType.getInvCreditTypeCode().equals(creditSplit.getInvCreditTypeCode())) {
             lesserCummulative.add(creditSplit.getCredit());
             
-            // Validate that the current credit split isn't greater than 100% or less than 0%
-            if (CREDIT_UPBOUND.compareTo(creditSplit.getCredit()) < 0) {                
-                retval = false;
-                addAuditError(ERROR_CREDIT_SPLIT_UPBOUND, creditType.getDescription());
-            }
-            else if (CREDIT_LOWBOUND.compareTo(creditSplit.getCredit()) > 0) {               
-                retval = false;
-                addAuditError(ERROR_CREDIT_SPLIT_LOWBOUND, creditType.getDescription());
-            }
+            isCreditSplitValid(creditSplit.getCredit());
             
             // Found the credit split we're looking for, so now we return
             return retval;
         }
      
         return validateCreditSplit(creditSplit_it, creditType, lesserCummulative);
+    }
+    
+    /**
+     * Determine if the value of the credit split is valid. Values not between 0.00 and 100.00 percent are considered invalid.
+     * 
+     * @param value of the credit split to validate
+     * @return <code>false</code> if negative or greater than 100.00
+     */
+    private boolean isCreditSplitValid(KualiDecimal value) {
+        boolean retval = true;
+        
+        // Validate that the current credit split isn't greater than 100% or less than 0%
+        if (CREDIT_UPBOUND.compareTo(value) < 0) {                
+            retval = false;
+            // addAuditError(ERROR_CREDIT_SPLIT_UPBOUND, creditType.getDescription());
+        }
+        else if (CREDIT_LOWBOUND.compareTo(value) > 0) {               
+            retval = false;
+            // addAuditError(ERROR_CREDIT_SPLIT_LOWBOUND, creditType.getDescription());
+        }
+       
+        return retval;
     }
     
     /**
@@ -336,5 +371,35 @@ public class CreditSplitValidator {
             return retval;
         }
     }
+    
+    /**
+     * Discover the name of a {@link CreditSplitable}. Not all {@link CreditSplitable} instances will have a <code>name</code> property. Even if they
+     * did, it's not likely for all the properties to be called <code>name</code>. {@link CreditSplitable} relies on a property to be annotated
+     * as being the name of the {@link CreditSplitable}. This checks for that annotation and returns the name. 
+     * 
+     * 
+     * @param splitable 
+     * @return <code>null</code> if the name could not be found or if the value of the name is also <code>null</code>; otherwise, the name is returned.
+     */
+    private String getCreditSplitableName(CreditSplitable splitable) {
+        
+        for (Method method : splitable.getClass().getMethods()) {
+            if (method.isAnnotationPresent(CreditSplitNameInfo.class)) {
+                LOG.info("Found method name " + method.getName());
+                try {
+                    return (String) method.invoke(splitable, null);
+                } 
+                catch (Exception e) {
+                    LOG.warn("Could not find the name property for the credit splitable object of class " + splitable.getClass().getName()
+                            + ". Make sure the " + CreditSplitNameInfo.class.getSimpleName() + " annotation is declared on the name property of " 
+                                + splitable.getClass().getSimpleName());
+
+                }
+            }
+        }
+        
+        return null;
+    }
+
 }
 

@@ -32,7 +32,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.32 $
+ * @version $Revision: 1.33 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -91,6 +91,15 @@ public class ProposalPerson extends Person implements CreditSplitable {
         simpleName = simpleName.toLowerCase();
         simpleName = StringUtils.deleteWhitespace(simpleName);
         simpleName = StringUtils.remove(simpleName, '.');
+    }
+   
+    /**
+     * @see org.kuali.kra.bo.Person#getFullName()
+     */
+    @Override
+    @CreditSplitNameInfo
+    public String getFullName() {
+        return super.getFullName();
     }
     
     /**
@@ -624,13 +633,6 @@ public class ProposalPerson extends Person implements CreditSplitable {
         }
         
         return false;
-    }
-
-    /**
-     * @see org.kuali.kra.proposaldevelopment.bo.CreditSplitable#getName()
-     */
-    public String getName() {
-        return getFullName();
     }
 
     /**
