@@ -40,4 +40,17 @@ public class BudgetDecimalTest {
         Assert.assertEquals(op1.divide(op2),new BudgetDecimal(100d/365d));
     }
 
+    @Test
+    public void percentageTest() throws Exception{
+        BudgetDecimal op1 = new BudgetDecimal(39);
+        BudgetDecimal op2 = new BudgetDecimal(9);
+        Assert.assertEquals(op1.percentage(op2),new BudgetDecimal(3.51));
+    }
+    @Test
+    public void divide1Test() throws Exception{
+        BudgetDecimal op1 = new BudgetDecimal(100);
+        BudgetDecimal op2 = new BudgetDecimal(3);
+        System.out.println(op1.divide(op2));
+        Assert.assertEquals(op1.divide(op2),new BudgetDecimal(100d/3d));
+    }
 }
