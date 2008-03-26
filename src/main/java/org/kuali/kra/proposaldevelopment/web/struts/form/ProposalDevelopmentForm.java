@@ -137,8 +137,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
 
 
     /**
-     * Multiple Value Lookups return values to the form, but in some instances do not clear previous values from other lookups. This is to set the Multiple
-     * Value Lookups to a good state. Values getting cleared are:
+     * Multiple Value Lookups return values to the form through the request, but in some instances do not clear previous values from other lookups because the form resides in the session scope. 
+     * This is to set the Multiple Value Lookups to a good state. Values getting cleared are:
      * <ul>
      *   <li><code>lookupResultsSequenceNumber</code></li>
      *   <li><code>lookupResultsBOClassName</code></li>
