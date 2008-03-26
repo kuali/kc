@@ -122,6 +122,8 @@ public interface Constants {
     
     // Budget Distribution And Income
     public static final String BUDGET_CURRENT_FISCAL_YEAR = "budgetCurrentFiscalYear";
+    public static final String BUDGET_COST_SHARING_APPLICABILITY_FLAG = "budgetCostSharingApplicabilityFlag";
+    public static final String BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG = "budgetUnrecoveredFandAApplicabilityFlag";
     
     // Budget Personnel
     public static final String BUDGET_PERSON_DEFAULT_JOB_CODE = "budgetPersonDefaultJobCode";

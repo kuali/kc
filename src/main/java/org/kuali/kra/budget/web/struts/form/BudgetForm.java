@@ -173,6 +173,16 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
         return extraTopButtons;
     }
 
+    public boolean isCostSharingEditFormVisible() {
+        BudgetDocument budgetDocument = getBudgetDocument();        
+        return budgetDocument != null && budgetDocument.isCostSharingApplicable() && budgetDocument.isCostSharingAvailable(); 
+    }
+    
+    public boolean isUnrecoveredFandAEditFormVisible() {
+        BudgetDocument budgetDocument = getBudgetDocument(); 
+        return budgetDocument != null && budgetDocument.isUnrecoveredFandAApplicable() && budgetDocument.isCostSharingAvailable(); 
+    }
+    
     public void setExtraTopButtons(List<ExtraButton> extraTopButtons) {
         this.extraTopButtons = extraTopButtons;
     }

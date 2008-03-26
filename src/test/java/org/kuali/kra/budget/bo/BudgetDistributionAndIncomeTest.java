@@ -20,9 +20,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 
@@ -43,14 +41,13 @@ public class BudgetDistributionAndIncomeTest {
     
     protected BudgetDocument budgetDocument;
     protected Calendar calendar;
-    protected Date fiscalYearStart;    
+    private Date fiscalYearStartArtifact;    
     
     @Before
     public void setUp() {
         calendar = GregorianCalendar.getInstance();
-        fiscalYearStart = getDate(YEAR_2000, Calendar.OCTOBER, DAY_1);
-        budgetDocument = new BudgetDocument();
-        budgetDocument.setFiscalYearStart(fiscalYearStart); 
+        fiscalYearStartArtifact = getDate(YEAR_2000, Calendar.OCTOBER, DAY_1);
+        budgetDocument = new BudgetDocument_CostShareAndUnrecoveredFandAApplicable();        
     }
     
     @After
@@ -98,5 +95,47 @@ public class BudgetDistributionAndIncomeTest {
             bp.setUnderrecoveryAmount(unrecoveredFandAAmounts[i]);
             i++;
         }        
+    }
+    
+    protected class BudgetDocument_CostShareAndUnrecoveredFandAApplicable extends BudgetDocument {
+        private static final long serialVersionUID = 1L;
+                
+        @Override
+        protected Boolean loadCostSharingApplicability() {
+           return Boolean.TRUE;
+        }
+
+        @Override
+        protected Date loadFiscalYearStart() {
+            return fiscalYearStartArtifact;
+        }
+
+        @Override
+        protected Boolean loadUnrecoveredFandAApplicability() {
+            return Boolean.TRUE;
+        }
+        
+        protected void setCostShareApplicability(Boolean value) {
+            
+        }
+    }
+    
+    protected class BudgetDocument_CostShareAndUnrecoveredFandANotApplicable extends BudgetDocument {
+        private static final long serialVersionUID = 1L;
+                
+        @Override
+        protected Boolean loadCostSharingApplicability() {
+           return Boolean.FALSE;
+        }
+
+        @Override
+        protected Date loadFiscalYearStart() {
+            return fiscalYearStartArtifact;
+        }
+
+        @Override
+        protected Boolean loadUnrecoveredFandAApplicability() {
+            return Boolean.FALSE;
+        }
     }
 }
