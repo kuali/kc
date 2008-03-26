@@ -113,7 +113,7 @@ public class LineItemCalculatorTest extends KraTestBase {
         }
         BudgetDecimal directCost = bli.getDirectCost();
         try{
-        assertEquals(new BudgetDecimal(15529.76),directCost );
+            assertEquals(new BudgetDecimal(14945.00),directCost );
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
@@ -126,24 +126,24 @@ public class LineItemCalculatorTest extends KraTestBase {
         bcs.calculateBudgetLineItem(bd,bli1);
         BudgetDecimal directCost1 = bli1.getDirectCost();
         try{
-        assertEquals(new BudgetDecimal(14678.85),directCost1);
+            assertEquals(new BudgetDecimal(14095.00),directCost1);
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
 
         bcs.calculateBudgetPeriod(bd,bp);
         try{
-        assertEquals(new BudgetDecimal(30208.61),bp.getTotalDirectCost());
+            assertEquals(new BudgetDecimal(29040.00),bp.getTotalDirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
         try{
-        assertEquals(new BudgetDecimal(7662.28),bp.getTotalIndirectCost());
+            assertEquals(new BudgetDecimal(7725.00),bp.getTotalIndirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
         try{
-        assertEquals(new BudgetDecimal(37870.89),bp.getTotalCost());
+            assertEquals(new BudgetDecimal(36765.00),bp.getTotalCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
@@ -167,11 +167,11 @@ public class LineItemCalculatorTest extends KraTestBase {
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudgetLineItem(bd,bli);
         try{
-        assertEquals(new BudgetDecimal(15933.09),bli.getDirectCost() );
+        assertEquals(new BudgetDecimal(15935.00),bli.getDirectCost() );
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(540.28),bli.getUnderrecoveryAmount());
+        assertEquals(new BudgetDecimal(541.36),bli.getUnderrecoveryAmount());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
@@ -215,12 +215,11 @@ public class LineItemCalculatorTest extends KraTestBase {
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-//        assertEquals(new BudgetDecimal(2982.046), bpli.getCostSharingAmount());have to re-investigate
-        assertEquals(new BudgetDecimal(2901.39), bpli.getCostSharingAmount());
+        assertEquals(new BudgetDecimal(2783.42), bpli.getCostSharingAmount());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(2106.56), bpli.getDirectCost());
+        assertEquals(new BudgetDecimal(1988.59), bpli.getDirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
@@ -252,7 +251,7 @@ public class LineItemCalculatorTest extends KraTestBase {
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(2108.40), bpli1.getDirectCost());
+        assertEquals(new BudgetDecimal(1990.31), bpli1.getDirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
