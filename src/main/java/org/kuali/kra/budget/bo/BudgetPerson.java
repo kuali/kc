@@ -88,7 +88,7 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
             this.rolodexId = proposalPerson.getRolodexId();
             this.nonEmployeeFlag = true;
         }
-        this.personName = proposalPerson.getName();
+        this.personName = proposalPerson.getFullName();
     }
 
 	/*
