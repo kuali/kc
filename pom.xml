@@ -222,7 +222,10 @@
 							<includes>
 								<include>**/*Test.java</include>
 							</includes>
-							<excludes><exclude>S2sOpportunityWebTest.java</exclude></excludes>
+							<excludes>
+								<exclude>S2sOpportunityWebTest.java</exclude>
+								<exclude>PermissionsWebTest.java</exclude>
+							</excludes>
 							<forkMode>once</forkMode>
 							<reportFormat>plain</reportFormat>
 							<argLine>-Xmx1024m -XX:MaxPermSize=512m</argLine>
