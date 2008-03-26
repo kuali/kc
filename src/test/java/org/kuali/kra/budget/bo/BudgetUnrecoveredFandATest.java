@@ -49,15 +49,38 @@ public class BudgetUnrecoveredFandATest extends BudgetDistributionAndIncomeTest 
         
         Assert.assertTrue(budgetDocument.isUnrecoveredFandAAvailable());
     }
+    
+    @Test
+    public void testIfUnrecoveredFandAApplicable_UnrecoveredAmountsPresentAndApplicable() {
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_250);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(ZERO_AMOUNT);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_100);
+        
+        Assert.assertTrue(budgetDocument.isUnrecoveredFandAApplicable());
+    }
+    
+    @Test
+    public void testIfUnrecoveredFandAApplicable_UnrecoveredAmountsPresentAndNotApplicable() {
+        // replace budgetDocument with one where unrecovered F&A is not applicable
+        budgetDocument = new BudgetDocument_CostShareAndUnrecoveredFandANotApplicable();
+        
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_250);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(ZERO_AMOUNT);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_100);
+        
+        Assert.assertFalse(budgetDocument.isUnrecoveredFandAApplicable());
+    }
 
     @Test
     public void testIfUnrecoveredFandAIsAvailable_BudgetPeriodPresentWithNonZeroUnrecovery() {
+        Assert.assertFalse(budgetDocument.isUnrecoveredFandAAvailable());
+        
         createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_100);
         Assert.assertTrue(budgetDocument.isUnrecoveredFandAAvailable());
     }
     
     @Test
-    public void testIfUnrecoveredFandAIsAvailable_BudgetPeriodPresentButNoCostSharing() {
+    public void testIfUnrecoveredFandAIsAvailable_BudgetPeriodPresentButNoUnrecoveredFandA() {
         Assert.assertFalse(budgetDocument.isUnrecoveredFandAAvailable());
     }
     

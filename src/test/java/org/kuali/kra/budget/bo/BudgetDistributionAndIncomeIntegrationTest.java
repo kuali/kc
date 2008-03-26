@@ -20,13 +20,11 @@ import java.sql.Date;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.core.UserSession;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.rice.KNSServiceLocator;
 
 public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTestBase {
     protected static final BudgetDecimal AMOUNT_1 = new BudgetDecimal(1000.00);
@@ -42,7 +40,6 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
     protected static final String SOURCE_ACCOUNT_3 = "12345C";
     
     protected BudgetDocument budgetDocument;
-    protected DocumentService documentService;
     
     protected ProposalDevelopmentDocument proposalDocument;
     
@@ -50,7 +47,6 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        documentService = KNSServiceLocator.getDocumentService();
         initProposalDocument();
         initBudgetDocument();
     }
@@ -58,7 +54,6 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
-        documentService = null;
         budgetDocument = null;
         super.tearDown();
     }
@@ -78,7 +73,12 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
     }
     
     private void initBudgetDocument() throws Exception {
-        budgetDocument = (BudgetDocument) documentService.getNewDocument("BudgetDocument");
+        budgetDocument = (BudgetDocument) getDocumentService().getNewDocument("BudgetDocument");
+        
+        // add budget periods here to circumvent automatic generation of budget periods 
+        budgetDocument.add(createBudgetPeriod(1));
+        budgetDocument.add(createBudgetPeriod(2));
+        
         budgetDocument.setProposalNumber(proposalDocument.getProposalNumber());
         budgetDocument.getDocumentHeader().setFinancialDocumentDescription("Budget Document");
         budgetDocument.setBudgetVersionNumber(1);
@@ -87,15 +87,13 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
         budgetDocument.setOhRateClassCode("1");
         budgetDocument.setUrRateClassCode("2");
         budgetDocument.setModularBudgetFlag("N");
-        budgetDocument.add(createBudgetPeriod(1));
-        budgetDocument.add(createBudgetPeriod(2));
         
-        documentService.saveDocument(budgetDocument);
-        budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());  
+        getDocumentService().saveDocument(budgetDocument);
+        budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());        
     }
     
     private void initProposalDocument() throws Exception {
-        proposalDocument = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
+        proposalDocument = (ProposalDevelopmentDocument) getDocumentService().getNewDocument("ProposalDevelopmentDocument");
         proposalDocument.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
         proposalDocument.setSponsorCode("005770");
         proposalDocument.setTitle("project title");
@@ -105,8 +103,8 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
         proposalDocument.setProposalTypeCode("1");
         proposalDocument.setOwnedByUnitNumber("000001");
 
-        documentService.saveDocument(proposalDocument);
+        getDocumentService().saveDocument(proposalDocument);
 
-        proposalDocument = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(proposalDocument.getDocumentNumber());        
+        proposalDocument = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(proposalDocument.getDocumentNumber());        
     }
 }
