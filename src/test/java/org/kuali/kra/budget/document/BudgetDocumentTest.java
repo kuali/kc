@@ -19,31 +19,25 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BudgetDocumentTest {
+public class BudgetDocumentTest extends TestCase {
     private static final int DAY_1 = 1;
     private static final int YEAR_2000 = 2000;
     
-    private BudgetDocument budgetDocument;
-    private Calendar calendar;
-    private Date fiscalYearStart;
-    
     @Before
-    public void setUp() {
-        calendar = GregorianCalendar.getInstance();
-        fiscalYearStart = getDate(YEAR_2000, Calendar.OCTOBER, DAY_1);
-        budgetDocument = new BudgetDocument();
-        budgetDocument.setFiscalYearStart(fiscalYearStart); 
+    public void setUp() throws Exception {
+        super.setUp();
     }
     
     @After
-    public void tearDown() {
-        budgetDocument = null;
-        calendar = null;
+    public void tearDown() throws Exception {
+        super.tearDown();
     }
     
     @Test
@@ -52,12 +46,7 @@ public class BudgetDocumentTest {
         Date fiscalYearDate = bd.createDateFromString("07/01/2000");
         
         Calendar cal = GregorianCalendar.getInstance();
-        cal.set(2000, Calendar.JULY, 1, 0, 0, 0);
+        cal.set(YEAR_2000, Calendar.JULY, DAY_1, 0, 0, 0);
         Assert.assertEquals(new Date(cal.getTimeInMillis()), fiscalYearDate);
-    }
-    
-    private Date getDate(int year, int month, int date) {
-        calendar.set(year, month, date);
-        return new Date(calendar.getTimeInMillis());
     }
 }

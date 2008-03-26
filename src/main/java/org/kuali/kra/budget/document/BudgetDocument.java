@@ -67,6 +67,8 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
+    private static final String TRUE_FLAG = "Y";
+
     private static final String DEFAULT_FISCAL_YEAR_START = "01/01/2000";
 
     private static final Log LOG = LogFactory.getLog(BudgetDocument.class);
@@ -113,6 +115,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private SortedMap <RateType, List> calculatedExpenseTotals ;
     
     private transient Date fiscalYearStart;
+    private transient Boolean costSharingApplicable;
+    private transient Boolean unrecoveredFandAApplicable;
     
     public BudgetDocument(){
         super();
@@ -189,6 +193,13 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return calculateFiscalYearTotals(budgetPeriodFiscalYears); 
     }
     
+    public Boolean isCostSharingApplicable() {
+        if(costSharingApplicable == null) {
+            costSharingApplicable = loadCostSharingApplicability();
+        }        
+        return costSharingApplicable;
+    }
+    
     public boolean isCostSharingAvailable() {
         boolean costSharingAvailable = false;
         for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
@@ -196,6 +207,13 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
             if(costSharingAvailable) { break; }
         }
         return costSharingAvailable;
+    }
+
+    public Boolean isUnrecoveredFandAApplicable() {
+        if(unrecoveredFandAApplicable == null) {
+            unrecoveredFandAApplicable = loadUnrecoveredFandAApplicability();
+        }        
+        return unrecoveredFandAApplicable;
     }
     
     public boolean isUnrecoveredFandAAvailable() {
@@ -547,42 +565,15 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
 
     public void add(BudgetCostShare budgetCostShare) {
-        if(budgetCostShare != null) {
-            refreshReferenceObject("documentNextvalues");
-            budgetCostShare.setProposalNumber(getProposalNumber());
-            budgetCostShare.setBudgetVersionNumber(getBudgetVersionNumber());            
-            budgetCostShare.setDocumentComponentId(getDocumentNextValue(BudgetCostShare.DOCUMENT_COMPONENT_ID_KEY));            
-            getBudgetCostShares().add(budgetCostShare);
-            LOG.debug("Added budgetCostShare: " + budgetCostShare);
-        } else {
-            LOG.warn("Attempt to add null budgetCostShare was ignored");
-        }
+        addBudgetDistributionAndIncomeComponent(getBudgetCostShares(), budgetCostShare);
     }
     
     public void add(BudgetProjectIncome budgetProjectIncome) {
-        if(budgetProjectIncome != null) {
-            budgetProjectIncome.setProposalNumber(getProposalNumber());
-            budgetProjectIncome.setBudgetVersionNumber(getBudgetVersionNumber());
-            budgetProjectIncome.setDocumentComponentId(getDocumentNextValue(BudgetProjectIncome.DOCUMENT_COMPONENT_ID_KEY));
-            this.refreshReferenceObject("documentNextvalues");
-            this.getBudgetProjectIncomes().add(budgetProjectIncome);
-            LOG.debug("Added budgetProjectIncome: " + budgetProjectIncome);
-        } else {
-            LOG.warn("Attempt to add null budgetProjectIncome was ignored");
-        }
+        addBudgetDistributionAndIncomeComponent(getBudgetProjectIncomes(), budgetProjectIncome);        
     }
     
     public void add(BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
-        if(budgetUnrecoveredFandA != null) {
-            budgetUnrecoveredFandA.setProposalNumber(getProposalNumber());
-            budgetUnrecoveredFandA.setBudgetVersionNumber(getBudgetVersionNumber());
-            refreshReferenceObject("documentNextvalues");
-            budgetUnrecoveredFandA.setDocumentComponentId(getDocumentNextValue(BudgetUnrecoveredFandA.DOCUMENT_COMPONENT_ID_KEY));            
-            getBudgetUnrecoveredFandAs().add(budgetUnrecoveredFandA);
-            LOG.debug("Added budgetUnrecoveredFandA: " + budgetUnrecoveredFandA);
-        } else {
-            LOG.warn("Attempt to add null budgetUnrecoveredFandA was ignored");
-        }
+        addBudgetDistributionAndIncomeComponent(getBudgetUnrecoveredFandAs(), budgetUnrecoveredFandA);
     }
 
     public List<BudgetPerson> getBudgetPersons() {
@@ -714,20 +705,30 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
     
     /**
-     * This method allows test cases to inject fiscalYearStart
-     * @param fiscalYearStart
-     */
-    public void setFiscalYearStart(Date fiscalYearStart) {
-        this.fiscalYearStart = fiscalYearStart;
-    }
-    
-    /**
-     * This method loads teh fiscal year start from the database. Protected to allow mocking out service call
+     * This method loads the fiscal year start from the database. Protected to allow mocking out service call
      * @return
      */
     protected Date loadFiscalYearStart() {
         KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
         return createDateFromString(kualiConfigurationService.getParameterValue("KRA-B", "D", Constants.BUDGET_CURRENT_FISCAL_YEAR));        
+    }
+    
+    /**
+     * This method loads the cost sharing applicability flag from the database. Protected to allow mocking out service call
+     * @return
+     */
+    protected Boolean loadCostSharingApplicability() {
+        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+        return kualiConfigurationService.getParameterValue("KRA-B", "D", Constants.BUDGET_COST_SHARING_APPLICABILITY_FLAG).equalsIgnoreCase(TRUE_FLAG);        
+    }
+    
+    /**
+     * This method loads the unrecovered F&A applicability flag from the database. Protected to allow mocking out service call
+     * @return
+     */
+    protected Boolean loadUnrecoveredFandAApplicability() {
+        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+        return kualiConfigurationService.getParameterValue("KRA-B", "D", Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG).equalsIgnoreCase(TRUE_FLAG);        
     }
 
     protected Date createDateFromString(String budgetFiscalYearStart) {
@@ -740,6 +741,18 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.set(Integer.valueOf(dateParts[2]), Integer.valueOf(dateParts[0]) - 1, Integer.valueOf(dateParts[1]), 0, 0, 0);
         return new Date(calendar.getTimeInMillis());
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void addBudgetDistributionAndIncomeComponent(List distributionAndIncomeComponents, BudgetDistributionAndIncomeComponent distributionAndIncomeComponent) {
+        if(distributionAndIncomeComponent != null) {
+            distributionAndIncomeComponent.setProposalNumber(getProposalNumber());
+            distributionAndIncomeComponent.setBudgetVersionNumber(getBudgetVersionNumber());            
+            distributionAndIncomeComponent.setDocumentComponentId(getDocumentNextValue(BudgetCostShare.DOCUMENT_COMPONENT_ID_KEY));            
+            distributionAndIncomeComponents.add(distributionAndIncomeComponent);
+        } else {
+            LOG.warn("Attempt to add null distributionAndIncomeComponent was ignored.");
+        }
     }
     
     private List<FiscalYearSummary> calculateFiscalYearTotals(Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears) {

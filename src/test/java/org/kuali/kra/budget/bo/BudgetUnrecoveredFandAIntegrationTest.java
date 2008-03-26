@@ -40,48 +40,42 @@ public class BudgetUnrecoveredFandAIntegrationTest extends BudgetDistributionAnd
     }
     
     @Test
+    public void testDelete_FromMultipleInstances() throws Exception {
+        BudgetUnrecoveredFandA[] unrecoveredFandAs = createBudgetUnrecoveredFandACollection();
+        BudgetDocument savedDocument = saveAndRetrieveBudgetWithUnrecoveredFandAs(unrecoveredFandAs);
+                
+        for(int i = 0, expectedSize = unrecoveredFandAs.length - 1; i < unrecoveredFandAs.length; i++, expectedSize--) {
+            savedDocument.remove(unrecoveredFandAs[i]);
+            getDocumentService().saveDocument(budgetDocument);
+            savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+            assertEquals(expectedSize, savedDocument.getBudgetUnrecoveredFandAs().size());
+        }
+    }
+    
+    @Test
     public void testDelete_SingleInstance() throws Exception {
         BudgetUnrecoveredFandA unrecoveredFandA = new BudgetUnrecoveredFandA(FY_2008, AMOUNT_1, APPLICABLE_RATE_1, CAMPUS_YES, SOURCE_ACCOUNT_1);
         budgetDocument.add(unrecoveredFandA);
-        documentService.saveDocument(budgetDocument);
-      
-        BudgetDocument savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        assertNotNull(savedDocument);        
+        getDocumentService().saveDocument(budgetDocument);
+        
+        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        assertNotNull(savedDocument);
         assertEquals(1, savedDocument.getBudgetUnrecoveredFandAs().size());
-              
+        
         savedDocument.remove(unrecoveredFandA);
-        documentService.saveDocument(savedDocument);
-      
-        savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        getDocumentService().saveDocument(savedDocument);
+        
+        savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
         assertEquals(0, savedDocument.getBudgetUnrecoveredFandAs().size());
     }
-    
-//    @Test
-//    public void testDelete_FromMultipleInstances() throws Exception {
-//        BudgetUnrecoveredFandA[] unrecoveredFandAs = createBudgetUnrecoveredFandACollection();
-//        BudgetDocument savedDocument = saveAndRetrieveBudgetWithUnrecoveredFandAs(unrecoveredFandAs);
-//                
-//        savedDocument.remove(unrecoveredFandAs[1]);
-//        documentService.saveDocument(savedDocument);
-//        
-//        savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-//        assertEquals(2, savedDocument.getBudgetUnrecoveredFandAs().size());
-//        
-//        savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-//        savedDocument.getBudgetUnrecoveredFandAs().clear();
-//        documentService.saveDocument(savedDocument);
-//        
-//        savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-//        assertEquals(0, savedDocument.getBudgetUnrecoveredFandAs().size());
-//    }
     
     @Test
     public void testSave_MissingFieldsRequiredAtProposalValidation() throws Exception {
         BudgetUnrecoveredFandA budgetUnrecoveredFandA = new BudgetUnrecoveredFandA();
         budgetDocument.add(budgetUnrecoveredFandA);
-        documentService.saveDocument(budgetDocument);
+        getDocumentService().saveDocument(budgetDocument);
         
-        BudgetDocument savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
         assertNotNull(savedDocument);        
         assertEquals(1, savedDocument.getBudgetUnrecoveredFandAs().size());
         BudgetUnrecoveredFandA savedBudgetUnrecoveredFandA = savedDocument.getBudgetUnrecoveredFandAs().get(0); 
@@ -92,45 +86,41 @@ public class BudgetUnrecoveredFandAIntegrationTest extends BudgetDistributionAnd
         assertNull(savedBudgetUnrecoveredFandA.getSourceAccount());
     }
 
-//    @Test
-//    public void testSave_MultipleInstances() throws Exception {
-//        BudgetUnrecoveredFandA[] unrecoveredFandAs = createBudgetUnrecoveredFandACollection();
-//        BudgetDocument savedDocument = saveAndRetrieveBudgetWithUnrecoveredFandAs(unrecoveredFandAs);
-//        assertNotNull(savedDocument);        
-//        assertEquals(unrecoveredFandAs.length, savedDocument.getBudgetUnrecoveredFandAs().size());        
-//    }
 
+    @Test
+    public void testSave_MultipleInstances() throws Exception {
+        BudgetUnrecoveredFandA[] unrecoveredFandAs = createBudgetUnrecoveredFandACollection();
+        BudgetDocument savedDocument = saveAndRetrieveBudgetWithUnrecoveredFandAs(unrecoveredFandAs);
+        assertNotNull(savedDocument);        
+        assertEquals(unrecoveredFandAs.length, savedDocument.getBudgetUnrecoveredFandAs().size());        
+    }
+    
+   
     @Test
     public void testSave_SingleInstance() throws Exception {
         BudgetUnrecoveredFandA unrecoveredFandA = new BudgetUnrecoveredFandA(FY_2009, AMOUNT_2, APPLICABLE_RATE_2, CAMPUS_NO, SOURCE_ACCOUNT_2);
         budgetDocument.add(unrecoveredFandA);
-        documentService.saveDocument(budgetDocument);
+        getDocumentService().saveDocument(budgetDocument);
 
-        BudgetDocument savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
         assertNotNull(savedDocument);        
         assertEquals(1, savedDocument.getBudgetUnrecoveredFandAs().size());        
     }
     
+    private BudgetUnrecoveredFandA[] createBudgetUnrecoveredFandACollection() {
+        return new BudgetUnrecoveredFandA[] { new BudgetUnrecoveredFandA(FY_2008, AMOUNT_1, APPLICABLE_RATE_1, CAMPUS_YES, SOURCE_ACCOUNT_1), 
+                                                new BudgetUnrecoveredFandA(FY_2008, AMOUNT_2, APPLICABLE_RATE_2, CAMPUS_NO, SOURCE_ACCOUNT_2),
+                                                new BudgetUnrecoveredFandA(FY_2009, AMOUNT_3, APPLICABLE_RATE_3, CAMPUS_YES, SOURCE_ACCOUNT_3)
+                                            };
+    }    
     
-//    private BudgetUnrecoveredFandA[] createBudgetUnrecoveredFandACollection() {
-//        return new BudgetUnrecoveredFandA[] { new BudgetUnrecoveredFandA(FY_2008, AMOUNT_1, APPLICABLE_RATE_1, CAMPUS_YES, SOURCE_ACCOUNT_1), 
-//                                                new BudgetUnrecoveredFandA(FY_2008, AMOUNT_2, APPLICABLE_RATE_2, CAMPUS_NO, SOURCE_ACCOUNT_2),
-//                                                new BudgetUnrecoveredFandA(FY_2009, AMOUNT_3, APPLICABLE_RATE_3, CAMPUS_YES, SOURCE_ACCOUNT_3)
-//                                            };
-//    }
+    private BudgetDocument saveAndRetrieveBudgetWithUnrecoveredFandAs(BudgetUnrecoveredFandA[] unrecoveredFandAs) throws Exception {
+        for(BudgetUnrecoveredFandA unrecoveredFandA: unrecoveredFandAs) {
+              budgetDocument.add(unrecoveredFandA);
+          }
+                  
+        getDocumentService().saveDocument(budgetDocument);
     
-    
-      
-    
-    
-//    private BudgetDocument saveAndRetrieveBudgetWithUnrecoveredFandAs(BudgetUnrecoveredFandA[] unrecoveredFandAs) throws Exception {
-//        for(BudgetUnrecoveredFandA unrecoveredFandA: unrecoveredFandAs) {
-//              budgetDocument.add(unrecoveredFandA);
-//          }
-//                  
-//          documentService.saveDocument(budgetDocument);
-//    
-//          BudgetDocument savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-//        return savedDocument;
-//    }
+        return (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+    }
 }

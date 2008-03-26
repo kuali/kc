@@ -23,7 +23,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocument.FiscalYearSummary;
 
 public class BudgetCostShareTest extends BudgetDistributionAndIncomeTest {
@@ -77,6 +77,8 @@ public class BudgetCostShareTest extends BudgetDistributionAndIncomeTest {
     
     @Test
     public void testIfCostSharingIsAvailable_BudgetPeriodPresentWithNonZeroCostSharing() {
+        Assert.assertFalse(budgetDocument.isCostSharingAvailable());
+        
         createAndAddBudgetPeriod().setCostSharingAmount(TEST_AMOUNT_100);
         Assert.assertTrue(budgetDocument.isCostSharingAvailable());
     }
@@ -130,5 +132,20 @@ public class BudgetCostShareTest extends BudgetDistributionAndIncomeTest {
         Assert.assertTrue(budgetDocument.isCostSharingAvailable());
     }
     
+    @Test
+    public void testCostSharingIsApplicable() {        
+        Assert.assertTrue(budgetDocument.isCostSharingApplicable());
+    }
     
+    @Test
+    public void testCostSharingIsNotApplicable() {
+        // replace budgetDocument with one where cost sharing is not applicable
+        budgetDocument = new BudgetDocument_CostShareAndUnrecoveredFandANotApplicable();
+        
+        createAndAddBudgetPeriod().setCostSharingAmount(ZERO_AMOUNT);        
+        createAndAddBudgetPeriod().setCostSharingAmount(ZERO_AMOUNT);        
+        createAndAddBudgetPeriod().setCostSharingAmount(TEST_AMOUNT_100);
+        
+        Assert.assertFalse(budgetDocument.isCostSharingApplicable());
+    }
 }

@@ -40,85 +40,43 @@ public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeI
     }
     
     @Test
+	  public void testDelete_FromMultipleInstances() throws Exception {
+	      BudgetCostShare[] costShares = createBudgetCostShareCollection();
+	      BudgetDocument savedDocument = saveAndRetrieveBudgetWithCostSharing(costShares);
+	      
+	      for(int i = 0, expectedSize = costShares.length - 1; i < costShares.length; i++, expectedSize--) {
+	          savedDocument.remove(costShares[i]);
+	          getDocumentService().saveDocument(budgetDocument);
+	          savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+	          assertEquals(expectedSize, savedDocument.getBudgetCostShares().size());
+	      }
+	  }
+    
+    @Test
     public void testDelete_SingleInstance() throws Exception {
         BudgetCostShare costShare = new BudgetCostShare(FY_2008, AMOUNT_1, SHARE_PCT_0, SOURCE_ACCOUNT_1);
         budgetDocument.add(costShare);
-        documentService.saveDocument(budgetDocument);
+        getDocumentService().saveDocument(budgetDocument);
       
-        BudgetDocument savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
         assertNotNull(savedDocument);        
         assertEquals(1, savedDocument.getBudgetCostShares().size());
               
         savedDocument.remove(costShare);
-        documentService.saveDocument(savedDocument);
+        getDocumentService().saveDocument(savedDocument);
       
-        savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
         assertEquals(0, savedDocument.getBudgetCostShares().size());
     }
     
-    @Test
-    public void testSave_SingleInstance() throws Exception {
-        BudgetCostShare costShare = new BudgetCostShare(FY_2008, AMOUNT_1, SHARE_PCT_0, SOURCE_ACCOUNT_1);
-        budgetDocument.add(costShare);
-        documentService.saveDocument(budgetDocument);
-
-        BudgetDocument savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        assertNotNull(savedDocument);        
-        assertEquals(1, savedDocument.getBudgetCostShares().size());        
-    }
-    
-//    @Test
-//    public void testSave_MultipleInstances() throws Exception {
-//        BudgetCostShare[] costShares = { new BudgetCostShare(FY_2008, SHARE_PCT_1, AMOUNT_1, SOURCE_ACCOUNT_1), 
-//                                            new BudgetCostShare(FY_2009, SHARE_PCT_2, SHARE_AMOUNT_2, SOURCE_ACCOUNT_2),
-//                                            new BudgetCostShare(FY_2010, SHARE_PCT_3, AMOUNT_3, SOURCE_ACCOUNT_3)
-//                                        };
-//        for(BudgetCostShare costShare: costShares) {
-//            budgetDocument.add(costShare);
-//        }
-//                
-//        documentService.saveDocument(budgetDocument);
-//
-//        BudgetDocument savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-//        assertNotNull(savedDocument);        
-//        assertEquals(3, savedDocument.getBudgetCostShares().size());        
-//    }
-    
-//  @Test
-//  public void testDelete_FromMultipleInstances() throws Exception {
-//      BudgetCostShare[] costShares = createBudgetCostShareCollection();
-//      for(BudgetCostShare costShare: costShares) {
-//          budgetDocument.add(costShare);
-//      }
-//      
-//      documentService.saveDocument(budgetDocument);
-//      
-//      BudgetDocument savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-//      assertNotNull(savedDocument);        
-//      assertEquals(costShares.length, savedDocument.getBudgetCostShares().size());
-//              
-//      savedDocument.remove(costShares[1]);
-//      documentService.saveDocument(savedDocument);
-//      
-//      savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-//      assertEquals(2, savedDocument.getBudgetCostShares().size());
-//      
-//      savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-//      savedDocument.getBudgetCostShares().clear();
-//      documentService.saveDocument(savedDocument);
-//      
-//      savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-//      assertEquals(0, savedDocument.getBudgetCostShares().size());
-//  }
-
     @Test
     public void testSave_MissingFieldsRequiredAtProposalValidation() throws Exception {
         BudgetCostShare budgetCostShare = new BudgetCostShare();
         budgetCostShare.setSourceAccount(null);
         budgetDocument.add(budgetCostShare);
-        documentService.saveDocument(budgetDocument);
+        getDocumentService().saveDocument(budgetDocument);
         
-        BudgetDocument savedDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
         assertNotNull(savedDocument);        
         assertEquals(1, savedDocument.getBudgetCostShares().size());
         assertNull(savedDocument.getBudgetCostShares().get(0).getFiscalYear());
@@ -126,12 +84,40 @@ public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeI
         assertNull(savedDocument.getBudgetCostShares().get(0).getSharePercentage());
         assertNull(savedDocument.getBudgetCostShares().get(0).getSourceAccount());
     }
+    
+    @Test
+    public void testSave_MultipleInstances() throws Exception {
+        BudgetCostShare[] costShares = createBudgetCostShareCollection();
+        BudgetDocument savedDocument = saveAndRetrieveBudgetWithCostSharing(costShares);
+        assertNotNull(savedDocument);        
+        assertEquals(3, savedDocument.getBudgetCostShares().size());        
+    }
 
-//    private BudgetCostShare[] createBudgetCostShareCollection() {
-//        return new BudgetCostShare[] { new BudgetCostShare(FY_2008, SHARE_PCT_1, AMOUNT_1, SOURCE_ACCOUNT_1), 
-//                                            new BudgetCostShare(FY_2009, SHARE_PCT_2, SHARE_AMOUNT_2, SOURCE_ACCOUNT_2),
-//                                            new BudgetCostShare(FY_2010, SHARE_PCT_3, AMOUNT_3, SOURCE_ACCOUNT_3)
-//                                        };
-//    }
+    @Test
+    public void testSave_SingleInstance() throws Exception {
+        BudgetCostShare costShare = new BudgetCostShare(FY_2008, AMOUNT_1, SHARE_PCT_0, SOURCE_ACCOUNT_1);
+        budgetDocument.add(costShare);
+        getDocumentService().saveDocument(budgetDocument);
 
+        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        assertNotNull(savedDocument);        
+        assertEquals(1, savedDocument.getBudgetCostShares().size());        
+    }
+
+    private BudgetCostShare[] createBudgetCostShareCollection() {
+        return new BudgetCostShare[] { new BudgetCostShare(FY_2008, AMOUNT_1, SHARE_PCT_1, SOURCE_ACCOUNT_1), 
+                                            new BudgetCostShare(FY_2009, AMOUNT_2, SHARE_PCT_2, SOURCE_ACCOUNT_2),
+                                            new BudgetCostShare(FY_2010, AMOUNT_3, SHARE_PCT_3, SOURCE_ACCOUNT_3)
+                                        };
+    }
+
+    private BudgetDocument saveAndRetrieveBudgetWithCostSharing(BudgetCostShare[] costShares) throws Exception {
+        for(BudgetCostShare costShare: costShares) {
+              budgetDocument.add(costShare);
+          }
+                  
+        getDocumentService().saveDocument(budgetDocument);
+    
+        return (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+    }
 }
