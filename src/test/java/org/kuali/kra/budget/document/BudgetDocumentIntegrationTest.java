@@ -25,26 +25,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class BudgetDocumentIntegrationTest {
-    private static final int DAY_1 = 1;
-    private static final int YEAR_2000 = 2000;
     private static final int MILLIS_PER_SECOND = 1000;
     
     private BudgetDocument budgetDocument;
-    private Calendar calendar;
-    private Date fiscalYearStart;
     
     @Before
     public void setUp() {
-        calendar = GregorianCalendar.getInstance();
-        fiscalYearStart = getDate(YEAR_2000, Calendar.OCTOBER, DAY_1);
         budgetDocument = new BudgetDocument();
-        budgetDocument.setFiscalYearStart(fiscalYearStart); 
     }
     
     @After
     public void tearDown() {
         budgetDocument = null;
-        calendar = null;
     }
     
     @Test
@@ -56,10 +48,5 @@ public class BudgetDocumentIntegrationTest {
         
         // a small delta has resulted during testing, but always less than a second. Why? I have no idea.
         Assert.assertTrue(Math.abs(cal.getTimeInMillis() - fiscalYearStart.getTime()) < MILLIS_PER_SECOND); 
-    }
-    
-    private Date getDate(int year, int month, int date) {
-        calendar.set(year, month, date);
-        return new Date(calendar.getTimeInMillis());
     }
 }
