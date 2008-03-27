@@ -36,7 +36,8 @@ public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeI
     
     @After
     public void tearDown() throws Exception {
-        GlobalVariables.setUserSession(null);        
+        GlobalVariables.setUserSession(null);  
+        super.tearDown();
     }
     
     @Test
