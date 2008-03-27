@@ -21,9 +21,10 @@
 <dictionaryEntry>
     <transactionalDocument>
 
-        <documentClass>org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument</documentClass>
+        <documentClass>org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument</documentClass> 
         <businessRulesClass>org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentDocumentRule</businessRulesClass>
-
+		<usePessimisticLocking>true</usePessimisticLocking>
+		<useWorkflowPessimisticLocking>true</useWorkflowPessimisticLocking>
         <documentAuthorizerClass>org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">

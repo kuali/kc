@@ -14,6 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
+
 <c:choose>
 <c:when test="${empty KualiForm.document.proposalPersons[personIndex].fullName}">
 <c:set var="parentTabName" value="" />
@@ -23,7 +25,12 @@
 </c:otherwise>
 </c:choose>
 <div class="tab-container" align="center">
-<bean:define id="personEditableFields" name="KualiForm" property="personEditableFields" />
+<bean:define id="personEditableFields" name="KualiForm" property="personEditableFields" />  
+		
+		  <c:if test="${readOnly}">
+		  	<c:set var="personEditableFields" value="${newMap}" />
+		  </c:if>
+
           <!-- TAB -->
             <div id="workarea">
             <div class="tab-container" align="center" id="G100">
@@ -31,11 +38,11 @@
 
                 <h2><span class="subhead-left"><bean:write name="KualiForm" property="${proposalPerson}.fullName"/></span></h2>
               </div>
-<table cellpadding=0 cellspacing=0 summary="">
+	<table cellpadding=0 cellspacing=0 summary="">
           	<tr>
 				<td>
               
-<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="true">
+	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="true">
 			<div class="innerTab-container" align="left">
               <table class=tab cellpadding=0 cellspacing="0" summary=""> 
                 <tbody id="G1">
@@ -49,18 +56,33 @@
                     <c:if test="${hasErrors==true}">
                         <c:set var="roleStyle" value="background-color:#FFD5D5"/>
                     </c:if>
-                    <html:select property="${proposalPerson}.proposalPersonRoleId" tabindex="0" style="${roleStyle}">
-                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder', paramMap)}" var="option">
-                    <c:choose>
-                        <c:when test="${KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == option.key}">
-                        <option value="${option.key}" selected>${option.label}</option>
-                        </c:when>
-                        <c:otherwise>
-                        <option value="${option.key}">${option.label}</option>
-                        </c:otherwise>
-                    </c:choose>
-                    </c:forEach>
-                    </html:select>
+                    
+                    
+					<c:set var="roleSelectOptions" value="" />
+                    
+					<c:forEach items="${krafn:getOptionList('org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder', paramMap)}" var="option">
+						<c:choose>
+							<c:when test="${KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == option.key}">
+								<c:set var="roleSelectOptions" value="${roleSelectOptions}${'<option value=\"'}${option.key}${'\" selected=\"selected\">'}${option.label}${'</option>'}" />
+								<c:set var="selectedRole" value="${option.label}" />
+							</c:when>
+							<c:otherwise>
+								<c:set var="roleSelectOptions" value="${roleSelectOptions}${'<option value=\"'}${option.key}${'\" >'}${option.label}${'</option>'}" />
+							</c:otherwise>
+						</c:choose>
+					</c:forEach> 
+					
+					 <c:choose>
+	                    <c:when test="${readOnly}">
+	                    	<c:out value="${selectedRole}"/>	
+	                     </c:when>
+                     	<c:otherwise>
+                     	<html:select property="${proposalPerson}.proposalPersonRoleId" tabindex="0" style="${roleStyle}" >
+	                   		${roleSelectOptions} 
+                    	</html:select> 
+                    	</c:otherwise>  
+                    </c:choose>  
+                    
                     <%--
                     <kul:htmlControlAttribute property="${proposalPerson}.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" />
                     --%>

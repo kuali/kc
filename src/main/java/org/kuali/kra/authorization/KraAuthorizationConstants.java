@@ -1,0 +1,43 @@
+/*
+ * Copyright 2005-2006 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.authorization;
+
+/**
+ * Defines constants used in authorization-related code.
+ * 
+ * 
+ */
+public class KraAuthorizationConstants {
+    public static final String ACTIVE_LOCK_REGION = "ACTIVE_LOCK_REGION";
+    public static final String LOCK_DESCRIPTOR_PROPOSAL = "PROPOSAL";
+    public static final String LOCK_DESCRIPTOR_BUDGET = "BUDGET";
+    public static final String LOCK_DESCRIPTOR_NARRATIVES = "NARRATIVES";
+    
+    public static class ProposalEditMode {
+        public static final String MODIFY_PROPOSAL = "modifyProposal";
+        public static final String MODIFY_PERMISSIONS = "modifyPermissions";
+        public static final String MODIFY_NARRATIVES = "modifyNarratives";
+        public static final String VIEW_PROPOSAL = "viewProposal";
+        public static final String VIEW_PERMISSIONS = "viewPermissions";
+        public static final String VIEW_NARRATIVES = "viewNarratives";
+    }
+    
+    public static class BudgetEditMode {
+        public static final String MODIFY_BUDGET = "modifyBudgets";
+        public static final String VIEW_BUDGET = "viewBudgets";
+    }
+  
+ }

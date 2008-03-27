@@ -52,5 +52,11 @@
                       </div>
 
                         <span class="fineprint"></span> </td>
-                    <td class="${tdClass}"><div align=center><html:image property="methodToCall.${actionMethod}" src="${actionImage}" title="${actionTitle}" alt="${actionTitle}" styleClass="tinybutton"/></div></td>
+                    <td class="${tdClass}">
+                    <div align=center>&nbsp;
+                    <kra:section permission="modifyProposal">
+                    	<html:image property="methodToCall.${actionMethod}" src="${actionImage}" title="${actionTitle}" alt="${actionTitle}" styleClass="tinybutton"/>
+                    </kra:section>
+                    </div>
+                    </td>
                   </tr>

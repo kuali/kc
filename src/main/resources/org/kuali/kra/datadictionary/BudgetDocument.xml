@@ -245,7 +245,7 @@
 		    <displayName>Proposal Hierarchy</displayName>
 		  </headerNavigationTab>
           <headerNavigationTab>
-            <navigateTo>actions</navigateTo>
+            <navigateTo>budgetActions</navigateTo>
             <displayName>Budget Actions</displayName>
           </headerNavigationTab>
         </headerNavigation>
