@@ -89,6 +89,7 @@
 	</td>
 	<td class="${class}" width="25%">
 	
+	<kra:section permission="modifyProposal">
 		<c:choose>
 			<c:when test="${index == -1}">
 				<div align=center>
@@ -106,6 +107,7 @@
 				</div>
 			</c:otherwise>
 		</c:choose>
+	</kra:section>
 	</td>
 
 </tr>

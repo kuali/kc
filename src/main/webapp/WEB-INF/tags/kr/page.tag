@@ -303,6 +303,7 @@
 				 <kul:errors keyMatch="${Constants.GLOBAL_ERRORS}" errorTitle=" "/>
 			 </c:if>
 			 <kul:messages/>
+			 <kul:lockMessages/>
 		  </div>
 		  <div class="right">
 		  	<c:if test="${!empty extraTopButtons}">

@@ -27,6 +27,8 @@
              
                     <th><div align="center">Actions</div></th>
                   </tr>
+                  
+                  <kra:section permission="modifyProposal">
                   <tr>
                     <th scope="row" align="center">Add:</th>
                     <td class="infoline">
@@ -50,14 +52,23 @@
                         <span class="fineprint"></span> </td>
                     <td class="infoline"><div align=center><html:image property="methodToCall.insertUnit.personIndex${personIndex}." src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div></td>
                   </tr>
-  <c:forEach items="${proposalPersonUnits}" varStatus="status">
-                  <tr>
-                    <th scope="row"  align="center"><c:out value="${status.index + 1}" /></th>
-
-                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.unit[${status.index}].unit.unitName" readOnly="true" /></td>
-                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.unit[${status.index}].unitNumber" readOnly="true" /></td>
-                    <td><div align=center><html:image property="methodToCall.deleteUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Remove Unit" alt="Remove Unit" styleClass="tinybutton"/></div></td>
-                  </tr>
-  </c:forEach>
+                  </kra:section>
+                  
+  				<c:forEach items="${proposalPersonUnits}" varStatus="status">
+	                  <tr>
+	                    <th scope="row"  align="center"><c:out value="${status.index + 1}" /></th>
+	
+	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.unit[${status.index}].unit.unitName" readOnly="true" /></td>
+	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.unit[${status.index}].unitNumber" readOnly="true" /></td>
+	                    <td>
+	                    	<div align=center>&nbsp;
+	                    	<kra:section permission="modifyProposal">
+	                    	<html:image property="methodToCall.deleteUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" title="Remove Unit" alt="Remove Unit" styleClass="tinybutton"/>
+	                    	</kra:section>
+	                    	</div>
+	                    </td>
+	                  </tr>
+  				</c:forEach>
+  				
                 </tbody>
             <!--   </table> -->

@@ -36,7 +36,9 @@
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.comments}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	
-          	</tr>        
+          	</tr>     
+          	
+          	<kra:section permission="modifyProposal">   
              <tr>
                 <c:set var="textAreaFieldName" value="newPropSpecialReview.comments" />
 				<th class="infoline">
@@ -75,6 +77,7 @@
 					</div>
                 </td>
             </tr>
+            </kra:section>
             
         	<c:forEach var="specialReview" items="${KualiForm.document.propSpecialReviews}" varStatus="status">
 	             <tr>
@@ -83,10 +86,10 @@
 						<c:out value="${status.index+1}" />
 					</th>
 	                <td align="left" valign="middle">
-	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].specialReviewCode" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}"  styleClass="fixed-size-select"/>
+	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].specialReviewCode" readOnlyAlternateDisplay="${specialReview.specialReview.description}" attributeEntry="${proSpecialAttriburesAttributes.specialReviewCode}"  styleClass="fixed-size-select"/>
 					</td>
 	                <td>
-	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].approvalTypeCode" attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" />
+	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].approvalTypeCode" readOnlyAlternateDisplay="${specialReview.specialReviewApprovalType.description}" attributeEntry="${proSpecialAttriburesAttributes.approvalTypeCode}" />
 	                </td>
 	                <td>                	
 	                  <kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].protocolNumber" attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" />
@@ -106,9 +109,11 @@
                         <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proSpecialAttriburesAttributes.comments.label}" />
 	                </td>
 					<td>
-					<div align=center>
+					<div align=center>&nbsp;
+					<kra:section permission="modifyProposal">  
 						<html:image property="methodToCall.deleteSpecialReview.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+					</kra:section>  
 					</div>
 	                </td>
 	            </tr>

@@ -25,10 +25,14 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Copyable;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.SessionDocument;
+import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
@@ -57,6 +61,9 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.YnqService;
+import org.kuali.rice.KNSServiceLocator;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
@@ -627,21 +634,52 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
+        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        
+        //Pessimistic Lock Impl - building DeletionAwareLists based on the Active Locks held by the current user for this document
+        List<PessimisticLock> locksOwnedByCurrentUser = new ArrayList<PessimisticLock>();
+        ProposalDevelopmentDocument retrievedDocument = null;
+        
+        for(PessimisticLock lock: getPessimisticLocks()) {
+            if(lock.isOwnedByUser(currentUser) && lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL)) {
+                try {
+                    retrievedDocument = (ProposalDevelopmentDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(this.getDocumentNumber());
+                }
+                catch (Exception e) {
+                }
+                
+                if(retrievedDocument != null && retrievedDocument.getVersionNumber().longValue() > this.getVersionNumber().longValue()) {
+                    //The same document has been updated by someone else
+                    //Refresh Narratives related collections
+                    List<Narrative> narratives = retrievedDocument.getNarratives();
+                    
+                    if(retrievedDocument.getNarratives().size() >= this.getNarratives().size()) {
+                        this.setNarratives(narratives);
+                    }
+                    for (Narrative narrative : narratives) {
+                        managedLists.add(narrative.getNarrativeUserRights());
+                    }
+                    managedLists.add(narratives);
+                } else if(retrievedDocument != null && retrievedDocument.getVersionNumber().longValue() == this.getVersionNumber().longValue()){
+                    List<Narrative> narratives = retrievedDocument.getNarratives();
+                    for (Narrative narrative : narratives) {
+                        managedLists.add(narrative.getNarrativeUserRights());
+                    }
+                    managedLists.add(narratives);
+                }
+                
+                break;  
+            } 
+        } 
+        
         managedLists.add(getProposalLocations());
         managedLists.add(getPropSpecialReviews());
         managedLists.add(getProposalPersons());
-        
-        List<Narrative> narratives = getNarratives();
-        for (Narrative narrative : narratives) {
-            managedLists.add(narrative.getNarrativeUserRights());
-        }
-        managedLists.add(narratives);
-        
         managedLists.add(getPropScienceKeywords());
         managedLists.add(getProposalAbstracts());
         managedLists.add(getPropPersonBios());
+           
         return managedLists;
-
     }
 
     /**
