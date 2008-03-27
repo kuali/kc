@@ -21,10 +21,11 @@ import java.util.GregorianCalendar;
 
 import org.junit.After;
 import org.junit.Before;
+import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 
-public class BudgetDistributionAndIncomeTest {
+public class BudgetDistributionAndIncomeTest extends KraTestBase {
     protected static final BudgetDecimal TEST_AMOUNT_100 = new BudgetDecimal(100.0);
     protected static final BudgetDecimal TEST_AMOUNT_250 = new BudgetDecimal(250.0);
     protected static final int DAY_1 = 1;
@@ -44,16 +45,18 @@ public class BudgetDistributionAndIncomeTest {
     private Date fiscalYearStartArtifact;    
     
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        super.setUp();
         calendar = GregorianCalendar.getInstance();
         fiscalYearStartArtifact = getDate(YEAR_2000, Calendar.OCTOBER, DAY_1);
         budgetDocument = new BudgetDocument_CostShareAndUnrecoveredFandAApplicable();        
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
         budgetDocument = null;
         calendar = null;
+        super.tearDown();
     }
     
     protected BudgetPeriod createAndAddBudgetPeriod(Date startDate, Date endDate) {
