@@ -17,8 +17,9 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="displayKeywordPanel" value="<%=session.getAttribute(Constants.KEYWORD_PANEL_DISPLAY)%>" />
-
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
 
 <kul:documentPage
 	showDocumentInfo="true"

@@ -123,6 +123,7 @@ public class KeyConstants {
     // Grants.gov System Parameters
     public static final String S2S_REVISIONTYPE_OTHER = "s2s.revisiontype.other";
     public static final String S2S_SUBMISSIONTYPE_OTHER = "s2s.submissiontype.changedCorrected";
-
+    
+    public static final String PESSIMISTIC_LOCK_MESSAGE = "error.document.pessimisticLockMessage";
     public static final String ERROR_INACTIVE_CUSTOM_ATT_DOC = "error.inactive.customAttributeDocument";
 }

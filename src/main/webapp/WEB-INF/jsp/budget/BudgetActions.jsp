@@ -20,7 +20,7 @@
 	htmlFormAction="budgetActions"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="actions">
+  	headerTabActive="budgetActions"> 
 
 	<center>Under Construction</center>
 

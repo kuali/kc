@@ -33,12 +33,12 @@
         <table cellpadding="0" cellspacing="0" summary="">
               <tr>
                 <th width="${columnWidth}"></th>
-<c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
-                <th width="${columnWidth}">${invType.description}</th>
-</c:forEach>
+				<c:forEach items="${KualiForm.document.investigatorCreditTypes}" var="invType" >
+                	<th width="${columnWidth}">${invType.description}</th>
+				</c:forEach>
               </tr>
-<c:forEach items="${KualiForm.document.investigators}" var="investigator" varStatus="invStatus">
-  <c:set var="investigatorProperty" value="document.investigator[${invStatus.index}]" />
+			<c:forEach items="${KualiForm.document.investigators}" var="investigator" varStatus="invStatus">
+  			<c:set var="investigatorProperty" value="document.investigator[${invStatus.index}]" />
               <tr>
                 <td nowrap class="tab-subhead1"><strong>
                   <kul:htmlControlAttribute property="${investigatorProperty}.fullName" 
@@ -90,8 +90,13 @@
  
         </table>
         <br>
-              <div align=center><html:image property="methodToCall.recalculateCreditSplit" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate" alt="Recalculate" styleClass="tinybutton"/>
-    </div>
+        
+        <div align=center>&nbsp;
+        <kra:section permission="modifyProposal">
+              <html:image property="methodToCall.recalculateCreditSplit" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-recalculate.gif" title="Recalculate" alt="Recalculate" styleClass="tinybutton"/>
+        </kra:section>
+   	 	</div>
+   	 	
     </div>
 </kul:tab>
 

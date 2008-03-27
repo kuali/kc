@@ -89,7 +89,7 @@
           <forward name="modularBudget" path="/WEB-INF/jsp/budget/BudgetModularBudget.jsp" />
           <forward name="totals" path="/WEB-INF/jsp/budget/BudgetTotals.jsp" />
           <forward name="proposalHierarchy" path="/WEB-INF/jsp/budget/BudgetProposalHierarchy.jsp" />
-          <forward name="actions" path="/WEB-INF/jsp/budget/BudgetActions.jsp" redirect="false" />
+          <forward name="budgetActions" path="/WEB-INF/jsp/budget/BudgetActions.jsp" redirect="false" />
       </action>
       
     </action-mappings>

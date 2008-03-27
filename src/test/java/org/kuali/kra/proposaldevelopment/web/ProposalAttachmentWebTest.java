@@ -23,7 +23,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.kuali.core.UserSession;
+import org.kuali.core.util.GlobalVariables;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -41,6 +44,12 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
     private static final String USERNAME_FIELD_ID = "newProposalUser.username";
     private static final String ROLENAME_FIELD_ID = "newProposalUser.roleName";
     private static final String ADD_BTN_ID = "methodToCall.addProposalUser";
+
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+    }
 
     @Test
     public void testProposalAttachment() throws Exception {

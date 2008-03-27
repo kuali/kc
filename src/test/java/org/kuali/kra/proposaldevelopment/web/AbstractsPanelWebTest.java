@@ -23,7 +23,10 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.kuali.core.UserSession;
+import org.kuali.core.util.GlobalVariables;
 
 /**
  * Tests the Abstracts Panel in the Abstracts & Attachments Proposal Development Document.
@@ -52,6 +55,12 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
     public static final String YES_BTN_ID =  "methodToCall.processAnswer.button0";
     public static final String NO_BTN_ID = "methodToCall.processAnswer.button1";
 
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+    }
+    
     /***********************************************************************
      * General Purpose Helper Methods.
      ***********************************************************************/

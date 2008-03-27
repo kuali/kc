@@ -14,9 +14,13 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ page import="java.util.HashMap" %>
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
+
+<c:set var="newMap" value="<%=new HashMap()%>" scope="request" />
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -28,6 +32,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="keyPersonnel">
 
+<kra:section permission="modifyProposal">
     <kul:uncollapsable tabTitle="Add Key Personnel" tabErrorKey="newProposalPerson*">
           <div align="center">
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">
@@ -64,12 +69,13 @@
           </div>
 
     </kul:uncollapsable>
+</kra:section>
 
     <br/>
 
     <kra-pd:keyPersons/>
 
-  <c:if test="${! viewOnly and fn:length(KualiForm.document.proposalPersons) > 0}">
+  <c:if test="${not empty viewOnly && ! viewOnly and fn:length(KualiForm.document.proposalPersons) > 0}">
   	<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_deletesel.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.deletePerson"/>
   	<c:set var="extraButtonAlt" value="Delete a Key Person"/>
@@ -82,7 +88,7 @@
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
-		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		viewOnly="${not KualiForm.editingMode['modifyProposal']}"
 		/>
 	</p>
 
