@@ -30,6 +30,7 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.document.authorization.PessimisticLock;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -630,7 +631,46 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setPropSpecialReviews(List<ProposalSpecialReview> propSpecialReviews) {
         this.propSpecialReviews = propSpecialReviews;
     }
+    
+    private ProposalDevelopmentDocument getPersistedCopy() {
+        ProposalDevelopmentDocument copy = null;
+        
+        try {
+            copy = (ProposalDevelopmentDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(this.getDocumentNumber());
+        }
+        catch (Exception e) {
+        }
+        
+        return copy;
+    }
 
+    private boolean isNotLatest(ProposalDevelopmentDocument copy) {
+        if(copy.getVersionNumber().longValue() > this.getVersionNumber().longValue()) 
+            return false;
+        
+        return true;
+    }
+    
+    private void refreshNarrativesFromUpdatedCopy(List managedLists) {
+        ProposalDevelopmentDocument retrievedDocument = getPersistedCopy();
+        if(retrievedDocument == null)
+            return;
+        
+        List<Narrative> narratives = retrievedDocument.getNarratives();
+        for (Narrative narrative : narratives) {
+            managedLists.add(narrative.getNarrativeUserRights());
+        }
+        managedLists.add(narratives);
+
+        if(isNotLatest(retrievedDocument)) {
+            //The same document has been updated by someone else
+            //Refresh Narratives related collections
+            if(narratives.size() >= this.getNarratives().size()) {
+                this.setNarratives(narratives);
+            }
+        } 
+    }
+    
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -642,32 +682,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         
         for(PessimisticLock lock: getPessimisticLocks()) {
             if(lock.isOwnedByUser(currentUser) && lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL)) {
-                try {
-                    retrievedDocument = (ProposalDevelopmentDocument) KNSServiceLocator.getDocumentService().getByDocumentHeaderId(this.getDocumentNumber());
-                }
-                catch (Exception e) {
-                }
-                
-                if(retrievedDocument != null && retrievedDocument.getVersionNumber().longValue() > this.getVersionNumber().longValue()) {
-                    //The same document has been updated by someone else
-                    //Refresh Narratives related collections
-                    List<Narrative> narratives = retrievedDocument.getNarratives();
-                    
-                    if(retrievedDocument.getNarratives().size() >= this.getNarratives().size()) {
-                        this.setNarratives(narratives);
-                    }
-                    for (Narrative narrative : narratives) {
-                        managedLists.add(narrative.getNarrativeUserRights());
-                    }
-                    managedLists.add(narratives);
-                } else if(retrievedDocument != null && retrievedDocument.getVersionNumber().longValue() == this.getVersionNumber().longValue()){
-                    List<Narrative> narratives = retrievedDocument.getNarratives();
-                    for (Narrative narrative : narratives) {
-                        managedLists.add(narrative.getNarrativeUserRights());
-                    }
-                    managedLists.add(narratives);
-                }
-                
+                refreshNarrativesFromUpdatedCopy(managedLists);
                 break;  
             } 
         } 
