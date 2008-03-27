@@ -38,6 +38,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -46,6 +48,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -89,11 +92,11 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
             String keywordPanelDisplay = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
                     Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);        
             request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
             // TODO: not sure it's should be here - for audit error display.
-            ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
             if (proposalDevelopmentForm.isAuditActivated()) {
                 getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
             }

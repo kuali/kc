@@ -48,6 +48,8 @@
                 </div></td>
               </tr>
             </logic:iterate>
+            
+            <kra:section permission="modifyProposal">
               <tr>
                 <td class="infoline" colspan=2>&nbsp;</td>
                 <td nowrap class="infoline"><div align=center>
@@ -55,6 +57,7 @@
                 <html:image property="methodToCall.deleteSelectedScienceKeyword.anchor${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-deleteselected.gif" title="Delete Selected" alt="Delete Selected" styleClass="tinybutton" />
                 </div></td>
               </tr>
+             </kra:section> 
              
         </table>
 

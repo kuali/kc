@@ -124,8 +124,8 @@ public class BudgetAction extends ProposalActionBase {
         return mapping.findForward("proposalHierarchy");
     }
 
-    public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("actions");
+    public ActionForward budgetActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("budgetActions");
     }
     
     public ActionForward returnToProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -19,6 +19,8 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.core.UserSession;
+import org.kuali.core.util.GlobalVariables;
 
 import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -52,6 +54,7 @@ public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
         /* Save with basic/mandatory data and verify data saved */
         HtmlPage proposalPage = getNewProposalYnqPage();
         /* get proposal questions page */
@@ -70,7 +73,6 @@ public class ProposalYnqWebTest extends ProposalDevelopmentWebTestBase{
         proposalPage = clickOn(proposalPage, BUTTON_SAVE);
 
         assertContains(proposalPage, DOCUMENT_SAVED);
-        
     }
 
     @Test

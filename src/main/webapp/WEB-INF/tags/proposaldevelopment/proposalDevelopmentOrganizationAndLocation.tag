@@ -37,7 +37,7 @@
                     fieldConversions="organizationId:document.organizationId,congressionalDistrict:document.organization.congressionalDistrict,organizationName:document.organization.organizationName,rolodex.firstName:document.organization.rolodex.firstName,rolodex.lastName:document.organization.rolodex.lastName,rolodex.addressLine1:document.organization.rolodex.addressLine1,rolodex.addressLine2:document.organization.rolodex.addressLine2,rolodex.addressLine3:document.organization.rolodex.addressLine3,rolodex.city:document.organization.rolodex.city,rolodex.state:document.organization.rolodex.state" anchor="${currentTabIndex}"/> 
                     <kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.organizationId:organizationId" anchor="${currentTabIndex}"/>
                   </td>
-             </tr>
+             </tr>  
              <tr>
 				<th><div align="right">Authorized Representative Name & Address:</div></th>
                 <td align="left" valign="middle"  class="infoline">                  
@@ -79,11 +79,13 @@
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
              </tr>
              
+            <kra:section permission="modifyProposal">
             <kra-pd:propLocationDisplay index="-1" locationIter="${KualiForm.newPropLocation}" docLocation="newPropLocation"/> 
-             
+            </kra:section> 
+              
         	<c:forEach var="location" items="${KualiForm.document.proposalLocations}" varStatus="status">
           		<kra-pd:propLocationDisplay index="${status.index}" locationIter="${location}" docLocation="document.proposalLocation[${status.index}]"/> 
-        	</c:forEach>        
+        	</c:forEach>       
         </table>
       
     </div>

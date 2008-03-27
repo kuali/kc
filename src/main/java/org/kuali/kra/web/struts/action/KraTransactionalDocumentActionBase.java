@@ -22,8 +22,10 @@ import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +38,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
@@ -50,6 +54,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.notification.util.NotificationConstants;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -252,6 +257,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
         String actionName = getActionName();
+        ((KraTransactionalDocumentFormBase) form).setActionName(getClass().getSimpleName());
         Task task = buildTask(actionName, taskName, form, request);
         boolean isAuthorized = taskAuthorizationService.isAuthorized( username, task );
         if (!isAuthorized) {
@@ -294,4 +300,27 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         errorMap.putErrorWithoutFullErrorPath(Constants.TASK_AUTHORIZATION, KeyConstants.AUTHORIZATION_VIOLATION);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    @Override
+    protected void setupPessimisticLockMessages(Document document, HttpServletRequest request) {
+        List<String> lockMessages = new ArrayList<String>();
+        for (PessimisticLock lock : document.getPessimisticLocks()) {
+            // if lock is owned by current user, do not display message for it
+            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getUniversalUser())) {
+                lockMessages.add(generatePessimisticLockMessage(lock));
+            }
+        }
+        request.setAttribute(RiceConstants.PESSIMISTIC_LOCK_MESSAGES, lockMessages);
+    }
+    
+    @Override
+    protected String generatePessimisticLockMessage(PessimisticLock lock) {
+        String descriptor = (lock.getLockDescriptor() != null) ? lock.getLockDescriptor() : "";
+        
+        if(StringUtils.isNotEmpty(descriptor)) {
+            descriptor = StringUtils.capitalize(descriptor.substring(descriptor.indexOf("-")+1).toLowerCase());
+        }
+        return "This " + descriptor + " is locked for editing by " + lock.getOwnedByPersonUniversalIdentifier() + " as of " + org.kuali.rice.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()) + " on " + org.kuali.rice.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
+    }
+
 }

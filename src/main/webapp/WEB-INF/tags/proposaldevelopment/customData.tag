@@ -39,15 +39,23 @@
 				<th  align="right">
 					<c:if test="${customAttributeDocument.required}">*</c:if>${customAttributeDocument.customAttribute.label}:
 				</th>
-				<td >
+				<td width="45%">
 				<c:forEach var="customAttributeDocument1" items="${KualiForm.document.customAttributeDocuments}" > 
 				  	<c:if test="${customAttributeDocument1.key == customAttributeDocument.customAttributeId}" >
 				  	   <c:set var="customAttributeValue" value="${customAttributeDocument1.value.customAttribute.value}" />
 				  	</c:if>
 				</c:forEach>
 				<c:set var="customAttributeId" value="customAttributeValues(id${customAttributeDocument.customAttributeId})" />
-                
-				<input id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}'>
+					
+				<c:choose>
+                	<c:when test="${readOnly}">
+                		<c:out value="${customAttributeValue}" />
+                	</c:when>
+                	<c:otherwise>
+                		<input id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' />
+                	</c:otherwise>
+                </c:choose> 
+					
 					<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
 						<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" fieldConversions="${customAttributeDocument.customAttribute.lookupReturn}:${customAttributeId}," fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}"/>
 					</c:if>
