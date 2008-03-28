@@ -48,6 +48,16 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         this.actionName = actionName;
     }
 
+    protected String navigateTo;
+    
+    public String getNavigateTo() {
+        return navigateTo;
+    }
+
+    public void setNavigateTo(String navigateTo) {
+        this.navigateTo = navigateTo;
+    }
+
     /**
      * Refactored out actually calling the documentAuthorizer methods, since TransactionalDocuments call a differently-parameterized
      * version of getEditMode
@@ -57,54 +67,37 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     @Override
     protected void useDocumentAuthorizer(DocumentAuthorizer documentAuthorizer) {
         UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+        setNavigateTo(getNavigateToPage());
+        
         Map editMode = documentAuthorizer.getEditMode(getDocument(), kualiUser);
         String lockRegion = getLockRegion();
-        editMode.put(KraAuthorizationConstants.ACTIVE_LOCK_REGION, lockRegion);
-        
-//        if(StringUtils.isNotEmpty(lockRegion)) {
-//            lockRegion = StringUtils.capitalize(lockRegion.toLowerCase());
-//        }
+        //editMode.put(KraAuthorizationConstants.ACTIVE_LOCK_REGION, lockRegion);
+        GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object)lockRegion);  
         
         if (KNSServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(getDocument().getClass().getName())
                 .getUsePessimisticLocking()) {
             editMode = documentAuthorizer.establishLocks(getDocument(), editMode, kualiUser);
         }
 
-//        if(editMode.containsKey("lockOwnedBy")) {
-//            List<PessimisticLock> locks = getDocument().getPessimisticLocks();
-//            String lockOwners = "";
-//            
-//            for(PessimisticLock lock: locks) {
-//                if(StringUtils.isNotEmpty(lockOwners) && !lock.isOwnedByUser(kualiUser)) {
-//                    lockOwners += ", ";
-//                }
-//                if(!lock.isOwnedByUser(kualiUser)) {
-//                    lockOwners += lock.getOwnedByPersonUniversalIdentifier();
-//                }
-//            }
-//            
-//            GlobalVariables.getErrorMap().putError(RiceConstants.DOCUMENT_ERRORS, KeyConstants.PESSIMISTIC_LOCK_MESSAGE, lockRegion, lockOwners);
-//            editMode.remove("lockOwnedBy");
-//        }
-        
         setEditingMode(editMode);
         DocumentActionFlags temp = documentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser);
+        
         setSaveDocumentControl(temp, editMode);
         setDocumentActionFlags(temp);
     }
 
-    private boolean isProposalAction(String action, String methodToCall, String navigateToPage) {
+    private boolean isProposalAction() {
         boolean isProposalAction = false;
 
-        if (action.startsWith("Proposal") && !action.contains("AbstractsAttachments")
-                && !methodToCall.equalsIgnoreCase("headerTab")) {
+        if (actionName.startsWith("Proposal") && !actionName.contains("AbstractsAttachments")
+                && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isProposalAction = true;
         }
-        else if (StringUtils.isNotEmpty(navigateToPage) && (navigateToPage.equalsIgnoreCase("proposal") 
-                || navigateToPage.equalsIgnoreCase("specialReview") || navigateToPage.equalsIgnoreCase("customData") 
-                || navigateToPage.equalsIgnoreCase("keyPersonnel") || navigateToPage.equalsIgnoreCase("permissions") 
-                || navigateToPage.equalsIgnoreCase("questions") 
-                || navigateToPage.equalsIgnoreCase("grantsGov") || navigateToPage.equalsIgnoreCase("actions"))) {
+        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("proposal") 
+                || navigateTo.equalsIgnoreCase("specialReview") || navigateTo.equalsIgnoreCase("customData") 
+                || navigateTo.equalsIgnoreCase("keyPersonnel") || navigateTo.equalsIgnoreCase("permissions") 
+                || navigateTo.equalsIgnoreCase("questions") 
+                || navigateTo.equalsIgnoreCase("grantsGov") || navigateTo.equalsIgnoreCase("actions"))) {
             isProposalAction = true;
         }
 
@@ -141,27 +134,27 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return false;
     }
 
-    private boolean isNarrativeAction(String action, String methodToCall, String navigateToPage) {
+    private boolean isNarrativeAction() {
         boolean isNarrativeAction = false;
 
-        if (action.contains("AbstractsAttachments") && 
-                (StringUtils.equals(methodToCall, "addProposalAttachmentRights")
-                || StringUtils.equals(methodToCall, "addProposalAttachment") 
-                || StringUtils.equals(methodToCall, "downloadProposalAttachment")
-                || StringUtils.equals(methodToCall, "deleteProposalAttachment")
-                || StringUtils.equals(methodToCall, "replaceProposalAttachment")
-                || StringUtils.equals(methodToCall, "addInstituteAttachmentRights")
-                || StringUtils.equals(methodToCall, "addInstituteAttachment") 
-                || StringUtils.equals(methodToCall, "downloadInstituteAttachment")
-                || StringUtils.equals(methodToCall, "deleteInstitutionalAttachment")
-                || StringUtils.equals(methodToCall, "replaceInstituteAttachment") 
-                || StringUtils.equals(methodToCall, "addAbstract") 
-                || StringUtils.equals(methodToCall, "deleteAbstract") 
-                || StringUtils.equals(methodToCall, "save")) 
+        if (actionName.contains("AbstractsAttachments") && 
+                (StringUtils.equals(getMethodToCall(), "addProposalAttachmentRights")
+                || StringUtils.equals(getMethodToCall(), "addProposalAttachment") 
+                || StringUtils.equals(getMethodToCall(), "downloadProposalAttachment")
+                || StringUtils.equals(getMethodToCall(), "deleteProposalAttachment")
+                || StringUtils.equals(getMethodToCall(), "replaceProposalAttachment")
+                || StringUtils.equals(getMethodToCall(), "addInstituteAttachmentRights")
+                || StringUtils.equals(getMethodToCall(), "addInstituteAttachment") 
+                || StringUtils.equals(getMethodToCall(), "downloadInstituteAttachment")
+                || StringUtils.equals(getMethodToCall(), "deleteInstitutionalAttachment")
+                || StringUtils.equals(getMethodToCall(), "replaceInstituteAttachment") 
+                || StringUtils.equals(getMethodToCall(), "addAbstract") 
+                || StringUtils.equals(getMethodToCall(), "deleteAbstract") 
+                || StringUtils.equals(getMethodToCall(), "save")) 
                 ) {
             isNarrativeAction = true;
         }
-        else if (StringUtils.isNotEmpty(navigateToPage) && navigateToPage.equalsIgnoreCase("abstractsAttachments")) {
+        else if (StringUtils.isNotEmpty(navigateTo) && navigateTo.equalsIgnoreCase("abstractsAttachments")) {
             isNarrativeAction = true;
         }
 
@@ -169,18 +162,18 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
 
     }
 
-    private boolean isBudgetAction(String action, String methodToCall, String navigateToPage) {
+    private boolean isBudgetAction() {
         boolean isBudgetAction = false;
 
-        if (action.startsWith("Budget") && !methodToCall.equalsIgnoreCase("headerTab")) {
+        if (actionName.startsWith("Budget") && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isBudgetAction = true;
         }
-        else if (StringUtils.isNotEmpty(navigateToPage) && (navigateToPage.equalsIgnoreCase("budgetVersions") 
-                || navigateToPage.equalsIgnoreCase("summary") || navigateToPage.equalsIgnoreCase("personnel") 
-                || navigateToPage.equalsIgnoreCase("expenses") || navigateToPage.equalsIgnoreCase("rates") 
-                || navigateToPage.equalsIgnoreCase("distributionAndIncome") || navigateToPage.equalsIgnoreCase("modularBudget") 
-                || navigateToPage.equalsIgnoreCase("totals") || navigateToPage.equalsIgnoreCase("proposalHierarchy")  
-                || navigateToPage.equalsIgnoreCase("budgetActions"))) {
+        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("budgetVersions") 
+                || navigateTo.equalsIgnoreCase("summary") || navigateTo.equalsIgnoreCase("personnel") 
+                || navigateTo.equalsIgnoreCase("expenses") || navigateTo.equalsIgnoreCase("rates") 
+                || navigateTo.equalsIgnoreCase("distributionAndIncome") || navigateTo.equalsIgnoreCase("modularBudget") 
+                || navigateTo.equalsIgnoreCase("totals") || navigateTo.equalsIgnoreCase("proposalHierarchy")  
+                || navigateTo.equalsIgnoreCase("budgetActions"))) {
             isBudgetAction = true; 
         }
 
@@ -202,17 +195,16 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     }
     
     private String getLockRegion() {
-        String navigateToPage = getNavigateToPage(); 
         String lockRegion = ""; 
         
-        if (isProposalAction(actionName, getMethodToCall(), navigateToPage)) {
+        if (isProposalAction()) {
             lockRegion = "PROPOSAL";
         }
-        else if (isNarrativeAction(actionName, getMethodToCall(), navigateToPage)) {
+        else if (isNarrativeAction()) {
             //lockRegion = "NARRATIVES";
             lockRegion = null;
         }
-        else if (isBudgetAction(actionName, getMethodToCall(), navigateToPage)) {
+        else if (isBudgetAction()) {
             lockRegion = "BUDGET";
         }
         
@@ -224,13 +216,13 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
 
         tempDocumentActionFlags.setCanSave(false);   
 
-        if (isProposalAction(actionName, getMethodToCall(), navigateToPage) && hasModifyProposalPermission(editMode)) {
+        if (isProposalAction() && hasModifyProposalPermission(editMode)) {
             tempDocumentActionFlags.setCanSave(true);
         }
-        else if (isNarrativeAction(actionName, getMethodToCall(), navigateToPage) && hasModifyNarrativesPermission(editMode)) {
+        else if (isNarrativeAction() && hasModifyNarrativesPermission(editMode)) {
             tempDocumentActionFlags.setCanSave(true);
         }
-        else if (isBudgetAction(actionName, getMethodToCall(), navigateToPage) && hasModifyBudgetPermission(editMode)) {
+        else if (isBudgetAction() && hasModifyBudgetPermission(editMode)) {
             tempDocumentActionFlags.setCanSave(true);
         }
     }
