@@ -65,6 +65,10 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
                 roleUserId = new AuthenticationUserId(id);
                 members.add(roleUserId);
             }  
+            qualRole.setRecipients(members);
+            qualRole.setAnnotation("ProposalInvestigator Approval");
+            qualRole.setQualifiedRoleLabel(PROPOSAL_INVESTIGATOR_ROLE.getLabel());
+            
         } else if (StringUtils.equals(CO_INVESTIGATOR_ROLE.getBaseName(), qualifiedRole)) {
 
             List<String> coinvestigators=proposalpersonroleservice.getProposalCoInvestigators(documentid);
@@ -73,10 +77,13 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
                 roleUserId = new AuthenticationUserId(id);
                 members.add(roleUserId);
             }
+            qualRole.setRecipients(members);
+            qualRole.setAnnotation("CO-Investigator Approval");
+            qualRole.setQualifiedRoleLabel(CO_INVESTIGATOR_ROLE.getLabel());
         } 
          
 
-        qualRole.setRecipients(members);
+        
         return qualRole;
 
     }
