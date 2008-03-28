@@ -22,6 +22,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument.FiscalYearSummary;
 
 public class BudgetUnrecoveredFandATest extends BudgetDistributionAndIncomeTest {
@@ -38,23 +39,23 @@ public class BudgetUnrecoveredFandATest extends BudgetDistributionAndIncomeTest 
     
     @Test
     public void testCalculatingTotalUnrecoveredFandA() {
-        createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_250);
-        Assert.assertEquals(TEST_AMOUNT_250, budgetDocument.getAvailableUnrecoveredFandA());
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(FY_2007_Q3_AMT);
+        Assert.assertEquals(FY_2007_Q3_AMT, budgetDocument.getAvailableUnrecoveredFandA());
         
-        createAndAddBudgetPeriod().setUnderrecoveryAmount(ZERO_AMOUNT);
-        Assert.assertEquals(TEST_AMOUNT_250, budgetDocument.getAvailableUnrecoveredFandA());
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(FY_2007_Q4_AMT);
+        Assert.assertEquals(FY_2007_Q3_AMT.add(FY_2007_Q4_AMT), budgetDocument.getAvailableUnrecoveredFandA());
         
-        createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_100);
-        Assert.assertEquals(TEST_AMOUNT_250.add(TEST_AMOUNT_100), budgetDocument.getAvailableUnrecoveredFandA());
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(FY_2008_Q1_AMT);
+        Assert.assertEquals(FY_2007_Q3_AMT.add(FY_2007_Q4_AMT).add(FY_2008_Q1_AMT), budgetDocument.getAvailableUnrecoveredFandA());
         
         Assert.assertTrue(budgetDocument.isUnrecoveredFandAAvailable());
     }
     
     @Test
     public void testIfUnrecoveredFandAApplicable_UnrecoveredAmountsPresentAndApplicable() {
-        createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_250);
-        createAndAddBudgetPeriod().setUnderrecoveryAmount(ZERO_AMOUNT);
-        createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_100);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(FY_2007_Q3_AMT);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(BudgetDecimal.ZERO);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(FY_2008_Q1_AMT);
         
         Assert.assertTrue(budgetDocument.isUnrecoveredFandAApplicable());
     }
@@ -64,9 +65,9 @@ public class BudgetUnrecoveredFandATest extends BudgetDistributionAndIncomeTest 
         // replace budgetDocument with one where unrecovered F&A is not applicable
         budgetDocument = new BudgetDocument_CostShareAndUnrecoveredFandANotApplicable();
         
-        createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_250);
-        createAndAddBudgetPeriod().setUnderrecoveryAmount(ZERO_AMOUNT);
-        createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_100);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(FY_2007_Q3_AMT);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(FY_2007_Q4_AMT);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(FY_2008_Q1_AMT);
         
         Assert.assertFalse(budgetDocument.isUnrecoveredFandAApplicable());
     }
@@ -75,7 +76,7 @@ public class BudgetUnrecoveredFandATest extends BudgetDistributionAndIncomeTest 
     public void testIfUnrecoveredFandAIsAvailable_BudgetPeriodPresentWithNonZeroUnrecovery() {
         Assert.assertFalse(budgetDocument.isUnrecoveredFandAAvailable());
         
-        createAndAddBudgetPeriod().setUnderrecoveryAmount(TEST_AMOUNT_100);
+        createAndAddBudgetPeriod().setUnderrecoveryAmount(FY_2007_Q3_AMT);
         Assert.assertTrue(budgetDocument.isUnrecoveredFandAAvailable());
     }
     
@@ -87,10 +88,10 @@ public class BudgetUnrecoveredFandATest extends BudgetDistributionAndIncomeTest 
     @Test
     public void testFindingUnrecoveredFandAForFiscalYear() throws Exception {
         createBudgetPeriodsForThreeFiscalYears();
-        Assert.assertEquals(TEST_AMOUNT_250.add(TEST_AMOUNT_100), budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2007));
-        Assert.assertEquals(TEST_AMOUNT_250, budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2008));
-        Assert.assertEquals(TEST_AMOUNT_250.add(TEST_AMOUNT_100), budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2009));
-        Assert.assertEquals(ZERO_AMOUNT, budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2000));
+        Assert.assertEquals(FY_2007_Q3_AMT.add(FY_2007_Q4_AMT), budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2007));
+        Assert.assertEquals(FY_2008_Q1_AMT.add(FY_2008_Q2_AMT), budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2008));
+        Assert.assertEquals(FY_2009_Q1_AMT.add(FY_2009_Q2_AMT), budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2009));
+        Assert.assertEquals(BudgetDecimal.ZERO, budgetDocument.findUnrecoveredFandAForFiscalYear(YEAR_2000));
     }
     
     @Test
@@ -103,16 +104,16 @@ public class BudgetUnrecoveredFandATest extends BudgetDistributionAndIncomeTest 
         FiscalYearSummary fiscalYearSummary = fiscalYearUnrecoveredFandATotals.get(0); 
         Assert.assertEquals(2007, fiscalYearSummary.getFiscalYear());
         Assert.assertEquals(getDate(YEAR_2007, Calendar.JANUARY, DAY_1), fiscalYearSummary.getAssignedBudgetPeriod().getStartDate());
-        Assert.assertEquals(TEST_AMOUNT_250.add(TEST_AMOUNT_100), fiscalYearSummary.getUnrecoveredFandA());
+        Assert.assertEquals(FY_2007_Q3_AMT.add(FY_2007_Q4_AMT), fiscalYearSummary.getUnrecoveredFandA());
         
         fiscalYearSummary = fiscalYearUnrecoveredFandATotals.get(1); 
         Assert.assertEquals(2008, fiscalYearSummary.getFiscalYear());
-        Assert.assertEquals(getDate(YEAR_2007, Calendar.NOVEMBER, DAY_1), fiscalYearSummary.getAssignedBudgetPeriod().getStartDate());
-        Assert.assertEquals(TEST_AMOUNT_250, fiscalYearSummary.getUnrecoveredFandA());
+        Assert.assertEquals(getDate(YEAR_2007, Calendar.JULY, DAY_1), fiscalYearSummary.getAssignedBudgetPeriod().getStartDate());
+        Assert.assertEquals(FY_2008_Q1_AMT.add(FY_2008_Q2_AMT), fiscalYearSummary.getUnrecoveredFandA());
         
         fiscalYearSummary = fiscalYearUnrecoveredFandATotals.get(2); 
         Assert.assertEquals(2009, fiscalYearSummary.getFiscalYear());
         Assert.assertEquals(getDate(YEAR_2008, Calendar.OCTOBER, DAY_1), fiscalYearSummary.getAssignedBudgetPeriod().getStartDate());
-        Assert.assertEquals(TEST_AMOUNT_250.add(TEST_AMOUNT_100), fiscalYearSummary.getUnrecoveredFandA());
+        Assert.assertEquals(FY_2009_Q1_AMT.add(FY_2009_Q2_AMT), fiscalYearSummary.getUnrecoveredFandA());
     }
 }
