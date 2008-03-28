@@ -67,6 +67,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
+    private static final String FALSE_FLAG = "N";
     private static final String TRUE_FLAG = "Y";
 
     private static final String DEFAULT_FISCAL_YEAR_START = "01/01/2000";
@@ -112,11 +113,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<RateClass> rateClasses;
     private List<RateClassType> rateClassTypes;
     private SortedMap <CostElement, List> objectCodeTotals ;
-    private SortedMap <RateType, List> calculatedExpenseTotals ;
-    
-    private transient Date fiscalYearStart;
-    private transient Boolean costSharingApplicable;
-    private transient Boolean unrecoveredFandAApplicable;
+    private SortedMap <RateType, List> calculatedExpenseTotals ;    
     
     public BudgetDocument(){
         super();
@@ -194,10 +191,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
     
     public Boolean isCostSharingApplicable() {
-        if(costSharingApplicable == null) {
-            costSharingApplicable = loadCostSharingApplicability();
-        }        
-        return costSharingApplicable;
+        return loadCostSharingApplicability();
     }
     
     public boolean isCostSharingAvailable() {
@@ -210,10 +204,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
 
     public Boolean isUnrecoveredFandAApplicable() {
-        if(unrecoveredFandAApplicable == null) {
-            unrecoveredFandAApplicable = loadUnrecoveredFandAApplicability();
-        }        
-        return unrecoveredFandAApplicable;
+        return loadUnrecoveredFandAApplicability();
     }
     
     public boolean isUnrecoveredFandAAvailable() {
@@ -718,8 +709,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      * @return
      */
     protected Boolean loadCostSharingApplicability() {
-        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-        return kualiConfigurationService.getParameterValue("KRA-B", "D", Constants.BUDGET_COST_SHARING_APPLICABILITY_FLAG).equalsIgnoreCase(TRUE_FLAG);        
+        return getApplicabilityValue(Constants.BUDGET_COST_SHARING_APPLICABILITY_FLAG);        
     }
     
     /**
@@ -727,8 +717,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      * @return
      */
     protected Boolean loadUnrecoveredFandAApplicability() {
-        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-        return kualiConfigurationService.getParameterValue("KRA-B", "D", Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG).equalsIgnoreCase(TRUE_FLAG);        
+        return getApplicabilityValue(Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG);        
     }
 
     protected Date createDateFromString(String budgetFiscalYearStart) {
@@ -765,9 +754,31 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
                 fiscalYearCostShareAmount = fiscalYearCostShareAmount.add(budgetPeriod.getCostSharingAmount());
                 fiscalYearUnrecoveredFandA = fiscalYearUnrecoveredFandA.add(budgetPeriod.getUnderrecoveryAmount());
             }
-            fiscalYearSummaries.add(new FiscalYearSummary(budgetPeriodsInFiscalYear.get(0), fiscalYear, fiscalYearCostShareAmount, fiscalYearUnrecoveredFandA));
+            fiscalYearSummaries.add(new FiscalYearSummary(budgetPeriodsInFiscalYear.get(0), fiscalYear, fiscalYearCostShareAmount, fiscalYearUnrecoveredFandA, findApplicableRatesForFiscalYear(fiscalYear)));
         }
         return fiscalYearSummaries;
+    }
+
+    private FiscalYearRates findApplicableRatesForFiscalYear(Integer fiscalYear) {
+        String unrecoveredFandARateClassCode = getUrRateClassCode();
+        if(unrecoveredFandARateClassCode == null || unrecoveredFandARateClassCode.trim().length() == 0) {
+            return new FiscalYearRates(fiscalYear, RateDecimal.ZERO_RATE, RateDecimal.ZERO_RATE);
+        } else {
+            RateDecimal offCampusRate = findApplicableRateForRateClassCode(fiscalYear, unrecoveredFandARateClassCode, false);
+            RateDecimal onCampusRate = findApplicableRateForRateClassCode(fiscalYear, unrecoveredFandARateClassCode, true);
+            return new FiscalYearRates(fiscalYear, onCampusRate, offCampusRate);
+        }
+    }
+
+    private RateDecimal findApplicableRateForRateClassCode(Integer fiscalYear, String unrecoveredFandARateClassCode, boolean findOnCampusRate) {
+        RateDecimal applicableRate = RateDecimal.ZERO_RATE;
+        for(BudgetProposalRate budgetProposalRate: getBudgetProposalRates()) {
+            if(Integer.valueOf(budgetProposalRate.getFiscalYear()).equals(fiscalYear) && budgetProposalRate.getRateClassCode().equalsIgnoreCase(unrecoveredFandARateClassCode) && findOnCampusRate == budgetProposalRate.getOnOffCampusFlag()) {
+                applicableRate = new RateDecimal(budgetProposalRate.getApplicableRate().bigDecimalValue());
+                break;
+            }
+        }
+        return applicableRate;
     }
 
     private Map<Integer, List<BudgetPeriod>> mapBudgetPeriodsToFiscalYears() {
@@ -793,10 +804,44 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      * @return
      */
     private Date getFiscalYearStart() {
-        if(fiscalYearStart == null) {
-            fiscalYearStart = loadFiscalYearStart();
-        }        
-        return fiscalYearStart;
+        return loadFiscalYearStart();
+    }
+    
+    private Boolean getApplicabilityValue(String parmName) {
+        String parmValue;
+        
+        try {
+            KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+            parmValue = kualiConfigurationService.getParameterValue("KRA-B", "D", parmName);
+        } catch(Exception exc) {
+            parmValue = FALSE_FLAG;
+        }
+        
+        return parmValue.equalsIgnoreCase(TRUE_FLAG);
+    }
+    
+    public class FiscalYearRates {
+        private Integer fiscalYear;
+        private RateDecimal onCampusApplicableRate;
+        private RateDecimal offCampusApplicableRate;
+        
+        public FiscalYearRates(Integer fiscalYear, RateDecimal onCampusApplicableRate, RateDecimal offCampusApplicableRate) {
+            this.fiscalYear = fiscalYear;
+            this.onCampusApplicableRate = onCampusApplicableRate;
+            this.offCampusApplicableRate = offCampusApplicableRate;
+        }
+        
+        public Integer getFiscalYear() {
+            return fiscalYear;
+        }
+        
+        public RateDecimal getOnCampusApplicableRate() {
+            return onCampusApplicableRate;
+        }
+
+        public RateDecimal getOffCampusApplicableRate() {
+            return offCampusApplicableRate;
+        }
     }
     
     public class FiscalYearSummary {
@@ -804,13 +849,16 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         private BudgetPeriod assignedBudgetPeriod;
         private BudgetDecimal costShare;
         private BudgetDecimal unrecoveredFandA;
+        private FiscalYearRates fiscalYearRates;
         
-        public FiscalYearSummary(BudgetPeriod assignedBudgetPeriod, int fiscalYear, BudgetDecimal costShare, BudgetDecimal unrecoveredFandA) {
+        public FiscalYearSummary(BudgetPeriod assignedBudgetPeriod, int fiscalYear, BudgetDecimal costShare, BudgetDecimal unrecoveredFandA,
+                                    FiscalYearRates fiscalYearRates) {
             super();
             this.assignedBudgetPeriod = assignedBudgetPeriod;
             this.fiscalYear = fiscalYear;
             this.costShare = costShare;
             this.unrecoveredFandA = unrecoveredFandA;
+            this.fiscalYearRates = fiscalYearRates;
         }
 
         public int getFiscalYear() {
@@ -825,9 +873,15 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
             return costShare;
         }
         
+        public FiscalYearRates getFiscalYearRates() {
+            return fiscalYearRates;
+        }
+        
         public BudgetDecimal getUnrecoveredFandA() {
             return unrecoveredFandA;
         }
+
+        
     }
     /**
      * This class compares two BudgetPeriods to determine which should be considered earlier.

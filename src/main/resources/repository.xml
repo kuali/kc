@@ -1468,6 +1468,12 @@
 			<inverse-foreignkey field-ref="budgetVersionNumber"/>
 		</collection-descriptor>
 
+		<!-- GENERATE NEXT VALUE -->
+   		<collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="documentKey" /> 
+		</collection-descriptor>
+		<!-- GENERATE NEXT VALUE -->
+
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
