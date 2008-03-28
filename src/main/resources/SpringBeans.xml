@@ -296,6 +296,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="keyPersonnelService">
+		    <ref bean="keyPersonnelService" />
+		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>

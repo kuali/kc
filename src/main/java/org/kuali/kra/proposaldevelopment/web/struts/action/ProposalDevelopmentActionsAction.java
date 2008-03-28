@@ -38,6 +38,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.PessimisticLockService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.AuditModeAction;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -283,7 +284,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         else {
             String newDocId = proposalCopyService.copyProposal(doc, criteria);
-
+            KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getUniversalUser());
+            
             // Switch over to the new proposal development document and
             // go to the Proposal web page.
 
