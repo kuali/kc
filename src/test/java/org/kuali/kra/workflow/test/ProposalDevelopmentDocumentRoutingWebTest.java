@@ -16,6 +16,8 @@
 package org.kuali.kra.workflow.test;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -70,6 +72,9 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
     private static final String PROPOSAL_CREATOR = "quickstart";
     private static final String AGGREGATOR_ROLENAME = "Aggregator";
     private static final String VIEWER_ROLENAME = "Viewer";
+    protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
+    protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
+    private static final String RADIO_FIELD_VALUE = "Y";
 
     private Lifecycle customKEWLifecycle = null;
 
@@ -88,6 +93,7 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
 
     @After
     public void tearDown() throws Exception {
+        
         GlobalVariables.setUserSession(null);
         documentService = null;
         customKEWLifecycle.stop();
@@ -106,16 +112,33 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
 
     @Test
     public void testAddUsers() throws Exception {
-        HtmlPage permissionsPage = getPermissionsPage();
-        // Add the users.
+        
+        Calendar c = Calendar.getInstance(); 
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); 
+        String sponsordeadlinedate = sdf.format(c.getTime()); 
+        HtmlPage proposaldevelopmentPage = getProposalDevelopmentPage();
+        setDefaultRequiredFields(proposaldevelopmentPage);
+        setFieldValue(proposaldevelopmentPage,"document.deadlineDate",sponsordeadlinedate);
+        HtmlForm proposaldevform = (HtmlForm) proposaldevelopmentPage.getForms().get(0);
+        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) proposaldevform.getInputByName("document.documentHeader.documentNumber");
+        HtmlPage KeyPersonnelpage = clickOnTab(proposaldevelopmentPage, KEY_PERSONNEL_LINK_NAME);
+        assertTrue(KeyPersonnelpage.asText().contains("Document was successfully saved"));
+        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.Person");
+        assertEquals("Terry Durkin", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
+        setFieldValue(KeyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "PI");
+        KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.insertProposalPerson");
+        setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
+        HtmlPage permissionsPage = clickOnTab(KeyPersonnelpage, PERMISSIONS_LINK_NAME);
         permissionsPage = addUser(permissionsPage, APPROVER, VIEWER_ROLENAME);
         permissionsPage = addUser(permissionsPage, PROPOSAL_CREATOR, AGGREGATOR_ROLENAME);
 
         // Save the proposal and re-check to be sure the data is still correctly displayed.
         HtmlPage proposalPage = saveAndSearchDoc(permissionsPage);
         HtmlForm form = (HtmlForm) proposalPage.getForms().get(0);
-        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) form.getInputByName("document.documentHeader.documentNumber");
-
+       
         
         HtmlPage submitPage = clickOnTab(proposalPage, ACTIONS_LINK_NAME);
         HtmlForm form1 = (HtmlForm) submitPage.getForms().get(0);
