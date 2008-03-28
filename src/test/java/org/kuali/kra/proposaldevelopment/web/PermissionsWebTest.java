@@ -66,6 +66,9 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String UNIT_NUMBER = "000001";
     private static final String UNIT_NAME = "University";
     
+    private static final String INCARD_UNIT_NUMBER = "IN-CARD";
+    private static final String INCARD_UNIT_NAME = "CARDIOLOGY";
+    
     private static final String AGGREGATOR_ROLENAME = "Aggregator";
     private static final String BUDGET_CREATOR_ROLENAME = "Budget Creator";
     private static final String NARRATIVE_WRITER_ROLENAME = "Narrative Writer";
@@ -241,7 +244,7 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
         List<User> users = new ArrayList<User>();
         users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, BUDGET_CREATOR_NAME));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
-        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, UNIT_NUMBER, UNIT_NAME, VIEWER_NAME));
+        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
         users.add(new User(USER4_USERNAME, USER4_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
         users.add(new User(USER3_USERNAME, USER3_FULLNAME, UNIT_NUMBER, UNIT_NAME, NARRATIVE_WRITER_NAME));
         users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
@@ -383,7 +386,7 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
         List<User> users = new ArrayList<User>();
         users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, BUDGET_CREATOR_NAME));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
-        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, UNIT_NUMBER, UNIT_NAME, VIEWER_NAME));
+        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
         users.add(new User(USER4_USERNAME, USER4_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
         users.add(new User(USER3_USERNAME, USER3_FULLNAME, UNIT_NUMBER, UNIT_NAME, NARRATIVE_WRITER_NAME));
         users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
@@ -445,7 +448,7 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
         String[] roles = buildArray(BUDGET_CREATOR_NAME, NARRATIVE_WRITER_NAME);
         users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, roles));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
-        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, UNIT_NUMBER, UNIT_NAME, VIEWER_NAME));
+        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
         users.add(new User(USER4_USERNAME, USER4_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
         users.add(new User(USER3_USERNAME, USER3_FULLNAME, UNIT_NUMBER, UNIT_NAME, NARRATIVE_WRITER_NAME));
         users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
@@ -474,7 +477,7 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
         users = new ArrayList<User>();
         users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, NARRATIVE_WRITER_NAME));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
-        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, UNIT_NUMBER, UNIT_NAME, VIEWER_NAME));
+        users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));
         users.add(new User(USER4_USERNAME, USER4_FULLNAME, UNIT_NUMBER, UNIT_NAME, UNASSIGNED_NAME));
         users.add(new User(USER3_USERNAME, USER3_FULLNAME, UNIT_NUMBER, UNIT_NAME, NARRATIVE_WRITER_NAME));
         users.add(new User(USER1_USERNAME, USER1_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));

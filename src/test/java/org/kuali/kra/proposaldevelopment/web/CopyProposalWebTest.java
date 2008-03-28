@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,17 +23,23 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
+   
     /**
      * The set of Proposal Development Document properties that
-     * must not be copied.
+     * must not be compared.
      */
     private static String[] filteredProperties = { "ProposalNumber",
                                                    "OwnedByUnitNumber",
@@ -40,9 +47,11 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
                                                    "InstituteAttachments",
                                                    "PropPersonBios",
                                                    "ProposalPersonBiographyService",
-                                                   "NarrativeService"};
+                                                   "NarrativeService",
+                                                   "OwnedByUnit" };
     
-    private static final String LEAD_UNIT_NBR = "000001";
+    private static final String LEAD_UNIT_NBR_1 = "000001";
+    private static final String LEAD_UNIT_NBR_2 = "BL-IIDC";
     
     private static final String ATTACHMENT_FILENAME = "/org/kuali/kra/proposaldevelopment/web/ProposalAttachmentWebTest.class";
 
@@ -60,6 +69,37 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
     private static final String INSTITUTE_FILE_ID = "newInstituteAttachment.narrativeFile";
     
     private static final String COPY_PROPOSAL_BTN = "methodToCall.copyProposal";
+    
+    private static final String PI_UNIT_FIELD = "newProposalPersonUnit[0].unitNumber";
+    private static final String PI_ADD_UNIT_BTN = "methodToCall.insertUnit.personIndex0.";
+    
+    private static final String TDURKIN = "tdurkin";
+    private static final String JTESTER = "jtester";
+    
+    private static final String USERNAME_FIELD_ID = "newProposalUser.username";
+    private static final String ROLENAME_FIELD_ID = "newProposalUser.roleName";
+    private static final String ADD_BTN_ID = "methodToCall.addProposalUser";
+    
+    private static final String VIEWER_ROLENAME = "Viewer";
+    /***********************************************************************
+     * Setup and TearDown
+     ***********************************************************************/
+    
+    private boolean javaScriptEnabled;
+    
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        javaScriptEnabled = webClient.isJavaScriptEnabled();
+        webClient.setJavaScriptEnabled(false);
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        webClient.setJavaScriptEnabled(javaScriptEnabled);
+        super.tearDown();
+    }
+    
     
     /**
      * Each property in the document that can be copied is represented
@@ -92,14 +132,14 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         ProposalDevelopmentDocument srcDoc = getProposalDevelopmentDocument(actionsPage);
         
         setFieldValue(actionsPage, COPY_ATTACHMENTS_ID, "off");
-        setFieldValue(actionsPage, COPY_LEAD_UNIT_ID, LEAD_UNIT_NBR);
+        setFieldValue(actionsPage, COPY_LEAD_UNIT_ID, LEAD_UNIT_NBR_1);
         
         ProposalDevelopmentDocument destDoc = copyDocument(actionsPage);
        
         ProposalCopyCriteria criteria = new ProposalCopyCriteria();
         criteria.setIncludeAttachments(false);
-        criteria.setLeadUnitNumber(LEAD_UNIT_NBR);
-        assertTrue(compareDocuments(srcDoc, destDoc, criteria));
+        criteria.setLeadUnitNumber(LEAD_UNIT_NBR_1);
+        compareDocuments(srcDoc, destDoc, criteria, true);
     }
     
     /**
@@ -116,16 +156,59 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         ProposalDevelopmentDocument srcDoc = getProposalDevelopmentDocument(actionsPage);
         
         setFieldValue(actionsPage, COPY_ATTACHMENTS_ID, "on");
-        setFieldValue(actionsPage, COPY_LEAD_UNIT_ID, LEAD_UNIT_NBR);
+        setFieldValue(actionsPage, COPY_LEAD_UNIT_ID, LEAD_UNIT_NBR_1);
         
         ProposalDevelopmentDocument destDoc = copyDocument(actionsPage);
        
         ProposalCopyCriteria criteria = new ProposalCopyCriteria();
         criteria.setIncludeAttachments(true);
-        criteria.setLeadUnitNumber(LEAD_UNIT_NBR);
-        assertTrue(compareDocuments(srcDoc, destDoc, criteria));
+        criteria.setLeadUnitNumber(LEAD_UNIT_NBR_1);
+        compareDocuments(srcDoc, destDoc, criteria, true);
     }
     
+    /**
+     * Do a copy with some key personnel.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testKeyPersonnelCopy() throws Exception {
+        HtmlPage page = buildDocument();
+        
+        ProposalDevelopmentDocument srcDoc = getProposalDevelopmentDocument(page);
+        
+        String docNbr = getDocNbr(page);
+        saveAndCloseDoc(page);
+        loginAsTester();
+        page = docSearch(docNbr);
+        HtmlPage actionsPage = clickOnTab(page, ACTIONS_LINK_NAME);
+        
+        setFieldValue(actionsPage, COPY_ATTACHMENTS_ID, "off");
+        setFieldValue(actionsPage, COPY_LEAD_UNIT_ID, LEAD_UNIT_NBR_2);
+        
+        ProposalDevelopmentDocument destDoc = copyDocument(actionsPage);
+       
+        ProposalCopyCriteria criteria = new ProposalCopyCriteria();
+        criteria.setIncludeAttachments(false);
+        criteria.setLeadUnitNumber(LEAD_UNIT_NBR_2);
+        compareDocuments(srcDoc, destDoc, criteria, false);
+        
+        List<ProposalPerson> persons = destDoc.getProposalPersons();
+        assertEquals(1, persons.size());
+        ProposalPerson person = persons.get(0);
+        List<ProposalPersonUnit> units = person.getUnits();
+        assertEquals(2, units.size());
+        String unitNumber1 = units.get(0).getUnitNumber();
+        String unitNumber2 = units.get(1).getUnitNumber();
+        if (StringUtils.equals(unitNumber1, LEAD_UNIT_NBR_2)) {
+            assertEquals(unitNumber2, LEAD_UNIT_NBR_1);
+        }
+        else {
+            assertEquals(unitNumber1, LEAD_UNIT_NBR_1);
+            assertEquals(unitNumber2, LEAD_UNIT_NBR_2);
+        }
+    }
+
     /**
      * Builds a Proposal Development Document.  Adds several attachments to
      * the document.
@@ -137,12 +220,20 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
      * @throws Exception
      */
     private HtmlPage buildDocument() throws Exception {
-        HtmlPage attachmentsPage = this.getAbstractsAndAttachmentsPage();
-        addProposalAttachment(attachmentsPage);
-        addProposalAttachment(attachmentsPage);
-        addPersonalAttachment(attachmentsPage);
-        addInstituteAttachment(attachmentsPage);
-        return clickActionsHyperlink(attachmentsPage);
+        HtmlPage attachmentsPage = getAbstractsAndAttachmentsPage();
+        attachmentsPage = addProposalAttachment(attachmentsPage, "4");
+        attachmentsPage = addProposalAttachment(attachmentsPage, "5");
+        attachmentsPage = addPersonalAttachment(attachmentsPage);
+        attachmentsPage = addInstituteAttachment(attachmentsPage);
+        
+        HtmlPage keyPersonnelPage = clickOnTab(attachmentsPage, KEY_PERSONNEL_LINK_NAME);
+        keyPersonnelPage = addKeyPersonnel(keyPersonnelPage, TDURKIN, "PI");
+        
+        HtmlPage permissionsPage = clickOnTab(keyPersonnelPage, PERMISSIONS_LINK_NAME);
+        //permissionsPage = addUser(permissionsPage, JTESTER, VIEWER_ROLENAME);
+        permissionsPage = addUser(permissionsPage, JTESTER, "Aggregator");
+        
+        return clickActionsHyperlink(permissionsPage);
     }
     
     /**
@@ -167,6 +258,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
     private ProposalDevelopmentDocument copyDocument(HtmlPage actionsPage) throws Exception {
         HtmlElement btn = this.getElementByName(actionsPage, COPY_PROPOSAL_BTN, true);
         HtmlPage proposalPage = this.clickOn(btn);
+        assertTrue(!hasError(proposalPage));
         
         String docNbr = this.getDocNbr(proposalPage);
         return (ProposalDevelopmentDocument) this.getDocument(docNbr);
@@ -178,43 +270,45 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
      * @param srcDoc the original document
      * @param destDoc the copied document
      * @param criteria the criteria used to copy the document.
-     * @return true if the copied document is valid; otherwise false.
      * @throws Exception
      */
-    private boolean compareDocuments(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument destDoc, ProposalCopyCriteria criteria) throws Exception {
+    private void compareDocuments(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument destDoc, ProposalCopyCriteria criteria, boolean compareKeyPersonnel) throws Exception {
        
         // They had better have different document numbers.
         
         String nbr1 = srcDoc.getDocumentNumber();
         String nbr2 = destDoc.getDocumentNumber();
-        if (isSame(nbr1, nbr2)) {
-            return false;
+        if (StringUtils.equals(nbr1, nbr2)) {
+            fail("Document numbers are the same: " + nbr1);
         }
         
         // The must have the same document description.
         
         String desc1 = srcDoc.getDocumentHeader().getFinancialDocumentDescription();
         String desc2 = srcDoc.getDocumentHeader().getFinancialDocumentDescription();
-        if (!isSame(desc1, desc2)) {
-            return false;
-        }
+        assertEquals("Descriptions are different", desc1, desc2);
         
         // They must have the same organization document number.
         
         String org1 = srcDoc.getDocumentHeader().getOrganizationDocumentNumber();
         String org2 = srcDoc.getDocumentHeader().getOrganizationDocumentNumber();
-        if (!isSame(org1, org2)) {
-            return false;
-        }
+        assertEquals("Organization document numbers are different", org1, org2);
+        
+        // Check the lead unit number.
+        
+        assertEquals("Lead Unit", criteria.getLeadUnitNumber(), destDoc.getOwnedByUnitNumber());
         
         // Compare the document's properties.  They must be the same.
         
         List<DocProperty> properties = getComparableProperties();
         for (DocProperty property : properties) {
+            if (!compareKeyPersonnel && StringUtils.equals(property.getter.getName(), "getProposalPersons")) {
+                continue;
+            }
             Object value1 = property.getter.invoke(srcDoc);
             Object value2 = property.getter.invoke(destDoc);
             if (!equals(value1, value2)) {
-                return false;
+                fail("Property " + property.getter.getName() + " is different");
             }
         }
         
@@ -223,30 +317,28 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
             // If the attachments are copied, they had better be the same.
             
             if (!equals(srcDoc.getNarratives(), destDoc.getNarratives())) {
-                return false;
+                fail("Proposal Attachments are different");
             }
             
             if (!equals(srcDoc.getInstituteAttachments(), destDoc.getInstituteAttachments())) {
-                return false;
+                fail("Internal Attachments are different");
             }
             
             if (!equals(srcDoc.getPropPersonBios(), destDoc.getPropPersonBios())) {
-                return false;
+                fail("Personal Attachments are different");
             }
         } else {
             
             // If the attachments are not copied, there must not be any.
             
             if (destDoc.getNarratives().size() != 0) {
-                return false;
+                fail("Proposal Attachments is not empty");
             } else if (destDoc.getInstituteAttachments().size() != 0) {
-                return false;
+                fail("Internal Attachments is not empty");
             } else if (destDoc.getPropPersonBios().size() != 0) {
-                return false;
+                fail("Personal Attachments is not empty");
             }
         }
-        
-        return true;
     }
     
     /**
@@ -484,7 +576,6 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
      * @return
      */
     private boolean isExcludedMethod(String methodName) {
-        // TODO : getUnit() in UnitAdministrator caused infinite loop.  Excluded it here  ??
         String[] names = { "getUpdateTimestamp",
                            "getUpdateUser",
                            "getProposalNumber",
@@ -495,7 +586,8 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
                            "getNarrativeService",
                            "getProposalPersonBiographyService",
                            "getObjectId",
-                           "getUnit"};
+                           "getUnit",
+                           "getOwnedByUnit" };
         
         for (String name : names) {
             if (methodName.equals(name)) {
@@ -506,57 +598,41 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
     }
     
     /**
-     * Determines if two strings are the same or not.  Two
-     * strings are the same if both are null or they have the
-     * same string value.
-     * 
-     * @param s1 string 1
-     * @param s2 string 2
-     * @return true if the same; otherwise false
-     */
-    private boolean isSame(String s1, String s2) {
-        if (s1 == null && s2 != null) {
-            return false;
-        }
-        else if (s1 != null && s2 == null) {
-            return false;
-        }
-        else if (s1 != null && !s1.equals(s2)) {
-            return false;
-        }
-        return true;
-    }
-    
-    /**
      * Add a Proposal Attachment to the document.
      * 
      * @param attachmentsPage the Abstracts & Attachments web page
+     * @throws IOException 
      */
-    private void addProposalAttachment(HtmlPage attachmentsPage) {
-        setFieldValue(attachmentsPage, NARRATIVE_TYPE_CODE_ID, "4");
+    private HtmlPage addProposalAttachment(HtmlPage attachmentsPage, String type) throws Exception {
+        setFieldValue(attachmentsPage, NARRATIVE_TYPE_CODE_ID, type);
         setFieldValue(attachmentsPage, NARRATIVE_STATUS_ID, "I");
         setFieldValue(attachmentsPage, NARRATIVE_FILE_ID, getFilePath());
+        return clickOn(attachmentsPage, "methodToCall.addProposalAttachment");
     }
     
     /**
      * Add a Personal Attachment to the document.
      * 
      * @param attachmentsPage the Abstracts & Attachments web page
+     * @throws IOException 
      */
-    private void addPersonalAttachment(HtmlPage attachmentsPage) {
+    private HtmlPage addPersonalAttachment(HtmlPage attachmentsPage) throws Exception {
         selectAnyOption(attachmentsPage, NARRATIVE_TYPE_CODE_ID);
         selectAnyOption(attachmentsPage, PERSONAL_ATTACHMENT_TYPE_ID);
         setFieldValue(attachmentsPage, PERSONAL_FILE_ID, getFilePath());
+        return clickOn(attachmentsPage, "methodToCall.addPersonnelAttachment.anchorPersonnelAttachments0");
     }
     
     /**
      * Add an Institute Attachment to the document.
      * 
      * @param attachmentsPage the Abstracts & Attachments web page
+     * @throws IOException 
      */
-    private void addInstituteAttachment(HtmlPage attachmentsPage) {
+    private HtmlPage addInstituteAttachment(HtmlPage attachmentsPage) throws Exception {
         selectAnyOption(attachmentsPage, INSTITUTE_TYPE_CODE_ID);
         setFieldValue(attachmentsPage, INSTITUTE_FILE_ID, getFilePath());
+        return clickOn(attachmentsPage, "methodToCall.addInstitutionalAttachment.anchorInternalAttachments0");
     }
     
     /**
@@ -567,5 +643,27 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         URL fileUrl = getClass().getResource(ATTACHMENT_FILENAME);
         assertNotNull(fileUrl);
         return fileUrl.getPath();
+    }
+    
+    private HtmlPage addKeyPersonnel(HtmlPage keyPersonnelPage, String username, String roleId) throws Exception {
+        keyPersonnelPage = lookup(keyPersonnelPage, "newPersonId", "userName", username);
+        HtmlElement e = getElement(keyPersonnelPage, "newProposalPerson.fullName");
+        setFieldValue(keyPersonnelPage, "newProposalPerson.proposalPersonRoleId", roleId);
+        return clickOn(keyPersonnelPage, "methodToCall.insertProposalPerson");
+    }
+    
+    /**
+     * Add a single user to the proposal.
+     * @param page
+     * @param username
+     * @param roleName
+     * @return
+     * @throws Exception
+     */
+    private HtmlPage addUser(HtmlPage page, String username, String roleName) throws Exception {
+        setFieldValue(page, USERNAME_FIELD_ID, username);
+        setFieldValue(page, ROLENAME_FIELD_ID, roleName);
+        HtmlElement addBtn = getElementByName(page, ADD_BTN_ID, true);
+        return clickOn(addBtn);
     }
 }
