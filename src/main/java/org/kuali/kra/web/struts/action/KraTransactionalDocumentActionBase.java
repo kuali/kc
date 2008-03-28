@@ -39,6 +39,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.question.ConfirmationQuestion;
@@ -48,6 +49,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -56,6 +58,7 @@ import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.notification.util.NotificationConstants;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
@@ -299,19 +302,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         errorMap.putErrorWithoutFullErrorPath(Constants.TASK_AUTHORIZATION, KeyConstants.AUTHORIZATION_VIOLATION);
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
-    @Override
-    protected void setupPessimisticLockMessages(Document document, HttpServletRequest request) {
-        List<String> lockMessages = new ArrayList<String>();
-        for (PessimisticLock lock : document.getPessimisticLocks()) {
-            // if lock is owned by current user, do not display message for it
-            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getUniversalUser())) {
-                lockMessages.add(generatePessimisticLockMessage(lock));
-            }
-        }
-        request.setAttribute(RiceConstants.PESSIMISTIC_LOCK_MESSAGES, lockMessages);
-    }
+    } 
     
     @Override
     protected String generatePessimisticLockMessage(PessimisticLock lock) {
@@ -321,6 +312,24 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             descriptor = StringUtils.capitalize(descriptor.substring(descriptor.indexOf("-")+1).toLowerCase());
         }
         return "This " + descriptor + " is locked for editing by " + lock.getOwnedByPersonUniversalIdentifier() + " as of " + org.kuali.rice.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()) + " on " + org.kuali.rice.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
+    }
+
+    @Override
+    protected boolean exitingDocument() {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        return super.exitingDocument() || StringUtils.isEmpty(activeLockRegion);
+    }
+
+    @Override
+    protected void releaseLocks(Document document, String methodToCall) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        GlobalVariables.getUserSession().removeObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+
+        // first check if the method to call is listed as required lock clearing
+        if (document.getLockClearningMethodNames().contains(methodToCall) || StringUtils.isEmpty(activeLockRegion)) {
+            // find all locks for the current user and remove them
+            KNSServiceLocator.getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(), GlobalVariables.getUserSession().getUniversalUser());
+        }
     }
 
 }

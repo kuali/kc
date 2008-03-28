@@ -72,7 +72,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      */
     @Override
     protected boolean isLockRequiredByUser(Document document, Map editMode, UniversalUser user) {
-        String activeLockRegion = (String) editMode.get(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         
         // check for entry edit mode
         for (Iterator iterator = editMode.entrySet().iterator(); iterator.hasNext();) {
@@ -109,7 +109,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      */
     @Override
     protected String getCustomLockDescriptor(Document document, Map editMode, UniversalUser user) {
-        String activeLockRegion = (String) editMode.get(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         if(StringUtils.isNotEmpty(activeLockRegion))
             return document.getDocumentNumber()+"-"+activeLockRegion; 
         

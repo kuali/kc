@@ -64,6 +64,7 @@
   <li>User Preference Variables</li>
   <li>User Administrator Type</li>
   <li>Valid Rates</li>
+  <li><portal:portalLink displayTitle="true" title="Document Lock" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.document.authorization.PessimisticLock&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
 </ul>
 </div>
 <channel:portalChannelBottom />
