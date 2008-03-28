@@ -34,6 +34,7 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
@@ -148,7 +149,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         super.toCopy();
         setBudgetVersionNumber(proposal.getNextBudgetVersionNumber());
     }
-
+    
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -415,6 +416,14 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(getBudgetCostShares());
         managedLists.add(getBudgetUnrecoveredFandAs());
         managedLists.add(getBudgetPersons());
+        
+        for (BudgetPeriod budgetPeriod: getBudgetPeriods()) {
+            if (ObjectUtils.isNotNull(budgetPeriod.getBudgetModular())) {
+                managedLists.add(budgetPeriod.getBudgetModular().getBudgetModularIdcs());
+            } else {
+                managedLists.add(new ArrayList()); // otherwise it complains
+            }
+        }
         return managedLists;
     }
 

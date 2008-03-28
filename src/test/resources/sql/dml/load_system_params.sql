@@ -59,4 +59,6 @@ insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_ty
 insert into sh_parm_t (sh_parm_nmspc_cd, sh_parm_dtl_typ_cd, sh_parm_nm, sh_parm_typ_cd, sh_parm_txt, sh_parm_desc, sh_parm_cons_cd, active_ind) values ('KRA-B','D','budgetCurrentFiscalYear','CONFG','07/01/2000',' The starting fiscal year for a budget','A','Y');
 insert into sh_parm_t (sh_parm_nmspc_cd, sh_parm_dtl_typ_cd, sh_parm_nm, sh_parm_typ_cd, sh_parm_txt, sh_parm_desc, sh_parm_cons_cd, active_ind) values ('KRA-B','D','budgetCostSharingApplicabilityFlag','CONFG','Y',' Flag indicating if Cost Sharing is applicable for the budget','A','Y');
 insert into sh_parm_t (sh_parm_nmspc_cd, sh_parm_dtl_typ_cd, sh_parm_nm, sh_parm_typ_cd, sh_parm_txt, sh_parm_desc, sh_parm_cons_cd, active_ind) values ('KRA-B','D','budgetUnrecoveredFandAApplicabilityFlag','CONFG','Y',' Flag indicating if Unrecovered F&A is applicable for the budget','A','Y');
- 
+
+insert into sh_parm_t (sh_parm_nmspc_cd, sh_parm_dtl_typ_cd, sh_parm_nm, sh_parm_typ_cd, sh_parm_txt, sh_parm_desc, sh_parm_cons_cd, active_ind) values ('KRA-B','D','subcontractorFandAGreaterThan25k','CONFG','420630','Cost element code for subcontractor F&A over 25k','A','Y');
+insert into sh_parm_t (sh_parm_nmspc_cd, sh_parm_dtl_typ_cd, sh_parm_nm, sh_parm_typ_cd, sh_parm_txt, sh_parm_desc, sh_parm_cons_cd, active_ind) values ('KRA-B','D','subcontractorFandALessThan25k','CONFG','420610','Cost element code for subcontractor F&A under 25k','A','Y');
