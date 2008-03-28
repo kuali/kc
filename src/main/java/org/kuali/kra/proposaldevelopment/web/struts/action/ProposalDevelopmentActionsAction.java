@@ -15,10 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import java.util.Arrays;
-import java.util.Collections;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,10 +34,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.DocumentAuditEvent;
-import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.AuditModeAction;
@@ -44,14 +47,15 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.KNSServiceLocator;
-
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.KEWServiceLocator;
 import edu.iu.uis.eden.actionrequests.ActionRequestValue;
+
 import edu.iu.uis.eden.clientapp.FutureRequestDocumentStateManager;
 import edu.iu.uis.eden.clientapp.WorkflowDocument;
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
@@ -64,19 +68,25 @@ import edu.iu.uis.eden.clientapp.vo.RouteNodeInstanceVO;
 import edu.iu.uis.eden.clientapp.vo.UserIdVO;
 import edu.iu.uis.eden.clientapp.vo.UserVO;
 import edu.iu.uis.eden.clientapp.vo.UuIdVO;
+import edu.iu.uis.eden.clientapp.vo.WorkflowIdVO;
 import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
 import edu.iu.uis.eden.doctype.DocumentType;
 import edu.iu.uis.eden.doctype.DocumentTypeService;
 import edu.iu.uis.eden.engine.node.KeyValuePair;
 import edu.iu.uis.eden.engine.node.RouteNode;
+import edu.iu.uis.eden.engine.node.RouteNodeInstance;
+import edu.iu.uis.eden.engine.node.RouteNodeService;
 import edu.iu.uis.eden.engine.simulation.SimulationCriteria;
 import edu.iu.uis.eden.engine.simulation.SimulationEngine;
 import edu.iu.uis.eden.engine.simulation.SimulationResults;
 import edu.iu.uis.eden.exception.WorkflowException;
+import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
+import edu.iu.uis.eden.routeheader.WorkflowDocumentService;
 import edu.iu.uis.eden.routetemplate.RuleTemplate;
 import edu.iu.uis.eden.routetemplate.RuleTemplateService;
 import edu.iu.uis.eden.server.BeanConverter;
 import edu.iu.uis.eden.user.WorkflowUser;
+import edu.iu.uis.eden.user.WorkflowUserId;
 import edu.iu.uis.eden.util.Utilities;
 import edu.iu.uis.eden.util.Utilities.RouteLogActionRequestSorter;
 import edu.iu.uis.eden.workgroup.WorkflowGroupId;
@@ -91,11 +101,47 @@ import edu.iu.uis.eden.workgroup.WorkgroupService;
 public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction implements AuditModeAction {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentActionsAction.class);
     private static final String DOCUMENT_APPROVE_QUESTION = "DocApprove";
-
+    private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
+    private static final String DOCUMENT_REJECT_QUESTION="DocReject";
+    
+    
+    
     /**
      * Struts mapping for the Proposal web page.  
      */
     private static final String MAPPING_PROPOSAL = "proposal";
+    
+    
+    
+    
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getProposalDevelopmentDocument();
+
+        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
+            ProposalPerson person = person_it.next();
+            if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE))){
+                if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
+                    pdform.setReject(true);
+
+                }
+            }else if((person!= null) && (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
+                    if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
+                        pdform.setReject(true);
+                    }
+                }
+        }
+            
+        return actionForward;
+        
+        
+    }
+    
+    
+
 
     /**
      * Calls the document service to approve the document
@@ -261,7 +307,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
         KraServiceLocator.getService(KualiRuleService.class).applyRules(
                 new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
-
+       
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
@@ -277,5 +323,93 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward((RiceConstants.MAPPING_BASIC));
     }
 
+    
+    public ActionForward reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String NodeName = null;
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        KualiWorkflowDocument workflowdocument=kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument();
+        Long routeHeaderId=kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        List currentNodeInstances = KEWServiceLocator.getRouteNodeService().getCurrentNodeInstances(routeHeaderId);
+        List<RouteNodeInstance> nodeInstances = new ArrayList<RouteNodeInstance>();
+        for (Iterator iterator = currentNodeInstances.iterator(); iterator.hasNext();) {
+           RouteNodeInstance nodeInstance = (RouteNodeInstance) iterator.next();
+           NodeName= nodeInstance.getRouteNode().getRouteNodeName();
+        }
+        Object question = request.getParameter(RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(RiceConstants.QUESTION_CLICKED_BUTTON);
+        String reason = request.getParameter(RiceConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String methodToCall = ((KualiForm) form).getMethodToCall();
+        String rejectNoteText = "";
+        if(question == null){
+            return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,"Are you sure you want to reject this document?" , RiceConstants.CONFIRMATION_QUESTION, methodToCall, "");
+         } 
+        else if((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked))  {
+            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
+        else
+        {
+            String introNoteMessage = "Proposal Rejected" + RiceConstants.BLANK_SPACE;
+            rejectNoteText = introNoteMessage + reason;
+            workflowdocument.returnToPreviousNode(rejectNoteText, NodeName);
+            return super.returnToSender(mapping, kualiDocumentFormBase);
+        }
+        
+       
+    }
+    
+    
+    /**
+     * route the document using the document service
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        boolean success;
+        
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        proposalDevelopmentForm.setAuditActivated(true);
+        success=KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
+        HashMap map=GlobalVariables.getAuditErrorMap();
+        Object question = request.getParameter(RiceConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(RiceConstants.QUESTION_CLICKED_BUTTON);
+        String methodToCall = ((KualiForm) form).getMethodToCall();
+        if((map.size()==1) &&  map.containsKey("sponsorProgramInformationAuditWarnings"))
+        {
 
+            if(question == null){
+                return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists.Are you sure want to submit to workflow routing.", RiceConstants.CONFIRMATION_QUESTION, methodToCall, "");
+                
+            } 
+            else if(DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                ActionForward actionForward = super.route(mapping, form, request, response);
+                return actionForward;
+            }
+
+            else{
+                return mapping.findForward((RiceConstants.MAPPING_BASIC));
+            }    
+
+        }
+        if(success){
+            ActionForward actionForward = super.route(mapping, form, request, response);
+            return actionForward;
+        }else   {
+        GlobalVariables.getErrorMap().putError("document.datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+        return mapping.findForward((RiceConstants.MAPPING_BASIC));
+         }
+        
 }
+    
+    
+}
+    
+    
+    
+    
+    
