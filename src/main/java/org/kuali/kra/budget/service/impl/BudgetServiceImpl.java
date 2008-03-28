@@ -17,6 +17,7 @@ package org.kuali.kra.budget.service.impl;
 
 import java.util.ArrayList;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.budget.bo.BudgetPerson;
@@ -37,6 +38,7 @@ public class BudgetServiceImpl implements BudgetService {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetServiceImpl.class);
     
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
     private BudgetPersonService budgetPersonService;
     

@@ -23,5 +23,31 @@
   	headerTabActive="modularBudget">
 
 	<center>Under Construction</center>
+	
+	<kul:uncollapsable tabTitle="Select Modular Budget Period">
+  		<div align="center">
+  			<label for="budget period">Budget Period:</label>
+  			<html:select property="modularSelectedPeriod">
+  				<html:option value="0">View All</html:option>
+  				<c:forEach var="budgetPeriod" items="${KualiForm.document.budgetPeriods}" varStatus="status">
+  					<html:option value="${budgetPeriod.budgetPeriod}">${budgetPeriod.budgetPeriod}: ${budgetPeriod.dateRange}</html:option>
+  				</c:forEach>
+  			</html:select>
+          	<br/><br/>
+          	<span><html:image property="methodToCall.updateView" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' /></span>
+        </div>
+	</kul:uncollapsable>
+	<br/>
+	
+	<kra-b:budgetModular periodNum="${KualiForm.modularSelectedPeriod}"/>
+	
+	<kul:documentControls 
+		transactionalDocument="false"
+		suppressRoutingControls="true"
+		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		extraButtonSource="${ConfigProperties.kra.externalizable.images.url}buttonsmall_sync.gif"
+		extraButtonProperty="methodToCall.sync"
+		extraButtonAlt="Sync"
+		/>
 
 </kul:documentPage>

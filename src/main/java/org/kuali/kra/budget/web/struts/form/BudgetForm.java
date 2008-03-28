@@ -25,6 +25,8 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kra.budget.bo.BudgetCostShare;
+import org.kuali.kra.budget.bo.BudgetModularIdc;
+import org.kuali.kra.budget.bo.BudgetModularSummary;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
@@ -48,11 +50,15 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
     private BudgetCostShare newBudgetCostShare;
     private BudgetProjectIncome newBudgetProjectIncome;
     private BudgetUnrecoveredFandA newBudgetUnrecoveredFandA;
+    private BudgetModularIdc newBudgetModularIdc;
+    private BudgetModularSummary budgetModularSummary;
     
     private List<ExtraButton> extraTopButtons;
 
     private Integer viewBudgetPeriod;
     private String viewLocation;
+    
+    private Integer modularSelectedPeriod;
     
     public Integer getViewBudgetPeriod() {
         return viewBudgetPeriod;
@@ -262,4 +268,29 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
     public void setNewBudgetUnrecoveredFandA(BudgetUnrecoveredFandA newBudgetUnrecoveredFandA) {
         this.newBudgetUnrecoveredFandA = newBudgetUnrecoveredFandA;
     }
+
+    public Integer getModularSelectedPeriod() {
+        return modularSelectedPeriod;
+    }
+
+    public void setModularSelectedPeriod(Integer modularSelectedPeriod) {
+        this.modularSelectedPeriod = modularSelectedPeriod;
+    }
+
+    public BudgetModularIdc getNewBudgetModularIdc() {
+        return newBudgetModularIdc;
+    }
+
+    public void setNewBudgetModularIdc(BudgetModularIdc newBudgetModularIdc) {
+        this.newBudgetModularIdc = newBudgetModularIdc;
+    }
+
+    public BudgetModularSummary getBudgetModularSummary() {
+        return budgetModularSummary;
+    }
+
+    public void setBudgetModularSummary(BudgetModularSummary budgetModularSummary) {
+        this.budgetModularSummary = budgetModularSummary;
+    }
+    
 }

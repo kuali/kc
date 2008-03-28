@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -30,10 +31,15 @@ public class BudgetModular extends KraPersistableBusinessObjectBase {
     private BudgetDecimal consortiumFna;
     private BudgetDecimal totalDirectCost;
     
+    // Derived properties
+    private BudgetDecimal totalRequestedCost;
+    private BudgetDecimal totalFnaRequested;
+    
     private List<BudgetModularIdc> budgetModularIdcs;
     
     public BudgetModular() {
         super();
+        budgetModularIdcs = new ArrayList<BudgetModularIdc>();
     }
     
     public BudgetModular(String proposalNumber, Integer budgetVersionNumber, Integer budgetPeriod) {
@@ -91,6 +97,22 @@ public class BudgetModular extends KraPersistableBusinessObjectBase {
         this.budgetVersionNumber = budgetVersionNumber;
     }
     
+    public BudgetDecimal getTotalFnaRequested() {
+        return totalFnaRequested;
+    }
+
+    public void setTotalFnaRequested(BudgetDecimal totalFnaRequested) {
+        this.totalFnaRequested = totalFnaRequested;
+    }
+
+    public BudgetDecimal getTotalRequestedCost() {
+        return totalRequestedCost;
+    }
+
+    public void setTotalRequestedCost(BudgetDecimal totalRequestedCost) {
+        this.totalRequestedCost = totalRequestedCost;
+    }
+
     public List<BudgetModularIdc> getBudgetModularIdcs() {
         return budgetModularIdcs;
     }
@@ -99,14 +121,49 @@ public class BudgetModular extends KraPersistableBusinessObjectBase {
         this.budgetModularIdcs = budgetModularIdcs;
     }
     
+    public BudgetModularIdc getBudgetModularIdc(int index) {
+        while (getBudgetModularIdcs().size() <= index) {
+            getBudgetModularIdcs().add(new BudgetModularIdc());
+        }
+        return (BudgetModularIdc) getBudgetModularIdcs().get(index);
+    }
+    
+    public void calculateAllTotals() {
+        this.calculateTotalDirectCost();
+        this.calculateTotalFnaRequested();
+        this.calculateTotalRequestedCost();
+    }
+    
     public void calculateTotalDirectCost() {
         BudgetDecimal totalDirectCost = new BudgetDecimal(0);
         if (this.getDirectCostLessConsortiumFna() != null) {
-            totalDirectCost.add(this.getDirectCostLessConsortiumFna());
+            totalDirectCost = totalDirectCost.add(this.getDirectCostLessConsortiumFna());
         } if (this.getConsortiumFna() != null) {
-            totalDirectCost.add(this.getConsortiumFna());
+            totalDirectCost = totalDirectCost.add(this.getConsortiumFna());
         }
         this.setTotalDirectCost(totalDirectCost);
+    }
+    
+    public void calculateTotalFnaRequested() {
+        BudgetDecimal fnaRequested = new BudgetDecimal(0);
+        for (BudgetModularIdc budgetModularIdc: this.getBudgetModularIdcs()) {
+            budgetModularIdc.calculateFundsRequested();
+            if (budgetModularIdc.getFundsRequested() != null) {
+                fnaRequested = fnaRequested.add(budgetModularIdc.getFundsRequested());
+            }
+        }
+        this.setTotalFnaRequested(fnaRequested);
+    }
+    
+    public void calculateTotalRequestedCost() {
+        BudgetDecimal requestedCost = new BudgetDecimal(0);
+        if (this.getTotalDirectCost() != null) {
+            requestedCost = requestedCost.add(this.getTotalDirectCost());
+        }
+        if (this.getTotalFnaRequested() != null) {
+            requestedCost = requestedCost.add(this.getTotalFnaRequested());
+        }
+        this.setTotalRequestedCost(requestedCost);
     }
     
     public void addNewBudgetModularIdc(BudgetModularIdc budgetModularIdc) {
