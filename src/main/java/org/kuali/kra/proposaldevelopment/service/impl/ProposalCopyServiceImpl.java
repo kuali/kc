@@ -30,6 +30,8 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -102,7 +104,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                                                    "OwnedByUnitNumber",
                                                    "Narratives",
                                                    "InstituteAttachments",
-                                                   "PropPersonBios" };
+                                                   "PropPersonBios",
+                                                   "BudgetVersionOverviews"};
     
     /**
      * Each property in the document that can be copied is represented
@@ -121,6 +124,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
 
     private BusinessObjectService businessObjectService;
+    private DocumentService documentService;
 
     /**
      * @see org.kuali.kra.proposaldevelopment.service.ProposalCopyService#copyProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria)
@@ -138,6 +142,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     
             copyProposal(doc, newDoc, criteria);
             docService.saveDocument(newDoc);
+            
+//          Copy over the budget(s) if required by the user.  newDoc must be saved so we know proposal number.
+            if (criteria.getIncludeBudget()) {
+                copyBudget(doc, newDoc, criteria.getBudgetVersions());
+            }
             
             // Can't initialize authorization until a proposal is saved
             // and we have a new proposal number.
@@ -178,11 +187,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             copyAttachments(src, dest);
         }
         
-        // Copy over the budget(s) if required by the user.
-        
-        if (criteria.getIncludeBudget()) {
-            copyBudget(src, dest, criteria.getBudgetVersions());
-        }
     }
 
     /**
@@ -484,9 +488,29 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param dest the destination proposal development document, i.e. the new document.
      * @param budgetVersions
      */
-    private void copyBudget(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) {
-        // TODO Auto-generated method stub
+    private void copyBudget(ProposalDevelopmentDocument src, ProposalDevelopmentDocument dest, String budgetVersions) throws Exception {
+        if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION)) {
+            BudgetVersionOverview finalBudgetVersion = src.getFinalBudgetVersion();
+            if (finalBudgetVersion != null) {
+                copyAndFinalizeBudgetVersion(finalBudgetVersion.getDocumentNumber(), dest.getProposalNumber(), 1);
+            }
+        } else if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_ALL_VERSIONS)) {
+            int i = 1;
+            for (BudgetVersionOverview budgetVersionOverview: src.getBudgetVersionOverviews()) {
+                copyAndFinalizeBudgetVersion(budgetVersionOverview.getDocumentNumber(), dest.getProposalNumber(), i++);
+            }
+        }
         
+    }
+    
+    private void copyAndFinalizeBudgetVersion(String documentNumber, String proposalNumber, int budgetVersionNumber) throws Exception {
+        BudgetDocument budget = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
+        budget.getProposal().setBudgetVersionOverviews(new ArrayList<BudgetVersionOverview>());
+        budget.toCopy();
+        ObjectUtils.setObjectPropertyDeep(budget, "proposalNumber", String.class, proposalNumber);
+        ObjectUtils.setObjectPropertyDeep(budget, "budgetVersionNumber", Integer.class, budgetVersionNumber);
+        documentService.saveDocument(budget);
+        documentService.routeDocument(budget, "Route to Final", new ArrayList());
     }
     
     /**
@@ -498,6 +522,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         this.businessObjectService = businessObjectService;
     }
     
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
     /**
      * Get the Kuali Rule Service.
      * 
