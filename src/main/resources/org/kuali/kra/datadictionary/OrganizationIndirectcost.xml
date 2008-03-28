@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.OrganizationIndirectcost">
+
+        <inquiry>
+            <title>Organization Indirectcost</title>
+
+            <inquirySections><inquirySection title="Organization Indirectcost"><inquiryFields>
+            	<field attributeName="idcNumber" forceInquiry="true"/>
+				<field attributeName="organizationId" forceInquiry="true"/>
+				<field attributeName="applicableIndirectcostRate"/>
+				<field attributeName="endDate"/>
+				<field attributeName="idcComment"/>
+				<field attributeName="idcRateTypeCode"/>
+				<field attributeName="requestedDate"/>
+				<field attributeName="startDate"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Organization Indirectcost Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Organization Indirectcost</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="idcNumber"/>
+					<sortAttribute attributeName="organizationId"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="idcNumber" required="false"/>
+				<lookupField attributeName="organizationId" required="false"/>
+				<lookupField attributeName="applicableIndirectcostRate" required="false"/>
+				<lookupField attributeName="endDate" required="false"/>
+				<lookupField attributeName="idcComment" required="false"/>
+				<lookupField attributeName="idcRateTypeCode" required="false"/>
+				<lookupField attributeName="requestedDate" required="false"/>
+				<lookupField attributeName="startDate" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="idcNumber" forceInquiry="true"/>
+				<field attributeName="organizationId" forceInquiry="true"/>
+				<field attributeName="applicableIndirectcostRate" forceInquiry="false"/>
+				<field attributeName="endDate" forceInquiry="false"/>
+				<field attributeName="idcComment" forceInquiry="false"/>
+				<field attributeName="idcRateTypeCode" forceInquiry="false"/>
+				<field attributeName="requestedDate" forceInquiry="false"/>
+				<field attributeName="startDate" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <!-- <titleAttribute>idcNumber</titleAttribute> -->
+		<titleAttribute>organizationId</titleAttribute>
+        <attributes>
+
+	        <attribute name="idcNumber">
+			<label>Idc Number </label>
+			<shortLabel>Idc Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Idc Number </summary>
+			<description>Idc Number </description>
+			</attribute>
+
+			<attribute name="organizationId">
+			<label>Organization Id </label>
+			<shortLabel>Organization Id </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Organization Id </summary>
+			<description>Organization Id </description>
+			</attribute>
+
+			<attribute name="applicableIndirectcostRate">
+			<label>Applicable Indirectcost Rate </label>
+			<shortLabel>Applicable Indirectcost Rate </shortLabel>
+			<maxLength>5</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="5" />
+			</control>
+			<summary>Applicable Indirectcost Rate </summary>
+			<description>Applicable Indirectcost Rate </description>
+			</attribute>
+
+            <attributeReference name="endDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>End Date</label>
+                <shortLabel>End Date</shortLabel>
+
+                <summary>End Date</summary>
+                <description>End Date</description>
+      		</attributeReference>
+
+			<attribute name="idcComment">
+			<label>Idc Comment </label>
+			<shortLabel>Idc Comment </shortLabel>
+			<maxLength>300</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <control>
+                    <textarea rows="5" cols="40" />
+                </control>
+			<summary>Idc Comment </summary>
+			<description>Idc Comment </description>
+			</attribute>
+
+			<attribute name="idcRateTypeCode">
+			<label>Idc Rate Type Code </label>
+			<shortLabel>Idc Rate Type Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Idc Rate Type Code </summary>
+			<description>Idc Rate Type Code </description>
+			</attribute>
+
+
+            <attributeReference name="requestedDate" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>Requested Date</label>
+                <shortLabel>Requested Date</shortLabel>
+
+                <summary>Requested Date</summary>
+                <description>Requested Date</description>
+      		</attributeReference>
+
+
+            <attributeReference name="startDate" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>Start Date</label>
+                <shortLabel>Start Date</shortLabel>
+
+                <summary>Start Date</summary>
+                <description>Start Date</description>
+      		</attributeReference>
+
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>

@@ -55,7 +55,52 @@
 				<field attributeName="telexNumber"/>
 				<field attributeName="vendorCode"/>
 
-            </inquiryFields></inquirySection></inquirySections>
+            </inquiryFields></inquirySection>
+            
+            <inquirySection title="Organization Types">
+	            <inquiryFields>
+		            <inquiryCollection name="organizationTypes" businessObjectClass="org.kuali.kra.bo.OrganizationType">
+						<field attributeName="organizationTypeCode"/>
+		            </inquiryCollection>
+	            </inquiryFields>
+	         </inquirySection>
+            
+              <inquirySection title="Organization Audits">
+	            <inquiryFields>
+		            <inquiryCollection name="organizationAudits" businessObjectClass="org.kuali.kra.bo.OrganizationAudit">
+		            	<field attributeName="fiscalYear"/>
+						<field attributeName="auditAccepted"/>
+						<field attributeName="auditComment"/>
+		            </inquiryCollection>
+	            </inquiryFields>
+	         </inquirySection>
+
+            <inquirySection title="Organization Indirectcosts">
+	            <inquiryFields>
+		            <inquiryCollection name="organizationIdcs" businessObjectClass="org.kuali.kra.bo.OrganizationIndirectcost">
+		            	<field attributeName="idcNumber"/>
+						<field attributeName="applicableIndirectcostRate"/>
+						<field attributeName="endDate"/>
+						<field attributeName="idcComment"/>
+						<field attributeName="idcRateTypeCode"/>
+						<field attributeName="requestedDate"/>
+						<field attributeName="startDate"/>
+		            </inquiryCollection>
+	            </inquiryFields>
+	         </inquirySection>
+
+            <inquirySection title="Organization Ynqs">
+	            <inquiryFields>
+		            <inquiryCollection name="organizationYnqs" businessObjectClass="org.kuali.kra.bo.OrganizationYnq">
+						<field attributeName="questionId"/>
+						<field attributeName="answer"/>
+						<field attributeName="explanation"/>
+						<field attributeName="reviewDate"/>
+		            </inquiryCollection>
+	            </inquiryFields>
+	         </inquirySection>
+            
+            </inquirySections>
         </inquiry>
 
         <lookup>
@@ -172,7 +217,7 @@
 			<label>Agency Symbol </label>
 			<shortLabel>Agency Symbol </shortLabel>
 			<maxLength>30</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
@@ -184,7 +229,7 @@
 			<label>Animal Welfare Assurance </label>
 			<shortLabel>Animal Welfare Assurance </shortLabel>
 			<maxLength>20</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="20" />
 			</control>
@@ -364,7 +409,7 @@
 			<label>Indirect Cost Rate Agreement </label>
 			<shortLabel>Indirect Cost Rate Agreement </shortLabel>
 			<maxLength>50</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="50" />
 			</control>
@@ -376,7 +421,7 @@
 			<label>Irs Tax Excemption </label>
 			<shortLabel>Irs Tax Excemption </shortLabel>
 			<maxLength>30</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><charset validChars="0123456789-" /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
@@ -388,7 +433,7 @@
 			<label>Mass Employee Claim </label>
 			<shortLabel>Mass Employee Claim </shortLabel>
 			<maxLength>30</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
@@ -400,7 +445,7 @@
 			<label>Mass Tax Excempt Num </label>
 			<shortLabel>Mass Tax Excempt Num </shortLabel>
 			<maxLength>30</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
@@ -412,7 +457,7 @@
 			<label>Nsf Institutional Code </label>
 			<shortLabel>Nsf Institutional Code </shortLabel>
 			<maxLength>30</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><alphaNumeric allowWhitespace="true"/></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
@@ -484,7 +529,7 @@
 			<label>Telex Number </label>
 			<shortLabel>Telex Number </shortLabel>
 			<maxLength>20</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><charset validChars="0123456789-"/> </validationPattern>
 			<control>
 				<text size="20" />
 			</control>
@@ -496,7 +541,7 @@
 			<label>Vendor Code </label>
 			<shortLabel>Vendor Code </shortLabel>
 			<maxLength>30</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="30" />
 			</control>
@@ -505,6 +550,25 @@
 			</attribute>
 
 		</attributes>
+		<collections>
+        	<collection name="organizationTypes">
+        		<label>Organization Types</label>
+        		<shortLabel>Organization Types</shortLabel>
+        		<summary>Organization Types</summary>
+        		<description>
+        			Organization Types
+        		</description>
+        	</collection>
+			  <collection name="organizationYnqs">
+	            <label>Organization YNQ</label>
+	            <shortLabel>Organization YNQ</shortLabel>
+	            <elementLabel>Organization YNQ</elementLabel>
+	            <summary>
+	                Organization YNQ
+	            </summary>
+	            <description>Listing of Organization YNQ.</description>
+	        </collection>
+		</collections>
     </businessObject>
 
 </dictionaryEntry>
