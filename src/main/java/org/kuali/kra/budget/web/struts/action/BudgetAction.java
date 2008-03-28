@@ -29,13 +29,14 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.service.BudgetDistrubutionAndIncomeService;
+import org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -107,6 +108,9 @@ public class BudgetAction extends ProposalActionBase {
     }
 
     public ActionForward distributionAndIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        BudgetDistrubutionAndIncomeService budgetDistributionAndIncomeService = new BudgetDistributionAndIncomeServiceImpl();
+        budgetDistributionAndIncomeService.initializeCollectionDefaults(((BudgetForm) form).getBudgetDocument());
+        
         return mapping.findForward("distributionAndIncome");
     }
 

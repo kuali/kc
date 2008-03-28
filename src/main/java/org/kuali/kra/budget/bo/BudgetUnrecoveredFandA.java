@@ -29,6 +29,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     private Integer fiscalYear;
     private String sourceAccount;
     
+    public static final String OFF_CAMPUS_RATE_FLAG = "N"; 
+    public static final String ON_CAMPUS_RATE_FLAG = "Y";
+    
     public BudgetUnrecoveredFandA() {
         super();
     }
