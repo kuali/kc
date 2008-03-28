@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>ProposalDevelopmentDocument</name>
+      <description>Create an Awesome Development Proposal</description>
+      <label>KRA Proposal Development</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+      <docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <policies>
+        <policy>
+          <name>DEFAULT_APPROVE</name>
+          <value>false</value>
+        </policy>
+        <policy>
+          <name>LOOK_FUTURE</name>
+          <value>true</value>
+        </policy>
+        <policy>
+          <name>PRE_APPROVE</name>
+          <value>false</value>
+        </policy>
+      </policies>
+      <attributes>
+        <attribute>
+          <name>AggregatorSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>BudgetCreatorSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>NarrativeWriterSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>ViewerSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>ApproverSearchAttribute</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="Initiated" nextNode="OSPInitial" />
+          <requests name="OSPInitial" nextNode="ProposalPersons" />
+          <requests name="ProposalPersons" nextNode="OSPOfficeRouting" />
+          <requests name="OSPOfficeRouting" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="OSPInitial">
+          <activationType>S</activationType>
+          <ruleTemplate>OSPInitialApproval</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="ProposalPersons">
+          <activationType>P</activationType>
+          <ruleTemplate>ProposalPersonsApproval</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="OSPOfficeRouting">
+          <activationType>S</activationType>
+          <ruleTemplate>OSPOfficeApproval</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>
+
