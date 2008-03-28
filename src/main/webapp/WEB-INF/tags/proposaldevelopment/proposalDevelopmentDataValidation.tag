@@ -18,7 +18,7 @@
 <c:set var="categories" value="Errors,Warnings,Grant.Gov Errors" />
 
 <kul:tabTop tabTitle="Data Validation" defaultOpen="false"  
-            tabErrorKey="document.audit*">
+            tabErrorKey="document.audit*,document.datavalidation*">
 	<div class="tab-container"  align="center">
 		<div class="h2-container"> 
 			<span class="subhead-left"> <h2>Data Validation</h2> </span>
