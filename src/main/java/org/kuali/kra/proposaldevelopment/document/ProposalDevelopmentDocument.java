@@ -1279,4 +1279,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }
         return null;
     }
+    
+    public BudgetVersionOverview getFinalBudgetVersion() {
+        for (BudgetVersionOverview version: this.getBudgetVersionOverviews()) {
+            if (version.isFinalVersionFlag()) {
+                return version;
+            }
+        }
+        return null;
+    }
 }
