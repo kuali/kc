@@ -1,0 +1,232 @@
+/*
+ * Copyright 2008 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.workflow.attribute;
+
+import java.net.URL;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.kuali.core.UserSession;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
+import org.kuali.kra.KraTestBase;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.KeyPersonnelWebTest;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
+import org.kuali.rice.KNSServiceLocator;
+import org.kuali.rice.lifecycle.Lifecycle;
+import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
+import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.sun.jmx.snmp.Timestamp;
+
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.WorkflowInfo;
+import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
+import edu.iu.uis.eden.clientapp.vo.DocumentDetailVO;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
+import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
+import edu.iu.uis.eden.clientapp.vo.UserIdVO;
+import edu.iu.uis.eden.engine.node.KeyValuePair;
+import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
+import edu.iu.uis.eden.routeheader.RouteHeaderService;
+
+
+public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBase {
+    protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
+    protected static final String PROPOSAL_PAGE_LINK_NAME = "actions.x";
+    private static final String RADIO_FIELD_VALUE = "Y";
+    private static final int IMAGE_INPUT = 4;
+    private static final int SUBMIT_INPUT_BY_NAME = 5;
+    private static final int SUBMIT_INPUT_BY_VALUE = 6;
+    private static final int CHECK_BOX_INPUT = 7;
+    private DocumentService documentService = null;
+    private Lifecycle customKEWLifecycle = null;
+     @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        transactionalLifecycle.stop();
+        new SQLDataLoaderLifecycle("classpath:sql/dml/load_users.sql", ";").start();
+        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/Routing");
+        customKEWLifecycle.start();
+        transactionalLifecycle.start();
+        setProposalDevelopmentPage(buildProposalDevelopmentPage());
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        documentService = KNSServiceLocator.getDocumentService();
+      }  
+
+    @After
+    public void tearDown() throws Exception {
+        
+        
+        super.tearDown();
+        
+        
+    }
+
+    @Test
+    public void testproposalworkflowRouting() throws Exception {
+
+        Calendar c = Calendar.getInstance(); 
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); 
+        String sponsordeadlinedate = sdf.format(c.getTime()); 
+        HtmlPage proposaldevelopmentPage = getProposalDevelopmentPage();
+        setDefaultRequiredFields(proposaldevelopmentPage);
+        setFieldValue(proposaldevelopmentPage,"document.deadlineDate",sponsordeadlinedate);
+        HtmlForm proposaldevform = (HtmlForm) proposaldevelopmentPage.getForms().get(0);
+        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) proposaldevform.getInputByName("document.documentHeader.documentNumber");
+        HtmlPage KeyPersonnelpage = clickOnTab(proposaldevelopmentPage, KEY_PERSONNEL_LINK_NAME);
+        assertTrue(KeyPersonnelpage.asText().contains("Document was successfully saved"));
+        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.Person");
+        assertEquals("Terry Durkin", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
+        setFieldValue(KeyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "PI");
+        KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.insertProposalPerson");
+        setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
+        HtmlPage Proposalpage = clickOnTab(KeyPersonnelpage, PROPOSAL_PAGE_LINK_NAME);
+        Proposalpage = clickOn(Proposalpage, "methodToCall.route");
+        assertTrue(Proposalpage.asText().contains("Document was successfully submitted"));
+        GlobalVariables.setUserSession(null);
+        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        final WebClient newWebClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+        final HtmlPage pageAfterLogin = login(newWebClient, url, "en/ActionList.do", "quickstart");
+        assertNotNull(pageAfterLogin);
+        HtmlAnchor docLink = getAnchorFromPage(pageAfterLogin, "docId=" + documentNumber.getDefaultValue());
+        assertNotNull(docLink);
+        HtmlPage docDisplay = (HtmlPage) docLink.click();
+        assertNotNull(docDisplay);
+
+
+
+
+
+        HtmlPage approvePage = clickOnTab(docDisplay, ACTIONS_LINK_NAME);
+        HtmlForm form2 = (HtmlForm) approvePage.getForms().get(0);
+        final HtmlPage approvalConfirmationPage = clickButton(approvePage, form2, "methodToCall.approve", IMAGE_INPUT);
+        assertNotNull(approvalConfirmationPage);
+        assertTrue(approvalConfirmationPage.asText().contains("Kuali :: Question Dialog Page"));
+
+        HtmlForm form3 = (HtmlForm) approvalConfirmationPage.getForms().get(0);
+        HtmlPage backToActionList = clickButton(approvalConfirmationPage, form3, "methodToCall.processAnswer.button0",
+                IMAGE_INPUT);
+        assertNotNull(backToActionList);
+        assertTrue(backToActionList.asText().contains("Action List"));
+
+
+        GlobalVariables.setUserSession(new UserSession("tdurkin"));
+        final WebClient newWebClient1 = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
+        final URL url1 = new URL("http://localhost:" + getPort() + "/kra-dev/");
+        final HtmlPage pageAfterLogin1 = login(newWebClient1, url1, "en/ActionList.do", "tdurkin");
+        assertNotNull(pageAfterLogin1);
+
+        HtmlAnchor docLink1 = getAnchorFromPage(pageAfterLogin1, "docId=" + documentNumber.getDefaultValue());
+        assertNotNull(docLink1);
+        HtmlPage docDisplay1 = (HtmlPage) docLink1.click();
+        assertNotNull(docDisplay1);
+        HtmlPage PIApprovePage = clickOnTab(docDisplay1, ACTIONS_LINK_NAME); 
+        HtmlForm form4 = (HtmlForm) PIApprovePage.getForms().get(0);
+        final HtmlPage rejectConfirmationPage = clickOn(PIApprovePage, "methodToCall.reject");
+        assertNotNull(rejectConfirmationPage);
+         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService
+                 .getByDocumentHeaderId(documentNumber.getDefaultValue());
+         assertNotNull(savedDocument);
+         KualiWorkflowDocument workflowDoc = savedDocument.getDocumentHeader().getWorkflowDocument();
+         assertNotNull(workflowDoc);
+        String currentnodename=workflowDoc.getCurrentRouteNodeNames();
+        assertEquals(currentnodename,"ProposalPersons");
+
+    }
+
+   
+
+    private HtmlPage clickButton(HtmlPage page, HtmlForm htmlForm, String buttonName, int type) throws Exception {
+        String completeButtonName = getImageTagName(page, buttonName);
+        switch (type) {
+            case IMAGE_INPUT:
+                final HtmlImageInput button = (HtmlImageInput) htmlForm.getInputByName(completeButtonName);
+                return (HtmlPage) button.click();
+            case SUBMIT_INPUT_BY_NAME:
+                final HtmlSubmitInput button1 = (HtmlSubmitInput) htmlForm.getInputByName(completeButtonName);
+                return (HtmlPage) button1.click();
+            case SUBMIT_INPUT_BY_VALUE:
+                final HtmlSubmitInput button2 = (HtmlSubmitInput) htmlForm.getInputByValue(buttonName);
+                return (HtmlPage) button2.click();
+            case CHECK_BOX_INPUT:
+                final HtmlCheckBoxInput checkbox = (HtmlCheckBoxInput) htmlForm.getInputByName(buttonName);
+                return (HtmlPage) checkbox.click();
+            default:
+                assertTrue(false);
+            return null;
+        }
+    }     
+    private String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
+        int idx1 = page.asXml().indexOf(uniqueNamePrefix);
+        int idx2 = page.asXml().indexOf("\"", idx1);
+        return page.asXml().substring(idx1, idx2).replace("&amp;", "&").replace("((&lt;&gt;))", "((<>))");
+    }
+
+    private HtmlPage login(WebClient webClient, URL url, String loginLocation, String userid) throws Exception {
+        final HtmlPage page1 = (HtmlPage) webClient.getPage(url);
+        assertEquals("Kuali Portal Index", page1.getTitleText());
+
+        // LOGIN
+        final HtmlPage page2 = (HtmlPage) webClient.getPage(url + loginLocation);
+        setFieldValue(page2, "username", userid);
+
+        // Get the form that we are dealing with and within that form,
+        // find the submit button and the field that we want to change.
+        final HtmlForm form = (HtmlForm) page2.getForms().get(0);
+
+        // Now submit the form by clicking the button and get back the
+        // second page.
+        return clickButton(page2, form, "Login", SUBMIT_INPUT_BY_VALUE);
+
+    }
+
+    private HtmlAnchor getAnchorFromPage(HtmlPage page, String stringToMatch) {
+        List<HtmlAnchor> anchors = page.getAnchors();
+        HtmlAnchor target = null;
+        for (HtmlAnchor anchor : anchors) {
+            if (anchor.getHrefAttribute().contains(stringToMatch)) {
+                target = anchor;
+            }
+        }
+
+        return target;
+    }
+}
