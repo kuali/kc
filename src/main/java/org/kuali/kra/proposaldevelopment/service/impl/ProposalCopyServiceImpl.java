@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
@@ -30,6 +31,9 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -37,10 +41,18 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
+import org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.service.UnitService;
@@ -124,6 +136,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
 
     private BusinessObjectService businessObjectService;
+    private KeyPersonnelService keyPersonnelService;
     private DocumentService documentService;
 
     /**
@@ -141,6 +154,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             ProposalDevelopmentDocument newDoc = (ProposalDevelopmentDocument) docService.getNewDocument(doc.getClass());
     
             copyProposal(doc, newDoc, criteria);
+            fixProposal(doc, newDoc, criteria);
             docService.saveDocument(newDoc);
             
 //          Copy over the budget(s) if required by the user.  newDoc must be saved so we know proposal number.
@@ -336,12 +350,123 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     /**
      * Set the lead unit for the new proposal.
      * @param doc the new proposal development document
-     * @param leadUnitNumber the lead unit number
+     * @param newLeadUnitNumber the new lead unit number
      */
-    private void setLeadUnit(ProposalDevelopmentDocument doc, String leadUnitNumber) {
+    private void setLeadUnit(ProposalDevelopmentDocument doc, String newLeadUnitNumber) {
         UnitService unitService = KraServiceLocator.getService(UnitService.class);
-        doc.setOwnedByUnitNumber(leadUnitNumber);
-        doc.setOwnedByUnit(unitService.getUnit(leadUnitNumber));
+        Unit newLeadUnit = unitService.getUnit(newLeadUnitNumber);
+        doc.setOwnedByUnitNumber(newLeadUnitNumber);
+        doc.setOwnedByUnit(newLeadUnit);
+    }
+        
+    /**
+     * Fix the proposal.
+     * @param criteria the copy criteria
+     */
+    private void fixProposal(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument newDoc, ProposalCopyCriteria criteria) {
+        fixKeyPersonnel(newDoc, srcDoc.getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
+    }
+    
+    /**
+     * Fix the Key Personnel.  This requires changing the lead unit for the PI
+     * and the COIs to the new lead unit.  Also, if the PI's home unit is not in
+     * the list, we must add it.
+     * @param doc the proposal development document
+     * @param oldLeadUnitNumber the old lead unit number
+     * @param newLeadUnitNumber the new lead unit number
+     */
+    private void fixKeyPersonnel(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) {
+        /*
+         * We have nothing to do if the lead unit didn't change.
+         */
+        if (!StringUtils.equals(oldLeadUnitNumber, newLeadUnitNumber)) {
+            /*
+             * The key personnel must be updated.  The PI and COIs need to have
+             * the new lead unit and their home units.
+             */
+            List<ProposalPerson> persons = doc.getProposalPersons();
+            for (ProposalPerson person : persons) {
+                Integer personNumber = doc.getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER);
+                ProposalPersonRole role = person.getRole();
+                person.setProposalNumber(null);
+                person.setProposalPersonNumber(personNumber);
+                String roleId = role.getProposalPersonRoleId();
+                List<ProposalPersonUnit> units = person.getUnits();
+                if ((StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) || 
+                    (StringUtils.equals(roleId, Constants.CO_INVESTIGATOR_ROLE))) {
+                  
+                    // Change the old lead unit to the new lead unit.
+                    
+                    ProposalPersonUnit unit = findProposalPersonUnit(units, oldLeadUnitNumber);
+                    if (unit != null) {
+                        unit.setUnitNumber(newLeadUnitNumber);
+                    }
+                    else {
+                        unit = keyPersonnelService.createProposalPersonUnit(newLeadUnitNumber, person);
+                        unit.setLeadUnit(true);
+                        unit.setDelete(false);
+                        units.add(0, unit);
+                    }
+               
+                    /*
+                     * If the PI's home unit is not in the PI's list, add it.
+                     */
+                    if (StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
+                        String homeUnitNumber = person.getHomeUnit();
+                        unit = findProposalPersonUnit(units, homeUnitNumber);
+                        if (unit == null) {
+                            unit = keyPersonnelService.createProposalPersonUnit(homeUnitNumber, person);
+                            unit.setLeadUnit(false);
+                            unit.setDelete(true);
+                            units.add(1, unit);
+                        }
+                    }
+                   
+                }
+                
+                for (ProposalPersonUnit myUnit : units) {
+                    myUnit.setProposalNumber(null);
+                    myUnit.setProposalPersonNumber(personNumber);
+                }
+                
+                ProposalInvestigatorCertification c = person.getCertification();
+                if (c != null) {
+                    c.setProposalNumber(null);
+                    c.setProposalPersonNumber(personNumber);
+                }
+                
+                for (ProposalPersonYnq ynq : person.getProposalPersonYnqs()) {
+                    ynq.setProposalNumber(null);
+                    ynq.setProposalPersonNumber(personNumber);
+                }
+                
+                for (ProposalPersonDegree degree : person.getProposalPersonDegrees()) {
+                    degree.setProposalNumber(null);
+                    degree.setProposalPersonNumber(personNumber);
+                }
+                
+                for (ProposalPersonCreditSplit split : person.getCreditSplits()) {
+                   split.setProposalNumber(null);
+                   split.setProposalPersonNumber(personNumber);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Find the proposal person unit with the matching unit number.
+     * @param units the proposal person units to search through
+     * @param unitNumber the unit number to search for
+     * @return the found proposal person unit or null if not found
+     */
+    private ProposalPersonUnit findProposalPersonUnit(List<ProposalPersonUnit> units, String unitNumber) {
+        for (ProposalPersonUnit unit : units) {
+            String number = unit.getUnitNumber();
+            if (StringUtils.equals(number, unitNumber)) {
+                return unit;
+            }
+        }
+        return null;
     }
     
     /**
@@ -526,6 +651,15 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         this.documentService = documentService;
     }
 
+    /**
+     * Set the Key Personnel Service.  It is set via dependency injection.
+     * 
+     * @param keyPersonnelService the Key Personnel Service
+     */
+    public void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
+        this.keyPersonnelService = keyPersonnelService;
+    }
+    
     /**
      * Get the Kuali Rule Service.
      * 

@@ -35,13 +35,14 @@ import org.junit.Before;
  * Base class for all htmlunit tests involving the Proposal Development Page.
  * 
  * @author $Author: dbarre $
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     
     protected static final String ABSTRACTS_ATTACHMENTS_LINK_NAME = "abstractsAttachments.x";
     protected static final String ACTIONS_LINK_NAME = "actions.x";
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
+    protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.financialDocumentDescription";
     protected static final String PROPOSAL_SPONSOR_CODE_ID = "document.sponsorCode";
@@ -83,7 +84,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
      * @return <code>{@link HtmlPage}</code> instance of the proposal development page
      * @throws IOException
      */
-    protected final HtmlPage buildProposalDevelopmentPage() throws IOException {
+    protected final HtmlPage buildProposalDevelopmentPage() throws Exception {
         HtmlPage retval = clickOn(getPortalPage(), "Proposal Development", "Kuali Portal Index");
         retval = getInnerPages(retval).get(0);
         assertTrue("Kuali :: Proposal Development Document".equals(retval.getTitleText()));
