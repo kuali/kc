@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.OrganizationAudit">
+
+        <inquiry>
+            <title>Organization Audit</title>
+
+            <inquirySections><inquirySection title="Organization Audit"><inquiryFields>
+            	<field attributeName="fiscalYear" forceInquiry="true"/>
+				<field attributeName="organizationId" forceInquiry="true"/>
+				<field attributeName="auditAccepted"/>
+				<field attributeName="auditComment"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Organization Audit Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Organization Audit</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="fiscalYear"/>
+					<sortAttribute attributeName="organizationId"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="fiscalYear" required="false"/>
+				<lookupField attributeName="organizationId" required="false"/>
+				<lookupField attributeName="auditAccepted" required="false"/>
+				<lookupField attributeName="auditComment" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="fiscalYear" forceInquiry="true"/>
+				<field attributeName="organizationId" forceInquiry="true"/>
+				<field attributeName="auditAccepted" forceInquiry="false"/>
+				<field attributeName="auditComment" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <!-- <titleAttribute>fiscalYear</titleAttribute> -->
+		<titleAttribute>organizationId</titleAttribute>
+        <attributes>
+
+	        <attribute name="fiscalYear">
+			<label>Fiscal Year </label>
+			<shortLabel>Fiscal Year </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Fiscal Year </summary>
+			<description>Fiscal Year </description>
+			</attribute>
+
+			<attribute name="organizationId">
+			<label>Organization Id </label>
+			<shortLabel>Organization Id </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Organization Id </summary>
+			<description>Organization Id </description>
+			</attribute>
+
+<!-- 
+			<attribute name="auditAccepted">
+			<label>Audit Accepted </label>
+			<shortLabel>Audit Accepted </shortLabel>
+			<maxLength>1</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="1" />
+			</control>
+			<summary>Audit Accepted </summary>
+			<description>Audit Accepted </description>
+			</attribute>
+-->
+            <attributeReference name="auditAccepted" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Audit Accepted </label>
+                <shortLabel>Audit Accepted </shortLabel>
+                <summary>Audit Accepted </summary>
+                <description>Audit Accepted </description>
+			</attributeReference>
+
+
+
+			<attribute name="auditComment">
+			<label>Audit Comment </label>
+			<shortLabel>Audit Comment </shortLabel>
+			<maxLength>300</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <control>
+                    <textarea rows="5" cols="40" />
+                </control>
+			<summary>Audit Comment </summary>
+			<description>Audit Comment </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>

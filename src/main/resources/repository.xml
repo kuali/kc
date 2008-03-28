@@ -885,18 +885,20 @@
 		<collection-descriptor name="Proposal" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="OrganizationAudit" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationAudit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		-->
+		<collection-descriptor name="organizationAudits" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationAudit" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="OrganizationIdc" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationIdc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="organizationIdcs" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationIndirectcost" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="OrganizationType" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="organizationTypes" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
-		<collection-descriptor name="OrganizationYnq" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="organizationYnqs" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationYnq" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
+		<!--  
 		<collection-descriptor name="ProtocolLocation" proxy="true" element-class-ref="org.kuali.kra.bo.ProtocolLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="organizationId"/>
 		</collection-descriptor>
@@ -2428,5 +2430,75 @@
 	</class-descriptor>
 
 <!-- Custom Attributes:end -->
+	<!-- additional oraganization related tables -->
+	<class-descriptor class="org.kuali.kra.bo.OrganizationTypeList" table="ORGANIZATION_TYPE_LIST">
+		<field-descriptor name="organizationTypeCode" column="ORGANIZATION_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<collection-descriptor name="organizationTypes" proxy="true" element-class-ref="org.kuali.kra.bo.OrganizationType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="organizationTypeCode"/>
+		</collection-descriptor>
+		<!--  tempary commented out
+		<collection-descriptor name="personFinIntDisclosure" proxy="true" element-class-ref="org.kuali.kra.bo.PersonFinIntDisclosure" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="organizationTypeCode"/>
+		</collection-descriptor>
+		-->
+	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.bo.OrganizationIndirectcost" table="ORGANIZATION_IDC">
+		<field-descriptor name="idcNumber" column="IDC_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="applicableIndirectcostRate" column="APPLICABLE_IDC_RATE" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbRateDecimalFieldConversion"/>
+		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="idcComment" column="IDC_COMMENT" jdbc-type="VARCHAR"/>
+		<field-descriptor name="idcRateTypeCode" column="IDC_RATE_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="requestedDate" column="REQUESTED_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="organizationId"/> 
+		</reference-descriptor>
+	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.bo.OrganizationAudit" table="ORGANIZATION_AUDIT">
+		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="CHAR" primarykey="true"/>
+		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="auditAccepted" column="AUDIT_ACCEPTED" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="auditComment" column="AUDIT_COMMENT" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="organizationId"/> 
+		</reference-descriptor>
+	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.bo.OrganizationYnq" table="ORGANIZATION_YNQ">
+		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="questionId" column="QUESTION_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="answer" column="ANSWER" jdbc-type="CHAR"/>
+		<field-descriptor name="explanation" column="EXPLANATION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="reviewDate" column="REVIEW_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="organizationId"/> 
+		</reference-descriptor>
+		<reference-descriptor name="ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="questionId"/> 
+		</reference-descriptor>
+	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.bo.OrganizationType" table="ORGANIZATION_TYPE">
+		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="organizationTypeCode" column="ORGANIZATION_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="organizationId"/> 
+		</reference-descriptor>
+		<reference-descriptor name="organizationTypeList" class-ref="org.kuali.kra.bo.OrganizationTypeList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="organizationTypeCode"/> 
+		</reference-descriptor>
+	</class-descriptor>
+
+<!-- end organization related table  -->
 	
 </descriptor-repository>

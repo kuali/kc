@@ -21,8 +21,12 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.bo.Organization</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-
+        <maintainableClass>org.kuali.kra.maintenance.OrganizationMaintenableImpl</maintainableClass> 
+		 <!-- 
+		<maintainableClass>
+			org.kuali.core.maintenance.KualiMaintainableImpl
+		</maintainableClass>
+		 -->
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -83,6 +87,54 @@
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
+            
+            <maintainableSection title="Organization Type">
+                <maintainableItems>
+                    <maintainableCollection name="organizationTypes" businessObjectClass="org.kuali.kra.bo.OrganizationType" includeMultipleLookupLine="true" sourceClassName="org.kuali.kra.bo.OrganizationType" sourceAttributeName="organizationTypes" includeAddLine="true">
+                        <!-- <maintainableField name="organizationId"/> --> 
+                        <maintainableField name="organizationTypeCode"  required="true" />
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+
+            <maintainableSection title="Organization Audit">
+                <maintainableItems>
+                    <maintainableCollection name="organizationAudits" businessObjectClass="org.kuali.kra.bo.OrganizationAudit"  includeAddLine="true">
+	                	<maintainableField name="fiscalYear" required="true"/>
+						<maintainableField name="auditAccepted" required="false"/>
+						<maintainableField name="auditComment" required="false"/>
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+
+            <maintainableSection title="Organization Indirectcost">
+                <maintainableItems>
+	                    <maintainableCollection name="organizationIdcs" businessObjectClass="org.kuali.kra.bo.OrganizationIndirectcost"  includeAddLine="true">
+	                	<maintainableField name="idcNumber" required="true"/>
+						<maintainableField name="applicableIndirectcostRate" required="false"/>
+						<maintainableField name="endDate" required="false"/>
+						<maintainableField name="idcComment" required="false"/>
+						<maintainableField name="idcRateTypeCode" required="false"/>
+						<maintainableField name="requestedDate" required="false"/>
+						<maintainableField name="startDate" required="false"/>
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+
+            <maintainableSection title="Organization Ynq">
+                <maintainableItems>
+                    <maintainableCollection name="organizationYnqs" businessObjectClass="org.kuali.kra.bo.OrganizationYnq"  includeAddLine="false">
+                       <maintainableField name="ynq.description" readOnly="true" /> 
+						<maintainableField name="questionId" readOnly="true" />
+						<maintainableField name="answer" required="true"/>
+						<summaryFields>
+                            <summaryField name="ynq.description" />
+                        </summaryFields>
+      
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+            
         </maintainableSections>
     </maintenanceDocument>
 </dictionaryEntry>
