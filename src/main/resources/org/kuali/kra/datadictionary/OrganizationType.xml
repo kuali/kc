@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.OrganizationType">
+
+        <inquiry>
+            <title>Organization Type</title>
+
+            <inquirySections><inquirySection title="Organization Type"><inquiryFields>
+            	<field attributeName="organizationId" forceInquiry="true"/>
+				<field attributeName="organizationTypeCode" forceInquiry="true"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Organization Type Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Organization Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="organizationId"/>
+					<sortAttribute attributeName="organizationTypeCode"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="organizationId" required="false"/>
+				<lookupField attributeName="organizationTypeCode" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="organizationId" forceInquiry="true"/>
+				<field attributeName="organizationTypeCode" forceInquiry="true"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>organizationId</titleAttribute>
+		<!-- <titleAttribute>organizationTypeCode</titleAttribute> -->
+        <attributes>
+
+	        <attribute name="organizationId">
+			<label>Organization Id </label>
+			<shortLabel>Organization Id </shortLabel>
+			<maxLength>8</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="8" />
+			</control>
+			<summary>Organization Id </summary>
+			<description>Organization Id </description>
+			</attribute>
+
+			<attribute name="organizationTypeCode">
+			<label>Organization Type Code </label>
+			<shortLabel>Organization Type Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Organization Type Code </summary>
+			<description>Organization Type Code </description>
+			</attribute>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>

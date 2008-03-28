@@ -1,7 +1,11 @@
 package org.kuali.kra.bo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+
+import org.kuali.core.util.TypedArrayList;
 
 public class Organization extends KraPersistableBusinessObjectBase {
 	private String organizationId;
@@ -35,7 +39,20 @@ public class Organization extends KraPersistableBusinessObjectBase {
 	private String telexNumber;
 	private String vendorCode;
 	private Rolodex rolodex;
+    private List<OrganizationYnq> organizationYnqs;
+    private List<OrganizationType> organizationTypes;
+    private List<OrganizationIndirectcost> organizationIdcs;
+    private List<OrganizationAudit> organizationAudits;
 
+    public Organization() {
+        super();
+        organizationYnqs = new TypedArrayList(OrganizationYnq.class);        
+        organizationTypes = new TypedArrayList(OrganizationType.class);        
+        organizationIdcs = new TypedArrayList(OrganizationIndirectcost.class);        
+        organizationAudits = new TypedArrayList(OrganizationAudit.class);        
+    }
+
+    
 	public String getOrganizationId() {
 		return organizationId;
 	}
@@ -320,4 +337,70 @@ public class Organization extends KraPersistableBusinessObjectBase {
     public void setRolodex(Rolodex rolodex) {
         this.rolodex = rolodex;
     }
+
+    public List<OrganizationYnq> getOrganizationYnqs() {
+        return organizationYnqs;
+    }
+
+    public void setOrganizationYnqs(List<OrganizationYnq> organizationYnqs) {
+        this.organizationYnqs = organizationYnqs;
+    }
+
+    public OrganizationYnq getOrganizationYnq(int index) {
+        while (getOrganizationYnqs().size() <= index) {
+            getOrganizationYnqs().add(new OrganizationYnq());
+        }
+        
+        return (OrganizationYnq)getOrganizationYnqs().get(index);
+    }
+
+    public List<OrganizationType> getOrganizationTypes() {
+        return organizationTypes;
+    }
+
+    public void setOrganizationTypes(List<OrganizationType> organizationTypes) {
+        this.organizationTypes = organizationTypes;
+    }
+
+    public OrganizationType getOrganizationType(int index) {
+        while (getOrganizationTypes().size() <= index) {
+            getOrganizationTypes().add(new OrganizationType());
+        }
+        
+        return (OrganizationType)getOrganizationTypes().get(index);
+    }
+
+    public List<OrganizationIndirectcost> getOrganizationIdcs() {
+        return organizationIdcs;
+    }
+
+    public void setOrganizationIdcs(List<OrganizationIndirectcost> organizationIdcs) {
+        this.organizationIdcs = organizationIdcs;
+    }
+
+    public OrganizationIndirectcost getOrganizationIdc(int index) {
+        while (getOrganizationIdcs().size() <= index) {
+            getOrganizationIdcs().add(new OrganizationIndirectcost());
+        }
+        
+        return (OrganizationIndirectcost)getOrganizationIdcs().get(index);
+    }
+
+    public List<OrganizationAudit> getOrganizationAudits() {
+        return organizationAudits;
+    }
+
+    public void setOrganizationAudits(List<OrganizationAudit> organizationAudits) {
+        this.organizationAudits = organizationAudits;
+    }
+    
+    public OrganizationAudit getOrganizationAudit(int index) {
+        while (getOrganizationAudits().size() <= index) {
+            getOrganizationAudits().add(new OrganizationAudit());
+        }
+        
+        return (OrganizationAudit)getOrganizationAudits().get(index);
+    }
+
+
 }
