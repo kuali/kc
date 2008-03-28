@@ -21,13 +21,17 @@ import java.util.GregorianCalendar;
 
 import org.junit.After;
 import org.junit.Before;
-import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 
-public class BudgetDistributionAndIncomeTest extends KraTestBase {
-    protected static final BudgetDecimal TEST_AMOUNT_100 = new BudgetDecimal(100.0);
-    protected static final BudgetDecimal TEST_AMOUNT_250 = new BudgetDecimal(250.0);
+public abstract class BudgetDistributionAndIncomeTest {
+    protected static final BudgetDecimal FY_2007_Q3_AMT = new BudgetDecimal(100.0);
+    protected static final BudgetDecimal FY_2007_Q4_AMT = BudgetDecimal.ZERO;
+    protected static final BudgetDecimal FY_2008_Q1_AMT = new BudgetDecimal(200.0);
+    protected static final BudgetDecimal FY_2008_Q2_AMT = new BudgetDecimal(300.0);
+    protected static final BudgetDecimal FY_2009_Q1_AMT = new BudgetDecimal(400.0);
+    protected static final BudgetDecimal FY_2009_Q2_AMT = new BudgetDecimal(500.0);
+
     protected static final int DAY_1 = 1;
     protected static final int DAY_2 = 2;
     protected static final int DAY_30 = 30;
@@ -35,10 +39,10 @@ public class BudgetDistributionAndIncomeTest extends KraTestBase {
     protected static final int YEAR_2007 = 2007;
     protected static final int YEAR_2008 = 2008;
     protected static final int YEAR_2009 = 2009;
-    protected static final BudgetDecimal ZERO_AMOUNT = BudgetDecimal.ZERO;
     
-    protected BudgetDecimal[] costShareAmounts = { TEST_AMOUNT_100, ZERO_AMOUNT, TEST_AMOUNT_100, TEST_AMOUNT_100, TEST_AMOUNT_100, TEST_AMOUNT_100 };
-    protected BudgetDecimal[] unrecoveredFandAAmounts = { TEST_AMOUNT_250, ZERO_AMOUNT, TEST_AMOUNT_100, TEST_AMOUNT_250, TEST_AMOUNT_250, TEST_AMOUNT_100 };
+    
+    protected BudgetDecimal[] costShareAmounts = { FY_2007_Q3_AMT, FY_2007_Q4_AMT, FY_2008_Q1_AMT, FY_2008_Q2_AMT, FY_2009_Q1_AMT, FY_2009_Q2_AMT };
+    protected BudgetDecimal[] unrecoveredFandAAmounts = { FY_2007_Q3_AMT, FY_2007_Q4_AMT, FY_2008_Q1_AMT, FY_2008_Q2_AMT, FY_2009_Q1_AMT, FY_2009_Q2_AMT };
     
     protected BudgetDocument budgetDocument;
     protected Calendar calendar;
@@ -46,9 +50,8 @@ public class BudgetDistributionAndIncomeTest extends KraTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         calendar = GregorianCalendar.getInstance();
-        fiscalYearStartArtifact = getDate(YEAR_2000, Calendar.OCTOBER, DAY_1);
+        fiscalYearStartArtifact = getDate(YEAR_2000, Calendar.JULY, DAY_1);
         budgetDocument = new BudgetDocument_CostShareAndUnrecoveredFandAApplicable();        
     }
     
@@ -56,7 +59,6 @@ public class BudgetDistributionAndIncomeTest extends KraTestBase {
     public void tearDown() throws Exception {
         budgetDocument = null;
         calendar = null;
-        super.tearDown();
     }
     
     protected BudgetPeriod createAndAddBudgetPeriod(Date startDate, Date endDate) {
@@ -81,15 +83,15 @@ public class BudgetDistributionAndIncomeTest extends KraTestBase {
     protected void createBudgetPeriodsForThreeFiscalYears() {
         //FY 2007
         createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.JANUARY, DAY_1), getDate(YEAR_2007, Calendar.MARCH, DAY_30));        
-        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.APRIL, DAY_1), getDate(YEAR_2007, Calendar.JUNE, DAY_30));        
-        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.JULY, DAY_1), getDate(YEAR_2007, Calendar.SEPTEMBER, DAY_30));
+        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.APRIL, DAY_1), getDate(YEAR_2007, Calendar.JUNE, DAY_30));
         
         //FY 2008
-        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.NOVEMBER, DAY_1), getDate(YEAR_2007, Calendar.DECEMBER, DAY_30));
+        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.JULY, DAY_1), getDate(YEAR_2007, Calendar.SEPTEMBER, DAY_30));
+        createAndAddBudgetPeriod(getDate(YEAR_2007, Calendar.OCTOBER, DAY_1), getDate(YEAR_2007, Calendar.DECEMBER, DAY_30));
         
         //FY 2009
-        createAndAddBudgetPeriod(getDate(YEAR_2008, Calendar.OCTOBER, DAY_2), getDate(YEAR_2008, Calendar.DECEMBER, DAY_30));
-        createAndAddBudgetPeriod(getDate(YEAR_2008, Calendar.OCTOBER, DAY_1), getDate(YEAR_2009, Calendar.OCTOBER, DAY_30));
+        createAndAddBudgetPeriod(getDate(YEAR_2008, Calendar.OCTOBER, DAY_1), getDate(YEAR_2008, Calendar.DECEMBER, DAY_30));
+        createAndAddBudgetPeriod(getDate(YEAR_2008, Calendar.OCTOBER, DAY_2), getDate(YEAR_2009, Calendar.JUNE, DAY_30));
         
         
         int i = 0;
@@ -100,7 +102,7 @@ public class BudgetDistributionAndIncomeTest extends KraTestBase {
         }        
     }
     
-    protected class BudgetDocument_CostShareAndUnrecoveredFandAApplicable extends BudgetDocument {
+    public class BudgetDocument_CostShareAndUnrecoveredFandAApplicable extends BudgetDocument {
         private static final long serialVersionUID = 1L;
                 
         @Override
@@ -123,7 +125,7 @@ public class BudgetDistributionAndIncomeTest extends KraTestBase {
         }
     }
     
-    protected class BudgetDocument_CostShareAndUnrecoveredFandANotApplicable extends BudgetDocument {
+    public class BudgetDocument_CostShareAndUnrecoveredFandANotApplicable extends BudgetDocument {
         private static final long serialVersionUID = 1L;
                 
         @Override

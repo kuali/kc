@@ -21,14 +21,18 @@ import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
 import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
+import org.kuali.kra.budget.rule.BudgetUnrecoveredFandAAllocationRule;
 import org.kuali.kra.budget.rule.BudgetValidationCostShareRule;
+import org.kuali.kra.budget.rule.BudgetCostShareAllocationRule;
 import org.kuali.kra.budget.rule.event.AddBudgetCostShareEvent;
+import org.kuali.kra.budget.rule.event.BudgetCostShareAllocationEvent;
+import org.kuali.kra.budget.rule.event.BudgetUnrecoveredFandAAllocationEvent;
 import org.kuali.kra.budget.rule.event.BudgetValidationCostShareEvent;
 
 /**
  * Processes Budget Project Income rules
  */
-public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetValidationCostShareRule {
+public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetValidationCostShareRule, BudgetCostShareAllocationRule, BudgetUnrecoveredFandAAllocationRule {
 
     private static final String ADD_ERROR_KEY = "error.custom";
     
@@ -109,6 +113,22 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
             GlobalVariables.getErrorMap().putError("newCostShare.*", ADD_ERROR_KEY, "A Cost Share with the same Fiscal Year, Source Account and Amount exists in the table");
         }
         return duplicate;
+    }
+
+    public boolean processBudgetCostShareAllocationBusinessRules(BudgetCostShareAllocationEvent budgetCostShareEvent) {
+        boolean unallocatedCostSharingExists = budgetCostShareEvent.getBudgetDocument().getUnallocatedCostSharing().isNonZero();
+        if (unallocatedCostSharingExists) {
+            GlobalVariables.getErrorMap().putError("costShare*", ADD_ERROR_KEY, "Cost share allocation doesn't total available cost sharing");
+        }
+        return unallocatedCostSharingExists;
+    }
+
+    public boolean processBudgetUnrecoveredFandAAllocationBusinessRules(BudgetUnrecoveredFandAAllocationEvent budgetUnrecoveredFandAEvent) {
+        boolean result = budgetUnrecoveredFandAEvent.getBudgetDocument().getUnallocatedUnrecoveredFandA().isNonZero();
+        if (result) {
+            GlobalVariables.getErrorMap().putError("unrecoveredFandA*", ADD_ERROR_KEY, "Unrecovered F&A allocation doesn't total available unrecovered F&A");
+        }
+        return result;
     }
 
 }
