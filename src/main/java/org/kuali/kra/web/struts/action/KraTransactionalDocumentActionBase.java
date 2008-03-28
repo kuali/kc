@@ -25,6 +25,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,12 +55,16 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.notification.util.NotificationConstants;
 import org.kuali.rice.KNSServiceLocator;
-
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
 // TODO : should move this class to org.kuali.kra.web.struts.action
@@ -95,9 +100,28 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ((KualiForm) form).setTabStates(new HashMap());
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getProposalDevelopmentDocument();
 
-        return super.headerTab(mapping, form, request, response);
-    }
+        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
+            ProposalPerson person = person_it.next();
+            if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE))){
+                if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
+                    pdform.setReject(true);
+
+                }
+            }else if((person!= null) && (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
+                    if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
+                        pdform.setReject(true);
+                    }
+                }
+        }
+            
+
+            return super.headerTab(mapping, form, request, response);
+        }
+
 
     
     public ActionForward updateTextArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)  {
