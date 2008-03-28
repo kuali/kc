@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.form;
 
+
+
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -32,6 +35,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.Parameter;
+
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ActionFormUtilMap;
@@ -56,6 +60,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
@@ -106,6 +111,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private SortedMap<String, List> customAttributeGroups;
     private Map<String, String[]> customAttributeValues;
     private List<Narrative> narratives;
+    public boolean reject;
+  
+
 
     public ProposalDevelopmentForm() {
         super();
@@ -945,4 +953,16 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public List<Narrative> getNarratives() {
         return this.narratives;
     }
+
+    public boolean isReject() {
+        return reject;
+    }
+
+    public void setReject(boolean reject) {
+        this.reject = reject;
+    }
+
+   
+
+
 }
