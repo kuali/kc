@@ -46,6 +46,8 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	// expences total for 'totals' page
 	// if 'totalCost' is intended for 'totals' page, then this is not needed
     private BudgetDecimal expenseTotal;
+    
+    private BudgetModular budgetModular;
 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -160,9 +162,16 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
 		this.underrecoveryAmount = underrecoveryAmount;
 	}
+    
+	public BudgetModular getBudgetModular() {
+        return budgetModular;
+    }
 
+    public void setBudgetModular(BudgetModular budgetModular) {
+        this.budgetModular = budgetModular;
+    }
 
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
@@ -232,6 +241,18 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
         Date startDateYearFiscalYearBeginning = new Date(calendar.getTimeInMillis());
 
         return startDate.compareTo(startDateYearFiscalYearBeginning) < 0 ? startDateYear : ++startDateYear;
+    }
+    
+    public String getDateRange() {
+        StringBuffer dateRange = new StringBuffer();
+        if (this.getStartDate() != null) {
+            dateRange.append(this.getStartDate().toString());
+        }
+        dateRange.append(" - ");
+        if (this.getEndDate() != null) {
+            dateRange.append(this.getEndDate().toString());
+        }
+        return dateRange.toString();
     }
 
 }

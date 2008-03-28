@@ -31,6 +31,8 @@ public class BudgetModularIdc extends KraPersistableBusinessObjectBase {
     private BudgetDecimal idcBase;
     private BudgetDecimal fundsRequested;
     
+    private RateClass rateClass;
+    
     public Integer getBudgetPeriod() {
         return budgetPeriod;
     }
@@ -93,6 +95,22 @@ public class BudgetModularIdc extends KraPersistableBusinessObjectBase {
 
     public void setRateNumber(Integer rateNumber) {
         this.rateNumber = rateNumber;
+    }
+    
+    public RateClass getRateClass() {
+        return rateClass;
+    }
+
+    public void setRateClass(RateClass rateClass) {
+        this.rateClass = rateClass;
+    }
+
+    public void calculateFundsRequested() {
+        BudgetDecimal fundsRequested = new BudgetDecimal(0);
+        if (this.getIdcBase() != null && this.getIdcRate() != null) {
+            fundsRequested = this.getIdcBase().percentage(this.getIdcRate());
+        }
+        this.setFundsRequested(fundsRequested);
     }
 
     @Override 

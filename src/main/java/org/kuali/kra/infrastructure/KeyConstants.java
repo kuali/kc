@@ -93,6 +93,9 @@ public class KeyConstants {
     public static final String ERROR_DUPLICATE_BUDGET_PERSON = "error.budgetPerson.duplicate";
     public static final String QUESTION_DELETE_PERSON = "document.question.deletePerson.text";
     
+    // Budget Modular Constants
+    public static final String QUESTION_SYNC_BUDGET_MODULAR = "document.question.syncBudgetModular.text";
+    
     // KRA Proposal Permission 
     public static final String QUESTION_DELETE_PROPOSAL_USER_CONFIRMATION = "document.question.deleteProposalUser.text";
     public static final String ERROR_NO_PERMISSION = "error.no.permission";
