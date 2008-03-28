@@ -15,10 +15,11 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,8 @@ public abstract class CalculatorBase {
     private DateTimeService dateTimeService;
     private BudgetDocument budgetDocument;
     private BudgetLineItemBase budgetLineItem;
+    private QueryList<BudgetProposalLaRate> lineItemPropLaRates;
+    private QueryList<BudgetProposalRate> lineItemPropRates;
     private List<BreakUpInterval> breakupIntervals;
     private QueryList<ValidCeRateType> infltionValidCalcCeRates;
     private QueryList<BudgetProposalRate> underrecoveryRates;
@@ -88,7 +91,7 @@ public abstract class CalculatorBase {
      * @param rates
      * @return
      */
-    private QueryList filterRates(List rates) {
+    public QueryList filterRates(List rates) {
         if (!rates.isEmpty() && rates.get(0) instanceof BudgetProposalRate) {
             return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getActivityTypeCode());
         }
@@ -152,13 +155,14 @@ public abstract class CalculatorBase {
                 }
             }
             // Add underrecovery rates
-            Equals equalsRC = new Equals("rateClassCode", budgetDocument.getUrRateClassCode());
-            Equals equalsRT = new Equals("rateTypeCode", UNDER_REECOVERY_RATE_TYPE_CODE);
-            Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
-            And RCandRT = new And(equalsRC, equalsRT);
-            And RCRTandOnOff = new And(RCandRT, equalsOnOff);
-            budgetProposalRates.addAll(qlRates.filter(RCRTandOnOff));
-
+            if(!isUndercoveryMatchesOverhead()){
+                Equals equalsRC = new Equals("rateClassCode", budgetDocument.getUrRateClassCode());
+                Equals equalsRT = new Equals("rateTypeCode", UNDER_REECOVERY_RATE_TYPE_CODE);
+                Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
+                And RCandRT = new And(equalsRC, equalsRT);
+                And RCRTandOnOff = new And(RCandRT, equalsOnOff);
+                budgetProposalRates.addAll(qlRates.filter(RCRTandOnOff));
+            }
             Equals eActType = new Equals("activityTypeCode", activityTypeCode);
             budgetProposalRates = budgetProposalRates.filter(eActType);
         }
@@ -267,6 +271,8 @@ public abstract class CalculatorBase {
 
     protected void createAndCalculateBreakupIntervals() {
         populateCalculatedAmountLineItems();
+        setQlLineItemPropLaRates(filterRates(budgetDocument.getBudgetProposalLaRates()));
+        setQlLineItemPropRates(filterRates(budgetDocument.getBudgetProposalRates()));
         createBreakUpInterval();
         calculateBreakUpInterval();
     }
@@ -294,9 +300,9 @@ public abstract class CalculatorBase {
             multipleRatesMesgTemplate = "Multiple Off-Campus rates found for the period ";
         }
 
-        QueryList<BudgetProposalLaRate> qlLineItemPropLaRates = filterRates(budgetDocument.getBudgetProposalLaRates());
+        QueryList<BudgetProposalLaRate> qlLineItemPropLaRates = getQlLineItemPropLaRates();
         LOG.info("Budget proposal LA rates size is " + qlLineItemPropLaRates.size());
-        QueryList<BudgetProposalRate> qlLineItemPropRates = filterRates(budgetDocument.getBudgetProposalRates());
+        QueryList<BudgetProposalRate> qlLineItemPropRates = getQlLineItemPropRates();
         LOG.info("Budget proposal rates size is " + qlLineItemPropRates.size());
 
         // combine the sorted Prop & LA Rates
@@ -430,7 +436,7 @@ public abstract class CalculatorBase {
                         if (qlTempRates != null && qlTempRates.size() > 0) {
 
                             /**
-                             * Check if multiple rates are present got this period. If there, then show message and don't add any
+                             * Check if multiple rates are present for this boundary. If there, then show message and don't add any
                              * rates.
                              */
                             qlMultipleRates = qlLineItemPropRates.filter(RCRTandgtStartDateAndltEndDate);
@@ -518,22 +524,30 @@ public abstract class CalculatorBase {
             Date tempStartDate = liStartDate;
             Date tempEndDate = liEndDate;
             Date rateChangeDate;
-            BudgetProposalLaRate laRate;
+//            BudgetProposalLaRate laRate;
             // take all rates greater than start date
             GreaterThan greaterThan = new GreaterThan("startDate", liStartDate);
             qlCombinedRates = qlCombinedRates.filter(greaterThan);
             // sort asc
             qlCombinedRates.sort("startDate", true);
             int size = qlCombinedRates.size();
-            for (int index = 0; index < size; index++) {
-                laRate = qlCombinedRates.get(index);
+            for (BudgetProposalLaRate laRate : qlCombinedRates) {
+//                
+//            }
+//            for (int index = 0; index < size; index++) {
+//                laRate = qlCombinedRates.get(index);
                 rateChangeDate = laRate.getStartDate();
-                if (rateChangeDate.compareTo(tempStartDate) > 0) {
+                if (rateChangeDate.after(tempStartDate)) {
                     // rate changed so get the previous day date and use it as endDate
                     Calendar temEndCal = dateTimeService.getCalendar(rateChangeDate);
                     temEndCal.add(Calendar.DAY_OF_MONTH, -1);
 //                    tempEndDate = new Date(rateChangeDate.getTime() - 86400000);
-                    tempEndDate = temEndCal.getTime();
+                    try {
+                        tempEndDate = dateTimeService.convertToSqlDate(temEndCal.get(Calendar.YEAR)+"-"+(temEndCal.get(Calendar.MONTH)+1)+"-"+temEndCal.get(Calendar.DAY_OF_MONTH));
+                    }
+                    catch (ParseException e) {
+                        tempEndDate = new Date(rateChangeDate.getTime() - 86400000);
+                    }
                     Boundary boundary = new Boundary(tempStartDate, tempEndDate);
                     boundaries.add(boundary);
                     tempStartDate = rateChangeDate;
@@ -675,6 +689,8 @@ public abstract class CalculatorBase {
             // budgetLineItemCalculatedAmt.setRateClassDescription(validCeRateType.getRateClass().getDescription());
             // budgetLineItemCalculatedAmt.setRateTypeDescription(validCERateTypesBean.getRateTypeDescription());
             budgetLineItemCalculatedAmt.setApplyRateFlag(true);
+            budgetLineItemCalculatedAmt.refreshReferenceObject("rateType");
+            budgetLineItemCalculatedAmt.refreshReferenceObject("rateClass");
             budgetLineItem.getBudgetLineItemCalculatedAmounts().add(budgetLineItemCalculatedAmt);
         }
         catch (InstantiationException e) {
@@ -741,5 +757,33 @@ public abstract class CalculatorBase {
 
     public void setInflationRates(QueryList<BudgetProposalRate> inflationRates) {
         this.inflationRates = inflationRates;
+    }
+    /**
+     * Gets the qlLineItemPropLaRates attribute. 
+     * @return Returns the qlLineItemPropLaRates.
+     */
+    public QueryList<BudgetProposalLaRate> getQlLineItemPropLaRates() {
+        return lineItemPropLaRates;
+    }
+    /**
+     * Sets the qlLineItemPropLaRates attribute value.
+     * @param qlLineItemPropLaRates The qlLineItemPropLaRates to set.
+     */
+    public void setQlLineItemPropLaRates(QueryList<BudgetProposalLaRate> qlLineItemPropLaRates) {
+        this.lineItemPropLaRates = qlLineItemPropLaRates;
+    }
+    /**
+     * Gets the qlLineItemPropRates attribute. 
+     * @return Returns the qlLineItemPropRates.
+     */
+    public QueryList<BudgetProposalRate> getQlLineItemPropRates() {
+        return lineItemPropRates;
+    }
+    /**
+     * Sets the qlLineItemPropRates attribute value.
+     * @param qlLineItemPropRates The qlLineItemPropRates to set.
+     */
+    public void setQlLineItemPropRates(QueryList<BudgetProposalRate> qlLineItemPropRates) {
+        this.lineItemPropRates = qlLineItemPropRates;
     }
 }

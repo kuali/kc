@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.UserSession;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
@@ -38,6 +39,8 @@ import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
+import org.kuali.kra.budget.calculator.query.And;
+import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -64,6 +67,7 @@ import org.kuali.rice.KNSServiceLocator;
 public class LineItemCalculatorTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LineItemCalculatorTest.class);
     private DocumentService documentService = null;
+    private DateTimeService dateTimeService = null;
     private BusinessObjectService bos;
     @Before
     public void setUp() throws Exception {
@@ -71,6 +75,7 @@ public class LineItemCalculatorTest extends KraTestBase {
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KNSServiceLocator.getDocumentService();
         bos = KraServiceLocator.getService(BusinessObjectService.class);
+        dateTimeService = KNSServiceLocator.getDateTimeService();
     }
 
     @After
@@ -94,6 +99,29 @@ public class LineItemCalculatorTest extends KraTestBase {
         return savedBudgetDocument;
     }
     @Test
+    public void filterRatesTest() throws Exception{
+        BudgetDocument bd = createBudgetDocument();
+        LineItemCalculator lic = new LineItemCalculator(bd,getLineItem(getBudgetPeriod(bd,1,"2004-01-01","2005-12-31"), 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d));
+        lic.populateCalculatedAmountLineItems();
+        QueryList<BudgetProposalRate> rates = lic.filterRates(bd.getBudgetProposalRates());
+        Equals equalsRC = new Equals("rateClassCode", "1");
+        Equals equalsRT = new Equals("rateTypeCode", "1");
+        Equals equalsOnOff = new Equals("onOffCampusFlag", Boolean.TRUE);
+        Equals eActType = new Equals("activityTypeCode", "1");
+        Equals eStartDate = new Equals("startDate", dateTimeService.convertToSqlDate("2005-07-01"));
+        And RCandRT = new And(equalsRC, equalsRT);
+        And RCRTandOnOff = new And(RCandRT, equalsOnOff);
+        And RCRTOnOffandAT = new And(RCRTandOnOff, eActType);
+        And RCRTOnOffATandSD = new And(RCRTOnOffandAT, eStartDate);
+        rates = rates.filter(RCRTOnOffATandSD);
+        assertTrue("MTDC rate is not correct",rates.size()==1);
+        for (BudgetProposalRate budgetProposalRate : rates) {
+            LOG.info(budgetProposalRate);
+        }
+    }
+
+    @Test
     public void calculateLineItemTest() throws Exception{
         List<String> errors = new ArrayList<String>();
         BudgetDocument bd = createBudgetDocument();
@@ -102,48 +130,58 @@ public class LineItemCalculatorTest extends KraTestBase {
         List<BudgetPeriod> periods = bd.getBudgetPeriods();
         BudgetPeriod bp = getBudgetPeriod(bd,1,"2004-01-01","2005-12-31");
         bd.getBudgetPeriods().add(bp);
-        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
         bp.getBudgetLineItems().add(bli);
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudgetLineItem(bd,bli);
         List<BudgetLineItemCalculatedAmount> calcAmounts = bli.getBudgetLineItemCalculatedAmounts();
-        for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
-            LOG.info(budgetLineItemCalculatedAmount);
-        }
+//        for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
+//            LOG.info(budgetLineItemCalculatedAmount);
+//        }
         BudgetDecimal directCost = bli.getDirectCost();
         try{
-            assertEquals(new BudgetDecimal(14945.00),directCost );
+            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(15935.00),directCost );
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }
+        try{
+            assertEquals("Indirect cost for 400250 is not correct",new BudgetDecimal(8206.50),bli.getIndirectCost() );
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
 
         bd.getBudgetPeriods().add(bp);
         
-        BudgetLineItem bli1 = getLineItem(bp, 1, "400025",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        BudgetLineItem bli1 = getLineItem(bp, 1, "400025",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
         bp.getBudgetLineItems().add(bli1);
         bcs.calculateBudgetLineItem(bd,bli1);
         BudgetDecimal directCost1 = bli1.getDirectCost();
         try{
-            assertEquals(new BudgetDecimal(14095.00),directCost1);
+            assertEquals("Direct cost for 400025 is not correct",new BudgetDecimal(15085.00),directCost1);
+        }catch (AssertionError e) {
+            errors.add(e.getMessage());
+        }
+        try{
+            assertEquals("Direct cost for 400025 is not correct",new BudgetDecimal(7687.00),bli1.getIndirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
 
         bcs.calculateBudgetPeriod(bd,bp);
         try{
-            assertEquals(new BudgetDecimal(29040.00),bp.getTotalDirectCost());
+            assertEquals("Total direct cost for 400250 is not correct",new BudgetDecimal(31020.00),bp.getTotalDirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
         try{
-            assertEquals(new BudgetDecimal(7725.00),bp.getTotalIndirectCost());
+            assertEquals("Total indirect cost for 400250 is not correct",new BudgetDecimal(15893.50),bp.getTotalIndirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
         try{
-            assertEquals(new BudgetDecimal(36765.00),bp.getTotalCost());
+            assertEquals("Total cost for 400250 is not correct",new BudgetDecimal(46913.50),bp.getTotalCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
@@ -162,16 +200,16 @@ public class LineItemCalculatorTest extends KraTestBase {
         
         List<BudgetPeriod> periods = bd.getBudgetPeriods();
         BudgetPeriod bp = getBudgetPeriod(bd,1,"2004-01-01","2005-12-31");
-        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudgetLineItem(bd,bli);
         try{
-        assertEquals(new BudgetDecimal(15935.00),bli.getDirectCost() );
+            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(15935.00),bli.getDirectCost() );
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(541.36),bli.getUnderrecoveryAmount());
+            assertEquals("Uderrecovery for 400250 is not correct",new BudgetDecimal(541.36),bli.getUnderrecoveryAmount());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
@@ -192,8 +230,8 @@ public class LineItemCalculatorTest extends KraTestBase {
         List<BudgetPeriod> periods = bd.getBudgetPeriods();
         BudgetPeriod bp = getBudgetPeriod(bd,1,"2005-01-01","2005-12-31");
         bd.getBudgetPeriods().add(bp);
-        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
 
         BudgetPerson bper = getBudgetPerson("8888888",1,2000,"7","TJC","2005-01-01");
         bd.getBudgetPersons().add(bper);
@@ -202,28 +240,28 @@ public class LineItemCalculatorTest extends KraTestBase {
         
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         
-        BudgetPersonnelDetails bpli = getPersonnelLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d,1,2,"9999999","TJC",100.00d,50.00d);
+        BudgetPersonnelDetails bpli = getPersonnelLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d,1,2,"9999999","TJC",100.00d,50.00d);
         bli.getBudgetPersonnelDetailsList().add(bpli);
         bcs.calculateBudgetLineItem(bd,bpli);
         try{
-        assertEquals(new BudgetDecimal(999.80), bpli.getSalaryRequested());
+            assertEquals("Salary requested is not correct",new BudgetDecimal(999.80), bpli.getSalaryRequested());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(50.00), bpli.getCostSharingPercent());
+            assertEquals("Costshare percentage is not correct",new BudgetDecimal(50.00), bpli.getCostSharingPercent());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(2783.42), bpli.getCostSharingAmount());
+            assertEquals("Costshare amount is not correct",new BudgetDecimal(3827.50), bpli.getCostSharingAmount());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(1988.59), bpli.getDirectCost());
+            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(2186.54), bpli.getDirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(794.83), bpli.getIndirectCost());
+            assertEquals("Indirect cost for 400250 is not correct",new BudgetDecimal(1640.96), bpli.getIndirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
@@ -233,29 +271,29 @@ public class LineItemCalculatorTest extends KraTestBase {
 //        LOG.info("Direct cost =>"+bpli.getDirectCost());
 //        LOG.info("Indirect cost =>"+bpli.getIndirectCost());
         
-        BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d,1,1,"8888888","TJC",100.00d,100.00d);
+        BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d,1,1,"8888888","TJC",100.00d,100.00d);
         bli.getBudgetPersonnelDetailsList().add(bpli1);
 
         bcs.calculateBudgetLineItem(bd,bpli1);
         try{
-        assertEquals(new BudgetDecimal(1000.72), bpli1.getSalaryRequested());
+            assertEquals("Salary requested is not correct",new BudgetDecimal(1000.72), bpli1.getSalaryRequested());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(0.00), bpli1.getCostSharingPercent());
+            assertEquals("Costshare percentage is not correct",new BudgetDecimal(0.00), bpli1.getCostSharingPercent());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(0.00), bpli1.getCostSharingAmount());
+            assertEquals("Costshare amount is not correct",new BudgetDecimal(0.00), bpli1.getCostSharingAmount());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(1990.31), bpli1.getDirectCost());
+            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(2188.46), bpli1.getDirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-        assertEquals(new BudgetDecimal(795.43), bpli1.getIndirectCost());
+            assertEquals("Indirect cost for 400250 is not correct",new BudgetDecimal(1642.34), bpli1.getIndirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
@@ -280,21 +318,22 @@ public class LineItemCalculatorTest extends KraTestBase {
 //        List<BudgetPeriod> periods = bd.getBudgetPeriods();
         BudgetPeriod bp = getBudgetPeriod(bd,1,"2005-01-01","2005-12-31");
         bd.getBudgetPeriods().add(bp);
-        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
         bd.getBudgetLineItems().add(bli);
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudget(bd);
         LOG.info(bd);
     }
-    private BudgetPerson getBudgetPerson(String personId, int personSequenceNumber, int calcBase, String appointTypeCode, String jobCode, String effectiveDate) {
+    private BudgetPerson getBudgetPerson(String personId, int personSequenceNumber, 
+            int calcBase, String appointTypeCode, String jobCode, String effectiveDate) throws Exception{
         BudgetPerson bper = new BudgetPerson();
         bper.setPersonId(personId);
         bper.setPersonSequenceNumber(personSequenceNumber);
         bper.setCalculationBase(new BudgetDecimal(calcBase));
         bper.setAppointmentTypeCode(appointTypeCode);
         bper.setJobCode(jobCode);
-        bper.setEffectiveDate(java.sql.Date.valueOf(effectiveDate));
+        bper.setEffectiveDate(dateTimeService.convertToSqlDate(effectiveDate));
         return bper;
     }
 
@@ -306,8 +345,8 @@ public class LineItemCalculatorTest extends KraTestBase {
         List<BudgetPeriod> periods = bd.getBudgetPeriods();
         BudgetPeriod bp = getBudgetPeriod(bd,1,"2005-01-01","2005-12-31");
         bd.getBudgetPeriods().add(bp);
-        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
         
         BudgetPerson bper = getBudgetPerson("8888888",1,2000,"7","TJC","2005-01-01");
         bd.getBudgetPersons().add(bper);
@@ -316,12 +355,12 @@ public class LineItemCalculatorTest extends KraTestBase {
         
 //        bp.getBudgetLineItems().add(bli);
         
-        BudgetPersonnelDetails bpli = getPersonnelLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d,1,2,"9999999","TJC",100.00d,100.00d);
+        BudgetPersonnelDetails bpli = getPersonnelLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d,1,2,"9999999","TJC",100.00d,100.00d);
         bli.getBudgetPersonnelDetailsList().add(bpli);
         
-        BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d,1,1,"8888888","TJC",100.00d,100.00d);
+        BudgetPersonnelDetails bpli1 = getPersonnelLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d,1,1,"8888888","TJC",100.00d,100.00d);
         bli.getBudgetPersonnelDetailsList().add(bpli1);
         List<String> errors = new ArrayList<String>();
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
@@ -354,8 +393,8 @@ public class LineItemCalculatorTest extends KraTestBase {
         List<BudgetPeriod> periods = bd.getBudgetPeriods();
         BudgetPeriod bp = getBudgetPeriod(bd,1,"2005-01-01","2005-12-31");
         bd.getBudgetPeriods().add(bp);
-        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+        BudgetLineItem bli = getLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
+                dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.populateCalculatedAmount(bd,bli);
         List<BudgetLineItemCalculatedAmount> calcAmounts = bli.getBudgetLineItemCalculatedAmounts();
@@ -442,13 +481,14 @@ public class LineItemCalculatorTest extends KraTestBase {
         
     }
 
-    private BudgetPeriod getBudgetPeriod(BudgetDocument bd, int period, String startDate, String endDate) {
+    private BudgetPeriod getBudgetPeriod(BudgetDocument bd, 
+                int period, String startDate, String endDate) throws Exception{
         BudgetPeriod bp = new BudgetPeriod();
         bp.setProposalNumber(bd.getProposalNumber().toString());
         bp.setBudgetVersionNumber(bd.getBudgetVersionNumber());
         bp.setBudgetPeriod(period);
-        bp.setStartDate(java.sql.Date.valueOf(startDate));
-        bp.setEndDate(java.sql.Date.valueOf(endDate));
+        bp.setStartDate(dateTimeService.convertToSqlDate(startDate));
+        bp.setEndDate(dateTimeService.convertToSqlDate(endDate));
         bp.setUpdateUser(bd.getUpdateUser());
         bp.setUpdateTimestamp(bd.getUpdateTimestamp());
         return bp;
@@ -479,13 +519,13 @@ public class LineItemCalculatorTest extends KraTestBase {
         
     }
 
-    private void setBaseDocumentFields(BudgetDocument bd,String proposalNumber) {
+    private void setBaseDocumentFields(BudgetDocument bd,String proposalNumber) throws Exception{
         bd.getDocumentHeader().setFinancialDocumentDescription("Test budget calculation");
 //        bd.setDocumentNumber(bd.getDocumentNumber());
         bd.setProposalNumber(proposalNumber);
         bd.setBudgetVersionNumber(1);
-        bd.setStartDate(java.sql.Date.valueOf("2002-01-01"));
-        bd.setEndDate(java.sql.Date.valueOf("2008-12-31"));
+        bd.setStartDate(dateTimeService.convertToSqlDate("2002-01-01"));
+        bd.setEndDate(dateTimeService.convertToSqlDate("2008-12-31"));
         bd.setUpdateTimestamp(new Timestamp(System.currentTimeMillis()));
         bd.setUpdateUser("KRADEV");
         bd.setOhRateClassCode("1");
