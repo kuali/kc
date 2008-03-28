@@ -8,9 +8,15 @@ KEY ("CATEGORY_TYPE")
 REFERENCES "BUDGET_CATEGORY_TYPE" ("BUDGET_CATEGORY_TYPE_CODE") ENABLE;         
                                                                                 
                                                                                 
-ALTER TABLE "BUDGET_COST_SHARES" ADD CONSTRAINT "FK_BUDGET_COSTSHARE_BUDGET_KRA"
-FOREIGN KEY ("PROPOSAL_NUMBER", "BUDGET_VERSION_NUMBER")                        
+ALTER TABLE "BUDGET_MODULAR" ADD CONSTRAINT "FK_PROPOSAL_MODULAR_KRA" FOREIGN   
+KEY ("PROPOSAL_NUMBER", "VERSION_NUMBER")                                       
 REFERENCES "BUDGET" ("PROPOSAL_NUMBER", "VERSION_NUMBER") ENABLE;               
+                                                                                
+                                                                                
+ALTER TABLE "BUDGET_MODULAR_IDC" ADD CONSTRAINT "FK_BUDGET_MODULAR_IDC_KRA"     
+FOREIGN KEY ("PROPOSAL_NUMBER", "VERSION_NUMBER", "BUDGET_PERIOD")              
+REFERENCES "BUDGET_MODULAR" ("PROPOSAL_NUMBER", "VERSION_NUMBER",               
+"BUDGET_PERIOD") ENABLE;                                                        
                                                                                 
                                                                                 
 ALTER TABLE "BUDGET_PERSONNEL_DETAILS" ADD CONSTRAINT                           
@@ -20,15 +26,16 @@ REFERENCES "BUDGET_PERSONS" ("PROPOSAL_NUMBER", "VERSION_NUMBER",
 "PERSON_SEQUENCE_NUMBER") ENABLE;                                               
                                                                                 
                                                                                 
-ALTER TABLE "BUDGET_PERSONS" ADD CONSTRAINT "FK_BUDGET_PERSONS_KRA" FOREIGN KEY ("PROPOSAL_NUMBER", "VERSION_NUMBER")
-	REFERENCES "BUDGET" (PROPOSAL_NUMBER, VERSION_NUMBER) ENABLE;
+ALTER TABLE "BUDGET_PERSONS" ADD CONSTRAINT "FK_APPOINTMENT_TYPE_CODE_KRA"      
+FOREIGN KEY ("APPOINTMENT_TYPE_CODE")                                           
+REFERENCES "APPOINTMENT_TYPE" ("APPOINTMENT_TYPE_CODE") ENABLE;                 
                                                                                 
                                                                                 
-ALTER TABLE "BUDGET_PROJECT_INCOMES" ADD CONSTRAINT "FK_BUDGET_PROJ_INC_BP_KRA" 
-FOREIGN KEY ("PROPOSAL_NUMBER", "BUDGET_VERSION_NUMBER", "BUDGET_PERIOD_NUMBER")
+ALTER TABLE "BUDGET_PROJECT_INCOME" ADD CONSTRAINT "FK_BUDGET_PROJ_INC_BP_KRA"  
+FOREIGN KEY ("PROPOSAL_NUMBER", "BUDGET_VERSION_NUMBER", "BUDGET_PERIOD")       
 REFERENCES "BUDGET_PERIODS" ("PROPOSAL_NUMBER", "VERSION_NUMBER",               
 "BUDGET_PERIOD") ENABLE;                                                        
-ALTER TABLE "BUDGET_PROJECT_INCOMES" ADD CONSTRAINT                             
+ALTER TABLE "BUDGET_PROJECT_INCOME" ADD CONSTRAINT                              
 "FK_BUDGET_PROJ_INC_BUDGET_KRA" FOREIGN KEY ("PROPOSAL_NUMBER",                 
 "BUDGET_VERSION_NUMBER")                                                        
 REFERENCES "BUDGET" ("PROPOSAL_NUMBER", "VERSION_NUMBER") ENABLE;               
@@ -88,9 +95,14 @@ FOREIGN KEY ("ATTRIB_ID")
 REFERENCES "EN_RULE_ATTRIB_T" ("RULE_ATTRIB_ID") ENABLE;                        
                                                                                 
                                                                                 
-ALTER TABLE "EPS_PROPOSAL_BUDGET_STATUS" ADD CONSTRAINT "FK_EPS_PROP_BUDGET_STATUS_KRA"
-FOREIGN KEY ("PROPOSAL_NUMBER")
-REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;
+ALTER TABLE "EPS_PROPOSAL_BUDGET_STATUS" ADD CONSTRAINT                         
+"FK_EPS_PROP_BUDGET_STATUS_KRA" FOREIGN KEY ("PROPOSAL_NUMBER")                 
+REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
+                                                                                
+                                                                                
+ALTER TABLE "EPS_PROPOSAL_STATUS" ADD CONSTRAINT "FK_EPS_PROPOSAL_STATUS_KRA"   
+FOREIGN KEY ("PROPOSAL_NUMBER")                                                 
+REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
                                                                                 
                                                                                 
 ALTER TABLE "EPS_PROP_ABSTRACT" ADD CONSTRAINT "FK_EPS_PROP_ABSTRACT_KRA"       
@@ -99,6 +111,17 @@ REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;
 ALTER TABLE "EPS_PROP_ABSTRACT" ADD CONSTRAINT "FK_EPS_PROP_ABSTRACT_TYPE_KRA"  
 FOREIGN KEY ("ABSTRACT_TYPE_CODE")                                              
 REFERENCES "ABSTRACT_TYPE" ("ABSTRACT_TYPE_CODE") ENABLE;                       
+                                                                                
+                                                                                
+ALTER TABLE "EPS_PROP_COST_SHARING" ADD CONSTRAINT                              
+"FK_EPS_PROP_COST_SHARING_KRA" FOREIGN KEY ("PROPOSAL_NUMBER",                  
+"BUDGET_VERSION_NUMBER")                                                        
+REFERENCES "BUDGET" ("PROPOSAL_NUMBER", "VERSION_NUMBER") ENABLE;               
+                                                                                
+                                                                                
+ALTER TABLE "EPS_PROP_IDC_RATE" ADD CONSTRAINT "FK_EPS_PROP_IDC_RATE_KRA"       
+FOREIGN KEY ("PROPOSAL_NUMBER", "BUDGET_VERSION_NUMBER")                        
+REFERENCES "BUDGET" ("PROPOSAL_NUMBER", "VERSION_NUMBER") ENABLE;               
                                                                                 
                                                                                 
 ALTER TABLE "EPS_PROP_LOCATION" ADD CONSTRAINT "FK_EPS_PROP_LOCATION_KRA"       
@@ -392,6 +415,37 @@ ALTER TABLE "NOTIFICATION_SENDERS" ADD CONSTRAINT
 REFERENCES "NOTIFICATIONS" ("ID") ENABLE;                                       
                                                                                 
                                                                                 
+ALTER TABLE "ORGANIZATION_AUDIT" ADD CONSTRAINT "FK_ORGANIZATION_AUDIT_KRA"     
+FOREIGN KEY ("ORGANIZATION_ID")                                                 
+REFERENCES "ORGANIZATION" ("ORGANIZATION_ID") ON DELETE CASCADE ENABLE;         
+                                                                                
+                                                                                
+ALTER TABLE "ORGANIZATION_IDC" ADD CONSTRAINT "FK_ORGANIZATION_IDC_KRA" FOREIGN 
+KEY ("ORGANIZATION_ID")                                                         
+REFERENCES "ORGANIZATION" ("ORGANIZATION_ID") ON DELETE CASCADE ENABLE;         
+                                                                                
+                                                                                
+ALTER TABLE "ORGANIZATION_TYPE" ADD CONSTRAINT "FK_ORGANIZATION_TYPE_KRA"       
+FOREIGN KEY ("ORGANIZATION_ID")                                                 
+REFERENCES "ORGANIZATION" ("ORGANIZATION_ID") ENABLE;                           
+ALTER TABLE "ORGANIZATION_TYPE" ADD CONSTRAINT "FK_ORGANIZATION_TYPE_LIST_KRA"  
+FOREIGN KEY ("ORGANIZATION_TYPE_CODE")                                          
+REFERENCES "ORGANIZATION_TYPE_LIST" ("ORGANIZATION_TYPE_CODE") ENABLE;          
+                                                                                
+                                                                                
+ALTER TABLE "ORGANIZATION_YNQ" ADD CONSTRAINT "FK_ORGANIZATION_YNQ_ID_KRA"      
+FOREIGN KEY ("QUESTION_ID")                                                     
+REFERENCES "YNQ" ("QUESTION_ID") ENABLE;                                        
+ALTER TABLE "ORGANIZATION_YNQ" ADD CONSTRAINT "FK_ORGANIZATION_YNQ_KRA" FOREIGN 
+KEY ("ORGANIZATION_ID")                                                         
+REFERENCES "ORGANIZATION" ("ORGANIZATION_ID") ENABLE;                           
+                                                                                
+                                                                                
+ALTER TABLE "PERSON" ADD CONSTRAINT "FK_PERSON_KIM_PERSON_ID" FOREIGN KEY       
+("KIM_PERSON_ID")                                                               
+REFERENCES "KIM_PERSONS_T" ("ID") ENABLE;                                       
+                                                                                
+                                                                                
 ALTER TABLE "ROLE_RIGHTS" ADD CONSTRAINT "FK_ROLE_RIGHTS_KRA" FOREIGN KEY       
 ("RIGHT_ID")                                                                    
 REFERENCES "RIGHTS" ("RIGHT_ID") ENABLE;                                        
@@ -452,8 +506,8 @@ ALTER TABLE "UNIT_ADMINISTRATOR" ADD CONSTRAINT "FK1_UNIT_ADMINISTRATOR_KRA"
 FOREIGN KEY ("UNIT_NUMBER")                                                     
 REFERENCES "UNIT" ("UNIT_NUMBER") ENABLE;                                       
 ALTER TABLE "UNIT_ADMINISTRATOR" ADD CONSTRAINT "FK2_UNIT_ADMINISTRATOR_KRA"    
-FOREIGN KEY ("ROLE_ID")                                                         
-REFERENCES "ROLE" ("ROLE_ID") ENABLE;                                           
+FOREIGN KEY ("UNIT_ADMINISTRATOR_TYPE_CODE")                                    
+REFERENCES "UNIT_ADMINISTRATOR_TYPE" ("UNIT_ADMINISTRATOR_TYPE_CODE") ENABLE;   
 ALTER TABLE "UNIT_ADMINISTRATOR" ADD CONSTRAINT "FK3_UNIT_ADMINISTRATOR_KRA"    
 FOREIGN KEY ("PERSON_ID")                                                       
 REFERENCES "PERSON" ("PERSON_ID") ENABLE;                                       
@@ -508,8 +562,4 @@ ALTER TABLE "YNQ_EXPLANATION" ADD CONSTRAINT "FK_YNQ_EXPLANATION_TYPE_KRA"
 FOREIGN KEY ("EXPLANATION_TYPE")                                                
 REFERENCES "YNQ_EXPLANATION_TYPE" ("EXPLANATION_TYPE") ENABLE;                  
                                                                                 
-ALTER TABLE BUDGET_MODULAR ADD CONSTRAINT FK_PROPOSAL_MODULAR_KRA FOREIGN KEY (PROPOSAL_NUMBER, VERSION_NUMBER)
-	REFERENCES BUDGET (PROPOSAL_NUMBER, VERSION_NUMBER) ENABLE;
-	
-ALTER TABLE BUDGET_MODULAR_IDC ADD CONSTRAINT FK_BUDGET_MODULAR_IDC_KRA FOREIGN KEY (PROPOSAL_NUMBER, VERSION_NUMBER, BUDGET_PERIOD)
-	REFERENCES BUDGET_MODULAR (PROPOSAL_NUMBER, VERSION_NUMBER, BUDGET_PERIOD) ENABLE;
+                                                                                
