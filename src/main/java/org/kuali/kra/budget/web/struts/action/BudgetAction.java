@@ -30,6 +30,7 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetDistrubutionAndIncomeService;
+import org.kuali.kra.budget.service.BudgetModularService;
 import org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -115,6 +116,9 @@ public class BudgetAction extends ProposalActionBase {
     }
 
     public ActionForward modularBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetModularService budgetModularService = KraServiceLocator.getService(BudgetModularService.class);
+        budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getBudgetDocument()));
         return mapping.findForward("modularBudget");
     }
 

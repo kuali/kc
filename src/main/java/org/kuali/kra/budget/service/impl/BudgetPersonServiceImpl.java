@@ -23,10 +23,18 @@ import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
+/**
+ * This class implements methods specified by <code>{@link BudgetPersonService}</code> interface
+ */
 public class BudgetPersonServiceImpl implements BudgetPersonService {
+    
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetPersonServiceImpl.class);
     
     private KualiConfigurationService kualiConfigurationService;
     
+    /**
+     * @see org.kuali.kra.budget.service.BudgetPersonService#populateBudgetPersonData(org.kuali.kra.budget.document.BudgetDocument, org.kuali.kra.budget.bo.BudgetPerson)
+     */
     public void populateBudgetPersonData(BudgetDocument budgetDocument, BudgetPerson budgetPerson) {
         
         budgetPerson.setProposalNumber(budgetDocument.getProposalNumber());
@@ -43,6 +51,9 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         
     }
     
+    /**
+     * @see org.kuali.kra.budget.service.BudgetPersonService#synchBudgetPersonsToProposal(org.kuali.kra.budget.document.BudgetDocument)
+     */
     public void synchBudgetPersonsToProposal(BudgetDocument budgetDocument) {
         for (ProposalPerson proposalPerson: budgetDocument.getProposal().getProposalPersons()) {
             boolean present = false;

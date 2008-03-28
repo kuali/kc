@@ -625,9 +625,7 @@
   		</property>
 	</bean>
 	
-	<!-- 
 	<bean id="budgetModularService" class="org.kuali.kra.budget.service.impl.BudgetModularServiceImpl">
 	</bean>
-	 -->
 	
 </beans>
