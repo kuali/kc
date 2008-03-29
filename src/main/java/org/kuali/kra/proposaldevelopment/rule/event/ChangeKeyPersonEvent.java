@@ -40,7 +40,7 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
      * @param source
      */
     public ChangeKeyPersonEvent(ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source) {
-        super("add BusinessObject to person " + person.getProposalPersonNumber(), document, person);
+        super("add BusinessObject to person " + person, document, person);
         setSource(source);
     }
 
