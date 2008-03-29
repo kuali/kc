@@ -63,7 +63,7 @@ public class FormattedLogger {
      */
     private static final Log getLog() {
         try {
-            return LogFactory.getLog(Class.forName(Thread.currentThread().getStackTrace()[3].getClassName()));
+            return LogFactory.getLog(Class.forName(new Throwable().getStackTrace()[3].getClassName()));
         }
         catch (Exception e) {
             return LogFactory.getLog(FormattedLogger.class);
