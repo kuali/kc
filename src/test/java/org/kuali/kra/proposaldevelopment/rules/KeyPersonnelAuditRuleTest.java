@@ -20,14 +20,8 @@ import static org.kuali.core.util.GlobalVariables.setAuditErrorMap;
 import static org.kuali.core.util.GlobalVariables.setUserSession;
 import static org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INCOMPLETE_CERTIFICATIONS;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNDER_ZERO;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_OVER_ONE_HUNDRED;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_OVER_ONE_HUNDRED;
-import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_UNDER_ZERO;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.PRINCIPAL_INVESTIGATOR;
-
 
 import java.util.HashMap;
 
@@ -38,7 +32,6 @@ import org.kuali.core.UserSession;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
 /**
  * Class to test Key Personnel Audit Mode Rules. These rules are executed when audit mode becomes activated.
@@ -138,6 +131,16 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         
         assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
         assertEquals(1, getAuditErrorMap().size());
+    }
+    
+    @Test
+    public void invalidProposalInvestigatorFail() throws Exception {
+        ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+        ProposalPerson person = INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.getPerson();
+        document.addProposalPerson(person);
+        INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.populatePerson(document, person);
+        assertFalse("Audit Rule should produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertFalse(getAuditErrorMap().size() < 1);
     }
 }
 
