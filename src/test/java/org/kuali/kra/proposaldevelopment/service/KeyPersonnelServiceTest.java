@@ -41,7 +41,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * <code>{@link KeyPersonnelService}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class KeyPersonnelServiceTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelServiceTest.class);
@@ -65,6 +65,17 @@ public class KeyPersonnelServiceTest extends KraTestBase {
     public void populateDocument() {
         getKeyPersonnelService().populateDocument(blankDocument);
         assertTrue(blankDocument.getInvestigatorCreditTypes().size() > 0);
+    }
+    
+    @Test 
+    public void createProposalPersonFromNullPersonId() {
+        assertNull(getKeyPersonnelService().createProposalPersonFromPersonId(null))
+        
+    }
+
+    @Test 
+    public void createProposalPersonFromNullRolodexId() {
+        assertNull(getKeyPersonnelService().createProposalPersonFromRolodexId(null))
     }
 
     /**

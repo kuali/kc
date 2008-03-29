@@ -52,7 +52,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.23 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
@@ -103,7 +103,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      */
     public void populateProposalPerson(ProposalPerson person, ProposalDevelopmentDocument document) {
         /* populate certification questions for new person */
-        person = ynqService.getPersonYNQ(person);
+        person = getYnqService().getPersonYNQ(person);
 
         person.setInvestigatorFlag(isInvestigator(person));
         
