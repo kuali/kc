@@ -70,10 +70,9 @@ public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
      */
     @Test
     public void processCustomRouteDocumentBusinessRules_Normal() throws Exception {
-        // Comments are added until the document exists in KULUNT
-        // PersonEditableField editableField = ADDRESS_LINE2_FIELD.getInstance();
-        // MaintenanceDocument editableFieldDocument = newMaintDoc(editableField);
-        // PersonEditableFieldRule rule = setupMaintDocRule(editableFieldDocument, PersonEditableFieldRule.class);         
+        PersonEditableField editableField = ADDRESS_LINE2_FIELD.getInstance();
+        MaintenanceDocument editableFieldDocument = newMaintDoc(editableField);
+        PersonEditableFieldRule rule = setupMaintDocRule(editableFieldDocument, PersonEditableFieldRule.class);         
     }
 }
 
