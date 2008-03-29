@@ -32,7 +32,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.33 $
+ * @version $Revision: 1.34 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -626,7 +626,6 @@ public class ProposalPerson extends Person implements CreditSplitable {
         }
         
         for (ProposalPersonUnit unit : getUnits()) {
-            System.err.println("Found Unit with number " + unit.getUnitNumber());
             if (unit != null && unitNumber.equals(unit.getUnitNumber())) {
                 return true;
             }
