@@ -18,16 +18,18 @@ package org.kuali.kra.proposaldevelopment.rule.event;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.kra.logging.Traceable;
+import org.kuali.kra.logging.TraceLogProxyFactory;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
+
 
 /**
  * Event class for actions that trigger modification of a <code>{@link ProposalPerson}</code> added to a <code>{@link ProposalDocument}</code>
  * 
  */
-public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDocumentEvent {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ChangeKeyPersonEvent.class);
+public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDocumentEvent, Traceable<ChangeKeyPersonEvent> {
     
     private BusinessObject source;
         
@@ -39,7 +41,7 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
      */
     public ChangeKeyPersonEvent(ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source) {
         super("add BusinessObject to person " + person.getProposalPersonNumber(), document, person);
-        this.source = source;
+        setSource(source);
     }
 
     /**
@@ -72,5 +74,16 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((ChangeKeyPersonRule) rule).processChangeKeyPersonBusinessRules(getProposalPerson(), getSource());
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.logging.Traceable#getProxy(java.lang.Object)
+     */
+    public ChangeKeyPersonEvent getProxy(ChangeKeyPersonEvent archetype) {
+        if (archetype == null) {
+            archetype = this;
+        }
+        return TraceLogProxyFactory.getProxyFor(archetype);
     }
 }

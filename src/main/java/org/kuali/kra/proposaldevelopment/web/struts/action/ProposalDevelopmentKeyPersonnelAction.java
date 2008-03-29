@@ -65,12 +65,13 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.49 $
+ * @version $Revision: 1.50 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
     private static final String ROLE_CHANGED_MSG  = "roleChanged for person %s = %s";
     private static final String ADDED_PERSON_MSG  = "Added Proposal Person with proposalNumber = %s and proposalPersonNumber = %s";
+    private static final String INV_SIZE_MSG      = "Number of investigators are %s";
 
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(ActionMapping, ActionForm, HttpServletRequest,
@@ -94,6 +95,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
         pdform.populatePersonEditableFields();
         handleRoleChangeEvents(pdform.getProposalDevelopmentDocument());
+        
+        debug(INV_SIZE_MSG, pdform.getProposalDevelopmentDocument().getInvestigators().size());
     
         try {
             boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
@@ -247,7 +250,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         degree.setDegreeSequenceNumber(pdform.getProposalDevelopmentDocument().getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
          
         // check any business rules
-        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, person, degree));
+        
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, person, degree).getProxy(null));
 
         if (rulePassed) {
             person.addDegree(degree);

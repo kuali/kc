@@ -97,10 +97,6 @@ public class RolodexDaoOjb extends PlatformAwareDaoBaseOjb implements RolodexDao
     }
 
     
-    private void addNotNullCriteria(Criteria criteria, String attributeName) {
-        criteria.addNotNull(attributeName);
-    }
-
     private PersistableBusinessObject checkBusinessObjectClass(Class businessObjectClass) {
         if (businessObjectClass == null) {
             throw new IllegalArgumentException("BusinessObject class passed to LookupDaoOjb findCollectionBySearchHelper... method was null");
