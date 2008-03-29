@@ -132,14 +132,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         return retval;
     }
 
-    /**
-     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
-     */
-    private boolean isPrincipalInvestigator(ProposalPerson person) {
-        return getKeyPersonnelService().isPrincipalInvestigator(person);
-    }
-
-    /**
+   /**
     *
     * @param person <code>{@link ProposalPerson}</code> instance that is also an investigator to validate
     * @boolean investigator is valid
@@ -229,13 +222,6 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
    }
 
    /**
-     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
-     */
-    private boolean isCoInvestigator(ProposalPerson person) {
-        return getKeyPersonnelService().isCoInvestigator(person);
-    }
-    
-    /**
      * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
      */
     private boolean isInvestigator(ProposalPerson person) {
