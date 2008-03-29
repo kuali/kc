@@ -26,6 +26,7 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.bo.NonOrganizationalRolodex;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.FormattedLogger.info;
 
 /**
  * Test the Data Access Object implementation for <code>{@link Rolodex}</code> business objects
@@ -54,6 +55,23 @@ public class RolodexDaoOjbTest extends KraTestBase {
         assertFalse(-1 == criteria.toString().indexOf("firstName IS NOT NULL"));
         assertFalse(-1 == criteria.toString().indexOf("lastName IS NOT NULL"));
         assertEquals(criteria.toString(), "[UPPER(organization) LIKE NATIONAL%, firstName IS NOT NULL , lastName IS NOT NULL ]");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void getNonOrganizationalRolodexCriteriaNullClass() {
+        Map fieldValues = new HashMap();
+        fieldValues.put("organization", "National*"); // Search for organizations that start with National
+        
+        Criteria criteria = getRolodexDao().getNonOrganizationalRolodexCriteria(null, fieldValues, false);
+    }
+    
+    @Test
+    public void getNonOrganizationalRolodexCriteriaPrimaryKeys() {
+        Map fieldValues = new HashMap();
+        fieldValues.put("organization", "National*"); // Search for organizations that start with National
+        
+        Criteria criteria = getRolodexDao().getNonOrganizationalRolodexCriteria(NonOrganizationalRolodex.class, fieldValues, true);
+        info(criteria.toString());
     }
 
     @Test
