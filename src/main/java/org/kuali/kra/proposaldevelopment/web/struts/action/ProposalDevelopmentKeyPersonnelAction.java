@@ -30,6 +30,9 @@ import static org.kuali.kra.infrastructure.Constants.NEW_PROPOSAL_PERSON_PROPERT
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.FormattedLogger.debug;
+import static org.kuali.kra.logging.FormattedLogger.info;
+import static org.kuali.kra.logging.FormattedLogger.warn;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,20 +41,18 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
@@ -59,17 +60,17 @@ import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
-import edu.iu.uis.eden.exception.WorkflowException;
-
 /**
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.48 $
+ * @version $Revision: 1.49 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
-    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
+    private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
+    private static final String ROLE_CHANGED_MSG  = "roleChanged for person %s = %s";
+    private static final String ADDED_PERSON_MSG  = "Added Proposal Person with proposalNumber = %s and proposalPersonNumber = %s";
 
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(ActionMapping, ActionForm, HttpServletRequest,
@@ -100,8 +101,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
         }
         catch (Exception e) {
-            LOG.warn("Couldn't find parameter '" + CREDIT_SPLIT_ENABLED_RULE_NAME + "'");
-            LOG.warn(e.getMessage());
+            warn(MISSING_PARAM_MSG, CREDIT_SPLIT_ENABLED_RULE_NAME);
+            warn(e.getMessage());
         }        
     }
 
@@ -116,7 +117,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     private void handleRoleChangeEvents(ProposalDevelopmentDocument document) {
         for (ProposalPerson person : document.getProposalPersons()) {
-            LOG.info("roleChanged for person " + person.getFullName() + " = " + person.isRoleChanged());
+            debug(ROLE_CHANGED_MSG, person.getFullName(), person.isRoleChanged());
             
             if (person.isRoleChanged()) {
                 changeRole(person, document);
@@ -200,24 +201,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
    
     /**
-     * Clears the <code>{@link ProposalPerson}</code> buffer
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return ActionForward
-     * @throws Exception
-     */
-    public ActionForward clearProposalPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        pdform.setNewProposalPerson(new ProposalPerson());
-        pdform.setNewRolodexId("");
-        pdform.setNewPersonId("");        
-        return mapping.findForward(MAPPING_BASIC);
-    }
-
-    /**
      * Action for inserting a <code>{@link ProposalPerson}</code> into a <code>{@link ProposalDevelopmentDocument}</code>
      * @param mapping
      * @param form
@@ -236,8 +219,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             document.addProposalPerson(pdform.getNewProposalPerson());
-            LOG.info("Added Proposal Person with proposalNumber = " + pdform.getNewProposalPerson().getProposalNumber());
-            LOG.info("Added Proposal Person with proposalPersonNumber = " + pdform.getNewProposalPerson().getProposalPersonNumber());
+            info(ADDED_PERSON_MSG, pdform.getNewProposalPerson().getProposalNumber(), pdform.getNewProposalPerson().getProposalPersonNumber());
             getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
             sort(document.getProposalPersons(), new ProposalPersonComparator());
             sort(document.getInvestigators(), new ProposalPersonComparator());
