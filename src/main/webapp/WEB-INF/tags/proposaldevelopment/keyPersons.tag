@@ -37,7 +37,7 @@
         <kra-pd:person proposalPerson="${proposalPerson}" personIndex="${status.index}"/>
      </kul:tab>
 </c:forEach>
-<c:if test="${fn:length(KualiForm.document.investigators) > 0}">
+<c:if test="${not empty creditSplitEnabledFlag and creditSplitEnabledFlag}">
     <kra-pd:creditSplit/>
 </c:if>
 
