@@ -29,7 +29,7 @@ import org.kuali.kra.proposaldevelopment.rules.CreditSplitValidator;
  * Class to test use cases of <code>{@link CreditSplitValidator}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class CreditSplitValidatorTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidatorTest.class);
@@ -46,16 +46,7 @@ public class CreditSplitValidatorTest extends KraTestBase {
         super.tearDown();
     }
 
-   
-    /**
-     * Validates that <code>{@link ProposalPersonCreditSplit}</code> instances 
-     */
-    @Test
-    public void validate_creditSplitsAddToOneHundred() {
-        
-        
-    }
-    
+       
     /**
      *
      * @return ProposalDevelopmentDocument
