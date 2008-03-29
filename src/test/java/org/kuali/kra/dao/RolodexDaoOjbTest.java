@@ -65,13 +65,12 @@ public class RolodexDaoOjbTest extends KraTestBase {
         Criteria criteria = getRolodexDao().getNonOrganizationalRolodexCriteria(null, fieldValues, false);
     }
     
-    @Test
+    @Test(expected=RuntimeException.class)
     public void getNonOrganizationalRolodexCriteriaPrimaryKeys() {
         Map fieldValues = new HashMap();
         fieldValues.put("organization", "National*"); // Search for organizations that start with National
         
         Criteria criteria = getRolodexDao().getNonOrganizationalRolodexCriteria(NonOrganizationalRolodex.class, fieldValues, true);
-        info(criteria.toString());
     }
 
     @Test
