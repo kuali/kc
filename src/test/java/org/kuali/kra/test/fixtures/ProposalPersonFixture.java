@@ -82,7 +82,7 @@ public enum ProposalPersonFixture {
 
             for (ProposalUnitCreditSplit creditSplit : person.getUnit(0).getCreditSplits()) {
                 if (creditSplit.getInvestigatorCreditType().addsToHundred()){
-                    creditSplit.setCredit(new KualiDecimal(0.00));
+                    creditSplit.setCredit(new KualiDecimal(50.00));
                 }
             }
         }        
