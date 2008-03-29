@@ -88,7 +88,10 @@ public class FormattedLogger {
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void debug(String pattern, Object ... objs) {
-        getLog().debug(getMessage(pattern, objs));
+        Log log = getLog();
+        if (log.isDebugEnabled()) {
+            log.debug(getMessage(pattern, objs));
+        }
     }
 
     /**
@@ -98,7 +101,10 @@ public class FormattedLogger {
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void info(String pattern, Object ... objs) {
-        getLog().info(getMessage(pattern, objs));
+        Log log = getLog();
+        if (log.isInfoEnabled()) {
+            log.info(getMessage(pattern, objs));
+        }
     }
 
     /**
@@ -108,7 +114,10 @@ public class FormattedLogger {
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void warn(String pattern, Object ... objs) {
-        getLog().warn(getMessage(pattern, objs));
+        Log log = getLog();
+        if (log.isWarnEnabled()) {
+            log.warn(getMessage(pattern, objs));
+        }
     }
 
     /**
@@ -118,7 +127,10 @@ public class FormattedLogger {
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void error(String pattern, Object ... objs) {
-        getLog().error(getMessage(pattern, objs));
+        Log log = getLog();
+        if (log.isErrorEnabled()) {
+            getLog().error(getMessage(pattern, objs));
+        }
     }
     
     /**
@@ -128,7 +140,10 @@ public class FormattedLogger {
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
     public static final void fatal(String pattern, Object ... objs) {
-        getLog().fatal(getMessage(pattern, objs));
+        Log log = getLog();
+        if (log.isFatalEnabled()) {
+            log.fatal(getMessage(pattern, objs));
+        }
     }
 
 }
