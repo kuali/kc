@@ -21,12 +21,10 @@ import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_KEY;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
 import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_NAME;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_LOWBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_TOTAL_CREDIT_SPLIT_UPBOUND;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +35,8 @@ import java.util.List;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.AuditError;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kra.logging.TraceLogProxyFactory;
+import org.kuali.kra.logging.Traceable;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplitNameInfo;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplitable;
@@ -46,18 +46,26 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
+import static org.kuali.kra.logging.FormattedLogger.*;
+
 /**
  * Validates Credit Splits on a <code>{@link ProposalPerson}</code> and/or <code>{@link ProposalPersonUnit}</code> by
  * traversing the tree of <code>{@link ProposalPerson}</code> <code>{@link ProposalPersonUnit}</code> instances.
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
-public class CreditSplitValidator {
+public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidator.class);
     private static final KualiDecimal CREDIT_UPBOUND = new KualiDecimal(100.00);
     private static final KualiDecimal CREDIT_LOWBOUND = KualiDecimal.ZERO;
     
+    private static final String VALIDATING_MESSAGE = "Validating %s.";
+    private static final String VALIDATING_CT_MESSAGE = "Validating credit type %s.";
+    private static final String UNIT_VALIDATION_MESSAGE = "Unit validation passed %s";
+    private static final String INV_VALIDATION_MESSAGE = "Investigator validation passed %s";
+    private static final String AUDIT_ADDITION_MESSAGE = "Adding %s audit error.";
+        
     /**
      * Validates the credit splits of an entire document by traversing it. If the Investigator is instead a Principal Investigator,
      * the units should all add up to 100.0.
@@ -70,7 +78,7 @@ public class CreditSplitValidator {
         boolean retval = true;
         
         for (InvestigatorCreditType creditType : creditTypes) {
-            LOG.info("validating credit type " + creditType.getDescription());
+            info(VALIDATING_CT_MESSAGE, creditType.getDescription());
             if (creditType.addsToHundred()) {
                 retval &= validate(document.getInvestigators(), creditType);
             }
@@ -100,7 +108,7 @@ public class CreditSplitValidator {
             retval = false;
         }
 
-        LOG.info("Passed investigator validation " + retval);
+        info(INV_VALIDATION_MESSAGE, retval);
 
         for (ProposalPerson investigator : investigators) {
             DecimalHolder unitCreditTotal = new DecimalHolder(KualiDecimal.ZERO);
@@ -110,7 +118,7 @@ public class CreditSplitValidator {
                 retval = false;
             }
 
-            LOG.info("Passed unit validation " + retval);
+            info(UNIT_VALIDATION_MESSAGE, retval);
         }
         
         
@@ -132,7 +140,7 @@ public class CreditSplitValidator {
         boolean retval = true;
         
         CreditSplitable splitable = splitable_it.next();
-        LOG.info("Validating " + getCreditSplitableName(splitable));
+        info(VALIDATING_MESSAGE, getCreditSplitableName(splitable));
      
         DecimalHolder lesserCummulative = new DecimalHolder(KualiDecimal.ZERO);        
         retval &= validateCreditSplit(splitable.getCreditSplits().iterator(), creditType, lesserCummulative);
@@ -167,18 +175,12 @@ public class CreditSplitValidator {
         if (!creditSplit_it.hasNext()) {
             return false;                
         }
-
-        boolean retval = true;
-        
         
         CreditSplit creditSplit = creditSplit_it.next();
         if (creditType.getInvCreditTypeCode().equals(creditSplit.getInvCreditTypeCode())) {
             lesserCummulative.add(creditSplit.getCredit());
-            
-            isCreditSplitValid(creditSplit.getCredit());
-            
-            // Found the credit split we're looking for, so now we return
-            return retval;
+            info("Credit split is %s", creditSplit.getCredit());
+            return isCreditSplitValid(creditSplit.getCredit());
         }
      
         return validateCreditSplit(creditSplit_it, creditType, lesserCummulative);
@@ -190,7 +192,7 @@ public class CreditSplitValidator {
      * @param value of the credit split to validate
      * @return <code>false</code> if negative or greater than 100.00
      */
-    private boolean isCreditSplitValid(KualiDecimal value) {
+    protected boolean isCreditSplitValid(KualiDecimal value) {
         boolean retval = true;
         
         // Validate that the current credit split isn't greater than 100% or less than 0%
@@ -259,7 +261,7 @@ public class CreditSplitValidator {
         
         if (!getAuditErrors().contains(error)) {
             getAuditErrors().add(error);
-            LOG.info("Adding " + messageKey + " error");
+            info(AUDIT_ADDITION_MESSAGE, messageKey);
         }
     }
     
@@ -400,6 +402,17 @@ public class CreditSplitValidator {
         
         return null;
     }
-
+    
+    public static CreditSplitValidator getInstance() {
+        return TraceLogProxyFactory.getProxyFor(new CreditSplitValidator());
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.logging.Traceable#getProxy(java.lang.Object)
+     */
+    public CreditSplitValidator getProxy(CreditSplitValidator archetype) {
+        return TraceLogProxyFactory.getProxyFor(archetype);
+    }
 }
 
