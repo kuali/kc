@@ -32,6 +32,7 @@ import org.kuali.core.UserSession;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 
 /**
  * Class to test Key Personnel Audit Mode Rules. These rules are executed when audit mode becomes activated.
@@ -65,6 +66,12 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         setAuditErrorMap(null);
         auditRule = null;
         super.tearDown();
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void changeKeyPersonEvent() {
+        ChangeKeyPersonEvent event = new ChangeKeyPersonEvent(new ProposalDevelopmentDocument(), null, null).getProxy(null);
+        event.validate();
     }
     
     /**

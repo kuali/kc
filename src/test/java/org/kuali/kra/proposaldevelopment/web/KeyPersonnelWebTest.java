@@ -15,16 +15,19 @@
  */
 package org.kuali.kra.proposaldevelopment.web;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import static org.kuali.kra.logging.FormattedLogger.*;
+
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>
  *  @author $Author: lprzybyl $
- *  @version $Revision: 1.8 $
+ *  @version $Revision: 1.9 $
  */
 public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelWebTest.class);
@@ -42,6 +45,14 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         super.setUp();
         setDefaultRequiredFields(getProposalDevelopmentPage());
         setKeyPersonnelPage(clickOn(getProposalDevelopmentPage(), KEY_PERSONNEL_IMAGE_NAME));
+        warn("");
+        error("");
+        fatal("");
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        super.tearDown();
     }
 
     /**
@@ -89,6 +100,57 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         saveAndSearchDoc(keyPersonnelPage);
     }
 
+    @Test
+    public void changeRole() throws Exception {
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person");
+        assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
+        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
+
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
+
+        assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+        keyPersonnelPage = saveDoc(keyPersonnelPage);
+        setFieldValue(keyPersonnelPage,"document.proposalPerson[0].proposalPersonRoleId", "COI");
+        saveAndSearchDoc(keyPersonnelPage);        
+    }
+    
+    @Test
+    public void addDegree() throws Exception {
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person");
+        assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
+        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
+
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
+
+        assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+        keyPersonnelPage = saveDoc(keyPersonnelPage);
+        setFieldValue(keyPersonnelPage,"newProposalPersonDegree[0].degreeCode", "AS");
+        setFieldValue(keyPersonnelPage,"newProposalPersonDegree[0].degree", "Sega");
+        setFieldValue(keyPersonnelPage,"newProposalPersonDegree[0].graduationYear", "2000");
+        setFieldValue(keyPersonnelPage,"newProposalPersonDegree[0].school", "Monroe");
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertDegree", true));
+        saveAndSearchDoc(keyPersonnelPage);        
+    }
+
+    @Test
+    public void removeDegree() throws Exception {
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person");
+        assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
+        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
+
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
+
+        assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+        keyPersonnelPage = saveDoc(keyPersonnelPage);
+        setFieldValue(keyPersonnelPage,"newProposalPersonDegree[0].degreeCode", "AS");
+        setFieldValue(keyPersonnelPage,"newProposalPersonDegree[0].degree", "Sega");
+        setFieldValue(keyPersonnelPage,"newProposalPersonDegree[0].graduationYear", "2000");
+        setFieldValue(keyPersonnelPage,"newProposalPersonDegree[0].school", "Monroe");
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertDegree", true));
+        keyPersonnelPage = saveDoc(keyPersonnelPage);
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.deleteDegree.document.proposalPerson[0].line0", true));
+        saveAndSearchDoc(keyPersonnelPage);        
+    }
     /**
      * Test adding a principal investigator
      */
