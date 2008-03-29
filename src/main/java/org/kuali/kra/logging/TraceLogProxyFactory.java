@@ -92,7 +92,7 @@ public class TraceLogProxyFactory {
         }
 
         LogFactory.getLog(TraceLogProxyFactory.class).info("Returning proxy");
-        return (T) Enhancer.create(targetClass, new Class[] { Traceable.class }, new TraceInvocationHandler());
+        return (T) Enhancer.create(targetClass, new Class[] { Traceable.class }, new TraceInvocationHandler(target));
     }
 }
 
