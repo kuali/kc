@@ -65,7 +65,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.50 $
+ * @version $Revision: 1.51 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
@@ -79,6 +79,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        info("Doing super execute");
         ActionForward retval = super.execute(mapping, form, request, response);
         prepare(form, request);
         return retval;
@@ -234,6 +235,23 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return mapping.findForward(MAPPING_BASIC);
     }
 
+    /**
+     * Clears the <code>{@link ProposalPerson}</code> buffer
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward clearProposalPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        pdform.setNewProposalPerson(new ProposalPerson());
+        pdform.setNewRolodexId("");
+        pdform.setNewPersonId("");        
+        return mapping.findForward(MAPPING_BASIC);
+    }
     
     /**
      * Add a degree to a <code>{@link ProposalPerson}</code>
@@ -375,8 +393,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward recalculateCreditSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
-
+    public ActionForward recalculateCreditSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.out.println("Got here");
+        prepare(form, request);
         return mapping.findForward(MAPPING_BASIC);
     }
 

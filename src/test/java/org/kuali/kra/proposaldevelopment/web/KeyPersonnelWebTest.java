@@ -27,7 +27,7 @@ import static org.kuali.kra.logging.FormattedLogger.*;
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>
  *  @author $Author: lprzybyl $
- *  @version $Revision: 1.9 $
+ *  @version $Revision: 1.10 $
  */
 public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelWebTest.class);
@@ -100,6 +100,19 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         saveAndSearchDoc(keyPersonnelPage);
     }
 
+    @Test
+    public void clearInvestigator() throws Exception {
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person");
+        assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
+        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
+
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.clearProposalPerson", true));
+
+        assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertEquals(getFieldValue(keyPersonnelPage, "newRolodexId"), "");
+        assertEquals(getFieldValue(keyPersonnelPage, "newPersonId"), "");
+        saveAndSearchDoc(keyPersonnelPage);
+    }
     @Test
     public void changeRole() throws Exception {
         HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person");
