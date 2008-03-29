@@ -89,7 +89,8 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     private boolean isProposalAction() {
         boolean isProposalAction = false;
 
-        if (actionName.startsWith("Proposal") && !actionName.contains("AbstractsAttachments")
+        if ((StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall())) 
+                && actionName.startsWith("Proposal") && !actionName.contains("AbstractsAttachments")
                 && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isProposalAction = true;
         }
@@ -137,7 +138,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     private boolean isNarrativeAction() {
         boolean isNarrativeAction = false;
 
-        if (actionName.contains("AbstractsAttachments") && 
+        if (StringUtils.isNotBlank(actionName) && actionName.contains("AbstractsAttachments") && 
                 (StringUtils.equals(getMethodToCall(), "addProposalAttachmentRights")
                 || StringUtils.equals(getMethodToCall(), "addProposalAttachment") 
                 || StringUtils.equals(getMethodToCall(), "downloadProposalAttachment")
@@ -165,7 +166,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     private boolean isBudgetAction() {
         boolean isBudgetAction = false;
 
-        if (actionName.startsWith("Budget") && !getMethodToCall().equalsIgnoreCase("headerTab")) {
+        if (StringUtils.isNotBlank(actionName) && actionName.startsWith("Budget") && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isBudgetAction = true;
         }
         else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("budgetVersions") 
