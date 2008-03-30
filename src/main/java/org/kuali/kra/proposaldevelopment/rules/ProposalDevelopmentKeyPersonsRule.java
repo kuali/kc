@@ -25,16 +25,13 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROL
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_INVALID;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.FormattedLogger.debug;
+import static org.kuali.kra.logging.FormattedLogger.info;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
-import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
@@ -55,10 +52,10 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.30 $
+ * @version $Revision: 1.31 $
  */
-public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule { 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentKeyPersonsRule.class);
+public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule {
+    private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
 
     /**
      * @see ResearchDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
@@ -78,18 +75,18 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     public boolean processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument document) {
         boolean retval = true;
         int pi_cnt = 0;
+        int personIndex = 0;
         for (ProposalPerson person : document.getProposalPersons()) {
             if (isPrincipalInvestigator(person)) {
                 pi_cnt++;
             }
             
-            int personIndex = 0;
-            if (!isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
-                LOG.debug("error.missingPersonRole");
+            if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) { 
+                debug("error.missingPersonRole");
                 String personProperty = "document.proposalPerson[" + personIndex + "]";
                 reportError(personProperty, ERROR_MISSING_PERSON_ROLE);
-                personIndex++;
             }
+            personIndex++;
         }
         
         if (pi_cnt > 1) {
@@ -136,23 +133,23 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     public boolean processAddKeyPersonBusinessRules(ProposalDevelopmentDocument document, ProposalPerson person) {
         boolean retval = true;
         
-        LOG.debug("validating " + person);
-        LOG.info("Person role is " + person.getRole());
+        debug("validating " + person);
+        info("Person role is " + person.getRole());
 
         if (isPrincipalInvestigator(person) && hasPrincipalInvestigator(document)) {
-            LOG.debug("error.principalInvestigator.limit");
+            debug("error.principalInvestigator.limit");
             reportError("newProposalPerson*", ERROR_INVESTIGATOR_UPBOUND);
             retval = false;
         }
         
         if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
-            LOG.debug("Tried to add person without role");
+            debug("Tried to add person without role");
             reportError("newProposalPerson*", ERROR_MISSING_PERSON_ROLE);
             retval = false;
         }
         
-        LOG.debug("Does document contain a proposal person with PERSON_ID " + person.getPersonId() + "?");
-        LOG.debug(document.getProposalPersons().contains(person)+ "");
+        debug("Does document contain a proposal person with PERSON_ID " + person.getPersonId() + "?");
+        debug(document.getProposalPersons().contains(person)+ "");
         
         if (document.getProposalPersons().contains(person)) {
             reportError("newProposalPerson*", ERROR_PROPOSAL_PERSON_EXISTS, person.getFullName());
@@ -244,11 +241,11 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         boolean retval = true;
         
         if (source == null) {
-            LOG.info("validated null unit");
+            info("validated null unit");
             return false;
         }
         
-        LOG.info("Validating unit " + source);
+        info("Validating unit " + source);
         
         if (source.getUnit() == null && isBlank(source.getUnitNumber())) {
             retval = false;
@@ -258,7 +255,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
 
-        LOG.info("isLeadUnit = " + source.isLeadUnit());
+        info("isLeadUnit = " + source.isLeadUnit());
         
         if (isDeletingUnitFromPrincipalInvestigator(source, person)) {     
             reportError("document.proposalPerson*", ERROR_DELETE_LEAD_UNIT);
@@ -270,7 +267,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
 
-        LOG.info("validateUnit = " + retval);
+        info("validateUnit = " + retval);
         
         return retval;
     }
@@ -307,7 +304,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = unit_it.next().getUnitNumber().equals(unit.getUnitNumber());
         }
         
-        LOG.info("person " + person.getProposalPersonNumber() + " has unit " + unit.getUnitNumber());
+        info(PERSON_HAS_UNIT_MSG, person.getProposalPersonNumber(), unit.getUnitNumber());
         
         return retval && unit.isDelete() && unit.isLeadUnit() && getKeyPersonnelService().isPrincipalInvestigator(person);
     }

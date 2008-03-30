@@ -33,7 +33,8 @@ public class ProposalRoleValuesFinderTest extends ValuesFinderTestBase {
         setTestClass(ProposalRoleValuesFinder.class);
     }
 
-    @Test public void testGetKeyValues() throws Exception {
+    @Test
+    public void testGetKeyValues() throws Exception {
         super.testGetKeyValues();
     }
 
