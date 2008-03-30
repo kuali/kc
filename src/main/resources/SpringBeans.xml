@@ -152,6 +152,10 @@
 		<property name="serviceName" value="dataDictionaryService" />
 	</bean>
 	
+    <bean id="dateTimeService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dateTimeService" />
+    </bean>
+
 	<bean id="encryptionService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="encryptionService" />
 	</bean>
@@ -275,6 +279,7 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 	
 	<bean id="budgetSummaryService" class="org.kuali.kra.budget.service.impl.BudgetSummaryServiceImpl">
