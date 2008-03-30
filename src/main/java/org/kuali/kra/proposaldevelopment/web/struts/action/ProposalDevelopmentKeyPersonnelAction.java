@@ -65,7 +65,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.51 $
+ * @version $Revision: 1.52 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
@@ -79,7 +79,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        info("Doing super execute");
+       
         ActionForward retval = super.execute(mapping, form, request, response);
         prepare(form, request);
         return retval;
