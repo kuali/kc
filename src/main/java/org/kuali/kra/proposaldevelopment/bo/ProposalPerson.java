@@ -32,7 +32,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.34 $
+ * @version $Revision: 1.35 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -69,9 +69,9 @@ public class ProposalPerson extends Person implements CreditSplitable {
      */
     public ProposalPerson() {
         proposalPersonDegrees = new ArrayList<ProposalPersonDegree>();
-        units = new ArrayList<ProposalPersonUnit>();
-        creditSplits = new ArrayList<ProposalPersonCreditSplit>();
-        proposalPersonYnqs = new ArrayList<ProposalPersonYnq>();
+        setUnits(new ArrayList<ProposalPersonUnit>());
+        setCreditSplits(new ArrayList<ProposalPersonCreditSplit>());
+        setProposalPersonYnqs(new ArrayList<ProposalPersonYnq>());
         roleChanged = false;
         isInvestigator = false;
         delete = false;
@@ -86,11 +86,11 @@ public class ProposalPerson extends Person implements CreditSplitable {
     public void setFullName(String fullName) {
         super.setFullName(fullName);
         
-        simpleName = new String(getFullName());
+        setSimpleName(new String(getFullName()));
         
-        simpleName = simpleName.toLowerCase();
-        simpleName = StringUtils.deleteWhitespace(simpleName);
-        simpleName = StringUtils.remove(simpleName, '.');
+        setSimpleName(getSimpleName().toLowerCase());
+        setSimpleName(StringUtils.deleteWhitespace(getSimpleName()));
+        setSimpleName(StringUtils.remove(getSimpleName(), '.'));
     }
    
     /**
@@ -382,16 +382,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
     public void setRole(ProposalPersonRole argPropPersonRole) {
         this.role = argPropPersonRole;
     }
-
-    /**
-     * Gets the value of lOG
-     *
-     * @return the value of lOG
-     */
-    public static org.apache.commons.logging.Log getLOG() {
-        return ProposalPerson.LOG;
-    }
-    
+   
     /**
      * Sets the value of conflictOfInterest
      *
