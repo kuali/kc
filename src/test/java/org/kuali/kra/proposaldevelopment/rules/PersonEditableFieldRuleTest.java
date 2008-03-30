@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import static org.kuali.kra.logging.FormattedLogger.info;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,7 +60,7 @@ public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
     public void processCustomRouteDocumentBusinessRules_ExistingField() throws Exception {
         PersonEditableField editableField = ADDRESS_LINE1_FIELD.getInstance();
         MaintenanceDocument editableFieldDocument = newMaintDoc(editableField);
-        PersonEditableFieldRule rule = (PersonEditableFieldRule) setupMaintDocRule(editableFieldDocument, PersonEditableFieldRule.class);         
+        PersonEditableFieldRule rule = setupMaintDocRule(editableFieldDocument, PersonEditableFieldRule.class);         
         
         assertTrue(rule.processCustomRouteDocumentBusinessRules(editableFieldDocument));
     }
@@ -72,7 +74,9 @@ public class PersonEditableFieldRuleTest extends MaintenanceRuleTestBase {
     public void processCustomRouteDocumentBusinessRules_Normal() throws Exception {
         PersonEditableField editableField = ADDRESS_LINE2_FIELD.getInstance();
         MaintenanceDocument editableFieldDocument = newMaintDoc(editableField);
-        PersonEditableFieldRule rule = setupMaintDocRule(editableFieldDocument, PersonEditableFieldRule.class);         
+        PersonEditableFieldRule rule = setupMaintDocRule(editableFieldDocument, PersonEditableFieldRule.class);
+        
+        info("pass %s", rule.processCustomRouteDocumentBusinessRules(editableFieldDocument));
     }
 }
 
