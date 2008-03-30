@@ -16,7 +16,6 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,22 +24,21 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanationType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.YnqConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.YnqService;
 
 public class YnqServiceImpl implements YnqService {
 
     private BusinessObjectService businessObjectService;
+    private DateTimeService dateTimeService;
+    
     
     /**
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnqExplanationTypes()
@@ -59,18 +57,17 @@ public class YnqServiceImpl implements YnqService {
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnq(java.lang.String)
      */
     public List<Ynq> getYnq(String questionType) {
-        Map questionTypeMap = new HashMap();
+        Map<String, String> questionTypeMap = new HashMap<String, String>();
         /* filter by question type */
         questionTypeMap.put("questionType", questionType);
         /* filter by status - fetch all active questions */
-        questionTypeMap.put("status", Constants.QUESTION_STATUS_ACTIVE);
-        String orderBy = "groupName";
-        Collection<Ynq> allTypes = new ArrayList();
-        allTypes = businessObjectService.findMatchingOrderBy(Ynq.class, questionTypeMap, orderBy, false);
-        List<Ynq> ynqs = new ArrayList();
+        questionTypeMap.put("status", Constants.QUESTION_STATUS_ACTIVE); 
+
+        Collection<Ynq> allTypes = getBusinessObjectService().findMatchingOrderBy(Ynq.class, questionTypeMap, "groupName", false);
+        List<Ynq> ynqs = new ArrayList<Ynq>();
         
         /* also filter all questions based on effective date - current date >= effective date */
-        Date currentDate= ((DateTimeService)KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentSqlDateMidnight();
+        Date currentDate = getDateTimeService().getCurrentSqlDateMidnight();
         for(Ynq type: allTypes) {
             if(type.getEffectiveDate().compareTo(currentDate) < 0   ) {
                 ynqs.add(type);
@@ -92,7 +89,7 @@ public class YnqServiceImpl implements YnqService {
         }
         if(proposalPerson.getProposalPersonYnqs().isEmpty() && certificationRequired) {
             String questionType = Constants.QUESTION_TYPE_INDIVIDUAL;
-            List<Ynq> ynqs = (KraServiceLocator.getService(YnqService.class).getYnq(questionType));
+            List<Ynq> ynqs = getYnq(questionType);
             for (Ynq type : ynqs) {
                 ProposalPersonYnq proposalPersonYnq = new ProposalPersonYnq();
                 proposalPersonYnq.setQuestionId(type.getQuestionId());
@@ -194,9 +191,9 @@ public class YnqServiceImpl implements YnqService {
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#getProposalPerson()
      */
     public List<ProposalPerson> getProposalPerson() {
-        Collection<ProposalPerson> allTypes = new ArrayList();
+        Collection<ProposalPerson> allTypes = new ArrayList<ProposalPerson>();
         allTypes = businessObjectService.findAll(ProposalPerson.class);
-        List<ProposalPerson> proposalPerson = new ArrayList();
+        List<ProposalPerson> proposalPerson = new ArrayList<ProposalPerson>();
         for(ProposalPerson type: allTypes) {
             proposalPerson.add(type);
         } 
@@ -217,6 +214,14 @@ public class YnqServiceImpl implements YnqService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public DateTimeService getDateTimeService() {
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 
 
