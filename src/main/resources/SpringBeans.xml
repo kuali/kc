@@ -307,6 +307,9 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+		<property name="personService">
+		    <ref bean="personService" />
+		</property>
 	</bean>
 
 	<bean id="proposalPersonService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalPersonServiceImpl">
