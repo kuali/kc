@@ -100,6 +100,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ((KualiForm) form).setTabStates(new HashMap());
+        if (form instanceof ProposalDevelopmentForm) { //TODO this is a quick fix; this should be moved to ProposalDevelopmentAction
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getProposalDevelopmentDocument();
 
@@ -116,6 +117,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                         pdform.setReject(true);
                     }
                 }
+        }
         }
             
 
