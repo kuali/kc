@@ -87,6 +87,7 @@ public class YnqServiceImpl implements YnqService {
         if(proposalPerson.getRole() !=  null) {
             certificationRequired = proposalPerson.getRole().getCertificationRequired();
         }
+        
         if(proposalPerson.getProposalPersonYnqs().isEmpty() && certificationRequired) {
             String questionType = Constants.QUESTION_TYPE_INDIVIDUAL;
             List<Ynq> ynqs = getYnq(questionType);
