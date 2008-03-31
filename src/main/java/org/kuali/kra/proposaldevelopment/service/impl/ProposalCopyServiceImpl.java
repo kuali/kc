@@ -37,9 +37,11 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -55,6 +57,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
+import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -138,6 +141,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private BusinessObjectService businessObjectService;
     private KeyPersonnelService keyPersonnelService;
     private DocumentService documentService;
+    private PersonService personService;
 
     /**
      * @see org.kuali.kra.proposaldevelopment.service.ProposalCopyService#copyProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria)
@@ -200,7 +204,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         if (criteria.getIncludeAttachments()) {
             copyAttachments(src, dest);
         }
-        
     }
 
     /**
@@ -500,16 +503,85 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         // Just copy over all of the data and we will make adjustments to it.
         
         List<DocProperty> properties = new ArrayList<DocProperty>();
-        properties.add(getDocProperty("Narratives"));
-        properties.add(getDocProperty("InstituteAttachments"));
         properties.add(getDocProperty("PropPersonBios"));
         copyProperties(src, dest, properties);
+        
+        List<Narrative> narratives = src.getNarratives();
+        List<Narrative> newNarratives = copyNarratives(narratives, 1);
+        dest.setNarratives(newNarratives);
+        
+        narratives = src.getInstituteAttachments();
+        dest.setInstituteAttachments(copyNarratives(narratives, newNarratives.size() + 1));
         
         // For the first adjustment, the Proposal Attachments must be set to "Incomplete".
         
         setProposalAttachmentsToIncomplete(dest);
-         
-        // TODO: Also, make sure I handle user rights correctly!!!
+    }
+    
+    /**
+     * Copy a list of narratives.  The only narratives that are
+     * copied are those that the user has read or modify access.
+     * @param narratives the narratives to copy
+     * @return the copied narratives
+     */
+    private List<Narrative> copyNarratives(List<Narrative> narratives, int moduleNumber) {
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        String username = user.getPersonUserIdentifier();
+        Person person = personService.getPersonByName(username);
+        
+        List<Narrative> newNarratives = new ArrayList<Narrative>();
+        for (Narrative narrative : narratives) {
+            if (hasReadPermission(person, narrative)) {
+                newNarratives.add(copyNarrative(person, narrative, moduleNumber++));
+            }
+        }
+        return newNarratives;
+    }
+    
+    /**
+     * Does the person have permission to read this narrative?  The
+     * person can read the narrative if they have read or modify access.
+     * @param person the person
+     * @param narrative the narrative
+     * @return true if read permission; otherwise false
+     */
+    private boolean hasReadPermission(Person person, Narrative narrative) {
+        List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
+        for (NarrativeUserRights userRights : userRightsList) {
+            if (StringUtils.equals(userRights.getUserId(), person.getPersonId())) {
+                if (userRights.getAccessType().equals(NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType())) {
+                    return true;
+                }
+                else if (userRights.getAccessType().equals(NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType())) {
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Copy a narrative.  The narrative rights are also reset to reflect that the
+     * person doing the copying is the only person who has access and that he/she
+     * has modify access.
+     * @param person the person
+     * @param narrative the narrative
+     * @param moduleNumber the narratives new module number
+     * @return the copied narrative
+     */
+    private Narrative copyNarrative(Person person, Narrative narrative, int moduleNumber) {
+        Narrative newNarrative = (Narrative) ObjectUtils.deepCopy(narrative);
+        newNarrative.setModuleNumber(moduleNumber);
+        NarrativeUserRights userRights = new NarrativeUserRights();
+        userRights.setAccessType(NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType());
+        userRights.setUserId(person.getPersonId());
+        userRights.setPersonName(person.getFullName());
+        List<NarrativeUserRights> userRightsList = new ArrayList<NarrativeUserRights>();
+        userRightsList.add(userRights);
+        newNarrative.setVersionNumber(null);
+        newNarrative.setNarrativeUserRights(userRightsList);
+        return newNarrative;
     }
     
     /**
@@ -658,6 +730,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     public void setKeyPersonnelService(KeyPersonnelService keyPersonnelService) {
         this.keyPersonnelService = keyPersonnelService;
+    }
+    
+    /**
+     * Set the Person Service.  Injected by Spring.
+     * @param personService the Person Service
+     */
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
     
     /**
