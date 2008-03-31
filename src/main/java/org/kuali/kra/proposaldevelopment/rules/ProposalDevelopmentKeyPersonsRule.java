@@ -52,7 +52,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.31 $
+ * @version $Revision: 1.32 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
@@ -181,20 +181,6 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         return getKeyPersonnelService().isPrincipalInvestigator(person);
     }
 
-    /**
-     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
-     */
-    private boolean isCoInvestigator(ProposalPerson person) {
-        return getKeyPersonnelService().isCoInvestigator(person);
-    }
-    
-    /**
-     * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
-     */
-    private boolean isInvestigator(ProposalPerson person) {
-        return getKeyPersonnelService().isInvestigator(person);
-    }
-        
     /**
      * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)
      */
