@@ -92,9 +92,12 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         
         
         super.tearDown();
-        
-        
-    }
+        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml");
+        customKEWLifecycle.start();
+        GlobalVariables.setErrorMap(new ErrorMap());
+        stopLifecycles(this.perTestLifeCycles);
+        afterRun();
+       }
 
     @Test
     public void testproposalworkflowRouting() throws Exception {
@@ -130,24 +133,16 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         assertNotNull(docLink);
         HtmlPage docDisplay = (HtmlPage) docLink.click();
         assertNotNull(docDisplay);
-
-
-
-
-
         HtmlPage approvePage = clickOnTab(docDisplay, ACTIONS_LINK_NAME);
         HtmlForm form2 = (HtmlForm) approvePage.getForms().get(0);
         final HtmlPage approvalConfirmationPage = clickButton(approvePage, form2, "methodToCall.approve", IMAGE_INPUT);
         assertNotNull(approvalConfirmationPage);
         assertTrue(approvalConfirmationPage.asText().contains("Kuali :: Question Dialog Page"));
-
         HtmlForm form3 = (HtmlForm) approvalConfirmationPage.getForms().get(0);
         HtmlPage backToActionList = clickButton(approvalConfirmationPage, form3, "methodToCall.processAnswer.button0",
                 IMAGE_INPUT);
         assertNotNull(backToActionList);
         assertTrue(backToActionList.asText().contains("Action List"));
-
-
         GlobalVariables.setUserSession(new UserSession("tdurkin"));
         final WebClient newWebClient1 = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
         final URL url1 = new URL("http://localhost:" + getPort() + "/kra-dev/");
