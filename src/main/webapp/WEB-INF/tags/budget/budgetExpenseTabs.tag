@@ -1,4 +1,4 @@
-<%--
+ <%--
  Copyright 2005-2006 The Kuali Foundation.
 
  Licensed under the Educational Community License, Version 1.0 (the "License");
@@ -15,22 +15,16 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="budgetExpenses"
-	documentTypeName="BudgetDocument"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="expenses">
+<c:set var="action" value="budgetExpensesAction" />
 
-	<center>Under Construction</center>	
-	<kra-b:budgetExpenses /> 
-	<kul:panelFooter />
-		
-<kul:documentControls 
-		transactionalDocument="true" 
-		suppressRoutingControls="true" 
-		extraButtons="${extraButtons}"
-		viewOnly="${KualiForm.editingMode['viewOnly']}"
-/>	
-
-</kul:documentPage>
+<div style="padding-top: 3em;">
+<kul:tabTop tabTitle="Budget Overview (Period ${KualiForm.viewBudgetPeriod})" defaultOpen="true" tabErrorKey="budget.projectIncome*">
+	
+	<kra-b:budgetExpenseBudgetOverview />    
+   	   			   	
+   	<c:forEach var="budgetCategoryTypeCodes" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="catCodes">
+		<kra-b:budgetDetailed budgetCategoryTypeCodesKey="${budgetCategoryTypeCodes.key}" budgetCategoryTypeCodesLabel="${budgetCategoryTypeCodes.label}" catCodes="${catCodes.index}"/>		
+	</c:forEach>
+	</div>		
+</kul:tabTop>
+</div>

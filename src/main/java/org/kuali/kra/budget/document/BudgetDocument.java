@@ -36,10 +36,12 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.Formatter;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
+import org.kuali.kra.budget.bo.BudgetCategoryType;
 import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -113,8 +115,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<InstituteLaRate> instituteLaRates;
     private List<RateClass> rateClasses;
     private List<RateClassType> rateClassTypes;
+    private List<BudgetCategoryType> budgetCategoryTypes;
     private SortedMap <CostElement, List> objectCodeTotals ;
-    private SortedMap <RateType, List> calculatedExpenseTotals ;    
+    private SortedMap <RateType, List> calculatedExpenseTotals ;
+    private List<KeyLabelPair> budgetCategoryTypeCodes;
     
     public BudgetDocument(){
         super();
@@ -133,6 +137,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         budgetPersons = new ArrayList<BudgetPerson>();
         Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
         Formatter.registerFormatter(RateDecimal.class, RateDecimalFormatter.class);
+        budgetCategoryTypeCodes = new ArrayList<KeyLabelPair>();
+        budgetCategoryTypes = new ArrayList<BudgetCategoryType>();
     }
 
     public void initialize() {
@@ -880,7 +886,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
         public BudgetDecimal getCostShare() {
             return costShare;
-        }
+        }        
         
         public FiscalYearRates getFiscalYearRates() {
             return fiscalYearRates;
@@ -914,5 +920,20 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
                 return (d2 != null) ? FIRST_LESS_THAN_SECOND : FIRST_EQUALS_SECOND;
             }
         }
+    }
+    public List<BudgetCategoryType> getBudgetCategoryTypes() {
+        return budgetCategoryTypes;
+    }
+
+    public void setBudgetCategoryTypes(List<BudgetCategoryType> budgetCategoryTypes) {
+        this.budgetCategoryTypes = budgetCategoryTypes;
+    }
+
+    public List<KeyLabelPair> getBudgetCategoryTypeCodes() {
+        return budgetCategoryTypeCodes;
+    }
+
+    public void setBudgetCategoryTypeCodes(List<KeyLabelPair> budgetCategoryTypeCodes) {
+        this.budgetCategoryTypeCodes = budgetCategoryTypeCodes;
     }
 }

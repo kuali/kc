@@ -252,7 +252,7 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 		hashMap.put("underrecoveryAmount", getUnderrecoveryAmount());
         hashMap.put("directCost", getDirectCost());
         hashMap.put("indirectCost", getIndirectCost());
-        List<BudgetLineItemCalculatedAmount> l = getBudgetLineItemCalculatedAmounts();
+        budgetLineItemCalculatedAmounts = getBudgetLineItemCalculatedAmounts();
         hashMap.put("budgetLineItemCalculatedAmounts",getBudgetLineItemCalculatedAmounts());
 //        for (BudgetLineItemCalculatedAmount object : l) {
 //            hashMap.put(object.getRateClassType(),object);
