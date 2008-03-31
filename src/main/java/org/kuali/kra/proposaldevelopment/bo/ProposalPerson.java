@@ -32,15 +32,13 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.35 $
+ * @version $Revision: 1.36 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4110005875629288373L;
-
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPerson.class);
 
     private boolean conflictOfInterestFlag;
     private KualiDecimal percentageEffort;
@@ -547,7 +545,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
         return proposalPersonYnqs;
     }
 
-    public void setProposalPersonYnqs(List<ProposalPersonYnq> proposalPersonYnq) {
+    public void setProposalPersonYnqs(List<ProposalPersonYnq> proposalPersonYnqs) {
         this.proposalPersonYnqs = proposalPersonYnqs;
     }
 
