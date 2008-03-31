@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,9 +27,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.service.BudgetDistrubutionAndIncomeService;
 import org.kuali.kra.budget.service.BudgetModularService;
 import org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl;
@@ -101,6 +104,102 @@ public class BudgetAction extends ProposalActionBase {
     }
 
     public ActionForward expenses(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
+        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();        
+        budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
+        budgetForm.getBudgetDocument().setBudgetCategoryTypeCodes(budgetCategoryTypes);
+        BudgetDocument budgetDocument = (BudgetDocument) budgetForm.getBudgetDocument();
+        budgetDocument.refreshReferenceObject("budgetPeriods");
+        
+        /*
+        for(KeyLabelPair budgetCategoryType:budgetCategoryTypes){
+            for(BudgetPeriod budgetPeriod: budgetPeriods){                
+                budgetLineItems = budgetPeriod.getBudgetLineItems();
+                for(BudgetLineItem budgetLineItem: budgetLineItems){
+                    if(!budgetForm.getBudgetPeriodLineItemNumbersMapping().containsKey(budgetPeriod.getBudgetPeriod().toString())){
+                        if(StringUtils.equalsIgnoreCase(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(),budgetCategoryType.key.toString())){
+                            budgetForm.getBudgetLineItemNumbers().put(budgetCategoryType.key.toString(), new Integer(0));                       
+                            budgetForm.getBudgetPeriodLineItemNumbersMapping().put(budgetPeriod.getBudgetPeriod().toString(), budgetForm.getBudgetLineItemNumbers());
+                        }                                                
+                    }else{            
+                        if(StringUtils.equalsIgnoreCase(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(),budgetCategoryType.key.toString())){
+                            HashMap tempMap = budgetForm.getBudgetPeriodLineItemNumbersMapping().get(budgetPeriod.getBudgetPeriod().toString());
+                            if(!tempMap.containsKey(budgetCategoryType.key.toString())){
+                                tempMap.put(budgetCategoryType.key.toString(), new Integer(0));
+                                budgetForm.getBudgetPeriodLineItemNumbersMapping().put(budgetPeriod.getBudgetPeriod().toString(), tempMap);                
+                            }else{
+                                String temp = tempMap.get(budgetCategoryType.key.toString()).toString();
+                                tempMap.remove(budgetCategoryType.key.toString());
+                                tempMap.put(budgetCategoryType.key.toString(),new Integer(Integer.parseInt(temp)+1));
+                                budgetForm.getBudgetPeriodLineItemNumbersMapping().remove(budgetPeriod.getBudgetPeriod().toString());
+                                budgetForm.getBudgetPeriodLineItemNumbersMapping().put(budgetPeriod.getBudgetPeriod().toString(), tempMap);                
+                            }                            
+                        }                        
+                    }
+                    if(!budgetForm.getBudgetPeriodLineItemSequenceMapping().containsKey(budgetPeriod.getBudgetPeriod().toString())){
+                        if(StringUtils.equalsIgnoreCase(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(),budgetCategoryType.key.toString())){
+                            ArrayList tempList = new ArrayList();
+                            tempList.add(new Integer(0));
+                            budgetForm.getBudgetLineItemSequence().put(budgetCategoryType.key.toString(), tempList);
+                            budgetForm.getBudgetPeriodLineItemSequenceMapping().put(budgetPeriod.getBudgetPeriod().toString(), budgetForm.getBudgetLineItemSequence());
+                        }                                    
+                    }else{
+                        if(StringUtils.equalsIgnoreCase(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(),budgetCategoryType.key.toString())){
+                            HashMap tempMap = budgetForm.getBudgetPeriodLineItemSequenceMapping().get(budgetPeriod.getBudgetPeriod().toString());
+                            if(!tempMap.containsKey(budgetCategoryType.key.toString())){
+                                ArrayList tempList = new ArrayList();
+                                tempList.add(new Integer(0));
+                                tempMap.put(budgetCategoryType.key.toString(), tempList);
+                                budgetForm.getBudgetPeriodLineItemSequenceMapping().put(budgetPeriod.getBudgetPeriod().toString(), tempMap);
+                            }else{
+                                ArrayList tempList = new ArrayList();
+                                tempList = (ArrayList) tempMap.get(budgetCategoryType.key.toString());
+                                tempList.add(new Integer(tempList.size()));
+                                tempMap.remove(budgetCategoryType.key.toString());
+                                tempMap.put(budgetCategoryType.key.toString(),tempList);
+                                budgetForm.getBudgetPeriodLineItemSequenceMapping().remove(budgetPeriod.getBudgetPeriod().toString());
+                                budgetForm.getBudgetPeriodLineItemSequenceMapping().put(budgetPeriod.getBudgetPeriod().toString(), tempMap);                
+                            }
+                        }                                        
+                    }
+                }
+            }
+        }
+        */
+        /*if(StringUtils.equalsIgnoreCase(budgetCategoryType.key.toString(),budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode())){
+            if(budgetForm.getBudgetLineItemNumbers()!=null && budgetForm.getBudgetLineItemNumbers().get(budgetCategoryType.key.toString())!=null){
+                i++;
+                budgetForm.getBudgetLineItemNumbers().put(budgetCategoryType.key.toString(), new Integer(0));
+                budgetForm.getBudgetPeriodLineItemNumbersMapping().put(budgetPeriod.getBudgetPeriod().toString(), budgetForm.getBudgetLineItemNumbers());
+            }else{
+                Integer temp = (Integer)budgetForm.getBudgetLineItemNumbers().get(budgetCategoryType.key);                            
+                i++;
+                budgetForm.getBudgetLineItemNumbers().remove(budgetCategoryType.key.toString());
+                budgetForm.getBudgetLineItemNumbers().put(budgetCategoryType.key.toString(), new Integer(temp+1));
+                budgetForm.getBudgetPeriodLineItemNumbersMapping().remove(budgetPeriod.getBudgetPeriod().toString());
+                budgetForm.getBudgetPeriodLineItemNumbersMapping().put(budgetPeriod.getBudgetPeriod().toString(), budgetForm.getBudgetLineItemNumbers());
+            }
+        }*/
+        
+        /*
+        budgetForm.getBudgetLineItemNumbers();
+        if(!budgetForm.getBudgetPeriodLineItemNumbersMapping().containsKey(budgetForm.getViewBudgetPeriod().toString())){            
+            budgetForm.getBudgetLineItemNumbers().put(budgetForm.getBudgetCategoryTypeCode(), new Integer(0));                       
+            budgetForm.getBudgetPeriodLineItemNumbersMapping().put(budgetForm.getViewBudgetPeriod().toString(), budgetForm.getBudgetLineItemNumbers());                        
+        }else{            
+            HashMap tempMap = budgetForm.getBudgetPeriodLineItemNumbersMapping().get(budgetForm.getViewBudgetPeriod().toString());
+            if(!tempMap.containsKey(budgetForm.getBudgetCategoryTypeCode())){
+                tempMap.put(budgetForm.getBudgetCategoryTypeCode(), new Integer(0));
+                budgetForm.getBudgetPeriodLineItemNumbersMapping().put(budgetForm.getViewBudgetPeriod().toString(), tempMap);                
+            }else{
+                String temp = tempMap.get(budgetForm.getBudgetCategoryTypeCode()).toString();
+                tempMap.remove(budgetForm.getBudgetCategoryTypeCode());
+                tempMap.put(budgetForm.getBudgetCategoryTypeCode(),new Integer(Integer.parseInt(temp)+1));
+                budgetForm.getBudgetPeriodLineItemNumbersMapping().remove(budgetForm.getViewBudgetPeriod().toString());
+                budgetForm.getBudgetPeriodLineItemNumbersMapping().put(budgetForm.getViewBudgetPeriod().toString(), tempMap);                
+            }
+        }*/
         return mapping.findForward("expenses");
     }
 

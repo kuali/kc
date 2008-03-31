@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.web.struts.form;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,20 +24,22 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.web.ui.ExtraButton;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetCostShare;
+import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetModularIdc;
 import org.kuali.kra.budget.bo.BudgetModularSummary;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetDocumentContainer;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
 
-public class BudgetForm extends ProposalFormBase implements BudgetDocumentContainer {
+public class BudgetForm extends ProposalFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
     
     private String newBudgetPersons;
@@ -44,22 +47,37 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
     private String newTbnPersons;
     
     private BudgetPeriod newBudgetPeriod;
+    private List<BudgetLineItem> newBudgetLineItems;    
+    private Integer newBudgetPeriodNumber = 0;    
     
-    private Integer newBudgetPeriodNumber = 0; 
-    
-    private BudgetCostShare newBudgetCostShare;
-    private BudgetProjectIncome newBudgetProjectIncome;
+	private BudgetCostShare newBudgetCostShare;
+	private BudgetProjectIncome newBudgetProjectIncome;
     private BudgetUnrecoveredFandA newBudgetUnrecoveredFandA;
     private BudgetModularIdc newBudgetModularIdc;
     private BudgetModularSummary budgetModularSummary;
     
+    private BudgetDecimal costSharingAmount;
+    
     private List<ExtraButton> extraTopButtons;
 
+    private Integer viewBudgetView;
     private Integer viewBudgetPeriod;
     private String viewLocation;
     
     private Integer modularSelectedPeriod;
     
+    private String budgetCategoryTypeCode;
+        
+    private boolean documentNextValueRefresh;
+    
+    public boolean isDocumentNextValueRefresh() {
+        return documentNextValueRefresh;
+    }
+
+    public void setDocumentNextValueRefresh(boolean documentNextValueRefresh) {
+        this.documentNextValueRefresh = documentNextValueRefresh;
+    }
+
     public Integer getViewBudgetPeriod() {
         return viewBudgetPeriod;
     }
@@ -89,19 +107,26 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
     public void initialize() {
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.budget.document.BudgetDocument.class.getName())).getHeaderTabNavigation());
-        setNewBudgetPeriod(new BudgetPeriod());
+        setNewBudgetPeriod(new BudgetPeriod());        
         setExtraTopButtons(new ArrayList<ExtraButton>());
         ExtraButton returnToProposal = new ExtraButton();
         returnToProposal.setExtraButtonProperty("methodToCall.returnToProposal");
         KualiConfigurationService configService = KraServiceLocator.getService(KualiConfigurationService.class);
         String imagesUrl = configService.getPropertyString("kra.externalizable.images.url");
         returnToProposal.setExtraButtonSource(imagesUrl + "tinybutton-retprop.gif");
-        returnToProposal.setExtraButtonAltText("return to proposal");
+        returnToProposal.setExtraButtonAltText("return to proposal");        
         extraTopButtons.add(returnToProposal);
         
         newBudgetProjectIncome = new BudgetProjectIncome();
         newBudgetCostShare = new BudgetCostShare();
-        newBudgetUnrecoveredFandA = new BudgetUnrecoveredFandA();
+        newBudgetUnrecoveredFandA = new BudgetUnrecoveredFandA();            
+        newBudgetLineItems = new ArrayList<BudgetLineItem>();
+        newBudgetLineItems.add(new BudgetLineItem());
+        newBudgetLineItems.add(new BudgetLineItem());
+        newBudgetLineItems.add(new BudgetLineItem());
+        newBudgetLineItems.add(new BudgetLineItem());
+        newBudgetLineItems.add(new BudgetLineItem());
+        setDocumentNextValueRefresh(true);        
     }
     
     public BudgetDocument getBudgetDocument() {
@@ -268,7 +293,7 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
     public void setNewBudgetUnrecoveredFandA(BudgetUnrecoveredFandA newBudgetUnrecoveredFandA) {
         this.newBudgetUnrecoveredFandA = newBudgetUnrecoveredFandA;
     }
-
+    
     public Integer getModularSelectedPeriod() {
         return modularSelectedPeriod;
     }
@@ -291,6 +316,44 @@ public class BudgetForm extends ProposalFormBase implements BudgetDocumentContai
 
     public void setBudgetModularSummary(BudgetModularSummary budgetModularSummary) {
         this.budgetModularSummary = budgetModularSummary;
+    }        
+    
+    public BudgetDecimal getCostSharingAmount() {
+        return costSharingAmount;
+    }
+
+    public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
+        this.costSharingAmount = costSharingAmount;
     }
     
+    public Integer getViewBudgetView() {
+        return viewBudgetView;
+    }
+
+    public void setViewBudgetView(Integer viewBudgetView) {
+        this.viewBudgetView = viewBudgetView;
+    }
+
+    public String getBudgetCategoryTypeCode() {
+        return budgetCategoryTypeCode;
+    }
+
+    public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
+        this.budgetCategoryTypeCode = budgetCategoryTypeCode;
+    }    
+    
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        if (getActionFormUtilMap() != null && getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) getActionFormUtilMap()).setCacheValueFinderResults(false);
+        }
+    }
+
+    public List<BudgetLineItem> getNewBudgetLineItems() {
+        return newBudgetLineItems;
+    }
+
+    public void setNewBudgetLineItems(List<BudgetLineItem> newBudgetLineItems) {
+        this.newBudgetLineItems = newBudgetLineItems;
+    }      
 }

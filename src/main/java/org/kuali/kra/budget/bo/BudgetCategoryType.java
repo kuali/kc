@@ -28,7 +28,16 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase {
 	
 	private String budgetCategoryTypeCode;
 	private String description;
+	private String sortId;
 	
+    public String getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(String sortId) {
+        this.sortId = sortId;
+    }
+
     /**
      * Retrieves the description attribute
      * 

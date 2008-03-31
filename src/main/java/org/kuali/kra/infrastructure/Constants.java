@@ -149,6 +149,9 @@ public interface Constants {
     //Budget Rates
     public static final String ON_CAMUS_FLAG = "N";
     public static final String OFF_CAMUS_FLAG = "F";
+    
+    //Budget Expenses
+    public static final String BUDGET_LINEITEM_NUMBER = "budget.budgetLineItem.lineItemNumber";
 
     
     //Grants.gov

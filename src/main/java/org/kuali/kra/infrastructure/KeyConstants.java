@@ -130,4 +130,7 @@ public class KeyConstants {
     public static final String PESSIMISTIC_LOCK_MESSAGE = "error.document.pessimisticLockMessage";
     public static final String ERROR_INACTIVE_CUSTOM_ATT_DOC = "error.inactive.customAttributeDocument";
     public static final String ERROR_WORKFLOW_SUBMISSION = "error.workflow.submission";
+    
+    //Budget Expense
+    public static final String ERROR_BUDGET_PERIOD_NOT_SELECTED = "error.viewBudgetPeriod.notSelected";
 }

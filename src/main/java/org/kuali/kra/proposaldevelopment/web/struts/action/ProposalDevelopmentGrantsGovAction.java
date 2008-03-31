@@ -97,10 +97,10 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
      * @return
      * @throws Exception
      */
-   
     public ActionForward confirmRemoveOpportunity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_REMOVE_OPPRTUNITY_KEY.equals(question)) { 
+            //TODO: Re-factor to not use businessObjectService for delete
             ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
             ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
             BusinessObjectService businessObjectService = ((BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class));            
@@ -108,8 +108,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
             proposalDevelopmentDocument.setS2sOpportunity(null);
             proposalDevelopmentDocument.setProgramAnnouncementNumber(null);
             proposalDevelopmentDocument.setProgramAnnouncementTitle(null);
-            proposalDevelopmentDocument.setCfdaNumber(null);
-            return super.save(mapping, form, request, response);
+            proposalDevelopmentDocument.setCfdaNumber(null);            
         }        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
