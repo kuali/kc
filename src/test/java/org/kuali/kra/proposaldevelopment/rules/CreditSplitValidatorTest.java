@@ -43,7 +43,7 @@ import org.kuali.kra.proposaldevelopment.rules.CreditSplitValidator;
  * Class to test use cases of <code>{@link CreditSplitValidator}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class CreditSplitValidatorTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidatorTest.class);
@@ -55,7 +55,8 @@ public class CreditSplitValidatorTest extends KraTestBase {
         super.setUp();
         setUserSession(new UserSession("quickstart"));
         setAuditErrorMap(new HashMap());
-        validator = new CreditSplitValidator().getProxy(null);
+        validator = new CreditSplitValidator();
+        validator = validator.getProxy(validator);
         document = NORMAL_DOCUMENT.getDocument();
     }
     
