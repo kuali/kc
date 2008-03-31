@@ -21,8 +21,6 @@
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="modularBudget">
-
-	<center>Under Construction</center>
 	
 	<kul:uncollapsable tabTitle="Select Modular Budget Period">
   		<div align="center">
