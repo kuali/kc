@@ -441,6 +441,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 for (ProposalPersonYnq ynq : person.getProposalPersonYnqs()) {
                     ynq.setProposalNumber(null);
                     ynq.setProposalPersonNumber(personNumber);
+                    ynq.setAnswer(null);
                 }
                 
                 for (ProposalPersonDegree degree : person.getProposalPersonDegrees()) {
