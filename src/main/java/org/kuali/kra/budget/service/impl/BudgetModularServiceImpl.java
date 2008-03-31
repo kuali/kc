@@ -16,11 +16,13 @@
 package org.kuali.kra.budget.service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetModular;
 import org.kuali.kra.budget.bo.BudgetModularIdc;
 import org.kuali.kra.budget.bo.BudgetModularSummary;
@@ -78,17 +80,50 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     
     public void synchModularBudget(BudgetDocument budgetDocument) {
         for (BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
+            
+            if (ObjectUtils.isNull(budgetPeriod.getBudgetModular())) {
+                // Modular period not initialized yet - create
+                budgetPeriod.setBudgetModular(
+                        new BudgetModular(budgetPeriod.getProposalNumber(), budgetPeriod.getBudgetVersionNumber(), budgetPeriod.getBudgetPeriod()));
+            }
+            
+            BudgetModular budgetModular = budgetPeriod.getBudgetModular();
+            budgetModular.setBudgetModularIdcs(new ArrayList<BudgetModularIdc>());
             BudgetDecimal directCostLessConsortiumFna = new BudgetDecimal(0);
             BudgetDecimal consortiumFna = new BudgetDecimal(0);
             
             for (BudgetLineItem budgetLineItem: budgetPeriod.getBudgetLineItems()) {
+//              TODO use configuration service
+                if (budgetLineItem.getCostElement().equals("420630") || budgetLineItem.getCostElement().equals("420610")) {
+                    // Consortium F&A
+                    consortiumFna = consortiumFna.add(budgetLineItem.getLineItemCost());
+                    break;
+                }
                 // Loop through line item calculated amounts
+                for (Iterator iter = budgetLineItem.getBudgetLineItemCalculatedAmounts().iterator(); iter.hasNext();) {
+                    
+                    BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount) iter.next();
+                    if (budgetLineItemCalculatedAmount.getRateClassType().equals("O")) {
+                        // F&A
+                        BudgetModularIdc budgetModularIdc = new BudgetModularIdc();
+                        budgetDocument.refreshReferenceObject("documentNextvalues");
+                        budgetModularIdc.setRateNumber(budgetDocument.getDocumentNextValue("rateNumber"));
+                        budgetModularIdc.setFundsRequested(budgetLineItemCalculatedAmount.getCalculatedCost());
+                        budgetModularIdc.setDescription(budgetLineItemCalculatedAmount.getRateClassCode());
+                        budgetModularIdc.setIdcBase(budgetLineItem.getDirectCost());
+                        budgetModularIdc.setIdcRate(budgetModularIdc.getFundsRequested().divide(budgetModularIdc.getIdcBase()));
+                        budgetModular.addNewBudgetModularIdc(budgetModularIdc);
+                    }
+                }
+                directCostLessConsortiumFna = directCostLessConsortiumFna.add(budgetLineItem.getDirectCost());
             }
-            
-            BudgetModular budgetModular = 
-                new BudgetModular(budgetPeriod.getProposalNumber(), budgetPeriod.getBudgetVersionNumber(), budgetPeriod.getBudgetPeriod());
-            budgetPeriod.setBudgetModular(budgetModular);
+            BudgetDecimal modularTdc = new BudgetDecimal(0);
+            while (directCostLessConsortiumFna.isGreaterThan(modularTdc)) {
+                modularTdc = modularTdc.add(new BudgetDecimal(25000));
+            }
+            budgetModular.setDirectCostLessConsortiumFna(modularTdc);
+            budgetModular.setConsortiumFna(consortiumFna);
+            budgetModular.calculateAllTotals();
         }
     }
-
 }

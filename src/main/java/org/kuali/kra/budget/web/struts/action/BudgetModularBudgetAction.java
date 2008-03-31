@@ -112,6 +112,7 @@ public class BudgetModularBudgetAction extends BudgetAction {
             BudgetModularService budgetModularService = KraServiceLocator.getService(BudgetModularService.class);
             BudgetForm budgetForm = (BudgetForm) form;
             budgetModularService.synchModularBudget(budgetForm.getBudgetDocument());
+            budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getBudgetDocument()));
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -126,6 +127,8 @@ public class BudgetModularBudgetAction extends BudgetAction {
         BudgetModularService budgetModularService = KraServiceLocator.getService(BudgetModularService.class);
         BudgetPeriod budgetPeriod = budgetDocument.getBudgetPeriods().get(budgetForm.getModularSelectedPeriod() - 1);
         budgetModularService.generateModularPeriod(budgetPeriod);
+        // Also update project totals
+        budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getBudgetDocument()));
     }
     
 }
