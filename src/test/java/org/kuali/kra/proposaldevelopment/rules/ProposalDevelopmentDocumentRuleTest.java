@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED;
+
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,12 +28,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.UserSession;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -52,6 +60,10 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
     private static final String PROPOSAL_TYPE_REVISION = "5";
     private static final String PROPOSAL_TYPE_TASK_ORDER = "6";
     private static final String DOCUMENT_HEADER_DESCRIPTION = "ProposalDevelopmentDocumentWebTest test";
+    
+    // Key Personnel Fixtures
+    private static final String UNIT_NUMBER_TO_ADD = "IN-PERS";
+    
     private DocumentService documentService = null;
     private ProposalDevelopmentDocumentRule proposalDevelopmentDocumentRule = null;
     private Date defaultProposalRequestedStartDate = null;
@@ -78,7 +90,8 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         super.tearDown();
     }
 
-    @Test public void testValidNewProposalType() throws Exception {
+    @Test 
+    public void testValidNewProposalType() throws Exception {
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
 
         setRequiredDocumentFields(document,
@@ -94,7 +107,8 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         assertEquals(0, GlobalVariables.getErrorMap().size());
     }
 
-    @Test public void testNonNewProposalTypeWithoutOriginalProposalId() throws Exception {
+    @Test 
+    public void testNonNewProposalTypeWithoutOriginalProposalId() throws Exception {
         processType(PROPOSAL_TYPE_NEW, false, false);
         processType(PROPOSAL_TYPE_CONTINUATION, false, true);
         processType(PROPOSAL_TYPE_RENEWAL, false, true);
@@ -103,7 +117,8 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         processType(PROPOSAL_TYPE_TASK_ORDER, false, false);
     }
 
-    @Test public void testNonNewProposalTypeWithOriginalProposalId() throws Exception {
+    @Test 
+    public void testNonNewProposalTypeWithOriginalProposalId() throws Exception {
         processType(PROPOSAL_TYPE_NEW, true, false);
         processType(PROPOSAL_TYPE_CONTINUATION, true, false);
         processType(PROPOSAL_TYPE_RENEWAL, true, false);
@@ -173,5 +188,115 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         document.setProposalTypeCode(proposalTypeCode);
         document.setOwnedByUnitNumber(ownedByUnit);
     }
+    
+    /**
+     * Tests the {@link ProposalDevelopmentKeyPersonsRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.core.bo.BusinessObject)}
+     * by adding a {@link Unit} and then removing the same {@link Unit}
+     * 
+     */
+    @Test
+    public void testRemoveUnit() {
+        ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
+        ProposalPerson person = new ProposalPerson();
+        document.setOwnedByUnitNumber("000001");
+        person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
+        
+        getKeyPersonnelService().populateProposalPerson(person, document);
+        document.addProposalPerson(person);
+        
+        ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(UNIT_NUMBER_TO_ADD, person);
+        
+        assertTrue(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit));
+        
+        getKeyPersonnelService().addUnitToPerson(person, unit);
+        assertFalse(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit));        
+    }
 
+    /**
+     * Tests the {@link ProposalDevelopmentKeyPersonsRule#processChangeKeyPersonBusinessRules(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.core.bo.BusinessObject)}
+     * by adding a {@link Unit} and adding it again
+     * 
+     */
+    @Test
+    public void testDoubleUnit() {
+        ProposalPerson person = new ProposalPerson();
+        ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
+        document.setOwnedByUnitNumber("000001");
+        person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
+        getKeyPersonnelService().populateProposalPerson(person, document);
+        document.addProposalPerson(person);
+
+        
+        ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(UNIT_NUMBER_TO_ADD, person);
+        
+        assertTrue(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit));
+
+        getKeyPersonnelService().addUnitToPerson(person, unit);
+
+        assertFalse(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit));
+    }
+    
+    /**
+     * Tests the {@link ProposalDevelopmentKeyPersonsRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument, ProposalPerson)}
+     * by adding a {@link ProposalPerson} without a role id set.
+     * 
+     */
+    @Test
+    public void testAddPersonWithoutRole() {
+        ProposalPerson person = new ProposalPerson();
+        ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
+        document.setOwnedByUnitNumber("000001");
+        person.setPersonId("000000003");
+        getKeyPersonnelService().populateProposalPerson(person, document);
+        person.setProposalPersonRoleId("");
+        person.setRole(null);
+        
+        assertFalse(new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person));
+    }
+    
+    /**
+     * Tests the {@link ProposalDevelopmentKeyPersonsRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument, ProposalPerson)}
+     * by running the rule on a document with the {@link ProposalPerson} added already
+     * 
+     */
+    @Test
+    public void testPersonExists() {
+        ProposalPerson person = INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.getPerson();
+        ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
+        INVESTIGATOR_SPLIT_ADDS_TO_ONE_HUNDRED.populatePerson(document, person);
+        document.setOwnedByUnitNumber("000001");
+        person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
+        document.addProposalPerson(person);
+        
+        assertFalse(new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person));
+    }
+    
+    /**
+     * Tests the {@link ProposalDevelopmentKeyPersonsRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument, ProposalPerson)}
+     * by running the rule on a document with the {@link ProposalPerson} that has invalid personId and rolodexId
+     * 
+     */
+    @Test
+    public void testPersonInvalid() {
+        ProposalPerson person = new ProposalPerson();
+        ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
+        document.setOwnedByUnitNumber("000001");
+        person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
+        getKeyPersonnelService().populateProposalPerson(person, document);
+        document.addProposalPerson(person);
+        person.setRolodexId(-1);
+        person.setPersonId("-1");
+        
+        assertFalse(new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person));
+    }
+    
+    /**
+     * Locate the <code>{@link KeyPersonnelService}</code>
+     * 
+     * @return KeyPersonnelService
+     * @see KraTestBase#getService(Class)
+     */
+    private KeyPersonnelService getKeyPersonnelService() {
+        return getService(KeyPersonnelService.class);
+    }
 }
