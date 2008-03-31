@@ -15,12 +15,15 @@
  */
 package org.kuali.kra.budget.rules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
@@ -97,6 +100,8 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         
         valid &= processBudgetPersonnelBusinessRules(budgetDocument);
         
+        valid &= processBudgetExpenseBusinessRules(budgetDocument);
+        
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
         
         return true;
@@ -128,4 +133,34 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         
         return valid;
     }
+    
+    /**
+     * This method checks business rules related to Budget Expenses functionality
+     * 
+     * @param budgetDocument
+     * @return
+     */
+    protected boolean processBudgetExpenseBusinessRules(BudgetDocument budgetDocument) {
+        boolean valid = true;
+        //TODO - put budget expense validation rules here.
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+        List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
+        int i=0;
+        for(BudgetPeriod budgetPeriod: budgetPeriods){
+            i=0;
+            budgetLineItems = budgetPeriod.getBudgetLineItems();
+            for(BudgetLineItem budgetLineItem: budgetLineItems){
+                i++;
+                if(budgetLineItem.getStartDate().before(budgetPeriod.getStartDate())){
+                    //errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
+                }
+                if(budgetLineItem.getEndDate().after(budgetPeriod.getEndDate())){
+                    //errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
+                }
+            }
+        }
+        return valid;
+    }    
 }

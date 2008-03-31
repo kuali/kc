@@ -1,4 +1,4 @@
-<%--
+ <%--
  Copyright 2005-2006 The Kuali Foundation.
 
  Licensed under the Educational Community License, Version 1.0 (the "License");
@@ -15,22 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:documentPage
-	showDocumentInfo="true"
-	htmlFormAction="budgetExpenses"
-	documentTypeName="BudgetDocument"
-  	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="expenses">
+<c:set var="action" value="budgetExpensesAction" />
 
-	<center>Under Construction</center>	
-	<kra-b:budgetExpenses /> 
-	<kul:panelFooter />
-		
-<kul:documentControls 
-		transactionalDocument="true" 
-		suppressRoutingControls="true" 
-		extraButtons="${extraButtons}"
-		viewOnly="${KualiForm.editingMode['viewOnly']}"
-/>	
+<kra-b:budgetExpensesSelectBudgetPeriod />
 
-</kul:documentPage>
+<kra-b:budgetExpenseTabs />
