@@ -120,7 +120,7 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<text size="3" />
+				<hidden />
 			</control>
 			<summary>Budget Period </summary>
 			<description>Budget Period </description>
@@ -168,7 +168,7 @@
 			<maxLength>1</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-				<text size="1" />
+				<checkbox />
 			</control>
 			<summary>Apply In Rate Flag </summary>
 			<description>Apply In Rate Flag </description>
@@ -192,7 +192,7 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<text size="3" />
+				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder" />
 			</control>
 			<summary>Budget Category Code </summary>
 			<description>Budget Category Code </description>
@@ -204,7 +204,7 @@
 			<maxLength>200</maxLength>
 			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
-				<text size="200" />
+				<textarea rows="3" cols="30" />
 			</control>
 			<summary>Budget Justification </summary>
 			<description>Budget Justification </description>
@@ -216,7 +216,7 @@
 			<maxLength>8</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-				<text size="8" />
+				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder" />
 			</control>
 			<summary>Cost Element </summary>
 			<description>Cost Element </description>
@@ -260,7 +260,7 @@
 			<shortLabel>Line Item Description </shortLabel>
 			<maxLength>80</maxLength>
 			<control>
-				<text size="80" />
+					<textarea rows="3" cols="30" />
 			</control>
 			<summary>Line Item Description </summary>
 			<description>Line Item Description </description>
@@ -284,7 +284,7 @@
 			<maxLength>1</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-				<text size="1" />
+				<checkbox />
 			</control>
 			<summary>On Off Campus Flag </summary>
 			<description>On Off Campus Flag </description>

@@ -99,8 +99,8 @@
 			<shortLabel>Budget Period </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="3" />
+			<control>				
+				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetExpensePeriodValuesFinder"/>
 			</control>
 			<summary>Budget Period </summary>
 			<description>Budget Period </description>
