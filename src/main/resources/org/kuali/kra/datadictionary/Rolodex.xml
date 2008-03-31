@@ -181,7 +181,7 @@
             <maxLength>300</maxLength>
             <validationPattern><anyCharacter /></validationPattern>
             <control>
-                <text size="300" />
+                <text size="40" />
             </control>
             <summary>Comments </summary>
             <description>Comments </description>
