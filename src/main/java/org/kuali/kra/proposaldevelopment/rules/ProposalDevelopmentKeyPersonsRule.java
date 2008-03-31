@@ -52,7 +52,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: lprzybyl $
- * @version $Revision: 1.32 $
+ * @version $Revision: 1.33 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
@@ -141,7 +141,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             reportError("newProposalPerson*", ERROR_INVESTIGATOR_UPBOUND);
             retval = false;
         }
-        
+        info("roleid is %s", person.getProposalPersonRoleId());
+        info("role is %s", person.getRole());
         if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) {
             debug("Tried to add person without role");
             reportError("newProposalPerson*", ERROR_MISSING_PERSON_ROLE);
@@ -227,11 +228,11 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         boolean retval = true;
         
         if (source == null) {
-            info("validated null unit");
+            debug("validated null unit");
             return false;
         }
         
-        info("Validating unit " + source);
+        debug("Validating unit %s",  source);
         
         if (source.getUnit() == null && isBlank(source.getUnitNumber())) {
             retval = false;
@@ -241,7 +242,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
 
-        info("isLeadUnit = " + source.isLeadUnit());
+        debug("isLeadUnit %s", source.isLeadUnit());
         
         if (isDeletingUnitFromPrincipalInvestigator(source, person)) {     
             reportError("document.proposalPerson*", ERROR_DELETE_LEAD_UNIT);
@@ -253,7 +254,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
 
-        info("validateUnit = " + retval);
+        debug("validateUnit = %s", retval);
         
         return retval;
     }
