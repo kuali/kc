@@ -222,13 +222,16 @@
                 </fieldDef>
             </routingConfig>
         </ruleAttribute>
-			<ruleAttribute>
-            <name>ProsalRoleAttribute</name>
-            <className>org.kuali.kra.workflow.ProposalPersonRoleAttribute</className>
-            <label>Proposal Routing</label>
-            <description>Proposal Routing</description>
-            <type>RuleAttribute</type>
-        </ruleAttribute>
+			<!-- Role attribute -->
+		<ruleAttribute>
+			<name>ProposalPersonRoleAttribute</name>
+			<className>
+				org.kuali.kra.workflow.ProposalPersonRoleAttribute
+			</className>
+			<label>Proposal Routing</label>
+			<description>Proposal Routing</description>
+			<type>RuleAttribute</type>
+		</ruleAttribute>
 			
 	</ruleAttributes>
 
@@ -261,38 +264,62 @@
 				</attribute>
 			</attributes>
 			<routingVersion>2</routingVersion>
-			<routePaths> 
-                <routePath>
-                    <start name="Initiated" nextNode="FirstApproval" />
-                    <requests name="FirstApproval" nextNode="SecondApproval" />
-                    <requests name="SecondApproval" />
-                </routePath>
-            </routePaths>
-            <routeNodes>
-                <start name="Initiated">
-                    <activationType>P</activationType>
-					<mandatoryRoute>false</mandatoryRoute>
-					<finalApproval>false</finalApproval>
-                </start>
-                <requests name="FirstApproval">
-                    <activationType>S</activationType>
-                    <ruleTemplate>FirstApprovalRouting</ruleTemplate>
-                </requests>
-                <requests name="SecondApproval">
-                    <activationType>S</activationType>
-                    <ruleTemplate>SecondApprovalRouting</ruleTemplate>
-                </requests>
-            </routeNodes>
+			 <routePaths>
+        <routePath>
+          <start name="Initiated" nextNode="OSPInitial" />
+          <requests name="OSPInitial" nextNode="ProposalPersons" />
+          <requests name="ProposalPersons" nextNode="OSPOfficeRouting" />
+          <requests name="OSPOfficeRouting" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="Initiated">
+          <activationType>P</activationType>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </start>
+        <requests name="OSPInitial">
+          <activationType>S</activationType>
+          <ruleTemplate>OSPInitialApproval</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="ProposalPersons">
+          <activationType>P</activationType>
+          <ruleTemplate>ProposalPersonsApproval</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="OSPOfficeRouting">
+          <activationType>S</activationType>
+          <ruleTemplate>OSPOfficeApproval</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+      </routeNodes>
 		</documentType>
 	</documentTypes>
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-        <ruleTemplate allowOverwrite="true">
-            <name>FirstApprovalRouting</name>
-            <description>First Approval Routing Rule Template</description>
-        </ruleTemplate>
-        <ruleTemplate allowOverwrite="true">
-            <name>SecondApprovalRouting</name>
-            <description>Second Approval Routing Rule Template</description>
-        </ruleTemplate>
+          <ruleTemplate allowOverwrite="true">
+			<name>OSPInitialApproval</name>
+			<description>OSP Initial Approval Routing Rule</description>
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>ProposalPersonsApproval</name>
+			<description>ProposalPersons Approval Routing Rule</description>
+			<attributes>
+                <attribute>
+                    <name>ProposalPersonRoleAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+			
+		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>OSPOfficeApproval</name>
+			<description>
+				OSP Office Approval Routing Rule 
+			</description>
+		</ruleTemplate>
     </ruleTemplates>
 </data>
