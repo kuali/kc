@@ -16,9 +16,7 @@
 package org.kuali.kra.budget.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -106,8 +104,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             QueryList<BudgetLineItem> qlBudgetLineItems = new QueryList<BudgetLineItem>(budgetLineItems);
             BudgetDecimal directCost = qlBudgetLineItems.sumObjects("directCost");
             BudgetDecimal indirectCost = qlBudgetLineItems.sumObjects("indirectCost");
-            BudgetDecimal costSharingAmount = qlBudgetLineItems.sumObjects("totalCostSharing");
-            BudgetDecimal underrecoveryAmount = qlBudgetLineItems.sumObjects("underRecoveryAmount");
+            BudgetDecimal costSharingAmount = qlBudgetLineItems.sumObjects("costSharingAmount");
+            BudgetDecimal underrecoveryAmount = qlBudgetLineItems.sumObjects("underrecoveryAmount");
             budgetPeriod.setTotalDirectCost(directCost);
             budgetPeriod.setTotalIndirectCost(indirectCost);
             budgetPeriod.setTotalCost(directCost.add(indirectCost));
@@ -130,6 +128,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * 
      * @see org.kuali.kra.budget.service.BudgetCalculationService#calculateBudgetTotals(org.kuali.kra.budget.document.BudgetDocument)
      */
+    @SuppressWarnings("unchecked")
     public void calculateBudgetTotals(BudgetDocument budgetDocument){
         // do we need to cache the totals ?
         SortedMap<CostElement, List> objectCodeTotals = new TreeMap <CostElement, List> ();
