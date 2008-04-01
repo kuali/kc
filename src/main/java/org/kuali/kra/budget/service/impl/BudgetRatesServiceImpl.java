@@ -153,7 +153,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                 String instRateTypeCode = instituteRate.getRateTypeCode();
                 String onOffFlag = instituteRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
                 String hKey = instRateClassCode + instRateTypeCode + onOffFlag;
-                InstituteRate instRate = (InstituteRate)instRates.get(hKey);
+                InstituteLaRate instRate = (InstituteLaRate)instRates.get(hKey);
                 if((instRate != null) && (instRate.getStartDate().before(rateStartDate))) {
                     Date currentStartDate = instRate.getStartDate();
                     if(currentStartDate.before(rateStartDate)) {
