@@ -313,5 +313,9 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
         // else non-employee vs. employee
         return false;
     }
+
+    public String getPersonRolodexId() {
+        return getRolodexId()==null?getPersonId():getRolodexId().toString();
+    }
     
 }

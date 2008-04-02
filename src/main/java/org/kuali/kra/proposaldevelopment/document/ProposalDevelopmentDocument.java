@@ -69,7 +69,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
     
-    private String proposalNumber;
+    private String proposalNumber;    
     private String proposalTypeCode;
     private String continuedFrom;
     private String sponsorCode;

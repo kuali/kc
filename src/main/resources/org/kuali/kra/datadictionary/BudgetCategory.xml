@@ -59,8 +59,7 @@
 
             </resultFields>
         </lookup>
-
-        <titleAttribute>budgetCategoryCode</titleAttribute>
+        
         <attributes>
 
 	        <attribute name="budgetCategoryCode">
@@ -69,7 +68,7 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<text size="3" />
+				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryCodeValuesFinder"/>
 			</control>
 			<summary>Budget Category Code </summary>
 			<description>Budget Category Code </description>
