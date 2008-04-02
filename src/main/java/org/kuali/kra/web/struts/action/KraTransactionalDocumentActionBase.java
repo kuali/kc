@@ -100,29 +100,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ((KualiForm) form).setTabStates(new HashMap());
-        if (form instanceof ProposalDevelopmentForm) { //TODO this is a quick fix; this should be moved to ProposalDevelopmentAction
-        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getProposalDevelopmentDocument();
-
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
-        for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
-            ProposalPerson person = person_it.next();
-            if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE))){
-                if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
-                    pdform.setReject(true);
-
-                }
-            }else if((person!= null) && (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
-                    if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
-                        pdform.setReject(true);
-                    }
-                }
-        }
-        }
-            
-
-            return super.headerTab(mapping, form, request, response);
-        }
+        return super.headerTab(mapping, form, request, response);
+    }
 
 
     
