@@ -46,6 +46,7 @@ import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.bo.BudgetModularIdc;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
@@ -429,11 +430,12 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
         List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
         List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
+        boolean modularNotNull = false;
+        
         for (BudgetPeriod budgetPeriod: getBudgetPeriods()) {
             if (ObjectUtils.isNotNull(budgetPeriod.getBudgetModular())) {
                 managedLists.add(budgetPeriod.getBudgetModular().getBudgetModularIdcs());
-            } else {
-                managedLists.add(new ArrayList()); // otherwise it complains
+                modularNotNull = true;
             }
             List<BudgetLineItem> tempLIs = budgetPeriod.getBudgetLineItems();
             budgetLineItems.addAll(tempLIs);
@@ -446,6 +448,12 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
                 }
             }
         }
+        
+        /* Code below is added to get rid of size mismatch error */
+        if(!modularNotNull) {
+            managedLists.add(new ArrayList<BudgetModularIdc>()); // otherwise it complains
+        }
+        
         managedLists.add(budgetLineItems);
 //        managedLists.add(budgetLineItemCalculatedAmounts);
         managedLists.add(budgetPersonnelDetailsList);
