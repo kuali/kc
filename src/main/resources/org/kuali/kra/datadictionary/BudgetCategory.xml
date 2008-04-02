@@ -68,7 +68,7 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryCodeValuesFinder"/>
+				<text size="3"/> 
 			</control>
 			<summary>Budget Category Code </summary>
 			<description>Budget Category Code </description>
