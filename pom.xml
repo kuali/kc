@@ -31,6 +31,7 @@
 							<exclude>kra-config.xml</exclude> 
 						</excludes>
 					</resource>
+					<!-- 
 					<resource>
 						<filtering>true</filtering>
 						<directory>${basedir}/src/main/resources</directory>
@@ -38,6 +39,7 @@
 							<include>soap_server.properties</include>
 						</includes>
 					</resource>
+					 -->
 				</resources>
 				<plugins>
 					<plugin>
