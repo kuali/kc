@@ -100,7 +100,7 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	}
 
 	public BudgetDecimal getCostSharingAmount() {
-		return costSharingAmount == null ?  new BudgetDecimal(0) : costSharingAmount;
+		return costSharingAmount == null ?  BudgetDecimal.ZERO : costSharingAmount;
 	}
 
 	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
@@ -162,6 +162,18 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
 		this.underrecoveryAmount = underrecoveryAmount;
 	}
+    /**
+     * Gets BudgetLineItem from budgetLineItems list at index.
+     * 
+     * @param index
+     * @return BudgetLineItem at index
+     */
+    public BudgetLineItem getBudgetLineItem(int index) {
+        while (getBudgetLineItems().size() <= index) {
+            getBudgetLineItems().add(new BudgetLineItem());
+        }
+        return getBudgetLineItems().get(index);
+    }
     
 	public BudgetModular getBudgetModular() {
         return budgetModular;

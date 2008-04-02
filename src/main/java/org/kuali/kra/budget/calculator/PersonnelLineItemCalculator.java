@@ -18,6 +18,7 @@ package org.kuali.kra.budget.calculator;
 import java.util.List;
 
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
+import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -47,13 +48,13 @@ public class PersonnelLineItemCalculator extends CalculatorBase {
         salaryCalculator.calculate(boundary);
     }
     @Override
-    protected void populateCalculatedAmountLineItems() {
-        if (budgetPersonnelLineItem.getBudgetLineItemCalculatedAmounts().size() <= 0) {
-            budgetPersonnelLineItem.refreshReferenceObject("budgetLineItemCalculatedAmounts");
+    public void populateCalculatedAmountLineItems() {
+        if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() <= 0) {
+            budgetPersonnelLineItem.refreshReferenceObject("budgetPersonnelCalculatedAmounts");
         }
-        if (budgetPersonnelLineItem.getBudgetLineItemCalculatedAmounts().size() <= 0) {
+        if (budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().size() <= 0) {
             setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
-            List<BudgetPersonnelCalculatedAmount> budgetPerosnnelCalcAmts = budgetPersonnelLineItem.getBudgetLineItemCalculatedAmounts();
+            List<BudgetPersonnelCalculatedAmount> budgetPerosnnelCalcAmts = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts();
             for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPerosnnelCalcAmts) {
                 budgetPersonnelCalculatedAmount.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
             }
@@ -65,4 +66,24 @@ public class PersonnelLineItemCalculator extends CalculatorBase {
         budgetPersonnelLineItem.setLineItemCost(budgetPersonnelLineItem.getSalaryRequested());
         super.updateBudgetLineItemCalculatedAmounts();
     }
+    @Override
+    protected void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode,
+            String rateClassType) {
+        BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmt = new BudgetPersonnelCalculatedAmount();
+            budgetPersonnelCalculatedAmt.setProposalNumber(budgetPersonnelLineItem.getProposalNumber());
+            budgetPersonnelCalculatedAmt.setBudgetVersionNumber(budgetPersonnelLineItem.getBudgetVersionNumber());
+            budgetPersonnelCalculatedAmt.setBudgetPeriod(budgetPersonnelLineItem.getBudgetPeriod());
+            budgetPersonnelCalculatedAmt.setLineItemNumber(budgetPersonnelLineItem.getLineItemNumber());
+            budgetPersonnelCalculatedAmt.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
+            budgetPersonnelCalculatedAmt.setRateClassType(rateClassType);
+            budgetPersonnelCalculatedAmt.setRateClassCode(rateClassCode);
+            budgetPersonnelCalculatedAmt.setRateTypeCode(rateTypeCode);
+            // budgetLineItemCalculatedAmt.setRateClassDescription(validCeRateType.getRateClass().getDescription());
+            // budgetLineItemCalculatedAmt.setRateTypeDescription(validCERateTypesBean.getRateTypeDescription());
+            budgetPersonnelCalculatedAmt.setApplyRateFlag(true);
+            budgetPersonnelCalculatedAmt.refreshReferenceObject("rateType");
+            budgetPersonnelCalculatedAmt.refreshReferenceObject("rateClass");
+            budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().add(budgetPersonnelCalculatedAmt);
+    }
+
 }

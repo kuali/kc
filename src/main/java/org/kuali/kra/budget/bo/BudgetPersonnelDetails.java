@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.sql.Date;
@@ -36,7 +37,11 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 	private Integer sequenceNumber;
 	private Integer personSequenceNumber;
 	private BudgetPerson budgetPerson;
+    private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
 
+    public BudgetPersonnelDetails(){
+        budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
+    }
 	public Integer getPersonNumber() {
 		return personNumber;
 	}
@@ -62,7 +67,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 	}
 
 	public BudgetDecimal getPercentCharged() {
-		return percentCharged;
+		return BudgetDecimal.returnZeroIfNull(percentCharged);
 	}
 
 	public void setPercentCharged(BudgetDecimal percentCharged) {
@@ -70,7 +75,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 	}
 
 	public BudgetDecimal getPercentEffort() {
-		return percentEffort;
+		return BudgetDecimal.returnZeroIfNull(percentEffort);
 	}
 
 	public void setPercentEffort(BudgetDecimal percentEffort) {
@@ -172,19 +177,19 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
         this.budgetPerson = budgetPerson;
     }
 
-//    /**
-//     * Gets the budgetPersonnelCalculatedAmounts attribute. 
-//     * @return Returns the budgetPersonnelCalculatedAmounts.
-//     */
-//    public List<BudgetPersonnelCalculatedAmount> getBudgetPersonnelCalculatedAmounts() {
-//        return budgetPersonnelCalculatedAmounts;
-//    }
-//
-//    /**
-//     * Sets the budgetPersonnelCalculatedAmounts attribute value.
-//     * @param budgetPersonnelCalculatedAmounts The budgetPersonnelCalculatedAmounts to set.
-//     */
-//    public void setBudgetPersonnelCalculatedAmounts(List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts) {
-//        this.budgetPersonnelCalculatedAmounts = budgetPersonnelCalculatedAmounts;
-//    }
+    /**
+     * Gets the budgetPersonnelCalculatedAmounts attribute. 
+     * @return Returns the budgetPersonnelCalculatedAmounts.
+     */
+    public List<BudgetPersonnelCalculatedAmount> getBudgetPersonnelCalculatedAmounts() {
+        return budgetPersonnelCalculatedAmounts;
+    }
+
+    /**
+     * Sets the budgetPersonnelCalculatedAmounts attribute value.
+     * @param budgetPersonnelCalculatedAmounts The budgetPersonnelCalculatedAmounts to set.
+     */
+    public void setBudgetPersonnelCalculatedAmounts(List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts) {
+        this.budgetPersonnelCalculatedAmounts = budgetPersonnelCalculatedAmounts;
+    }
 }
