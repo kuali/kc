@@ -205,6 +205,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<build>
+				<!-- 
 				<resources>
 					<resource>
 						<filtering>true</filtering>
@@ -214,6 +215,7 @@
 						</includes>
 					</resource>
 				</resources>
+				 -->
 				<plugins>
 					<plugin>
 						<artifactId>maven-compiler-plugin</artifactId>
