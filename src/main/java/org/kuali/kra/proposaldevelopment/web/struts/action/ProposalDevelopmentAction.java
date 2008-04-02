@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.RiceConstants.EMPTY_STRING;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.Serializable;
@@ -47,6 +49,7 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
@@ -389,4 +392,37 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         return new ProposalTask(actionName, taskName, proposalDevelopmentForm.getProposalDevelopmentDocument());
     }
+    
+    /**
+     * Overriding headerTab to customize how clearing tab state works on PDForm.
+     */
+    @Override
+    public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ((KualiForm) form).setTabStates(new HashMap());
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getProposalDevelopmentDocument();
+
+        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+        for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
+            ProposalPerson person = person_it.next();
+            if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE))){
+                if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
+                    pdform.setReject(true);
+
+                }
+            }else if((person!= null) && (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
+                if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
+                    pdform.setReject(true);
+                }
+            }
+        }
+
+
+        return super.headerTab(mapping, form, request, response);
+    }
+
+
+    
+    
 }
