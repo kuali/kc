@@ -336,12 +336,13 @@ public class SalaryCalculator {
         public BudgetDecimal calculateSalary() {
 
             int paidMonths = (workingMonths == null) ? 12 : (workingMonths.intValue());
-            BudgetDecimal perMonthSalary = this.getActualBaseSalary().divide(new BudgetDecimal(paidMonths));
+            double perMonthSalary = this.getActualBaseSalary().doubleValue()/paidMonths;
+//            BudgetDecimal perMonthSalary = this.getActualBaseSalary().divide(new BudgetDecimal(paidMonths));
             Calendar startDateCalendar = dateTimeService.getCalendar(startDate);
             int startMonth = startDateCalendar.get(MONTH);
             Calendar endDateCalendar = dateTimeService.getCalendar(endDate);
             int endMonth = endDateCalendar.get(MONTH);
-            
+            double totalSalary = 0d;
             while(startDateCalendar.before(endDateCalendar)){
                 int noOfDaysInMonth = startDateCalendar.getActualMaximum(DAY_OF_MONTH);
                 int noOfActualDays = 0;
@@ -354,10 +355,11 @@ public class SalaryCalculator {
                 }
                 startDateCalendar.add(MONTH, 1);
                 startDateCalendar.set(DAY_OF_MONTH, 1);
-                calculatedSalary = calculatedSalary.add(perMonthSalary.divide(
-                                new BudgetDecimal(noOfDaysInMonth)).multiply(new BudgetDecimal(noOfActualDays)));
+                totalSalary+=(perMonthSalary/noOfDaysInMonth*noOfActualDays);
+//                calculatedSalary = calculatedSalary.add(perMonthSalary.divide(
+//                                new BudgetDecimal(noOfDaysInMonth)).multiply(new BudgetDecimal(noOfActualDays)));
             }
-            return calculatedSalary;
+            return calculatedSalary.add(new BudgetDecimal(totalSalary));
         }
 
         /**

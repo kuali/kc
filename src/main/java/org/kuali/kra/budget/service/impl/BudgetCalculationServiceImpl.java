@@ -76,6 +76,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void populateCalculatedAmount(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem){
         new LineItemCalculator(budgetDocument,budgetLineItem).populateCalculatedAmountLineItems();
     }
+    /**
+     * @see org.kuali.kra.budget.service.BudgetCalculationService#calculateCalculatedAmount(org.kuali.kra.budget.bo.BudgetLineItem)
+     */
+    public void populateCalculatedAmount(BudgetDocument budgetDocument,BudgetPersonnelDetails budgetPersonnelDetails){
+        new PersonnelLineItemCalculator(budgetDocument,budgetPersonnelDetails).populateCalculatedAmountLineItems();
+    }
 
     /**
      * @see org.kuali.kra.budget.service.BudgetCalculationService#calculateSalary(org.kuali.kra.budget.bo.BudgetPersonnelDetails)

@@ -27,6 +27,7 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
@@ -110,8 +111,14 @@ public abstract class CalculatorBase {
      * @return list of filtered rates
      */
     private QueryList filterRates(List rates, Date startDate, Date endDate, String activityTypeCode) {
-
-        List<BudgetLineItemCalculatedAmount> lineItemCalcAmts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
+        //TODO: have to refactor to create new abstract class and extend both calc amount classes from that
+        List lineItemCalcAmts;
+        if(budgetLineItem instanceof BudgetLineItem){
+            lineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
+        }else{
+            lineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
+        }
+        
         QueryList qlRates = new QueryList(rates);
         QueryList budgetProposalRates = new QueryList();
 
@@ -120,7 +127,9 @@ public abstract class CalculatorBase {
          */
         if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0) {
             int calAmtSize = lineItemCalcAmts.size();
-            for (BudgetLineItemCalculatedAmount calAmtsBean : lineItemCalcAmts) {
+            for(int i=0;i<calAmtSize;i++){
+//            for (BudgetLineItemCalculatedAmount calAmtsBean : lineItemCalcAmts) {
+                BudgetLineItemCalculatedAmount calAmtsBean = (BudgetLineItemCalculatedAmount)lineItemCalcAmts.get(i);
                 String rateClassCode = calAmtsBean.getRateClassCode();
                 String rateTypeCode = calAmtsBean.getRateTypeCode();
                 Equals equalsRC = new Equals("rateClassCode", rateClassCode);
@@ -192,9 +201,18 @@ public abstract class CalculatorBase {
 
     }
     protected void updateBudgetLineItemCalculatedAmounts() {
-        List<BudgetLineItemCalculatedAmount> cvLineItemCalcAmts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
+        //TODO: have to refactor to create new abstract class and extend both calc amount classes from that
+        List lineItemCalcAmts;
+        if(budgetLineItem instanceof BudgetLineItem){
+            lineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
+        }else{
+            lineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
+        }
+        
+        
+//        List<BudgetLineItemCalculatedAmount> cvLineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
         List<BreakUpInterval> cvLIBreakupIntervals = getBreakupIntervals();
-        if (cvLineItemCalcAmts != null && cvLineItemCalcAmts.size() > 0 && cvLIBreakupIntervals != null
+        if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0 && cvLIBreakupIntervals != null
                 && cvLIBreakupIntervals.size() > 0) {
             /*
              * Sum up all the calculated costs for each breakup interval and then update the line item cal amts.
@@ -215,7 +233,11 @@ public abstract class CalculatorBase {
                 cvCombinedAmtDetails.addAll(brkUpInterval.getRateAndCosts());
             }
             // loop thru all cal amount rates, sum up the costs and set it
-            for (BudgetLineItemCalculatedAmount calculatedAmount : cvLineItemCalcAmts) {
+            for(int i=0;i<lineItemCalcAmts.size();i++){
+//              for (BudgetLineItemCalculatedAmount calAmtsBean : lineItemCalcAmts) {
+                  BudgetLineItemCalculatedAmount calculatedAmount = (BudgetLineItemCalculatedAmount)lineItemCalcAmts.get(i);
+
+//            for (BudgetLineItemCalculatedAmount calculatedAmount : lineItemCalcAmts) {
                 // if this rate need not be applied skip
                 if (!calculatedAmount.getApplyRateFlag()) {
                     continue;
@@ -350,17 +372,30 @@ public abstract class CalculatorBase {
                 breakUpInterval.setApplicableAmt(boundary.getApplicableCost());
                 breakUpInterval.setApplicableAmtCostSharing(boundary.getApplicableCostSharing());
                 // Loop and add all data required in breakup interval
-                List<BudgetLineItemCalculatedAmount> qlLineItemCalcAmts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
+                
+                //TODO: have to refactor to create new abstract class and extend both calc amount classes from that
+                List qlLineItemCalcAmts;
+                if(budgetLineItem instanceof BudgetLineItem){
+                    qlLineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
+                }else{
+                    qlLineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
+                }
+                
                 List<String> warningMessages = new ArrayList<String>();
-                for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : qlLineItemCalcAmts) {
+                for(int i=0;i<qlLineItemCalcAmts.size();i++){
+//                  for (BudgetLineItemCalculatedAmount calAmtsBean : lineItemCalcAmts) {
+                      BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount)qlLineItemCalcAmts.get(i);
+
+//                for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : qlLineItemCalcAmts) {
+                    budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
                     applyRateFlag = budgetLineItemCalculatedAmount.getApplyRateFlag();
-                    rateClassType = budgetLineItemCalculatedAmount.getRateClassType();
                     rateClassCode = budgetLineItemCalculatedAmount.getRateClassCode();
                     rateTypeCode = budgetLineItemCalculatedAmount.getRateTypeCode();
                     // form the rate not available message
                     // These two statements have to move to the populate method of calculatedAmount later.
                     budgetLineItemCalculatedAmount.refreshReferenceObject("rateClass");
                     budgetLineItemCalculatedAmount.refreshReferenceObject("rateType");
+                    rateClassType = budgetLineItemCalculatedAmount.getRateClass().getRateClassType();
                     // end block to be moved
                     message = messageTemplate + budgetLineItemCalculatedAmount.getRateClass().getDescription()
                             + "\'  Rate Type - \'" + budgetLineItemCalculatedAmount.getRateType().getDescription()
@@ -640,7 +675,7 @@ public abstract class CalculatorBase {
         }
         if (qValidCeRateTypes != null && qValidCeRateTypes.size() > 0) {
             for (ValidCeRateType validCeRateType : qValidCeRateTypes) {
-                addBudgetLineItemCalculatedAmount(calculatedAmountClazz, validCeRateType.getRateClassCode(), validCeRateType
+                addBudgetLineItemCalculatedAmount( validCeRateType.getRateClassCode(), validCeRateType
                         .getRateTypeCode(), validCeRateType.getRateClass().getRateClassType());
             }
         }
@@ -655,7 +690,7 @@ public abstract class CalculatorBase {
             if (!validCalCTypes.isEmpty()) {
                 ValidCalcType validCalcType = validCalCTypes.get(0);
                 if (validCalcType.getDependentRateClassType().equals(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
-                    addBudgetLineItemCalculatedAmount(calculatedAmountClazz, validCalcType.getRateClassCode(), validCalcType
+                    addBudgetLineItemCalculatedAmount(validCalcType.getRateClassCode(), validCalcType
                             .getRateTypeCode(), validCalcType.getRateClassType());
                 }
             }
@@ -663,7 +698,7 @@ public abstract class CalculatorBase {
             if (!validCalCTypes.isEmpty()) {
                 ValidCalcType validCalcType = (ValidCalcType) validCalCTypes.get(0);
                 if (validCalcType.getDependentRateClassType().equals(RateClassType.LA_WITH_EB_VA.getRateClassType())) {
-                    addBudgetLineItemCalculatedAmount(calculatedAmountClazz, validCalcType.getRateClassCode(), validCalcType
+                    addBudgetLineItemCalculatedAmount(validCalcType.getRateClassCode(), validCalcType
                             .getRateTypeCode(), validCalcType.getRateClassType());
                 }
             }
@@ -674,34 +709,35 @@ public abstract class CalculatorBase {
         this.infltionValidCalcCeRates = infltionValidCalcCeRates;
     }
 
-    private void addBudgetLineItemCalculatedAmount(Class calculatedAmountClazz, String rateClassCode, String rateTypeCode,
-            String rateClassType) {
-        BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt;
-        try {
-            budgetLineItemCalculatedAmt = (BudgetLineItemCalculatedAmount) calculatedAmountClazz.newInstance();
-            budgetLineItemCalculatedAmt.setProposalNumber(budgetLineItem.getProposalNumber());
-            budgetLineItemCalculatedAmt.setVersionNumber(budgetLineItem.getVersionNumber());
-            budgetLineItemCalculatedAmt.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
-            budgetLineItemCalculatedAmt.setLineItemNumber(budgetLineItem.getLineItemNumber());
-            budgetLineItemCalculatedAmt.setRateClassType(rateClassType);
-            budgetLineItemCalculatedAmt.setRateClassCode(rateClassCode);
-            budgetLineItemCalculatedAmt.setRateTypeCode(rateTypeCode);
-            // budgetLineItemCalculatedAmt.setRateClassDescription(validCeRateType.getRateClass().getDescription());
-            // budgetLineItemCalculatedAmt.setRateTypeDescription(validCERateTypesBean.getRateTypeDescription());
-            budgetLineItemCalculatedAmt.setApplyRateFlag(true);
-            budgetLineItemCalculatedAmt.refreshReferenceObject("rateType");
-            budgetLineItemCalculatedAmt.refreshReferenceObject("rateClass");
-            budgetLineItem.getBudgetLineItemCalculatedAmounts().add(budgetLineItemCalculatedAmt);
-        }
-        catch (InstantiationException e) {
-            LOG.error("Not able to set the calculated amount for " + RateClassType.LA_WITH_EB_VA.getRateClassType() + " of " + budgetLineItem,
-                    e);
-        }
-        catch (IllegalAccessException e) {
-            LOG.error("Not able to set the calculated amount for " + RateClassType.LA_WITH_EB_VA.getRateClassType() + " of " + budgetLineItem,
-                    e);
-        }
-    }
+    protected abstract void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode, String rateClassType);
+//    protected void addBudgetLineItemCalculatedAmount(Class calculatedAmountClazz, String rateClassCode, String rateTypeCode,
+//            String rateClassType) {
+//        BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt;
+//        try {
+//            budgetLineItemCalculatedAmt = (BudgetLineItemCalculatedAmount) calculatedAmountClazz.newInstance();
+//            budgetLineItemCalculatedAmt.setProposalNumber(budgetLineItem.getProposalNumber());
+//            budgetLineItemCalculatedAmt.setVersionNumber(budgetLineItem.getVersionNumber());
+//            budgetLineItemCalculatedAmt.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
+//            budgetLineItemCalculatedAmt.setLineItemNumber(budgetLineItem.getLineItemNumber());
+//            budgetLineItemCalculatedAmt.setRateClassType(rateClassType);
+//            budgetLineItemCalculatedAmt.setRateClassCode(rateClassCode);
+//            budgetLineItemCalculatedAmt.setRateTypeCode(rateTypeCode);
+//            // budgetLineItemCalculatedAmt.setRateClassDescription(validCeRateType.getRateClass().getDescription());
+//            // budgetLineItemCalculatedAmt.setRateTypeDescription(validCERateTypesBean.getRateTypeDescription());
+//            budgetLineItemCalculatedAmt.setApplyRateFlag(true);
+//            budgetLineItemCalculatedAmt.refreshReferenceObject("rateType");
+//            budgetLineItemCalculatedAmt.refreshReferenceObject("rateClass");
+//            budgetLineItem.getBudgetLineItemCalculatedAmounts().add(budgetLineItemCalculatedAmt);
+//        }
+//        catch (InstantiationException e) {
+//            LOG.error("Not able to set the calculated amount for " + RateClassType.LA_WITH_EB_VA.getRateClassType() + " of " + budgetLineItem,
+//                    e);
+//        }
+//        catch (IllegalAccessException e) {
+//            LOG.error("Not able to set the calculated amount for " + RateClassType.LA_WITH_EB_VA.getRateClassType() + " of " + budgetLineItem,
+//                    e);
+//        }
+//    }
 
     /**
      * Gets the businessObjectService attribute.

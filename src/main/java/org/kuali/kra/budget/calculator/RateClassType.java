@@ -16,7 +16,7 @@
 package org.kuali.kra.budget.calculator;
 
 /**
- * This class...
+ * This class represents different possible enumerations of RateClassType
  */
 public enum RateClassType {
     INFLATION("I"),

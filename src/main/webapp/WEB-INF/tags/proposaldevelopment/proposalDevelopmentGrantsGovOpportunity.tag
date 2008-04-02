@@ -30,7 +30,7 @@
 	<tr>				
 		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${s2sOpportunity.revisionCode}" /></div></th>
 		<td>
-			<kul:htmlControlAttribute property="document.s2sOpportunity.revisionCode" attributeEntry="${s2sOpportunity.revisionCode}" />
+			<kul:htmlControlAttribute property="document.s2sOpportunity.revisionCode" attributeEntry="${s2sOpportunity.revisionCode}" />			
 			<kul:htmlControlAttribute property="document.s2sOpportunity.revisionOtherDescription" attributeEntry="${s2sOpportunity.revisionOtherDescription}" />			
 		</td>
 	</tr>
