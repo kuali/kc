@@ -39,7 +39,6 @@ import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.GreaterThan;
 import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.kra.budget.calculator.query.NotEquals;
-import org.kuali.kra.budget.calculator.query.ObjectCloner;
 import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
@@ -280,14 +279,14 @@ public class BudgetPeriodCalculator {
                             }
                             newBudgetPersonnelDetailsBean.setEndDate(new java.sql.Date(pliEndDate.getTime()));
                             List<BudgetPersonnelCalculatedAmount> budgetPersnnelCalAmounts = budgetPersonnelDetails
-                                    .getBudgetLineItemCalculatedAmounts();
-                            newBudgetPersonnelDetailsBean.getBudgetLineItemCalculatedAmounts().clear();
+                                    .getBudgetPersonnelCalculatedAmounts();
+                            newBudgetPersonnelDetailsBean.getBudgetPersonnelCalculatedAmounts().clear();
                             for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPersnnelCalAmounts) {
                                 BudgetPersonnelCalculatedAmount newBudgetPersonnelCalAmountsBean = (BudgetPersonnelCalculatedAmount) BeanUtils
                                         .cloneBean(budgetPersonnelCalculatedAmount);
                                 newBudgetPersonnelCalAmountsBean.setBudgetPeriod(nextBudgetPeriodBean.getBudgetPeriod());
                                 newBudgetPersonnelCalAmountsBean.setLineItemNumber(newBudgetDetailBean.getLineItemNumber());
-                                newBudgetPersonnelDetailsBean.getBudgetLineItemCalculatedAmounts().add(
+                                newBudgetPersonnelDetailsBean.getBudgetPersonnelCalculatedAmounts().add(
                                         newBudgetPersonnelCalAmountsBean);
                             }
                         }

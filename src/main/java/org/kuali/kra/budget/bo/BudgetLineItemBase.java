@@ -15,15 +15,13 @@
  */
 package org.kuali.kra.budget.bo;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.sql.Date;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
-public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
+public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	private Integer budgetPeriod;
 	private Integer lineItemNumber;
 	private String proposalNumber;
@@ -31,14 +29,13 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	private Boolean applyInRateFlag;
 	private String budgetJustification;
 	private String costElement;
-	private BudgetDecimal costSharingAmount;
+	private BudgetDecimal costSharingAmount = BudgetDecimal.ZERO;
 	private Date endDate;
-	private BudgetDecimal lineItemCost;
+	private BudgetDecimal lineItemCost = BudgetDecimal.ZERO;
 	private String lineItemDescription;
 	private Boolean onOffCampusFlag;
 	private Date startDate;
-	private BudgetDecimal underrecoveryAmount;
-	private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
+	private BudgetDecimal underrecoveryAmount = BudgetDecimal.ZERO;
 	
     private String budgetCategoryCode;
     private Integer basedOnLineItem;
@@ -50,14 +47,13 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	
 	private CostElement costElementBO;
 	public BudgetLineItemBase(){
-	    budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
 	}
     /**
      * Gets the directCost attribute. 
      * @return Returns the directCost.
      */
     public BudgetDecimal getDirectCost() {
-        return directCost;
+        return BudgetDecimal.returnZeroIfNull(directCost);
     }
 
     /**
@@ -73,7 +69,7 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
      * @return Returns the indirectCost.
      */
     public BudgetDecimal getIndirectCost() {
-        return indirectCost;
+        return BudgetDecimal.returnZeroIfNull(indirectCost);
     }
 
     /**
@@ -157,7 +153,7 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	}
 
 	public BudgetDecimal getCostSharingAmount() {
-		return costSharingAmount;
+		return BudgetDecimal.returnZeroIfNull(costSharingAmount);
 	}
 
 	public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
@@ -173,7 +169,7 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	}
 
 	public BudgetDecimal getLineItemCost() {
-		return lineItemCost;
+		return BudgetDecimal.returnZeroIfNull(lineItemCost);
 	}
 
 	public void setLineItemCost(BudgetDecimal lineItemCost) {
@@ -221,7 +217,7 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	}
 
 	public BudgetDecimal getUnderrecoveryAmount() {
-		return underrecoveryAmount;
+		return BudgetDecimal.returnZeroIfNull(underrecoveryAmount);
 	}
 
 	public void setUnderrecoveryAmount(BudgetDecimal underrecoveryAmount) {
@@ -229,13 +225,14 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 	}
 
 
-	@Override 
+	@Override
+	@SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("budgetPeriod", getBudgetPeriod());
 		hashMap.put("lineItemNumber", getLineItemNumber());
 		hashMap.put("proposalNumber", getProposalNumber());
-		hashMap.put("budgetVersionNumber", getVersionNumber());
+		hashMap.put("budgetVersionNumber", getBudgetVersionNumber());
 		hashMap.put("applyInRateFlag", getApplyInRateFlag());
 		hashMap.put("basedOnLineItem", getBasedOnLineItem());
 		hashMap.put("budgetCategoryCode", getBudgetCategoryCode());
@@ -252,21 +249,8 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
 		hashMap.put("underrecoveryAmount", getUnderrecoveryAmount());
         hashMap.put("directCost", getDirectCost());
         hashMap.put("indirectCost", getIndirectCost());
-        budgetLineItemCalculatedAmounts = getBudgetLineItemCalculatedAmounts();
-        hashMap.put("budgetLineItemCalculatedAmounts",getBudgetLineItemCalculatedAmounts());
-//        for (BudgetLineItemCalculatedAmount object : l) {
-//            hashMap.put(object.getRateClassType(),object);
-//        }
         return hashMap;
 	}
-
-    public List getBudgetLineItemCalculatedAmounts() {
-        return budgetLineItemCalculatedAmounts;
-    }
-
-    public void setBudgetLineItemCalculatedAmounts(List budgetLineItemCalculatedAmounts) {
-        this.budgetLineItemCalculatedAmounts = budgetLineItemCalculatedAmounts;
-    }
 
     public BudgetCategory getBudgetCategory() {
         return budgetCategory;
@@ -283,5 +267,5 @@ public class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
     public void setCostElementBO(CostElement costElementBO) {
         this.costElementBO = costElementBO;
     }
-
+    
 }

@@ -15,29 +15,14 @@
  */
 package org.kuali.kra.budget.service;
 
-import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
+
 /**
- * Budget Person Service interface
+ * This class...
  */
-public interface BudgetPersonService {
-    
-    /**
-     * Populate the given BudgetPerson with system default or institution data.
-     * 
-     * @param budgetPerson
-     */
-    public void populateBudgetPersonData(BudgetDocument budgetDocument, BudgetPerson budgetPerson);
-    
-    /**
-     * This method will synchronize BudgetPersons with ProposalPersons.  New proposal persons will
-     * be copied in.
-     * 
-     * @param budgetDocument
-     */
-    public void synchBudgetPersonsToProposal(BudgetDocument budgetDocument);
-
-    public BudgetPerson findBudgetPerson(BudgetPersonnelDetails budgetPersonnelDetails);
-
+public interface BudgetPersonnelBudgetService {
+    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudegtPersonnelDetails);
+    public void deleteBudgetPersonnelDetails(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudegtPersonnelDetails);
 }
