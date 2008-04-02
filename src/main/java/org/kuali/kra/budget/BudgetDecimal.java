@@ -121,4 +121,11 @@ public class BudgetDecimal extends AbstractKualiDecimal<BudgetDecimal> {
     protected BudgetDecimal newInstance(BigDecimal value, int scale) {
         return new BudgetDecimal(value, scale);
     }
+    /**
+     * return ZERO if the object is null
+     * @param BudgetDecimal
+     */
+    public static BudgetDecimal returnZeroIfNull(BudgetDecimal value){
+        return value==null?BudgetDecimal.ZERO:value;
+    }
 }

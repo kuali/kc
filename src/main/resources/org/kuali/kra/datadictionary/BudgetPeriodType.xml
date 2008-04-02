@@ -18,79 +18,65 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetCategory">
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetPeriodType">
 
         <inquiry>
-            <title>Budget Category</title>
+            <title>Budget Period Type</title>
 
-            <inquirySections><inquirySection title="Budget Category"><inquiryFields>
-            	<field attributeName="budgetCategoryCode" forceInquiry="true"/>
-				<field attributeName="budgetCategoryTypeCode"/>
+            <inquirySections><inquirySection title="Budget Period Type"><inquiryFields>
+            	<field attributeName="budgetPeriodTypeCode" forceInquiry="true"/>
 				<field attributeName="description"/>
 
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Budget Category Lookup</title>
+            <title>Budget Period Type Lookup</title>
 			<menubar>
 				<![CDATA[<a href="/kra-dev/">Main</a>]]>
 			</menubar>
-            <instructions>Look up a Budget Category</instructions>
+            <instructions>Look up a Budget Period Type</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                	<sortAttribute attributeName="budgetCategoryCode"/>
+                	<sortAttribute attributeName="budgetPeriodTypeCode"/>
 
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-            	<lookupField attributeName="budgetCategoryCode" required="false"/>
-				<lookupField attributeName="budgetCategoryTypeCode" required="false"/>
+            	<lookupField attributeName="budgetPeriodTypeCode" required="false"/>
 				<lookupField attributeName="description" required="false"/>
 
             </lookupFields>
 
             <resultFields>
-            	<field attributeName="budgetCategoryCode" forceInquiry="true"/>
-				<field attributeName="budgetCategoryTypeCode" forceInquiry="false"/>
+            	<field attributeName="budgetPeriodTypeCode" forceInquiry="true"/>
 				<field attributeName="description" forceInquiry="false"/>
 
             </resultFields>
         </lookup>
-        
+
+        <titleAttribute>budgetPeriodTypeCode</titleAttribute>
         <attributes>
 
-	        <attribute name="budgetCategoryCode">
-			<label>Budget Category Code </label>
-			<shortLabel>Budget Category Code </shortLabel>
+	        <attribute name="budgetPeriodTypeCode">
+			<label>Budget Period Type Code </label>
+			<shortLabel>Budget Period Type Code </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryCodeValuesFinder"/>
+				<text size="3" />
 			</control>
-			<summary>Budget Category Code </summary>
-			<description>Budget Category Code </description>
-			</attribute>
-
-			<attribute name="budgetCategoryTypeCode">
-			<label>Category Type </label>
-			<shortLabel>Category Type </shortLabel>
-			<maxLength>1</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
-			<control>
-				<text size="1" />
-			</control>
-			<summary>Category Type </summary>
-			<description>Category Type </description>
+			<summary>Budget Period Type Code </summary>
+			<description>Budget Period Type Code </description>
 			</attribute>
 
 			<attribute name="description">
 			<label>Description </label>
 			<shortLabel>Description </shortLabel>
 			<maxLength>200</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
 				<text size="200" />
 			</control>

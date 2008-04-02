@@ -14,20 +14,18 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="extraButtons" value="${KualiForm.extraExpensesButtons}" scope="request"/>
+<c:set var="extraButtons" value="${KualiForm.extraPersonnelBudgetButtons}" scope="request"/>
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="budgetExpenses"
+	htmlFormAction="budgetPersonnelBudget"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="expenses">
+  	headerTabActive="personnelBudget">
 
-	<center>Under Construction</center>	
-	<kra-b:budgetExpenses /> 
-	<kul:panelFooter />
-		
-<kul:documentControls 
+	<kra-b:budgetLineItemOverview />
+	<kra-b:budgetPersonnelBudget /> 
+	<kul:documentControls 
 		transactionalDocument="true" 
 		suppressRoutingControls="true" 
 		extraButtons="${extraButtons}"

@@ -18,23 +18,22 @@ package org.kuali.kra.budget.bo;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.sql.Date;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetLineItem extends BudgetLineItemBase {
     
+    private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
 	private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 	
 	public BudgetLineItem(){
 	    super();
 	    budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
+	    budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
 	}
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = super.toStringMapper();
 		hashMap.put("budgetPersonnelDetailsList", getBudgetPersonnelDetailsList());
+        hashMap.put("budgetLineItemCalculatedAmounts",getBudgetLineItemCalculatedAmounts());
 		return hashMap;
 	}
 
@@ -44,6 +43,33 @@ public class BudgetLineItem extends BudgetLineItemBase {
 
     public void setBudgetPersonnelDetailsList(List<BudgetPersonnelDetails> budgetPersonnelDetailsList) {
         this.budgetPersonnelDetailsList = budgetPersonnelDetailsList;
+    }
+
+    /**
+     * Gets BudgetPersonnelDetails from BudgetPersonnelDetails list at index.
+     * 
+     * @param index
+     * @return BudgetPersonnelDetails at index
+     */
+    public BudgetPersonnelDetails getBudgetPersonnelDetails(int index) {
+        while (getBudgetPersonnelDetailsList().size() <= index) {
+            getBudgetPersonnelDetailsList().add(new BudgetPersonnelDetails());
+        }
+        return getBudgetPersonnelDetailsList().get(index);
+    }
+    /**
+     * Gets the budgetLineItemCalculatedAmounts attribute. 
+     * @return Returns the budgetLineItemCalculatedAmounts.
+     */
+    public List<BudgetLineItemCalculatedAmount> getBudgetLineItemCalculatedAmounts() {
+        return budgetLineItemCalculatedAmounts;
+    }
+    /**
+     * Sets the budgetLineItemCalculatedAmounts attribute value.
+     * @param budgetLineItemCalculatedAmounts The budgetLineItemCalculatedAmounts to set.
+     */
+    public void setBudgetLineItemCalculatedAmounts(List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts) {
+        this.budgetLineItemCalculatedAmounts = budgetLineItemCalculatedAmounts;
     }
 
 }
