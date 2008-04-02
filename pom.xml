@@ -31,6 +31,13 @@
 							<exclude>kra-config.xml</exclude> 
 						</excludes>
 					</resource>
+					<resource>
+						<filtering>true</filtering>
+						<directory>${basedir}/src/main/resources</directory>
+						<includes>
+							<include>soap_server.properties</include>
+						</includes>
+					</resource>
 				</resources>
 				<plugins>
 					<plugin>
@@ -39,6 +46,10 @@
 							<source>1.5</source>
 							<target>1.5</target>
 						</configuration>
+					</plugin>
+					<plugin>
+    					<artifactId>maven-resources-plugin</artifactId>
+    					<version>2.2</version>
 					</plugin>
 				</plugins>
 			</build>
@@ -144,7 +155,7 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>0.0.2</version>
+					<version>0.0.3</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
@@ -194,7 +205,6 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<build>
-				<!-- 
 				<resources>
 					<resource>
 						<filtering>true</filtering>
@@ -204,7 +214,6 @@
 						</includes>
 					</resource>
 				</resources>
-				 -->
 				<plugins>
 					<plugin>
 						<artifactId>maven-compiler-plugin</artifactId>
@@ -222,10 +231,7 @@
 							<includes>
 								<include>**/*Test.java</include>
 							</includes>
-							<excludes>
-								<exclude>S2sOpportunityWebTest.java</exclude>
-								<exclude>PermissionsWebTest.java</exclude>
-							</excludes>
+							<excludes><exclude></exclude></excludes>
 							<forkMode>once</forkMode>
 							<reportFormat>plain</reportFormat>
 							<argLine>-Xmx1024m -XX:MaxPermSize=512m</argLine>
@@ -234,7 +240,7 @@
 					<plugin>
     					<artifactId>maven-resources-plugin</artifactId>
     					<version>2.2</version>
-					</plugin> 
+					</plugin>
 					<!--  
 					<plugin>
 						<artifactId>maven-clover-plugin</artifactId>
@@ -293,7 +299,7 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>0.0.2</version>
+					<version>0.0.3</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
