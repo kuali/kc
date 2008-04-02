@@ -146,6 +146,7 @@ public class BudgetLineItemCalculatedAmount extends KraPersistableBusinessObject
 		hashMap.put("budgetPeriod", getBudgetPeriod());
 		hashMap.put("lineItemNumber", getLineItemNumber());
 		hashMap.put("proposalNumber", getProposalNumber());
+        hashMap.put("budgetVersionNumber", getBudgetVersionNumber());
 		hashMap.put("rateClassCode", getRateClassCode());
 		hashMap.put("rateTypeCode", getRateTypeCode());
 		hashMap.put("versionNumber", getVersionNumber());

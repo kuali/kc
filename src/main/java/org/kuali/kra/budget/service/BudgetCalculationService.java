@@ -91,5 +91,13 @@ public interface BudgetCalculationService {
      * @param budgetLineItem
      */
     public void syncToPeriodCostLimit(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem);
+    /**
+     * 
+     * This method is for calculating calculated amounts for each cost element. It looks at all
+     * applicable rates for a cost element and calculate all direct and indirect costs.
+     * @param budgetLineItem
+     * @throws BudgetException
+     */
+    public void populateCalculatedAmount(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails);
     
 }

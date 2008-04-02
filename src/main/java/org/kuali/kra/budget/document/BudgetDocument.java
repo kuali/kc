@@ -45,8 +45,10 @@ import org.kuali.kra.budget.bo.BudgetCategoryType;
 import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
@@ -415,6 +417,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getBudgetPeriods());
@@ -422,14 +425,31 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(getBudgetCostShares());
         managedLists.add(getBudgetUnrecoveredFandAs());
         managedLists.add(getBudgetPersons());
-        
+        List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
+        List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
+        List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
+        List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
         for (BudgetPeriod budgetPeriod: getBudgetPeriods()) {
             if (ObjectUtils.isNotNull(budgetPeriod.getBudgetModular())) {
                 managedLists.add(budgetPeriod.getBudgetModular().getBudgetModularIdcs());
             } else {
                 managedLists.add(new ArrayList()); // otherwise it complains
             }
+            List<BudgetLineItem> tempLIs = budgetPeriod.getBudgetLineItems();
+            budgetLineItems.addAll(tempLIs);
+            for (BudgetLineItem budgetLineItem : tempLIs) {
+                budgetLineItemCalculatedAmounts.addAll(budgetLineItem.getBudgetLineItemCalculatedAmounts());
+                List<BudgetPersonnelDetails> tempPerList = budgetLineItem.getBudgetPersonnelDetailsList();
+                budgetPersonnelDetailsList.addAll(tempPerList);
+                for (BudgetPersonnelDetails budgetPersonnelDetails : tempPerList) {
+                    budgetPersonnelCalculatedAmounts.addAll(budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts());
+                }
+            }
         }
+        managedLists.add(budgetLineItems);
+//        managedLists.add(budgetLineItemCalculatedAmounts);
+        managedLists.add(budgetPersonnelDetailsList);
+//        managedLists.add(budgetPersonnelCalculatedAmounts);
         return managedLists;
     }
 
@@ -452,14 +472,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
         this.budgetLineItems = budgetLineItems;
-    }
-
-    public List<BudgetPersonnelDetails> getBudgetPersonnelDetailsList() {
-        return budgetPersonnelDetailsList;
-    }
-
-    public void setBudgetPersonnelDetailsList(List<BudgetPersonnelDetails> budgetPersonnelDetailsList) {
-        this.budgetPersonnelDetailsList = budgetPersonnelDetailsList;
     }
 
     public Date getSummaryPeriodStartDate() {
@@ -935,5 +947,13 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public void setBudgetCategoryTypeCodes(List<KeyLabelPair> budgetCategoryTypeCodes) {
         this.budgetCategoryTypeCodes = budgetCategoryTypeCodes;
+    }
+
+    public List<BudgetPersonnelDetails> getBudgetPersonnelDetailsList() {
+        return budgetPersonnelDetailsList;
+    }
+
+    public void setBudgetPersonnelDetailsList(List<BudgetPersonnelDetails> budgetPersonnelDetailsList) {
+        this.budgetPersonnelDetailsList = budgetPersonnelDetailsList;
     }
 }

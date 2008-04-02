@@ -20,6 +20,8 @@ import java.util.List;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
@@ -98,5 +100,22 @@ public class LineItemCalculator extends CalculatorBase {
         BudgetDecimal daysFactor = new BudgetDecimal(boundaryNumOfDays).divide(new BudgetDecimal(totalNumOfDays), false);
         boundary.setApplicableCost(lineItemCost==null?BudgetDecimal.ZERO:lineItemCost.multiply(daysFactor));
         boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:lineItemCostSharing.multiply(daysFactor));
+    }
+    @Override
+    protected void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode, String rateClassType) {
+        BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = new BudgetLineItemCalculatedAmount();
+        budgetLineItemCalculatedAmt.setProposalNumber(bli.getProposalNumber());
+        budgetLineItemCalculatedAmt.setBudgetVersionNumber(bli.getBudgetVersionNumber());
+        budgetLineItemCalculatedAmt.setBudgetPeriod(bli.getBudgetPeriod());
+        budgetLineItemCalculatedAmt.setLineItemNumber(bli.getLineItemNumber());
+        budgetLineItemCalculatedAmt.setRateClassType(rateClassType);
+        budgetLineItemCalculatedAmt.setRateClassCode(rateClassCode);
+        budgetLineItemCalculatedAmt.setRateTypeCode(rateTypeCode);
+        // budgetLineItemCalculatedAmt.setRateClassDescription(validCeRateType.getRateClass().getDescription());
+        // budgetLineItemCalculatedAmt.setRateTypeDescription(validCERateTypesBean.getRateTypeDescription());
+        budgetLineItemCalculatedAmt.setApplyRateFlag(true);
+        budgetLineItemCalculatedAmt.refreshReferenceObject("rateType");
+        budgetLineItemCalculatedAmt.refreshReferenceObject("rateClass");
+        bli.getBudgetLineItemCalculatedAmounts().add(budgetLineItemCalculatedAmt);
     }
 }

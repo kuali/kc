@@ -433,8 +433,19 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService"/>
 		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
 	</bean>
 	
+	<bean id="budgetPersonnelBudgetService" class="org.kuali.kra.budget.service.impl.BudgetPersonnelBudgetServiceImpl">
+		<property name="budgetPersonService">
+			<ref bean="budgetPersonService"/>
+		</property>
+		<property name="budgetCalculationService">
+			<ref bean="budgetCalculationService"/>
+		</property>
+	</bean>
 	<bean id="budgetService" class="org.kuali.kra.budget.service.impl.BudgetServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService"/>

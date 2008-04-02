@@ -45,6 +45,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
@@ -74,7 +75,8 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
     private static final int CHECK_BOX_INPUT = 7;
     private DocumentService documentService = null;
     private Lifecycle customKEWLifecycle = null;
-     @Before
+
+    @Before
     public void setUp() throws Exception {
         super.setUp();
         transactionalLifecycle.stop();
@@ -85,19 +87,19 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         setProposalDevelopmentPage(buildProposalDevelopmentPage());
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KNSServiceLocator.getDocumentService();
-      }  
+    }  
 
     @After
     public void tearDown() throws Exception {
-        
-        
+
+
         super.tearDown();
         customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml");
         customKEWLifecycle.start();
         GlobalVariables.setErrorMap(new ErrorMap());
         stopLifecycles(this.perTestLifeCycles);
         afterRun();
-       }
+    }
 
     @Test
     public void testproposalworkflowRouting() throws Exception {
@@ -120,29 +122,30 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
-        HtmlPage Proposalpage = clickOnTab(KeyPersonnelpage, PROPOSAL_PAGE_LINK_NAME);
-        Proposalpage = clickOn(Proposalpage, "methodToCall.route");
-        assertTrue(Proposalpage.asText().contains("Document was successfully submitted"));
+        HtmlPage submitPage = clickOnTab(KeyPersonnelpage, ACTIONS_LINK_NAME);
+        HtmlForm form1 = (HtmlForm) submitPage.getForms().get(0);
+        final HtmlPage confirmationPage = clickButton(submitPage, form1, "methodToCall.route", IMAGE_INPUT);
+
+        assertNotNull(confirmationPage);
+        assertTrue(confirmationPage.asText().contains("Document was successfully submitted"));
+
         GlobalVariables.setUserSession(null);
-        GlobalVariables.setUserSession(new UserSession("quickstart"));
+        GlobalVariables.setUserSession(new UserSession("jtester"));
         final WebClient newWebClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-        final HtmlPage pageAfterLogin = login(newWebClient, url, "en/ActionList.do", "quickstart");
+        final HtmlPage pageAfterLogin = login(newWebClient, url, "en/ActionList.do", "jtester");
         assertNotNull(pageAfterLogin);
+
         HtmlAnchor docLink = getAnchorFromPage(pageAfterLogin, "docId=" + documentNumber.getDefaultValue());
         assertNotNull(docLink);
         HtmlPage docDisplay = (HtmlPage) docLink.click();
         assertNotNull(docDisplay);
+
         HtmlPage approvePage = clickOnTab(docDisplay, ACTIONS_LINK_NAME);
         HtmlForm form2 = (HtmlForm) approvePage.getForms().get(0);
         final HtmlPage approvalConfirmationPage = clickButton(approvePage, form2, "methodToCall.approve", IMAGE_INPUT);
         assertNotNull(approvalConfirmationPage);
-        assertTrue(approvalConfirmationPage.asText().contains("Kuali :: Question Dialog Page"));
-        HtmlForm form3 = (HtmlForm) approvalConfirmationPage.getForms().get(0);
-        HtmlPage backToActionList = clickButton(approvalConfirmationPage, form3, "methodToCall.processAnswer.button0",
-                IMAGE_INPUT);
-        assertNotNull(backToActionList);
-        assertTrue(backToActionList.asText().contains("Action List"));
+
         GlobalVariables.setUserSession(new UserSession("tdurkin"));
         final WebClient newWebClient1 = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
         final URL url1 = new URL("http://localhost:" + getPort() + "/kra-dev/");
@@ -154,20 +157,19 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         HtmlPage docDisplay1 = (HtmlPage) docLink1.click();
         assertNotNull(docDisplay1);
         HtmlPage PIApprovePage = clickOnTab(docDisplay1, ACTIONS_LINK_NAME); 
-        HtmlForm form4 = (HtmlForm) PIApprovePage.getForms().get(0);
         final HtmlPage rejectConfirmationPage = clickOn(PIApprovePage, "methodToCall.reject");
         assertNotNull(rejectConfirmationPage);
-         ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService
-                 .getByDocumentHeaderId(documentNumber.getDefaultValue());
-         assertNotNull(savedDocument);
-         KualiWorkflowDocument workflowDoc = savedDocument.getDocumentHeader().getWorkflowDocument();
-         assertNotNull(workflowDoc);
+        ProposalDevelopmentDocument savedDocument = (ProposalDevelopmentDocument) documentService
+        .getByDocumentHeaderId(documentNumber.getDefaultValue());
+        assertNotNull(savedDocument);
+        KualiWorkflowDocument workflowDoc = savedDocument.getDocumentHeader().getWorkflowDocument();
+        assertNotNull(workflowDoc);
         String currentnodename=workflowDoc.getCurrentRouteNodeNames();
         assertEquals(currentnodename,"ProposalPersons");
 
     }
 
-   
+
 
     private HtmlPage clickButton(HtmlPage page, HtmlForm htmlForm, String buttonName, int type) throws Exception {
         String completeButtonName = getImageTagName(page, buttonName);
@@ -224,4 +226,6 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
 
         return target;
     }
+
+
 }

@@ -174,4 +174,8 @@ public interface Constants {
     public static final String DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN = "document.newMaintainableObject.lookupReturn";
     public static final String LOOKUP_RETURN_FIELDS = "lookupReturnFields";
     public static final String LOOKUP_CLASS_NAME = "lookupClassName";
+
+    public static final String MAPPING_PERSONNEL_BUDGET = "personnelBudget";
+    public static final String BUDGET_PERSON_LINE_NUMBER = "budget.budgetPersonnelDetails.personNumber";
+    
 }

@@ -15,10 +15,15 @@
  */
 package org.kuali.kra.budget.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -31,7 +36,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetPersonServiceImpl.class);
     
     private KualiConfigurationService kualiConfigurationService;
-    
+    private BusinessObjectService businessObjectService;
     /**
      * @see org.kuali.kra.budget.service.BudgetPersonService#populateBudgetPersonData(org.kuali.kra.budget.document.BudgetDocument, org.kuali.kra.budget.bo.BudgetPerson)
      */
@@ -76,6 +81,31 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    @SuppressWarnings("unchecked") 
+    public BudgetPerson findBudgetPerson(BudgetPersonnelDetails budgetPersonnelDetails) {
+        Map queryMap = new HashMap();
+        queryMap.put("proposalNumber", budgetPersonnelDetails.getProposalNumber());
+        queryMap.put("budgetVersionNumber", budgetPersonnelDetails.getBudgetVersionNumber());
+        queryMap.put("personSequenceNumber", budgetPersonnelDetails.getPersonSequenceNumber());
+        return (BudgetPerson)businessObjectService.findByPrimaryKey(BudgetPerson.class, queryMap);
+    }
+
+    /**
+     * Gets the businessObjectService attribute. 
+     * @return Returns the businessObjectService.
+     */
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
     
 }

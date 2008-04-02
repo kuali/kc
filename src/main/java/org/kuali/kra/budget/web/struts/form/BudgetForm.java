@@ -32,6 +32,7 @@ import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetModularIdc;
 import org.kuali.kra.budget.bo.BudgetModularSummary;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -69,6 +70,12 @@ public class BudgetForm extends ProposalFormBase {
     private String budgetCategoryTypeCode;
         
     private boolean documentNextValueRefresh;
+    
+    private String personnelBudgetViewMode;
+    private BudgetLineItem selectedBudgetLineItem;
+    private BudgetPersonnelDetails newBudgetPersonnelDetails;
+    private Integer selectedBudgetLineItemIndex;
+
     
     public boolean isDocumentNextValueRefresh() {
         return documentNextValueRefresh;
@@ -168,6 +175,25 @@ public class BudgetForm extends ProposalFormBase {
         return extraButtons;
     }
 
+    public List<ExtraButton> getExtraPersonnelBudgetButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        String externalImageURL = "kra.externalizable.images.url";
+        String returnToExpensesImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_returnToExpenses.gif"; 
+        addExtraButton("methodToCall.returnToExpenses", returnToExpensesImage, "Return To Expenses");
+        return extraButtons;
+    }
+    public List<ExtraButton> getExtraExpensesButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        String externalImageURL = "kra.externalizable.images.url";
+        String calculateCurrentPeriodImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
+        String viewPersonnelSalariesImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
+        addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
+        addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries");
+        
+        return extraButtons;
+    }
     public List<ExtraButton> getRatesExtraButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
@@ -355,5 +381,69 @@ public class BudgetForm extends ProposalFormBase {
 
     public void setNewBudgetLineItems(List<BudgetLineItem> newBudgetLineItems) {
         this.newBudgetLineItems = newBudgetLineItems;
+    }
+
+    /**
+     * Gets the personnelBudgetViewMode attribute. 
+     * @return Returns the personnelBudgetViewMode.
+     */
+    public String getPersonnelBudgetViewMode() {
+        return personnelBudgetViewMode;
+    }
+
+    /**
+     * Sets the personnelBudgetViewMode attribute value.
+     * @param personnelBudgetViewMode The personnelBudgetViewMode to set.
+     */
+    public void setPersonnelBudgetViewMode(String personnelBudgetViewMode) {
+        this.personnelBudgetViewMode = personnelBudgetViewMode;
+    }
+
+    /**
+     * Gets the selectedBudgetLineItem attribute. 
+     * @return Returns the selectedBudgetLineItem.
+     */
+    public BudgetLineItem getSelectedBudgetLineItem() {
+        return selectedBudgetLineItem;
+    }
+
+    /**
+     * Sets the selectedBudgetLineItem attribute value.
+     * @param selectedBudgetLineItem The selectedBudgetLineItem to set.
+     */
+    public void setSelectedBudgetLineItem(BudgetLineItem selectedBudgetLineItem) {
+        this.selectedBudgetLineItem = selectedBudgetLineItem;
+    }
+
+    /**
+     * Gets the newBudgetPersonnelDetails attribute. 
+     * @return Returns the newBudgetPersonnelDetails.
+     */
+    public BudgetPersonnelDetails getNewBudgetPersonnelDetails() {
+        return newBudgetPersonnelDetails;
+    }
+
+    /**
+     * Sets the newBudgetPersonnelDetails attribute value.
+     * @param newBudgetPersonnelDetails The newBudgetPersonnelDetails to set.
+     */
+    public void setNewBudgetPersonnelDetails(BudgetPersonnelDetails newBudgetPersonnelDetails) {
+        this.newBudgetPersonnelDetails = newBudgetPersonnelDetails;
+    }
+
+    /**
+     * Gets the selectedBudgetLineItemIndex attribute. 
+     * @return Returns the selectedBudgetLineItemIndex.
+     */
+    public Integer getSelectedBudgetLineItemIndex() {
+        return selectedBudgetLineItemIndex;
+    }
+
+    /**
+     * Sets the selectedBudgetLineItemIndex attribute value.
+     * @param selectedBudgetLineItemIndex The selectedBudgetLineItemIndex to set.
+     */
+    public void setSelectedBudgetLineItemIndex(Integer selectedBudgetLineItemIndex) {
+        this.selectedBudgetLineItemIndex = selectedBudgetLineItemIndex;
     }      
 }
