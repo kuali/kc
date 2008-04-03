@@ -66,9 +66,7 @@ public class BudgetForm extends ProposalFormBase {
     private String viewLocation;
     
     private Integer modularSelectedPeriod;
-    
-    private String budgetCategoryTypeCode;
-        
+            
     private boolean documentNextValueRefresh;
     
     private String personnelBudgetViewMode;
@@ -359,15 +357,7 @@ public class BudgetForm extends ProposalFormBase {
     public void setViewBudgetView(Integer viewBudgetView) {
         this.viewBudgetView = viewBudgetView;
     }
-
-    public String getBudgetCategoryTypeCode() {
-        return budgetCategoryTypeCode;
-    }
-
-    public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
-        this.budgetCategoryTypeCode = budgetCategoryTypeCode;
-    }    
-    
+        
     public void populate(HttpServletRequest request) {
         super.populate(request);
         if (getActionFormUtilMap() != null && getActionFormUtilMap() instanceof ActionFormUtilMap) {

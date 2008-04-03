@@ -1711,11 +1711,11 @@
 			<foreignkey field-ref="proposalNumber"/> 
 			<foreignkey field-ref="budgetVersionNumber"/> 
 		</reference-descriptor>-->
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.bo.RateClass" auto-retrieve="flase" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.bo.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.bo.RateType" auto-retrieve="flase" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.bo.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor>
