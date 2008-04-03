@@ -44,7 +44,7 @@
 				</c:choose>
 		  </c:forEach>
 	   	
-	    <kul:tab tabTitle="${tabTitleName}" defaultOpen="false" transparentBackground="${groupStatus.first}" auditCluster="customAttributes.${customAttributeDocument.key}Errors" tabAuditKey="customData.*" tabErrorKey="${tabErrorKey}" >
+	    <kul:tab tabTitle="${tabTitleName}" defaultOpen="false" transparentBackground="${groupStatus.first}" auditCluster="CustomData${fn:replace(fullName,' ','')}Errors" tabErrorKey="${tabErrorKey}" tabAuditKey="${tabErrorKey}" useRiceAuditMode="true">
 			<kra-pd:customData fullName="${fullName}" fieldCount="${fieldCount}" />
 	    </kul:tab>
 	   	<c:set var="fieldCount" value="${fieldCount + fn:length(customAttributeGroup.value)}" />
