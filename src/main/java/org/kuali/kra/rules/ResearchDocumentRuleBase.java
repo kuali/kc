@@ -24,6 +24,8 @@ import java.util.Map.Entry;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
+import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
@@ -34,15 +36,18 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentGrantsGovAuditRule;
+import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 
 /**
  * Base implementation class for KRA document business rules
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.6 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.7 $
  */
-public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
+public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);
 
     /**
@@ -61,6 +66,14 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
         }
     }
     
+    
+    public boolean processRunAuditBusinessRules(Document document) {
+        boolean retval = true;
+        
+        return new ResearchDocumentBaseAuditRule().processRunAuditBusinessRules(document);
+        
+    }
+
     /**
      * 
      * This method checks budget versions business rules
@@ -89,6 +102,7 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase {
         return valid;
     }
 
+    
     /**
      * Does the current user have the given permission for the proposal?
      * @param doc the Proposal Development Document

@@ -29,6 +29,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
+import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 import org.kuali.rice.KNSServiceLocator;
@@ -77,6 +78,9 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
     private static final String RADIO_FIELD_VALUE = "Y";
 
     private Lifecycle customKEWLifecycle = null;
+    private static final String CUSTOM_DATA_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.customData.x";
+    private static final String GRADUATE_STUDENT_COUNT_ID = "customAttributeValues(id4)";
+    private static final String BILLING_ELEMENT_ID = "customAttributeValues(id1)";
 
     @Before
     public void setUp() throws Exception {
@@ -131,7 +135,17 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
-        HtmlPage permissionsPage = clickOnTab(KeyPersonnelpage, PERMISSIONS_LINK_NAME);
+        
+        // set up required custom attributes
+        HtmlPage customDataPage = clickOn(KeyPersonnelpage, CUSTOM_DATA_LINK_NAME);
+        assertContains(customDataPage,TestUtilities.GROUP_NAME_1);
+        assertContains(customDataPage,TestUtilities.GROUP_NAME_2);
+        assertContains(customDataPage,TestUtilities.GROUP_NAME_3);
+  
+        setFieldValue(customDataPage, GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setFieldValue(customDataPage, BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
+
+        HtmlPage permissionsPage = clickOnTab(customDataPage, PERMISSIONS_LINK_NAME);
         permissionsPage = addUser(permissionsPage, APPROVER, VIEWER_ROLENAME);
         permissionsPage = addUser(permissionsPage, PROPOSAL_CREATOR, AGGREGATOR_ROLENAME);
 
