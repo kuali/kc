@@ -15,10 +15,16 @@
  */
 package org.kuali.kra.document;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.service.DocumentService;
 import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.bo.Organization;
+import org.kuali.kra.bo.OrganizationAudit;
+import org.kuali.kra.bo.OrganizationIndirectcost;
+import org.kuali.kra.bo.OrganizationType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
@@ -26,11 +32,13 @@ import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestSql;
 
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 @PerTestUnitTestData(
     @UnitTestData(
             sqlStatements = {
                     @UnitTestSql("delete from CUSTOM_ATTRIBUTE where id = 999")
+                    ,@UnitTestSql("update  CUSTOM_ATTRIBUTE set data_length=30 where id = 7")
 
             }
     )
@@ -44,6 +52,70 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
     @Test
     public void testDocumentCreation() throws Exception {
         testDocumentCreation(DOCTYPE);
+    }
+
+    @Test
+    public void testCopyCustomAttribute() throws Exception {
+        HtmlPage customAttributeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Custom Attribute");
+        setFieldValue(customAttributeMaintenanceLookupPage,"id","7");
+        HtmlPage searchPage = clickOn(customAttributeMaintenanceLookupPage, "search");
+        
+        HtmlAnchor copyLink = searchPage.getAnchorByHref("maintenance.do?businessObjectClassName=org.kuali.kra.bo.CustomAttribute&methodToCall=copy&id=7");
+        HtmlPage customAttributeMaintenanceCopyPage = clickOn(copyLink, "Kuali :: CustomAttribute Maintenance Document");
+        String documentNumber = getFieldValue(customAttributeMaintenanceCopyPage, "document.documentHeader.documentNumber");
+
+        setFieldValue(customAttributeMaintenanceCopyPage, "document.documentHeader.financialDocumentDescription", "Custom Attribute - copy test");
+
+        setFieldValue(customAttributeMaintenanceCopyPage, "document.newMaintainableObject.id", "999");
+                
+        HtmlPage routedPage = clickOn(customAttributeMaintenanceCopyPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
+        
+        assertContains(routedPage, "Document was successfully submitted.");
+        MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
+        assertNotNull(document.getDocumentNumber());
+        assertNotNull(document.getDocumentHeader());
+        assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
+        CustomAttribute customAttribute = (CustomAttribute)document.getNewMaintainableObject().getBusinessObject();
+        assertEquals(customAttribute.getId(),new Integer(999));
+        assertEquals(customAttribute.getGroupName(),"Project Details");
+        assertEquals(customAttribute.getLabel(),"Inventions");
+        assertEquals(customAttribute.getName(),"inventions");
+        assertEquals(customAttribute.getDataLength(),new Integer(30));
+        assertEquals(customAttribute.getDataTypeCode(),"1");
+
+
+    }
+
+    @Test
+    public void testEditCustomAttribute() throws Exception {
+        HtmlPage customAttributeMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Custom Attribute");
+        setFieldValue(customAttributeMaintenanceLookupPage,"id","7");
+        HtmlPage searchPage = clickOn(customAttributeMaintenanceLookupPage, "search");
+        
+        HtmlAnchor editLink = searchPage.getAnchorByHref("maintenance.do?businessObjectClassName=org.kuali.kra.bo.CustomAttribute&methodToCall=edit&id=7");
+        HtmlPage customAttributeMaintenanceEditPage = clickOn(editLink, "Kuali :: CustomAttribute Maintenance Document");
+        String documentNumber = getFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.documentNumber");
+
+        setFieldValue(customAttributeMaintenanceEditPage, "document.documentHeader.financialDocumentDescription", "Custom Attribute - edit test");
+
+        setFieldValue(customAttributeMaintenanceEditPage, "document.newMaintainableObject.dataLength", "35");
+                
+        HtmlPage routedPage = clickOn(customAttributeMaintenanceEditPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
+        
+        assertContains(routedPage, "Document was successfully submitted.");
+        MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
+        assertNotNull(document.getDocumentNumber());
+        assertNotNull(document.getDocumentHeader());
+        assertEquals(document.getDocumentHeader().getDocumentNumber(),documentNumber);
+        CustomAttribute customAttribute = (CustomAttribute)document.getNewMaintainableObject().getBusinessObject();
+        assertEquals(customAttribute.getId(),new Integer(7));
+        assertEquals(customAttribute.getGroupName(),"Project Details");
+        assertEquals(customAttribute.getLabel(),"Inventions");
+        assertEquals(customAttribute.getName(),"inventions");
+        assertEquals(customAttribute.getDataLength(),new Integer(35));
+        assertEquals(customAttribute.getDataTypeCode(),"1");
+
+
     }
 
     @Test
