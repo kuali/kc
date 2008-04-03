@@ -66,19 +66,26 @@ public abstract class MaintenanceDocumentTestBase extends KraWebTestBase {
      * @throws IOException
      */
     protected final HtmlPage getMaintenanceDocumentPage(String documentTitle, String maintenanceDocumentBoClassName, String maintenanceDocumentPageTitle) throws IOException {
+        HtmlPage lookupPage = getMaintenanceDocumentLookupPage(documentTitle);
+        HtmlAnchor createNewHyperlink = lookupPage.getAnchorByHref("maintenance.do?businessObjectClassName="+maintenanceDocumentBoClassName+"&methodToCall=start");
+        HtmlPage maintenanceDocumentPage = clickOn(createNewHyperlink, maintenanceDocumentPageTitle);
+
+        
+        return maintenanceDocumentPage;
+    }
+
+    protected final HtmlPage getMaintenanceDocumentLookupPage(String documentTitle) throws IOException {
         HtmlPage adminPage = clickOn(getPortalPage(), "Administration", "Kuali Portal Index");
         // customAttributeHyperlink is not actually the lookup page - not sure why
         //final HtmlAnchor customAttributeHyperlink = adminPage.getAnchorByHref("portal.do?channelTitle=Custom Attribute&channelUrl=kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.CustomAttribute&returnLocation=http://localhost:9925/kra-dev/portal.do&hideReturnLink=true&docFormKey=88888888");
         HtmlPage MaintenanceDocumentLookupPage = clickOn(adminPage, documentTitle, "Kuali Portal Index");
-        //HtmlPage customAttributeLookupPage = clickOn(customAttributeHyperlink, "Kuali :: Lookup");
+        //HtmlPage customAttributeLookupPage = clic kOn(customAttributeHyperlink, "Kuali :: Lookup");
         assertTrue("Kuali Portal Index".equals(MaintenanceDocumentLookupPage.getTitleText()));
         // this dummy step will load lookup page properly
         HtmlPage lookupPage = clickOn(getPortalPage(), "Create a new record", "Kuali :: Lookup");
-        HtmlAnchor createNewHyperlink = lookupPage.getAnchorByHref("maintenance.do?businessObjectClassName="+maintenanceDocumentBoClassName+"&methodToCall=start");
-        HtmlPage customAttributeMaintenancePage = clickOn(createNewHyperlink, maintenanceDocumentPageTitle);
 
         
-        return customAttributeMaintenancePage;
+        return lookupPage;
     }
 
 }
