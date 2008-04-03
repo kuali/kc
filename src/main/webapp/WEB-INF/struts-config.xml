@@ -84,6 +84,7 @@
           <forward name="summary" path="/WEB-INF/jsp/budget/BudgetSummary.jsp" />
           <forward name="personnel" path="/WEB-INF/jsp/budget/BudgetPersonnel.jsp" />
           <forward name="expenses" path="/WEB-INF/jsp/budget/BudgetExpenses.jsp" />
+          <forward name="personnelBudget" path="/WEB-INF/jsp/budget/BudgetPersonnelBudget.jsp" />
           <forward name="rates" path="/WEB-INF/jsp/budget/BudgetRates.jsp" />
           <forward name="distributionAndIncome" path="/WEB-INF/jsp/budget/BudgetDistributionAndIncome.jsp" />
           <forward name="modularBudget" path="/WEB-INF/jsp/budget/BudgetModularBudget.jsp" />
