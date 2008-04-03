@@ -46,13 +46,29 @@
 				  	</c:if>
 				</c:forEach>
 				<c:set var="customAttributeId" value="customAttributeValues(id${customAttributeDocument.customAttributeId})" />
+          	  <c:set var="customAttributeErrorStyle" value="" scope="request"/>
+				<c:forEach items="${ErrorPropertyList}" var="key">
+				    <c:if test="${key eq customAttributeId}">
+					  <c:set var="customAttributeErrorStyle" value="border-color: red" scope="request"/>
+				    </c:if>
+			     </c:forEach>
+					
+				<c:if test="${empty customAttributeErrorStyle}" >			
+					<c:forEach items="${AuditErrors}" var="cluster">
+						<c:forEach items="${cluster.value.auditErrorList}" var="audit">
+						    <c:if test="${audit.errorKey eq customAttributeId}">
+							  <c:set var="customAttributeErrorStyle" value="border-color: red" scope="request"/>
+						    </c:if>
+						</c:forEach>
+					</c:forEach>
+				</c:if>
 					
 				<c:choose>
                 	<c:when test="${readOnly}">
                 		<c:out value="${customAttributeValue}" />
                 	</c:when>
                 	<c:otherwise>
-                		<input id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' />
+                		<input id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' style="${customAttributeErrorStyle}"/>
                 	</c:otherwise>
                 </c:choose> 
 					
