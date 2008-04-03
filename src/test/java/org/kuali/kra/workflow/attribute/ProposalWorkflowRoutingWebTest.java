@@ -33,6 +33,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
 import org.kuali.kra.KraTestBase;
+import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.KeyPersonnelWebTest;
@@ -75,8 +76,10 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
     private static final int CHECK_BOX_INPUT = 7;
     private DocumentService documentService = null;
     private Lifecycle customKEWLifecycle = null;
-
-    @Before
+    private static final String CUSTOM_DATA_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.customData.x";
+    private static final String GRADUATE_STUDENT_COUNT_ID = "customAttributeValues(id4)";
+    private static final String BILLING_ELEMENT_ID = "customAttributeValues(id1)";
+     @Before
     public void setUp() throws Exception {
         super.setUp();
         transactionalLifecycle.stop();
@@ -122,7 +125,16 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
-        HtmlPage submitPage = clickOnTab(KeyPersonnelpage, ACTIONS_LINK_NAME);
+        // set up required custom attributes
+        HtmlPage customDataPage = clickOn(KeyPersonnelpage, CUSTOM_DATA_LINK_NAME);
+        assertContains(customDataPage,TestUtilities.GROUP_NAME_1);
+        assertContains(customDataPage,TestUtilities.GROUP_NAME_2);
+        assertContains(customDataPage,TestUtilities.GROUP_NAME_3);
+  
+        setFieldValue(customDataPage, GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setFieldValue(customDataPage, BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
+
+        HtmlPage submitPage = clickOnTab(customDataPage, ACTIONS_LINK_NAME);
         HtmlForm form1 = (HtmlForm) submitPage.getForms().get(0);
         final HtmlPage confirmationPage = clickButton(submitPage, form1, "methodToCall.route", IMAGE_INPUT);
 
