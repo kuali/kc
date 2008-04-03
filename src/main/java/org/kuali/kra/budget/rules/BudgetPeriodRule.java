@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.kuali.core.service.impl.KualiRuleServiceImpl;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -41,6 +43,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule{
+    private static final Logger LOG = Logger.getLogger(BudgetPeriodRule.class);
 
     private static final String NEW_BUDGET_PERIOD = "newBudgetPeriod";
     private static final String BUDGET_SUMMARY = "budgetSummary";
@@ -372,19 +375,27 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     
     private String compareDate(Date periodStartDate, Date periodEndDate, Date previousPeriodEndDate){
         String returnErrorValue = null;
+        LOG.info("prd st dt "+periodStartDate+periodEndDate+previousPeriodEndDate);
         if(periodStartDate.after(getProjectEndDate())) {
+            LOG.info("ERROR_PERIOD_START_BEFORE_PROJECT_START"+periodStartDate+getProjectEndDate());
             returnErrorValue = "ERROR_PERIOD_START_BEFORE_PROJECT_START"; 
         }else if(periodStartDate.after(periodEndDate)) {
+            LOG.info("ERROR_PERIOD_START_AFTER_PERIOD_END"+periodStartDate+periodEndDate);
             returnErrorValue = "ERROR_PERIOD_START_AFTER_PERIOD_END"; 
         }else if(periodStartDate.before(getProjectStartDate())) {
+            LOG.info("ERROR_PERIOD_START_AFTER_PROJECT_END"+periodStartDate+getProjectStartDate());
             returnErrorValue = "ERROR_PERIOD_START_AFTER_PROJECT_END";
         }else if(periodEndDate.before(getProjectStartDate())) {
+            LOG.info("ERROR_PERIOD_END_BEFORE_PROJECT_START"+periodEndDate+getProjectStartDate());
             returnErrorValue = "ERROR_PERIOD_END_BEFORE_PROJECT_START"; 
         }else if(periodEndDate.after(getProjectEndDate())) {
+            LOG.info("ERROR_PERIOD_END_AFTER_PROJECT_END"+periodEndDate+getProjectEndDate());
             returnErrorValue = "ERROR_PERIOD_END_AFTER_PROJECT_END"; 
         }else if(previousPeriodEndDate != null && periodStartDate.before(previousPeriodEndDate)) {
+            LOG.info("ERROR_PERIOD_START_BEFORE_PREVIOUS_START"+previousPeriodEndDate+periodStartDate);
             returnErrorValue = "ERROR_PERIOD_START_BEFORE_PREVIOUS_START"; 
         }else if(previousPeriodEndDate != null && periodEndDate.before(previousPeriodEndDate)) {
+            LOG.info("ERROR_PERIOD_END_BEFORE_PREVIOUS_END"+previousPeriodEndDate+periodEndDate);
             returnErrorValue = "ERROR_PERIOD_END_BEFORE_PREVIOUS_END"; 
         }
         return returnErrorValue;
