@@ -90,7 +90,6 @@
 		<titleAttribute>rateTypeCode</titleAttribute>
 		<titleAttribute>versionNumber</titleAttribute> -->
         <attributes>
-
 	        <attribute name="budgetPeriod">
 			<label>Budget Period </label>
 			<shortLabel>Budget Period </shortLabel>
@@ -128,27 +127,27 @@
 			</attribute>
 
 			<attribute name="rateClassCode">
-			<label>Rate Class Code </label>
-			<shortLabel>Rate Class Code </shortLabel>
+			<label>Rate Class </label>
+			<shortLabel>Rate Class </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
 				<text size="3" />
 			</control>
-			<summary>Rate Class Code </summary>
-			<description>Rate Class Code </description>
+			<summary>Rate Class </summary>
+			<description>Rate Class </description>
 			</attribute>
 
 			<attribute name="rateTypeCode">
-			<label>Rate Type Code </label>
-			<shortLabel>Rate Type Code </shortLabel>
+			<label>Rate Type </label>
+			<shortLabel>Rate Type </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
 				<text size="3" />
 			</control>
-			<summary>Rate Type Code </summary>
-			<description>Rate Type Code </description>
+			<summary>Rate Type </summary>
+			<description>Rate Type </description>
 			</attribute>
 
 			<attribute name="versionNumber">

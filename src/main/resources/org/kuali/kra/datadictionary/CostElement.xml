@@ -79,7 +79,7 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.budget.bo.BudgetCategory" keyAttribute="budgetCategoryCode" labelAttribute="description" includeKeyInLabel="false"/>
+				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder"/>
 			</control>
 			<summary>Budget Category Code </summary>
 			<description>Budget Category Code </description>

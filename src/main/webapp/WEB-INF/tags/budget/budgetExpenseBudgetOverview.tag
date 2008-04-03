@@ -19,14 +19,25 @@
 
 <c:set var="action" value="budgetExpensesAction" />
 
+<c:choose>
+	<c:when test="${!empty KualiForm.viewBudgetPeriod}" >
+		<c:set var="budgetPeriod" value="${KualiForm.viewBudgetPeriod}" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="budgetPeriod" value="1" />
+	</c:otherwise>
+</c:choose>
+    
+<kul:tabTop tabTitle="Budget Overview (Period ${budgetPeriod})" defaultOpen="true" tabErrorKey="budget.projectIncome*">
 	<div class="tab-container" align="center">
    	<div class="h2-container">
-   		<span class="subhead-left"><h2>Budget Overview (Period ${KualiForm.viewBudgetPeriod})</h2></span>
+   		<span class="subhead-left"><h2>Budget Overview (Period ${budgetPeriod})</h2></span>
 	   	<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
     </div>
+    
     <table cellpadding=0 cellspacing=0 summary="">
-    	<c:choose>
-    	<c:when test="${!(KualiForm.viewBudgetPeriod == 2 || KualiForm.viewBudgetPeriod == 1)}" >
+    	<%--<c:choose>
+    	<c:when test="${empty KualiForm.viewBudgetPeriod || KualiForm.viewBudgetPeriod == 0}" >
     		<tr>
 	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.startDate}" noColon="true" /></div></th>
 	    		<td><div align="left"><fmt:formatDate value="${KualiForm.document.summaryPeriodStartDate}" pattern="MM/dd/yyyy" /></div></td>
@@ -56,37 +67,38 @@
 	    		<td><div align="left"><strong> ${KualiForm.document.totalCost} </strong></div></td>
 	    	</tr>
     	</c:when>
-    	<c:otherwise>
+    	<c:otherwise> --%>
 	    	<tr>
 	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.startDate}" noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${KualiForm.viewBudgetPeriod - 1}].startDate" attributeEntry="${budgetPeriodAttributes.startDate}" datePicker="true"/></div></td>
+	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].startDate" attributeEntry="${budgetPeriodAttributes.startDate}" datePicker="true"/></div></td>
 	    		<th>Period Cost Limit - TBD</th>
 	    		<td><div align="left">Period Cost Limit - TBD</div></td>
 	    	</tr>
 	    	<tr>
 	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.endDate}" noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${KualiForm.viewBudgetPeriod - 1}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}" datePicker="true"/></div></td>
+	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}" datePicker="true"/></div></td>
 	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCostLimit}" noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${KualiForm.viewBudgetPeriod - 1}].totalCostLimit" attributeEntry="${budgetPeriodAttributes.totalCostLimit}" datePicker="true" readOnly="true"/></div></td>
+	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].totalCostLimit" attributeEntry="${budgetPeriodAttributes.totalCostLimit}" datePicker="true" readOnly="true"/></div></td>
 	    	</tr>
 	    	<tr>
 				<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalDirectCost}" noColon="true" /></div></th>          		
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${KualiForm.viewBudgetPeriod - 1}].totalDirectCost" attributeEntry="${budgetPeriodAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
+	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].totalDirectCost" attributeEntry="${budgetPeriodAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
 	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" noColon="true" /></div></th>          		
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${KualiForm.viewBudgetPeriod - 1}].underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="true"/></div></td>
+	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="true"/></div></td>
 	    	</tr>
 	    	<tr>
 	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalIndirectCost}"noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${KualiForm.viewBudgetPeriod - 1}].totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
+	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
 	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>	        		        		
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${KualiForm.viewBudgetPeriod - 1}].costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="true"/></div></td>
+	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="true"/></div></td>
 	    	</tr>
 	    	<tr>
 	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCost}" noColon="true" /></div></th>
-	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${KualiForm.viewBudgetPeriod - 1}].totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" readOnly="true"/></div></td>
+	    		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${budgetPeriod - 1}].totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" readOnly="true"/></div></td>
 	    	</tr>
-    	</c:otherwise>
-
-    	</c:choose>
-
+    	<%-- </c:otherwise>
+    	</c:choose> --%>
     </table>
+    </div>        
+</kul:tabTop>
+    

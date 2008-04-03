@@ -18,5 +18,5 @@
 <c:set var="action" value="budgetExpensesAction" />
 
 <kra-b:budgetExpensesSelectBudgetPeriod />
-
+<br><br>
 <kra-b:budgetExpenseTabs />

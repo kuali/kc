@@ -16,15 +16,9 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="action" value="budgetExpensesAction" />
-
-<div style="padding-top: 3em;">
-<kul:tabTop tabTitle="Budget Overview (Period ${KualiForm.viewBudgetPeriod})" defaultOpen="true" tabErrorKey="budget.projectIncome*">
-	
-	<kra-b:budgetExpenseBudgetOverview />    
-   	   			   	
-   	<c:forEach var="budgetCategoryTypeCodes" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="catCodes">
-		<kra-b:budgetDetailed budgetCategoryTypeCodesKey="${budgetCategoryTypeCodes.key}" budgetCategoryTypeCodesLabel="${budgetCategoryTypeCodes.label}" catCodes="${catCodes.index}"/>		
-	</c:forEach>
-	</div>		
-</kul:tabTop>
-</div>
+			
+ <kra-b:budgetExpenseBudgetOverview /> 
+    	   			   	
+<c:forEach var="budgetCategoryTypeCodes" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="catCodes">
+	<kra-b:budgetDetailed budgetCategoryTypeCodesKey="${budgetCategoryTypeCodes.key}" budgetCategoryTypeCodesLabel="${budgetCategoryTypeCodes.label}" catCodes="${catCodes.index}"/>		
+</c:forEach>
