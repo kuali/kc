@@ -237,7 +237,7 @@ public class BudgetForm extends ProposalFormBase {
     
     public boolean isUnrecoveredFandAEditFormVisible() {
         BudgetDocument budgetDocument = getBudgetDocument(); 
-        return budgetDocument != null && budgetDocument.isUnrecoveredFandAApplicable() && budgetDocument.isCostSharingAvailable(); 
+        return budgetDocument != null && budgetDocument.isUnrecoveredFandAApplicable() && budgetDocument.isUnrecoveredFandAAvailable(); 
     }
     
     public void setExtraTopButtons(List<ExtraButton> extraTopButtons) {
