@@ -29,7 +29,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.service.UnitService;
+import org.w3c.dom.Element;
 
+import edu.iu.uis.eden.edl.EDLXmlUtils;
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.engine.node.NodeState;
 import edu.iu.uis.eden.engine.node.RouteNode;
@@ -45,6 +47,8 @@ import edu.iu.uis.eden.util.Utilities;
  */
 public class KraHierarchyProvider implements HierarchyProvider {
     private static final Logger LOG = Logger.getLogger(KraHierarchyProvider.class);
+    private static final String DOCUMENT_XML_ELEMENT = "document";
+    private static final String UNIT_XML_ELEMENT = "ownedByUnitNumber";
 
     /**
      * The root stop
@@ -116,30 +120,48 @@ public class KraHierarchyProvider implements HierarchyProvider {
     }
 
     public void init(RouteNodeInstance nodeInstance, RouteContext context) {
-        Collection<Unit> units = getService(UnitService.class).getUnits();
-        for (Unit unit : units) {
-            UnitStop simpleStop=(UnitStop)getStopByIdentifier(unit.getUnitNumber());
-            if (simpleStop == null ) {
-                simpleStop = new UnitStop();
-                simpleStop.id=unit.getUnitNumber();
-                stops.put(simpleStop.id, simpleStop);            
-            }
-            if (StringUtils.isNotBlank(unit.getParentUnitNumber())) {
-                UnitStop parent=(UnitStop)getStopByIdentifier(unit.getParentUnitNumber());
-                if (parent == null) {
-                    parent = new UnitStop();
-                    parent.id=unit.getParentUnitNumber();
-                    parent.children = new ArrayList<UnitStop>();
-                    stops.put(parent.id, parent);
+        String ownedByUnitNumber = null;
+        Unit ownedByUnit = null;
+        
+        Element kualiDocumentXmlMaterializerElement = context.getDocumentContent().getApplicationContent();
+        if(kualiDocumentXmlMaterializerElement != null && kualiDocumentXmlMaterializerElement.hasChildNodes()) {
+                Element documentElement = EDLXmlUtils.getChildElement(kualiDocumentXmlMaterializerElement, DOCUMENT_XML_ELEMENT);
+                if(documentElement != null) {
+                    ownedByUnitNumber = EDLXmlUtils.getChildElementTextValue(documentElement, UNIT_XML_ELEMENT);
                 }
-                parent.children.add(simpleStop);
-                simpleStop.parent=parent;
-            } else {
-                root=simpleStop;
-                simpleStop.parent=null;
-            }
         }
         
+        if(StringUtils.isNotEmpty(ownedByUnitNumber)) {
+            ownedByUnit = getService(UnitService.class).getUnit(ownedByUnitNumber);
+                
+            Collection<Unit> units = getService(UnitService.class).getAllSubUnits(ownedByUnitNumber);
+            for (Unit unit : units) {
+                UnitStop simpleStop=(UnitStop)getStopByIdentifier(unit.getUnitNumber());
+                if (simpleStop == null ) {
+                    simpleStop = new UnitStop();
+                    simpleStop.id=unit.getUnitNumber();
+                    stops.put(simpleStop.id, simpleStop);            
+                }
+                if (StringUtils.isNotBlank(unit.getParentUnitNumber())) {
+                    UnitStop parent=(UnitStop)getStopByIdentifier(unit.getParentUnitNumber());
+                    if (parent == null) {
+                        parent = new UnitStop();
+                        parent.id=unit.getParentUnitNumber();
+                        parent.children = new ArrayList<UnitStop>();
+                        stops.put(parent.id, parent);
+                    }
+                    parent.children.add(simpleStop);
+                    simpleStop.parent=parent;
+                } else {
+                    root=simpleStop;
+                    simpleStop.parent=null;
+                }
+            }
+            
+            if(root == null) {
+                root = (UnitStop) getStopByIdentifier(ownedByUnitNumber);
+            }
+        }
     }
 
 
