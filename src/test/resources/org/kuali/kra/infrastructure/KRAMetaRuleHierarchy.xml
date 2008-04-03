@@ -25,6 +25,7 @@
     </documentTypes>
 
     <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+    	<!-- 
         <rule>
             <name>xqi</name>
             <documentType>KRAMetaRuleHierarchyTest</documentType>
@@ -32,7 +33,7 @@
             <responsibilities>
                 <responsibility><user>xqi</user></responsibility>
             </responsibilities>
-        </rule>
+        </rule> -->
         <rule>
             <name>arh14</name>
             <documentType>KRAMetaRuleHierarchyTest</documentType>
@@ -171,6 +172,7 @@
         </rule>
         
         <!-- the meta-rules -->
+        <!-- 
         <rule>
             <name>hierarchy-000000</name>
             <documentType>KRAMetaRuleHierarchyTest</documentType>
@@ -178,7 +180,7 @@
             <expression type="KRAMeta">
               xqi: true;
             </expression>
-        </rule>
+        </rule> -->
         <rule>
             <name>hierarchy-000001</name>
             <documentType>KRAMetaRuleHierarchyTest</documentType>
