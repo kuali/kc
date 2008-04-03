@@ -39,4 +39,4 @@
            <br>
            <html:image property="methodToCall.updateBudgetPeriodView" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
 	</div>
-</kul:uncollapsable>	
+</kul:uncollapsable>

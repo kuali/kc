@@ -211,15 +211,16 @@
 			</attribute>
 
 			<attribute name="costElement">
-			<label>Cost Element </label>
-			<shortLabel>Cost Element </shortLabel>
-			<maxLength>8</maxLength>
+			<label>Object Code Name </label>
+			<shortLabel>Object Code Name </shortLabel>
+			<maxLength>8</maxLength>						
 			<validationPattern><alphaNumeric /></validationPattern>
+			<required>true</required>
 			<control>
 				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder" />
 			</control>
-			<summary>Cost Element </summary>
-			<description>Cost Element </description>
+			<summary>Object Code Name </summary>
+			<description>Object Code Name </description>
 			</attribute>
 
 			<attribute name="costSharingAmount">
@@ -244,15 +245,16 @@
       		</attributeReference>
 
 			<attribute name="lineItemCost">
-			<label>Line Item Cost </label>
-			<shortLabel>Line Item Cost </shortLabel>
+			<label>Total Base Cost </label>
+			<shortLabel>Total Base Cost </shortLabel>
 			<maxLength>12</maxLength>
 			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
+			<required>true</required>
 			<control>
 				<text size="12" />
 			</control>
-			<summary>Line Item Cost </summary>
-			<description>Line Item Cost </description>
+			<summary>Total Base Cost </summary>
+			<description>Total Base Cost </description>
 			</attribute>
 
 			<attribute name="lineItemDescription">
@@ -311,15 +313,15 @@
       		</attributeReference>
 
 			<attribute name="underrecoveryAmount">
-			<label>Underrecovery Amount </label>
-			<shortLabel>Underrecovery Amount </shortLabel>
+			<label>Unrecovered FandA </label>
+			<shortLabel>Unrecovered FandA </shortLabel>
 			<maxLength>12</maxLength>
 			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
-			<summary>Underrecovery Amount </summary>
-			<description>Underrecovery Amount </description>
+			<summary>Unrecovered FandA </summary>
+			<description>Unrecovered FandA </description>
 			</attribute>
 
 		</attributes>
