@@ -68,7 +68,7 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
                 if (filterCondition(narrative.getNarrativeType(), narrativeType)) {
                     forRemoval.add(narrativeType);
                 } else {
-                    LOG.info("Not removing narrative type " + narrativeType.getDescription());
+                    LOG.debug("Not removing narrative type " + narrativeType.getDescription());
                 }
             }            
         }
