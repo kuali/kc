@@ -66,7 +66,6 @@ public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
     
     private List<KeyLabelPair> buildKeyLabelPairs(List<BudgetPeriod> budgetPeriods) {
         List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
-        keyLabelPairs.add(new KeyLabelPair("0", "View Cumulative Total"));
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             if(budgetPeriod.getBudgetPeriod()!=null){
                 keyLabelPairs.add(new KeyLabelPair(budgetPeriod.getBudgetPeriod(), budgetPeriod.getLabel()));
