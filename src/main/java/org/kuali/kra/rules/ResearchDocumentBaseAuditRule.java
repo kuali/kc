@@ -52,7 +52,7 @@ public class ResearchDocumentBaseAuditRule implements DocumentAuditRule {
                 CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
                 if (customAttributeDocument.isRequired() && StringUtils.isEmpty(customAttribute.getValue())) {
                     valid = false;
-                    String key = "customAttributes." + customAttribute.getGroupName() + "Errors";
+                    String key = "CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors";
                     AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
                     if (auditCluster == null) {
                         List<AuditError> auditErrors = new ArrayList<AuditError>();
@@ -60,7 +60,7 @@ public class ResearchDocumentBaseAuditRule implements DocumentAuditRule {
                         GlobalVariables.getAuditErrorMap().put(key, auditCluster);
                     }
                     List<AuditError> auditErrors = auditCluster.getAuditErrorList();
-                    auditErrors.add(new AuditError("customData." + customAttribute.getName(), RiceKeyConstants.ERROR_REQUIRED, Constants.CUSTOM_ATTRIBUTES_PAGE + "." + customAttribute.getGroupName(), new String[]{customAttribute.getLabel()}));
+                    auditErrors.add(new AuditError("customAttributeValues(id"+customAttributeDocument.getCustomAttributeId()+")", RiceKeyConstants.ERROR_REQUIRED, StringUtils.deleteWhitespace(Constants.CUSTOM_ATTRIBUTES_PAGE + "." + customAttribute.getGroupName()), new String[]{customAttribute.getLabel()}));
                 }
             }
 
