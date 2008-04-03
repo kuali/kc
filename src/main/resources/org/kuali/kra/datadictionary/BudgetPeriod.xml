@@ -183,15 +183,15 @@
 			</attribute>
 
 			<attribute name="totalCostLimit">
-			<label>Total Cost Limit </label>
-			<shortLabel>Total Cost Limit </shortLabel>
+			<label>Period Cost Limit </label>
+			<shortLabel>Period Cost Limit </shortLabel>
 			<maxLength>12</maxLength>
 			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
-			<summary>Total Cost Limit </summary>
-			<description>Total Cost Limit </description>
+			<summary>Period Cost Limit </summary>
+			<description>Period Cost Limit </description>
 			</attribute>
 
 			<attribute name="totalDirectCost">
