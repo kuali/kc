@@ -16,10 +16,12 @@
  */
 package org.kuali.kra.infrastructure;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,6 +47,7 @@ import org.apache.commons.lang.SystemUtils;
 import org.apache.ojb.broker.PBKey;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.StatementCallback;
@@ -558,6 +561,29 @@ public class TestUtilities {
         customAttribute.setLookupReturn(lookupReturn);
 
         return customAttribute;
+    }
+    
+    public static String getContentsAsString(String fileLoc) throws Exception {
+        DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
+        String data = "";
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(resourceLoader.getResource(fileLoc).getInputStream()));
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                data += line + "\r\n ";
+            }
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (Exception e) {
+                    LOG.error(e);
+                }
+            }
+
+        }
+        return data;
     }
 
 }
