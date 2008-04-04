@@ -19,6 +19,11 @@ import org.kuali.core.web.format.BigDecimalFormatter;
 import org.kuali.kra.budget.RateDecimal;
 
 public class RateDecimalFormatter extends BigDecimalFormatter {
+    
+    /**
+     * Overidden to create a RateDecimal from a String
+     * @see org.kuali.core.web.format.BigDecimalFormatter#convertToObject(java.lang.String)
+     */
     @Override
     protected Object convertToObject(String target) {
         return new RateDecimal(target);
