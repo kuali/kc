@@ -228,11 +228,19 @@ public class BudgetForm extends ProposalFormBase {
         return extraTopButtons;
     }
 
+    /**
+     * Determines if CostSharing edit form should be visible
+     * @return
+     */
     public boolean isCostSharingEditFormVisible() {
         BudgetDocument budgetDocument = getBudgetDocument();        
         return budgetDocument != null && budgetDocument.isCostSharingApplicable() && budgetDocument.isCostSharingAvailable(); 
     }
     
+    /**
+     * Determines if UnrecoveredFandAEdit edit form should be visible
+     * @return
+     */
     public boolean isUnrecoveredFandAEditFormVisible() {
         BudgetDocument budgetDocument = getBudgetDocument(); 
         return budgetDocument != null && budgetDocument.isUnrecoveredFandAApplicable() && budgetDocument.isUnrecoveredFandAAvailable(); 
@@ -254,6 +262,10 @@ public class BudgetForm extends ProposalFormBase {
         return newBudgetRolodexes;
     }
 
+    /**
+     * Get the new BudgetProjectIncome
+     * @return
+     */
     public BudgetProjectIncome getNewBudgetProjectIncome() {
         return newBudgetProjectIncome;
     }
@@ -266,6 +278,10 @@ public class BudgetForm extends ProposalFormBase {
         this.newBudgetPeriodNumber = newBudgetPeriodNo;
     }
 
+    /**
+     * Set the new BudgetProjectIncome
+     * @param newBudgetProjectIncome
+     */
     public void setNewBudgetProjectIncome(BudgetProjectIncome newBudgetProjectIncome) {
         this.newBudgetProjectIncome = newBudgetProjectIncome;
     }
@@ -291,10 +307,18 @@ public class BudgetForm extends ProposalFormBase {
         this.getDocumentActionFlags().setCanReload(false);
     }
 
+    /**
+     * Get the new BudgetCostShare
+     * @return
+     */
     public BudgetCostShare getNewBudgetCostShare() {
         return newBudgetCostShare;
     }
 
+    /**
+     * Set the new BudgetCostShare
+     * @param newBudgetCostShare
+     */
     public void setNewBudgetCostShare(BudgetCostShare newBudgetCostShare) {
         this.newBudgetCostShare = newBudgetCostShare;
     }
@@ -310,10 +334,18 @@ public class BudgetForm extends ProposalFormBase {
         return this.getDocumentActionFlags().getCanSave() ? "save" : "reload";
     }
 
+    /**
+     * Get the new BudgetUnrecoveredFandA
+     * @return
+     */
     public BudgetUnrecoveredFandA getNewBudgetUnrecoveredFandA() {
         return newBudgetUnrecoveredFandA;
     }
 
+    /**
+     * Set the new BudgetUnrecoveredFandA
+     * @param newBudgetUnrecoveredFandA
+     */
     public void setNewBudgetUnrecoveredFandA(BudgetUnrecoveredFandA newBudgetUnrecoveredFandA) {
         this.newBudgetUnrecoveredFandA = newBudgetUnrecoveredFandA;
     }
