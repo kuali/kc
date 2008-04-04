@@ -194,6 +194,7 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         Narrative newNarrative = new Narrative();
         newNarrative.setNarrativeTypeCode(narrativeTypes.get(narrativeTypes.size()-1).getNarrativeTypeCode());
         newNarrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
+        
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
         assertFalse(rule.processAddNarrativeBusinessRules(addNarrativeEvent));
         
@@ -202,5 +203,45 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), KeyConstants.ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED);
+    }
+    
+    /**
+     * Test adding a narrative without description for a narrativetype of Other causes error
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testEmptyDescriptionForNarrativeTypeOther() throws Exception {
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+        assertNotNull(narrativeTypes);
+        assertNotNull(narrativeStatuses);
+        assertTrue(narrativeTypes.size()>1);
+        assertTrue(narrativeStatuses.size()>1);
+        
+        Narrative newNarrative = new Narrative();
+        newNarrative.setNarrativeTypeCode(findNarrativeTypeForDescription(narrativeTypes, "Other").getNarrativeTypeCode());
+        newNarrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
+        newNarrative.setFileName("AttachmentFile.txt");
+        AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
+        assertFalse(rule.processAddNarrativeBusinessRules(addNarrativeEvent));
+        
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(DOCUMENT_NARRATIVES);
+        assertTrue(errors.size() == 1);
+        
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertEquals(message.getErrorKey(), KeyConstants.ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED);
+    }
+
+    private NarrativeType findNarrativeTypeForDescription(List<NarrativeType> narrativeTypes, String description) {
+        NarrativeType foundNarrativeType = null;
+        
+        for(NarrativeType narrativeType: narrativeTypes) {
+            if(narrativeType.getDescription().equalsIgnoreCase(description)) {
+                foundNarrativeType = narrativeType;
+                break;
+            }
+        }
+        
+        return foundNarrativeType;
     }
 }

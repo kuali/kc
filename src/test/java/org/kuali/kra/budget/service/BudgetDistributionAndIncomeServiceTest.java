@@ -31,7 +31,7 @@ import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl;
 
 public class BudgetDistributionAndIncomeServiceTest extends BudgetDistributionAndIncomeTest {
-    private BudgetDistrubutionAndIncomeService bdiService;
+    private BudgetDistributionAndIncomeService bdiService;
     
     @Before
     public void setUp() throws Exception {
