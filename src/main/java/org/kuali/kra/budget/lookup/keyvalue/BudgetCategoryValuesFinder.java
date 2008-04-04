@@ -53,7 +53,7 @@ public class BudgetCategoryValuesFinder extends KeyValuesBase {
         KualiForm form = GlobalVariables.getKualiForm();
         BudgetForm budgetForm = (BudgetForm)form;
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        Collection budgetCategories = keyValuesService.findAll(BudgetCategory.class);//,(Map)budgetForm.getBudgetDocument().getBudgetCategoryTypeCodes().get(budgetForm.getTempBudgetCategoryType()));
+        Collection budgetCategories = keyValuesService.findAll(BudgetCategory.class);
         
         for (Iterator iter = budgetCategories.iterator(); iter.hasNext();) {
             BudgetCategory budgetCategory = (BudgetCategory) iter.next();

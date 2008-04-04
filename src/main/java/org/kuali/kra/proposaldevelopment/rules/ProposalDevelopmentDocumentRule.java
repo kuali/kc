@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
@@ -27,7 +26,6 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
@@ -53,7 +51,6 @@ import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
 import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
-import org.kuali.kra.proposaldevelopment.rule.SavePersonnelAttachmentRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddNarrativeEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
@@ -64,12 +61,10 @@ import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.service.SystemParameterRetrievalService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.DocumentValidationService;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.KraCustomAttributeRule;
-import org.kuali.RiceKeyConstants;
+import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
  * Main Business Rule class for <code>{@link ProposalDevelopmentDocument}</code>. Responsible for delegating rules to independent rule classes.
@@ -79,7 +74,7 @@ import org.kuali.RiceKeyConstants;
  * @see org.kuali.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalLocationRule,AddProposalSpecialReviewRule , DocumentAuditRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule  {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalLocationRule,AddProposalSpecialReviewRule , AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule  {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -109,7 +104,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         GlobalVariables.getErrorMap().addToErrorPath("document");
         
-        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), true, true);
+        // KRACOEUS-641: Changed CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME to false to prevent duplicate error messages
+        final boolean VALIDATION_REQUIRED = true;
+        final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
+        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
 
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         valid &= processOrganizationLocationBusinessRule(proposalDevelopmentDocument);
@@ -416,6 +414,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      */
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
+        
+        retval &= super.processRunAuditBusinessRules(document);
         
         retval &= new ProposalDevelopmentSponsorProgramInformationAuditRule().processRunAuditBusinessRules(document);
         

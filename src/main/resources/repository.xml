@@ -1561,9 +1561,9 @@
 		<field-descriptor name="agencyTrackingId" column="AGENCY_TRACKING_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="ggTrackingId" column="GG_TRACKING_ID" jdbc-type="VARCHAR"/>
-		<field-descriptor name="lastModifiedDate" column="LAST_MODIFIED_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="lastNotifiedDate" column="LAST_NOTIFIED_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="receivedDate" column="RECEIVED_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="lastModifiedDate" column="LAST_MODIFIED_DATE" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="lastNotifiedDate" column="LAST_NOTIFIED_DATE" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="receivedDate" column="RECEIVED_DATE" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -1711,11 +1711,11 @@
 			<foreignkey field-ref="proposalNumber"/> 
 			<foreignkey field-ref="budgetVersionNumber"/> 
 		</reference-descriptor>-->
-		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.bo.RateClass" auto-retrieve="flase" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.bo.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.bo.RateType" auto-retrieve="flase" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.bo.RateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
 		</reference-descriptor>
@@ -2175,34 +2175,38 @@
 			<foreignkey field-ref="versionNumber"/> 
 		</reference-descriptor> -->
 	</class-descriptor>
+	
+	
+	
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetPersonnelDetails" table="BUDGET_PERSONNEL_DETAILS">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="budgetVersionNumber" column="VERSION_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="lineItemNumber" column="LINE_ITEM_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="personNumber" column="PERSON_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
 		<field-descriptor name="personSequenceNumber" column="PERSON_SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
-		<field-descriptor name="applyInRateFlag" column="APPLY_IN_RATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="budgetJustification" column="BUDGET_JUSTIFICATION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="costSharingPercent" column="COST_SHARING_PERCENT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="jobCode" column="JOB_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="lineItemDescription" column="LINE_ITEM_DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="onOffCampusFlag" column="ON_OFF_CAMPUS_FLAG" jdbc-type="CHAR" primarykey="true" conversion="org.kuali.kra.infrastructure.OjbOnOffCampusFlagFieldConversion"/>
-		<field-descriptor name="percentCharged" column="PERCENT_CHARGED" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="percentEffort" column="PERCENT_EFFORT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-		<field-descriptor name="periodType" column="PERIOD_TYPE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR"/>
-		<field-descriptor name="salaryRequested" column="SALARY_REQUESTED" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
+		<field-descriptor name="jobCode" column="JOB_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE"/>
-		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<collection-descriptor name="budgetPersonnelCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<field-descriptor name="applyInRateFlag" column="APPLY_IN_RATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+ 		<field-descriptor name="budgetJustification" column="BUDGET_JUSTIFICATION" jdbc-type="CLOB"/>
+		<field-descriptor name="costSharingAmount" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="costSharingPercent" column="COST_SHARING_PERCENT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="lineItemDescription" column="LINE_ITEM_DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="percentCharged" column="PERCENT_CHARGED" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="percentEffort" column="PERCENT_EFFORT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="periodTypeCode" column="PERIOD_TYPE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="salaryRequested" column="SALARY_REQUESTED" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
+		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		 
+	 	<collection-descriptor name="budgetPersonnelCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="budgetVersionNumber"/>
 			<inverse-foreignkey field-ref="budgetPeriod"/>

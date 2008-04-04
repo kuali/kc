@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -100,14 +101,14 @@ public class ResearchDocumentBaseAuditRuleTest extends KraTestBase {
 
         for (String key: requiredFields.keySet()) {
             CustomAttribute customAttribute = requiredFields.get(key);
-            AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("customAttributes." + customAttribute.getGroupName() + "Errors");
+            AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get("CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors");
 
             assertEquals(1, auditCluster.getSize());
             assertEquals("Custom Data: " + customAttribute.getGroupName(), auditCluster.getLabel());
             assertEquals("Errors", auditCluster.getCategory());
             AuditError auditError = (AuditError) auditCluster.getAuditErrorList().get(0);
-            assertEquals("customData." + customAttribute.getName(), auditError.getErrorKey());
-            assertEquals("customData." + customAttribute.getGroupName(), auditError.getLink());
+            assertEquals("customAttributeValues(id"+customAttribute.getId()+")", auditError.getErrorKey());
+            assertEquals("customData." + StringUtils.deleteWhitespace(customAttribute.getGroupName()), auditError.getLink());
             assertEquals(customAttribute.getLabel(), auditError.getParams()[0]);
             assertEquals(RiceKeyConstants.ERROR_REQUIRED, auditError.getMessageKey());
         }

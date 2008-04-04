@@ -133,4 +133,7 @@ public class KeyConstants {
     
     //Budget Expense
     public static final String ERROR_BUDGET_PERIOD_NOT_SELECTED = "error.viewBudgetPeriod.notSelected";
+    public static final String ERROR_LINEITEM_STARTDATE_BEFORE_PERIOD_STARTDATE = "error.lineItemStartDate.before.periodStartDate";
+    public static final String ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE = "error.lineItemEndDate.after.periodEndDate";
+    public static final String ERROR_COST_ELEMENT_NOT_SELECTED = "error.costElement.notSelected";
 }

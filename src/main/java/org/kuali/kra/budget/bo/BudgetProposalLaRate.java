@@ -49,7 +49,7 @@ public class BudgetProposalLaRate extends InstituteLaRate {
 	}
 
 	public BudgetDecimal getApplicableRate() {
-		return applicableRate;
+		return BudgetDecimal.returnZeroIfNull(applicableRate);
 	}
 
 	public void setApplicableRate(BudgetDecimal applicableRate) {
@@ -67,7 +67,7 @@ public class BudgetProposalLaRate extends InstituteLaRate {
 	}
 
     public BudgetDecimal getOldApplicableRate() {
-        return oldApplicableRate;
+        return BudgetDecimal.returnZeroIfNull(oldApplicableRate);
     }
 
     public void setOldApplicableRate(BudgetDecimal oldApplicableRate) {

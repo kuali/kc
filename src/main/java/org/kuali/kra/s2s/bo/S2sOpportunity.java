@@ -38,7 +38,7 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 	private String schemaUrl;
 	private List<S2sOppForms> s2sOppForms;
 	private S2sSubmissionType s2sSubmissionType;
-	private S2sRevisionType s2sRevisionType; 
+	private S2sRevisionType s2sRevisionType;
 	
     public String getProposalNumber() {
 		return proposalNumber;
@@ -187,5 +187,5 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 
     public void setS2sSubmissionType(S2sSubmissionType submissionType) {
         s2sSubmissionType = submissionType;
-    }    
+    }
 }

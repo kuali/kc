@@ -83,11 +83,19 @@ public class SalaryCalculator {
      */
     private QueryList<BudgetProposalRate> filterInflationRates() {
         CostElement costElement = personnelLineItem.getCostElementBO();
+        if(costElement==null){
+            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            Map<String,String> pkMap = new HashMap<String,String>();
+            pkMap.put("costElement", personnelLineItem.getCostElement());
+            costElement = (CostElement)businessObjectService.findByPrimaryKey(CostElement.class, pkMap);
+        }
         List<ValidCeRateType> costElementRates = costElement.getValidCeRateTypes();
-        if (costElementRates.isEmpty()) {
+        if (costElementRates==null || costElementRates.isEmpty()) {
             costElement.refreshReferenceObject("validCeRateTypes");
+            costElementRates = costElement.getValidCeRateTypes();
         }
         ValidCeRateType inflationRateType = null;
+        if(costElementRates!=null)
         for (ValidCeRateType validCeRateType : costElementRates) {
             if (validCeRateType.getRateClassType().equals(RateClassType.INFLATION.getRateClassType())) {
                 inflationRateType = validCeRateType;

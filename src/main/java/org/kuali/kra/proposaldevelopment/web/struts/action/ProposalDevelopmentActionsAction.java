@@ -307,8 +307,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.setAuditActivated(true);
 
-        KraServiceLocator.getService(KualiRuleService.class).applyRules(
-                new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
+        // TODO : this rull will be called again in proposaldevelopmentaction.execute
+        // should we comment out here
+        //KraServiceLocator.getService(KualiRuleService.class).applyRules(
+        //        new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
        
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
