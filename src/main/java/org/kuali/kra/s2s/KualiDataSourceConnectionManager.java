@@ -26,7 +26,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import edu.mit.coeus.utils.dbengine.DBConnection;
 
 /**
- * @author geo
+ * @author kualidev@oncourse.iu.edu
  *
  */
 public class KualiDataSourceConnectionManager implements DBConnection {

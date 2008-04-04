@@ -23,6 +23,8 @@ import org.kuali.kra.budget.document.BudgetDocument;
  * This class...
  */
 public interface BudgetPersonnelBudgetService {
-    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudegtPersonnelDetails);
+    public void addBudgetPersonnelDetails(BudgetDocument budgetDocument,int selectedBudgetLineItem, int selectedBudgetLineItemIndex, BudgetPersonnelDetails newBudegtPersonnelDetails);
     public void deleteBudgetPersonnelDetails(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudegtPersonnelDetails);
+    public void calculateBudgetPersonnelBudget(BudgetDocument budgetDocument, BudgetLineItem selectedBudgetLineItem,
+            BudgetPersonnelDetails budgetPersonnelDetails);
 }
