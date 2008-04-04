@@ -70,9 +70,9 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      * @see org.kuali.kra.budget.service.BudgetCalculationService#calculateBudgetLineItem(org.kuali.kra.budget.bo.BudgetLineItem)
      */
     public void calculateBudgetLineItem(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem){
-//        if(budgetLineItem instanceof BudgetLineItem){
-            BudgetLineItem budgetLineItemToCalc = (BudgetLineItem)budgetLineItem;
-            List<BudgetPersonnelDetails> budgetPersonnelDetList = budgetLineItemToCalc.getBudgetPersonnelDetailsList();
+        BudgetLineItem budgetLineItemToCalc = (BudgetLineItem)budgetLineItem;
+        List<BudgetPersonnelDetails> budgetPersonnelDetList = budgetLineItemToCalc.getBudgetPersonnelDetailsList();
+        if(budgetPersonnelDetList!=null && !budgetPersonnelDetList.isEmpty()){
             BudgetDecimal personnelLineItemTotal  = BudgetDecimal.ZERO;
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetList) {
                 copyLineItemToPersonnelDetails(budgetLineItemToCalc, budgetPersonnelDetails);
@@ -80,10 +80,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 personnelLineItemTotal = personnelLineItemTotal.add(budgetPersonnelDetails.getLineItemCost());
             }
             budgetLineItem.setLineItemCost(personnelLineItemTotal);
-            new LineItemCalculator(budgetDocument,(BudgetLineItem)budgetLineItem).calculate();
-//        }else if(budgetLineItem instanceof BudgetPersonnelDetails){
-//            new PersonnelLineItemCalculator(budgetDocument,budgetLineItem).calculate();
-//        }
+        }
+        new LineItemCalculator(budgetDocument,(BudgetLineItem)budgetLineItem).calculate();
     }
     public void calculateAndSyncBudgetLineItem(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem){
         new LineItemCalculator(budgetDocument,budgetLineItem).calculate();
