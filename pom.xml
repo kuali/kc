@@ -245,7 +245,6 @@
     					<artifactId>maven-resources-plugin</artifactId>
     					<version>2.2</version>
 					</plugin>
-					<!--  
 					<plugin>
 						<artifactId>maven-clover-plugin</artifactId>
 						<executions>
@@ -265,7 +264,6 @@
 							<licenseLocation>src/test/config/clover.license</licenseLocation>
 						</configuration>
 					</plugin>
-					-->
 				</plugins>
 			</build>
 			<dependencies>
