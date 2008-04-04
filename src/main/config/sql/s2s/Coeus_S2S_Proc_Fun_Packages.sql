@@ -1,6 +1,7 @@
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/PR_RESULT_TABLE.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/RESULT_SETS.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/FN_PARSE_STRING.sql
+@/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/DW_GET_CUR_SYSDATE.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/dw_get_user.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/GET_USERS_FOR_UNIT.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/GET_PARAMETER_VALUE.sql
