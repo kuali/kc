@@ -31,7 +31,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     private Boolean nonEmployeeFlag;
 	private BudgetDecimal percentCharged=BudgetDecimal.ZERO;
 	private BudgetDecimal percentEffort=BudgetDecimal.ZERO;
-	private String periodType;
+	private String periodTypeCode;
 	private String personId;
 	private BudgetDecimal salaryRequested=BudgetDecimal.ZERO;
 	private Integer sequenceNumber;
@@ -82,12 +82,12 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 		this.percentEffort = percentEffort;
 	}
 
-	public String getPeriodType() {
-		return periodType;
+	public String getPeriodTypeCode() {
+		return periodTypeCode;
 	}
 
-	public void setPeriodType(String periodType) {
-		this.periodType = periodType;
+	public void setPeriodTypeCode(String periodTypeCode) {
+		this.periodTypeCode = periodTypeCode;
 	}
 
 	public String getPersonId() {
@@ -120,7 +120,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 		hashMap.put("jobCode", getJobCode());
 		hashMap.put("percentCharged", getPercentCharged());
 		hashMap.put("percentEffort", getPercentEffort());
-		hashMap.put("periodType", getPeriodType());
+		hashMap.put("periodType", getPeriodTypeCode());
 		hashMap.put("personId", getPersonId());
 		hashMap.put("salaryRequested", getSalaryRequested());
 		hashMap.put("sequenceNumber", getSequenceNumber());

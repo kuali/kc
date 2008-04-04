@@ -37,8 +37,8 @@ public class BreakUpInterval{
     private QueryList<BudgetProposalLaRate> breakUpIntervalLaRates; 
     private QueryList<RateAndCost> breakupCalculatedAmounts;  
     private FormulaMaker formulaMaker; 
-    private BudgetDecimal applicableAmt; 
-    private BudgetDecimal applicableAmtCostSharing; 
+    private BudgetDecimal applicableAmt = BudgetDecimal.ZERO; 
+    private BudgetDecimal applicableAmtCostSharing = BudgetDecimal.ZERO; 
     private BudgetProposalRate uRRatesBean;
     private boolean laWithEBVACalculated = false;
 

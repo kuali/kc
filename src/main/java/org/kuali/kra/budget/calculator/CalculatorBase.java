@@ -44,6 +44,7 @@ import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.calculator.query.QueryEngine;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.rice.KNSServiceLocator;
@@ -93,6 +94,10 @@ public abstract class CalculatorBase {
      * @return
      */
     public QueryList filterRates(List rates) {
+//        if(rates.isEmpty()){
+//            BudgetRatesService budgetRateService = KraServiceLocator.getService(BudgetRatesService.class);
+//            budgetRateService.resetAllBudgetRates(budgetDocument);
+//        }
         if (!rates.isEmpty() && rates.get(0) instanceof BudgetProposalRate) {
             return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getActivityTypeCode());
         }
@@ -632,13 +637,6 @@ public abstract class CalculatorBase {
     protected final void setCalculatedAmounts(BudgetDocument budgetDocument, BudgetLineItemBase budgetLineItem) {
         QueryEngine queryEngine = new QueryEngine();
         BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
-        Class calculatedAmountClazz;
-        if (budgetLineItem instanceof BudgetPersonnelDetails) {
-            calculatedAmountClazz = BudgetPersonnelCalculatedAmount.class;
-        }
-        else {
-            calculatedAmountClazz = BudgetLineItemCalculatedAmount.class;
-        }
         Map<String, String> costElementQMap = new HashMap<String, String>();
         costElementQMap.put("costElement", budgetLineItem.getCostElement());
         CostElement costElementBO = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, costElementQMap);

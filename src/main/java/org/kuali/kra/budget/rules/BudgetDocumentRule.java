@@ -148,18 +148,23 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
         int i=0;
+        int j=0;
         for(BudgetPeriod budgetPeriod: budgetPeriods){
-            i=0;
+            j=0;
             budgetLineItems = budgetPeriod.getBudgetLineItems();
             for(BudgetLineItem budgetLineItem: budgetLineItems){
-                i++;
-                if(budgetLineItem.getStartDate().before(budgetPeriod.getStartDate())){
+                                
+                if(budgetLineItem!=null && budgetLineItem.getStartDate()!=null && budgetLineItem.getStartDate().before(budgetPeriod.getStartDate())){
+                    errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].startDate",KeyConstants.ERROR_LINEITEM_STARTDATE_BEFORE_PERIOD_STARTDATE);
                     //errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
                 }
-                if(budgetLineItem.getEndDate().after(budgetPeriod.getEndDate())){
+                if(budgetLineItem!=null && budgetLineItem.getEndDate()!=null && budgetLineItem.getEndDate().after(budgetPeriod.getEndDate())){
+                    errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].endDate",KeyConstants.ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE);
                     //errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
                 }
+                j++;
             }
+            i++;
         }
         return valid;
     }    

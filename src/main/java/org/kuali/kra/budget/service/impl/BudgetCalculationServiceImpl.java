@@ -54,16 +54,34 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         }
         syncCostsToBudgetDocument(budgetDocument);
     }
+    private void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
+        budgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
+        budgetPersonnelDetails.setBudgetVersionNumber(budgetLineItem.getBudgetVersionNumber());
+        budgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
+        budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
+        budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
+        budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
+    }
 
+    public void calculateBudgetLineItem(BudgetDocument budgetDocument,BudgetPersonnelDetails budgetLineItem){
+        new PersonnelLineItemCalculator(budgetDocument,budgetLineItem).calculate();
+    }
     /**
      * @see org.kuali.kra.budget.service.BudgetCalculationService#calculateBudgetLineItem(org.kuali.kra.budget.bo.BudgetLineItem)
      */
-    public void calculateBudgetLineItem(BudgetDocument budgetDocument,BudgetLineItemBase budgetLineItem){
-        if(budgetLineItem instanceof BudgetLineItem){
-            new LineItemCalculator(budgetDocument,(BudgetLineItem)budgetLineItem).calculate();
-        }else if(budgetLineItem instanceof BudgetPersonnelDetails){
-            new PersonnelLineItemCalculator(budgetDocument,budgetLineItem).calculate();
+    public void calculateBudgetLineItem(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem){
+        BudgetLineItem budgetLineItemToCalc = (BudgetLineItem)budgetLineItem;
+        List<BudgetPersonnelDetails> budgetPersonnelDetList = budgetLineItemToCalc.getBudgetPersonnelDetailsList();
+        if(budgetPersonnelDetList!=null && !budgetPersonnelDetList.isEmpty()){
+            BudgetDecimal personnelLineItemTotal  = BudgetDecimal.ZERO;
+            for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetList) {
+                copyLineItemToPersonnelDetails(budgetLineItemToCalc, budgetPersonnelDetails);
+                new PersonnelLineItemCalculator(budgetDocument,budgetPersonnelDetails).calculate();
+                personnelLineItemTotal = personnelLineItemTotal.add(budgetPersonnelDetails.getLineItemCost());
+            }
+            budgetLineItem.setLineItemCost(personnelLineItemTotal);
         }
+        new LineItemCalculator(budgetDocument,(BudgetLineItem)budgetLineItem).calculate();
     }
     public void calculateAndSyncBudgetLineItem(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem){
         new LineItemCalculator(budgetDocument,budgetLineItem).calculate();
@@ -118,9 +136,9 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             budgetPeriod.setUnderrecoveryAmount(underrecoveryAmount);
             budgetPeriod.setCostSharingAmount(costSharingAmount);
             totalDirectCost = totalDirectCost.add(directCost);
-            totalIndirectCost = totalIndirectCost.add(totalIndirectCost);
-            totalCost = totalCost.add(totalCost);
-            totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(totalUnderrecoveryAmount);
+            totalIndirectCost = totalIndirectCost.add(indirectCost);
+            totalCost = totalCost.add(directCost.add(indirectCost));
+            totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(underrecoveryAmount);
             totalCostSharingAmount = totalCostSharingAmount.add(costSharingAmount);
         }
         budgetDocument.setTotalDirectCost(totalDirectCost);
