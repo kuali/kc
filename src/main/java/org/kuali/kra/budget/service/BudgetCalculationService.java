@@ -53,7 +53,16 @@ public interface BudgetCalculationService {
      * @param budgetLineItem
      * @throws BudgetException
      */
-    public void calculateBudgetLineItem(BudgetDocument budgetDocument,BudgetLineItemBase budgetLineItem);
+    public void calculateBudgetLineItem(BudgetDocument budgetDocument,BudgetPersonnelDetails budgetPersonnelDetails);
+    /**
+     * 
+     * This method for calculating non-personnel budget line item. This calculates all calculated amounts
+     * and sum it up to cost of the the line item. It populates the appropriate values to session as well.
+     * (BudgetLineItemCalculatedAmount, BudgetLineItem) 
+     * @param budgetLineItem
+     * @throws BudgetException
+     */
+    public void calculateBudgetLineItem(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem);
     /**
      * 
      * This method is for calculating calculated amounts for each cost element. It looks at all

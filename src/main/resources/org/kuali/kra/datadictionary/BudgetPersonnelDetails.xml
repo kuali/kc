@@ -39,7 +39,7 @@
 				<field attributeName="onOffCampusFlag"/>
 				<field attributeName="percentCharged"/>
 				<field attributeName="percentEffort"/>
-				<field attributeName="periodType"/>
+				<field attributeName="periodTypeCode"/>
 				<field attributeName="personId"/>
 				<field attributeName="salaryRequested"/>
 				<field attributeName="sequenceNumber"/>
@@ -83,7 +83,7 @@
 				<lookupField attributeName="onOffCampusFlag" required="false"/>
 				<lookupField attributeName="percentCharged" required="false"/>
 				<lookupField attributeName="percentEffort" required="false"/>
-				<lookupField attributeName="periodType" required="false"/>
+				<lookupField attributeName="periodTypeCode" required="false"/>
 				<lookupField attributeName="personId" required="false"/>
 				<lookupField attributeName="salaryRequested" required="false"/>
 				<lookupField attributeName="sequenceNumber" required="false"/>
@@ -108,7 +108,7 @@
 				<field attributeName="onOffCampusFlag" forceInquiry="false"/>
 				<field attributeName="percentCharged" forceInquiry="false"/>
 				<field attributeName="percentEffort" forceInquiry="false"/>
-				<field attributeName="periodType" forceInquiry="false"/>
+				<field attributeName="periodTypeCode" forceInquiry="false"/>
 				<field attributeName="personId" forceInquiry="false"/>
 				<field attributeName="salaryRequested" forceInquiry="false"/>
 				<field attributeName="sequenceNumber" forceInquiry="false"/>
@@ -300,7 +300,7 @@
 			<description>Percent Effort </description>
 			</attribute>
 
-			<attribute name="periodType">
+			<attribute name="periodTypeCode">
 			<label>Period Type </label>
 			<shortLabel>Period Type </shortLabel>
 			<maxLength>3</maxLength>

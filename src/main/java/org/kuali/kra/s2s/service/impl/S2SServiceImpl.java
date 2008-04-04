@@ -35,6 +35,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
@@ -55,7 +56,8 @@ import edu.mit.coeus.s2s.bean.S2SSubmissionDataTxnBean;
 import edu.mit.coeus.s2s.bean.SubmissionDetailInfoBean;
 import edu.mit.coeus.s2s.validator.OpportunitySchemaParser;
 import edu.mit.coeus.s2s.validator.S2SValidationException;
-import edu.mit.coeus.user.bean.UserMaintDataTxnBean;
+import edu.mit.coeus.s2s.validator.S2SValidationException.ErrorBean;
+//import edu.mit.coeus.user.bean.UserMaintDataTxnBean;
 import edu.mit.coeus.utils.CoeusFunctions;
 import edu.mit.coeus.utils.CoeusProperties;
 import edu.mit.coeus.utils.CoeusPropertyKeys;
@@ -70,7 +72,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
     private S2SSubmissionDataTxnBean s2sSubmissionTxnBean;
     private CoeusMessageResourcesBean coeusMessageResourcesBean;
     private String loggedinUser;
-    private UserMaintDataTxnBean userTxn;
+//    private UserMaintDataTxnBean userTxn;
     private String reportFolder;
     private String debugMode;
     private String reportPath;
@@ -80,7 +82,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         s2sSubmissionTxnBean = new S2SSubmissionDataTxnBean();
         coeusMessageResourcesBean = new CoeusMessageResourcesBean();
 //        loggedinUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
-        userTxn = new UserMaintDataTxnBean();
+//        userTxn = new UserMaintDataTxnBean();
         try {
             reportFolder = CoeusProperties.getProperty(CoeusPropertyKeys.REPORT_GENERATED_PATH, "Reports");
             debugMode = CoeusProperties.getProperty(CoeusPropertyKeys.GENERATE_XML_FOR_DEBUGGING);
@@ -107,7 +109,18 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         return false;
     }
     private S2SHeader getS2SHeader(String proposalNumber){
-        return null;
+        Map<String,String> pkMap = new HashMap();
+        pkMap.put("proposalNumber", proposalNumber);
+        ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument)businessObjectService.findByPrimaryKey(ProposalDevelopmentDocument.class, pkMap);
+        S2SHeader header = new S2SHeader();
+        header.setSubmissionTitle(proposalNumber);
+        header.setCfdaNumber(pd.getCfdaNumber());
+        header.setAgency(pd.getSponsorCode());
+        header.setOpportunityId(pd.getProgramAnnouncementNumber());
+        HashMap<String,String> streamParams = new HashMap();
+        streamParams.put("PROPOSAL_NUMBER", proposalNumber);
+        header.setStreamParams(streamParams);
+        return header;
     }
     /**
      * @see org.kuali.kra.s2s.service.S2SService#validateApplication(edu.mit.coeus.s2s.bean.S2SHeader)
@@ -119,9 +132,13 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         subEngine.setLogDir(reportPath);
         try {
             subEngine.validateData(header);
-        }
-        catch (S2SValidationException e) {
-            LOG.error(e.getMessage(), e);
+        }catch (S2SValidationException e) {
+            ArrayList<ErrorBean> errors = e.getMessages(S2SValidationException.ERROR);
+            if(errors!=null)
+            for (ErrorBean error : errors) {
+                LOG.error(error.getMsg());
+            }
+//            LOG.error(e.getMessage(), e);
             return false;
         }
         catch (CoeusException e) {
@@ -294,10 +311,10 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         S2SHeader header = getS2SHeader(proposalNumber);
         Map<String,Boolean> rightFlags = new HashMap<String,Boolean>();
         try {
-            rightFlags.put(SUBMIT_TO_SPONSOR, new Boolean(userTxn.getUserHasOSPRight(loggedinUser, SUBMIT_TO_SPONSOR)));
+//            rightFlags.put(SUBMIT_TO_SPONSOR, new Boolean(userTxn.getUserHasOSPRight(loggedinUser, SUBMIT_TO_SPONSOR)));
             rightFlags.put(IS_READY_TO_SUBMIT, new Boolean(s2sSubmissionTxnBean.isProposalReadyForS2S(header.getSubmissionTitle())));
             rightFlags.put(IS_ATTR_MATCH, new Boolean(s2sSubmissionTxnBean.isS2SAttrMatch(header.getSubmissionTitle())));
-            rightFlags.put(ALTER_PROPOSAL_DATA, new Boolean(userTxn.getUserHasOSPRight(loggedinUser, ALTER_PROPOSAL_DATA)));
+//            rightFlags.put(ALTER_PROPOSAL_DATA, new Boolean(userTxn.getUserHasOSPRight(loggedinUser, ALTER_PROPOSAL_DATA)));
             return rightFlags;
         }
         catch (DBException e) {
@@ -393,11 +410,11 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         }
         Map rightFlags = new HashMap();
         try {
-            rightFlags.put(SUBMIT_TO_SPONSOR, new Boolean(userTxn.getUserHasOSPRight(loggedinUser, SUBMIT_TO_SPONSOR)));
+//            rightFlags.put(SUBMIT_TO_SPONSOR, new Boolean(userTxn.getUserHasOSPRight(loggedinUser, SUBMIT_TO_SPONSOR)));
             rightFlags
                     .put(IS_READY_TO_SUBMIT, new Boolean(s2sSubmissionTxnBean.isProposalReadyForS2S(header.getSubmissionTitle())));
             rightFlags.put(IS_ATTR_MATCH, new Boolean(s2sSubmissionTxnBean.isS2SAttrMatch(header.getSubmissionTitle())));
-            rightFlags.put(ALTER_PROPOSAL_DATA, new Boolean(userTxn.getUserHasOSPRight(loggedinUser, ALTER_PROPOSAL_DATA)));
+//            rightFlags.put(ALTER_PROPOSAL_DATA, new Boolean(userTxn.getUserHasOSPRight(loggedinUser, ALTER_PROPOSAL_DATA)));
             s2sDetails.add(rightFlags);
             // modification for new columns in OSP$S2S_OPPORTUNITY, S2S_SUBMISSION_TYPE_CODE, REVISION_CODE,
             // REVISION_OTHER_DESCRIPTION - START
