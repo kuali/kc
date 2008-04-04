@@ -177,5 +177,6 @@ public interface Constants {
 
     public static final String MAPPING_PERSONNEL_BUDGET = "personnelBudget";
     public static final String BUDGET_PERSON_LINE_NUMBER = "budget.budgetPersonnelDetails.personNumber";
+    public static final String BUDGET_PERSON_LINE_SEQUENCE_NUMBER = "budget.budgetPersonnelDetails.sequenceNumber";
     
 }
