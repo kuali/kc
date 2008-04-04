@@ -152,12 +152,12 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>gg_forms_jaxb</artifactId>
-					<version>0.0.1</version>
+					<version>1.0</version>
 				</dependency>
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>0.0.3</version>
+					<version>1.0</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
@@ -245,6 +245,7 @@
     					<artifactId>maven-resources-plugin</artifactId>
     					<version>2.2</version>
 					</plugin>
+					<!-- 
 					<plugin>
 						<artifactId>maven-clover-plugin</artifactId>
 						<executions>
@@ -264,6 +265,7 @@
 							<licenseLocation>src/test/config/clover.license</licenseLocation>
 						</configuration>
 					</plugin>
+					 -->
 				</plugins>
 			</build>
 			<dependencies>
@@ -296,12 +298,12 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>gg_forms_jaxb</artifactId>
-					<version>0.0.1</version>
+					<version>1.0</version>
 				</dependency>
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>0.0.3</version>
+					<version>1.0</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
