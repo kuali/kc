@@ -17,7 +17,7 @@ package org.kuali.kra.budget.service;
 
 import org.kuali.kra.budget.document.BudgetDocument;
 
-public interface BudgetDistrubutionAndIncomeService {
+public interface BudgetDistributionAndIncomeService {
 
     /**
      * This method initializes both the Cost Sharing and Unrecovered F&A defaults

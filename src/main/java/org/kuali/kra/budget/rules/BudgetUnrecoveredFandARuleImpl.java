@@ -20,14 +20,16 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
 import org.kuali.kra.budget.rule.AddBudgetUnrecoveredFandARule;
+import org.kuali.kra.budget.rule.BudgetUnrecoveredFandAAllocationRule;
 import org.kuali.kra.budget.rule.BudgetValidationUnrecoveredFandARule;
 import org.kuali.kra.budget.rule.event.AddBudgetUnrecoveredFandAEvent;
+import org.kuali.kra.budget.rule.event.BudgetUnrecoveredFandAAllocationEvent;
 import org.kuali.kra.budget.rule.event.BudgetValidationUnrecoveredFandAEvent;
 
 /**
  * Processes Budget Project Income rules
  */
-public class BudgetUnrecoveredFandARuleImpl implements AddBudgetUnrecoveredFandARule, BudgetValidationUnrecoveredFandARule {
+public class BudgetUnrecoveredFandARuleImpl implements AddBudgetUnrecoveredFandARule, BudgetValidationUnrecoveredFandARule, BudgetUnrecoveredFandAAllocationRule {
 
 private static final String ADD_ERROR_KEY = "error.custom";
     
@@ -106,4 +108,11 @@ private static final String ADD_ERROR_KEY = "error.custom";
         return duplicate;
     }
 
+    public boolean processBudgetUnrecoveredFandAAllocationBusinessRules(BudgetUnrecoveredFandAAllocationEvent budgetUnrecoveredFandAEvent) {
+        boolean result = budgetUnrecoveredFandAEvent.getBudgetDocument().getUnallocatedUnrecoveredFandA().isNonZero();
+        if (result) {
+            GlobalVariables.getErrorMap().putError("unrecoveredFandA*", ADD_ERROR_KEY, "Unrecovered F&A allocation doesn't total available unrecovered F&A");
+        }
+        return result;
+    }
 }

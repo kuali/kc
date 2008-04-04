@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
-
 import java.util.List;
 
 import org.junit.After;
@@ -33,27 +31,66 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
 
-public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDevelopmentRuleTestBase {
-
-    private static final String NEW_PROP_PERSON_BIO = "newPropPersonBio";
+public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDevelopmentRuleTestBase {    
     private static final String EMPTY_STRING = "";
-    private ProposalDevelopmentPersonnelAttachmentRule rule = null;
-    private List<PropPerDocType> documentTypes;
+    
     private BusinessObjectService bos;
+    private ProposalDevelopmentDocument document;
+
+    private List<PropPerDocType> documentTypes;
+
+    private ProposalPersonBiography newProposalPersonBiography;
+
+    private ProposalDevelopmentPersonnelAttachmentRule rule = null;
+    
+    @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws Exception {
         super.setUp();
         rule = new ProposalDevelopmentPersonnelAttachmentRule();
         bos = KraServiceLocator.getService(BusinessObjectService.class);
         documentTypes = (List)bos.findAll(PropPerDocType.class);
+        document = getNewProposalDevelopmentDocument();
+        newProposalPersonBiography = createNewProposalPersonBiography();        
     }
 
     @After
     public void tearDown() throws Exception {
+        newProposalPersonBiography = null;
+        document = null;
         rule = null;
         bos = null;
-        documentTypes=null;
+        documentTypes=null;        
         super.tearDown();
+    }
+
+    /**
+     * 
+     * This method is to test that description is provided when attachment type is Other.
+     * @throws Exception
+     */
+    @Test
+    public void testDescriptionRequiredForAttachementTypeOther() throws Exception {
+        newProposalPersonBiography.setDocumentTypeCode(findOtherDocumentTypeCode());
+        newProposalPersonBiography.setDescription(null);
+        
+        assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
+        
+        checkErrorCountAndContent("description", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_DESCRIPTION_REQUIRED);        
+    }
+    
+    /**
+     * 
+     * This method is to test that filename is required when attachment type and description are entered.
+     * @throws Exception
+     */
+    @Test
+    public void testFileNameRequired() throws Exception {
+        newProposalPersonBiography.setFileName(null);
+        
+        assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
+        
+        checkErrorCountAndContent("personnelAttachmentFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME);
     }
 
     /**
@@ -63,20 +100,11 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
      */
     @Test
     public void testOK() throws Exception {
-        
-        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         assertNotNull(documentTypes);
-        assertTrue(documentTypes.size()>1);
-        
-        ProposalPersonBiography newProposalPersonBiography = new ProposalPersonBiography();
-        newProposalPersonBiography.setDocumentTypeCode(documentTypes.get(1).getDocumentTypeCode());
-        newProposalPersonBiography.setDescription("description");
-        newProposalPersonBiography.setFileName("test.dat");
-        newProposalPersonBiography.setProposalPersonNumber(new Integer(2));
-        AddPersonnelAttachmentEvent addPersonnelAttachmentEvent = new AddPersonnelAttachmentEvent(EMPTY_STRING,document,newProposalPersonBiography);
-        assertTrue(rule.processAddPersonnelAttachmentBusinessRules(addPersonnelAttachmentEvent));
+        assertTrue(documentTypes.size() > 1);
+        assertTrue(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
     }
-    
+
     /**
      * Test adding a personnel attachment with an unspecified document type code.
      * This corresponds to a empty string type code, i.e. the user didn't
@@ -86,20 +114,11 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
      */
     @Test
     public void testUnspecifiedDocumentType() throws Exception {
-        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        ProposalPersonBiography newProposalPersonBiography = new ProposalPersonBiography();
-        //newProposalPersonBiography.setDocumentTypeCode(documentTypes.get(1).getDocumentTypeCode());
-        newProposalPersonBiography.setDescription("description");
-        newProposalPersonBiography.setFileName("test.dat");
-        newProposalPersonBiography.setProposalPersonNumber(new Integer(2));
-        AddPersonnelAttachmentEvent addPersonnelAttachmentEvent = new AddPersonnelAttachmentEvent(EMPTY_STRING,document,newProposalPersonBiography);
-        assertFalse(rule.processAddPersonnelAttachmentBusinessRules(addPersonnelAttachmentEvent));
+        newProposalPersonBiography.setDocumentTypeCode(null);
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROP_PERSON_BIO+".documentTypeCode");
-        assertTrue(errors.size() == 1);
+        assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
         
-        ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
+        checkErrorCountAndContent("documentTypeCode", KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED);
     }
     
     /**
@@ -110,50 +129,77 @@ public class ProposalDevelopmentPersonnelAttachmentRuleTest extends ProposalDeve
      * @throws Exception
      */
     @Test
-    public void testUnspecifiedperson() throws Exception {
-        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        ProposalPersonBiography newProposalPersonBiography = new ProposalPersonBiography();
-        newProposalPersonBiography.setDocumentTypeCode(documentTypes.get(1).getDocumentTypeCode());
-        newProposalPersonBiography.setDescription("description");
-        newProposalPersonBiography.setFileName("test.dat");
-       // newProposalPersonBiography.setProposalPersonNumber(new Integer(2));
-        AddPersonnelAttachmentEvent addPersonnelAttachmentEvent = new AddPersonnelAttachmentEvent(EMPTY_STRING,document,newProposalPersonBiography);
-        assertFalse(rule.processAddPersonnelAttachmentBusinessRules(addPersonnelAttachmentEvent));
+    public void testUnspecifiedPerson() throws Exception {
+        newProposalPersonBiography.setProposalPersonNumber(null);
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROP_PERSON_BIO+".proposalPersonNumber");
+        assertFalse(rule.processAddPersonnelAttachmentBusinessRules(createAddPersonnelAttachmentEvent()));
+        
+        checkErrorCountAndContent("proposalPersonNumber", KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
+    }
+
+    /**
+     * This method does what its name says
+     * @param errorPathContext
+     * @param expectedErrorCount
+     * @param errorKeys
+     */
+    private void checkErrorCountAndContent(String errorPathContext, String errorKey) {
+        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(ProposalDevelopmentPersonnelAttachmentRule.buildErrorPath(errorPathContext));
+        assertNotNull(errors);
         assertTrue(errors.size() == 1);
         
         ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_PERSONNEL_ATTACHMENT_PERSON_REQUIRED);
+        assertEquals(message.getErrorKey(), errorKey);
     }
     
+    /**
+     * This method does what its name says. We don't use a field configured by setUp() because the event constructor makes a copy of our
+     * attachment and we need to modify its state in each test
+     * @return
+     */
+    private AddPersonnelAttachmentEvent createAddPersonnelAttachmentEvent() {
+        return new AddPersonnelAttachmentEvent(EMPTY_STRING, document, newProposalPersonBiography);
+    }
+    
+    /**
+     * 
+     * This method does what its name says
+     * @return
+     */
+    private ProposalPersonBiography createNewProposalPersonBiography() {
+        ProposalPersonBiography proposalPersonBiography = new ProposalPersonBiography();
+        proposalPersonBiography.setDocumentTypeCode(documentTypes.get(1).getDocumentTypeCode());
+        proposalPersonBiography.setDescription("description");
+        proposalPersonBiography.setFileName("test.dat");
+        proposalPersonBiography.setProposalPersonNumber(new Integer(2));
+        return proposalPersonBiography;
+    }
 
     /**
      * 
-     * This method is to test that filename is required when attachment type and description are entered.
-     * @throws Exception
+     * This method does what its name says
+     * 
+     * @param description
+     * @return
      */
-    @Test
-    public void testFileNameRequired() throws Exception {
-        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        assertNotNull(documentTypes);
-        assertTrue(documentTypes.size()>1);
+    private PropPerDocType findDocumentTypeForDescription(String description) {
+        PropPerDocType foundDocType = null;
         
-        ProposalPersonBiography newProposalPersonBiography = new ProposalPersonBiography();
-        newProposalPersonBiography.setDocumentTypeCode(documentTypes.get(1).getDocumentTypeCode());
-        newProposalPersonBiography.setDescription("description");
-        //newProposalPersonBiography.setFileName("test.dat");
-        newProposalPersonBiography.setProposalPersonNumber(new Integer(2));
-        AddPersonnelAttachmentEvent addPersonnelAttachmentEvent = new AddPersonnelAttachmentEvent(EMPTY_STRING,document,newProposalPersonBiography);
-        assertFalse(rule.processAddPersonnelAttachmentBusinessRules(addPersonnelAttachmentEvent));
+        for(PropPerDocType docType: documentTypes) {
+            if(docType.getDescription().equalsIgnoreCase(description)) {
+                foundDocType = docType;
+                break;
+            }
+        }
         
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages(NEW_PROP_PERSON_BIO+".personnelAttachmentFile");
-        assertTrue(errors.size() == 1);
-        
-        ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME);
-
+        return foundDocType;
     }
-
-
+    
+    /**
+     * This method does what its name says
+     * @return
+     */
+    private String findOtherDocumentTypeCode() {
+        return findDocumentTypeForDescription(ProposalDevelopmentPersonnelAttachmentRule.OTHER_DOCUMENT_TYPE_DESCRIPTION).getDocumentTypeCode();
+    }
 }
