@@ -116,10 +116,8 @@
                 </td>
             </tr>
 		   	<c:set var="personnelList" value="(${fn:length(KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].budgetPersonnelDetailsList)})" />
-            <c:out value="${personnelList}"/>
-            <c:out value="${!empty KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].budgetPersonnelDetailsList}"/>
             <c:if test="${!empty KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].budgetPersonnelDetailsList}" >
-		   	<c:forEach var="budgetPersonnelDetails" items="${KualiForm.selectedBudgetLineItem.budgetPersonnelDetailsList}" varStatus="status">
+		   	<c:forEach var="budgetPersonnelDetails" items="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].budgetPersonnelDetailsList}" varStatus="status">
 	        	<tr>
 	            	<th width="5%" class="infoline" rowspan="2">
 						<c:out value="${status.index+1}" />
