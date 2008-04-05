@@ -84,9 +84,11 @@
 					<div align=center>
 					<html:image property="methodToCall.deleteBudgetLineItem.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+					<c:if test="${budgetCategoryTypeCode=='P' }">
 					<html:image property="methodToCall.personnelBudget.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-personnelbudget.gif' />
 					</div>
+					</c:if>
                 </td>
 	        </tr>
 	        <c:choose>

@@ -23,6 +23,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -32,11 +34,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -146,6 +150,48 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public void initialize() {
     }
+    
+    public Integer getHackedDocumentNextValue(String propertyName) {
+        Integer propNextValue = 1;
+        
+        // search for property and get the latest number - increment for next call
+        for(Iterator iter = getDocumentNextvalues().iterator(); iter.hasNext();) {
+            DocumentNextvalue documentNextvalue = (DocumentNextvalue)iter.next();
+            if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
+                propNextValue = documentNextvalue.getNextValue();
+                documentNextvalue.setNextValue(propNextValue + 1);
+            }
+        }
+        //TODO: need to solve the refresh issue. 
+        //workaround till then
+        /*****BEGIN BLOCK *****/
+        if(propNextValue==1){
+            BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
+            Map<String, String> pkMap = new HashMap<String,String>();
+            pkMap.put("documentKey", getProposalNumber());
+            pkMap.put("propertyName", propertyName);
+            DocumentNextvalue documentNextvalue = (DocumentNextvalue)bos.findByPrimaryKey(DocumentNextvalue.class, pkMap);
+            if(documentNextvalue!=null) {
+                propNextValue = documentNextvalue.getNextValue();
+                documentNextvalue.setNextValue(propNextValue + 1);
+                getDocumentNextvalues().add(documentNextvalue);
+            }
+        }
+        /*****END BLOCK********/
+        
+        // property does not exist - set initial value and increment for next call
+        if(propNextValue == 1) {
+            DocumentNextvalue documentNextvalue = new DocumentNextvalue();
+            documentNextvalue.setNextValue(propNextValue + 1);
+            documentNextvalue.setPropertyName(propertyName);
+            documentNextvalue.setDocumentKey(getDocumentNumber());
+            getDocumentNextvalues().add(documentNextvalue);
+        }
+        setDocumentNextvalues(getDocumentNextvalues());
+        return propNextValue;
+    }
+    
+    
     
     @Override
     public void prepareForSave() {
