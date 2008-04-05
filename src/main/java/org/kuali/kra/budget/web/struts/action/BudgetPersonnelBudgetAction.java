@@ -92,8 +92,10 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
     
     public ActionForward deleteBudgetPersonnelDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetLineItem selectedBudgetLineItem = budgetForm.getSelectedBudgetLineItem();
-        selectedBudgetLineItem.getBudgetPersonnelDetailsList().remove(getLineToDelete(request));        
+        int selectedBudgetPeriodIndex = budgetForm.getViewBudgetPeriod()-1;
+        int selectedBudgetLineItemIndex = budgetForm.getSelectedBudgetLineItemIndex();
+        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
+        budgetPersonnelBudgetService.deleteBudgetPersonnelDetails(budgetForm.getBudgetDocument(), selectedBudgetPeriodIndex,selectedBudgetLineItemIndex, getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     /**

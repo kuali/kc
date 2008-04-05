@@ -92,7 +92,7 @@ public class BudgetExpensesAction extends BudgetAction {
 //                budgetForm.getBudgetDocument().refreshReferenceObject("documentNextvalues");            
 //                budgetForm.setDocumentNextValueRefresh(false);
 //            }    
-            newBudgetLineItem.setLineItemNumber(budgetForm.getBudgetDocument().getDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
+            newBudgetLineItem.setLineItemNumber(budgetForm.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             newBudgetLineItem.setApplyInRateFlag(true);
             newBudgetLineItem.refreshReferenceObject("costElementBO");
             newBudgetLineItem.setOnOffCampusFlag(newBudgetLineItem.getCostElementBO().getOnOffCampusFlag());       
