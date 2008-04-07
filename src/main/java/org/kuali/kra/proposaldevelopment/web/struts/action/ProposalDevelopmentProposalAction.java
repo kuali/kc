@@ -16,10 +16,13 @@
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static java.util.Collections.sort;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,14 +36,18 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.bo.ScienceKeyword;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -291,5 +298,23 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     private KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
+
+    @Override
+    public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        
+        String command = request.getParameter("command");
+        String docId = request.getParameter("docId");
+
+        if(StringUtils.isNotEmpty(command) && command.equals("displayDocSearchView") && StringUtils.isNotEmpty(docId)) {
+            //This means that the user has come thru the Document Search Page - Copy Action
+            Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
+            pdform.setDocument(retrievedDocument);
+        }
+        
+        return super.headerTab(mapping, form, request, response);
+    }
+
+
 
 }
