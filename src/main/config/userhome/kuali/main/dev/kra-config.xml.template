@@ -115,4 +115,5 @@
     <param name="filter.cas.edu.yale.its.tp.cas.client.filter.loginUrl">${app.host}/${app.context.name}/cas/login</param>
     <param name="filter.cas.edu.yale.its.tp.cas.client.filter.validateUrl">${app.host}/${app.context.name}/cas/serviceValidate</param>
 	<param name="filtermapping.cas.0">/*</param>
+	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
 </config>
