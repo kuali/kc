@@ -32,10 +32,11 @@
 		<c:set var="budgetPeriod" value="1" />
 	</c:otherwise>
 </c:choose>
-
+	
     <c:forEach var="budgetCategoryTypeIndex" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="status1">
     	<c:if test="${budgetCategoryTypeIndex.key ==  budgetCategoryTypeCodesKey}">
     		<c:set var="index" value="0"/>
+    		<c:set var="tabErrorKeyString" value=""/>
     		<c:forEach var="budgetLineItems" items="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">			    		
     		<c:if test="${budgetLineItems.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeIndex.key}" >				
 				<c:set var="index" value="${index+1}"/>			    		
@@ -43,12 +44,21 @@
     		<c:if test="${index!=0}">    					    		
     			<c:set var="budgetLineItemSize" value=" (${index})"/>
     		</c:if>
+    		<c:choose>
+    			<c:when test="${empty tabErrorKeyString}">
+    				<c:set var="tabErrorKeyString" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].costElement"/>
+    			</c:when>
+    			<c:otherwise>
+    				<c:set var="tabErrorKeyString" value="${tabErrorKeyString},document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].costElement"/>
+    			</c:otherwise>
+    		</c:choose>
     		</c:forEach>
     	</c:if>
-    </c:forEach>	
+    </c:forEach>
+     	<%-- <c:out value="${tabErrorKeyString}test" /> --%>
 	<c:set var="budgetExpensePanelReadOnly" value="${KualiForm.document.proposal.budgetVersionOverviews[KualiForm.document.budgetVersionNumber-1].finalVersionFlag}" />
 	 	
-	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}${budgetLineItemSize}" defaultOpen="true" tabErrorKey="document.budgetCategoryTypes*,newBudgetLineItems[${catCodes}].*">
+	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}${budgetLineItemSize}" defaultOpen="true" tabErrorKey="*costElement*,document.budgetCategoryTypes*,newBudgetLineItems[${catCodes}].*">
 		<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>${budgetCategoryTypeCodesLabel}</h2></span>
@@ -70,23 +80,35 @@
             <tr>
 				<th class="infoline">
 					<c:out value="Add:" />
-				</th>
+				</th>				
+				<c:set var="lookupFlag" value="false" />
 				<td valign="middle" class="infoline">
                 	<div align="center">
                 	<html:select property="newBudgetLineItems[${catCodes}].costElement" tabindex="0" >
-                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">                    
+                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
+                    <c:if test="${empty KualiForm.newBudgetLineItems[catCodes].costElement || KualiForm.newBudgetLineItems[catCodes].costElement == ''}" >
+                    	<c:set var="lookupFlag" value="true" />
+					</c:if>                    
                     <c:choose>                    	
-                        <c:when test="${newBudgetLineItems}[${catCodes}].costElement == option.key}">						
+                    	<c:when test="${KualiForm.newBudgetLineItems[catCodes].costElement == option.key}">                    	
+                        <%-- <c:when test="${newBudgetLineItems[catCodes].costElement == option.key}"> --%>						
                         <option value="${option.key}" selected>${option.label}</option>
+                        	<c:set var="lookupFlag" value="true" />
                         </c:when>
                         <c:otherwise>
+                        <c:out value="${option.label}"/>
                         <option value="${option.key}">${option.label}</option>
                         </c:otherwise>
-                    </c:choose>
+                    </c:choose>                    
                     </c:forEach>
                     </html:select>
                 	<kul:lookup boClassName="org.kuali.kra.budget.bo.CostElement" fieldConversions="costElement:newBudgetLineItems[${catCodes}].costElement" anchor="${tabKey}" lookupParameters="newBudgetLineItems[${catCodes}].costElement:costElement" />
-                	<kul:directInquiry boClassName="org.kuali.kra.budget.bo.CostElement" inquiryParameters="costElement:newBudgetLineItems[${catCodes}].costElement" anchor="${tabKey}"/>
+                	<kul:directInquiry boClassName="org.kuali.kra.budget.bo.CostElement" inquiryParameters="newBudgetLineItems[${catCodes}].costElement:costElement" anchor="${tabKey}"/>
+                	<c:if test="${!lookupFlag}">                    	                    	
+                    	<font size="2" color="red">
+							Value Returned from the look up does not fit here
+						</font>
+                    </c:if>
                 	</div>
 				</td>
 				<td valign="middle" class="infoline">

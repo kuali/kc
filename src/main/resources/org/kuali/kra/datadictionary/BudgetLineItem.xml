@@ -238,8 +238,7 @@
             <attributeReference name="endDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
                 <label>End Date</label>
                 <shortLabel>End Date</shortLabel>
-
-
+				<required>true</required>
                 <summary>End Date</summary>
                 <description>End Date.</description>
       		</attributeReference>
@@ -307,7 +306,7 @@
             <attributeReference name="startDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
                 <label>Start Date</label>
                 <shortLabel>Start Date</shortLabel>
-
+				<required>true</required>
                 <summary>Start Date</summary>
                 <description>Start Date.</description>
       		</attributeReference>
