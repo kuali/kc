@@ -16,4 +16,13 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <channel:portalChannelTop channelTitle="Compliance - Conflict of Interest" />
+<div class="body">
+  <ul class="chan">
+    <li>COI Disclosure Status</li>
+    <li>COI Reviewer</li>
+    <li>COI Status</li>
+    <li>Entity Relationship Type</li>
+    <li>Entity Status</li>
+  </ul>
+</div>
 <channel:portalChannelBottom />
