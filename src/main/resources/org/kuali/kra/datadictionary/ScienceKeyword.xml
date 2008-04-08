@@ -84,7 +84,7 @@
                 </control>
 
                 <summary>Description</summary>
-                <description>Description</description>
+                <description>The actual keyword(s) specific to the proposal that can be used in database lookups and reports.</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
