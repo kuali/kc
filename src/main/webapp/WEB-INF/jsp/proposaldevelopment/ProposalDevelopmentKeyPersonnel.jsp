@@ -32,6 +32,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="keyPersonnel">
 
+<c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" />
 <kra:section permission="modifyProposal">
     <kul:uncollapsable tabTitle="Add Key Personnel" tabErrorKey="newProposalPerson*">
           <div align="center">
@@ -88,7 +89,7 @@
 		extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
 		extraButtonAlt="${extraButtonAlt}"
-		viewOnly="${not KualiForm.editingMode['modifyProposal']}"
+		viewOnly="${viewOnly}"
 		/>
 	</p>
 
