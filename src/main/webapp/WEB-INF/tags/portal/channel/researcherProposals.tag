@@ -17,7 +17,7 @@
 <channel:portalChannelTop channelTitle="Proposals" />
 <div class="body">
   <ul class="chan">
-    <li><portal:portalLink displayTitle="false" title="Create Proposal" url="proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument" />
+    <li><portal:portalLink displayTitle="false" title="Create Proposal" url="proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument">Create Proposal</portal:portalLink></li>
     <li>Proposals in Progress</li>
     <li><portal:portalLink displayTitle="false" title='All My Proposals' url='${ConfigProperties.workflow.url}/DocumentSearch.do?methodToCall=doDocSearch&docTypeFullName=ProposalDevelopmentDocument&initiator=quickstart&searchCriteriaEnabled=false'>All My Proposals</portal:portalLink></li>
   </ul>
