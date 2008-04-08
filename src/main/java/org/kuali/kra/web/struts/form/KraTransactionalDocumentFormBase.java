@@ -166,7 +166,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     private boolean isBudgetAction() {
         boolean isBudgetAction = false;
 
-        if (StringUtils.isNotBlank(actionName) && actionName.startsWith("Budget") && !getMethodToCall().equalsIgnoreCase("headerTab")) {
+        if (StringUtils.isNotBlank(actionName) && actionName.startsWith("Budget") && StringUtils.isNotBlank(getMethodToCall()) && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isBudgetAction = true;
         }
         else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("budgetVersions") 
