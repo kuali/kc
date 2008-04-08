@@ -17,7 +17,12 @@ package org.kuali.kra.proposaldevelopment.web.struts.form;
 
 
 
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.FormattedLogger.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +43,7 @@ import org.kuali.core.bo.Parameter;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Person;
@@ -77,9 +83,10 @@ import org.kuali.kra.web.struts.form.ProposalFormBase;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentForm extends ProposalFormBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentForm.class);
+    private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
     private static final String DELETE_SPECIAL_REVIEW_ACTION = "deleteSpecialReview";
     
+    private boolean creditSplitEnabled;
     private String primeSponsorName;
     private ProposalLocation newPropLocation;
     private ProposalSpecialReview newPropSpecialReview;
@@ -408,13 +415,13 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * Creates the list of <code>{@link PersonEditableField}</code> field names.
      */
     public void populatePersonEditableFields() {
-        LOG.debug("Adding PersonEditableFields");
+        debug("Adding PersonEditableFields");
 
         setPersonEditableFields(new HashMap());
 
         Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
         for (PersonEditableField field : fields) {
-            LOG.debug("found field " + field.getFieldName());
+            debug("found field " + field.getFieldName());
             getPersonEditableFields().put(field.getFieldName(), new Boolean(field.isActive()));
         }
     }
@@ -961,8 +968,42 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void setReject(boolean reject) {
         this.reject = reject;
     }
+    
+    public KualiConfigurationService getConfigurationService() {
+        return getService(KualiConfigurationService.class);
+    }
 
-   
+    /**
+     * Overridden to force business logic even after validation failures. In this case we want to force the enabling of credit split.
+     * 
+     * @see org.kuali.core.web.struts.pojo.PojoFormBase#processValidationFail()
+     */
+    @Override
+    public void processValidationFail() {
+        try {
+            boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
+                && getProposalDevelopmentDocument().getInvestigators().size() > 0;
+            setCreditSplitEnabled(creditSplitEnabled);
+        }
+        catch (Exception e) {
+            warn(MISSING_PARAM_MSG, CREDIT_SPLIT_ENABLED_RULE_NAME);
+            warn(e.getMessage());
+        }
+    }
 
+    /**
+     * Gets the creditSplitEnabled attribute. 
+     * @return Returns the creditSplitEnabled.
+     */
+    public boolean isCreditSplitEnabled() {
+        return creditSplitEnabled;
+    }
 
+    /**
+     * Sets the creditSplitEnabled attribute value.
+     * @param creditSplitEnabled The creditSplitEnabled to set.
+     */
+    public void setCreditSplitEnabled(boolean creditSplitEnabled) {
+        this.creditSplitEnabled = creditSplitEnabled;
+    }
 }
