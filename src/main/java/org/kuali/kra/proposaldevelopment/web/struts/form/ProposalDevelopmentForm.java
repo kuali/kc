@@ -135,7 +135,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void initialize() {
         setNewPropLocation(new ProposalLocation());
         setNewPropSpecialReview(new ProposalSpecialReview());
-        setNewNarrative(new Narrative());
+        setNewNarrative(createNarrative());
         setNewProposalPerson(new ProposalPerson());
         setNewProposalPersonDegree(new ArrayList<ProposalPersonDegree>());
         setNewProposalPersonUnit(new ArrayList<Unit>());
@@ -150,7 +150,13 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         newProposalPersonRoleRendered = false;
     }
 
-
+    /**
+     * This creates a new Narrative. Protected to allow mocks and stubs to provide their own Narrative that doesn't do a user id lookup
+     * @return
+     */
+    protected Narrative createNarrative() {
+        return new Narrative();
+    }
     /**
      * Multiple Value Lookups return values to the form through the request, but in some instances do not clear previous values from other lookups because the form resides in the session scope. 
      * This is to set the Multiple Value Lookups to a good state. Values getting cleared are:
