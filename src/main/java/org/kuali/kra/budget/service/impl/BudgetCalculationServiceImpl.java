@@ -52,7 +52,9 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             calculateBudgetPeriod(budgetDocument, budgetPeriod);
         }
-        syncCostsToBudgetDocument(budgetDocument);
+        if(budgetPeriods!=null && !budgetPeriods.isEmpty()){
+            syncCostsToBudgetDocument(budgetDocument);
+        }
     }
     private void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
         budgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
@@ -125,21 +127,29 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         BudgetDecimal totalCostSharingAmount = BudgetDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
-            QueryList<BudgetLineItem> qlBudgetLineItems = new QueryList<BudgetLineItem>(budgetLineItems);
-            BudgetDecimal directCost = qlBudgetLineItems.sumObjects("directCost");
-            BudgetDecimal indirectCost = qlBudgetLineItems.sumObjects("indirectCost");
-            BudgetDecimal costSharingAmount = qlBudgetLineItems.sumObjects("costSharingAmount");
-            BudgetDecimal underrecoveryAmount = qlBudgetLineItems.sumObjects("underrecoveryAmount");
-            budgetPeriod.setTotalDirectCost(directCost);
-            budgetPeriod.setTotalIndirectCost(indirectCost);
-            budgetPeriod.setTotalCost(directCost.add(indirectCost));
-            budgetPeriod.setUnderrecoveryAmount(underrecoveryAmount);
-            budgetPeriod.setCostSharingAmount(costSharingAmount);
-            totalDirectCost = totalDirectCost.add(directCost);
-            totalIndirectCost = totalIndirectCost.add(indirectCost);
-            totalCost = totalCost.add(directCost.add(indirectCost));
-            totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(underrecoveryAmount);
-            totalCostSharingAmount = totalCostSharingAmount.add(costSharingAmount);
+            if(budgetLineItems.isEmpty()){
+                totalDirectCost = totalDirectCost.add(budgetPeriod.getTotalDirectCost());
+                totalIndirectCost = totalIndirectCost.add(budgetPeriod.getTotalIndirectCost());
+                totalCost = totalCost.add(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+                totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(budgetPeriod.getUnderrecoveryAmount());
+                totalCostSharingAmount = totalCostSharingAmount.add(budgetPeriod.getCostSharingAmount());
+           }else{
+                QueryList<BudgetLineItem> qlBudgetLineItems = new QueryList<BudgetLineItem>(budgetLineItems);
+                BudgetDecimal directCost = qlBudgetLineItems.sumObjects("directCost");
+                BudgetDecimal indirectCost = qlBudgetLineItems.sumObjects("indirectCost");
+                BudgetDecimal costSharingAmount = qlBudgetLineItems.sumObjects("costSharingAmount");
+                BudgetDecimal underrecoveryAmount = qlBudgetLineItems.sumObjects("underrecoveryAmount");
+                budgetPeriod.setTotalDirectCost(directCost);
+                budgetPeriod.setTotalIndirectCost(indirectCost);
+                budgetPeriod.setTotalCost(directCost.add(indirectCost));
+                budgetPeriod.setUnderrecoveryAmount(underrecoveryAmount);
+                budgetPeriod.setCostSharingAmount(costSharingAmount);
+                totalDirectCost = totalDirectCost.add(directCost);
+                totalIndirectCost = totalIndirectCost.add(indirectCost);
+                totalCost = totalCost.add(directCost.add(indirectCost));
+                totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(underrecoveryAmount);
+                totalCostSharingAmount = totalCostSharingAmount.add(costSharingAmount);
+            }
         }
         budgetDocument.setTotalDirectCost(totalDirectCost);
         budgetDocument.setTotalIndirectCost(totalIndirectCost);
