@@ -217,17 +217,21 @@
             <displayName>Summary</displayName>
           </headerNavigationTab>
           <headerNavigationTab>
-            <navigateTo>personnel</navigateTo>
-            <displayName>Personnel</displayName>
+            <navigateTo>rates</navigateTo>
+            <displayName>Rates</displayName>
           </headerNavigationTab>
+          <headerNavigationTab>
+            <navigateTo>personnel</navigateTo>
+            <displayName>Project Personnel</displayName>
+          </headerNavigationTab>          
           <headerNavigationTab>
             <navigateTo>expenses</navigateTo>
             <displayName>Expenses</displayName>
           </headerNavigationTab>
           <headerNavigationTab>
-            <navigateTo>rates</navigateTo>
-            <displayName>Rates</displayName>
-          </headerNavigationTab>
+            <navigateTo>totals</navigateTo>
+            <displayName>Totals</displayName>
+          </headerNavigationTab>          
           <headerNavigationTab>
             <navigateTo>distributionAndIncome</navigateTo>
             <displayName>Distribution &amp; Income </displayName>
@@ -235,15 +239,7 @@
           <headerNavigationTab>
             <navigateTo>modularBudget</navigateTo>
             <displayName>Modular Budget</displayName>
-          </headerNavigationTab>
-          <headerNavigationTab>
-            <navigateTo>totals</navigateTo>
-            <displayName>Totals</displayName>
-          </headerNavigationTab>
-          <headerNavigationTab>
-		    <navigateTo>proposalHierarchy</navigateTo>
-		    <displayName>Proposal Hierarchy</displayName>
-		  </headerNavigationTab>
+          </headerNavigationTab>                    
           <headerNavigationTab>
             <navigateTo>budgetActions</navigateTo>
             <displayName>Budget Actions</displayName>
