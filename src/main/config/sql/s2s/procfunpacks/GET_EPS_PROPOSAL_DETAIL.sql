@@ -67,7 +67,7 @@ SELECT osp$eps_proposal.PROPOSAL_NUMBER,
 	and osp$eps_proposal.NSF_CODE = osp$nsf_codes.NSF_CODE(+)
 	and osp$eps_proposal.NOTICE_OF_OPPORTUNITY_CODE = OSP$NOTICE_OF_OPPORTUNITY.NOTICE_OF_OPPORTUNITY_CODE(+)
 	and osp$eps_proposal.ACTIVITY_TYPE_CODE = OSP$ACTIVITY_TYPE.ACTIVITY_TYPE_CODE
-	and osp$eps_proposal.CREATION_STATUS_CODE = osp$eps_proposal_status.status_code
+	and osp$eps_proposal.CREATION_STATUS_CODE = osp$eps_proposal_status.status_code(+)
 	and osp$eps_proposal.PROPOSAL_NUMBER = as_proposal_num ;
 
 end;
