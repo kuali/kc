@@ -8,7 +8,7 @@ U.UNIT_NUMBER, PARENT_UNIT_NUMBER, decode(UH.UNIT_NUMBER,null,'N','Y') as HAS_CH
 		(select unit_number 
 		from unit a
 		where unit_number in (select parent_unit_number from unit)) UH
-	where U.UNIT_NUMBER = UH.UNIT_NUMBER(+)  
+	where U.UNIT_NUMBER = UH.UNIT_NUMBER(+) ; 
 
 	
 	

@@ -27,3 +27,4 @@ li_fringe := ROUND(li_fringe);
 return li_fringe;
 end;
  
+/
