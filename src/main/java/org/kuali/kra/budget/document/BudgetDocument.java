@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
@@ -272,6 +273,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return unrecoveredFandAAvailable;
     };
     
+    /**
+     * This method does what its name says
+     * @return
+     */
     public BudgetDecimal getAllocatedCostSharing() {
         BudgetDecimal costShareTotal = new BudgetDecimal(0.0);
         for(BudgetCostShare budgetCostShare: getBudgetCostShares()) {
@@ -280,6 +285,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return costShareTotal;
     }
     
+    /**
+     * This method does what its name says
+     * @return
+     */
     public BudgetDecimal getAllocatedUnrecoveredFandA() {
         BudgetDecimal allocatedUnrecoveredFandA = BudgetDecimal.ZERO;
         for(BudgetUnrecoveredFandA unrecoveredFandA: getBudgetUnrecoveredFandAs()) {
@@ -288,6 +297,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return allocatedUnrecoveredFandA;
     }
     
+    /**
+     * This method does what its name says
+     * @return
+     */
     public KualiDecimal getProjectIncomeTotal() {
         KualiDecimal projectIncomeTotal = new KualiDecimal(0.0);
         for(BudgetProjectIncome budgetProjectIncome: budgetProjectIncomes) {
@@ -628,6 +641,14 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.rateClassTypes = rateClassTypes;
     }
 
+    /**
+     * This method does what its name says
+     * @return
+     */
+    public int getBudgetProjectIncomeCount() {
+        return getCollectionSize(budgetProjectIncomes);
+    }
+    
     public List<BudgetProjectIncome> getBudgetProjectIncomes() {
         return budgetProjectIncomes;
     }
@@ -636,14 +657,26 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.budgetProjectIncomes = budgetProjectIncomes;
     }
 
+    /**
+     * This method adds an item to its collection
+     * @return
+     */
     public void add(BudgetCostShare budgetCostShare) {
         addBudgetDistributionAndIncomeComponent(getBudgetCostShares(), budgetCostShare);
     }
     
+    /**
+     * This method adds an item to its collection
+     * @return
+     */
     public void add(BudgetProjectIncome budgetProjectIncome) {
         addBudgetDistributionAndIncomeComponent(getBudgetProjectIncomes(), budgetProjectIncome);        
     }
     
+    /**
+     * This method adds an item to its collection
+     * @return
+     */
     public void add(BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
         addBudgetDistributionAndIncomeComponent(getBudgetUnrecoveredFandAs(), budgetUnrecoveredFandA);
     }
@@ -679,6 +712,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this.getProposal());
     }
 
+    /**
+     * This method adds an item to its collection
+     * @return
+     */
     public void add(BudgetPeriod budgetPeriod) {
         budgetPeriod.setBudgetVersionNumber(getBudgetVersionNumber());
         getBudgetPeriods().add(budgetPeriod);        
@@ -704,12 +741,36 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.instituteLaRates = instituteLaRates;
     }
 
+    /**
+     * This method does what its name says
+     * @return
+     */
     public List<BudgetCostShare> getBudgetCostShares() {
         return budgetCostShares;
     }
     
+    /**
+     * This method does what its name says
+     * @return
+     */
+    public int getBudgetCostShareCount() {
+        return getCollectionSize(budgetCostShares);
+    }
+    
+    /**
+     * This method does what its name says
+     * @return
+     */
     public List<BudgetUnrecoveredFandA> getBudgetUnrecoveredFandAs() {
         return budgetUnrecoveredFandAs;
+    }
+    
+    /**
+     * This method does what its name says
+     * @return
+     */
+    public int getBudgetUnrecoveredFandACount() {
+        return getCollectionSize(budgetUnrecoveredFandAs);
     }
 
     public void getBudgetTotals() {
@@ -732,6 +793,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.calculatedExpenseTotals = calculatedExpenseTotals;
     }
     
+    /**
+     * This method does what its name says
+     * @return
+     */
     public BudgetDecimal getAvailableCostSharing() {
         BudgetDecimal availableCostShare = BudgetDecimal.ZERO;
         for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
@@ -740,6 +805,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return availableCostShare;
     }
     
+    /**
+     * This method does what its name says
+     * @return
+     */
     public BudgetDecimal getAvailableUnrecoveredFandA() {
         BudgetDecimal availableUnrecoveredFandA = BudgetDecimal.ZERO;
         for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
@@ -748,6 +817,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return availableUnrecoveredFandA;
     }
     
+    /**
+     * This method does what its name says
+     * @param fiscalYear
+     * @return
+     */
     public BudgetDecimal findCostSharingForFiscalYear(Integer fiscalYear) {
         BudgetDecimal costSharing = BudgetDecimal.ZERO;
         
@@ -762,6 +836,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return costSharing;
     }
     
+    /**
+     * This method does what its name says
+     * @param fiscalYear
+     * @return
+     */
     public BudgetDecimal findUnrecoveredFandAForFiscalYear(Integer fiscalYear) {
         BudgetDecimal unrecoveredFandA = BudgetDecimal.ZERO;
         
@@ -1009,5 +1088,15 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public void setBudgetPersonnelDetailsList(List<BudgetPersonnelDetails> budgetPersonnelDetailsList) {
         this.budgetPersonnelDetailsList = budgetPersonnelDetailsList;
+    }
+    
+    /**
+     * This method returns a collection if the collection is not null; otherwise, zero is returned 
+     * @param collection
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private int getCollectionSize(Collection collection) {
+        return collection != null ? collection.size() : 0;
     }
 }
