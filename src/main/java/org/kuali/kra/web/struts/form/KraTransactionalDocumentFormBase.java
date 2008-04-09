@@ -138,21 +138,26 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     private boolean isNarrativeAction() {
         boolean isNarrativeAction = false;
 
-        if (StringUtils.isNotBlank(actionName) && actionName.contains("AbstractsAttachments") && 
-                (StringUtils.equals(getMethodToCall(), "addProposalAttachmentRights")
-                || StringUtils.equals(getMethodToCall(), "addProposalAttachment") 
-                || StringUtils.equals(getMethodToCall(), "downloadProposalAttachment")
-                || StringUtils.equals(getMethodToCall(), "deleteProposalAttachment")
-                || StringUtils.equals(getMethodToCall(), "replaceProposalAttachment")
-                || StringUtils.equals(getMethodToCall(), "addInstituteAttachmentRights")
-                || StringUtils.equals(getMethodToCall(), "addInstituteAttachment") 
-                || StringUtils.equals(getMethodToCall(), "downloadInstituteAttachment")
-                || StringUtils.equals(getMethodToCall(), "deleteInstitutionalAttachment")
-                || StringUtils.equals(getMethodToCall(), "replaceInstituteAttachment") 
-                || StringUtils.equals(getMethodToCall(), "addAbstract") 
-                || StringUtils.equals(getMethodToCall(), "deleteAbstract") 
-                || StringUtils.equals(getMethodToCall(), "save")) 
-                ) {
+//        if (StringUtils.isNotBlank(actionName) && actionName.contains("AbstractsAttachments") && 
+//                (StringUtils.equals(getMethodToCall(), "addProposalAttachmentRights")
+//                || StringUtils.equals(getMethodToCall(), "addProposalAttachment") 
+//                || StringUtils.equals(getMethodToCall(), "downloadProposalAttachment")
+//                || StringUtils.equals(getMethodToCall(), "deleteProposalAttachment")
+//                || StringUtils.equals(getMethodToCall(), "replaceProposalAttachment")
+//                || StringUtils.equals(getMethodToCall(), "addInstituteAttachmentRights")
+//                || StringUtils.equals(getMethodToCall(), "addInstitutionalAttachment") 
+//                || StringUtils.equals(getMethodToCall(), "downloadInstituteAttachment")
+//                || StringUtils.equals(getMethodToCall(), "deleteInstitutionalAttachment")
+//                || StringUtils.equals(getMethodToCall(), "replaceInstituteAttachment") 
+//                || StringUtils.equals(getMethodToCall(), "addAbstract") 
+//                || StringUtils.equals(getMethodToCall(), "deleteAbstract") 
+//                || StringUtils.equals(getMethodToCall(), "save")) 
+//                ) {
+//            isNarrativeAction = true;
+//        }
+        
+        if (StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall()) 
+                && actionName.contains("AbstractsAttachments") && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isNarrativeAction = true;
         }
         else if (StringUtils.isNotEmpty(navigateTo) && navigateTo.equalsIgnoreCase("abstractsAttachments")) {
