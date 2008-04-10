@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.sql.Date;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -46,8 +47,11 @@ public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBas
     private Integer lineItemSequence;
 	
 	private CostElement costElementBO;
+	
 	public BudgetLineItemBase(){
 	}
+	
+	public abstract List getBudgetCalculatedAmounts();
     /**
      * Gets the directCost attribute. 
      * @return Returns the directCost.

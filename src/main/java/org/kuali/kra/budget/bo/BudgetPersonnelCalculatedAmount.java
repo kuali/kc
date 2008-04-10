@@ -17,7 +17,7 @@ package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-public class BudgetPersonnelCalculatedAmount extends BudgetLineItemCalculatedAmount {
+public class BudgetPersonnelCalculatedAmount extends AbstractBudgetCalculatedAmount {
 	private Integer personNumber;
 
 	public Integer getPersonNumber() {
