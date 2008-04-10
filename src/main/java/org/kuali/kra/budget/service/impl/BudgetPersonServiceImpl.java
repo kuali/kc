@@ -44,7 +44,6 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         
         budgetPerson.setProposalNumber(budgetDocument.getProposalNumber());
         budgetPerson.setBudgetVersionNumber(budgetDocument.getBudgetVersionNumber());
-        budgetDocument.refreshReferenceObject("documentNextvalues");
         budgetPerson.setPersonSequenceNumber(budgetDocument.getDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
         
         if (budgetDocument.getProposal() != null) {
