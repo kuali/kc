@@ -16,14 +16,17 @@
 package org.kuali.cas.auth;
 
 import java.security.GeneralSecurityException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kra.bo.Person;
+import org.kuali.core.service.EncryptionService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.service.WebAuthenticationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.yale.its.tp.cas.auth.provider.WatchfulPasswordHandler;
 
@@ -35,54 +38,50 @@ public class KraPasswordHandler extends WatchfulPasswordHandler {
      */
     public boolean authenticate(javax.servlet.ServletRequest request, String username, String password) {
         if (super.authenticate(request, username, password) != false) {
-            //try {
+            try {
                 if (username != null && !username.trim().equals( "" ) ) {
                     // check the username and password against the db
                     // return true if they are there and have a valid password
-                    //if ( LOG.isDebugEnabled() ) {
-                    //    LOG.debug( "Attempting login for user id: " + username + " and password hash: " + SpringServiceLocator.getEncryptionService().hash( password.trim() ) );
-                    //}
-                    // obtain the universal user record
-                    BusinessObjectService businessObjectService = (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
-                    Map personMap = new HashMap();
-                    personMap.put("userName", username.trim());
-                    Collection coll = businessObjectService.findMatching(Person.class, personMap);
-                    if (coll.isEmpty()) {
-                        LOG.info( "User " + username + " was not found in the Person table." );
-                        return false; // fail if user does not exist
-                    } else if (coll.size() > 1) {
-                        LOG.info( "User " + username + ": multiple records found in the Person table!" );
-                        return false; // fail if multiple users present (bad data; shouldn't happen)
+                    if ( LOG.isDebugEnabled() ) {
+                        LOG.debug( "Attempting login for user id: " + username + " and password hash: " + KNSServiceLocator.getEncryptionService().hash( password.trim() ) );
                     }
-                    // UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser( new AuthenticationUserId( username.trim() ) );
-                    //if ( LOG.isDebugEnabled() ) {
-                    //    LOG.debug( "Found user " + user.getPersonName() + " with password hash: " + user.getFinancialSystemsEncryptedPasswordText() );
-                    //}
+                   
+                    // obtain the universal user record
+                    UniversalUserService uus = KraServiceLocator.getService(UniversalUserService.class);
+                    UniversalUser user = uus.getUniversalUser( new AuthenticationUserId( username.trim() ) );
+                    if ( LOG.isDebugEnabled() ) {
+                        LOG.debug( "Found user " + user.getPersonName() + " with password hash: " + user.getFinancialSystemsEncryptedPasswordText() );
+                    }
+                    
                     // check if the password needs to be checked (if in a production environment or password turned on explicitly)
                     // TODO turn this on
-//                    if ( SpringServiceLocator.getKualiConfigurationService().isProductionEnvironment() || SpringServiceLocator.getWebAuthenticationService().isValidatePassword() ) {
-//                        // if so, hash the passed in password and compare to the hash retrieved from the database
-//                        String hashedPassword = user.getFinancialSystemsEncryptedPasswordText();
-//                        if ( hashedPassword == null ) {
-//                            hashedPassword = "";
-//                        }
-//                        hashedPassword = StringUtils.stripEnd( hashedPassword, EncryptionService.HASH_POST_PREFIX );
-//                        if ( SpringServiceLocator.getEncryptionService().hash( password.trim() ).equals( hashedPassword ) ) {
-//                            return true; // password matched
-//                        }
-//                    } else {
+                    KualiConfigurationService kcs = KraServiceLocator.getService(KualiConfigurationService.class);
+                    WebAuthenticationService was = KraServiceLocator.getService(WebAuthenticationService.class);
+                    if ( kcs.isProductionEnvironment() || was.isValidatePassword() ) {
+                    
+                        // if so, hash the passed in password and compare to the hash retrieved from the database
+                        String hashedPassword = user.getFinancialSystemsEncryptedPasswordText();
+                        if ( hashedPassword == null ) {
+                            hashedPassword = "";
+                        }
+                        
+                        EncryptionService es = KraServiceLocator.getService(EncryptionService.class);
+                        hashedPassword = StringUtils.stripEnd( hashedPassword, EncryptionService.HASH_POST_PREFIX );
+                        if ( es.hash( password.trim() ).equals( hashedPassword ) ) {
+                            return true; // password matched
+                        }
+                    } else {
                         LOG.warn( "WARNING: password checking is disabled - user " + username + " has been authenticated without a password." );
                         return true; // no need to check password - user's existence is enough 
-//                    }
+                    }
                 }
-//            } catch ( GeneralSecurityException ex ) {
-//                LOG.error( "Error validating password", ex );
-//                return false; // fail if the hash function fails
-//            } catch ( UserNotFoundException ex ) {
-//                LOG.info( "User " + username + " was not found in the Person table." );
-//                return false; // fail if user does not exist
-//            }
-
+            } catch ( GeneralSecurityException ex ) {
+                LOG.error( "Error validating password", ex );
+                return false; // fail if the hash function fails
+            } catch ( UserNotFoundException ex ) {
+                LOG.info( "User " + username + " was not found in the Person table." );
+                return false; // fail if user does not exist
+            }
         }
         LOG.warn( "CAS base password handler failed authenication for " + username + " based on number of attempts." );
         return false; // fail if we get to this point

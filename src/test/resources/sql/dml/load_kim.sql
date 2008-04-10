@@ -39,14 +39,13 @@ insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,3);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,5);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,7);
 
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (1, 'quickstart', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (2, 'ljoconno', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (3, 'bhutchinson', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (4, 'aslusar', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (5, 'tdurkin', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (6, 'pcberg', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (7, 'jtester', '');
-
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (1, 'quickstart', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (2, 'ljoconno', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (3, 'bhutchinson', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (4, 'aslusar', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (5, 'tdurkin', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (6, 'pcberg', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (7, 'jtester', 'fK69ATFsAydwQuteang+xMva+Tc=');
 
 insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (1, 1, 1);
 insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (1, 1, 'kra.unitNumber', '000001');
