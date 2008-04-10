@@ -38,8 +38,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.RiceConstants;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.rule.event.DocumentAuditEvent;
@@ -70,6 +72,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -82,15 +85,27 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ActionForward forward = super.docHandler(mapping, form, request, response);
+        ActionForward forward = null;
+        
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        String command = proposalDevelopmentForm.getCommand();
+        
+        if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
+             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(request.getParameter("docId"));
+             proposalDevelopmentForm.setDocument(retrievedDocument);
+             request.setAttribute("docId", request.getParameter("docId"));
+             forward = mapping.findForward("copyProposal");
+             forward = new ActionForward(forward.getPath()+ "?docId="+request.getParameter("docId"));  
+        } else {
+             forward = super.docHandler(mapping, form, request, response);
+        }
 
         if (IDocHandler.INITIATE_COMMAND.equals(proposalDevelopmentForm.getCommand())) {
             proposalDevelopmentForm.getProposalDevelopmentDocument().initialize();
         }else{
             proposalDevelopmentForm.initialize();
         }
+        
         return forward;
     }
     

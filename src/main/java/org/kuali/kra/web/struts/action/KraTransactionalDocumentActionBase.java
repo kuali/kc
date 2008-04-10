@@ -74,7 +74,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         Boolean sessionExpired = (Boolean) request.getSession().getAttribute(KeyConstants.SESSION_EXPIRED_IND);
         if (sessionExpired != null && sessionExpired.booleanValue() == true) {
             request.getSession().removeAttribute(KeyConstants.SESSION_EXPIRED_IND);
-            returnForward = mapping.findForward("portal"); 
+            returnForward = mapping.findForward(RiceConstants.MAPPING_PORTAL); 
         }
         else {
             // if found methodToCall, pass control to that method
