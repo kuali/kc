@@ -30,6 +30,8 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.log4j.Logger;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.AuditCluster;
+import org.kuali.core.util.AuditError;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
@@ -134,11 +136,14 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             subEngine.validateData(header);
         }catch (S2SValidationException e) {
             ArrayList<ErrorBean> errors = e.getMessages(S2SValidationException.ERROR);
+            List<AuditError> auditErrors = new ArrayList<AuditError>();
             if(errors!=null)
-            for (ErrorBean error : errors) {
+            for (ErrorBean error : errors) {                
                 LOG.error(error.getMsg());
+                auditErrors.add(new AuditError(Constants.NO_FIELD, error.getMsg(), Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
             }
 //            LOG.error(e.getMessage(), e);
+            GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));            
             return false;
         }
         catch (CoeusException e) {
@@ -156,10 +161,8 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             subEngine.setLogDir(reportPath);
             subEngine.submitApplication(header);            
         }catch(S2SValidationException e){
-            LOG.error(e.getMessage(), e);
-            errorMap.removeFromErrorPath("document");
-            //GlobalVariables.getErrorMap().putError("document.s2sOpportunity.s2sSubmissionTypeCode",KeyConstants.ERROR_IF_PROPOSAL_TYPE_IS_NEW_AND_S2S_SUBMISSION_TYPE_IS_CHANGED_CORRECTED);
-            errorMap.addToErrorPath("document");
+            LOG.error(e.getMessage(), e);            
+            GlobalVariables.getErrorMap().putError(Constants.NO_FIELD,KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION,e.getMessage());            
             return false;            
         }
         catch(Exception e){

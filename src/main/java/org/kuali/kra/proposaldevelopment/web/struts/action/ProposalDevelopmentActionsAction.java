@@ -15,19 +15,21 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_OPPORTUNITY_CONFIRMATION;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -37,8 +39,10 @@ import org.kuali.RiceConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.DocumentAuditEvent;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PessimisticLockService;
+import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.action.AuditModeAction;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -52,47 +56,22 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.KNSServiceLocator;
+
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.KEWServiceLocator;
-import edu.iu.uis.eden.actionrequests.ActionRequestValue;
-
-import edu.iu.uis.eden.clientapp.FutureRequestDocumentStateManager;
-import edu.iu.uis.eden.clientapp.WorkflowDocument;
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentDetailVO;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.clientapp.vo.ReportActionToTakeVO;
 import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
-import edu.iu.uis.eden.clientapp.vo.RouteNodeInstanceVO;
 import edu.iu.uis.eden.clientapp.vo.UserIdVO;
 import edu.iu.uis.eden.clientapp.vo.UserVO;
-import edu.iu.uis.eden.clientapp.vo.UuIdVO;
-import edu.iu.uis.eden.clientapp.vo.WorkflowIdVO;
 import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
-import edu.iu.uis.eden.doctype.DocumentType;
-import edu.iu.uis.eden.doctype.DocumentTypeService;
 import edu.iu.uis.eden.engine.node.KeyValuePair;
-import edu.iu.uis.eden.engine.node.RouteNode;
 import edu.iu.uis.eden.engine.node.RouteNodeInstance;
-import edu.iu.uis.eden.engine.node.RouteNodeService;
-import edu.iu.uis.eden.engine.simulation.SimulationCriteria;
-import edu.iu.uis.eden.engine.simulation.SimulationEngine;
-import edu.iu.uis.eden.engine.simulation.SimulationResults;
-import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
-import edu.iu.uis.eden.routeheader.WorkflowDocumentService;
-import edu.iu.uis.eden.routetemplate.RuleTemplate;
-import edu.iu.uis.eden.routetemplate.RuleTemplateService;
-import edu.iu.uis.eden.server.BeanConverter;
-import edu.iu.uis.eden.user.WorkflowUser;
-import edu.iu.uis.eden.user.WorkflowUserId;
-import edu.iu.uis.eden.util.Utilities;
-import edu.iu.uis.eden.util.Utilities.RouteLogActionRequestSorter;
-import edu.iu.uis.eden.workgroup.WorkflowGroupId;
-import edu.iu.uis.eden.workgroup.Workgroup;
-import edu.iu.uis.eden.workgroup.WorkgroupService;
 
 /**
  * Handles all of the actions from the Proposal Development Actions web page.
@@ -105,7 +84,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private static final String DOCUMENT_ROUTE_QUESTION="DocRoute";
     private static final String DOCUMENT_REJECT_QUESTION="DocReject";
     
-    
+    private static final String CONFIRM_SUBMISSION_WITH_WARNINGS_KEY = "submitApplication";
+    private static final String EMPTY_STRING = "";
     
     /**
      * Struts mapping for the Proposal web page.  
@@ -409,6 +389,72 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
          }
         
 }
+    
+    public ActionForward submitToGrantsGov(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response)throws Exception{
+        boolean errorExists = false;
+        boolean warningExists = false;
+        
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        
+        proposalDevelopmentForm.setAuditActivated(true);
+        S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
+        
+        // TODO : this rull will be called again in proposaldevelopmentaction.execute
+        // should we comment out here
+        if(KraServiceLocator.getService(KualiRuleService.class).applyRules(
+                new DocumentAuditEvent(proposalDevelopmentForm.getDocument())) & s2sService.validateApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber())){            
+            submitApplication(mapping,form,request,response);            
+        }else{
+            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
+                    errorExists=true;
+                    break;
+                }
+                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
+                    errorExists = true;
+                    break;
+                }
+                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
+                    warningExists = true;
+                }
+            }
+            if(errorExists){
+                GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+            }else if(warningExists){
+                return confirm(buildSubmitToGrantsGovWithWarningsQuestion(mapping, form, request, response), CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, EMPTY_STRING);
+            }            
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);        
+    }
+    
+    public ActionForward submitApplication(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response)throws Exception{
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        
+        S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
+        s2sService.submitApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber());
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    private StrutsConfirmation buildSubmitToGrantsGovWithWarningsQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, KeyConstants.QUESTION_SUMBMIT_OPPORTUNITY_WITH_WARNINGS_CONFIRMATION);
+    }
     
     
 }
