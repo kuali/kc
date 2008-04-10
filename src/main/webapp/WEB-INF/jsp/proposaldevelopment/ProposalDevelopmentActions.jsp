@@ -14,6 +14,8 @@ http://www.opensource.org/licenses/ecl1.php
 	limitations under the License.
 	--%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%-- Proposal Actions Page - Submit To Grants.gov Button - Commented Temporarily
+ <c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/> --%>
 
 <kul:documentPage
 showDocumentInfo="true"
@@ -46,12 +48,9 @@ showDocumentInfo="true"
 transactionalDocument="true"
 	extraButtonSource="${extraButtonSource}"
 		extraButtonProperty="${extraButtonProperty}"
-			extraButtonAlt="${extraButtonAlt}" />
+			extraButtonAlt="${extraButtonAlt}" 
+				extraButtons="${extraButtons}" />
 </p>
-
-
-
-
 
 <script language="javascript" src="scripts/kuali_application.js"></script>
 

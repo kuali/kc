@@ -224,15 +224,15 @@
 			</attribute>
 
 			<attribute name="costSharingAmount">
-			<label>Cost Sharing Amount </label>
-			<shortLabel>Cost Sharing Amount </shortLabel>
+			<label>Cost Sharing </label>
+			<shortLabel>Cost Sharing </shortLabel>
 			<maxLength>12</maxLength>
 			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
-			<summary>Cost Sharing Amount </summary>
-			<description>Cost Sharing Amount </description>
+			<summary>Cost Sharing </summary>
+			<description>Cost Sharing </description>
 			</attribute>
 
             <attributeReference name="endDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
@@ -257,14 +257,14 @@
 			</attribute>
 
 			<attribute name="lineItemDescription">
-			<label>Line Item Description </label>
-			<shortLabel>Line Item Description </shortLabel>
+			<label>Description </label>
+			<shortLabel>Description </shortLabel>
 			<maxLength>80</maxLength>
 			<control>
 					<textarea rows="3" cols="30" />
 			</control>
-			<summary>Line Item Description </summary>
-			<description>Line Item Description </description>
+			<summary>Description </summary>
+			<description>Description </description>
 			</attribute>
 
 			<attribute name="lineItemSequence">
@@ -292,15 +292,15 @@
 			</attribute>
 
 			<attribute name="quantity">
-			<label>Quantity </label>
-			<shortLabel>Quantity </shortLabel>
+			<label>Qty </label>
+			<shortLabel>Qty </shortLabel>
 			<maxLength>4</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
 				<text size="4" />
 			</control>
-			<summary>Quantity </summary>
-			<description>Quantity </description>
+			<summary>Qty </summary>
+			<description>Qty </description>
 			</attribute>
 
             <attributeReference name="startDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
@@ -312,15 +312,15 @@
       		</attributeReference>
 
 			<attribute name="underrecoveryAmount">
-			<label>Unrecovered FandA </label>
-			<shortLabel>Unrecovered FandA </shortLabel>
+			<label>Unrecovered F&amp;A </label>
+			<shortLabel>Unrecovered F&amp;A </shortLabel>
 			<maxLength>12</maxLength>
 			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
-			<summary>Unrecovered FandA </summary>
-			<description>Unrecovered FandA </description>
+			<summary>Unrecovered F&amp;A </summary>
+			<description>Unrecovered F&amp;A </description>
 			</attribute>
 
 		</attributes>
