@@ -19,7 +19,7 @@
 <c:set var="budgetPersonAttributes" value="${DataDictionary.BudgetPerson.attributes}" />
 
 <div id="workarea">
-<kul:tab tabTitle="Budget Personnel" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budgetPersons*" auditCluster="budgetPersonnelAuditErrors" tabAuditKey="document.budgetPerson*" useRiceAuditMode="true">
+<kul:tab tabTitle="Budget Personnel" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budgetPersons*" auditCluster="budgetPersonnelAuditErrors" tabAuditKey="document.budgetPerson*" useRiceAuditMode="true" alwaysOpen="true">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Budget Personnel</h2></span>
