@@ -131,6 +131,8 @@ public class KeyConstants {
     public static final String S2S_SUBMISSIONTYPE_OTHER = "s2s.submissiontype.changedCorrected";
     
     public static final String PESSIMISTIC_LOCK_MESSAGE = "error.document.pessimisticLockMessage";
+    public static final String SESSION_TIMEOUT_MESSAGE = "error.session.timeout";
+    public static final String SESSION_EXPIRED_IND = "sessionExpired";
     public static final String ERROR_INACTIVE_CUSTOM_ATT_DOC = "error.inactive.customAttributeDocument";
     public static final String ERROR_WORKFLOW_SUBMISSION = "error.workflow.submission";
     
