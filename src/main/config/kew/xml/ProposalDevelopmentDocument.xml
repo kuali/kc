@@ -3,6 +3,14 @@
 
 	<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
+		       <name>CopyCustomActionListAttribute</name>
+		       <className>org.kuali.kra.workflow.CopyCustomActionListAttribute</className>
+		       <label>Copy Action List Attribute</label>
+		       <description>Copy Action List Attribute</description>
+		       <type>ActionListAttribute</type>
+        </ruleAttribute>
+      
+		<ruleAttribute>
 			<name>AggregatorSearchAttribute</name>
 			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
 			<label>AggregatorSearchAttribute</label>
@@ -247,6 +255,10 @@
 			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<attributes>
+				<!-- 
+			 	<attribute>
+		      		<name>CopyCustomActionListAttribute</name>
+		        </attribute> -->
 				<attribute>
 					<name>AggregatorSearchAttribute</name>
 				</attribute>
@@ -315,7 +327,7 @@
             </attributes>
 			
 		</ruleTemplate>
-		<ruleTemplate allowOverwrite="true">
+		<ruleTemplate allowOverwrite="true">  
 			<name>OSPOfficeApproval</name>
 			<description>
 				OSP Office Approval Routing Rule 
