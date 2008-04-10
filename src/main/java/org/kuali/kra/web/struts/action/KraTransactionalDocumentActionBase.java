@@ -3,7 +3,7 @@
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * You may obtain a copy of the License at 
  * 
  * http://www.opensource.org/licenses/ecl1.php
  * 
@@ -22,11 +22,8 @@ import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +37,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.question.ConfirmationQuestion;
@@ -55,38 +51,51 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.notification.util.NotificationConstants;
 import org.kuali.rice.KNSServiceLocator;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
 // TODO : should move this class to org.kuali.kra.web.struts.action
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
     private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentActionBase.class);
 
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward returnForward = mapping.findForward(RiceConstants.MAPPING_BASIC);
+
+        Boolean sessionExpired = (Boolean) request.getSession().getAttribute(KeyConstants.SESSION_EXPIRED_IND);
+        if (sessionExpired != null && sessionExpired.booleanValue() == true) {
+            request.getSession().removeAttribute(KeyConstants.SESSION_EXPIRED_IND);
+            returnForward = mapping.findForward("portal"); 
+        }
+        else {
+            // if found methodToCall, pass control to that method
+            returnForward = super.execute(mapping, form, request, response);
+        }
+
+        return returnForward;
+    }
+
     /**
-     * By overriding the dispatchMethod(), we can check the user's authorization to
-     * perform the given action/task.  
-     * @see org.apache.struts.actions.DispatchAction#dispatchMethod(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String)
+     * By overriding the dispatchMethod(), we can check the user's authorization to perform the given action/task.
+     * 
+     * @see org.apache.struts.actions.DispatchAction#dispatchMethod(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+     *      java.lang.String)
      */
     @Override
-    protected ActionForward dispatchMethod(ActionMapping mapping,
-                                           ActionForm form,
-                                           HttpServletRequest request,
-                                           HttpServletResponse response,
-                                           String taskName) throws Exception {
-        
+    protected ActionForward dispatchMethod(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response, String taskName) throws Exception {
+
         ActionForward actionForward = null;
         if (!isTaskAuthorized(taskName, form, request)) {
             actionForward = processAuthorizationViolation(taskName, mapping, form, request, response);
-        } 
+        }
         else {
             actionForward = super.dispatchMethod(mapping, form, request, response, taskName);
         }
@@ -97,65 +106,71 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     /**
      * Overriding headerTab to customize how clearing tab state works on PDForm.
      */
-    public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
 
         ((KualiForm) form).setTabStates(new HashMap());
         return super.headerTab(mapping, form, request, response);
     }
 
 
-    
-    public ActionForward updateTextArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)  {
-        
+
+    public ActionForward updateTextArea(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
+
         // parse out the important strings from our methodToCall parameter
         String fullParameter = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
 
         // parse textfieldname:htmlformaction
-        String parameterFields = StringUtils.substringBetween(fullParameter, RiceConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, RiceConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
-        if ( LOG.isDebugEnabled() ) {
-            LOG.debug( "fullParameter: " + fullParameter );
-            LOG.debug( "parameterFields: " + parameterFields );
+        String parameterFields = StringUtils.substringBetween(fullParameter, RiceConstants.METHOD_TO_CALL_PARM2_LEFT_DEL,
+                RiceConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("fullParameter: " + fullParameter);
+            LOG.debug("parameterFields: " + parameterFields);
         }
         String[] keyValue = null;
         if (StringUtils.isNotBlank(parameterFields)) {
             String[] textAreaParams = parameterFields.split(RiceConstants.FIELD_CONVERSIONS_SEPERATOR);
-            if ( LOG.isDebugEnabled() ) {
-                LOG.debug( "lookupParams: " + textAreaParams );
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("lookupParams: " + textAreaParams);
             }
             for (int i = 0; i < textAreaParams.length; i++) {
                 keyValue = textAreaParams[i].split(RiceConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
 
-                if ( LOG.isDebugEnabled() ) {
-                    LOG.debug( "keyValue[0]: " + keyValue[0] );
-                    LOG.debug( "keyValue[1]: " + keyValue[1] );
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("keyValue[0]: " + keyValue[0]);
+                    LOG.debug("keyValue[1]: " + keyValue[1]);
                 }
             }
         }
         request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_NAME, keyValue[0]);
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.HTML_FORM_ACTION,keyValue[1]);
-        request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_LABEL,keyValue[2]);
+        request.setAttribute(org.kuali.kra.infrastructure.Constants.HTML_FORM_ACTION, keyValue[1]);
+        request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_LABEL, keyValue[2]);
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
-            request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_ANCHOR,((KualiForm) form).getAnchor());
+            request.setAttribute(org.kuali.kra.infrastructure.Constants.TEXT_AREA_FIELD_ANCHOR, ((KualiForm) form).getAnchor());
         }
 
         return mapping.findForward("updateTextArea");
 
     }
-    public ActionForward postTextAreaToParent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+
+    public ActionForward postTextAreaToParent(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) {
         return mapping.findForward("basic");
     }
 
     /**
-     * Initiates a Confirmation. Part of the Question Framework for handling confirmations where a "yes" or "no" answer is required. <br/>
-     * <br/>
-     * A <code>yesMethodName</code> is provided as well as a <code>noMethodName</code>. These are callback methods for handling "yes" or "no"
-     * responses.
+     * Initiates a Confirmation. Part of the Question Framework for handling confirmations where a "yes" or "no" answer is required.
+     * <br/> <br/> A <code>yesMethodName</code> is provided as well as a <code>noMethodName</code>. These are callback methods
+     * for handling "yes" or "no" responses.
      * 
-     * @param question a bean containing question information for the delegated <code>{@link #performQuestionWithoutInput(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse, String, String, String, String, String)}</code> method.
+     * @param question a bean containing question information for the delegated
+     *        <code>{@link #performQuestionWithoutInput(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse, String, String, String, String, String)}</code>
+     *        method.
      * @param yesMethodName "yes" response callback
      * @param noMethodName "no" response callback
      * @return
-     * @throws Exception can be thrown as a result of a problem during dispatching 
+     * @throws Exception can be thrown as a result of a problem during dispatching
      * @see https://test.kuali.org/confluence/x/EoFXAQ
      */
     public ActionForward confirm(StrutsConfirmation question, String yesMethodName, String noMethodName) throws Exception {
@@ -164,15 +179,17 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         LOG.info("Caller is " + question.getCaller());
         LOG.info("Setting caller from stacktrace " + Arrays.asList(new Throwable().getStackTrace()));
         LOG.info("Current action is " + getClass());
-        
+
         if (question.hasQuestionInstAttributeName()) {
             Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
             if (ConfirmationQuestion.YES.equals(buttonClicked) && isNotBlank(yesMethodName)) {
-                return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(), yesMethodName);
+                return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
+                        yesMethodName);
             }
             else if (isNotBlank(noMethodName)) {
-                return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(), noMethodName);
-             }
+                return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
+                        noMethodName);
+            }
         }
         else {
             return this.performQuestionWithoutInput(question, EMPTY_STRING);
@@ -180,12 +197,11 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
         return question.getMapping().findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * Generically creates a <code>{@link StrutsConfirmation}</code> instance while deriving the question from a resource bundle.<br/>
-     * <br/>
-     * In this case, the question in the resource bundle is expected to be parameterized. This method takes this into account, and passes
-     * parameters and replaces tokens in the question with the parameters.
+     * <br/> In this case, the question in the resource bundle is expected to be parameterized. This method takes this into account,
+     * and passes parameters and replaces tokens in the question with the parameters.
      * 
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
@@ -194,7 +210,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @return the confirmation question
      * @throws Exception
      */
-    protected StrutsConfirmation buildParameterizedConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionId, String configurationId, String ... params) throws Exception {
+    protected StrutsConfirmation buildParameterizedConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response, String questionId, String configurationId, String... params)
+            throws Exception {
         StrutsConfirmation retval = new StrutsConfirmation();
         retval.setMapping(mapping);
         retval.setForm(form);
@@ -202,23 +220,24 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         retval.setResponse(response);
         retval.setQuestionId(questionId);
         retval.setQuestionType(CONFIRMATION_QUESTION);
-        
-        
+
+
         KualiConfigurationService kualiConfiguration = getService(KualiConfigurationService.class);
         String questionText = kualiConfiguration.getPropertyString(configurationId);
-        
+
         for (int i = 0; i < params.length; i++) {
             questionText = replace(questionText, "{" + i + "}", params[i]);
         }
         retval.setQuestionText(questionText);
-   
+
         return retval;
-        
-    }    
-    
+
+    }
+
     /**
-     * Wrapper around <code>{@link performQuestionWithoutInput(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)}</code> using
-     * <code>{@link StrutsConfirmation}</code>  
+     * Wrapper around
+     * <code>{@link performQuestionWithoutInput(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)}</code> using
+     * <code>{@link StrutsConfirmation}</code>
      * 
      * @param question StrutsConfirmation
      * @param context
@@ -226,11 +245,11 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @throws Exception
      */
     protected ActionForward performQuestionWithoutInput(StrutsConfirmation question, String context) throws Exception {
-        return this.performQuestionWithoutInput(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(), 
-                                                question.getQuestionId(), question.getQuestionText(), question.getQuestionType(),
-                                                question.getCaller(), context);
+        return this.performQuestionWithoutInput(question.getMapping(), question.getForm(), question.getRequest(), question
+                .getResponse(), question.getQuestionId(), question.getQuestionText(), question.getQuestionType(), question
+                .getCaller(), context);
     }
-    
+
     /**
      * Takes a routeHeaderId for a particular document and constructs the URL to forward to that document
      * 
@@ -242,7 +261,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
         if (forward.indexOf("?") == -1) {
             forward += "?";
-        } else {
+        }
+        else {
             forward += "&";
         }
         forward += IDocHandler.ROUTEHEADER_ID_PARAMETER + "=" + routeHeaderId;
@@ -254,8 +274,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
 
     /**
-     * Check the authorization for executing a task.  A task corresponds to a Struts action.
-     * The name of a task always corresponds to the name of the Struts action method. 
+     * Check the authorization for executing a task. A task corresponds to a Struts action. The name of a task always corresponds to
+     * the name of the Struts action method.
+     * 
      * @param form the submitted form
      * @param request the HTTP request
      * @throws AuthorizationException
@@ -267,24 +288,26 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         String actionName = getActionName();
         ((KraTransactionalDocumentFormBase) form).setActionName(getClass().getSimpleName());
         Task task = buildTask(actionName, taskName, form, request);
-        boolean isAuthorized = taskAuthorizationService.isAuthorized( username, task );
+        boolean isAuthorized = taskAuthorizationService.isAuthorized(username, task);
         if (!isAuthorized) {
-            LOG.error("User not authorized to perform " + taskName + " for document: " + ((KualiDocumentFormBase)form).getDocument().getClass().getName() );
+            LOG.error("User not authorized to perform " + taskName + " for document: "
+                    + ((KualiDocumentFormBase) form).getDocument().getClass().getName());
         }
         return isAuthorized;
     }
-    
+
     /**
-     * Get the name of the action.  This method is normally overridden.
+     * Get the name of the action. This method is normally overridden.
+     * 
      * @return the action's name
      */
     protected String getActionName() {
         return getClass().getSimpleName();
     }
-    
+
     /**
-     * Build a Task.  Subclasses may override this method to create a
-     * different type of Task, e.g. one for proposals.
+     * Build a Task. Subclasses may override this method to create a different type of Task, e.g. one for proposals.
+     * 
      * @param actionName the name of the action
      * @param taskName the name of the task
      * @param form the Form
@@ -293,9 +316,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     protected Task buildTask(String actionName, String taskName, ActionForm form, HttpServletRequest request) {
         return new Task(actionName, taskName);
     }
-    
+
     /**
      * Process an Authorization Violation.
+     * 
      * @param mapping the Action Mapping
      * @param form the form
      * @param request the HTTP request
@@ -303,37 +327,43 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @return the next action to go to
      * @throws Exception
      */
-    protected ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         errorMap.putErrorWithoutFullErrorPath(Constants.TASK_AUTHORIZATION, KeyConstants.AUTHORIZATION_VIOLATION);
         return mapping.findForward(Constants.MAPPING_BASIC);
-    } 
-    
+    }
+
     @Override
     protected String generatePessimisticLockMessage(PessimisticLock lock) {
         String descriptor = (lock.getLockDescriptor() != null) ? lock.getLockDescriptor() : "";
-        
-        if(StringUtils.isNotEmpty(descriptor)) {
-            descriptor = StringUtils.capitalize(descriptor.substring(descriptor.indexOf("-")+1).toLowerCase());
+
+        if (StringUtils.isNotEmpty(descriptor)) {
+            descriptor = StringUtils.capitalize(descriptor.substring(descriptor.indexOf("-") + 1).toLowerCase());
         }
-        return "This " + descriptor + " is locked for editing by " + lock.getOwnedByPersonUniversalIdentifier() + " as of " + org.kuali.rice.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()) + " on " + org.kuali.rice.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
+        return "This " + descriptor + " is locked for editing by " + lock.getOwnedByPersonUniversalIdentifier() + " as of "
+                + org.kuali.rice.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()) + " on "
+                + org.kuali.rice.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp());
     }
 
     @Override
     protected boolean exitingDocument() {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(
+                KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         return super.exitingDocument() || StringUtils.isEmpty(activeLockRegion);
     }
 
     @Override
     protected void releaseLocks(Document document, String methodToCall) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(
+                KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         GlobalVariables.getUserSession().removeObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
 
         // first check if the method to call is listed as required lock clearing
         if (document.getLockClearningMethodNames().contains(methodToCall) || StringUtils.isEmpty(activeLockRegion)) {
             // find all locks for the current user and remove them
-            KNSServiceLocator.getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(), GlobalVariables.getUserSession().getUniversalUser());
+            KNSServiceLocator.getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(),
+                    GlobalVariables.getUserSession().getUniversalUser());
         }
     }
 
