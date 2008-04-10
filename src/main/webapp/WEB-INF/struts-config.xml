@@ -23,6 +23,7 @@
 
     <global-forwards >
        	<!-- Begin required KNS forwards -->
+       	<forward name="copyProposal" path="/WEB-INF/jsp/proposaldevelopment/copyProposal.jsp" redirect="true" />
         <forward name="save" path="/portal.jsp" redirect="true" />
         <forward name="cancel" path="/portal.jsp" redirect="true" />
         <forward name="close" path="/portal.jsp" redirect="true" />
