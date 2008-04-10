@@ -30,7 +30,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
  * 
  * This class for calculating non personnel line item
  */
-public class LineItemCalculator extends CalculatorBase {
+public class LineItemCalculator extends AbstractBudgetCalculator {
     private BudgetDocument bd;
     private BudgetLineItem bli;
     private DateTimeService dateTimeService;

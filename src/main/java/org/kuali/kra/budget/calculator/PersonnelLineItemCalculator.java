@@ -26,7 +26,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 /**
  * This class is for calculating personnel line items.
  */
-public class PersonnelLineItemCalculator extends CalculatorBase {
+public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
 
     private BudgetPersonnelDetails budgetPersonnelLineItem;
     private BudgetDocument budgetDocument;
@@ -40,7 +40,7 @@ public class PersonnelLineItemCalculator extends CalculatorBase {
     }
 
     /**
-     * @see org.kuali.kra.budget.calculator.CalculatorBase#populateApplicableCosts(Boundary)
+     * @see org.kuali.kra.budget.calculator.AbstractBudgetCalculator#populateApplicableCosts(Boundary)
      */
     @Override
     public void populateApplicableCosts(Boundary boundary) {
