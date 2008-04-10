@@ -66,11 +66,11 @@
 			</attributeReference>
 
             <attributeReference name="endDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>End Date</label>
-                <shortLabel>End Dt</shortLabel>
+                <label>Project End Date</label>
+                <shortLabel>Project End Dt</shortLabel>
 
-                <summary>End Date</summary>
-                <description>End Date</description>
+                <summary>Project End Date</summary>
+                <description>Project End Date</description>
       		</attributeReference>
 
             <attributeReference name="finalVersionFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
@@ -100,15 +100,15 @@
 			</attribute>
 
 			<attribute name="ohRateTypeCode">
-			<label>OverHead Rate Type</label>
-			<shortLabel>OverHead Rate Type</shortLabel>
+			<label>F&amp;A Rate Type</label>
+			<shortLabel>F&amp;A Rate Type</shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
                     <select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder" />
 			</control>
-			<summary>Oh Rate Type Code </summary>
-			<description>Oh Rate Type Code </description>
+			<summary>F&amp;A Rate Type</summary>
+			<description>F&amp;A Rate Type</description>
 			</attribute>
 
             <attributeReference name="residualFunds" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -120,12 +120,13 @@
 			</attributeReference>
 
             <attributeReference name="startDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Start Date</label>
-                <shortLabel>Start Date </shortLabel>
+                <label>Project Start Date</label>
+                <shortLabel>Project Start Date </shortLabel>
 
-                <summary>Start Date</summary>
-                <description>Start Date</description>
+                <summary>Project Start Date</summary>
+                <description>Project Start Date</description>
       		</attributeReference>
+
 
             <attributeReference  name="totalCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Total Cost </label>
