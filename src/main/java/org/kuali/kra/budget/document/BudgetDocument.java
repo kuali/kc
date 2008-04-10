@@ -37,6 +37,7 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.Formatter;
@@ -78,6 +79,8 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
+    private static final String DETAIL_TYPE_CODE = "D";
+    private static final String BUDGET_NAMESPACE_CODE = "KRA-B";
     private static final String FALSE_FLAG = "N";
     private static final String TRUE_FLAG = "Y";
 
@@ -218,39 +221,45 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return comments;
     }
 
-    public List<KualiDecimal> getProjectIncomePeriodTotals() {
-        Map<Integer, KualiDecimal> incomes = new TreeMap<Integer, KualiDecimal>();
-        for(BudgetProjectIncome budgetProjectIncome: budgetProjectIncomes) {
-            Integer budgetPeriodNumber = budgetProjectIncome.getBudgetPeriodNumber();
-            KualiDecimal amount = incomes.get(budgetPeriodNumber);
-            amount = (amount == null) ? budgetProjectIncome.getProjectIncome() : amount.add(budgetProjectIncome.getProjectIncome());
-            
-            incomes.put(budgetPeriodNumber, amount);
-        }
-                
-        List<KualiDecimal> periodIncomeTotals = new ArrayList<KualiDecimal>(incomes.size());
-        for(Integer periodNo: incomes.keySet()) {
-            KualiDecimal periodIncomeTotal = incomes.get(periodNo);
-            periodIncomeTotals.add(periodIncomeTotal);
-        }
-        
-        return periodIncomeTotals;
+    /**
+     * This method does what its name says
+     * @return List of project totals for each budget period, where budget period 1 total is stored in list's 0th element
+     */
+    public List<KualiDecimal> getProjectIncomePeriodTotalsForEachBudgetPeriod() {
+        Map<Integer, KualiDecimal> incomes = mapProjectIncomeTotalsToBudgetPeriodNumbers();                
+        return findProjectIncomeTotalsForBudgetPeriods(incomes);
     }
-     
+    
+    /**
+     * This method does what its name says
+     * @return
+     */
     public List<FiscalYearSummary> getFiscalYearCostShareTotals() {
         Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = mapBudgetPeriodsToFiscalYears();
-        return calculateFiscalYearTotals(budgetPeriodFiscalYears);
+        return findCostShareTotalsForBudgetPeriods(budgetPeriodFiscalYears);
     }
     
+    /**
+     * This method does what its name says
+     * @return
+     */
     public List<FiscalYearSummary> getFiscalYearUnrecoveredFandATotals() {
         Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = mapBudgetPeriodsToFiscalYears();
-        return calculateFiscalYearTotals(budgetPeriodFiscalYears); 
+        return findCostShareTotalsForBudgetPeriods(budgetPeriodFiscalYears); 
     }
     
+    /**
+     * This method reveals applicability of Cost Sharing to this budget
+     * @return
+     */
     public Boolean isCostSharingApplicable() {
         return loadCostSharingApplicability();
     }
     
+    /**
+     * This method reveals availability of Cost Sharing in this budget
+     * @return
+     */
     public boolean isCostSharingAvailable() {
         boolean costSharingAvailable = false;
         for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
@@ -825,7 +834,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public BudgetDecimal findCostSharingForFiscalYear(Integer fiscalYear) {
         BudgetDecimal costSharing = BudgetDecimal.ZERO;
         
-        List<FiscalYearSummary> costShareFiscalYears = calculateFiscalYearTotals(mapBudgetPeriodsToFiscalYears());
+        List<FiscalYearSummary> costShareFiscalYears = findCostShareTotalsForBudgetPeriods(mapBudgetPeriodsToFiscalYears());
         for(FiscalYearSummary costShareFiscalYear: costShareFiscalYears) {
             if(costShareFiscalYear.fiscalYear == fiscalYear) {
                 costSharing = costShareFiscalYear.costShare;
@@ -844,7 +853,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public BudgetDecimal findUnrecoveredFandAForFiscalYear(Integer fiscalYear) {
         BudgetDecimal unrecoveredFandA = BudgetDecimal.ZERO;
         
-        List<FiscalYearSummary> fiscalYearSummaries = calculateFiscalYearTotals(mapBudgetPeriodsToFiscalYears());
+        List<FiscalYearSummary> fiscalYearSummaries = findCostShareTotalsForBudgetPeriods(mapBudgetPeriodsToFiscalYears());
         for(FiscalYearSummary fiscalYearSummary: fiscalYearSummaries) {
             if(fiscalYearSummary.getFiscalYear() == fiscalYear) {
                 unrecoveredFandA = fiscalYearSummary.getUnrecoveredFandA();
@@ -855,217 +864,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return unrecoveredFandA;
     }
     
-    /**
-     * This method loads the fiscal year start from the database. Protected to allow mocking out service call
-     * @return
-     */
-    protected Date loadFiscalYearStart() {
-        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-        return createDateFromString(kualiConfigurationService.getParameterValue("KRA-B", "D", Constants.BUDGET_CURRENT_FISCAL_YEAR));        
-    }
-    
-    /**
-     * This method loads the cost sharing applicability flag from the database. Protected to allow mocking out service call
-     * @return
-     */
-    protected Boolean loadCostSharingApplicability() {
-        return getApplicabilityValue(Constants.BUDGET_COST_SHARING_APPLICABILITY_FLAG);        
-    }
-    
-    /**
-     * This method loads the unrecovered F&A applicability flag from the database. Protected to allow mocking out service call
-     * @return
-     */
-    protected Boolean loadUnrecoveredFandAApplicability() {
-        return getApplicabilityValue(Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG);        
-    }
-
-    protected Date createDateFromString(String budgetFiscalYearStart) {
-        if (budgetFiscalYearStart == null) {
-            return null;
-        }
-        String[] dateParts = budgetFiscalYearStart.split("/"); // mm/dd/yyyy
-        
-        // using Calendar her because org.kuali.core.util.DateUtils.newdate(...) has hour value in time fields (UT?)
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.set(Integer.valueOf(dateParts[2]), Integer.valueOf(dateParts[0]) - 1, Integer.valueOf(dateParts[1]), 0, 0, 0);
-        return new Date(calendar.getTimeInMillis());
-    }
-    
-    @SuppressWarnings("unchecked")
-    private void addBudgetDistributionAndIncomeComponent(List distributionAndIncomeComponents, BudgetDistributionAndIncomeComponent distributionAndIncomeComponent) {
-        if(distributionAndIncomeComponent != null) {
-            distributionAndIncomeComponent.setProposalNumber(getProposalNumber());
-            distributionAndIncomeComponent.setBudgetVersionNumber(getBudgetVersionNumber());            
-            distributionAndIncomeComponent.setDocumentComponentId(getDocumentNextValue(BudgetCostShare.DOCUMENT_COMPONENT_ID_KEY));            
-            distributionAndIncomeComponents.add(distributionAndIncomeComponent);
-        } else {
-            LOG.warn("Attempt to add null distributionAndIncomeComponent was ignored.");
-        }
-    }
-    
-    private List<FiscalYearSummary> calculateFiscalYearTotals(Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears) {
-        List<FiscalYearSummary> fiscalYearSummaries = new ArrayList<FiscalYearSummary>();
-        for(Integer fiscalYear: budgetPeriodFiscalYears.keySet()) {            
-            BudgetDecimal fiscalYearCostShareAmount = BudgetDecimal.ZERO;
-            BudgetDecimal fiscalYearUnrecoveredFandA = BudgetDecimal.ZERO;
-            List<BudgetPeriod> budgetPeriodsInFiscalYear = budgetPeriodFiscalYears.get(fiscalYear);
-            for(BudgetPeriod budgetPeriod: budgetPeriodsInFiscalYear) {
-                fiscalYearCostShareAmount = fiscalYearCostShareAmount.add(budgetPeriod.getCostSharingAmount());
-                fiscalYearUnrecoveredFandA = fiscalYearUnrecoveredFandA.add(budgetPeriod.getUnderrecoveryAmount());
-            }
-            fiscalYearSummaries.add(new FiscalYearSummary(budgetPeriodsInFiscalYear.get(0), fiscalYear, fiscalYearCostShareAmount, fiscalYearUnrecoveredFandA, findApplicableRatesForFiscalYear(fiscalYear)));
-        }
-        return fiscalYearSummaries;
-    }
-
-    private FiscalYearRates findApplicableRatesForFiscalYear(Integer fiscalYear) {
-        String unrecoveredFandARateClassCode = getUrRateClassCode();
-        if(unrecoveredFandARateClassCode == null || unrecoveredFandARateClassCode.trim().length() == 0) {
-            return new FiscalYearRates(fiscalYear, RateDecimal.ZERO_RATE, RateDecimal.ZERO_RATE);
-        } else {
-            RateDecimal offCampusRate = findApplicableRateForRateClassCode(fiscalYear, unrecoveredFandARateClassCode, false);
-            RateDecimal onCampusRate = findApplicableRateForRateClassCode(fiscalYear, unrecoveredFandARateClassCode, true);
-            return new FiscalYearRates(fiscalYear, onCampusRate, offCampusRate);
-        }
-    }
-
-    private RateDecimal findApplicableRateForRateClassCode(Integer fiscalYear, String unrecoveredFandARateClassCode, boolean findOnCampusRate) {
-        RateDecimal applicableRate = RateDecimal.ZERO_RATE;
-        for(BudgetProposalRate budgetProposalRate: getBudgetProposalRates()) {
-            if(Integer.valueOf(budgetProposalRate.getFiscalYear()).equals(fiscalYear) && budgetProposalRate.getRateClassCode().equalsIgnoreCase(unrecoveredFandARateClassCode) && findOnCampusRate == budgetProposalRate.getOnOffCampusFlag()) {
-                applicableRate = new RateDecimal(budgetProposalRate.getApplicableRate().bigDecimalValue());
-                break;
-            }
-        }
-        return applicableRate;
-    }
-
-    private Map<Integer, List<BudgetPeriod>> mapBudgetPeriodsToFiscalYears() {
-        Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = new TreeMap<Integer, List<BudgetPeriod>>();
-        
-        for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
-            Integer fiscalYear = budgetPeriod.calculateFiscalYear(getFiscalYearStart());
-            
-            List<BudgetPeriod> budgetPeriodsInFiscalYear = budgetPeriodFiscalYears.get(fiscalYear);
-            if(budgetPeriodsInFiscalYear == null) {
-                budgetPeriodsInFiscalYear = new ArrayList<BudgetPeriod>();
-                budgetPeriodFiscalYears.put(fiscalYear, budgetPeriodsInFiscalYear);
-            }
-            budgetPeriodsInFiscalYear.add(budgetPeriod);
-            Collections.sort(budgetPeriodsInFiscalYear, new BudgetPeriodComparator());
-        }
-        return budgetPeriodFiscalYears;
-    }
-
-    /**
-     * This method returns the fiscalYearStart, loading it from the database if needed
-     *  
-     * @return
-     */
-    private Date getFiscalYearStart() {
-        return loadFiscalYearStart();
-    }
-    
-    private Boolean getApplicabilityValue(String parmName) {
-        String parmValue;
-        
-        try {
-            KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
-            parmValue = kualiConfigurationService.getParameterValue("KRA-B", "D", parmName);
-        } catch(Exception exc) {
-            parmValue = FALSE_FLAG;
-        }
-        
-        return parmValue.equalsIgnoreCase(TRUE_FLAG);
-    }
-    
-    public class FiscalYearRates {
-        private Integer fiscalYear;
-        private RateDecimal onCampusApplicableRate;
-        private RateDecimal offCampusApplicableRate;
-        
-        public FiscalYearRates(Integer fiscalYear, RateDecimal onCampusApplicableRate, RateDecimal offCampusApplicableRate) {
-            this.fiscalYear = fiscalYear;
-            this.onCampusApplicableRate = onCampusApplicableRate;
-            this.offCampusApplicableRate = offCampusApplicableRate;
-        }
-        
-        public Integer getFiscalYear() {
-            return fiscalYear;
-        }
-        
-        public RateDecimal getOnCampusApplicableRate() {
-            return onCampusApplicableRate;
-        }
-
-        public RateDecimal getOffCampusApplicableRate() {
-            return offCampusApplicableRate;
-        }
-    }
-    
-    public class FiscalYearSummary {
-        private int fiscalYear;
-        private BudgetPeriod assignedBudgetPeriod;
-        private BudgetDecimal costShare;
-        private BudgetDecimal unrecoveredFandA;
-        private FiscalYearRates fiscalYearRates;
-        
-        public FiscalYearSummary(BudgetPeriod assignedBudgetPeriod, int fiscalYear, BudgetDecimal costShare, BudgetDecimal unrecoveredFandA,
-                                    FiscalYearRates fiscalYearRates) {
-            super();
-            this.assignedBudgetPeriod = assignedBudgetPeriod;
-            this.fiscalYear = fiscalYear;
-            this.costShare = costShare;
-            this.unrecoveredFandA = unrecoveredFandA;
-            this.fiscalYearRates = fiscalYearRates;
-        }
-
-        public int getFiscalYear() {
-            return fiscalYear;
-        }
-
-        public BudgetPeriod getAssignedBudgetPeriod() {
-            return assignedBudgetPeriod;
-        }
-
-        public BudgetDecimal getCostShare() {
-            return costShare;
-        }        
-        
-        public FiscalYearRates getFiscalYearRates() {
-            return fiscalYearRates;
-        }
-        
-        public BudgetDecimal getUnrecoveredFandA() {
-            return unrecoveredFandA;
-        }
-
-        
-    }
-    /**
-     * This class compares two BudgetPeriods to determine which should be considered earlier.
-     */
-    private class BudgetPeriodComparator implements Comparator<BudgetPeriod> {
-        private final static int FIRST_EQUALS_SECOND = 0;
-        private final static int FIRST_LESS_THAN_SECOND = -1;
-        
-        public int compare(BudgetPeriod bp1, BudgetPeriod bp2) {
-            int result = compareDates(bp1.getStartDate(), bp2.getStartDate());
-            if(result == FIRST_EQUALS_SECOND) {
-                result = compareDates(bp1.getEndDate(), bp2.getEndDate());
-            }
-            return result;
-        }
-        
-        private int compareDates(Date d1, Date d2) {
-            if(d1 != null) {
-                return d1.compareTo(d2);                
-            } else {
-                return (d2 != null) ? FIRST_LESS_THAN_SECOND : FIRST_EQUALS_SECOND;
-            }
-        }
-    }
     public List<BudgetCategoryType> getBudgetCategoryTypes() {
         return budgetCategoryTypes;
     }
@@ -1091,6 +889,136 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
     
     /**
+     * This method loads the fiscal year start from the database. Protected to allow mocking out service call
+     * @return
+     */
+    protected Date loadFiscalYearStart() {
+        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+        return createDateFromString(kualiConfigurationService.getParameterValue(BUDGET_NAMESPACE_CODE, DETAIL_TYPE_CODE, Constants.BUDGET_CURRENT_FISCAL_YEAR));        
+    }
+    
+    /**
+     * This method loads the cost sharing applicability flag from the database. Protected to allow mocking out service call
+     * @return
+     */
+    protected Boolean loadCostSharingApplicability() {
+        return getApplicabilityValue(Constants.BUDGET_COST_SHARING_APPLICABILITY_FLAG);        
+    }
+    
+    /**
+     * This method loads the unrecovered F&A applicability flag from the database. Protected to allow mocking out service call
+     * @return
+     */
+    protected Boolean loadUnrecoveredFandAApplicability() {
+        return getApplicabilityValue(Constants.BUDGET_UNRECOVERED_F_AND_A_APPLICABILITY_FLAG);        
+    }
+
+    /**
+     * 
+     * This method should be in DateUtils, but wasn't found there
+     * @param budgetFiscalYearStart
+     * @return
+     */
+    protected Date createDateFromString(String budgetFiscalYearStart) {
+        if (budgetFiscalYearStart == null) {
+            return null;
+        }
+        String[] dateParts = budgetFiscalYearStart.split("/"); // mm/dd/yyyy
+        
+        // using Calendar her because org.kuali.core.util.DateUtils.newdate(...) has hour value in time fields (UT?)
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.set(Integer.valueOf(dateParts[2]), Integer.valueOf(dateParts[0]) - 1, Integer.valueOf(dateParts[1]), 0, 0, 0);
+        return new Date(calendar.getTimeInMillis());
+    }
+    
+    /**
+     * This method adds a BudgetDistributionAndIncomeComponent to the specified list after setting its key field values
+     * @param distributionAndIncomeComponents
+     * @param distributionAndIncomeComponent
+     */
+    @SuppressWarnings("unchecked")
+    private void addBudgetDistributionAndIncomeComponent(List distributionAndIncomeComponents, BudgetDistributionAndIncomeComponent distributionAndIncomeComponent) {
+        if(distributionAndIncomeComponent != null) {
+            distributionAndIncomeComponent.setProposalNumber(getProposalNumber());
+            distributionAndIncomeComponent.setBudgetVersionNumber(getBudgetVersionNumber());            
+            distributionAndIncomeComponent.setDocumentComponentId(getHackedDocumentNextValue(distributionAndIncomeComponent.getDocumentComponentIdKey()));            
+            distributionAndIncomeComponents.add(distributionAndIncomeComponent);
+        } else {
+            LOG.warn("Attempt to add null distributionAndIncomeComponent was ignored.");
+        }
+    }
+    
+
+    /**
+     * This method does what its name says
+     * @param fiscalYear
+     * @return
+     */
+    private FiscalYearApplicableRate findApplicableRatesForFiscalYear(Integer fiscalYear) {
+        String unrecoveredFandARateClassCode = getUrRateClassCode();
+        if(unrecoveredFandARateClassCode == null || unrecoveredFandARateClassCode.trim().length() == 0) {
+            return new FiscalYearApplicableRate(fiscalYear, RateDecimal.ZERO_RATE, RateDecimal.ZERO_RATE);
+        } else {
+            RateDecimal offCampusRate = findApplicableRateForRateClassCode(fiscalYear, unrecoveredFandARateClassCode, false);
+            RateDecimal onCampusRate = findApplicableRateForRateClassCode(fiscalYear, unrecoveredFandARateClassCode, true);
+            return new FiscalYearApplicableRate(fiscalYear, onCampusRate, offCampusRate);
+        }
+    }
+
+    /**
+     * This method does what its name says
+     * @param fiscalYear
+     * @param unrecoveredFandARateClassCode
+     * @param findOnCampusRate
+     * @return
+     */
+    private RateDecimal findApplicableRateForRateClassCode(Integer fiscalYear, String unrecoveredFandARateClassCode, boolean findOnCampusRate) {
+        RateDecimal applicableRate = RateDecimal.ZERO_RATE;
+        for(BudgetProposalRate budgetProposalRate: getBudgetProposalRates()) {
+            if(Integer.valueOf(budgetProposalRate.getFiscalYear()).equals(fiscalYear) && budgetProposalRate.getRateClassCode().equalsIgnoreCase(unrecoveredFandARateClassCode) && findOnCampusRate == budgetProposalRate.getOnOffCampusFlag()) {
+                applicableRate = new RateDecimal(budgetProposalRate.getApplicableRate().bigDecimalValue());
+                break;
+            }
+        }
+        return applicableRate;
+    }
+
+    /**
+     * This method does what its name says
+     * @param budgetPeriodFiscalYears
+     * @return
+     */
+    private List<FiscalYearSummary> findCostShareTotalsForBudgetPeriods(Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears) {
+        List<FiscalYearSummary> fiscalYearSummaries = new ArrayList<FiscalYearSummary>();
+        for(Integer fiscalYear: budgetPeriodFiscalYears.keySet()) {            
+            BudgetDecimal fiscalYearCostShareAmount = BudgetDecimal.ZERO;
+            BudgetDecimal fiscalYearUnrecoveredFandA = BudgetDecimal.ZERO;
+            List<BudgetPeriod> budgetPeriodsInFiscalYear = budgetPeriodFiscalYears.get(fiscalYear);
+            for(BudgetPeriod budgetPeriod: budgetPeriodsInFiscalYear) {
+                fiscalYearCostShareAmount = fiscalYearCostShareAmount.add(budgetPeriod.getCostSharingAmount());
+                fiscalYearUnrecoveredFandA = fiscalYearUnrecoveredFandA.add(budgetPeriod.getUnderrecoveryAmount());
+            }
+            fiscalYearSummaries.add(new FiscalYearSummary(budgetPeriodsInFiscalYear.get(0), fiscalYear, fiscalYearCostShareAmount, fiscalYearUnrecoveredFandA, findApplicableRatesForFiscalYear(fiscalYear)));
+        }
+        return fiscalYearSummaries;
+    }
+    
+    /**
+     * This method does what its name says
+     * @param incomes
+     * @return
+     */
+    private List<KualiDecimal> findProjectIncomeTotalsForBudgetPeriods(Map<Integer, KualiDecimal> incomes) {
+        List<KualiDecimal> periodIncomeTotals = new ArrayList<KualiDecimal>(budgetPeriods.size());
+        for(BudgetPeriod budgetPeriod: budgetPeriods) {
+            KualiDecimal periodIncomeTotal = incomes.get(budgetPeriod.getBudgetPeriod());
+            if(periodIncomeTotal == null) { periodIncomeTotal = KualiDecimal.ZERO; }
+            periodIncomeTotals.add(periodIncomeTotal);
+        }
+        return periodIncomeTotals;
+    }
+    
+    /**
      * This method returns a collection if the collection is not null; otherwise, zero is returned 
      * @param collection
      * @return
@@ -1098,5 +1026,192 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     @SuppressWarnings("unchecked")
     private int getCollectionSize(Collection collection) {
         return collection != null ? collection.size() : 0;
+    }
+    
+    /**
+     * This method returns the fiscalYearStart, loading it from the database if needed
+     *  
+     * @return
+     */
+    private Date getFiscalYearStart() {
+        return loadFiscalYearStart();
+    }
+    
+    /**
+     * This method looks up the applicability flag
+     * @param parmName
+     * @return
+     */
+    protected Boolean getApplicabilityValue(String parmName) {
+        String parmValue;
+        
+        try {
+            KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+            parmValue = kualiConfigurationService.getParameterValue(BUDGET_NAMESPACE_CODE, DETAIL_TYPE_CODE, parmName);
+        } catch(Exception exc) {
+            parmValue = FALSE_FLAG;
+        }
+        
+        return parmValue.equalsIgnoreCase(TRUE_FLAG);
+    }
+    
+    /**
+     * This method does what its name says
+     * @return
+     */
+    private Map<Integer, KualiDecimal> mapProjectIncomeTotalsToBudgetPeriodNumbers() {
+        Map<Integer, KualiDecimal> budgetPeriodProjectIncomeMap = new TreeMap<Integer, KualiDecimal>();
+        for(BudgetProjectIncome budgetProjectIncome: budgetProjectIncomes) {
+            Integer budgetPeriodNumber = budgetProjectIncome.getBudgetPeriodNumber();
+            KualiDecimal amount = budgetPeriodProjectIncomeMap.get(budgetPeriodNumber);
+            amount = (amount == null) ? budgetProjectIncome.getProjectIncome() : amount.add(budgetProjectIncome.getProjectIncome());
+            
+            budgetPeriodProjectIncomeMap.put(budgetPeriodNumber, amount);
+        }
+        return budgetPeriodProjectIncomeMap;
+    }
+    
+    /**
+     * This method does what its name says
+     * @return
+     */
+    private Map<Integer, List<BudgetPeriod>> mapBudgetPeriodsToFiscalYears() {
+        Map<Integer, List<BudgetPeriod>> budgetPeriodFiscalYears = new TreeMap<Integer, List<BudgetPeriod>>();
+        
+        for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
+            Integer fiscalYear = budgetPeriod.calculateFiscalYear(getFiscalYearStart());
+            
+            List<BudgetPeriod> budgetPeriodsInFiscalYear = budgetPeriodFiscalYears.get(fiscalYear);
+            if(budgetPeriodsInFiscalYear == null) {
+                budgetPeriodsInFiscalYear = new ArrayList<BudgetPeriod>();
+                budgetPeriodFiscalYears.put(fiscalYear, budgetPeriodsInFiscalYear);
+            }
+            budgetPeriodsInFiscalYear.add(budgetPeriod);
+            Collections.sort(budgetPeriodsInFiscalYear, BudgetPeriod.getBudgetPeriodDateComparator());
+        }
+        return budgetPeriodFiscalYears;
+    }
+    
+    /**
+     * This class wraps fiscal year, on and off campus rate
+     */
+    public class FiscalYearApplicableRate {
+        private Integer fiscalYear;
+        private RateDecimal onCampusApplicableRate;
+        private RateDecimal offCampusApplicableRate;
+        
+        /**
+         * Constructs a BudgetDocument.java.
+         * @param fiscalYear
+         * @param onCampusApplicableRate
+         * @param offCampusApplicableRate
+         */
+        public FiscalYearApplicableRate(Integer fiscalYear, RateDecimal onCampusApplicableRate, RateDecimal offCampusApplicableRate) {
+            this.fiscalYear = fiscalYear;
+            this.onCampusApplicableRate = onCampusApplicableRate;
+            this.offCampusApplicableRate = offCampusApplicableRate;
+        }
+        
+        /**
+         * 
+         * This method...
+         * @return
+         */
+        public Integer getFiscalYear() {
+            return fiscalYear;
+        }
+        
+        /**
+         * 
+         * This method...
+         * @return
+         */
+        public RateDecimal getOnCampusApplicableRate() {
+            return onCampusApplicableRate;
+        }
+
+        /**
+         * 
+         * This method...
+         * @return
+         */
+        public RateDecimal getOffCampusApplicableRate() {
+            return offCampusApplicableRate;
+        }
+    }
+    
+    /**
+     * This class wraps the fiscal year, assignedBudgetPeriod, fiscl year applicable rate, and the fiscal year totals for cost share and unrecovered
+     */
+    public class FiscalYearSummary {
+        private int fiscalYear;
+        private BudgetPeriod assignedBudgetPeriod;
+        private BudgetDecimal costShare;
+        private BudgetDecimal unrecoveredFandA;
+        private FiscalYearApplicableRate fiscalYearRates;
+        
+        /**
+         * 
+         * Constructs a BudgetDocument.java.
+         * @param assignedBudgetPeriod
+         * @param fiscalYear
+         * @param costShare
+         * @param unrecoveredFandA
+         * @param fiscalYearRates
+         */
+        public FiscalYearSummary(BudgetPeriod assignedBudgetPeriod, int fiscalYear, BudgetDecimal costShare, BudgetDecimal unrecoveredFandA,
+                                    FiscalYearApplicableRate fiscalYearRates) {
+            super();
+            this.assignedBudgetPeriod = assignedBudgetPeriod;
+            this.fiscalYear = fiscalYear;
+            this.costShare = costShare;
+            this.unrecoveredFandA = unrecoveredFandA;
+            this.fiscalYearRates = fiscalYearRates;
+        }
+
+        /**
+         * 
+         * This method...
+         * @return
+         */
+        public int getFiscalYear() {
+            return fiscalYear;
+        }
+
+        /**
+         * 
+         * This method...
+         * @return
+         */
+        public BudgetPeriod getAssignedBudgetPeriod() {
+            return assignedBudgetPeriod;
+        }
+
+        /**
+         * 
+         * This method...
+         * @return
+         */
+        public BudgetDecimal getCostShare() {
+            return costShare;
+        }        
+        
+        /**
+         * 
+         * This method...
+         * @return
+         */
+        public FiscalYearApplicableRate getFiscalYearRates() {
+            return fiscalYearRates;
+        }
+        
+        /**
+         * 
+         * This method...
+         * @return
+         */
+        public BudgetDecimal getUnrecoveredFandA() {
+            return unrecoveredFandA;
+        }
     }
 }
