@@ -20,7 +20,7 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class BudgetWebTestBase extends ProposalDevelopmentWebTestBase {
+public abstract class BudgetWebTestBase extends ProposalDevelopmentWebTestBase {
     
     private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";
     private static final String NEW_BUDGET_VERSION_NAME = "newBudgetVersionName";
