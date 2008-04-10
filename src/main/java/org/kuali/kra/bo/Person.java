@@ -26,7 +26,7 @@ import org.kuali.kra.kim.bo.KimPerson;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.6 2008-03-25 20:58:32 dbarre Exp $
+ * $Id: Person.java,v 1.7 2008-04-10 17:11:30 dbarre Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -1296,5 +1296,13 @@ public class Person extends KraPersistableBusinessObjectBase {
      */
     public void setKimPerson(KimPerson kimPerson) {
         this.kimPerson = kimPerson;
+    }
+
+    public String getPassword() {
+        return kimPerson.getPassword();
+    }
+    
+    public void setPassword(String password) {
+        this.kimPerson.setPassword(password);
     }
 }
