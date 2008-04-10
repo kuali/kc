@@ -58,7 +58,7 @@
      	<%-- <c:out value="${tabErrorKeyString}test" /> --%>
 	<c:set var="budgetExpensePanelReadOnly" value="${KualiForm.document.proposal.budgetVersionOverviews[KualiForm.document.budgetVersionNumber-1].finalVersionFlag}" />
 	 	
-	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}${budgetLineItemSize}" defaultOpen="true" tabErrorKey="*costElement*,document.budgetCategoryTypes*,newBudgetLineItems[${catCodes}].*">
+	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}${budgetLineItemSize}" defaultOpen="false" tabErrorKey="*costElement*,document.budgetCategoryTypes*,newBudgetLineItems[${catCodes}].*">
 		<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>${budgetCategoryTypeCodesLabel}</h2></span>
@@ -136,13 +136,15 @@
                 	<div align="center">
                   	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemCost" attributeEntry="${budgetLineItemAttributes.lineItemCost}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/> 
                 	</div>
-				</td>
+				</td>				
 				<td class="infoline">
+					<c:if test="${!budgetExpensePanelReadOnly}" >
 					<div align=center>
 						<html:image property="methodToCall.addBudgetLineItem.budgetCategoryTypeCode${budgetCategoryTypeCodesKey}.catTypeIndex${catCodes}.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
 					</div>
-                </td>
+					</c:if>	
+                </td>			
             </tr> 
 			    <c:forEach var="budgetCategoryTypeIndex" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="status1">
 			    	<c:if test="${budgetCategoryTypeIndex.key ==  budgetCategoryTypeCodesKey}">

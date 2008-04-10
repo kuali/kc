@@ -123,6 +123,9 @@ public class KeyConstants {
     public static final String ERROR_CFDA_NUMBER_DIFFER = "error.cfdaNumber.differ";
     public static final String ERROR_IF_REVISIONTYPE_IS_NOT_OTHER_SPECIFY_NOT_BLANK = "error.s2sopportunity.revisionTypeNotOtherSpecifyNotBlank";
     public static final String MESSAGE_IF_SEARCH_ON_ONLY_CFDA_NUMBER= "message.s2sopportunity.searchOnOnlyCfdaNumber";
+    public static final String VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION = "validation.errors.before.grantsGov.submission";    
+    public static final String QUESTION_SUMBMIT_OPPORTUNITY_WITH_WARNINGS_CONFIRMATION = "question.submitOpportunityWithWarnings.text";
+    public static final String ERROR_ON_GRANTS_GOV_SUBMISSION = "error.on.grantsGov.submission";
     // Grants.gov System Parameters
     public static final String S2S_REVISIONTYPE_OTHER = "s2s.revisiontype.other";
     public static final String S2S_SUBMISSIONTYPE_OTHER = "s2s.submissiontype.changedCorrected";

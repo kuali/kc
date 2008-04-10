@@ -46,6 +46,7 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.Unit;
@@ -973,6 +974,34 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
 
     public void setReject(boolean reject) {
         this.reject = reject;
+    }
+    
+    public List<ExtraButton> getExtraActionsButtons() {
+        // clear out the extra buttons array
+        extraButtons.clear();
+        String externalImageURL = "kra.externalizable.images.url";
+        String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submitToGrantsGov.gif";
+        addExtraButton("methodToCall.submitToGrantsGov", submitToGrantsGovImage, "Submit To Grants Gov");
+        return extraButtons;
+    }
+    
+    /**
+     * This is a utility method to add a new button to the extra buttons
+     * collection.
+     *   
+     * @param property
+     * @param source
+     * @param altText
+     */ 
+    protected void addExtraButton(String property, String source, String altText){
+        
+        ExtraButton newButton = new ExtraButton();
+        
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+        
+        extraButtons.add(newButton);
     }
     
     public KualiConfigurationService getConfigurationService() {
