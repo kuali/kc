@@ -32,8 +32,8 @@ import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.rice.KNSServiceLocator;
-
+import org.kuali.rice.KNSServiceLocator;  
+  
 public class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(KraTransactionalDocumentFormBase.class);

@@ -23,14 +23,14 @@
                   <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.sponsorCode:sponsorCode" anchor="${tabKey}" />
                     <div id="sponsorName.div" >
                         <c:if test="${!empty KualiForm.document.sponsorCode}">
-            <c:choose>
-						    <c:when test="${empty KualiForm.document.sponsor}">
-                    <span style='color: red;'>not found</span>
-                </c:when>
-                  <c:otherwise>
-									<c:out value="${KualiForm.document.sponsor.sponsorName}" />
-								</c:otherwise>
-						</c:choose>                        
+            				<c:choose>
+							    <c:when test="${empty KualiForm.document.sponsor}">
+	                    			<span style='color: red;'>not found</span>
+	               				</c:when>
+	                  			<c:otherwise>
+										<c:out value="${KualiForm.document.sponsor.sponsorName}" />
+								</c:otherwise>  
+							</c:choose>                        
                         </c:if>
 					</div>
 				</td>
@@ -38,7 +38,7 @@
             <tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.proposalTypeCode}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.proposalTypeCode" attributeEntry="${proposalDevelopmentAttributes.proposalTypeCode}" />
+                      <kra:kraControlAttribute property="document.proposalTypeCode" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.proposalTypeCode}" />
                 </td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.requestedStartDateInitial}" /></div></th>
                 <td align="left" valign="middle">
@@ -64,7 +64,7 @@
             </tr>
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.activityTypeCode}" /></div></th>
-                <td><kul:htmlControlAttribute property="document.activityTypeCode" attributeEntry="${proposalDevelopmentAttributes.activityTypeCode}" /></td>
+                <td><kra:kraControlAttribute property="document.activityTypeCode" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.activityTypeCode}" /></td>
 				<th>&nbsp;</th>
                 <td align="left" valign="middle">&nbsp;</td>
             </tr>

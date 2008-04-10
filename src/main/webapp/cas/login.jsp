@@ -14,12 +14,27 @@
  limitations under the License.
 --%>
 <%@ include file="header.jsp" %>
+<%@ taglib uri="/kr/WEB-INF/tlds/c.tld" prefix="c"%>
+<%@ taglib uri="/kr/WEB-INF/tlds/struts-bean.tld" prefix="bean"%>
 
 <%-- NOTE THAT THIS PAGE NOW REQUIRES A TRANSACTION ID TO BE PART OF THE
      LOGIN FORM!  IF YOU HAVE A CUSTOM login.jsp, YOU MUST ADD THIS
      NEW POST INFORMATION. --%>
 
+<c:set var="sessionExpired" value='<%= (Boolean) (request.getSession().getAttribute("sessionExpired")) %>' scope="page"/>
+<c:if test="${sessionExpired}">
+<table width="100%"  cellspacing="0" cellpadding="0" id="session_message_table">
+    <tr valign="top" bgcolor="#FFFFFF">
+    <td width="15" class="leftback-focus">&nbsp;</td>
+     <td>
+	     	<div align="center"><bean:message key="error.session.timeout"/></div>
+     </td>
+    </tr>
+  </table>
+</c:if>
+
 <p>
+
 <% if (request.getAttribute("edu.yale.its.tp.cas.badUsernameOrPassword") 
        != null) { %>
 <font color="red">Sorry, you entered an invalid UserID. <br />
