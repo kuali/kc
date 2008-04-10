@@ -192,4 +192,8 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     public void setBudgetPersonnelCalculatedAmounts(List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts) {
         this.budgetPersonnelCalculatedAmounts = budgetPersonnelCalculatedAmounts;
     }
+    @Override
+    public List getBudgetCalculatedAmounts() {
+        return getBudgetPersonnelCalculatedAmounts();
+    }
 }
