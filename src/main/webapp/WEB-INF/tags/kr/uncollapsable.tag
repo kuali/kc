@@ -64,8 +64,7 @@
 </c:if>
 
   <table width="100%" cellpadding="0" cellspacing="0">
-    <tr>
-      <td class="column-left"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20" height="20"></td>
+    <tr>      
       <td><table width="100%" cellpadding="0"  cellspacing="0" class="annotate-top" summary="">
           <tr>
             <td class="annotate-t"><img src="${leftTabImage}" alt="asdf" width=12 height=24 align="absmiddle" class="annotate-t">${tabTitle}</td>
