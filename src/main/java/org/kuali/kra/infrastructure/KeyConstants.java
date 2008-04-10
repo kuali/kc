@@ -88,11 +88,13 @@ public class KeyConstants {
     
     // Budget Versions errors
     public static final String ERROR_NO_FINAL_BUDGET = "error.final.budget.required";
+    public static final String CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE = "clear.audit.error.before.change.status.to.complete";
     
     // Budget Personnel constants
     public static final String ERROR_DUPLICATE_BUDGET_PERSON = "error.budgetPerson.duplicate";
     public static final String QUESTION_DELETE_PERSON = "document.question.deletePerson.text";
-    
+    public static final String ERROR_NO_BUDGET_PERSON = "error.no.budget.person";
+
     // Budget Modular Constants
     public static final String QUESTION_SYNC_BUDGET_MODULAR = "document.question.syncBudgetModular.text";
     

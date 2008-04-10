@@ -24,13 +24,16 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 /**
  * Struts Action class for requests from the Budget Versions page.
@@ -119,14 +122,29 @@ public class BudgetVersionsAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         setFinalBudgetVersion(budgetForm.getFinalBudgetVersion(), budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews());
-        setProposalStatus(budgetForm.getBudgetDocument().getProposal());
-        if (budgetForm.getFinalBudgetVersion() != null 
-                && budgetForm.getFinalBudgetVersion().equals(budgetForm.getBudgetDocument().getBudgetVersionNumber())) {
-            budgetForm.getBudgetDocument().setFinalVersionFlag(true);
-        } else {
-            budgetForm.getBudgetDocument().setFinalVersionFlag(false);
+        // TODO jira 780 - it indicated only from PD screen, not sure we need it here
+        // if we don't implement it here, then it's not consistent.
+        boolean valid = true;
+        try {
+            valid &= KraServiceLocator.getService(ProposalDevelopmentService.class).validateBudgetAuditRuleBeforeSaveBudgetVersion(budgetForm.getBudgetDocument().getProposal());
+        } catch (Exception ex) {
+            LOG.info("Audit rule check failed " + ex.getStackTrace());
         }
-        return super.save(mapping, form, request, response);
+        if (!valid) {
+            // set up error message to go to validate panel
+            GlobalVariables.getErrorMap().putError("document.proposal.budgetVersionOverview["+Integer.toString(budgetForm.getFinalBudgetVersion()-1)+"].budgetStatus", KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            setProposalStatus(budgetForm.getBudgetDocument().getProposal());
+            if (budgetForm.getFinalBudgetVersion() != null 
+                    && budgetForm.getFinalBudgetVersion().equals(budgetForm.getBudgetDocument().getBudgetVersionNumber())) {
+                budgetForm.getBudgetDocument().setFinalVersionFlag(true);
+            } else {
+                budgetForm.getBudgetDocument().setFinalVersionFlag(false);
+            }
+            return super.save(mapping, form, request, response);
+        }
+
     }
     
     @Override
