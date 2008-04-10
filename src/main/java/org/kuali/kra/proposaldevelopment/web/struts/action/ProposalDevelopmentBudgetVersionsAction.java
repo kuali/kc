@@ -27,6 +27,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -51,11 +52,9 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
-        
-        // Below code is for forwarding to new Budget Document
-        Long routeHeaderId = newBudgetDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        String forward = buildForwardUrl(routeHeaderId);
-        return new ActionForward(forward, true);
+        pdForm.getProposalDevelopmentDocument().addNewBudgetVersion(newBudgetDoc, pdForm.getNewBudgetVersionName());
+        pdForm.setNewBudgetVersionName("");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -96,10 +95,9 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-        BudgetDocument newBudgetDocument = budgetService.copyBudgetVersion(budgetDocument);
-        Long routeHeaderId = newBudgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        String forward = buildForwardUrl(routeHeaderId);
-        return new ActionForward(forward, true);
+        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocument);
+        pdDoc.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription());
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     @Override
