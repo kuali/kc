@@ -47,4 +47,24 @@ public interface ProposalDevelopmentService {
      */
     public BusinessObjectService getBusinessObjectService();
     
+    /**
+     * 
+     * This method to invoke audit rule check for budget if status is final only
+     * This is called by PD's turnon validation
+     * @param proposalDevelopmentDocument
+     * @return
+     * TODO : not sure this is the proper place for this method.  Maybe implemented in BudgetService or ResearchDocumentBaseService ?
+     */
+    public boolean validateBudgetAuditRule(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception;
+
+    /**
+     * 
+     * This method to check the audit rule when try to save 'budgetversion' and with 'complete' status.
+     * @param proposalDevelopmentDocument
+     * @return
+     * @throws Exception
+     * TODO : not sure this is the proper place for this method.  Maybe implemented in BudgetService or ResearchDocumentBaseService ?
+     */
+    public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception;
+
 }
