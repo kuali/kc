@@ -43,6 +43,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -58,6 +59,7 @@ import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
+import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
@@ -864,30 +866,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         return unrecoveredFandA;
     }
     
-    public List<BudgetCategoryType> getBudgetCategoryTypes() {
-        return budgetCategoryTypes;
-    }
-
-    public void setBudgetCategoryTypes(List<BudgetCategoryType> budgetCategoryTypes) {
-        this.budgetCategoryTypes = budgetCategoryTypes;
-    }
-
-    public List<KeyLabelPair> getBudgetCategoryTypeCodes() {
-        return budgetCategoryTypeCodes;
-    }
-
-    public void setBudgetCategoryTypeCodes(List<KeyLabelPair> budgetCategoryTypeCodes) {
-        this.budgetCategoryTypeCodes = budgetCategoryTypeCodes;
-    }
-
-    public List<BudgetPersonnelDetails> getBudgetPersonnelDetailsList() {
-        return budgetPersonnelDetailsList;
-    }
-
-    public void setBudgetPersonnelDetailsList(List<BudgetPersonnelDetails> budgetPersonnelDetailsList) {
-        this.budgetPersonnelDetailsList = budgetPersonnelDetailsList;
-    }
-    
     /**
      * This method loads the fiscal year start from the database. Protected to allow mocking out service call
      * @return
@@ -1213,5 +1191,28 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         public BudgetDecimal getUnrecoveredFandA() {
             return unrecoveredFandA;
         }
+    }
+    public List<BudgetCategoryType> getBudgetCategoryTypes() {
+        return budgetCategoryTypes;
+    }
+
+    public void setBudgetCategoryTypes(List<BudgetCategoryType> budgetCategoryTypes) {
+        this.budgetCategoryTypes = budgetCategoryTypes;
+    }
+
+    public List<KeyLabelPair> getBudgetCategoryTypeCodes() {
+        return budgetCategoryTypeCodes;
+    }
+
+    public void setBudgetCategoryTypeCodes(List<KeyLabelPair> budgetCategoryTypeCodes) {
+        this.budgetCategoryTypeCodes = budgetCategoryTypeCodes;
+    }
+
+    public List<BudgetPersonnelDetails> getBudgetPersonnelDetailsList() {
+        return budgetPersonnelDetailsList;
+    }
+
+    public void setBudgetPersonnelDetailsList(List<BudgetPersonnelDetails> budgetPersonnelDetailsList) {
+        this.budgetPersonnelDetailsList = budgetPersonnelDetailsList;
     }
 }

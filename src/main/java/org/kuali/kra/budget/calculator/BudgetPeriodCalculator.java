@@ -53,7 +53,7 @@ public class BudgetPeriodCalculator {
     private BudgetCalculationService budgetCalculationService;
     private DateTimeService dateTimeService;
     private List<String> errorMessages;
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CalculatorBase.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AbstractBudgetCalculator.class);
 
     public BudgetPeriodCalculator() {
         budgetCalculationService = getService(BudgetCalculationService.class);
