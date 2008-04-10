@@ -52,9 +52,12 @@ sqlFiles = {
 )
 
 
-public class BudgetTotalsWebTest extends BudgetWebTestBase {
+public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
+    private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";
     private static final String BDOC_BUDGET_TOTALS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.totals.x";
-    
+    private static final String NEW_BUDGET_VERSION_NAME = "newBudgetVersionName";
+    private static final String ADD_BUDGET_VERSION_BUTTON = "methodToCall.addBudgetVersion";
+
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Proposal Development Web Test";
     private static final String DEFAULT_PROPOSAL_SPONSOR_CODE = "005894";
     private static final String DEFAULT_PROPOSAL_TITLE = "Project title";
@@ -80,7 +83,7 @@ public class BudgetTotalsWebTest extends BudgetWebTestBase {
     
     private TransactionalLifecycle transactionalLifecycle;
     private DocumentService documentService = null;
-    
+    private String documentNumber;
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -104,7 +107,7 @@ public class BudgetTotalsWebTest extends BudgetWebTestBase {
         HtmlPage proposalBudgetVersionsPage = getBudgetVersionsPage();
         /* add new version and open budget version page in budget module */
         addBudgetVersion(proposalBudgetVersionsPage);
-        ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
+        ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber);
 
         // set up the details/detailscalamts properly
         SQLDataLoader sqlDataLoader = new SQLDataLoader("update budget_details set proposal_number ="+ pd.getProposalNumber()+" where proposal_number=999999");
@@ -153,8 +156,27 @@ public class BudgetTotalsWebTest extends BudgetWebTestBase {
         
     }
     
-    
+    private HtmlPage getBudgetVersionsPage() throws Exception {
+        HtmlPage proposalPage = this.getProposalDevelopmentPage();
+        documentNumber = getFieldValue(proposalPage, "document.documentHeader.documentNumber");
 
+        setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION,
+                DEFAULT_PROPOSAL_SPONSOR_CODE,
+                DEFAULT_PROPOSAL_TITLE,
+                DEFAULT_PROPOSAL_REQUESTED_START_DATE,
+                DEFAULT_PROPOSAL_REQUESTED_END_DATE,
+                DEFAULT_PROPOSAL_ACTIVITY_TYPE,
+                DEFAULT_PROPOSAL_TYPE_CODE,
+                DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        HtmlPage budgetVersionsPage = clickOn(proposalPage, PDDOC_BUDGET_VERSIONS_LINK_NAME);
+        return budgetVersionsPage;
+    }
 
+    private HtmlPage addBudgetVersion(HtmlPage budgetVersionsPage) throws Exception {
+        setFieldValue(budgetVersionsPage, NEW_BUDGET_VERSION_NAME, "Test Budget Version - 1");
+        HtmlElement addBtn = getElementByName(budgetVersionsPage, ADD_BUDGET_VERSION_BUTTON, true);
+        budgetVersionsPage = clickOn(addBtn);
+        return budgetVersionsPage;
+    }
 
 }
