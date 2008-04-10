@@ -28,6 +28,7 @@ import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -64,11 +65,9 @@ public class BudgetVersionsAction extends BudgetAction {
         ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, budgetForm.getNewBudgetVersionName());
-        
-        // Below code is for forwarding to new Budget Document
-        Long routeHeaderId = newBudgetDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        String forward = buildForwardUrl(routeHeaderId);
-        return new ActionForward(forward, true);
+        pdDoc.addNewBudgetVersion(newBudgetDoc, budgetForm.getNewBudgetVersionName());
+        budgetForm.setNewBudgetVersionName("");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -111,10 +110,9 @@ public class BudgetVersionsAction extends BudgetAction {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-        BudgetDocument newBudgetDocument = budgetService.copyBudgetVersion(budgetDocToCopy);
-        Long routeHeaderId = newBudgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        String forward = buildForwardUrl(routeHeaderId);
-        return new ActionForward(forward, true);
+        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
+        pdDoc.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription());
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     @Override
