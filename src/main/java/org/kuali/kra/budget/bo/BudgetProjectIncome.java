@@ -19,6 +19,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
 
+/**
+ * 
+ */
 public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent {
     private static final long serialVersionUID = 8999969227018875501L;
 
@@ -28,30 +31,64 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent {
     private String description;
     private KualiDecimal projectIncome;
 
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public Integer getBudgetPeriodNumber() {
         return budgetPeriodNumber;
     }
 
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public KualiDecimal getProjectIncome() {
         return projectIncome;
     }
 
+    /**
+     * 
+     * This method...
+     * @param budgetPeriodNumber
+     */
     public void setBudgetPeriodNumber(Integer budgetPeriodNumber) {
         this.budgetPeriodNumber = (budgetPeriodNumber != null && budgetPeriodNumber.intValue() > 0) ? budgetPeriodNumber : null;
     }
 
+    /**
+     * 
+     * This method...
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * 
+     * This method...
+     * @param income
+     */
     public void setProjectIncome(KualiDecimal income) {
         this.projectIncome = income;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent#toStringMapper()
+     */
     @SuppressWarnings("unchecked")
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -60,5 +97,14 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent {
         hashMap.put("description", getDescription());
         hashMap.put("income", getProjectIncome());
         return hashMap;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent#getDocumentComponentIdKey()
+     */
+    @Override
+    public String getDocumentComponentIdKey() {
+        return DOCUMENT_COMPONENT_ID_KEY;
     }
 }

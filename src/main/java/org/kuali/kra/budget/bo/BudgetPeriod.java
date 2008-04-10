@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -54,6 +55,14 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	public BudgetPeriod(){
 	    budgetLineItems = new ArrayList<BudgetLineItem>();
 	}
+	
+	/**
+	 * Factory method for creating a BudgetPeriodDateComparator
+	 * @return
+	 */
+	public static Comparator<BudgetPeriod> getBudgetPeriodDateComparator() {
+        return new BudgetPeriodDateComparator();
+    }
 	
 	public Integer getBudgetPeriod() {
 	    return budgetPeriod;
@@ -266,5 +275,28 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
         }
         return dateRange.toString();
     }
-
+    
+    /**
+     * This class compares two BudgetPeriods to determine which should be considered earlier.
+     */
+    private static class BudgetPeriodDateComparator implements Comparator<BudgetPeriod> {
+        private final static int FIRST_EQUALS_SECOND = 0;
+        private final static int FIRST_LESS_THAN_SECOND = -1;
+        
+        public int compare(BudgetPeriod bp1, BudgetPeriod bp2) {
+            int result = compareDates(bp1.getStartDate(), bp2.getStartDate());
+            if(result == FIRST_EQUALS_SECOND) {
+                result = compareDates(bp1.getEndDate(), bp2.getEndDate());
+            }
+            return result;
+        }
+        
+        private int compareDates(Date d1, Date d2) {
+            if(d1 != null) {
+                return d1.compareTo(d2);                
+            } else {
+                return (d2 != null) ? FIRST_LESS_THAN_SECOND : FIRST_EQUALS_SECOND;
+            }
+        }
+    }
 }
