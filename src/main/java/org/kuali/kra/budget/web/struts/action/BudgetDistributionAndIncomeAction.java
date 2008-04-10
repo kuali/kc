@@ -47,6 +47,10 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
    
     private BudgetDistributionAndIncomeService bdiService;
     
+    /**
+     * 
+     * Constructs a BudgetDistributionAndIncomeAction.java.
+     */
     public BudgetDistributionAndIncomeAction() {
         super();
         setBudgetDistributionAndIncomeService(new BudgetDistributionAndIncomeServiceImpl());
