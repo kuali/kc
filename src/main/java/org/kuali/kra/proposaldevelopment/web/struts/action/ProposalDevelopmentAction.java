@@ -44,6 +44,7 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
@@ -55,6 +56,8 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -423,6 +426,40 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
 
 
-    
+    /**
+     * 
+     * This method is for audit rule to forward to the page that the audit error fix is clicked.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward budgetPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        // TODO : should be able to refactor as more budget audit rules are implemented for more budget pages
+        // This is just an example set up to test jira 780
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
+        BudgetDocument budgetDocument = null;
+        String forward = null;
+        try {
+            for (BudgetVersionOverview budgetVersion: pdDoc.getBudgetVersionOverviews()) {
+                if (budgetVersion.isFinalVersionFlag()) {
+                    DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+                    budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
+                }
+            }
+            Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            forward = buildForwardUrl(routeHeaderId);
+        } catch (Exception e) {
+            LOG.info("forward to budgetpersonnel "+e.getStackTrace());
+            //TODO what is the forward here
+        }
+        // TODO : what if forward is null
+        forward = StringUtils.replace(forward, "budgetVersions.do?", "budgetPersonnel.do?audit=true&");
+        
+        return new ActionForward(forward, true);
+    }
+
     
 }

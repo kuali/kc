@@ -19,7 +19,7 @@
 <c:set var="budgetPersonAttributes" value="${DataDictionary.BudgetPerson.attributes}" />
 
 <div id="workarea">
-<kul:tabTop tabTitle="Budget Personnel" defaultOpen="true" tabErrorKey="document.budgetPersons*">
+<kul:tab tabTitle="Budget Personnel" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budgetPersons*" auditCluster="budgetPersonnelAuditErrors" tabAuditKey="document.budgetPerson*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Budget Personnel</h2></span>
@@ -60,7 +60,7 @@
         	</c:forEach>
         </table>
    	</div>
-</kul:tabTop>
-</div>
+</kul:tab>
 
-<kul:panelFooter />
+<!--  "workarea" div is ended in panelfooter tag -->
+<kul:panelFooter /> 
