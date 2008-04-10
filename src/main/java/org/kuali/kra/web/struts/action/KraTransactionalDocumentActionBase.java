@@ -62,6 +62,9 @@ import edu.iu.uis.eden.clientapp.IDocHandler;
 // TODO : should move this class to org.kuali.kra.web.struts.action
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
     private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentActionBase.class);
+    
+    private static final String DEFAULT_TAB = "budgetVersions";
+    private static final String ALTERNATE_OPEN_TAB = "budgetSummary";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -259,6 +262,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     protected String buildForwardUrl(Long routeHeaderId) {
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
+        forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {
             forward += "?";
         }

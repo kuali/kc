@@ -138,7 +138,7 @@ public class BudgetRatesWebTest extends ProposalDevelopmentWebTestBase{
     }
 
     /**
-     * Add a new budget version to the given budgetVersionsPage
+     * Add a new budget version to the given budgetVersionsPage, and open the budget.
      * 
      * @param budgetVersionsPage
      * @return HtmlPage
@@ -148,6 +148,8 @@ public class BudgetRatesWebTest extends ProposalDevelopmentWebTestBase{
         setFieldValue(budgetVersionsPage, NEW_BUDGET_VERSION_NAME, "Test Budget Version - 1");
         HtmlElement addBtn = getElementByName(budgetVersionsPage, ADD_BUDGET_VERSION_BUTTON, true);
         budgetVersionsPage = clickOn(addBtn);
+        HtmlElement openBtn = getElementByName(budgetVersionsPage, "methodToCall.openBudgetVersion.line0.x");
+        budgetVersionsPage = clickOn(openBtn);
         return budgetVersionsPage;
     }
 

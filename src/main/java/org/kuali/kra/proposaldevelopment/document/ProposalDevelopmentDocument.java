@@ -23,14 +23,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Copyable;
-import org.kuali.core.document.Document;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -39,6 +36,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -63,8 +61,6 @@ import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.YnqService;
 import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
@@ -1288,4 +1284,23 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }
         return null;
     }
+    
+    public void addNewBudgetVersion(BudgetDocument budgetDocument, String name) {
+        BudgetVersionOverview budgetVersion = new BudgetVersionOverview();
+        budgetVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
+        budgetVersion.setProposalNumber(this.getProposalNumber());
+        budgetVersion.setDocumentDescription(name);
+        budgetVersion.setBudgetVersionNumber(budgetDocument.getBudgetVersionNumber());
+        budgetVersion.setStartDate(budgetDocument.getStartDate());
+        budgetVersion.setEndDate(budgetDocument.getEndDate());
+        budgetVersion.setOhRateTypeCode(budgetDocument.getOhRateTypeCode());
+        budgetVersion.setVersionNumber(budgetDocument.getVersionNumber());
+        
+        String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+        budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
+        
+        this.getBudgetVersionOverviews().add(budgetVersion);
+    }
+    
 }
