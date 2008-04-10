@@ -21,12 +21,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.bo.BudgetPerson;
@@ -75,6 +78,10 @@ public class BudgetAction extends ProposalActionBase {
         if (("totals").equals(actionForward.getName())) { 
             ((BudgetForm)form).suppressButtonsForTotalPage();
         }        		
+        // check if audit rule check is done from PD
+        if (StringUtils.isNotBlank(request.getParameter("audit")) && request.getParameter("audit").equals("true")) {
+            KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(((BudgetForm)form).getBudgetDocument()));
+        }
         return actionForward;
     }
 

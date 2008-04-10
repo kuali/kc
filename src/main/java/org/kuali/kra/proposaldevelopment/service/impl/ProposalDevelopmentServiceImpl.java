@@ -21,12 +21,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UserRole;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RightConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -149,5 +156,45 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         this.userRoleService = userRoleService;
     }
 
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#validateBudgetAuditRule(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public boolean validateBudgetAuditRule(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception {
+        boolean valid = true;
+        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getBudgetVersionOverviews()) {
+            if (budgetVersion.isFinalVersionFlag()) {
+                valid &= applyAuditRuleForBudgetDocument(budgetVersion);
+            }
+        }
 
+        return valid;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#validateBudgetAuditRuleBeforeSaveBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception {
+        boolean valid = true;
+        for (BudgetVersionOverview budgetVersion: proposalDevelopmentDocument.getBudgetVersionOverviews()) {
+            String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+            // if status is complete and version is not final, then business rule will take care of it
+            if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetStatus()!= null 
+                    && budgetVersion.getBudgetStatus().equals(budgetStatusCompleteCode)) {
+                valid &= applyAuditRuleForBudgetDocument(budgetVersion);
+            }
+        }
+
+        return valid;
+    }
+
+    private boolean applyAuditRuleForBudgetDocument(BudgetVersionOverview budgetVersion) throws Exception {
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
+        return KraServiceLocator.getService(KualiRuleService.class).applyRules(
+                new DocumentAuditEvent(budgetDocument));
+
+    }
 }
