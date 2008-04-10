@@ -70,7 +70,7 @@
     
     	<div align="center">
 	    	<table id="budget-proj-income-summary-table" cellpadding="0" cellspacing="0" summary="Budget Period Income Totals">
-	    		<c:forEach var="periodIncomeTotal" items="${KualiForm.document.projectIncomePeriodTotals}" varStatus="status">
+	    		<c:forEach var="periodIncomeTotal" items="${KualiForm.document.projectIncomePeriodTotalsForEachBudgetPeriod}" varStatus="status">
 		    		<tr>
 		    			<th width="75%"><div align="right">Period ${status.index + 1} Income:</div></th>
 		    			<td width="25%"><div align="right">${periodIncomeTotal}</div></td>
