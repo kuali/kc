@@ -116,10 +116,10 @@
 				
 				<div align="center">
 			    	<table id="budget-unrecovered-fna-summary-table" cellpadding="0" cellspacing="0" summary="Unrecovered F & A Amounts to be Allocated">
-			    		<c:forEach var="fiscalYearShare" items="${KualiForm.document.fiscalYearUnrecoveredFandATotals}" varStatus="status">
+			    		<c:forEach var="budgetPeriod" items="${KualiForm.document.budgetPeriods}" varStatus="status">
 							<tr>
-						    	<th width="70.5%" class="infoline"><div align="right">Period ${status.index + 1}: ${fiscalYearShare.assignedBudgetPeriod.dateRangeLabel}:</div></th>
-						    	<td width="15%"><div align="right"><span class="amount">${fiscalYearShare.unrecoveredFandA}</span></div></td>
+						    	<th width="70.5%" class="infoline"><div align="right">Period ${status.index + 1}: ${budgetPeriod.dateRangeLabel}:</div></th>
+						    	<td width="15%"><div align="right"><span class="amount">${budgetPeriod.underrecoveryAmount}</span></div></td>
 						    	<th width="14.5%" class="infoline">&nbsp;</th>
 						    </tr>
 					    </c:forEach>
