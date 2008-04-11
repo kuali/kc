@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class BudgetDocumentTest extends TestCase {
+    private static final int DEVIATION_LIMIT_MS = 1000;
     private static final int DAY_1 = 1;
     private static final int YEAR_2000 = 2000;
     
@@ -40,6 +41,10 @@ public class BudgetDocumentTest extends TestCase {
         super.tearDown();
     }
     
+    /**
+     * This method does what its name says
+     * @throws Exception
+     */
     @Test
     public void testCalculatingDatefromString() throws Exception {
         BudgetDocument bd = new BudgetDocument();
@@ -47,6 +52,6 @@ public class BudgetDocumentTest extends TestCase {
         
         Calendar cal = GregorianCalendar.getInstance();
         cal.set(YEAR_2000, Calendar.JULY, DAY_1, 0, 0, 0);
-        Assert.assertEquals(new Date(cal.getTimeInMillis()), fiscalYearDate);
+        Assert.assertTrue(cal.getTimeInMillis() - fiscalYearDate.getTime() < DEVIATION_LIMIT_MS);
     }
 }

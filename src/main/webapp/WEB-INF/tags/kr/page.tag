@@ -306,17 +306,17 @@
 			 <kul:lockMessages/>
 		  </div>
 		  <div class="right">
-		  	<c:if test="${!empty extraTopButtons}">
-		        <c:forEach items="${extraTopButtons}" var="extraButton">
-		        	<html:image src="${extraButton.extraButtonSource}" styleClass="tinybutton" property="${extraButton.extraButtonProperty}" alt="${extraButton.extraButtonAltText}"/> &nbsp;&nbsp;
-		        </c:forEach>
-	        </c:if>
-			<c:if test="${showTabButtons != '' && showTabButtons == true}">
-			 <div class="excol">
-				<html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="javascript: return expandAllTab(document, tabStatesSize); " />
-				<html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="javascript: return collapseAllTab(document, tabStatesSize); " />
-			  </div>
-		   </c:if>
+		    <div class="excol">
+		  	    <c:if test="${!empty extraTopButtons}">
+		            <c:forEach items="${extraTopButtons}" var="extraButton">
+		        	    <html:image src="${extraButton.extraButtonSource}" styleClass="tinybutton" property="${extraButton.extraButtonProperty}" alt="${extraButton.extraButtonAltText}"/> &nbsp;&nbsp;
+		            </c:forEach>
+	            </c:if>
+			    <c:if test="${showTabButtons != '' && showTabButtons == true}">			 
+				    <html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="javascript: return expandAllTab(document, tabStatesSize); " />
+				    <html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="javascript: return collapseAllTab(document, tabStatesSize); " />			  
+		        </c:if>
+		  	</div>
 		  </div>
 		</div>
 		<table width="100%" cellpadding="0" cellspacing="0">

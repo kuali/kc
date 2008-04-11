@@ -17,7 +17,6 @@ package org.kuali.kra.proposaldevelopment.web;
 
 import org.junit.Test;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
@@ -25,7 +24,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
-import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
 /**
  * Tests the Budget Versions page for Proposal Development Document and Budget Document.
@@ -74,7 +72,7 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
         HtmlElement bProposalNumber = getElementByName(bBudgetVersionsPage, "budgetDocument.proposalNumber");
         assertEquals(proposalNumber, bProposalNumber);
         
-        String budgetStatus = getFieldValue(bBudgetVersionsPage, B_FIRST_BUDGET_STATUS);
+        String budgetStatus = getFieldValue(bBudgetVersionsPage, PD_FIRST_BUDGET_STATUS);
         assertEquals(budgetStatus, budgetStatusIncompleteCode);
         
         String finalVersion = getFieldValue(bBudgetVersionsPage, FINAL_BUDGET_VERSION);
@@ -105,7 +103,7 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
            
         // Saving with version marked complete but not final causes error.
-        setFieldValue(bBudgetVersionsPage, B_FIRST_BUDGET_STATUS, budgetStatusCompleteCode);
+        setFieldValue(bBudgetVersionsPage, PD_FIRST_BUDGET_STATUS, budgetStatusCompleteCode);
         HtmlPage savedPage = saveDoc(bBudgetVersionsPage);
         assertContains(savedPage, ERRORS_FOUND_ON_PAGE);
         assertDoesNotContain(savedPage, SAVE_SUCCESS_MESSAGE);
@@ -119,15 +117,16 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
     @Test
     public void testSaveBudgetVersionsValid() throws Exception {
         HtmlPage pdBudgetVersionsPage = getBudgetVersionsPage();
-        HtmlPage bBudgetVersionsPage = addBudgetVersion(pdBudgetVersionsPage);
-        String bDocNbr = getDocNbr(bBudgetVersionsPage);
+        pdBudgetVersionsPage = addBudgetVersion(pdBudgetVersionsPage);
+        //HtmlPage bBudgetVersionsPage = openBudgetVersion(pdBudgetVersionsPage, 0);
+        //String bDocNbr = getDocNbr(bBudgetVersionsPage);
         
         String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
            
-        setFieldValue(bBudgetVersionsPage, B_FIRST_BUDGET_STATUS, budgetStatusCompleteCode);
-        setFieldValue(bBudgetVersionsPage, FINAL_BUDGET_VERSION, "1");
-        HtmlPage savedPage = saveDoc(bBudgetVersionsPage);
+        setFieldValue(pdBudgetVersionsPage, PD_FIRST_BUDGET_STATUS, budgetStatusCompleteCode);
+        setFieldValue(pdBudgetVersionsPage, FINAL_BUDGET_VERSION, "1");
+        HtmlPage savedPage = saveDoc(pdBudgetVersionsPage);
         assertDoesNotContain(savedPage, ERRORS_FOUND_ON_PAGE);
         assertContains(savedPage, SAVE_SUCCESS_MESSAGE);
         closeDoc(savedPage);
@@ -152,6 +151,7 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage pdBudgetVersionsPage = getBudgetVersionsPage();
         String pdDocNbr = getDocNbr(pdBudgetVersionsPage);
         HtmlPage bBudgetVersionsPage = addBudgetVersion(pdBudgetVersionsPage);
+        bBudgetVersionsPage = openBudgetVersion(bBudgetVersionsPage, 0);
         String budgetDocNbr = getDocNbr(bBudgetVersionsPage);
         
         closeDoc(bBudgetVersionsPage);
@@ -170,21 +170,10 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
     @Test
     public void testCopyBudgetVersion() throws Exception {
         HtmlPage pdBudgetVersionsPage = getBudgetVersionsPage();
-        String pdDocNbr = getDocNbr(pdBudgetVersionsPage);
-        HtmlPage bBudgetVersionsPage = addBudgetVersion(pdBudgetVersionsPage);
-        String budgetDocNbr = getDocNbr(bBudgetVersionsPage);
+        pdBudgetVersionsPage = addBudgetVersion(pdBudgetVersionsPage);
+        pdBudgetVersionsPage = copyBudgetVersion(pdBudgetVersionsPage, 0);
         
-        BudgetDocument budgetDocument = (BudgetDocument) getDocument(budgetDocNbr);
-        
-        bBudgetVersionsPage = copyBudgetVersion(bBudgetVersionsPage, 0);
-        
-        assertEquals(budgetDocNbr, getCopiedFromDocNbr(bBudgetVersionsPage));
-        
-        closeDoc(bBudgetVersionsPage);
-        HtmlPage proposalPage = docSearch(pdDocNbr);
-        pdBudgetVersionsPage = clickOn(proposalPage, PDDOC_BUDGET_VERSIONS_LINK_NAME);
-        
-        HtmlTable table = getTable(bBudgetVersionsPage, BUDGET_VERSIONS_TABLE);
+        HtmlTable table = getTable(pdBudgetVersionsPage, BUDGET_VERSIONS_TABLE);
         assertTrue("row count is " + table.getRowCount(), table.getRowCount() == 4);
     }
     

@@ -9,6 +9,7 @@
         <form-bean name="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" />
 		<form-bean name="ProposalDevelopmentForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm" />
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
+		<form-bean name="DocHandlerForm" type="edu.iu.uis.eden.routing.web.DocHandlerForm" />
     </form-beans>
 
     <global-exceptions>
@@ -22,6 +23,7 @@
 
     <global-forwards >
        	<!-- Begin required KNS forwards -->
+       	<forward name="copyProposal" path="/WEB-INF/jsp/proposaldevelopment/copyProposal.jsp" redirect="true" />
         <forward name="save" path="/portal.jsp" redirect="true" />
         <forward name="cancel" path="/portal.jsp" redirect="true" />
         <forward name="close" path="/portal.jsp" redirect="true" />
@@ -92,6 +94,14 @@
           <forward name="proposalHierarchy" path="/WEB-INF/jsp/budget/BudgetProposalHierarchy.jsp" />
           <forward name="budgetActions" path="/WEB-INF/jsp/budget/BudgetActions.jsp" redirect="false" />
       </action>
+      
+      <action path="/DocCopyHandler" name="DocHandlerForm" scope="request" parameter="methodToCall"
+        type="org.kuali.kra.proposaldevelopment.web.struts.action.CustomDocHandlerRedirectAction" >
+        <forward name="documentLocked" path="/WEB-INF/jsp/DocumentLocked.jsp" />
+        <forward name="requiredStateError" path="/WEB-INF/jsp/DocumentLocked.jsp"/>
+        <forward name="finalStateError" path="/WEB-INF/jsp/DocumentLocked.jsp"/>
+      </action>
+      
       
     </action-mappings>
 

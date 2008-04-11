@@ -15,10 +15,21 @@
  */
 package org.kuali.kra.budget.rules;
 
+import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
+import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_NAME;
+import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_KEY;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.rule.DocumentAuditRule;
+import org.kuali.core.util.AuditCluster;
+import org.kuali.core.util.AuditError;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -41,7 +52,7 @@ import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule{
+public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule {
 
     /** 
      * @see org.kuali.kra.budget.rule.AddBudgetCostShareRule#processAddBudgetCostShareBusinessRules(org.kuali.kra.budget.rule.event.AddBudgetCostShareEvent)
@@ -153,14 +164,11 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
             j=0;
             budgetLineItems = budgetPeriod.getBudgetLineItems();
             for(BudgetLineItem budgetLineItem: budgetLineItems){
-                                
                 if(budgetLineItem!=null && budgetLineItem.getStartDate()!=null && budgetLineItem.getStartDate().before(budgetPeriod.getStartDate())){
-                    errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].startDate",KeyConstants.ERROR_LINEITEM_STARTDATE_BEFORE_PERIOD_STARTDATE);
-                    //errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
+                    errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].startDate",KeyConstants.ERROR_LINEITEM_STARTDATE_BEFORE_PERIOD_STARTDATE);                    
                 }
                 if(budgetLineItem!=null && budgetLineItem.getEndDate()!=null && budgetLineItem.getEndDate().after(budgetPeriod.getEndDate())){
                     errorMap.putError("budgetCategoryTypes[" + budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode() + "].budgetPeriods[" + i +"].budgetLineItems[" + j + "].endDate",KeyConstants.ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE);
-                    //errorMap.putError("budgetPersons[" + j + "].personName", KeyConstants.ERROR_DUPLICATE_BUDGET_PERSON, budgetPerson.getPersonName());
                 }
                 j++;
             }
@@ -168,4 +176,41 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         }
         return valid;
     }    
+    
+    /**
+     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
+     */
+    public boolean processRunAuditBusinessRules(Document document) {
+        boolean retval = true;
+        
+        retval &= super.processRunAuditBusinessRules(document);
+        // TODO : add this one for testing jira 780 - remove this when audit rules are complete
+        // comment out these lines before committed to rel-1-0
+//        if (((BudgetDocument)document).getBudgetPersons() == null || ((BudgetDocument)document).getBudgetPersons().size() < 1) {
+//            getAuditErrors().add(new AuditError("document.budgetPerson*", KeyConstants.ERROR_NO_BUDGET_PERSON , "budgetPersonnel.BudgetPersonnel" ));
+//            retval = false;
+//        }
+        
+        return retval;
+    }
+
+    /**
+     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
+     * to the auditErrorMap.
+     * 
+     * @return List of AuditError instances
+     */
+    private List<AuditError> getAuditErrors() {
+        List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
+        
+        if (!getAuditErrorMap().containsKey("budgetPersonnelAuditErrors")) {
+            getAuditErrorMap().put("budgetPersonnelAuditErrors", new AuditCluster("Budget Personnel Information", auditErrors, AUDIT_ERRORS));
+        }
+        else {
+            auditErrors = ((AuditCluster) getAuditErrorMap().get("budgetPersonnelAuditErrors")).getAuditErrorList();
+        }
+        
+        return auditErrors;
+    }
+
 }

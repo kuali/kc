@@ -16,8 +16,9 @@
 package org.kuali.kra.budget.calculator;
 
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
+import org.kuali.kra.budget.bo.BudgetProposalRate;
+import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetRateAndBase;
 import org.kuali.kra.budget.bo.ValidCalcType;
 import org.kuali.kra.budget.calculator.query.And;
@@ -186,7 +187,7 @@ public class BreakUpInterval{
                    
                    //if rates available calculate amount
                    if (tempRates.size() > 0) {
-                       BudgetProposalLaRate proposalLaRate = (BudgetProposalLaRate) tempRates.get(0);
+                       AbstractBudgetRate proposalLaRate = (AbstractBudgetRate) tempRates.get(0);
                        rate = proposalLaRate.getApplicableRate();
                        //calculate cost & costSharing, set it to AmountBean
                        calculatedCost = applicableAmt.percentage(rate);
@@ -271,7 +272,7 @@ public class BreakUpInterval{
         QueryList cvTempRates;
         QueryList<RateAndCost> cvEBonLAAmtDetails;
         QueryList<RateAndCost> cvVAonLAAmtDetails;
-        BudgetProposalLaRate proposalLaRate;
+        AbstractBudgetRate proposalLaRate;
         for (RateAndCost amountBean : cvLAwithEBAmtDetails) {
             rateClassCode = amountBean.getRateClassCode();
             rateTypeCode = amountBean.getRateTypeCode();
@@ -284,7 +285,7 @@ public class BreakUpInterval{
                     
             //if rates available calculate amount
             if (cvTempRates.size() > 0) {
-                proposalLaRate = (BudgetProposalLaRate)cvTempRates.get(0);
+                proposalLaRate = (AbstractBudgetRate)cvTempRates.get(0);
                 rate = proposalLaRate.getApplicableRate();
                 //calculate cost & costSharing for LA, set it to RateAndCost
                 LAcalculatedCost = applicableAmt.percentage(rate);
@@ -315,7 +316,7 @@ public class BreakUpInterval{
                 cvTempRates = breakupIntervalRates.filter(RCandRT);
                 //if rates available calculate amount
                 if (cvTempRates.size() > 0) {
-                    proposalLaRate = (BudgetProposalLaRate)cvTempRates.get(0);
+                    proposalLaRate = (AbstractBudgetRate)cvTempRates.get(0);
                     rate = proposalLaRate.getApplicableRate();
                     //calculate cost & costSharing for EBonLA, set it to AmountBean
                     EBonLAcalculatedCost = LAcalculatedCost.percentage(rate);
@@ -351,7 +352,7 @@ public class BreakUpInterval{
                     
                 //if rates available calculate amount
                 if (cvTempRates.size() > 0) {
-                    proposalLaRate = (BudgetProposalLaRate)cvTempRates.get(0);
+                    proposalLaRate = (AbstractBudgetRate)cvTempRates.get(0);
                     rate = proposalLaRate.getApplicableRate();
                     //calculate cost & costSharing for VAonLA, set it to AmountBean
                     VAonLAcalculatedCost = LAcalculatedCost.percentage(rate);
@@ -402,7 +403,7 @@ public class BreakUpInterval{
         And eqRCTypeAndneRCAndneRTOrneRT;
         Or neRCandneRTOrneRT;
         QueryList cvTempRates;
-        BudgetProposalLaRate proposalLaRate;
+        AbstractBudgetRate proposalLaRate;
         //get all the EB amts. Take care to exclude EB on LA
         equalsRCType = new Equals("rateClassType", RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
         notEqualsRC = new NotEquals("rateClassCode", EBonLARateClassCode);
@@ -440,7 +441,7 @@ public class BreakUpInterval{
             
             //if rates available calculate OH & Under recovery amounts
             if (cvTempRates.size() > 0) {
-                proposalLaRate = (BudgetProposalLaRate)cvTempRates.get(0);
+                proposalLaRate = (AbstractBudgetRate)cvTempRates.get(0);
                 applicableRate = proposalLaRate.getApplicableRate();
                 
                 //If Under-recovery rate is present, then use this for Institute Rate

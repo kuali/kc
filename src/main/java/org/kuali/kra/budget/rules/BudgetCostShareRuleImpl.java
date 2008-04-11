@@ -32,7 +32,7 @@ import org.kuali.kra.budget.rule.event.BudgetValidationCostShareEvent;
 /**
  * Processes Budget Project Income rules
  */
-public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetValidationCostShareRule, BudgetCostShareAllocationRule, BudgetUnrecoveredFandAAllocationRule {
+public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetValidationCostShareRule, BudgetCostShareAllocationRule {
 
     private static final String ADD_ERROR_KEY = "error.custom";
     
@@ -121,14 +121,6 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
             GlobalVariables.getErrorMap().putError("costShare*", ADD_ERROR_KEY, "Cost share allocation doesn't total available cost sharing");
         }
         return unallocatedCostSharingExists;
-    }
-
-    public boolean processBudgetUnrecoveredFandAAllocationBusinessRules(BudgetUnrecoveredFandAAllocationEvent budgetUnrecoveredFandAEvent) {
-        boolean result = budgetUnrecoveredFandAEvent.getBudgetDocument().getUnallocatedUnrecoveredFandA().isNonZero();
-        if (result) {
-            GlobalVariables.getErrorMap().putError("unrecoveredFandA*", ADD_ERROR_KEY, "Unrecovered F&A allocation doesn't total available unrecovered F&A");
-        }
-        return result;
     }
 
 }

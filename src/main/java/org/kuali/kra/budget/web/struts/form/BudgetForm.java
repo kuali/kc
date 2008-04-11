@@ -41,6 +41,12 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
 
 public class BudgetForm extends ProposalFormBase {
+    private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
+
+    private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
+
+    private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
+
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetForm.class);
     
     private String newBudgetPersons;
@@ -112,15 +118,9 @@ public class BudgetForm extends ProposalFormBase {
     public void initialize() {
         DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.budget.document.BudgetDocument.class.getName())).getHeaderTabNavigation());
-        setNewBudgetPeriod(new BudgetPeriod());        
-        setExtraTopButtons(new ArrayList<ExtraButton>());
-        ExtraButton returnToProposal = new ExtraButton();
-        returnToProposal.setExtraButtonProperty("methodToCall.returnToProposal");
-        KualiConfigurationService configService = KraServiceLocator.getService(KualiConfigurationService.class);
-        String imagesUrl = configService.getPropertyString("kra.externalizable.images.url");
-        returnToProposal.setExtraButtonSource(imagesUrl + "tinybutton-retprop.gif");
-        returnToProposal.setExtraButtonAltText("return to proposal");        
-        extraTopButtons.add(returnToProposal);
+        setNewBudgetPeriod(new BudgetPeriod());
+        
+        configureExtraTopButtons();
         
         newBudgetProjectIncome = new BudgetProjectIncome();
         newBudgetCostShare = new BudgetCostShare();
@@ -163,9 +163,9 @@ public class BudgetForm extends ProposalFormBase {
     public List<ExtraButton> getExtraButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        String externalImageURL = "kra.externalizable.images.url";
-        String generatePeriodImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_generatePeriods.gif"; 
-        String calculatePeriodImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_calculatePeriods.gif"; 
+        String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String generatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_generatePeriods.gif"; 
+        String calculatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculatePeriods.gif"; 
         String appExternalImageURL = "ConfigProperties.kra.externalizable.images.url"; 
         addExtraButton("methodToCall.generateAllPeriods", generatePeriodImage, "Generate All Periods");
         addExtraButton("methodToCall.calculateAllPeriods",calculatePeriodImage, "Calculate All Periods");
@@ -176,17 +176,17 @@ public class BudgetForm extends ProposalFormBase {
     public List<ExtraButton> getExtraPersonnelBudgetButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        String externalImageURL = "kra.externalizable.images.url";
-        String returnToExpensesImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_returnToExpenses.gif"; 
+        String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String returnToExpensesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_returnToExpenses.gif"; 
         addExtraButton("methodToCall.returnToExpenses", returnToExpensesImage, "Return To Expenses");
         return extraButtons;
     }
     public List<ExtraButton> getExtraExpensesButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        String externalImageURL = "kra.externalizable.images.url";
-        String calculateCurrentPeriodImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
-        String viewPersonnelSalariesImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
+        String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
+        String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
         addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
         addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries");
         
@@ -195,9 +195,9 @@ public class BudgetForm extends ProposalFormBase {
     public List<ExtraButton> getRatesExtraButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
-        String externalImageURL = "kra.externalizable.images.url";
-        String syncAllImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_syncallrates.gif"; 
-        String resetAllImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_resetallrates.gif"; 
+        String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+        String syncAllImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_syncallrates.gif"; 
+        String resetAllImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_resetallrates.gif"; 
         String appExternalImageURL = "ConfigProperties.kra.externalizable.images.url"; 
         addExtraButton("methodToCall.syncAllRates", syncAllImage, "Sync All Rates");
         addExtraButton("methodToCall.resetAllRates",resetAllImage, "Reset All Rates");
@@ -228,11 +228,19 @@ public class BudgetForm extends ProposalFormBase {
         return extraTopButtons;
     }
 
+    /**
+     * Determines if CostSharing edit form should be visible
+     * @return
+     */
     public boolean isCostSharingEditFormVisible() {
         BudgetDocument budgetDocument = getBudgetDocument();        
         return budgetDocument != null && budgetDocument.isCostSharingApplicable() && budgetDocument.isCostSharingAvailable(); 
     }
     
+    /**
+     * Determines if UnrecoveredFandAEdit edit form should be visible
+     * @return
+     */
     public boolean isUnrecoveredFandAEditFormVisible() {
         BudgetDocument budgetDocument = getBudgetDocument(); 
         return budgetDocument != null && budgetDocument.isUnrecoveredFandAApplicable() && budgetDocument.isUnrecoveredFandAAvailable(); 
@@ -254,6 +262,10 @@ public class BudgetForm extends ProposalFormBase {
         return newBudgetRolodexes;
     }
 
+    /**
+     * Get the new BudgetProjectIncome
+     * @return
+     */
     public BudgetProjectIncome getNewBudgetProjectIncome() {
         return newBudgetProjectIncome;
     }
@@ -266,6 +278,10 @@ public class BudgetForm extends ProposalFormBase {
         this.newBudgetPeriodNumber = newBudgetPeriodNo;
     }
 
+    /**
+     * Set the new BudgetProjectIncome
+     * @param newBudgetProjectIncome
+     */
     public void setNewBudgetProjectIncome(BudgetProjectIncome newBudgetProjectIncome) {
         this.newBudgetProjectIncome = newBudgetProjectIncome;
     }
@@ -291,10 +307,18 @@ public class BudgetForm extends ProposalFormBase {
         this.getDocumentActionFlags().setCanReload(false);
     }
 
+    /**
+     * Get the new BudgetCostShare
+     * @return
+     */
     public BudgetCostShare getNewBudgetCostShare() {
         return newBudgetCostShare;
     }
 
+    /**
+     * Set the new BudgetCostShare
+     * @param newBudgetCostShare
+     */
     public void setNewBudgetCostShare(BudgetCostShare newBudgetCostShare) {
         this.newBudgetCostShare = newBudgetCostShare;
     }
@@ -310,10 +334,18 @@ public class BudgetForm extends ProposalFormBase {
         return this.getDocumentActionFlags().getCanSave() ? "save" : "reload";
     }
 
+    /**
+     * Get the new BudgetUnrecoveredFandA
+     * @return
+     */
     public BudgetUnrecoveredFandA getNewBudgetUnrecoveredFandA() {
         return newBudgetUnrecoveredFandA;
     }
 
+    /**
+     * Set the new BudgetUnrecoveredFandA
+     * @param newBudgetUnrecoveredFandA
+     */
     public void setNewBudgetUnrecoveredFandA(BudgetUnrecoveredFandA newBudgetUnrecoveredFandA) {
         this.newBudgetUnrecoveredFandA = newBudgetUnrecoveredFandA;
     }
@@ -435,5 +467,42 @@ public class BudgetForm extends ProposalFormBase {
      */
     public void setSelectedBudgetLineItemIndex(Integer selectedBudgetLineItemIndex) {
         this.selectedBudgetLineItemIndex = selectedBudgetLineItemIndex;
-    }      
+    }
+    
+    /**
+     * This method does what its name says
+     */
+    private void configureExtraTopButtons() {
+        extraTopButtons = new ArrayList<ExtraButton>();
+        extraTopButtons.add(configureReturnToProposalTopButton());
+    }
+    
+    /**
+     * This method does what its name says
+     */
+    private ExtraButton configureReturnToProposalTopButton() {
+        ExtraButton returnToProposalButton = new ExtraButton();
+        returnToProposalButton.setExtraButtonProperty(RETURN_TO_PROPOSAL_METHOD_TO_CALL);
+        returnToProposalButton.setExtraButtonSource(buildExtraButtonSourceURI("tinybutton-retprop.gif"));
+        returnToProposalButton.setExtraButtonAltText(RETURN_TO_PROPOSAL_ALT_TEXT);
+        
+        return returnToProposalButton;
+    }
+
+    /**
+     * This method does what its name says
+     * @param buttonFileName
+     * @return
+     */
+    private String buildExtraButtonSourceURI(String buttonFileName) {
+        return lookupKualiConfigurationService().getPropertyString(KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
+    }
+
+    /**
+     * This method does what its name says
+     * @return
+     */
+    private KualiConfigurationService lookupKualiConfigurationService() {
+        return KraServiceLocator.getService(KualiConfigurationService.class);
+    }
 }

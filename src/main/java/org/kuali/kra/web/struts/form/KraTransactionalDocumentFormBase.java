@@ -32,8 +32,8 @@ import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.rice.KNSServiceLocator;
-
+import org.kuali.rice.KNSServiceLocator;  
+  
 public class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(KraTransactionalDocumentFormBase.class);
@@ -138,21 +138,26 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     private boolean isNarrativeAction() {
         boolean isNarrativeAction = false;
 
-        if (StringUtils.isNotBlank(actionName) && actionName.contains("AbstractsAttachments") && 
-                (StringUtils.equals(getMethodToCall(), "addProposalAttachmentRights")
-                || StringUtils.equals(getMethodToCall(), "addProposalAttachment") 
-                || StringUtils.equals(getMethodToCall(), "downloadProposalAttachment")
-                || StringUtils.equals(getMethodToCall(), "deleteProposalAttachment")
-                || StringUtils.equals(getMethodToCall(), "replaceProposalAttachment")
-                || StringUtils.equals(getMethodToCall(), "addInstituteAttachmentRights")
-                || StringUtils.equals(getMethodToCall(), "addInstituteAttachment") 
-                || StringUtils.equals(getMethodToCall(), "downloadInstituteAttachment")
-                || StringUtils.equals(getMethodToCall(), "deleteInstitutionalAttachment")
-                || StringUtils.equals(getMethodToCall(), "replaceInstituteAttachment") 
-                || StringUtils.equals(getMethodToCall(), "addAbstract") 
-                || StringUtils.equals(getMethodToCall(), "deleteAbstract") 
-                || StringUtils.equals(getMethodToCall(), "save")) 
-                ) {
+//        if (StringUtils.isNotBlank(actionName) && actionName.contains("AbstractsAttachments") && 
+//                (StringUtils.equals(getMethodToCall(), "addProposalAttachmentRights")
+//                || StringUtils.equals(getMethodToCall(), "addProposalAttachment") 
+//                || StringUtils.equals(getMethodToCall(), "downloadProposalAttachment")
+//                || StringUtils.equals(getMethodToCall(), "deleteProposalAttachment")
+//                || StringUtils.equals(getMethodToCall(), "replaceProposalAttachment")
+//                || StringUtils.equals(getMethodToCall(), "addInstituteAttachmentRights")
+//                || StringUtils.equals(getMethodToCall(), "addInstitutionalAttachment") 
+//                || StringUtils.equals(getMethodToCall(), "downloadInstituteAttachment")
+//                || StringUtils.equals(getMethodToCall(), "deleteInstitutionalAttachment")
+//                || StringUtils.equals(getMethodToCall(), "replaceInstituteAttachment") 
+//                || StringUtils.equals(getMethodToCall(), "addAbstract") 
+//                || StringUtils.equals(getMethodToCall(), "deleteAbstract") 
+//                || StringUtils.equals(getMethodToCall(), "save")) 
+//                ) {
+//            isNarrativeAction = true;
+//        }
+        
+        if (StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall()) 
+                && actionName.contains("AbstractsAttachments") && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isNarrativeAction = true;
         }
         else if (StringUtils.isNotEmpty(navigateTo) && navigateTo.equalsIgnoreCase("abstractsAttachments")) {
@@ -166,7 +171,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     private boolean isBudgetAction() {
         boolean isBudgetAction = false;
 
-        if (StringUtils.isNotBlank(actionName) && actionName.startsWith("Budget") && !getMethodToCall().equalsIgnoreCase("headerTab")) {
+        if (StringUtils.isNotBlank(actionName) && actionName.startsWith("Budget") && StringUtils.isNotBlank(getMethodToCall()) && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isBudgetAction = true;
         }
         else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("budgetVersions") 

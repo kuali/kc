@@ -14,15 +14,30 @@
  limitations under the License.
 --%>
 <%@ include file="header.jsp" %>
+<%@ taglib uri="/kr/WEB-INF/tlds/c.tld" prefix="c"%>
+<%@ taglib uri="/kr/WEB-INF/tlds/struts-bean.tld" prefix="bean"%>
 
 <%-- NOTE THAT THIS PAGE NOW REQUIRES A TRANSACTION ID TO BE PART OF THE
      LOGIN FORM!  IF YOU HAVE A CUSTOM login.jsp, YOU MUST ADD THIS
      NEW POST INFORMATION. --%>
 
+<c:set var="sessionExpired" value='<%= (Boolean) (request.getSession().getAttribute("sessionExpired")) %>' scope="page"/>
+<c:if test="${sessionExpired}">
+<table width="100%"  cellspacing="0" cellpadding="0" id="session_message_table">
+    <tr valign="top" bgcolor="#FFFFFF">
+    <td width="15" class="leftback-focus">&nbsp;</td>
+     <td>
+	     	<div align="center"><bean:message key="error.session.timeout"/></div>
+     </td>
+    </tr>
+  </table>
+</c:if>
+
 <p>
+
 <% if (request.getAttribute("edu.yale.its.tp.cas.badUsernameOrPassword") 
        != null) { %>
-<font color="red">Sorry, you entered an invalid UserID. <br />
+<font color="red">Sorry, you entered an invalid UserID or Password. <br />
   Please try again. 
 </font>
 <% } else if (request.getAttribute("edu.yale.its.tp.cas.service") == null) { %>
@@ -37,7 +52,7 @@
 </font>
 
 <p>
-<font face="Arial,Helvetica">Enter your UserID below; then click on the <b>Login</b>
+<font face="Arial,Helvetica">Enter your UserID and Password below; then click on the <b>Login</b>
 button to continue.  A password is not required, because this is a </font><font face="Arial,Helvetica" color="red"><b>DEMO ONLY</b></font><font face="Arial,Helvetica"> authentication application.</font>
 </p>
 
@@ -53,15 +68,15 @@ button to continue.  A password is not required, because this is a </font><font 
         <td>
         <input type="text" name="username" maxlength="10"></td>
         </tr>
-        <!-- 
+        
 		<c:if test="${requestScope.showPasswordField}">
 	        <tr>
 	        <td><font face="Arial,Helvetica"><b>Password:</b></td>
 	        <td>
-	        <input type="text" name="password" maxlength="200"></td>
+	        <input type="password" name="password" maxlength="200"></td>
 	        </tr>
         </c:if>
-         -->
+ 
 
         <tr>
         <td colspan="2" align="left">

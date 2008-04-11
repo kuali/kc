@@ -28,7 +28,7 @@ import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.rule.AddBudgetProjectIncomeRule;
 import org.kuali.kra.budget.rule.event.AddBudgetProjectIncomeEvent;
 
-public class BudgetProjectIncomeRuleTest extends TestCase {
+public class AddBudgetProjectIncomeRuleTest extends TestCase {
     private static final KualiDecimal PROJECT_INCOME_AMOUNT = new KualiDecimal(100.00);
     private static final int BUDGET_PERIOD_NO = 1;
     private AddBudgetProjectIncomeRule addBudgetProjectIncomeRule;

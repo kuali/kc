@@ -43,38 +43,28 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
      */
     public void addBudgetPersonnelDetails(BudgetDocument budgetDocument,int budgetPeriodIndex,int budgetLineItemIndex, BudgetPersonnelDetails newBudgetPersonnelDetails) {
         BudgetLineItem budgetLineItem = budgetDocument.getBudgetPeriod(budgetPeriodIndex).getBudgetLineItems().get(budgetLineItemIndex);
-//        try {
-//            ConvertUtils.register(new SqlDateConverter(null), java.sql.Date.class);
-//            ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
-//            BeanUtils.copyProperties(newBudgetPersonnelDetails,(BudgetLineItemBase)budgetLineItem);
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//            newBudgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
-//            newBudgetPersonnelDetails.setBudgetVersionNumber(budgetLineItem.getBudgetVersionNumber());
-//            newBudgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
-//            newBudgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
-//            newBudgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
-//            newBudgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
-//        }
-        copyLineItemToPersonnelDetails(budgetLineItem, newBudgetPersonnelDetails);
-        newBudgetPersonnelDetails.setPersonNumber(budgetDocument.getDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
+        try {
+            ConvertUtils.register(new SqlDateConverter(null), java.sql.Date.class);
+            ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
+            BeanUtils.copyProperties(newBudgetPersonnelDetails,(BudgetLineItemBase)budgetLineItem);
+        }catch (Exception e) {
+            copyLineItemToPersonnelDetails(budgetLineItem, newBudgetPersonnelDetails);
+        }
+        /*
+         * Need to solve the documentnext value refresh issue
+         */
+        
+        newBudgetPersonnelDetails.setPersonNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
         newBudgetPersonnelDetails.setPersonSequenceNumber(newBudgetPersonnelDetails.getPersonSequenceNumber());
         BudgetPerson budgetPerson = budgetPersonService.findBudgetPerson(newBudgetPersonnelDetails);
         newBudgetPersonnelDetails.setPersonId(budgetPerson.getPersonRolodexId());
         newBudgetPersonnelDetails.setJobCode(budgetPerson.getJobCode());
-        newBudgetPersonnelDetails.setSequenceNumber(budgetDocument.getDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
+        newBudgetPersonnelDetails.setSequenceNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
         budgetCalculationService.populateCalculatedAmount(budgetDocument, newBudgetPersonnelDetails);
         newBudgetPersonnelDetails.refreshNonUpdateableReferences();
         budgetLineItem.getBudgetPersonnelDetailsList().add(newBudgetPersonnelDetails);
     }
     
-    /**
-     * @see org.kuali.kra.budget.service.BudgetPersonnelBudgetService#deleteBudgetPersonnelDetails(org.kuali.kra.budget.bo.BudgetLineItem, org.kuali.kra.budget.bo.BudgetPersonnelDetails)
-     */
-    public void deleteBudgetPersonnelDetails(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem, BudgetPersonnelDetails newBudegtPersonnelDetails) {
-
-    }
-
     /**
      * Gets the budgetPersonService attribute. 
      * @return Returns the budgetPersonService.
@@ -120,6 +110,11 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
         budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
         budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
+    }
+
+    public void deleteBudgetPersonnelDetails(BudgetDocument budgetDocument, int selectedBudgetPeriodIndex,
+            int selectedBudgetLineItemIndex, int lineToDelete) {
+        budgetDocument.getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex).getBudgetPersonnelDetailsList().remove(lineToDelete);
     }
 
 }

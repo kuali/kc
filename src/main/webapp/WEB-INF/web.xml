@@ -14,7 +14,7 @@
     <!-- Timeout for granting tickets -->
     <context-param>
         <param-name>edu.yale.its.tp.cas.grantingTimeout</param-name>
-        <param-value>7200</param-value>
+        <param-value>3600</param-value>
     </context-param>
 
     <!-- Timeout for service tickets -->
@@ -26,7 +26,7 @@
     <!-- Timeout for login tickets -->
     <context-param>
         <param-name>edu.yale.its.tp.cas.loginTimeout</param-name>
-        <param-value>86400</param-value>
+        <param-value>3600</param-value>
     </context-param>
 
     <!-- Service validation URL -->
@@ -87,6 +87,15 @@
     <filter-name>BootstrapFilter</filter-name>
     <servlet-name>action</servlet-name>
   </filter-mapping>
+
+	<filter>
+		<filter-name>SessionExpiredFilter</filter-name>
+		<filter-class>org.kuali.kra.web.filter.SessionExpiredFilter</filter-class>
+	</filter>
+	<filter-mapping> 
+		<filter-name>SessionExpiredFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> 
 
 	<filter>
         <filter-name>SessionFilter</filter-name>
@@ -296,7 +305,15 @@
       <servlet-name>ProxyValidate</servlet-name>
       <url-pattern>/cas/proxyValidate</url-pattern>
     </servlet-mapping>
+    
+    <session-config>
+    	<session-timeout>60</session-timeout> 
+    </session-config>
 
+	<listener>
+		<listener-class>org.kuali.core.web.listener.KualiHttpSessionListener</listener-class>
+	</listener>
+	
 	<!-- ******************* END CAS Servlet Mappings ********************* -->
 
 	<welcome-file-list>

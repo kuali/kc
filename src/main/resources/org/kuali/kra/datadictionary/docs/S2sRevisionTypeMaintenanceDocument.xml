@@ -35,10 +35,10 @@
         <documentTypeName>S2sRevisionTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>S2RE</documentTypeCode>
 
-        <label>S2sRevisionType Maintenance Document</label>
+        <label>S2SRevisionType Maintenance Document</label>
         <shortLabel>s2sRevisionTypeMaintDoc</shortLabel>
 
-        <summary>S2sRevisionType Maintenance Document</summary>
+        <summary>S2SRevisionType Maintenance Document</summary>
         <description>Document used to create or update S2sRevisionType Reference objects</description>
 
         <lockingKeys>
@@ -47,7 +47,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit S2sRevisionType">
+            <maintainableSection title="Edit S2SRevisionType">
                 <maintainableItems>
                 	<maintainableField name="s2sRevisionTypeCode" required="true"/>
 					<maintainableField name="description" required="true"/>

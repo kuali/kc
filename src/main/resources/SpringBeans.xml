@@ -74,6 +74,8 @@
 				<value>lookupableHelperService</value>	
 				<value>s2sOpportunityLookupable</value>	
 				<value>nonOrganizationalRolodexLookupable</value>
+				<value>universalUserService</value>
+				<value>enUserService</value>
 			</set>
 		</property>
 	</bean>	
@@ -159,10 +161,60 @@
 	<bean id="encryptionService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="encryptionService" />
 	</bean>
-	
-	<bean id="universalUserService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="universalUserService" />
-	</bean>
+    
+    <bean id="kraUniversalUserDao" class="org.kuali.kra.rice.KraUniversalUserDaoImpl">
+       <property name="personService">
+           <ref bean="personService" />
+       </property>
+    </bean>
+    
+    <bean id="kualiGroupService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiGroupService" />
+    </bean>
+    
+    <bean id="kualiModuleService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiModuleService" />
+    </bean>
+    
+    <bean id="kualiModuleUserPropertyService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiModuleUserPropertyService" />
+    </bean>
+    
+    <bean id="maintenanceDocumentDictionaryService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="maintenanceDocumentDictionaryService" />
+    </bean>
+     
+    <bean id="universalUserService" class="org.kuali.kra.rice.KraUniversalUserServiceImpl">
+        <property name="universalUserDao">
+            <ref bean="kraUniversalUserDao" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="kualiGroupService">
+            <ref bean="kualiGroupService" />
+        </property>
+        <property name="lookupDao">
+            <ref bean="lookupDao" />
+        </property>
+        <property name="kualiModuleService">
+            <ref bean="kualiModuleService" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="moduleUserPropertyService">
+            <ref bean="kualiModuleUserPropertyService" />
+        </property>
+        <property name="businessObjectMetaDataService">
+            <ref bean="businessObjectMetaDataService" />
+        </property>
+        <property name="maintenanceDocumentDictionaryService">
+            <ref bean="maintenanceDocumentDictionaryService" />
+        </property>
+    </bean>
+    <alias name="universalUserService" alias="enUserService" />
+  
 	
 	<bean id="lookupService" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="lookupService" />

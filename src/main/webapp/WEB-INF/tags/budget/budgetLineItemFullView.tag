@@ -24,7 +24,7 @@
 <c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />
 <c:set var="budgetLineItemCalculatedAmountAttributes" value="${DataDictionary.BudgetLineItemCalculatedAmount.attributes}" />
 <c:set var="action" value="budgetExpensesAction" />
-<c:set var="textAreaFieldNameJustification" value="${document.budgetPeriods}[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
+<c:set var="textAreaFieldNameJustification" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
 
 <jsp:useBean id="parameterMap" class="java.util.HashMap"/>
 <c:set target="${parameterMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCode}" />
@@ -99,13 +99,13 @@
 									<table border="0" cellpadding=0 cellspacing=0 summary="">
 										<tr><td>
 											<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Justification${budgetLineItemNumber}" >
-												<c:set var="textAreaFieldNameJustification" value="${document.budgetPeriods}[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
+												<c:set var="textAreaFieldNameJustification" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
 												<table cellpadding=0 cellspacing=0 summary="">
 													<tr>											
 									    	    		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.budgetJustification}" noColon="true" /></div></th>
 									        			<td>
 									        			<div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" attributeEntry="${budgetLineItemAttributes.budgetJustification}" readOnly="${budgetExpensePanelReadOnly}"/>
-									        			<kra:expandedTextArea textAreaFieldName="${textAreaFieldNameJustification}" action="${action}" textAreaLabel="${budgetLineItemAttributes.budgetJustification}" />
+									        			<kra:expandedTextArea textAreaFieldName="${textAreaFieldNameJustification}" action="${action}" textAreaLabel="${budgetLineItemAttributes.budgetJustification.label}" />
 									        			</div>
 									        			</td>
 									        		</tr>

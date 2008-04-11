@@ -25,6 +25,8 @@ public abstract class BudgetDistributionAndIncomeComponent extends KraPersistabl
     private Integer budgetVersionNumber;
     private Integer documentComponentId;
 
+    public abstract String getDocumentComponentIdKey();
+    
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }

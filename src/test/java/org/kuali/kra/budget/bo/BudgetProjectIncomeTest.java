@@ -15,10 +15,13 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.util.Calendar;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 
@@ -30,23 +33,20 @@ public class BudgetProjectIncomeTest {
     private static final double _4K = 4000.00;
     private static final double _500 = 500.00;
     
-    private static final int BUDGET_PERIOD_1 = 1;
-    private static final int BUDGET_PERIOD_2 = 2;
-    private static final int BUDGET_PERIOD_3 = 3;
-    private static final int BUDGET_PERIOD_4 = 4;
-    
     private BudgetDocument document;
 
+    private int nextValue = 1;
+    
     @Before
     public void setUp() throws Exception {
-        document = new BudgetDocument();
-        document.add(createBudgetProjectIncome(BUDGET_PERIOD_1, _1K));
-        document.add(createBudgetProjectIncome(BUDGET_PERIOD_2, _2K));        
-        document.add(createBudgetProjectIncome(BUDGET_PERIOD_3, _3K));
-        document.add(createBudgetProjectIncome(BUDGET_PERIOD_3, _500));
-        document.add(createBudgetProjectIncome(BUDGET_PERIOD_4, _4K));
-        document.add(createBudgetProjectIncome(BUDGET_PERIOD_4, _500));
-        document.add(createBudgetProjectIncome(BUDGET_PERIOD_4, _1K));
+        initializeDocument();
+        document.add(createBudgetProjectIncome(document.getBudgetPeriod(0), _1K));
+        document.add(createBudgetProjectIncome(document.getBudgetPeriod(1), _2K));        
+        document.add(createBudgetProjectIncome(document.getBudgetPeriod(2), _3K));
+        document.add(createBudgetProjectIncome(document.getBudgetPeriod(2), _500));
+        document.add(createBudgetProjectIncome(document.getBudgetPeriod(3), _4K));
+        document.add(createBudgetProjectIncome(document.getBudgetPeriod(3), _500));
+        document.add(createBudgetProjectIncome(document.getBudgetPeriod(3), _1K));
     }
 
     @After
@@ -58,8 +58,10 @@ public class BudgetProjectIncomeTest {
     public void testTotalingProjectIncomesForBudgetDocument() throws Exception {
         Assert.assertEquals(_1K + _2K + _3K + _500 + _4K + _500 + _1K, document.getProjectIncomeTotal().doubleValue(), 0.01);
         
-        double total = extractPeriodTotal(BUDGET_PERIOD_1) + extractPeriodTotal(BUDGET_PERIOD_2) + 
-                        extractPeriodTotal(BUDGET_PERIOD_3) + extractPeriodTotal(BUDGET_PERIOD_4);
+        double total = 0.0;
+        for(BudgetPeriod bp: document.getBudgetPeriods()) {
+            total += extractPeriodTotal(bp);
+        }
         
         Assert.assertEquals(total, document.getProjectIncomeTotal().doubleValue(), 0.01);
     }
@@ -67,21 +69,45 @@ public class BudgetProjectIncomeTest {
     @Test
     public void testTotalingProjectIncomesForPeriod() throws Exception {
         Assert.assertEquals(7, document.getBudgetProjectIncomes().size());
-        Assert.assertEquals(4, document.getProjectIncomePeriodTotals().size());
-        Assert.assertEquals(_1K, extractPeriodTotal(BUDGET_PERIOD_1), 0.01);
-        Assert.assertEquals(_2K, extractPeriodTotal(BUDGET_PERIOD_2), 0.01);
-        Assert.assertEquals(_3K+_500, extractPeriodTotal(BUDGET_PERIOD_3), 0.01);
-        Assert.assertEquals(_4K+_500+_1K, extractPeriodTotal(BUDGET_PERIOD_4), 0.01);
+        Assert.assertEquals(4, document.getProjectIncomePeriodTotalsForEachBudgetPeriod().size());
+        Assert.assertEquals(_1K, extractPeriodTotal(document.getBudgetPeriod(0)), 0.01);
+        Assert.assertEquals(_2K, extractPeriodTotal(document.getBudgetPeriod(1)), 0.01);
+        Assert.assertEquals(_3K+_500, extractPeriodTotal(document.getBudgetPeriod(2)), 0.01);
+        Assert.assertEquals(_4K+_500+_1K, extractPeriodTotal(document.getBudgetPeriod(3)), 0.01);
     }
     
-    private BudgetProjectIncome createBudgetProjectIncome(Integer budgetPeriodNumber, double amount) {
+    private BudgetProjectIncome createBudgetProjectIncome(BudgetPeriod budgetPeriod, double amount) {
         BudgetProjectIncome budgetProjectIncome = new BudgetProjectIncome();        
-        budgetProjectIncome.setBudgetPeriodNumber(budgetPeriodNumber);
+        budgetProjectIncome.setBudgetPeriodNumber(budgetPeriod.getBudgetPeriod());
         budgetProjectIncome.setProjectIncome(new KualiDecimal(amount));
         return budgetProjectIncome;
     }
     
-    private double extractPeriodTotal(int budgetPeriodNo) {
-        return document.getProjectIncomePeriodTotals().get(budgetPeriodNo - 1).doubleValue();
+    private double extractPeriodTotal(BudgetPeriod budgetPeriod) {
+        return document.getProjectIncomePeriodTotalsForEachBudgetPeriod().get(budgetPeriod.getBudgetPeriod() - 1).doubleValue();
+    }
+    
+    @SuppressWarnings("serial")
+    private void initializeDocument() {
+        document = new BudgetDocument() {
+            // stub out method to avoid loading Spring and database
+            @Override
+            public Integer getHackedDocumentNextValue(String propertyName) {
+                return nextValue++;
+            }            
+        };
+        
+        document.add(createBudgetPeriod(1, 2007));
+        document.add(createBudgetPeriod(2, 2008));
+        document.add(createBudgetPeriod(3, 2009));
+        document.add(createBudgetPeriod(4, 2010));
+    }
+    
+    private BudgetPeriod createBudgetPeriod(int budgetPeriodNumber, int year) {
+        BudgetPeriod budgetPeriod = new BudgetPeriod();
+        budgetPeriod.setBudgetPeriod(budgetPeriodNumber);
+        budgetPeriod.setStartDate(DateUtils.newDate(year, Calendar.JANUARY, 1, 0, 0, 0));
+        budgetPeriod.setEndDate(DateUtils.newDate(year, Calendar.DECEMBER, 31, 23, 59, 59));
+        return budgetPeriod;
     }
 }

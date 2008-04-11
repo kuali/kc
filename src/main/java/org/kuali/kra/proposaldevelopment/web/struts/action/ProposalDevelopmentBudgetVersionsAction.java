@@ -23,12 +23,19 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 /**
@@ -51,11 +58,9 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
-        
-        // Below code is for forwarding to new Budget Document
-        Long routeHeaderId = newBudgetDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        String forward = buildForwardUrl(routeHeaderId);
-        return new ActionForward(forward, true);
+        pdForm.getProposalDevelopmentDocument().addNewBudgetVersion(newBudgetDoc, pdForm.getNewBudgetVersionName());
+        pdForm.setNewBudgetVersionName("");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -96,18 +101,30 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-        BudgetDocument newBudgetDocument = budgetService.copyBudgetVersion(budgetDocument);
-        Long routeHeaderId = newBudgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        String forward = buildForwardUrl(routeHeaderId);
-        return new ActionForward(forward, true);
+        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocument);
+        pdDoc.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription());
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         setFinalBudgetVersion(pdForm.getFinalBudgetVersion(), pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews());
-        setProposalStatus(pdForm.getProposalDevelopmentDocument());
-        return super.save(mapping, form, request, response);
+        // check audit rules.  If there is error, then budget can't have complete status
+        boolean valid = true;
+        try {
+            valid &= KraServiceLocator.getService(ProposalDevelopmentService.class).validateBudgetAuditRuleBeforeSaveBudgetVersion(pdForm.getProposalDevelopmentDocument());
+        } catch (Exception ex) {
+            LOG.info("Audit rule check failed " + ex.getStackTrace());
+        }
+        if (!valid) {
+            // set up error message to go to validate panel
+            GlobalVariables.getErrorMap().putError("document.budgetVersionOverview["+Integer.toString(pdForm.getFinalBudgetVersion()-1)+"].budgetStatus", KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            setProposalStatus(pdForm.getProposalDevelopmentDocument());
+            return super.save(mapping, form, request, response);
+        }
     }
     
     @Override

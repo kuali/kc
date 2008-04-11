@@ -23,6 +23,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
+import org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl;
 
 public abstract class BudgetDistributionAndIncomeTest {
     protected static final BudgetDecimal FY_2007_Q3_AMT = new BudgetDecimal(100.0);
@@ -46,19 +48,23 @@ public abstract class BudgetDistributionAndIncomeTest {
     
     protected BudgetDocument budgetDocument;
     protected Calendar calendar;
-    private Date fiscalYearStartArtifact;    
+    protected BudgetDistributionAndIncomeService budgetDistributionAndIncomeService;
+    
+    private Date fiscalYearStartArtifact;
     
     @Before
     public void setUp() throws Exception {
         calendar = GregorianCalendar.getInstance();
         fiscalYearStartArtifact = getDate(YEAR_2000, Calendar.JULY, DAY_1);
-        budgetDocument = new BudgetDocument_CostShareAndUnrecoveredFandAApplicable();        
+        budgetDocument = new BudgetDocument_CostShareAndUnrecoveredFandAApplicable();
+        budgetDistributionAndIncomeService = new BudgetDistributionAndIncomeServiceImpl();
     }
     
     @After
     public void tearDown() throws Exception {
         budgetDocument = null;
         calendar = null;
+        budgetDistributionAndIncomeService = null;
     }
     
     protected BudgetPeriod createAndAddBudgetPeriod(Date startDate, Date endDate) {

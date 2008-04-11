@@ -33,6 +33,7 @@
 <%@ attribute name="useCurrentTabIndexAsKey" required="false" %>
 <%@ attribute name="hidden" required="false" %>
 <%@ attribute name="useRiceAuditMode" required="false" %>
+<%@ attribute name="alwaysOpen" required="false" %>
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
@@ -110,11 +111,13 @@
       		</c:if>
 
             <td class="${midTabClass}">
+            	<c:if test="${alwaysOpen != 'true'}">
                <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
                  <html:image property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" title="close ${tabTitle}" alt="close ${tabTitle}" styleClass="tinybutton"  styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
                </c:if>
                <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
                  <html:image  property="methodToCall.toggleTab.tab${tabKey}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif" title="open ${tabTitle}" alt="open ${tabTitle}" styleClass="tinybutton" styleId="tab-${tabKey}-imageToggle" onclick="javascript: return toggleTab(document, '${tabKey}'); " />
+               </c:if>
                </c:if>
             </td>
             <td class="${rightTabClass}"><img src="${rightTabImage}" alt="" width="12" height="29" align="middle" /></td>
