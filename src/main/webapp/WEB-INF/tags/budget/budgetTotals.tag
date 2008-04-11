@@ -111,3 +111,4 @@
         
     </div>
 </kul:tabTop>
+<kul:panelFooter />
