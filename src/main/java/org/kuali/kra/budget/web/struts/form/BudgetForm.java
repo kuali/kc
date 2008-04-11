@@ -26,6 +26,7 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.web.ui.ExtraButton;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -35,6 +36,7 @@ import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -505,4 +507,27 @@ public class BudgetForm extends ProposalFormBase {
     private KualiConfigurationService lookupKualiConfigurationService() {
         return KraServiceLocator.getService(KualiConfigurationService.class);
     }
+    
+    /**
+     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
+     */
+    public KeyLabelPair getAdditionalDocInfo1() {
+        for (BudgetVersionOverview budgetVersion: this.getBudgetDocument().getProposal().getBudgetVersionOverviews()) {
+            if (budgetVersion.getBudgetVersionNumber().intValue() == this.getBudgetDocument().getBudgetVersionNumber().intValue()) {
+                return new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", budgetVersion.getDocumentDescription());                
+            }
+        }
+        return new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING);                
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
+     */
+    public KeyLabelPair getAdditionalDocInfo2() {
+        if (this.getBudgetDocument().getBudgetVersionNumber() != null) {
+            return new KeyLabelPair("DataDictionary.BudgetDocument.attributes.budgetVersionNumber", Integer.toString(this.getBudgetDocument().getBudgetVersionNumber()));
+        }
+        return new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING);                
+    }
+
 }

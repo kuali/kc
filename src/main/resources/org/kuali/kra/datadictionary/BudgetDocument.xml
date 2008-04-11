@@ -197,6 +197,18 @@
 				<description>The Comments for this budget.</description>
 			</attribute>
 			
+			<attribute name="budgetVersionNumber">
+			<label>Budget Version Number</label>
+			<shortLabel>Version</shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+                    <text size="3" />
+			</control>
+			<summary>Budget Version Number </summary>
+			<description>Budget Version Number for header display </description>
+			</attribute>
+			
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
