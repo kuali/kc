@@ -173,6 +173,20 @@
                 <description>This attribute should always be overriden on the descriptive elements.</description>
             </attribute>
 			
+			<attribute name="budgetName">
+				<label>Budget Name</label>
+				<shortLabel>Budget Name</shortLabel>
+				<maxLength>30</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<text size="30" />
+				</control>
+				<summary>Budget Name</summary>
+				<description>Budget Name for header display.</description>
+			</attribute>
+			
         </attributes>
         
     </businessObject>
