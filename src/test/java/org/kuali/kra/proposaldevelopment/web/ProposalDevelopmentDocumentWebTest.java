@@ -412,7 +412,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
      */
     @Test
     public void testInstituteAttachment() throws Exception {
-        final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
+        final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_6_0);
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
         String[] attachmentTypes = {"Institutional Attachment 1","Institutional Attachment 2"};
         String[] description = {"desc","desc1"};
@@ -452,12 +452,12 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
         // try to view file - only work for 'text/html' file
         //final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.downloadInstituteAttachment.line0.anchor", IMAGE_INPUT);
-        //final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.getInstituteAttachmentRights.line0.anchor", IMAGE_INPUT);
+        final HtmlPage attachmentFilePage = clickButton(pageAfterDeleteAttachment, formAfterDeleteAttachment, "methodToCall.getInstituteAttachmentRights.line0.anchor", IMAGE_INPUT);
         //assertTrue(attachmentFilePage.asText().contains("Workflow Workspace This area is provided as a workspace for workflow activities"));
         // htmlunit has problem to generated popup sometimes ?
         // view attachmentrights has intermittent problem, sometimes the pop up page is not returned. temporarily commented out
-        //LOG.info("INSTITUTE VIEW ATTACHMENT "+attachmentFilePage.asText());
-        //assertTrue(attachmentFilePage.asText().contains("Internal Attachment Rights"));
+        LOG.info("INSTITUTE VIEW ATTACHMENT "+attachmentFilePage.asText());
+        assertTrue(attachmentFilePage.asText().contains("Internal Attachment Rights"));
             
 
     }
