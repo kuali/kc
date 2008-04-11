@@ -18,13 +18,18 @@ package org.kuali.kra.test;
 import static java.io.File.separator;
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.junit.Assert.fail;
+import static org.kuali.kra.logging.FormattedLogger.*;
 
 import java.beans.PropertyDescriptor;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -47,8 +52,6 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  */
 public class OjbRepositoryMappingTest {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(OjbRepositoryMappingTest.class);
-
     // For XML parsing and validation
     private static final String CLASS_DESCRIPTOR_NAME       = "class-descriptor";
     private static final String FIELD_DESCRIPTOR_NAME       = "field-descriptor";
@@ -61,6 +64,8 @@ public class OjbRepositoryMappingTest {
     private static final String CLASS_REF_ATTRIBUTE_NAME    = "class-ref";
     private static final String EL_CLASS_REF_ATTRIBUTE_NAME = "element-class-ref";
     private static final String FIELD_REF_ATTRIBUTE_NAME    = "field-ref";
+    private static final String FIELD_ID_REF_ATTRIBUTE_NAME = "field-id-ref";
+    private static final String ID_ATTRIBUTE_NAME           = "id";
     private static final String FOREIGN_KEY_NAME            = "foreignkey";
     private static final String INVERSE_FOREIGN_KEY_NAME    = "inverse-foreignkey";
     private static final String COLLECTION_CLASS_NAME       = "collection-class";
@@ -100,9 +105,9 @@ public class OjbRepositoryMappingTest {
             }
         }
         
-        LOG.debug("dsUrl = " + dsUrl);
-        LOG.debug("dsUser = " + dsUser);
-        LOG.debug("dsSchema = " + dsSchema);
+        debug("dsUrl = " + dsUrl);
+        debug("dsUser = " + dsUser);
+        debug("dsSchema = " + dsSchema);
     }
     
     private String getValueFromConfig(String line, String name) {
@@ -125,12 +130,12 @@ public class OjbRepositoryMappingTest {
      */
     @Test
     public void xmlValidation() throws Exception { 
-        LOG.info("Starting XML validation");
+        info("Starting XML validation");
         final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
         final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
         
-        LOG.info("Found dtd url " + dtdUrl);
-        LOG.info("Found repository url " + repositoryUrl);
+        info("Found dtd url " + dtdUrl);
+        info("Found repository url " + repositoryUrl);
 
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setValidating(true);
@@ -156,12 +161,12 @@ public class OjbRepositoryMappingTest {
         final Connection conn = ods.getConnection();
         final DefaultHandler handler = new TableValidationHandler(conn); 
         
-        LOG.info("Starting XML validation");
+        info("Starting XML validation");
         final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
         final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
         
-        LOG.info("Found dtd url " + dtdUrl);
-        LOG.info("Found repository url " + repositoryUrl);
+        info("Found dtd url " + dtdUrl);
+        info("Found repository url " + repositoryUrl);
 
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setValidating(true);
@@ -188,12 +193,12 @@ public class OjbRepositoryMappingTest {
     public void verifyClasses() throws Exception {
         final DefaultHandler handler = new ClassValidationHandler(); 
         
-        LOG.info("Starting XML validation");
+        info("Starting XML validation");
         final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
         final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
         
-        LOG.info("Found dtd url " + dtdUrl);
-        LOG.info("Found repository url " + repositoryUrl);
+        info("Found dtd url " + dtdUrl);
+        info("Found repository url " + repositoryUrl);
 
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setValidating(true);
@@ -218,6 +223,7 @@ public class OjbRepositoryMappingTest {
         private Locator locator;
         private Class currentMappedClass;
         private Class currentClassRef;
+        private Map<String, Map<Class,String>> fieldIdMap;
 
         /**
          * Used for constructing <code>{@link SAXParseException}</code> instances
@@ -235,9 +241,16 @@ public class OjbRepositoryMappingTest {
          */
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXParseException {
             if (CLASS_DESCRIPTOR_NAME.equals(qName)) {
+                if (fieldIdMap == null) {
+                    fieldIdMap = new HashMap<String, Map<Class, String>>();
+                }
+                else {
+                    fieldIdMap.clear();
+                }
+                
                 try {
                     setCurrentMappedClass(Class.forName(attributes.getValue(CLASS_ATTRIBUTE_NAME)));
-                    LOG.info("Parsing " + CLASS_DESCRIPTOR_NAME + " for " + getCurrentMappedClass().getSimpleName());
+                    info("Parsing " + CLASS_DESCRIPTOR_NAME + " for " + getCurrentMappedClass().getSimpleName());
                 }
                 catch (Exception e) {
                     throw createSaxParseException("There is no class named " + attributes.getValue(CLASS_ATTRIBUTE_NAME), e);
@@ -280,20 +293,51 @@ public class OjbRepositoryMappingTest {
          * @param property or name of a property to find
          * @throws SAXParseException is thrown when the property is not found in the class
          */
+        @SuppressWarnings("unchecked")
         private void findFieldInClass(Class clazz, String property) throws SAXParseException {
             try {
-                boolean exists = false;
-                for (int i = 0; i < getPropertyDescriptors(clazz).length && !exists; i++) {
-                    PropertyDescriptor descriptor = getPropertyDescriptors(clazz)[i];
-                    exists = descriptor.getName().equals(property);
+                boolean exists = isFieldInClass(clazz, property);
+                
+                if (!exists) {
+                    exists = isFieldIdMapped(clazz, property);
                 }
+                
                 if (!exists) {
                     throw new NoSuchFieldException("Property with name " + property + " does not exist in class " + clazz.getName());
                 }
             }
             catch (NoSuchFieldException e) {
-                throw createSaxParseException("", e);
+                throw createSaxParseException("Property with name " + property + " does not exist in class " + clazz.getName(), e);
             }
+        }
+        
+        /**
+         * Look for mapping in the <code>fieldIdMap</code>.
+         * 
+         * @param clazz {@link Class} that a field is mapped to
+         * @param id of the field used for a mapping relationship
+         * @return true if the id is mapped to a {@link Class}
+         */
+        private boolean isFieldIdMapped(Class clazz, String id) { 
+            return (getFieldIdMap().containsKey(id) && getFieldIdMap().get(id).containsKey(clazz));
+        }
+        
+        /**
+         * Checks if a field exists by name in the given {@link Class}
+         * 
+         * @param clazz class to check
+         * @param fieldName name of the field 
+         * @return true if the field exists by name in the given {@link Class}
+         */
+        @SuppressWarnings("unchecked")
+        private boolean isFieldInClass(Class clazz, String fieldName) {
+            boolean retval = false;
+            for (int i = 0; i < getPropertyDescriptors(clazz).length && !retval; i++) {
+                PropertyDescriptor descriptor = getPropertyDescriptors(clazz)[i];
+                retval = descriptor.getName().equals(fieldName);
+            }
+
+            return retval;
         }
         
         /**
@@ -309,7 +353,13 @@ public class OjbRepositoryMappingTest {
          */
         private void handleForeignKeyDescriptor(String qName, Attributes attributes) throws SAXParseException {
             if (FOREIGN_KEY_NAME.equals(qName)) {
-                findFieldInClass(getCurrentMappedClass(), attributes.getValue(FIELD_REF_ATTRIBUTE_NAME));
+                String referenceName = attributes.getValue(FIELD_REF_ATTRIBUTE_NAME);
+                
+                if (referenceName == null) {
+                    referenceName = attributes.getValue(FIELD_ID_REF_ATTRIBUTE_NAME);
+                }
+                
+                findFieldInClass(getCurrentMappedClass(), referenceName);
             }
             else if (INVERSE_FOREIGN_KEY_NAME.equals(qName)) {
                 findFieldInClass(getCurrentClassRef(), attributes.getValue(FIELD_REF_ATTRIBUTE_NAME));                
@@ -325,8 +375,15 @@ public class OjbRepositoryMappingTest {
          * @param attributes
          * @throws SAXParseException is thrown if any property does not exist
          */
+        @SuppressWarnings("unchecked")
         private void handleFieldDescriptor(String qName, Attributes attributes) throws SAXParseException {
             if (FIELD_DESCRIPTOR_NAME.equals(qName) || COLLECTION_DESCRIPTOR_NAME.equals(qName)) {
+                if (attributes.getValue(ID_ATTRIBUTE_NAME) != null) {
+                    HashMap<Class, String> classFieldMap = new HashMap<Class, String>();
+                    classFieldMap.put(getCurrentMappedClass(), attributes.getValue(DEFAULT_ATTRIBUTE_NAME));
+                    
+                    getFieldIdMap().put(attributes.getValue(ID_ATTRIBUTE_NAME), classFieldMap);
+                }
                 findFieldInClass(getCurrentMappedClass(), attributes.getValue(DEFAULT_ATTRIBUTE_NAME));
             }
         }
@@ -419,6 +476,22 @@ public class OjbRepositoryMappingTest {
         public void setCurrentClassRef(Class currentClassRef) {
             this.currentClassRef = currentClassRef;
         }
+
+        /**
+         * Gets the fieldIdMap attribute. 
+         * @return Returns the fieldIdMap.
+         */
+        public Map<String, Map<Class, String>> getFieldIdMap() {
+            return fieldIdMap;
+        }
+
+        /**
+         * Sets the fieldIdMap attribute value.
+         * @param fieldIdMap The fieldIdMap to set.
+         */
+        public void setFieldIdMap(Map<String, Map<Class, String>> fieldIdMap) {
+            this.fieldIdMap = fieldIdMap;
+        }
         
     }
 
@@ -428,6 +501,8 @@ public class OjbRepositoryMappingTest {
      * 
      */
     class TableValidationHandler extends DefaultHandler {
+        private static final String COLUMN_NOT_FOUND_MESSAGE = "There is no column named %s in table %s";
+        private static final String TABLE_NOT_FOUND_MESSAGE = "There is no table named %s";
         private Connection connection;
         private Locator locator;
         private String currentTableName;
@@ -456,7 +531,7 @@ public class OjbRepositoryMappingTest {
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXParseException {
             if (CLASS_DESCRIPTOR_NAME.equals(qName)) {
                 setCurrentTableName(attributes.getValue(TABLE_ATTRIBUTE_NAME));
-                // LOG.info("Looking for table " + getCurrentTableName());
+                // info("Looking for table " + getCurrentTableName());
                 ResultSet results = null;
                 try {
                     results = getConnection().getMetaData().getTables(null, dsSchema, getCurrentTableName(), new String[] {"TABLE"});
@@ -470,15 +545,15 @@ public class OjbRepositoryMappingTest {
                     }
                     
                     if (!found) {
-                        LOG.info("Not found table " + getCurrentTableName());
-                        throw createSaxParseException("There is no table named " + attributes.getValue(TABLE_ATTRIBUTE_NAME));
+                        info(TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME));
+                        throw createSaxParseException(TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME));
                     }
                     else {
-                        LOG.info("Found table " + getCurrentTableName());
+                        info("Found table " + getCurrentTableName());
                     }
                 }
                 catch (Exception e) {
-                    throw createSaxParseException("There is no table named " + attributes.getValue(TABLE_ATTRIBUTE_NAME), e);
+                    throw createSaxParseException(e, TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME));
                 }
                 finally {
                     if (results != null) {
@@ -511,18 +586,18 @@ public class OjbRepositoryMappingTest {
                     String columnNameResult = null;
                     while(results.next() && !found) {
                         columnNameResult = results.getString("COLUMN_NAME");
-                        LOG.info("Comparing " + columnName + " to " + columnNameResult + " in table " + getCurrentTableName());
+                        info("Comparing " + columnName + " to " + columnNameResult + " in table " + getCurrentTableName());
                         if (columnName.equals(columnNameResult)) {
                             found = true;
                         }
                     }
                     
                     if (!found) {
-                        throw createSaxParseException("There is no column named " + attributes.getValue(COLUMN_ATTRIBUTE_NAME) + " in table " + getCurrentTableName());
+                        throw createSaxParseException(COLUMN_NOT_FOUND_MESSAGE, attributes.getValue(COLUMN_ATTRIBUTE_NAME), getCurrentTableName());
                     }
                 }
                 catch (Exception e) {
-                    throw createSaxParseException("There is no column named " + attributes.getValue(COLUMN_ATTRIBUTE_NAME) + " in table " + getCurrentTableName(), e);
+                    throw createSaxParseException(e, COLUMN_NOT_FOUND_MESSAGE, attributes.getValue(COLUMN_ATTRIBUTE_NAME), getCurrentTableName());
                 }
                 finally {
                     if (results != null) {
@@ -539,22 +614,30 @@ public class OjbRepositoryMappingTest {
         /**
          * Convenience method for creating a <code>{@link SAXParseException}</code> instance.
          * 
-         * @param msg
          * @param e
+         * @param pattern Message pattern in C-Style format
+         * @param params parameters for the C-style format
          * @return SAXParseException
          */
-        private SAXParseException createSaxParseException(String msg, Exception e) {
-            return new SAXParseException(msg + "\n" + e.getMessage(), locator.getPublicId(), locator.getSystemId(), locator.getLineNumber(), locator.getColumnNumber());
+        private SAXParseException createSaxParseException(Exception e, String pattern, String ... params) {
+            StringWriter writer = new StringWriter();
+            new PrintWriter(writer).printf(pattern, (Object[]) params);
+            
+            return new SAXParseException(writer.toString() + "\n" + e.getMessage(), locator.getPublicId(), locator.getSystemId(), locator.getLineNumber(), locator.getColumnNumber());
         }
 
         /**
          * Convenience method for creating a <code>{@link SAXParseException}</code> instance.
          * 
-         * @param msg
+         * @param pattern Message pattern in C-Style format
+         * @param params parameters for the C-style format
          * @return SAXParseException
          */
-        private SAXParseException createSaxParseException(String msg) {
-            return new SAXParseException(msg, locator);
+        private SAXParseException createSaxParseException(String pattern, String ... params) {
+            StringWriter writer = new StringWriter();
+            new PrintWriter(writer).printf(pattern, (Object[]) params);
+
+            return new SAXParseException(writer.toString(), locator);
         }
 
         public String getCurrentTableName() {
