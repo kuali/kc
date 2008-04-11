@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.kra;
+package org.kuali.kra.test;
 
 import org.junit.Test;
 import org.kuali.core.datadictionary.DataDictionaryBuilder;
