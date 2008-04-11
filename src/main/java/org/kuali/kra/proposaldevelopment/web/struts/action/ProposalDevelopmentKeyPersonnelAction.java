@@ -64,8 +64,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.52 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.52.2.1 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
@@ -103,6 +103,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME)
                 && pdform.getProposalDevelopmentDocument().getInvestigators().size() > 0;
             request.setAttribute(CREDIT_SPLIT_ENABLED_FLAG, new Boolean(creditSplitEnabled));
+            pdform.setCreditSplitEnabled(creditSplitEnabled);
         }
         catch (Exception e) {
             warn(MISSING_PARAM_MSG, CREDIT_SPLIT_ENABLED_RULE_NAME);

@@ -2,7 +2,7 @@
 
 <c:set var="budgetCostShareAttributes" value="${DataDictionary.BudgetCostShare.attributes}" />
 
-<kul:tabTop tabTitle="Cost Sharing (${KualiForm.document.budgetVersionNumber})" defaultOpen="false" tabErrorKey="newCostShare*,costShare*">
+<kul:tabTop tabTitle="Cost Sharing (${KualiForm.document.budgetCostShareCount})" defaultOpen="false" tabErrorKey="newCostShare*,costShare*">
 	<div class="tab-container" align="center">
 		<c:choose>
 			<c:when test="${KualiForm.costSharingEditFormVisible}">
@@ -94,10 +94,10 @@
 			
 				<div align="center">
 					<table id="budget-cost-sharing-summary-table" cellpadding="0" cellspacing="0" summary="Cost Sharing Amounts to be Allocated">
-			    		<c:forEach var="fiscalYearCostShare" items="${KualiForm.document.fiscalYearCostShareTotals}" varStatus="status">
+			    		<c:forEach var="budgetPeriod" items="${KualiForm.document.budgetPeriods}" varStatus="status">
 							<tr>
-						    	<th width="68.5%"><div align="right">Period ${status.index + 1}: ${fiscalYearCostShare.assignedBudgetPeriod.dateRangeLabel}:</div></th>
-						    	<td width="17%"><div align="right"><span class="amount">${fiscalYearCostShare.costShare}</span></div></td>
+						    	<th width="68.5%"><div align="right">Period ${status.index + 1}: ${budgetPeriod.dateRangeLabel}:</div></th>
+						    	<td width="17%"><div align="right"><span class="amount">${budgetPeriod.costSharingAmount}</span></div></td>
 						    	<th width="14.5%">&nbsp;</th>
 						    </tr>
 					    </c:forEach>

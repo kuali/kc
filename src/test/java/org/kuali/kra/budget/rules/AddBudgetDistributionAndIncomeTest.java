@@ -27,6 +27,9 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocumentContainer;
 
+/**
+ * This class is parent for AddXxx Tests, where Xxx is a BudgetDistributionandIncomeComponent
+ */
 public abstract class AddBudgetDistributionAndIncomeTest extends TestCase {
 
     protected BudgetDocument document;
@@ -38,6 +41,10 @@ public abstract class AddBudgetDistributionAndIncomeTest extends TestCase {
     protected abstract Object generateRuleEvent(Object artifact);
     protected abstract boolean processRules(Object ruleEvent);
     
+    /**
+     * 
+     * @see junit.framework.TestCase#setUp()
+     */
     @Before
     public void setUp() {
         GlobalVariables.setErrorMap(new ErrorMap());
@@ -46,6 +53,10 @@ public abstract class AddBudgetDistributionAndIncomeTest extends TestCase {
         addArtifactToDocument(generateReferenceArtifact());
     }
 
+    /**
+     * 
+     * @see junit.framework.TestCase#tearDown()
+     */
     @After
     public void tearDown() {
         GlobalVariables.clear();
@@ -53,22 +64,40 @@ public abstract class AddBudgetDistributionAndIncomeTest extends TestCase {
         GlobalVariables.setKualiForm(null);
     }
     
+    /**
+     * 
+     * This method tests adding null values
+     * @throws Exception
+     */
     @Test
     public void testAdding_AllNulls() throws Exception {
         Object ruleEvent = generateRuleEvent(generateEmptyArtifact());
         Assert.assertTrue(processRules(ruleEvent));
     }
+    
+    /**
+     * This method tests adding duplicate row
+     * @throws Exception
+     */
     @Test
     public void testAdding_DuplicateElement() throws Exception {
         Object ruleEvent = generateRuleEvent(generateReferenceArtifact());
         Assert.assertFalse(processRules(ruleEvent));
     }
+    
+    /**
+     * This method tests adding non-duplicate row
+     * @throws Exception
+     */
     @Test
     public void testAdding_NotDuplicateElement() throws Exception {
         Object ruleEvent = generateRuleEvent(generateDifferentArtifact());
         Assert.assertTrue(processRules(ruleEvent));
     }
 
+    /**
+     * This class stubs out call to refreshReferenceObject
+     */
     @SuppressWarnings("serial")
     private class MockBudgetDocument extends BudgetDocument {
 
@@ -76,9 +105,11 @@ public abstract class AddBudgetDistributionAndIncomeTest extends TestCase {
         public void refreshReferenceObject(String referenceObjectName) {
             // do nothing
         }
-        
     }
     
+    /**
+     * This class simply stores a budget document
+     */
     @SuppressWarnings("serial")
     private class MockBudgetForm extends KualiForm implements BudgetDocumentContainer {
         private BudgetDocument document;
@@ -90,6 +121,5 @@ public abstract class AddBudgetDistributionAndIncomeTest extends TestCase {
         
         public BudgetDocument getBudgetDocument() { return document; }
         public void setDocument(BudgetDocument document) { this.document = document; }
-    }
-    
+    }   
 }

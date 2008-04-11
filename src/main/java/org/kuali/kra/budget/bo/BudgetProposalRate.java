@@ -17,7 +17,7 @@ package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-public class BudgetProposalRate extends BudgetProposalLaRate {
+public class BudgetProposalRate extends AbstractBudgetRate {
 	private String activityTypeCode;
 
 

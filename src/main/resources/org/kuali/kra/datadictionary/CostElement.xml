@@ -45,7 +45,7 @@
 
             <lookupFields>
             	<lookupField attributeName="costElement" required="false"/>
-				<lookupField attributeName="budgetCategoryCode" required="false"/>
+				
 				<lookupField attributeName="description" required="false"/>
 				<lookupField attributeName="onOffCampusFlag" required="false"/>
             </lookupFields>

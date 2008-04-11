@@ -1,0 +1,5 @@
+
+CREATE OR REPLACE VIEW OSP$PERSON_BIO_PDF ( 
+PERSON_ID, BIO_NUMBER, BIO_PDF, FILE_NAME, UPDATE_TIMESTAMP, UPDATE_USER ) 
+AS select null,null,null,null,null,null
+	from dual;

@@ -27,11 +27,12 @@ import java.util.Map;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.bo.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.CostElement;
@@ -44,7 +45,6 @@ import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.calculator.query.QueryEngine;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.rice.KNSServiceLocator;
@@ -52,9 +52,9 @@ import org.kuali.rice.KNSServiceLocator;
  * 
  * Base class for <code>LineItemCalculator<code> and <code>PersonnelLineItemCalculator</code>.
  */
-public abstract class CalculatorBase {
+public abstract class AbstractBudgetCalculator {
     private static final String UNDER_REECOVERY_RATE_TYPE_CODE = "1";
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CalculatorBase.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AbstractBudgetCalculator.class);
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private BudgetDocument budgetDocument;
@@ -72,7 +72,7 @@ public abstract class CalculatorBase {
      * @param budgetDocument
      * @param budgetLineItem
      */
-    public CalculatorBase(BudgetDocument budgetDocument, BudgetLineItemBase budgetLineItem) {
+    public AbstractBudgetCalculator(BudgetDocument budgetDocument, BudgetLineItemBase budgetLineItem) {
         this.budgetDocument = budgetDocument;
         this.budgetLineItem = budgetLineItem;
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
@@ -117,24 +117,24 @@ public abstract class CalculatorBase {
      */
     private QueryList filterRates(List rates, Date startDate, Date endDate, String activityTypeCode) {
         //TODO: have to refactor to create new abstract class and extend both calc amount classes from that
-        List lineItemCalcAmts;
-        if(budgetLineItem instanceof BudgetLineItem){
-            lineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
-        }else{
-            lineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
-        }
-        
+//        List lineItemCalcAmts;
+//        if(budgetLineItem instanceof BudgetLineItem){
+//            lineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
+//        }else{
+//            lineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
+//        }
+        List<AbstractBudgetCalculatedAmount> lineItemCalcAmts = budgetLineItem.getBudgetCalculatedAmounts();
         QueryList qlRates = new QueryList(rates);
         QueryList budgetProposalRates = new QueryList();
 
         /**
          * Get all rates from Proposal Rates & Proposal LA Rates which matches with the rates in line item cal amts
          */
-        if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0) {
-            int calAmtSize = lineItemCalcAmts.size();
-            for(int i=0;i<calAmtSize;i++){
-//            for (BudgetLineItemCalculatedAmount calAmtsBean : lineItemCalcAmts) {
-                BudgetLineItemCalculatedAmount calAmtsBean = (BudgetLineItemCalculatedAmount)lineItemCalcAmts.get(i);
+//        if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0) {
+//            int calAmtSize = lineItemCalcAmts.size();
+//            for(int i=0;i<calAmtSize;i++){
+            for (AbstractBudgetCalculatedAmount calAmtsBean : lineItemCalcAmts) {
+//                BudgetLineItemCalculatedAmount calAmtsBean = (BudgetLineItemCalculatedAmount)lineItemCalcAmts.get(i);
                 String rateClassCode = calAmtsBean.getRateClassCode();
                 String rateTypeCode = calAmtsBean.getRateTypeCode();
                 Equals equalsRC = new Equals("rateClassCode", rateClassCode);
@@ -149,7 +149,7 @@ public abstract class CalculatorBase {
                 }
             }
 
-        }
+//        }
         if (activityTypeCode != null) {
             // Add inflation rates separately because, calculated amount list will not have inflation rates listed
             if (infltionValidCalcCeRates != null && !infltionValidCalcCeRates.isEmpty()) {
@@ -207,15 +207,15 @@ public abstract class CalculatorBase {
     }
     protected void updateBudgetLineItemCalculatedAmounts() {
         //TODO: have to refactor to create new abstract class and extend both calc amount classes from that
-        List lineItemCalcAmts;
-        if(budgetLineItem instanceof BudgetLineItem){
-            lineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
-        }else{
-            lineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
-        }
+//        List lineItemCalcAmts;
+//        if(budgetLineItem instanceof BudgetLineItem){
+//            lineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
+//        }else{
+//            lineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
+//        }
         
         
-//        List<BudgetLineItemCalculatedAmount> cvLineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
+        List<AbstractBudgetCalculatedAmount> lineItemCalcAmts = budgetLineItem.getBudgetCalculatedAmounts();
         List<BreakUpInterval> cvLIBreakupIntervals = getBreakupIntervals();
         if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0 && cvLIBreakupIntervals != null
                 && cvLIBreakupIntervals.size() > 0) {
@@ -238,9 +238,9 @@ public abstract class CalculatorBase {
                 cvCombinedAmtDetails.addAll(brkUpInterval.getRateAndCosts());
             }
             // loop thru all cal amount rates, sum up the costs and set it
-            for(int i=0;i<lineItemCalcAmts.size();i++){
-//              for (BudgetLineItemCalculatedAmount calAmtsBean : lineItemCalcAmts) {
-                  BudgetLineItemCalculatedAmount calculatedAmount = (BudgetLineItemCalculatedAmount)lineItemCalcAmts.get(i);
+//            for(int i=0;i<lineItemCalcAmts.size();i++){
+              for (AbstractBudgetCalculatedAmount calculatedAmount : lineItemCalcAmts) {
+//                  BudgetLineItemCalculatedAmount calculatedAmount = (BudgetLineItemCalculatedAmount)lineItemCalcAmts.get(i);
 
 //            for (BudgetLineItemCalculatedAmount calculatedAmount : lineItemCalcAmts) {
                 // if this rate need not be applied skip
@@ -379,19 +379,18 @@ public abstract class CalculatorBase {
                 // Loop and add all data required in breakup interval
                 
                 //TODO: have to refactor to create new abstract class and extend both calc amount classes from that
-                List qlLineItemCalcAmts;
-                if(budgetLineItem instanceof BudgetLineItem){
-                    qlLineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
-                }else{
-                    qlLineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
-                }
+                List<AbstractBudgetCalculatedAmount> qlLineItemCalcAmts = budgetLineItem.getBudgetCalculatedAmounts();
+//                if(budgetLineItem instanceof BudgetLineItem){
+//                    qlLineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
+//                }else{
+//                    qlLineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
+//                }
                 
                 List<String> warningMessages = new ArrayList<String>();
-                for(int i=0;i<qlLineItemCalcAmts.size();i++){
-//                  for (BudgetLineItemCalculatedAmount calAmtsBean : lineItemCalcAmts) {
-                      BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount)qlLineItemCalcAmts.get(i);
+//                for(int i=0;i<qlLineItemCalcAmts.size();i++){
+//                      BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount)qlLineItemCalcAmts.get(i);
 
-//                for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : qlLineItemCalcAmts) {
+                for (AbstractBudgetCalculatedAmount budgetLineItemCalculatedAmount : qlLineItemCalcAmts) {
                     budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
                     applyRateFlag = budgetLineItemCalculatedAmount.getApplyRateFlag();
                     rateClassCode = budgetLineItemCalculatedAmount.getRateClassCode();
@@ -557,7 +556,7 @@ public abstract class CalculatorBase {
      * 
      * @return List of boundary objects
      */
-    public List<Boundary> createBreakupBoundaries(QueryList<BudgetProposalLaRate> qlCombinedRates, Date liStartDate,
+    public List<Boundary> createBreakupBoundaries(QueryList<AbstractBudgetRate> qlCombinedRates, Date liStartDate,
             Date liEndDate) {
         List<Boundary> boundaries = new ArrayList<Boundary>();
         if (qlCombinedRates != null && qlCombinedRates.size() > 0) {
@@ -571,7 +570,7 @@ public abstract class CalculatorBase {
             // sort asc
             qlCombinedRates.sort("startDate", true);
             int size = qlCombinedRates.size();
-            for (BudgetProposalLaRate laRate : qlCombinedRates) {
+            for (AbstractBudgetRate laRate : qlCombinedRates) {
 //                
 //            }
 //            for (int index = 0; index < size; index++) {

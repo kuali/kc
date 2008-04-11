@@ -71,5 +71,9 @@ public class BudgetLineItem extends BudgetLineItemBase {
     public void setBudgetLineItemCalculatedAmounts(List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts) {
         this.budgetLineItemCalculatedAmounts = budgetLineItemCalculatedAmounts;
     }
+    @Override
+    public List getBudgetCalculatedAmounts() {
+        return getBudgetLineItemCalculatedAmounts();
+    }
 
 }

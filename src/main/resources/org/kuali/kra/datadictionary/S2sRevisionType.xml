@@ -31,7 +31,7 @@
         </inquiry>
 
         <lookup>
-            <title>S2s Revision Type Lookup</title>
+            <title>S2S Revision Type Lookup</title>
 			<menubar>
 				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
@@ -61,8 +61,8 @@
         <attributes>
 
 	        <attribute name="s2sRevisionTypeCode">
-			<label>Revision</label>
-			<shortLabel>Revision</shortLabel>
+			<label>S2S Revision Type</label>
+			<shortLabel>S2S Revision Type</shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
                 <control>                    

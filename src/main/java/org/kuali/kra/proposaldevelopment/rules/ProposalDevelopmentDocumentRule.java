@@ -21,7 +21,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -59,6 +58,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEven
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.SystemParameterRetrievalService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rule.CustomAttributeRule;
@@ -412,7 +412,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
      */
-    public boolean processRunAuditBusinessRules(Document document) {
+    public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         
         retval &= super.processRunAuditBusinessRules(document);
@@ -423,6 +423,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         retval &= new ProposalDevelopmentGrantsGovAuditRule().processRunAuditBusinessRules(document);
         
+        // audit check for budgetversion with final status
+        try {
+            retval &= KraServiceLocator.getService(ProposalDevelopmentService.class).validateBudgetAuditRule((ProposalDevelopmentDocument)document);
+        } catch (Exception ex) {
+            // TODO : should log it here
+        }
         return retval;
 	}
 

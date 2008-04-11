@@ -21,18 +21,21 @@ import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetDocument.FiscalYearSummary;
-import org.kuali.kra.budget.service.BudgetDistrubutionAndIncomeService;
+import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
 
-public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistrubutionAndIncomeService {
+public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistributionAndIncomeService {
 
     /**
-     * @see org.kuali.kra.budget.service.BudgetDistrubutionAndIncomeService#initializeCollectionDefaults(org.kuali.kra.budget.document.BudgetDocument)
+     * @see org.kuali.kra.budget.service.BudgetDistributionAndIncomeService#initializeCollectionDefaults(org.kuali.kra.budget.document.BudgetDocument)
      */
     public void initializeCollectionDefaults(BudgetDocument budgetDocument) {
        initializeCostSharingCollectionDefaults(budgetDocument);
        initializeUnrecoveredFandACollectionDefaults(budgetDocument);
     }
 
+    /**
+     * @see org.kuali.kra.budget.service.BudgetDistributionAndIncomeService#initializeCostSharingCollectionDefaults(org.kuali.kra.budget.document.BudgetDocument)
+     */
     public void initializeCostSharingCollectionDefaults(BudgetDocument budgetDocument) {
         if(budgetDocument.isCostSharingApplicable() && budgetDocument.isCostSharingAvailable() && budgetDocument.getBudgetCostShares().size() == 0) {
            for(FiscalYearSummary fiscalYearSummary: budgetDocument.getFiscalYearCostShareTotals()) {
@@ -41,6 +44,9 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistrubutio
        }
     }
     
+    /**
+     * @see org.kuali.kra.budget.service.BudgetDistributionAndIncomeService#initializeUnrecoveredFandACollectionDefaults(org.kuali.kra.budget.document.BudgetDocument)
+     */
     public void initializeUnrecoveredFandACollectionDefaults(BudgetDocument budgetDocument) {
         if(budgetDocument.isUnrecoveredFandAApplicable() && budgetDocument.isUnrecoveredFandAAvailable() && budgetDocument.getBudgetUnrecoveredFandAs().size() == 0) {
            for(FiscalYearSummary fiscalYearSummary: budgetDocument.getFiscalYearUnrecoveredFandATotals()) {
@@ -50,10 +56,22 @@ public class BudgetDistributionAndIncomeServiceImpl implements BudgetDistrubutio
        }
     }
     
+    /**
+     * This method is a factory for BudgetCostShares
+     * @param fiscalYearSummary The fiscal year summary data 
+     * @return A BudgetCostShare
+     */
     private BudgetCostShare createBudgetCostShare(FiscalYearSummary fiscalYearSummary) {
         return new BudgetCostShare(fiscalYearSummary.getFiscalYear(), fiscalYearSummary.getCostShare(), new BudgetDecimal(0.00), null);
     }
     
+    /**
+     * This method is a factory for BudgetUnrecoveredFandA
+     * @param fiscalYearSummary The fiscal year summary data
+     * @param applicableRate The applicable rate
+     * @param onCampusFlag The on-Campus flag
+     * @return
+     */
     private BudgetUnrecoveredFandA createBudgetUnrecoveredFandA(FiscalYearSummary fiscalYearSummary, RateDecimal applicableRate, String onCampusFlag) {
         return new BudgetUnrecoveredFandA(fiscalYearSummary.getFiscalYear(), BudgetDecimal.ZERO, applicableRate, onCampusFlag, null);
     }

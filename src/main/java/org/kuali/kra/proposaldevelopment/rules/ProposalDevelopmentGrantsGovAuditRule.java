@@ -45,7 +45,7 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         }
         
         if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("grantsGovAuditWarnings", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.AUDIT_ERRORS));
+            GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));
         }
 
         return valid;

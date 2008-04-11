@@ -22,8 +22,7 @@
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="expenses">
-
-	<center>Under Construction</center>	
+		
 	<kra-b:budgetExpenses /> 
 	<kul:panelFooter />
 		

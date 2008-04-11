@@ -45,7 +45,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
  * Base implementation class for KRA document business rules
  *
  * @author $Author: gmcgrego $
- * @version $Revision: 1.6.2.1 $
+ * @version $Revision: 1.6.2.2 $
  */
 public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);

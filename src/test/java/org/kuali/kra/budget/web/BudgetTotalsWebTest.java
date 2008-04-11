@@ -179,6 +179,4 @@ public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
         return budgetVersionsPage;
     }
 
-
-
 }

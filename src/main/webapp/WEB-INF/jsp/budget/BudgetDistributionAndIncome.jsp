@@ -23,8 +23,6 @@
   	headerTabActive="distributionAndIncome"
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	showTabButtons="true">
-
-	<center>Under Construction Still</center>
 	
 	<div align="center">
 		<kra-b:budgetCostSharing />

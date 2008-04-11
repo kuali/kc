@@ -19,8 +19,18 @@
 <c:set var="proposalCopyCriteriaAttributes" value="${DataDictionary.ProposalCopyCriteria.attributes}" />
 <c:set var="action" value="proposalDevelopmentActions" />
 
-<kul:tab tabTitle="Copy to New Document" defaultOpen="false"  
-            tabErrorKey="document.proposalCopy">
+<%
+		boolean openFlag = false;
+        java.lang.String command = request.getParameter("command");
+
+        if(org.apache.commons.lang.StringUtils.isNotEmpty(command) && command.equals("displayDocSearchView")) {
+            //This means that the user has come thru the Document Search Page - Copy Action
+            openFlag = true;
+        } 
+        jspContext.setAttribute("openFlag", openFlag);
+%>
+
+ <kul:tab tabTitle="Copy to New Document" defaultOpen="${openFlag}" tabErrorKey="document.proposalCopy">
          
 	<div class="tab-container" align="center">
     	<div class="h2-container">

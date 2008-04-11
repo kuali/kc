@@ -15,10 +15,10 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="categories" value="Errors,Warnings,Grant.Gov Errors" />
+<c:set var="categories" value="Errors,Warnings,Grants.Gov Errors" />
 
-<kul:tabTop tabTitle="Data Validation" defaultOpen="false"  
-            tabErrorKey="document.audit*,document.datavalidation*">
+<kul:tabTop tabTitle="Data Validation" defaultOpen="${KualiForm.auditActivated}"  
+            tabErrorKey="document.audit*,document.datavalidation*,noKey">
 	<div class="tab-container"  align="center">
 		<div class="h2-container"> 
 			<span class="subhead-left"> <h2>Data Validation</h2> </span>
