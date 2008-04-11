@@ -36,7 +36,8 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
     private Timestamp updateTimestamp;
     private String principalInvestigator;
     private BudgetDecimal genericRate;
-    
+    private String budgetName;
+
 
     /**
      * Gets the value of city
@@ -167,5 +168,13 @@ public class KraAttributeReferenceDummy extends AttributeReferenceDummy {
 
     public final void setGenericRate(BudgetDecimal genericRate) {
         this.genericRate = genericRate;
+    }
+
+    public String getBudgetName() {
+        return budgetName;
+    }
+
+    public void setBudgetName(String budgetName) {
+        this.budgetName = budgetName;
     }
 }
