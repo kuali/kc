@@ -36,7 +36,7 @@
 
         <documentTypeName>ProposalDevelopmentDocument</documentTypeName>
         <documentTypeCode>PRDV</documentTypeCode>
-
+		
         <label>Proposal Development Document</label>
         <shortLabel>Prop Dev Doc</shortLabel>
 
@@ -641,5 +641,6 @@
         </headerNavigation> 
 
         <allowsErrorCorrection>false</allowsErrorCorrection>
+        <displayTopicFieldInNotes>true</displayTopicFieldInNotes> <!-- KRACOEUS-511 -->
     </transactionalDocument>
 </dictionaryEntry>
