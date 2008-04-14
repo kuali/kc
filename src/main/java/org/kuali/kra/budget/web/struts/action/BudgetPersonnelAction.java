@@ -74,6 +74,7 @@ public class BudgetPersonnelAction extends BudgetAction {
                 .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
                         GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
             
+            budgetForm.getBudgetDocument().refreshReferenceObject("documentNextvalues");
             BudgetPersonService budgetPersonService = KraServiceLocator.getService(BudgetPersonService.class);
             if (lookupResultsBOClass.isAssignableFrom(Person.class)) {
                 for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
