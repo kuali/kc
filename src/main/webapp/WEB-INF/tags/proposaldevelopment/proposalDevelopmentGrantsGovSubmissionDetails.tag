@@ -4,7 +4,6 @@
 <c:set var="textAreaFieldName" value="document.programAnnouncementTitle" />
 <c:set var="action" value="proposalDevelopmentProposal" />
 
-<!--  <kul:tab tabTitle="Submission Details" defaultOpen="false">-->
           	<tr>
 				<td>
 <kul:innerTab parentTab="Opportunity Search" defaultOpen="false" tabTitle="Submission Details">
@@ -27,6 +26,6 @@
 </table></div>
 </kul:innerTab>
 </td></tr>
-<!-- </kul:tab> -->
+
 
 
