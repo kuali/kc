@@ -95,7 +95,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private String comments;
     private BudgetDecimal costSharingAmount; // = new BudgetDecimal(0);
     private Date endDate;
-    private boolean finalVersionFlag;
+    private Boolean finalVersionFlag;
     private String modularBudgetFlag;
     private String ohRateClassCode;
     private String ohRateTypeCode;
@@ -132,6 +132,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private SortedMap <CostElement, List> objectCodeTotals ;
     private SortedMap <RateType, List> calculatedExpenseTotals ;
     private List<KeyLabelPair> budgetCategoryTypeCodes;
+    
+    private String budgetStatus;
     
     public BudgetDocument(){
         super();
@@ -348,11 +350,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.endDate = endDate;
     }
 
-    public boolean getFinalVersionFlag() {
+    public Boolean getFinalVersionFlag() {
         return finalVersionFlag;
     }
 
-    public void setFinalVersionFlag(boolean finalVersionFlag) {
+    public void setFinalVersionFlag(Boolean finalVersionFlag) {
         this.finalVersionFlag = finalVersionFlag;
     }
 
@@ -1215,4 +1217,13 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public void setBudgetPersonnelDetailsList(List<BudgetPersonnelDetails> budgetPersonnelDetailsList) {
         this.budgetPersonnelDetailsList = budgetPersonnelDetailsList;
     }
+
+    public String getBudgetStatus() {
+        return budgetStatus;
+    }
+
+    public void setBudgetStatus(String budgetStatus) {
+        this.budgetStatus = budgetStatus;
+    }
+    
 }
