@@ -15,6 +15,12 @@
  */
 package org.kuali.kra.web.struts.form;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+
 /**
  * This class contains methods common to ProposalDevelopment and Budget forms.
  */
@@ -62,6 +68,42 @@ public class ProposalFormBase extends KraTransactionalDocumentFormBase {
 
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+    
+    // I put these here because using fmt:fmtDate in the tag didn't work b/c it's a parameter passed to tabTop.
+    // This works for now but obviously isn't ideal so reengineer when possible.
+    public String getFormattedStartDate() {
+        Date date = null;
+        if (this instanceof BudgetForm) {
+            BudgetForm budgetForm = (BudgetForm) this;
+            date = budgetForm.getBudgetDocument().getProposal().getRequestedStartDateInitial();
+        } else if (this instanceof ProposalDevelopmentForm) {
+            ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) this;
+            date = pdForm.getProposalDevelopmentDocument().getRequestedStartDateInitial();
+        }
+        if (date != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat();
+            dateFormat.applyPattern("MM/dd/yyyy");
+            return dateFormat.format(date);
+        }
+        return "";
+    }
+    
+    public String getFormattedEndDate() {
+        Date date = null;
+        if (this instanceof BudgetForm) {
+            BudgetForm budgetForm = (BudgetForm) this;
+            date = budgetForm.getBudgetDocument().getProposal().getRequestedEndDateInitial();
+        } else if (this instanceof ProposalDevelopmentForm) {
+            ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) this;
+            date = pdForm.getProposalDevelopmentDocument().getRequestedEndDateInitial();
+        }
+        if (date != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat();
+            dateFormat.applyPattern("MM/dd/yyyy");
+            return dateFormat.format(date);
+        }
+        return "";
     }
 
 }
