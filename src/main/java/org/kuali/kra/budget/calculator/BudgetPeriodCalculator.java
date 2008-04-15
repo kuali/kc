@@ -69,12 +69,14 @@ public class BudgetPeriodCalculator {
      * @param budgetPeriod
      */
     public void calculate(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod) {
+        List<BudgetLineItem> cvLineItemDetails = budgetPeriod.getBudgetLineItems();
+        if(cvLineItemDetails.isEmpty())
+            return;
         budgetPeriod.setTotalDirectCost(BudgetDecimal.ZERO);
         budgetPeriod.setTotalIndirectCost(BudgetDecimal.ZERO);
         budgetPeriod.setCostSharingAmount(BudgetDecimal.ZERO);
         budgetPeriod.setTotalCost(BudgetDecimal.ZERO);
         budgetPeriod.setUnderrecoveryAmount(BudgetDecimal.ZERO);
-        List<BudgetLineItem> cvLineItemDetails = budgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : cvLineItemDetails) {
             budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItem);
             budgetPeriod.setTotalDirectCost(budgetPeriod.getTotalDirectCost().add(budgetLineItem.getDirectCost()));
