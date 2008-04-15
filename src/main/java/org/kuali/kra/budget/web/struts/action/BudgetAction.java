@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.Task;
@@ -65,6 +66,8 @@ public class BudgetAction extends ProposalActionBase {
         }else{
             budgetForm.initialize();
         }
+        
+        reconcileBudgetStatus(budgetForm);
         return forward;
     }
 
@@ -100,6 +103,7 @@ public class BudgetAction extends ProposalActionBase {
     }
 
     public ActionForward summary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        reconcileBudgetStatus((BudgetForm) form);
         return mapping.findForward("summary");
     }
 
@@ -188,5 +192,16 @@ public class BudgetAction extends ProposalActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         ProposalDevelopmentDocument proposalDoc = budgetForm.getBudgetDocument().getProposal();
         return new ProposalTask(actionName, taskName, proposalDoc);
+    }
+    
+    protected void reconcileBudgetStatus(BudgetForm budgetForm) {
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        if (budgetDocument.getFinalVersionFlag()) {
+            budgetDocument.setBudgetStatus(budgetDocument.getProposal().getBudgetStatus());
+        } else {
+            String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
+                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+            budgetDocument.setBudgetStatus(budgetStatusIncompleteCode);
+        }
     }
 }

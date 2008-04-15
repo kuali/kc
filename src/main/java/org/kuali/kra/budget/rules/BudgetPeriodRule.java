@@ -140,7 +140,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         boolean statusValid = true;
         String budgetStatusCompleteCode = getKualiConfigurationService().getParameter(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
-        String budgetStatus = budgetDocument.getProposal().getBudgetStatus();
+        String budgetStatus = budgetDocument.getBudgetStatus();
         boolean finalVersionFlag = budgetDocument.getFinalVersionFlag();
         errorMap.addToErrorPath(BUDGET_SUMMARY);
         if (budgetStatus!= null 
@@ -150,7 +150,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             finalVersionFlag = false;
         }
         errorMap.removeFromErrorPath(BUDGET_SUMMARY);
-        return statusValid;
+        return true;
     }
     
     private boolean isValidBudgetPeriodBoundaries(BudgetDocument budgetDocument) {

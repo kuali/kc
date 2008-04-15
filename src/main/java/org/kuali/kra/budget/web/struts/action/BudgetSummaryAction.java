@@ -48,6 +48,9 @@ public class BudgetSummaryAction extends BudgetAction {
         if(rulePassed){
             /* calculate all periods */
             budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
+            if (budgetDocument.getFinalVersionFlag()) {
+                budgetDocument.getProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
+            }
             reconcileFinalBudgetFlags(budgetForm);
             return super.save(mapping, form, request, response);
         }
