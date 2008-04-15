@@ -196,7 +196,7 @@ public class BudgetAction extends ProposalActionBase {
     
     protected void reconcileBudgetStatus(BudgetForm budgetForm) {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        if (budgetDocument.getFinalVersionFlag()) {
+        if (budgetDocument.getFinalVersionFlag() != null && budgetDocument.getFinalVersionFlag()) {
             budgetDocument.setBudgetStatus(budgetDocument.getProposal().getBudgetStatus());
         } else {
             String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
