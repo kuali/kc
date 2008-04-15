@@ -75,7 +75,7 @@
 
             <attributeReference name="finalVersionFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Final?</label>
-                <shortLabel>Final?</shortLabel>
+                <shortLabel>Final</shortLabel>
                 <summary>Final Version Flag</summary>
                 <description>Final Version Flag</description>
 			</attributeReference>
@@ -146,7 +146,7 @@
 
             <attributeReference name="totalDirectCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Total Direct Cost </label>
-			<shortLabel>Total Direct Cost </shortLabel>
+			<shortLabel>Direct Cost </shortLabel>
 			<maxLength>12</maxLength>
 			<summary>Total Direct Cost </summary>
 			<description>Total Direct Cost </description>
@@ -154,7 +154,7 @@
 
             <attributeReference name="totalIndirectCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Total Indirect Cost </label>
-			<shortLabel>Total Indirect Cost </shortLabel>
+			<shortLabel>F &amp; A </shortLabel>
 			<maxLength>12</maxLength>
 			<summary>Total Indirect Cost </summary>
 			<description>Total Indirect Cost </description>
@@ -199,7 +199,7 @@
 			
 			<attribute name="budgetVersionNumber">
 			<label>Budget Version Number</label>
-			<shortLabel>Version</shortLabel>
+			<shortLabel>Version #</shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
