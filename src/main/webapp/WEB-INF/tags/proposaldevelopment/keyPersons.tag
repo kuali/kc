@@ -19,25 +19,24 @@
 <div id="workarea">
 <c:set var="personIndex" value="0" />
 <c:forEach items="${KualiForm.document.proposalPersons}" var="person" varStatus="status">
-    <bean:define id="keyPerson" name="KualiForm" property="document.proposalPerson[${status.index}]"/>
-    <c:set var="proposalPerson" value="document.proposalPerson[${status.index}]" />
+    <c:set var="proposalPersonProperty" value="document.proposalPersons[${status.index}]" />
     <c:set var="transparent" value="false" />
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
 
-    <kul:tab tabTitle="${fn:substring(keyPerson.fullName, 0, 22)}"
-             tabDescription="${keyPerson.role.description}"
-             leftSideHtmlProperty="${proposalPerson}.delete" 
+    <kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
+             tabDescription="${person.role.description}"
+             leftSideHtmlProperty="${proposalPersonProperty}.delete" 
             leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
          	 leftSideHtmlDisabled="false" 
                       defaultOpen="false" 
             transparentBackground="${transparent}" 
-                      tabErrorKey="document.proposalPerson*">
-        <kra-pd:person proposalPerson="${proposalPerson}" personIndex="${status.index}"/>
+                      tabErrorKey="${proposalPersonProperty}*">
+        <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
      </kul:tab>
 </c:forEach>
-<c:if test="${not empty creditSplitEnabledFlag and creditSplitEnabledFlag}">
+<c:if test="${not empty KualiForm.creditSplitEnabled and KualiForm.creditSplitEnabled}">
     <kra-pd:creditSplit/>
 </c:if>
 
