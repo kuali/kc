@@ -95,7 +95,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private String comments;
     private BudgetDecimal costSharingAmount; // = new BudgetDecimal(0);
     private Date endDate;
-    private Boolean finalVersionFlag;
+    private boolean finalVersionFlag;
     private String modularBudgetFlag;
     private String ohRateClassCode;
     private String ohRateTypeCode;
