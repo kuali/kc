@@ -811,7 +811,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         setFieldValue(kualiForm, TEXT_AREA, "document.title", title);
         setFieldValue(kualiForm, TEXT_INPUT, "document.requestedStartDateInitial", startDate);
         setFieldValue(kualiForm, TEXT_INPUT, "document.requestedEndDateInitial", endDate);
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.activityTypeCode", activityType, 10);
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.activityTypeCode", activityType, 6);
         setFieldValue(kualiForm, SELECTED_INPUT, "document.proposalTypeCode", proposalType, 7);
         setFieldValue(kualiForm, SELECTED_INPUT, "document.ownedByUnitNumber", ownedByUnit, -1);
     }
