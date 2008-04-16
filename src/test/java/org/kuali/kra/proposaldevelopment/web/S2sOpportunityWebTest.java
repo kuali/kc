@@ -24,21 +24,19 @@ import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-//@PerTestUnitTestData(
-//        @UnitTestData(
-//            sqlStatements = {
-//                    @UnitTestSql("delete from S2S_SUBMISSION_TYPE")
-//                    ,@UnitTestSql("delete from S2S_REVISION_TYPE")    
-//            },
-//            sqlFiles = {
-//                @UnitTestFile(filename = "classpath:sql/dml/load_s2s_submission_type.sql", delimiter = ";")
-//                ,@UnitTestFile(filename = "classpath:sql/dml/load_s2s_revision_type.sql", delimiter = ";")
-//            }
-//        )
-//    )
+@PerTestUnitTestData(
+        @UnitTestData(
+            sqlStatements = {
+                    @UnitTestSql("delete from S2S_SUBMISSION_TYPE")
+                    ,@UnitTestSql("delete from S2S_REVISION_TYPE")    
+            },
+            sqlFiles = {
+                @UnitTestFile(filename = "classpath:sql/dml/load_s2s_submission_type.sql", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_s2s_revision_type.sql", delimiter = ";")
+            }
+        )
+    )
 public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
-    private static final String VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2 = "APP-S2S-TEST-SF424-V2";
-    private static final String VALID_CFDA_NUMBER_00_000 = "00.000";
     private static final String GRANTS_GOV_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.grantsGov.x";
     
     /**
@@ -53,15 +51,15 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);
         
         setFieldValue(proposalPage, "document.programAnnouncementTitle", "we want to give you money");
-        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);//changing it to 00.000
-        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
         
         HtmlPage savedProposalPage = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");
         HtmlPage page1 = clickOn(savedProposalPage, GRANTS_GOV_IMAGE_NAME);        
         HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber");
         
-        assertContains(page2,VALID_CFDA_NUMBER_00_000);
-        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        assertContains(page2,"84.264");
+        assertContains(page2,"ED-GRANTS-102003-003");
     }
     
     /**
@@ -73,13 +71,13 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage proposalPage = getProposalDevelopmentPage();
 
         setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);        
-        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);                
+        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");                
 
         HtmlPage savedProposalPage = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");                
         HtmlPage page1 = clickOn(savedProposalPage, GRANTS_GOV_IMAGE_NAME);        
         HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber");
         
-        assertContains(page2,VALID_CFDA_NUMBER_00_000);
+        assertContains(page2,"84.264");
     }    
     
     /**
@@ -91,13 +89,13 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage proposalPage = getProposalDevelopmentPage();
 
         setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);        
-        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
         
         HtmlPage savedProposalPage = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");               
         HtmlPage page1 = clickOn(savedProposalPage, GRANTS_GOV_IMAGE_NAME);        
         HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber");
                        
-        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);           
+        assertContains(page2,"ED-GRANTS-102003-003");           
     }        
     
     /**
@@ -153,23 +151,23 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         String documentNumber = getFieldValue(proposalPage, "document.documentHeader.documentNumber");
                 
         setFieldValue(proposalPage, "document.programAnnouncementTitle", "we want to give you money");
-        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);
-        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
         
         HtmlPage savedProposalPage = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");
         HtmlPage page1 = clickOn(savedProposalPage, GRANTS_GOV_IMAGE_NAME);        
-        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId",VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2,false);
+        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId","ED-GRANTS-102003-003",false);
         
-        assertContains(page2,VALID_CFDA_NUMBER_00_000);
-        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        assertContains(page2,"84.264");
+        assertContains(page2,"ED-GRANTS-102003-003");
         
         setFieldValue(page2,"document.s2sOpportunity.s2sSubmissionTypeCode","1");
         clickOn(page2, "methodToCall.save", "Kuali :: Proposal Development Document");
         
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
         
-        assertEquals(doc.getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
-        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
+        assertEquals(doc.getS2sOpportunity().getOpportunityId(),"ED-GRANTS-102003-003");
+        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),"84.264");
         assertEquals(doc.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
     }
     
@@ -186,15 +184,15 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);
                         
         setFieldValue(proposalPage, "document.programAnnouncementTitle", "we want to give you money");
-        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);
-        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
         
         HtmlPage savedProposalPage = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");        
         HtmlPage page1 = clickOn(savedProposalPage, GRANTS_GOV_IMAGE_NAME);        
-        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId",VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2,false);        
+        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId","ED-GRANTS-102003-003",false);        
 
-        assertContains(page2,VALID_CFDA_NUMBER_00_000);
-        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        assertContains(page2,"84.264");
+        assertContains(page2,"ED-GRANTS-102003-003");
         
         setFieldValue(page2,"document.s2sOpportunity.s2sSubmissionTypeCode","1");
         setFieldValue(page2,"document.s2sOpportunity.revisionCode","5");
@@ -217,15 +215,15 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         String documentNumber = getFieldValue(proposalPage, "document.documentHeader.documentNumber");
                 
         setFieldValue(proposalPage, "document.programAnnouncementTitle", "we want to give you money");
-        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);
-        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
         
         HtmlPage savedProposalPage = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");        
         HtmlPage page1 = clickOn(savedProposalPage, GRANTS_GOV_IMAGE_NAME);        
-        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId",VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2,false);        
+        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId","ED-GRANTS-102003-003",false);        
 
-        assertContains(page2,VALID_CFDA_NUMBER_00_000);
-        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        assertContains(page2,"84.264");
+        assertContains(page2,"ED-GRANTS-102003-003");
         
         setFieldValue(page2,"document.s2sOpportunity.s2sSubmissionTypeCode","1");
         setFieldValue(page2,"document.s2sOpportunity.revisionCode","5");
@@ -234,8 +232,8 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
         
-        assertEquals(doc.getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
-        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
+        assertEquals(doc.getS2sOpportunity().getOpportunityId(),"ED-GRANTS-102003-003");
+        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),"84.264");
         assertEquals(doc.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
         assertEquals(doc.getS2sOpportunity().getRevisionCode().toString(),"5");
         assertEquals(doc.getS2sOpportunity().getRevisionOtherDescription(),"RevisionType Is Other");
@@ -254,15 +252,15 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         setRequiredFields(proposalPage, DEFAULT_DOCUMENT_DESCRIPTION, "005891", DEFAULT_PROPOSAL_TITLE, "08/14/2007", "08/21/2007", DEFAULT_PROPOSAL_ACTIVITY_TYPE, DEFAULT_PROPOSAL_TYPE_CODE, DEFAULT_PROPOSAL_OWNED_BY_UNIT);
                 
         setFieldValue(proposalPage, "document.programAnnouncementTitle", "we want to give you money");
-        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);
-        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
         
         HtmlPage savedProposalPage = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");        
         HtmlPage page1 = clickOn(savedProposalPage, GRANTS_GOV_IMAGE_NAME);        
-        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId",VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2,false);        
+        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId","ED-GRANTS-102003-003",false);        
 
-        assertContains(page2,VALID_CFDA_NUMBER_00_000);
-        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        assertContains(page2,"84.264");
+        assertContains(page2,"ED-GRANTS-102003-003");
         
         setFieldValue(page2,"document.s2sOpportunity.s2sSubmissionTypeCode","1");
         setFieldValue(page2,"document.s2sOpportunity.revisionCode","1");
@@ -286,23 +284,23 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         String documentNumber = getFieldValue(proposalPage, "document.documentHeader.documentNumber");
                 
         setFieldValue(proposalPage, "document.programAnnouncementTitle", "we want to give you money");
-        setFieldValue(proposalPage, "document.cfdaNumber", VALID_CFDA_NUMBER_00_000);
-        setFieldValue(proposalPage, "document.programAnnouncementNumber", VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        setFieldValue(proposalPage, "document.cfdaNumber", "84.264");
+        setFieldValue(proposalPage, "document.programAnnouncementNumber", "ED-GRANTS-102003-003");
         
         HtmlPage savedProposalPage = clickOn(proposalPage, "methodToCall.save", "Kuali :: Proposal Development Document");
         HtmlPage page1 = clickOn(savedProposalPage, GRANTS_GOV_IMAGE_NAME);        
-        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId",VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2,false);
+        HtmlPage page2 = lookup(page1, "document.programAnnouncementNumber","opportunityId","ED-GRANTS-102003-003",false);
         
-        assertContains(page2,VALID_CFDA_NUMBER_00_000);
-        assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
+        assertContains(page2,"84.264");
+        assertContains(page2,"ED-GRANTS-102003-003");
         
         setFieldValue(page2,"document.s2sOpportunity.s2sSubmissionTypeCode","1");
         HtmlPage page3 = clickOn(page2, "methodToCall.save", "Kuali :: Proposal Development Document");
         
         ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) getDocument(documentNumber);
         
-        assertEquals(doc.getS2sOpportunity().getOpportunityId(),VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
-        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),VALID_CFDA_NUMBER_00_000);
+        assertEquals(doc.getS2sOpportunity().getOpportunityId(),"ED-GRANTS-102003-003");
+        assertEquals(doc.getS2sOpportunity().getCfdaNumber(),"84.264");
         assertEquals(doc.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),"1");
         
         HtmlPage page4 = clickOn(page3, "methodToCall.removeOpportunity", "Kuali :: Question Dialog Page");
