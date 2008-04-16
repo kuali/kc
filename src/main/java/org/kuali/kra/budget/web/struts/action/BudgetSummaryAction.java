@@ -17,6 +17,10 @@ package org.kuali.kra.budget.web.struts.action;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
@@ -35,6 +40,7 @@ import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class BudgetSummaryAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetSummaryAction.class);
@@ -48,7 +54,11 @@ public class BudgetSummaryAction extends BudgetAction {
         if(rulePassed){
             /* calculate all periods */
             budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
+            if (budgetDocument.getFinalVersionFlag()) {
+                budgetDocument.getProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
+            }
             reconcileFinalBudgetFlags(budgetForm);
+            updateBudgetPeriodDbVersion(budgetDocument);
             return super.save(mapping, form, request, response);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -179,4 +189,25 @@ public class BudgetSummaryAction extends BudgetAction {
         }
     }
 
+    /**
+     * 
+     * This method to set the DB version# for budget periods.  To eliminate optimistic locking problem.
+     * newly adjusted period has no version number set, but its period may exist in DB.
+     * @param budgetDocument
+     */
+    private void updateBudgetPeriodDbVersion(BudgetDocument budgetDocument) {
+        // set version number for saving
+        Map<String, String> budgetPeriodMap = new HashMap<String, String>();
+        budgetPeriodMap.put("proposalNumber", budgetDocument.getProposalNumber());
+        budgetPeriodMap.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber().toString());
+        Collection <BudgetPeriod> existBudgetPeriods = KraServiceLocator.getService(BusinessObjectService.class).findMatching(BudgetPeriod.class, budgetPeriodMap);
+        for(BudgetPeriod budgetPeriod : existBudgetPeriods) {
+            for (BudgetPeriod newBudgetPeriod : budgetDocument.getBudgetPeriods()) {
+                if (budgetPeriod.getBudgetPeriod().equals(newBudgetPeriod.getBudgetPeriod())) {
+                    newBudgetPeriod.setVersionNumber(budgetPeriod.getVersionNumber());
+                }
+            }
+        }
+
+    }
 }
