@@ -65,7 +65,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: gmcgrego $
- * @version $Revision: 1.52.2.1 $
+ * @version $Revision: 1.52.2.2 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
@@ -429,7 +429,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         int selectedLine = -1;
         String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
         if (isNotBlank(parameterName)) {
-            int lineNumber = Integer.parseInt(substringBetween(parameterName, "proposalPerson[", "]."));
+            int lineNumber = Integer.parseInt(substringBetween(parameterName, "proposalPersons[", "]."));
             retval = document.getProposalPerson(lineNumber);
         }
 

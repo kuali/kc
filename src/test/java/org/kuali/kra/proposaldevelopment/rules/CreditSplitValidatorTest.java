@@ -25,25 +25,29 @@ import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UND
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_OVER_ONE_HUNDRED;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_UNDER_ZERO;
+import static org.kuali.kra.logging.FormattedLogger.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.UserSession;
+import org.kuali.core.bo.Parameter;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.KraTestBase;
 
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.CreditSplitValidator;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
 /**
  * Class to test use cases of <code>{@link CreditSplitValidator}</code>
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.7 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.7.2.1 $
  */
 public class CreditSplitValidatorTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidatorTest.class);
@@ -64,7 +68,6 @@ public class CreditSplitValidatorTest extends KraTestBase {
     public void tearDown() throws Exception {
         super.tearDown();
     }
-
 
     /**
      * A <code>{@link ProposalDevelopmentDocument}</code> instance can only have one Proposal Investigator. Test that the rule applies.<br/> 

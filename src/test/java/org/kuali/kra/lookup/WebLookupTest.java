@@ -68,7 +68,8 @@ public class WebLookupTest extends KraWebTestBase {
         HtmlPage lookupPage = clickOn(page, "Sponsor");
         assertEquals(lookupPage.getTitleText(), "Kuali Portal Index");
         HtmlPage lookupResultsPage = clickOn(lookupPage, "methodToCall.search");
-        assertTrue(lookupResultsPage.asText().contains("items found. Please refine your search criteria to narrow down your search. 50 items found, displaying all items"));
+        assertTrue(lookupResultsPage.asText().contains("items found. Please refine your search criteria to narrow down your search."));
+        assertTrue(lookupResultsPage.asText().contains("50 items found, displaying all items"));
     }
        
  }
