@@ -174,7 +174,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         if (StringUtils.isNotBlank(actionName) && actionName.startsWith("Budget") && StringUtils.isNotBlank(getMethodToCall()) && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isBudgetAction = true;
         }
-        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("budgetVersions") 
+        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("versions") 
                 || navigateTo.equalsIgnoreCase("summary") || navigateTo.equalsIgnoreCase("personnel") 
                 || navigateTo.equalsIgnoreCase("expenses") || navigateTo.equalsIgnoreCase("rates") 
                 || navigateTo.equalsIgnoreCase("distributionAndIncome") || navigateTo.equalsIgnoreCase("modularBudget") 
