@@ -20,7 +20,7 @@
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
 
-<c:set var="newMap" value="<%=new HashMap()%>" scope="request" />
+<jsp:useBean id="newMap" class="java.util.HashMap" scope="request" />
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -60,7 +60,7 @@
 <c:if test="${KualiForm.document.sponsor.acronym == 'NIH'}">
   <c:set var="roleIdAttribute" value="${proposalPersonAttributes.nonNihProposalPersonRoleId}" />
 </c:if>
-                  <kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${roleIdAttribute}" />
+                  <kul:htmlControlAttribute property="newProposalPerson.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" />
                 </td>
               </tr>
             </table>
@@ -68,7 +68,6 @@
             <html:image property="methodToCall.clearProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
             <html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addpers.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/>
           </div>
-
     </kul:uncollapsable>
 </kra:section>
 
