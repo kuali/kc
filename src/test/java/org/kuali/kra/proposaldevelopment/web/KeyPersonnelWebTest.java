@@ -26,8 +26,8 @@ import static org.kuali.kra.logging.FormattedLogger.*;
 
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>
- *  @author $Author: lprzybyl $
- *  @version $Revision: 1.11 $
+ *  @author $Author: gmcgrego $
+ *  @version $Revision: 1.11.2.1 $
  */
 public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelWebTest.class);
@@ -123,7 +123,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
 
         assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
         keyPersonnelPage = saveDoc(keyPersonnelPage);
-        setFieldValue(keyPersonnelPage,"document.proposalPerson[0].proposalPersonRoleId", "COI");
+        setFieldValue(keyPersonnelPage,"document.proposalPersons[0].proposalPersonRoleId", "COI");
         saveAndSearchDoc(keyPersonnelPage);        
     }
     
@@ -161,7 +161,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         setFieldValue(keyPersonnelPage,"newProposalPersonDegree[0].school", "Monroe");
         keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertDegree", true));
         keyPersonnelPage = saveDoc(keyPersonnelPage);
-        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.deleteDegree.document.proposalPerson[0].line0", true));
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.deleteDegree.document.proposalPersons[0].line0", true));
         saveAndSearchDoc(keyPersonnelPage);        
     }
     /**

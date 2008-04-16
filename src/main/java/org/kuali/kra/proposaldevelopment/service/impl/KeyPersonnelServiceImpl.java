@@ -19,6 +19,9 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 import org.kuali.core.util.ObjectUtils;
 import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
 
@@ -28,6 +31,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
@@ -51,13 +55,14 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: lprzybyl $
- * @version $Revision: 1.23 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.23.2.1 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private BusinessObjectService businessObjectService;
     private NarrativeService narrativeService;
     private YnqService ynqService;
+    private KualiConfigurationService configurationService;
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelServiceImpl.class);
     
@@ -535,4 +540,28 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         return ynqService;
     }
 
+    /**
+     * Uses the {@link KualiConfigurationService} to determine if the application-level configuration parameter is enabled
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCreditSplitEnabled()
+     */
+    public boolean isCreditSplitEnabled() {
+        return getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME);
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#getConfigurationService()
+     */
+    public KualiConfigurationService getConfigurationService() {
+        return this.configurationService;
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#setConfigurationService(org.kuali.core.service.KualiConfigurationService)
+     */
+    public void setConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.configurationService = kualiConfigurationService;        
+    }
 }

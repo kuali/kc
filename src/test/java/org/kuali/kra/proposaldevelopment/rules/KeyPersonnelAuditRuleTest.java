@@ -18,21 +18,26 @@ package org.kuali.kra.proposaldevelopment.rules;
 import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
 import static org.kuali.core.util.GlobalVariables.setAuditErrorMap;
 import static org.kuali.core.util.GlobalVariables.setUserSession;
+import static org.kuali.kra.logging.FormattedLogger.info;
 import static org.kuali.kra.test.fixtures.ProposalDevelopmentDocumentFixture.NORMAL_DOCUMENT;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INCOMPLETE_CERTIFICATIONS;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED;
 import static org.kuali.kra.test.fixtures.ProposalPersonFixture.PRINCIPAL_INVESTIGATOR;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.UserSession;
+import org.kuali.core.bo.Parameter;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
 /**
  * Class to test Key Personnel Audit Mode Rules. These rules are executed when audit mode becomes activated.
@@ -40,7 +45,8 @@ import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
  * @see org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditModeRule
  */
 public class KeyPersonnelAuditRuleTest extends KraTestBase {
-    public static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelAuditRuleTest.class);
+    private static final String PARAMETER_NAME_PROPERTY   = "parameterName";
+    private static final String CREDIT_SPLIT_ENABLED_NAME = "proposaldevelopment.creditsplit.enabled";
 
     private KeyPersonnelAuditRule auditRule;
     private ProposalDevelopmentDocument document;
@@ -68,10 +74,67 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
         super.tearDown();
     }
     
+    /**
+     * Locate the <code>{@link KeyPersonnelService}</code>
+     * 
+     * @return KeyPersonnelService
+     * @see KraTestBase#getService(Class)
+     */
+    private KeyPersonnelService getKeyPersonnelService() {
+        return getService(KeyPersonnelService.class);
+    }
+
+    /**
+     * Locate {@link BusinessObjectService} bean within Spring
+     * 
+     */
+    private BusinessObjectService getBusinessObjectService() {
+        return getService(BusinessObjectService.class);
+        
+    }
+    
     @Test(expected=IllegalArgumentException.class)
     public void changeKeyPersonEvent() {
         ChangeKeyPersonEvent event = new ChangeKeyPersonEvent(new ProposalDevelopmentDocument(), null, null).getProxy(null);
         event.validate();
+    }
+
+    /**
+     * This test sets the <code>proposaldevelopment.creditsplit.enabled</code> to false, then checks to see if tests are run on it or not. The way this is
+     * done is a test is created that should fail in several areas and produce error messages. If credit split is turned off, then none of these errors should
+     * be produced.
+     * 
+     * @see org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule
+     * @see org.kuali.core.bo.Parameter
+     * 
+     */
+    @Test
+    public void checkForCreditSplitEnabledParameter() {
+        disableCreditSplits();
+                
+        ProposalDevelopmentDocument document = NORMAL_DOCUMENT.getDocument();
+        ProposalPerson person = INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.getPerson();
+        document.addProposalPerson(person);
+        INVESTIGATOR_UNIT_NOT_TO_ONE_HUNDRED.populatePerson(document, person);
+        assertTrue("Audit Rule shouldn't produce audit errors", auditRule.processRunAuditBusinessRules(document));
+        assertTrue(getAuditErrorMap().size() < 1);
+    }
+    
+    /**
+     * Sets the <code>proposaldevelopment.creditsplit.enabled</code> to "N" by getting the exiting parameter, changing its value, and saving it again with the
+     *  {@link BusinessObjectService}
+     * 
+     */
+    private void disableCreditSplits() {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(PARAMETER_NAME_PROPERTY, CREDIT_SPLIT_ENABLED_NAME);
+        Parameter creditSplitParameter = (Parameter) getBusinessObjectService().findMatching(Parameter.class, fieldValues).iterator().next();
+        
+        creditSplitParameter.setParameterValue("N");
+        
+        info("Credit Split Enabled = %s", getKeyPersonnelService().isCreditSplitEnabled());
+        
+        getBusinessObjectService().save(creditSplitParameter);    
     }
     
     /**

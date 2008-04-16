@@ -38,6 +38,8 @@
         </inquiry>
 
         <lookup>
+        	<lookupableID>customAttributeLookupable</lookupableID>
+        
             <title>Custom Attribute Lookup</title>
 			<menubar>
 				<![CDATA[<a href="index.jsp">Main</a>]]>
