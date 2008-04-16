@@ -73,6 +73,7 @@
 				<value>enWebAuthenticationService</value>
 				<value>lookupableHelperService</value>	
 				<value>s2sOpportunityLookupable</value>	
+				<value>customAttributeLookupable</value>	
 				<value>nonOrganizationalRolodexLookupable</value>
 				<value>universalUserService</value>
 				<value>enUserService</value>
@@ -696,6 +697,12 @@
 	</bean>
 	
 	<bean id="budgetModularService" class="org.kuali.kra.budget.service.impl.BudgetModularServiceImpl">
+	</bean>
+	
+	<bean id="customAttributeLookupable" class="org.kuali.kra.lookup.CustomAttributeLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="lookupableHelperService" />
+		</property>
 	</bean>
 	
 </beans>
