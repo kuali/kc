@@ -81,7 +81,6 @@ public class BudgetForm extends ProposalFormBase {
     private BudgetLineItem selectedBudgetLineItem;
     private BudgetPersonnelDetails newBudgetPersonnelDetails;
     private Integer selectedBudgetLineItemIndex;
-
     
     public boolean isDocumentNextValueRefresh() {
         return documentNextValueRefresh;
@@ -146,6 +145,7 @@ public class BudgetForm extends ProposalFormBase {
         for(Object displayedErrorsKey: getDisplayedErrors().keySet()) {
             getDisplayedErrors().put(displayedErrorsKey, false);
         }
+        this.getBudgetDocument().setFinalVersionFlag(false);
     }
 
     public BudgetPeriod getNewBudgetPeriod() {
