@@ -27,6 +27,7 @@ public class S2sOppForms extends KraPersistableBusinessObjectBase {
 	private Boolean include;
 	private Boolean mandatory;
 	private String schemaUrl;
+	private String selectToPrint;
 
 	public String getOppNameSpace() {
 		return oppNameSpace;
@@ -96,5 +97,13 @@ public class S2sOppForms extends KraPersistableBusinessObjectBase {
 
     public void setSchemaUrl(String schemaUrl) {
         this.schemaUrl = schemaUrl;
+    }
+
+    public String getSelectToPrint() {
+        return selectToPrint;
+    }
+
+    public void setSelectToPrint(String selectToPrint) {
+        this.selectToPrint = selectToPrint;
     }
 }
