@@ -81,19 +81,18 @@
 					<th class="infoline" align="right">
 						${status.index + 1}:
 					</th>
-	                 <td class="infoline">                
+	                 <td class=>                
                 	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].updateTimestamp" attributeEntry="${narrativeAttributes.updateTimestamp}" readOnly="true" />	            
 				</td>
-                <td class="infoline">
+                <td >
                 	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].updateUser" attributeEntry="${narrativeAttributes.updateUser}" readOnly="true" />
                 </td>
-                <td class="infoline">                	
-                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].institutionalAttachmentTypeCode" attributeEntry="${narrativeAttributes.institutionalAttachmentTypeCode}"  styleClass="fixed-size-select"/>
-				</td>
-                <td class="infoline">
-                	<kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].moduleTitle" attributeEntry="${narrativeAttributes.moduleTitle}" />
-                    <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${narrativeAttributes.moduleTitle.label}" />
-				</td>
+                <td class=>      
+                    ${instituteAttachment.narrativeType.description} 
+               	</td>
+                <td class=>
+                     ${instituteAttachment.moduleTitle}
+                </td>
 	                <td>
 	                    <div id="replaceInstDiv${status.index}" style="display:block;">
 					                <kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
