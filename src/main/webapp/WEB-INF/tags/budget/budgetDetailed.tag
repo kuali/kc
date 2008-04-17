@@ -102,7 +102,8 @@
                     </c:choose>                    
                     </c:forEach>
                     </html:select>
-                	<kul:lookup boClassName="org.kuali.kra.budget.bo.CostElement" fieldConversions="costElement:newBudgetLineItems[${catCodes}].costElement" anchor="${tabKey}" lookupParameters="newBudgetLineItems[${catCodes}].costElement:costElement" />
+                    <input type="hidden" name="document.budgetCategoryType[${catCodes}]" value="${budgetCategoryTypeCodesKey}">                    
+                	<kul:lookup boClassName="org.kuali.kra.budget.bo.CostElement" fieldConversions="costElement:newBudgetLineItems[${catCodes}].costElement" anchor="${tabKey}" lookupParameters="newBudgetLineItems[${catCodes}].costElement:costElement,document.budgetCategoryType[${catCodes}]:budgetCategoryTypeCode" autoSearch="yes"/>                	
                 	<kul:directInquiry boClassName="org.kuali.kra.budget.bo.CostElement" inquiryParameters="newBudgetLineItems[${catCodes}].costElement:costElement" anchor="${tabKey}"/>
                 	<c:if test="${!lookupFlag}">                    	                    	
                     	<font size="2" color="red">
