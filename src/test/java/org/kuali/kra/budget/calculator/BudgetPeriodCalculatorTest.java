@@ -292,7 +292,7 @@ public class BudgetPeriodCalculatorTest extends KraTestBase {
         bd.setUpdateUser("KRADEV");
         bd.setOhRateClassCode("1");
         bd.setUrRateClassCode("1");
-        bd.setModularBudgetFlag("N");
+        bd.setModularBudgetFlag(false);
         bd.setActivityTypeCode("1");
     }
     
