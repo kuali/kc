@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,36 +42,6 @@ public class BudgetUnrecoveredFandAIntegrationTest extends BudgetDistributionAnd
     }
     
     @Test
-    public void testDelete_FromMultipleInstances() throws Exception {
-        BudgetUnrecoveredFandA[] unrecoveredFandAs = createBudgetUnrecoveredFandACollection();
-        BudgetDocument savedDocument = saveAndRetrieveBudgetWithUnrecoveredFandAs(unrecoveredFandAs);
-                
-        for(int i = 0, expectedSize = unrecoveredFandAs.length - 1; i < unrecoveredFandAs.length; i++, expectedSize--) {
-            savedDocument.remove(unrecoveredFandAs[i]);
-            getDocumentService().saveDocument(budgetDocument);
-            savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-            assertEquals(expectedSize, savedDocument.getBudgetUnrecoveredFandAs().size());
-        }
-    }
-    
-    @Test
-    public void testDelete_SingleInstance() throws Exception {
-        BudgetUnrecoveredFandA unrecoveredFandA = new BudgetUnrecoveredFandA(FY_2008, AMOUNT_1, APPLICABLE_RATE_1, CAMPUS_YES, SOURCE_ACCOUNT_1);
-        budgetDocument.add(unrecoveredFandA);
-        getDocumentService().saveDocument(budgetDocument);
-        
-        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        assertNotNull(savedDocument);
-        assertEquals(1, savedDocument.getBudgetUnrecoveredFandAs().size());
-        
-        savedDocument.remove(unrecoveredFandA);
-        getDocumentService().saveDocument(savedDocument);
-        
-        savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        assertEquals(0, savedDocument.getBudgetUnrecoveredFandAs().size());
-    }
-    
-    @Test
     public void testSave_MissingFieldsRequiredAtProposalValidation() throws Exception {
         BudgetUnrecoveredFandA budgetUnrecoveredFandA = new BudgetUnrecoveredFandA();
         budgetDocument.add(budgetUnrecoveredFandA);
@@ -86,41 +58,27 @@ public class BudgetUnrecoveredFandAIntegrationTest extends BudgetDistributionAnd
         assertNull(savedBudgetUnrecoveredFandA.getSourceAccount());
     }
 
-
-    @Test
-    public void testSave_MultipleInstances() throws Exception {
-        BudgetUnrecoveredFandA[] unrecoveredFandAs = createBudgetUnrecoveredFandACollection();
-        BudgetDocument savedDocument = saveAndRetrieveBudgetWithUnrecoveredFandAs(unrecoveredFandAs);
-        assertNotNull(savedDocument);        
-        assertEquals(unrecoveredFandAs.length, savedDocument.getBudgetUnrecoveredFandAs().size());        
+    @Override
+    protected void addBudgetDistributionAndIncomeComponent(BudgetDistributionAndIncomeComponent component) {
+        budgetDocument.add((BudgetUnrecoveredFandA) component);
     }
-    
-   
-    @Test
-    public void testSave_SingleInstance() throws Exception {
-        BudgetUnrecoveredFandA unrecoveredFandA = new BudgetUnrecoveredFandA(FY_2009, AMOUNT_2, APPLICABLE_RATE_2, CAMPUS_NO, SOURCE_ACCOUNT_2);
-        budgetDocument.add(unrecoveredFandA);
-        getDocumentService().saveDocument(budgetDocument);
 
-        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        assertNotNull(savedDocument);        
-        assertEquals(1, savedDocument.getBudgetUnrecoveredFandAs().size());        
+    @Override
+    protected BudgetDistributionAndIncomeComponent[] createBudgetDistributionAndIncomeComponentCollection() {
+        return new BudgetDistributionAndIncomeComponent[] { 
+                new BudgetUnrecoveredFandA(FY_2008, AMOUNT_1, APPLICABLE_RATE_1, CAMPUS_YES, SOURCE_ACCOUNT_1), 
+                new BudgetUnrecoveredFandA(FY_2008, AMOUNT_2, APPLICABLE_RATE_2, CAMPUS_NO, SOURCE_ACCOUNT_2),
+                new BudgetUnrecoveredFandA(FY_2009, AMOUNT_3, APPLICABLE_RATE_3, CAMPUS_YES, SOURCE_ACCOUNT_3)
+            };
     }
-    
-    private BudgetUnrecoveredFandA[] createBudgetUnrecoveredFandACollection() {
-        return new BudgetUnrecoveredFandA[] { new BudgetUnrecoveredFandA(FY_2008, AMOUNT_1, APPLICABLE_RATE_1, CAMPUS_YES, SOURCE_ACCOUNT_1), 
-                                                new BudgetUnrecoveredFandA(FY_2008, AMOUNT_2, APPLICABLE_RATE_2, CAMPUS_NO, SOURCE_ACCOUNT_2),
-                                                new BudgetUnrecoveredFandA(FY_2009, AMOUNT_3, APPLICABLE_RATE_3, CAMPUS_YES, SOURCE_ACCOUNT_3)
-                                            };
-    }    
-    
-    private BudgetDocument saveAndRetrieveBudgetWithUnrecoveredFandAs(BudgetUnrecoveredFandA[] unrecoveredFandAs) throws Exception {
-        for(BudgetUnrecoveredFandA unrecoveredFandA: unrecoveredFandAs) {
-              budgetDocument.add(unrecoveredFandA);
-          }
-                  
-        getDocumentService().saveDocument(budgetDocument);
-    
-        return (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+
+    @Override
+    protected List<? extends BudgetDistributionAndIncomeComponent> getBudgetDistributionAndIncomeComponents(BudgetDocument budgetDocument) {
+        return budgetDocument.getBudgetUnrecoveredFandAs();
+    }
+
+    @Override
+    protected BudgetDistributionAndIncomeComponent createBudgetDistributionAndIncomeComponent() {
+        return new BudgetUnrecoveredFandA(FY_2009, AMOUNT_2, APPLICABLE_RATE_2, CAMPUS_NO, SOURCE_ACCOUNT_2);
     }
 }
