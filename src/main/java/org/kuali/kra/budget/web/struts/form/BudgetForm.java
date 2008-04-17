@@ -145,7 +145,6 @@ public class BudgetForm extends ProposalFormBase {
         for(Object displayedErrorsKey: getDisplayedErrors().keySet()) {
             getDisplayedErrors().put(displayedErrorsKey, false);
         }
-        //this.getBudgetDocument().setFinalVersionFlag(false);
     }
 
     public BudgetPeriod getNewBudgetPeriod() {
