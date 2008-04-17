@@ -61,6 +61,11 @@ public class BudgetCategoryTypeValuesFinder extends KeyValuesBase {
                 keyValues.add(new KeyLabelPair(budgetCategoryType.getBudgetCategoryTypeCode().toString(), budgetCategoryType.getDescription()));
                 budgetForm.getBudgetDocument().getBudgetCategoryTypes().add(budgetCategoryType);            
             }
+        }else{
+            for (Iterator iter = budgetCategoryTypes.iterator(); iter.hasNext();) {
+                BudgetCategoryType budgetCategoryType = (BudgetCategoryType) iter.next();
+                keyValues.add(new KeyLabelPair(budgetCategoryType.getBudgetCategoryTypeCode().toString(), budgetCategoryType.getDescription()));                            
+            }
         }
                 
         return keyValues;

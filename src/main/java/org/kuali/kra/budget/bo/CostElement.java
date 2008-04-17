@@ -26,8 +26,10 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
 	private String budgetCategoryCode;
 	private String description;
 	private Boolean onOffCampusFlag;
+	private String budgetCategoryTypeCode;
 	private List<ValidCeRateType> validCeRateTypes;
-
+	private BudgetCategory budgetCategory;
+	
 	public String getCostElement() {
 		return costElement;
 	}
@@ -89,6 +91,22 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
     
     public int compareTo(CostElement costElement) {
         return this.costElement.compareTo(costElement.costElement);
+    }
+
+    public BudgetCategory getBudgetCategory() {
+        return budgetCategory;
+    }
+
+    public void setBudgetCategory(BudgetCategory budgetCategory) {
+        this.budgetCategory = budgetCategory;
+    }
+
+    public String getBudgetCategoryTypeCode() {
+        return budgetCategoryTypeCode;
+    }
+
+    public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
+        this.budgetCategoryTypeCode = budgetCategoryTypeCode;
     }
 
 }

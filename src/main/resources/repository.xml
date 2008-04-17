@@ -1539,7 +1539,7 @@
 		<field-descriptor name="opportunityTitle" column="OPPORTUNITY_TITLE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="revisionCode" column="REVISION_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="revisionOtherDescription" column="REVISION_OTHER_DESCRIPTION" jdbc-type="VARCHAR"/>
-		<field-descriptor name="s2sSubmissionTypeCode" column="S2S_SUBMISSION_TYPE_CODE" jdbc-type="INTEGER"/>
+		<field-descriptor name="s2sSubmissionTypeCode" column="S2S_SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="schemaUrl" column="SCHEMA_URL" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -1965,9 +1965,9 @@
 		<collection-descriptor name="validCeRateTypes" proxy="true" element-class-ref="org.kuali.kra.budget.bo.ValidCeRateType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<inverse-foreignkey field-ref="costElement"/>
 		</collection-descriptor>
-		<!--  <reference-descriptor name="budgetCategory" class-ref="org.kuali.kra.budget.bo.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="budgetCategory" class-ref="org.kuali.kra.budget.bo.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetCategoryCode"/> 
-		</reference-descriptor>-->
+		</reference-descriptor>
 	</class-descriptor>	
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetProposalRate" table="EPS_PROP_RATES">
 		<field-descriptor name="fiscalYear" column="FISCAL_YEAR" jdbc-type="VARCHAR" primarykey="true"/>
@@ -2084,6 +2084,7 @@
 	<class-descriptor class="org.kuali.kra.budget.bo.RateClassType" table="RATE_CLASS_TYPE">
 		<field-descriptor name="rateClassType" column="RATE_CLASS_TYPE" jdbc-type="CHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>

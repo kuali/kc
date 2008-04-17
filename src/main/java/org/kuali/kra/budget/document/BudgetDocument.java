@@ -37,13 +37,11 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.DocumentNextvalue;
-import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -59,7 +57,6 @@ import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
-import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
@@ -644,9 +641,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public List<RateClassType> getRateClassTypes() {
         /* check budget rates - if empty get all budget rates */
-        if(rateClassTypes.isEmpty()) {
-            getBudgetRatesService().getBudgetRates(this.rateClassTypes, this);
-        }
+        if(rateClassTypes.isEmpty()) {            
+            getBudgetRatesService().getBudgetRates(this.rateClassTypes, this);            
+            //Collections.sort(rateClassTypes, new RateClassTypeComparator());
+            }
         return rateClassTypes;
     }
 
@@ -734,16 +732,31 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         getBudgetPeriods().add(budgetPeriod);        
     }
 
-    public void remove(BudgetDistributionAndIncomeComponent budgetCostShare) {
-        getBudgetCostShares().remove(budgetCostShare);
+    /**
+     * This method does what its name says
+     * @param index
+     * @return Object reference that was deleted
+     */
+    public BudgetCostShare removeBudgetCostShare(int index) {
+        return getBudgetCostShares().remove(index);
     }
     
-    public void remove(BudgetProjectIncome budgetProjectIncome) {
-        getBudgetProjectIncomes().remove(budgetProjectIncome);
+    /**
+     * This method does what its name says
+     * @param index
+     * @return Object reference that was deleted
+     */
+    public BudgetProjectIncome removeBudgetProjectIncome(int index) {
+        return getBudgetProjectIncomes().remove(index);
     }
     
-    public void remove(BudgetUnrecoveredFandA unrecoveredFandA) {
-        getBudgetUnrecoveredFandAs().remove(unrecoveredFandA);
+    /**
+     * This method does what its name says
+     * @param index
+     * @return Object reference that was deleted
+     */
+    public BudgetUnrecoveredFandA removeBudgetUnrecoveredFandA(int index) {
+        return getBudgetUnrecoveredFandAs().remove(index);
     }
 
     public final List<InstituteLaRate> getInstituteLaRates() {
@@ -1227,3 +1240,12 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     }
     
 }
+
+class RateClassTypeComparator implements Comparator<RateClassType> {
+    public int compare(RateClassType rateClassType1, RateClassType rateClassType2) {
+      RateClassType r1 = (RateClassType)rateClassType1;
+      RateClassType r2 = (RateClassType)rateClassType2;
+      return r1.getSortId().compareTo(r2.getSortId());
+      //return s1.toLowerCase().compareTo(s2.toLowerCase());
+    }
+  }

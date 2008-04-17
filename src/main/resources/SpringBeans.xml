@@ -77,6 +77,7 @@
 				<value>nonOrganizationalRolodexLookupable</value>
 				<value>universalUserService</value>
 				<value>enUserService</value>
+				<value>budgetExpenseLookupable</value>
 			</set>
 		</property>
 	</bean>	
@@ -389,6 +390,8 @@
 	<bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="narrativeService" ref="narrativeService" />
+		<property name="parameterService" ref="systemParameterRetrievalService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
     	<property name="ynqService">
         	<ref bean="ynqService" />
     	</property>
@@ -708,5 +711,15 @@
 			<ref bean="lookupableHelperService" />
 		</property>
 	</bean>
+	
+	<bean id="budgetExpenseLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+  		<property name="lookupableHelperService">
+    		<ref bean="budgetExpenseLookupableHelperService" />
+  		</property>  		
+	</bean>	
+
+	<bean id="budgetExpenseLookupableHelperService" class="org.kuali.kra.lookup.BudgetExpenseLookupableHelperServiceImpl" 
+ 		singleton="false" parent="lookupableHelperService">
+  	</bean>
 	
 </beans>
