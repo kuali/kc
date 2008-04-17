@@ -42,6 +42,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -125,6 +126,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private Unit ownedByUnit;
     transient private NarrativeService narrativeService;
     transient private ProposalPersonBiographyService proposalPersonBiographyService;
+    private ActivityType activityType;
 
     private transient Boolean allowsNoteAttachments;
     
@@ -1319,5 +1321,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
         
         this.getBudgetVersionOverviews().add(budgetVersion);
+    }
+
+    public final ActivityType getActivityType() {
+        return activityType;
+    }
+
+    public final void setActivityType(ActivityType activityType) {
+        this.activityType = activityType;
     }
 }
