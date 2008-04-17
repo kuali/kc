@@ -55,7 +55,8 @@
                     </c:forEach>
                     </html:select>                                		
 				</div>
-				<kul:lookup boClassName="org.kuali.kra.budget.bo.CostElement" fieldConversions="costElement:document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" anchor="${tabKey}" lookupParameters="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement" />
+				<input type="hidden" name="document.budgetCategoryTypeLineItem[${budgetLineItemNumber}]" value="${budgetCategoryTypeCode}">
+				<kul:lookup boClassName="org.kuali.kra.budget.bo.CostElement" fieldConversions="costElement:document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement,budgetCategoryCode:document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" anchor="${tabKey}" lookupParameters="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement,document.budgetCategoryTypeLineItem[${budgetLineItemNumber}]:budgetCategoryTypeCode" autoSearch="yes" />				
 				<kul:directInquiry boClassName="org.kuali.kra.budget.bo.CostElement" inquiryParameters="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement" anchor="${tabKey}"/>
 				<c:if test="${!lookupFlagForLineItem}">
                     	<font size="2" color="red">
