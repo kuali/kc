@@ -12,36 +12,42 @@
  <table class=tab cellpadding=0 cellspacing="0" summary=""> 
  <tbody id="G1">
     	<tr>
-	    	<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${s2sFormAttributes.formName}" noColon="true" /></div></th>
-			<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${s2sFormAttributes.mandatory}" noColon="true" /></div></th>
-			<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${s2sFormAttributes.include}" noColon="true" /></div></th>
-			<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${s2sFormAttributes.available}" noColon="true" /></div></th>			
-			<th width="150">
+	    	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${s2sFormAttributes.formName}" noColon="true" /></div></th>
+			<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${s2sFormAttributes.mandatory}" noColon="true" /></div></th>
+			<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${s2sFormAttributes.include}" noColon="true" /></div></th>
+			<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${s2sFormAttributes.available}" noColon="true" /></div></th>			
+			<th width="150"><div align="center">
 			Select to Print:
 			<br/>
 			<a href="#">All Included</a>
 			|
 			<a href="#">None</a>
-			</th>
+			</div></th>
     	</tr>
     	
     	<c:forEach var="form" items="${KualiForm.document.s2sOpportunity.s2sOppForms}" varStatus="status">
 	             <tr>	                
 	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].formName" attributeEntry="${s2sFormAttributes.formName}" readOnly="true" />
-					</td>
+					</td>	                
 	                <td>
+	                	<div align="center">
 	                	<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].mandatory" attributeEntry="${s2sFormAttributes.mandatory}" readOnly="true"/>
+	                	</div>
 	                </td>
+	                <td>
+	                <div align="center">
 	                <c:set var="isMandatory" value="${KualiForm.document.s2sOpportunity.s2sOppForms[status.index].mandatory}" /> 
 	                <c:choose>
 		               	<c:when test="${isMandatory}"> 		                	
-		               		<td><kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].include" attributeEntry="${s2sFormAttributes.include}" readOnly="true"/></td>
+		               		<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].include" attributeEntry="${s2sFormAttributes.include}" readOnly="true"/>
 		               	</c:when>
 		               	<c:otherwise>
-							<td><kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].include" attributeEntry="${s2sFormAttributes.include}"/></td>                		
+							<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].include" attributeEntry="${s2sFormAttributes.include}"/>                		
  		               	</c:otherwise>
-	                </c:choose> 
+	                </c:choose>
+	                </td>
+	                </div> 
 	                <td align="left" valign="middle">
 	                	<c:set var="isAvailable" value="${KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}" />	                	
 	                	<c:choose>
@@ -55,8 +61,11 @@
  		                	</c:otherwise>
 	                	</c:choose>
 	                </td>
-	                <td align="left" valign="middle">
-	                	<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />
+	                <td align="center" valign="middle">
+	                	<div align="center">
+	                	<html:checkbox property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint"/>
+	                	<!--   <kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />-->
+	                	</div>
 	                </td>
 	                
 	            </tr>    	

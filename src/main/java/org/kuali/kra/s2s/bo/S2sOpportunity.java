@@ -34,7 +34,7 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 	private String opportunityTitle;
 	private String revisionCode;
 	private String revisionOtherDescription;
-	private Integer s2sSubmissionTypeCode;
+	private String s2sSubmissionTypeCode;
 	private String schemaUrl;
 	private List<S2sOppForms> s2sOppForms;
 	private S2sSubmissionType s2sSubmissionType;
@@ -112,11 +112,11 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 		this.revisionOtherDescription = revisionOtherDescription;
 	}
 
-	public Integer getS2sSubmissionTypeCode() {
+	public String getS2sSubmissionTypeCode() {
 		return s2sSubmissionTypeCode;
 	}
 
-	public void setS2sSubmissionTypeCode(Integer s2sSubmissionTypeCode) {
+	public void setS2sSubmissionTypeCode(String s2sSubmissionTypeCode) {
 		this.s2sSubmissionTypeCode = s2sSubmissionTypeCode;
 	}
 
