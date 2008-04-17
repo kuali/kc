@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,36 +47,6 @@ public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndInc
         GlobalVariables.setUserSession(null);
     }
 
-    @Test
-    public void testDeleteProjectIncome_MultipleInstances() throws Exception {
-        BudgetProjectIncome[] projectIncomes = createBudgetProjectIncomeCollection();
-        BudgetDocument savedDocument = saveAndRetrieveBudgetWithProjectIncomes(projectIncomes);
-        
-        for(int i = 0, expectedSize = projectIncomes.length - 1; i < projectIncomes.length; i++, expectedSize--) {
-            savedDocument.remove(projectIncomes[i]);
-            getDocumentService().saveDocument(budgetDocument);
-            savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-            assertEquals(expectedSize, savedDocument.getBudgetProjectIncomes().size());
-        }        
-    }
-    
-    @Test
-    public void testDeleteProjectIncome_SingleInstance() throws Exception {
-        BudgetProjectIncome projectIncome = createBudgetProjectIncome(BUDGET_PERIOD_1, PROJECT_INCOME_1, DESCRIPTION_1);
-        budgetDocument.add(projectIncome);        
-        getDocumentService().saveDocument(budgetDocument);
-        
-        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        assertEquals(1, savedDocument.getBudgetProjectIncomes().size());
-        
-        savedDocument.remove(projectIncome);        
-        getDocumentService().saveDocument(savedDocument);
-        
-        savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        assertNotNull(savedDocument);        
-        assertEquals(0, savedDocument.getBudgetProjectIncomes().size());
-    }
-
     @Test(expected=ValidationException.class)
     public void testSave_MissingRequiredField_BudgetPeriodNumber() throws Exception {
         BudgetProjectIncome budgetProjectIncome = createBudgetProjectIncome(null, PROJECT_INCOME_1, DESCRIPTION_1);
@@ -99,25 +71,6 @@ public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndInc
         getDocumentService().saveDocument(budgetDocument);
     }
     
-    @Test
-    public void testSave_SingleInstance() throws Exception {
-        BudgetProjectIncome projectIncome = createBudgetProjectIncome(BUDGET_PERIOD_1, PROJECT_INCOME_1, DESCRIPTION_1);
-        budgetDocument.add(projectIncome);
-        getDocumentService().saveDocument(budgetDocument);
-
-        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        assertNotNull(savedDocument);        
-        assertEquals(1, savedDocument.getBudgetProjectIncomes().size());        
-    }
-    
-    @Test
-    public void testSaveProjectIncome_MultipleInstances() throws Exception {
-        BudgetProjectIncome[] projectIncomes = createBudgetProjectIncomeCollection();
-        BudgetDocument savedDocument = saveAndRetrieveBudgetWithProjectIncomes(projectIncomes);
-        assertNotNull(savedDocument);        
-        assertEquals(projectIncomes.length, savedDocument.getBudgetProjectIncomes().size());
-    }
-    
     private BudgetProjectIncome createBudgetProjectIncome(Integer budgetPeriodNumber, KualiDecimal projectIncome, String description) {
         BudgetProjectIncome budgetProjectIncome = new BudgetProjectIncome();
         budgetProjectIncome.setBudgetPeriodNumber(budgetPeriodNumber);
@@ -126,20 +79,27 @@ public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndInc
         return budgetProjectIncome;
     }
 
-    private BudgetProjectIncome[] createBudgetProjectIncomeCollection() {
-        BudgetProjectIncome[] projectIncomes = { createBudgetProjectIncome(BUDGET_PERIOD_1, PROJECT_INCOME_1, DESCRIPTION_1), 
-                                                    createBudgetProjectIncome(BUDGET_PERIOD_1, PROJECT_INCOME_2, DESCRIPTION_2),
-                                                    createBudgetProjectIncome(BUDGET_PERIOD_2, PROJECT_INCOME_3, DESCRIPTION_3) };
+    @Override
+    protected void addBudgetDistributionAndIncomeComponent(BudgetDistributionAndIncomeComponent component) {
+        budgetDocument.add((BudgetProjectIncome) component);
+        
+    }
+
+    @Override
+    protected BudgetDistributionAndIncomeComponent[] createBudgetDistributionAndIncomeComponentCollection() {
+        BudgetDistributionAndIncomeComponent[] projectIncomes = { createBudgetProjectIncome(BUDGET_PERIOD_1, PROJECT_INCOME_1, DESCRIPTION_1), 
+                                                                  createBudgetProjectIncome(BUDGET_PERIOD_1, PROJECT_INCOME_2, DESCRIPTION_2),
+                                                                  createBudgetProjectIncome(BUDGET_PERIOD_2, PROJECT_INCOME_3, DESCRIPTION_3) };
         return projectIncomes;
     }
-    
-    private BudgetDocument saveAndRetrieveBudgetWithProjectIncomes(BudgetProjectIncome[] projectIncomes) throws Exception {
-        for(BudgetProjectIncome projectIncome: projectIncomes) {
-              budgetDocument.add(projectIncome);
-          }
-                  
-        getDocumentService().saveDocument(budgetDocument);
-    
-        return (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+
+    @Override
+    protected List<? extends BudgetDistributionAndIncomeComponent> getBudgetDistributionAndIncomeComponents(BudgetDocument budgetDocument) {
+        return budgetDocument.getBudgetProjectIncomes();
+    }
+
+    @Override
+    protected BudgetDistributionAndIncomeComponent createBudgetDistributionAndIncomeComponent() {
+        return createBudgetProjectIncome(BUDGET_PERIOD_1, PROJECT_INCOME_1, DESCRIPTION_1);
     }
 }

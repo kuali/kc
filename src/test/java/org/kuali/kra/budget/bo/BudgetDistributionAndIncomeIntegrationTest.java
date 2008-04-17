@@ -16,15 +16,19 @@
 package org.kuali.kra.budget.bo;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.kuali.core.UserSession;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTestBase {
     protected static final BudgetDecimal AMOUNT_1 = new BudgetDecimal(1000.00);
@@ -43,6 +47,12 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
     
     protected ProposalDevelopmentDocument proposalDocument;
     
+    // Strategy pattern methods to be implemented by concrete subclasses
+    protected abstract void addBudgetDistributionAndIncomeComponent(BudgetDistributionAndIncomeComponent component);
+    protected abstract BudgetDistributionAndIncomeComponent createBudgetDistributionAndIncomeComponent();
+    protected abstract BudgetDistributionAndIncomeComponent[] createBudgetDistributionAndIncomeComponentCollection();
+    protected abstract List<? extends BudgetDistributionAndIncomeComponent> getBudgetDistributionAndIncomeComponents(BudgetDocument budgetDocument);
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -50,15 +60,49 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
         initProposalDocument();
         initBudgetDocument();
     }
-    
     @After
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
         budgetDocument = null;
         super.tearDown();
     }
+    @Test
+    public void testDelete_FromMultipleInstances() throws Exception {
+        BudgetDistributionAndIncomeComponent[] components = createBudgetDistributionAndIncomeComponentCollection();
+        saveBudgetDistributionAndIncomeComponentCollection(components);
+                
+        for(int i = components.length - 1; i >= 0; i--) {
+            assertNotNull(getBudgetDistributionAndIncomeComponents(budgetDocument).remove(i));
+            getDocumentService().saveDocument(budgetDocument);
+            BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+            assertEquals(i, getBudgetDistributionAndIncomeComponents(savedDocument).size());
+        }
+    }     
+    @Test
+    public void testDelete_SingleInstance() throws Exception {
+        initializeAndSaveSingleInstance();
+        BudgetDocument savedDocument = loadDocumentAndCheckSingleComponentSaved();
+              
+        getBudgetDistributionAndIncomeComponents(savedDocument).remove(0);
+        getDocumentService().saveDocument(savedDocument);
+      
+        savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        assertEquals(0, getBudgetDistributionAndIncomeComponents(savedDocument).size());
+    }
     
+    @Test
+    public void testSave_MultipleInstances() throws Exception {
+        BudgetDistributionAndIncomeComponent[] components = createBudgetDistributionAndIncomeComponentCollection();
+        BudgetDocument savedDocument = saveBudgetDistributionAndIncomeComponentCollection(components);
+        assertNotNull(savedDocument);        
+        assertEquals(components.length, getBudgetDistributionAndIncomeComponents(savedDocument).size());        
+    }
     
+    @Test
+    public void testSave_SingleInstance() throws Exception {
+        initializeAndSaveSingleInstance();
+        loadDocumentAndCheckSingleComponentSaved();        
+    }
     
     protected Date getNowDate() {
         return new Date(System.currentTimeMillis());
@@ -92,6 +136,12 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
         budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());        
     }
     
+    private void initializeAndSaveSingleInstance() throws WorkflowException, Exception {
+        BudgetDistributionAndIncomeComponent component = createBudgetDistributionAndIncomeComponent();
+        addBudgetDistributionAndIncomeComponent(component);
+        getDocumentService().saveDocument(budgetDocument);
+    }
+    
     private void initProposalDocument() throws Exception {
         proposalDocument = (ProposalDevelopmentDocument) getDocumentService().getNewDocument("ProposalDevelopmentDocument");
         proposalDocument.getDocumentHeader().setFinancialDocumentDescription("ProposalDevelopmentDocumentTest test doc");
@@ -106,5 +156,22 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
         getDocumentService().saveDocument(proposalDocument);
 
         proposalDocument = (ProposalDevelopmentDocument) getDocumentService().getByDocumentHeaderId(proposalDocument.getDocumentNumber());        
+    }
+
+    private BudgetDocument loadDocumentAndCheckSingleComponentSaved() throws WorkflowException, Exception {
+        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+        assertNotNull(savedDocument);        
+        assertEquals(1, getBudgetDistributionAndIncomeComponents(savedDocument).size());
+        return savedDocument;
+    }
+    
+    private BudgetDocument saveBudgetDistributionAndIncomeComponentCollection(BudgetDistributionAndIncomeComponent[] components) throws Exception {
+        for(BudgetDistributionAndIncomeComponent component: components) {
+              addBudgetDistributionAndIncomeComponent(component);
+        }
+                  
+        getDocumentService().saveDocument(budgetDocument);
+    
+        return (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
     }
 }

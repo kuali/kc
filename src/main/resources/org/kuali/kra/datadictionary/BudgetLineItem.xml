@@ -163,15 +163,15 @@
 			</attribute>
 
 			<attribute name="applyInRateFlag">
-			<label>Apply In Rate Flag </label>
-			<shortLabel>Apply In Rate Flag </shortLabel>
+			<label>Apply Inflation </label>
+			<shortLabel>Apply Inflation </shortLabel>
 			<maxLength>1</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<checkbox />
 			</control>
-			<summary>Apply In Rate Flag </summary>
-			<description>Apply In Rate Flag </description>
+			<summary>Apply Inflation </summary>
+			<description>Apply Inflation </description>
 			</attribute>
 
 			<attribute name="basedOnLineItem">
@@ -280,15 +280,15 @@
 			</attribute>
 
 			<attribute name="onOffCampusFlag">
-			<label>On Off Campus Flag </label>
-			<shortLabel>On Off Campus Flag </shortLabel>
+			<label>On Campus </label>
+			<shortLabel>On Campus </shortLabel>
 			<maxLength>1</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
 				<checkbox />
 			</control>
-			<summary>On Off Campus Flag </summary>
-			<description>On Off Campus Flag </description>
+			<summary>On Campus </summary>
+			<description>On Campus </description>
 			</attribute>
 
 			<attribute name="quantity">

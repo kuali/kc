@@ -28,16 +28,22 @@
 
 <c:set var="noteColSpan" value="6" />
 
+<c:choose>
+	<c:when test="${fn:endsWith(KualiForm.document.class.name, 'ProposalDevelopmentDocument')}">
+		<c:set var="allowsAttachments" value="${KualiForm.document.allowsNoteAttachments}" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="allowsAttachments" value="true" />
+	</c:otherwise>
+</c:choose>
+
 <c:if test="${empty noteType}">
 	<%-- default to document header notes this default should probably be set somewhere else --%>
 	<c:set var="noteType" value="${Constants.NoteTypeEnum.DOCUMENT_HEADER_NOTE_TYPE}"/>
 	<c:set var="notesBo" value="${KualiForm.document.documentHeader.boNotes}" />
 </c:if>
 
-
 <c:set var="propPrefix" value="${noteType.fullPath}." />
-
-
 
 <c:if test="${not empty attachmentTypesValuesFinderClass}">
 	<c:set var="noteColSpan" value="${noteColSpan + 1}" />
@@ -70,7 +76,9 @@
 
 
                     <kul:htmlAttributeHeaderCell attributeEntry="${notesAttributes.noteText}" scope="col" align="left"/>
-                    <kul:htmlAttributeHeaderCell attributeEntry="${notesAttributes.attachment}" scope="col" align="left"/>
+                    <c:if test="${allowsAttachments}">
+                    	<kul:htmlAttributeHeaderCell attributeEntry="${notesAttributes.attachment}" scope="col" align="left"/>
+                    </c:if>
                     <c:if test="${not empty attachmentTypesValuesFinderClass}">
                       <kul:htmlAttributeHeaderCell literalLabel="Attachment Type" scope="col" align="left"/>
                     </c:if>
@@ -89,24 +97,32 @@
 					  <td class="infoline"><kul:htmlControlAttribute attributeEntry="${notesAttributes.noteTopicText}" property="newNote.noteTopicText" /></td>
 					</c:if>
                     <td class="infoline"><kul:htmlControlAttribute attributeEntry="${notesAttributes.noteText}" property="newNote.noteText" /></td>
-                    <td class="infoline">
-                        <div align="center"><br />
-                        <html:file property="attachmentFile" size="30" value="" /><br /><br />
-                        <html:image property="methodToCall.cancelBOAttachment" src="${ConfigProperties.kr.externalizable.images.url}tinygrey-cancel.gif" title="Cancel Attachment" alt="Cancel Attachment" styleClass="tinybutton"/>
-                        </div>
-                    </td>
-                    <c:if test="${not empty attachmentTypesValuesFinderClass}">
-					              <c:set var="finderClass" value="${fn:replace(DataDictionary.KualiBudgetDocument.attachmentTypesValuesFinderClass,'.','|')}"/>
-					              <td class="infoline">
-					                  <html:select property="newNote.attachment.attachmentTypeCode">
-					                      <html:optionsCollection property="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}" label="label" value="key"/>
-					                  </html:select>
-					              </td>
-                    </c:if>
+                    
+                    <c:if test="${allowsAttachments}">
+	                    <td class="infoline">
+	                        <div align="center"><br />
+	                        <html:file property="attachmentFile" size="30" value="" /><br /><br />
+	                        <html:image property="methodToCall.cancelBOAttachment" src="${ConfigProperties.kr.externalizable.images.url}tinygrey-cancel.gif" title="Cancel Attachment" alt="Cancel Attachment" styleClass="tinybutton"/>
+	                        </div>
+	                    </td>
+	                    <c:if test="${not empty attachmentTypesValuesFinderClass}">
+						              <c:set var="finderClass" value="${fn:replace(DataDictionary.KualiBudgetDocument.attachmentTypesValuesFinderClass,'.','|')}"/>
+						              <td class="infoline">
+						                  <html:select property="newNote.attachment.attachmentTypeCode">
+						                      <html:optionsCollection property="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}" label="label" value="key"/>
+						                  </html:select>
+						              </td>
+	                    </c:if>
+	                </c:if>
+	                
                     <c:if test="${allowsNoteFYI}" >
                       <td>&nbsp;</td>
                     </c:if>
-                    <td class="infoline"><div align="center"><html:image property="methodToCall.insertBONote" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add a Note" title="Add a Note" styleClass="tinybutton"/></div></td>
+                    <td class="infoline">
+                    	<div align="center">
+                    		<html:image property="methodToCall.insertBONote" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add a Note" title="Add a Note" styleClass="tinybutton"/>
+                		</div>
+            		</td>
                 </tr>
 
 	<c:forEach var="note" items="${notesBo}" varStatus="status">
@@ -133,9 +149,7 @@
 						     but instead in some other arbitrary way (sorted alphabetically?) and therefore you may end up with a reference to a null authorUniversal object --%>
                         <html:hidden property="${propPrefix}boNote[${status.index}].authorUniversalIdentifier" />
                         <html:hidden property="${propPrefix}boNote[${status.index}].authorUniversal.personUniversalIdentifier" />
-
-<%-- won't work until I add attachment logic to action --%>
-
+                        <c:if test="${allowsAttachments}">	
                             <c:choose>
                                 <c:when test="${(!empty note.attachment) && (note.attachment.complete)}">
                                   <td class="datacell center">
@@ -175,11 +189,12 @@
                                     </c:if>
                                 </c:otherwise>
                             </c:choose>
-
-                            <c:if test="${allowsNoteFYI}" >
-                              <td class="infoline">
-                                <c:if test="${KualiForm.documentActionFlags.canAdHocRoute}">
-	                    	     <kul:user userIdFieldName="${propPrefix}boNote[${status.index}].adHocRouteRecipient.id" 
+						</c:if>
+							
+                      	<c:if test="${allowsNoteFYI}" >
+                        	<td class="infoline">
+                          		<c:if test="${KualiForm.documentActionFlags.canAdHocRoute}">
+	                    	    	<kul:user userIdFieldName="${propPrefix}boNote[${status.index}].adHocRouteRecipient.id" 
 	                    			  userId="${note.adHocRouteRecipient.id}" 
 	                    			  universalIdFieldName=""
 	                    			  universalId=""
@@ -189,12 +204,12 @@
 	                    			  renderOtherFields="true"
 	                    			  fieldConversions="personUserIdentifier:${propPrefix}boNote[${status.index}].adHocRouteRecipient.id,personName:${propPrefix}boNote[${status.index}].adHocRouteRecipient.name" 
 	                    			  lookupParameters="${propPrefix}boNote[${status.index}].adHocRouteRecipient.id:personUserIdentifier" />
-	                    	    </c:if>
-	                    	    <c:if test="${!KualiForm.documentActionFlags.canAdHocRoute}">
-	                    	      &nbsp;
-	                    	    </c:if>
-                             </td>
-                           </c:if>
+	                    	   	</c:if>
+                    	    	<c:if test="${!KualiForm.documentActionFlags.canAdHocRoute}">
+                    	      		&nbsp;
+                    	    	</c:if>
+                   			</td>
+						</c:if>
                            
                         <td class="datacell center"><div align="center">
                           <c:if test="${allowsNoteDelete}">

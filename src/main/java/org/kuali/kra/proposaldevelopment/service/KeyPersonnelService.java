@@ -37,7 +37,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: gmcgrego $
- * @version $Revision: 1.4.6.1 $
+ * @version $Revision: 1.4.6.2 $
  */
 public interface KeyPersonnelService {
     /**
@@ -178,5 +178,39 @@ public interface KeyPersonnelService {
      * @return {@link KualiConfigurationService}
      */
     public KualiConfigurationService getConfigurationService();
+    
+    /**
+     * Gets the parameterService attribute. 
+     * @return Returns the parameterService.
+     */
+    public SystemParameterRetrievalService getParameterService();
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(SystemParameterRetrievalService parameterService);
+    
+    /**
+     * Compares the given <code>roleId</code> against the <code>proposaldevelopment.personrole.readonly.roles</code> to see if it is 
+     * read only or not.
+     * 
+     * @param roleId to check
+     * @return true if the <code>roleId</code> is a value in the <code>proposaldevelopment.personrole.readonly.roles</code> system parameter, and false
+     *         if the <coderoleId</code> is null
+     * @see #isRoleReadOnly(ProposalPersonRole)
+     */
+    public boolean isRoleReadOnly(String roleId);
+    
+    /**
+     * Compares the <code>roleId</code> of the given {@link ProposalPersonRole} against the <code>proposaldevelopment.personrole.readonly.roles</code> to see if it is 
+     * read only or not.
+     * 
+     * @param role to check
+     * @return true if the <code>role</code> is a value in the <code>proposaldevelopment.personrole.readonly.roles</code> system parameter, and false
+     *         if the <code>role</code> is null
+     * @see #isRoleReadOnly(String)
+     */
+    public boolean isRoleReadOnly(ProposalPersonRole role);
     
 }

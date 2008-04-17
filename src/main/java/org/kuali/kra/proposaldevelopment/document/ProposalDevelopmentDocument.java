@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.datadictionary.DataDictionary;
+import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.document.authorization.PessimisticLock;
@@ -124,6 +126,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     transient private NarrativeService narrativeService;
     transient private ProposalPersonBiographyService proposalPersonBiographyService;
 
+    private transient Boolean allowsNoteAttachments;
+    
     private List<ProposalYnq> proposalYnqs;
     private List<YnqGroupName> ynqGroupNames;
     private List<BudgetVersionOverview> budgetVersionOverviews;
@@ -1285,6 +1289,20 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         return null;
     }
     
+    public Boolean getAllowsNoteAttachments() {
+        if(allowsNoteAttachments == null) {
+            DataDictionary dataDictionary = KNSServiceLocator.getDataDictionaryService().getDataDictionary();
+            DocumentEntry entry = dataDictionary.getDocumentEntry(getClass().getName());
+            allowsNoteAttachments = entry.getAllowsNoteAttachments();
+        }
+        
+        return allowsNoteAttachments;
+    }
+
+    public void setAllowsNoteAttachments(boolean allowsNoteAttachments) {
+        this.allowsNoteAttachments = allowsNoteAttachments;
+    }
+    
     public void addNewBudgetVersion(BudgetDocument budgetDocument, String name) {
         BudgetVersionOverview budgetVersion = new BudgetVersionOverview();
         budgetVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
@@ -1302,5 +1320,4 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         
         this.getBudgetVersionOverviews().add(budgetVersion);
     }
-    
 }

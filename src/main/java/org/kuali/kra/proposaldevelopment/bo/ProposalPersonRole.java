@@ -24,13 +24,14 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * @author $Author: rmancher $
- * @version $Revision: 1.4 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.4.4.1 $
  */
 public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
     private String proposalPersonRoleId;
     private String description;
     private Boolean certificationRequired;
+    private Boolean readOnly;
 
 
     /**
@@ -87,6 +88,21 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
         this.certificationRequired = certificationRequired;
     }
 
+    /**
+     * Gets the readOnly attribute. 
+     * @return Returns the readOnly.
+     */
+    public Boolean getReadOnly() {
+        return readOnly;
+    }
+
+    /**
+     * Sets the readOnly attribute value.
+     * @param readOnly The readOnly to set.
+     */
+    public void setReadOnly(Boolean readOnly) {
+        this.readOnly = readOnly;
+    }
 }
 
 
