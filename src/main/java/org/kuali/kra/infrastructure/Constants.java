@@ -180,4 +180,7 @@ public interface Constants {
     public static final String BUDGET_PERSON_LINE_NUMBER = "budget.budgetPersonnelDetails.personNumber";
     public static final String BUDGET_PERSON_LINE_SEQUENCE_NUMBER = "budget.budgetPersonnelDetails.sequenceNumber";
     
+    public static final String TRUE_FLAG = "Y";
+    public static final String FALSE_FLAG = "N";
+
 }
