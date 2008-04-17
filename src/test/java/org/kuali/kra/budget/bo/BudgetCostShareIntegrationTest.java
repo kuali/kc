@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,36 +43,6 @@ public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeI
     }
     
     @Test
-	  public void testDelete_FromMultipleInstances() throws Exception {
-	      BudgetCostShare[] costShares = createBudgetCostShareCollection();
-	      BudgetDocument savedDocument = saveAndRetrieveBudgetWithCostSharing(costShares);
-	      
-	      for(int i = 0, expectedSize = costShares.length - 1; i < costShares.length; i++, expectedSize--) {
-	          savedDocument.remove(costShares[i]);
-	          getDocumentService().saveDocument(budgetDocument);
-	          savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-	          assertEquals(expectedSize, savedDocument.getBudgetCostShares().size());
-	      }
-	  }
-    
-    @Test
-    public void testDelete_SingleInstance() throws Exception {
-        BudgetCostShare costShare = new BudgetCostShare(FY_2008, AMOUNT_1, SHARE_PCT_0, SOURCE_ACCOUNT_1);
-        budgetDocument.add(costShare);
-        getDocumentService().saveDocument(budgetDocument);
-      
-        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        assertNotNull(savedDocument);        
-        assertEquals(1, savedDocument.getBudgetCostShares().size());
-              
-        savedDocument.remove(costShare);
-        getDocumentService().saveDocument(savedDocument);
-      
-        savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        assertEquals(0, savedDocument.getBudgetCostShares().size());
-    }
-    
-    @Test
     public void testSave_MissingFieldsRequiredAtProposalValidation() throws Exception {
         BudgetCostShare budgetCostShare = new BudgetCostShare();
         budgetCostShare.setSourceAccount(null);
@@ -85,40 +57,24 @@ public class BudgetCostShareIntegrationTest extends BudgetDistributionAndIncomeI
         assertNull(savedDocument.getBudgetCostShares().get(0).getSharePercentage());
         assertNull(savedDocument.getBudgetCostShares().get(0).getSourceAccount());
     }
-    
-    @Test
-    public void testSave_MultipleInstances() throws Exception {
-        BudgetCostShare[] costShares = createBudgetCostShareCollection();
-        BudgetDocument savedDocument = saveAndRetrieveBudgetWithCostSharing(costShares);
-        assertNotNull(savedDocument);        
-        assertEquals(3, savedDocument.getBudgetCostShares().size());        
-    }
 
-    @Test
-    public void testSave_SingleInstance() throws Exception {
-        BudgetCostShare costShare = new BudgetCostShare(FY_2008, AMOUNT_1, SHARE_PCT_0, SOURCE_ACCOUNT_1);
-        budgetDocument.add(costShare);
-        getDocumentService().saveDocument(budgetDocument);
-
-        BudgetDocument savedDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
-        assertNotNull(savedDocument);        
-        assertEquals(1, savedDocument.getBudgetCostShares().size());        
-    }
-
-    private BudgetCostShare[] createBudgetCostShareCollection() {
+    protected BudgetDistributionAndIncomeComponent[] createBudgetDistributionAndIncomeComponentCollection() {
         return new BudgetCostShare[] { new BudgetCostShare(FY_2008, AMOUNT_1, SHARE_PCT_1, SOURCE_ACCOUNT_1), 
                                             new BudgetCostShare(FY_2009, AMOUNT_2, SHARE_PCT_2, SOURCE_ACCOUNT_2),
                                             new BudgetCostShare(FY_2010, AMOUNT_3, SHARE_PCT_3, SOURCE_ACCOUNT_3)
                                         };
     }
 
-    private BudgetDocument saveAndRetrieveBudgetWithCostSharing(BudgetCostShare[] costShares) throws Exception {
-        for(BudgetCostShare costShare: costShares) {
-              budgetDocument.add(costShare);
-          }
-                  
-        getDocumentService().saveDocument(budgetDocument);
+    protected void addBudgetDistributionAndIncomeComponent(BudgetDistributionAndIncomeComponent costShare) {
+        budgetDocument.add((BudgetCostShare)costShare);
+    }
     
-        return (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());
+    protected List<? extends BudgetDistributionAndIncomeComponent> getBudgetDistributionAndIncomeComponents(BudgetDocument budgetDocument) {
+        return budgetDocument.getBudgetCostShares();
+    }
+
+    @Override
+    protected BudgetDistributionAndIncomeComponent createBudgetDistributionAndIncomeComponent() {
+        return new BudgetCostShare(FY_2008, AMOUNT_1, SHARE_PCT_0, SOURCE_ACCOUNT_1);
     }
 }

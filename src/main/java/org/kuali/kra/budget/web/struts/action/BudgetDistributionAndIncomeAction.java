@@ -154,7 +154,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward deleteCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((BudgetForm) form).getBudgetDocument().getBudgetCostShares().remove(getLineToDelete(request));        
+        ((BudgetForm) form).getBudgetDocument().removeBudgetCostShare(getLineToDelete(request));        
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -168,7 +168,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward deleteProjectIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((BudgetForm) form).getBudgetDocument().getBudgetProjectIncomes().remove(getLineToDelete(request));        
+        ((BudgetForm) form).getBudgetDocument().removeBudgetProjectIncome(getLineToDelete(request));        
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -182,7 +182,7 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward deleteUnrecoveredFandA(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((BudgetForm) form).getBudgetDocument().getBudgetUnrecoveredFandAs().remove(getLineToDelete(request));        
+        ((BudgetForm) form).getBudgetDocument().removeBudgetUnrecoveredFandA(getLineToDelete(request));        
         return mapping.findForward(MAPPING_BASIC);
     }
     
