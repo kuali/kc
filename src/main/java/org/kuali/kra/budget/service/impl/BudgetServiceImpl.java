@@ -61,7 +61,7 @@ public class BudgetServiceImpl implements BudgetService {
         budgetDocument.setUrRateClassCode(kualiConfigurationService.getParameterValue(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE));
         budgetDocument.setModularBudgetFlag(kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_MODULAR_FLAG));
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_MODULAR_FLAG).equalsIgnoreCase(Constants.TRUE_FLAG));
         
         // Copy in key personnel
         for (ProposalPerson proposalPerson: pdDoc.getProposalPersons()) {
