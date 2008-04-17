@@ -732,16 +732,31 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         getBudgetPeriods().add(budgetPeriod);        
     }
 
-    public void remove(BudgetDistributionAndIncomeComponent budgetCostShare) {
-        getBudgetCostShares().remove(budgetCostShare);
+    /**
+     * This method does what its name says
+     * @param index
+     * @return Object reference that was deleted
+     */
+    public BudgetCostShare removeBudgetCostShare(int index) {
+        return getBudgetCostShares().remove(index);
     }
     
-    public void remove(BudgetProjectIncome budgetProjectIncome) {
-        getBudgetProjectIncomes().remove(budgetProjectIncome);
+    /**
+     * This method does what its name says
+     * @param index
+     * @return Object reference that was deleted
+     */
+    public BudgetProjectIncome removeBudgetProjectIncome(int index) {
+        return getBudgetProjectIncomes().remove(index);
     }
     
-    public void remove(BudgetUnrecoveredFandA unrecoveredFandA) {
-        getBudgetUnrecoveredFandAs().remove(unrecoveredFandA);
+    /**
+     * This method does what its name says
+     * @param index
+     * @return Object reference that was deleted
+     */
+    public BudgetUnrecoveredFandA removeBudgetUnrecoveredFandA(int index) {
+        return getBudgetUnrecoveredFandAs().remove(index);
     }
 
     public final List<InstituteLaRate> getInstituteLaRates() {
