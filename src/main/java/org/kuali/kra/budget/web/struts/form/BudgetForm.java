@@ -16,7 +16,6 @@
 package org.kuali.kra.budget.web.struts.form;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -145,8 +144,6 @@ public class BudgetForm extends ProposalFormBase {
         for(Object displayedErrorsKey: getDisplayedErrors().keySet()) {
             getDisplayedErrors().put(displayedErrorsKey, false);
         }
-        //this.getBudgetDocument().setFinalVersionFlag(false);
-        this.getBudgetDocument().setModularBudgetFlag(false);
     }
 
     public BudgetPeriod getNewBudgetPeriod() {

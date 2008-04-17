@@ -18,7 +18,11 @@ package org.kuali.kra.web.struts.form;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.user.UniversalUser;
@@ -56,6 +60,26 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
 
     public void setNavigateTo(String navigateTo) {
         this.navigateTo = navigateTo;
+    }
+    
+    /**
+     * Override reset to reset checkboxes if they are present on the requesting page
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+     */
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        super.reset(mapping, request);
+        if (request.getParameter("checkboxToReset") != null) {
+            String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
+            for (int i = 0; i < checkboxesToReset.length; i++) {
+                String propertyName = (String) checkboxesToReset[i];
+                try {
+                    PropertyUtils.setNestedProperty(this, propertyName, false);
+                } catch (Exception e1) {
+                    LOG.error("Error occurred in reset " + e1.getMessage());
+                    throw new RuntimeException(e1.getMessage(), e1);
+                }
+            }
+        }
     }
 
     /**
