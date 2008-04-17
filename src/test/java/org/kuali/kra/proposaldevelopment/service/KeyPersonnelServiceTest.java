@@ -15,13 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.kuali.kra.logging.FormattedLogger.info;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import org.junit.After;
@@ -29,11 +25,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.KraTestBase;
-
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 
 
 /**
@@ -41,10 +35,9 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * <code>{@link KeyPersonnelService}</code>
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class KeyPersonnelServiceTest extends KraTestBase {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelServiceTest.class);
     private ProposalDevelopmentDocument document;
     private ProposalDevelopmentDocument blankDocument;
     
@@ -78,6 +71,8 @@ public class KeyPersonnelServiceTest extends KraTestBase {
         assertNull(getKeyPersonnelService().createProposalPersonFromRolodexId(null));
     }
 
+
+    
     /**
      * Verify the proposal person is given the lead unit of the document if the person is an investigator, 
      * initial credit splits exist and are setup properly
@@ -126,7 +121,7 @@ public class KeyPersonnelServiceTest extends KraTestBase {
         
         Map<String, Map<String,KualiDecimal>> totals = getKeyPersonnelService().calculateCreditSplitTotals(document);
         for(String key : totals.keySet()) {
-            LOG.info("Key = " + key);
+            info("Key = %s", key);
         }
     }
     

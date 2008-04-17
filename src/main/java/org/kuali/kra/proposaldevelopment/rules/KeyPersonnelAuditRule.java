@@ -320,9 +320,8 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
      */
     protected boolean validateCreditSplit(ProposalDevelopmentDocument document) {
         boolean retval = true;
-        boolean creditSplitEnabled = getConfigurationService().getIndicatorParameter(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, CREDIT_SPLIT_ENABLED_RULE_NAME);
         
-        if (creditSplitEnabled) {
+        if (getKeyPersonnelService().isCreditSplitEnabled()) {
             CreditSplitValidator validator = CreditSplitValidator.getInstance();
             retval &= validator.validate(document);
         }
