@@ -16,18 +16,19 @@
 package org.kuali.kra.proposaldevelopment.service;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 /**
  * A Service for persisted modifications of Key Personnel related business objects
@@ -36,7 +37,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public interface KeyPersonnelService {
     /**
@@ -116,11 +117,66 @@ public interface KeyPersonnelService {
      */
     public ProposalPerson createProposalPersonFromRolodexId(String rolodexId);
 
+    /**
+     * Determines if a given {@link ProposalPerson} instance is considered a PI. This is done by comparing the {@link ProposalPersonRole} of the
+     *  {@link ProposalPerson} as a PI role.
+     * 
+     * @param person {@link ProposalPerson} instance to compare
+     * @return true if the {@link ProposalPerson} is a PI
+     */
     public boolean isPrincipalInvestigator(ProposalPerson person);
 
+    /**
+     * Determines if a given {@link ProposalPerson} instance is considered a COI. This is done by comparing the {@link ProposalPersonRole} of the
+     *  {@link ProposalPerson} as a COI role.
+     * 
+     * @param person {@link ProposalPerson} instance to compare
+     * @return true if the {@link ProposalPerson} is a COI
+     */
     public boolean isCoInvestigator(ProposalPerson person);
     
+
+    /**
+     * Determines if a given {@link ProposalPerson} instance is considered a PI or COI. This is done by comparing the {@link ProposalPersonRole} of the
+     *  {@link ProposalPerson} as a PI or COI role.
+     * 
+     * @param person {@link ProposalPerson} instance to compare
+     * @return true if the {@link ProposalPerson} is a PI or COI
+     */
     public boolean isInvestigator(ProposalPerson person);
         
+    
+    /**
+     * Determines if a {@link ProposalDevelopmentDocument has a PI composited in it anywhere
+     * 
+     * @param document
+     * @return true if the {@link ProposalDevelopmentDocument} has a PI
+     */
     public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document);
+
+    /**
+     * Checks if the application-level configuration parameter for credit splits is enabled. This allows credit splits to be used within the application
+     * 
+     * 
+     * @return true if credit split enabled configuration parameter is on
+     * @see org.kuali.kra.proposaldevelopment.bo.CreditSplit
+     */
+    public boolean isCreditSplitEnabled();
+    
+    
+    /**
+     * Used by Spring to inject the {@link KualiConfigurationService}
+     * 
+     * @param kualiConfigurationService instance to assign
+     */
+    public void setConfigurationService(KualiConfigurationService kualiConfigurationService);
+    
+    
+    /**
+     * Retrieve the injected {@link KualiConfigurationService}
+     * 
+     * @return {@link KualiConfigurationService}
+     */
+    public KualiConfigurationService getConfigurationService();
+    
 }
