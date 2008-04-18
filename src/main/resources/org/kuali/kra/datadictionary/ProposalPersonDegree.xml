@@ -101,6 +101,7 @@
                 <shortLabel>Graduation Year</shortLabel>
                 <maxLength>4</maxLength>
 				<validationPattern><numeric /></validationPattern>
+				<required>true</required>
                 <control>
                     <text size="5" />
                 </control>
@@ -112,6 +113,7 @@
                 <label>Degree Type</label>
                 <shortLabel>Degree Type</shortLabel>
                 <maxLength>6</maxLength>
+                <required>true</required>
                 <control>                    
                     <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.bo.DegreeType" keyAttribute="degreeCode" labelAttribute="description" includeKeyInLabel="false"/>
                 </control>
@@ -123,6 +125,7 @@
                 <label>Degree Description</label>
                 <shortLabel>Degree Description</shortLabel>
                 <maxLength>80</maxLength>
+                <required>true</required>
                 <control>
                     <text size="25" />
                 </control>

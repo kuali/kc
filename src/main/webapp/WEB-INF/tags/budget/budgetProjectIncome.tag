@@ -81,6 +81,10 @@
 		    		<td width="25%"><div align="right">${KualiForm.document.projectIncomeTotal}</div></td>
 		    	</tr>
 	    	</table>
+	    	
+	    	<div align="center" style="padding-top: 2em;">
+				<html:image property="methodToCall.refreshTotals" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
+			</div>
 		</div>					
 	</div>
 </kul:tab>
