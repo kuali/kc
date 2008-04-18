@@ -93,7 +93,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private BudgetDecimal costSharingAmount; // = new BudgetDecimal(0);
     private Date endDate;
     private boolean finalVersionFlag;
-    private String modularBudgetFlag;
+    private Boolean modularBudgetFlag;
     private String ohRateClassCode;
     private String ohRateTypeCode;
     private BudgetDecimal residualFunds;
@@ -355,11 +355,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         this.finalVersionFlag = finalVersionFlag;
     }
 
-    public String getModularBudgetFlag() {
+    public Boolean getModularBudgetFlag() {
         return modularBudgetFlag;
     }
 
-    public void setModularBudgetFlag(String modularBudgetFlag) {
+    public void setModularBudgetFlag(Boolean modularBudgetFlag) {
         this.modularBudgetFlag = modularBudgetFlag;
     }
 

@@ -1,7 +1,8 @@
-#Wed Jul 11 09:04:35 EDT 2007
+#Mon Dec 31 16:26:26 EST 2007
 eclipse.preferences.version=1
 formatter_profile=_Elements of Kuali Style
 formatter_settings_version=10
+instance/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true
 org.eclipse.jdt.ui.exception.name=e
 org.eclipse.jdt.ui.gettersetter.use.is=true
 org.eclipse.jdt.ui.ignorelowercasenames=true

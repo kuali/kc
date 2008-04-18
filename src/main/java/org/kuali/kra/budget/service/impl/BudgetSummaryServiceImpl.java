@@ -237,15 +237,21 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                 }
                 /* build new budget period list */
                 if(addNewPeriod) {
-                    BudgetPeriod nBudgetPeriod = (BudgetPeriod)ObjectUtils.deepCopy(budgetPeriod); //new BudgetPeriod();
+                    BudgetPeriod nBudgetPeriod = (BudgetPeriod)ObjectUtils.deepCopy(budgetPeriod); //new BudgetPeriod(); 
                     //nBudgetPeriod = budgetPeriod;
                     nBudgetPeriod.setBudgetPeriod(newPeriod);
                     newBudgetPeriods.add(nBudgetPeriod);
                 }
             }
         }
-        budgetPeriods.removeAll(delBudgetPeriods);
-        budgetPeriods.addAll(newBudgetPeriods);
+        //budgetPeriods.removeAll(delBudgetPeriods);
+        for(BudgetPeriod budgetPeriod: delBudgetPeriods) {
+            budgetPeriods.remove(budgetPeriod);
+        }
+        for(BudgetPeriod budgetPeriod: newBudgetPeriods) {
+            budgetPeriods.add(budgetPeriod);
+        }
+        //budgetPeriods.addAll(newBudgetPeriods);
     }
 
     private void updateBudgetLineItems(List<BudgetLineItem> budgetLineItems, int checkPeriod, boolean deletePeriod) {
@@ -336,7 +342,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList();
         Integer newPeriodIndex = newBudgetPeriod.getBudgetPeriod();
         int totalPeriods = budgetPeriods.size();
-        if(newPeriodIndex >= totalPeriods) {
+        if(newPeriodIndex > totalPeriods) {
             budgetPeriods.add(newBudgetPeriod);
         }else {
             updateBudgetPeriods(budgetPeriods, newPeriodIndex, false);

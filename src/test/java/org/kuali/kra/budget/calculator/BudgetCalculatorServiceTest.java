@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import java.sql.Timestamp;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
-import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -36,13 +35,11 @@ import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
-import org.kuali.kra.budget.calculator.query.And;
-import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
@@ -261,7 +258,7 @@ public class BudgetCalculatorServiceTest extends KraTestBase {
         bd.setUpdateUser("KRADEV");
         bd.setOhRateClassCode("1");
         bd.setUrRateClassCode("1");
-        bd.setModularBudgetFlag("N");
+        bd.setModularBudgetFlag(false);
         bd.setActivityTypeCode("1");
     }
     

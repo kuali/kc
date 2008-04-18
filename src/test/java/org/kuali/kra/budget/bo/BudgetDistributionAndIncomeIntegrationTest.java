@@ -130,7 +130,7 @@ public abstract class BudgetDistributionAndIncomeIntegrationTest extends KraTest
         budgetDocument.setEndDate(getNowDate());
         budgetDocument.setOhRateClassCode("1");
         budgetDocument.setUrRateClassCode("2");
-        budgetDocument.setModularBudgetFlag("N");
+        budgetDocument.setModularBudgetFlag(false);
         
         getDocumentService().saveDocument(budgetDocument);
         budgetDocument = (BudgetDocument) getDocumentService().getByDocumentHeaderId(budgetDocument.getDocumentNumber());        
