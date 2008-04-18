@@ -513,6 +513,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         setProjectEndDate(budgetDocument.getEndDate());
         String unitNumber = budgetDocument.getProposal().getOwnedByUnitNumber();
         String activityTypeCode = budgetDocument.getProposal().getActivityTypeCode();
+        String activityTypeDescription = budgetDocument.getProposal().getActivityType().getDescription().concat(" ");
         List<RateClass> rateClasses = budgetDocument.getRateClasses();
         List<InstituteRate> instituteRates = budgetDocument.getInstituteRates();
         List<BudgetProposalRate> budgetProposalRates = budgetDocument.getBudgetProposalRates();
@@ -569,9 +570,20 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         updateBudgetPeriodsAffected(budgetDocument);
         Collections.sort(budgetDocument.getBudgetProposalRates());
         getBudgetLaRates(rateClassTypes, budgetDocument);
-        System.out.println("la rates size ===> " + budgetDocument.getBudgetProposalLaRates().size());
+        checkActivityPrefixForRateClassTypes(rateClassTypes, activityTypeDescription);
     }
 
+    /* verify and add activity type prefix if required for rate class type description
+     * 
+     * */
+    public void checkActivityPrefixForRateClassTypes(List<RateClassType> rateClassTypes, String activityTypeDescription) {
+       for(RateClassType rateClassType : rateClassTypes) {
+           if(rateClassType.getPrefixActivityType()) {
+               rateClassType.setDescription(activityTypeDescription.concat(rateClassType.getDescription()));
+           }
+       }
+    }
+    
     /**
      * Build rates for each period.
      * @return .

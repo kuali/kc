@@ -9,6 +9,7 @@ public class RateClassType extends KraPersistableBusinessObjectBase {
 	private String rateClassType;
 	private String description;
 	private String sortId;
+    private Boolean prefixActivityType;
 
 	public RateClassType(){
 		super();
@@ -36,6 +37,7 @@ public class RateClassType extends KraPersistableBusinessObjectBase {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("rateClassType", getRateClassType());
 		hashMap.put("description", getDescription());
+        hashMap.put("prefixActivityType", getPrefixActivityType());
 		return hashMap;
 	}
 
@@ -46,4 +48,13 @@ public class RateClassType extends KraPersistableBusinessObjectBase {
     public void setSortId(String sortId) {
         this.sortId = sortId;
     }
+    
+    public final Boolean getPrefixActivityType() {
+        return prefixActivityType;
+    }
+
+    public final void setPrefixActivityType(Boolean prefixActivityType) {
+        this.prefixActivityType = prefixActivityType;
+    }
+    
 }
