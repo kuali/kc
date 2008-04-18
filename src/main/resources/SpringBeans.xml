@@ -391,6 +391,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="narrativeService" ref="narrativeService" />
 		<property name="configurationService" ref="kualiConfigurationService" />
+        <property name="parameterService" ref="systemParameterRetrievalService" />
     	<property name="ynqService">
         	<ref bean="ynqService" />
     	</property>

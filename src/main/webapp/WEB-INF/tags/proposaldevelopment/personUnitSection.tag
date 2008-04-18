@@ -59,7 +59,7 @@
 	                    <th scope="row"  align="center"><c:out value="${status.index + 1}" /></th>
 	
 	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.unit[${status.index}].unit.unitName" readOnly="true" /></td>
-	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.unit[${status.index}].unitNumber" readOnly="true" /></td>
+	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.unit[${status.index}].unitNumber" /></td>
 	                    <td>
 	                    	<div align=center>&nbsp;
 	                    	<kra:section permission="modifyProposal">
