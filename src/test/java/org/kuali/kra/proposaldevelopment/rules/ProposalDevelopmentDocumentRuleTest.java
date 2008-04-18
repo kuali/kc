@@ -250,6 +250,7 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         getKeyPersonnelService().populateProposalPerson(person, document);
         person.setProposalPersonRoleId("");
         person.setRole(null);
+        person.refreshReferenceObject("role");
         
         assertFalse(new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person));
     }

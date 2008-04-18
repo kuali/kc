@@ -16,14 +16,13 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
-import org.kuali.core.util.ObjectUtils;
-import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
+import static org.kuali.kra.logging.FormattedLogger.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,11 +40,13 @@ import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.SystemParameterRetrievalService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.YnqService;
 
@@ -56,16 +57,16 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.24 $
+ * @version $Revision: 1.25 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
+    private static final String READ_ONLY_ROLES_PARAM_NAME = "proposaldevelopment.personrole.readonly.roles";
     private BusinessObjectService businessObjectService;
     private NarrativeService narrativeService;
     private YnqService ynqService;
     private KualiConfigurationService configurationService;
+    private SystemParameterRetrievalService parameterService;
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelServiceImpl.class);
-    
     /**
      * Part of a complete breakfast, it has everything you need to populate Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
      * 
@@ -75,7 +76,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         document.setInvestigatorCreditTypes(getInvestigatorCreditTypes());
         
         if (document.getInvestigators().isEmpty() && !document.getProposalPersons().isEmpty()) {
-            LOG.info("Need to repopulate investigator list");
+            info("Need to repopulate investigator list");
             populateInvestigators(document);
         }
     }
@@ -88,16 +89,16 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      */
     public void populateInvestigators(ProposalDevelopmentDocument document) {
         // Populate Investigators from a proposal document's persons
-        LOG.debug("Populating Investigators");
-        LOG.debug("Clearing investigator list");
+        debug("Populating Investigators");
+        debug("Clearing investigator list");
         document.getInvestigators().clear();
 
         for (ProposalPerson person : document.getProposalPersons()) {
-            LOG.debug(person.getFullName() + " is " + isInvestigator(person));
+            debug(person.getFullName() + " is " + isInvestigator(person));
             person.setInvestigatorFlag(isInvestigator(person));
 
             if (person.isInvestigator()) {
-                LOG.info("Adding investigator " + person.getFullName());
+                info("Adding investigator " + person.getFullName());
                 document.getInvestigators().add(person);
             }
         }
@@ -137,6 +138,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
 
         getNarrativeService().addDummyUserRole(document, person);
         person.refreshReferenceObject("role");
+        
+        if (person.getRole() != null) {
+            person.getRole().setReadOnly(isRoleReadOnly(person.getRole()));
+        }
+        
         person.setRoleChanged(false);
 
     }
@@ -563,5 +569,59 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      */
     public void setConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.configurationService = kualiConfigurationService;        
+    }
+
+    /**
+     * Gets the parameterService attribute. 
+     * @return Returns the parameterService.
+     */
+    public SystemParameterRetrievalService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(SystemParameterRetrievalService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
+    /**
+     * Compares the given <code>roleId</code> against the <code>proposaldevelopment.personrole.readonly.roles</code> to see if it is 
+     * read only or not.
+     * 
+     * @param roleId to check
+     * @return true if the <code>roleId</code> is a value in the <code>proposaldevelopment.personrole.readonly.roles</code> system parameter, and false
+     *         if the <coderoleId</code> is null
+     */
+    public boolean isRoleReadOnly(String roleId) {
+        if (roleId == null) {
+            return false;
+        }
+        return getParameterService().getParameterValue(READ_ONLY_ROLES_PARAM_NAME, null).toLowerCase().contains(roleId.toLowerCase());
+    }
+    
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isRoleReadOnly(org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole)
+     */
+    public boolean isRoleReadOnly(ProposalPersonRole role) {
+        if (role == null) {
+            return false;
+        }
+        return isRoleReadOnly(role.getProposalPersonRoleId());
+    }
+
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#getPrincipalInvestigatorRoleDescription(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     */
+    public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document) {
+        String parameterName = "proposaldevelopment.personrole.pi";
+        if (document.getSponsor().getAcronym().toLowerCase().equals("nih")) {
+            parameterName = "proposaldevelopment.personrole.nonnih.pi";
+        }
+        return getParameterService().getParameterValue(parameterName, null);
     }
 }
