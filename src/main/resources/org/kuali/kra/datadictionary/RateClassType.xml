@@ -84,6 +84,13 @@
 			<description>Description </description>
 			</attribute>
 
+            <attributeReference name="prefixActivityType" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Prefix Activity Type?</label>
+                <shortLabel>Prefix Activity Type?</shortLabel>
+                <summary>Prefix Activity Type</summary>
+                <description>Prefix Activity Type in rates page</description>
+			</attributeReference>
+
 		</attributes>
     </businessObject>
 
