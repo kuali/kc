@@ -49,43 +49,7 @@
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /></div></th>
                     <td colspan="3">
-                    <jsp:useBean id="paramMap" class="java.util.HashMap"/>
-                    <c:set target="${paramMap}" property="forAddedPerson" value="true" />
-                    <kul:checkErrors keyMatch="${proposalPerson}.proposalPersonRoleId" auditMatch="${proposalPerson}.proposalPersonRoleId"/>  
-                    <c:set var="roleStyle" value=""/>
-                    <c:if test="${hasErrors==true}">
-                        <c:set var="roleStyle" value="background-color:#FFD5D5"/>
-                    </c:if>
-                    
-                    
-					<c:set var="roleSelectOptions" value="" />
-                    
-					<c:forEach items="${krafn:getOptionList('org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder', paramMap)}" var="option">
-						<c:choose>
-							<c:when test="${KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == option.key}">
-								<c:set var="roleSelectOptions" value="${roleSelectOptions}${'<option value=\"'}${option.key}${'\" selected=\"selected\">'}${option.label}${'</option>'}" />
-								<c:set var="selectedRole" value="${option.label}" />
-							</c:when>
-							<c:otherwise>
-								<c:set var="roleSelectOptions" value="${roleSelectOptions}${'<option value=\"'}${option.key}${'\" >'}${option.label}${'</option>'}" />
-							</c:otherwise>
-						</c:choose>
-					</c:forEach> 
-					
-					 <c:choose>
-	                    <c:when test="${readOnly}">
-	                    	<c:out value="${selectedRole}"/>	
-	                     </c:when>
-                     	<c:otherwise>
-                     	<html:select property="${proposalPerson}.proposalPersonRoleId" tabindex="0" style="${roleStyle}" >
-	                   		${roleSelectOptions} 
-                    	</html:select> 
-                    	</c:otherwise>  
-                    </c:choose>  
-                    
-                    <%--
-                    <kul:htmlControlAttribute property="${proposalPerson}.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" />
-                    --%>
+                      <kra-pd:proposalPersonRole proposalPerson="${proposalPerson}" personIndex="${personIndex}"/>
                     </td>
                   </tr>              
                   <tr>

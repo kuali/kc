@@ -41,7 +41,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * Temporary class until this can be gotten working via table.
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
@@ -68,10 +68,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
             if (isPersonAdded()) {
                 showRole = !KEY_PERSON_ROLE.equals(role.getProposalPersonRoleId());
             }
-            // If the person has is not added, check for an existing PI in the document. There cannot be multiple PI's added.
-            else {
-                showRole = (!hasPrincipalInvestigator || !PRINCIPAL_INVESTIGATOR_ROLE.equals(role.getProposalPersonRoleId()));
-            }
+
             info("showRole = %s", showRole);
             
             if (showRole) {
