@@ -18,10 +18,7 @@
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="unitCreditSplitAttributes" value="${DataDictionary.ProposalUnitCreditSplit.attributes}" />
 <c:set var="personCreditSplitAttributes" value="${DataDictionary.ProposalPersonCreditSplit.attributes}" />
-<c:set var="creditParamName" value="proposaldevelopment.creditsplit.enabled"/>
 <c:set var="columnWidth" value="${100/(fn:length(KualiForm.document.investigatorCreditTypes) + 1)}%" />
-
-<c:if test="${creditSplitEnabledFlag}">
 
 <kul:tab tabTitle="Combined Credit Split" defaultOpen="true" tabErrorKey="document.creditSplit" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.creditSplit" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -99,7 +96,4 @@
    	 	
     </div>
 </kul:tab>
-
-</c:if>
-
 
