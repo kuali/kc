@@ -57,7 +57,7 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: lprzybyl $
- * @version $Revision: 1.25 $
+ * @version $Revision: 1.26 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private static final String READ_ONLY_ROLES_PARAM_NAME = "proposaldevelopment.personrole.readonly.roles";
@@ -619,7 +619,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      */
     public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document) {
         String parameterName = "proposaldevelopment.personrole.pi";
-        if (document.getSponsor().getAcronym().toLowerCase().equals("nih")) {
+        if (document.getSponsor() != null && document.getSponsor().getAcronym() != null && document.getSponsor().getAcronym().toLowerCase().equals("nih")) {
             parameterName = "proposaldevelopment.personrole.nonnih.pi";
         }
         return getParameterService().getParameterValue(parameterName, null);
