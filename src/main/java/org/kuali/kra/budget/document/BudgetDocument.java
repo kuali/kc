@@ -642,9 +642,9 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public List<RateClassType> getRateClassTypes() {
         /* check budget rates - if empty get all budget rates */
         if(rateClassTypes.isEmpty()) {            
-            getBudgetRatesService().getBudgetRates(this.rateClassTypes, this);            
-            //Collections.sort(rateClassTypes, new RateClassTypeComparator());
-            }
+            getBudgetRatesService().getBudgetRates(this.rateClassTypes, this);
+            Collections.sort(rateClassTypes, new RateClassTypeComparator());
+			}
         return rateClassTypes;
     }
 

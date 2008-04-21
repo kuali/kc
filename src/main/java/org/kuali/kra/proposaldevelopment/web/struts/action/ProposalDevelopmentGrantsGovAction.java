@@ -143,4 +143,20 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         String description = proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId();
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_REMOVE_OPPRTUNITY_KEY, QUESTION_DELETE_OPPORTUNITY_CONFIRMATION, description);
     }
+    
+    /**
+     * 
+     * This method is called to print forms
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */    
+    public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //TODO: Call Printing Service here 
+        //KraServiceLocator.getService(S2SService.class).printForm(((ProposalDevelopmentForm)form).getProposalDevelopmentDocument().getS2sOpportunity().getS2sOppForms());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }
