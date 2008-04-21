@@ -315,6 +315,32 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return super.headerTab(mapping, form, request, response);
     }
 
+    /**
+     * 
+     * Clears the Mailing Name and Address selected from Delivery info panel.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearMailingNameAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        if(proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex()!=null){
+        
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setAddressLine1("");
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setAddressLine2("");
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setAddressLine3("");
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setCity("");
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setOrganization("");
+        proposalDevelopmentForm.getProposalDevelopmentDocument().getRolodex().setState("");
+        
+        }
+      return mapping.findForward("basic");
+    }
 
 
 }
