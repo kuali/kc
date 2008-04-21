@@ -152,7 +152,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <validation required="true" />
+                    <validation required="false" />
                     <fieldEvaluation>
                         <!-- expectation: this is run and evaluates to true -->
                         <xpathexpression>string(//xmlRouting/field[@name='billingElement']/value) = wf:ruledata('billingElement')</xpathexpression>
@@ -162,7 +162,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <validation required="true" />
+                    <validation required="false" />
                     <fieldEvaluation>
                         <!-- expectation: this is run and evaluates to true -->
                         <xpathexpression>string(//xmlRouting/field[@name='graduateStudentCount']/value) = wf:ruledata('graduateStudentCount')</xpathexpression>
