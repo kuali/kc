@@ -90,8 +90,11 @@
                     <c:if test="${!empty KualiForm.document.rolodex.state}" >
                     <span id="mailingState"><c:out value="${KualiForm.document.rolodex.state}"/></span><br/>
                     </c:if>
-                </td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailDescription}"  /></div></th>
+                    <div align="right"> 
+                         <html:image property="methodToCall.clearMailingNameAddress" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
+                    </div>
+                   </td>
+                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.mailDescription}"  /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.mailDescription" attributeEntry="${proposalDevelopmentAttributes.mailDescription}" />
                     <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalDevelopmentAttributes.mailDescription.label}" />
