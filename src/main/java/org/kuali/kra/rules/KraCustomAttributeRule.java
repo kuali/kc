@@ -58,11 +58,6 @@ public class KraCustomAttributeRule extends ResearchDocumentRuleBase implements 
             if (StringUtils.isNotBlank(customAttribute.getValue())) {
                 valid &= validateAttributeFormat(customAttribute, errorKey);
             }
-            else if (customAttributeDocument.isRequired()) {
-                GlobalVariables.getErrorMap().putError(errorKey, RiceKeyConstants.ERROR_REQUIRED,
-                        new String[] { customAttribute.getLabel() });
-                valid = false;
-            }
         }
 
         return valid;
