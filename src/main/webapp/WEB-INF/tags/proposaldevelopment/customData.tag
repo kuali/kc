@@ -18,9 +18,9 @@
 <%@ attribute name="fieldCount" required="true"%>
 
 <c:choose>
-		<c:when test="${fn:length(fullName) > 50}">
- 					<c:set var="displayName" value="${fn:substring(fullName, 0, 50)}..."/>
-		</c:when>
+		<c:when test="${fn:length(fullName) > 90}">
+ 					<c:set var="displayName" value="${fn:substring(fullName, 0, 90)}..."/>
+		</c:when> 
 		<c:otherwise>
  					<c:set var="displayName" value="${fullName}"/>
 		</c:otherwise>

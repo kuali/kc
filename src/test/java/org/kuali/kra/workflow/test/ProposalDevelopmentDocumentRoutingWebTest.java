@@ -132,10 +132,9 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         assertEquals("Terry Durkin", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
         setFieldValue(KeyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "PI");
         KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.insertProposalPerson");
-        setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
-        setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
-        setFieldValue(KeyPersonnelpage,"document.proposalPerson[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
-        
+        setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
         // set up required custom attributes
         HtmlPage customDataPage = clickOn(KeyPersonnelpage, CUSTOM_DATA_LINK_NAME);
         assertContains(customDataPage,TestUtilities.GROUP_NAME_1);

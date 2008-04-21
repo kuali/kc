@@ -24,7 +24,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class YnqGroupName extends KraPersistableBusinessObjectBase implements Comparator<YnqGroupName>{
     private String groupName;
     private String truncGroupName;
-    private int groupNameMaxLength = 57;
+    private int groupNameMaxLength = 87; 
 
     public String getGroupName() {
         return groupName;
