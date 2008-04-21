@@ -15,7 +15,6 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-
 <kul:tab tabTitle="Print Forms" defaultOpen="false"  
             tabErrorKey="document.fillme*">
          
@@ -24,7 +23,6 @@
     		<span class="subhead-left"><h2>Print Forms</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
-        
-            To Be Developed
+	<kra-pd:proposalDevelopmentActionsPrintForms />
     </div> 
 </kul:tab>
