@@ -19,9 +19,9 @@
 			<th width="150"><div align="center">
 			Select to Print:
 			<br/>
-			<a href="#">All Included</a>
+			<html:link href="#" onclick="javascript: selectAllGGForms(document);return false">All Included</html:link>
 			|
-			<a href="#">None</a>
+			<html:link href="#" onclick="javascript: unselectAllGGForms(document);return false">None</html:link>)
 			</div></th>
     	</tr>
     	
@@ -69,7 +69,15 @@
 	                </td>
 	                
 	            </tr>    	
-    	</c:forEach>        
+    	</c:forEach> 
+    			<tr>
+    				<td colspan="5">
+    					<div align="right">
+    						<html:image src="/kra-dev/kr/static/images/tinybutton-printsel.gif"  styleClass="globalbuttons" property="methodToCall.printForms" alt="Print Selected Forms"/>
+    						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    					</div>
+    				</td>
+    			</tr>       
 	   </tbody>
 </table></div>    
 </kul:innerTab>

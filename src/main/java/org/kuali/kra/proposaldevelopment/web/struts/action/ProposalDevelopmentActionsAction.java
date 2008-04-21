@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_OPPORTUNITY_CONFIRMATION;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +37,6 @@ import org.kuali.RiceConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.DocumentAuditEvent;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PessimisticLockService;
 import org.kuali.core.util.AuditCluster;
@@ -456,6 +453,21 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, KeyConstants.QUESTION_SUMBMIT_OPPORTUNITY_WITH_WARNINGS_CONFIRMATION);
     }
     
+    /**
+     * 
+     * This method is called to print forms
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //TODO: Call Printing Service here 
+        //KraServiceLocator.getService(S2SService.class).printForm(((ProposalDevelopmentForm)form).getProposalDevelopmentDocument().getS2sOpportunity().getS2sOppForms());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     
 }
     
