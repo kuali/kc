@@ -226,6 +226,7 @@
 				<validationPattern>
 					<anyCharacter  allowWhitespace="true"  />
 				</validationPattern>
+				<required>false</required>
 				<control>
 					<text size="52" />
 				</control>
@@ -283,7 +284,7 @@
 				<shortLabel>Phone Number</shortLabel>
 				<maxLength>20</maxLength>
 				<validationPattern>
-					<alphaNumeric />
+					<phoneNumber />
 				</validationPattern>
 				<control>
 					<text size="30" />
