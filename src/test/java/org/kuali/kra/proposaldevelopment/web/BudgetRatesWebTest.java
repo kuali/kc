@@ -28,7 +28,8 @@ public class BudgetRatesWebTest extends ProposalDevelopmentWebTestBase{
     private static final String BDOC_BUDGET_RATES_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.rates.x";
     private static final String NEW_BUDGET_VERSION_NAME = "newBudgetVersionName";
     private static final String UPDATE_VIEW_BUTTON = "methodToCall.updateRatesView";
-    private static final String RESET_RATES_BUTTON = "methodToCall.resetRates.line0.anchor1";
+    private static final String RESET_RATES_BUTTON_LINE2_ANCHOR3 = "methodToCall.resetRates.line2.anchor3";
+    private static final String RESET_RATES_BUTTON_LINE0_ANCHOR1 = "methodToCall.resetRates.line0.anchor1";
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
     private static final String ADD_BUDGET_VERSION_BUTTON = "methodToCall.addBudgetVersion";
@@ -47,7 +48,8 @@ public class BudgetRatesWebTest extends ProposalDevelopmentWebTestBase{
     private static final String ON_CAMPUS_TEXT = "Yes";
     private static final String OFF_CAMPUS_TEXT = "No";
     private static final String VIEW_LOCATION = "viewLocation";
-    private static final String APPLICABLE_RATE_FIELD = "document.budgetProposalRates[0].applicableRate";
+    private static final String APPLICABLE_RATE_FIELD_0 = "document.budgetProposalRates[0].applicableRate";
+    private static final String APPLICABLE_RATE_FIELD_49 = "document.budgetProposalRates[49].applicableRate";
 
     @Test
     public void testSaveBudgetRates() throws Exception {
@@ -92,7 +94,7 @@ public class BudgetRatesWebTest extends ProposalDevelopmentWebTestBase{
 
     /**
      * Test RESET rates - change the rate and reset the value to get back the old value
-     * 
+     * To test the resetting of applicable rate for 2 panels - one after other
      * @throws Exception
      */
     @Test
@@ -104,17 +106,68 @@ public class BudgetRatesWebTest extends ProposalDevelopmentWebTestBase{
         /* get budget summary page */
         HtmlPage budgetRatesPage = clickOn(budgetVersionsPage, BDOC_BUDGET_RATES_LINK_NAME);
         
-        String oldApplicableRate = getFieldValue(budgetRatesPage, APPLICABLE_RATE_FIELD);
-        String newApplicableRate = "99";
+        String oldApplicableRate = getFieldValue(budgetRatesPage, APPLICABLE_RATE_FIELD_0);
+        String newApplicableRate = "99.00";
         
-        setFieldValue(budgetRatesPage, APPLICABLE_RATE_FIELD, newApplicableRate);
-
-        assertEquals(newApplicableRate, getFieldValue(budgetRatesPage, APPLICABLE_RATE_FIELD));
+        setFieldValue(budgetRatesPage, APPLICABLE_RATE_FIELD_0, newApplicableRate);
         
-        HtmlElement addBtn = getElementByName(budgetRatesPage, RESET_RATES_BUTTON, true);
-        budgetRatesPage = clickOn(addBtn);
-
-        assertEquals(oldApplicableRate, getFieldValue(budgetRatesPage, APPLICABLE_RATE_FIELD));
+        final HtmlPage savedRatesPage = clickOn(budgetRatesPage, "methodToCall.save");
+        
+        assertEquals(newApplicableRate, getFieldValue(savedRatesPage, APPLICABLE_RATE_FIELD_0));
+        
+        HtmlElement addBtn = getElementByName(savedRatesPage, RESET_RATES_BUTTON_LINE2_ANCHOR3, true);
+        final HtmlPage savedRatesPageAfterSync = clickOn(addBtn);
+        
+        final HtmlPage savedRatesPageAfterSyncSaved = clickOn(savedRatesPageAfterSync, "methodToCall.save");
+        
+        assertEquals(oldApplicableRate, getFieldValue(savedRatesPageAfterSyncSaved, APPLICABLE_RATE_FIELD_0));
+        
+        oldApplicableRate = getFieldValue(budgetRatesPage, APPLICABLE_RATE_FIELD_49);
+        newApplicableRate = "99.00";
+        
+        setFieldValue(budgetRatesPage, APPLICABLE_RATE_FIELD_49, newApplicableRate);
+        
+        final HtmlPage savedRatesPageAgain = clickOn(budgetRatesPage, "methodToCall.save");
+        
+        assertEquals(newApplicableRate, getFieldValue(savedRatesPageAgain, APPLICABLE_RATE_FIELD_49));
+        
+        HtmlElement addBtn2 = getElementByName(savedRatesPageAgain, RESET_RATES_BUTTON_LINE0_ANCHOR1, true);
+        final HtmlPage savedRatesPageAfterSyncAgain = clickOn(addBtn2);
+        
+        final HtmlPage savedRatesPageAfterSyncSavedAgain = clickOn(savedRatesPageAfterSyncAgain, "methodToCall.save");
+        
+        assertEquals(oldApplicableRate, getFieldValue(savedRatesPageAfterSyncSavedAgain, APPLICABLE_RATE_FIELD_49));
+    }
+    
+    /**
+     * Test RESET rates - change the rate and reset the value to get back the old value
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void testResetRate2() throws Exception {
+        /* get budget version page in proposal development module */
+        HtmlPage proposalBudgetVersionsPage = getBudgetVersionsPage();
+        /* add new version and open budget version page in budget module */
+        HtmlPage budgetVersionsPage = addBudgetVersion(proposalBudgetVersionsPage);
+        /* get budget summary page */
+        HtmlPage budgetRatesPage = clickOn(budgetVersionsPage, BDOC_BUDGET_RATES_LINK_NAME);
+        
+        String oldApplicableRate = getFieldValue(budgetRatesPage, APPLICABLE_RATE_FIELD_49);
+        String newApplicableRate = "99.00";
+        
+        setFieldValue(budgetRatesPage, APPLICABLE_RATE_FIELD_49, newApplicableRate);
+        
+        final HtmlPage savedRatesPage = clickOn(budgetRatesPage, "methodToCall.save");
+        
+        assertEquals(newApplicableRate, getFieldValue(savedRatesPage, APPLICABLE_RATE_FIELD_49));
+        
+        HtmlElement addBtn = getElementByName(savedRatesPage, RESET_RATES_BUTTON_LINE0_ANCHOR1, true);
+        final HtmlPage savedRatesPageAfterSync = clickOn(addBtn);
+        
+        final HtmlPage savedRatesPageAfterSyncSaved = clickOn(savedRatesPageAfterSync, "methodToCall.save");
+        
+        assertEquals(oldApplicableRate, getFieldValue(savedRatesPageAfterSyncSaved, APPLICABLE_RATE_FIELD_49));
     }
     
     /**
