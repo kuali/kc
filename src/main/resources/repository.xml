@@ -1052,6 +1052,7 @@
 		<field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="applicationDate" column="APPLICATION_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="approvalDate" column="APPROVAL_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE"/>
 		<field-descriptor name="approvalTypeCode" column="APPROVAL_TYPE_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="CLOB"/>
 		<field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR"/>
@@ -1075,6 +1076,12 @@
 			<foreignkey field-ref="approvalTypeCode"/>
 			<foreignkey field-ref="specialReviewCode"/>
 		</reference-descriptor>
+		
+		<collection-descriptor name="proposalExemptNumbers" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<inverse-foreignkey field-ref="specialReviewNumber"/>
+		</collection-descriptor> 
+		
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract" table="EPS_PROP_ABSTRACT">
@@ -1099,6 +1106,7 @@
 		<field-descriptor name="specialReviewCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="applicationDateFlag" column="APPLICATION_DATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="approvalDateFlag" column="APPROVAL_DATE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="exemptNumberFlag" column="EXEMPT_NUMBER_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="protocolNumberFlag" column="PROTOCOL_NUMBER_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -2596,4 +2604,31 @@
 
 <!-- end organization related table  -->
 	
+<!--  special review rel-1 enhancement -->	
+	<class-descriptor class="org.kuali.kra.bo.ExemptionType" table="EXEMPTION_TYPE">
+		<field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="detailedDescription" column="DETAILED_DESCRIPTION" jdbc-type="CLOB"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber" table="EPS_PROP_EXEMPT_NUMBER">
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR"  primarykey="true"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+
+		<reference-descriptor name="exemptionType" class-ref="org.kuali.kra.bo.ExemptionType" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="exemptionTypeCode"/>
+		</reference-descriptor>
+		<!--  
+		<reference-descriptor name="proposalSpecialReview" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="proposalNumber"/>
+			<foreignkey field-ref="specialReviewNumber"/>
+		</reference-descriptor>
+		-->
+	</class-descriptor>
+ <!-- sp rev enhancement -->	
 </descriptor-repository>

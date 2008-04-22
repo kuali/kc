@@ -29,6 +29,7 @@
 				<field attributeName="specialReviewNumber" forceInquiry="true"/>
 				<field attributeName="applicationDate"/>
 				<field attributeName="approvalDate"/>
+				<field attributeName="expirationDate"/>
 				<field attributeName="approvalTypeCode"/>
 				<field attributeName="comments"/>
 				<field attributeName="protocolNumber"/>
@@ -57,6 +58,7 @@
 				<lookupField attributeName="specialReviewNumber" required="false"/>
 				<lookupField attributeName="applicationDate" required="false"/>
 				<lookupField attributeName="approvalDate" required="false"/>
+				<lookupField attributeName="expirationDate" required="false"/>
 				<lookupField attributeName="approvalTypeCode" required="false"/>
 				<lookupField attributeName="comments" required="false"/>
 				<lookupField attributeName="protocolNumber" required="false"/>
@@ -69,6 +71,7 @@
 				<field attributeName="specialReviewNumber" forceInquiry="true"/>
 				<field attributeName="applicationDate" forceInquiry="false"/>
 				<field attributeName="approvalDate" forceInquiry="false"/>
+				<field attributeName="expirationDate" forceInquiry="false"/>
 				<field attributeName="approvalTypeCode" forceInquiry="false"/>
 				<field attributeName="comments" forceInquiry="false"/>
 				<field attributeName="protocolNumber" forceInquiry="false"/>
@@ -122,6 +125,15 @@
 
                 <summary>The date the protocol/request for permission was approved by the relevant institutional committee/person</summary>
                 <description>The approval date is the date the protocol/request for permission was approved by the relevant institutional committee/person.</description>
+      		</attributeReference>
+            <attributeReference name="expirationDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>Expiration Date</label>
+                <shortLabel>Expiration Date</shortLabel>
+
+ 				<required>false</required>
+
+                <summary>The date the protocol/request for permission was expired</summary>
+                <description>The expiration date is the date the protocol/request for permission was expired.</description>
       		</attributeReference>
 
 
