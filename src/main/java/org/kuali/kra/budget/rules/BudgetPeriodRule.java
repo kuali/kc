@@ -266,7 +266,11 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
                     boolean lastRecord = false;
                     if(index == totalBudgetPeriods) {
                         lastRecord = true;
-                        periodNum = index + 1;
+                        if(newPeriodStartDate.after(periodEndDate)) {
+                            periodNum = index + 2;
+                        }else {
+                            periodNum = index + 1;
+                        }
                     }
                     /* check new budget period */
                     if(newPeriodStartDate.before(getProjectStartDate())) {
@@ -288,7 +292,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
                         saveErrors(dateCompareValue, errorMap);
                         validNewBudgetPeriod = false;
                     }else {
-                        newBudgetPeriod.setBudgetPeriod(periodNum+1);
+                        newBudgetPeriod.setBudgetPeriod(periodNum);
                     }
                     break;
                 }
