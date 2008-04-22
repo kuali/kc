@@ -162,7 +162,42 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                                 validSpRevApproval.getSpecialReview().getDescription() + "/"
                                         + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
                     }
+                    if (validSpRevApproval.isExemptNumberFlag() && (propSpecialReview.getProposalExemptNumbers() == null || propSpecialReview.getProposalExemptNumbers().size() < 1)) {
+                        valid = false;
+                        errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
+                        errorMap.removeFromErrorPath("document");
+                        errorMap.putError("documentExemptNumbers[" + i + "]", KeyConstants.ERROR_REQUIRED_FOR_VALID_SPECIALREVIEW, "Exempt Number",
+                                validSpRevApproval.getSpecialReview().getDescription() + "/"
+                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
+                        errorMap.addToErrorPath("document");
+                        errorMap.addToErrorPath("propSpecialReview[" + i + "]");
+                    }
+                    if (!validSpRevApproval.isExemptNumberFlag() && propSpecialReview.getProposalExemptNumbers() != null && propSpecialReview.getProposalExemptNumbers().size() > 0) {
+                        valid = false;
+                        errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
+                        errorMap.removeFromErrorPath("document");
+                        errorMap.putError("documentExemptNumbers[" + i + "]", KeyConstants.ERROR_EXEMPT_NUMBER_SELECTED,
+                                validSpRevApproval.getSpecialReview().getDescription() + "/"
+                                        + validSpRevApproval.getSpecialReviewApprovalType().getDescription());
+                        errorMap.addToErrorPath("document");
+                        errorMap.addToErrorPath("propSpecialReview[" + i + "]");
+                    }
 
+
+                } else {
+                    // TODO : not sure if no valid sp set, and exempt# is selected, should this be an error ?
+//                    if (propSpecialReview.getProposalExemptNumbers() != null && propSpecialReview.getProposalExemptNumbers().size() > 0) {
+//                        valid = false;
+//                        errorMap.removeFromErrorPath("propSpecialReview[" + i + "]");
+//                        errorMap.removeFromErrorPath("document");
+//                        propSpecialReview.refreshReferenceObject("specialReview");
+//                        propSpecialReview.refreshReferenceObject("specialReviewApprovalType");
+//                        errorMap.putError("documentExemptNumbers[" + i + "]", KeyConstants.ERROR_EXEMPT_NUMBER_SELECTED,
+//                                propSpecialReview.getSpecialReview().getDescription() + "/"
+//                                        + propSpecialReview.getSpecialReviewApprovalType().getDescription());
+//                        errorMap.addToErrorPath("document");
+//                        errorMap.addToErrorPath("propSpecialReview[" + i + "]");
+//                    }
                 }
 
             }
@@ -423,6 +458,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
         
+        retval &= new ProposalSpecialReviewAuditRule().processRunAuditBusinessRules(document);
+
         retval &= new ProposalDevelopmentGrantsGovAuditRule().processRunAuditBusinessRules(document);
         
         // audit check for budgetversion with final status
