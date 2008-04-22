@@ -197,6 +197,23 @@
 				<description>The Comments for this budget.</description>
 			</attribute>
 			
+			<attribute name="budgetJustification">
+				<label>Budget Justification</label>
+				<shortLabel>Budget Justification</shortLabel>
+
+				<maxLength>4000</maxLength>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+				<required>false</required>
+
+				<control>
+                    <textarea rows="8" cols="60" />
+				</control>
+
+				<summary>Budget Justification</summary>
+				<description>Budget Justification</description>
+			</attribute>
+			
 			<attribute name="budgetVersionNumber">
 			<label>Budget Version Number</label>
 			<shortLabel>Version #</shortLabel>
