@@ -31,4 +31,5 @@ public class AbstractType extends KraPersistableBusinessObjectBase {
 		propMap.put("updateUser", this.getUpdateUser());
 		return propMap;
 	}
+    
 }
