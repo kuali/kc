@@ -24,9 +24,11 @@ import java.util.LinkedHashMap;
 public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase {
 	private String approvalTypeCode;
 	private String specialReviewCode;
-	private Boolean applicationDateFlag;
-	private Boolean approvalDateFlag;
-	private Boolean protocolNumberFlag;
+	// change type from 'Boolean' to 'boolean'
+	private boolean applicationDateFlag;
+    private boolean approvalDateFlag;
+    private boolean exemptNumberFlag;
+	private boolean protocolNumberFlag;
 	private SpecialReview specialReview;
 	private SpecialReviewApprovalType specialReviewApprovalType;
 
@@ -46,27 +48,27 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
 		this.specialReviewCode = specialReviewCode;
 	}
 
-	public Boolean isApplicationDateFlag() {
+	public boolean isApplicationDateFlag() {
 		return applicationDateFlag;
 	}
 
-	public void setApplicationDateFlag(Boolean applicationDateFlag) {
+	public void setApplicationDateFlag(boolean applicationDateFlag) {
 		this.applicationDateFlag = applicationDateFlag;
 	}
 
-	public Boolean isApprovalDateFlag() {
+	public boolean isApprovalDateFlag() {
 		return approvalDateFlag;
 	}
 
-	public void setApprovalDateFlag(Boolean approvalDateFlag) {
+	public void setApprovalDateFlag(boolean approvalDateFlag) {
 		this.approvalDateFlag = approvalDateFlag;
 	}
 
-	public Boolean isProtocolNumberFlag() {
+	public boolean isProtocolNumberFlag() {
 		return protocolNumberFlag;
 	}
 
-	public void setProtocolNumberFlag(Boolean protocolNumberFlag) {
+	public void setProtocolNumberFlag(boolean protocolNumberFlag) {
 		this.protocolNumberFlag = protocolNumberFlag;
 	}
 
@@ -78,7 +80,8 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
 		hashMap.put("specialReviewCode", getSpecialReviewCode());
 		hashMap.put("applicationDateFlag", isApplicationDateFlag());
 		hashMap.put("approvalDateFlag", isApprovalDateFlag());
-		hashMap.put("protocolNumberFlag", isProtocolNumberFlag());
+        hashMap.put("protocolNumberFlag", isProtocolNumberFlag());
+        hashMap.put("exemptNumberFlag", isExemptNumberFlag());
 		return hashMap;
 	}
 
@@ -96,5 +99,14 @@ public class ValidSpecialReviewApproval extends KraPersistableBusinessObjectBase
 
     public void setSpecialReviewApprovalType(SpecialReviewApprovalType specialReviewApprovalType) {
         this.specialReviewApprovalType = specialReviewApprovalType;
+    }
+
+    public boolean isExemptNumberFlag() {
+        return exemptNumberFlag;
+    }
+
+
+    public void setExemptNumberFlag(boolean exemptNumberFlag) {
+        this.exemptNumberFlag = exemptNumberFlag;
     }
 }

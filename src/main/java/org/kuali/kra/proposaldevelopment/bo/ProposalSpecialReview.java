@@ -2,11 +2,17 @@ package org.kuali.kra.proposaldevelopment.bo;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SpecialReview;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 
 public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     // TODO : temporarily change proposalnumber from string to integer to see if ojb willwork
@@ -14,6 +20,7 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     private Integer specialReviewNumber;
     private Date applicationDate;
     private Date approvalDate;
+    private Date expirationDate;
     private String approvalTypeCode;
     private String comments;
     private String protocolNumber;
@@ -22,7 +29,12 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     private SpecialReviewApprovalType specialReviewApprovalType;
 
     private ValidSpecialReviewApproval validSpecialReviewApproval;
+    private List proposalExemptNumbers;
 
+    public ProposalSpecialReview() {
+        super();
+        proposalExemptNumbers = new TypedArrayList(ProposalExemptNumber.class);
+    }
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -87,6 +99,14 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
         this.specialReviewCode = specialReviewCode;
     }
 
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        
+        managedLists.add(getProposalExemptNumbers());
+           
+        return managedLists;
+    }
 
     @Override
     protected LinkedHashMap toStringMapper() {
@@ -125,4 +145,22 @@ public class ProposalSpecialReview extends KraPersistableBusinessObjectBase {
     public void setSpecialReviewApprovalType(SpecialReviewApprovalType specialReviewApprovalType) {
         this.specialReviewApprovalType = specialReviewApprovalType;
     }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+    
+    public List getProposalExemptNumbers() {
+        return proposalExemptNumbers;
+    }
+    public void setProposalExemptNumbers(List proposalExemptNumbers) {
+        this.proposalExemptNumbers = proposalExemptNumbers;
+    }
+    
+    
+    
 }
