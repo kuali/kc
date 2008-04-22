@@ -111,6 +111,56 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
     }
 
+    @Test
+    public void testSpecialReviewPage() throws Exception {
+        final WebClient webClient = new WebClient();
+        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
+
+        final HtmlPage page3 = login(webClient, url,
+                "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
+        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
+
+        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
+        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.specialReview.x",
+                SUBMIT_INPUT_BY_NAME);
+        assertTrue(page4.asText().contains("Document was successfully saved"));
+        // really is in special review page
+        assertTrue(page4.asText().contains("Approval Status Protocol ID Application Date Approval Date Expiration Date Exempt # Comments"));
+        HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
+        webClient.setJavaScriptEnabled(false);
+
+        final HtmlPage page5 = setSpecialReviewLine(page4, form1, "08/01/2007;;123;1;2;comment1");
+
+        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
+        assertEquals("comment1 \n line2", getFieldValue(form2, TEXT_AREA, "newPropSpecialReview.comments"));
+        final HtmlPage page6 = clickButton(page5, form2, "methodToCall.addSpecialReview", IMAGE_INPUT);
+        final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
+        validateSpecialReviewLine(form3, "document.propSpecialReview[0]", "08/01/2007;;123;1;2;comment1");
+        // 2nd line
+        final HtmlPage page7 = setSpecialReviewLine(page5, form3, "08/02/2007;;456;2;3;comment2");
+        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
+        assertEquals("comment2 \n line2", getFieldValue(form4, TEXT_AREA, "newPropSpecialReview.comments"));
+        final HtmlPage page8 = clickButton(page7, form4, "methodToCall.addSpecialReview", IMAGE_INPUT);
+        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
+        validateSpecialReviewLine(form5, "document.propSpecialReview[0]", "08/01/2007;;123;1;2;comment1");
+        validateSpecialReviewLine(form5, "document.propSpecialReview[1]", "08/02/2007;;456;2;3;comment2");
+
+        // delete special review line 0
+        final HtmlPage page9 = clickButton(page8, form5, "methodToCall.deleteSpecialReview.line0.", IMAGE_INPUT);
+        final HtmlForm form6 = (HtmlForm) page9.getForms().get(0);
+        validateSpecialReviewLine(form6, "document.propSpecialReview[0]", "08/02/2007;;456;2;3;comment2");
+        // save
+        final HtmlPage page10 = clickButton(page9, form6, "methodToCall.save", IMAGE_INPUT);
+        assertEquals("Kuali :: Proposal Development Document", page9.getTitleText());
+        final HtmlForm form7 = (HtmlForm) page10.getForms().get(0);
+        // one of the following to check save is OK
+        assertFalse(page10.asText().contains(ERRORS_FOUND_ON_PAGE));
+        assertTrue(page10.asText().contains("Document was successfully saved"));
+        validateSpecialReviewLine(form7, "document.propSpecialReview[0]", "08/02/2007;;456;2;3;comment2");
+
+    }
+
     /**
      * Verify that all the Help links on the web page go to the Kuali Help Web Page.
      * This will test the help links on all the panels on the main Proposal Development page.
@@ -355,56 +405,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
      * Test special review page.
      * @throws Exception
      */
-    @Test
-    public void testSpecialReviewPage() throws Exception {
-        final WebClient webClient = new WebClient();
-        final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
-
-        final HtmlPage page3 = login(webClient, url,
-                "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
-        assertEquals("Kuali :: Proposal Development Document", page3.getTitleText());
-
-        final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
-        setupProposalDevelopmentDocumentRequiredFields(kualiForm, "ProposalDevelopmentDocumentWebTest test", "005770", "project title", "08/14/2007", "08/21/2007", "1", "1", DEFAULT_PROPOSAL_OWNED_BY_UNIT);
-        final HtmlPage page4 = clickButton(page3, kualiForm, "methodToCall.headerTab.headerDispatch.save.navigateTo.specialReview.x",
-                SUBMIT_INPUT_BY_NAME);
-        assertTrue(page4.asText().contains("Document was successfully saved"));
-        // really is in special review page
-        assertTrue(page4.asText().contains("Approval Status Protocol ID Application Date Approval Date Comments"));
-        HtmlForm form1 = (HtmlForm) page4.getForms().get(0);
-        webClient.setJavaScriptEnabled(false);
-
-        final HtmlPage page5 = setSpecialReviewLine(page4, form1, "08/01/2007;;123;1;2;comment1");
-
-        final HtmlForm form2 = (HtmlForm) page5.getForms().get(0);
-        assertEquals("comment1 \n line2", getFieldValue(form2, TEXT_AREA, "newPropSpecialReview.comments"));
-        final HtmlPage page6 = clickButton(page5, form2, "methodToCall.addSpecialReview", IMAGE_INPUT);
-        final HtmlForm form3 = (HtmlForm) page6.getForms().get(0);
-        validateSpecialReviewLine(form3, "document.propSpecialReview[0]", "08/01/2007;;123;1;2;comment1");
-        // 2nd line
-        final HtmlPage page7 = setSpecialReviewLine(page5, form3, "08/02/2007;;456;2;3;comment2");
-        final HtmlForm form4 = (HtmlForm) page7.getForms().get(0);
-        assertEquals("comment2 \n line2", getFieldValue(form4, TEXT_AREA, "newPropSpecialReview.comments"));
-        final HtmlPage page8 = clickButton(page7, form4, "methodToCall.addSpecialReview", IMAGE_INPUT);
-        final HtmlForm form5 = (HtmlForm) page8.getForms().get(0);
-        validateSpecialReviewLine(form5, "document.propSpecialReview[0]", "08/01/2007;;123;1;2;comment1");
-        validateSpecialReviewLine(form5, "document.propSpecialReview[1]", "08/02/2007;;456;2;3;comment2");
-
-        // delete special review line 0
-        final HtmlPage page9 = clickButton(page8, form5, "methodToCall.deleteSpecialReview.line0.", IMAGE_INPUT);
-        final HtmlForm form6 = (HtmlForm) page9.getForms().get(0);
-        validateSpecialReviewLine(form6, "document.propSpecialReview[0]", "08/02/2007;;456;2;3;comment2");
-        // save
-        final HtmlPage page10 = clickButton(page9, form6, "methodToCall.save", IMAGE_INPUT);
-        assertEquals("Kuali :: Proposal Development Document", page9.getTitleText());
-        final HtmlForm form7 = (HtmlForm) page10.getForms().get(0);
-        // one of the following to check save is OK
-        assertFalse(page10.asText().contains(ERRORS_FOUND_ON_PAGE));
-        assertTrue(page10.asText().contains("Document was successfully saved"));
-        validateSpecialReviewLine(form7, "document.propSpecialReview[0]", "08/02/2007;;456;2;3;comment2");
-
-    }
-
+ 
     /**
      *
      * Test institutional attachments.

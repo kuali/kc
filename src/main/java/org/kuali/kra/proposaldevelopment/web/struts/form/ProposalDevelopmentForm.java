@@ -17,19 +17,18 @@ package org.kuali.kra.proposaldevelopment.web.struts.form;
 
 
 
-import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-import static org.kuali.kra.logging.FormattedLogger.*;
+import static org.kuali.kra.logging.FormattedLogger.debug;
+import static org.kuali.kra.logging.FormattedLogger.warn;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -40,13 +39,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.Parameter;
-
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
-import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.ui.ExtraButton;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.Unit;
@@ -67,12 +66,10 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
-import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
@@ -120,7 +117,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private Map<String, String[]> customAttributeValues;
     private List<Narrative> narratives;
     public boolean reject;
-  
+    private List<KeyLabelPair> exemptNumberList;
+    private String[] newExemptNumbers;
+    private List<String[]> documentExemptNumbers;
 
 
     public ProposalDevelopmentForm() {
@@ -261,6 +260,10 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
             editRoles.setNarrativeWriter(Boolean.FALSE);
             editRoles.setViewer(Boolean.FALSE);
         }
+        
+        // reset exempt numbers.
+        //setDocumentExemptNumbers(new ArrayList<String[]>());
+        resetExemptNumbers();
     }
 
 
@@ -1040,5 +1043,46 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public void setCreditSplitEnabled(boolean creditSplitEnabled) {
         this.creditSplitEnabled = creditSplitEnabled;
+    }
+
+    public List<KeyLabelPair> getExemptNumberList() {
+        return exemptNumberList;
+    }
+
+    public void setExemptNumberList(List<KeyLabelPair> exemptNumberList) {
+        this.exemptNumberList = exemptNumberList;
+    }
+
+    public String[] getNewExemptNumbers() {
+        return newExemptNumbers;
+    }
+
+    public void setNewExemptNumbers(String[] newExemptNumbers) {
+        this.newExemptNumbers = newExemptNumbers;
+    }
+    
+    /**
+     * 
+     * This method is to reset the exempt numbers in proposalspecialreview.  
+     * If no exempt number is selected, then it's not in request parameter's list.  So,
+     * The old exempt number will not be reset to null.  This is just a way to reset it.
+     * TODO : any other option?
+     */
+    private void resetExemptNumbers() {
+        List <String[]> documentExemptNumbers = this.getDocumentExemptNumbers();
+        int  i =0;
+        if (documentExemptNumbers != null) {
+            for (String[] exemptNumbers : documentExemptNumbers) {
+                documentExemptNumbers.set(i++, null);
+            }
+        }
+    }
+
+    public List<String[]> getDocumentExemptNumbers() {
+        return documentExemptNumbers;
+    }
+
+    public void setDocumentExemptNumbers(List<String[]> documentExemptNumbers) {
+        this.documentExemptNumbers = documentExemptNumbers;
     }
 }

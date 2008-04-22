@@ -18,7 +18,8 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="proSpecialAttriburesAttributes" value="${DataDictionary.ProposalSpecialReview.attributes}" />
 <c:set var="action" value="proposalDevelopmentSpecialReview" />
-<kul:tabTop tabTitle="Special Review" defaultOpen="true" tabErrorKey="document.propSpecialReview*,newPropSpecialReview*">
+<div id="workarea">
+<kul:tab tabTitle="Special Review" defaultOpen="true" transparentBackground="true" tabErrorKey="document.propSpecialReview*,newPropSpecialReview*,documentExemptNumber*" auditCluster="specialReviewAuditWarnings"  tabAuditKey="document.propSpecialReview*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Special Review</h2></span>
@@ -33,6 +34,8 @@
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.protocolNumber}" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.applicationDate}" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.approvalDate}"noColon="true" /></div></th>
+          		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.expirationDate}"noColon="true" /></div></th>
+          		<th><div align="left">Exempt #</div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proSpecialAttriburesAttributes.comments}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	
@@ -65,6 +68,32 @@
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 	<kul:htmlControlAttribute property="newPropSpecialReview.approvalDate" attributeEntry="${proSpecialAttriburesAttributes.approvalDate}" datePicker="true"/>
+                </td>
+                <td align="left" valign="middle" class="infoline">
+                	<kul:htmlControlAttribute property="newPropSpecialReview.expirationDate" attributeEntry="${proSpecialAttriburesAttributes.expirationDate}" datePicker="true"/>
+                </td>
+                
+                 <c:set var="exemptNumberStyle" value="" scope="request"/>
+          	  
+			     <c:forEach items="${ErrorPropertyList}" var="key">
+				    <c:if test="${key eq 'newExemptNumbers'}">
+					  <c:set var="exemptNumberStyle" value="background-color:#FFD5D5" scope="request"/>
+				    </c:if>
+			     </c:forEach>
+                
+                
+                <td align="left" valign="middle" class="infoline">
+                    <c:set var="selected" value="" />
+						<c:forEach var="key" items="${KualiForm.newExemptNumbers}">
+						   <c:set var="selected" value="${selected},${key}" />
+						</c:forEach>
+		  			<select name="newExemptNumbers" multiple="true" size="4"  style="${exemptNumberStyle}">
+						<c:forEach var="keyLabel" items="${KualiForm.exemptNumberList}">
+		  			    	<c:if test="${!empty keyLabel.key}" >
+                                <option value="${keyLabel.key}" <c:if test="${fn:contains(selected, keyLabel.key)}"> selected="true" </c:if> >${keyLabel.label}</option>
+							</c:if>
+						</c:forEach>
+					</select>		  			
                 </td>
                 <td align="left" valign="middle" class="infoline">
                 	<kul:htmlControlAttribute property="newPropSpecialReview.comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
@@ -105,6 +134,32 @@
 	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].approvalDate" attributeEntry="${proSpecialAttriburesAttributes.approvalDate}" datePicker="true"/>
 	                </td>
 	                <td align="left" valign="middle">
+	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].expirationDate" attributeEntry="${proSpecialAttriburesAttributes.expirationDate}" datePicker="true"/>
+	                </td>
+
+                 <c:set var="exemptNumberStyle" value="" scope="request"/>
+          	     <c:set var="exemptNumberFieldName" value="documentExemptNumbers[${status.index}]" />
+			     <c:forEach items="${ErrorPropertyList}" var="key">
+				    <c:if test="${key eq exemptNumberFieldName}">
+					  <c:set var="exemptNumberStyle" value="background-color:#FFD5D5" scope="request"/>
+				    </c:if>
+			     </c:forEach>
+ 
+                <td align="left" valign="middle" class="infoline">
+                    <c:set var="selected" value="" />
+						<c:forEach var="key" items="${KualiForm.documentExemptNumbers[status.index]}">
+						   <c:set var="selected" value="${selected},${key}" />
+						</c:forEach>
+		  			<select name="documentExemptNumbers[${status.index}]" multiple="true" size="4"  style="${exemptNumberStyle}">
+						<c:forEach var="keyLabel" items="${KualiForm.exemptNumberList}">
+		  			    	<c:if test="${!empty keyLabel.key}" >
+                                <option value="${keyLabel.key}" <c:if test="${fn:contains(selected, keyLabel.key)}"> selected="true" </c:if> >${keyLabel.label}</option>
+							</c:if>
+						</c:forEach>
+					</select>		  			
+                </td>
+
+	                <td align="left" valign="middle">
 	                	<kul:htmlControlAttribute property="document.propSpecialReview[${status.index}].comments" attributeEntry="${proSpecialAttriburesAttributes.comments}" />
                         <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proSpecialAttriburesAttributes.comments.label}" />
 	                </td>
@@ -122,4 +177,6 @@
             
         </table>
     </div> 
-</kul:tabTop>
+</kul:tab>
+
+<kul:panelFooter /> 

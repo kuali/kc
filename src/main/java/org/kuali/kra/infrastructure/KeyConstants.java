@@ -143,4 +143,10 @@ public class KeyConstants {
     public static final String ERROR_LINEITEM_STARTDATE_BEFORE_PERIOD_STARTDATE = "error.lineItemStartDate.before.periodStartDate";
     public static final String ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE = "error.lineItemEndDate.after.periodEndDate";
     public static final String ERROR_COST_ELEMENT_NOT_SELECTED = "error.costElement.notSelected";
+    public static final String ERROR_GLOBAL_MESSAGE = "error.global.application";
+
+    // special review enhancement
+    public static final String ERROR_EXEMPT_NUMBER_SELECTED = "error.exempt.number.selected";
+    public static final String ERROR_EXPIRATION_DATE_PAST = "error.expiration.date.past";
+
 }

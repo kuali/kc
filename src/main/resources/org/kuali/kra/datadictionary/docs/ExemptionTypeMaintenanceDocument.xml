@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.bo.ValidSpecialReviewApproval</businessObjectClass>
+        <businessObjectClass>org.kuali.kra.bo.ExemptionType</businessObjectClass>
         <maintainableClass>org.kuali.kra.maintenance.KraMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
@@ -32,29 +32,25 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>ValidSpecialReviewApprovalMaintenanceDocument</documentTypeName>
-        <documentTypeCode>VSRA</documentTypeCode>
+        <documentTypeName>ExemptionTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>EMTP</documentTypeCode>
 
-        <label>Valid Special Review Approval Maintenance Document</label>
-        <shortLabel>validSpecialReviewApprovalMaintDoc</shortLabel>
+        <label>Exemption Type Maintenance Document</label>
+        <shortLabel>Exemption Type Maint Doc</shortLabel>
 
-        <summary>Valid Special Review Approval Maintenance Document</summary>
-        <description>Document used to create or update Special Review Reference objects</description>
+        <summary>Exemption Type Maintenance Document</summary>
+        <description>Document used to create or update Exemption Type Reference objects</description>
 
         <lockingKeys>
-            <field attributeName="approvalTypeCode" />
-            <field attributeName="specialReviewCode" />
+            <field attributeName="exemptionTypeCode" />
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Valid Special Review Approval">
+            <maintainableSection title="Edit Exemption Type Codes">
                 <maintainableItems>
-                    <maintainableField name="approvalTypeCode" required="true" />
-                    <maintainableField name="specialReviewCode" required="true" />
-                    <maintainableField name="applicationDateFlag" />
-                    <maintainableField name="approvalDateFlag" />
-                    <maintainableField name="protocolNumberFlag" />
-                    <maintainableField name="exemptNumberFlag" />
+                    <maintainableField name="exemptionTypeCode" required="true" />
+                    <maintainableField name="description" required="true" />
+                    <maintainableField name="detailedDescription" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
