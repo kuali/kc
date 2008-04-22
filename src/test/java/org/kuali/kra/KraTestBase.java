@@ -97,6 +97,7 @@ import org.kuali.rice.testharness.TransactionalLifecycle;
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_ynq_explanation_type.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/load_ynq.sql", delimiter = ";")
                 ,@UnitTestFile(filename = "classpath:sql/dml/LOAD_RATE_CLASS_TYPE.SQL", delimiter = ";")
+                ,@UnitTestFile(filename = "classpath:sql/dml/load_exemption_type.sql", delimiter = ";")
             }
         )
     )
@@ -138,7 +139,7 @@ public abstract class KraTestBase extends KNSTestCase {
     @Override
     public List<Lifecycle> getSuiteLifecycles() {
         List<Lifecycle> lifeCycles= super.getSuiteLifecycles();
-        lifeCycles.add(new KraSQLDataLoaderLifecycle());
+        //lifeCycles.add(new KraSQLDataLoaderLifecycle());
         lifeCycles.add(new KraKEWXmlDataLoaderLifecycle());
         return lifeCycles;
     }

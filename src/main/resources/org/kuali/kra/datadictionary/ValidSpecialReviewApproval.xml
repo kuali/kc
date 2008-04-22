@@ -29,6 +29,7 @@
                 <field attributeName="applicationDateFlag" />
                 <field attributeName="approvalDateFlag" />
                 <field attributeName="protocolNumberFlag" />
+                <field attributeName="exemptNumberFlag" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -52,6 +53,7 @@
                 <lookupField attributeName="applicationDateFlag" required="false" />
                 <lookupField attributeName="approvalDateFlag" required="false" />
                 <lookupField attributeName="protocolNumberFlag" required="false" />
+                <lookupField attributeName="exemptNumberFlag" required="false" />
             </lookupFields>
 
             <resultFields>
@@ -60,6 +62,7 @@
                 <field attributeName="applicationDateFlag" forceInquiry="false"/>
                 <field attributeName="approvalDateFlag" forceInquiry="false"/>
                 <field attributeName="protocolNumberFlag" forceInquiry="false"/>
+                <field attributeName="exemptNumberFlag" forceInquiry="false"/>
             </resultFields>
         </lookup>
 
@@ -90,6 +93,13 @@
                 <shortLabel>Protocol Nbr Flag</shortLabel>
                 <summary>Protocol Number Flag</summary>
                 <description>Validate Protocol Number</description>
+            </attributeReference>
+            
+            <attributeReference name="exemptNumberFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+                <label>Exempt Number Flag</label>
+                <shortLabel>Exempt Nbr Flag</shortLabel>
+                <summary>Exempt Number Flag</summary>
+                <description>Validate Exempt Number is required or not</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

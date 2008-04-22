@@ -183,4 +183,9 @@ public interface Constants {
     
     public static final String TRUE_FLAG = "Y";
     public static final String FALSE_FLAG = "N";
+    public static final String PROPOSAL_SPECIAL_REVIEW_KEY = "document.proposalSpecialReview*";
+    public static final String SPECIAL_REVIEW_PAGE = "specialReview";
+    public static final String SPECIAL_REVIEW_PANEL_ANCHOR = "SpecialReview";
+    public static final String SPECIAL_REVIEW_PANEL_NAME = "Special Review Information";
+
 }
