@@ -18,8 +18,18 @@
 <c:set var="s2sFormAttributes" value="${DataDictionary.S2sOppForms.attributes}" />
 
 <table cellpadding=0 cellspacing=0 summary="">
-<tr><td>	
-	<kul:innerTab parentTab="Print Forms" defaultOpen="false" tabTitle="Print Grants.gov Forms(${fn:length(KualiForm.document.s2sOpportunity.s2sOppForms)})">
+<tr><td>
+	<c:choose>
+		<c:when test="${empty fn:length(KualiForm.document.s2sOpportunity.s2sOppForms) || fn:length(KualiForm.document.s2sOpportunity.s2sOppForms)==0}" >
+			<c:set var="noOfForms" value="" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="noOfForms" value="(${fn:length(KualiForm.document.s2sOpportunity.s2sOppForms)})" />
+		</c:otherwise>	
+	</c:choose>
+	<c:choose>				
+	<c:when test="${not empty noOfForms}" >	
+	<kul:innerTab parentTab="Print Forms" defaultOpen="false" tabTitle="Print Grants.gov Forms${noOfForms}">
 	<div class="innerTab-container" align="left">
 		 <table class=tab cellpadding=0 cellspacing="0" summary=""> 
 		 <tbody id="G1">
@@ -37,23 +47,32 @@
 			                	</div>
 			                </td>			                
 			            </tr>    	
-		    	</c:forEach>
-		    	<tr>
-		    		<td>	
-			        </td>
-			    	<td>
-						<div align="center">
-							<html:image src="/kra-dev/kr/static/images/tinybutton-printsel.gif"  styleClass="globalbuttons" property="methodToCall.printForms" alt="Print Selected Forms"/>					
-						</div>	    	
-			    	</td>			
-					<td>
-						<div align="center">
-						Select (<html:link href="#" onclick="javascript: selectAllGGForms(document);return false">all</html:link> | <html:link href="#" onclick="javascript: unselectAllGGForms(document);return false">none</html:link>)
-						</div>						
-					</td>
-		    	</tr>
+		    	</c:forEach>		    	
+			    	<tr>
+			    		<td>	
+				        </td>
+				    	<td>
+							<div align="center">
+								<html:image src="/kra-dev/kr/static/images/tinybutton-printsel.gif"  styleClass="globalbuttons" property="methodToCall.printForms" alt="Print Selected Forms"/>					
+							</div>	    	
+				    	</td>			
+						<td>
+							<div align="center">
+							Select (<html:link href="#" onclick="javascript: selectAllGGForms(document);return false">all</html:link> | <html:link href="#" onclick="javascript: unselectAllGGForms(document);return false">none</html:link>)
+							</div>						
+						</td>
+			    	</tr>
+		    	
 			   </tbody>
 		</table></div>    
 	</kul:innerTab>
+	</c:when>
+	<c:when test="${empty KualiForm.document.s2sOpportunity}" >
+		No Grants.gov opportunity has been selected 	
+	</c:when>
+	<c:when test="${empty KualiForm.document.s2sOpportunity.s2sOppForms}" >
+		No forms are currently available for the Grants.gov opportunity selected. 
+	</c:when>	
+	</c:choose>
 </td></tr>
 </table>

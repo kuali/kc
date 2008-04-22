@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_OPPORTUNITY_CONFIRMATION;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +30,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sOppForms;
+import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
@@ -51,8 +55,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         
-        if(proposalDevelopmentDocument.getS2sOpportunity()!=null){                      
-            
+        if(proposalDevelopmentDocument.getS2sOpportunity()!=null){
             if(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber()==null){
                 proposalDevelopmentDocument.getS2sOpportunity().setProposalNumber(proposalDevelopmentDocument.getProposalNumber());                
             }            
@@ -80,9 +83,22 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        
+        Boolean mandatoryFormNotAvailable = false;
+        List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         if(proposalDevelopmentDocument.getS2sOpportunity().getSchemaUrl()!=null){
-            proposalDevelopmentDocument.getS2sOpportunity().setS2sOppForms(KraServiceLocator.getService(S2SService.class).parseOpportunityForms(proposalDevelopmentDocument.getS2sOpportunity()));
+            s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(proposalDevelopmentDocument.getS2sOpportunity());
+            for(S2sOppForms s2sOppForm:s2sOppForms){
+                if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
+                    mandatoryFormNotAvailable = true;
+                    break;
+                }
+            }
+            if(!mandatoryFormNotAvailable){
+                proposalDevelopmentDocument.getS2sOpportunity().setS2sOppForms(s2sOppForms);
+            }else{
+                GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId());
+                proposalDevelopmentDocument.setS2sOpportunity(new S2sOpportunity());
+            }            
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
