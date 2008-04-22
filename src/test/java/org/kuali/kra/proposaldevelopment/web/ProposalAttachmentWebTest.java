@@ -62,7 +62,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         assertTrue(propAttPage.asText().contains("Document was successfully saved"));
         // really is in proposal attachment page
         assertTrue(propAttPage.asText().contains("Attachment Type"));
-        String[] values0 = { "1","I","Test Contact Name","t0@t0.com","123456","Test Comments","Test Module Title"};
+        String[] values0 = { "1","I","Test Contact Name","t0@t0.com","666-666-6666","Test Comments","Test Module Title"};
         
         setProposalAttachmentLine(propAttPage, getKeyMap("newNarrative",values0));
 //        testTextAreaPopup(propAttPage,"newNarrative.comments"," More text","proposalDevelopmentAbstractsAttachments","Comments","");
@@ -74,12 +74,12 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
 
         HtmlPage addedPage = testAddProposalAttachment(propAttPage,keyVal0);
         
-        String[] values1 = { "2","I","Test Another Contact Name","t1@t1.com","1234567","Test Comments again","Test Module Title again"};
+        String[] values1 = { "2","I","Test Another Contact Name","t1@t1.com","666-666-6666","Test Comments again","Test Module Title again"};
         setProposalAttachmentLine(addedPage, getKeyMap("newNarrative",values1));
         Map<String,String> keyVal1 = getKeyMap("document.narrative[1]",values1);
         keyVal1.remove("document.narrative[1].narrativeTypeCode");
         addedPage = testAddProposalAttachment(addedPage,keyVal1);
-        String[] values2 = { "3","I","Contact Name 2","t2@t2.com","12345678","Test Comments 2","Test Module Title 2"};
+        String[] values2 = { "3","I","Contact Name 2","t2@t2.com","666-666-6666","Test Comments 2","Test Module Title 2"};
         setProposalAttachmentLine(addedPage, getKeyMap("newNarrative",values2));
         
         Map<String,String> keyVal2 = getKeyMap("document.narrative[2]",values2);
@@ -286,7 +286,7 @@ public class ProposalAttachmentWebTest extends ProposalDevelopmentWebTestBase {
         URL fileUrl = getClass().getResource("/org/kuali/kra/proposaldevelopment/web/ProposalAttachmentWebTest.class");
         assertNotNull(fileUrl);
         String filePath = fileUrl.getPath();
-        String[] values4 = { "4","I","Test Contact Name 4","t4@t4.com","12345678","Test Comments 4","Test Module Title 4"};
+        String[] values4 = { "4","I","Test Contact Name 4","t4@t4.com","666-666-6666","Test Comments 4","Test Module Title 4"};
         setProposalAttachmentLine(page, getKeyMap("newNarrative",values4));
         setFieldValue(page, "newNarrative.narrativeFile", filePath);
         Map<String,String> keyVal4 = getKeyMap("document.narrative[2]",values4);
