@@ -17,6 +17,7 @@ package org.kuali.kra.budget.document;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.io.StringReader;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,8 +32,10 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dom4j.io.SAXReader;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.service.BusinessObjectService;
@@ -91,6 +94,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private Integer budgetVersionNumber;
     private String comments;
     private BudgetDecimal costSharingAmount; // = new BudgetDecimal(0);
+    String budgetJustification;
     private Date endDate;
     private boolean finalVersionFlag;
     private Boolean modularBudgetFlag;
@@ -532,6 +536,23 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(budgetPersonnelDetailsList);
 //        managedLists.add(budgetPersonnelCalculatedAmounts);
         return managedLists;
+    }
+    
+    /**
+     * This method checks if any BudgetPeriod LineItem's have Justification
+     * @param budgetDocument
+     * @return
+     */
+    public boolean areLineItemJustificationsPresent() {
+        boolean justificationFound = false;
+OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
+            for(BudgetLineItem lineItem: budgetPeriod.getBudgetLineItems()) {
+                justificationFound = !StringUtils.isEmpty(lineItem.getBudgetJustification());
+                if(justificationFound) { break OUTER; }
+            }
+        }
+        
+        return justificationFound;
     }
 
     /**
@@ -1242,7 +1263,14 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public void setBudgetStatus(String budgetStatus) {
         this.budgetStatus = budgetStatus;
     }
-    
+
+    public String getBudgetJustification() {
+        return budgetJustification;
+    }
+
+    public void setBudgetJustification(String budgetJustification) {
+        this.budgetJustification = budgetJustification;
+    }
 }
 
 class RateClassTypeComparator implements Comparator<RateClassType> {
