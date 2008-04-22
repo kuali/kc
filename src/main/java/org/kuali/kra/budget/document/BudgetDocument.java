@@ -469,6 +469,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
 
     public List<BudgetPeriod> getBudgetPeriods() {
         /* check for new budget version - if new, generate budget periods */
+        if(proposal != null) {
+            setStartDate(proposal.getRequestedStartDateInitial());
+            setEndDate(proposal.getRequestedEndDateInitial());
+        }
         if(budgetPeriods.isEmpty() && getStartDate() != null) {
             getBudgetSummaryService().generateBudgetPeriods(budgetPeriods, getStartDate(), getEndDate());
         }
