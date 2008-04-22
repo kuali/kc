@@ -15,11 +15,77 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.budget.BudgetException;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.service.BudgetJustificationService;
+import org.kuali.kra.budget.service.impl.BudgetJustificationServiceImpl;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.budget.web.struts.form.BudgetJustificationWrapper;
 
 public class BudgetActionsAction extends BudgetAction {
-    private static final Log LOG = LogFactory.getLog(BudgetActionsAction.class);
+    private BudgetJustificationService budgetJustificationService;
+    
+    /**
+     * Constructs a BudgetActionsAction, injecting a BudgetJustificationService implementation
+     */
+    public BudgetActionsAction() {
+        super();
+        setBudgetJustificationService(new BudgetJustificationServiceImpl());
+    }
+    
+    /**
+     * This method consolidates Budget Line Item Justification text into a single Justification field, with last user/time update meta data
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward consolidateExpenseJustifications(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        try {
+            budgetJustificationService.consolidateExpenseJustifications(getBudgetDocument(form), getBudgetJusticationWrapper(form));
+        } catch (BudgetException exc) {
+            GlobalVariables.getErrorMap().putError("budgetJustificationWrapper.justificationText", "error.custom", "There are no line item budget justifications");            
+        }
+        
+        return mapping.findForward(MAPPING_BASIC);
+    }
 
+    /**
+     * Override to set the update time and user, then convert to String 
+     * @see org.kuali.kra.budget.web.struts.action.BudgetAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        budgetJustificationService.preSave(getBudgetDocument(form), getBudgetJusticationWrapper(form));
+        
+        return super.save(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return super.reload(mapping, form, request, response);
+    }
 
+    public void setBudgetJustificationService(BudgetJustificationService budgetJustificationService) {
+        this.budgetJustificationService = budgetJustificationService;
+    }
+
+    private BudgetDocument getBudgetDocument(ActionForm form) {
+        return ((BudgetForm) form).getBudgetDocument();
+    }
+
+    private BudgetJustificationWrapper getBudgetJusticationWrapper(ActionForm form) {
+        return ((BudgetForm) form).getBudgetJustification();
+    }
 }

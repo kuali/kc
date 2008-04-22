@@ -20,8 +20,25 @@
 	htmlFormAction="budgetActions"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="budgetActions"> 
+  	headerTabActive="budgetActions"
+  	extraTopButtons="${KualiForm.extraTopButtons}"
+  	showTabButtons="true">
 
 	<center>Under Construction</center>
+	
+	<div align="center">
+		<kra-b:budgetPrintForms />
+		<kra-b:budgetJustification />
+		<kul:panelFooter />
+	</div>
+
+	<kul:documentControls 
+		transactionalDocument="false"
+		suppressRoutingControls="true"
+		extraButtonSource="${extraButtonSource}"
+		extraButtonProperty="${extraButtonProperty}"
+		extraButtonAlt="${extraButtonAlt}"
+		viewOnly="${KualiForm.editingMode['viewOnly']}"
+		/>
 
 </kul:documentPage>
