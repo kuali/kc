@@ -64,6 +64,8 @@ public class BudgetForm extends ProposalFormBase {
     private BudgetModularIdc newBudgetModularIdc;
     private BudgetModularSummary budgetModularSummary;
     
+    private BudgetJustificationWrapper budgetJustificationWrapper;
+    
     private BudgetDecimal costSharingAmount;
     
     private List<ExtraButton> extraTopButtons;
@@ -108,7 +110,7 @@ public class BudgetForm extends ProposalFormBase {
     public BudgetForm() {
         super();
         this.setDocument(new BudgetDocument());
-        initialize();
+        initialize();        
     }
 
     /**
@@ -131,7 +133,8 @@ public class BudgetForm extends ProposalFormBase {
         newBudgetLineItems.add(new BudgetLineItem());
         newBudgetLineItems.add(new BudgetLineItem());
         newBudgetLineItems.add(new BudgetLineItem());
-        setDocumentNextValueRefresh(true);        
+        setDocumentNextValueRefresh(true);
+        budgetJustificationWrapper = new BudgetJustificationWrapper(getBudgetDocument().getBudgetJustification());
     }
     
     public BudgetDocument getBudgetDocument() {
@@ -369,6 +372,10 @@ public class BudgetForm extends ProposalFormBase {
     public BudgetModularSummary getBudgetModularSummary() {
         return budgetModularSummary;
     }
+    
+    public BudgetJustificationWrapper getBudgetJustification() {
+        return budgetJustificationWrapper;
+    }
 
     public void setBudgetModularSummary(BudgetModularSummary budgetModularSummary) {
         this.budgetModularSummary = budgetModularSummary;
@@ -527,5 +534,4 @@ public class BudgetForm extends ProposalFormBase {
         }
         return new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING);                
     }
-
 }
