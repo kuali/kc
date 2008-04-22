@@ -49,4 +49,5 @@ public class KraResourceLoader extends SpringBeanFactoryResourceLoader {
     public void setOverridableServices(Set<String> overridableServices) {
         this.overridableServices = overridableServices;
     }
+    
 }
