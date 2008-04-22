@@ -390,8 +390,7 @@
 	<bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="narrativeService" ref="narrativeService" />
-		<property name="configurationService" ref="kualiConfigurationService" />
-        <property name="parameterService" ref="systemParameterRetrievalService" />
+		<property name="configurationService" ref="kualiConfigurationService" />        
     	<property name="ynqService">
         	<ref bean="ynqService" />
     	</property>
@@ -691,13 +690,7 @@
 
     <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService" ref="nonOrganizationalRolodexHelperService" />
-    </bean>
-    
-    <bean id="systemParameterRetrievalService" class="org.kuali.kra.proposaldevelopment.service.impl.SystemParameterRetrievalServiceImpl">
-     	<property name="kualiConfigurationService" >
-  			<ref bean="kualiConfigurationService"/>
-  		</property>
-	</bean>
+    </bean>    
 	
 	<bean id="budgetModularService" class="org.kuali.kra.budget.service.impl.BudgetModularServiceImpl">
 	</bean>

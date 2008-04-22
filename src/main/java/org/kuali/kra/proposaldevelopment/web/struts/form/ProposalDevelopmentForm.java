@@ -983,7 +983,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         // clear out the extra buttons array
         extraButtons.clear();
         String externalImageURL = "kra.externalizable.images.url";
-        String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submitToGrantsGov.gif";
+        String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submitgrantsgov.gif";
         addExtraButton("methodToCall.submitToGrantsGov", submitToGrantsGovImage, "Submit To Grants Gov");
         return extraButtons;
     }

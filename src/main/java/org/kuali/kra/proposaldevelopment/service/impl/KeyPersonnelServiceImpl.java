@@ -22,7 +22,8 @@ import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMEN
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
-import static org.kuali.kra.logging.FormattedLogger.*;
+import static org.kuali.kra.logging.FormattedLogger.debug;
+import static org.kuali.kra.logging.FormattedLogger.info;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.Ynq;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -46,7 +48,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.SystemParameterRetrievalService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.YnqService;
 
@@ -56,16 +57,15 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: lprzybyl $
- * @version $Revision: 1.26 $
+ * @author $Author: vsoni $
+ * @version $Revision: 1.27 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private static final String READ_ONLY_ROLES_PARAM_NAME = "proposaldevelopment.personrole.readonly.roles";
     private BusinessObjectService businessObjectService;
     private NarrativeService narrativeService;
     private YnqService ynqService;
-    private KualiConfigurationService configurationService;
-    private SystemParameterRetrievalService parameterService;
+    private KualiConfigurationService configurationService;    
 
     /**
      * Part of a complete breakfast, it has everything you need to populate Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
@@ -569,23 +569,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      */
     public void setConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.configurationService = kualiConfigurationService;        
-    }
-
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
-    public SystemParameterRetrievalService getParameterService() {
-        return parameterService;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(SystemParameterRetrievalService parameterService) {
-        this.parameterService = parameterService;
-    }
+    }    
     
     /**
      * Compares the given <code>roleId</code> against the <code>proposaldevelopment.personrole.readonly.roles</code> to see if it is 
@@ -599,7 +583,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         if (roleId == null) {
             return false;
         }
-        return getParameterService().getParameterValue(READ_ONLY_ROLES_PARAM_NAME, null).toLowerCase().contains(roleId.toLowerCase());
+        return getConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,READ_ONLY_ROLES_PARAM_NAME).getParameterValue().toLowerCase().contains(roleId.toLowerCase());
     }
     
     /**
@@ -622,6 +606,6 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         if (document.getSponsor() != null && document.getSponsor().getAcronym() != null && document.getSponsor().getAcronym().toLowerCase().equals("nih")) {
             parameterName = "proposaldevelopment.personrole.nonnih.pi";
         }
-        return getParameterService().getParameterValue(parameterName, null);
+        return getConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,parameterName).getParameterValue();
     }
 }
