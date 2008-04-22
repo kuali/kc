@@ -27,14 +27,13 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.InstituteLaRate;
-import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.RateClass;
@@ -60,13 +59,20 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
     private Collection<InstituteRate> getInstituteRates(BudgetDocument budgetDocument) {
         String unitNumber = budgetDocument.getProposal().getOwnedByUnitNumber();
         String activityTypeCode = budgetDocument.getProposal().getActivityTypeCode();
-        
+        Unit currentUnit = budgetDocument.getProposal().getOwnedByUnit();
+        //Unit parentUnit = ownedByUnit.getParentUnit();
         Collection<InstituteRate> allInstituteRates = new ArrayList();
-        Map rateFilterMap = new HashMap();
+        do {
+            Map rateFilterMap = new HashMap();
+            rateFilterMap.put("unitNumber", unitNumber);
+            rateFilterMap.put("activityTypeCode", activityTypeCode);
+            allInstituteRates = businessObjectService.findMatching(InstituteRate.class, rateFilterMap);
+            currentUnit = currentUnit.getParentUnit();
+            if(currentUnit != null) {
+                unitNumber = currentUnit.getUnitNumber();
+            }
+        }while(allInstituteRates.size() == 0);
 
-        rateFilterMap.put("unitNumber", unitNumber);
-        rateFilterMap.put("activityTypeCode", activityTypeCode);
-        allInstituteRates = businessObjectService.findMatching(InstituteRate.class, rateFilterMap);
         return allInstituteRates;
     }
 
@@ -75,12 +81,18 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
      * */
     private Collection<InstituteLaRate> getInstituteLaRates(BudgetDocument budgetDocument) {
         String unitNumber = budgetDocument.getProposal().getOwnedByUnitNumber();
+        Unit currentUnit = budgetDocument.getProposal().getOwnedByUnit();
         
         Collection<InstituteLaRate> allInstituteLaRates = new ArrayList();
-        Map rateFilterMap = new HashMap();
-
-        rateFilterMap.put("unitNumber", unitNumber);
-        allInstituteLaRates = businessObjectService.findMatching(InstituteLaRate.class, rateFilterMap);
+        do {
+            Map rateFilterMap = new HashMap();
+            rateFilterMap.put("unitNumber", unitNumber);
+            allInstituteLaRates = businessObjectService.findMatching(InstituteLaRate.class, rateFilterMap);
+            currentUnit = currentUnit.getParentUnit();
+            if(currentUnit != null) {
+                unitNumber = currentUnit.getUnitNumber();
+            }
+        }while(allInstituteLaRates.size() == 0);
         return allInstituteLaRates;
     }
 
