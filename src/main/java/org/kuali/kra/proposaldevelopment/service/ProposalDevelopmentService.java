@@ -19,8 +19,12 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 public interface ProposalDevelopmentService {
     
@@ -66,5 +70,26 @@ public interface ProposalDevelopmentService {
      * TODO : not sure this is the proper place for this method.  Maybe implemented in BudgetService or ResearchDocumentBaseService ?
      */
     public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception;
+
+    /**
+     * 
+     * This method is to get exemption type key value pairs
+     * @return
+     */
+    public List<KeyLabelPair> getExemptionTypeKeyValues();
+
+    /**
+     * 
+     * This method is to initialize document exemptnumbers in form before navigate to special review 
+     * @param proposalDevelopmentForm
+     */
+    public void populateExemptNumbersToForm(ProposalDevelopmentForm proposalDevelopmentForm);
+
+    /**
+     * 
+     * This method populate the selected exempt numbers to proposalexemptnumbers before save
+     * @param proposalDevelopmentForm
+     */
+    public void populateProposalExempNumbers(ProposalDevelopmentForm proposalDevelopmentForm);
 
 }
