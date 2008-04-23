@@ -94,6 +94,13 @@ public class BudgetModularBudgetAction extends BudgetAction {
         return confirm(buildSyncBudgetModularConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_BUDGET_MODULAR, "");
     }
     
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.reload(mapping, form, request, response);
+        generateModularPeriod((BudgetForm) form);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     /**
      * 
      * This method is used to synch the modular budget

@@ -40,6 +40,9 @@ public class BudgetModular extends KraPersistableBusinessObjectBase {
     public BudgetModular() {
         super();
         budgetModularIdcs = new ArrayList<BudgetModularIdc>();
+        directCostLessConsortiumFna = new BudgetDecimal(0);
+        consortiumFna = new BudgetDecimal(0);
+        totalDirectCost = new BudgetDecimal(0);
     }
     
     public BudgetModular(String proposalNumber, Integer budgetVersionNumber, Integer budgetPeriod) {
