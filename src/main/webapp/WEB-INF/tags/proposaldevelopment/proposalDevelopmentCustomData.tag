@@ -23,15 +23,15 @@
 	   	<c:set var="fullName" value="${customAttributeGroup.key}" />
         <c:set var="tabErrorKey" value=""/>
 		<c:choose>
-				<c:when test="${fn:length(fullName) > 50}">
-		 					<c:set var="tabTitleName" value="${fn:substring(fullName, 0, 50)}..."/>
+				<c:when test="${fn:length(fullName) > 90}">
+		 					<c:set var="tabTitleName" value="${fn:substring(fullName, 0, 90)}..."/>
 				</c:when>
 				<c:otherwise>
 		 					<c:set var="tabTitleName" value="${fullName}"/>
-				</c:otherwise>
+				</c:otherwise> 
 		
 		</c:choose>
-
+  
 	   	<c:forEach items="${KualiForm.customAttributeGroups[fullName]}" var="customAttributeDocument" varStatus="status">
 				<c:set var="customAttributeId" value="customAttributeValues(id${customAttributeDocument.customAttributeId})" />
                 <c:choose>
@@ -44,7 +44,7 @@
 				</c:choose>
 		  </c:forEach>
 	   	
-	    <kul:tab tabTitle="${tabTitleName}" defaultOpen="false" transparentBackground="${groupStatus.first}" auditCluster="CustomData${fn:replace(fullName,' ','')}Errors" tabErrorKey="${tabErrorKey}" tabAuditKey="${tabErrorKey}" useRiceAuditMode="true">
+	    <kul:tab tabTitle="${tabTitleName}" spanForLongTabTitle="true" defaultOpen="false" transparentBackground="${groupStatus.first}" auditCluster="CustomData${fn:replace(fullName,' ','')}Errors" tabErrorKey="${tabErrorKey}" tabAuditKey="${tabErrorKey}" useRiceAuditMode="true">
 			<kra-pd:customData fullName="${fullName}" fieldCount="${fieldCount}" />
 	    </kul:tab>
 	   	<c:set var="fieldCount" value="${fieldCount + fn:length(customAttributeGroup.value)}" />
