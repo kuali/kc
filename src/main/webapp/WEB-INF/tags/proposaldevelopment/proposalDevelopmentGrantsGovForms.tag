@@ -11,6 +11,8 @@
 <div class="innerTab-container" align="left">
  <table class=tab cellpadding=0 cellspacing="0" summary=""> 
  <tbody id="G1">
+ 		<c:choose>
+    	<c:when test="${not empty KualiForm.document.s2sOpportunity.s2sOppForms}" >
     	<tr>
 	    	<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${s2sFormAttributes.formName}" noColon="true" /></div></th>
 			<th><div align="center"><kul:htmlAttributeLabel attributeEntry="${s2sFormAttributes.mandatory}" noColon="true" /></div></th>
@@ -48,7 +50,8 @@
 	                </c:choose>
 	                </td>
 	                </div> 
-	                <td align="left" valign="middle">
+	                <td align="center" valign="middle">
+	                	<div align="center">
 	                	<c:set var="isAvailable" value="${KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}" />	                	
 	                	<c:choose>
 		                	<c:when test="${isAvailable}">		                			                	
@@ -60,6 +63,7 @@
 								<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].available" attributeEntry="${s2sFormAttributes.available}"/>		                			                		
  		                	</c:otherwise>
 	                	</c:choose>
+	                	</div>
 	                </td>
 	                <td align="center" valign="middle">
 	                	<div align="center">
@@ -69,7 +73,7 @@
 	                </td>
 	                
 	            </tr>    	
-    	</c:forEach> 
+    	</c:forEach>    	 
     			<tr>
     				<td colspan="5">
     					<div align="right">
@@ -77,7 +81,19 @@
     						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     					</div>
     				</td>
-    			</tr>       
+    			</tr>
+    	</c:when>    	
+    	<c:when test="${empty KualiForm.document.s2sOpportunity}" >
+    		<tr><td>
+			No Grants.gov opportunity has been selected
+			</td></tr> 	
+		</c:when>
+		<c:when test="${empty KualiForm.document.s2sOpportunity.s2sOppForms}" >
+			<tr><td>
+			No forms are currently available for the Grants.gov opportunity selected.
+			</td></tr> 
+		</c:when>	
+		</c:choose>		       
 	   </tbody>
 </table></div>    
 </kul:innerTab>
