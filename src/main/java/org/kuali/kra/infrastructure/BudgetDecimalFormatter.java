@@ -15,15 +15,23 @@
  */
 package org.kuali.kra.infrastructure;
 
+import java.math.BigDecimal;
+
 import org.kuali.core.web.format.BigDecimalFormatter;
 import org.kuali.kra.budget.BudgetDecimal;
 
 /**
- * This class...
+ * This class makes a BudgetDecimal from a String
  */
 public class BudgetDecimalFormatter extends BigDecimalFormatter {
+    private static final long serialVersionUID = 8395988033199649377L;
+    
+    /**
+     * Overriden to produce a BudgetDecimal
+     * @see org.kuali.core.web.format.BigDecimalFormatter#convertToObject(java.lang.String)
+     */
     @Override
     protected Object convertToObject(String target) {
-        return new BudgetDecimal(target);
+        return new BudgetDecimal((BigDecimal)super.convertToObject(target));
     }
 }
