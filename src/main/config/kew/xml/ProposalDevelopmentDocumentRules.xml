@@ -62,6 +62,32 @@ resource:WorkflowData">
         </responsibility>
       </responsibilities>
     </rule>
+    
+    <rule>
+      <documentType>ProposalDevelopmentDocument</documentType>
+      <ruleTemplate>CustomApproval</ruleTemplate>
+      <description>Custom approval routing</description>
+      <ignorePrevious>false</ignorePrevious>
+         <ruleExtensions>
+        <ruleExtension>
+          <attribute>CustomDataAttribute</attribute>
+          <ruleTemplate>CustomApproval</ruleTemplate>
+          <ruleExtensionValues>
+            <ruleExtensionValue>
+              <key>numberOfTrainees</key>
+              <value>10</value>
+            </ruleExtensionValue>
+          </ruleExtensionValues>
+        </ruleExtension>
+      </ruleExtensions>
+      <responsibilities>
+        <responsibility>
+          <user>bhutchinson</user>
+          <actionRequested>A</actionRequested>
+          <priority>1</priority>
+        </responsibility>
+      </responsibilities>
+    </rule>
  </rules>
 </data>
 
