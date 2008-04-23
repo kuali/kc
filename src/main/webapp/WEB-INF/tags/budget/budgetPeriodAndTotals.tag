@@ -25,9 +25,9 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
         </div>
         
-        <table cellpadding=0 cellspacing=0 summary="">
+        <table cellpadding="0" cellspacing="0" summary="">
           	<tr>
-          		<th width="5%"><div align="center">&nbsp</div></th> 
+          		<th width="5%"><div align="center">&nbsp;</div></th> 
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.startDate}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.endDate}" noColon="true" /></div></th>
           		<th width="15%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCost}" noColon="true" /></div></th>
@@ -35,51 +35,51 @@
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalIndirectCost}"noColon="true" /></div></th>
           		<th width="15%"> <div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" noColon="true" /></div></th>
           		<th width="15%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>
-              	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
+          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>
           	
           	</tr>        
              <tr>
-				<th class="infoline">
+				<th width="5%" class="infoline">
 					<c:out value="Add:" />
 				</th>
 
-                <td valign="middle" class="infoline">
+                <td width="10%" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="newBudgetPeriod.startDate" attributeEntry="${budgetPeriodAttributes.startDate}" datePicker="true"/>
                 	</div>
 				</td>
-                <td valign="middle" class="infoline">
+                <td width="10%" valign="middle" class="infoline">
                 	<div align="center">
                 	<kul:htmlControlAttribute property="newBudgetPeriod.endDate" attributeEntry="${budgetPeriodAttributes.endDate}" datePicker="true"/>
                 	</div>
                 </td>
-                <td valign="middle" class="infoline">                	
+                <td width="15%" valign="middle" class="infoline">                	
                 	<div align="center">
                   	<kul:htmlControlAttribute property="newBudgetPeriod.totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" /> 
                 	</div>
 				</td>
-                <td valign="middle" class="infoline">
+                <td width="10%" valign="middle" class="infoline">
                 	<div align="center">
 	                <kul:htmlControlAttribute property="newBudgetPeriod.totalDirectCost" attributeEntry="${budgetPeriodAttributes.totalDirectCost}" styleClass="amount"/> 
                 	</div>
                 </td>
-                <td valign="middle" class="infoline">
+                <td width="10%" valign="middle" class="infoline">
                  	<div align="center">
              	    <kul:htmlControlAttribute property="newBudgetPeriod.totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount"/> 
                 	</div>
                 </td>
-                <td valign="middle" class="infoline">
+                <td width="15%" valign="middle" class="infoline">
                  	<div align="center">
 	                <kul:htmlControlAttribute property="newBudgetPeriod.underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount"/> 
                 	</div>
                 </td>
-                <td valign="middle" class="infoline">
+                <td width="15%" valign="middle" class="infoline">
                 	<div align="center">
  	                <kul:htmlControlAttribute property="newBudgetPeriod.costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount"/> 
                 	</div>
                 </td>
 				<td class="infoline">
-					<div align=center>
+					<div width="10%" align="center">
 						<html:image property="methodToCall.addBudgetPeriod.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
 					</div>
@@ -92,61 +92,59 @@
 				  		<c:set var="readOnly" value="true"/>
 				  </c:if>
 	             <tr>
-					<th class="infoline">
+					<th width="5%" class="infoline">
 						<c:out value="${status.index+1}" />
 					</th>
-	                <td valign="middle">
-					<div align=center>
+	                <td width="10%" valign="middle">
+					<div align="center">
                 		<kul:htmlControlAttribute property="document.budgetPeriods[${status.index}].startDate" attributeEntry="${budgetPeriodAttributes.startDate}" datePicker="true"/>
 					</div>
 					</td>
-	                <td valign="middle">
-					<div align=center>
+	                <td width="10%" valign="middle">
+					<div align="center">
                 		<kul:htmlControlAttribute property="document.budgetPeriods[${status.index}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}" datePicker="true"/>
 					</div>
 	                </td>
-	                <td valign="middle">                	
-					<div align=center>
+	                <td width="15%" valign="middle">                	
+					<div align="center">
                   		<kul:htmlControlAttribute property="document.budgetPeriods[${status.index}].totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" readOnly="${readOnly}"/> 
 					</div>
 					</td>
-	                <td valign="middle">                	
-					<div align=center>
+	                <td width="10%" valign="middle">                	
+					<div align="center">
                   		<kul:htmlControlAttribute property="document.budgetPeriods[${status.index}].totalDirectCost" attributeEntry="${budgetPeriodAttributes.totalDirectCost}" styleClass="amount" readOnly="${readOnly}"/> 
 					</div>
 					</td>
-	                <td valign="middle">
-					<div align=center>
+	                <td width="10%" valign="middle">
+					<div align="center">
 	                	<kul:htmlControlAttribute property="document.budgetPeriods[${status.index}].totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount"  readOnly="${readOnly}"/>
 					</div>
 	                </td>
-	                <td valign="middle">
-					<div align=center>
+	                <td width="15%" valign="middle">
+					<div align="center">
 	                	<kul:htmlControlAttribute property="document.budgetPeriods[${status.index}].underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="${readOnly}"/>
 					</div>
 	                </td>
-	                <td valign="middle">
-					<div align=center>
+	                <td width="15%" valign="middle">
+					<div align="center">
 	                	<kul:htmlControlAttribute property="document.budgetPeriods[${status.index}].costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="${readOnly}"/>
 					</div>
 	                </td>
-					<td>
-					<div align=center>
+					<td width="10%">
+					<div align="center">
 						<html:image property="methodToCall.deleteBudgetPeriod.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 					</div>
 	                </td>
 	            </tr>
-        	</c:forEach>        
-        </table>
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Totals</h2></span>
-        </div>
-        <table cellpadding=0 cellspacing=0 summary="">
-            <tr>
+        	</c:forEach>       
+        	<tr>
+        		<td colspan="9" class="subhead">Totals</td>
+    	    </tr>
+          	<tr>
           		<td width="5%" class="infoline"> 
           			<div align="center">
-          				&nbsp
+          				&nbsp;
           			</div> 
           		</td> 
                 <td width="10%" valign="middle" class="infoline">
@@ -190,7 +188,7 @@
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
 					</div>
                 </td>
-            </tr>
+          	</tr>        
         </table>
     </div> 
 </kul:tab>
