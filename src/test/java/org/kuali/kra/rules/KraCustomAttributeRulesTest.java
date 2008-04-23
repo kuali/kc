@@ -18,8 +18,13 @@ package org.kuali.kra.rules;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.RiceConstants;
 import org.kuali.RiceKeyConstants;
+import org.kuali.core.UserSession;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
@@ -29,6 +34,10 @@ import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.rice.KNSServiceLocator;
+
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 
 // TODO : temporary extends ProposalDevelopmentRuleTestBase to test proposal document custom data 
@@ -80,12 +89,20 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         //billing element is not set
         document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
         document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
-          SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
-        assertFalse(rule.processCustomAttributeRules(saveCustomAttributeEvent));
-        TypedArrayList errors = GlobalVariables.getErrorMap().getMessages("customAttributeValues(id1)");
-        assertTrue(errors.size() == 1);
-        ErrorMessage message = (ErrorMessage) errors.get(0);
-        assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_REQUIRED);
+        SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
+        assertTrue(rule.processCustomAttributeRules(saveCustomAttributeEvent));
+        
+        UserSession currentSession = GlobalVariables.getUserSession();
+        PessimisticLock lock = KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), "PROPOSAL-"+document.getDocumentNumber(), currentSession.getUniversalUser());
+        document.addPessimisticLock(lock);
+        
+        try {
+            KraServiceLocator.getService(DocumentService.class).routeDocument(document, "just testing", null);
+        }
+        catch (org.kuali.core.exceptions.ValidationException ex) {
+            assertEquals(ex.getMessage(), "business rule evaluation failed");
+        }
+
     }
 
     @Test
