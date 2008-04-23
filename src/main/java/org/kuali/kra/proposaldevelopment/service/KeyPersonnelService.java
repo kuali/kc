@@ -37,7 +37,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: gmcgrego $
- * @version $Revision: 1.4.6.2 $
+ * @version $Revision: 1.4.6.3 $
  */
 public interface KeyPersonnelService {
     /**
@@ -178,19 +178,7 @@ public interface KeyPersonnelService {
      * @return {@link KualiConfigurationService}
      */
     public KualiConfigurationService getConfigurationService();
-    
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
-    public SystemParameterRetrievalService getParameterService();
-
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(SystemParameterRetrievalService parameterService);
-    
+        
     /**
      * Compares the given <code>roleId</code> against the <code>proposaldevelopment.personrole.readonly.roles</code> to see if it is 
      * read only or not.

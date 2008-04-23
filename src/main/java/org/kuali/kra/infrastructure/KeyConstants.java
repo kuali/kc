@@ -128,6 +128,7 @@ public class KeyConstants {
     public static final String VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION = "validation.errors.before.grantsGov.submission";    
     public static final String QUESTION_SUMBMIT_OPPORTUNITY_WITH_WARNINGS_CONFIRMATION = "question.submitOpportunityWithWarnings.text";
     public static final String ERROR_ON_GRANTS_GOV_SUBMISSION = "error.on.grantsGov.submission";
+    public static final String ERROR_MANDATORY_FORM_NOT_AVAILABLE = "error.mandatory.form.not.available";
     // Grants.gov System Parameters
     public static final String S2S_REVISIONTYPE_OTHER = "s2s.revisiontype.other";
     public static final String S2S_SUBMISSIONTYPE_OTHER = "s2s.submissiontype.changedCorrected";

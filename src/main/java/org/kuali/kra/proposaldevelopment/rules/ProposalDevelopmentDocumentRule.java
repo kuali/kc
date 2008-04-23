@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import static org.kuali.kra.logging.FormattedLogger.info;
+
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,9 +24,11 @@ import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
@@ -59,7 +63,6 @@ import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
-import org.kuali.kra.proposaldevelopment.service.SystemParameterRetrievalService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rule.CustomAttributeRule;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
@@ -358,9 +361,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      * @return true or false
      */
     private boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {        
-        String proposalTypeCodeRenewal = getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL, "3");
-        String proposalTypeCodeRevision = getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION, "5");
-        String proposalTypeCodeContinuation = getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION, "2");
+        String proposalTypeCodeRenewal = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL).getParameterValue();
+        String proposalTypeCodeRevision = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue();
+        String proposalTypeCodeContinuation = getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION).getParameterValue();
          
         return !StringUtils.isEmpty(proposalTypeCode) &&
                (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
@@ -376,8 +379,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
      */
     private boolean processOrganizationLocationBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
-
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
 
         if (proposalDevelopmentDocument.getOrganizationId()!=null && (proposalDevelopmentDocument.getProposalLocations().size()==0 ||
                 (proposalDevelopmentDocument.getProposalLocations().size()==1 && ((ProposalLocation)(proposalDevelopmentDocument.getProposalLocations().get(0))).getLocationSequenceNumber()==null))) {
@@ -396,19 +397,18 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     */
     private boolean processProposalGrantsGovBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
-        
-        ErrorMap errorMap = GlobalVariables.getErrorMap();
-        if (proposalDevelopmentDocument.getProposalTypeCode()!=null && proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && proposalDevelopmentDocument.getProposalTypeCode().equals(getSystemParameterRetreivalService().getParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION, "6")) && proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode()==null) {            
+                
+        if (proposalDevelopmentDocument.getProposalTypeCode()!=null && proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && proposalDevelopmentDocument.getProposalTypeCode().equals(getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue()) && proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode()==null) {            
             reportError("s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION);
             valid = false;
         }
         
-        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), getSystemParameterRetreivalService().getParameterValue(KeyConstants.S2S_REVISIONTYPE_OTHER, "5")) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()==null||StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
+        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.S2S_REVISIONTYPE_OTHER).getParameterValue()) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()==null||StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
             reportError("s2sOpportunity.revisionOtherDescription",KeyConstants.ERROR_IF_REVISIONTYPE_IS_OTHER);
             valid &= false;
         }
         
-        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), getSystemParameterRetreivalService().getParameterValue(KeyConstants.S2S_REVISIONTYPE_OTHER, "5")) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()!=null && !StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
+        if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && !StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.S2S_REVISIONTYPE_OTHER).getParameterValue()) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()!=null && !StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
             reportError("s2sOpportunity.revisionOtherDescription",KeyConstants.ERROR_IF_REVISIONTYPE_IS_NOT_OTHER_SPECIFY_NOT_BLANK);
             valid &= false;
         }        
@@ -572,7 +572,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return new KraCustomAttributeRule().processCustomAttributeRules(saveCustomAttributeEvent);    
     }
     
-    private SystemParameterRetrievalService getSystemParameterRetreivalService(){
-        return KraServiceLocator.getService(SystemParameterRetrievalService.class);
+    protected KualiConfigurationService getKualiConfigurationService(){
+        return KraServiceLocator.getService(KualiConfigurationService.class);
     }
 }
