@@ -80,7 +80,7 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<hidden />
+				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder" />
 			</control>
 			<summary>Budget Category Code </summary>
 			<description>Budget Category Code </description>
