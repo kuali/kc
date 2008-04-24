@@ -47,7 +47,6 @@ public class NarrativeStatusValuesFinderTest extends ValuesFinderTestBase {
 
     @Override
     protected void addKeyValues() {
-        testKeyValues.add(new KeyLabelPair("", "select"));
         testKeyValues.add(new KeyLabelPair("I","Incomplete"));
         testKeyValues.add(new KeyLabelPair("C","Complete"));
     }

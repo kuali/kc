@@ -605,7 +605,6 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
      */
     private HtmlPage addProposalAttachment(HtmlPage attachmentsPage, String type) throws Exception {
         setFieldValue(attachmentsPage, NARRATIVE_TYPE_CODE_ID, type);
-        setFieldValue(attachmentsPage, NARRATIVE_STATUS_ID, "I");
         setFieldValue(attachmentsPage, NARRATIVE_FILE_ID, getFilePath());
         return clickOn(attachmentsPage, "methodToCall.addProposalAttachment");
     }
