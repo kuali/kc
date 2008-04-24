@@ -32,8 +32,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
 
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
@@ -53,8 +55,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
- * @author $Author: lprzybyl $
- * @version $Revision: 1.35 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.36 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
@@ -292,6 +294,16 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      */
     private boolean validateDegree(ProposalPersonDegree source) {
         boolean retval = true;
+        
+        String regExpr = "\\d{4}";
+        if(source.getGraduationYear()!=null && !(source.getGraduationYear().matches(regExpr)) && GlobalVariables.getErrorMap().getMessages("ProposalPersonDegree*") == null) 
+        {
+            GlobalVariables.getErrorMap().putError("ProposalPersonDegree*", RiceKeyConstants.ERROR_INVALID_FORMAT,
+                    new String[] {"Graduation Year", source.getGraduationYear() });
+                            
+          
+            retval = false;
+         }
         
         if (source == null) {
             return false;
