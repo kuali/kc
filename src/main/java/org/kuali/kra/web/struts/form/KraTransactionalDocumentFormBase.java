@@ -101,7 +101,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         if (KNSServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(getDocument().getClass().getName())
                 .getUsePessimisticLocking()) {
             editMode = documentAuthorizer.establishLocks(getDocument(), editMode, kualiUser);
-        }
+        } 
 
         setEditingMode(editMode);
         DocumentActionFlags temp = documentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser);
@@ -203,7 +203,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
                 || navigateTo.equalsIgnoreCase("expenses") || navigateTo.equalsIgnoreCase("rates") 
                 || navigateTo.equalsIgnoreCase("distributionAndIncome") || navigateTo.equalsIgnoreCase("modularBudget") 
                 || navigateTo.equalsIgnoreCase("totals") || navigateTo.equalsIgnoreCase("proposalHierarchy")  
-                || navigateTo.equalsIgnoreCase("budgetActions"))) {
+                || navigateTo.equalsIgnoreCase("budgetActions") || navigateTo.equalsIgnoreCase("budgetVersions"))) {
             isBudgetAction = true; 
         }
 

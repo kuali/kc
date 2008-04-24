@@ -20,7 +20,7 @@
 	            	<td width="10%"><div align="center">${KualiForm.budgetJustification.lastUpdateUser}</div></td>
 	            	<td width="80%">
 	            		<div align="center">
-	            			<html:textarea rows="8" cols="60" property="budgetJustification.justificationText" />
+	            			<html:textarea rows="8" cols="60" property="budgetJustification.justificationText" readonly="${readOnly}" />
 	            		</div>
 	            	</td>
 	            </tr>

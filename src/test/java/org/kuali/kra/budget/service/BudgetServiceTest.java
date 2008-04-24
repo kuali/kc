@@ -26,6 +26,9 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.core.UserSession;
+import org.kuali.core.document.authorization.PessimisticLock;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Unit tests for the BudgetService interface
@@ -60,6 +63,10 @@ public class BudgetServiceTest extends KraTestBase {
         
         String testProposalNumber = pdDocument.getProposalNumber();
         String testDocumentDescription = "Test New Budget Doc";
+        
+        UserSession currentSession = GlobalVariables.getUserSession();
+        PessimisticLock lock = KNSServiceLocator.getPessimisticLockService().generateNewLock(pdDocument.getDocumentNumber(), pdDocument.getDocumentNumber()+"-BUDGET", currentSession.getUniversalUser());
+        pdDocument.addPessimisticLock(lock);
         
         BudgetDocument budgetDocument = budgetService.getNewBudgetVersion(pdDocument, testDocumentDescription);
         

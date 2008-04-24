@@ -23,6 +23,8 @@
 
         <documentClass>org.kuali.kra.budget.document.BudgetDocument</documentClass>
         <businessRulesClass>org.kuali.kra.budget.rules.BudgetDocumentRule</businessRulesClass>
+		<usePessimisticLocking>true</usePessimisticLocking>
+		<useWorkflowPessimisticLocking>true</useWorkflowPessimisticLocking>
 
         <documentAuthorizerClass>org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>

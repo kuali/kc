@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 
 <kul:documentPage
 	showDocumentInfo="true"
