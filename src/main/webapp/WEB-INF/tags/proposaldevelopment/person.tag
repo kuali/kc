@@ -229,7 +229,7 @@
           	<tr>
 				<td colspan=4>
 
-<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="true">
+<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="true" tabErrorKey="ProposalPersonDegree*">
               <table class=tab cellpadding=0 cellspacing="0" summary="" >
               <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
