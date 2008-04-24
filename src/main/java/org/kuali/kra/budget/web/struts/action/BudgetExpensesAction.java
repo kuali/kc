@@ -210,4 +210,18 @@ public class BudgetExpensesAction extends BudgetAction {
     public ActionForward viewPersonnelSalaries(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetCalculationService budgetCalculationService  = KraServiceLocator.getService(BudgetCalculationService.class);
+        for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+            budgetCalculationService.calculateBudgetPeriod(budgetDocument, budgetPeriod);
+        }
+        return super.save(mapping, form, request, response);
+    }
+    
+    
 }
