@@ -46,7 +46,7 @@
 	          	<tr>
 	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.moduleStatusCode}"/></div></th>
 	                <td align="left" valign="middle">
-	                	<kul:htmlControlAttribute property="newNarrative.moduleStatusCode" attributeEntry="${narrativeAttributes.moduleStatusCode}" />
+	                    Incomplete
 					</td>
 	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.contactName}" /></div></th>
 	                <td align="left" valign="middle">

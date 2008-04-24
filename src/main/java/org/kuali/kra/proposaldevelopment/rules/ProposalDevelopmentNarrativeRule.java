@@ -91,6 +91,11 @@ public class ProposalDevelopmentNarrativeRule extends ResearchDocumentRuleBase i
             rulePassed = false;
         }
         
+        if (StringUtils.isBlank(narrative.getFileName())) {
+            rulePassed = false;
+            reportError("newNarrative.narrativeFile", KeyConstants.ERROR_REQUIRED_FOR_FILE_NAME, "File Name");
+        }
+        
         map.addToErrorPath("newNarrative");
         getService(DictionaryValidationService.class).validateBusinessObject(narrative,false);
         map.removeFromErrorPath("newNarrative");
