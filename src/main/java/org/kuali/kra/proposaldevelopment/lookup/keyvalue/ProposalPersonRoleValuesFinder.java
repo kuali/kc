@@ -41,7 +41,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * Temporary class until this can be gotten working via table.
  *
  * @author $Author: lprzybyl $
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
@@ -133,6 +133,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         return new Boolean(getForAddedPerson());
     }
 
+    // START SNIPPET: ProposalPersonRoleValuesFinder#properties
     public String getForAddedPerson() {
         return forAddedPerson;
     }
@@ -140,4 +141,5 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     public void setForAddedPerson(String forAddedPerson) {
         this.forAddedPerson = forAddedPerson;
     }
+    // END SNIPPET: ProposalPersonRoleValuesFinder#properties
 }
