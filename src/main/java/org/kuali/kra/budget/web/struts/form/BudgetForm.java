@@ -127,12 +127,7 @@ public class BudgetForm extends ProposalFormBase {
         newBudgetProjectIncome = new BudgetProjectIncome();
         newBudgetCostShare = new BudgetCostShare();
         newBudgetUnrecoveredFandA = new BudgetUnrecoveredFandA();            
-        newBudgetLineItems = new ArrayList<BudgetLineItem>();
-        newBudgetLineItems.add(new BudgetLineItem());
-        newBudgetLineItems.add(new BudgetLineItem());
-        newBudgetLineItems.add(new BudgetLineItem());
-        newBudgetLineItems.add(new BudgetLineItem());
-        newBudgetLineItems.add(new BudgetLineItem());
+        newBudgetLineItems = new ArrayList<BudgetLineItem>();        
         setDocumentNextValueRefresh(true);
         budgetJustificationWrapper = new BudgetJustificationWrapper(getBudgetDocument().getBudgetJustification());
     }

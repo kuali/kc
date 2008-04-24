@@ -129,7 +129,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<InstituteLaRate> instituteLaRates;
     private List<RateClass> rateClasses;
     private List<RateClassType> rateClassTypes;
-    private List<BudgetCategoryType> budgetCategoryTypes;
+    
     private SortedMap <CostElement, List> objectCodeTotals ;
     private SortedMap <RateType, List> calculatedExpenseTotals ;
     private List<KeyLabelPair> budgetCategoryTypeCodes;
@@ -153,8 +153,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         budgetPersons = new ArrayList<BudgetPerson>();
         Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
         Formatter.registerFormatter(RateDecimal.class, RateDecimalFormatter.class);
-        budgetCategoryTypeCodes = new ArrayList<KeyLabelPair>();
-        budgetCategoryTypes = new ArrayList<BudgetCategoryType>();
+        budgetCategoryTypeCodes = new ArrayList<KeyLabelPair>();        
     }
 
     public void initialize() {
@@ -1231,14 +1230,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         public BudgetDecimal getUnrecoveredFandA() {
             return unrecoveredFandA;
         }
-    }
-    public List<BudgetCategoryType> getBudgetCategoryTypes() {
-        return budgetCategoryTypes;
-    }
-
-    public void setBudgetCategoryTypes(List<BudgetCategoryType> budgetCategoryTypes) {
-        this.budgetCategoryTypes = budgetCategoryTypes;
-    }
+    }    
 
     public List<KeyLabelPair> getBudgetCategoryTypeCodes() {
         return budgetCategoryTypeCodes;
