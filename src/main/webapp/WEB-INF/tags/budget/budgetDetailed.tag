@@ -19,8 +19,9 @@
 <%@ attribute name="budgetCategoryTypeCodesLabel" description="Budget Category Type Code Label" required="true" %>
 <%@ attribute name="catCodes" description="Category Type Index" required="true" %>
 
-<c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 
+<c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />
 <c:set var="action" value="budgetExpensesAction" />
 <c:set var="textAreaFieldName" value="newBudgetLineItems[${catCodes}].lineItemDescription" />
 
@@ -55,6 +56,8 @@
     		</c:forEach>
     	</c:if>
     </c:forEach>
+    
+    
      	<%-- <c:out value="${tabErrorKeyString}test" /> --%>
 	<c:set var="budgetExpensePanelReadOnly" value="${KualiForm.document.proposal.budgetVersionOverviews[KualiForm.document.budgetVersionNumber-1].finalVersionFlag}" />
 	 	
@@ -76,77 +79,81 @@
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.quantity}" noColon="true" /></div></th>
           		<th width="15%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.lineItemCost}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
-          	</tr>        
-            <tr>
-				<th class="infoline">
-					<c:out value="Add:" />
-				</th>				
-				<c:set var="lookupFlag" value="false" />
-				<td valign="middle" class="infoline">
-                	<div align="center">
-                	<html:select property="newBudgetLineItems[${catCodes}].costElement" tabindex="0" >
-                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
-                    <c:if test="${empty KualiForm.newBudgetLineItems[catCodes].costElement || KualiForm.newBudgetLineItems[catCodes].costElement == ''}" >
-                    	<c:set var="lookupFlag" value="true" />
-					</c:if>                    
-                    <c:choose>                    	
-                    	<c:when test="${KualiForm.newBudgetLineItems[catCodes].costElement == option.key}">                    	
-                        <%-- <c:when test="${newBudgetLineItems[catCodes].costElement == option.key}"> --%>						
-                        <option value="${option.key}" selected>${option.label}</option>
-                        	<c:set var="lookupFlag" value="true" />
-                        </c:when>
-                        <c:otherwise>
-                        <c:out value="${option.label}"/>
-                        <option value="${option.key}">${option.label}</option>
-                        </c:otherwise>
-                    </c:choose>                    
-                    </c:forEach>
-                    </html:select>
-                    <input type="hidden" name="document.budgetCategoryType[${catCodes}]" value="${budgetCategoryTypeCodesKey}">                    
-                	<kul:lookup boClassName="org.kuali.kra.budget.bo.CostElement" fieldConversions="costElement:newBudgetLineItems[${catCodes}].costElement" anchor="${tabKey}" lookupParameters="newBudgetLineItems[${catCodes}].costElement:costElement,document.budgetCategoryType[${catCodes}]:budgetCategoryTypeCode" autoSearch="yes"/>                	
-                	<kul:directInquiry boClassName="org.kuali.kra.budget.bo.CostElement" inquiryParameters="newBudgetLineItems[${catCodes}].costElement:costElement" anchor="${tabKey}"/>
-                	<c:if test="${!lookupFlag}">                    	                    	
-                    	<font size="2" color="red">
-							Value Returned from the look up does not fit here
-						</font>
-                    </c:if>
-                	</div>
-				</td>
-				<td valign="middle" class="infoline">
-                	<div align="center">
-                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemDescription" attributeEntry="${budgetLineItemAttributes.lineItemDescription}" readOnly="${budgetExpensePanelReadOnly}"/>
-                	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${budgetLineItemAttributes.lineItemDescription.label}" />                	
-                	</div>
-				</td>
-				<td valign="middle" class="infoline">
-                	<div align="center">
-                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].underrecoveryAmount" attributeEntry="${budgetLineItemAttributes.underrecoveryAmount}" readOnly="true"/>
-                	</div>
-				</td>
-                <td valign="middle" class="infoline">
-                	<div align="center">
-                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].costSharingAmount" attributeEntry="${budgetLineItemAttributes.costSharingAmount}" readOnly="${budgetExpensePanelReadOnly}"/>
-                	</div>
-				</td>
-                <td valign="middle" class="infoline">
-                	<div align="center">
-                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].quantity" attributeEntry="${budgetLineItemAttributes.quantity}" readOnly="${budgetExpensePanelReadOnly}"/>
-                	</div>
-                </td>
-                <td valign="middle" class="infoline">                	
-                	<div align="center">
-                  	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemCost" attributeEntry="${budgetLineItemAttributes.lineItemCost}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/> 
-                	</div>
-				</td>				
-				<td class="infoline">
-					<c:if test="${!budgetExpensePanelReadOnly}" >
-					<div align=center>
-						<html:image property="methodToCall.addBudgetLineItem.budgetCategoryTypeCode${budgetCategoryTypeCodesKey}.catTypeIndex${catCodes}.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
-					</div>
-					</c:if>	
-                </td>			
-            </tr> 
+          	</tr>    
+          	
+          	<kra:section permission="modifyBudgets">    
+	            <tr>
+					<th class="infoline">
+						<c:out value="Add:" />
+					</th>				
+					<c:set var="lookupFlag" value="false" />
+					<td valign="middle" class="infoline">
+	                	<div align="center">
+	                	<html:select property="newBudgetLineItems[${catCodes}].costElement" tabindex="0" >
+	                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
+	                    <c:if test="${empty KualiForm.newBudgetLineItems[catCodes].costElement || KualiForm.newBudgetLineItems[catCodes].costElement == ''}" >
+	                    	<c:set var="lookupFlag" value="true" />
+						</c:if>                    
+	                    <c:choose>                    	
+	                    	<c:when test="${KualiForm.newBudgetLineItems[catCodes].costElement == option.key}">                    	
+	                        <%-- <c:when test="${newBudgetLineItems[catCodes].costElement == option.key}"> --%>						
+	                        <option value="${option.key}" selected>${option.label}</option>
+	                        	<c:set var="lookupFlag" value="true" />
+	                        </c:when>
+	                        <c:otherwise>
+	                        <c:out value="${option.label}"/>
+	                        <option value="${option.key}">${option.label}</option>
+	                        </c:otherwise>
+	                    </c:choose>                    
+	                    </c:forEach>
+	                    </html:select>
+	                    <input type="hidden" name="document.budgetCategoryType[${catCodes}]" value="${budgetCategoryTypeCodesKey}">                    
+	                	<kul:lookup boClassName="org.kuali.kra.budget.bo.CostElement" fieldConversions="costElement:newBudgetLineItems[${catCodes}].costElement" anchor="${tabKey}" lookupParameters="newBudgetLineItems[${catCodes}].costElement:costElement,document.budgetCategoryType[${catCodes}]:budgetCategoryTypeCode" autoSearch="yes"/>                	
+	                	<kul:directInquiry boClassName="org.kuali.kra.budget.bo.CostElement" inquiryParameters="newBudgetLineItems[${catCodes}].costElement:costElement" anchor="${tabKey}"/>
+	                	<c:if test="${!lookupFlag}">                    	                    	
+	                    	<font size="2" color="red">
+								Value Returned from the look up does not fit here
+							</font>
+	                    </c:if>
+	                	</div>
+					</td>
+					<td valign="middle" class="infoline">
+	                	<div align="center">
+	                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemDescription" attributeEntry="${budgetLineItemAttributes.lineItemDescription}" readOnly="${budgetExpensePanelReadOnly}"/>
+	                	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${budgetLineItemAttributes.lineItemDescription.label}" />                	
+	                	</div>
+					</td>
+					<td valign="middle" class="infoline">
+	                	<div align="center">
+	                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].underrecoveryAmount" attributeEntry="${budgetLineItemAttributes.underrecoveryAmount}" readOnly="true"/>
+	                	</div>
+					</td>
+	                <td valign="middle" class="infoline">
+	                	<div align="center">
+	                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].costSharingAmount" attributeEntry="${budgetLineItemAttributes.costSharingAmount}" readOnly="${budgetExpensePanelReadOnly}"/>
+	                	</div>
+					</td>
+	                <td valign="middle" class="infoline">
+	                	<div align="center">
+	                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].quantity" attributeEntry="${budgetLineItemAttributes.quantity}" readOnly="${budgetExpensePanelReadOnly}"/>
+	                	</div>
+	                </td>
+	                <td valign="middle" class="infoline">                	
+	                	<div align="center">
+	                  	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemCost" attributeEntry="${budgetLineItemAttributes.lineItemCost}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/> 
+	                	</div>
+					</td>				
+					<td class="infoline">
+						<c:if test="${!budgetExpensePanelReadOnly}" >
+						<div align=center>
+							<html:image property="methodToCall.addBudgetLineItem.budgetCategoryTypeCode${budgetCategoryTypeCodesKey}.catTypeIndex${catCodes}.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+						</div>
+						</c:if>	
+	                </td>			
+	            </tr>
+            </kra:section>
+             
 			    <c:forEach var="budgetCategoryTypeIndex" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="status1">
 			    	<c:if test="${budgetCategoryTypeIndex.key ==  budgetCategoryTypeCodesKey}">
 			    		<c:set var="index" value="0"/>

@@ -15,6 +15,10 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="extraButtons" value="${KualiForm.extraExpensesButtons}" scope="request"/>
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
+<c:if test="${readOnly}">
+	<c:set var="extraButtons" value="" scope="request"/>
+</c:if>
 
 <kul:documentPage
 	showDocumentInfo="true"

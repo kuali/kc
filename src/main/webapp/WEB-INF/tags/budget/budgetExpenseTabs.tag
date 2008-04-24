@@ -17,7 +17,7 @@
 
 <c:set var="action" value="budgetExpensesAction" />
 			
- <kra-b:budgetExpenseBudgetOverview /> 
+<kra-b:budgetExpenseBudgetOverview /> 
     	   			   	
 <c:forEach var="budgetCategoryTypeCodes" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="catCodes">
 	<kra-b:budgetDetailed budgetCategoryTypeCodesKey="${budgetCategoryTypeCodes.key}" budgetCategoryTypeCodesLabel="${budgetCategoryTypeCodes.label}" catCodes="${catCodes.index}"/>		
