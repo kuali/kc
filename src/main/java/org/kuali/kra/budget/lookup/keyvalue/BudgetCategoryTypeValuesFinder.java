@@ -50,22 +50,11 @@ public class BudgetCategoryTypeValuesFinder extends KeyValuesBase {
     public List<KeyLabelPair> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection budgetCategoryTypes = keyValuesService.findAllOrderBy(BudgetCategoryType.class,"sortId",true);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();  
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         
-        KualiForm form = GlobalVariables.getKualiForm();
-        //Temporary Hack for KRACOEUS-944
-        if(form instanceof BudgetForm){
-            BudgetForm budgetForm = (BudgetForm)form;
-            for (Iterator iter = budgetCategoryTypes.iterator(); iter.hasNext();) {
-                BudgetCategoryType budgetCategoryType = (BudgetCategoryType) iter.next();
-                keyValues.add(new KeyLabelPair(budgetCategoryType.getBudgetCategoryTypeCode().toString(), budgetCategoryType.getDescription()));
-                budgetForm.getBudgetDocument().getBudgetCategoryTypes().add(budgetCategoryType);            
-            }
-        }else{
-            for (Iterator iter = budgetCategoryTypes.iterator(); iter.hasNext();) {
-                BudgetCategoryType budgetCategoryType = (BudgetCategoryType) iter.next();
-                keyValues.add(new KeyLabelPair(budgetCategoryType.getBudgetCategoryTypeCode().toString(), budgetCategoryType.getDescription()));                            
-            }
+        for (Iterator iter = budgetCategoryTypes.iterator(); iter.hasNext();) {
+            BudgetCategoryType budgetCategoryType = (BudgetCategoryType) iter.next();
+            keyValues.add(new KeyLabelPair(budgetCategoryType.getBudgetCategoryTypeCode().toString(), budgetCategoryType.getDescription()));                            
         }
                 
         return keyValues;
