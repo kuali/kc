@@ -15,13 +15,18 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
+import org.kuali.kra.proposaldevelopment.bo.AbstractType;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
  * Finds the available set of supported Narrative Statuses.  See
@@ -30,7 +35,7 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
  * @author KRADEV team
  */
 public class NarrativeStatusValuesFinder extends KeyValuesBase {
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+    //KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
     /**
      * Constructs the list of Proposal Narrative Statuses.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
@@ -43,6 +48,13 @@ public class NarrativeStatusValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
-        return keyValueFinderService.getKeyValues(NarrativeStatus.class, "narrativeStatusCode", "description");
+        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        Collection<NarrativeStatus> statuses = keyValuesService.findAll(NarrativeStatus.class);
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        for (NarrativeStatus status : statuses) {
+             keyValues.add(new KeyLabelPair(status.getNarrativeStatusCode(), status.getDescription()));
+      
+        }
+        return keyValues;
     }
 }

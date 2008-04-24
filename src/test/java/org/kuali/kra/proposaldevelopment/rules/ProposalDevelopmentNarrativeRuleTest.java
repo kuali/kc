@@ -92,6 +92,7 @@ public class ProposalDevelopmentNarrativeRuleTest extends ProposalDevelopmentRul
         narrative.setModuleStatusCode(narrativeStatuses.get(0).getNarrativeStatusCode());
         newNarrative.setModuleStatusCode(narrativeStatuses.get(1).getNarrativeStatusCode());
         newNarrative.setProposalNumber(document.getProposalNumber());
+        newNarrative.setFileName("test");
 //        document.addNarrative(narrative);
         AddNarrativeEvent addNarrativeEvent = new AddNarrativeEvent(EMPTY_STRING,document,newNarrative);
         assertTrue(rule.processAddNarrativeBusinessRules(addNarrativeEvent));

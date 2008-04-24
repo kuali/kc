@@ -64,6 +64,7 @@ public class Narrative extends KraPersistableBusinessObjectBase {
         narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
         narrativeUserRights = new ArrayList<NarrativeUserRights>();
         loggedInUserPersonId = findLoggedInUserPersonId();
+        setModuleStatusCode("I");
     }
     
     protected String findLoggedInUserPersonId() {
