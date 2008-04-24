@@ -25,11 +25,11 @@
              <tr>
                <th class="grid"><div align="right">Budget Period:</div></th>                
                <td class="grid" >
-               	<kul:htmlControlAttribute property="viewBudgetPeriod" attributeEntry="${budgetPeriodAttributes.budgetPeriod}" styleClass="fixed-size-200-select"/>
+               	<kul:htmlControlAttribute readOnly="false" property="viewBudgetPeriod" attributeEntry="${budgetPeriodAttributes.budgetPeriod}" styleClass="fixed-size-200-select"/>
                </td>
                <th class="grid"><div align="right">View:</div></th>
                <td class="grid" >
-					<html:select property="viewBudgetView">
+					<html:select property="viewBudgetView"> 
 	                    	<html:option value="0">Full Detail</html:option>  		                    	
 	                    	<html:option value="1">Simple Detail</html:option>
   			       	</html:select>

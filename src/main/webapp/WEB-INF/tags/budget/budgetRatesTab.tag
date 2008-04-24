@@ -19,7 +19,6 @@
 <%@ attribute name="rateClassType" description="rate class type code" required="true" %>
 <c:set var="budgetProposalRatesAttributes" value="${DataDictionary.BudgetProposalRate.attributes}" />
 <c:set var="action" value="budgetRates" />
-
 				  <bean:define id="irateClassType" name="KualiForm" property="${budgetProposalRate}.rateClass.rateClassType"/>
 				  <bean:define id="displayRow" name="KualiForm" property="${budgetProposalRate}.displayLocation"/>
     			  <c:if test="${irateClassType == rateClassType && displayRow == 'Yes'}">

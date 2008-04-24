@@ -26,6 +26,10 @@
 <c:set var="action" value="budgetExpensesAction" />
 <c:set var="textAreaFieldNameLineItemDescription" value="${document.budgetPeriods}[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
 
+<c:if test="${readOnly}" >
+	<c:set var="budgetExpensePanelReadOnly" value="true" />
+</c:if>
+
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCode}" />
 <c:set var="lookupFlagForLineItem" value="false" />
@@ -36,25 +40,39 @@
 	<td width="95%" colspan="7">		
 		<table border="0" cellpadding=0 cellspacing=0 summary="">
 			<tr>
-           		<td width="10%" valign="middle">
+           		<td width="10%" valign="middle" nowrap="true">
 				<div align="center">		                    
                     <c:if test="${empty KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElement || KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElement == ''}" >
                     	<c:set var="lookupFlagForLineItem" value="true" />
 					</c:if>			
-					<html:select property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" tabindex="0" >
-                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
-                    <c:choose>                    	
-                        <c:when test="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElement == option.key}">						
-                        <option value="${option.key}" selected>${option.label}</option>
-                        	<c:set var="lookupFlagForLineItem" value="true" />
-                        </c:when>
-                        <c:otherwise>
-                        <option value="${option.key}">${option.label}</option>
-                        </c:otherwise>
-                    </c:choose>
-                    </c:forEach>
-                    </html:select>                                		
-				</div>
+                    
+					<c:set var="costElementOptions" value="" />
+                    
+					<c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
+						<c:choose>
+							<c:when test="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElement == option.key}">
+								<c:set var="costElementOptions" value="${costElementOptions}${'<option value=\"'}${option.key}${'\" selected=\"selected\">'}${option.label}${'</option>'}" />
+								<c:set var="selectedCostElement" value="${option.label}" />
+								<c:set var="lookupFlagForLineItem" value="true" />
+							</c:when>
+							<c:otherwise>
+								<c:set var="costElementOptions" value="${costElementOptions}${'<option value=\"'}${option.key}${'\" >'}${option.label}${'</option>'}" />
+							</c:otherwise>
+						</c:choose>
+					</c:forEach> 
+					
+					 <c:choose>
+	                    <c:when test="${readOnly}">
+	                    	<c:out value="${selectedCostElement}"/>	 
+	                     </c:when>
+                     	<c:otherwise>
+                     	<html:select property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" tabindex="0" >
+	                   		${costElementOptions} 
+                    	</html:select> 
+                    	</c:otherwise>  
+                    </c:choose>  
+				</div>  
+				
 				<input type="hidden" name="document.budgetCategoryTypeLineItem[${budgetLineItemNumber}]" value="${budgetCategoryTypeCode}">
 				<kul:lookup boClassName="org.kuali.kra.budget.bo.CostElement" fieldConversions="costElement:document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement,budgetCategoryCode:document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" anchor="${tabKey}" lookupParameters="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement,document.budgetCategoryTypeLineItem[${budgetLineItemNumber}]:budgetCategoryTypeCode" autoSearch="yes" />				
 				<kul:directInquiry boClassName="org.kuali.kra.budget.bo.CostElement" inquiryParameters="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement" anchor="${tabKey}"/>
@@ -91,15 +109,17 @@
                  		<kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemCost" attributeEntry="${budgetLineItemAttributes.lineItemCost}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/> 
 					</div>
 				</td>
-				<td valign="middle">
-					<div align=center>
-					<html:image property="methodToCall.deleteBudgetLineItem.line${budgetLineItemNumber}.anchor${currentTabIndex}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
-					<c:if test="${budgetCategoryTypeCode=='P' }">
-					<html:image property="methodToCall.personnelBudget.line${budgetLineItemNumber}.anchor${currentTabIndex}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-personnelbudget.gif' />
-					</div>
-					</c:if>
+				<td valign="middle">&nbsp;
+					<kra:section permission="modifyBudgets">
+						<div align=center>
+						<html:image property="methodToCall.deleteBudgetLineItem.line${budgetLineItemNumber}.anchor${currentTabIndex}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+						<c:if test="${budgetCategoryTypeCode=='P' }">
+						<html:image property="methodToCall.personnelBudget.line${budgetLineItemNumber}.anchor${currentTabIndex}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-personnelbudget.gif' />
+						</c:if>
+						</div>
+					</kra:section>
                 </td>
 	        </tr>
 	        <c:choose>

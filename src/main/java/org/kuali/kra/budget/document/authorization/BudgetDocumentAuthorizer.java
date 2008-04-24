@@ -16,19 +16,26 @@
 package org.kuali.kra.budget.document.authorization;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
@@ -37,6 +44,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     
     private static final String TRUE = "TRUE";
+    private static Map<String, String> entryEditModeReplacementMap = new HashMap<String, String>();
     
     /**
      * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
@@ -56,6 +64,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
             editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
             editModeMap.put("modifyBudgets", TRUE);
             editModeMap.put("viewBudgets", TRUE);
+            entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
         }
         else if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.VIEW_BUDGET)) {
             editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
@@ -71,6 +80,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         
         return editModeMap;
     }
+    
     
     /**
      * Is the user in the budget's workflow?  If so, then that user has 
@@ -115,6 +125,70 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         }
         
         return flags;
+    }
+
+    @Override
+    protected boolean isLockRequiredByUser(Document document, Map editMode, UniversalUser user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        
+        // check for entry edit mode
+        for (Iterator iterator = editMode.entrySet().iterator(); iterator.hasNext();) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            if (isEntryEditMode(entry) && StringUtils.isNotEmpty(activeLockRegion)) {
+                return true;  
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected boolean useCustomLockDescriptors() {
+        return true;
+    }
+
+    @Override
+    protected String getCustomLockDescriptor(Document document, Map editMode, UniversalUser user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        if(StringUtils.isNotEmpty(activeLockRegion))
+            return document.getDocumentNumber()+"-"+activeLockRegion; 
+        
+        return null;
+    }
+
+    @Override
+    protected boolean isEntryEditMode(Map.Entry entry) {
+        if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(entry.getKey())
+                || KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET.equals(entry.getKey())
+                ) {
+            String fullEntryEditModeValue = (String)entry.getValue();
+            return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && (EDIT_MODE_DEFAULT_TRUE_VALUE.equals(fullEntryEditModeValue)) );
+        }
+        return false;
+    }
+    
+    @Override
+    protected Map getEntryEditModeReplacementMode(Map.Entry entry) {
+        Map editMode = new HashMap(); 
+        editMode.put(entryEditModeReplacementMap.get(entry.getKey()), EDIT_MODE_DEFAULT_TRUE_VALUE); 
+        return editMode;
+    }
+
+    @Override
+    public boolean hasPreRouteEditAuthorization(Document document, UniversalUser user) {
+        BudgetDocument budgetDocument = (BudgetDocument) document;
+        
+        if(super.hasPreRouteEditAuthorization(document, user)) {
+            return true;
+        } else {
+            for (Iterator iterator = budgetDocument.getProposal().getPessimisticLocks().iterator(); iterator.hasNext();) {
+                PessimisticLock lock = (PessimisticLock) iterator.next();
+                if (lock.getLockDescriptor().endsWith("BUDGET") && lock.isOwnedByUser(user)) {
+                    return true;
+                }
+            }
+        } 
+        
+        return false;
     }
 
 }
