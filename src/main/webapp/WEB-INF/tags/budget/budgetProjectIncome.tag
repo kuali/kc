@@ -17,27 +17,30 @@
 					<th><div align="center">*Description</div></th>
 					<th><div align="center">Actions</div></th>	
 				</tr>
-				<tr>
-	            	<th width="50" align="right"><div align="right">Add:</div></th>
-					<td class="infoline"><div align="center">
-						<html:select property="newBudgetProjectIncome.budgetPeriodNumber">
-	                    	<html:option value="0">Select</html:option>  		                    	
-	                    	<c:set var="budgetPeriods" value="${KualiForm.document.budgetPeriods}"/>
-    		            	<html:options collection="budgetPeriods" property="budgetPeriod" labelProperty="label"/>
-  			        	</html:select>						
-	    			</div></td>
-					<td class="infoline"><div align="center">
-	        			<kul:htmlControlAttribute property="newBudgetProjectIncome.projectIncome" attributeEntry="${budgetProjectIncomeAttributes.projectIncome}" styleClass="amount" />
-	        		</div></td>
-	        		<td class="infoline"><div align="center">
-	        			<kul:htmlControlAttribute property="newBudgetProjectIncome.description" attributeEntry="${budgetProjectIncomeAttributes.description}" />
-	        		</div></td>
-	                <td class="infoline">
-	            		<div align=center>
-	            			<html:image property="methodToCall.addProjectIncome" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
-						</div>
-					</td>
-	          	</tr>
+				
+				<kra:section permission="modifyBudgets">
+					<tr>
+		            	<th width="50" align="right"><div align="right">Add:</div></th>
+						<td class="infoline"><div align="center">
+							<html:select property="newBudgetProjectIncome.budgetPeriodNumber">
+		                    	<html:option value="0">Select</html:option>  		                    	
+		                    	<c:set var="budgetPeriods" value="${KualiForm.document.budgetPeriods}"/>
+	    		            	<html:options collection="budgetPeriods" property="budgetPeriod" labelProperty="label"/>
+	  			        	</html:select>						
+		    			</div></td>
+						<td class="infoline"><div align="center">
+		        			<kul:htmlControlAttribute property="newBudgetProjectIncome.projectIncome" attributeEntry="${budgetProjectIncomeAttributes.projectIncome}" styleClass="amount" />
+		        		</div></td>
+		        		<td class="infoline"><div align="center">
+		        			<kul:htmlControlAttribute property="newBudgetProjectIncome.description" attributeEntry="${budgetProjectIncomeAttributes.description}" />
+		        		</div></td>
+		                <td class="infoline">
+		            		<div align=center>
+		            			<html:image property="methodToCall.addProjectIncome" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+							</div>
+						</td>
+		          	</tr>
+	          	</kra:section>
 			          	
 	  			<c:forEach var="budgetProjectIncome" items="${KualiForm.document.budgetProjectIncomes}" varStatus="status">
 	          		<tr>
@@ -82,8 +85,10 @@
 		    	</tr>
 	    	</table>
 	    	
-	    	<div align="center" style="padding-top: 2em;">
-				<html:image property="methodToCall.refreshTotals" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
+	    	<div align="center" style="padding-top: 2em;">&nbsp;
+		    	<kra:section permission="modifyBudgets">
+					<html:image property="methodToCall.refreshTotals" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
+				</kra:section>
 			</div>
 		</div>					
 	</div>

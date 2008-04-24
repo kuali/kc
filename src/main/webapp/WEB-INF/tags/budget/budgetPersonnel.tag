@@ -43,7 +43,8 @@
               		<kul:htmlControlAttribute property="document.budgetPerson[${status.index}].jobCode" attributeEntry="${budgetPersonAttributes.jobCode}" />
               		<kul:lookup boClassName="org.kuali.kra.budget.bo.JobCode" fieldConversions="jobCode:document.budgetPerson[${status.index}].jobCode" anchor="${tabKey}" />
               	</td>
-              	<td><kul:htmlControlAttribute property="document.budgetPerson[${status.index}].appointmentTypeCode" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
+              	<td>
+              		<kra:kraControlAttribute property="document.budgetPerson[${status.index}].appointmentTypeCode" readOnly="${readOnly}" attributeEntry="${budgetPersonAttributes.appointmentType}"/>
               	</td>
               	<td>
               		<div align="center">
@@ -55,7 +56,13 @@
 						<kul:htmlControlAttribute property="document.budgetPerson[${status.index}].effectiveDate" attributeEntry="${budgetPersonAttributes.effectiveDate}" datePicker="true" />
                   	</div>
                 </td>
-              	<td><div align=center><html:image property="methodToCall.deleteBudgetPerson.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' /></div></td>
+              	<td>
+              		<div align=center>&nbsp;
+              			<kra:section permission="modifyBudgets">
+	              			<html:image property="methodToCall.deleteBudgetPerson.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+	              		</kra:section>
+              		</div>
+              	</td>
 			</tr>
         	</c:forEach>
         </table>
