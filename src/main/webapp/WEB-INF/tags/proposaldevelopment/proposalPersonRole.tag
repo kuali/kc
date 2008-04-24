@@ -25,13 +25,18 @@
                 <kul:htmlControlAttribute property="${proposalPerson}.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" />
             </c:when>
             <c:otherwise>
+            <%-- // START SNIPPET: jstlFunctionJspExample1 --%>
                 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
                 <c:set target="${paramMap}" property="forAddedPerson" value="true" />
+            <%-- // END SNIPPET: jstlFunctionJspExample1 --%>
+
                 <kul:checkErrors keyMatch="${proposalPerson}.proposalPersonRoleId" auditMatch="${proposalPerson}.proposalPersonRoleId"/>  
                 <c:set var="roleStyle" value=""/>
                 <c:if test="${hasErrors==true}">
                     <c:set var="roleStyle" value="background-color:#FFD5D5"/>
                 </c:if>
+
+                <%-- // START SNIPPET: jstlFunctionJspExample2 --%>
                 <html:select property="${proposalPerson}.proposalPersonRoleId" tabindex="0" style="${roleStyle}">
                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalPersonRoleValuesFinder', paramMap)}" var="option">
                 <c:choose>
@@ -44,6 +49,7 @@
                 </c:choose>
                 </c:forEach>
                 </html:select>
+                <%-- // END SNIPPET: jstlFunctionJspExample2 --%>
             </c:otherwise>
         </c:choose>
     </c:otherwise>
