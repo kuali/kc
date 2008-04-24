@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -94,10 +95,12 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String DELETE_BTN = "methodToCall.deleteProposalUser";
     private static final String EDIT_ROLES_BTN = "methodToCall.editRoles";
     
-    
     private static final String AGGREGATOR_FIELD_ID = "proposalUserEditRoles.aggregator";
     private static final String BUDGET_CREATOR_FIELD_ID = "proposalUserEditRoles.budgetCreator";
     private static final String NARRATIVE_WRITER_FIELD_ID = "proposalUserEditRoles.narrativeWriter";
+    
+    private static final String ATTACHMENT_FILENAME = "/org/kuali/kra/proposaldevelopment/web/ProposalAttachmentWebTest.class";
+    private static final String NARRATIVE_FILE_ID = "newNarrative.narrativeFile";
     
     private class User {
         String username;
@@ -947,8 +950,18 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
         page = clickOnTab(page, ABSTRACTS_ATTACHMENTS_LINK_NAME);
         assertTrue(!hasError(page));
         setFieldValue(page, "newNarrative.narrativeTypeCode", type);
-        setFieldValue(page, "newNarrative.moduleStatusCode", "I");
+        setFieldValue(page, NARRATIVE_FILE_ID, getFilePath());
         page = clickOn(page, "methodToCall.addProposalAttachment");
         return page;
+    }
+    
+    /**
+     * Get the path to a file.  That file will be attached to the document.
+     * @return
+     */
+    private String getFilePath() {
+        URL fileUrl = getClass().getResource(ATTACHMENT_FILENAME);
+        assertNotNull(fileUrl);
+        return fileUrl.getPath();
     }
 }
