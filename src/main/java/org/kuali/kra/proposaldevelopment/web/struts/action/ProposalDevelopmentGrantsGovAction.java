@@ -116,11 +116,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
     public ActionForward confirmRemoveOpportunity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_REMOVE_OPPRTUNITY_KEY.equals(question)) { 
-            //TODO: Re-factor to not use businessObjectService for delete
             ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
             ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
-            BusinessObjectService businessObjectService = ((BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class));            
-            businessObjectService.delete(proposalDevelopmentDocument.getS2sOpportunity());
             proposalDevelopmentDocument.setS2sOpportunity(null);
             proposalDevelopmentDocument.setProgramAnnouncementNumber(null);
             proposalDevelopmentDocument.setProgramAnnouncementTitle(null);
