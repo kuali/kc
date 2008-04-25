@@ -95,7 +95,14 @@ public class BudgetExpensesAction extends BudgetAction {
             newBudgetLineItem.setLineItemNumber(budgetForm.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
             newBudgetLineItem.setApplyInRateFlag(true);
             newBudgetLineItem.refreshReferenceObject("costElementBO");
-            newBudgetLineItem.setOnOffCampusFlag(newBudgetLineItem.getCostElementBO().getOnOffCampusFlag());       
+            
+            // on/off campus flag enhancement
+            String onOffCampusFlag = budgetDocument.getOnOffCampusFlag();
+            if (onOffCampusFlag.equalsIgnoreCase(Constants.DEFALUT_CAMUS_FLAG)) {
+                newBudgetLineItem.setOnOffCampusFlag(newBudgetLineItem.getCostElementBO().getOnOffCampusFlag()); 
+            } else {
+                newBudgetLineItem.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMUS_FLAG));                 
+            }
             newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
             newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
             

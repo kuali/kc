@@ -48,7 +48,7 @@
 			        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.endDate}" noColon="true" /></div></th>
 			        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].endDate" attributeEntry="${budgetLineItemAttributes.endDate}" datePicker="true" readOnly="${budgetExpensePanelReadOnly}"/></div></td>
 			        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.onOffCampusFlag}" noColon="true" /></div></th>
-			        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].onOffCampusFlag" attributeEntry="${budgetLineItemAttributes.onOffCampusFlag}" readOnly="${budgetExpensePanelReadOnly}"/></div></td>
+			        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].onOffCampusFlag"  attributeEntry="${budgetLineItemAttributes.onOffCampusFlag}" readOnly="${budgetExpensePanelReadOnly || KualiForm.document.onOffCampusFlag != 'D'}"/></div></td>
 			        	</tr>
 			        	<tr>
 			        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${costElementAttributes.budgetCategoryCode}" noColon="true" /></div></th>
