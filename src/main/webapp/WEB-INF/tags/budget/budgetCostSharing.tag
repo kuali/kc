@@ -24,6 +24,8 @@
 							<th width="17%"><div align="center">Amount</div></th>					
 							<th width="15%"><div align="center">Actions</div></th>	
 						</tr>
+						
+						<kra:section permission="modifyBudgets">
 						<tr>
 			            	<th width="50" align="right"><div align="right">Add:</div></th>
 							<td class="infoline"><div align="center">
@@ -44,6 +46,7 @@
 								</div>
 							</td>
 			          	</tr>
+			          	</kra:section>
 					          	
 			  			<c:forEach var="budgetCostShare" items="${KualiForm.document.budgetCostShares}" varStatus="status">
 			          		<tr>
@@ -102,10 +105,12 @@
 						    </tr>
 					    </c:forEach>
 					</table>
-					
-					<div align="center" style="padding-top: 2em;">
-						<html:image property="methodToCall.resetCostSharingToDefault" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-resettodefault.gif' />
-						<html:image property="methodToCall.refreshTotals" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
+
+					<div align="center" style="padding-top: 2em;">&nbsp;
+						<kra:section permission="modifyBudgets">
+							<html:image property="methodToCall.resetCostSharingToDefault" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-resettodefault.gif' />
+							<html:image property="methodToCall.refreshTotals" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
+						</kra:section>
 					</div>
 				</div>
 			</div>

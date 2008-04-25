@@ -36,7 +36,7 @@
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.proposal.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}"  styleClass="fixed-size-200-select"/>
+                	<kra:kraControlAttribute property="document.budgetStatus" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}"  styleClass="fixed-size-200-select"/>
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.residualFunds}" /></div></th>
            		<td>
@@ -50,7 +50,7 @@
            		</td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.urRateClassCode" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
+                	<kra:kraControlAttribute property="document.urRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
                 </td>
      		</tr>
         	<tr>
@@ -61,7 +61,7 @@
                 </td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateTypeCode}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.ohRateTypeCode" attributeEntry="${budgetAttributes.ohRateTypeCode}"  styleClass="fixed-size-200-select"/>
+           			<kra:kraControlAttribute property="document.ohRateTypeCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.ohRateTypeCode}"  styleClass="fixed-size-200-select"/>
            		</td>
      		</tr>
 
