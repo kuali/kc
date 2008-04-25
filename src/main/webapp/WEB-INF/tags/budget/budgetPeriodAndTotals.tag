@@ -37,7 +37,9 @@
           		<th width="15%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>
           	
-          	</tr>        
+          	</tr> 
+          	
+          	<kra:section permission="modifyBudgets">       
              <tr>
 				<th width="5%" class="infoline">
 					<c:out value="Add:" />
@@ -85,10 +87,11 @@
 					</div>
                 </td>
             </tr>
+            </kra:section>
             
         	<c:forEach var="budgetPeriods" items="${KualiForm.document.budgetPeriods}" varStatus="status">
-				  <bean:define id="readOnly" name="KualiForm" property="document.budgetPeriods[${status.index}].budgetLineItemStatus" />
-				  <c:if test="${readOnly == 'Yes'}">
+				  <bean:define id="readOnlyFlag" name="KualiForm" property="document.budgetPeriods[${status.index}].budgetLineItemStatus" />
+				  <c:if test="${readOnlyFlag == 'Yes' or readOnly == 'true'}">
 				  		<c:set var="readOnly" value="true"/>
 				  </c:if>
 	             <tr>
@@ -129,16 +132,18 @@
 					<div align="center">
 	                	<kul:htmlControlAttribute property="document.budgetPeriods[${status.index}].costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="${readOnly}"/>
 					</div>
-	                </td>
+	                </td> 
 					<td width="10%">
-					<div align="center">
-						<html:image property="methodToCall.deleteBudgetPeriod.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+					<div align="center">&nbsp;
+						<kra:section permission="modifyBudgets"> 
+							<html:image property="methodToCall.deleteBudgetPeriod.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+						</kra:section>
 					</div>
 	                </td>
 	            </tr>
-        	</c:forEach>       
-        	<tr>
+        	</c:forEach> 
+        	        	<tr>
         		<td colspan="9" class="subhead">Totals</td>
     	    </tr>
           	<tr>
@@ -183,9 +188,11 @@
                 	</div>
                 </td>
 				<td width="10%" class="infoline">
-					<div align=center>
-						<html:image property="methodToCall.recalculateBudgetPeriod.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
+					<div align=center>&nbsp;
+						<kra:section permission="modifyBudgets">
+							<html:image property="methodToCall.recalculateBudgetPeriod.anchor${tabKey}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' />
+						</kra:section>
 					</div>
                 </td>
           	</tr>        

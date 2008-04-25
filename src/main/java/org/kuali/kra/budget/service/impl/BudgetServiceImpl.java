@@ -72,8 +72,8 @@ public class BudgetServiceImpl implements BudgetService {
         }
         
         documentService.saveDocument(budgetDocument);
-        documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         
+        documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         return budgetDocument;
     }
     

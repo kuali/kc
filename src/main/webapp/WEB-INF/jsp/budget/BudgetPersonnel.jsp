@@ -14,6 +14,13 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
+
+<c:if test="${KualiForm.editingMode['modifyBudgets']}">
+	<c:set var="extraButtonSource" value="fill me in" />
+	<c:set var="extraButtonProperty" value="methodToCall.synchToProposal" />
+	<c:set var="extraButtonAlt" value="Synch to Proposal" />
+</c:if>
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -22,37 +29,39 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="personnel">
   	
-  	<kul:uncollapsable tabTitle="Add Project Personnel">
-  		<div align="center">
-            <table cellpadding="0" cellspacing="0" class="grid" summary="">
-              	<tr>
-                	<th class="grid"><div align="right">Person:</div></th>
-                	<td nowrap class="grid">
-                		<label>Employee Search</label>
-                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.Person" 
-                        	lookedUpCollectionName="newBudgetPersons" /></label><br>
-                        <label>Non-employee Search</label>
-                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
-                        	lookedUpCollectionName="newBudgetRolodexes" /></label><br>
-                        <label>To be named</label>
-                       	<label><kul:multipleValueLookup boClassName="org.kuali.kra.budget.bo.TbnPerson" 
-                        	lookedUpCollectionName="newTbnPersons" /></label>
-                	</td>
-              	</tr>
-            </table>
-        </div>
-	</kul:uncollapsable>
+	<kra:section permission="modifyBudgets">
+	  	<kul:uncollapsable tabTitle="Add Project Personnel">
+	  		<div align="center">
+	            <table cellpadding="0" cellspacing="0" class="grid" summary="">
+	              	<tr>
+	                	<th class="grid"><div align="right">Person:</div></th>
+	                	<td nowrap class="grid">
+	                		<label>Employee Search</label>
+	                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.Person" 
+	                        	lookedUpCollectionName="newBudgetPersons" /></label><br>
+	                        <label>Non-employee Search</label>
+	                  		<label><kul:multipleValueLookup boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" 
+	                        	lookedUpCollectionName="newBudgetRolodexes" /></label><br>
+	                        <label>To be named</label>
+	                       	<label><kul:multipleValueLookup boClassName="org.kuali.kra.budget.bo.TbnPerson" 
+	                        	lookedUpCollectionName="newTbnPersons" /></label>
+	                	</td>
+	              	</tr>
+	            </table>
+	        </div>
+		</kul:uncollapsable> 
+	</kra:section>
 	<br/>
 	
 	<kra-b:budgetPersonnel/>
-	
+
 	<kul:documentControls 
 		transactionalDocument="false"
 		suppressRoutingControls="true"
 		viewOnly="${KualiForm.editingMode['viewOnly']}"
-		extraButtonSource="fill me in"
-		extraButtonProperty="methodToCall.synchToProposal"
-		extraButtonAlt="Synch to Proposal"
+		extraButtonSource="${extraButtonSource}"
+		extraButtonProperty="${extraButtonProperty}"
+		extraButtonAlt="${extraButtonAlt}"
 		/>
 		
 </kul:documentPage>

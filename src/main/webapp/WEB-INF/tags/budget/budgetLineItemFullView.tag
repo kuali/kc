@@ -26,7 +26,7 @@
 <c:set var="action" value="budgetExpensesAction" />
 <c:set var="textAreaFieldNameJustification" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
 
-<jsp:useBean id="parameterMap" class="java.util.HashMap"/>
+<jsp:useBean id="parameterMap" class="java.util.HashMap" scope="request" />
 <c:set target="${parameterMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCode}" />
 
 
@@ -51,21 +51,9 @@
 			        	</tr>
 			        	<tr>
 			        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.budgetCategoryCode}" noColon="true" /></div></th>
-				        	<%--<td colspan="2"><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" attributeEntry="${budgetLineItemAttributes.budgetCategoryCode}"/></div></td> --%>
 				        	<td>
-							<html:select property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" tabindex="0" >
-		                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder', parameterMap)}" var="option">                    
-		                    <c:choose>                    	
-		                        <c:when test="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetCategoryCode == option.key}">						
-		                        <option value="${option.key}" selected>${option.label}</option>
-		                        </c:when>
-		                        <c:otherwise>
-		                        <option value="${option.key}">${option.label}</option>
-		                        </c:otherwise>
-		                    </c:choose>
-		                    </c:forEach>
-		                    </html:select>
-		                    </td>				        	
+						    	<kra:parameterizedSelectTag property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" value="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetCategoryCode}" valuesFinder="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder" tabindex="0" />
+		         		    </td>				        	
 				        </tr>															
 			        </table>
 			        </div>
