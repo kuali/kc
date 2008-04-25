@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -38,6 +39,7 @@ import org.kuali.kra.budget.rule.event.AddBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.DeleteBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
+import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -52,6 +54,10 @@ public class BudgetSummaryAction extends BudgetAction {
         boolean rulePassed = getKualiRuleService().applyRules(new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         if(rulePassed){
+            // update campus flag if budget level flag is changed
+            if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag()) || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
+                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budgetDocument, budgetDocument.getOnOffCampusFlag());
+            }
             /* calculate all periods */
             budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
             if (budgetDocument.getFinalVersionFlag()) {
@@ -142,6 +148,9 @@ public class BudgetSummaryAction extends BudgetAction {
         boolean rulePassed = getKualiRuleService().applyRules(new GenerateBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         if(rulePassed){
+            if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag()) || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
+                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budgetDocument, budgetDocument.getOnOffCampusFlag());
+            }
             /* calculate first period - only period 1 exists at this point*/
             budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
             /* generate all periods */
@@ -165,6 +174,9 @@ public class BudgetSummaryAction extends BudgetAction {
     public ActionForward calculateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag()) || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
+            KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budgetDocument, budgetDocument.getOnOffCampusFlag());
+        }
         /* calculate all periods */
         budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
 

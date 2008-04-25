@@ -135,6 +135,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<KeyLabelPair> budgetCategoryTypeCodes;
     
     private String budgetStatus;
+    private String onOffCampusFlag;
     
     public BudgetDocument(){
         super();
@@ -153,7 +154,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         budgetPersons = new ArrayList<BudgetPerson>();
         Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
         Formatter.registerFormatter(RateDecimal.class, RateDecimalFormatter.class);
-        budgetCategoryTypeCodes = new ArrayList<KeyLabelPair>();        
+        budgetCategoryTypeCodes = new ArrayList<KeyLabelPair>();
+        setOnOffCampusFlag("D");
     }
 
     public void initialize() {
@@ -1262,6 +1264,14 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
 
     public void setBudgetJustification(String budgetJustification) {
         this.budgetJustification = budgetJustification;
+    }
+
+    public String getOnOffCampusFlag() {
+        return onOffCampusFlag;
+    }
+
+    public void setOnOffCampusFlag(String onOffCampusFlag) {
+        this.onOffCampusFlag = onOffCampusFlag;
     }
 }
 
