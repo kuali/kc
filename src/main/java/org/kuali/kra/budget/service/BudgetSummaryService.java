@@ -43,4 +43,13 @@ public interface BudgetSummaryService {
     public Collection<BudgetLineItem> getBudgetLineItemForPeriod(BudgetDocument budgetDocument, int budgetPeriodNumber);
     public Collection<BudgetPersonnelDetails> getBudgetPersonnelDetailsForPeriod(BudgetDocument budgetDocument, int budgetPeriodNumber);
     public void calculateBudget(BudgetDocument budgetDocument);
+    
+    /**
+     * 
+     * This method to update the on/off campus flag for line item detail if on/off campus flag is changed in budget level.
+     * @param budgetDocument
+     * @param onOffCampusFlag
+     */
+    public void updateOnOffCampusFlag(BudgetDocument budgetDocument, String onOffCampusFlag);
+
 }
