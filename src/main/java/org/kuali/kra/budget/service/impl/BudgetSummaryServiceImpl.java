@@ -105,42 +105,58 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     public void generateAllPeriods(BudgetDocument budgetDocument) {
         
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
-        List<BudgetLineItem> budgetLineItems = budgetDocument.getBudgetLineItems();
-        List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList();
+        //List<BudgetLineItem> budgetLineItems = budgetDocument.getBudgetLineItems();
+        //List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList();
 
         /* get all period one line items */
-        Collection<BudgetLineItem> periodOneLineItems = new ArrayList();
-        Collection<BudgetPersonnelDetails> periodOnePersonnelDetails = new ArrayList();
+        //Collection<BudgetLineItem> periodOneLineItems = new ArrayList();
+        //Collection<BudgetPersonnelDetails> periodOnePersonnelDetails = new ArrayList();
         Map budgetLineItemMap = new HashMap();
         /* filter by budget period */
-        Integer budgetPeriodNumber = 1;
-        budgetLineItemMap.put("budgetPeriod", budgetPeriodNumber);
-        periodOneLineItems = businessObjectService.findMatching(BudgetLineItem.class, budgetLineItemMap);
-        periodOnePersonnelDetails = businessObjectService.findMatching(BudgetPersonnelDetails.class, budgetLineItemMap);
+        //Integer budgetPeriodNumber = 1;
+        //budgetLineItemMap.put("budgetPeriod", budgetPeriodNumber);
+        //periodOneLineItems = businessObjectService.findMatching(BudgetLineItem.class, budgetLineItemMap);
+        //periodOnePersonnelDetails = businessObjectService.findMatching(BudgetPersonnelDetails.class, budgetLineItemMap);
 
+        List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
+        List<BudgetLineItem> newLineItems = new ArrayList<BudgetLineItem>();
+        List<BudgetPersonnelDetails> newPersonnelItems = new ArrayList<BudgetPersonnelDetails>();
+        HashMap newBudgetLineItems = new HashMap();
+        HashMap newBudgetPersonnelLineItems = new HashMap();
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             Integer budPeriod = budgetPeriod.getBudgetPeriod();
-            if(budPeriod > 1) {
-                /* add line items */
-                for(BudgetLineItem periodOneLineItem: periodOneLineItems) {
-                    BudgetLineItem budgetLineItem = (BudgetLineItem)ObjectUtils.deepCopy(periodOneLineItem);
-                    budgetLineItem.setBudgetPeriod(budPeriod);
-                    budgetLineItem.setStartDate(budgetPeriod.getStartDate());
-                    budgetLineItem.setEndDate(budgetPeriod.getEndDate());
-                    budgetLineItems.add(budgetLineItem);
-                }
-                /* add personnel line items */
-                for(BudgetPersonnelDetails periodOnePersonnelDetail: periodOnePersonnelDetails) {
-                    BudgetPersonnelDetails budgetPersonnelDetail = (BudgetPersonnelDetails)ObjectUtils.deepCopy(periodOnePersonnelDetail);
-                    budgetPersonnelDetail.setBudgetPeriod(budPeriod);
-                    budgetPersonnelDetail.setStartDate(budgetPeriod.getStartDate());
-                    budgetPersonnelDetail.setEndDate(budgetPeriod.getEndDate());
-                    budgetPersonnelDetails.add(budgetPersonnelDetail);
-                }
-                /* add cal amounts */
+            System.out.println("budPeriod ==> " + budPeriod);
+            switch(budPeriod) {
+                case 1 :
+                    // get line items for first period
+                    budgetLineItems = budgetPeriod.getBudgetLineItems();
+                    System.out.println("budgetLineItems ==> " + budgetLineItems.size());
+                    break;
+                default :    
+                    /* add line items for following periods */
+                    for(BudgetLineItem periodLineItem: budgetLineItems) {
+                        BudgetLineItem budgetLineItem = (BudgetLineItem)ObjectUtils.deepCopy(periodLineItem);
+                        budgetLineItem.setBudgetPeriod(budPeriod);
+                        budgetLineItem.setStartDate(budgetPeriod.getStartDate());
+                        budgetLineItem.setEndDate(budgetPeriod.getEndDate());
+                        System.out.println("budgetLineItem ==> " + budgetLineItem.getLineItemDescription());
+                        System.out.println("budgetLineItem ==> " + budgetLineItem.getDirectCost());
+                        budgetPeriod.getBudgetLineItems().add(budgetLineItem);
+                        //newLineItems.add(budgetLineItem);
+                        /* add personnel line items */
+                        List<BudgetPersonnelDetails> budgetPersonnelDetails = periodLineItem.getBudgetPersonnelDetailsList();
+                        for(BudgetPersonnelDetails periodOnePersonnelDetail: budgetPersonnelDetails) {
+                            BudgetPersonnelDetails budgetPersonnelDetail = (BudgetPersonnelDetails)ObjectUtils.deepCopy(periodOnePersonnelDetail);
+                            budgetPersonnelDetail.setBudgetPeriod(budPeriod);
+                            budgetPersonnelDetail.setStartDate(budgetPeriod.getStartDate());
+                            budgetPersonnelDetail.setEndDate(budgetPeriod.getEndDate());
+                            //newPersonnelItems.add(budgetPersonnelDetail);
+                            periodLineItem.getBudgetPersonnelDetailsList().add(budgetPersonnelDetail);
+                        }
+                    }
             }
-            
         }
+        
     }
     
     /**
@@ -179,8 +195,11 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     
     public boolean budgetLineItemExists(BudgetDocument budgetDocument, Integer budgetPeriod) {
         boolean lineItemExists = false;
-        List<BudgetLineItem> budgetLineItems =  budgetDocument.getBudgetLineItems();
-        List<BudgetPersonnelDetails> budgetPersonnelDetailsList = budgetDocument.getBudgetPersonnelDetailsList();
+        //List<BudgetLineItem> budgetLineItems =  budgetDocument.getBudgetLineItems();
+        //List<BudgetPersonnelDetails> budgetPersonnelDetailsList = budgetDocument.getBudgetPersonnelDetailsList();
+        
+        List<BudgetLineItem> budgetLineItems =  budgetDocument.getBudgetPeriod(budgetPeriod).getBudgetLineItems();
+        
         /* check budget line item */
         for(BudgetLineItem periodLineItem: budgetLineItems) {
             Integer lineItemPeriod = periodLineItem.getBudgetPeriod();
@@ -188,8 +207,18 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                 lineItemExists = true;
                 break;
             }
+            List<BudgetPersonnelDetails> budgetPersonnelDetailsList = periodLineItem.getBudgetPersonnelDetailsList();
+            /* check personnel line item */
+            for(BudgetPersonnelDetails periodPersonnelLineItem: budgetPersonnelDetailsList) {
+                lineItemPeriod = periodPersonnelLineItem.getBudgetPeriod();
+                if(budgetPeriod+1 == lineItemPeriod) {
+                    lineItemExists = true;
+                    break;
+                }
+            }
         }
         /* check personnel line item */
+        /*
         if(!lineItemExists) {
             for(BudgetPersonnelDetails periodPersonnelLineItem: budgetPersonnelDetailsList) {
                 Integer lineItemPeriod = periodPersonnelLineItem.getBudgetPeriod();
@@ -199,6 +228,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                 }
             }
         }
+        */
         return lineItemExists;
     }
     
