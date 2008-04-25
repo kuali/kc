@@ -85,8 +85,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
 
         retval &= super.processCustomRouteDocumentBusinessRules(document);
-
-        retval &= new ProposalDevelopmentKeyPersonsRule().processCustomRouteDocumentBusinessRules(document);
         
         retval &= processProposalYNQBusinessRule(proposalDevelopmentDocument, true);
         

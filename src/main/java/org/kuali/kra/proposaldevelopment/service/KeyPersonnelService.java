@@ -37,7 +37,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: gmcgrego $
- * @version $Revision: 1.4.6.3 $
+ * @version $Revision: 1.4.6.4 $
  */
 public interface KeyPersonnelService {
     /**
@@ -200,5 +200,11 @@ public interface KeyPersonnelService {
      * @see #isRoleReadOnly(String)
      */
     public boolean isRoleReadOnly(ProposalPersonRole role);
-    
+
+    /**
+     * 
+     * @param document to get Sponsor status
+     * @return Principal Investigator Role Description from the System Parameters
+     */
+    public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document);
 }

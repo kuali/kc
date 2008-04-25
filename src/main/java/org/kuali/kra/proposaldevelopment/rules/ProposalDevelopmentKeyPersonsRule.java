@@ -32,8 +32,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
 
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
@@ -54,7 +56,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: gmcgrego $
- * @version $Revision: 1.33.2.1 $
+ * @version $Revision: 1.33.2.2 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
@@ -83,9 +85,11 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @return boolean
      */
     public boolean processSaveKeyPersonBusinessRules(ProposalDevelopmentDocument document) {
+        info("Processing Key Personnel Save Document Rule");
         boolean retval = true;
         int pi_cnt = 0;
         int personIndex = 0;
+        
         for (ProposalPerson person : document.getProposalPersons()) {
             if (isPrincipalInvestigator(person)) {
                 pi_cnt++;
@@ -100,33 +104,10 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         if (pi_cnt > 1) {
             retval = false;
-            reportError("newProposalPerson*", ERROR_INVESTIGATOR_UPBOUND);            
+            reportError("newProposalPerson*", ERROR_INVESTIGATOR_UPBOUND, getKeyPersonnelService().getPrincipalInvestigatorRoleDescription(document));            
         }        
 
         return retval;
-    }
-
-    /**
-     * Validate the following
-     * <ul>
-     *   <li>There must be at least one principal investigator</li>
-     *   <li>All investigators must have a Unit #</li>
-     *   <li>Principal Investigator Lead Unit should correspond to the Proposal Development Document Lead Unit</li>
-     *   <li>All <code>{@link ProposalPerson}</code> instances must have a role.
-     *   <li>If Credit Split is enabled:
-     *     <ul>
-     *       <li>% for all investigators and all credit types must add up to 100%</li>
-     *       <li>Unit totals must add up to 100%</li>
-     *       <li>% effort must be between 0.0 and 1.0</li>
-     *     </ul>
-     *   </li>
-     * </ul>
-     *
-     * @param document ProposalDevelopmentDocument to process.
-     */
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        return true;
     }
 
     /**
@@ -313,6 +294,16 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      */
     private boolean validateDegree(ProposalPersonDegree source) {
         boolean retval = true;
+        
+        String regExpr = "\\d{4}";
+        if(source.getGraduationYear()!=null && !(source.getGraduationYear().matches(regExpr)) && GlobalVariables.getErrorMap().getMessages("ProposalPersonDegree*") == null) 
+        {
+            GlobalVariables.getErrorMap().putError("ProposalPersonDegree*", RiceKeyConstants.ERROR_INVALID_FORMAT,
+                    new String[] {"Graduation Year", source.getGraduationYear() });
+                            
+          
+            retval = false;
+         }
         
         if (source == null) {
             return false;
