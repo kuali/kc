@@ -136,8 +136,15 @@
 					<td width="10%">
 					<div align="center">&nbsp;
 						<kra:section permission="modifyBudgets"> 
-							<html:image property="methodToCall.deleteBudgetPeriod.line${status.index}.anchor${currentTabIndex}"
-								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+		          		<c:choose>
+		    				<c:when test="${readOnlyFlag == 'No' or readOnly == 'false'}">
+								<html:image property="methodToCall.deleteBudgetPeriod.line${status.index}.anchor${currentTabIndex}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+		    				</c:when>
+		    				<c:otherwise >
+								<img class="nobord" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete2.gif' />
+		    				</c:otherwise>
+						</c:choose>
 						</kra:section>
 					</div>
 	                </td>
