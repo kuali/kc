@@ -31,6 +31,7 @@ import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
+import org.kuali.kra.infrastructure.Constants;
 
 public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
@@ -406,5 +407,44 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         this.budgetCalculationService = budgetCalculationService;
     }
 
+    public void updateOnOffCampusFlag(BudgetDocument budgetDocument, String onOffCampusFlag) {
+        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+        List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList();
+        for(BudgetPeriod budgetPeriod: budgetPeriods) {
+            /* get all line items for each budget period */
+            Collection<BudgetLineItem> periodLineItems = new ArrayList();
+            Collection<BudgetPersonnelDetails> periodPersonnelDetails = new ArrayList();
+            Map budgetLineItemMap = new HashMap();
+            /* filter by budget period */
+            // TODO : not sure how this personnel details list.  This is just copy from an existing method
+            Integer budgetPeriodNumber = budgetPeriod.getBudgetPeriod();
+            budgetLineItemMap.put("budgetPeriod", budgetPeriodNumber);
+            periodLineItems = businessObjectService.findMatching(BudgetLineItem.class, budgetLineItemMap);
+            periodPersonnelDetails = businessObjectService.findMatching(BudgetPersonnelDetails.class, budgetLineItemMap);
+            /* update line items */
+            if (budgetPeriod.getBudgetLineItems() != null) {
+                for(BudgetLineItem periodLineItem: budgetPeriod.getBudgetLineItems()) {
+                    if (onOffCampusFlag.equalsIgnoreCase(Constants.DEFALUT_CAMUS_FLAG)) {
+                        if (periodLineItem.getCostElementBO() == null) {
+                            periodLineItem.refreshReferenceObject("costElementBO");
+                        }
+                        periodLineItem.setOnOffCampusFlag(periodLineItem.getCostElementBO().getOnOffCampusFlag()); 
+                    } else {
+                        periodLineItem.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMUS_FLAG));                 
+                    }
+                    for(BudgetPersonnelDetails periodPersonnelDetail: periodLineItem.getBudgetPersonnelDetailsList()) {
+                        if (onOffCampusFlag.equalsIgnoreCase(Constants.DEFALUT_CAMUS_FLAG)) {
+                            if (periodLineItem.getCostElementBO() == null) {
+                                periodLineItem.refreshReferenceObject("costElementBO");
+                            }
+                            periodPersonnelDetail.setOnOffCampusFlag(periodPersonnelDetail.getCostElementBO().getOnOffCampusFlag()); 
+                        } else {
+                            periodPersonnelDetail.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMUS_FLAG));                 
+                        }
+                    }
+                }
+            }
+        }                            
+    }
 
 }
