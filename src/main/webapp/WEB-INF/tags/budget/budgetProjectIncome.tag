@@ -2,7 +2,7 @@
 
 <c:set var="budgetProjectIncomeAttributes" value="${DataDictionary.BudgetProjectIncome.attributes}" />
 
-<kul:tab tabTitle="Project Income (${KualiForm.document.budgetProjectIncomeCount})" defaultOpen="false" tabErrorKey="budget.projectIncome*">
+<kul:tab tabTitle="Project Income" tabItemCount="${KualiForm.document.budgetProjectIncomeCount}" defaultOpen="false" tabErrorKey="budget.projectIncome*">
 	<div class="tab-container" align="center">
 		<div class="h2-container">
 	    	<span class="subhead-left"><h2>Income Details</h2></span>
