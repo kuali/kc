@@ -58,17 +58,15 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: gmcgrego $
- * @version $Revision: 1.23.2.4 $
+ * @version $Revision: 1.23.2.5 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private static final String READ_ONLY_ROLES_PARAM_NAME = "proposaldevelopment.personrole.readonly.roles";
     private BusinessObjectService businessObjectService;
     private NarrativeService narrativeService;
     private YnqService ynqService;
-    private KualiConfigurationService configurationService;
+    private KualiConfigurationService configurationService;    
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelServiceImpl.class);
-    
     /**
      * Part of a complete breakfast, it has everything you need to populate Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
      * 
@@ -598,17 +596,16 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         }
         return isRoleReadOnly(role.getProposalPersonRoleId());
     }
-    
+
     /**
      * 
      * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#getPrincipalInvestigatorRoleDescription(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document) {
         String parameterName = "proposaldevelopment.personrole.pi";
-        if (document.getSponsor().getAcronym().toLowerCase().equals("nih")) {
+        if (document.getSponsor() != null && document.getSponsor().getAcronym() != null && document.getSponsor().getAcronym().toLowerCase().equals("nih")) {
             parameterName = "proposaldevelopment.personrole.nonnih.pi";
         }
         return getConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,parameterName).getParameterValue();
     }
-
 }
