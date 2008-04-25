@@ -695,6 +695,20 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         managedLists.add(getPropScienceKeywords());
         managedLists.add(getProposalAbstracts());
         managedLists.add(getPropPersonBios());
+        
+        /*
+         * This is really bogus, but OJB doesn't delete a BO component from the
+         * database after it is set to null, i.e. the S2S Opportunity.  It is
+         * the same issue as deleting items from a list.  To get around OJB's
+         * stupidity, we will construct a list which will contain the Opportunity
+         * if it is present.  The Kuali Core logic will then force the deletion.
+         */
+        List<S2sOpportunity> opportunities = new ArrayList<S2sOpportunity>();
+        S2sOpportunity opportunity = this.getS2sOpportunity();
+        if (opportunity != null) {
+            opportunities.add(opportunity);
+        }
+        managedLists.add(opportunities);
            
         return managedLists;
     }
