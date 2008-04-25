@@ -1772,7 +1772,7 @@
 		<reference-descriptor name="budgetCategory" class-ref="org.kuali.kra.budget.bo.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="budgetCategoryCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="costElementBO" class-ref="org.kuali.kra.budget.bo.CostElement" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="costElementBO" class-ref="org.kuali.kra.budget.bo.CostElement" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="costElement"/> 
 		</reference-descriptor>
 	</class-descriptor>

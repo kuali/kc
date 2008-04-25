@@ -43,7 +43,7 @@
 				<c:set var="index" value="${index+1}"/>			    		
     		</c:if>
     		<c:if test="${index!=0}">    					    		
-    			<c:set var="budgetLineItemSize" value=" (${index})"/>
+    			<c:set var="budgetLineItemSize" value="${index}"/>
     		</c:if>
     		<c:choose>
     			<c:when test="${empty tabErrorKeyString}">
@@ -61,7 +61,7 @@
      	<%-- <c:out value="${tabErrorKeyString}test" /> --%>
 	<c:set var="budgetExpensePanelReadOnly" value="${KualiForm.document.proposal.budgetVersionOverviews[KualiForm.document.budgetVersionNumber-1].finalVersionFlag}" />
 	 	
-	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}${budgetLineItemSize}" defaultOpen="false" tabErrorKey="*costElement*,document.budgetCategoryTypes*,newBudgetLineItems[${catCodes}].*">
+	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}" tabItemCount="${budgetLineItemSize}" defaultOpen="false" tabErrorKey="*costElement*,document.budgetCategoryTypes*,newBudgetLineItems[${catCodes}].*">
 		<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>${budgetCategoryTypeCodesLabel}</h2></span>
@@ -159,7 +159,7 @@
 			    		<c:set var="index" value="0"/>
 			    		<c:forEach var="budgetLineItems" items="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">
 			    		<c:if test="${budgetLineItems.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeIndex.key}" >
-							<kra-b:budgetLineItems budgetPeriod = "${budgetPeriod}" budgetCategoryTypeCode = "${budgetCategoryTypeCodesKey}" budgetLineItemNumber="${status.index}" budgetLineItemSequenceNumber="${index}" innerTabParent="${budgetCategoryTypeCodesLabel}${budgetLineItemSize}" budgetExpensePanelReadOnly="${budgetExpensePanelReadOnly}"/>
+							<kra-b:budgetLineItems budgetPeriod = "${budgetPeriod}" budgetCategoryTypeCode = "${budgetCategoryTypeCodesKey}" budgetLineItemNumber="${status.index}" budgetLineItemSequenceNumber="${index}" innerTabParent="${budgetCategoryTypeCodesLabel}" budgetExpensePanelReadOnly="${budgetExpensePanelReadOnly}"/>
 							<c:set var="index" value="${index+1}"/>			    		
 			    		</c:if> 		
 			    		</c:forEach>
