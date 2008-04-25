@@ -230,6 +230,7 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
     public boolean getBudgetLineItemStatus() {
         //return getBudgetSummaryService().budgetLineItemExists(getBudgetPeriod());
         boolean lineItemExists = false;
+        /*
         for(BudgetLineItem periodLineItem: budgetLineItems) {
             Integer lineItemPeriod = periodLineItem.getBudgetPeriod();
             if(budgetPeriod == lineItemPeriod) {
@@ -237,7 +238,8 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
                 break;
             }
         }
-        return lineItemExists;
+        */
+        return budgetLineItems.size() > 0;
     }
 
     public BudgetDecimal getExpenseTotal() {

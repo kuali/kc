@@ -1441,6 +1441,11 @@
 			<inverse-foreignkey field-ref="budgetVersionNumber"/>
 		</collection-descriptor>
 
+		<collection-descriptor name="budgetProposalLaRates" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetProposalLaRate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<inverse-foreignkey field-ref="budgetVersionNumber"/>
+		</collection-descriptor>
+
 		<collection-descriptor name="budgetPeriods" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPeriod" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="budgetPeriod" sort="ASC" /> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
