@@ -83,6 +83,7 @@ public class BudgetForm extends ProposalFormBase {
     private BudgetLineItem selectedBudgetLineItem;
     private BudgetPersonnelDetails newBudgetPersonnelDetails;
     private Integer selectedBudgetLineItemIndex;
+    private String prevOnOffCampusFlag;
     
     public boolean isDocumentNextValueRefresh() {
         return documentNextValueRefresh;
@@ -531,5 +532,13 @@ public class BudgetForm extends ProposalFormBase {
             return new KeyLabelPair("DataDictionary.BudgetDocument.attributes.budgetVersionNumber", Integer.toString(this.getBudgetDocument().getBudgetVersionNumber()));
         }
         return new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING);                
+    }
+
+    public String getPrevOnOffCampusFlag() {
+        return prevOnOffCampusFlag;
+    }
+
+    public void setPrevOnOffCampusFlag(String prevOnOffCampusFlag) {
+        this.prevOnOffCampusFlag = prevOnOffCampusFlag;
     }
 }

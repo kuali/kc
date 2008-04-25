@@ -64,6 +64,13 @@
            			<kra:kraControlAttribute property="document.ohRateTypeCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.ohRateTypeCode}"  styleClass="fixed-size-200-select"/>
            		</td>
      		</tr>
+        	<tr>
+		        <input type="hidden" name="prevOnOffCampusFlag" value="${KualiForm.document.onOffCampusFlag}">
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.onOffCampusFlag}" /></div></th>
+                <td colspan="3">
+                	<kul:htmlControlAttribute property="document.onOffCampusFlag" attributeEntry="${budgetAttributes.onOffCampusFlag}"/>
+                </td>           		
+     		</tr>
 
         </table>
     </div>
