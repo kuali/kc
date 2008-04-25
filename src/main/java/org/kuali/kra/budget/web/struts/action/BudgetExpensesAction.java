@@ -96,7 +96,7 @@ public class BudgetExpensesAction extends BudgetAction {
             newBudgetLineItem.setApplyInRateFlag(true);
             newBudgetLineItem.refreshReferenceObject("costElementBO");
             newBudgetLineItem.setOnOffCampusFlag(newBudgetLineItem.getCostElementBO().getOnOffCampusFlag());       
-
+            newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
             newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
             
             BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
@@ -157,6 +157,9 @@ public class BudgetExpensesAction extends BudgetAction {
         List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();        
         budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();        
         budgetForm.getBudgetDocument().setBudgetCategoryTypeCodes(budgetCategoryTypes);
+        for(int i=0;i<budgetCategoryTypes.size();i++){
+            budgetForm.getNewBudgetLineItems().add(new BudgetLineItem());
+        }
         
         return actionForward;
     }
@@ -210,18 +213,33 @@ public class BudgetExpensesAction extends BudgetAction {
     public ActionForward viewPersonnelSalaries(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
+    /**
+     * This method overrides the save to update budget category code based on changed cost element
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        
+        for(BudgetPeriod budgetPeriod:budgetDocument.getBudgetPeriods()){
+            for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
+                budgetLineItem.refreshReferenceObject("costElementBO");
+                budgetLineItem.setBudgetCategoryCode(budgetLineItem.getCostElementBO().getBudgetCategoryCode());
+            }
+        }
+        
         BudgetCalculationService budgetCalculationService  = KraServiceLocator.getService(BudgetCalculationService.class);
         for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
             budgetCalculationService.calculateBudgetPeriod(budgetDocument, budgetPeriod);
         }
         return super.save(mapping, form, request, response);
     }
-    
-    
 }

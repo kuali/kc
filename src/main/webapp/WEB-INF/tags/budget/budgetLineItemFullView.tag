@@ -22,6 +22,7 @@
 <%@ attribute name="budgetPeriod" description="Budget Period" required="true" %>
 
 <c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />
+<c:set var="costElementAttributes" value="${DataDictionary.CostElement.attributes}" />
 <c:set var="budgetLineItemCalculatedAmountAttributes" value="${DataDictionary.BudgetLineItemCalculatedAmount.attributes}" />
 <c:set var="action" value="budgetExpensesAction" />
 <c:set var="textAreaFieldNameJustification" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
@@ -50,9 +51,9 @@
 			        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].onOffCampusFlag" attributeEntry="${budgetLineItemAttributes.onOffCampusFlag}" readOnly="${budgetExpensePanelReadOnly}"/></div></td>
 			        	</tr>
 			        	<tr>
-			        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.budgetCategoryCode}" noColon="true" /></div></th>
+			        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${costElementAttributes.budgetCategoryCode}" noColon="true" /></div></th>
 				        	<td>
-						    	<kra:parameterizedSelectTag property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" value="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetCategoryCode}" valuesFinder="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder" tabindex="0" />
+						    	<kra:parameterizedSelectTag property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElementBO.budgetCategoryCode" value="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElementBO.budgetCategoryCode}" valuesFinder="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder" tabindex="0" />
 		         		    </td>				        	
 				        </tr>															
 			        </table>
