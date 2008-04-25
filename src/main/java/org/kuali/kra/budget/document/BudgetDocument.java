@@ -118,7 +118,13 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
     
     private String activityTypeCode="1";
+    
+    /*
+     * This field will soon be removed as it duplicated the BudgetLineItems on BudgetPeriod 
+     */
+    @Deprecated
     private List<BudgetLineItem> budgetLineItems;
+    
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
     private List<BudgetPerson> budgetPersons;
     
@@ -568,11 +574,19 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         }
         return (BudgetPeriod) getBudgetPeriods().get(index);
     }
-
+    
+    /*
+     * The budgetLineItems field will soon be removed as it duplicates the BudgetLineItems on BudgetPeriod
+     */
+    @Deprecated
     public List<BudgetLineItem> getBudgetLineItems() {
         return budgetLineItems;
     }
 
+    /*
+     * The budgetLineItems field will soon be removed as it duplicates the BudgetLineItems on BudgetPeriod
+     */
+    @Deprecated
     public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
         this.budgetLineItems = budgetLineItems;
     }
