@@ -237,9 +237,11 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         
         for(BudgetPeriod budgetPeriod:budgetDocument.getBudgetPeriods()){
-            for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
-                budgetLineItem.refreshReferenceObject("costElementBO");
-                budgetLineItem.setBudgetCategoryCode(budgetLineItem.getCostElementBO().getBudgetCategoryCode());
+            for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){                
+                if(!StringUtils.equalsIgnoreCase(budgetLineItem.getCostElement(), budgetLineItem.getCostElementBO().getCostElement())){
+                    budgetLineItem.refreshReferenceObject("costElementBO");
+                    budgetLineItem.setBudgetCategoryCode(budgetLineItem.getCostElementBO().getBudgetCategoryCode());
+                }
             }
         }
         
