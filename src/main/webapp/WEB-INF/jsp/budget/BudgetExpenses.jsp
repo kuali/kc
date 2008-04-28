@@ -25,6 +25,7 @@
 	htmlFormAction="budgetExpenses"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
+  	showTabButtons="true"
   	headerTabActive="expenses">
 		
 	<kra-b:budgetExpenses /> 

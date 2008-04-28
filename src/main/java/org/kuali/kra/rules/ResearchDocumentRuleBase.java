@@ -37,15 +37,14 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentGrantsGovAuditRule;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 
 /**
  * Base implementation class for KRA document business rules
  *
- * @author $Author: shyu $
- * @version $Revision: 1.7 $
+ * @author $Author: vsoni $
+ * @version $Revision: 1.8 $
  */
 public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);
