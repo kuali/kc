@@ -56,7 +56,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: gmcgrego $
- * @version $Revision: 1.33.2.2 $
+ * @version $Revision: 1.33.2.3 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
@@ -308,10 +308,10 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         if (source == null) {
             return false;
         }
-
-        if (isBlank(source.getDegreeCode()) && source.getDegree() == null) {
-            return false;
-        }
+        
+        // Add brute force check from data dictionary
+        retval &= getDictionaryValidationService().isBusinessObjectValid(source);
+            
         
         if (isNotBlank(source.getDegreeCode()) && isInvalid(DegreeType.class, keyValue("degreeCode", source.getDegreeCode()))) {
             retval = false;

@@ -65,7 +65,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: gmcgrego $
- * @version $Revision: 1.52.2.2 $
+ * @version $Revision: 1.52.2.3 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
@@ -270,7 +270,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
          
         // check any business rules
         
-        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, person, degree).getProxy(null));
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(new StringBuffer("newProposalPersonDegree[").append(selectedPersonIndex).append("]").toString(),
+                    document, person, degree).getProxy(null));
 
         if (rulePassed) {
             person.addDegree(degree);
