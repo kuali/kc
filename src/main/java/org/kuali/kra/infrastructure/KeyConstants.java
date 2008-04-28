@@ -148,6 +148,7 @@ public class KeyConstants {
     // special review enhancement
     public static final String ERROR_EXEMPT_NUMBER_SELECTED = "error.exempt.number.selected";
     public static final String ERROR_EXPIRATION_DATE_PAST = "error.expiration.date.past";
+    public static final String AUDIT_ERROR_BUDGETPERIOD_START_BEFORE_PROJECT_START_DATE = "error.periodStartDate.before.projectStartDate";
+    public static final String AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE = "error.periodEndDate.after.projectEndDate";
 
-    
 }
