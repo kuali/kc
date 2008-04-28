@@ -190,7 +190,8 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
 //            getAuditErrors().add(new AuditError("document.budgetPerson*", KeyConstants.ERROR_NO_BUDGET_PERSON , "budgetPersonnel.BudgetPersonnel" ));
 //            retval = false;
 //        }
-        
+        retval &= new BudgetPeriodAuditRule().processRunAuditBusinessRules(document);
+
         return retval;
     }
 

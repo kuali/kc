@@ -37,6 +37,7 @@ import org.kuali.RiceConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.DocumentAuditEvent;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PessimisticLockService;
 import org.kuali.core.util.AuditCluster;
@@ -45,6 +46,8 @@ import org.kuali.core.web.struts.action.AuditModeAction;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -469,6 +472,54 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * 
+     * This method is for audit rule to forward to the page that the audit error fix is clicked.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * TODO : can we set up request param for 'forward to' or add a property in budgetform for 'forwardto'
+     *   Then we only need on method for this budgetauditforward action?
+     */
+    public ActionForward budgetPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        String forward = getForwardToBudgetUrl(form);
+        // TODO : what if forward is null
+        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetPersonnel.do?audit=true&");
+        
+        return new ActionForward(forward, true);
+    }
+
+    public ActionForward budgetPeriodsAndTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        String forward = getForwardToBudgetUrl(form);
+        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?audit=true&");
+        
+        return new ActionForward(forward, true);
+    }
+
+    private String getForwardToBudgetUrl(ActionForm form) {
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
+        BudgetDocument budgetDocument = null;
+        String forward = null;
+        try {
+            for (BudgetVersionOverview budgetVersion: pdDoc.getBudgetVersionOverviews()) {
+                if (budgetVersion.isFinalVersionFlag()) {
+                    DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+                    budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetVersion.getDocumentNumber());
+                }
+            }
+            Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            forward = buildForwardUrl(routeHeaderId);
+        } catch (Exception e) {
+            LOG.info("forward to budgetsummary "+e.getStackTrace());
+            //TODO what is the forward here
+        }
+        return forward;
+
+    }
+
 }
     
     
