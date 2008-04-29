@@ -43,8 +43,8 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 /**
  * Base implementation class for KRA document business rules
  *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.9 $
+ * @author $Author: lprzybyl $
+ * @version $Revision: 1.10 $
  */
 public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);
@@ -188,7 +188,10 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
     
     /**
      * Is the given code valid?  Query the database for a matching code
-     * If found, it is valid; otherwise it is invalid.
+     * If found, it is valid; otherwise it is invalid.<br/>
+     * <br/>
+     * This method does not throw any Exceptions because we assert that if an Exception is caught here, then the 
+     * BusinessObject represented by <code>boClass</code> is not valid.
      * 
      * @param boClass the class of the business object to validate
      * @param entries varargs array of <code>{@link SimpleEntry}</code> key/value pair instances
@@ -196,6 +199,8 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * @see #isInvalid(Class, SimpleImmutableEntry...)
      */
     protected boolean isValid(Class<?> boClass, Entry<String,String> ... entries) {
+        boolean retval = false;
+        
         if (entries != null && entries.length > 0) {
             Map<String,String> fieldValues = new HashMap<String,String>();
             
@@ -203,11 +208,16 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
                 fieldValues.put(entry.getKey(), entry.getValue());
             }
 
-            if (getBusinessObjectService().countMatching(boClass, fieldValues) == 1) {
-                return true;
+            try {
+                if (getBusinessObjectService().countMatching(boClass, fieldValues) > 0) {
+                    retval = true;
+                }
+            }
+            catch (Exception e) {
+                // Read Javadoc for explanation
             }
         }
-        return false;
+        return retval;
     }
     
     /**

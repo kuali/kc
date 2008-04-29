@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.rule.event;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.logging.Traceable;
 import org.kuali.kra.logging.TraceLogProxyFactory;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -36,11 +37,23 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
     /**
      * Default Constructor
      * 
+     * @param document
      * @param person
-     * @param source
+     * @param source business object
      */
     public ChangeKeyPersonEvent(ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source) {
-        super("add BusinessObject to person " + person, document, person);
+        this("", document, person, source);
+    }
+
+    /**
+     * Default Constructor
+     * 
+     * @param document
+     * @param person
+     * @param source business object 
+     */
+    public ChangeKeyPersonEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source) {
+        super(errorPathPrefix, "add BusinessObject to person " + person, document, person);
         setSource(source);
     }
 
@@ -73,7 +86,11 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ChangeKeyPersonRule) rule).processChangeKeyPersonBusinessRules(getProposalPerson(), getSource());
+        GlobalVariables.getErrorMap().addToErrorPath(getErrorPathPrefix());
+        boolean retval = ((ChangeKeyPersonRule) rule).processChangeKeyPersonBusinessRules(getProposalPerson(), getSource());
+        GlobalVariables.getErrorMap().removeFromErrorPath(getErrorPathPrefix());
+        
+        return retval;
     }
     
     /**
