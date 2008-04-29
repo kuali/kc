@@ -100,7 +100,7 @@
                 <label>Graduation Year</label>
                 <shortLabel>Graduation Year</shortLabel>
                 <maxLength>4</maxLength>
-				<validationPattern><numeric /></validationPattern>
+				<validationPattern><year /></validationPattern>
 				<required>true</required>
                 <control>
                     <text size="5" />
