@@ -30,7 +30,6 @@
 		errorKey="document.proposal.budgetVersion*,document.proposal.finalVersionFlag"
 		requestedStartDateInitial="${KualiForm.document.proposal.requestedStartDateInitial}"
 		requestedEndDateInitial="${KualiForm.document.proposal.requestedEndDateInitial}"
-		proposalComplete="${KualiForm.document.proposal.proposalComplete}"
 		/>
 
 	<kul:documentControls 

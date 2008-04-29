@@ -21,7 +21,6 @@
 <%@ attribute name="requestedStartDateInitial" required="true" %>
 <%@ attribute name="requestedEndDateInitial" required="true" %>
 <%@ attribute name="errorKey" required="false"%>
-<%@ attribute name="proposalComplete" required="true" %>
 
 <c:set var="budgetAttributes" value="${DataDictionary.BudgetDocument.attributes}" />
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
