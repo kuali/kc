@@ -104,6 +104,16 @@
 	        						</div>
         						</td>
 			          		</tr>
+			          		<tr>								
+								<td colspan = "5" valign="middle">
+								<div align="center" >
+									<html:image property="methodToCall.applyToLaterPeriods.line${budgetLineItemNumber}.anchor${currentTabIndex}"
+											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-ApplyPeriods.gif' />				
+									<html:image property="methodToCall.syncToPeriodCostLimit.line${budgetLineItemNumber}.anchor${currentTabIndex}"
+											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctocostlimit.gif' />							
+								</div>
+								</td>								
+							</tr>
       					</table>
       				</div>	
         		</kul:innerTab>	
