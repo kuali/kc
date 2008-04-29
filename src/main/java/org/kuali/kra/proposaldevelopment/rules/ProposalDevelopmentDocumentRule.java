@@ -454,9 +454,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
         
-        retval &= new ProposalSpecialReviewAuditRule().processRunAuditBusinessRules(document);
-
-        retval &= new ProposalDevelopmentGrantsGovAuditRule().processRunAuditBusinessRules(document);
+        retval &= new ProposalSpecialReviewAuditRule().processRunAuditBusinessRules(document);        
         
         // audit check for budgetversion with final status
         try {

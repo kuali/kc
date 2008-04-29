@@ -63,7 +63,7 @@
                 <validationPattern><alphaNumeric /></validationPattern>
                 <required>false</required>                
                 <control> 
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.s2s.bo.S2sSubmissionType" keyAttribute="s2sSubmissionTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
+					<select valuesFinderClass="org.kuali.kra.lookup.keyvalue.S2sSubmissionTypeValuesFinder" businessObjectClass="org.kuali.kra.s2s.bo.S2sSubmissionType" keyAttribute="s2sSubmissionTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
 					<!-- <text size="5"/> -->															
 				</control>
                 <summary>Submission Type</summary>
