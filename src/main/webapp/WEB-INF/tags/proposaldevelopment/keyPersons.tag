@@ -32,7 +32,7 @@
          	 leftSideHtmlDisabled="false" 
                       defaultOpen="false" 
             transparentBackground="${transparent}" 
-                      tabErrorKey="${proposalPersonProperty}*">
+                      tabErrorKey="${proposalPersonProperty}*,newProposalPersonDegree[${status.index}]*,newProposalPersonUnit[${status.index}]*">
         <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
      </kul:tab>
 </c:forEach>
