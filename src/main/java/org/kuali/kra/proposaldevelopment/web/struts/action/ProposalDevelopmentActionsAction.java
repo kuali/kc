@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +52,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.NewNarrativeUserRightsEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.service.S2SService;
@@ -248,28 +251,36 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalCopyCriteria criteria = proposalDevelopmentForm.getCopyCriteria();
-
-        // Use the Copy Service to copy the proposal.
-
-        ProposalCopyService proposalCopyService = (ProposalCopyService) KraServiceLocator.getService("proposalCopyService");
-        if (proposalCopyService == null) {
-
-            // Something bad happened. The errors are in the Global Error Map
-            // which will be displayed to the user.
-
+        
+        // check any business rules
+        boolean rulePassed = getKualiRuleService().applyRules(new CopyProposalEvent(doc, criteria));
+        
+        if (!rulePassed) {
             nextWebPage = mapping.findForward(Constants.MAPPING_BASIC);
         }
         else {
-            String newDocId = proposalCopyService.copyProposal(doc, criteria);
-            KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getUniversalUser());
-            
-            // Switch over to the new proposal development document and
-            // go to the Proposal web page.
-
-            proposalDevelopmentForm.setDocId(newDocId);
-            this.loadDocument(proposalDevelopmentForm);
-
-            nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
+            // Use the Copy Service to copy the proposal.
+    
+            ProposalCopyService proposalCopyService = (ProposalCopyService) KraServiceLocator.getService("proposalCopyService");
+            if (proposalCopyService == null) {
+    
+                // Something bad happened. The errors are in the Global Error Map
+                // which will be displayed to the user.
+    
+                nextWebPage = mapping.findForward(Constants.MAPPING_BASIC);
+            }
+            else {
+                String newDocId = proposalCopyService.copyProposal(doc, criteria);
+                KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getUniversalUser());
+                
+                // Switch over to the new proposal development document and
+                // go to the Proposal web page.
+    
+                proposalDevelopmentForm.setDocId(newDocId);
+                this.loadDocument(proposalDevelopmentForm);
+    
+                nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
+            }
         }
 
         return nextWebPage;
@@ -469,6 +480,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    private KualiRuleService getKualiRuleService() {
+        return getService(KualiRuleService.class);
+    }
 }
     
     
