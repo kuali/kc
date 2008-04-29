@@ -20,7 +20,8 @@
 	htmlFormAction="budgetModularBudget"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="modularBudget">
+  	headerTabActive="modularBudget"
+  	extraTopButtons="${KualiForm.extraTopButtons}">
 	
 	<kul:uncollapsable tabTitle="Select Modular Budget Period">
   		<div align="center">

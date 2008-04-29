@@ -26,7 +26,8 @@
 	htmlFormAction="budgetSummary"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="summary">
+  	headerTabActive="summary"
+  	extraTopButtons="${KualiForm.extraTopButtons}">
 
 <kra-b:budgetSummary /> 
 <kra-b:budgetPeriodAndTotals /> 
