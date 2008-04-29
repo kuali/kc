@@ -475,15 +475,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     /**
      * 
      * This method is for audit rule to forward to the page that the audit error fix is clicked.
+     * This is an example for budget audit error forward from proposal to budget page.
      * @param mapping
      * @param form
      * @param request
      * @param response
      * @return
-     * TODO : can we set up request param for 'forward to' or add a property in budgetform for 'forwardto'
-     *   Then we only need on method for this budgetauditforward action?
      */
-    public ActionForward budgetPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
         // TODO : what if forward is null
         forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetPersonnel.do?audit=true&");
@@ -491,13 +490,28 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return new ActionForward(forward, true);
     }
 
-    public ActionForward budgetPeriodsAndTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    /**
+     * 
+     * This method is to forward to budget summary page for audit errors.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward summary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
         forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?audit=true&");
         
         return new ActionForward(forward, true);
     }
 
+    /**
+     * 
+     * This is a helper method to set up the forward to budget url for budget audit error.
+     * @param form
+     * @return
+     */
     private String getForwardToBudgetUrl(ActionForm form) {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
@@ -519,7 +533,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return forward;
 
     }
-    
+
 }
     
     
