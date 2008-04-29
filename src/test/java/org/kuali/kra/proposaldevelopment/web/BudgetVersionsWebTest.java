@@ -36,6 +36,7 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String FINAL_BUDGET_VERSION = "finalBudgetVersion";
     private static final String B_FIRST_BUDGET_STATUS = "document.proposal.budgetVersionOverview[" + 0 + "].budgetStatus";
     private static final String PD_FIRST_BUDGET_STATUS = "document.budgetVersionOverview[" + 0 + "].budgetStatus";
+    private static final String PD_FIRST_FINAL_FLAG = "document.budgetVersionOverview[" + 0 + "].finalVersionFlag";
     
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
@@ -75,8 +76,8 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
         String budgetStatus = getFieldValue(bBudgetVersionsPage, PD_FIRST_BUDGET_STATUS);
         assertEquals(budgetStatus, budgetStatusIncompleteCode);
         
-        String finalVersion = getFieldValue(bBudgetVersionsPage, FINAL_BUDGET_VERSION);
-        assertNull("final version is: " + finalVersion, finalVersion);
+        String finalVersion = getFieldValue(bBudgetVersionsPage, PD_FIRST_FINAL_FLAG);
+        assertEquals("final version is: " + finalVersion, finalVersion, "off");
         
         bBudgetVersionsPage = addBudgetVersion(bBudgetVersionsPage);
         
@@ -89,25 +90,30 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
         assertTrue("row count is " + pdTable.getRowCount(), pdTable.getRowCount() == 4);
     }
     
-    /**
-     * Test saving the budget versions page in an invalid state - page should display an error message and not save.
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testSaveBudgetVersionsInvalid() throws Exception {
-        HtmlPage pdBudgetVersionsPage = getBudgetVersionsPage();
-        HtmlPage bBudgetVersionsPage = addBudgetVersion(pdBudgetVersionsPage);
-        
-        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
-           
-        // Saving with version marked complete but not final causes error.
-        setFieldValue(bBudgetVersionsPage, PD_FIRST_BUDGET_STATUS, budgetStatusCompleteCode);
-        HtmlPage savedPage = saveDoc(bBudgetVersionsPage);
-        assertContains(savedPage, ERRORS_FOUND_ON_PAGE);
-        assertDoesNotContain(savedPage, SAVE_SUCCESS_MESSAGE);
-    }
+//    /**
+//     * Test saving the budget versions page in an invalid state - page should display an error message and not save.
+//     * 
+//     * @throws Exception
+//     */
+//  TODO Don't really need this anymore /w new enhancements - think about how to use
+//    @Test
+//    public void testSaveBudgetVersionsInvalid() throws Exception {
+//        boolean javascriptEnabled = webClient.isJavaScriptEnabled();
+//        webClient.setJavaScriptEnabled(false);
+//        HtmlPage pdBudgetVersionsPage = getBudgetVersionsPage();
+//        HtmlPage bBudgetVersionsPage = addBudgetVersion(pdBudgetVersionsPage);
+//        
+//        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+//                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
+//           
+//        // Saving with version marked complete but not final causes error.
+//        setFieldValue(bBudgetVersionsPage, PD_FIRST_BUDGET_STATUS, budgetStatusCompleteCode);
+//        setFieldValue(bBudgetVersionsPage, PD_FIRST_FINAL_FLAG, "off");
+//        HtmlPage savedPage = saveDoc(bBudgetVersionsPage);
+//        assertContains(savedPage, SAVE_SUCCESS_MESSAGE);
+//        //assertDoesNotContain(savedPage, SAVE_SUCCESS_MESSAGE);
+//        webClient.setJavaScriptEnabled(javascriptEnabled);
+//    }
     
     /**
      * Test saving the budget versions page in a valid state.
@@ -125,7 +131,7 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
            
         setFieldValue(pdBudgetVersionsPage, PD_FIRST_BUDGET_STATUS, budgetStatusCompleteCode);
-        setFieldValue(pdBudgetVersionsPage, FINAL_BUDGET_VERSION, "1");
+        setFieldValue(pdBudgetVersionsPage, PD_FIRST_FINAL_FLAG, "on");
         HtmlPage savedPage = saveDoc(pdBudgetVersionsPage);
         assertDoesNotContain(savedPage, ERRORS_FOUND_ON_PAGE);
         assertContains(savedPage, SAVE_SUCCESS_MESSAGE);

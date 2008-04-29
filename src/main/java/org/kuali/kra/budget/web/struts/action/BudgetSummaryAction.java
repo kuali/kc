@@ -51,6 +51,11 @@ public class BudgetSummaryAction extends BudgetAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
+        updateThisBudgetVersion(budgetForm.getBudgetDocument());
+        if (budgetForm.isUpdateFinalVersion()) {
+            reconcileFinalBudgetFlags(budgetForm);
+            setBudgetStatuses(budgetForm.getBudgetDocument().getProposal());
+        }
         boolean rulePassed = getKualiRuleService().applyRules(new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         if(rulePassed){
@@ -63,7 +68,6 @@ public class BudgetSummaryAction extends BudgetAction {
             if (budgetDocument.getFinalVersionFlag()) {
                 budgetDocument.getProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
             }
-            reconcileFinalBudgetFlags(budgetForm);
             updateBudgetPeriodDbVersion(budgetDocument);
             return super.save(mapping, form, request, response);
         }
@@ -221,5 +225,14 @@ public class BudgetSummaryAction extends BudgetAction {
             }
         }
 
+    }
+    
+    private void updateThisBudgetVersion(BudgetDocument budgetDocument) {
+        for (BudgetVersionOverview version: budgetDocument.getProposal().getBudgetVersionOverviews()) {
+            if (budgetDocument.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
+                version.setFinalVersionFlag(budgetDocument.getFinalVersionFlag());
+                version.setBudgetStatus(budgetDocument.getBudgetStatus());
+            }
+        }
     }
 }
