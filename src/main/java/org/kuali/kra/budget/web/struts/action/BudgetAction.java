@@ -109,7 +109,7 @@ public class BudgetAction extends ProposalActionBase {
         BudgetForm budgetForm = (BudgetForm) form;
         budgetForm.getBudgetDocument().getProposal().refreshReferenceObject(Constants.BUDGET_VERSION_OVERVIEWS);
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews()));
-        setProposalStatuses(budgetForm.getBudgetDocument().getProposal());
+        setBudgetStatuses(budgetForm.getBudgetDocument().getProposal());
         return mapping.findForward("versions");
     }
 

@@ -21,9 +21,11 @@
 <%@ attribute name="requestedStartDateInitial" required="true" %>
 <%@ attribute name="requestedEndDateInitial" required="true" %>
 <%@ attribute name="errorKey" required="false"%>
+<%@ attribute name="proposalComplete" required="true" %>
 
 <c:set var="budgetAttributes" value="${DataDictionary.BudgetDocument.attributes}" />
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="javascriptEnabled" value="true" />
 
 <kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS},${errorKey}">
 	<div class="tab-container" align="center">
@@ -103,12 +105,16 @@
 		            <td class="tab-subhead1"><div align="right">&nbsp;${budgetVersion.totalCost}</div></td>
 		            <td class="tab-subhead1">
 		            	<div align="center">
-		            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" />
+		            		<!--  This field is to hold select status if it's disabled by javascript -->
+		            		<html:hidden name="KualiForm" property="${version}.budgetStatus" disabled="true" />
+		            		<kul:htmlControlAttribute property="${version}.budgetStatus" attributeEntry="${proposalDevelopmentAttributes.budgetStatus}" onchange="javascript: toggleFinalCheckboxes(document)" />
 		            	</div>
             		</td>
 	            	<td class="tab-subhead1">
 	            		<div align="center">
-	            			<html:radio name="KualiForm" property="finalBudgetVersion" value="${budgetVersion.budgetVersionNumber}"/>
+	            			<kul:htmlControlAttribute property="${version}.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: enableBudgetStatus(document, '${status.index}')" />
+	            			<!--  This field is to hold checkbox status if it's disabled by javascript -->
+	            			<html:hidden name="KualiForm" property="${version}.finalVersionFlag" disabled="true" />
 	            		</div>
 	            	</td>
 	            	<kra:section permission="viewBudgets">
@@ -158,3 +164,4 @@
 	</div>
 </kul:tabTop>
 <kul:panelFooter />
+<img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" onLoad="toggleFinalCheckboxes(document); setupBudgetStatuses(document);" />
