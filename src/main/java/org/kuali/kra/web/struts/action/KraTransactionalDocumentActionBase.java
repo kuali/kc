@@ -70,17 +70,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward returnForward = mapping.findForward(RiceConstants.MAPPING_BASIC);
-
-        Boolean sessionExpired = (Boolean) request.getSession().getAttribute(KeyConstants.SESSION_EXPIRED_IND);
-        if (sessionExpired != null && sessionExpired.booleanValue() == true) {
-            request.getSession().removeAttribute(KeyConstants.SESSION_EXPIRED_IND);
-            returnForward = mapping.findForward(RiceConstants.MAPPING_PORTAL); 
-        }
-        else {
-            // if found methodToCall, pass control to that method
-            returnForward = super.execute(mapping, form, request, response);
-        }
-
+        returnForward = super.execute(mapping, form, request, response);
+        
         return returnForward;
     }
 
