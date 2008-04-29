@@ -66,7 +66,7 @@
 	    </action>
     </action-mappings>
 
-    <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" />
+    <controller processorClass="org.kuali.kra.web.struts.action.KraRequestProcessor" />
     <plug-in className="org.kuali.core.web.struts.pojo.PojoPlugin" />
 </struts-config>
 
