@@ -144,6 +144,12 @@ public class KeyConstants {
     public static final String ERROR_LINEITEM_STARTDATE_BEFORE_PERIOD_STARTDATE = "error.lineItemStartDate.before.periodStartDate";
     public static final String ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE = "error.lineItemEndDate.after.periodEndDate";
     public static final String ERROR_COST_ELEMENT_NOT_SELECTED = "error.costElement.notSelected";
+     
+    // Change Password
+    public static final String ERROR_EMPTY_PASSWORD = "error.password.empty";
+    public static final String ERROR_INVALID_PASSWORD = "error.password.invalid";
+    public static final String ERROR_PASSWORD_MISMATCH = "error.password.mismatch";
+    
     public static final String ERROR_GLOBAL_MESSAGE = "error.global.application";
 
     // special review enhancement

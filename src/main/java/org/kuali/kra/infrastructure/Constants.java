@@ -181,6 +181,9 @@ public interface Constants {
     public static final String MAPPING_PERSONNEL_BUDGET = "personnelBudget";
     public static final String BUDGET_PERSON_LINE_NUMBER = "budget.budgetPersonnelDetails.personNumber";
     public static final String BUDGET_PERSON_LINE_SEQUENCE_NUMBER = "budget.budgetPersonnelDetails.sequenceNumber";
+   
+    // Change Password
+    public static final String CHANGE_PASSWORD_PROPERTY_KEY = "changePassword";
     
     public static final String TRUE_FLAG = "Y";
     public static final String FALSE_FLAG = "N";
@@ -188,5 +191,6 @@ public interface Constants {
     public static final String SPECIAL_REVIEW_PAGE = "specialReview";
     public static final String SPECIAL_REVIEW_PANEL_ANCHOR = "SpecialReview";
     public static final String SPECIAL_REVIEW_PANEL_NAME = "Special Review Information";
-
+    
+    public static final String COPY_PROPOSAL_PROPERTY_KEY = "copyProposal";
 }

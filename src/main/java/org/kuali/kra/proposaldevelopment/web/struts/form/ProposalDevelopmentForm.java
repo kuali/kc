@@ -177,6 +177,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
 
     @Override
     public void populate(HttpServletRequest request) {
+       
         clearMultipleValueLookupResults();
         super.populate(request);
         ProposalDevelopmentDocument proposalDevelopmentDocument=getProposalDevelopmentDocument();
@@ -186,7 +187,12 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
 		// Temporary hack for KRACOEUS-489
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
-        }           
+        }       
+      
+        ProposalCopyCriteria copyCriteria = this.getCopyCriteria();
+        if (copyCriteria != null) {
+            copyCriteria.setOriginalLeadUnitNumber(proposalDevelopmentDocument.getOwnedByUnitNumber());
+        }
     }
 
     public ProposalLocation getNewPropLocation() {
@@ -236,7 +242,13 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
-        this.setCopyCriteria(new ProposalCopyCriteria(getProposalDevelopmentDocument()));
+        
+        ProposalCopyCriteria copyCriteria = this.getCopyCriteria();
+        if (copyCriteria != null) {
+            copyCriteria.setIncludeAttachments(false);
+            copyCriteria.setIncludeBudget(false);
+        }
+        
        // following reset the tab stats and will load as default when it returns from lookup.
        // TODO : Do we really need this?
        // implemented headerTab in KraTransactionalDocumentActionBase

@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
@@ -35,6 +39,16 @@ public class ProposalDevelopmentCopyRule extends ResearchDocumentRuleBase implem
      * @see org.kuali.kra.proposaldevelopment.rule.AbstractsRule#processAddAbstractBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalAbstract)
      */
     public boolean processCopyProposalBusinessRules(ProposalDevelopmentDocument document, ProposalCopyCriteria criteria) {
-        return true;
+        boolean isValid = true;
+        
+        if (StringUtils.isBlank(criteria.getLeadUnitNumber())) {
+            // If the user didn't select a lead unit, i.e. he/she choose the "select:" option,
+            // then the Lead Unit Number will be "blank".
+            isValid = false;
+            GlobalVariables.getErrorMap().putError(Constants.COPY_PROPOSAL_PROPERTY_KEY + ".leadUnitNumber", 
+                                                   "" /* KeyConstants.ERROR_LEAD_UNIT_REQUIRED */);
+        }
+
+        return isValid;
     }
 }
