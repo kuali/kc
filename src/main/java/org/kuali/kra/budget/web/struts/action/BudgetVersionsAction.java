@@ -46,7 +46,7 @@ public class BudgetVersionsAction extends BudgetAction {
         ActionForward forward = super.docHandler(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews()));
-        setProposalStatuses(budgetForm.getBudgetDocument().getProposal());
+        setBudgetStatuses(budgetForm.getBudgetDocument().getProposal());
         
         return forward;
     }
@@ -121,7 +121,7 @@ public class BudgetVersionsAction extends BudgetAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        setFinalBudgetVersion(budgetForm.getFinalBudgetVersion(), budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews());
+        //setFinalBudgetVersion(budgetForm.getFinalBudgetVersion(), budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverviews());
         // TODO jira 780 - it indicated only from PD screen, not sure we need it here
         // if we don't implement it here, then it's not consistent.
         boolean valid = true;
@@ -135,13 +135,15 @@ public class BudgetVersionsAction extends BudgetAction {
             GlobalVariables.getErrorMap().putError("document.proposal.budgetVersionOverview["+Integer.toString(budgetForm.getFinalBudgetVersion()-1)+"].budgetStatus", KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
+            updateThisBudget(budgetForm.getBudgetDocument());
             setProposalStatus(budgetForm.getBudgetDocument().getProposal());
-            if (budgetForm.getFinalBudgetVersion() != null 
-                    && budgetForm.getFinalBudgetVersion().equals(budgetForm.getBudgetDocument().getBudgetVersionNumber())) {
-                budgetForm.getBudgetDocument().setFinalVersionFlag(true);
-            } else {
-                budgetForm.getBudgetDocument().setFinalVersionFlag(false);
-            }
+            //setBudgetStatuses(budgetForm.getBudgetDocument().getProposal());
+//            if (budgetForm.getFinalBudgetVersion() != null 
+//                    && budgetForm.getFinalBudgetVersion().equals(budgetForm.getBudgetDocument().getBudgetVersionNumber())) {
+//                budgetForm.getBudgetDocument().setFinalVersionFlag(true);
+//            } else {
+//                budgetForm.getBudgetDocument().setFinalVersionFlag(false);
+//            }
             return super.save(mapping, form, request, response);
         }
 
@@ -153,8 +155,17 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(budgetDoc.getProposal().getBudgetVersionOverviews()));
-        setProposalStatuses(budgetDoc.getProposal());
+        setBudgetStatuses(budgetDoc.getProposal());
         return forward;
+    }
+    
+    private void updateThisBudget(BudgetDocument budgetDocument) {
+        for (BudgetVersionOverview version: budgetDocument.getProposal().getBudgetVersionOverviews()) {
+            if (budgetDocument.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
+                budgetDocument.setFinalVersionFlag(version.isFinalVersionFlag());
+                budgetDocument.setBudgetStatus(version.getBudgetStatus());
+            }
+        }
     }
     
 }

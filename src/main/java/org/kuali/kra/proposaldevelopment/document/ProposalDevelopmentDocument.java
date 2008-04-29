@@ -1344,4 +1344,19 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public final void setActivityType(ActivityType activityType) {
         this.activityType = activityType;
     }
+    
+    public boolean isProposalComplete() {
+        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE);
+        
+        if (this.getBudgetStatus() != null && budgetStatusCompleteCode != null && this.getBudgetStatus().equals(budgetStatusCompleteCode)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public int getNumberOfVersions() {
+        return this.getBudgetVersionOverviews().size();
+    }
+    
 }

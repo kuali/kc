@@ -109,7 +109,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        setFinalBudgetVersion(pdForm.getFinalBudgetVersion(), pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews());
+        //setFinalBudgetVersion(pdForm.getFinalBudgetVersion(), pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews());
         // check audit rules.  If there is error, then budget can't have complete status
         boolean valid = true;
         try {
@@ -123,6 +123,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
             setProposalStatus(pdForm.getProposalDevelopmentDocument());
+            //setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
             return super.save(mapping, form, request, response);
         }
     }
@@ -132,7 +133,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ActionForward forward = super.reload(mapping, form, request, response);
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews()));
-        setProposalStatuses(pdForm.getProposalDevelopmentDocument());
+        setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
         return forward;
     }
     

@@ -44,7 +44,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
  * Base implementation class for KRA document business rules
  *
  * @author $Author: gmcgrego $
- * @version $Revision: 1.6.2.4 $
+ * @version $Revision: 1.6.2.5 $
  */
 public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);
@@ -87,8 +87,17 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
         String budgetStatusCompleteCode = getKualiConfigurationService().getParameter(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
         
+        boolean finalVersionFound = false;
+        
         int index = 0;
         for (BudgetVersionOverview budgetVersion: budgetVersionOverviews) {
+            if (budgetVersion.isFinalVersionFlag()) {
+                if (finalVersionFound) {
+                    errorMap.putError("finalVersionFlag", KeyConstants.ERROR_MULTIPLE_FINAL_BUDGETS);
+                } else {
+                    finalVersionFound = true;
+                }
+            }
             if (budgetVersion.getBudgetStatus()!= null 
                     && budgetVersion.getBudgetStatus().equals(budgetStatusCompleteCode) 
                     && !budgetVersion.isFinalVersionFlag()) {
