@@ -27,7 +27,8 @@
 	htmlFormAction="budgetPersonnel"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="personnel">
+  	headerTabActive="personnel"
+  	extraTopButtons="${KualiForm.extraTopButtons}">
   	
 	<kra:section permission="modifyBudgets">
 	  	<kul:uncollapsable tabTitle="Add Project Personnel">
