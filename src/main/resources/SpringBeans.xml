@@ -164,7 +164,7 @@
 		<property name="serviceName" value="encryptionService" />
 	</bean>
     
-    <bean id="kraUniversalUserDao" class="org.kuali.kra.rice.KraUniversalUserDaoImpl">
+    <bean id="kraUniversalUserDao" parent="platformAwareDao" class="org.kuali.kra.rice.KraUniversalUserDaoImpl">
        <property name="personService">
            <ref bean="personService" />
        </property>
