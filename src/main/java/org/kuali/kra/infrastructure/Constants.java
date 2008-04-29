@@ -62,6 +62,7 @@ public interface Constants {
     public static final String NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY = "newNarrativeUserRight";
 
     public static final String PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX = "proposaldevelopment.personrole.";
+    public static final String NIH_SPONSOR_ACRONYM = "NIH";
 
     public static final String PARAMETER_MODULE_PROPOSAL_DEVELOPMENT = "KRA-PD";
     public static final String PARAMETER_COMPONENT_DOCUMENT = "D";
