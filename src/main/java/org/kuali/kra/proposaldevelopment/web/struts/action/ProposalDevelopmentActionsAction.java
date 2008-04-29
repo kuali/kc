@@ -170,7 +170,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }   
 
     private boolean canGenerateRequestsInFuture(KualiWorkflowDocument workflowDoc) throws Exception {
-        WorkflowInfo info = new WorkflowInfo();
         String loggedInUserID = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
         NetworkIdVO networkId = new NetworkIdVO(loggedInUserID);
         ReportCriteriaVO reportCriteria = new ReportCriteriaVO(new Long(workflowDoc.getRouteHeaderId()));
@@ -196,11 +195,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
         } 
 
-        return (canGenerateMultipleApprovalRequests(info, reportCriteria, networkId) && (receiveFutureRequests == false && doNotReceiveFutureRequests == false));
+        return (canGenerateMultipleApprovalRequests(reportCriteria, networkId) && (receiveFutureRequests == false && doNotReceiveFutureRequests == false));
     }
     
-    private boolean canGenerateMultipleApprovalRequests(WorkflowInfo info, ReportCriteriaVO reportCriteria, NetworkIdVO networkId) throws Exception {
+    private boolean canGenerateMultipleApprovalRequests(ReportCriteriaVO reportCriteria, NetworkIdVO networkId) throws Exception {
         int approvalRequestsCount = 0;
+        WorkflowInfo info = new WorkflowInfo();
         
         DocumentDetailVO results1 = info.routingReport(reportCriteria);
         for(ActionRequestVO actionRequest : results1.getActionRequests() ){
@@ -519,7 +519,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return forward;
 
     }
-
+    
 }
     
     
