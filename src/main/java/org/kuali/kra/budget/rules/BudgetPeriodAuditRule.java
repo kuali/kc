@@ -33,10 +33,12 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetPeriodAuditRule.class);
-    
+    public static final String BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY = "budgetPeriodProjectDateAuditErrors";
+
     /**
      * 
-     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
+     * This method is to validate budget period start/end date against project start/end date if
+     * project start/end date have been adjusted.
      */
     public boolean processRunAuditBusinessRules(Document document) {
         BudgetDocument budgetDocument = (BudgetDocument) document;
@@ -71,11 +73,11 @@ public class BudgetPeriodAuditRule extends ResearchDocumentRuleBase implements D
     private List<AuditError> getAuditErrors() {
         List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
         
-        if (!getAuditErrorMap().containsKey("budgetPeriodProjectDateAuditErrors")) {
-            getAuditErrorMap().put("budgetPeriodProjectDateAuditErrors", new AuditCluster(Constants.BUDGET_PERIOD_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+        if (!getAuditErrorMap().containsKey(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY)) {
+            getAuditErrorMap().put(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY, new AuditCluster(Constants.BUDGET_PERIOD_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
         else {
-            auditErrors = ((AuditCluster) getAuditErrorMap().get("budgetPeriodProjectDateAuditErrors")).getAuditErrorList();
+            auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_PERIOD_DATE_AUDIT_ERROR_KEY)).getAuditErrorList();
         }
         
         return auditErrors;
