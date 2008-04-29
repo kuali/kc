@@ -583,7 +583,167 @@ function updateLookupReturn_Callback( data ) {
 
 }
 
+function enableBudgetStatus(document, index) {
+	var newFinalIndicator;
+	var newFinalStatus;
+	var newFinalStatusHidden;
+	var j = 0;
+	var cancelled = false;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'checkbox') {
+	  	var status = document.KualiForm.elements[i - 1];
+	  	var statusHidden = document.KualiForm.elements[i - 2];
+	  	if (e.checked && j != index) {
+	  		if (confirm("You are changing the final version.  Are you sure?")) {
+	  			e.checked = false;
+	  			statusHidden.value = status.value;
+	  			statusHidden.disabled = false;
+	  			status.disabled = true;
+	  		} else {
+	  			cancelled = true;	
+	  		}
+	  	} else if (e.checked && j == index) {
+	  		newFinalIndicator = e;
+	  		newFinalStatus = status;
+	  		newFinalStatusHidden = statusHidden;
+	  	} else {
+	  		statusHidden.value = status.value;
+	  		statusHidden.disabled = false;
+	  		status.disabled = true;
+	  	}
+	  	j++;
+	  }
+	}
+	if (!cancelled && newFinalStatus != null) {
+		newFinalStatus.disabled = false;
+		newFinalStatusHidden.disabled = true;
+	}
+	if (cancelled && newFinalIndicator != null) {
+		newFinalIndicator.checked = false;
+	}
+}
 
+function setupBudgetStatuses(document) {
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'checkbox') {
+	  	var status = document.KualiForm.elements[i - 1];
+	  	var statusHidden = document.KualiForm.elements[i - 2];
+	  	if (e.checked) {
+	  		statusHidden.disabled = true;
+	  		status.disabled = false;
+	  	} else {
+	  		statusHidden.disabled = false;
+	  		status.disabled = true;
+	  	}
+	  }
+	}
+}
+
+function toggleFinalCheckboxes(document) {
+	var completed = false;
+	var toggledElement;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'select-one' && e.value == '1') {
+	  	completed = true;
+	  	toggledElement = e;
+	  }
+	}
+	if (completed) {
+		for (var i = 0; i < document.KualiForm.elements.length; i++) {
+			var el = document.KualiForm.elements[i];
+			if (el.type == 'checkbox') {
+				var elStatus = document.KualiForm.elements[i - 1];
+				if (elStatus != toggledElement) {
+					el.disabled = true;
+				} else {
+					var elHidden = document.KualiForm.elements[i + 2];
+					elHidden.value = true;
+					elHidden.disabled = false;
+					el.disabled = true;
+				}
+			}
+		}
+	} else {
+		for (var i = 0; i < document.KualiForm.elements.length; i++) {
+			var el = document.KualiForm.elements[i];
+			var elHidden = document.KualiForm.elements[i + 2];
+			if (el.type == 'checkbox') {
+				elHidden.disabled = true;
+				el.disabled = false;
+			}
+		}
+	}
+	
+}
+
+function setupVersionsPage(document) {
+	var completed = false;
+	var toggledElement;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'select-one' && e.value == '1') {
+	  	completed = true;
+	  	toggledElement = e;
+	  }
+	}
+	if (completed) {
+		for (var i = 0; i < document.KualiForm.elements.length; i++) {
+			var el = document.KualiForm.elements[i];
+			if (el.type == 'checkbox') {
+				var elStatus = document.KualiForm.elements[i - 1];
+				if (elStatus != toggledElement) {
+					el.disabled = true;
+					elStatus.disabled = true;
+					elStatusHidden.disabled = false;
+				} else {
+					var elHidden = document.KualiForm.elements[i + 2];
+					elHidden.value = true;
+					elHidden.disabled = false;
+					el.disabled = true;
+				}
+			}
+		}
+	} else {
+		for (var i = 0; i < document.KualiForm.elements.length; i++) {
+			var el = document.KualiForm.elements[i];
+			var elHidden = document.KualiForm.elements[i + 2];
+			if (el.type == 'checkbox') {
+				elHidden.disabled = true;
+				el.disabled = false;
+				var elStatus = document.KualiForm.elements[i - 1];
+				elStatus.disabled
+			}
+		}
+	}
+}
+
+function confirmFinalizeVersion(document, numVersions) {
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+		var e = document.KualiForm.elements[i];
+		if (e.name == 'document.finalVersionFlag') {
+			if (e.checked == true) {
+				for (var j = 0; j < numVersions; j++) {
+	  				var finalVersionFlag = document.getElementById('finalVersionFlag' + j);
+	  				if (finalVersionFlag != null && finalVersionFlag.value == 'Yes') {
+	  					if (confirm("You are changing the final version.  Are you sure?")) {
+	  						var updateFinalVersion = document.getElementById('updateFinalVersion');
+	  						updateFinalVersion.value = 'Yes';
+	  					} else {
+	  						e.checked = false;
+	  					}
+	  				}
+				}
+			} else {
+				var updateFinalVersion = document.getElementById('updateFinalVersion');
+	  			updateFinalVersion.value = 'No';
+			}
+		}
+	}
+	
+}
 
 //CustomAttributeService.js - put it in kra-config.xml
 //function CustomAttributeService() { }

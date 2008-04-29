@@ -5,8 +5,17 @@
 <c:set var="textAreaFieldName" value="document.comments" />
 <c:set var="action" value="budgetAction" />
 <c:set var="KRAConst" value="${org.kuali.kra.infrastructure.Constants}"/>
+
+<input type="hidden" id="updateFinalVersion" name="updateFinalVersion" value='<bean:write name="KualiForm" property="updateFinalVersion"/>' />
+
+<c:forEach var="budgetVersionOverviews" items="${KualiForm.document.proposal.budgetVersionOverviews}" varStatus="status">
+	<c:if test="${status.index + 1 != KualiForm.document.budgetVersionNumber}">
+		<input type="hidden" id="finalVersionFlag${status.index}" name="KualiForm" property="document.proposal.budgetVersionOverview[${status.index}].finalVersionFlag" value='<bean:write name="KualiForm" property="document.proposal.budgetVersionOverview[${status.index}].finalVersionFlag"/>' />
+		<input type="hidden" id="budgetStatus${status.index}" name="KualiForm" property="document.proposal.budgetVersionOverview[${status.index}].budgetStatus" value='<bean:write name="KualiForm" property="document.proposal.budgetVersionOverview[${status.index}].budgetStatus"/>' />
+	</c:if>
+</c:forEach>
  
-<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetSummary*" >
+<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetSummary*,document.proposal.finalVersionFlag" >
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Budget Overview</h2></span>
@@ -46,7 +55,7 @@
      		<tr>
      		    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" noColon="true" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" />
+           			<kul:htmlControlAttribute property="document.finalVersionFlag" attributeEntry="${budgetAttributes.finalVersionFlag}" onclick="javascript: confirmFinalizeVersion(document, ${KualiForm.document.proposal.numberOfVersions})" />
            		</td>
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
                 <td>
