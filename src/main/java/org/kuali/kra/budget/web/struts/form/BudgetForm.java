@@ -83,6 +83,7 @@ public class BudgetForm extends ProposalFormBase {
     private BudgetPersonnelDetails newBudgetPersonnelDetails;
     private Integer selectedBudgetLineItemIndex;
     private String prevOnOffCampusFlag;
+    private boolean updateFinalVersion;
     
     public boolean isDocumentNextValueRefresh() {
         return documentNextValueRefresh;
@@ -538,4 +539,13 @@ public class BudgetForm extends ProposalFormBase {
     public void setPrevOnOffCampusFlag(String prevOnOffCampusFlag) {
         this.prevOnOffCampusFlag = prevOnOffCampusFlag;
     }
+
+    public boolean isUpdateFinalVersion() {
+        return updateFinalVersion;
+    }
+
+    public void setUpdateFinalVersion(boolean updateFinalVersion) {
+        this.updateFinalVersion = updateFinalVersion;
+    }
+    
 }

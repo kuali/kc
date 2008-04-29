@@ -256,7 +256,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     public ActionForward budgetVersions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews()));
-        setProposalStatuses(pdForm.getProposalDevelopmentDocument());
+        setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
         return mapping.findForward("budgetVersions");
     }
     

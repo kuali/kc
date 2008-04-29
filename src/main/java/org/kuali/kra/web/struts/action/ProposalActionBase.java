@@ -79,7 +79,7 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
      * 
      * @param proposalDevelopmentDocument
      */
-    protected void setProposalStatuses(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    protected void setBudgetStatuses(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         
         KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
         String budgetStatusIncompleteCode = kualiConfigurationService.getParameter(
