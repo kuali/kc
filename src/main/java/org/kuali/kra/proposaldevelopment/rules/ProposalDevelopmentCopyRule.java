@@ -46,7 +46,7 @@ public class ProposalDevelopmentCopyRule extends ResearchDocumentRuleBase implem
             // then the Lead Unit Number will be "blank".
             isValid = false;
             GlobalVariables.getErrorMap().putError(Constants.COPY_PROPOSAL_PROPERTY_KEY + ".leadUnitNumber", 
-                                                   "" /* KeyConstants.ERROR_LEAD_UNIT_REQUIRED */);
+                                                   KeyConstants.ERROR_LEAD_UNIT_REQUIRED);
         }
 
         return isValid;
