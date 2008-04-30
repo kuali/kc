@@ -32,7 +32,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: lprzybyl $
- * @version $Revision: 1.36 $
+ * @version $Revision: 1.37 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -41,6 +41,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private static final long serialVersionUID = -4110005875629288373L;
 
     private boolean conflictOfInterestFlag;
+    private boolean otherSignificantContributorFlag;
     private KualiDecimal percentageEffort;
     private Boolean fedrDebrFlag;
     private Boolean fedrDelqFlag;
@@ -641,5 +642,21 @@ public class ProposalPerson extends Person implements CreditSplitable {
      */
     public void setSimpleName(String simpleName) {
         this.simpleName = simpleName;
+    }
+
+    /**
+     * Gets the otherSignificantContributorFlag attribute. 
+     * @return Returns the otherSignificantContributorFlag.
+     */
+    public boolean isOtherSignificantContributorFlag() {
+        return otherSignificantContributorFlag;
+    }
+
+    /**
+     * Sets the otherSignificantContributorFlag attribute value.
+     * @param otherSignificantContributorFlag The otherSignificantContributorFlag to set.
+     */
+    public void setOtherSignificantContributorFlag(boolean otherSignificantContributorFlag) {
+        this.otherSignificantContributorFlag = otherSignificantContributorFlag;
     }
 }
