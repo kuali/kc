@@ -105,9 +105,9 @@ public class OjbRepositoryMappingTest {
             }
         }
         
-        debug("dsUrl = " + dsUrl);
-        debug("dsUser = " + dsUser);
-        debug("dsSchema = " + dsSchema);
+        debug("dsUrl = %s", dsUrl);
+        debug("dsUser = %s", dsUser);
+        debug("dsSchema = %s", dsSchema);
     }
     
     private String getValueFromConfig(String line, String name) {
@@ -134,8 +134,8 @@ public class OjbRepositoryMappingTest {
         final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
         final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
         
-        info("Found dtd url " + dtdUrl);
-        info("Found repository url " + repositoryUrl);
+        info("Found dtd url %s", dtdUrl);
+        info("Found repository url %s", repositoryUrl);
 
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setValidating(true);
@@ -165,8 +165,8 @@ public class OjbRepositoryMappingTest {
         final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
         final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
         
-        info("Found dtd url " + dtdUrl);
-        info("Found repository url " + repositoryUrl);
+        info("Found dtd url %s", dtdUrl);
+        info("Found repository url %s", repositoryUrl);
 
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setValidating(true);
@@ -197,8 +197,8 @@ public class OjbRepositoryMappingTest {
         final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
         final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
         
-        info("Found dtd url " + dtdUrl);
-        info("Found repository url " + repositoryUrl);
+        info("Found dtd url %s", dtdUrl);
+        info("Found repository url %s", repositoryUrl);
 
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setValidating(true);
@@ -250,7 +250,7 @@ public class OjbRepositoryMappingTest {
                 
                 try {
                     setCurrentMappedClass(Class.forName(attributes.getValue(CLASS_ATTRIBUTE_NAME)));
-                    info("Parsing " + CLASS_DESCRIPTOR_NAME + " for " + getCurrentMappedClass().getSimpleName());
+                    info("Parsing %s for %s", CLASS_DESCRIPTOR_NAME, getCurrentMappedClass().getSimpleName());
                 }
                 catch (Exception e) {
                     throw createSaxParseException("There is no class named " + attributes.getValue(CLASS_ATTRIBUTE_NAME), e);
@@ -549,7 +549,7 @@ public class OjbRepositoryMappingTest {
                         throw createSaxParseException(TABLE_NOT_FOUND_MESSAGE, attributes.getValue(TABLE_ATTRIBUTE_NAME));
                     }
                     else {
-                        info("Found table " + getCurrentTableName());
+                        info("Found table %s", getCurrentTableName());
                     }
                 }
                 catch (Exception e) {
@@ -586,7 +586,7 @@ public class OjbRepositoryMappingTest {
                     String columnNameResult = null;
                     while(results.next() && !found) {
                         columnNameResult = results.getString("COLUMN_NAME");
-                        info("Comparing " + columnName + " to " + columnNameResult + " in table " + getCurrentTableName());
+                        info("Comparing %s to %s in table %s", columnNameResult, getCurrentTableName());
                         if (columnName.equals(columnNameResult)) {
                             found = true;
                         }
