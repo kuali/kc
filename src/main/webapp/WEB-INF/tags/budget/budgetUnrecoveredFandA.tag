@@ -2,7 +2,7 @@
 
 <c:set var="ufaAttributes" value="${DataDictionary.BudgetUnrecoveredFandA.attributes}" />
 
-<kul:tab tabTitle="Unrecovered F&A" tabItemCount="${KualiForm.document.budgetUnrecoveredFandACount}" defaultOpen="false" tabErrorKey="newUnrecoveredFandA*,unrecoveredFandA*">
+<kul:tab tabTitle="Unrecovered F&A" tabItemCount="${KualiForm.document.budgetUnrecoveredFandACount}" defaultOpen="false" tabErrorKey="newUnrecoveredFandA*,document.unrecoveredFandA*">
 	<div class="tab-container" align="center">
 		<c:choose>
 			<c:when test="${KualiForm.unrecoveredFandAEditFormVisible}">
@@ -68,7 +68,7 @@
 			          			<th><div align="right">${status.index + 1}</div></th>
 			            		
 			            		<td><div align="center">
-									<kul:htmlControlAttribute property="document.budgetUnrecoveredFandAs[${status.index}].fiscalYear" attributeEntry="${ufaAttributes.fiscalYear}" />            				
+									<kul:htmlControlAttribute property="document.budgetUnrecoveredFandA[${status.index}].fiscalYear" attributeEntry="${ufaAttributes.fiscalYear}" />            				
 			        			</div></td>
 			        			
 			            		<td><div align="center">
@@ -78,7 +78,7 @@
 			            		<td><div align="center">
 				            		 <c:choose>
 					                    <c:when test="${readOnly}">
-					                    	<c:set var="campusFlagText" value="${KualiForm.document.budgetUnrecoveredFandAs[status.index].onCampusFlag}" /> 
+					                    	<c:set var="campusFlagText" value="${KualiForm.document.budgetUnrecoveredFandA[status.index].onCampusFlag}" /> 
 					                    	<c:if test="${campusFlagText == 'Y'}" >
 					                    		<c:set var="campusFlagText" value="Yes" />
 					                    	</c:if>
@@ -88,7 +88,7 @@
 					                    	<c:out value="${campusFlagText}" />  
 					                     </c:when>
 				                     	<c:otherwise>
-					                     	<html:select property="document.budgetUnrecoveredFandAs[${status.index}].onCampusFlag">
+					                     	<html:select property="document.budgetUnrecoveredFandA[${status.index}].onCampusFlag">
 					        					<html:option value="">Select</html:option>
 					        					<html:option value="Y">Yes</html:option>
 					        					<html:option value="N">No</html:option>
@@ -98,11 +98,11 @@
 			        			</div></td>
 			            		
 			            		<td><div align="center">
-			        				<kul:htmlControlAttribute property="document.budgetUnrecoveredFandAs[${status.index}].sourceAccount" attributeEntry="${ufaAttributes.sourceAccount}" />
+			        				<kul:htmlControlAttribute property="document.budgetUnrecoveredFandA[${status.index}].sourceAccount" attributeEntry="${ufaAttributes.sourceAccount}" />
 			        			</div></td>
 			            		
 			            		<td><div align="center">
-			        				<kul:htmlControlAttribute property="document.budgetUnrecoveredFandAs[${status.index}].amount" attributeEntry="${ufaAttributes.amount}" styleClass="amount" />
+			        				<kul:htmlControlAttribute property="document.budgetUnrecoveredFandA[${status.index}].amount" attributeEntry="${ufaAttributes.amount}" styleClass="amount" />
 			        			</div></td>
 			        				        			
 			            		<td>
@@ -116,12 +116,12 @@
 			          	</c:forEach>
 		          		<tr>
 				    		<th colspan="5" class="infoline"><div align="right">Total Allocated:</div></th>
-				    		<td><div align="right"><span class="amount">${KualiForm.document.allocatedUnrecoveredFandA}</span></div></td>
+				    		<td><div align="right"><span class="amount"><fmt:formatNumber value="${KualiForm.document.allocatedUnrecoveredFandA}" type="currency" currencySymbol="$" maxFractionDigits="2" /></span></div></td>
 				    		<td>&nbsp;</td>
 				    	</tr>
 				    	<tr>
 				    		<th colspan="5" class="infoline"><div align="right">Unallocated:</div></th>
-				    		<td><div align="right"><span class="amount">${KualiForm.document.unallocatedUnrecoveredFandA}</span></div></td>
+				    		<td><div align="right"><span class="amount"><fmt:formatNumber value="${KualiForm.document.unallocatedUnrecoveredFandA}" type="currency" currencySymbol="$" maxFractionDigits="2" /></span></div></td>
 				    		<td>&nbsp;</td>
 				    	</tr>
 			        </table>
@@ -136,7 +136,7 @@
 			    		<c:forEach var="budgetPeriod" items="${KualiForm.document.budgetPeriods}" varStatus="status">
 							<tr>
 						    	<th width="70.5%" class="infoline"><div align="right">Period ${status.index + 1}: ${budgetPeriod.dateRangeLabel}:</div></th>
-						    	<td width="15%"><div align="right"><span class="amount">${budgetPeriod.underrecoveryAmount}</span></div></td>
+						    	<td width="15%"><div align="right"><span class="amount"><fmt:formatNumber value="${budgetPeriod.underrecoveryAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" /></span></div></td>
 						    	<th width="14.5%" class="infoline">&nbsp;</th>
 						    </tr>
 					    </c:forEach>
