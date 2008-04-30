@@ -49,9 +49,9 @@ public class BudgetProjectIncomeRuleImpl implements AddBudgetProjectIncomeRule {
      * @return Validation state; true if all required fields are not null, and if String, not empty
      */
     private boolean areRequiredRulesSatisfied(BudgetProjectIncome budgetProjectIncome) {
-        boolean valid = validationHelper.checkRequiredField(budgetProjectIncome.getBudgetPeriodNumber(), "projectIncome.newBudgetPeriod", "Budget Period");
-        valid &= validationHelper.checkRequiredField(budgetProjectIncome.getProjectIncome(), "projectIncome.newProjectIncome", "Project Income");
-        valid &= validationHelper.checkRequiredField(budgetProjectIncome.getDescription(), "projectIncome.newDescription", "Description");
+        boolean valid = validationHelper.checkRequiredField(budgetProjectIncome.getBudgetPeriodNumber(), "newBudgetProjectIncome.budgetPeriod", "Budget Period");
+        valid &= validationHelper.checkRequiredField(budgetProjectIncome.getProjectIncome(), "newBudgetProjectIncome.projectIncome", "Project Income");
+        valid &= validationHelper.checkRequiredField(budgetProjectIncome.getDescription(), "newBudgetProjectIncome.description", "Description");
         
         return valid;
     }

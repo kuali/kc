@@ -118,7 +118,7 @@ public class BudgetCostShareRuleImpl implements AddBudgetCostShareRule, BudgetVa
     public boolean processBudgetCostShareAllocationBusinessRules(BudgetCostShareAllocationEvent budgetCostShareEvent) {
         boolean unallocatedCostSharingExists = budgetCostShareEvent.getBudgetDocument().getUnallocatedCostSharing().isNonZero();
         if (unallocatedCostSharingExists) {
-            GlobalVariables.getErrorMap().putError("costShare*", ADD_ERROR_KEY, "Cost share allocation doesn't total available cost sharing");
+            GlobalVariables.getErrorMap().putError("document.budgetCostShare*", ADD_ERROR_KEY, "Cost share allocation doesn't total available cost sharing");
         }
         return unallocatedCostSharingExists;
     }

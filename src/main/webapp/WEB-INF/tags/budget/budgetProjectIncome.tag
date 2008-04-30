@@ -2,7 +2,7 @@
 
 <c:set var="budgetProjectIncomeAttributes" value="${DataDictionary.BudgetProjectIncome.attributes}" />
 
-<kul:tab tabTitle="Project Income" tabItemCount="${KualiForm.document.budgetProjectIncomeCount}" defaultOpen="false" tabErrorKey="budget.projectIncome*">
+<kul:tab tabTitle="Project Income" tabItemCount="${KualiForm.document.budgetProjectIncomeCount}" defaultOpen="false" tabErrorKey="newBudgetProjectIncome.*,document.budgetProjectIncome*">
 	<div class="tab-container" align="center">
 		<div class="h2-container">
 	    	<span class="subhead-left"><h2>Income Details</h2></span>
@@ -49,10 +49,10 @@
 	            			${KualiForm.document.budgetPeriods[budgetProjectIncome.budgetPeriodNumber - 1].label}
 	    				</div></td>
 	            		<td><div align="center">
-							<kul:htmlControlAttribute property="document.budgetProjectIncomes[${status.index}].projectIncome" attributeEntry="${budgetProjectIncomeAttributes.projectIncome}" styleClass="amount" />            				
+							<kul:htmlControlAttribute property="document.budgetProjectIncome[${status.index}].projectIncome" attributeEntry="${budgetProjectIncomeAttributes.projectIncome}" styleClass="amount" />            				
 	        			</div></td>
 	            		<td><div align="center">
-	        				<kul:htmlControlAttribute property="document.budgetProjectIncomes[${status.index}].description" attributeEntry="${budgetProjectIncomeAttributes.description}" />
+	        				<kul:htmlControlAttribute property="document.budgetProjectIncome[${status.index}].description" attributeEntry="${budgetProjectIncomeAttributes.description}" />
 	        			</div></td>
 	            		<td>
 	            			<div align=center>

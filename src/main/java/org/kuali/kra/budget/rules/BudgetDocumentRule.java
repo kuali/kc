@@ -17,11 +17,6 @@ package org.kuali.kra.budget.rules;
 
 import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
 import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PAGE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_ANCHOR;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSONNEL_PANEL_NAME;
-import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_KEY;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,13 +93,13 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         BudgetDocument budgetDocument = (BudgetDocument) document;
         
         GlobalVariables.getErrorMap().addToErrorPath("document");
+       
+        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), true, true);
         
         GlobalVariables.getErrorMap().addToErrorPath("proposal");
         if (ObjectUtils.isNull(budgetDocument.getProposal())) {
             budgetDocument.refreshReferenceObject("proposal");
-        }
-        
-        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), true, true);
+        }               
         
         valid &= processBudgetVersionsBusinessRule(budgetDocument.getProposal().getBudgetVersionOverviews());
         GlobalVariables.getErrorMap().removeFromErrorPath("proposal");
@@ -115,7 +110,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
         
-        return true;
+        return valid;
     }
     
     /**
