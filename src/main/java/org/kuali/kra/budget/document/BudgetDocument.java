@@ -295,7 +295,9 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public BudgetDecimal getAllocatedCostSharing() {
         BudgetDecimal costShareTotal = new BudgetDecimal(0.0);
         for(BudgetCostShare budgetCostShare: getBudgetCostShares()) {
-            costShareTotal = costShareTotal.add(budgetCostShare.getShareAmount()); 
+            if(budgetCostShare.getShareAmount() != null) {
+                costShareTotal = costShareTotal.add(budgetCostShare.getShareAmount());
+            }
         }
         return costShareTotal;
     }
@@ -307,7 +309,9 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public BudgetDecimal getAllocatedUnrecoveredFandA() {
         BudgetDecimal allocatedUnrecoveredFandA = BudgetDecimal.ZERO;
         for(BudgetUnrecoveredFandA unrecoveredFandA: getBudgetUnrecoveredFandAs()) {
-            allocatedUnrecoveredFandA = allocatedUnrecoveredFandA.add(unrecoveredFandA.getAmount()); 
+            if (unrecoveredFandA.getAmount() != null) {
+                allocatedUnrecoveredFandA = allocatedUnrecoveredFandA.add(unrecoveredFandA.getAmount());
+            } 
         }
         return allocatedUnrecoveredFandA;
     }
@@ -319,7 +323,9 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public KualiDecimal getProjectIncomeTotal() {
         KualiDecimal projectIncomeTotal = new KualiDecimal(0.0);
         for(BudgetProjectIncome budgetProjectIncome: budgetProjectIncomes) {
-            projectIncomeTotal = projectIncomeTotal.add(budgetProjectIncome.getProjectIncome()); 
+            if(budgetProjectIncome.getProjectIncome() != null) {
+                projectIncomeTotal = projectIncomeTotal.add(budgetProjectIncome.getProjectIncome());
+            } 
         }
         return projectIncomeTotal;
     }
@@ -690,6 +696,18 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         return budgetProjectIncomes;
     }
 
+    /**
+    * This method...
+    * @param index
+    * @return
+    */
+    public BudgetProjectIncome getBudgetProjectIncome(int index) {
+        while (getBudgetProjectIncomes().size() <= index) {
+            getBudgetProjectIncomes().add(new BudgetProjectIncome());
+        }
+        return (BudgetProjectIncome) getBudgetProjectIncomes().get(index);
+    }
+    
     public void setBudgetProjectIncomes(List<BudgetProjectIncome> budgetProjectIncomes) {
         this.budgetProjectIncomes = budgetProjectIncomes;
     }
@@ -802,6 +820,18 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
     
     /**
+    * This method...
+    * @param index
+    * @return
+    */
+    public BudgetCostShare getBudgetCostShare(int index) {
+        while (getBudgetCostShares().size() <= index) {
+             getBudgetCostShares().add(new BudgetCostShare());
+        }
+        return (BudgetCostShare) getBudgetCostShares().get(index);
+    }
+    
+    /**
      * This method does what its name says
      * @return
      */
@@ -815,6 +845,18 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      */
     public List<BudgetUnrecoveredFandA> getBudgetUnrecoveredFandAs() {
         return budgetUnrecoveredFandAs;
+    }
+    
+    /**
+    * This method...
+    * @param index
+    * @return
+    */
+    public BudgetUnrecoveredFandA getBudgetUnrecoveredFandA(int index) {
+        while (getBudgetUnrecoveredFandAs().size() <= index) {
+            getBudgetUnrecoveredFandAs().add(new BudgetUnrecoveredFandA());
+        }
+        return (BudgetUnrecoveredFandA) getBudgetUnrecoveredFandAs().get(index);
     }
     
     /**
@@ -852,7 +894,9 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     public BudgetDecimal getAvailableCostSharing() {
         BudgetDecimal availableCostShare = BudgetDecimal.ZERO;
         for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
-            availableCostShare = availableCostShare.add(budgetPeriod.getCostSharingAmount());
+            if(budgetPeriod.getCostSharingAmount() != null) {
+                availableCostShare = availableCostShare.add(budgetPeriod.getCostSharingAmount());
+            }
         }
         return availableCostShare;
     }
@@ -864,7 +908,9 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     public BudgetDecimal getAvailableUnrecoveredFandA() {
         BudgetDecimal availableUnrecoveredFandA = BudgetDecimal.ZERO;
         for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
-            availableUnrecoveredFandA = availableUnrecoveredFandA.add(budgetPeriod.getUnderrecoveryAmount());
+            if(budgetPeriod.getUnderrecoveryAmount() != null) {
+                availableUnrecoveredFandA = availableUnrecoveredFandA.add(budgetPeriod.getUnderrecoveryAmount());
+            }
         }
         return availableUnrecoveredFandA;
     }
