@@ -1,15 +1,15 @@
+
 /*
- Purpose : Disables all foreign Keys.
+Purpose : Disables all foreign Keys.
 */
 DECLARE
 TYPE Constraints_CUR IS REF CURSOR;
 v_cons_CUR Constraints_CUR;
 l_Constraint_name user_constraints.constraint_name%TYPE;
 l_table_name user_constraints.table_name%TYPE;
-
 BEGIN
 OPEN v_cons_CUR FOR
-'SELECT constraint_name, table_name FROM user_constraints 
+'SELECT constraint_name, table_name FROM user_constraints
 WHERE constraint_type = ''R'' ORDER BY constraint_type';
 LOOP
 FETCH v_cons_CUR INTO l_Constraint_name, l_table_name;
@@ -17,7 +17,6 @@ EXIT WHEN v_cons_CUR%NOTFOUND;
 EXECUTE IMMEDIATE
 'ALTER TABLE'||' '||l_table_name||' '||'DISABLE CONSTRAINT'||'
 '||l_Constraint_name;
-
 END LOOP;
 CLOSE v_cons_CUR;
 END;
@@ -42,28 +41,24 @@ insert into abstract_type (abstract_type_code,description,update_timestamp,updat
 COMMIT;
 
 /* Load data for activity_type Table */ 
-insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('1','Organized Research',sysdate,'kradev');
-insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('2','Instruction and Departmental Research',sysdate,'kradev');
-insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('3','Fellowship - Pre-Doctoral',sysdate,'kradev');
-insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('4','Public Service',sysdate,'kradev');
-insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('5','Student Services',sysdate,'kradev');
-insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('6','Other',sysdate,'kradev');
-insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('7','Fellowship - Post-Doctoral',sysdate,'kradev');
-insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('8','Clinical Trial',sysdate,'kradev');
-insert into activity_type (activity_type_code,description,update_timestamp,update_user) values('9','Construction',sysdate,'kradev');
+Insert into activity_type (ACTIVITY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('1','Research',to_date('15-APR-08','DD-MON-RR'),'kradev',1,'7AA6C5B5C3824B34866D6B130CC2E6D6');
+Insert into activity_type (ACTIVITY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('2','Instruction',to_date('15-APR-08','DD-MON-RR'),'kradev',1,'936D9E62489F435E84B9539A81738994');
+Insert into activity_type (ACTIVITY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('3','Public Service',to_date('15-APR-08','DD-MON-RR'),'kradev',1,'FC8498B022A64A18897A146C5062ECDB');
+Insert into activity_type (ACTIVITY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('4','Clinical Trial',to_date('15-APR-08','DD-MON-RR'),'kradev',1,'B38880C8F78F4C46A4F291785534E8BD');
+Insert into activity_type (ACTIVITY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('5','other',to_date('15-APR-08','DD-MON-RR'),'kradev',1,'D5D69B90DC684013B2EE91FA3D9E8D26');
 
 COMMIT;
 
-/* Load data for BUDGET_CATEGORY_TYPE Table */ 
-REM INSERTING into BUDGET_CATEGORY_TYPE
-Insert into BUDGET_CATEGORY_TYPE (BUDGET_CATEGORY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,SORT_ID) values ('P','Personnel',to_date('13-MAR-08','DD-MON-RR'),'KRADEV',1,'92944F2AA7484374886D233E6CEFD081',1);
-Insert into BUDGET_CATEGORY_TYPE (BUDGET_CATEGORY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,SORT_ID) values ('O','Other Direct',to_date('13-MAR-08','DD-MON-RR'),'KRADEV',1,'3CB60B64017642D6B0C1BEC90177001B',5);
-Insert into BUDGET_CATEGORY_TYPE (BUDGET_CATEGORY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,SORT_ID) values ('S','Participant Support',to_date('13-MAR-08','DD-MON-RR'),'KRADEV',1,'DDB118D10A624F8A9B9D6290FBECCABF',4);
-Insert into BUDGET_CATEGORY_TYPE (BUDGET_CATEGORY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,SORT_ID) values ('T','Travel',to_date('13-MAR-08','DD-MON-RR'),'KRADEV',1,'782EB8FF41EF4D0385FC14A43FD2F18C',3);
-Insert into BUDGET_CATEGORY_TYPE (BUDGET_CATEGORY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,SORT_ID) values ('E','Equipment',to_date('13-MAR-08','DD-MON-RR'),'KRADEV',1,'1545FE33C0E84C328048C53191546E03',2);
+/* Load data for appointment_type Table */ 
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('1','TEMPERRORY EMPLOYEE',1,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'32B1907D6F72486885B49CC996B08A66');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('2','SUMMER EMPLOYEE',3,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'B0EC170DEBBD4AD0AA428D3D12A439F8');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('3','9M DURATION',9,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'BC0DB87EDF21411597A0881D25ABEED8');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('4','10M DURATION',10,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'4EB3EE428A1C4649A809DB73DC037770');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('5','11M DURATION',11,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'F6C2A3E40430450BAC8F433E35B851A8');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('6','12M DURATION',12,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'6F772A60519E467FA2AC7D2416211946');
+Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('7','REGULAR EMPLOYEE',12,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'A9893947B37D4994BF3DA670BA1F3422');
 
 COMMIT;
-
 
 /* Load data for BUDGET_CATEGORY Table */ 
 REM INSERTING into BUDGET_CATEGORY
@@ -310,6 +305,30 @@ Insert into BUDGET_CATEGORY_MAPS (MAPPING_NAME,TARGET_CATEGORY_CODE,DESCRIPTION,
 Insert into BUDGET_CATEGORY_MAPS (MAPPING_NAME,TARGET_CATEGORY_CODE,DESCRIPTION,CATEGORY_TYPE,UPDATE_TIMESTAMP,UPDATE_USER) values ('S2S','01-Secretarial','Secretarial / Clerical','P',to_date('19-DEC-06','DD-MON-YY'),'KRADEV');
 Insert into BUDGET_CATEGORY_MAPS (MAPPING_NAME,TARGET_CATEGORY_CODE,DESCRIPTION,CATEGORY_TYPE,UPDATE_TIMESTAMP,UPDATE_USER) values ('S2S','01-Undergrads','Undergraduate Students','P',to_date('19-DEC-06','DD-MON-YY'),'KRADEV');
 Insert into BUDGET_CATEGORY_MAPS (MAPPING_NAME,TARGET_CATEGORY_CODE,DESCRIPTION,CATEGORY_TYPE,UPDATE_TIMESTAMP,UPDATE_USER) values ('S2S','04','Subcontract','O',to_date('19-DEC-06','DD-MON-YY'),'KRADEV');
+
+COMMIT;
+
+/* Load data for BUDGET_CATEGORY_TYPE Table */ 
+REM INSERTING into BUDGET_CATEGORY_TYPE
+Insert into BUDGET_CATEGORY_TYPE (BUDGET_CATEGORY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,SORT_ID) values ('P','Personnel',to_date('13-MAR-08','DD-MON-RR'),'KRADEV',1,'92944F2AA7484374886D233E6CEFD081',1);
+Insert into BUDGET_CATEGORY_TYPE (BUDGET_CATEGORY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,SORT_ID) values ('O','Other Direct',to_date('13-MAR-08','DD-MON-RR'),'KRADEV',1,'3CB60B64017642D6B0C1BEC90177001B',5);
+Insert into BUDGET_CATEGORY_TYPE (BUDGET_CATEGORY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,SORT_ID) values ('S','Participant Support',to_date('13-MAR-08','DD-MON-RR'),'KRADEV',1,'DDB118D10A624F8A9B9D6290FBECCABF',4);
+Insert into BUDGET_CATEGORY_TYPE (BUDGET_CATEGORY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,SORT_ID) values ('T','Travel',to_date('13-MAR-08','DD-MON-RR'),'KRADEV',1,'782EB8FF41EF4D0385FC14A43FD2F18C',3);
+Insert into BUDGET_CATEGORY_TYPE (BUDGET_CATEGORY_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,SORT_ID) values ('E','Equipment',to_date('13-MAR-08','DD-MON-RR'),'KRADEV',1,'1545FE33C0E84C328048C53191546E03',2);
+
+COMMIT;
+
+/* Load data for BUDGET_PERIOD_TYPE Table */ 
+Insert into BUDGET_PERIOD_TYPE (BUDGET_PERIOD_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('1','Cycle',to_date('21-MAR-2008','DD-MON-YYYY'),'KRADEV',1,'48F9745E94A6B395E0404F8189D85CE1');
+Insert into BUDGET_PERIOD_TYPE (BUDGET_PERIOD_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('2','Academic',to_date('21-MAR-2008','DD-MON-YYYY'),'KRADEV',1,'48F9745E94A7B395E0404F8189D85CE1');
+Insert into BUDGET_PERIOD_TYPE (BUDGET_PERIOD_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('3','Calendar',to_date('21-MAR-2008','DD-MON-YYYY'),'KRADEV',1,'48F9745E94A8B395E0404F8189D85CE1');
+Insert into BUDGET_PERIOD_TYPE (BUDGET_PERIOD_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('4','Summer',to_date('21-MAR-2008','DD-MON-YYYY'),'KRADEV',1,'48F9745E94A9B395E0404F8189D85CE1');
+
+COMMIT;
+
+/* Load data for budget_status Table */ 
+INSERT INTO BUDGET_STATUS (BUDGET_STATUS_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES ('1', 'Complete', sysdate, 'KRADEV');
+INSERT INTO BUDGET_STATUS (BUDGET_STATUS_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES ('2', 'Incomplete', sysdate, 'KRADEV');
 
 COMMIT;
 
@@ -668,6 +687,13 @@ INSERT INTO COUNTRY_CODE (COUNTRY_CODE,COUNTRY_NAME,UPDATE_TIMESTAMP,UPDATE_USER
 
 COMMIT;
 
+/* Load data for custom_attribute_data_type Table */ 
+INSERT INTO CUSTOM_ATTRIBUTE_DATA_TYPE (DATA_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('1','String',sysdate,'KRADEV');
+INSERT INTO CUSTOM_ATTRIBUTE_DATA_TYPE (DATA_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('2','Number',sysdate,'KRADEV');
+INSERT INTO CUSTOM_ATTRIBUTE_DATA_TYPE (DATA_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) VALUES ('3','Date',sysdate,'KRADEV');
+
+COMMIT;
+
 /* Load data for deadline_type Table */ 
 insert into deadline_type (deadline_type_code,description,update_timestamp,update_user) values('P','Postmark',sysdate,'kradev');
 insert into deadline_type (deadline_type_code,description,update_timestamp,update_user) values('T','Target',sysdate,'kradev');
@@ -676,7 +702,7 @@ COMMIT;
 
 /* Load data for degree_type Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.5 2008-03-17 13:27:13 shyu Exp $
+# $Id: KRA_ALL_DML.sql,v 1.5.2.1 2008-04-30 21:37:59 gmcgrego Exp $
 #
 insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) values ('AS', 'Associate in Science', sysdate, 'kradev');
 insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) values ('BA', 'Bachelor of Arts', sysdate, 'kradev');
@@ -733,7 +759,7 @@ COMMIT;
 
 /* Load data for eps_prop_person_role Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.5 2008-03-17 13:27:13 shyu Exp $
+# $Id: KRA_ALL_DML.sql,v 1.5.2.1 2008-04-30 21:37:59 gmcgrego Exp $
 #
 insert into EPS_PROP_PERSON_ROLE (PROP_PERSON_ROLE_ID, DESCRIPTION, CERTIFICATION_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('PI', 'Principal Investigator', 'Y', sysdate, 'kradev');
 insert into EPS_PROP_PERSON_ROLE (PROP_PERSON_ROLE_ID, DESCRIPTION, CERTIFICATION_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('COI', 'Co-Investigator', 'Y', sysdate, 'kradev');
@@ -749,6 +775,25 @@ insert into eps_prop_per_doc_type (DOCUMENT_TYPE_CODE,description,update_timesta
 insert into eps_prop_per_doc_type (DOCUMENT_TYPE_CODE,description,update_timestamp,update_user) values('5','Other',sysdate,user);
 
 commit;
+
+COMMIT;
+
+/* Load data for exemption_type Table */ 
+insert into exemption_type ("EXEMPTION_TYPE_CODE","DESCRIPTION","DETAILED_DESCRIPTION","UPDATE_TIMESTAMP","UPDATE_USER") values (
+'3','E3','Research involving the use of educational tests (cognitive, diagnostic, aptitude, achievement), survey procedures, interview procedures, or observation of public behavior that is not exempt under paragraph (b)(2) of this section, if:
+(i) the human subjects are elected or appointed public officials or candidates for public office; or (ii) federal statute(s) require(s) without exception that the confidentiality of the personally identifiable information will be maintained throughout the research and thereafter.',sysdate,user);
+insert into exemption_type ("EXEMPTION_TYPE_CODE","DESCRIPTION","DETAILED_DESCRIPTION","UPDATE_TIMESTAMP","UPDATE_USER") values (
+'5','E5','Research and demonstration projects which are conducted by or subject to the approval of department or agency heads, and which are designed to study, evaluate, or otherwise examine:
+(i) Public benefit or service programs; (ii) procedures for obtaining benefits or services under those programs; (iii) possible changes in or alternatives to those programs or procedures; or (iv) possible changes in methods or levels of payment for benefits or services under those programs.',sysdate,user);
+insert into exemption_type ("EXEMPTION_TYPE_CODE","DESCRIPTION","DETAILED_DESCRIPTION","UPDATE_TIMESTAMP","UPDATE_USER") values (
+'1','E1','Research conducted in established or commonly accepted educational settings, involving normal educational practices, such as (i) research on regular and special education instructional strategies, or (ii) research on the effectiveness of or the comparison among instructional techniques, curricula, or classroom management methods.',sysdate,user);
+insert into exemption_type ("EXEMPTION_TYPE_CODE","DESCRIPTION","DETAILED_DESCRIPTION","UPDATE_TIMESTAMP","UPDATE_USER") values (
+'2','E2','Research involving the use of educational tests (cognitive, diagnostic, aptitude, achievement), survey procedures, interview procedures or observation of public behavior, unless:
+(i) information obtained is recorded in such a manner that human subjects can be identified, directly or through identifiers linked to the subjects; and (ii) any disclosure of the human subjects'' responses outside the research could reasonably place the subjects at risk of criminal or civil liability or be damaging to the subjects'' financial standing, employability, or reputation.',sysdate,user);
+insert into exemption_type ("EXEMPTION_TYPE_CODE","DESCRIPTION","DETAILED_DESCRIPTION","UPDATE_TIMESTAMP","UPDATE_USER") values (
+'6','E6','Taste and food quality evaluation and consumer acceptance studies, (i) if wholesome foods without additives are consumed or (ii) if a food is consumed that contains a food ingredient at or below the level and for a use found to be safe, or agricultural chemical or environmental contaminant at or below the level found to be safe, by the Food and Drug Administration or approved by the Environmental Protection Agency or the Food Safety and Inspection Service of the U.S. Department of Agriculture.',sysdate,user);
+insert into exemption_type ("EXEMPTION_TYPE_CODE","DESCRIPTION","DETAILED_DESCRIPTION","UPDATE_TIMESTAMP","UPDATE_USER") values (
+'4','E4','Research involving the collection or study of existing data, documents, records, pathological specimens, or diagnostic specimens, if these sources are publicly available or if the information is recorded by the investigator in such a manner that subjects cannot be identified, directly or through identifiers linked to the subjects.',sysdate,user);
 
 COMMIT;
 
@@ -783,18 +828,31 @@ INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDO
 INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('BUDG','KR','BUDGET','N','Y','N',0,'N','N');
 INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('PREF','KR','PER EDITABLE FIELD','N','Y','N',0,'N','N');
 INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('INCT','KR','INV CREDIT TYPE','N','Y','N',0,'N','N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('BUST','KR','BUDGET STATUS','N','Y','N',0,'N','N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('COEL','KR','COST ELEMENT','N','Y','N',0,'N','N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('RATY','KR','RATE TYPE','N','Y','N',0,'N','N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('RACL','KR','RATE CLASS','N','Y','N',0,'N','N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('VACA','KR','VALID CALCULATION TYPE','N','Y','N',0,'N','N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('VACE','KR','VALID COST ELEMENT RATE TYPE','N','Y','N',0,'N','N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('INRA','KR','INSTITUTION RATE','N','Y','N',0,'N','N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('TBNP','KR','TBN PERSON','N','Y','N',0,'N','N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('UNAD','KR','UNIT ADMINISTRATOR','N','Y','N',0,'N','N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) VALUES ('UADT','KR','UNIT ADMINISTRATOR TYPE','N','Y','N',0,'N','N');
 INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) values ('YNQD','KR', 'YES/NO QUESTIONS', 'N', 'Y', 'N', 0, 'N', 'N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) values ('ORTL','KR', 'ORGANIZATION TYPE LIST', 'N', 'Y', 'N', 0, 'N', 'N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) values ('EMTP','KR', 'EXEMPTION TYPE', 'N', 'Y', 'N', 0, 'N', 'N');
+INSERT INTO FP_DOC_TYPE_T (FDOC_TYP_CD,FDOC_GRP_CD,FDOC_NM,FIN_ELIM_ELGBL_CD,FDOC_TYP_ACTIVE_CD,FDOC_RTNG_RULE_CD,FDOC_AUTOAPRV_DAYS,FDOC_BALANCED_CD,TRN_SCRBBR_OFST_GEN_IND) values ('VSRA','KR', 'VALID SPECIAL REVIEW APPROVAL', 'N', 'Y', 'N', 0, 'N', 'N');
 
 COMMIT;
 
 /* Load data for inv_credit_type Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.5 2008-03-17 13:27:13 shyu Exp $
+# $Id: KRA_ALL_DML.sql,v 1.5.2.1 2008-04-30 21:37:59 gmcgrego Exp $
 #
-insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('0', 'Recognition', 'N', sysdate, 'kradev');
-insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('1', 'Responsibility', 'N', sysdate, 'kradev');
-insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('2', 'Space', 'N', sysdate, 'kradev');
-insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('3', 'Financial', 'N', sysdate, 'kradev');
+insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('0', 'Recognition', 'Y', sysdate, 'kradev', 'Y');
+insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('1', 'Responsibility', 'Y', sysdate, 'kradev', 'Y');
+insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('2', 'Space', 'Y', sysdate, 'kradev', 'Y');
+insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('3', 'Financial', 'Y', sysdate, 'kradev', 'Y');
 
 COMMIT;
 
@@ -820,6 +878,148 @@ Insert into JOB_CODE (JOB_CODE,JOB_TITLE,UPDATE_TIMESTAMP,UPDATE_USER) values ('
 Insert into JOB_CODE (JOB_CODE,JOB_TITLE,UPDATE_TIMESTAMP,UPDATE_USER) values ('AA047','DEAN FOR GRADUATE STUDENTS',to_date('21-APR-01','DD-MON-YY'),'KRADEV');
 Insert into JOB_CODE (JOB_CODE,JOB_TITLE,UPDATE_TIMESTAMP,UPDATE_USER) values ('AA048','VICE PRESIDENT FOR FEDERAL RELATIONS',to_date('21-APR-01','DD-MON-YY'),'KRADEV');
 Insert into JOB_CODE (JOB_CODE,JOB_TITLE,UPDATE_TIMESTAMP,UPDATE_USER) values ('AA049','CO-CHAIRPERSON OF THE COUNCIL ON FACULTY DIVERSITY',to_date('21-APR-01','DD-MON-YY'),'KRADEV');
+
+COMMIT;
+
+/* Load data for kim Table */ 
+insert into KIM_NAMESPACES_T (ID,NAME,DESCRIPTION) values(1,'KIM','KIM Namespace');
+insert into KIM_NAMESPACES_T (ID,NAME,DESCRIPTION) values(2,'KRA','KRA Namespace');
+
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(1,'CREATE_PROPOSAL','Create Proposal Development Document', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(2,'MODIFY_PROPOSAL','Modify Proposal Development Document', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(3,'VIEW_PROPOSAL','View Proposal Development Document', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(4,'MODIFY_NARRATIVE','Create/Modify Proposal Narrative', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(5,'VIEW_NARRATIVE','View Proposal Narrative', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(6,'MODIFY_BUDGET','Create/Modify Proposal Budget', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(7,'VIEW_BUDGET','View Proposal Budget', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(8,'MAINTAIN_PROPOSAL_ACCESS','Assign Users to Proposal Roles', 2);
+
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(1,'Proposal Creator','Proposal Creator');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(2,'Aggregator','Proposal Aggregator');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(3,'Narrative Writer','Proposal Narrative Writer');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(4,'Budget Creator','Proposal Budget Creator');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(5,'Viewer','Proposal Viewer');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(6,'unassigned','Unassigned - no permissions');
+
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(1,1);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,2);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,3);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,4);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,5);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,6);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,7);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,8);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(3,2);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(3,3);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(3,4);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(3,5);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(3,7);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(4,2);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(4,3);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(4,5);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(4,6);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(4,7);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,3);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,5);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,7);
+
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (1, 'quickstart', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (2, 'ljoconno', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (3, 'bhutchinson', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (4, 'aslusar', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (5, 'tdurkin', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (6, 'pcberg', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (7, 'jtester', 'fK69ATFsAydwQuteang+xMva+Tc=');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (1, 1, 1);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (1, 1, 'kra.unitNumber', '000001');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (2, 1, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (2, 1, 1);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (3, 2, 'kra.unitNumber', 'BL-IIDC');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (4, 2, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (3, 1, 1);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (5, 3, 'kra.unitNumber', 'IN-CARD');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (6, 3, 'kra.subunits', 'Y');
+
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (4, 1, 2);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (7, 4, 'kra.unitNumber', '000001');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (8, 4, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (5, 1, 2);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (9, 5, 'kra.unitNumber', 'BL-IIDC');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (10, 5, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (6, 1, 2);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (11, 6, 'kra.unitNumber', 'IN-CARD');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (12, 6, 'kra.subunits', 'Y');
+
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (7, 1, 3);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (13, 7, 'kra.unitNumber', '000001');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (14, 7, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (8, 1, 3);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (15, 8, 'kra.unitNumber', 'BL-IIDC');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (16, 8, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (9, 1, 3);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (17, 9, 'kra.unitNumber', 'IN-CARD');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (18, 9, 'kra.subunits', 'Y');
+
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (10, 1, 4);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (19, 10, 'kra.unitNumber', '000001');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (20, 10, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (11, 1, 4);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (21, 11, 'kra.unitNumber', 'BL-IIDC');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (22, 11, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (12, 1, 4);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (23, 12, 'kra.unitNumber', 'IN-CARD');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (24, 12, 'kra.subunits', 'Y');
+
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (13, 1, 5);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (25, 13, 'kra.unitNumber', '000001');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (26, 13, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (14, 1, 5);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (27, 14, 'kra.unitNumber', 'BL-IIDC');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (28, 14, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (15, 1, 5);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (29, 15, 'kra.unitNumber', 'IN-CARD');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (30, 15, 'kra.subunits', 'Y');
+
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (16, 1, 6);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (31, 16, 'kra.unitNumber', '000001');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (32, 16, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (17, 1, 6);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (33, 17, 'kra.unitNumber', 'BL-IIDC');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (34, 17, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (18, 1, 6);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (35, 18, 'kra.unitNumber', 'IN-CARD');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (36, 18, 'kra.subunits', 'Y');
+
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (19, 1, 7);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (37, 19, 'kra.unitNumber', '000001');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (38, 19, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (20, 1, 7);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (39, 20, 'kra.unitNumber', 'BL-IIDC');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (40, 20, 'kra.subunits', 'N');
+
+insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (21, 1, 7);
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (41, 21, 'kra.unitNumber', 'IN-CARD');
+insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (42, 21, 'kra.subunits', 'Y');
 
 COMMIT;
 
@@ -1446,35 +1646,199 @@ INSERT INTO ORGANIZATION(ORGANIZATION_ID, ORGANIZATION_NAME, CONTACT_ADDRESS_ID,
 
 COMMIT;
 
+/* Load data for organization_type_list Table */ 
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+21,'F: State-Controlled Institution of Higher Education',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+22,'B: County Government',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+23,'D: Special District Governments',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+24,'E: Independent School District',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+25,'H: Public/Indian Housing Authority',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+26,'I: Native American Tribal Organization (other than Federally recognized)',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+1,'C: City or Township Government',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+2,'A: State Government',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+3,'Federal Government',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+4,'J: Nonprofit with 501C3 IRS status (other than Institution of Higher Education)',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+5,'K: Nonprofit without 501C3 IRS status (other than Institution of Higher Education)',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+6,'N: For-profit Organization (other than small business)',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+7,'P: Other ',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+8,'G: Native American Tribal Government (Federally Recognized)',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+9,'M: Individual',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+10,'L: Private Institution of Higher Education',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+11,'O: Small Business',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+14,'P: Other (specify) - socially and economically disadvantaged',sysdate,user);
+insert into organization_type_list (ORGANIZATION_TYPE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER) values (
+15,'P: Other (specify) - women owned',sysdate,user);
+
+COMMIT;
+
+/* Load data for OSP$PARAMETER Table */ 
+REM INSERTING into OSP$PARAMETER
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SUB_PROJECT_TOTAL_DIRECT_COST',to_date('01-MAY-06','DD-MON-RR'),'PHTD01',to_date('01-MAY-06','DD-MON-RR'),'COEUS');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SUB_PROJECT_TOTAL_INDIRECT_COST',to_date('01-MAY-06','DD-MON-RR'),'PHTID02',to_date('01-MAY-06','DD-MON-RR'),'COEUS');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('DHHS_AGREEMENT',to_date('02-MAY-06','DD-MON-RR'),'0',to_date('02-MAY-06','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('S2S_SOAP_REQUEST_TIMEOUT',to_date('12-FEB-07','DD-MON-RR'),'3',to_date('12-FEB-07','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('S2S_MULTI_CAMPUS_TEST_MODE',to_date('20-MAR-07','DD-MON-RR'),'0',to_date('20-MAR-07','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('AWARD_ON_HOLD_BASED_ON_COI',to_date('20-JUN-07','DD-MON-RR'),'1',to_date('20-JUN-07','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('FEDERAL_ID_COMES_FROM_CURRENT_AWARD',to_date('01-MAY-00','DD-MON-RR'),'1',to_date('01-MAY-00','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('MULTI_CAMPUS_ENABLED',to_date('19-SEP-06','DD-MON-RR'),'0',to_date('19-SEP-06','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('COEUS_LITE_URL',to_date('20-DEC-06','DD-MON-RR'),'https://coeus-dev.mit.edu/coeus42/',to_date('20-DEC-06','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('GENERATE_SPONSOR_CODE',to_date('26-FEB-07','DD-MON-RR'),'1',to_date('26-FEB-07','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('GENERATE_ORGANIZATION_CODE',to_date('26-FEB-07','DD-MON-RR'),'1',to_date('26-FEB-07','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('EB_ON_LA_RATE_TYPE_CODE',to_date('19-JAN-02','DD-MON-RR'),'3',to_date('19-JAN-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('VACATION_ON_LA_RATE_TYPE_CODE',to_date('19-JAN-02','DD-MON-RR'),'2',to_date('19-JAN-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('ROLODEX_RETRIEVE_LIMIT',to_date('01-JAN-95','DD-MON-RR'),'800',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('DISCLOSURE_RETRIEVE_LIMIT',to_date('19-JAN-02','DD-MON-RR'),'500',to_date('19-JAN-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SPONSOR_RETRIEVE_LIMIT',to_date('01-JAN-95','DD-MON-RR'),'10000',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROPERTY_CLASS_CODE',to_date('01-JAN-95','DD-MON-RR'),'2',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('INTELLECTUAL_PROPERTY_CLASS_CODE',to_date('01-JAN-95','DD-MON-RR'),'3',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('TECHNICAL_MANAGEMENT_CLASS_CODE',to_date('01-JAN-95','DD-MON-RR'),'4',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('FISCAL_CLASS_CODE',to_date('01-JAN-95','DD-MON-RR'),'1',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('UNIT_RETRIEVE_LIMIT',to_date('01-JAN-95','DD-MON-RR'),'100',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('INDIRECT_COST_COMMENT_CODE',to_date('01-JAN-95','DD-MON-RR'),'8',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('COST_SHARING_COMMENT_CODE',to_date('01-JAN-95','DD-MON-RR'),'9',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SPECIAL_RATE_COMMENT_CODE',to_date('01-JAN-95','DD-MON-RR'),'7',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('MIT_PERSON_RETRIEVE_LIMIT',to_date('01-JAN-95','DD-MON-RR'),'100',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('AWARD_RETRIEVE_LIMIT',to_date('01-JAN-95','DD-MON-RR'),'10000',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('REPORTING_RETRIEVE_LIMIT',to_date('19-JAN-02','DD-MON-RR'),'5000',to_date('19-JAN-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROCUREMENT_CLASS_CODE',to_date('01-JAN-95','DD-MON-RR'),'5',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('INVOICE_INSTRUCTION_COMMENT_CODE',to_date('01-JAN-95','DD-MON-RR'),'1',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROPOSAL_RETRIEVE_LIMIT',to_date('01-JAN-95','DD-MON-RR'),'5000',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SPECIAL_REVIEW_COMMENT_CODE',to_date('01-JAN-95','DD-MON-RR'),'10',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('ROLODEX_FEED_USER',to_date('19-JAN-02','DD-MON-RR'),'SNAIR',to_date('19-JAN-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROPOSAL_SUMMARY_COMMENT_CODE',to_date('01-JAN-95','DD-MON-RR'),'12',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROPOSAL_COMMENT_CODE',to_date('01-JAN-95','DD-MON-RR'),'13',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SAP_FEED_ENABLED',to_date('01-JUL-97','DD-MON-RR'),'1',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('CURRENT_FISCAL_YEAR',to_date('01-JUL-97','DD-MON-RR'),'2003',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('EOM_PROCESS_DATE',to_date('11-AUG-97','DD-MON-RR'),'Aug-30-2002 2:28:24 pm',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('EOM_PROCESS_USER',to_date('11-AUG-97','DD-MON-RR'),'NCAISSIE',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('TEMPORARY_TABLESPACE',to_date('01-JAN-98','DD-MON-RR'),'TEMP',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('FELLOWSHIP_OSP_ADMIN',to_date('01-JAN-98','DD-MON-RR'),'Priscilla Caissie',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('DEFAULT_TABLESPACE',to_date('01-JAN-98','DD-MON-RR'),'USERS',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SPONSOR_FEED_DATE',to_date('10-JUN-98','DD-MON-RR'),'Feb-03-2005 6:39:36 pm',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SPONSOR_FEED_USER',to_date('10-JUN-98','DD-MON-RR'),'SNAIR',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('CFDA_CODE',to_date('27-FEB-99','DD-MON-RR'),'9',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('EB_RATE_CLASS_CODE',to_date('27-FEB-99','DD-MON-RR'),'5',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('LA_RATE_CLASS_CODE',to_date('27-FEB-99','DD-MON-RR'),'6',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PERSON_RETRIEVE_LIMIT',to_date('27-FEB-99','DD-MON-RR'),'1000',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('USER_RETRIEVE_LIMIT',to_date('27-FEB-99','DD-MON-RR'),'100',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('OLDEST_SUPPORTED_VERSION',to_date('27-FEB-99','DD-MON-RR'),'3.8',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('CLIENT_DOWNLOAD_LOCATION',to_date('27-FEB-99','DD-MON-RR'),'http://web.mit.edu/osp/www/coeus   If you have any questions, please contact us at: coeus-help@mit.edu ',to_date('27-FEB-99','DD-MON-RR'),'ospa');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('COEUS_CURRENT_VERSION',to_date('27-FEB-99','DD-MON-RR'),'4.0',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PUBLIC_MESSAGE_ID',to_date('27-FEB-99','DD-MON-RR'),'2522',to_date('27-FEB-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROPOSAL_LOG_RETRIEVE_LIMIT',to_date('01-JUN-99','DD-MON-RR'),'500',to_date('01-JUN-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('ROLODEX_FEED_DATE',to_date('19-JAN-02','DD-MON-RR'),'Feb-02-2005 5:14:56 pm',to_date('19-JAN-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('VACATION_RATE_CLASS_CODE',to_date('24-SEP-99','DD-MON-RR'),'8',to_date('24-SEP-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SUBCONTRACT_RETRIEVE_LIMIT',to_date('24-SEP-99','DD-MON-RR'),'1000',to_date('24-SEP-99','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SCIENCE_CODE_RETRIEVE_LIMIT',to_date('08-APR-00','DD-MON-RR'),'100',to_date('08-APR-00','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('MIT_IDC_VALIDATION_ENABLED',to_date('08-APR-00','DD-MON-RR'),'0',to_date('08-APR-00','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('NEGOTIATION_RETRIEVE_LIMIT',to_date('08-APR-00','DD-MON-RR'),'500',to_date('08-APR-00','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROPOSAL_IP_REVIEW_COMMENT_CODE',to_date('08-APR-00','DD-MON-RR'),'16',to_date('08-APR-00','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROPOSAL_IP_REVIEWER_COMMENT_CODE',to_date('08-APR-00','DD-MON-RR'),'17',to_date('08-APR-00','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('DEFAULT_BUDGET_COST_ELEMENT',to_date('21-APR-01','DD-MON-RR'),'400000',to_date('21-APR-01','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('COEUS_MODULE_AWARD',to_date('21-APR-01','DD-MON-RR'),'1',to_date('21-APR-01','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('COEUS_MODULE_PROPOSAL',to_date('21-APR-01','DD-MON-RR'),'2',to_date('21-APR-01','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('COEUS_MODULE_DEV_PROPOSAL',to_date('21-APR-01','DD-MON-RR'),'3',to_date('21-APR-01','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('COEUS_MODULE_SUBCONTRACT',to_date('21-APR-01','DD-MON-RR'),'4',to_date('21-APR-01','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('JOBCODE_VALIDATION_ENABLED',to_date('21-APR-01','DD-MON-RR'),'0',to_date('21-APR-01','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('GENERIC_SPONSOR_CODE',to_date('26-APR-01','DD-MON-RR'),'009800',to_date('26-APR-01','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('COEUS_MODULE_NEGOTIATION',to_date('26-APR-01','DD-MON-RR'),'5',to_date('26-APR-01','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('COEUS_MODULE_PERSON',to_date('26-APR-01','DD-MON-RR'),'6',to_date('26-APR-01','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SUBCONTRACT_EXP_FEED_ENABLED',to_date('19-JAN-02','DD-MON-RR'),'1',to_date('19-JAN-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('FISCAL_REPORT_COMMENT_CODE',to_date('19-JAN-02','DD-MON-RR'),'3',to_date('19-JAN-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('ENTITY_REL_TYPE_OTHER_CODE',to_date('19-JAN-02','DD-MON-RR'),'5',to_date('19-JAN-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('ENTITY_STATUS_INACTIVE_CODE',to_date('19-JAN-02','DD-MON-RR'),'2',to_date('19-JAN-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('CMS_ENABLED',to_date('11-JUL-02','DD-MON-RR'),'1',to_date('11-JUL-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('CMS_MODE',to_date('11-JUL-02','DD-MON-RR'),'T',to_date('11-JUL-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('CMS_MAIL_HOST',to_date('11-JUL-02','DD-MON-RR'),'outgoing.mit.edu',to_date('11-JUL-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('CMS_TEST_MAIL_RECEIVE_ID',to_date('11-JUL-02','DD-MON-RR'),'coeus-dev-team@mit.edu',to_date('11-JUL-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('CMS_SENDER_ID',to_date('11-JUL-02','DD-MON-RR'),'coeus@mit.edu',to_date('11-JUL-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('CMS_REPLY_TO_ID',to_date('11-JUL-02','DD-MON-RR'),'coeus-dev-team@mit.edu',to_date('11-JUL-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('CMS_DEFAULT_DOMAIN',to_date('11-JUL-02','DD-MON-RR'),'mit.edu',to_date('11-JUL-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('DB_SID',to_date('12-APR-04','DD-MON-RR'),'IRBD',to_date('12-APR-04','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROTOCOL_RETRIEVE_LIMIT',to_date('17-APR-04','DD-MON-RR'),'500',to_date('20-APR-04','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROTOCOL_SUBMISSION_RETRIEVE_LIMIT',to_date('17-APR-04','DD-MON-RR'),'500',to_date('20-APR-04','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('COEUS_MODULE_IRB',to_date('28-JUL-03','DD-MON-RR'),'7',to_date('28-JUL-03','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SCHEDULE_RETRIEVE_LIMIT',to_date('17-APR-04','DD-MON-RR'),'500',to_date('20-APR-04','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('RESEARCH_AREA_RETRIEVE_LIMIT',to_date('17-APR-04','DD-MON-RR'),'500',to_date('20-APR-04','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('BUDGET_SUMMARY_DISPLAY_OPTION',to_date('17-APR-04','DD-MON-RR'),'1',to_date('22-APR-04','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('DEFAULT_ORGANIZATION_ID',to_date('10-NOV-03','DD-MON-RR'),'000001',to_date('10-NOV-03','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('DEFAULT_ORGANIZATION_TYPE',to_date('10-NOV-03','DD-MON-RR'),'1',to_date('10-NOV-03','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('IRB_COMM_SELECTION_DURING_SUBMISSION',to_date('10-NOV-03','DD-MON-RR'),'O',to_date('10-NOV-03','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('AGENDA_REPORT_TYPE_CODE',to_date('10-NOV-03','DD-MON-RR'),'9',to_date('10-NOV-03','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('MINUTE_REPORT_TYPE_CODE',to_date('10-NOV-03','DD-MON-RR'),'10',to_date('10-NOV-03','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('ENABLE_PROTOCOL_TO_PROJECTS_LINK',to_date('20-NOV-03','DD-MON-RR'),'1',to_date('20-NOV-03','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SPL_REV_TYPE_CODE_HUMAN',to_date('21-SEP-05','DD-MON-RR'),'1',to_date('21-SEP-05','DD-MON-RR'),'COEUS');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('FORCE_COST_SHARING_DISTRIBUTION',to_date('21-SEP-05','DD-MON-RR'),'1',to_date('21-SEP-05','DD-MON-RR'),'COEUS');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('FORCE_UNDER_RECOVERY_DISTRIBUTION',to_date('21-SEP-05','DD-MON-RR'),'1',to_date('21-SEP-05','DD-MON-RR'),'COEUS');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('BROAD_F_AND_A',to_date('01-JAN-00','DD-MON-RR'),'421502',to_date('13-JUL-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('MIT_AWARD_BUDGET',to_date('27-SEP-05','DD-MON-RR'),'0',to_date('27-SEP-05','DD-MON-RR'),'COEUS');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('AWARD_FNA_DISTRIBUTION',to_date('27-SEP-05','DD-MON-RR'),'O',to_date('27-SEP-05','DD-MON-RR'),'COEUS');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('CONSTRUCTION_ACTIVITY_TYPE_CODE',to_date('19-JAN-02','DD-MON-RR'),'9',to_date('27-FEB-06','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SUBCONTRACTOR_F_AND_A_GT_25K',to_date('19-JAN-02','DD-MON-RR'),'420630',to_date('19-JAN-02','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('HELP_URL',to_date('04-MAR-05','DD-MON-RR'),'http://web.mit.edu/coeus/www/help_pages/coeus_help.htm',to_date('04-MAR-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('DEFAULT_S2S_SUBMISSION_TYPE',to_date('04-FEB-06','DD-MON-RR'),'2',to_date('04-FEB-06','DD-MON-RR'),'sharathk');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('AWARD_BUDGET_POST_ENABLED',to_date('12-SEP-05','DD-MON-RR'),'1',to_date('12-SEP-05','DD-MON-RR'),'COEUS');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('NSF_SPONSOR_CODE',to_date('01-JAN-05','DD-MON-RR'),'000500',to_date('01-JAN-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('AWARD_BUDGET_CAMPUS_BASED_ON_CE',to_date('09-SEP-05','DD-MON-RR'),'1',to_date('09-SEP-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('ORGANIZATION_RETRIEVE_LIMIT',to_date('04-MAR-05','DD-MON-RR'),'1000',to_date('04-MAR-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROPOSAL_DEV_RETRIEVE_LIMIT',to_date('04-MAR-05','DD-MON-RR'),'1000',to_date('04-MAR-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('DEFAULT_TEMP_PROP_LEAD_UNIT',to_date('08-MAR-05','DD-MON-RR'),'000001',to_date('08-MAR-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK',to_date('14-SEP-05','DD-MON-RR'),'0',to_date('14-SEP-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('ENABLE_PROTOCOL_TO_PROPOSAL_LINK',to_date('14-SEP-05','DD-MON-RR'),'0',to_date('14-SEP-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('ENABLE_PROTOCOL_TO_AWARD_LINK',to_date('14-SEP-05','DD-MON-RR'),'1',to_date('14-SEP-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('LINKED_TO_IRB_CODE',to_date('14-SEP-05','DD-MON-RR'),'5',to_date('14-SEP-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SPECIAL_REVIEW_TYPE_CODE',to_date('14-SEP-05','DD-MON-RR'),'1',to_date('14-SEP-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('NARRATIVE_TYPE_OTHER_CODE',to_date('14-SEP-05','DD-MON-RR'),'8',to_date('14-SEP-05','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('LOCAL_PRINT_FORMS_SPONSOR_CODE',to_date('11-OCT-06','DD-MON-RR'),'000005',to_date('11-OCT-06','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('SUBCONTRACTOR_F_AND_A_LT_25K',to_date('11-OCT-06','DD-MON-RR'),'420610',to_date('11-OCT-06','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('COEUS_SCHEDULER_SERVICE_ENABLED',to_date('17-OCT-06','DD-MON-RR'),'0',to_date('17-OCT-06','DD-MON-RR'),'COEUS');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('PROPOSAL_CONTACT_TYPE',to_date('01-JAN-00','DD-MON-RR'),'F',to_date('01-JAN-00','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values ('NIH_SPONSOR_CODE',to_date('01-JAN-07','DD-MON-RR'),'000340',to_date('01-JAN-07','DD-MON-RR'),'OSPA');
+Insert into OSP$PARAMETER (PARAMETER,EFFECTIVE_DATE,VALUE,UPDATE_TIMESTAMP,UPDATE_USER) values (null,null,null,null,null);
+
+COMMIT;
+
 /* Load data for person_editable_fields Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.5 2008-03-17 13:27:13 shyu Exp $
+# $Id: KRA_ALL_DML.sql,v 1.5.2.1 2008-04-30 21:37:59 gmcgrego Exp $
 #
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('fullName', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('emailAddress', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('userName', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('primaryTitle', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('directoryTitle', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('officePhone', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('homeUnit', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('school', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('faxNumber', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('eraCommonsUserName', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('pagerNumber', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('mobilePhoneNumber', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('officeLocation', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('secondaryOfficeLocation', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('addressLine1', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('addressLine2', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('addressLine3', sysdate, 'kradev');v
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('county', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('city', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('state', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('country', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('postalCode', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('percentageEffort', sysdate, 'kradev');
-insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER) values ('faculty', sysdate, 'kradev');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('emailAddress', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('primaryTitle', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('directoryTitle', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('officePhone', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('faxNumber', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('eraCommonsUserName', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('pagerNumber', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('mobilePhoneNumber', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('officeLocation', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('addressLine1', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('addressLine2', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('addressLine3', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('county', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('city', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('state', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('countryCode', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('postalCode', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('percentageEffort', sysdate, 'kradev', 'Y');
+insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('facultyFlag', sysdate, 'kradev', 'Y');
 
 COMMIT;
 
@@ -1490,12 +1854,23 @@ COMMIT;
 
 /* Load data for proposal_type Table */ 
 
-INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(1, 'New',  sysdate,user);
-INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(2, 'Continuation',  sysdate,user);
-INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(3, 'Renewal',  sysdate,user);
-INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(4, 'Resubmission',  sysdate,user);
-INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(5, 'Revision',  sysdate,user);
-INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) VALUES(6, 'Task Order',  sysdate,user);
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(1, 'New',  sysdate,user);
+
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(2, 'Continuation',  sysdate,user);
+
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(3, 'Renewal',  sysdate,user);
+
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(4, 'Resubmission',  sysdate,user);
+
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(5, 'Revision',  sysdate,user);
+
+INSERT INTO PROPOSAL_TYPE(PROPOSAL_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(6, 'Task Order',  sysdate,user);
 
 COMMIT;
 
@@ -2269,39 +2644,6 @@ INSERT INTO EPS_PROP_LOCATION(LOCATION_SEQUENCE_NUMBER, PROPOSAL_NUMBER, LOCATIO
 
 COMMIT;
 
-/* Load data for RATE_CLASS_TYPE Table */ 
-
-Insert into RATE_CLASS_TYPE
-   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
- Values
-   ('O', 'Public Service F & A', sysdate, USER, 1, '7527AF26F59E44948EFF5DE80BF3116B');
-Insert into RATE_CLASS_TYPE
-   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
- Values
-   ('I', 'Inflation', sysdate, USER, 1, '3C7FD62FAA574B708A09B24C3AD512C9');
-Insert into RATE_CLASS_TYPE
-   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
- Values
-   ('E', 'Fringe Benefits', sysdate, USER, 1, '052B527835094692B4D78A18A9D2AEDB');
-Insert into RATE_CLASS_TYPE
-   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
- Values
-   ('V', 'Vacation', sysdate, USER, 1, '057B5E85C5C34A878DD01907DB00AC46');
-Insert into RATE_CLASS_TYPE
-   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
- Values
-   ('X', 'Other', sysdate, USER, 1, '93503B8C1EBF457FAB5D493AAD883974');
-Insert into RATE_CLASS_TYPE
-   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
- Values
-   ('Y', 'Lab Allocation - Salaries', sysdate, USER, 1, '3EC6A90B3CCF46D9AF6BC11CCB305850');
-Insert into RATE_CLASS_TYPE
-   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID)
- Values
-   ('L', 'Lab Allocation - Other', sysdate, USER, 1, 'D7778846DF8346DB95F2CB1E04B22473');
-
-COMMIT;
-
 /* Load data for RATE_CLASS Table */ 
 REM INSERTING into RATE_CLASS
 set escape on
@@ -2316,6 +2658,39 @@ Insert into RATE_CLASS (RATE_CLASS_CODE,DESCRIPTION,RATE_CLASS_TYPE,UPDATE_TIMES
 Insert into RATE_CLASS (RATE_CLASS_CODE,DESCRIPTION,RATE_CLASS_TYPE,UPDATE_TIMESTAMP,UPDATE_USER) values (10,'Lab Allocation - Salaries','Y',to_date('19-JAN-02','DD-MON-YY'),'KRADEV');
 Insert into RATE_CLASS (RATE_CLASS_CODE,DESCRIPTION,RATE_CLASS_TYPE,UPDATE_TIMESTAMP,UPDATE_USER) values (11,'Lab Allocation - M\&S','L',to_date('19-JAN-02','DD-MON-YY'),'KRADEV');
 Insert into RATE_CLASS (RATE_CLASS_CODE,DESCRIPTION,RATE_CLASS_TYPE,UPDATE_TIMESTAMP,UPDATE_USER) values (12,'Lab Allocation - Utilities','L',to_date('19-JAN-02','DD-MON-YY'),'KRADEV');
+
+COMMIT;
+
+/* Load data for RATE_CLASS_TYPE Table */ 
+Insert into RATE_CLASS_TYPE
+   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID,SORT_ID)
+ Values
+   ('O', 'Public Service F & A', sysdate, USER, 1, '7527AF26F59E44948EFF5DE80BF3116B',1);
+Insert into RATE_CLASS_TYPE
+   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID,SORT_ID)
+ Values
+   ('I', 'Inflation', sysdate, USER, 1, '3C7FD62FAA574B708A09B24C3AD512C9',3);
+Insert into RATE_CLASS_TYPE
+   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID,SORT_ID)
+ Values
+   ('E', 'Fringe Benefits', sysdate, USER, 1, '052B527835094692B4D78A18A9D2AEDB',2);
+Insert into RATE_CLASS_TYPE
+   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID,SORT_ID)
+ Values
+   ('V', 'Vacation', sysdate, USER, 1, '057B5E85C5C34A878DD01907DB00AC46',4);
+Insert into RATE_CLASS_TYPE
+   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID,SORT_ID)
+ Values
+   ('X', 'Other', sysdate, USER, 1, '93503B8C1EBF457FAB5D493AAD883974',7);
+Insert into RATE_CLASS_TYPE
+   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID,SORT_ID)
+ Values
+   ('Y', 'Lab Allocation - Salaries', sysdate, USER, 1, '3EC6A90B3CCF46D9AF6BC11CCB305850',5);
+Insert into RATE_CLASS_TYPE
+   (RATE_CLASS_TYPE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER, VER_NBR, OBJ_ID,SORT_ID)
+ Values
+   ('L', 'Lab Allocation - Other', sysdate, USER, 1, 'D7778846DF8346DB95F2CB1E04B22473',6);
+
 
 COMMIT;
 
@@ -2427,6 +2802,37 @@ INSERT INTO ROLODEX(ROLODEX_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, PREF
   VALUES(1750, 'Reichlin', 'Robin', 'L.', NULL, 'Dr.', 'NSF Program Official', 'National Science Foundation', NULL, '4201 Wilson Boulevard', NULL, NULL, NULL, 'Arlington', NULL, 'VA', '22230', NULL, '(703) 306-1556', 'USA', '000500', '000001', 'N', NULL, user, sysdate, user)
 ;
 
+COMMIT;
+
+/* Load data for s2s_revision_type Table */ 
+INSERT INTO S2S_REVISION_TYPE(S2S_REVISION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(1, 'Increase Award',  sysdate,user);
+
+INSERT INTO S2S_REVISION_TYPE(S2S_REVISION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(2, 'Decrease Award',  sysdate,user);
+
+INSERT INTO S2S_REVISION_TYPE(S2S_REVISION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(3, 'Decrease Duration',  sysdate,user);
+
+INSERT INTO S2S_REVISION_TYPE(S2S_REVISION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(4, 'Increase Duration',  sysdate,user);
+
+INSERT INTO S2S_REVISION_TYPE(S2S_REVISION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(5, 'Other(Specify)',  sysdate,user);
+COMMIT;
+
+/* Load data for s2s_submission_type Table */ 
+INSERT INTO S2S_SUBMISSION_TYPE(S2S_SUBMISSION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(1, 'Not Selected',  sysdate,user);
+
+INSERT INTO S2S_SUBMISSION_TYPE(S2S_SUBMISSION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(2, 'PreApplication',  sysdate,user);
+
+INSERT INTO S2S_SUBMISSION_TYPE(S2S_SUBMISSION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(3, 'Changed/Corrected Application',  sysdate,user);
+
+INSERT INTO S2S_SUBMISSION_TYPE(S2S_SUBMISSION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+  VALUES(4, 'Application',  sysdate,user);
 COMMIT;
 
 /* Load data for science_keyword Table */ 
@@ -2604,6 +3010,16 @@ INSERT INTO STATE_CODE (COUNTRY_CODE,STATE_CODE,DESCRIPTION,UPDATE_TIMESTAMP,UPD
 
 COMMIT;
 
+/* Load data for TBN Table */ 
+INSERT INTO TBN (TBN_ID, PERSON_NAME, JOB_CODE, UPDATE_TIMESTAMP, UPDATE_USER) VALUES ('1', 'TBA Research', 'BATRE', sysdate, 'KRADBA');
+INSERT INTO TBN (TBN_ID, PERSON_NAME, JOB_CODE, UPDATE_TIMESTAMP, UPDATE_USER) VALUES ('2', 'Research Associate', '00000', sysdate, 'KRADBA');
+INSERT INTO TBN (TBN_ID, PERSON_NAME, JOB_CODE, UPDATE_TIMESTAMP, UPDATE_USER) VALUES ('3', 'Data Entry Assistant', '99999', sysdate, 'KRADBA');
+INSERT INTO TBN (TBN_ID, PERSON_NAME, JOB_CODE, UPDATE_TIMESTAMP, UPDATE_USER) VALUES ('4', 'Computer Programmer', '99999', sysdate, 'KRADBA');
+INSERT INTO TBN (TBN_ID, PERSON_NAME, JOB_CODE, UPDATE_TIMESTAMP, UPDATE_USER) VALUES ('5', 'Data Manager', '99999', sysdate, 'KRADBA');
+INSERT INTO TBN (TBN_ID, PERSON_NAME, JOB_CODE, UPDATE_TIMESTAMP, UPDATE_USER) VALUES ('6', 'Project Director', '99999', sysdate, 'KRADBA');
+
+COMMIT;
+
 /* Load data for unit Table */ 
 Insert into unit
    (UNIT_NUMBER, UNIT_NAME, PARENT_UNIT_NUMBER, UPDATE_TIMESTAMP, UPDATE_USER)
@@ -2658,31 +3074,56 @@ Insert into unit
 Insert into unit
    (UNIT_NUMBER, UNIT_NAME, PARENT_UNIT_NUMBER, UPDATE_TIMESTAMP, UPDATE_USER)
  Values
+   ('IN-PED', 'PEDIATRICS', 'IN-MED', sysdate, user);
+Insert into unit
+   (UNIT_NUMBER, UNIT_NAME, PARENT_UNIT_NUMBER, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values
    ('IN-IN', 'IND UNIV-PURDUE UNIV INDPLS', 'IU-UNIV', sysdate, user);
 COMMIT;
 
 /* Load data for unit_administrator Table */ 
 Insert into unit_administrator
-   (UNIT_NUMBER, PERSON_ID, ROLE_ID, UPDATE_TIMESTAMP, UPDATE_USER)
- Values ('IN-CARD', '000000001', 300, sysdate, user);
+   (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('IN-CARD', '000000001', 3, sysdate, user);
 Insert into unit_administrator
-   (UNIT_NUMBER, PERSON_ID, ROLE_ID, UPDATE_TIMESTAMP, UPDATE_USER)
- Values ('BL-BL', '000000002', 300, sysdate, user);
+   (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('BL-BL', '000000002', 3, sysdate, user);
 Insert into unit_administrator
-   (UNIT_NUMBER, PERSON_ID, ROLE_ID, UPDATE_TIMESTAMP, UPDATE_USER)
- Values ('BL-IIDC', '000000006', 300, sysdate, user);
+   (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('BL-IIDC', '000000006', 3, sysdate, user);
 Insert into unit_administrator
-   (UNIT_NUMBER, PERSON_ID, ROLE_ID, UPDATE_TIMESTAMP, UPDATE_USER)
- Values ('BL-RCEN', '000000003', 300, sysdate, user);
+   (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('BL-RCEN', '000000003', 3, sysdate, user);
 Insert into unit_administrator
-   (UNIT_NUMBER, PERSON_ID, ROLE_ID, UPDATE_TIMESTAMP, UPDATE_USER)
- Values ('IN-CARR', '000000001', 300, sysdate, user);
+   (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('IN-CARR', '000000001', 3, sysdate, user);
 Insert into unit_administrator
-   (UNIT_NUMBER, PERSON_ID, ROLE_ID, UPDATE_TIMESTAMP, UPDATE_USER)
- Values ('IN-MDEP', '000000004', 300, sysdate, user);
+   (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('IN-MDEP', '000000004', 3, sysdate, user);
 Insert into unit_administrator
-   (UNIT_NUMBER, PERSON_ID, ROLE_ID, UPDATE_TIMESTAMP, UPDATE_USER)
- Values ('IN-PERS', '000000005', 300, sysdate, user);
+   (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('IN-PERS', '000000005', 3, sysdate, user);
+
+COMMIT;
+
+/* Load data for unit_administrator_type Table */ 
+Insert into unit_administrator_type
+   (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('1', 'ADMINISTRATIVE_OFFICER',  sysdate, user);
+Insert into unit_administrator_type
+   (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('2', 'OSP_ADMINISTRATOR',  sysdate, user);
+Insert into unit_administrator_type
+   (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('3', 'UNIT_HEAD',  sysdate, user);
+Insert into unit_administrator_type
+   (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('4', 'DEAN_VP',  sysdate, user);
+Insert into unit_administrator_type
+   (UNIT_ADMINISTRATOR_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('5', 'OTHER_INDIVIDUAL_TO_NOTIFY',  sysdate, user);
+
+
 
 COMMIT;
 
@@ -3467,8 +3908,8 @@ Insert into VALID_CE_RATE_TYPES (COST_ELEMENT,RATE_CLASS_CODE,RATE_TYPE_CODE,UPD
 COMMIT;
 
 /* Load data for valid_sp_rev_approval Table */ 
-insert into VALID_SP_REV_APPROVAL (SPECIAL_REVIEW_CODE,APPROVAL_TYPE_CODE,PROTOCOL_NUMBER_FLAG,APPROVAL_DATE_FLAG,APPLICATION_DATE_FLAG,UPDATE_TIMESTAMP,UPDATE_USER )
-values ('1','2','Y','N','N',sysdate,user);
+insert into VALID_SP_REV_APPROVAL (SPECIAL_REVIEW_CODE,APPROVAL_TYPE_CODE,PROTOCOL_NUMBER_FLAG,APPROVAL_DATE_FLAG,APPLICATION_DATE_FLAG,EXEMPT_NUMBER_FLAG,UPDATE_TIMESTAMP,UPDATE_USER )
+values ('1','2','Y','N','N','N',sysdate,user);
 COMMIT;
 
 /* Load data for ynq Table */ 
@@ -3505,6 +3946,21 @@ Insert into ynq
  Values
    ('P008', 'NIH Beginning Investigator?', 'P', 2, 'A', TO_DATE('11/06/2007 00:00:00', 'MM/DD/YYYY HH24:MI:SS'), 'General Questions asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf as', TO_DATE('11/06/2007 12:37:32', 'MM/DD/YYYY HH24:MI:SS'), 'quicksta', 1, '3EBEEDE5260D3150E043814FD8813150');
 
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values (
+'NR','No Restrictions','O',2,null,null,'I',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values ('H7','Organization Provides a Smoke Free Workplace','O',2,'N','N','A',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values ('H6','Organization Certifies Compliance with the Code of Federal Regulations Regarding Research Misconduct','O',2,'N','N','A',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values ('H5','Organization Certifies Compliance With the Drug-Free Workplace Act','O',2,'N','N','A',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values ('J2','Rate Negotiated ','O',2,'N','N','A',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values ('G7','Facilities are Properly Accredited or Authorized','O',2,'N','N','A',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values ('J1','Military Services Barred from Recruitment Activities at the Proposing Organization''s Site(s)','O',2,'Y','Y','A',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values ('H0','Organization Certifies Compliance with Federal Lobbing Regulation','O',2,'N','N','A',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values ('I8','Organization has been Placed on the Federal Debarment and Suspension List','O',2,'Y','Y','A',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values ('I7','Organization has Delinquent Federal Debts','O',2,'Y','Y','A',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values ('H9','Organization Certifies Compliance with the Code of Federal Regulations Regarding Responsibility of Applicants for Promoting Objectivity in Research for which Public Health Service (PHS) Funding is Sought','O',2,'N','N','A',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+insert into ynq (QUESTION_ID,DESCRIPTION,QUESTION_TYPE,NO_OF_ANSWERS,EXPLANATION_REQUIRED_FOR,DATE_REQUIRED_FOR,STATUS,EFFECTIVE_DATE,GROUP_NAME,UPDATE_TIMESTAMP,UPDATE_USER) values ('H8','Organization Certifies Compliance with Federal Discrimination Regulations ','O',2,'N','N','A',to_date('01/01/2000','mm/dd/yyyy'),null,sysdate,user);
+
+
 COMMIT;
 
 /* Load data for ynq_explanation_type Table */ 
@@ -3523,216 +3979,18 @@ Insert into YNQ_EXPLANATION_TYPE
 
 COMMIT;
 
-insert into KIM_NAMESPACES_T (ID,NAME,DESCRIPTION) values(1,'KIM','KIM Namespace');
-insert into KIM_NAMESPACES_T (ID,NAME,DESCRIPTION) values(2,'KRA','KRA Namespace');
-
-COMMIT;
-
-insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(1,'CREATE_PROPOSAL','Create Proposal Development Document', 2);
-insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(2,'MODIFY_PROPOSAL','Modify Proposal Development Document', 2);
-insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(3,'VIEW_PROPOSAL','View Proposal Development Document', 2);
-insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(4,'MODIFY_NARRATIVE','Create/Modify Proposal Narrative', 2);
-insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(5,'VIEW_NARRATIVE','View Proposal Narrative', 2);
-insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(6,'MODIFY_BUDGET','Create/Modify Proposal Budget', 2);
-insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(7,'VIEW_BUDGET','View Proposal Budget', 2);
-insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(8,'MAINTAIN_PROPOSAL_ACCESS','Assign Users to Proposal Roles', 2);
-
-COMMIT;
-
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(1,'Proposal Creator','Proposal Creator');
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(2,'Aggregator','Proposal Aggregator');
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(3,'Narrative Writer','Proposal Narrative Writer');
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(4,'Budget Creator','Proposal Budget Creator');
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(5,'Viewer','Proposal Viewer');
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(6,'unassigned','Unassigned - no permissions');
-
-COMMIT;
-
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(1,1);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,2);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,3);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,4);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,5);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,6);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,7);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,8);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(3,2);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(3,3);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(3,4);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(3,5);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(4,2);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(4,3);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(4,6);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(4,7);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,3);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,5);
-insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,7);
-
-COMMIT;
-
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (1, 'quickstart', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (2, 'ljoconno', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (3, 'bhutchin', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (4, 'aslusar', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (5, 'tdurkin', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (6, 'pcberg', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (7, 'jtester', '');
-insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (8, 'gthomas', '');
-
-COMMIT;
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (1, 1, 1);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (1, 1, 'kra.unitNumber', '000001');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (2, 1, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (2, 1, 1);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (3, 2, 'kra.unitNumber', 'BL-IIDC');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (4, 2, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (3, 1, 1);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (5, 3, 'kra.unitNumber', 'IN-CARD');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (6, 3, 'kra.subunits', 'Y');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (4, 1, 2);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (7, 4, 'kra.unitNumber', '000001');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (8, 4, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (5, 1, 2);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (9, 5, 'kra.unitNumber', 'BL-IIDC');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (10, 5, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (6, 1, 2);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (11, 6, 'kra.unitNumber', 'IN-CARD');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (12, 6, 'kra.subunits', 'Y');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (7, 1, 3);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (13, 7, 'kra.unitNumber', '000001');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (14, 7, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (8, 1, 3);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (15, 8, 'kra.unitNumber', 'BL-IIDC');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (16, 8, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (9, 1, 3);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (17, 9, 'kra.unitNumber', 'IN-CARD');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (18, 9, 'kra.subunits', 'Y');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (10, 1, 4);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (19, 10, 'kra.unitNumber', '000001');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (20, 10, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (11, 1, 4);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (21, 11, 'kra.unitNumber', 'BL-IIDC');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (22, 11, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (12, 1, 4);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (23, 12, 'kra.unitNumber', 'IN-CARD');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (24, 12, 'kra.subunits', 'Y');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (13, 1, 5);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (25, 13, 'kra.unitNumber', '000001');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (26, 13, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (14, 1, 5);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (27, 14, 'kra.unitNumber', 'BL-IIDC');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (28, 14, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (15, 1, 5);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (29, 15, 'kra.unitNumber', 'IN-CARD');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (30, 15, 'kra.subunits', 'Y');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (16, 1, 6);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (31, 16, 'kra.unitNumber', '000001');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (32, 16, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (17, 1, 6);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (33, 17, 'kra.unitNumber', 'BL-IIDC');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (34, 17, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (18, 1, 6);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (35, 18, 'kra.unitNumber', 'IN-CARD');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (36, 18, 'kra.subunits', 'Y');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (19, 1, 7);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (37, 19, 'kra.unitNumber', '000001');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (38, 19, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (20, 1, 7);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (39, 20, 'kra.unitNumber', 'BL-IIDC');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (40, 20, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (21, 1, 7);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (41, 21, 'kra.unitNumber', 'IN-CARD');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (42, 21, 'kra.subunits', 'Y');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (22, 1, 8);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (43, 22, 'kra.unitNumber', '000001');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (44, 22, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (23, 1, 8);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (45, 23, 'kra.unitNumber', 'BL-IIDC');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (46, 23, 'kra.subunits', 'N');
-
-insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (24, 1, 8);
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (47, 24, 'kra.unitNumber', 'IN-CARD');
-insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (48, 24, 'kra.subunits', 'Y');
-
-COMMIT;
-
-INSERT INTO S2S_REVISION_TYPE(S2S_REVISION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(1, 'Increase Award',  sysdate,user);
-
-INSERT INTO S2S_REVISION_TYPE(S2S_REVISION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(2, 'Decrease Award',  sysdate,user);
-
-INSERT INTO S2S_REVISION_TYPE(S2S_REVISION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(3, 'Decrease Duration',  sysdate,user);
-
-INSERT INTO S2S_REVISION_TYPE(S2S_REVISION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(4, 'Increase Duration',  sysdate,user);
-
-INSERT INTO S2S_REVISION_TYPE(S2S_REVISION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(5, 'Other(Specify)',  sysdate,user);
-
-COMMIT;
-
-INSERT INTO S2S_SUBMISSION_TYPE(S2S_SUBMISSION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(1, 'Not Selected',  sysdate,user);
-
-INSERT INTO S2S_SUBMISSION_TYPE(S2S_SUBMISSION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(2, 'PreApplication',  sysdate,user);
-
-INSERT INTO S2S_SUBMISSION_TYPE(S2S_SUBMISSION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(3, 'Changed/Corrected Application',  sysdate,user);
-
-INSERT INTO S2S_SUBMISSION_TYPE(S2S_SUBMISSION_TYPE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(4, 'Application',  sysdate,user);
-
-COMMIT;
-
-Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('1','TEMPERRORY EMPLOYEE',1,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'32B1907D6F72486885B49CC996B08A66');
-Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('2','SUMMER EMPLOYEE',3,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'B0EC170DEBBD4AD0AA428D3D12A439F8');
-Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('3','9M DURATION',9,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'BC0DB87EDF21411597A0881D25ABEED8');
-Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('4','10M DURATION',10,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'4EB3EE428A1C4649A809DB73DC037770');
-Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('5','11M DURATION',11,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'F6C2A3E40430450BAC8F433E35B851A8');
-Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('6','12M DURATION',12,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'6F772A60519E467FA2AC7D2416211946');
-Insert into APPOINTMENT_TYPE (APPOINTMENT_TYPE_CODE,DESCRIPTION,DURATION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ('7','REGULAR EMPLOYEE',12,to_date('19-FEB-2008','DD-MON-YYYY'),'KRADEV',1,'A9893947B37D4994BF3DA670BA1F3422');
-
-COMMIT;
 
 /*
 Purpose : Enables all foreign Keys.
 */
-
 DECLARE
 TYPE Constraints_CUR IS REF CURSOR;
 v_cons_CUR Constraints_CUR;
 l_Constraint_name user_constraints.constraint_name%TYPE;
 l_table_name user_constraints.table_name%TYPE;
-
 BEGIN
 OPEN v_cons_CUR FOR
-'SELECT constraint_name, table_name FROM user_constraints 
+'SELECT constraint_name, table_name FROM user_constraints
 WHERE constraint_type = ''R'' ORDER BY constraint_type';
 LOOP
 FETCH v_cons_CUR INTO l_Constraint_name, l_table_name;
@@ -3740,8 +3998,8 @@ EXIT WHEN v_cons_CUR%NOTFOUND;
 EXECUTE IMMEDIATE
 'ALTER TABLE'||' '||l_table_name||' '||'ENABLE CONSTRAINT'||'
 '||l_Constraint_name;
-
 END LOOP;
 CLOSE v_cons_CUR;
 END;
 /
+
