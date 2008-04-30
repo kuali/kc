@@ -151,5 +151,12 @@ public class KeyConstants {
     public static final String ERROR_EXPIRATION_DATE_PAST = "error.expiration.date.past";
     public static final String AUDIT_ERROR_BUDGETPERIOD_START_BEFORE_PROJECT_START_DATE = "error.periodStartDate.before.projectStartDate";
     public static final String AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE = "error.periodEndDate.after.projectEndDate";
-
+    
+    // Change Password
+    public static final String ERROR_EMPTY_PASSWORD = "error.password.empty";
+    public static final String ERROR_INVALID_PASSWORD = "error.password.invalid";
+    public static final String ERROR_PASSWORD_MISMATCH = "error.password.mismatch";
+    
+    // Copy proposal
+    public static final String ERROR_LEAD_UNIT_REQUIRED = "error.leadUnit.required";
 }
