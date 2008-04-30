@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
@@ -152,7 +153,15 @@ public class ProposalCopyCriteria extends BusinessObjectBase {
     public String getOriginalLeadUnitNumber() {
         return this.originalLeadUnitNumber;
     }
-
+    
+    /**
+     * Set the original lead unit number.
+     * @param originalLeadUnitNumber the original lead unit number
+     */
+    public void setOriginalLeadUnitNumber(String originalLeadUnitNumber) {
+        this.originalLeadUnitNumber = originalLeadUnitNumber;
+    }
+    
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();

@@ -194,5 +194,10 @@ public interface Constants {
     public static final String BUDGET_PERIOD_PAGE = "summary";
     public static final String BUDGET_PERIOD_PANEL_ANCHOR = "BudgetPeriodsAmpTotals";
     public static final String BUDGET_PERIOD_KEY = "document.budgetPeriod*";
-
+    
+    // Change Password
+    public static final String CHANGE_PASSWORD_PROPERTY_KEY = "changePassword";
+    
+    // Copy proposal
+    public static final String COPY_PROPOSAL_PROPERTY_KEY = "copyProposal";
 }
