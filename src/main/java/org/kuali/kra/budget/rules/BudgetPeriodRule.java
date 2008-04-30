@@ -104,17 +104,17 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         }else if(!isValidBudgetPeriodBoundaries(document)){
             rulePassed = false;
         }else if(!getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber)) {
-            errorMap.addToErrorPath("noPanel");
+            errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
             rulePassed = false;
             saveErrors("ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST", errorMap);
             //errorMap.putError("noFocus", KeyConstants.ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST);
         }else if(getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber+1)) {
-            errorMap.addToErrorPath("noPanel");
+            errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
             rulePassed = false;
             saveErrors("ERROR_GENERATE_PERIOD", errorMap);
             //errorMap.putError("noFocus", KeyConstants.ERROR_GENERATE_PERIOD);
         }
-        errorMap.removeFromErrorPath("noPanel");
+        errorMap.removeFromErrorPath(NEW_BUDGET_PERIOD);
         return rulePassed;
     }
 
@@ -267,10 +267,10 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
                     if(index == totalBudgetPeriods) {
                         lastRecord = true;
                         if(newPeriodStartDate.after(periodEndDate)) {
-                            periodNum = index + 2;
-                        }else {
                             periodNum = index + 1;
-                        }
+                        }//else {
+                         //   periodNum = index + 1;
+                        //}
                     }
                     /* check new budget period */
                     if(newPeriodStartDate.before(getProjectStartDate())) {
@@ -292,7 +292,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
                         saveErrors(dateCompareValue, errorMap);
                         validNewBudgetPeriod = false;
                     }else {
-                        newBudgetPeriod.setBudgetPeriod(periodNum);
+                        newBudgetPeriod.setBudgetPeriod(periodNum+1);
                     }
                     break;
                 }
@@ -382,18 +382,18 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
         if(periodStartDate.after(getProjectEndDate())) {
             LOG.info("ERROR_PERIOD_START_AFTER_PROJECT_END"+periodStartDate+getProjectEndDate());
             returnErrorValue = "ERROR_PERIOD_START_AFTER_PROJECT_END"; 
-        }else if(periodStartDate.after(periodEndDate)) {
-            LOG.info("ERROR_PERIOD_START_AFTER_PERIOD_END"+periodStartDate+periodEndDate);
-            returnErrorValue = "ERROR_PERIOD_START_AFTER_PERIOD_END"; 
         }else if(periodStartDate.before(getProjectStartDate())) {
-            LOG.info("ERROR_PERIOD_END_BEFORE_PROJECT_START"+periodStartDate+getProjectStartDate());
-            returnErrorValue = "ERROR_PERIOD_END_BEFORE_PROJECT_START";
+            LOG.info("ERROR_PERIOD_START_BEFORE_PROJECT_START"+periodStartDate+getProjectStartDate());
+            returnErrorValue = "ERROR_PERIOD_START_BEFORE_PROJECT_START";
         }else if(periodEndDate.before(getProjectStartDate())) {
             LOG.info("ERROR_PERIOD_END_BEFORE_PROJECT_START"+periodEndDate+getProjectStartDate());
             returnErrorValue = "ERROR_PERIOD_END_BEFORE_PROJECT_START"; 
         }else if(periodEndDate.after(getProjectEndDate())) {
             LOG.info("ERROR_PERIOD_END_AFTER_PROJECT_END"+periodEndDate+getProjectEndDate());
             returnErrorValue = "ERROR_PERIOD_END_AFTER_PROJECT_END"; 
+        }else if(periodStartDate.after(periodEndDate)) {
+            LOG.info("ERROR_PERIOD_START_AFTER_PERIOD_END"+periodStartDate+periodEndDate);
+            returnErrorValue = "ERROR_PERIOD_START_AFTER_PERIOD_END"; 
         }else if(previousPeriodEndDate != null && periodStartDate.before(previousPeriodEndDate)) {
             LOG.info("ERROR_PERIOD_START_BEFORE_PREVIOUS_END"+previousPeriodEndDate+periodStartDate);
             returnErrorValue = "ERROR_PERIOD_START_BEFORE_PREVIOUS_END"; 
