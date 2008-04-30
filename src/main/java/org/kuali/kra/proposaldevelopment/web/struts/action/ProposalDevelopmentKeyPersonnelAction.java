@@ -64,8 +64,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.55 $
+ * @author $Author: dbarre $
+ * @version $Revision: 1.56 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
@@ -396,7 +396,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      * @throws Exception
      */
     public ActionForward recalculateCreditSplit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.out.println("Got here");
         prepare(form, request);
         return mapping.findForward(MAPPING_BASIC);
     }
