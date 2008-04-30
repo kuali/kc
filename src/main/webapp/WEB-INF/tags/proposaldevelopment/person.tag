@@ -210,6 +210,21 @@
                                                 readOnly="${!personEditableFields['facultyFlag']}" />
                     </label></td>
                   </tr>
+    <c:if test="${KualiForm.document.sponsor.acronym == Constants.NIH_SPONSOR_ACRONYM && KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == Constants.KEY_PERSON_ROLE}">
+                  <tr>
+                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.otherSignificantContributorFlag}" /></div></th>
+                    <td align="left"><span>
+                      <kul:htmlControlAttribute property="${proposalPerson}.otherSignificantContributorFlag" 
+                                          attributeEntry="${proposalPersonAttributes.otherSignificantContributorFlag}" 
+                                                readOnly="${!personEditableFields['otherSignificantContributorFlag'] }" />
+                    </span></td>
+                    <th align="left" nowrap="nowrap"><div align="right"></div></th>
+
+                    <td align="left"><label>
+                      
+                    </label></td>
+                  </tr>
+     </c:if>
                 </tbody>
 </table></div>
 </kul:innerTab>
