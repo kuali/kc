@@ -15,12 +15,17 @@
  */
 package org.kuali.kra.workflow.test;
 
+import java.io.File;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +40,7 @@ import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.lifecycle.Lifecycle;
 import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
+import org.springframework.core.io.ClassPathResource;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -82,10 +88,19 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
     private static final String GRADUATE_STUDENT_COUNT_ID = "customAttributeValues(id4)";
     private static final String BILLING_ELEMENT_ID = "customAttributeValues(id1)";
 
+    private File xmlBackupDir = null;
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
         transactionalLifecycle.stop();
+        
+        ClassPathResource routingResource1 = new ClassPathResource("kew/xml/ProposalDevelopmentDocument.xml");
+        ClassPathResource routingResource2 = new ClassPathResource("kew/xml/ProposalDevelopmentDocumentRules.xml");
+        xmlBackupDir = new ClassPathResource("kew/xml/test/revert").getFile();
+        FileUtils.copyFileToDirectory(routingResource1.getFile(), xmlBackupDir);
+        FileUtils.copyFileToDirectory(routingResource2.getFile(), xmlBackupDir);
+
         new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
         customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/test");
         customKEWLifecycle.start();
@@ -108,6 +123,11 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/test/revert");
         customKEWLifecycle.start();
 
+        File[] filesToBeDeleted = xmlBackupDir.listFiles();
+        for(File fileToBeDeleted: filesToBeDeleted) {
+            boolean flag = fileToBeDeleted.delete();
+        }
+        
         GlobalVariables.setErrorMap(new ErrorMap());
         stopLifecycles(this.perTestLifeCycles);
         afterRun();
@@ -115,32 +135,37 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
 
 
     @Test
-    public void testAddUsers() throws Exception {
-        
-        Calendar c = Calendar.getInstance(); 
-        c.add(Calendar.DAY_OF_MONTH, 1);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); 
-        String sponsordeadlinedate = sdf.format(c.getTime()); 
+    public void testAlternateRoutingWithMultipleApproval() throws Exception {
         HtmlPage proposaldevelopmentPage = getProposalDevelopmentPage();
         setDefaultRequiredFields(proposaldevelopmentPage);
-        setFieldValue(proposaldevelopmentPage,"document.deadlineDate",sponsordeadlinedate);
-        HtmlForm proposaldevform = (HtmlForm) proposaldevelopmentPage.getForms().get(0);
-        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) proposaldevform.getInputByName("document.documentHeader.documentNumber");
-        HtmlPage KeyPersonnelpage = clickOnTab(proposaldevelopmentPage, KEY_PERSONNEL_LINK_NAME);
-        assertTrue(KeyPersonnelpage.asText().contains("Document was successfully saved"));
-        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.Person");
-        assertEquals("Terry Durkin", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
-        setFieldValue(KeyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "PI");
-        KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.insertProposalPerson");
-        setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
-        setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
-        setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
-        // set up required custom attributes
-        HtmlPage customDataPage = clickOn(KeyPersonnelpage, CUSTOM_DATA_LINK_NAME);
+        
+        Calendar date = Calendar.getInstance();
+        date.add(Calendar.DAY_OF_MONTH, 1); 
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); 
+        String sponsorDeadlineDate = sdf.format(date.getTime()); 
+
+        //Required Field for PD Submission
+        setFieldValue(proposaldevelopmentPage,"document.deadlineDate",sponsorDeadlineDate);
+        
+        HtmlForm proposalForm = (HtmlForm) proposaldevelopmentPage.getForms().get(0);
+        final HtmlHiddenInput documentNumber = (HtmlHiddenInput) proposalForm.getInputByName("document.documentHeader.documentNumber");
+        
+        //Required for PD Submission
+        HtmlPage keyPersonnelpage = clickOnTab(proposaldevelopmentPage, KEY_PERSONNEL_LINK_NAME);
+        assertTrue(keyPersonnelpage.asText().contains("Document was successfully saved"));
+        keyPersonnelpage = lookup(keyPersonnelpage, "org.kuali.kra.bo.Person");
+        assertEquals("Terry Durkin", getFieldValue(keyPersonnelpage, "newProposalPerson.fullName"));
+        setFieldValue(keyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "PI");
+        keyPersonnelpage = clickOn(keyPersonnelpage, "methodToCall.insertProposalPerson");
+        setFieldValue(keyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
+        setFieldValue(keyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
+        setFieldValue(keyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
+        
+        //Setting up required Custom Data for PD Submission
+        HtmlPage customDataPage = clickOn(keyPersonnelpage, CUSTOM_DATA_LINK_NAME);
         assertContains(customDataPage,TestUtilities.GROUP_NAME_1);
         assertContains(customDataPage,TestUtilities.GROUP_NAME_2);
         assertContains(customDataPage,TestUtilities.GROUP_NAME_3);
-  
         setFieldValue(customDataPage, GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
         setFieldValue(customDataPage, BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
 
@@ -150,18 +175,17 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
 
         // Save the proposal and re-check to be sure the data is still correctly displayed.
         HtmlPage proposalPage = saveAndSearchDoc(permissionsPage);
-        HtmlForm form = (HtmlForm) proposalPage.getForms().get(0);
-       
-        
+        //HtmlForm form = (HtmlForm) proposalPage.getForms().get(0);
         HtmlPage submitPage = clickOnTab(proposalPage, ACTIONS_LINK_NAME);
-        HtmlForm form1 = (HtmlForm) submitPage.getForms().get(0);
+        HtmlForm submitForm = (HtmlForm) submitPage.getForms().get(0);
 
-        final HtmlPage confirmationPage = clickButton(submitPage, form1, "methodToCall.route", IMAGE_INPUT);
-
+        //Submit PD 
+        final HtmlPage confirmationPage = clickButton(submitPage, submitForm, "methodToCall.route", IMAGE_INPUT);
         assertNotNull(confirmationPage);
         assertTrue(confirmationPage.asText().contains("Document was successfully submitted"));
 
         GlobalVariables.setUserSession(null);
+        //Login as jtester User
         GlobalVariables.setUserSession(new UserSession("jtester"));
         final WebClient newWebClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
@@ -177,8 +201,11 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         HtmlForm form2 = (HtmlForm) approvePage.getForms().get(0);
         final HtmlPage approvalConfirmationPage = clickButton(approvePage, form2, "methodToCall.approve", IMAGE_INPUT);
         assertNotNull(approvalConfirmationPage);
+        
+        //jtester Should be shown the Question Page (since he is configured to get Multiple Approval Requests)
         assertTrue(approvalConfirmationPage.asText().contains("Kuali :: Question Dialog Page"));
 
+        //jtester answers Yes to the question
         HtmlForm form3 = (HtmlForm) approvalConfirmationPage.getForms().get(0);
         final HtmlPage backToActionList = clickButton(approvalConfirmationPage, form3, "methodToCall.processAnswer.button0",
                 IMAGE_INPUT);
@@ -207,11 +234,12 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
                 else if (kvp.getKey().startsWith(EdenConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
                         && kvp.getValue().toUpperCase().equals(EdenConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
                         && kvp.getKey().contains(networkId.getNetworkId())) {
-                    doNotReceiveFutureRequests = true;
+                    doNotReceiveFutureRequests = true;  
                 }
             }
         }
 
+        //Asserting on the Workflow Document variables based on jtester's response
         assertTrue(receiveFutureRequests);
         assertFalse(doNotReceiveFutureRequests);
 
@@ -232,6 +260,8 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
                 assertEquals("U", actionRequest.getRecipientTypeCd());
                 assertNotNull(actionRequest.getUserVO().getNetworkId());
                 assertEquals("jtester", actionRequest.getUserVO().getNetworkId());
+                assertFalse(actionRequest.isPending());  
+                assertTrue(actionRequest.isDone());
             } else if(actionRequest.getNodeName().equalsIgnoreCase("SecondApproval")) {
                 assertEquals("U", actionRequest.getRecipientTypeCd());
                 assertNotNull(actionRequest.getUserVO().getNetworkId());
