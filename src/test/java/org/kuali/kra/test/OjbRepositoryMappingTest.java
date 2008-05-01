@@ -586,7 +586,7 @@ public class OjbRepositoryMappingTest {
                     String columnNameResult = null;
                     while(results.next() && !found) {
                         columnNameResult = results.getString("COLUMN_NAME");
-                        info("Comparing %s to %s in table %s", columnNameResult, getCurrentTableName());
+                        info("Comparing %s to %s in table %s", columnName, columnNameResult, getCurrentTableName());
                         if (columnName.equals(columnNameResult)) {
                             found = true;
                         }
