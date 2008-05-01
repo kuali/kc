@@ -95,9 +95,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     private static final String MAPPING_PROPOSAL = "proposal";
     
-    
-    
-    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -120,12 +117,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
             
         return actionForward;
-        
-        
     }
-    
-    
-
 
     /**
      * Calls the document service to approve the document
@@ -188,17 +180,19 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 if (kvp.getKey().startsWith(EdenConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
                         && kvp.getValue().toUpperCase().equals(EdenConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
                         && kvp.getKey().contains(networkId.getNetworkId())) {
-                    receiveFutureRequests = true;  
+                    receiveFutureRequests = true; 
+                    break;
                 }
                 else if (kvp.getKey().startsWith(EdenConstants.RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_KEY)
                       && kvp.getValue().toUpperCase().equals(EdenConstants.DONT_RECEIVE_FUTURE_REQUESTS_BRANCH_STATE_VALUE)
                       && kvp.getKey().contains(networkId.getNetworkId())) {
-                    doNotReceiveFutureRequests = true;  
+                    doNotReceiveFutureRequests = true; 
+                    break;
                 }
             }
         } 
 
-        return (canGenerateMultipleApprovalRequests(reportCriteria, networkId) && (receiveFutureRequests == false && doNotReceiveFutureRequests == false));
+        return ((receiveFutureRequests == false && doNotReceiveFutureRequests == false) && canGenerateMultipleApprovalRequests(reportCriteria, networkId));
     }
     
     private boolean canGenerateMultipleApprovalRequests(ReportCriteriaVO reportCriteria, NetworkIdVO networkId) throws Exception {
@@ -233,7 +227,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
         }
         
-        return false;
+        return false;  
     }
 
     /**
@@ -257,32 +251,32 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new CopyProposalEvent(doc, criteria));
-        
+
         if (!rulePassed) {
             nextWebPage = mapping.findForward(Constants.MAPPING_BASIC);
         }
         else {
-            // Use the Copy Service to copy the proposal.
-    
-            ProposalCopyService proposalCopyService = (ProposalCopyService) KraServiceLocator.getService("proposalCopyService");
-            if (proposalCopyService == null) {
-    
-                // Something bad happened. The errors are in the Global Error Map
-                // which will be displayed to the user.
-    
-                nextWebPage = mapping.findForward(Constants.MAPPING_BASIC);
-            }
-            else {
-                String newDocId = proposalCopyService.copyProposal(doc, criteria);
-                KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getUniversalUser());
-                
-                // Switch over to the new proposal development document and
-                // go to the Proposal web page.
-    
-                proposalDevelopmentForm.setDocId(newDocId);
-                this.loadDocument(proposalDevelopmentForm);
-    
-                nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
+        // Use the Copy Service to copy the proposal.
+
+        ProposalCopyService proposalCopyService = (ProposalCopyService) KraServiceLocator.getService("proposalCopyService");
+        if (proposalCopyService == null) {
+
+            // Something bad happened. The errors are in the Global Error Map
+            // which will be displayed to the user.
+
+            nextWebPage = mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        else {
+            String newDocId = proposalCopyService.copyProposal(doc, criteria);
+            KraServiceLocator.getService(PessimisticLockService.class).releaseAllLocksForUser(doc.getPessimisticLocks(), GlobalVariables.getUserSession().getUniversalUser());
+            
+            // Switch over to the new proposal development document and
+            // go to the Proposal web page.
+
+            proposalDevelopmentForm.setDocId(newDocId);
+            this.loadDocument(proposalDevelopmentForm);
+
+            nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
             }
         }
 
@@ -548,6 +542,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return forward;
 
     }
+
 }
     
     
