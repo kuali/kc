@@ -40,13 +40,21 @@
             </attributeReference>
 
             <attributeReference name="invCreditTypeCode" sourceClassName="org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType" sourceAttributeName="invCreditTypeCode" />
-
-            <attributeReference name="credit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
+                  
+            
+           <attribute name="credit" forceUppercase="false">
                 <label>Credit</label>
-			    <shortLabel>Credit</shortLabel>
-                <summary>Credit</summary>
+                <shortLabel>Credit</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><fixedPoint allowNegative="false" precision="6" scale="2" /></validationPattern>
+               
+                <control>
+                    <text size="7" />
+                </control>
+                
                 <description>Credit</description>
-            </attributeReference>
+            </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 		</attributes>
