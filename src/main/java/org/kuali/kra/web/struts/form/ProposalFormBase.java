@@ -18,6 +18,9 @@ package org.kuali.kra.web.struts.form;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
@@ -40,6 +43,12 @@ public class ProposalFormBase extends KraTransactionalDocumentFormBase {
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
      */
     private String lookupResultsSequenceNumber;
+    
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        super.reset(mapping, request);
+        this.setLookupResultsSequenceNumber(null);
+        this.setLookupResultsBOClassName(null);
+    }
     
     public Integer getFinalBudgetVersion() {
         return finalBudgetVersion;

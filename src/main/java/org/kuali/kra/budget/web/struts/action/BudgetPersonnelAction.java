@@ -66,7 +66,7 @@ public class BudgetPersonnelAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         
         // Process return from person/rolodex multi-value lookup
-        if (budgetForm.getLookupResultsBOClassName() != null) {
+        if (budgetForm.getLookupResultsBOClassName() != null && budgetForm.getLookupResultsSequenceNumber() != null) {
             String lookupResultsSequenceNumber = budgetForm.getLookupResultsSequenceNumber();
             Class<?> lookupResultsBOClass = Class.forName(budgetForm.getLookupResultsBOClassName());
             
@@ -74,7 +74,6 @@ public class BudgetPersonnelAction extends BudgetAction {
                 .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
                         GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
             
-            budgetForm.getBudgetDocument().refreshReferenceObject("documentNextvalues");
             BudgetPersonService budgetPersonService = KraServiceLocator.getService(BudgetPersonService.class);
             if (lookupResultsBOClass.isAssignableFrom(Person.class)) {
                 for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
