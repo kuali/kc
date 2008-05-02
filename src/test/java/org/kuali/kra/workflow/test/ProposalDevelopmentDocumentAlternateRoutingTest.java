@@ -53,7 +53,8 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase
         transactionalLifecycle.stop();
         ClassPathResource routingResource1 = new ClassPathResource("kew/xml/ProposalDevelopmentDocument.xml");
         ClassPathResource routingResource2 = new ClassPathResource("kew/xml/ProposalDevelopmentDocumentRules.xml");
-        xmlBackupDir = new ClassPathResource("kew/xml/test/revert").getFile();
+        xmlBackupDir = new File(new ClassPathResource("kew/xml/test").getFile(), "revert");
+        xmlBackupDir.mkdir();
         
         FileUtils.copyFileToDirectory(routingResource1.getFile(), xmlBackupDir);
         FileUtils.copyFileToDirectory(routingResource2.getFile(), xmlBackupDir);
@@ -78,11 +79,7 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase
         customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/test/revert");
         customKEWLifecycle.start();
 
-        File[] filesToBeDeleted = xmlBackupDir.listFiles();
-        for(File fileToBeDeleted: filesToBeDeleted) {
-            boolean flag = fileToBeDeleted.delete();
-        }
-        
+        FileUtils.deleteDirectory(xmlBackupDir);
         GlobalVariables.setErrorMap(new ErrorMap());
         stopLifecycles(this.perTestLifeCycles);
         afterRun();
