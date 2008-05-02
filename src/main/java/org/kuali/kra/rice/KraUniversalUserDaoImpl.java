@@ -107,7 +107,6 @@ public class KraUniversalUserDaoImpl extends PlatformAwareDaoBaseOjb implements 
             user.setPersonPayrollIdentifier(username);
             user.setPersonUniversalIdentifier(username);
             user.setPersonEmailAddress(person.getEmailAddress());
-            System.out.println("UU: fullname = " + person.getFullName());
             user.setPersonName(person.getFullName());
             user.setPersonFirstName(person.getFirstName());
             user.setPersonLastName(person.getLastName());
