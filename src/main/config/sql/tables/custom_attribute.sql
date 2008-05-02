@@ -10,7 +10,7 @@ create table custom_attribute
   lookup_return     varchar2 (30),
   group_name 	    varchar2(250) null,
   update_timestamp  date constraint custom_attribute_n5 not null,
-  update_user       varchar2 (8) constraint custom_attribute_n6 not null,
+  update_user       varchar2 (60) constraint custom_attribute_n6 not null,
   ver_nbr           number(8,0) DEFAULT 1 constraint custom_attribute_n7 NOT NULL,
   obj_id            varchar2(36) DEFAULT SYS_GUID() constraint custom_attribute_n8 NOT NULL,
   constraint custom_attribute_p1 primary key (id),

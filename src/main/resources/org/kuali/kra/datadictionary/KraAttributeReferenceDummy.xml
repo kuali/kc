@@ -119,7 +119,7 @@
 			<attribute name="updateUser">
 				<label>Author</label>
 				<shortLabel>Author</shortLabel>
-				<maxLength>20</maxLength>
+				<maxLength>60</maxLength>
 				<validationPattern>
 					<anyCharacter />
 				</validationPattern>

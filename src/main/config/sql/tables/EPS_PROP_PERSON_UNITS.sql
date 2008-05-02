@@ -1,5 +1,5 @@
 #
-# $Id: EPS_PROP_PERSON_UNITS.sql,v 1.3 2008-01-23 22:49:52 lprzybyl Exp $
+# $Id: EPS_PROP_PERSON_UNITS.sql,v 1.4 2008-05-02 16:34:39 dbarre Exp $
 #
 create table EPS_PROP_PERSON_UNITS(
   PROPOSAL_NUMBER     NUMBER(12)   CONSTRAINT EPS_PROP_PERSON_UNITS_N2 not null,
@@ -7,7 +7,7 @@ create table EPS_PROP_PERSON_UNITS(
   UNIT_NUMBER         VARCHAR2(8)   CONSTRAINT EPS_PROP_PERSON_UNITS_N4 NOT NULL,
   LEAD_UNIT_FLAG      CHAR(1),
   update_timestamp  date         not null,
-  update_user       varchar2 (8) not null,
+  update_user       varchar2 (60) not null,
   VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL,
   OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL,
   constraint EPS_PROP_PERSON_UNITS_N5
