@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.rules;
 
+import java.util.Properties;
+
 import junit.framework.TestCase;
 
 import org.junit.After;
@@ -22,8 +24,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.rule.AddBudgetProjectIncomeRule;
 import org.kuali.kra.budget.rule.event.AddBudgetProjectIncomeEvent;
@@ -57,6 +61,24 @@ public class AddBudgetProjectIncomeRuleTest extends TestCase {
         budgetProjectIncome.setDescription("Description");
         Assert.assertTrue(addBudgetProjectIncomeRule.processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent));
         Assert.assertEquals(0, GlobalVariables.getErrorMap().keySet().size());
+    }
+
+    @Test
+    public void testValidatingProjectIncomeField_Zero() throws Exception {        
+        budgetProjectIncome.setBudgetPeriodNumber(BUDGET_PERIOD_NO);
+        budgetProjectIncome.setProjectIncome(KualiDecimal.ZERO);
+        budgetProjectIncome.setDescription("Description");
+        Assert.assertFalse(addBudgetProjectIncomeRule.processAddBudgetProjectIncomeBusinessRules(addBudgetIncomeEvent));
+        Assert.assertEquals(1, GlobalVariables.getErrorMap().keySet().size());
+        ErrorMessage errMsg = (ErrorMessage)((TypedArrayList) GlobalVariables.getErrorMap().get("newBudgetProjectIncome.projectIncome")).get(0);
+        Assert.assertEquals("error.projectIncome.negativeOrZero", errMsg.getErrorKey());        
+        Assert.assertEquals("Income amount must be greater than zero (0.00)", getErrorForkey("error.projectIncome.negativeOrZero"));
+    }
+    
+    private String getErrorForkey(String key) throws Exception {
+        Properties props = new Properties();
+        props.load(getClass().getClassLoader().getResourceAsStream("ApplicationResources.properties"));
+        return props.getProperty(key);
     }
 
     @Test

@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.rules;
 
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.springframework.util.StringUtils;
 
 /**
@@ -53,5 +54,13 @@ public class ValidationHelper {
             empty = StringUtils.trimWhitespace(value).length() == 0;
         }
         return empty;
+    }
+
+    public boolean checkValuePositive(KualiDecimal projectIncome, String errorProperty, String errorKey, String... parms) {
+        boolean success = projectIncome.isPositive(); 
+        if(!success) {
+            GlobalVariables.getErrorMap().putError(errorProperty, errorKey, parms);
+        }
+        return success;
     }
 }
