@@ -113,6 +113,7 @@ public class KraKEWXmlDataLoaderLifecycle implements Lifecycle {
             fos.write(data);
         }
         fos.close();
+        xmlFile.close();
         return new FileXmlDocCollection(temp);
     }
 
