@@ -84,6 +84,7 @@ public class BudgetForm extends ProposalFormBase {
     private Integer selectedBudgetLineItemIndex;
     private String prevOnOffCampusFlag;
     private boolean updateFinalVersion;
+    private boolean lineAddedOrDeletedSinceLastSaveOrCalculate;
     
     public boolean isDocumentNextValueRefresh() {
         return documentNextValueRefresh;
@@ -132,6 +133,7 @@ public class BudgetForm extends ProposalFormBase {
         newBudgetLineItems = new ArrayList<BudgetLineItem>();        
         setDocumentNextValueRefresh(true);
         budgetJustificationWrapper = new BudgetJustificationWrapper(getBudgetDocument().getBudgetJustification());
+        lineAddedOrDeletedSinceLastSaveOrCalculate = false;
     }
     
     public BudgetDocument getBudgetDocument() {
@@ -546,6 +548,14 @@ public class BudgetForm extends ProposalFormBase {
 
     public void setUpdateFinalVersion(boolean updateFinalVersion) {
         this.updateFinalVersion = updateFinalVersion;
+    }
+
+    public boolean isLineAddedOrDeletedSinceLastSaveOrCalculate() {
+        return lineAddedOrDeletedSinceLastSaveOrCalculate;
+    }
+
+    public void setLineAddedOrDeletedSinceLastSaveOrCalculate(boolean lineAddedOrDeletedSinceLastSaveOrCalculate) {
+        this.lineAddedOrDeletedSinceLastSaveOrCalculate = lineAddedOrDeletedSinceLastSaveOrCalculate;
     }
     
 }

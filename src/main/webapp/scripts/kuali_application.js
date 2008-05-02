@@ -141,6 +141,36 @@ function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
 }
 
 /*
+ * Load the Budget Category Code based on Object Code(Cost Element)
+ */ 
+function loadBudgetCategoryCode(objectCode,budgetCategoryCode){
+	var objectCodeValue = DWRUtil.getValue( objectCode );
+
+	if (objectCodeValue=='') {
+		clearRecipients( budgetCategoryCode, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( objectCode != null && objectCode != "" ) {
+						setRecipientValue( budgetCategoryCode, data );
+					}
+				} else {
+					if ( objectCode != null && objectCode != "" ) {
+						setRecipientValue(  budgetCategoryCode, wrapError( "not found" ), true );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+				window.status = errorMessage;
+				setRecipientValue( budgetCategoryCode, wrapError( "not found" ), true );
+			}
+		};
+		ObjectCodeToBudgetCategoryCodeService.getBudgetCategoryCodeForCostElment(objectCodeValue,dwrReply);
+	}
+}
+ 
+/*
  * Load the Unit Name field based on the Unit Number passed in.
  */
 function loadUnitName(unitNumberFieldName) {

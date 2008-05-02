@@ -50,8 +50,7 @@ public class BudgetCategoryValuesFinder extends KeyValuesBase {
      */
     public List<KeyLabelPair> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        KualiForm form = GlobalVariables.getKualiForm();
-        BudgetForm budgetForm = (BudgetForm)form;
+        
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         Collection budgetCategories = keyValuesService.findAll(BudgetCategory.class);
         

@@ -39,4 +39,11 @@
 		viewOnly="${KualiForm.editingMode['viewOnly']}"
 />	
 
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
+<script language="javascript" src="scripts/kuali_application.js"></script>
+<script language="javascript" src="dwr/interface/ObjectCodeToBudgetCategoryCodeService.js"></script>
+
 </kul:documentPage>

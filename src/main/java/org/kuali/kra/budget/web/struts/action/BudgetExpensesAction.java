@@ -111,6 +111,7 @@ public class BudgetExpensesAction extends BudgetAction {
             budgetForm.getBudgetDocument().getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems().add(newBudgetLineItem);
 //            newBudgetLineItem = new BudgetLineItem();                
             budgetForm.getNewBudgetLineItems().set(budgetCategoryTypeIndex,new BudgetLineItem());
+            budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(true);
         }        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
@@ -130,6 +131,7 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         budgetForm.getBudgetDocument().getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItems().remove(getLineToDelete(request));
+        budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(true);
         return mapping.findForward("basic");
     }
     
@@ -206,6 +208,7 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetPeriod budgetPeriod = budgetDocument.getBudgetPeriod(selectedPeriod-1);
         BudgetCalculationService budgetCalculationService  = KraServiceLocator.getService(BudgetCalculationService.class);
         budgetCalculationService.calculateBudgetPeriod(budgetDocument, budgetPeriod);
+        budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(false);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     /**
@@ -235,7 +238,7 @@ public class BudgetExpensesAction extends BudgetAction {
             throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        
+        budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(false);
         for(BudgetPeriod budgetPeriod:budgetDocument.getBudgetPeriods()){
             for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){                
                 if(!StringUtils.equalsIgnoreCase(budgetLineItem.getCostElement(), budgetLineItem.getCostElementBO().getCostElement())){
