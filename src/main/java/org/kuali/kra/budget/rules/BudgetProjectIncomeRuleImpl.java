@@ -40,7 +40,12 @@ public class BudgetProjectIncomeRuleImpl implements AddBudgetProjectIncomeRule {
      * @see org.kuali.kra.budget.rule.AddBudgetProjectIncomeRule#processAddBudgetProjectIncomeBusinessRules(org.kuali.kra.budget.rule.event.AddBudgetProjectIncomeEvent)
      */
     public boolean processAddBudgetProjectIncomeBusinessRules(AddBudgetProjectIncomeEvent addBudgetIncomeEvent) {
-        return areRequiredRulesSatisfied(addBudgetIncomeEvent.getBudgetProjectIncome());
+        BudgetProjectIncome projectIncome = addBudgetIncomeEvent.getBudgetProjectIncome();
+        return areRequiredRulesSatisfied(projectIncome) && isProjectIncomeAmountValid(projectIncome);
+    }
+
+    private boolean isProjectIncomeAmountValid(BudgetProjectIncome budgetProjectIncome) {
+        return validationHelper.checkValuePositive(budgetProjectIncome.getProjectIncome(), "newBudgetProjectIncome.projectIncome", "error.projectIncome.negativeOrZero", (String[])null);
     }
 
     /**
