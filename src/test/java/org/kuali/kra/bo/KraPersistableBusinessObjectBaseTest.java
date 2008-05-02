@@ -50,7 +50,7 @@ public class KraPersistableBusinessObjectBaseTest extends KraTestBase {
         assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
         kraPersistableBusinessObjectBase.beforeInsert(null);
 
-        updateAsserts("quicksta", kraPersistableBusinessObjectBase);
+        updateAsserts("quickstart", kraPersistableBusinessObjectBase);
     }
 
     @Test public void testBeforeUpdateQuickstart() throws Exception {
@@ -59,7 +59,7 @@ public class KraPersistableBusinessObjectBaseTest extends KraTestBase {
         assertNull(kraPersistableBusinessObjectBase.getUpdateUser());
         kraPersistableBusinessObjectBase.beforeUpdate(null);
 
-        updateAsserts("quicksta", kraPersistableBusinessObjectBase);
+        updateAsserts("quickstart", kraPersistableBusinessObjectBase);
     }
 
     @Test public void testBeforeInsertUser4() throws Exception {

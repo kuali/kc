@@ -49,7 +49,7 @@ public class ResearchDocumentBaseTest extends KraTestBase {
         assertNull(researchDocumentBase.getUpdateUser());
         researchDocumentBase.prepareForSave();
 
-        assertEquals("quicksta", researchDocumentBase.getUpdateUser());
+        assertEquals("quickstart", researchDocumentBase.getUpdateUser());
         Timestamp updateTimestamp = researchDocumentBase.getUpdateTimestamp();
         assertNotNull(researchDocumentBase.getUpdateTimestamp());
 
