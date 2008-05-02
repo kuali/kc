@@ -16,8 +16,10 @@
  */
 package org.kuali.kra.workflow.test;
 
+import java.io.File;
 import java.sql.Date;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +33,7 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
+import org.springframework.core.io.ClassPathResource;
 
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
 import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
@@ -42,11 +45,19 @@ import edu.iu.uis.eden.clientapp.vo.UserIdVO;
 public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase {
     private DocumentService documentService = null;
     private KraKEWXmlDataLoaderLifecycle customKEWLifecycle = null;
-
+    private File xmlBackupDir = null;
+        
     @Before
     public void setUp() throws Exception {
         super.setUp();
         transactionalLifecycle.stop();
+        ClassPathResource routingResource1 = new ClassPathResource("kew/xml/ProposalDevelopmentDocument.xml");
+        ClassPathResource routingResource2 = new ClassPathResource("kew/xml/ProposalDevelopmentDocumentRules.xml");
+        xmlBackupDir = new ClassPathResource("kew/xml/test/revert").getFile();
+        
+        FileUtils.copyFileToDirectory(routingResource1.getFile(), xmlBackupDir);
+        FileUtils.copyFileToDirectory(routingResource2.getFile(), xmlBackupDir);
+
         new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
         customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/test");
         customKEWLifecycle.start();
@@ -55,7 +66,7 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase
         documentService = KNSServiceLocator.getDocumentService();
     }  
 
-    @After
+    @After  
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
         documentService = null;
@@ -67,6 +78,11 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KraTestBase
         customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/test/revert");
         customKEWLifecycle.start();
 
+        File[] filesToBeDeleted = xmlBackupDir.listFiles();
+        for(File fileToBeDeleted: filesToBeDeleted) {
+            boolean flag = fileToBeDeleted.delete();
+        }
+        
         GlobalVariables.setErrorMap(new ErrorMap());
         stopLifecycles(this.perTestLifeCycles);
         afterRun();
