@@ -46,9 +46,9 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
         if (!isUpdateUserSet()) {
             String updateUser = GlobalVariables.getUserSession().getLoggedInUserNetworkId();
 
-            // Since the UPDATE_USER column is only VACHAR(8), we need to truncate this string if it's longer than 8 characters
-            if (updateUser.length() > 8) {
-                updateUser = updateUser.substring(0, 8);
+            // Since the UPDATE_USER column is only VACHAR(60), we need to truncate this string if it's longer than 60 characters
+            if (updateUser.length() > 60) {
+                updateUser = updateUser.substring(0, 60);
             }
 
             setUpdateUser(updateUser);
@@ -101,6 +101,7 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
             return "Person not found";
         }
         else {
+            System.out.println("Person Name = " + user.getPersonName());
             return user.getPersonName();
         }
     }

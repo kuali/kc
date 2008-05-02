@@ -88,7 +88,7 @@ public class KraUniversalUserServiceImpl extends UniversalUserServiceImpl {
         UniversalUser kUser = new UniversalUser();
         kUser.setPersonPayrollIdentifier(user.getEmplId().getEmplId());
         kUser.setPersonEmailAddress(user.getEmailAddress());
-        kUser.setPersonName(user.getGivenName());
+        kUser.setPersonName(user.getDisplayName());
         kUser.setPersonUserIdentifier(user.getAuthenticationUserId().getAuthenticationId());
         kUser.setPersonUniversalIdentifier(user.getWorkflowId());
         return kUser;
