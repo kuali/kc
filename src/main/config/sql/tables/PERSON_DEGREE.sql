@@ -1,5 +1,5 @@
 -
-- $Id: PERSON_DEGREE.sql,v 1.1 2008-03-21 03:26:27 lprzybyl Exp $
+- $Id: PERSON_DEGREE.sql,v 1.2 2008-05-02 16:34:39 dbarre Exp $
 -
 create table PERSON_DEGREE(
   PERSON_ID           VARCAR(12) CONSTRAINT PERSON_DEGREE_N1 NOT NULL,
@@ -13,7 +13,7 @@ create table PERSON_DEGREE(
   SCHOOL_ID_CODE      VARCHAR2(3),
   SCHOOL_ID           VARCHAR2(20),
   update_timestamp  date         not null,
-  update_user       varchar2 (8) not null,
+  update_user       varchar2 (60) not null,
   VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL,
   OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL,
   constraint PERSON_DEGREE_PK1

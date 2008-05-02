@@ -262,7 +262,7 @@
             <attribute name="createUser">
                 <label>Create User </label>
                 <shortLabel>Create User </shortLabel>
-                <maxLength>8</maxLength>
+                <maxLength>60</maxLength>
                 <control>
                     <text size="8" />
                 </control>
