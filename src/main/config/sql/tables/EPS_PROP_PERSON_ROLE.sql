@@ -1,12 +1,12 @@
 #
-# $Id: EPS_PROP_PERSON_ROLE.sql,v 1.3 2007-12-17 15:58:03 rmancher Exp $
+# $Id: EPS_PROP_PERSON_ROLE.sql,v 1.4 2008-05-02 16:34:39 dbarre Exp $
 #
 create table EPS_PROP_PERSON_ROLE(
   PROP_PERSON_ROLE_ID VARCHAR2(12)   CONSTRAINT EPS_PROP_PERSON_ROLE_N1 not null,
   DESCRIPTION       VARCHAR2(25) NOT NULL,
   CERTIFICATION_REQUIRED CHAR(1) DEFAULT 'Y' CONSTRAINT EPS_PROP_PERSON_ROLE_N3  NOT NULL, 
   update_timestamp  date         not null,
-  update_user       varchar2 (8) not null,
+  update_user       varchar2 (60) not null,
   VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL,
   OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL,
   constraint EPS_PROP_PERSON_ROLE_N2

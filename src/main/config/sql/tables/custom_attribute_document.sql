@@ -6,7 +6,7 @@ create table custom_attribute_document
   is_required         char(1),
   ACTIVE_FLAG        CHAR(1),
   update_timestamp    date constraint custom_attribute_document_n3 not null,
-  update_user         varchar2 (8) constraint custom_attribute_document_n4 not null,
+  update_user         varchar2 (60) constraint custom_attribute_document_n4 not null,
   ver_nbr             number(8,0) DEFAULT 1 constraint custom_attribute_document_n5 NOT NULL,
   obj_id              varchar2(36) DEFAULT SYS_GUID() constraint custom_attribute_document_n6 NOT NULL,
   constraint custom_attribute_document_p1 primary key (document_type_code, custom_attribute_id),

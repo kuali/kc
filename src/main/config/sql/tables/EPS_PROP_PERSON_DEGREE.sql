@@ -1,5 +1,5 @@
 #
-# $Id: EPS_PROP_PERSON_DEGREE.sql,v 1.3 2008-01-23 22:49:52 lprzybyl Exp $
+# $Id: EPS_PROP_PERSON_DEGREE.sql,v 1.4 2008-05-02 16:34:39 dbarre Exp $
 #
 create table EPS_PROP_PERSON_DEGREE(
   PROPOSAL_NUMBER     NUMBER(12)   CONSTRAINT EPS_PROP_PERSON_DEGREE_N1 not null,
@@ -14,7 +14,7 @@ create table EPS_PROP_PERSON_DEGREE(
   SCHOOL_ID_CODE      VARCHAR2(3),
   SCHOOL_ID           VARCHAR2(20),
   update_timestamp  date         not null,
-  update_user       varchar2 (8) not null,
+  update_user       varchar2 (60) not null,
   VER_NBR NUMBER(8,0) DEFAULT 1 NOT NULL,
   OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() NOT NULL,
   constraint EPS_PROP_PERSON_DEGREE_N6
