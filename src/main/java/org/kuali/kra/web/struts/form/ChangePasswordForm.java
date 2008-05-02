@@ -1,0 +1,85 @@
+/*
+ * Copyright 2008 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.web.struts.form;
+
+import org.kuali.core.web.struts.form.KualiForm;
+
+/**
+ * The Change Password Form.  
+ */
+public class ChangePasswordForm extends KualiForm {
+
+    private String currentPassword;
+    private String newPassword;
+    private String confirmPassword;
+    
+    /**
+     * Constructs a ChangePasswordForm.
+     */
+    public ChangePasswordForm() {
+        this.currentPassword = "";
+        this.newPassword = "";
+        this.confirmPassword = "";
+    }
+
+    /**
+     * Get the current password.
+     * @return the current password
+     */
+    public String getCurrentPassword() {
+        return currentPassword;
+    }
+
+    /**
+     * Set the current password.
+     * @param currentPassword [in] the current password
+     */
+    public void setCurrentPassword(String currentPassword) {
+        this.currentPassword = currentPassword;
+    }
+
+    /**
+     * Get the new password.
+     * @return the new password
+     */
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    /**
+     * Set the new password.
+     * @param newPassword [in] the new password
+     */
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    /**
+     * Get the confirm password.
+     * @return the confirm password
+     */
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    /**
+     * Set the confirm password.
+     * @param confirmPassword [in] the confirm password
+     */
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+}
