@@ -6,7 +6,7 @@ create table narrative_type
   allow_multiple       varchar2(1) constraint narrative_type_n4 not null,
   narrative_type_group varchar2(1),
   update_timestamp     date constraint narrative_type_n5 not null,
-  update_user          varchar2(8) constraint narrative_type_n6 not null,
+  update_user          varchar2(60) constraint narrative_type_n6 not null,
   ver_nbr number(8,0) DEFAULT 1 constraint narrative_type_n7 NOT NULL,
   obj_id varchar2(36) DEFAULT SYS_GUID() constraint narrative_type_n8 NOT NULL,
   constraint narrative_type_p1 primary key (narrative_type_code),
