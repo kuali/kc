@@ -40,5 +40,9 @@
 			<param name="beanName" value="customAttributeService" />
 			<include method="getLookupReturnsForAjaxCall" />
 		</create>
+		<create creator="spring" javascript="ObjectCodeToBudgetCategoryCodeService">
+			<param name="beanName" value="objectCodeToBudgetCategoryCodeService" />
+			<include method="getBudgetCategoryCodeForCostElment" />
+		</create>
 	</allow>
 </dwr>
