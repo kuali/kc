@@ -17,11 +17,14 @@
 <%@ attribute name="tabTitle" required="true" %>
 <%@ attribute name="defaultOpen" required="true" %>
 <%@ attribute name="tabErrorKey" required="false" %>
+<%@ attribute name="auditCluster" required="false" %>
+<%@ attribute name="tabAuditKey" required="false" %>
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
 <c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
 <c:set var="doINeedThis" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
+
 <c:choose>
     <c:when test="${empty currentTab}">
         <c:set var="isOpen" value="${defaultOpen}" />
@@ -31,7 +34,7 @@
     </c:when>
 </c:choose>
 <!-- if the section has errors, override and set isOpen to true -->
-<c:if test="${!empty tabErrorKey}">
+<c:if test="${!empty tabErrorKey or not empty tabAuditKey}">
   <kul:checkErrors keyMatch="${tabErrorKey}" auditMatch="${tabAuditKey}"/>
   <c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
 </c:if>
@@ -66,6 +69,15 @@
  
         <!-- display errors for this tab -->
         <div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="${tabErrorKey}" errorTitle="Errors Found in Document:" /></div></div>
+        
+        <c:if test="${! (empty tabAuditKey)}">
+        	<div class="tab-container-error"><div class="left-errmsg-tab">
+				<c:forEach items="${fn:split(auditCluster,',')}" var="cluster">
+        	   		<kul:auditErrors cluster="${cluster}" keyMatch="${tabAuditKey}" isLink="false" includesTitle="true"/>
+				</c:forEach>
+        	</div></div>
+      	</c:if>
+      	
         <!-- Before the jsp:doBody of the kul:tab tag -->            
         <jsp:doBody/>            
         <!-- After the jsp:doBody of the kul:tab tag -->
