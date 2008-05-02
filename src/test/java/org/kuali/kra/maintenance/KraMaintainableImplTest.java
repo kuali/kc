@@ -53,7 +53,7 @@ public class KraMaintainableImplTest extends KraTestBase {
         GlobalVariables.setUserSession(new UserSession("user4"));
         kraPersistableBusinessObjectBase.beforeInsert(null);
 
-        updateAsserts("quicksta", kraPersistableBusinessObjectBase);
+        updateAsserts("quickstart", kraPersistableBusinessObjectBase);
     }
 
     @Test public void testPrepareForSaveUpdateQuickstart() throws Exception {
@@ -71,7 +71,7 @@ public class KraMaintainableImplTest extends KraTestBase {
         GlobalVariables.setUserSession(new UserSession("user4"));
         kraPersistableBusinessObjectBase.beforeUpdate(null);
 
-        updateAsserts("quicksta", kraPersistableBusinessObjectBase);
+        updateAsserts("quickstart", kraPersistableBusinessObjectBase);
     }
 
     @Test public void testPrepareForSaveInsertUser4() throws Exception {
