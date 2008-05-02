@@ -186,6 +186,8 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
 //            retval = false;
 //        }
         retval &= new BudgetPeriodAuditRule().processRunAuditBusinessRules(document);
+        
+        retval &= new BudgetExpensesAuditRule().processRunAuditBusinessRules(document);
 
         return retval;
     }

@@ -28,12 +28,7 @@
 
 <jsp:useBean id="parameterMap" class="java.util.HashMap" scope="request" />
 <c:set target="${parameterMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCode}" />
-
-
-<div align=center>
-	<table cellpadding=0 cellspacing=0 summary="">
-		<tr>
-			<td>          		
+          		
        			<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Line Item Details${budgetLineItemNumber}" >
        				<div>
        				<table cellpadding=0 cellspacing=0 summary="">
@@ -70,22 +65,18 @@
 				          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" noColon="true" /></div></th>
 				          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCostSharing}" noColon="true" /></div></th>
 			          		</tr>
-			          		<tr>
-			          			<c:if test="${!empty KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts}" >			          						          			
-			          				<c:forEach var="budgetLineItemCalculatedAmount" items="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts" varStatus="status">										
-										<td><div align="center"><kul:htmlControlAttribute property="${budgetLineItemCalculatedAmount}[${status.index}].rateClass.description" attributeEntry="${budgetLineItemCalculatedAmountAttributes.rateClassCode}" readOnly="true" /></div></td>
-										<td><div align="center"><kul:htmlControlAttribute property="${budgetLineItemCalculatedAmount}[${status.index}].rateType.description" attributeEntry="${budgetLineItemCalculatedAmountAttributes.rateTypeCode}" readOnly="true" /></div></td>
-										<td><div align="center"><kul:htmlControlAttribute property="${budgetLineItemCalculatedAmount}[${status.index}].applyRateFlag" attributeEntry="${budgetLineItemCalculatedAmountAttributes.applyRateFlag}" readOnly="${budgetExpensePanelReadOnly}"/></div></td>									
-										<td><div align="center"><kul:htmlControlAttribute property="${budgetLineItemCalculatedAmount}[${status.index}].calculatedCost" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" readOnly="true" /></div></td>
-										<td><div align="center"><kul:htmlControlAttribute property="${budgetLineItemCalculatedAmount}[${status.index}].calculatedCostSharing" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCostSharing}" readOnly="true" /></div></td>																											 								
-			          				</c:forEach>			          			
-			          			</c:if>
-			          		</tr>
+			          					          						          			
+			          		<c:forEach items="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts}" varStatus="status">										
+							<tr>
+										<td><div align="center"><kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].rateClass.description" attributeEntry="${budgetLineItemCalculatedAmountAttributes.rateClassCode}" readOnly="true" /></div></td>
+										<td><div align="center"><kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].rateType.description" attributeEntry="${budgetLineItemCalculatedAmountAttributes.rateTypeCode}" readOnly="true" /></div></td>
+										<td><div align="center"><kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].applyRateFlag" attributeEntry="${budgetLineItemCalculatedAmountAttributes.applyRateFlag}" readOnly="${budgetExpensePanelReadOnly}"/></div></td>									
+										<td><div align="center"><kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].calculatedCost" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCost}" readOnly="true" /></div></td>
+										<td><div align="center"><kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetLineItemCalculatedAmounts[${status.index}].calculatedCostSharing" attributeEntry="${budgetLineItemCalculatedAmountAttributes.calculatedCostSharing}" readOnly="true" /></div></td>
+							</tr>
+			          		</c:forEach>          		
 			          		<tr>
 			          			<td colspan="5">
-				          			<div align=center>
-									<table border="0" cellpadding=0 cellspacing=0 summary="">
-										<tr><td>
 											<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Justification${budgetLineItemNumber}" >
 												<c:set var="textAreaFieldNameJustification" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
 												<table cellpadding=0 cellspacing=0 summary="">
@@ -98,10 +89,7 @@
 									        			</td>
 									        		</tr>
 								        		</table>
-											</kul:innerTab>	
-		        						</td></tr>
-	        						</table>
-	        						</div>
+											</kul:innerTab>
         						</td>
 			          		</tr>
 			          		<tr>								
@@ -109,15 +97,13 @@
 								<div align="center" >
 									<html:image property="methodToCall.applyToLaterPeriods.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-ApplyPeriods.gif' />				
+									<c:if test="${!(budgetCategoryTypeCode == 'P' && not empty KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList)}" >
 									<html:image property="methodToCall.syncToPeriodCostLimit.line${budgetLineItemNumber}.anchor${currentTabIndex}"
-											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctocostlimit.gif' />							
+											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-synctocostlimit.gif' />
+									</c:if>									
 								</div>
 								</td>								
 							</tr>
       					</table>
       				</div>	
-        		</kul:innerTab>	
-      		</td>
-      	</tr>
-	</table>
-</div>
+        		</kul:innerTab>
