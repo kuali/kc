@@ -145,6 +145,7 @@ public class KeyConstants {
     public static final String ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE = "error.lineItemEndDate.after.periodEndDate";
     public static final String ERROR_COST_ELEMENT_NOT_SELECTED = "error.costElement.notSelected";
     public static final String ERROR_GLOBAL_MESSAGE = "error.global.application";
+    public static final String WARNING_PERIOD_COST_LIMIT_EXCEEDED= "warning.periodCostLimit.exceeded";
 
     // special review enhancement
     public static final String ERROR_EXEMPT_NUMBER_SELECTED = "error.exempt.number.selected";

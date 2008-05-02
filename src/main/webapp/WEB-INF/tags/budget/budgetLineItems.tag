@@ -32,28 +32,27 @@
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCode}" />
-<c:set var="lookupFlagForLineItem" value="false" />
+
+<c:choose>
+	<c:when test="${empty KualiForm.viewBudgetView || KualiForm.viewBudgetView == 0}" >
+		<c:set var="rowSpanCount" value="2" />	
+	</c:when>
+	<c:otherwise>
+		<c:set var="rowSpanCount" value="1" />
+	</c:otherwise>
+</c:choose>
 <tr>
-    <th width="5%" class="infoline">
+    <th width="5%" rowspan="${rowSpanCount}"  class="infoline">
 		<c:out value="${budgetLineItemSequenceNumber+1}" />
-	</th>
-	<td width="95%" colspan="7">		
-		<table border="0" cellpadding=0 cellspacing=0 summary="">
-			<tr>
-           		<td width="10%" valign="middle" nowrap="true">
-				<div align="center">		                    
-                    <c:if test="${empty KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElement || KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElement == ''}" >
-                    	<c:set var="lookupFlagForLineItem" value="true" />
-					</c:if>			
-                    
+	</th>	
+           		<td  valign="middle" nowrap="true">
+				<div align="center">
 					<c:set var="costElementOptions" value="" />
-                    
 					<c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
 						<c:choose>
 							<c:when test="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElement == option.key}">
 								<c:set var="costElementOptions" value="${costElementOptions}${'<option value=\"'}${option.key}${'\" selected=\"selected\">'}${option.label}${'</option>'}" />
-								<c:set var="selectedCostElement" value="${option.label}" />
-								<c:set var="lookupFlagForLineItem" value="true" />
+								<c:set var="selectedCostElement" value="${option.label}" />								
 							</c:when>
 							<c:otherwise>
 								<c:set var="costElementOptions" value="${costElementOptions}${'<option value=\"'}${option.key}${'\" >'}${option.label}${'</option>'}" />
@@ -66,21 +65,18 @@
 	                    	<c:out value="${selectedCostElement}"/>	 
 	                     </c:when>
                      	<c:otherwise>
-                     	<html:select property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" tabindex="0" >
+                     	<html:select property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" tabindex="0" onchange="loadBudgetCategoryCode('document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement', 'document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode');">
 	                   		${costElementOptions} 
                     	</html:select> 
                     	</c:otherwise>  
-                    </c:choose>  
-				</div>  
-				
+                    </c:choose>
 				<input type="hidden" name="document.budgetCategoryTypeLineItem[${budgetLineItemNumber}]" value="${budgetCategoryTypeCode}">
 				<kul:lookup boClassName="org.kuali.kra.budget.bo.CostElement" fieldConversions="costElement:document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement,budgetCategoryCode:document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" anchor="${tabKey}" lookupParameters="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement,document.budgetCategoryTypeLineItem[${budgetLineItemNumber}]:budgetCategoryTypeCode" autoSearch="yes" />				
 				<kul:directInquiry boClassName="org.kuali.kra.budget.bo.CostElement" inquiryParameters="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement" anchor="${tabKey}"/>
-				<c:if test="${!lookupFlagForLineItem}">
-                    	<font size="2" color="red">
-							Value Returned from the look up does not fit here
-						</font>
-                </c:if>
+				</div>
+				<div id="costElementCode.div" align="center" class="fineprint">
+					<bean:write name="KualiForm" property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" />&nbsp;
+				</div>				
 				</td>
 				<c:set var="textAreaFieldNameLineItemDescription" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
 				<td width="10%" valign="middle">
@@ -91,12 +87,12 @@
 				</td>
 				<td width="10%" valign="middle">
 					<div align=center>
-               		<kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].underrecoveryAmount" attributeEntry="${budgetLineItemAttributes.underrecoveryAmount}" readOnly="true"/>
+               		<kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].underrecoveryAmount" attributeEntry="${budgetLineItemAttributes.underrecoveryAmount}" styleClass="amount" readOnly="true"/>
 					</div>
 				</td>
                 <td width="10%" valign="middle">
 					<div align=center>
-               		<kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costSharingAmount" attributeEntry="${budgetLineItemAttributes.costSharingAmount}" readOnly="${budgetExpensePanelReadOnly}"/>
+               		<kul:htmlControlAttribute property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costSharingAmount" attributeEntry="${budgetLineItemAttributes.costSharingAmount}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/>
 					</div>
 				</td>
                 <td width="10%" valign="middle">
@@ -133,7 +129,4 @@
 			<c:otherwise>			 
 				<input type="hidden" name="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" value="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder', paramMap)[0].key}">
 			</c:otherwise>
-			</c:choose>		        			
-	    </table>	    
-    </td>
-</tr>
+			</c:choose>
