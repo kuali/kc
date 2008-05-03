@@ -145,6 +145,13 @@
 
             <attributeReference name="facultyFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="facultyFlag" />
 
+            <attributeReference name="otherSignificantContributorFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+                <label>Other Significant Contributor</label>
+                <shortLabel>Other Sig Contr</shortLabel>
+                <summary>Other Significant Contributor</summary>
+                <description>Other Significant Contributor</description>
+            </attributeReference>
+
             <attributeReference name="graduateStudentStaffFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="graduateStudentStaffFlag" />
 
             <attributeReference name="researchStaffFlag" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="researchStaffFlag" />
