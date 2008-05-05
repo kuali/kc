@@ -62,6 +62,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
     }
     @Override
     protected void updateBudgetLineItemCalculatedAmounts() {
+        Boundary liBoundary = new Boundary(budgetPersonnelLineItem.getStartDate(),budgetPersonnelLineItem.getEndDate());
         salaryCalculator.calculate();
         budgetPersonnelLineItem.setLineItemCost(budgetPersonnelLineItem.getSalaryRequested());
         super.updateBudgetLineItemCalculatedAmounts();

@@ -18,6 +18,8 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_OPPORTUNITY_CONFIRMATION;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +33,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.WebUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sOppForms;
@@ -168,8 +172,26 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
      * @throws Exception
      */    
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //TODO: Call Printing Service here 
-        //KraServiceLocator.getService(S2SService.class).printForm(((ProposalDevelopmentForm)form).getProposalDevelopmentDocument().getS2sOpportunity().getS2sOppForms());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        super.save(mapping, form, request, response);
+        AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
+        if(attachmentDataSource==null || attachmentDataSource.getContent()==null) return mapping.findForward(Constants.MAPPING_BASIC);
+        ByteArrayOutputStream baos = null;
+        try{
+            baos = new ByteArrayOutputStream(attachmentDataSource.getContent().length);
+            baos.write(attachmentDataSource.getContent());
+            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
+        }finally{
+            try{
+                if(baos!=null){
+                    baos.close();
+                    baos = null;
+                }
+            }catch(IOException ioEx){
+                LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }        
+        return null;
     }
 }

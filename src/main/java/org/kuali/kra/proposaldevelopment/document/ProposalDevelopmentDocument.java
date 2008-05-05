@@ -133,6 +133,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<ProposalYnq> proposalYnqs;
     private List<YnqGroupName> ynqGroupNames;
     private List<BudgetVersionOverview> budgetVersionOverviews;
+    
+    private String creationStatusCode;
 
     @SuppressWarnings("unchecked")
     public ProposalDevelopmentDocument() {
@@ -1337,6 +1339,21 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.getBudgetVersionOverviews().add(budgetVersion);
     }
 
+    /**
+     * Gets the creationStatusCode attribute. 
+     * @return Returns the creationStatusCode.
+     */
+    public String getCreationStatusCode() {
+        return creationStatusCode;
+    }
+
+    /**
+     * Sets the creationStatusCode attribute value.
+     * @param creationStatusCode The creationStatusCode to set.
+     */
+    public void setCreationStatusCode(String creationStatusCode) {
+        this.creationStatusCode = creationStatusCode;
+    }
     public final ActivityType getActivityType() {
         return activityType;
     }

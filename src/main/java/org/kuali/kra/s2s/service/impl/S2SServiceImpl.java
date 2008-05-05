@@ -37,6 +37,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -49,6 +50,7 @@ import edu.mit.coeus.exception.CoeusException;
 import edu.mit.coeus.s2s.GetAppStatusDetails;
 import edu.mit.coeus.s2s.GetApplication;
 import edu.mit.coeus.s2s.GetOpportunity;
+import edu.mit.coeus.s2s.S2SDocumentReader;
 import edu.mit.coeus.s2s.SubmissionEngine;
 import edu.mit.coeus.s2s.bean.ApplicationInfoBean;
 import edu.mit.coeus.s2s.bean.FormInfoBean;
@@ -65,6 +67,7 @@ import edu.mit.coeus.utils.CoeusProperties;
 import edu.mit.coeus.utils.CoeusPropertyKeys;
 import edu.mit.coeus.utils.S2SConstants;
 import edu.mit.coeus.utils.dbengine.DBException;
+import edu.mit.coeus.utils.document.CoeusDocument;
 
 /**
  * This class...
@@ -113,14 +116,20 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
     private S2SHeader getS2SHeader(String proposalNumber){
         Map<String,String> pkMap = new HashMap();
         pkMap.put("proposalNumber", proposalNumber);
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)businessObjectService.findByPrimaryKey(ProposalDevelopmentDocument.class, pkMap);
+        return getS2SHeader(proposalDevelopmentDocument);
+    }
+    private S2SHeader getS2SHeader(ProposalDevelopmentDocument proposalDevelopmentDocument){
+        Map<String,String> pkMap = new HashMap();
+        pkMap.put("proposalNumber", proposalDevelopmentDocument.getProposalNumber());
         ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument)businessObjectService.findByPrimaryKey(ProposalDevelopmentDocument.class, pkMap);
         S2SHeader header = new S2SHeader();
-        header.setSubmissionTitle(proposalNumber);
+        header.setSubmissionTitle(proposalDevelopmentDocument.getProposalNumber());
         header.setCfdaNumber(pd.getCfdaNumber());
         header.setAgency(pd.getSponsorCode());
         header.setOpportunityId(pd.getProgramAnnouncementNumber());
         HashMap<String,String> streamParams = new HashMap();
-        streamParams.put("PROPOSAL_NUMBER", proposalNumber);
+        streamParams.put("PROPOSAL_NUMBER", proposalDevelopmentDocument.getProposalNumber());
         header.setStreamParams(streamParams);
         return header;
     }
@@ -140,7 +149,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             if(errors!=null)
             for (ErrorBean error : errors) {                
                 LOG.error(error.getMsg());
-                auditErrors.add(new AuditError(Constants.NO_FIELD, error.getMsg(), Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
+                auditErrors.add(new AuditError(Constants.NO_FIELD, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR,new String[]{error.getMsg()}));
             }
 //            LOG.error(e.getMessage(), e);
             GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));            
@@ -161,9 +170,16 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             subEngine.setLogDir(reportPath);
             subEngine.submitApplication(header);            
         }catch(S2SValidationException e){
-            LOG.error(e.getMessage(), e);            
-            GlobalVariables.getErrorMap().putError(Constants.NO_FIELD,KeyConstants.ERROR_ON_GRANTS_GOV_SUBMISSION,e.getMessage());            
-            return false;            
+            ArrayList<ErrorBean> errors = e.getMessages(S2SValidationException.ERROR);
+            List<AuditError> auditErrors = new ArrayList<AuditError>();
+            if(errors!=null)
+            for (ErrorBean error : errors) {                
+                LOG.error(error.getMsg());
+                auditErrors.add(new AuditError(Constants.NO_FIELD, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR,new String[]{error.getMsg()}));
+            }
+//            LOG.error(e.getMessage(), e);
+            GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));            
+            return false;
         }
         catch(Exception e){
             LOG.error(e.getMessage(), e);
@@ -187,7 +203,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
     /**
      * @see org.kuali.kra.s2s.service.S2SService#refreshGrantsGov(String proposalNumber)
      */
-    public void refreshGrantsGov(String proposalNumber) {
+    public boolean refreshGrantsGov(String proposalNumber) {
         S2SHeader header = getS2SHeader(proposalNumber);
         try {
             SubmissionDetailInfoBean localSubInfo = (SubmissionDetailInfoBean) s2sSubmissionTxnBean.getSubmissionDetails(header);
@@ -225,7 +241,9 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         }
         catch (Exception e) {
             LOG.error(e.getMessage(), e);
+            return false;
         }
+        return true;
     }
     public List<S2sOpportunity> searchOpportunity(String cfdaNumber,String opportunityId,String competitionId) {
         
@@ -239,6 +257,8 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             GetOpportunity getOpportunity = new GetOpportunity();
           List<OpportunityInfoBean> oppInfList =  getOpportunity.getOpportunityList(header);
           if(oppInfList==null && header.getCfdaNumber()!=null){
+              if(GlobalVariables.getMessageList()==null)
+                  GlobalVariables.setMessageList(new ArrayList());
               GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_IF_SEARCH_ON_ONLY_CFDA_NUMBER);
               header.setOpportunityId(null);
               oppInfList = getOpportunity.getOpportunityList(header);
@@ -267,6 +287,10 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             if(origObject instanceof FormInfoBean && destClazz.equals(S2sOppForms.class)){
                 BeanUtils.setProperty(destObject, "oppNameSpace", BeanUtils.getProperty(origObject, "ns"));
                 BeanUtils.setProperty(destObject, "schemaUrl", BeanUtils.getProperty(origObject, "schUrl"));
+            }
+            if(origObject instanceof S2sOppForms && destClazz.equals(FormInfoBean.class)){
+                BeanUtils.setProperty(destObject, "ns", BeanUtils.getProperty(origObject, "oppNameSpace"));
+                BeanUtils.setProperty(destObject, "schUrl", BeanUtils.getProperty(origObject, "schemaUrl"));
             }
         }
         catch (InstantiationException e) {
@@ -466,8 +490,50 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
     /**
      * @see org.kuali.kra.s2s.service.S2SService#printForm(java.util.List)
      */
-    public void printForm(List<S2sOppForms> formsList) {
-
+    public AttachmentDataSource printForm(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        List<S2sOppForms> formsList = proposalDevelopmentDocument.getS2sOpportunity().getS2sOppForms();
+        S2SHeader header = null;
+        if(formsList!=null && !formsList.isEmpty()){
+            String proposalNumber = formsList.get(0).getProposalNumber();
+            header = getS2SHeader(proposalDevelopmentDocument);
+        }else{
+            return null;
+        }
+        Vector selectedForms = new Vector();
+        for (S2sOppForms s2sForm : formsList) {
+            if(s2sForm.getSelectToPrint()!=null && s2sForm.getSelectToPrint()){
+                selectedForms.add(convert(s2sForm,FormInfoBean.class));
+            }
+        }
+        S2SDocumentReader s2sPrintReader = new S2SDocumentReader();
+        Map readerMap = new HashMap();
+        readerMap.put("Forms", selectedForms);
+        readerMap.put("S2SHeader", header);
+        try{
+            final CoeusDocument doc = s2sPrintReader.read(readerMap);
+            AttachmentDataSource attDataSource = new AttachmentDataSource(){
+                public byte[] getContent(){
+                    return doc.getDocumentData();
+                }
+            };
+            attDataSource.setContentType(doc.getMimeType());
+            attDataSource.setFileName(doc.getDocumentName());
+            return attDataSource;
+        }catch(S2SValidationException ex){
+//            LOG.error(ex);
+            ArrayList<ErrorBean> errors = ex.getMessages(S2SValidationException.ERROR);
+            List<AuditError> auditErrors = new ArrayList<AuditError>();
+            if(errors!=null)
+            for (ErrorBean error : errors) {                
+                LOG.error(error.getMsg());
+                auditErrors.add(new AuditError(Constants.NO_FIELD, error.getMsg(), Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
+            }
+//            LOG.error(e.getMessage(), e);
+            GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));            
+        }catch(Exception ex){
+            LOG.error(ex);
+        }
+        return null;
     }
 
 

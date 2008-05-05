@@ -206,14 +206,6 @@ public abstract class AbstractBudgetCalculator {
 
     }
     protected void updateBudgetLineItemCalculatedAmounts() {
-        //TODO: have to refactor to create new abstract class and extend both calc amount classes from that
-//        List lineItemCalcAmts;
-//        if(budgetLineItem instanceof BudgetLineItem){
-//            lineItemCalcAmts = ((BudgetLineItem)budgetLineItem).getBudgetLineItemCalculatedAmounts();
-//        }else{
-//            lineItemCalcAmts = ((BudgetPersonnelDetails)budgetLineItem).getBudgetPersonnelCalculatedAmounts();
-//        }
-        
         
         List<AbstractBudgetCalculatedAmount> lineItemCalcAmts = budgetLineItem.getBudgetCalculatedAmounts();
         List<BreakUpInterval> cvLIBreakupIntervals = getBreakupIntervals();
@@ -238,15 +230,12 @@ public abstract class AbstractBudgetCalculator {
                 cvCombinedAmtDetails.addAll(brkUpInterval.getRateAndCosts());
             }
             // loop thru all cal amount rates, sum up the costs and set it
-//            for(int i=0;i<lineItemCalcAmts.size();i++){
-              for (AbstractBudgetCalculatedAmount calculatedAmount : lineItemCalcAmts) {
-//                  BudgetLineItemCalculatedAmount calculatedAmount = (BudgetLineItemCalculatedAmount)lineItemCalcAmts.get(i);
-
-//            for (BudgetLineItemCalculatedAmount calculatedAmount : lineItemCalcAmts) {
-                // if this rate need not be applied skip
-                if (!calculatedAmount.getApplyRateFlag()) {
-                    continue;
-                }
+            for (AbstractBudgetCalculatedAmount calculatedAmount : lineItemCalcAmts) {
+//                if (!calculatedAmount.getApplyRateFlag()) {
+//                    calculatedAmount.setCalculatedCost(BudgetDecimal.ZERO);
+//                    calculatedAmount.setCalculatedCostSharing(BudgetDecimal.ZERO);
+//                    continue;
+//                }
                 rateClassCode = calculatedAmount.getRateClassCode();
                 rateTypeCode = calculatedAmount.getRateTypeCode();
                 equalsRC = new Equals("rateClassCode", rateClassCode);
@@ -286,9 +275,8 @@ public abstract class AbstractBudgetCalculator {
              * item details
              */
             totalCalculatedCostSharing = cvCombinedAmtDetails.sumObjects("calculatedCostSharing");
-            // bli.setTotalCostSharingAmount(bli.getCostSharingAmount().add(totalCalculatedCostSharing));
 
-            budgetLineItem.setCostSharingAmount(budgetLineItem.getCostSharingAmount() == null ? 
+            budgetLineItem.setTotalCostSharingAmount(budgetLineItem.getCostSharingAmount() == null ? 
                         totalCalculatedCostSharing : 
                         budgetLineItem.getCostSharingAmount().add(totalCalculatedCostSharing));
 
