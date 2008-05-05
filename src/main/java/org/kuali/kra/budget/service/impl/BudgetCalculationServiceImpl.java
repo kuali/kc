@@ -16,10 +16,14 @@
 package org.kuali.kra.budget.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
@@ -43,18 +47,45 @@ import org.kuali.kra.budget.service.BudgetCalculationService;
  * This class implements all methods declared in BudgetCalculationService
  */
 public class BudgetCalculationServiceImpl implements BudgetCalculationService {
-
+    private BusinessObjectService businessObjectService;
     /**
      * @see org.kuali.kra.budget.service.BudgetCalculationService#calculateBudget(java.lang.String, java.lang.Integer)
      */
     public void calculateBudget(BudgetDocument budgetDocument){
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            calculateBudgetPeriod(budgetDocument, budgetPeriod);
+            if(isCalculationRequired(budgetPeriod)){
+                calculateBudgetPeriod(budgetDocument, budgetPeriod);
+            }
+//            List<BudgetLineItem> cvLineItemDetails = budgetPeriod.getBudgetLineItems();
+//            if(cvLineItemDetails.isEmpty() ){
+//                Map fieldValues = new HashMap();
+//                fieldValues.put("proposalNumber", budgetPeriod.getProposalNumber());
+//                fieldValues.put("budgetVersionNumber", budgetPeriod.getBudgetVersionNumber());
+//                fieldValues.put("budgetPeriod", budgetPeriod.getBudgetPeriod());
+//                Collection<BudgetLineItem> deletedLineItems = businessObjectService.findMatching(BudgetLineItem.class, fieldValues);
+//                if(!deletedLineItems.isEmpty()){
+//                    
+//                }
+//            }
         }
         if(budgetPeriods!=null && !budgetPeriods.isEmpty()){
             syncCostsToBudgetDocument(budgetDocument);
         }
+    }
+    private boolean isCalculationRequired(BudgetPeriod budgetPeriod){
+        List<BudgetLineItem> lineItemDetails = budgetPeriod.getBudgetLineItems();
+        if(lineItemDetails.isEmpty() ){
+            Map fieldValues = new HashMap();
+            fieldValues.put("proposalNumber", budgetPeriod.getProposalNumber());
+            fieldValues.put("budgetVersionNumber", budgetPeriod.getBudgetVersionNumber());
+            fieldValues.put("budgetPeriod", budgetPeriod.getBudgetPeriod());
+            Collection<BudgetLineItem> deletedLineItems = businessObjectService.findMatching(BudgetLineItem.class, fieldValues);
+            return !deletedLineItems.isEmpty();
+        }else{
+            return true;
+        }
+            
     }
     private void copyLineItemToPersonnelDetails(BudgetLineItem budgetLineItem, BudgetPersonnelDetails budgetPersonnelDetails) {
         budgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
@@ -111,7 +142,9 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     public void calculateBudgetPeriod(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod){
-        new BudgetPeriodCalculator().calculate(budgetDocument, budgetPeriod);
+        if(isCalculationRequired(budgetPeriod)){
+            new BudgetPeriodCalculator().calculate(budgetDocument, budgetPeriod);
+        }
     }
     
     public void calculateAndSyncBudgetPeriod(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod){
@@ -127,17 +160,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         BudgetDecimal totalCostSharingAmount = BudgetDecimal.ZERO;
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
-            if(budgetLineItems.isEmpty()){
-                totalDirectCost = totalDirectCost.add(budgetPeriod.getTotalDirectCost());
-                totalIndirectCost = totalIndirectCost.add(budgetPeriod.getTotalIndirectCost());
-                totalCost = totalCost.add(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
-                totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(budgetPeriod.getUnderrecoveryAmount());
-                totalCostSharingAmount = totalCostSharingAmount.add(budgetPeriod.getCostSharingAmount());
-           }else{
+//            if(budgetLineItems.isEmpty()){
+            if(isCalculationRequired(budgetPeriod)){
                 QueryList<BudgetLineItem> qlBudgetLineItems = new QueryList<BudgetLineItem>(budgetLineItems);
                 BudgetDecimal directCost = qlBudgetLineItems.sumObjects("directCost");
                 BudgetDecimal indirectCost = qlBudgetLineItems.sumObjects("indirectCost");
-                BudgetDecimal costSharingAmount = qlBudgetLineItems.sumObjects("costSharingAmount");
+                BudgetDecimal costSharingAmount = qlBudgetLineItems.sumObjects("totalCostSharingAmount");
                 BudgetDecimal underrecoveryAmount = qlBudgetLineItems.sumObjects("underrecoveryAmount");
                 budgetPeriod.setTotalDirectCost(directCost);
                 budgetPeriod.setTotalIndirectCost(indirectCost);
@@ -149,6 +177,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 totalCost = totalCost.add(directCost.add(indirectCost));
                 totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(underrecoveryAmount);
                 totalCostSharingAmount = totalCostSharingAmount.add(costSharingAmount);
+           }else{
+               totalDirectCost = totalDirectCost.add(budgetPeriod.getTotalDirectCost());
+               totalIndirectCost = totalIndirectCost.add(budgetPeriod.getTotalIndirectCost());
+               totalCost = totalCost.add(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+               totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(budgetPeriod.getUnderrecoveryAmount());
+               totalCostSharingAmount = totalCostSharingAmount.add(budgetPeriod.getCostSharingAmount());
             }
         }
         budgetDocument.setTotalDirectCost(totalDirectCost);
@@ -244,6 +278,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         if(!errors.isEmpty()){
             //TODO:handle errors
         }
+    }
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

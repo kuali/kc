@@ -248,6 +248,14 @@
 		<servlet-class>edu.iu.uis.eden.edl.EDLServlet</servlet-class>
 	</servlet>
 
+<!-- Servlet entry for coeus s2s engine scheduler to start -->
+  <servlet>
+    <servlet-name>StartupServlet</servlet-name>
+    <servlet-class>org.kuali.kra.s2s.servlet.StartupServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
 		<url-pattern>/remoting/*</url-pattern>
