@@ -51,6 +51,7 @@ public class FindOpportunityTest extends KraTestBase implements S2SConstants{
         List<S2sOpportunity> l = getS2SService().searchOpportunity("00.000", null, null);
         assertNotNull(l);
         assertTrue(l.size()>0);
+        LOG.info(l.get(0));
     }
     @Test
     public void parseOpportunityTest(){

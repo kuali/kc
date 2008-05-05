@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.budget.bo.BudgetSubAwards;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 
@@ -30,14 +32,9 @@ public interface S2SService {
     public boolean submitApplication(String proposalNumber);
     public Map<String, Boolean> getS2SAuthZRights(String proposalNumber);
     public String getDefaultS2SSubmissionType();
-    public void refreshGrantsGov(String proposalNumber);
+    public boolean refreshGrantsGov(String proposalNumber);
     public S2sOpportunity getOpportunity(String proposalNumber);
     public Object getStatusDetails(String ggTrackingId,String proposalNumber);
-//    public boolean saveOpportunity(S2sOpportunity opportunity);
-//    public boolean deleteOpportunity(S2sOpportunity opportunity);
-//    public boolean saveGrantsGovData(List objects);
-//    public List getData(S2SHeader s2sHeader);
-//  public boolean saveFormsNSubmitApplication(List formsList, OpportunityInfoBean oppInfoBean, S2SHeader header);
-    public void printForm(List<S2sOppForms> formsList);
+    public AttachmentDataSource printForm(ProposalDevelopmentDocument proposalDevelopmentDocument);
     public List<BudgetSubAwards> getXmlFromPureEdge(List<BudgetSubAwards> subAwardList);
 }

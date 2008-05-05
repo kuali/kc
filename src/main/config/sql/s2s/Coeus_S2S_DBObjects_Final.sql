@@ -9,8 +9,6 @@
 
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/data/load_SPONSOR_HIERARCHY.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/data/load_OSP$PARAMETER.sql
-@/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/data/load_ORGANIZATION_TYPE.sql
-
 
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/views/OSP$ABSTRACT_TYPE.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/views/OSP$ACTIVITY_TYPE.sql
