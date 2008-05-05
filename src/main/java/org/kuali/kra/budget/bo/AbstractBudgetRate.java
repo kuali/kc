@@ -30,6 +30,7 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate {
     private String affectedBudgetPeriod;
     private String trackAffectedPeriod;
 
+    
 	public String getProposalNumber() {
 		return proposalNumber;
 	}
@@ -51,9 +52,13 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate {
 		return BudgetDecimal.returnZeroIfNull(applicableRate);
 	}
 
-	public void setApplicableRate(BudgetDecimal applicableRate) {
-		this.applicableRate = applicableRate;
-		setOldApplicableRate(applicableRate);
+    public boolean isApplicableRateNull() {
+        return applicableRate == null;
+    }
+
+    public void setApplicableRate(BudgetDecimal applicableRate) {
+        setOldApplicableRate(this.applicableRate);
+        this.applicableRate = applicableRate;
 	}
 
 	@Override 
@@ -71,9 +76,7 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate {
     }
 
     public void setOldApplicableRate(BudgetDecimal oldApplicableRate) {
-        if(this.oldApplicableRate == null) {
-            this.oldApplicableRate = oldApplicableRate;
-        }
+        this.oldApplicableRate = oldApplicableRate;
     }
 
     public String getViewLocation() {
