@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.bo.InstituteLaRate</businessObjectClass>
+        <businessObjectClass>org.kuali.kra.budget.bo.BudgetCategoryMap</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
@@ -32,35 +32,28 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>InstituteLaRatesMaintenanceDocument</documentTypeName>
-        <documentTypeCode>INLA</documentTypeCode>
+        <documentTypeName>BudgetCategoryMapMaintenanceDocument</documentTypeName>
+        <documentTypeCode>BUCM</documentTypeCode>
 
-        <label>InstituteLaRates Maintenance Document</label>
-        <shortLabel>instituteLaRatesMaintDoc</shortLabel>
+        <label>Budget Category Maps Maintenance Document</label>
+        <shortLabel>budgetCategoryMapsMaintDoc</shortLabel>
 
-        <summary>InstituteLaRates Maintenance Document</summary>
-        <description>Document used to create or update InstituteLaRates Reference objects</description>
+        <summary>BudgetCategoryMaps Maintenance Document</summary>
+        <description>Document used to create or update BudgetCategoryMaps Reference objects</description>
 
         <lockingKeys>
-        	<field attributeName="fiscalYear"/>
-			<field attributeName="onOffCampusFlag"/>
-			<field attributeName="rateClassCode"/>
-			<field attributeName="rateTypeCode"/>
-			<field attributeName="startDate"/>
-			<field attributeName="unitNumber"/>
+        	<field attributeName="mappingName"/>
+			<field attributeName="targetCategoryCode"/>
 
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit InstituteLaRates">
+            <maintainableSection title="Edit Budget Category Maps">
                 <maintainableItems>
-                	<maintainableField name="fiscalYear" required="true"/>
-					<maintainableField name="onOffCampusFlag" required="true"/>
-					<maintainableField name="rateClassCode" required="true"/>
-					<maintainableField name="rateTypeCode" required="true"/>
-					<maintainableField name="startDate" required="true"/>
-					<maintainableField name="unitNumber" required="true"/>
-				<!-- can't find this in  InstituteLaRate' 	<maintainableField name="rate" required="true"/> -->
+                	<maintainableField name="mappingName" required="true"/>
+					<maintainableField name="targetCategoryCode" required="true"/>
+					<maintainableField name="categoryType" required="false"/>
+					<maintainableField name="description" required="true"/>
 
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

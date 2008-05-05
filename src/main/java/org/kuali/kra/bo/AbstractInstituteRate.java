@@ -18,9 +18,11 @@ package org.kuali.kra.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.core.web.format.Formatter;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateType;
+import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 
 public abstract class AbstractInstituteRate extends KraPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>{
 	private String fiscalYear;
@@ -33,7 +35,12 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
 
 	private RateClass rateClass;
 	private RateType rateType;
+	private Unit unit;
 	
+    public AbstractInstituteRate(){
+        Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
+    }
+
 	public RateClass getRateClass() {
         return rateClass;
     }
@@ -123,6 +130,14 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
 	public int compareTo(AbstractInstituteRate instituteLaRate) {
         int dataCmp = getRateType().getDescription().compareTo(instituteLaRate.getRateType().getDescription());
         return (dataCmp != 0 ? dataCmp : getFiscalYear().compareTo(instituteLaRate.getFiscalYear()));
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 	
 }

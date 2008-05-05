@@ -61,6 +61,7 @@
 				<field attributeName="dependentRateClassType" forceInquiry="false"/>
 				<field attributeName="rateClassCode" forceInquiry="false"/>
 				<field attributeName="rateTypeCode" forceInquiry="false"/>
+				<field attributeName="dependentSeqNumber" forceInquiry="false"/>
             </resultFields>
         </lookup>
 
