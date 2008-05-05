@@ -83,9 +83,9 @@
 			<label>Mapping Name </label>
 			<shortLabel>Mapping Name </shortLabel>
 			<maxLength>100</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
-				<text size="100" />
+				<text size="40" />
 			</control>
 			<summary>Mapping Name </summary>
 			<description>Mapping Name </description>
@@ -102,6 +102,7 @@
 			<summary>Target Category Code </summary>
 			<description>Target Category Code </description>
 			</attribute>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
     </businessObject>

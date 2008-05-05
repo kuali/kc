@@ -205,4 +205,6 @@ public interface Constants {
     
     // Copy proposal
     public static final String COPY_PROPOSAL_PROPERTY_KEY = "copyProposal";
+
+    public static final String ON_OFF_CAMPUS_FLAG = "onOffCampusFlag";
 }

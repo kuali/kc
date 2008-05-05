@@ -25,6 +25,7 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
 	private String rateTypeCode;
 	private RateClass rateClass;
     private RateType rateType;
+    private CostElement costElementBo;
 
 	/**
      * Gets the rateClass attribute. 
@@ -86,5 +87,13 @@ public class ValidCeRateType extends KraPersistableBusinessObjectBase {
 
     public String getRateClassType() {
         return rateClass.getRateClassType();
+    }
+
+    public CostElement getCostElementBo() {
+        return costElementBo;
+    }
+
+    public void setCostElementBo(CostElement costElementBo) {
+        this.costElementBo = costElementBo;
     }
 }
