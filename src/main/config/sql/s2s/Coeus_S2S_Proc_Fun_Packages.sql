@@ -121,8 +121,6 @@
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/fn_is_inv.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/Get_Funding_Months.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/GetProgIncomeForPrint.sql
-@/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/PKG_PROP_SUBMISSION.sql
-@/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/fn_pop_sub_exp_cat_by_fy.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/dw_update_user.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/dw_get_user.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/GET_USERS_FOR_UNIT.sql
@@ -241,9 +239,6 @@
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/fn_is_inv.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/Get_Funding_Months.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/GetProgIncomeForPrint.sql
-@/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/PKG_PROP_SUBMISSION.sql
-@/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/SUBCONTRACTING_RPTS_PKG.sql
-@/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/fn_pop_sub_exp_cat_by_fy.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/dw_update_user.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/FN_GET_NUMBER_OF_MONTHS.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/FN_GET_FUNDING_MONTHS.sql
@@ -252,3 +247,5 @@
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/FN_GET_MOD_IDC_FOR_PER.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/FN_GET_MOD_DC_FOR_PER.sql
 @/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/GET_PROP_NARR_PDF_FOR_PROP.sql
+@/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/FN_DEL_S2S_SUB_APPLICATION.sql
+

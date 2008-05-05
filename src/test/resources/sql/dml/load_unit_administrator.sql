@@ -1,5 +1,14 @@
 Insert into unit_administrator
    (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('000001', '000000001', 1, sysdate, user);
+Insert into unit_administrator
+   (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('000001', '000000001', 2, sysdate, user);
+Insert into unit_administrator
+   (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)
+ Values ('000001', '000000001', 3, sysdate, user);
+Insert into unit_administrator
+   (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)
  Values ('IN-CARD', '000000001', 3, sysdate, user);
 Insert into unit_administrator
    (UNIT_NUMBER, PERSON_ID, UNIT_ADMINISTRATOR_TYPE_CODE, UPDATE_TIMESTAMP, UPDATE_USER)

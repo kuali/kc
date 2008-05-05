@@ -47,6 +47,8 @@ public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBas
     private Integer lineItemSequence;
 	
 	private CostElement costElementBO;
+
+    private BudgetDecimal totalCostSharingAmount;
 	
 	public BudgetLineItemBase(){
 	}
@@ -270,6 +272,14 @@ public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBas
 
     public void setCostElementBO(CostElement costElementBO) {
         this.costElementBO = costElementBO;
+    }
+
+    public BudgetDecimal getTotalCostSharingAmount() {
+        return BudgetDecimal.returnZeroIfNull(totalCostSharingAmount);
+    }
+
+    public void setTotalCostSharingAmount(BudgetDecimal totalCostSharingAmount) {
+        this.totalCostSharingAmount = totalCostSharingAmount;
     }
     
 }
