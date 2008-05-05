@@ -24,8 +24,8 @@
             <title>Rate Class</title>
             <inquirySections><inquirySection title="Rate Class"><inquiryFields>
             	<field attributeName="rateClassCode" forceInquiry="true"/>
-				<field attributeName="description"/>
 				<field attributeName="rateClassType"/>
+				<field attributeName="description"/>
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -44,15 +44,15 @@
 
             <lookupFields>
             	<lookupField attributeName="rateClassCode" required="false"/>
-				<lookupField attributeName="description" required="false"/>
 				<lookupField attributeName="rateClassType" required="false"/>
+				<lookupField attributeName="description" required="false"/>
 
             </lookupFields>
 
             <resultFields>
             	<field attributeName="rateClassCode" forceInquiry="true"/>
-				<field attributeName="description" forceInquiry="false"/>
 				<field attributeName="rateClassType" forceInquiry="false"/>
+				<field attributeName="description" forceInquiry="false"/>
             </resultFields>
         </lookup>
 

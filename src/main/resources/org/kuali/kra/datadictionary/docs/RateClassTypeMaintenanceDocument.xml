@@ -20,8 +20,8 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.budget.bo.BudgetCategoryMap</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessObjectClass>org.kuali.kra.budget.bo.RateClassType</businessObjectClass>
+        <maintainableClass>org.kuali.kra.maintenance.KraMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -32,29 +32,26 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>BudgetCategoryMapsMaintenanceDocument</documentTypeName>
-        <documentTypeCode>BUCA</documentTypeCode>
+        <documentTypeName>RateClassTypeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>RACT</documentTypeCode>
 
-        <label>BudgetCategoryMaps Maintenance Document</label>
-        <shortLabel>budgetCategoryMapsMaintDoc</shortLabel>
+        <label>Rate Class Type Maintenance Document</label>
+        <shortLabel>rateClassTypeMaintDoc</shortLabel>
 
-        <summary>BudgetCategoryMaps Maintenance Document</summary>
-        <description>Document used to create or update BudgetCategoryMaps Reference objects</description>
+        <summary>Rate Class Type Maintenance Document</summary>
+        <description>Document used to create or update Rate Class Type Reference objects</description>
 
         <lockingKeys>
-        	<field attributeName="mappingName"/>
-			<field attributeName="targetCategoryCode"/>
-
+            <field attributeName="rateClassType" />
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit BudgetCategoryMaps">
+            <maintainableSection title="Edit Rate Class Types">
                 <maintainableItems>
-                	<maintainableField name="mappingName" required="true"/>
-					<maintainableField name="targetCategoryCode" required="true"/>
-					<maintainableField name="categoryType" required="false"/>
-					<maintainableField name="description" required="true"/>
-
+                    <maintainableField name="rateClassType" required="true" />
+                    <maintainableField name="description" required="true" />
+                    <maintainableField name="prefixActivityType" required="true" />
+                    <maintainableField name="sortId" required="false" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

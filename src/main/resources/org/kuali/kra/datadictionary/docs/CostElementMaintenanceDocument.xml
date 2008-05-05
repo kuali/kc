@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.budget.bo.CostElement</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.kra.rules.BudgetCategoryExistenceRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -47,7 +48,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit CostElement">
+            <maintainableSection title="Edit Cost Element">
                 <maintainableItems>
                 	<maintainableField name="costElement" required="true"/>
 					<maintainableField name="budgetCategoryCode" required="false"/>

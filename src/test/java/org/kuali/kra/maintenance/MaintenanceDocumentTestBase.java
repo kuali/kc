@@ -88,4 +88,24 @@ public abstract class MaintenanceDocumentTestBase extends KraWebTestBase {
         return lookupPage;
     }
 
+    /**
+     * 
+     * This method a helper method to get the anchor for 'copy' or 'edit' link
+     * This is only good for exactly one search results returned.  Other it will get the first result.
+     * @param page
+     * @param actionName
+     * @return
+     */
+    protected String getAnchorName(HtmlPage page, String actionName) {
+        int idx1 = page.asXml().indexOf("<form");
+        idx1 = page.asXml().indexOf("maintenance.do?", idx1);
+        if (actionName.equalsIgnoreCase("copy")) {
+            // next maintenance.do.  Link is in 'edit' then 'copy' order
+            idx1 = page.asXml().indexOf("maintenance.do?", idx1+1);
+        }
+        int idx2 = page.asXml().indexOf("\"", idx1);
+        return page.asXml().substring(idx1, idx2).replace("&amp;", "&");
+    }
+
+
 }

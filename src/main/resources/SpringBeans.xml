@@ -78,6 +78,8 @@
 				<value>universalUserService</value>
 				<value>enUserService</value>
 				<value>budgetExpenseLookupable</value>
+				<value>onOffCampusLookupable</value>
+				
 			</set>
 		</property>
 	</bean>	
@@ -719,5 +721,15 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+	
+	<bean id="onOffCampusLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+  		<property name="lookupableHelperService">
+    		<ref bean="onOffCampusLookupableHelperServiceImpl" />
+  		</property>  		
+	</bean>	
+	
+	<bean id="onOffCampusLookupableHelperServiceImpl" class="org.kuali.kra.lookup.OnOffCampusLookupableHelperServiceImpl" 
+ 		singleton="false" parent="lookupableHelperService">
+  	</bean>
 	
 </beans>
