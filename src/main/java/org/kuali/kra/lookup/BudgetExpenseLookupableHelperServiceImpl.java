@@ -57,20 +57,30 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
         List searchResults;
         List searchResultsReturn = new ArrayList();
         String categoryTypeName = null;
+        // handle onoffcampusflag
+        if (fieldValues.get(Constants.ON_OFF_CAMPUS_FLAG).equalsIgnoreCase("Y")) {
+            fieldValues.put(Constants.ON_OFF_CAMPUS_FLAG, "N");
+       } else if (fieldValues.get(Constants.ON_OFF_CAMPUS_FLAG).equalsIgnoreCase("N")) {
+            fieldValues.put(Constants.ON_OFF_CAMPUS_FLAG, "F");
+       }
+
         searchResults = super.getSearchResults(fieldValues);
         
         for (Iterator iterator = searchResults.iterator(); iterator.hasNext();) {
             CostElement costElement = (CostElement) iterator.next();
             costElement.refreshReferenceObject("budgetCategory");
-            if(StringUtils.equalsIgnoreCase(costElement.getBudgetCategory().getBudgetCategoryTypeCode(),budgetCategoryTypeCode)){
+            // TODO : need more test for ce maint doc which will display all ce and budgetcategorytypecode=""
+            if(StringUtils.isBlank(budgetCategoryTypeCode) || StringUtils.equalsIgnoreCase(costElement.getBudgetCategory().getBudgetCategoryTypeCode(),budgetCategoryTypeCode)){
                 searchResultsReturn.add(costElement);
+                // TODO : what is categoryTypeName for ?
                 if(categoryTypeName==null){
                     categoryTypeName = costElement.getBudgetCategory().getBudgetCategoryType().getDescription();
                 }
             }
         }       
-        
-        GlobalVariables.getMessageList().add(Constants.BUDGET_EXPENSE_LOOKUP_MESSAGE1);        
+        if(StringUtils.isNotBlank(budgetCategoryTypeCode)) {
+            GlobalVariables.getMessageList().add(Constants.BUDGET_EXPENSE_LOOKUP_MESSAGE1);
+        }
         //GlobalVariables.getMessageList().add(categoryTypeName);
         //GlobalVariables.getMessageList().add(Constants.BUDGET_EXPENSE_LOOKUP_MESSAGE2);
         return searchResultsReturn;

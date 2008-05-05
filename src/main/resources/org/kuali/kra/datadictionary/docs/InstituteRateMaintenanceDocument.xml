@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.bo.InstituteRate</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.kra.budget.rules.InstituteRateMaintenanceDocumentRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -32,10 +33,10 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>InstituteRatesMaintenanceDocument</documentTypeName>
+        <documentTypeName>InstituteRateMaintenanceDocument</documentTypeName>
         <documentTypeCode>INRA</documentTypeCode>
 
-        <label>InstituteRates Maintenance Document</label>
+        <label>Institute Rates Maintenance Document</label>
         <shortLabel>instituteRatesMaintDoc</shortLabel>
 
         <summary>InstituteRates Maintenance Document</summary>
@@ -53,7 +54,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit InstituteRates">
+            <maintainableSection title="Edit Institute Rates">
                 <maintainableItems>
                 	<maintainableField name="activityTypeCode" required="true"/>
 					<maintainableField name="fiscalYear" required="true"/>
@@ -62,6 +63,7 @@
 					<maintainableField name="rateTypeCode" required="true"/>
 					<maintainableField name="startDate" required="true"/>
 					<maintainableField name="unitNumber" required="true"/>
+					<maintainableField name="instituteRate" required="true"/>
 
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

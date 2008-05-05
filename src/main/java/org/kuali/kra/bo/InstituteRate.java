@@ -16,6 +16,11 @@
 package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
+
+import org.kuali.core.web.format.Formatter;
+import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
+import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 /**
  * 
  * This class represents INSTITUTE_RATE record
@@ -23,7 +28,7 @@ import java.util.LinkedHashMap;
 public class InstituteRate extends AbstractInstituteRate {
 	private String activityTypeCode;
     
-    private Unit unit;
+    private ActivityType activityType;
 
 	public String getActivityTypeCode() {
 		return activityTypeCode;
@@ -33,14 +38,6 @@ public class InstituteRate extends AbstractInstituteRate {
 		this.activityTypeCode = activityTypeCode;
 	}
     
-	public Unit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
-
     @Override 
     @SuppressWarnings("unchecked")
 	protected LinkedHashMap toStringMapper() {
@@ -48,4 +45,12 @@ public class InstituteRate extends AbstractInstituteRate {
 		hashMap.put("activityTypeCode", getActivityTypeCode());
 		return hashMap;
 	}
+
+    public ActivityType getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(ActivityType activityType) {
+        this.activityType = activityType;
+    }
 }

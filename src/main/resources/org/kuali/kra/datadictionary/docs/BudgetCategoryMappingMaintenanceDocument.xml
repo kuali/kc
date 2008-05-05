@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.budget.bo.BudgetCategoryMapping</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.kra.rules.BudgetCategoryExistenceRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -33,9 +34,9 @@
         </authorizations>
 
         <documentTypeName>BudgetCategoryMappingMaintenanceDocument</documentTypeName>
-        <documentTypeCode>BUCA</documentTypeCode>
+        <documentTypeCode>BUCG</documentTypeCode>
 
-        <label>BudgetCategoryMapping Maintenance Document</label>
+        <label>Budget Category Mapping Maintenance Document</label>
         <shortLabel>budgetCategoryMappingMaintDoc</shortLabel>
 
         <summary>BudgetCategoryMapping Maintenance Document</summary>
@@ -49,7 +50,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit BudgetCategoryMapping">
+            <maintainableSection title="Edit Budget Category Mapping">
                 <maintainableItems>
                 	<maintainableField name="budgetCategoryCode" required="true"/>
 					<maintainableField name="mappingName" required="true"/>

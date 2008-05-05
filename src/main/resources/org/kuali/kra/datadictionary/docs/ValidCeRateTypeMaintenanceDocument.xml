@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.budget.bo.ValidCeRateType</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.kra.budget.rules.ValidCeRateTypeMaintenanceDocumentRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -32,10 +33,10 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>ValidCeRateTypesMaintenanceDocument</documentTypeName>
+        <documentTypeName>ValidCeRateTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>VACE</documentTypeCode>
 
-        <label>ValidCeRateTypes Maintenance Document</label>
+        <label>Valid Cost Element Rate Types Maintenance Document</label>
         <shortLabel>validCeRateTypesMaintDoc</shortLabel>
 
         <summary>ValidCeRateTypes Maintenance Document</summary>
@@ -49,7 +50,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit ValidCeRateTypes">
+            <maintainableSection title="Edit Valid Cost Element Rate Types">
                 <maintainableItems>
                 	<maintainableField name="costElement" required="true"/>
 					<maintainableField name="rateClassCode" required="true"/>

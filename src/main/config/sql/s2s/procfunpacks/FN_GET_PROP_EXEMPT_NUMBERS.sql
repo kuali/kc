@@ -22,6 +22,12 @@ BEGIN
 		END LOOP;
 		CLOSE c_exempt_number;
 	END;
+      if (exempt_numbers is NULL) then
+        select comments into exempt_numbers from eps_prop_special_review
+	    where  eps_prop_special_review.proposal_number = as_proposal_number and
+            eps_prop_special_review.SPECIAL_REVIEW_NUMBER = as_SPECIAL_REVIEW_NUMBER;
+      end if;
+
 	return exempt_numbers;
 end;
 /
