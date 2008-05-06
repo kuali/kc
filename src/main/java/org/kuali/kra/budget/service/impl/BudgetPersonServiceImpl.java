@@ -61,20 +61,22 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     public void synchBudgetPersonsToProposal(BudgetDocument budgetDocument) {
         budgetDocument.refreshReferenceObject("documentNextvalues");
         for (ProposalPerson proposalPerson: budgetDocument.getProposal().getProposalPersons()) {
-            boolean present = false;
-            for (BudgetPerson budgetPerson: budgetDocument.getBudgetPersons()) {
-                if (proposalPerson.getPersonId() != null && proposalPerson.getPersonId().equals(budgetPerson.getPersonId())) {
-                    present = true;
-                    break;
-                } else if (proposalPerson.getRolodexId() != null && proposalPerson.getRolodexId().equals(budgetPerson.getRolodexId())) {
-                    present = true;
-                    break;
+            if (!proposalPerson.isOtherSignificantContributorFlag()) {
+                boolean present = false;
+                for (BudgetPerson budgetPerson: budgetDocument.getBudgetPersons()) {
+                    if (proposalPerson.getPersonId() != null && proposalPerson.getPersonId().equals(budgetPerson.getPersonId())) {
+                        present = true;
+                        break;
+                    } else if (proposalPerson.getRolodexId() != null && proposalPerson.getRolodexId().equals(budgetPerson.getRolodexId())) {
+                        present = true;
+                        break;
+                    }
                 }
-            }
-            if (!present) {
-                BudgetPerson newBudgetPerson = new BudgetPerson(proposalPerson);
-                populateBudgetPersonData(budgetDocument, newBudgetPerson);
-                budgetDocument.addBudgetPerson(newBudgetPerson);
+                if (!present) {
+                    BudgetPerson newBudgetPerson = new BudgetPerson(proposalPerson);
+                    populateBudgetPersonData(budgetDocument, newBudgetPerson);
+                    budgetDocument.addBudgetPerson(newBudgetPerson);
+                }
             }
         }
     }
