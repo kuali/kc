@@ -27,6 +27,7 @@ import org.kuali.kra.budget.bo.BudgetModular;
 import org.kuali.kra.budget.bo.BudgetModularIdc;
 import org.kuali.kra.budget.bo.BudgetModularSummary;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.calculator.LineItemCalculator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetModularService;
 
@@ -93,25 +94,29 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             BudgetDecimal consortiumFna = new BudgetDecimal(0);
             
             for (BudgetLineItem budgetLineItem: budgetPeriod.getBudgetLineItems()) {
+                new LineItemCalculator(budgetDocument, budgetLineItem).calculate();
 //              TODO use configuration service
                 if (budgetLineItem.getCostElement().equals("420630") || budgetLineItem.getCostElement().equals("420610")) {
                     // Consortium F&A
-                    consortiumFna = consortiumFna.add(budgetLineItem.getLineItemCost());
+                    consortiumFna = consortiumFna.add(budgetLineItem.getDirectCost());
                     break;
                 }
                 // Loop through line item calculated amounts
+                BudgetDecimal rateMultiplier = new BudgetDecimal(100);
                 for (Iterator iter = budgetLineItem.getBudgetLineItemCalculatedAmounts().iterator(); iter.hasNext();) {
                     
                     BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount) iter.next();
-                    if (budgetLineItemCalculatedAmount.getRateClassType().equals("O")) {
+                    budgetLineItemCalculatedAmount.refreshReferenceObject("rateClass");
+                    if (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals("O")) {
                         // F&A
                         BudgetModularIdc budgetModularIdc = new BudgetModularIdc();
-                        budgetDocument.refreshReferenceObject("documentNextvalues");
-                        budgetModularIdc.setRateNumber(budgetDocument.getDocumentNextValue("rateNumber"));
+                        //budgetDocument.refreshReferenceObject("documentNextvalues");
+                        budgetModularIdc.setRateNumber(budgetDocument.getHackedDocumentNextValue("rateNumber"));
                         budgetModularIdc.setFundsRequested(budgetLineItemCalculatedAmount.getCalculatedCost());
                         budgetModularIdc.setDescription(budgetLineItemCalculatedAmount.getRateClassCode());
-                        budgetModularIdc.setIdcBase(budgetLineItem.getDirectCost());
-                        budgetModularIdc.setIdcRate(budgetModularIdc.getFundsRequested().divide(budgetModularIdc.getIdcBase()));
+                        budgetModularIdc.setIdcBase(budgetLineItem.getLineItemCost());
+                        budgetModularIdc.setIdcRate(
+                                budgetModularIdc.getFundsRequested().divide(budgetModularIdc.getIdcBase()).multiply(rateMultiplier));
                         budgetModular.addNewBudgetModularIdc(budgetModularIdc);
                     }
                 }
