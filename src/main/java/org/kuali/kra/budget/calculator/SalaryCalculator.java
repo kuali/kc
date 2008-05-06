@@ -209,7 +209,7 @@ public class SalaryCalculator {
      * This method is for calculating the salary for a personnel line item
      */
     public void calculate() {
-        Boundary boundary = new Boundary(startDate,endDate);
+        Boundary boundary = new Boundary(personnelLineItem.getStartDate(),personnelLineItem.getEndDate());
         calculate(boundary);
         personnelLineItem.setSalaryRequested(boundary.getApplicableCost());
         personnelLineItem.setCostSharingAmount(boundary.getApplicableCostSharing());

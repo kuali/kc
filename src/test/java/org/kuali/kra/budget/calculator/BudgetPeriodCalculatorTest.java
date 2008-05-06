@@ -47,21 +47,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
- * This class is for testing Line item calculations
+ * This class is for testing period item calculations
  */
-//@PerTestUnitTestData(
-//        @UnitTestData(order = { 
-//                UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES }, 
-//        sqlStatements = {
-//                @UnitTestSql("delete from EPS_PROPOSAL where proposal_number = 9999999"),
-//                @UnitTestSql("delete from budget where proposal_number = 9999999"),
-//                @UnitTestSql("delete from budget_periods where proposal_number = '9999999'"),
-//                @UnitTestSql("delete from budget_details where proposal_number = '9999999'")
-//                }, 
-//        sqlFiles = {
-//                @UnitTestFile(filename = "classpath:insertBudgetTestData.sql", delimiter = ";")
-//                })
-//        )
 
 public class BudgetPeriodCalculatorTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(LineItemCalculatorTest.class);
@@ -139,7 +126,7 @@ public class BudgetPeriodCalculatorTest extends KraTestBase {
             errors.add(e.getMessage());
         }
         try{
-            assertEquals(new BudgetDecimal(1589.30),underRDecimal);
+            assertEquals(new BudgetDecimal(1562.46),underRDecimal);
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }

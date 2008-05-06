@@ -5,15 +5,22 @@ OTHER_INDIVIDUAL_TO_NOTIFY, ORGANIZATION_ID, UPDATE_TIMESTAMP, UPDATE_USER
 )
 AS select  
 	   U.UNIT_NUMBER, U.UNIT_NAME, 
-	   decode(ua.UNIT_ADMINISTRATOR_TYPE_CODE,1,person_id) as ADMINISTRATIVE_OFFICER, 
-	   decode(ua.UNIT_ADMINISTRATOR_TYPE_CODE,2,person_id) as OSP_ADMINISTRATOR, 
-	   decode(ua.UNIT_ADMINISTRATOR_TYPE_CODE,3,person_id) as UNIT_HEAD, 
-	   decode(ua.UNIT_ADMINISTRATOR_TYPE_CODE,4,person_id) as DEAN_VP, 
-	   decode(ua.UNIT_ADMINISTRATOR_TYPE_CODE,5,person_id) as OTHER_INDIVIDUAL_TO_NOTIFY, 
+	   AO.person_id as ADMINISTRATIVE_OFFICER, 
+	   OA.person_id as OSP_ADMINISTRATOR, 
+	   UH.person_id as UNIT_HEAD, 
+	   DV.person_id as DEAN_VP, 
+	   OI.person_id as OTHER_INDIVIDUAL_TO_NOTIFY, 
 	   ORGANIZATION_ID, UPDATE_TIMESTAMP, UPDATE_USER
 	from UNIT U,
-	(select unit_number,person_id,UNIT_ADMINISTRATOR_TYPE_CODE 
-			from unit_administrator where UNIT_ADMINISTRATOR_TYPE_CODE in ( 1,2,3,4,5)) ua
-	where U.UNIT_NUMBER = ua.UNIT_NUMBER(+);
+	         (select unit_number,person_id from unit_administrator where UNIT_ADMINISTRATOR_TYPE_CODE=1) AO,
+	         (select unit_number,person_id from unit_administrator where UNIT_ADMINISTRATOR_TYPE_CODE=2) OA,
+	         (select unit_number,person_id from unit_administrator where UNIT_ADMINISTRATOR_TYPE_CODE=3) UH,
+	         (select unit_number,person_id from unit_administrator where UNIT_ADMINISTRATOR_TYPE_CODE=4) DV,
+	         (select unit_number,person_id from unit_administrator where UNIT_ADMINISTRATOR_TYPE_CODE=5) OI
+	where U.UNIT_NUMBER = AO.UNIT_NUMBER(+)
+	           and U.UNIT_NUMBER = OA.UNIT_NUMBER(+)
+	           and U.UNIT_NUMBER = UH.UNIT_NUMBER(+)
+	           and U.UNIT_NUMBER = DV.UNIT_NUMBER(+)
+	           and U.UNIT_NUMBER = OI.UNIT_NUMBER(+)
 	
 	

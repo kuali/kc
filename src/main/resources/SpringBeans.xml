@@ -520,6 +520,9 @@
 	</bean>
 	
 	<bean id="budgetCalculationService" class="org.kuali.kra.budget.service.impl.BudgetCalculationServiceImpl">
+		<property name="businessObjectService" >
+  			<ref bean="businessObjectService"/>
+  		</property>
 	</bean>
 
 	<bean id="permissionsAuthorizer" class="org.kuali.kra.proposaldevelopment.document.authorizer.MultiProposalAuthorizer">
