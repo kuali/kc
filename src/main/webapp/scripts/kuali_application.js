@@ -5,7 +5,7 @@ function selectAllGGForms(document) {
 	  var e = document.KualiForm.elements[i];
 	  if(e.type == 'checkbox') {	  	
 	  	var name = 'document.s2sOpportunity.s2sOppForms[' + j + '].selectToPrint';	  	
-	  	if (e.name == name) {
+	  	if (e.name == name & e.disabled == false) {
  		    e.checked = true;
 	  		j++; 
 	  	}
@@ -19,7 +19,7 @@ function unselectAllGGForms(document) {
 	  var e = document.KualiForm.elements[i];
 	  if(e.type == 'checkbox') {	  	
 	  	var name = 'document.s2sOpportunity.s2sOppForms[' + j + '].selectToPrint';	  	
-	  	if (e.name == name) {
+	  	if (e.name == name & e.disabled == false) {
  		    e.checked = false;
 	  		j++; 
 	  	}

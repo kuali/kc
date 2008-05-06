@@ -86,7 +86,7 @@
 					<th class="infoline">
 						<c:out value="Add:" />
 					</th>
-					<td valign="middle" class="infoline">
+					<td valign="middle" class="infoline" nowrap="true">
 	                	<div align="center">
 	                	<html:select property="newBudgetLineItems[${catCodes}].costElement" tabindex="0" >
 	                    <c:forEach items="${krafn:getOptionList('org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder', paramMap)}" var="option">
