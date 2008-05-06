@@ -2,7 +2,7 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
 <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 <documentType>
-<name>ValidCalcTypesMaintenanceDocument</name>
+<name>ValidCalcTypeMaintenanceDocument</name>
 <description>Create/Edit a Valid Calculation Type</description>
 <label>Valid Calculation Type</label>
 <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>

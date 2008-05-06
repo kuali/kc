@@ -72,9 +72,9 @@
 			<label>Mapping Name </label>
 			<shortLabel>Mapping Name </shortLabel>
 			<maxLength>100</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
-				<text size="100" />
+				<text size="40"  />
 			</control>
 			<summary>Mapping Name </summary>
 			<description>Mapping Name </description>
@@ -98,23 +98,15 @@
 			<maxLength>200</maxLength>
 			<validationPattern><anyCharacter /></validationPattern>
 			<control>
-				<text size="200" />
+				<text size="40" />
 			</control>
 			<summary>Category Type </summary>
 			<description>Category Type </description>
 			</attribute>
 
-			<attribute name="description">
-			<label>Description </label>
-			<shortLabel>Description </shortLabel>
-			<maxLength>200</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
-			<control>
-				<text size="200" />
-			</control>
-			<summary>Description </summary>
-			<description>Description </description>
-			</attribute>
+            <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
     </businessObject>

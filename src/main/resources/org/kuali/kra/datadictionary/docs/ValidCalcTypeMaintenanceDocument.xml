@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.budget.bo.ValidCalcType</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.kra.budget.rules.ValidCalcTypeMaintenanceDocumentRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -32,10 +33,10 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>ValidCalcTypesMaintenanceDocument</documentTypeName>
+        <documentTypeName>ValidCalcTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>VACA</documentTypeCode>
 
-        <label>ValidCalcTypes Maintenance Document</label>
+        <label>Valid Calc Types Maintenance Document</label>
         <shortLabel>validCalcTypesMaintDoc</shortLabel>
 
         <summary>ValidCalcTypes Maintenance Document</summary>
@@ -48,7 +49,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit ValidCalcTypes">
+            <maintainableSection title="Edit Valid Calc Types">
                 <maintainableItems>
                 	<maintainableField name="calcTypeId" required="true"/>
 					<maintainableField name="dependentSeqNumber" required="true"/>

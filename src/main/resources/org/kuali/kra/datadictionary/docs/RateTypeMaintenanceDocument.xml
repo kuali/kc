@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.budget.bo.RateType</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.kra.rules.RateClassExistenceRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -35,10 +36,10 @@
         <documentTypeName>RateTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>RATY</documentTypeCode>
 
-        <label>RateType Maintenance Document</label>
+        <label>Rate Type Maintenance Document</label>
         <shortLabel>rateTypeMaintDoc</shortLabel>
 
-        <summary>RateType Maintenance Document</summary>
+        <summary>Rate Type Maintenance Document</summary>
         <description>Document used to create or update RateType Reference objects</description>
 
         <lockingKeys>
@@ -47,7 +48,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit RateType">
+            <maintainableSection title="Edit Rate Type">
                 <maintainableItems>
                 	<maintainableField name="rateClassCode" required="true"/>
 					<maintainableField name="rateTypeCode" required="true"/>
