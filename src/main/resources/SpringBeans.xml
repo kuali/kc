@@ -78,6 +78,8 @@
 				<value>universalUserService</value>
 				<value>enUserService</value>
 				<value>budgetExpenseLookupable</value>
+				<value>onOffCampusLookupable</value>
+				
 			</set>
 		</property>
 	</bean>	

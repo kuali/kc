@@ -160,5 +160,6 @@ public class KeyConstants {
     public static final String AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE = "error.periodEndDate.after.projectEndDate";
      
     public static final String ERROR_LEAD_UNIT_REQUIRED = "error.leadUnit.required";
+    public static final String ERROR_RATE_TYPE_NOT_EXIST = "error.rateType.not.exist";
 
 }

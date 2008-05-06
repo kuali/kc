@@ -48,7 +48,7 @@
             	<lookupField attributeName="costElement" required="false"/>
 				<lookupField attributeName="description" required="false"/>
 				<lookupField attributeName="onOffCampusFlag" required="false"/>
-				<lookupField attributeName="budgetCategoryTypeCode" required="false"/>
+				<lookupField attributeName="budgetCategoryCode" required="false"/>
             </lookupFields>
 
             <resultFields>
@@ -80,7 +80,7 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder" />
+				<text size="4"/>
 			</control>
 			<summary>Budget Category Code </summary>
 			<description>Budget Category Code </description>
@@ -89,12 +89,13 @@
 			<attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
 
 			<attribute name="onOffCampusFlag">
-			<label>On Campus </label>
-			<shortLabel>On Campus </shortLabel>
+			<label>On/Off Campus Flag</label>
+			<shortLabel>On/off Campus </shortLabel>
 			<maxLength>1</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-				<checkbox />
+				<checkbox/>
+				<!-- 	<radio valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.OnOffCampusFlagValuesFinder" /> -->
 			</control>
 			<summary>On Campus </summary>
 			<description>On Campus </description>
