@@ -42,8 +42,7 @@
 							</td>
 			                <td align="center" valign="middle">
 			                	<div align="center">
-			                	<html:checkbox property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint"/>
-			                	<!--   <kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />-->
+			                	<html:checkbox property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" disabled="${!KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}"/>			                	
 			                	</div>
 			                </td>			                
 			            </tr>    	
