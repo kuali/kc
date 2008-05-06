@@ -515,12 +515,11 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
         List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
         List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
-        boolean modularNotNull = false;
+        List<BudgetModularIdc> budgetModularIdcs = new ArrayList<BudgetModularIdc>();
         
         for (BudgetPeriod budgetPeriod: getBudgetPeriods()) {
             if (ObjectUtils.isNotNull(budgetPeriod.getBudgetModular())) {
-                managedLists.add(budgetPeriod.getBudgetModular().getBudgetModularIdcs());
-                modularNotNull = true;
+                budgetModularIdcs.addAll(budgetPeriod.getBudgetModular().getBudgetModularIdcs());
             }
             List<BudgetLineItem> tempLIs = budgetPeriod.getBudgetLineItems();
             budgetLineItems.addAll(tempLIs);
@@ -534,11 +533,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
             }
         }
         
-        /* Code below is added to get rid of size mismatch error */
-        if(!modularNotNull) {
-            managedLists.add(new ArrayList<BudgetModularIdc>()); // otherwise it complains
-        }
-        
+        managedLists.add(budgetModularIdcs);
         managedLists.add(budgetLineItems);
 //        managedLists.add(budgetLineItemCalculatedAmounts);
         managedLists.add(budgetPersonnelDetailsList);
