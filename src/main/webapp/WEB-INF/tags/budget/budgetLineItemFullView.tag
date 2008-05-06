@@ -29,7 +29,7 @@
 <jsp:useBean id="parameterMap" class="java.util.HashMap" scope="request" />
 <c:set target="${parameterMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCode}" />
           		
-       			<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Line Item Details${budgetLineItemNumber}" >
+       			<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Line Item Details" useCurrentTabIndexAsKey="true">
        				<div>
        				<table cellpadding=0 cellspacing=0 summary="">
 			        	<tr>
@@ -77,7 +77,7 @@
 			          		</c:forEach>          		
 			          		<tr>
 			          			<td colspan="5">
-											<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Justification${budgetLineItemNumber}" >
+											<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Justification" useCurrentTabIndexAsKey="true">
 												<c:set var="textAreaFieldNameJustification" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetJustification" />
 												<table cellpadding=0 cellspacing=0 summary="">
 													<tr>											
