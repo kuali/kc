@@ -21,7 +21,7 @@
 			<th width="150"><div align="center">
 			Select to Print:
 			<br/>
-			<html:link href="#" onclick="javascript: selectAllGGForms(document);return false">All Included</html:link>
+			(<html:link href="#" onclick="javascript: selectAllGGForms(document);return false">All Included</html:link>
 			|
 			<html:link href="#" onclick="javascript: unselectAllGGForms(document);return false">None</html:link>)
 			</div></th>
@@ -51,24 +51,21 @@
 	                </td>
 	                </div> 
 	                <td align="center" valign="middle">
-	                	<div align="center">
-	                	<c:set var="isAvailable" value="${KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}" />	                	
+	                	<div align="center">	                		                	
 	                	<c:choose>
-		                	<c:when test="${isAvailable}">		                			                	
-		                		<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].available" attributeEntry="${s2sFormAttributes.available}"/>
+		                	<c:when test="${KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}">
 		                		<c:out value="Available"/>
 		                	</c:when>
 		                	<c:otherwise>
-								<c:out value="Not Available"/>
-								<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].available" attributeEntry="${s2sFormAttributes.available}"/>		                			                		
+								<c:out value="Not Available"/>										                			                		
  		                	</c:otherwise>
 	                	</c:choose>
+	                			<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].available" attributeEntry="${s2sFormAttributes.available}"/>
 	                	</div>
 	                </td>
 	                <td align="center" valign="middle">
 	                	<div align="center">
-	                	<html:checkbox property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint"/>
-	                	<!--   <kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />-->
+	                	<html:checkbox property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" disabled="${!KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}"/>	                	
 	                	</div>
 	                </td>
 	                
