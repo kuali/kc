@@ -14,8 +14,8 @@ http://www.opensource.org/licenses/ecl1.php
 	limitations under the License.
 	--%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%-- Proposal Actions Page - Submit To Grants.gov Button - Commented Temporarily
- <c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/> --%>
+<%-- Proposal Actions Page - Submit To Grants.gov Button - Commented Temporarily--%>
+ <c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/> 
 
 <kul:documentPage
 showDocumentInfo="true"

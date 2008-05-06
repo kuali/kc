@@ -3,7 +3,7 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="s2sFormAttributes" value="${DataDictionary.S2sOppForms.attributes}" />
 <c:set var="textAreaFieldName" value="document.programAnnouncementTitle" />
-<c:set var="action" value="proposalDevelopmentProposal" />
+<c:set var="action" value="proposalDevelopmentGrantsGov" />
 
           	<tr>
 				<td>
@@ -77,7 +77,7 @@
     			<tr>
     				<td colspan="5">
     					<div align="right">
-    						<html:image src="/kra-dev/kr/static/images/tinybutton-printsel.gif"  styleClass="globalbuttons" property="methodToCall.printForms" alt="Print Selected Forms"/>
+    						<html:image src="/kra-dev/kr/static/images/tinybutton-printsel.gif" styleClass="globalbuttons" property="methodToCall.printForms" alt="Print Selected Forms"/>
     						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     					</div>
     				</td>
