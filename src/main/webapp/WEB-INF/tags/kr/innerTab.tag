@@ -21,12 +21,21 @@
 <%@ attribute name="tabErrorKey" required="false" %>
 <%@ attribute name="auditCluster" required="false" %>
 <%@ attribute name="tabAuditKey" required="false" %>
+<%@ attribute name="useCurrentTabIndexAsKey" required="false" %>
 
 
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
 
-<c:set var="tabKey" value="${kfunc:generateTabKey(parentTab)}:${kfunc:generateTabKey(tabTitle)}" scope="request"/>
+<c:choose>
+    <c:when test="${(useCurrentTabIndexAsKey)}">
+        <c:set var="tabKey" value="${currentTabIndex}" scope="request"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="tabKey" value="${kfunc:generateTabKey(parentTab)}:${kfunc:generateTabKey(tabTitle)}" scope="request"/>
+    </c:otherwise>
+</c:choose>
+
 <!--  hit form method to increment tab index -->
 <c:set var="doINeedThis" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 
