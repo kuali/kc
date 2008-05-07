@@ -54,7 +54,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void calculateBudget(BudgetDocument budgetDocument){
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            if(isCalculationRequired(budgetPeriod)){
+            if(isCalculationRequired(budgetDocument,budgetPeriod)){
                 calculateBudgetPeriod(budgetDocument, budgetPeriod);
             }
 //            List<BudgetLineItem> cvLineItemDetails = budgetPeriod.getBudgetLineItems();
@@ -73,9 +73,9 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             syncCostsToBudgetDocument(budgetDocument);
         }
     }
-    private boolean isCalculationRequired(BudgetPeriod budgetPeriod){
+    private boolean isCalculationRequired(BudgetDocument budgetDocument,BudgetPeriod budgetPeriod){
         List<BudgetLineItem> lineItemDetails = budgetPeriod.getBudgetLineItems();
-        if(lineItemDetails.isEmpty() ){
+        if(lineItemDetails.isEmpty() && !budgetDocument.isBudgetLineItemDeleted()){
             Map fieldValues = new HashMap();
             fieldValues.put("proposalNumber", budgetPeriod.getProposalNumber());
             fieldValues.put("budgetVersionNumber", budgetPeriod.getBudgetVersionNumber());
@@ -142,7 +142,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     public void calculateBudgetPeriod(BudgetDocument budgetDocument, BudgetPeriod budgetPeriod){
-        if(isCalculationRequired(budgetPeriod)){
+        if(isCalculationRequired(budgetDocument,budgetPeriod)){
             new BudgetPeriodCalculator().calculate(budgetDocument, budgetPeriod);
         }
     }
@@ -161,7 +161,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
 //            if(budgetLineItems.isEmpty()){
-            if(isCalculationRequired(budgetPeriod)){
+            if(isCalculationRequired(budgetDocument,budgetPeriod)){
                 QueryList<BudgetLineItem> qlBudgetLineItems = new QueryList<BudgetLineItem>(budgetLineItems);
                 BudgetDecimal directCost = qlBudgetLineItems.sumObjects("directCost");
                 BudgetDecimal indirectCost = qlBudgetLineItems.sumObjects("indirectCost");

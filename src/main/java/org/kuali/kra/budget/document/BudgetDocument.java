@@ -119,6 +119,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     
     private String activityTypeCode="1";
     
+    private boolean BudgetLineItemDeleted = false;
+    
     /*
      * This field will soon be removed as it duplicated the BudgetLineItems on BudgetPeriod 
      */
@@ -1328,6 +1330,22 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
 
     public void setOnOffCampusFlag(String onOffCampusFlag) {
         this.onOffCampusFlag = onOffCampusFlag;
+    }
+
+    /**
+     * Gets the budgetLineItemDeleted attribute. 
+     * @return Returns the budgetLineItemDeleted.
+     */
+    public boolean isBudgetLineItemDeleted() {
+        return BudgetLineItemDeleted;
+    }
+
+    /**
+     * Sets the budgetLineItemDeleted attribute value.
+     * @param budgetLineItemDeleted The budgetLineItemDeleted to set.
+     */
+    public void setBudgetLineItemDeleted(boolean budgetLineItemDeleted) {
+        BudgetLineItemDeleted = budgetLineItemDeleted;
     }
 }
 
