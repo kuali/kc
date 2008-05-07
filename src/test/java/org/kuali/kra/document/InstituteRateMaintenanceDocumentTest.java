@@ -21,25 +21,28 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
+import org.kuali.rice.test.SQLDataLoader;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@PerTestUnitTestData(
-        @UnitTestData(
-                sqlStatements = {
-                        @UnitTestSql("delete from institute_rates where RATE_CLASS_CODE = '4' and RATE_TYPE_CODE = '2' and ACTIVITY_TYPE_CODE = '1' and FISCAL_YEAR = '2012' and start_date = to_date ('12/31/2011','MM/DD?YYYY')"),
-                        @UnitTestSql("update institute_rates set rate = 10.0 where RATE_CLASS_CODE = '4' and RATE_TYPE_CODE = '2' and ACTIVITY_TYPE_CODE = '1' and FISCAL_YEAR = '1980' and start_date = to_date ('07/01/1979','MM/DD?YYYY') and on_off_campus_flag = 'F'")
-
-                }
-        )
-    )
 
 public class InstituteRateMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "InstituteRateMaintenanceDocument";
+    @Override
+    public void tearDown() throws Exception {
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from institute_rates where RATE_CLASS_CODE = '4' and RATE_TYPE_CODE = '2' and ACTIVITY_TYPE_CODE = '1' and FISCAL_YEAR = '2012' and start_date = to_date ('12/31/2011','MM/DD?YYYY')");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("update institute_rates set rate = 10.0 where RATE_CLASS_CODE = '4' and RATE_TYPE_CODE = '2' and ACTIVITY_TYPE_CODE = '1' and FISCAL_YEAR = '1980' and start_date = to_date ('07/01/1979','MM/DD?YYYY') and on_off_campus_flag = 'F'");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("commit");
+        sqlDataLoader.runSql();
+
+        super.tearDown();
+    }
 
     @Test
     public void testDocumentCreation() throws Exception {
