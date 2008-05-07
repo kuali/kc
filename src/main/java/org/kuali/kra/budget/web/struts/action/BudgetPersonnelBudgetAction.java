@@ -132,7 +132,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         BudgetLineItem selectedBudgetLineItem = budgetForm.getSelectedBudgetLineItem();
         BudgetPersonnelDetails budgetPersonnelDetails = selectedBudgetLineItem.getBudgetPersonnelDetailsList().get(getLineToDelete(request));        
         BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
-        budgetPersonnelBudgetService.calculateBudgetPersonnelBudget(budgetForm.getBudgetDocument(),selectedBudgetLineItem,budgetPersonnelDetails);
+        budgetPersonnelBudgetService.calculateBudgetPersonnelBudget(budgetForm.getBudgetDocument(),selectedBudgetLineItem,budgetPersonnelDetails, getLineToDelete(request));
 //        BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
 //        budgetCalculationService.calculateBudgetLineItem(budgetForm.getBudgetDocument(), budgetPersonnelDetails);
         return mapping.findForward(Constants.MAPPING_BASIC);
