@@ -21,23 +21,28 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.bo.CostElement;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
+import org.kuali.rice.test.SQLDataLoader;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@PerTestUnitTestData(@UnitTestData(sqlStatements = {
-        @UnitTestSql("delete from cost_element where cost_element = '999'"),
-        @UnitTestSql("update cost_element set description = 'Raw Materials' where cost_element = '420310'")
-
-    }
-  )
-)
 
 public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "CostElementMaintenanceDocument";
+    @Override
+    public void tearDown() throws Exception {
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from cost_element where cost_element = '999'");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("update cost_element set description = 'Raw Materials' where cost_element = '420310'");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("commit");
+        sqlDataLoader.runSql();
+
+        super.tearDown();
+    }
 
     @Test
     public void testDocumentCreation() throws Exception {

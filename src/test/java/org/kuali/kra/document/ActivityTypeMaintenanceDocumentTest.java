@@ -21,23 +21,28 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+import org.kuali.rice.test.SQLDataLoader;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@PerTestUnitTestData(
-        @UnitTestData(
-                sqlStatements = {
-                        @UnitTestSql("delete from ACTIVITY_TYPE where ACTIVITY_TYPE_CODE = '99'"),
-                        @UnitTestSql("update ACTIVITY_TYPE set description = 'Research' where ACTIVITY_TYPE_CODE = '1'")
-
-                }
-        )
-    )
 
 public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
+
+    @Override
+    public void tearDown() throws Exception {
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from ACTIVITY_TYPE where ACTIVITY_TYPE_CODE = '99'");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("update ACTIVITY_TYPE set description = 'Research' where ACTIVITY_TYPE_CODE = '1'");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("commit");
+        sqlDataLoader.runSql();
+
+        super.tearDown();
+    }
+
 
     private static final String DOCTYPE = "ActivityTypeMaintenanceDocument";
 
@@ -122,7 +127,7 @@ public class ActivityTypeMaintenanceDocumentTest extends MaintenanceDocumentTest
         ActivityType activityType = (ActivityType)document.getNewMaintainableObject().getBusinessObject();
         assertEquals(activityType.getActivityTypeCode(),"99");
         assertEquals(activityType.getDescription(),"test new activity type");
-        
+
     }
 
 
