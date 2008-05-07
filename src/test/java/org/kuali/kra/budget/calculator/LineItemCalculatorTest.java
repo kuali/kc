@@ -247,7 +247,7 @@ public class LineItemCalculatorTest extends KraTestBase {
         bli.getBudgetPersonnelDetailsList().add(bpli);
         bcs.calculateBudgetLineItem(bd,bpli);
         try{
-            assertEquals("Salary requested is not correct : ",new BudgetDecimal(1000.00), bpli.getSalaryRequested());
+            assertEquals("Salary requested is not correct : ",new BudgetDecimal(2000.00), bpli.getSalaryRequested());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
@@ -255,11 +255,11 @@ public class LineItemCalculatorTest extends KraTestBase {
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-            assertEquals("Costshare amount is not correct",new BudgetDecimal(3828.30), bpli.getCostSharingAmount());
+            assertEquals("Costshare amount is not correct",new BudgetDecimal(2000.00), bpli.getCostSharingAmount());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(2187.00), bpli.getDirectCost());
+            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(3187.00), bpli.getDirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
@@ -279,7 +279,7 @@ public class LineItemCalculatorTest extends KraTestBase {
 
         bcs.calculateBudgetLineItem(bd,bpli1);
         try{
-            assertEquals("Salary requested is not correct",new BudgetDecimal(1000.00), bpli1.getSalaryRequested());
+            assertEquals("Salary requested is not correct",new BudgetDecimal(2000.00), bpli1.getSalaryRequested());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
@@ -291,7 +291,7 @@ public class LineItemCalculatorTest extends KraTestBase {
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(2187.00), bpli1.getDirectCost());
+            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(3187.00), bpli1.getDirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
@@ -368,12 +368,12 @@ public class LineItemCalculatorTest extends KraTestBase {
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudgetLineItem(bd,bli);
         try{
-        assertEquals(new BudgetDecimal(2000.00), bpli.getSalaryRequested());
+        assertEquals(new BudgetDecimal(4000.00), bpli.getSalaryRequested());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
         try{
-        assertEquals(new BudgetDecimal(1000.00), bpli1.getSalaryRequested());
+        assertEquals(new BudgetDecimal(2000.00), bpli1.getSalaryRequested());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
