@@ -21,25 +21,28 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
+import org.kuali.rice.test.SQLDataLoader;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@PerTestUnitTestData(
-        @UnitTestData(
-                sqlStatements = {
-                        @UnitTestSql("delete from RATE_CLASS_TYPE where RATE_CLASS_TYPE = 'A'"),
-                        @UnitTestSql("update RATE_CLASS_TYPE set description = 'OTHER' where RATE_CLASS_TYPE = 'X'")
-
-                }
-        )
-    )
 
 public class RateClassTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "RateClassTypeMaintenanceDocument";
+    @Override
+    public void tearDown() throws Exception {
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from RATE_CLASS_TYPE where RATE_CLASS_TYPE = 'A'");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("update RATE_CLASS_TYPE set description = 'OTHER' where RATE_CLASS_TYPE = 'X'");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("commit");
+        sqlDataLoader.runSql();
+
+        super.tearDown();
+    }
 
     @Test
     public void testDocumentCreation() throws Exception {

@@ -21,25 +21,28 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
+import org.kuali.rice.test.SQLDataLoader;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@PerTestUnitTestData(
-        @UnitTestData(
-                sqlStatements = {
-                        @UnitTestSql("delete from RATE_CLASS where RATE_CLASS_CODE = '99'"),
-                        @UnitTestSql("update RATE_CLASS set description = 'Lab Allocation - Salaries' where RATE_CLASS_TYPE = 'Y' and RATE_CLASS_CODE='10'")
-
-                }
-        )
-    )
 
 public class RateClassMaintenanceDocumentTest  extends MaintenanceDocumentTestBase {
 
         private static final String DOCTYPE = "RateClassMaintenanceDocument";
+        @Override
+        public void tearDown() throws Exception {
+            SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from RATE_CLASS where RATE_CLASS_CODE = '99'");
+            sqlDataLoader.runSql();
+            sqlDataLoader = new SQLDataLoader("update RATE_CLASS set description = 'Lab Allocation - Salaries' where RATE_CLASS_TYPE = 'Y' and RATE_CLASS_CODE='10'");
+            sqlDataLoader.runSql();
+            sqlDataLoader = new SQLDataLoader("commit");
+            sqlDataLoader.runSql();
+
+            super.tearDown();
+        }
 
         @Test
         public void testDocumentCreation() throws Exception {
