@@ -21,23 +21,26 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.bo.ValidCeRateType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
+import org.kuali.rice.test.SQLDataLoader;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@PerTestUnitTestData(
-        @UnitTestData(
-                sqlStatements = {
-                        @UnitTestSql("delete from valid_ce_RATE_TYPEs where cost_element= '421925' and RATE_TYPE_CODE = '4' and RATE_CLASS_CODE='5'")
-                }
-        )
-    )
 
 public class ValidCeRateTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "ValidCeRateTypeMaintenanceDocument";
+    @Override
+    public void tearDown() throws Exception {
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from valid_ce_RATE_TYPEs where cost_element= '421925' and RATE_TYPE_CODE = '4' and RATE_CLASS_CODE='5'");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("commit");
+        sqlDataLoader.runSql();
+
+        super.tearDown();
+    }
 
     @Test
     public void testDocumentCreation() throws Exception {

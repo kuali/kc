@@ -21,25 +21,28 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.bo.BudgetCategoryMap;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
+import org.kuali.rice.test.SQLDataLoader;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestSql;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-@PerTestUnitTestData(
-        @UnitTestData(
-                sqlStatements = {
-                        @UnitTestSql("delete from budget_category_maps where mapping_name='S2STEST' and target_category_CODE = '99'"),
-                        @UnitTestSql("update budget_category_maps set description = 'Computer Services' where mapping_name='S2S' and target_category_CODE = '82'")
-
-                }
-        )
-    )
 
 public class BudgetCategoryMapMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "BudgetCategoryMapMaintenanceDocument";
+    @Override
+    public void tearDown() throws Exception {
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from budget_category_maps where mapping_name='S2STEST' and target_category_CODE = '99'");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("update budget_category_maps set description = 'Computer Services' where mapping_name='S2S' and target_category_CODE = '82'");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("commit");
+        sqlDataLoader.runSql();
+
+        super.tearDown();
+    }
 
     @Test
     public void testDocumentCreation() throws Exception {
