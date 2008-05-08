@@ -118,6 +118,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
     
     private String activityTypeCode="1";
+    private boolean BudgetLineItemDeleted = false;
     private List<BudgetLineItem> budgetLineItems;
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
     private List<BudgetPerson> budgetPersons;
@@ -1315,6 +1316,23 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     public void setOnOffCampusFlag(String onOffCampusFlag) {
         this.onOffCampusFlag = onOffCampusFlag;
     }
+    
+    /**
+    * Gets the budgetLineItemDeleted attribute. 
+    * @return Returns the budgetLineItemDeleted.
+    */
+    public boolean isBudgetLineItemDeleted() {
+        return BudgetLineItemDeleted;
+    }
+    
+    /**
+    * Sets the budgetLineItemDeleted attribute value.
+    * @param budgetLineItemDeleted The budgetLineItemDeleted to set.
+    */
+    public void setBudgetLineItemDeleted(boolean budgetLineItemDeleted) {
+        BudgetLineItemDeleted = budgetLineItemDeleted;
+    }
+    
 }
 
 class RateClassTypeComparator implements Comparator<RateClassType> {
