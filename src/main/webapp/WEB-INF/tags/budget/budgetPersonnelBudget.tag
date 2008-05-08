@@ -39,13 +39,13 @@
     	</tr>
     	<tr>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.startDate}" noColon="false" /></div></th>
-    		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].startDate}"/></div></td>
+    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${selectedBudgetPeriod}].startDate" attributeEntry="${budgetLineItemAttributes.startDate}" datePicker="true" readOnly="true"/></div></td>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.underrecoveryAmount}" noColon="false" /></div></th>
     		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].underrecoveryAmount}"/></div></td>
     	</tr>
     	<tr>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.endDate}" noColon="false" /></div></th>
-    		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].endDate}"/></div></td>
+    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${selectedBudgetPeriod}].endDate" attributeEntry="${budgetLineItemAttributes.endDate}" datePicker="true" readOnly="true"/></div></td>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.costSharingAmount}" noColon="false" /></div></th>
     		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].costSharingAmount}"/></div></td>
     	</tr>
@@ -57,7 +57,7 @@
     	</tr>
     </table>
     </kul:tabTop>
-	<kul:tab tabTitle="Personnel Budget" defaultOpen="true" tabErrorKey="budget.personnelBudget*">
+	<kul:tab tabTitle="Personnel Budget" defaultOpen="true" tabErrorKey="document.budgetPeriod*,budget.personnelBudget*">
 		<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Personnel Budget</h2></span>
