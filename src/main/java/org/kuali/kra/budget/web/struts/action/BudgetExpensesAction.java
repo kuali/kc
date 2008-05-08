@@ -131,6 +131,7 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
         budgetForm.getBudgetDocument().getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItems().remove(getLineToDelete(request));
+        budgetDocument.setBudgetLineItemDeleted(true);
         budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(true);
         return mapping.findForward("basic");
     }
@@ -252,7 +253,9 @@ public class BudgetExpensesAction extends BudgetAction {
         for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
             budgetCalculationService.calculateBudgetPeriod(budgetDocument, budgetPeriod);
         }
-        return super.save(mapping, form, request, response);
+        ActionForward actionForward = super.save(mapping, form, request, response);
+        budgetDocument.setBudgetLineItemDeleted(false);
+        return actionForward;
     }
     
     /**
