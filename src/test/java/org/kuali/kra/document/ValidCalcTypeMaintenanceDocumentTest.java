@@ -21,6 +21,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.kra.budget.bo.ValidCalcType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.MaintenanceDocumentTestBase;
+import org.kuali.rice.test.SQLDataLoader;
 import org.kuali.rice.test.data.PerTestUnitTestData;
 import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestSql;
@@ -28,14 +29,20 @@ import org.kuali.rice.test.data.UnitTestSql;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-@PerTestUnitTestData(@UnitTestData(sqlStatements = {
-        @UnitTestSql("delete from valid_calc_types where CALC_TYPE_ID = 99 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1"),
-        @UnitTestSql("update valid_calc_types set DEPENDENT_RATE_CLASS_TYPE = 'Y' where CALC_TYPE_ID = 1 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1")
-
-}))
 public class ValidCalcTypeMaintenanceDocumentTest extends MaintenanceDocumentTestBase {
 
     private static final String DOCTYPE = "ValidCalcTypeMaintenanceDocument";
+    @Override
+    public void tearDown() throws Exception {
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("delete from valid_calc_types where CALC_TYPE_ID = 99 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("update valid_calc_types set DEPENDENT_RATE_CLASS_TYPE = 'Y' where CALC_TYPE_ID = 1 and RATE_CLASS_TYPE='E' and DEPENDENT_SEQ_NUMBER=1");
+        sqlDataLoader.runSql();
+        sqlDataLoader = new SQLDataLoader("commit");
+        sqlDataLoader.runSql();
+
+        super.tearDown();
+    }
 
     @Test
     public void testDocumentCreation() throws Exception {

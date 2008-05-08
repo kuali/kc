@@ -161,5 +161,7 @@ public class KeyConstants {
      
     public static final String ERROR_LEAD_UNIT_REQUIRED = "error.leadUnit.required";
     public static final String ERROR_RATE_TYPE_NOT_EXIST = "error.rateType.not.exist";
+    
+    public static final String ERROR_EFFECTIVE_DATE_OUT_OF_RANGE = "error.effective.date.out.of.range";
 
 }
