@@ -17,6 +17,7 @@
 
 <%@ attribute name="budgetProposalRate" description="Budget proposal and la rates" required="true" %>
 <%@ attribute name="rateClassType" description="rate class type code" required="true" %>
+<%@ attribute name="styleClass" description="style class to validate applicable rate " required="true" %>
 <c:set var="budgetProposalRatesAttributes" value="${DataDictionary.BudgetProposalRate.attributes}" />
 <c:set var="action" value="budgetRates" />
 				  <bean:define id="irateClassType" name="KualiForm" property="${budgetProposalRate}.rateClass.rateClassType"/>
@@ -69,7 +70,7 @@
                     <td width="10%" class="${tdClass}">
                     	<div align=center>
                     	<span class="copy">
-                			<kul:htmlControlAttribute property="${budgetProposalRate}.applicableRate" attributeEntry="${budgetProposalRatesAttributes.applicableRate}" />
+                			<kul:htmlControlAttribute property="${budgetProposalRate}.exactApplicableRate" attributeEntry="${budgetProposalRatesAttributes.applicableRate}" styleClass="${styleClass}"/>
                       	</span>
                       	</div>
                     </td>

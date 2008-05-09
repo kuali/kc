@@ -28,9 +28,12 @@ import org.kuali.core.util.AuditError;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetProposalLaRate;
+import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.rule.AddBudgetCostShareRule;
 import org.kuali.kra.budget.rule.AddBudgetPeriodRule;
@@ -44,6 +47,7 @@ import org.kuali.kra.budget.rule.event.AddBudgetProjectIncomeEvent;
 import org.kuali.kra.budget.rule.event.DeleteBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.GenerateBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.SaveBudgetPeriodEvent;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
@@ -108,11 +112,110 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         
         valid &= processBudgetExpenseBusinessRules(budgetDocument);
         
+        valid &= processBudgetRatesBusinessRule(budgetDocument);
+
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
+        
         
         return valid;
     }
+
     
+    /**
+    *
+    * Validate budget rates. 
+    * Applicable rates are mandatory
+    * @param budgetDocument
+    * @return
+    */
+    protected boolean processBudgetRatesBusinessRule(BudgetDocument budgetDocument) {
+        boolean valid = true;
+        final int APPLICABLE_RATE_LENGTH_EXCEEDED = 1;
+        final int APPLICABLE_RATE_NEGATIVE = -1;
+
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        int i = 0;
+        for (BudgetProposalRate budgetProposalRate : budgetDocument.getBudgetProposalRates()) {
+            String rateClassType = budgetProposalRate.getRateClass().getRateClassTypeT().getDescription();
+            String errorPath = "budgetProposalRate[" + rateClassType + "][" + i + "]";
+            errorMap.addToErrorPath(errorPath);
+            /* look for applicable rate */
+            if(budgetProposalRate.isApplicableRateNull()) {
+                valid = false;
+                errorMap.putError("applicableRate", KeyConstants.ERROR_REQUIRED_APPLICABLE_RATE);
+            }else if(!BudgetDecimal.isNumeric(budgetProposalRate.getApplicableRate().toString())) {
+                valid = false;
+                errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NOT_NUMERIC);
+            }else {
+                String[] errorParameter = {""+Constants.APPLICABLE_RATE_PRECISION, ""+Constants.APPLICABLE_RATE_SCALE};
+                switch(verifyApplicableRate(budgetProposalRate.getApplicableRate().toString())) {
+                    case APPLICABLE_RATE_LENGTH_EXCEEDED :
+                        valid = false;
+                        errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_LENGTH, errorParameter);
+                        break;
+                    case APPLICABLE_RATE_NEGATIVE :
+                        valid = false;
+                        errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NEGATIVE);
+                        break;
+                        
+                }
+            }
+            errorMap.removeFromErrorPath(errorPath);
+            i++;
+        }
+
+        i = 0;
+        for (BudgetProposalLaRate budgetProposalLaRate : budgetDocument.getBudgetProposalLaRates()) {
+            String rateClassType = budgetProposalLaRate.getRateClass().getRateClassTypeT().getDescription();
+            String errorPath = "budgetProposalRate[" + rateClassType + "][" + i + "]";
+            errorMap.addToErrorPath(errorPath);
+            /* look for applicable rate */
+            if(budgetProposalLaRate.isApplicableRateNull()) {
+                valid = false;
+                errorMap.putError("applicableRate", KeyConstants.ERROR_REQUIRED_APPLICABLE_RATE);
+            }else if(!BudgetDecimal.isNumeric(budgetProposalLaRate.getApplicableRate().toString())) {
+                valid = false;
+                errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NOT_NUMERIC);
+            }else {
+                String[] errorParameter = {""+Constants.APPLICABLE_RATE_PRECISION, ""+Constants.APPLICABLE_RATE_SCALE};
+                switch(verifyApplicableRate(budgetProposalLaRate.getApplicableRate().toString())) {
+                    case APPLICABLE_RATE_LENGTH_EXCEEDED :
+                        valid = false;
+                        errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_LENGTH, errorParameter);
+                        break;
+                    case APPLICABLE_RATE_NEGATIVE :
+                        valid = false;
+                        errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NEGATIVE);
+                        break;
+                        
+                }
+            }
+            errorMap.removeFromErrorPath(errorPath);
+            i++;
+        }
+
+        return valid;
+    }
+
+    /**
+     * This method checks for a valid applicable rate
+     * 
+     * @param applicableRate
+     * @return
+     */
+    private int verifyApplicableRate(String applicableRate) {
+        int decimalIndex = applicableRate.indexOf(Constants.APPLICABLE_RATE_DECIMAL_CHAR);
+        int rateValue = 0;
+        String precision = applicableRate.substring(0, decimalIndex);
+        String scale = applicableRate.substring(decimalIndex+1, applicableRate.length());
+        
+        if(precision.length() > Constants.APPLICABLE_RATE_PRECISION || scale.length() > Constants.APPLICABLE_RATE_SCALE) {
+            rateValue = 1;
+        }else if(Integer.parseInt(precision) < 0) {
+            rateValue = -1;
+        }
+        return rateValue;
+    }
     /**
      * This method checks business rules related to Budget Personnel functionality
      * 

@@ -52,10 +52,18 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate {
 		return BudgetDecimal.returnZeroIfNull(applicableRate);
 	}
 
+    public BudgetDecimal getExactApplicableRate() {
+        return applicableRate;
+    }
+
     public boolean isApplicableRateNull() {
         return applicableRate == null;
     }
 
+    public void setExactApplicableRate(BudgetDecimal applicableRate) {
+        setApplicableRate(applicableRate);
+    }
+    
     public void setApplicableRate(BudgetDecimal applicableRate) {
         setOldApplicableRate(this.applicableRate);
         this.applicableRate = applicableRate;
