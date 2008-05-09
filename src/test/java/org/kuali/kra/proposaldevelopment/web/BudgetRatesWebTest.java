@@ -50,8 +50,8 @@ public class BudgetRatesWebTest extends ProposalDevelopmentWebTestBase{
     private static final String ON_CAMPUS_TEXT = "Yes";
     private static final String OFF_CAMPUS_TEXT = "No";
     private static final String VIEW_LOCATION = "viewLocation";
-    private static final String APPLICABLE_RATE_FIELD_0 = "document.budgetProposalRates[0].applicableRate";
-    private static final String APPLICABLE_RATE_FIELD_23 = "document.budgetProposalRates[23].applicableRate";
+    private static final String APPLICABLE_RATE_FIELD_0 = "document.budgetProposalRates[0].exactApplicableRate";
+    private static final String APPLICABLE_RATE_FIELD_23 = "document.budgetProposalRates[23].exactApplicableRate";
 
     @Test
     public void testSaveBudgetRates() throws Exception {
