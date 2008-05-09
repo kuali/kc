@@ -85,33 +85,21 @@ public class KraUniversalUserDaoImpl extends PlatformAwareDaoBaseOjb implements 
     public UniversalUser getUser(UserId userId) throws UserNotFoundException {
         
         UniversalUser user = null;
-        
         String username = userId.toString();
-        if (StringUtils.equals(username, "KULUSER")) {
-            user = new UniversalUser();
-            user.setPersonUserIdentifier(username);
-            user.setPersonPayrollIdentifier(username);
-            user.setPersonUniversalIdentifier(username);
-            user.setPersonEmailAddress("KULUSER@indiana.edu");
-            user.setPersonName(username);
-            user.setPersonFirstName(username);
-            user.setPersonLastName(username);
-            user.setFinancialSystemsEncryptedPasswordText("");
-        } else {
-            Person person = personService.getPersonByName(username);
-            if (person == null) {
-                throw new UserNotFoundException();
-            }
-            user = new UniversalUser();
-            user.setPersonUserIdentifier(username);
-            user.setPersonPayrollIdentifier(username);
-            user.setPersonUniversalIdentifier(username);
-            user.setPersonEmailAddress(person.getEmailAddress());
-            user.setPersonName(person.getFullName());
-            user.setPersonFirstName(person.getFirstName());
-            user.setPersonLastName(person.getLastName());
-            user.setFinancialSystemsEncryptedPasswordText(person.getPassword());
+        
+        Person person = personService.getPersonByName(username);
+        if (person == null) {
+            throw new UserNotFoundException();
         }
+        user = new UniversalUser();
+        user.setPersonUserIdentifier(username);
+        user.setPersonPayrollIdentifier(username);
+        user.setPersonUniversalIdentifier(username);
+        user.setPersonEmailAddress(person.getEmailAddress());
+        user.setPersonName(person.getFullName());
+        user.setPersonFirstName(person.getFirstName());
+        user.setPersonLastName(person.getLastName());
+        user.setFinancialSystemsEncryptedPasswordText(person.getPassword());
         return user;
     }
 
@@ -123,23 +111,12 @@ public class KraUniversalUserDaoImpl extends PlatformAwareDaoBaseOjb implements 
         
         WorkflowUser workflowUser = null;
         String username = userId.getId();
-        if (StringUtils.equals(username, "KULUSER")) {
-            workflowUser = new BaseWorkflowUser();
-            workflowUser.setAuthenticationUserId(new AuthenticationUserId(username));
-            workflowUser.setWorkflowUserId(new WorkflowUserId(username));
-            workflowUser.setEmplId(new EmplId(username));
-            workflowUser.setUuId(new UuId(username));
-            workflowUser.setDisplayName("KULUSER");
-            workflowUser.setGivenName("KULUSER");
-            workflowUser.setLastName("KULUSER");
-            workflowUser.setEmailAddress("KULUSER@indiana.edu");
-        } else {
-            Person person = personService.getPersonByName(username);
-            if (person == null) {
-                throw new EdenUserNotFoundException();
-            }
-            workflowUser = createWorkflowUser(person);
+       
+        Person person = personService.getPersonByName(username);
+        if (person == null) {
+            throw new EdenUserNotFoundException();
         }
+        workflowUser = createWorkflowUser(person);
         return workflowUser;
     }
 

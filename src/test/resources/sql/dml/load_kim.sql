@@ -46,6 +46,7 @@ insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (4, 'aslusar', 'fK69AT
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (5, 'tdurkin', 'fK69ATFsAydwQuteang+xMva+Tc=');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (6, 'pcberg', 'fK69ATFsAydwQuteang+xMva+Tc=');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (7, 'jtester', 'fK69ATFsAydwQuteang+xMva+Tc=');
+insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (8, 'KULUSER', 'fK69ATFsAydwQuteang+xMva+Tc=');
 
 insert into KIM_ROLES_PERSONS_QUAL_T (ID, ROLE_ID, PERSON_ID) values (1, 1, 1);
 insert into KIM_PERSON_QUAL_ATTR_T (ID, ROLE_PERSON_ID, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) values (1, 1, 'kra.unitNumber', '000001');
