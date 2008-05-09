@@ -128,14 +128,10 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
     @Test
     public void testSimpleCopy() throws Exception {
         HtmlPage actionsPage = buildDocument();
-        
         ProposalDevelopmentDocument srcDoc = getProposalDevelopmentDocument(actionsPage);
-        
         setFieldValue(actionsPage, COPY_ATTACHMENTS_ID, "off");
         setFieldValue(actionsPage, COPY_LEAD_UNIT_ID, LEAD_UNIT_NBR_1);
-        
         ProposalDevelopmentDocument destDoc = copyDocument(actionsPage);
-       
         ProposalCopyCriteria criteria = new ProposalCopyCriteria();
         criteria.setIncludeAttachments(false);
         criteria.setLeadUnitNumber(LEAD_UNIT_NBR_1);
@@ -281,7 +277,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         if (StringUtils.equals(nbr1, nbr2)) {
             fail("Document numbers are the same: " + nbr1);
         }
-        
+ 
         // The must have the same document description.
         
         String desc1 = srcDoc.getDocumentHeader().getFinancialDocumentDescription();
@@ -289,17 +285,17 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         assertEquals("Descriptions are different", desc1, desc2);
         
         // They must have the same organization document number.
-        
+
         String org1 = srcDoc.getDocumentHeader().getOrganizationDocumentNumber();
         String org2 = srcDoc.getDocumentHeader().getOrganizationDocumentNumber();
         assertEquals("Organization document numbers are different", org1, org2);
         
         // Check the lead unit number.
-        
+
         assertEquals("Lead Unit", criteria.getLeadUnitNumber(), destDoc.getOwnedByUnitNumber());
         
         // Compare the document's properties.  They must be the same.
-        
+
         List<DocProperty> properties = getComparableProperties();
         for (DocProperty property : properties) {
             if (!compareKeyPersonnel && StringUtils.equals(property.getter.getName(), "getProposalPersons")) {
@@ -315,7 +311,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         if (criteria.getIncludeAttachments()) {
             
             // If the attachments are copied, they had better be the same.
-            
+
             if (!equals(srcDoc.getNarratives(), destDoc.getNarratives())) {
                 fail("Proposal Attachments are different");
             }
@@ -328,7 +324,6 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
                 fail("Personal Attachments are different");
             }
         } else {
-            
             // If the attachments are not copied, there must not be any.
             
             if (destDoc.getNarratives().size() != 0) {
@@ -467,7 +462,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
     private boolean compareKualiObjects(Object obj1, Object obj2) throws Exception {
         Class clazz = obj1.getClass();
         List<DocProperty> properties = getComparableProperties(clazz);
-        for (DocProperty property : properties) {           
+        for (DocProperty property : properties) {  
             Object value1 = property.getter.invoke(obj1);
             Object value2 = property.getter.invoke(obj2);
             if (!equals(value1, value2)) {
@@ -579,6 +574,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         String[] names = { "getUpdateTimestamp",
                            "getUpdateUser",
                            "getProposalNumber",
+                           "getModuleNumber",
                            "getVersionNumber",
                            "getBusinessObjectService",
                            "getDateTimeService",

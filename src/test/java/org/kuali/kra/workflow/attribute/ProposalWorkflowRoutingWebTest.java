@@ -118,7 +118,7 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) proposaldevform.getInputByName("document.documentHeader.documentNumber");
         HtmlPage KeyPersonnelpage = clickOnTab(proposaldevelopmentPage, KEY_PERSONNEL_LINK_NAME);
         assertTrue(KeyPersonnelpage.asText().contains("Document was successfully saved"));
-        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.Person");
+        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.Person", "personId", "000000001");
         assertEquals("Terry Durkin", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
         setFieldValue(KeyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "PI");
         KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.insertProposalPerson");
