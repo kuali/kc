@@ -152,13 +152,18 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>gg_forms_jaxb</artifactId>
-					<version>1.0</version>
+					<version>1.0.1</version>
 				</dependency>
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>1.0.1</version>
+					<version>1.0.2</version>
 				</dependency>
+				<dependency>
+					<groupId>org.kuali.kra.s2s</groupId>
+					<artifactId>propdev-schema-v2</artifactId>
+					<version>1.2</version>
+ 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>hyperjaxb</artifactId>
@@ -198,7 +203,27 @@
 					<groupId>soap</groupId>
 					<artifactId>soap</artifactId>
 					<version>1.1</version>
+ 				</dependency>
+ 				<dependency>
+					<groupId>jax-qname</groupId>
+					<artifactId>jax-qname</artifactId>
+					<version>1.1</version>
 				</dependency>
+				<dependency>
+ 					<groupId>jaxrpc</groupId>
+ 					<artifactId>jaxrpc</artifactId>
+ 					<version>1.1.3</version>
+ 				</dependency>
+ 				<dependency>
+					<groupId>namespace</groupId>
+					<artifactId>namespace</artifactId>
+					<version>1.0.1</version>
+				</dependency>
+				<dependency>
+ 					<groupId>relaxng</groupId>
+ 					<artifactId>relaxngDatatype</artifactId>
+ 					<version>0.0.1</version>
+ 				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
@@ -235,7 +260,7 @@
 							<includes>
 								<include>**/*Test.java</include>
 							</includes>
-							<excludes><exclude>**/S2SServiceTest.java</exclude></excludes>
+							<excludes><exclude></exclude></excludes>
 							<forkMode>once</forkMode>
 							<reportFormat>plain</reportFormat>
 							<argLine>-Xmx1024m -XX:MaxPermSize=512m</argLine>
@@ -298,12 +323,12 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>gg_forms_jaxb</artifactId>
-					<version>1.0</version>
+					<version>1.0.1</version>
 				</dependency>
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>1.0.1</version>
+					<version>1.0.2</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
@@ -345,6 +370,32 @@
 					<artifactId>soap</artifactId>
 					<version>1.1</version>
 				</dependency>
+				<dependency>
+					<groupId>org.kuali.kra.s2s</groupId>
+					<artifactId>propdev-schema-v2</artifactId>
+					<version>1.2</version>
+ 				</dependency>
+ 				<dependency>
+					<groupId>jax-qname</groupId>
+					<artifactId>jax-qname</artifactId>
+					<version>1.1</version>
+				</dependency>
+				<dependency>
+ 					<groupId>jaxrpc</groupId>
+ 					<artifactId>jaxrpc</artifactId>
+ 					<version>1.1.3</version>
+ 				</dependency>
+ 				<dependency>
+					<groupId>namespace</groupId>
+					<artifactId>namespace</artifactId>
+					<version>1.0.1</version>
+				</dependency>
+				<dependency>
+					<groupId>xsdlib</groupId>
+					<artifactId>xsdlib</artifactId>
+					<version>1.0</version>
+				</dependency>
+				
 			</dependencies>
 		</profile>
 	</profiles>
