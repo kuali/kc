@@ -23,6 +23,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -36,6 +38,10 @@ public class BudgetRatesAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        // Temporary fix to resolve budget form NULL issue
+        if(GlobalVariables.getKualiForm() == null) {
+            GlobalVariables.setKualiForm((KualiForm)form);
+        }
         /* calculate all periods */
         budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
         return super.save(mapping, form, request, response);

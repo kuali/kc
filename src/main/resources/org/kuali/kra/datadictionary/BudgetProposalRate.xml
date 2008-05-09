@@ -133,6 +133,17 @@
 			<description>On Off Campus Flag </description>
 			</attribute>
 
+			<attribute name="affectedBudgetPeriod">
+			<label>Affected Budget Period</label>
+			<shortLabel>Affected Budget Period</shortLabel>
+			<maxLength>1000</maxLength>
+				<control>
+				<text size="12" />
+				</control>
+			<summary>Affected Budget Period</summary>
+			<description>Affected Budget Period</description>
+			</attribute>
+
 			<attribute name="budgetPeriod">
 			<label>Budget Period</label>
 			<shortLabel>Budget Period</shortLabel>
@@ -217,7 +228,7 @@
 			<label>Applicable Rate </label>
 			<shortLabel>Applicable Rate </shortLabel>
 			<maxLength>7</maxLength>
-			<validationPattern><fixedPoint allowNegative="false" precision="5" scale="2"/></validationPattern>
+			<required>true</required>
 			<control>
 				<text size="5" />
 			</control>
@@ -229,7 +240,6 @@
 			<label>Institute Rate </label>
 			<shortLabel>Institute Rate </shortLabel>
 			<maxLength>7</maxLength>
-			<validationPattern><fixedPoint allowNegative="false" precision="5" scale="2"/></validationPattern>
 			<control>
 				<text size="5" />
 			</control>
