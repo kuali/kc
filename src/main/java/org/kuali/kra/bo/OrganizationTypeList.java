@@ -8,11 +8,9 @@ public class OrganizationTypeList extends KraPersistableBusinessObjectBase {
 
 	private Integer organizationTypeCode;
 	private String description;
-    private List<OrganizationType> organizationTypes;
 
 	public OrganizationTypeList(){
-		super();
-        organizationTypes = new ArrayList<OrganizationType>();        
+		super();  
 	}
 
 	public Integer getOrganizationTypeCode() {
@@ -39,21 +37,4 @@ public class OrganizationTypeList extends KraPersistableBusinessObjectBase {
 		hashMap.put("description", getDescription());
 		return hashMap;
 	}
-
-    public List<OrganizationType> getOrganizationTypes() {
-        return organizationTypes;
-    }
-
-    public void setOrganizationTypes(List<OrganizationType> organizationTypes) {
-        this.organizationTypes = organizationTypes;
-    }
-
-    public OrganizationType getOrganizationType(int index) {
-        while (getOrganizationTypes().size() <= index) {
-            getOrganizationTypes().add(new OrganizationType());
-        }
-        
-        return (OrganizationType)getOrganizationTypes().get(index);
-    }
-
 }
