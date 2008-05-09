@@ -165,4 +165,11 @@ public class KeyConstants {
     
     public static final String ERROR_EFFECTIVE_DATE_OUT_OF_RANGE = "error.effective.date.out.of.range";
 
+    // budget rates
+    public static final String ERROR_REQUIRED_APPLICABLE_RATE = "error.required.applicableRate";
+    public static final String ERROR_APPLICABLE_RATE_NOT_NUMERIC = "error.applicableRate.notNumeric";
+    public static final String ERROR_APPLICABLE_RATE_LENGTH = "error.applicableRate.length";
+    public static final String ERROR_APPLICABLE_RATE_NEGATIVE = "error.applicableRate.negative";
+    
+
 }
