@@ -206,4 +206,9 @@ public interface Constants {
     
     public static final String ON_OFF_CAMPUS_FLAG = "onOffCampusFlag";
 
+    // Budget Rates
+    public static final int APPLICABLE_RATE_PRECISION = 3;
+    public static final int APPLICABLE_RATE_SCALE = 2;
+    public static final String APPLICABLE_RATE_DECIMAL_CHAR = ".";
+
 }
