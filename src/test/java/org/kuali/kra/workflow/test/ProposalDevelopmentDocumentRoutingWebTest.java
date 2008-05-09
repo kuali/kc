@@ -152,7 +152,7 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         //Required for PD Submission
         HtmlPage keyPersonnelpage = clickOnTab(proposaldevelopmentPage, KEY_PERSONNEL_LINK_NAME);
         assertTrue(keyPersonnelpage.asText().contains("Document was successfully saved"));
-        keyPersonnelpage = lookup(keyPersonnelpage, "org.kuali.kra.bo.Person");
+        keyPersonnelpage = lookup(keyPersonnelpage, "org.kuali.kra.bo.Person", "personId", "000000001");
         assertEquals("Terry Durkin", getFieldValue(keyPersonnelpage, "newProposalPerson.fullName"));
         setFieldValue(keyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "PI");
         keyPersonnelpage = clickOn(keyPersonnelpage, "methodToCall.insertProposalPerson");

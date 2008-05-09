@@ -26,8 +26,8 @@ import static org.kuali.kra.logging.FormattedLogger.*;
 
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>
- *  @author $Author: gmcgrego $
- *  @version $Revision: 1.11.2.1 $
+ *  @author $Author: dbarre $
+ *  @version $Revision: 1.11.2.2 $
  */
 public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelWebTest.class);
@@ -90,7 +90,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void addPrincipalInvestigator() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
         assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
 
@@ -102,7 +102,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
 
     @Test
     public void clearInvestigator() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
         assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
 
@@ -115,7 +115,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     }
     @Test
     public void changeRole() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
         assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
 
@@ -129,7 +129,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     
     @Test
     public void addDegree() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
         assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
 
@@ -147,7 +147,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
 
     @Test
     public void removeDegree() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
         assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "PI");
 
@@ -184,7 +184,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
      */
     @Test
     public void addKeyPerson() throws Exception {
-        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person");
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
         assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
 
