@@ -7,7 +7,6 @@ public class OrganizationType extends KraPersistableBusinessObjectBase {
 	private String organizationId;
 	private Integer organizationTypeCode;
 	private OrganizationTypeList organizationTypeList;
-	private Organization organization;
 
 	public OrganizationType(){
 		super();
@@ -44,13 +43,5 @@ public class OrganizationType extends KraPersistableBusinessObjectBase {
 
     public void setOrganizationTypeList(OrganizationTypeList organizationTypeList) {
         this.organizationTypeList = organizationTypeList;
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
     }
 }
