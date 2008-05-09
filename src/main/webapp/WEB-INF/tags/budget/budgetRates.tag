@@ -41,6 +41,7 @@
         <html:image property="methodToCall.updateRatesView" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif" title="Update View" alt="Update View" styleClass="tinybutton"/>
     </div>
 </kul:uncollapsable>
+
 <br/>
 
 
@@ -51,7 +52,7 @@
     <c:if test="${gps.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
-<kul:tab tabTitle="${rateClass}" defaultOpen="false" tabErrorKey="document.instituteRates[${rateClass}]*" transparentBackground="${transparent}">
+<kul:tab tabTitle="${rateClass}" defaultOpen="false" tabErrorKey="document.budgetProposalRate[${rateClass}]*" transparentBackground="${transparent}">
     <c:set var="transparent" value="false" />
 	<div class="tab-container" align="center">
     	<div class="h2-container">
@@ -62,20 +63,38 @@
             <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.RateType.attributes.description" />
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.onOffCampusFlag" />
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.fiscalYear" />
-	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetPeriod.attributes.budgetPeriod" />
+	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.affectedBudgetPeriod" />
 
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.startDate" />
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.instituteRate" />
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.applicableRate" />
 			<c:set var="rowIndex" value="1" />
+
 			<c:forEach items="${KualiForm.document.budgetProposalRates}" var="proposalRates" varStatus="status">
     	 	  	<c:set var="budgetProposalRate" value="document.budgetProposalRates[${status.index}]" /> 
-	 			<kra-b:budgetRatesTab budgetProposalRate="${budgetProposalRate}" rateClassType="${rateClassType}"/>
+						<c:set var="styleClass" value=""/>
+						<kul:checkErrors keyMatch="document.budgetProposalRate[${rateClass}][${status.index}].applicableRate"/>
+	                	<c:if test="${hasErrors}">
+	                    	<c:set var="styleClass" value="errorField"/>
+	                	</c:if>
+	 			<kra-b:budgetRatesTab budgetProposalRate="${budgetProposalRate}" rateClassType="${rateClassType}" styleClass="${styleClass}"/>
 			</c:forEach>
+
+
+
 			<c:forEach items="${KualiForm.document.budgetProposalLaRates}" var="proposalLaRates" varStatus="laStatus">
     	 	  	<c:set var="budgetProposalLaRate" value="document.budgetProposalLaRates[${laStatus.index}]" /> 
-	 			<kra-b:budgetRatesTab budgetProposalRate="${budgetProposalLaRate}" rateClassType="${rateClassType}"/>
+						<c:set var="styleClass" value=""/>
+						<kul:checkErrors keyMatch="document.budgetProposalRate[${rateClass}][${laStatus.index}].applicableRate"/>
+	                	<c:if test="${hasErrors}">
+	                    	<c:set var="styleClass" value="errorField"/>
+	                	</c:if>
+	 			<kra-b:budgetRatesTab budgetProposalRate="${budgetProposalLaRate}" rateClassType="${rateClassType}" styleClass="${styleClass}"/>
 			</c:forEach>
+
+
+
+
         <tr>
         	<td colspan="7" class="infoline">
            		<div align=center>
