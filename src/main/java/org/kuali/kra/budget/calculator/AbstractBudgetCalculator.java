@@ -196,6 +196,7 @@ public abstract class AbstractBudgetCalculator {
 
     public void calculate() {
         budgetLineItem.setDirectCost(budgetLineItem.getLineItemCost());
+        budgetLineItem.setTotalCostSharingAmount(budgetLineItem.getCostSharingAmount());
         budgetLineItem.setIndirectCost(BudgetDecimal.ZERO);
         budgetLineItem.setUnderrecoveryAmount(BudgetDecimal.ZERO);
         createAndCalculateBreakupIntervals();
