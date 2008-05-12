@@ -160,6 +160,11 @@
 					<version>1.0.2</version>
 				</dependency>
 				<dependency>
+					<groupId>org.kuali.kra.s2s</groupId>
+					<artifactId>propdev-schema-v2</artifactId>
+					<version>1.2</version>
+ 				</dependency>
+				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>hyperjaxb</artifactId>
 					<version>1.0</version>
