@@ -20,8 +20,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
-import org.kuali.RiceKeyConstants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
@@ -144,8 +142,14 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
             }
         } else {
             if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.MODIFY_PROPOSAL)) {
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-                setPermissions(username, proposalDoc, editModeMap);
+                if (isRouted(proposalDoc)) {
+                    editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+                    setPermissions(username, proposalDoc, editModeMap);
+                }
+                else {
+                    editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+                    setPermissions(username, proposalDoc, editModeMap);
+                }
             }
             else if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.VIEW_PROPOSAL)) {
                 editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
@@ -161,6 +165,16 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         }
  
         return editModeMap;
+    }
+    
+    /**
+     * Has the document been routed to the workflow system?
+     * @param doc the document
+     * @return true if routed; otherwise false
+     */
+    private boolean isRouted(Document doc) {
+        String status = doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
+        return !(StringUtils.equals("INITIATED", status) ||  StringUtils.equals("SAVED", status));
     }
     
     /**
