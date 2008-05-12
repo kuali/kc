@@ -95,6 +95,7 @@ public class KeyConstants {
     public static final String ERROR_DUPLICATE_BUDGET_PERSON = "error.budgetPerson.duplicate";
     public static final String QUESTION_DELETE_PERSON = "document.question.deletePerson.text";
     public static final String ERROR_NO_BUDGET_PERSON = "error.no.budget.person";
+    public static final String WARNING_PERSONNEL_OTHER_SIGNIFICANT_CONTRIBUTOR = "warning.personnel.osc";
 
     // Budget Modular Constants
     public static final String QUESTION_SYNC_BUDGET_MODULAR = "document.question.syncBudgetModular.text";

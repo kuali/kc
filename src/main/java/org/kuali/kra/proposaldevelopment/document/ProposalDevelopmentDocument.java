@@ -1264,6 +1264,24 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.s2sAppSubmission = s2sAppSubmission;
     }
     
+    public ProposalPerson getProposalEmployee(String personId) {
+        for (ProposalPerson proposalPerson: getProposalPersons()) {
+            if (personId.equals(proposalPerson.getPersonId())) {
+                return proposalPerson;
+            }
+        }
+        return null;
+    }
+    
+    public ProposalPerson getProposalNonEmployee(Integer rolodexId) {
+        for (ProposalPerson proposalPerson: getProposalPersons()) {
+            if (rolodexId.equals(proposalPerson.getRolodexId())) {
+                return proposalPerson;
+            }
+        }
+        return null;
+    }
+    
     public ProposalPersonRole getProposalEmployeeRole(String personId) {
         if (principalInvestigator != null && personId.equals(principalInvestigator.getPersonId())) {
             return principalInvestigator.getRole();
