@@ -291,6 +291,8 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         retval &= new BudgetPeriodAuditRule().processRunAuditBusinessRules(document);
         
         retval &= new BudgetExpensesAuditRule().processRunAuditBusinessRules(document);
+        
+        retval &= new BudgetPersonnelAuditRule().processRunPersonnelAuditBusinessRules(document);
 
         return retval;
     }
