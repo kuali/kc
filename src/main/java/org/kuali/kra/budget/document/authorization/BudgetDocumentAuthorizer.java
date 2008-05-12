@@ -29,6 +29,7 @@ import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -44,6 +45,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     
     private static final String TRUE = "TRUE";
+    private static final String FALSE = "FALSE";
     private static Map<String, String> entryEditModeReplacementMap = new HashMap<String, String>();
     
     /**
@@ -61,10 +63,18 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         String username = u.getPersonUserIdentifier();
         
         if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.MODIFY_BUDGET)) {
-            editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-            editModeMap.put("modifyBudgets", TRUE);
-            editModeMap.put("viewBudgets", TRUE);
-            entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
+            if (isRouted(proposalDoc)) {
+                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+                editModeMap.put("modifyBudgets", FALSE);
+                editModeMap.put("viewBudgets", TRUE);
+                entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
+            } 
+            else {
+                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+                editModeMap.put("modifyBudgets", TRUE);
+                editModeMap.put("viewBudgets", TRUE);
+                entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
+            }
         }
         else if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.VIEW_BUDGET)) {
             editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
@@ -81,6 +91,21 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         return editModeMap;
     }
     
+    /**
+     * Has the document been routed to the workflow system?
+     * @param doc the document
+     * @return true if routed; otherwise false
+     */
+    private boolean isRouted(Document doc) {
+        KualiWorkflowDocument workflowDocument = GlobalVariables.getUserSession().getWorkflowDocument(doc.getDocumentNumber());
+        if (workflowDocument == null) {
+            return false;
+        }
+        else {
+            String status = workflowDocument.getStatusDisplayValue();
+            return !(StringUtils.equals("INITIATED", status) ||  StringUtils.equals("SAVED", status));
+    	}
+    }
     
     /**
      * Is the user in the budget's workflow?  If so, then that user has 
