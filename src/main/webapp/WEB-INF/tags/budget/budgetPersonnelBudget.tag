@@ -57,7 +57,7 @@
     	</tr>
     </table>
     </kul:tabTop>
-	<kul:tab tabTitle="Personnel Budget" defaultOpen="true" tabErrorKey="document.budgetPeriod*,budget.personnelBudget*">
+	<kul:tab tabTitle="Personnel Budget" defaultOpen="true" tabErrorKey="document.budgetPeriod*,budget.personnelBudget*,newBudgetPersonnelDetails.*">
 		<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Personnel Budget</h2></span>
