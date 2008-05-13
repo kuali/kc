@@ -106,6 +106,9 @@
                     <maintainableField name="eraCommonsUserName" required="false"/>
                     <maintainableField name="postalCode" required="false"/>
                     <maintainableField name="state" required="false"/>
+                    <maintainableField name="active" required="false">
+                        <defaultValue>true</defaultValue>
+                    </maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
