@@ -27,9 +27,12 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -308,6 +311,8 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
             }
         }
         
+        checkKeyPersonnel(destDoc);
+        
         if (criteria.getIncludeAttachments()) {
             
             // If the attachments are copied, they had better be the same.
@@ -581,6 +586,7 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
                            "getNarrativeAuthZService",
                            "getNarrativeService",
                            "getProposalPersonBiographyService",
+                           "getProposalPersonYnqs",
                            "getObjectId",
                            "getUnit",
                            "getOwnedByUnit" };
@@ -642,9 +648,11 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
     
     private HtmlPage addKeyPersonnel(HtmlPage keyPersonnelPage, String username, String roleId) throws Exception {
         keyPersonnelPage = lookup(keyPersonnelPage, "newPersonId", "userName", username);
-        HtmlElement e = getElement(keyPersonnelPage, "newProposalPerson.fullName");
         setFieldValue(keyPersonnelPage, "newProposalPerson.proposalPersonRoleId", roleId);
-        return clickOn(keyPersonnelPage, "methodToCall.insertProposalPerson");
+        keyPersonnelPage = clickOn(keyPersonnelPage, "methodToCall.insertProposalPerson");
+        setFieldValue(keyPersonnelPage, "document.proposalPersons[0].proposalPersonYnq[0].answer", "Y");
+        keyPersonnelPage = clickOn(keyPersonnelPage, "save");
+        return keyPersonnelPage;
     }
     
     /**
@@ -660,5 +668,25 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
         setFieldValue(page, ROLENAME_FIELD_ID, roleName);
         HtmlElement addBtn = getElementByName(page, ADD_BTN_ID, true);
         return clickOn(addBtn);
+    }
+    
+    /**
+     * For Key Personnel, the certify questions must be null.
+     * @param doc
+     */
+    private void checkKeyPersonnel(ProposalDevelopmentDocument doc) {
+        List<ProposalPerson> persons = doc.getProposalPersons();
+        for (ProposalPerson person : persons) {
+            ProposalPersonRole role = person.getRole();
+            String roleId = role.getProposalPersonRoleId();
+            if ((StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) || 
+                (StringUtils.equals(roleId, Constants.CO_INVESTIGATOR_ROLE))) {
+                
+                List<ProposalPersonYnq> questions = person.getProposalPersonYnqs();
+                for (ProposalPersonYnq question : questions) {
+                    assertNull(question.getAnswer());
+                }
+            }
+        }
     }
 }
