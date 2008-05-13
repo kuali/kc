@@ -165,6 +165,7 @@ public class KeyConstants {
     public static final String ERROR_RATE_TYPE_NOT_EXIST = "error.rateType.not.exist";
     
     public static final String ERROR_EFFECTIVE_DATE_OUT_OF_RANGE = "error.effective.date.out.of.range";
+    public static final String ERROR_IMCOMPLETE_PERSON_ENTRIES = "error.incomplete.person.entries";
 
     // budget rates
     public static final String ERROR_REQUIRED_APPLICABLE_RATE = "error.required.applicableRate";
