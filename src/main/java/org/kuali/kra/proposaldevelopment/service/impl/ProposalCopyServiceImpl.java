@@ -371,6 +371,38 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     }
     
     /**
+     * Fix the Key Personnel.
+     * @param doc the proposal development document
+     * @param oldLeadUnitNumber the old lead unit number
+     * @param newLeadUnitNumber the new lead unit number
+     */
+    private void fixKeyPersonnel(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) {
+        clearCertifyQuestions(doc);
+        fixKeyPersonnelUnits(doc, oldLeadUnitNumber, newLeadUnitNumber);
+    }
+    
+    /**
+     * Clear the Certify questions for each investigator.
+     * @param doc the Proposal Development Document
+     */
+    private void clearCertifyQuestions(ProposalDevelopmentDocument doc) {
+        List<ProposalPerson> persons = doc.getProposalPersons();
+        for (ProposalPerson person : persons) {
+            ProposalPersonRole role = person.getRole();
+            String roleId = role.getProposalPersonRoleId();
+            if ((StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) || 
+                (StringUtils.equals(roleId, Constants.CO_INVESTIGATOR_ROLE))) {
+                
+                List<ProposalPersonYnq> questions = person.getProposalPersonYnqs();
+                for (ProposalPersonYnq question : questions) {
+                    question.setAnswer(null);
+                    question.setDummyAnswer(null);
+                }
+            }
+        }
+    }
+    
+    /**
      * Fix the Key Personnel.  This requires changing the lead unit for the PI
      * and the COIs to the new lead unit.  Also, if the PI's home unit is not in
      * the list, we must add it.
@@ -378,7 +410,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param oldLeadUnitNumber the old lead unit number
      * @param newLeadUnitNumber the new lead unit number
      */
-    private void fixKeyPersonnel(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) {
+    private void fixKeyPersonnelUnits(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) {
         /*
          * We have nothing to do if the lead unit didn't change.
          */
