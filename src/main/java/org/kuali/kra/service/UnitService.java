@@ -61,4 +61,19 @@ public interface UnitService {
      * @return all of the units
      */
     public Collection<Unit> getUnits();
+    
+    /**
+     * 
+     * This method to get the sub units for dynamic tree view
+     * @param unitNumber
+     * @return
+     */
+    public String getSubUnitsForTreeView(String unitNumber);
+
+    /**
+     * 
+     * This method is to set up the initial load for unut hierarchy
+     * @return
+     */
+    public String getInitialUnitsForUnitHierarchy();
 }
