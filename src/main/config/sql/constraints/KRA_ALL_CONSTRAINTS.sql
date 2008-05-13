@@ -100,11 +100,6 @@ ALTER TABLE "EPS_PROPOSAL_BUDGET_STATUS" ADD CONSTRAINT
 REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
                                                                                 
                                                                                 
-ALTER TABLE "EPS_PROPOSAL_STATUS" ADD CONSTRAINT "FK_EPS_PROPOSAL_STATUS_KRA"   
-FOREIGN KEY ("PROPOSAL_NUMBER")                                                 
-REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
-                                                                                
-                                                                                
 ALTER TABLE "EPS_PROP_ABSTRACT" ADD CONSTRAINT "FK_EPS_PROP_ABSTRACT_KRA"       
 FOREIGN KEY ("PROPOSAL_NUMBER")                                                 
 REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
@@ -117,6 +112,16 @@ ALTER TABLE "EPS_PROP_COST_SHARING" ADD CONSTRAINT
 "FK_EPS_PROP_COST_SHARING_KRA" FOREIGN KEY ("PROPOSAL_NUMBER",                  
 "BUDGET_VERSION_NUMBER")                                                        
 REFERENCES "BUDGET" ("PROPOSAL_NUMBER", "VERSION_NUMBER") ENABLE;               
+                                                                                
+                                                                                
+ALTER TABLE "EPS_PROP_EXEMPT_NUMBER" ADD CONSTRAINT                             
+"FK_EPS_PROP_EXEMPTION_TYPE_KRA" FOREIGN KEY ("EXEMPTION_TYPE_CODE")            
+REFERENCES "EXEMPTION_TYPE" ("EXEMPTION_TYPE_CODE") ENABLE;                     
+ALTER TABLE "EPS_PROP_EXEMPT_NUMBER" ADD CONSTRAINT                             
+"FK_EPS_PROP_EXEMPT_NUMBER_KRA" FOREIGN KEY ("PROPOSAL_NUMBER",                 
+"SPECIAL_REVIEW_NUMBER")                                                        
+REFERENCES "EPS_PROP_SPECIAL_REVIEW" ("PROPOSAL_NUMBER",                        
+"SPECIAL_REVIEW_NUMBER") ENABLE;                                                
                                                                                 
                                                                                 
 ALTER TABLE "EPS_PROP_IDC_RATE" ADD CONSTRAINT "FK_EPS_PROP_IDC_RATE_KRA"       
@@ -459,6 +464,37 @@ ALTER TABLE "ROLODEX" ADD CONSTRAINT "FK_ROLODEX_COUNTRY_KRA" FOREIGN KEY
 REFERENCES "COUNTRY_CODE" ("COUNTRY_CODE") ENABLE;                              
                                                                                 
                                                                                 
+ALTER TABLE "S2S_APPLICATION" ADD CONSTRAINT "FK_S2S_APPLICATION_KRA" FOREIGN   
+KEY ("PROPOSAL_NUMBER")                                                         
+REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
+                                                                                
+                                                                                
+ALTER TABLE "S2S_APP_ATTACHMENTS" ADD CONSTRAINT "FK_S2S_APP_ATTACHMENTS_KRA"   
+FOREIGN KEY ("PROPOSAL_NUMBER")                                                 
+REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
+                                                                                
+                                                                                
+ALTER TABLE "S2S_APP_SUBMISSION" ADD CONSTRAINT "FK_S2S_APP_SUBMISSION_KRA"     
+FOREIGN KEY ("PROPOSAL_NUMBER")                                                 
+REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
+                                                                                
+                                                                                
+ALTER TABLE "S2S_OPPORTUNITY" ADD CONSTRAINT "FK_S2S_OPPORTUNITY_KRA" FOREIGN   
+KEY ("S2S_SUBMISSION_TYPE_CODE")                                                
+REFERENCES "S2S_SUBMISSION_TYPE" ("S2S_SUBMISSION_TYPE_CODE") DISABLE;          
+ALTER TABLE "S2S_OPPORTUNITY" ADD CONSTRAINT "FK_S2S_OPPORTUNITY_KRA1" FOREIGN  
+KEY ("REVISION_CODE")                                                           
+REFERENCES "S2S_REVISION_TYPE" ("S2S_REVISION_TYPE_CODE") ENABLE;               
+ALTER TABLE "S2S_OPPORTUNITY" ADD CONSTRAINT "FK_S2S_OPPORTUNITY_KRA2" FOREIGN  
+KEY ("PROPOSAL_NUMBER")                                                         
+REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
+                                                                                
+                                                                                
+ALTER TABLE "S2S_OPP_FORMS" ADD CONSTRAINT "FK_S2S_OPP_FORMS_KRA" FOREIGN KEY   
+("PROPOSAL_NUMBER")                                                             
+REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
+                                                                                
+                                                                                
 ALTER TABLE "SH_ATT_T" ADD CONSTRAINT "SH_ATT_TR1" FOREIGN KEY ("NTE_ID")       
 REFERENCES "SH_NTE_T" ("NTE_ID") ENABLE;                                        
                                                                                 
@@ -511,14 +547,6 @@ REFERENCES "UNIT_ADMINISTRATOR_TYPE" ("UNIT_ADMINISTRATOR_TYPE_CODE") ENABLE;
 ALTER TABLE "UNIT_ADMINISTRATOR" ADD CONSTRAINT "FK3_UNIT_ADMINISTRATOR_KRA"    
 FOREIGN KEY ("PERSON_ID")                                                       
 REFERENCES "PERSON" ("PERSON_ID") ENABLE;                                       
-                                                                                
-                                                                                
-ALTER TABLE "UNIT_HIERARCHY" ADD CONSTRAINT "FK_UNIT_HIERARCHY_UNIT_KRA" FOREIGN
-KEY ("UNIT_NUMBER")                                                             
-REFERENCES "UNIT" ("UNIT_NUMBER") ENABLE;                                       
-ALTER TABLE "UNIT_HIERARCHY" ADD CONSTRAINT "FK_UNIT_HIERAR_PARENT_UNIT_KRA"    
-FOREIGN KEY ("PARENT_UNIT_NUMBER")                                              
-REFERENCES "UNIT" ("UNIT_NUMBER") ENABLE;                                       
                                                                                 
                                                                                 
 ALTER TABLE "USER_CHANNEL_SUBSCRIPTIONS" ADD CONSTRAINT                         
