@@ -257,12 +257,10 @@
 						<configuration>
 							<useFile>false</useFile>
 							<testFailureIgnore>true</testFailureIgnore>
-							<!--
 							<includes>
 								<include>**/*Test.java</include>
 							</includes>
-							-->
-							<excludes><exclude>S2SServiceTest.java</exclude></excludes>
+							<excludes><exclude></exclude></excludes>
 							<forkMode>once</forkMode>
 							<reportFormat>plain</reportFormat>
 							<argLine>-Xmx1024m -XX:MaxPermSize=512m</argLine>
