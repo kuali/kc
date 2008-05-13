@@ -25,7 +25,9 @@ import org.kuali.core.service.EncryptionService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.service.WebAuthenticationService;
+import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.PersonService;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.yale.its.tp.cas.auth.provider.WatchfulPasswordHandler;
@@ -40,6 +42,9 @@ public class KraPasswordHandler extends WatchfulPasswordHandler {
         if (super.authenticate(request, username, password) != false) {
             try {
                 if (username != null && !username.trim().equals( "" ) ) {
+                    
+                    username = username.trim();
+                    
                     // check the username and password against the db
                     // return true if they are there and have a valid password
                     if ( LOG.isDebugEnabled() ) {
@@ -48,9 +53,20 @@ public class KraPasswordHandler extends WatchfulPasswordHandler {
                    
                     // obtain the universal user record
                     UniversalUserService uus = KraServiceLocator.getService(UniversalUserService.class);
-                    UniversalUser user = uus.getUniversalUser( new AuthenticationUserId( username.trim() ) );
+                    UniversalUser user = uus.getUniversalUser( new AuthenticationUserId( username ) );
                     if ( LOG.isDebugEnabled() ) {
                         LOG.debug( "Found user " + user.getPersonName() + " with password hash: " + user.getFinancialSystemsEncryptedPasswordText() );
+                    }
+                    
+                    PersonService personService = KraServiceLocator.getService(PersonService.class);
+                    Person person = personService.getPersonByName(username);
+                    if (person == null) {
+                        LOG.info( "User " + username + " was not found in the Person table." );
+                        return false; // fail if user does not exist
+                    }
+                    if (!person.getActive()) {
+                        LOG.info( "User " + username + " is inactive." );
+                        return false; // fail if user does not exist
                     }
                     
                     // check if the password needs to be checked (if in a production environment or password turned on explicitly)

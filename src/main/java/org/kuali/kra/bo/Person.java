@@ -26,7 +26,7 @@ import org.kuali.kra.kim.bo.KimPerson;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.7 2008-04-10 17:11:30 dbarre Exp $
+ * $Id: Person.java,v 1.8 2008-05-13 18:34:54 dbarre Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -91,6 +91,7 @@ public class Person extends KraPersistableBusinessObjectBase {
     private String eraCommonsUserName;
     private Long kimPersonId;
     private KimPerson kimPerson;
+    private Boolean active = true;
 
     private List<UserRole> userRoles = new ArrayList();
     
@@ -1183,6 +1184,14 @@ public class Person extends KraPersistableBusinessObjectBase {
     public void setEraCommonsUserName(String argEraCommonsUserName) {
         this.eraCommonsUserName = argEraCommonsUserName;
     }
+    
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+    
+    public Boolean getActive() {
+        return active;
+    }
 
 	@Override 
 	protected LinkedHashMap toStringMapper() {
@@ -1247,6 +1256,7 @@ public class Person extends KraPersistableBusinessObjectBase {
         hashmap.put("pagerNumber", getPagerNumber());
         hashmap.put("mobilePhoneNumber", getMobilePhoneNumber());
         hashmap.put("eraCommonsUserName", getEraCommonsUserName());
+        hashmap.put("active", getActive());
 		return hashmap;
 	}
 
