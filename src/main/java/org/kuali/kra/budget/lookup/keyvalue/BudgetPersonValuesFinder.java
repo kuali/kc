@@ -18,13 +18,13 @@ package org.kuali.kra.budget.lookup.keyvalue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -66,8 +66,10 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
         keyLabelPairs.add(new KeyLabelPair(null, "Select"));
         for(BudgetPerson budgetPerson: budgetPersons) {
-            keyLabelPairs.add(new KeyLabelPair(budgetPerson.getPersonSequenceNumber(), 
-                                    (budgetPerson.getPersonName())+" - "+budgetPerson.getJobCode()));
+            if (StringUtils.isNotBlank(budgetPerson.getJobCode())) {
+                keyLabelPairs.add(new KeyLabelPair(budgetPerson.getPersonSequenceNumber(), 
+                                        (budgetPerson.getPersonName())+" - "+budgetPerson.getJobCode()));
+            }
         }
         return keyLabelPairs;
     }
