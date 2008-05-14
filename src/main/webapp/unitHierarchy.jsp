@@ -72,7 +72,9 @@ body {
 	action="/unitHierarchy.do" enctype=""
 	onsubmit="return hasFormAlreadyBeenSubmitted();"> 
 	
-<h2 align="center"> Unit Hierarchy </h2>
+<div class="headerarea-small" id="headerarea-small">	
+	<h1 align="center"> Unit Hierarchy </h1>
+</div>
 <!--  initial data here -->
 <input type="hidden" id = "units" name="units"   value="${UnitHierarchyForm.units}"/>
 <input type="hidden" id = "selectedUnitNumber" name="selectedUnitNumber"  />
