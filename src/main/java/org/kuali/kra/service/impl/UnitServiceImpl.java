@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.service.UnitService;
@@ -34,6 +35,9 @@ import org.kuali.kra.service.UnitService;
 public class UnitServiceImpl implements UnitService {
     
     private BusinessObjectService businessObjectService;
+    private static final String COLUMN = ":";
+    private static final String SEPARATOR = ";1;";
+    private static final String DASH = "-";
 
     /**
      * @see org.kuali.kra.service.UnitService#getUnitName(java.lang.String)
@@ -108,4 +112,51 @@ public class UnitServiceImpl implements UnitService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    /**
+     * 
+     * @see org.kuali.kra.service.UnitService#getSubUnitsForTreeView(java.lang.String)
+     */
+    public String getSubUnitsForTreeView(String unitNumber) {
+        // unitNumber will be like "<table width="600"><tr><td width="70%">BL-BL : BLOOMINGTON CAMPUS"
+        String subUnits = null;
+        // Following index check maybe changed if refactor jsp page to align buttons.
+        int startIdx = unitNumber.indexOf("px\">", unitNumber.indexOf("<tr>"));
+        for (Unit unit : getSubUnits(unitNumber.substring(startIdx+4, unitNumber.indexOf(COLUMN, startIdx) - 1))) {
+            if (StringUtils.isNotBlank(subUnits)) {
+                subUnits = subUnits +"," +unit.getUnitNumber()+RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+unit.getUnitName();
+            } else {
+                subUnits = unit.getUnitNumber()+RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+unit.getUnitName();                
+            }
+        }
+        return subUnits;
+        
+    }
+    
+    /**
+     * TODO : still WIP.  cleanup b4 move to prod
+     * @see org.kuali.kra.service.UnitService#getInitialUnitsForUnitHierarchy()
+     * Basic data structure : assume '000000' is the top node.  Get its chilkd node as the fist node to display.
+     * The node data is like following : 'parentidx-unitNumber : unitName' and separated by ';1;'
+     */
+    public String getInitialUnitsForUnitHierarchy() {
+        // 000000 is the default root unit
+        Unit instituteUnit = getSubUnits("000000").get(0);
+        int parentIdx = 0;
+        String subUnits = instituteUnit.getUnitNumber() +RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
+        int numberOfUnits = 0;
+        for (Unit unit : getSubUnits(instituteUnit.getUnitNumber())) {
+            subUnits = subUnits + parentIdx + DASH + unit.getUnitNumber()+RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+unit.getUnitName()+SEPARATOR;
+            // we can make it more flexible, to add a while loop and with a 'depth' argument.
+            numberOfUnits++;
+            for (Unit unit1 : getSubUnits(unit.getUnitNumber())) {
+                subUnits = subUnits + numberOfUnits + DASH + unit1.getUnitNumber()+RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+unit1.getUnitName()+SEPARATOR;
+            }
+        }
+        subUnits = subUnits.substring(0, subUnits.length() - 3);
+
+        return subUnits;
+        
+    }
+
 }

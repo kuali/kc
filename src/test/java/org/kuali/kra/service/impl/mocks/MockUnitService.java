@@ -107,4 +107,14 @@ public class MockUnitService implements UnitService {
     public Collection<Unit> getUnits() {
         return units;
     }
+
+    public String getSubUnitsForTreeView(String unitNumber) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getInitialUnitsForUnitHierarchy() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
