@@ -39,6 +39,7 @@ import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder;
+import org.kuali.kra.budget.rules.BudgetPersonnelRule;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -191,6 +192,7 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetLineItem selectedLineItem = budgetDocument.getBudgetPeriod(selectedPeriod-1).getBudgetLineItem(selectedLineNumber);
         budgetForm.setSelectedBudgetLineItem(selectedLineItem);
         budgetForm.setSelectedBudgetLineItemIndex(selectedLineNumber);
+        (new BudgetPersonnelRule()).processCheckCompleteEntriesBusinessRules(budgetDocument);
         return mapping.findForward(Constants.MAPPING_PERSONNEL_BUDGET);
     }
     /**
