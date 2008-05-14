@@ -114,7 +114,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
             }
             budgetLineItem.setLineItemCost(personnelLineItemTotal);
         }
-        new LineItemCalculator(budgetDocument,(BudgetLineItem)budgetLineItem).calculate();
+        new LineItemCalculator(budgetDocument,budgetLineItem).calculate();
     }
     public void calculateAndSyncBudgetLineItem(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem){
         new LineItemCalculator(budgetDocument,budgetLineItem).calculate();
