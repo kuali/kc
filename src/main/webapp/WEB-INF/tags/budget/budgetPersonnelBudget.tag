@@ -119,7 +119,15 @@
             <c:if test="${!empty KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].budgetPersonnelDetailsList}" >
 		   	<c:forEach var="budgetPersonnelDetails" items="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].budgetPersonnelDetailsList}" varStatus="status">
 	        	<tr>
-	            	<th width="5%" class="infoline" rowspan="2">
+	        		<c:choose>
+				      <c:when test="${KualiForm.personnelBudgetViewMode == 0}">
+				      	<c:set var="rowspan" value="2" />
+				      </c:when>
+				      <c:otherwise>
+				      	<c:set var="rowspan" value="1" />
+				      </c:otherwise>
+				    </c:choose>
+	            	<th width="5%" class="infoline" rowspan="${rowspan}">
 						<c:out value="${status.index+1}" />
 					</th>
              		<td width="10%" valign="middle">
