@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -33,6 +34,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -108,14 +110,18 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward returnToExpenses(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        save(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
+        BudgetLineItem selectedBudgetLineItem = budgetForm.getSelectedBudgetLineItem();
+        BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
+        budgetCalculationService.calculateBudgetLineItem(budgetForm.getBudgetDocument(), selectedBudgetLineItem);
         BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
         List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();        
         budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
         budgetForm.getBudgetDocument().setBudgetCategoryTypeCodes(budgetCategoryTypes);
-        BudgetDocument budgetDocument = (BudgetDocument) budgetForm.getBudgetDocument();
-        budgetDocument.refreshReferenceObject("budgetPeriods");       
-
+//        BudgetDocument budgetDocument = (BudgetDocument) budgetForm.getBudgetDocument();
+//        budgetDocument.refreshReferenceObject("budgetPeriods");       
+        
         return mapping.findForward("expenses");
     }
     /**
@@ -136,6 +142,15 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
 //        BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
 //        budgetCalculationService.calculateBudgetLineItem(budgetForm.getBudgetDocument(), budgetPersonnelDetails);
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetLineItem selectedBudgetLineItem = budgetForm.getSelectedBudgetLineItem();
+        BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
+        budgetCalculationService.calculateBudgetLineItem(budgetForm.getBudgetDocument(), selectedBudgetLineItem);
+        return super.save(mapping, form, request, response);
     }
     
 }
