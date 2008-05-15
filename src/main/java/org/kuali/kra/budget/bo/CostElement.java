@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class CostElement extends KraPersistableBusinessObjectBase implements Com
 	private List<ValidCeRateType> validCeRateTypes;
 	private BudgetCategory budgetCategory;
 	
+	public CostElement(){
+	    validCeRateTypes = new ArrayList<ValidCeRateType>();
+	}
 	public String getCostElement() {
 		return costElement;
 	}

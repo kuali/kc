@@ -535,7 +535,7 @@ public abstract class AbstractBudgetCalculator {
         Equals equalsRCT = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
         And RCandRT = new And(equalsRC, equalsRT);
         And RCRTandRCT = new And(RCandRT, equalsRCT);
-        QueryList<ValidCeRateType> validCeRateTypes = new QueryList(budgetLineItem.getCostElementBO().getValidCeRateTypes());
+        QueryList<ValidCeRateType> validCeRateTypes = new QueryList<ValidCeRateType>(budgetLineItem.getCostElementBO().getValidCeRateTypes());
         return !validCeRateTypes.filter(RCRTandRCT).isEmpty();
     }
 
