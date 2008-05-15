@@ -63,7 +63,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         newBudgetPersonnelDetails.setPersonNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_NUMBER));
         newBudgetPersonnelDetails.setPersonSequenceNumber(newBudgetPersonnelDetails.getPersonSequenceNumber());
         BudgetPerson budgetPerson = budgetPersonService.findBudgetPerson(newBudgetPersonnelDetails);
-        newBudgetPersonnelDetails.setPersonId(budgetPerson.getPersonRolodexId());
+        newBudgetPersonnelDetails.setPersonId(budgetPerson.getPersonRolodexTbnId());
         newBudgetPersonnelDetails.setJobCode(budgetPerson.getJobCode());
         newBudgetPersonnelDetails.setSequenceNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
         budgetCalculationService.populateCalculatedAmount(budgetDocument, newBudgetPersonnelDetails);
