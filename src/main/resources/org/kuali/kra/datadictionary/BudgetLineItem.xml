@@ -259,7 +259,7 @@
 			<attribute name="lineItemDescription">
 			<label>Description </label>
 			<shortLabel>Description </shortLabel>
-			<maxLength>80</maxLength>
+			<maxLength>200</maxLength>
 			<control>
 					<textarea rows="3" cols="30" />
 			</control>
