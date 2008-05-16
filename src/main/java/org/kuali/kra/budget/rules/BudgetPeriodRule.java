@@ -107,12 +107,10 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
             rulePassed = false;
             saveErrors("ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST", errorMap);
-            //errorMap.putError("noFocus", KeyConstants.ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST);
         }else if(getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber+1)) {
             errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
             rulePassed = false;
             saveErrors("ERROR_GENERATE_PERIOD", errorMap);
-            //errorMap.putError("noFocus", KeyConstants.ERROR_GENERATE_PERIOD);
         }
         errorMap.removeFromErrorPath(NEW_BUDGET_PERIOD);
         return rulePassed;
@@ -129,7 +127,6 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             errorMap.addToErrorPath("document.budgetPeriods[" + budgetPeriodNumber + "]");
             rulePassed = false;
             saveErrors("ERROR_LINE_ITEM_EXISTS", errorMap);
-            //errorMap.putError("startDate", KeyConstants.ERROR_LINE_ITEM_EXISTS);
             errorMap.removeFromErrorPath("document.budgetPeriods[" + budgetPeriodNumber + "]");
         }
         return rulePassed;
@@ -156,8 +153,6 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
     private boolean isValidBudgetPeriodBoundaries(BudgetDocument budgetDocument) {
         boolean validBoundaries = true;
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
-        List<BudgetLineItem> budgetLineItems = budgetDocument.getBudgetLineItems();
-        List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             String[] dateParams = {budgetPeriod.getBudgetPeriod()+""};
@@ -169,9 +164,9 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             Integer budgetPeriodNumber = budgetPeriod.getBudgetPeriod();
             int index = budgetPeriodNumber - 1;
             errorMap.addToErrorPath("document.budgetPeriods[" + index + "]");
-            periodLineItems = budgetDocument.getBudgetLineItems(); //getBudgetSummaryService().getBudgetLineItemForPeriod(budgetDocument, budgetPeriodNumber); 
-            periodPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList(); //getBudgetSummaryService().getBudgetPersonnelDetailsForPeriod(budgetDocument, budgetPeriodNumber); 
             /* check line items */
+            periodLineItems = budgetPeriod.getBudgetLineItems(); 
+            BUDGET_LINEITEM_LOOP:
             for(BudgetLineItem periodLineItem: periodLineItems) {
                 if(budgetPeriod.getBudgetPeriod() == periodLineItem.getBudgetPeriod()) {
                     if((periodLineItem.getStartDate().before(budgetPeriod.getStartDate())) || 
@@ -180,12 +175,11 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
                     (periodLineItem.getEndDate().before(budgetPeriod.getStartDate()))){
                         saveErrors("ERROR_LINE_ITEM_DATE_DOESNOTMATCH", errorMap);
                         validBoundaries = false;
+                        break;
                     }
-                    break;
                 }
-            }
-            /* check personnel line items */
-            if(validBoundaries) {
+                /* check personnel line items */
+                periodPersonnelDetails = periodLineItem.getBudgetPersonnelDetailsList();
                 for(BudgetPersonnelDetails periodPersonnelDetail: periodPersonnelDetails) {
                     if(budgetPeriod.getBudgetPeriod() == periodPersonnelDetail.getBudgetPeriod()) {
                         if((periodPersonnelDetail.getStartDate().before(budgetPeriod.getStartDate())) || 
@@ -194,8 +188,8 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
                                 (periodPersonnelDetail.getEndDate().before(budgetPeriod.getStartDate()))){
                                     saveErrors("ERROR_LINE_ITEM_DATE_DOESNOTMATCH", errorMap);
                                     validBoundaries = false;
+                                    break BUDGET_LINEITEM_LOOP;
                                 }
-                        break;
                     }
                 }
             }
@@ -268,9 +262,7 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
                         lastRecord = true;
                         if(newPeriodStartDate.after(periodEndDate)) {
                             periodNum = index + 1;
-                        }//else {
-                         //   periodNum = index + 1;
-                        //}
+                        }
                     }
                     /* check new budget period */
                     if(newPeriodStartDate.before(getProjectStartDate())) {
