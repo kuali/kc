@@ -33,35 +33,32 @@
 		<c:set var="budgetPeriod" value="1" />
 	</c:otherwise>
 </c:choose>
-	
+	<c:set var="tabErrorKeyString" value=""/>
     <c:forEach var="budgetCategoryTypeIndex" items="${KualiForm.document.budgetCategoryTypeCodes}" varStatus="status1">
     	<c:if test="${budgetCategoryTypeIndex.key ==  budgetCategoryTypeCodesKey}">
     		<c:set var="index" value="0"/>
-    		<c:set var="tabErrorKeyString" value=""/>
     		<c:forEach var="budgetLineItems" items="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">			    		
     		<c:if test="${budgetLineItems.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeIndex.key}" >				
-				<c:set var="index" value="${index+1}"/>			    		
+				<c:set var="index" value="${index+1}"/>
+				<c:choose>
+	    			<c:when test="${empty tabErrorKeyString}">
+	    				<c:set var="tabErrorKeyString" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].lineItemDescription"/>
+	    			</c:when>
+	    			<c:otherwise>
+	    				<c:set var="tabErrorKeyString" value="${tabErrorKeyString},document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].lineItemDescription"/>
+	    			</c:otherwise>
+	    		</c:choose>			    		
     		</c:if>
     		<c:if test="${index!=0}">    					    		
     			<c:set var="budgetLineItemSize" value="${index}"/>
     		</c:if>
-    		<c:choose>
-    			<c:when test="${empty tabErrorKeyString}">
-    				<c:set var="tabErrorKeyString" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].costElement"/>
-    			</c:when>
-    			<c:otherwise>
-    				<c:set var="tabErrorKeyString" value="${tabErrorKeyString},document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].costElement"/>
-    			</c:otherwise>
-    		</c:choose>
     		</c:forEach>
     	</c:if>
     </c:forEach>
-    
-    
-     	<%-- <c:out value="${tabErrorKeyString}test" /> --%>
+    	  
 	<c:set var="budgetExpensePanelReadOnly" value="${KualiForm.document.proposal.budgetVersionOverviews[KualiForm.document.budgetVersionNumber-1].finalVersionFlag}" />
 	 	
-	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}" tabItemCount="${budgetLineItemSize}" defaultOpen="false" tabErrorKey="*costElement*,document.budgetCategoryTypes*,newBudgetLineItems[${catCodes}].*">
+	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}" tabItemCount="${budgetLineItemSize}" defaultOpen="false" tabErrorKey="*costElement*,document.budgetCategoryTypes*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString}">
 		<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>${budgetCategoryTypeCodesLabel}</h2></span>

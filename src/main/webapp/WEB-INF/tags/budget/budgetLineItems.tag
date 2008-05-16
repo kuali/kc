@@ -24,8 +24,7 @@
 
 <c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />
 <c:set var="action" value="budgetExpensesAction" />
-<c:set var="textAreaFieldNameLineItemDescription" value="${document.budgetPeriods}[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
-
+<c:set var="textAreaFieldNameLineItemDescription" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
 <c:if test="${readOnly}" >
 	<c:set var="budgetExpensePanelReadOnly" value="true" />
 </c:if>
