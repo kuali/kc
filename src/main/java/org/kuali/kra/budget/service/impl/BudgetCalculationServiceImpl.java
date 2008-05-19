@@ -105,14 +105,17 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void calculateBudgetLineItem(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem){
         BudgetLineItem budgetLineItemToCalc = (BudgetLineItem)budgetLineItem;
         List<BudgetPersonnelDetails> budgetPersonnelDetList = budgetLineItemToCalc.getBudgetPersonnelDetailsList();
-        if(budgetPersonnelDetList!=null && !budgetPersonnelDetList.isEmpty()){
+        if(budgetLineItemToCalc.isBudgetPersonnelLineItemDeleted() || (budgetPersonnelDetList!=null && !budgetPersonnelDetList.isEmpty())){
             BudgetDecimal personnelLineItemTotal  = BudgetDecimal.ZERO;
+            BudgetDecimal personnelTotalCostSharing  = BudgetDecimal.ZERO;
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetList) {
                 copyLineItemToPersonnelDetails(budgetLineItemToCalc, budgetPersonnelDetails);
                 new PersonnelLineItemCalculator(budgetDocument,budgetPersonnelDetails).calculate();
                 personnelLineItemTotal = personnelLineItemTotal.add(budgetPersonnelDetails.getLineItemCost());
+                personnelTotalCostSharing = personnelTotalCostSharing.add(budgetPersonnelDetails.getCostSharingAmount());
             }
             budgetLineItem.setLineItemCost(personnelLineItemTotal);
+            budgetLineItem.setCostSharingAmount(personnelTotalCostSharing);
         }
         new LineItemCalculator(budgetDocument,budgetLineItem).calculate();
     }
