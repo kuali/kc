@@ -21,11 +21,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
+import org.apache.tools.ant.util.DateUtils;
+import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.web.ui.ExtraButton;
+import org.kuali.core.web.ui.HeaderField;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -39,7 +43,11 @@ import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
+import org.kuali.rice.KNSServiceLocator;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetForm extends ProposalFormBase {
     private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
@@ -558,4 +566,39 @@ public class BudgetForm extends ProposalFormBase {
         this.lineAddedOrDeletedSinceLastSaveOrCalculate = lineAddedOrDeletedSinceLastSaveOrCalculate;
     }
     
+    @Override
+    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        BudgetDocument budgetDocument = (BudgetDocument) getDocument();
+        ProposalDevelopmentDocument proposalDocument = budgetDocument.getProposal();
+        KualiWorkflowDocument parentWorkflowDocument = null;
+        
+        try {
+            if(proposalDocument != null) {
+                parentWorkflowDocument = proposalDocument.getDocumentHeader().getWorkflowDocument();
+            }
+        } catch (RuntimeException e) {
+        }
+        
+        try {
+            if(proposalDocument != null && parentWorkflowDocument == null) {
+                Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(proposalDocument.getDocumentNumber());
+                parentWorkflowDocument = retrievedDocument.getDocumentHeader().getWorkflowDocument();
+            }
+        } catch (WorkflowException e) {
+        } 
+        
+        //Document Number
+        HeaderField docNumber = new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", proposalDocument != null? proposalDocument.getDocumentNumber() : null); 
+        HeaderField docStatus = new HeaderField("DataDictionary.DocumentHeader.attributes.financialDocumentStatusCode", parentWorkflowDocument != null? parentWorkflowDocument.getStatusDisplayValue() : null);
+        HeaderField docInitiator = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", 
+                parentWorkflowDocument != null? parentWorkflowDocument.getInitiatorNetworkId() : null, 
+                        parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.core.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getRouteHeader().getInitiator().getUuId() + "' render='true'>" + parentWorkflowDocument.getInitiatorNetworkId() + "</kul:inquiry>" : null);
+        HeaderField docCreateDate = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.createDate", parentWorkflowDocument != null? DateUtils.format(parentWorkflowDocument.getCreateDate(), "hh:mm a MM/dd/yyyy") : null);
+
+        getDocInfo().clear();
+        getDocInfo().add(docNumber);
+        getDocInfo().add(docStatus); 
+        getDocInfo().add(docInitiator);
+        getDocInfo().add(docCreateDate);
+    }
 }
