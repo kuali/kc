@@ -70,7 +70,8 @@
 	                </td>
 	                
 	            </tr>    	
-    	</c:forEach>    	 
+    	</c:forEach>
+    		<!--  Commented Temporarily    	 
     			<tr>
     				<td colspan="5">
     					<div align="right">
@@ -79,6 +80,7 @@
     					</div>
     				</td>
     			</tr>
+    		-->	
     	</c:when>    	
     	<c:when test="${empty KualiForm.document.s2sOpportunity}" >
     		<tr><td>
