@@ -52,7 +52,9 @@
 				        </td>
 				    	<td>
 							<div align="center">
-								<html:image src="/kra-dev/kr/static/images/tinybutton-printsel.gif"  styleClass="globalbuttons" property="methodToCall.printForms" alt="Print Selected Forms"/>					
+							<!-- Commented Temporarily
+								<html:image src="/kra-dev/kr/static/images/tinybutton-printsel.gif"  styleClass="globalbuttons" property="methodToCall.printForms" alt="Print Selected Forms"/>
+								-->					
 							</div>	    	
 				    	</td>			
 						<td>
