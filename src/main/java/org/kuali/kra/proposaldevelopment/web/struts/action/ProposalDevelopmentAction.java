@@ -203,6 +203,11 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             initializeProposalUsers(doc); 
         }
 
+        if (proposalDevelopmentForm.getMethodToCall().equals("save") && proposalDevelopmentForm.isAuditActivated()) {
+            // TODO : need to check whether the error is really fixed ?
+            forward = mapping.findForward("actions");
+        }
+
         return forward;
     }
     
