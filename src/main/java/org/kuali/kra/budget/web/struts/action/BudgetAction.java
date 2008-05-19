@@ -93,7 +93,7 @@ public class BudgetAction extends ProposalActionBase {
             ((BudgetForm)form).suppressButtonsForTotalPage();
         }        		
         // check if audit rule check is done from PD
-        if (StringUtils.isNotBlank(request.getParameter("audit")) && request.getParameter("audit").equals("true")) {
+        if (((BudgetForm)form).isAuditActivated()) {
             KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(((BudgetForm)form).getBudgetDocument()));
         }
         return actionForward;
@@ -102,7 +102,18 @@ public class BudgetAction extends ProposalActionBase {
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.save(mapping, form, request, response);
+        ActionForward forward = super.save(mapping, form, request, response);
+        BudgetForm budgetForm = (BudgetForm) form;
+        if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
+            DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+            ProposalDevelopmentDocument pdDoc = 
+                (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(budgetForm.getBudgetDocument().getProposal().getDocumentNumber());
+            String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+            forwardUrl = StringUtils.replace(forwardUrl, "Proposal.do?", "Actions.do?auditActivated=true&");
+            forward = new ActionForward(forwardUrl, true);
+        }
+
+        return forward;
     }
 
     public ActionForward versions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

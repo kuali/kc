@@ -100,7 +100,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private ProposalAbstract newProposalAbstract;
     private ProposalPersonBiography newPropPersonBio;
     private Narrative newInstituteAttachment;
-    private boolean auditActivated;
+    //private boolean auditActivated;
     private ProposalCopyCriteria copyCriteria;
     private Map<String, Parameter> proposalDevelopmentParameters;
     private Integer answerYesNo;
@@ -499,17 +499,17 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      * Sets the auditActivated attribute value.
      * @param auditActivated The auditActivated to set.
      */
-    public void setAuditActivated(boolean auditActivated) {
-        this.auditActivated = auditActivated;
-    }
+//    public void setAuditActivated(boolean auditActivated) {
+//        this.auditActivated = auditActivated;
+//    }
 
     /**
      * Gets the auditActivated attribute.
      * @return Returns the auditActivated.
      */
-    public boolean isAuditActivated() {
-        return auditActivated;
-    }
+//    public boolean isAuditActivated() {
+//        return auditActivated;
+//    }
 
     /**
      * Sets the customAttributeGroups attribute value.
