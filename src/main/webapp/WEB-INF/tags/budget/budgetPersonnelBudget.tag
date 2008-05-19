@@ -35,7 +35,7 @@
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${costElementAttributes.costElement}" noColon="false" /></div></th>
     		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].costElement}"/></div></td>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.lineItemCost}" noColon="false" /></div></th>
-    		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].directCost}"/></td>
+    		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].lineItemCost}"/></td>
     	</tr>
     	<tr>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.startDate}" noColon="false" /></div></th>
@@ -156,11 +156,10 @@
 						</div>
 					</td>
 					<td>
-						<div align="center">
-	                	<html:image property="methodToCall.calculateSalary.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-calculate.gif' />
-						</div>
+						<%--<div align="center"></div>--%>
 						<div align=center>
+	                	 <html:image property="methodToCall.calculateSalary.line${status.index}.anchor${currentTabIndex}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-calculate.gif' />
 						<html:image property="methodToCall.deleteBudgetPersonnelDetails.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 						</div>

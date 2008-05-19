@@ -337,15 +337,15 @@
 			</attribute>
 
 			<attribute name="salaryRequested">
-			<label>Salary Requested </label>
-			<shortLabel>Salary Requested </shortLabel>
+			<label>Calculated Salary</label>
+			<shortLabel>Calculated Salary</shortLabel>
 			<maxLength>12</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
 				<text size="12" />
 			</control>
-			<summary>Salary Requested </summary>
-			<description>Salary Requested </description>
+			<summary>Calculated Salary</summary>
+			<description>Calculated Salary</description>
 			</attribute>
 
 			<attribute name="sequenceNumber">
