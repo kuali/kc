@@ -18,11 +18,7 @@ Insert into unit
 Insert into unit
    (UNIT_NUMBER, UNIT_NAME,  ORGANIZATION_ID, PARENT_UNIT_NUMBER, UPDATE_TIMESTAMP, UPDATE_USER)
  Values
-   ('000001', 'University',  '000001', '000000', sysdate, user);
-Insert into unit
-   (UNIT_NUMBER, UNIT_NAME, PARENT_UNIT_NUMBER, UPDATE_TIMESTAMP, UPDATE_USER)
- Values
-   ('000000', 'Top', null, sysdate, user);
+   ('000001', 'University',  '000001', null, sysdate, user);
 Insert into unit
    (UNIT_NUMBER, UNIT_NAME, PARENT_UNIT_NUMBER, UPDATE_TIMESTAMP, UPDATE_USER)
  Values

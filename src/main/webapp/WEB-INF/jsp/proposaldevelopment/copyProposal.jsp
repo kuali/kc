@@ -15,5 +15,5 @@
 --%>
 <link href="en/css/kuali.css" rel="stylesheet" type="text/css">
 <div valign="center">
-<a href='/kra-dev/DocCopyHandler.do?command=displayDocSearchView&docId=<%=request.getParameter("docId")%>' target='_blank'>Copy Proposal</a>
+<a href='${pageContext.request.contextPath}/DocCopyHandler.do?command=displayDocSearchView&docId=<%=request.getParameter("docId")%>' target='_blank'>Copy Proposal</a>
 </div>

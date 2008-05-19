@@ -173,7 +173,7 @@
     <c:set var="headerClass" value="headerinfo"/>
     <c:if test="${not empty KualiForm.additionalDocInfo1 or not empty KualiForm.additionalDocInfo2}">
 		<c:choose>
-			<c:when test="${lookup}" >
+			<c:when test="${lookup}" >  
 				<c:set var="headerClass" value="headerinfo-3row"/>
 			</c:when>
 			<c:otherwise>
@@ -182,7 +182,16 @@
 		</c:choose>
     </c:if>
 
-  <div class="headerbox">
+	<c:set var="KualiForm" value="${KualiForm}" /> 
+	<jsp:useBean id="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" /> 
+	
+    <c:set var="numberOfHeaderRows" value="<%=java.lang.Math.ceil((double) KualiForm.getDocInfo().size()/KualiForm.getNumColumns())%>" />
+    <c:set var="headerFieldCount" value="<%=KualiForm.getDocInfo().size()%>" />
+  	<c:set var="headerFields" value="${KualiForm.docInfo}" />
+  	<c:set var="fieldCounter" value="0" />
+  	
+	<div class="headerbox">
+
 	<c:choose>
 		<c:when test="${lookup}" >
 			<table summary="document header: general information" cellpadding="0" cellspacing="0">
@@ -191,69 +200,63 @@
 			<table class="${headerClass}" summary="document header: general information" cellpadding="0" cellspacing="0">
 		</c:otherwise>
 	</c:choose>
-        <tr>
-            <kul:htmlAttributeHeaderCell attributeEntry="${docHeaderAttributes.documentNumber}" horizontal="true" scope="row" />
-            <td>${KualiForm.document.documentHeader.documentNumber}</td>
-            <kul:htmlAttributeHeaderCell attributeEntry="${docHeaderAttributes.financialDocumentStatusCode}" horizontal="true" scope="row" />
-            <td>${KualiForm.document.documentHeader.workflowDocument.statusDisplayValue}</td>
-
-            <c:if test="${addColumn}">
-                <kul:htmlAttributeHeaderCell attributeEntry="${secondDocAttribute}" horizontal="true" scope="row"/>
-                <td>
+		
+	<c:forEach var="i" begin="1" end="${numberOfHeaderRows}" varStatus="status">
+	 <tr>
+			<c:forEach var="j" begin="1" end="<%=KualiForm.getNumColumns()%>" varStatus="innerStatus">
+		 		<c:set var="headerField" value="${headerFields[fieldCounter]}" />
+		 		<c:if test="${headerFieldCount > fieldCounter}">
+		        	<kul:htmlAttributeHeaderCell attributeEntryName="${headerField.ddAttributeEntryName}" horizontal="true" scope="row" />
+		        	<td>
+		        	<c:if test="${empty headerField.nonLookupValue and empty headerField.displayValue}">
+		        		&nbsp;
+		        	</c:if>
+						
+					<c:choose>
+						<c:when test="${lookupAware and (not lookup)}" >
+							${headerField.nonLookupValue}
+						</c:when> 
+						<c:otherwise>
+							${headerField.displayValue}
+						</c:otherwise>
+					</c:choose>
+			 		</td>
+			 	</c:if>
+				<c:set var="fieldCounter" value="${fieldCounter+1}" /> 
+		 </c:forEach>
+		 
+		 <c:if test="${addColumn}">
+		 	<c:if test="${i==1}">
+			 	<c:set var="attributeEntry" value="${secondDocAttribute}" />
+			 	<c:set var="docId" value="${secondDocId}" />
+		 	</c:if>
+		 	<c:if test="${i==2}">
+			 	<c:set var="attributeEntry" value="${thirdDocAttribute}" />
+			 	<c:set var="docId" value="${thirdDocId}" />
+		 	</c:if>
+		 	<c:if test="${i<=2}">
+	            <kul:htmlAttributeHeaderCell attributeEntry="${attributeEntry}" horizontal="true" scope="row"/>
+	            <td>
 					<c:choose>
 						<c:when test="${lookup}" >
-							${secondDocId}
-						</c:when>
+							${docId}
+						</c:when> 
 						<c:otherwise>
-							<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${secondDocId}&command=displayDocSearchView">${secondDocId}</a>
+							<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${docId}&command=displayDocSearchView">${docId}</a>
 						</c:otherwise>
 					</c:choose>
 				</td>
-            </c:if>
-        </tr>
-        <tr>
-            <kul:htmlAttributeHeaderCell attributeEntry="${dummyAttributes.initiatorNetworkId}" horizontal="true" scope="row" />
-            <td>
-				<c:choose>
-					<c:when test="${lookup}" >
-						${KualiForm.document.documentHeader.workflowDocument.initiatorNetworkId}
-					</c:when>
-					<c:otherwise>
-						<kul:inquiry boClassName="org.kuali.core.bo.user.UniversalUser" keyValues="${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=${KualiForm.document.documentHeader.workflowDocument.routeHeader.initiator.uuId}" render="true">${KualiForm.document.documentHeader.workflowDocument.initiatorNetworkId}</kul:inquiry>
-					</c:otherwise>
-				</c:choose>
-			</td>
-            <kul:htmlAttributeHeaderCell attributeEntry="${dummyAttributes.createDate}" horizontal="true" scope="row" />
-            <td><fmt:formatDate value="${KualiForm.document.documentHeader.workflowDocument.createDate}" pattern="hh:mm a MM/dd/yyyy" /></td>
-            <c:if test="${addColumn}">
-                <kul:htmlAttributeHeaderCell attributeEntry="${thirdDocAttribute}" horizontal="true" scope="row"/>
-                <td>
-
-					<c:choose>
-						<c:when test="${lookup}" >
-							${thirdDocId}
-						</c:when>
-						<c:otherwise>
-							<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${thirdDocId}&command=displayDocSearchView">${thirdDocId}</a>
-						</c:otherwise>
-					</c:choose>
-				</td>
-            </c:if>
-        </tr>
-        <c:if test="${not empty KualiForm.additionalDocInfo1 or not empty KualiForm.additionalDocInfo2}">
-            <tr>
-                <kul:htmlAttributeHeaderCell attributeEntryName="${KualiForm.additionalDocInfo1.key}" horizontal="true" scope="row" />
-                <td>${KualiForm.additionalDocInfo1.label}&nbsp;</td>
-                <kul:htmlAttributeHeaderCell attributeEntryName="${KualiForm.additionalDocInfo2.key}" horizontal="true" scope="row"/>
-                <td>${KualiForm.additionalDocInfo2.label}&nbsp;</td>
-                <c:if test="${addColumn}">
-                    <kul:htmlAttributeHeaderCell/>
-                    <td><br/></td>
-                </c:if>
-            </tr>
+       		 </c:if>
+       		 <c:if test="${i>2}">
+	             <kul:htmlAttributeHeaderCell/>
+                 <td><br/></td>
+       		 </c:if>
         </c:if>
-    </table>
-     </div>
+    </tr>
+    </c:forEach>
+ </table>
+</div>
+
 </c:if>
 
 <c:choose>

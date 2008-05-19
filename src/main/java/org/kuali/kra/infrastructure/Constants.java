@@ -18,6 +18,7 @@ package org.kuali.kra.infrastructure;
 
 public interface Constants {
     public static final String KRA_SESSION_KEY = "kra.session";
+    public static final String APP_CONTEXT_KEY = "app.context.name";
     public static final String DATASOURCE = "kraDataSource";
     public static final String DATA_DICTIONARY_SERVICE_NAME = "dataDictionaryService";
     public static final String BUSINESS_OBJECT_DICTIONARY_SERVICE_NAME = "businessObjectDictionaryService";
@@ -206,6 +207,9 @@ public interface Constants {
     
     // Copy proposal
     public static final String COPY_PROPOSAL_PROPERTY_KEY = "copyProposal";
+    
+    public static final String MAPPING_COPY_PROPOSAL_PAGE = "copyProposal";
+    public static final String HEADER_TAB = "headerTab";
 
     public static final String ON_OFF_CAMPUS_FLAG = "onOffCampusFlag";
     

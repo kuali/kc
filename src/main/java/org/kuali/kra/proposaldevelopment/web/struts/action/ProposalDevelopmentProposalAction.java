@@ -309,6 +309,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         if(StringUtils.isNotEmpty(command) && command.equals("displayDocSearchView") && StringUtils.isNotEmpty(docId)) {
             //This means that the user has come thru the Document Search Page - Copy Action
             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docId);
+            //save in workflow - Needed to refresh some of the collection proxies
+            KNSServiceLocator.getDocumentService().saveDocument(retrievedDocument);
             pdform.setDocument(retrievedDocument);
         }
         
