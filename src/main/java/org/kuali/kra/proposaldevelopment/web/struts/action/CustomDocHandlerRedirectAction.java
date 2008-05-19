@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
+import org.kuali.kra.infrastructure.Constants;
 
 import edu.iu.uis.eden.routing.web.ClientAppDocHandlerRedirectAction;
 
@@ -32,8 +33,7 @@ public class CustomDocHandlerRedirectAction extends ClientAppDocHandlerRedirectA
         ActionForward returnForward = super.start(mapping, form, request, response);
         
         String docHandler = returnForward.getPath();
-        //proposalDevelopmentProposal.do?methodToCall=docHandler&docId=<docId>&command=displayDocSearchView
-        docHandler = docHandler.replace("docHandler", "headerTab"); 
+        docHandler = docHandler.replace(RiceConstants.DOC_HANDLER_METHOD, Constants.HEADER_TAB);
         docHandler += "&" + RiceConstants.METHOD_TO_CALL_PATH + "=methodToCall.headerTab.headerDispatch.reload.navigateTo.actions.x=Proposal Actions";
           
         returnForward = new ActionForward(docHandler, returnForward.getRedirect());
