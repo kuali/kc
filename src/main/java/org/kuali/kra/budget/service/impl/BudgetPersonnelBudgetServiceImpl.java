@@ -132,7 +132,9 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
 
     public void deleteBudgetPersonnelDetails(BudgetDocument budgetDocument, int selectedBudgetPeriodIndex,
             int selectedBudgetLineItemIndex, int lineToDelete) {
-        budgetDocument.getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex).getBudgetPersonnelDetailsList().remove(lineToDelete);
+        BudgetLineItem selectedBudgetLineItem = budgetDocument.getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex);
+        selectedBudgetLineItem.getBudgetPersonnelDetailsList().remove(lineToDelete);
+        selectedBudgetLineItem.setBudgetPersonnelLineItemDeleted(true);
     }
 
 }
