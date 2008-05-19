@@ -255,10 +255,9 @@
 			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<attributes>
-				<!-- 
-			 	<attribute>
-		      		<name>CopyCustomActionListAttribute</name>
-		        </attribute> -->
+				<attribute>
+      				<name>CopyCustomActionListAttribute</name>
+        		</attribute>
 				<attribute>
 					<name>AggregatorSearchAttribute</name>
 				</attribute>

@@ -92,11 +92,12 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         String command = proposalDevelopmentForm.getCommand();
         
         if (IDocHandler.ACTIONLIST_INLINE_COMMAND.equals(command)) {
-             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(request.getParameter("docId"));
+             String docIdRequestParameter = request.getParameter(RiceConstants.PARAMETER_DOC_ID);
+             Document retrievedDocument = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
              proposalDevelopmentForm.setDocument(retrievedDocument);
-             request.setAttribute("docId", request.getParameter("docId"));
-             forward = mapping.findForward("copyProposal");
-             forward = new ActionForward(forward.getPath()+ "?docId="+request.getParameter("docId"));  
+             request.setAttribute(RiceConstants.PARAMETER_DOC_ID, docIdRequestParameter);
+             forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
+             forward = new ActionForward(forward.getPath()+ "?" + RiceConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
         } else {
              forward = super.docHandler(mapping, form, request, response);
         }

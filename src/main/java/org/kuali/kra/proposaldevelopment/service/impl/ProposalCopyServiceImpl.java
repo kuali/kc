@@ -159,6 +159,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     
             copyProposal(doc, newDoc, criteria);
             fixProposal(doc, newDoc, criteria);
+            newDoc.getDocumentHeader().setFinancialDocumentTemplateNumber(doc.getDocumentNumber());
+            
             docService.saveDocument(newDoc);
             
 //          Copy over the budget(s) if required by the user.  newDoc must be saved so we know proposal number.
