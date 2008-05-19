@@ -191,6 +191,8 @@ public class BudgetForm extends ProposalFormBase {
         String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String returnToExpensesImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_returnToExpenses.gif"; 
         addExtraButton("methodToCall.returnToExpenses", returnToExpensesImage, "Return To Expenses");
+        String calculateImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "tinybutton-calculate.gif"; 
+        addExtraButton("methodToCall.calculateLineItem", calculateImage, "Calculate");
         return extraButtons;
     }
     public List<ExtraButton> getExtraExpensesButtons() {

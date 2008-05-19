@@ -23,6 +23,7 @@ public class BudgetLineItem extends BudgetLineItemBase {
     
     private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
 	private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
+	private boolean budgetPersonnelLineItemDeleted;
 	
 	public BudgetLineItem(){
 	    super();
@@ -74,6 +75,20 @@ public class BudgetLineItem extends BudgetLineItemBase {
     @Override
     public List getBudgetCalculatedAmounts() {
         return getBudgetLineItemCalculatedAmounts();
+    }
+    /**
+     * Gets the budgetPersonnelLineItemDeleted attribute. 
+     * @return Returns the budgetPersonnelLineItemDeleted.
+     */
+    public boolean isBudgetPersonnelLineItemDeleted() {
+        return budgetPersonnelLineItemDeleted;
+    }
+    /**
+     * Sets the budgetPersonnelLineItemDeleted attribute value.
+     * @param budgetPersonnelLineItemDeleted The budgetPersonnelLineItemDeleted to set.
+     */
+    public void setBudgetPersonnelLineItemDeleted(boolean budgetPersonnelLineItemDeleted) {
+        this.budgetPersonnelLineItemDeleted = budgetPersonnelLineItemDeleted;
     }
 
 }
