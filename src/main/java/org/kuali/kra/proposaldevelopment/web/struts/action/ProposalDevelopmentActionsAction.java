@@ -402,8 +402,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
-        
-        proposalDevelopmentForm.setAuditActivated(true);
+
+        proposalDevelopmentForm.setAuditActivated(true);        
         S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
         
         // TODO : this rull will be called again in proposaldevelopmentaction.execute
@@ -494,7 +494,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
         // TODO : what if forward is null
-        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetPersonnel.do?audit=true&");
+        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetPersonnel.do?auditActivated=true&");
         
         return new ActionForward(forward, true);
     }
@@ -510,7 +510,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     public ActionForward summary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
-        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?audit=true&");
+        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
         
         return new ActionForward(forward, true);
     }
