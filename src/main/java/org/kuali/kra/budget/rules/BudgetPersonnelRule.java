@@ -18,6 +18,7 @@ package org.kuali.kra.budget.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -41,7 +42,7 @@ public class BudgetPersonnelRule {
         
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         for (BudgetPerson budgetPerson : budgetDocument.getBudgetPersons()) {
-            if (StringUtils.isBlank(budgetPerson.getJobCode())) {
+            if (StringUtils.isBlank(budgetPerson.getJobCode()) || StringUtils.isBlank(budgetPerson.getAppointmentTypeCode()) || budgetPerson.getCalculationBase().isLessEqual(BudgetDecimal.ZERO) || budgetPerson.getEffectiveDate() == null) {
                 errorMap.putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_IMCOMPLETE_PERSON_ENTRIES);
                     valid = false;
             }
