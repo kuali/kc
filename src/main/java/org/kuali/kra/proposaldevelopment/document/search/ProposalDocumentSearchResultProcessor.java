@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.Core;
 
 import edu.iu.uis.eden.docsearch.DocSearchCriteriaVO;
@@ -31,6 +33,8 @@ import edu.iu.uis.eden.web.KeyValueSort;
 
 public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearchResultProcessor {
     private static final String PROPERTY_NAME_COPY_DOCUMENT = "copyDocument";
+    private static final String DOC_TYPE_PROPOSAL_DEVELOPMENT = "ProposalDevelopmentDocument";
+    private static final String DOC_COPY_HANDLER_ACTION = "DocCopyHandler.do";
     
     @Override
     public List<Column> constructColumnList(DocSearchCriteriaVO criteria) {
@@ -40,6 +44,34 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
         return proposalSearchResultColumns;
     }  
     
+    private String buildDocCopyHandlerUrl(String documentNumber) {
+        String appContext = Core.getCurrentContextConfig().getProperty(Constants.APP_CONTEXT_KEY);
+        StringBuffer urlBuffer = new StringBuffer();
+        urlBuffer.append("/");
+        urlBuffer.append(appContext);
+        urlBuffer.append("/");
+        urlBuffer.append(DOC_COPY_HANDLER_ACTION);
+        urlBuffer.append("?");
+        urlBuffer.append(RiceConstants.PARAMETER_DOC_ID);
+        urlBuffer.append("=");
+        urlBuffer.append(documentNumber);
+        urlBuffer.append(RiceConstants.DOCHANDLER_URL_CHUNK);
+        
+        return urlBuffer.toString();
+    }
+    
+    private String getCustomFieldValue(DocSearchVO docSearchVO) {
+        String fieldValue = null;
+        String copyDocumentUrl = buildDocCopyHandlerUrl(docSearchVO.getRouteHeaderId().toString());
+        if(StringUtils.isNotEmpty(docSearchVO.getDocTypeName()) && docSearchVO.getDocTypeName().equalsIgnoreCase(DOC_TYPE_PROPOSAL_DEVELOPMENT)) {
+            fieldValue = "<a href='" + copyDocumentUrl + "' target='_blank'>Copy</a>" ;
+        } else {
+            fieldValue = "";
+        }
+        
+        return fieldValue;
+    }
+    
     @Override
     public KeyValueSort generateSearchResult(DocSearchVO docSearchVO, Column column, Map<String,Object> sortValuesByColumnKey) {
         KeyValueSort returnValue = null;
@@ -47,14 +79,9 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
         Object sortFieldValue = null;
         String columnKeyName = column.getKey();
         SearchableAttributeValue attributeValue = null;
-        String appContext = Core.getCurrentContextConfig().getProperty("app.context.name");
-        String copyDocumentUrl = "/" + appContext + "/DocCopyHandler.do?command=displayDocSearchView&docId=";
+        
         if (PROPERTY_NAME_COPY_DOCUMENT.equals(columnKeyName)) {
-            if(StringUtils.isNotEmpty(docSearchVO.getDocTypeName()) && docSearchVO.getDocTypeName().equalsIgnoreCase("ProposalDevelopmentDocument"))
-                fieldValue = "<a href='" + copyDocumentUrl +  docSearchVO.getRouteHeaderId().toString() + "' target='_blank'>Copy</a>" ;
-            else
-                fieldValue = ""; 
-            
+            fieldValue = getCustomFieldValue(docSearchVO);
             sortFieldValue = sortValuesByColumnKey.get(columnKeyName);
             returnValue = new KeyValueSort(columnKeyName, fieldValue, (sortFieldValue != null) ? sortFieldValue : fieldValue, attributeValue);
             
