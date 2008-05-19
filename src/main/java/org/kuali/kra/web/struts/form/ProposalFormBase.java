@@ -31,7 +31,7 @@ public class ProposalFormBase extends KraTransactionalDocumentFormBase {
     
     private String newBudgetVersionName;
     private Integer finalBudgetVersion;
-    
+    private boolean auditActivated;
     /**
      * The type of result returned by the multi-value lookup
      *
@@ -113,6 +113,14 @@ public class ProposalFormBase extends KraTransactionalDocumentFormBase {
             return dateFormat.format(date);
         }
         return "";
+    }
+
+    public boolean isAuditActivated() {
+        return auditActivated;
+    }
+
+    public void setAuditActivated(boolean auditActivated) {
+        this.auditActivated = auditActivated;
     }
 
 }
