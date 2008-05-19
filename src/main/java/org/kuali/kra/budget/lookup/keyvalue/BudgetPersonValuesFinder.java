@@ -25,6 +25,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -66,7 +67,7 @@ public class BudgetPersonValuesFinder extends KeyValuesBase {
         List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
         keyLabelPairs.add(new KeyLabelPair(null, "Select"));
         for(BudgetPerson budgetPerson: budgetPersons) {
-            if (StringUtils.isNotBlank(budgetPerson.getJobCode())) {
+            if (StringUtils.isNotBlank(budgetPerson.getJobCode()) && StringUtils.isNotBlank(budgetPerson.getAppointmentTypeCode()) && budgetPerson.getCalculationBase().isGreaterThan(BudgetDecimal.ZERO) && budgetPerson.getEffectiveDate() != null) {
                 keyLabelPairs.add(new KeyLabelPair(budgetPerson.getPersonSequenceNumber(), 
                                         (budgetPerson.getPersonName())+" - "+budgetPerson.getJobCode()));
             }
