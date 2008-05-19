@@ -18,6 +18,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -81,6 +82,9 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         String forward = buildForwardUrl(routeHeaderId);
+        if (pdForm.isAuditActivated()) {
+            forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
+        }
         return new ActionForward(forward, true);
     }
     
