@@ -184,6 +184,9 @@
       <docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
       <active>true</active>
       <attributes>
+	 	<attribute>
+      		<name>CopyCustomActionListAttribute</name>
+        </attribute>
         <attribute>
           <name>AggregatorSearchAttribute</name>
         </attribute>
@@ -197,7 +200,7 @@
           <name>ViewerSearchAttribute</name>
         </attribute>
         <attribute>
-          <name>ApproverSearchAttribute</name>
+          <name>ApproverSearchAttribute</name>  
         </attribute>
       </attributes>
       <routingVersion>2</routingVersion>
