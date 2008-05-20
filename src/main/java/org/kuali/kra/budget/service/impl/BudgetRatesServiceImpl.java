@@ -313,9 +313,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
             String onOffFlag = budgetProposalLaRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
             String startDate = budgetProposalLaRate.getStartDate().toString();
             String hKey = instRateClassCode + instRateTypeCode + startDate + onOffFlag;
-            InstituteRate instituteRate = (InstituteRate)instRateMap.get(hKey);
-            budgetProposalLaRate.setInstituteRate(instituteRate.getInstituteRate()); 
-            budgetProposalLaRate.setApplicableRate(instituteRate.getInstituteRate()); 
+            InstituteLaRate instituteLaRate = (InstituteLaRate)instLaRateMap.get(hKey);
+            budgetProposalLaRate.setInstituteRate(instituteLaRate.getInstituteRate()); 
+            budgetProposalLaRate.setApplicableRate(instituteLaRate.getInstituteRate()); 
         }
     }
 
