@@ -43,6 +43,7 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
@@ -96,6 +97,28 @@ public class BudgetAction extends ProposalActionBase {
         if (((BudgetForm)form).isAuditActivated()) {
             KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(((BudgetForm)form).getBudgetDocument()));
         }
+        
+        //Set the Additional Document header info
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        if(budgetDocument != null) {
+            for (BudgetVersionOverview budgetVersion: budgetDocument.getProposal().getBudgetVersionOverviews()) {
+                if (budgetVersion.getBudgetVersionNumber().intValue() == budgetDocument.getBudgetVersionNumber().intValue()) {
+                    budgetForm.setAdditionalDocInfo1(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", budgetVersion.getDocumentDescription()));
+                    break;
+                }
+            }
+            if(budgetForm.getAdditionalDocInfo1() == null) {
+                budgetForm.setAdditionalDocInfo1(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING));
+            }
+            
+            if (budgetDocument.getBudgetVersionNumber() != null) {
+                budgetForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.BudgetDocument.attributes.budgetVersionNumber", Integer.toString(budgetDocument.getBudgetVersionNumber())));
+            } else {
+                budgetForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING));
+            } 
+        }
+        
         return actionForward;
     }
 
