@@ -21,7 +21,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
-import org.apache.tools.ant.util.DateUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -522,28 +521,6 @@ public class BudgetForm extends ProposalFormBase {
         return KraServiceLocator.getService(KualiConfigurationService.class);
     }
     
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
-     */
-    public KeyLabelPair getAdditionalDocInfo1() {
-        for (BudgetVersionOverview budgetVersion: this.getBudgetDocument().getProposal().getBudgetVersionOverviews()) {
-            if (budgetVersion.getBudgetVersionNumber().intValue() == this.getBudgetDocument().getBudgetVersionNumber().intValue()) {
-                return new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", budgetVersion.getDocumentDescription());                
-            }
-        }
-        return new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING);                
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo2()
-     */
-    public KeyLabelPair getAdditionalDocInfo2() {
-        if (this.getBudgetDocument().getBudgetVersionNumber() != null) {
-            return new KeyLabelPair("DataDictionary.BudgetDocument.attributes.budgetVersionNumber", Integer.toString(this.getBudgetDocument().getBudgetVersionNumber()));
-        }
-        return new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING);                
-    }
-
     public String getPrevOnOffCampusFlag() {
         return prevOnOffCampusFlag;
     }
@@ -595,7 +572,13 @@ public class BudgetForm extends ProposalFormBase {
         HeaderField docInitiator = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", 
                 parentWorkflowDocument != null? parentWorkflowDocument.getInitiatorNetworkId() : null, 
                         parentWorkflowDocument != null? "<kul:inquiry boClassName='org.kuali.core.bo.user.UniversalUser' keyValues='${PropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER}=" + parentWorkflowDocument.getRouteHeader().getInitiator().getUuId() + "' render='true'>" + parentWorkflowDocument.getInitiatorNetworkId() + "</kul:inquiry>" : null);
-        HeaderField docCreateDate = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.createDate", parentWorkflowDocument != null? DateUtils.format(parentWorkflowDocument.getCreateDate(), "hh:mm a MM/dd/yyyy") : null);
+        
+        String createDateStr = null;
+        if(parentWorkflowDocument != null && parentWorkflowDocument.getCreateDate() != null) {
+            createDateStr = KNSServiceLocator.getDateTimeService().toString(parentWorkflowDocument.getCreateDate(), "hh:mm a MM/dd/yyyy");
+        }
+        
+        HeaderField docCreateDate = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.createDate", createDateStr);
 
         getDocInfo().clear();
         getDocInfo().add(docNumber);
