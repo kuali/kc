@@ -310,6 +310,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         if (this.hasInitiateAuthorization(document, user)) {
             flags.setCanSave(true);
             flags.setCanCancel(true);
+            flags.setCanReload(true);
         }
 
         return flags;
