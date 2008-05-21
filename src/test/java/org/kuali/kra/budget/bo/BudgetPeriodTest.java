@@ -90,6 +90,25 @@ public class BudgetPeriodTest {
         Assert.assertEquals(0, budgetPeriod.calculateFiscalYear(fiscalYearStart));
     }
     
+    @Test
+    public void testIfBudgetPeriodIsReadOnly() throws Exception {
+        budgetPeriod.setBudgetPeriod(1);
+        budgetPeriod.getBudgetLineItems().clear();
+        Assert.assertTrue(budgetPeriod.isReadOnly());
+        
+        budgetPeriod.setBudgetPeriod(1);
+        budgetPeriod.getBudgetLineItems().add(new BudgetLineItem());
+        Assert.assertTrue(budgetPeriod.isReadOnly());
+        
+        budgetPeriod.setBudgetPeriod(2);
+        budgetPeriod.getBudgetLineItems().clear();
+        Assert.assertFalse(budgetPeriod.isReadOnly());
+        
+        budgetPeriod.setBudgetPeriod(2);
+        budgetPeriod.getBudgetLineItems().add(new BudgetLineItem());
+        Assert.assertTrue(budgetPeriod.isReadOnly());
+    }
+    
     @Before
     public void setUp() {
         calendar = GregorianCalendar.getInstance();
