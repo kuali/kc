@@ -50,6 +50,13 @@ public class KeyConstants {
     public static final String ERROR_DELETE_LEAD_UNIT = "error.deleteLeadUnit";
     public static final String ERROR_ADD_EXISTING_UNIT = "error.addExistingUnit";
     public static final String ERROR_YNQ_INCOMPLETE = "error.ynqIncomplete";
+    public static final String ERROR_INVALID_YEAR = "error.invalid.year";
+    public static final String ERROR_INVALID_UNIT = "error.invalid.unit";
+    public static final String ERROR_SELECT_UNIT="error.select.unit";
+    public static final String ERROR_ONE_UNIT="error.one.unit";
+   
+    
+    
     
     public static final String ERROR_REQUIRED_FOR_FILE_NAME="error.required.for.fileName";
     public static final String ERROR_ABSTRACT_TYPE_NOT_SELECTED = "error.abstractType.notselected";
@@ -145,22 +152,23 @@ public class KeyConstants {
     public static final String ERROR_LINEITEM_STARTDATE_BEFORE_PERIOD_STARTDATE = "error.lineItemStartDate.before.periodStartDate";
     public static final String ERROR_LINEITEM_ENDDATE_AFTER_PERIOD_ENDDATE = "error.lineItemEndDate.after.periodEndDate";
     public static final String ERROR_COST_ELEMENT_NOT_SELECTED = "error.costElement.notSelected";
-    public static final String WARNING_PERIOD_COST_LIMIT_EXCEEDED= "warning.periodCostLimit.exceeded"; 
-    
-    // Change Password
-    public static final String ERROR_EMPTY_PASSWORD = "error.password.empty";
-    public static final String ERROR_INVALID_PASSWORD = "error.password.invalid";
-    public static final String ERROR_PASSWORD_MISMATCH = "error.password.mismatch";
-    
     public static final String ERROR_GLOBAL_MESSAGE = "error.global.application";
+    public static final String WARNING_PERIOD_COST_LIMIT_EXCEEDED= "warning.periodCostLimit.exceeded";
 
     // special review enhancement
     public static final String ERROR_EXEMPT_NUMBER_SELECTED = "error.exempt.number.selected";
     public static final String ERROR_EXPIRATION_DATE_PAST = "error.expiration.date.past";
     public static final String AUDIT_ERROR_BUDGETPERIOD_START_BEFORE_PROJECT_START_DATE = "error.periodStartDate.before.projectStartDate";
     public static final String AUDIT_ERROR_BUDGETPERIOD_END_AFTER_PROJECT_END_DATE = "error.periodEndDate.after.projectEndDate";
-     
+    
+    // Change Password
+    public static final String ERROR_EMPTY_PASSWORD = "error.password.empty";
+    public static final String ERROR_INVALID_PASSWORD = "error.password.invalid";
+    public static final String ERROR_PASSWORD_MISMATCH = "error.password.mismatch";
+    
+    // Copy proposal
     public static final String ERROR_LEAD_UNIT_REQUIRED = "error.leadUnit.required";
+    
     public static final String ERROR_RATE_TYPE_NOT_EXIST = "error.rateType.not.exist";
     
     public static final String ERROR_EFFECTIVE_DATE_OUT_OF_RANGE = "error.effective.date.out.of.range";
@@ -171,6 +179,7 @@ public class KeyConstants {
     public static final String ERROR_APPLICABLE_RATE_NOT_NUMERIC = "error.applicableRate.notNumeric";
     public static final String ERROR_APPLICABLE_RATE_LIMIT= "error.applicableRate.limit";
     public static final String ERROR_APPLICABLE_RATE_NEGATIVE = "error.applicableRate.negative";
+    
     public static final String ERROR_SPONSOR_HIERARCHY_EXISTS = "error.sponsorHierarchyExists";
 
 }
