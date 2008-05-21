@@ -35,7 +35,7 @@
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalIndirectCost}"noColon="true" /></div></th>
           		<th width="15%"> <div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" noColon="true" /></div></th>
           		<th width="15%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>
-          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.costSharingAmount}" noColon="true" /></div></th>
+          		<th width="10%"><div align="center">Actions</div></th>
           	
           	</tr> 
           	
@@ -90,7 +90,7 @@
             </kra:section>
             
         	<c:forEach var="budgetPeriods" items="${KualiForm.document.budgetPeriods}" varStatus="status">
-				  <bean:define id="readOnlyFlag" name="KualiForm" property="document.budgetPeriods[${status.index}].budgetLineItemStatus" />
+				  <bean:define id="readOnlyFlag" name="KualiForm" property="document.budgetPeriods[${status.index}].readOnly" />
 				  <c:if test="${readOnlyFlag == 'Yes' or readOnly == 'true'}">
 				  		<c:set var="readOnly" value="true"/>
 				  </c:if>
