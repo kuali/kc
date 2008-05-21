@@ -119,7 +119,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     public Map getEditMode(Document doc, UniversalUser user) {
-   
+        
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) doc;
         
         ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
@@ -163,7 +163,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
             }
         }
- 
+     
         return editModeMap;
     }
     
@@ -310,6 +310,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         if (this.hasInitiateAuthorization(document, user)) {
             flags.setCanSave(true);
             flags.setCanCancel(true);
+            flags.setCanReload(true);
         }
 
         return flags;
