@@ -25,9 +25,32 @@
 <c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />
 <c:set var="action" value="budgetExpensesAction" />
 <c:set var="textAreaFieldNameLineItemDescription" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
-<c:if test="${readOnly}" >
+
+
+<jsp:useBean id="budgetPeriod" type="java.lang.String" /> 
+<jsp:useBean id="budgetLineItemNumber" type="java.lang.String" /> 
+<c:set var="fromPersonnelBudget" value='<%= (Boolean) (request.getAttribute("fromPersonnelBudget"+budgetPeriod+""+budgetLineItemNumber)) %>' scope="page" /> 
+
+<c:set var="budgetLineItem" value="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber]}" /> 
+<jsp:useBean id="budgetLineItem" type="org.kuali.kra.budget.bo.BudgetLineItem" />
+<c:set var="KualiForm" value="${KualiForm}" /> 
+<jsp:useBean id="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" /> 
+
+<%
+	if(request.getAttribute("fromPersonnelBudget"+budgetPeriod+""+budgetLineItemNumber) == null) {
+		if(budgetLineItem.getBudgetPersonnelDetailsList().size() > 0) {
+			jspContext.setAttribute("fromPersonnelBudget", true);
+		}
+	}
+	
+	request.removeAttribute("fromPersonnelBudget"+budgetPeriod+""+budgetLineItemNumber);
+%>
+
+<c:if test="${readOnly or fromPersonnelBudget}" >
 	<c:set var="budgetExpensePanelReadOnly" value="true" />
+	<c:set var="fromPersonnelBudget" value="" /> 
 </c:if>
+
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <c:set target="${paramMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCode}" />
