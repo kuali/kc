@@ -37,20 +37,29 @@
               </c:if>
             </td>
           </c:when>
-          <%-- then default to tab based actions if they are not focusing in --%>
-          <c:when test='${selectedTab == "portalMainMenuBody"}'>
-              <portal:portalMainMenuBody />
+          <%-- then default to tab based actions if they are not focusing in --%>          
+          <c:when test='${selectedTab == "portalResearcherBody"}'>
+              <portal:portalResearcherBody />
+          </c:when>
+          <c:when test='${selectedTab == "portalUnitBody"}'>
+              <portal:portalUnitBody />
+          </c:when>
+          <c:when test='${selectedTab == "portalCentralAdminBody"}'>
+              <portal:portalCentralAdminBody />
+          </c:when>
+          <c:when test='${selectedTab == "portalMaintenanceBody"}'>
+              <portal:portalMaintenanceBody />
+          </c:when>
+          <c:when test='${selectedTab == "portalSystemAdminBody"}'>
+              <portal:portalSystemAdminBody />
           </c:when>
           <c:when test='${selectedTab == "portalAdministrationBody"}'>
               <portal:portalAdministrationBody />
-          </c:when>
-          <c:when test='${selectedTab == "portalMyStuffBody"}'>
-              <portal:portalMyStuffBody />
-          </c:when>
+          </c:when>          
           
           <%-- as backup go to the main menu index --%>
           <c:otherwise>
-            <portal:portalMainMenuBody />
+            <portal:portalResearcherBody />
           </c:otherwise>
         </c:choose>
     </tr>
