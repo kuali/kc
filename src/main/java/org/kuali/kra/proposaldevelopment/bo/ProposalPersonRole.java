@@ -25,7 +25,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  * @author $Author: gmcgrego $
- * @version $Revision: 1.4.4.1 $
+ * @version $Revision: 1.4.4.2 $
  */
 public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
     private String proposalPersonRoleId;

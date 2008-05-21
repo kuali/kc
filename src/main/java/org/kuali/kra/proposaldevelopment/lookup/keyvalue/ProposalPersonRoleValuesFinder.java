@@ -15,35 +15,33 @@
  */
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
+import static org.kuali.core.util.GlobalVariables.getKualiForm;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.logging.FormattedLogger.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
-import static org.kuali.core.util.GlobalVariables.getKualiForm;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
-import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 /**
  * Temporary class until this can be gotten working via table.
  *
- * @author $Author: vsoni $
- * @version $Revision: 1.9 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.9.2.1 $
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
@@ -61,8 +59,8 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         keyValues.add(new KeyLabelPair("", "select"));
 
         for (ProposalPersonRole role : roles) {
-            LOG.debug("Adding role " + role.getProposalPersonRoleId());
-            LOG.debug("With description " + findRoleDescription(role));
+            info("Adding role %s", role.getProposalPersonRoleId());
+            info("With description %s", findRoleDescription(role));
             
             boolean showRole = true;
             
@@ -70,17 +68,16 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
             if (isPersonAdded()) {
                 showRole = !KEY_PERSON_ROLE.equals(role.getProposalPersonRoleId());
             }
-            // If the person has is not added, check for an existing PI in the document. There cannot be multiple PI's added.
-            else {
-                showRole = (!hasPrincipalInvestigator || !PRINCIPAL_INVESTIGATOR_ROLE.equals(role.getProposalPersonRoleId()));
-            }
-            LOG.debug("showRole = " + showRole);
+
+            info("showRole = %s", showRole);
             
             if (showRole) {
                 keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findRoleDescription(role)));
             }
         }
 
+        info("Returning %s", keyValues);
+        
         return keyValues;
     }
 
@@ -136,6 +133,7 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         return new Boolean(getForAddedPerson());
     }
 
+    // START SNIPPET: ProposalPersonRoleValuesFinder#properties
     public String getForAddedPerson() {
         return forAddedPerson;
     }
@@ -143,4 +141,5 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     public void setForAddedPerson(String forAddedPerson) {
         this.forAddedPerson = forAddedPerson;
     }
+    // END SNIPPET: ProposalPersonRoleValuesFinder#properties
 }

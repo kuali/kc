@@ -56,7 +56,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: gmcgrego $
- * @version $Revision: 1.33.2.3 $
+ * @version $Revision: 1.33.2.4 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";

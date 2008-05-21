@@ -32,7 +32,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: gmcgrego $
- * @version $Revision: 1.36.2.1 $
+ * @version $Revision: 1.36.2.2 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**

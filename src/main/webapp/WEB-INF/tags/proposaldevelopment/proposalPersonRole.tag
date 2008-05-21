@@ -21,7 +21,7 @@
     </c:when>
     <c:otherwise>
         <c:choose>
-            <c:when test="${not proposalPersonAttributes.proposalPersonRoleId.control.select}">
+            <c:when test="${not attributeEntry.control.select}">
                 <kul:htmlControlAttribute property="${proposalPerson}.proposalPersonRoleId" attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" />
             </c:when>
             <c:otherwise>
