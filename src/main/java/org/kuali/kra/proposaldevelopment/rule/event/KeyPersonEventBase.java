@@ -27,7 +27,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
  * @author $Author: gmcgrego $
- * @version $Revision: 1.3.4.1 $
+ * @version $Revision: 1.3.4.2 $
  */
 public abstract class KeyPersonEventBase extends KraDocumentEventBase implements KeyPersonEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonEventBase.class);

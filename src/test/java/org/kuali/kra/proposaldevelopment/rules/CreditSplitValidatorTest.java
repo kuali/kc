@@ -47,7 +47,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
  * Class to test use cases of <code>{@link CreditSplitValidator}</code>
  *
  * @author $Author: gmcgrego $
- * @version $Revision: 1.7.2.1 $
+ * @version $Revision: 1.7.2.2 $
  */
 public class CreditSplitValidatorTest extends KraTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidatorTest.class);

@@ -35,7 +35,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * <code>{@link KeyPersonnelService}</code>
  *
  * @author $Author: gmcgrego $
- * @version $Revision: 1.5.2.1 $
+ * @version $Revision: 1.5.2.2 $
  */
 public class KeyPersonnelServiceTest extends KraTestBase {
     private ProposalDevelopmentDocument document;

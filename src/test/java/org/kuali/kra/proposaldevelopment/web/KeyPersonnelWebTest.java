@@ -26,8 +26,8 @@ import static org.kuali.kra.logging.FormattedLogger.*;
 
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>
- *  @author $Author: dbarre $
- *  @version $Revision: 1.11.2.2 $
+ *  @author $Author: gmcgrego $
+ *  @version $Revision: 1.11.2.3 $
  */
 public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelWebTest.class);
