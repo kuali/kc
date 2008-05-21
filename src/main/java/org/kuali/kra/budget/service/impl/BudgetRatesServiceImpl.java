@@ -143,7 +143,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                         instRates.remove(hKey);
                     }
                 }
-                instRates.put(hKey, instituteRate);
+                if (!instRates.keySet().contains(hKey)) {
+                    instRates.put(hKey, instituteRate);
+                }
             }
             
         }
@@ -171,7 +173,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                         instRates.remove(hKey);
                     }
                 }
-                instRates.put(hKey, instituteRate);
+                if (!instRates.keySet().contains(hKey)) {
+                    instRates.put(hKey, instituteRate);
+                }
             }
             
         }
