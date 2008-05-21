@@ -155,17 +155,17 @@
 			</attribute>
 
             <attributeReference name="endDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Period X End Date</label>
-                <shortLabel>Period X End Date</shortLabel>
-                <summary>Period X End Date</summary>
-                <description>Period X End Date.</description>
+                <label>Period End Date</label>
+                <shortLabel>Period End Date</shortLabel>
+                <summary>Period End Date</summary>
+                <description>Period End Date.</description>
       		</attributeReference>
 
             <attributeReference name="startDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
-                <label>Period X Start Date</label>
-                <shortLabel>Period X Start Date</shortLabel>
-                <summary>Period X Start Date</summary>
-                <description>Period X Start Date.</description>
+                <label>Period Start Date</label>
+                <shortLabel>Period Start Date</shortLabel>
+                <summary>Period Start Date</summary>
+                <description>Period Start Date.</description>
       		</attributeReference>
 
 			<attribute name="totalCost">

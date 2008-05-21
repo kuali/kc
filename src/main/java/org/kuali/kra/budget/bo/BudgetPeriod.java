@@ -227,19 +227,12 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
         this.budgetLineItems = budgetLineItems;
     }
 
-    public boolean getBudgetLineItemStatus() {
-        //return getBudgetSummaryService().budgetLineItemExists(getBudgetPeriod());
-        boolean lineItemExists = false;
-        /*
-        for(BudgetLineItem periodLineItem: budgetLineItems) {
-            Integer lineItemPeriod = periodLineItem.getBudgetPeriod();
-            if(budgetPeriod == lineItemPeriod) {
-                lineItemExists = true;
-                break;
-            }
-        }
-        */
-        return budgetLineItems.size() > 0;
+    /**
+     * This method determines whether
+     * @return
+     */
+    public boolean isReadOnly() {
+        return (budgetPeriod != null && budgetPeriod == 1) || budgetLineItems.size() > 0;
     }
 
     public BudgetDecimal getExpenseTotal() {
