@@ -34,8 +34,8 @@ import org.junit.Before;
 /**
  * Base class for all htmlunit tests involving the Proposal Development Page.
  * 
- * @author $Author: dbarre $
- * @version $Revision: 1.13 $
+ * @author $Author: shyu $
+ * @version $Revision: 1.14 $
  */
 public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     
@@ -85,7 +85,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
      * @throws IOException
      */
     protected final HtmlPage buildProposalDevelopmentPage() throws Exception {
-        HtmlPage retval = clickOn(getPortalPage(), "Proposal Development", "Kuali Portal Index");
+        HtmlPage retval = clickOn(getPortalPage(), "Create Proposal", "Kuali Portal Index");
         retval = getInnerPages(retval).get(0);
         assertTrue("Kuali :: Proposal Development Document".equals(retval.getTitleText()));
         return retval;
