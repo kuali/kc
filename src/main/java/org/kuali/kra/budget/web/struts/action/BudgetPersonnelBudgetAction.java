@@ -133,7 +133,8 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
             budgetForm.getNewBudgetLineItems().add(new BudgetLineItem());
         }
         budgetForm.getBudgetDocument().setBudgetCategoryTypeCodes(budgetCategoryTypes);
-
+        request.setAttribute("fromPersonnelBudget"+budgetForm.getViewBudgetPeriod()+""+selectedBudgetLineItemIndex, true);
+        
         return mapping.findForward("expenses");
     }
     /**
