@@ -22,14 +22,14 @@
 </p>
   <table border="0" cellpadding="2" cellspacing="0">
    <tr>
-    <td nowrap>Disclosure</td>
+    <td nowrap class="disabled-text">Disclosure</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
-    <td nowrap>Financial Entity</td>
+    <td nowrap class="disabled-text">Financial Entity</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
@@ -41,35 +41,35 @@
 </p>
   <table border="0" cellpadding="2" cellspacing="0">
    <tr>
-    <td nowrap>Animals</td>
+    <td nowrap class="disabled-text">Animals</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
-    <td nowrap>Biosafety</td>
+    <td nowrap class="disabled-text">Biosafety</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
-    <td nowrap>Chemical Safety</td>
+    <td nowrap class="disabled-text">Chemical Safety</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
-    <td nowrap>Human Participants</td>
+    <td nowrap class="disabled-text">Human Participants</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
-    <td nowrap>Radiation Safety</td>
+    <td nowrap class="disabled-text">Radiation Safety</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">

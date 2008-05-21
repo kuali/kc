@@ -22,14 +22,14 @@
 <br/>
   <table border="0" cellpadding="2" cellspacing="0">
   <tr>
-    <td nowrap>Financial Entity</td>
+    <td nowrap class="disabled-text">Financial Entity</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
-    <td nowrap>Disclosure</td>
+    <td nowrap class="disabled-text">Disclosure</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
@@ -44,35 +44,35 @@
 <br/>
   <table border="0" cellpadding="2" cellspacing="0">
    <tr>
-    <td nowrap>Committee</td>
+    <td nowrap  class="disabled-text">Committee</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
-    <td nowrap>Protocol</td>
+    <td nowrap class="disabled-text">Protocol</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
-    <td nowrap>Schedules</td>
+    <td nowrap class="disabled-text">Schedules</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
-    <td nowrap>Correspondence</td>
+    <td nowrap class="disabled-text">Correspondence</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
-    <td nowrap>Protocol Submissions</td>
+    <td nowrap class="disabled-text">Protocol Submissions</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
       <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
