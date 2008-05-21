@@ -136,7 +136,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         HashMap instRates = new HashMap();
         for(InstituteRate instituteRate : allInstituteRates) {
             Date rateStartDate = instituteRate.getStartDate();
-            if(rateStartDate.compareTo(getProjectStartDate()) <= 0) {
+            if(rateStartDate.before(getProjectStartDate())) {
                 String instRateClassCode = instituteRate.getRateClassCode();
                 String instRateTypeCode = instituteRate.getRateTypeCode();
                 String onOffFlag = instituteRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
@@ -148,7 +148,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                         instRates.remove(hKey);
                     }
                 }
-                instRates.put(hKey, instituteRate);
+                if (!instRates.keySet().contains(hKey)) {
+                    instRates.put(hKey, instituteRate);
+                }
             }
             
         }
@@ -164,7 +166,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         HashMap instRates = new HashMap();
         for(InstituteLaRate instituteRate : allInstituteRates) {
             Date rateStartDate = instituteRate.getStartDate();
-            if(rateStartDate.compareTo(getProjectStartDate()) <= 0) {
+            if(rateStartDate.before(getProjectStartDate())) {
                 String instRateClassCode = instituteRate.getRateClassCode();
                 String instRateTypeCode = instituteRate.getRateTypeCode();
                 String onOffFlag = instituteRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
@@ -176,7 +178,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                         instRates.remove(hKey);
                     }
                 }
-                instRates.put(hKey, instituteRate);
+                if (!instRates.keySet().contains(hKey)) {
+                    instRates.put(hKey, instituteRate);
+                }
             }
             
         }
@@ -487,9 +491,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                 budgetProposalRate.setStartDate(instituteRate.getStartDate());
                 budgetProposalRate.setUnitNumber(unitNumber);
                 budgetProposalRate.setOldApplicableRate(instituteRate.getInstituteRate());
-                if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetProposalLaRates,budgetProposalRate)) {
+                //if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetProposalLaRates,budgetProposalRate)) {
                     budgetProposalLaRates.add(budgetProposalRate);
-                }
+                //}
             }
         }
         rateClasses.addAll(rateClassMap.values());
@@ -556,9 +560,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                 budgetProposalRate.setStartDate(instituteRate.getStartDate());
                 budgetProposalRate.setUnitNumber(unitNumber);
                 budgetProposalRate.setOldApplicableRate(instituteRate.getInstituteRate());
-                if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetProposalRates,budgetProposalRate)) {
+                //if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetProposalRates,budgetProposalRate)) {
                     budgetProposalRates.add(budgetProposalRate);
-                }
+                //}
             }
         }
         rateClasses.addAll(rateClassMap.values());
