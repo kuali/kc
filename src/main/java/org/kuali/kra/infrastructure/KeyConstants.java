@@ -170,8 +170,9 @@ public class KeyConstants {
     // budget rates
     public static final String ERROR_REQUIRED_APPLICABLE_RATE = "error.required.applicableRate";
     public static final String ERROR_APPLICABLE_RATE_NOT_NUMERIC = "error.applicableRate.notNumeric";
-    public static final String ERROR_APPLICABLE_RATE_LENGTH = "error.applicableRate.length";
+    public static final String ERROR_APPLICABLE_RATE_LIMIT= "error.applicableRate.limit";
     public static final String ERROR_APPLICABLE_RATE_NEGATIVE = "error.applicableRate.negative";
     
+    public static final String ERROR_SPONSOR_HIERARCHY_EXISTS = "error.sponsorHierarchyExists";
 
 }
