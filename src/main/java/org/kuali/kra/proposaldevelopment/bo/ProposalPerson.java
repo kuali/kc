@@ -31,8 +31,8 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * @author $Author: gmcgrego $
- * @version $Revision: 1.36.2.2 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.36.2.3 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -61,6 +61,9 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private List<ProposalPersonDegree> proposalPersonDegrees;
     private List<ProposalPersonCreditSplit> creditSplits;
     private String simpleName;
+    private String optInUnitStatus;
+    private String optInCertificationStatus;
+    private boolean unitdelete;
     
     /**
      *
@@ -342,7 +345,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
         if (isNotBlank(argPropPersonRoleId)) {
             this.proposalPersonRoleId = argPropPersonRoleId;
             refreshReferenceObject("role");
-            setRoleChanged(true);
+            //setRoleChanged(true);
         }
     }
 
@@ -427,9 +430,9 @@ public class ProposalPerson extends Person implements CreditSplitable {
         this.person = argPerson;
     }
 
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-   	    LinkedHashMap hashmap = super.toStringMapper();
+    @Override 
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap hashmap = super.toStringMapper();
 
         hashmap.put("conflictOfInterest", getConflictOfInterestFlag());
         hashmap.put("percentageEffort", getPercentageEffort());
@@ -441,8 +444,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
         hashmap.put("proposalPersonNumber", getProposalPersonNumber());
         hashmap.put("proposalPersonRoleId", getProposalPersonRoleId());
         
-		return hashmap;
-	}
+        return hashmap;
+    }
 
     /**
      * Adds a new degree to the collection in the person
@@ -528,6 +531,14 @@ public class ProposalPerson extends Person implements CreditSplitable {
         this.delete = delete;
     }
     
+    public void setUnitDelete(boolean delete){
+        this.unitdelete=delete;
+    }
+    
+    public boolean isUnitDelete()
+    {
+        return unitdelete;
+    }
     /**
      * Gets index i from the creditSplits list.
      * 
@@ -659,4 +670,21 @@ public class ProposalPerson extends Person implements CreditSplitable {
     public void setOtherSignificantContributorFlag(boolean otherSignificantContributorFlag) {
         this.otherSignificantContributorFlag = otherSignificantContributorFlag;
     }
+
+    public String getOptInUnitStatus() {
+        return optInUnitStatus;
+    }
+
+    public void setOptInUnitStatus(String optInUnitStatus) {
+        this.optInUnitStatus = optInUnitStatus;
+    }
+
+    public String getOptInCertificationStatus() {
+        return optInCertificationStatus;
+    }
+
+    public void setOptInCertificationStatus(String optInCertificationStatus) {
+        this.optInCertificationStatus = optInCertificationStatus;
+    }
+
 }
