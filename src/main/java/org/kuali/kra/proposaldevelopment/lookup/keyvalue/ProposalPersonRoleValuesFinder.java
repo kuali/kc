@@ -40,8 +40,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 /**
  * Temporary class until this can be gotten working via table.
  *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.9.2.1 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.9.2.2 $
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
