@@ -218,11 +218,11 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         List<BudgetProposalRate> budgetProposalRates = budgetDocument.getBudgetProposalRates();
         List<BudgetProposalLaRate> budgetProposalLaRates = budgetDocument.getBudgetProposalLaRates();
         for(BudgetProposalRate budgetProposalRate: budgetProposalRates) {
-            budgetProposalRate.setApplicableRate(budgetProposalRate.getOldApplicableRate()); 
+            budgetProposalRate.setApplicableRate(budgetProposalRate.getInstituteRate()); 
         }
         /* reset la rates */
         for(BudgetProposalLaRate budgetProposalLaRate: budgetProposalLaRates) {
-            budgetProposalLaRate.setApplicableRate(budgetProposalLaRate.getOldApplicableRate()); 
+            budgetProposalLaRate.setApplicableRate(budgetProposalLaRate.getInstituteRate()); 
         }
     }
     
@@ -237,13 +237,13 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
             if(rateClass.getRateClassType().equalsIgnoreCase(rateClassType)) {
                 for(BudgetProposalRate budgetProposalRate: budgetProposalRates) {
                     if(budgetProposalRate.getRateClassCode().equalsIgnoreCase(rateClass.getRateClassCode())) {
-                        budgetProposalRate.setApplicableRate(budgetProposalRate.getOldApplicableRate()); 
+                        budgetProposalRate.setApplicableRate(budgetProposalRate.getInstituteRate()); 
                     }
                 }
                 /* reset la rates */
                 for(BudgetProposalLaRate budgetProposalLaRate: budgetProposalLaRates) {
                     if(budgetProposalLaRate.getRateClassCode().equalsIgnoreCase(rateClass.getRateClassCode())) {
-                        budgetProposalLaRate.setApplicableRate(budgetProposalLaRate.getOldApplicableRate()); 
+                        budgetProposalLaRate.setApplicableRate(budgetProposalLaRate.getInstituteRate()); 
                     }
                 }
             }
