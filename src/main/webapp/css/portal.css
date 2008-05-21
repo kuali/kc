@@ -1,67 +1,91 @@
-body {
+/*
+ * Copyright 2005-2008 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+body
+{
 	font-size: 71%;
 	margin: 0;
 	background-color: #a02919;
 }
 
-form {
-	margin: 0;
-}
-
-li,td,div,th,table,span,body {
+form { margin: 0; }
+li, td, div, th, table, span, body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
-table {
+table
+{
 	margin-top: 0px;
 	margin: 0px;
 	padding: 0px;
 	font-size: 100%;
 }
 
-a:link {
+a:link
+{
 	text-decoration: underline;
 	color: #000000;
 }
 
-a:visited {
+a:visited
+{
 	text-decoration: underline;
 	color: #000000;
 }
 
-a:hover {
+a:hover
+{
 	color: #990000;
 	text-decoration: underline;
 }
 
-a:active {
+a:active
+{
 	color: #333333;
 	text-decoration: underline;
 }
 
-.alignright {
+.alignright
+{
 	margin-top: 0;
 	text-align: right;
 }
 
-.small {
-	font-size: .9em;
+.small { font-size: .9em; }
+
+
+
+#portchancont table
+{
+		
 }
 
-#portchancont table {
-	
-}
-
-#portchancont td {
+#portchancont td
+{
 	padding-left: 12px;
+	
+
 }
 
-#topcontrols {
+#topcontrols
+{
 	position: absolute;
 	top: 0;
 	right: 0;
 	text-align: right;
-	background-image: url("../images-portal/topcontrolback.gif");
+	background-image:  url("../images-portal/topcontrolback.gif");
 	background-repeat: no-repeat;
 	height: 22px;
 	padding-left: 60px;
@@ -69,7 +93,8 @@ a:active {
 	padding-top: 3px;
 }
 
-#topcontrols input.loginbox {
+#topcontrols input.loginbox
+{
 	border: 1px solid #666666;
 	height: 14px;
 	font-size: 80%;
@@ -79,7 +104,8 @@ a:active {
 	vertical-align: top;
 }
 
-#topcontrols input.loginbutton {
+#topcontrols input.loginbutton
+{
 	border: none;
 	background-color: #FBF8E0;
 	margin: 0;
@@ -87,32 +113,37 @@ a:active {
 	vertical-align: middle;
 }
 
-#topcontrols a:link {
+#topcontrols a:link
+{
 	color: #000000;
 	text-decoration: none;
 }
 
-#topcontrols a:visited {
+#topcontrols a:visited
+{
 	color: #000000;
 	text-decoration: none;
 }
 
-#topcontrols a:hover {
+#topcontrols a:hover
+{
 	color: #990000;
 	text-decoration: underline;
 }
 
-#topcontrols a:active {
+#topcontrols a:active
+{
 	color: #333333;
 	text-decoration: underline;
 }
 
-#search {
+#search
+{
 	position: absolute;
 	top: 70px;
 	right: 0;
 	text-align: right;
-	background-image: url("../images-portal/searchback.gif");
+	background-image:   url("../images-portal/searchback.gif");
 	height: 38px;
 	background-repeat: no-repeat;
 	padding-right: 10px;
@@ -122,19 +153,22 @@ a:active {
 	padding-top: 8px;
 }
 
-#search input {
+#search input
+{
 	border: 1px solid #480000;
 	font-size: 10px;
 	background-color: #FFFFCC;
 }
 
-#search select {
+#search select
+{
 	border: 1px solid #480000;
 	font-size: 10px;
 	background-color: #FFFFCC;
 }
 
-#search input.loginbox {
+#search input.loginbox
+{
 	border: 1px solid #666666;
 	font-size: 10px;
 	background-color: #FBF8E0;
@@ -144,7 +178,8 @@ a:active {
 	height: 16px;
 }
 
-#search input.go {
+#search input.go
+{
 	font-size: 10px;
 	background-color: #BA3B25;
 	font-weight: bold;
@@ -155,8 +190,13 @@ a:active {
 	border-left: 1px solid #FF7979;
 }
 
-/*******************************************************************************                       Positioning rules*******************************************************************************/
-#login-info {
+/*******************************************************************************
+                       Positioning rules
+*******************************************************************************/
+
+
+#login-info
+{
 	height: 12px;
 	position: absolute;
 	top: 87px;
@@ -164,7 +204,9 @@ a:active {
 	color: #990000;
 }
 
-#build {
+
+#build
+{
 	height: 12px;
 	position: absolute;
 	top: 47px;
@@ -182,59 +224,65 @@ a:active {
 	color: #999999;
 }
 
-#header {
+
+#header
+{
 	height: 70px;
-	background-image: url("../images-portal/headerback.gif");
+	background-image:  url("../images-portal/headerback.gif");
 	color: #FFFFFF;
 	font-size: 1.5em;
 }
 
-#header span {
-	display: none;
-}
+#header span { display: none; }
 
-#header h1.kfs {
-	background-image: url("../images-portal/logo-kfs.gif");
+#header h1.kfs
+{
+	background-image:   url("../images-portal/logo-kfs.gif");
 	margin: 0px;
 	padding: 0px;
-	height: 70px;
+	height:70px;
 	width: 221px;
 	position: absolute;
 	left: 0px;
 	top: 0px;
 }
 
-#header h1.kra {
-	background-image: url("../images-portal/logo-kra.gif");
+#header h1.kra
+{
+	background-image:   url("../images-portal/logo-kra.gif");
 	margin: 0px;
 	padding: 0px;
-	height: 70px;
+	height:70px;
 	width: 221px;
 	position: absolute;
 	left: 0px;
 	top: 0px;
 }
 
-div.header2 {
-	background-image: url("../images-portal/head2-back.gif");
+div.header2
+{
+	background-image:   url("../images-portal/head2-back.gif");
 	background-color: #F4D9D8;
 	background-repeat: repeat-x;
 	height: 38px;
 }
 
-div.header2-left {
-	background-image: url("../images-portal/header2-left.gif");
+div.header2-left
+{
+	background-image:   url("../images-portal/header2-left.gif");
 	height: 38px;
 	background-repeat: no-repeat;
 }
 
-div.header2-left-focus {
-	background-image: url("../images-portal/header2-left-focus.gif");
+div.header2-left-focus
+{
+	background-image:   url("../images-portal/header2-left-focus.gif");
 	height: 38px;
 	background-repeat: no-repeat;
 }
 
-div.breadcrumb {
+div.breadcrumb
+{
 	font-family: "Arial Narrow";
 	font-size: 16px;
 	position: absolute;
@@ -244,7 +292,8 @@ div.breadcrumb {
 	font-weight: bold;
 }
 
-div.breadcrumb-focus {
+div.breadcrumb-focus
+{
 	position: absolute;
 	left: 28px;
 	top: 84px;
@@ -252,106 +301,121 @@ div.breadcrumb-focus {
 	font-weight: bold;
 }
 
-div.tabposition {
+div.tabposition
+{
 	position: absolute;
-	top: 49px;
-	left: 237px;
+	top: 48px;
+	left: 190px;
 	width: 200px;
 	white-space: nowrap;
 }
 
-#tabs {
+#tabs
+{
 	float: left;
 	font-size: 93%;
 	line-height: normal;
 	white-space: nowrap;
-	width: 600px;
+	width: 800px;
 }
 
-#tabs ul {
+#tabs ul
+{
 	margin: 0;
 	padding: 0px 0px 0;
 	list-style: none;
 	white-space: nowrap;
 }
 
-#tabs li.red {
-	background: url("../images-portal/left-red.gif") no-repeat left top;
+#tabs li.red
+{
+	background:  url("../images-portal/left-red.gif") no-repeat left top;
 	margin: 0px 3px;
 	padding: 0px 0px 0px 9px;
 	float: left;
+		white-space: nowrap;
 }
 
-#tabs a.red {
+#tabs a.red
+{
 	float: left;
 	display: block;
-	background: url("../images-portal/right-red.gif") no-repeat right top;
-	padding: 5px 15px 4px 6px;
+	background:  url("../images-portal/right-red.gif") no-repeat right top;
+	padding: 5px 9px 4px 0px;
 	text-decoration: none;
 	font-weight: bold;
 	color: #FFFFFF;
 }
 
-#tabs li.green {
-	background: url("../images-portal/left-tan.gif") no-repeat left top;
+
+
+#tabs li.green
+{
+	background:   url("../images-portal/left-tan.gif") no-repeat left top;
 	margin: 0 3px;
 	padding: 0 0 0 9px;
 	float: left;
 }
 
-#tabs a.green {
+#tabs a.green
+{
 	float: left;
 	display: block;
-	background: url("../images-portal/right-tan.gif") no-repeat right top;
-	padding: 5px 15px 4px 6px;
+	background:   url("../images-portal/right-tan.gif") no-repeat right top;
+	padding: 5px 9px 4px 0px;
 	text-decoration: none;
 	font-weight: bold;
 	color: #333333;
 }
 
-/* Commented Backslash Hack   hides rule from IE5-Mac \*/
-#tabs a {
+
+/* Commented Backslash Hack
+   hides rule from IE5-Mac \*/
+
+#tabs a
+{
 	float: none;
 	white-space: nowrap;
 }
 
 /* End IE5-Mac hack */
-#tabs a:hover {
+#tabs a:hover
+{
 	color: #333333;
 	text-decoration: underline;
 }
 
-#tabs #current {
-	background-image: url("../images/left_on.gif");
-}
+#tabs #current { background-image: url("../../portal2/images/left_on.gif"); }
 
-#tabs #current a {
-	background-image: url("../images/right_on.gif");
+#tabs #current a
+{
+	background-image: url("../../portal2/images/right_on.gif");
 	color: #333;
 	padding-bottom: 5px;
 }
 
-#subtabs {
-	background-color: #99FF99;
-}
+#subtabs { background-color: #99FF99; }
 
-h1,h2 {
+h1, h2
+{
 	margin: 0;
 	font-size: 100%;
 }
 
-.footerbevel {
+.footerbevel
+{
 	background-image: url(../images-portal/bl-bevel-focus.gif);
 	height: 27px;
 }
 
-#footer-copyright {
+#footer-copyright
+{
 	background-color: #a02919;
 	color: #fff;
 	bottom: 0px;
 	width: 100%;
 	text-align: center;
-	background-image: url("../images-portal/os-guy.gif");
+	background-image:   url("../images-portal/os-guy.gif");
 	padding-top: 20px;
 	padding-bottom: 12px;
 	background-repeat: no-repeat;
@@ -359,83 +423,98 @@ h1,h2 {
 	height: 60px;
 }
 
-#footer-copyright a:link {
+#footer-copyright a:link
+{
 	color: #FFFFFF;
 	text-decoration: underline;
 }
 
-#footer-copyright a:visited {
+#footer-copyright a:visited
+{
 	color: #FFFFFF;
 	text-decoration: underline;
 }
 
-#footer-copyright a:hover {
+#footer-copyright a:hover
+{
 	color: #000000;
 	text-decoration: underline;
 }
 
-#footer-copyright a:active {
+#footer-copyright a:active
+{
 	color: #000000;
 	text-decoration: underline;
 }
 
-#footer-nav {
-	background-image: url("../images-portal/leftback.gif");
+#footer-nav
+{
+	background-image:   url("../images-portal/leftback.gif");
 	background-repeat: no-repeat;
 	height: 20px;
 	background-color: #FFFFFF;
 }
 
-#footer-nav-focus {
-	background-image: url("../images-portal/bl-bevel-focus.gif");
+#footer-nav-focus
+{
+	background-image:   url("../images-portal/bl-bevel-focus.gif");
 	background-repeat: no-repeat;
 	height: 20px;
 	background-color: #FFFFFF;
 	background-position: left bottom;
 }
 
-#footer-nav  a:link {
+#footer-nav  a:link
+{
 	color: #000000;
 	text-decoration: none;
 }
 
-#footer-nav  a:visited {
+#footer-nav  a:visited
+{
 	color: #000000;
 	text-decoration: none;
 }
 
-#footer-nav  a:hover {
+#footer-nav  a:hover
+{
 	color: #990000;
 	text-decoration: underline;
 }
 
-#footer-nav  a:active {
+#footer-nav  a:active
+{
 	color: #333333;
 	text-decoration: underline;
 }
 
-#footer-nav-focus  a:link {
+#footer-nav-focus  a:link
+{
 	color: #000000;
 	text-decoration: none;
 }
 
-#footer-nav-focus  a:visited {
+#footer-nav-focus  a:visited
+{
 	color: #000000;
 	text-decoration: none;
 }
 
-#footer-nav-focus  a:hover {
+#footer-nav-focus  a:hover
+{
 	color: #990000;
 	text-decoration: underline;
 }
 
-#footer-nav-focus  a:active {
+#footer-nav-focus  a:active
+{
 	color: #333333;
 	text-decoration: underline;
 }
 
-div.leftswoop {
-	background: url("../images-portal/subnav-left.gif") no-repeat left top;
+div.leftswoop
+{
+	background:   url("../images-portal/subnav-left.gif") no-repeat left top;
 	padding: 0 0 0 9px;
 	float: left;
 	position: relative;
@@ -444,8 +523,9 @@ div.leftswoop {
 	bottom: 2px;
 }
 
-html>body div.leftswoop {
-	background: url("../images-portal/subnav-left.gif") no-repeat left top;
+html>body div.leftswoop
+{
+	background:   url("../images-portal/subnav-left.gif") no-repeat left top;
 	padding: 0 0 0 9px;
 	float: left;
 	position: relative;
@@ -454,45 +534,41 @@ html>body div.leftswoop {
 	bottom: 3px;
 }
 
-span.rightswoop {
+span.rightswoop
+{
 	float: left;
 	display: block;
-	background: url("../images-portal/subnav-right.gif") no-repeat right top
-		;
+	background:   url("../images-portal/subnav-right.gif") no-repeat right top;
 	padding: 5px 15px 4px 6px;
 	text-decoration: none;
 	font-weight: bold;
 }
 
-.centerfootnav {
-	width: 300px;
-}
+.centerfootnav { width: 300px; }
 
-div#leftbox {
+div#leftbox
+{
 	left: 0px;
 	padding-top: 0px;
 	margin: 0;
 	width: 169px;
 }
 
-.leftback {
-	background-image: url("../images-portal/leftback.gif");
-}
-
-.leftback-focus {
-	background-image: url("../images-portal/leftback-focus.gif");
-}
-
-td.content {
+.leftback { background-image:   url("../images-portal/leftback.gif"); }
+.leftback-focus { background-image:   url("../images-portal/leftback-focus.gif"); }
+td.content-33 {
 	padding-bottom: 40px;
+	width: 33%;
 }
 
-#middlebox {
+#middlebox
+{
 	margin: 0px 0px 0px 169px;
 	background-color: #FFFFFF;
 }
 
-div#rightbox {
+div#rightbox
+{
 	position: absolute;
 	right: 0px;
 	width: 30%;
@@ -500,37 +576,49 @@ div#rightbox {
 }
 
 /** 'portlet' block **/
-#portlets-left-column {
+
+
+
+
+
+#portlets-left-column
+{
 	margin: 0 0 0 12px;
 	padding: 0;
 	width: 49%;
 	float: left;
 }
 
-#portlets-right-column {
+#portlets-right-column
+{
 	margin: 0 12px 0 0;
 	padding: 0;
 	width: 50%;
 	float: right;
 }
 
-.portlet {
+.portlet
+{
 	margin: 20px 10px 0px;
 	padding: 0px;
 	border: 1px solid #999999;
 }
 
-.portlet-iframe {
-	margin: 0px;
+
+.portlet-iframe
+{
+	margin:  0px;
 	padding: 0px;
 	border: 1px solid #999999;
 }
 
-.portlet .header {
+
+.portlet .header
+{
 	padding-left: 0.25em;
 	background-color: #E5E5E5;
 	height: 22px;
-	background-image: url("../images-portal/chanhead-back.gif");
+	background-image:  url("../images-portal/chanhead-back.gif");
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #999999;
@@ -540,7 +628,8 @@ div#rightbox {
 	text-align: left;
 }
 
-.portlet .header h2 {
+.portlet .header h2
+{
 	margin: 0px;
 	padding: 0px;
 	font-size: 100%;
@@ -548,40 +637,42 @@ div#rightbox {
 	white-space: nowrap;
 }
 
-.portlet .header span {
-	width: 16px;
-	height: 16px;
-	float: right;
+.portlet .header span
+{
+	height: 100%;
+	
 }
 
-.portlet-nav {
-	float: left;
-}
+.portlet-nav { float: left; }
 
-#navcontainer {
+#navcontainer
+{
 	margin: 0px;
 	padding: 0px;
 	width: 169px;
 }
 
-#navcontainer ul {
+#navcontainer ul
+{
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
 
-#navcontainer li {
+#navcontainer li
+{
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
 
-#navcontainer a {
+#navcontainer a
+{
 	display: block;
 	padding: 4px 0px 4px 12px;
 	width: 169px;
 	border-bottom: 1px solid #333333;
-	background-image: url("../images-portal/subnav-back.gif");
+	background-image:   url("../images-portal/subnav-back.gif");
 	background-position: right;
 	text-decoration: none;
 	color: #FFFFFF;
@@ -591,12 +682,13 @@ div#rightbox {
 	margin-left: 0px;
 }
 
-html>body #navcontainer a {
+html>body #navcontainer a
+{
 	display: block;
 	padding: 4px 0px 4px 12px;
 	width: 157px;
 	border-bottom: 1px solid #333333;
-	background-image: url("../images-portal/subnav-back.gif");
+	background-image:   url("../images-portal/subnav-back.gif");
 	background-position: right;
 	text-decoration: none;
 	color: #FFFFFF;
@@ -604,14 +696,17 @@ html>body #navcontainer a {
 	margin-right: 0px;
 	margin-bottom: 0px;
 	margin-left: 0px;
+
 }
 
-#navcontainer a.current {
+
+#navcontainer a.current
+{
 	display: block;
 	padding: 4px 0px 4px 12px;
 	width: 169px;
 	border-bottom: 1px solid #333333;
-	background-image: url("../images-portal/subnav-back1.gif");
+	background-image:   url("../images-portal/subnav-back1.gif");
 	background-position: right;
 	text-decoration: none;
 	color: #000000;
@@ -622,12 +717,13 @@ html>body #navcontainer a {
 	font-weight: bold;
 }
 
-html>body #navcontainer a.current {
+html>body #navcontainer a.current
+{
 	display: block;
 	padding: 4px 0px 4px 12px;
 	width: 157px;
 	border-bottom: 1px solid #333333;
-	background-image: url("../images-portal/subnav-back1.gif");
+	background-image:   url("../images-portal/subnav-back1.gif");
 	background-position: right;
 	text-decoration: none;
 	color: #000000;
@@ -638,56 +734,62 @@ html>body #navcontainer a.current {
 	font-weight: bold;
 }
 
-#navcontainer a:link,#navlist a:visited {
+
+
+
+#navcontainer a:link, #navlist a:visited
+{
 	color: #EEE;
 	text-decoration: none;
 }
 
-#navcontainer a:hover {
-	background-image: url("../images-portal/subnav-back1.gif");
+#navcontainer a:hover
+{
+	background-image:   url("../images-portal/subnav-back1.gif");
 	color: #000000;
 }
 
-#misclinks {
+#misclinks
+{
 	padding-top: 30px;
 	padding-left: 8px;
 }
 
-#misclinks li {
-	list-style-image: url("../images-portal/bullet.gif");
-}
+#misclinks li { list-style-image:   url("../images-portal/bullet.gif"); }
 
-#misclinks a:link {
+#misclinks a:link
+{
 	color: #000000;
 	text-decoration: none;
 }
 
-#misclinks a:visited {
+#misclinks a:visited
+{
 	color: #000000;
 	text-decoration: none;
 }
 
-#misclinks a:hover {
+#misclinks a:hover
+{
 	color: #990000;
 	text-decoration: underline;
 }
 
-#misclinks a:active {
+#misclinks a:active
+{
 	color: #333333;
 	text-decoration: underline;
 }
 
 /** 'portlet' block: portlet mode and window state controls **/
-div.portlet-head {
-	height: 40px;
-}
-
+div.portlet-head { height: 40px; }
 div.portlet-title {
 	float: left;
 	padding: 3px;
 }
 
-h2.portlet-title {
+h2.portlet-title
+{
 	font-family: "Arial Narrow";
 	font-size: 16px;
 	margin-right: 10px;
@@ -697,8 +799,23 @@ h2.portlet-title {
 	color: #8D2C1B;
 	white-space: nowrap;
 }
+.messageofday
+{
+	font-family: "Arial Narrow";
+	font-size: 100%;
+	color: #8D2C1B;
+	white-space: nowrap;
+}
 
-div.portlet-modify {
+.menu-subheader
+{
+
+	color: #8D2C1B;
+
+}
+
+div.portlet-modify
+{
 	float: right;
 	margin-right: 10px;
 	margin-left: 10px;
@@ -706,7 +823,8 @@ div.portlet-modify {
 	margin-bottom: 10px;
 }
 
-.dddlist {
+.dddlist
+{
 	width: 68px;
 	font-size: 10px;
 	background-color: #e5e5e5;
@@ -715,33 +833,14 @@ div.portlet-modify {
 	float: right;
 }
 
-.portlet .body {
-	padding: 10px;
-}
+.portlet .body { padding: 10px; }
+.portlet .header span.min { background: url(../../portal2/images/min.png) no-repeat; }
+.portlet .header span.max { background: url(../../portal2/images/max.png) no-repeat; }
+.portlet .header span.norm { background: url(../../portal2/images/norm.png) no-repeat; }
+.portlet .header span.view { background: url(../../portal2/images/view.png) no-repeat; }
+.portlet .header span.edit { background: url(../../portal2/images/edit.png) no-repeat; }
+.portlet .header span.help { background: url(../../portal2/images/help.png) no-repeat; }
 
-.portlet .header span.min {
-	background: url(../images/min.png) no-repeat;
-}
-
-.portlet .header span.max {
-	background: url(../images/max.png) no-repeat;
-}
-
-.portlet .header span.norm {
-	background: url(../images/norm.png) no-repeat;
-}
-
-.portlet .header span.view {
-	background: url(../images/view.png) no-repeat;
-}
-
-.portlet .header span.edit {
-	background: url(../images/edit.png) no-repeat;
-}
-
-.portlet .header span.help {
-	background: url(../images/help.png) no-repeat;
-}
 
 .bord-lb {
 	border-bottom-width: 1px;
@@ -751,7 +850,6 @@ div.portlet-modify {
 	border-bottom-color: #A8B2BC;
 	border-left-color: #A8B2BC;
 }
-
 .bord-rt {
 	border-top-width: 1px;
 	border-right-width: 1px;
@@ -761,15 +859,13 @@ div.portlet-modify {
 	border-right-color: #A8B2BC;
 }
 
+
+
+
 ul.chan {
 	padding-left: 15px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-}
-
-ul.chan li div.name {
-	width: 200px;
-	float: left;
 }
 
 ul {
@@ -777,11 +873,26 @@ ul {
 	padding: 0px;
 }
 
-a.portal_link {
-	
+
+
+
+
+
+
+
+
+span.left
+{
+	float: left;
+	text-align: left;
 }
 
-img.opaque {
-	opacity: .5;
-	filter: alpha(opacity=50);
+span.right
+{
+	text-align: right;
+	float: right;
 }
+
+td.disabled-text{color:#999999}
+
+li {color:#999999}
