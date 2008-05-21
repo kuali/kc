@@ -215,6 +215,7 @@ public interface Constants {
     // Budget Rates
     public static final int APPLICABLE_RATE_PRECISION = 3;
     public static final int APPLICABLE_RATE_SCALE = 2;
+    public static final String APPLICABLE_RATE_LIMIT = "999.99";
     public static final String APPLICABLE_RATE_DECIMAL_CHAR = ".";
 
 }
