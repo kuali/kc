@@ -40,7 +40,8 @@
     <li>Sub-Contract Status</li>
     <li>Training</li>
     <li>User Preference Variables</li>
-    <li>Unit Administrator Type<li>
+    <li>Unit Administrator Type</li>
+    <li><portal:portalLink displayTitle="true" title="Unit Hierarchy" url="unitHierarchy.do" /></li>
     <li>Valid Rates</li>
   </ul>
 </div>
