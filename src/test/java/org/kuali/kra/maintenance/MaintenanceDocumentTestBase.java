@@ -75,7 +75,7 @@ public abstract class MaintenanceDocumentTestBase extends KraWebTestBase {
     }
 
     protected final HtmlPage getMaintenanceDocumentLookupPage(String documentTitle) throws IOException {
-        HtmlPage adminPage = clickOn(getPortalPage(), "Administration", "Kuali Portal Index");
+        HtmlPage adminPage = clickOn(getPortalPage(), "Maintenance", "Kuali Portal Index");
         // customAttributeHyperlink is not actually the lookup page - not sure why
         //final HtmlAnchor customAttributeHyperlink = adminPage.getAnchorByHref("portal.do?channelTitle=Custom Attribute&channelUrl=kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.CustomAttribute&returnLocation=http://localhost:9925/kra-dev/portal.do&hideReturnLink=true&docFormKey=88888888");
         HtmlPage MaintenanceDocumentLookupPage = clickOn(adminPage, documentTitle, "Kuali Portal Index");
