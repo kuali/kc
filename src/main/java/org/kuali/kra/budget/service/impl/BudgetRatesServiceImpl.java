@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.util.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
@@ -103,7 +105,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         List<InstituteLaRate> instituteRates = new ArrayList();
         for(InstituteLaRate instituteRate : allInstituteRates) {
             Date rateStartDate = instituteRate.getStartDate();
-            if(rateStartDate.after(getProjectStartDate()) && rateStartDate.before(getProjectEndDate())) {
+            if(rateStartDate.compareTo(getProjectStartDate()) >= 0 && rateStartDate.compareTo(getProjectEndDate()) <=0) {
                 instituteRates.add(instituteRate);
             }
             
@@ -118,7 +120,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         List<InstituteRate> instituteRates = new ArrayList();
         for(InstituteRate instituteRate : allInstituteRates) {
             Date rateStartDate = instituteRate.getStartDate();
-            if(rateStartDate.after(getProjectStartDate()) && rateStartDate.before(getProjectEndDate())) {
+            if(rateStartDate.compareTo(getProjectStartDate()) >= 0 && rateStartDate.compareTo(getProjectEndDate()) <=0 ) {
                 instituteRates.add(instituteRate);
             }
             
@@ -134,15 +136,15 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         HashMap instRates = new HashMap();
         for(InstituteRate instituteRate : allInstituteRates) {
             Date rateStartDate = instituteRate.getStartDate();
-            if(rateStartDate.before(getProjectStartDate())) {
+            if(rateStartDate.compareTo(getProjectStartDate()) <= 0) {
                 String instRateClassCode = instituteRate.getRateClassCode();
                 String instRateTypeCode = instituteRate.getRateTypeCode();
                 String onOffFlag = instituteRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
                 String hKey = instRateClassCode + instRateTypeCode + onOffFlag;
                 InstituteRate instRate = (InstituteRate)instRates.get(hKey);
-                if((instRate != null) && (instRate.getStartDate().before(rateStartDate))) {
+                if((instRate != null) && (instRate.getStartDate().compareTo(rateStartDate) <=0 )) {
                     Date currentStartDate = instRate.getStartDate();
-                    if(currentStartDate.before(rateStartDate)) {
+                    if(currentStartDate.compareTo(rateStartDate) <= 0) {
                         instRates.remove(hKey);
                     }
                 }
@@ -162,15 +164,15 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         HashMap instRates = new HashMap();
         for(InstituteLaRate instituteRate : allInstituteRates) {
             Date rateStartDate = instituteRate.getStartDate();
-            if(rateStartDate.before(getProjectStartDate())) {
+            if(rateStartDate.compareTo(getProjectStartDate()) <= 0) {
                 String instRateClassCode = instituteRate.getRateClassCode();
                 String instRateTypeCode = instituteRate.getRateTypeCode();
                 String onOffFlag = instituteRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
                 String hKey = instRateClassCode + instRateTypeCode + onOffFlag;
                 InstituteLaRate instRate = (InstituteLaRate)instRates.get(hKey);
-                if((instRate != null) && (instRate.getStartDate().before(rateStartDate))) {
+                if((instRate != null) && (instRate.getStartDate().compareTo(rateStartDate) <= 0)) {
                     Date currentStartDate = instRate.getStartDate();
-                    if(currentStartDate.before(rateStartDate)) {
+                    if(currentStartDate.compareTo(rateStartDate) <= 0) {
                         instRates.remove(hKey);
                     }
                 }
@@ -485,7 +487,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                 budgetProposalRate.setStartDate(instituteRate.getStartDate());
                 budgetProposalRate.setUnitNumber(unitNumber);
                 budgetProposalRate.setOldApplicableRate(instituteRate.getInstituteRate());
-                budgetProposalLaRates.add(budgetProposalRate);
+                if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetProposalLaRates,budgetProposalRate)) {
+                    budgetProposalLaRates.add(budgetProposalRate);
+                }
             }
         }
         rateClasses.addAll(rateClassMap.values());
@@ -494,6 +498,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
         Collections.sort(budgetDocument.getBudgetProposalLaRates());
         
     }
+    
 
     /* get budget rates applicable for the proposal - based on activity type
      * and unit number 
@@ -551,7 +556,9 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                 budgetProposalRate.setStartDate(instituteRate.getStartDate());
                 budgetProposalRate.setUnitNumber(unitNumber);
                 budgetProposalRate.setOldApplicableRate(instituteRate.getInstituteRate());
-                budgetProposalRates.add(budgetProposalRate);
+                if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(budgetProposalRates,budgetProposalRate)) {
+                    budgetProposalRates.add(budgetProposalRate);
+                }
             }
         }
         rateClasses.addAll(rateClassMap.values());
@@ -604,7 +611,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
 
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             for(BudgetProposalRate budgetProposalRate: budgetProposalRates) {
-                if(budgetProposalRate.getStartDate().before(budgetPeriod.getEndDate())) {
+                if(budgetProposalRate.getStartDate().compareTo(budgetPeriod.getEndDate()) <= 0) {
                     String dispBudgetPeriod = budgetPeriod.getBudgetPeriod().toString();
                     String formattedPeriod = dispBudgetPeriod.concat(PERIOD_SEARCH_SEPARATOR);
                     String currBudgetPeriod = budgetProposalRate.getTrackAffectedPeriod(); //(String)ratesForEachPeriod.get(budgetPeriod.getBudgetPeriod());
@@ -621,7 +628,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                 }
             }
             for(BudgetProposalLaRate budgetProposalLaRate: budgetProposalLaRates) {
-                if(budgetProposalLaRate.getStartDate().before(budgetPeriod.getEndDate())) {
+                if(budgetProposalLaRate.getStartDate().compareTo(budgetPeriod.getEndDate()) <= 0) {
                     String dispBudgetPeriod = budgetPeriod.getBudgetPeriod().toString();
                     String formattedPeriod = dispBudgetPeriod.concat(PERIOD_SEARCH_SEPARATOR);
                     String currBudgetPeriod = budgetProposalLaRate.getTrackAffectedPeriod(); //(String)ratesForEachPeriod.get(budgetPeriod.getBudgetPeriod());
