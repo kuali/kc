@@ -147,11 +147,10 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NOT_NUMERIC);
             }else {
-                String[] errorParameter = {""+Constants.APPLICABLE_RATE_PRECISION, ""+Constants.APPLICABLE_RATE_SCALE};
                 switch(verifyApplicableRate(budgetProposalRate.getApplicableRate().toString())) {
                     case APPLICABLE_RATE_LENGTH_EXCEEDED :
                         valid = false;
-                        errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_LENGTH, errorParameter);
+                        errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_LIMIT, Constants.APPLICABLE_RATE_LIMIT);
                         break;
                     case APPLICABLE_RATE_NEGATIVE :
                         valid = false;
@@ -177,11 +176,10 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
                 valid = false;
                 errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_NOT_NUMERIC);
             }else {
-                String[] errorParameter = {""+Constants.APPLICABLE_RATE_PRECISION, ""+Constants.APPLICABLE_RATE_SCALE};
                 switch(verifyApplicableRate(budgetProposalLaRate.getApplicableRate().toString())) {
                     case APPLICABLE_RATE_LENGTH_EXCEEDED :
                         valid = false;
-                        errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_LENGTH, errorParameter);
+                        errorMap.putError("applicableRate", KeyConstants.ERROR_APPLICABLE_RATE_LIMIT, Constants.APPLICABLE_RATE_LIMIT);
                         break;
                     case APPLICABLE_RATE_NEGATIVE :
                         valid = false;
