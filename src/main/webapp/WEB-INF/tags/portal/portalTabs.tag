@@ -31,14 +31,8 @@
         <c:if test="${!empty selectedTab}">
             <li class="green"><a class="green" href="portal.do?selectedTab=portalResearcherBody" title="Researcher">Researcher</a></li>
         </c:if>
-    </c:if>   
-    
-    <c:if test='${selectedTab == "portalAdministrationBody"}'>
-        <li class="red"><a class="red" href="portal.do?selectedTab=portalAdministrationBody" title="Admin">Admin</a></li>
-    </c:if> 
-    <c:if test='${selectedTab != "portalAdministrationBody"}'>
-        <li class="green"><a class="green" href="portal.do?selectedTab=portalAdministrationBody" title="Admin">Admin</a></li>
     </c:if>
+    
     <%-- Unit --%>
     <c:if test='${selectedTab == "portalUnitBody"}'>
         <li class="red"><a class="red" href="portal.do?selectedTab=portalUnitBody" title="Unit">Unit</a></li>
