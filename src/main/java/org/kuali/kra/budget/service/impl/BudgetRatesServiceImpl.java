@@ -134,13 +134,17 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
     private List<InstituteRate> getApplicableRates(Collection<InstituteRate> allInstituteRates) {
         List<InstituteRate> instituteRates = new ArrayList();
         HashMap instRates = new HashMap();
+        List<String> sameAsProjectStartDateRatesKeys = new ArrayList<String>();
         for(InstituteRate instituteRate : allInstituteRates) {
             Date rateStartDate = instituteRate.getStartDate();
-            if(rateStartDate.before(getProjectStartDate())) {
+            if(rateStartDate.compareTo(getProjectStartDate()) <= 0) {
                 String instRateClassCode = instituteRate.getRateClassCode();
                 String instRateTypeCode = instituteRate.getRateTypeCode();
                 String onOffFlag = instituteRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
                 String hKey = instRateClassCode + instRateTypeCode + onOffFlag;
+                if (rateStartDate.compareTo(getProjectStartDate()) == 0) {
+                    sameAsProjectStartDateRatesKeys.add(hKey);
+                }
                 InstituteRate instRate = (InstituteRate)instRates.get(hKey);
                 if((instRate != null) && (instRate.getStartDate().compareTo(rateStartDate) <=0 )) {
                     Date currentStartDate = instRate.getStartDate();
@@ -148,7 +152,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                         instRates.remove(hKey);
                     }
                 }
-                if (!instRates.keySet().contains(hKey)) {
+                if (!instRates.keySet().contains(hKey) && !sameAsProjectStartDateRatesKeys.contains(hKey)) {
                     instRates.put(hKey, instituteRate);
                 }
             }
@@ -164,13 +168,17 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
     private List<InstituteLaRate> getApplicableLaRates(Collection<InstituteLaRate> allInstituteRates) {
         List<InstituteLaRate> instituteRates = new ArrayList();
         HashMap instRates = new HashMap();
+        List<String> sameAsProjectStartDateRatesKeys = new ArrayList<String>();
         for(InstituteLaRate instituteRate : allInstituteRates) {
             Date rateStartDate = instituteRate.getStartDate();
-            if(rateStartDate.before(getProjectStartDate())) {
+            if(rateStartDate.compareTo(getProjectStartDate()) <= 0) {
                 String instRateClassCode = instituteRate.getRateClassCode();
                 String instRateTypeCode = instituteRate.getRateTypeCode();
                 String onOffFlag = instituteRate.getOnOffCampusFlag() ? Constants.ON_CAMUS_FLAG :Constants.OFF_CAMUS_FLAG;
                 String hKey = instRateClassCode + instRateTypeCode + onOffFlag;
+                if (rateStartDate.compareTo(getProjectStartDate()) == 0) {
+                    sameAsProjectStartDateRatesKeys.add(hKey);
+                }
                 InstituteLaRate instRate = (InstituteLaRate)instRates.get(hKey);
                 if((instRate != null) && (instRate.getStartDate().compareTo(rateStartDate) <= 0)) {
                     Date currentStartDate = instRate.getStartDate();
@@ -178,7 +186,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService{
                         instRates.remove(hKey);
                     }
                 }
-                if (!instRates.keySet().contains(hKey)) {
+                if (!instRates.keySet().contains(hKey) && !sameAsProjectStartDateRatesKeys.contains(hKey)) {
                     instRates.put(hKey, instituteRate);
                 }
             }
