@@ -21,6 +21,7 @@
     <li>Argument Values</li>
     <li>Closeout Type</li>
     <li><portal:portalLink displayTitle="true" title="Country" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Country&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="Current Locks" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.document.authorization.PessimisticLock&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li>EDI Enabled Sponsors</li>
     <li>Investigators Credit Type</li>
     <li>Module Names</li>
