@@ -33,10 +33,16 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
 import static org.kuali.kra.logging.FormattedLogger.warn;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,13 +53,18 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
@@ -64,8 +75,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.52.2.5 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.52.2.6 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
@@ -82,6 +93,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
        
         ActionForward retval = super.execute(mapping, form, request, response);
         prepare(form, request);
+        Map errorMap = GlobalVariables.getErrorMap();
         return retval;
     }
 
@@ -93,7 +105,15 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     void prepare(ActionForm form, HttpServletRequest request) {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         request.setAttribute(NEW_PERSON_LOOKUP_FLAG, EMPTY_STRING);
-
+        ProposalDevelopmentDocument document=pdform.getProposalDevelopmentDocument();
+        List<ProposalPerson> proposalpersons=document.getProposalPersons();
+        for (Iterator<ProposalPerson> iter = proposalpersons.iterator(); iter.hasNext();) {
+            ProposalPerson person=(ProposalPerson) iter.next();
+            if (person.getRole() != null) {
+                person.getRole().setReadOnly(getKeyPersonnelService().isRoleReadOnly(person.getRole()));
+            }
+        }
+        
         pdform.populatePersonEditableFields();
         handleRoleChangeEvents(pdform.getProposalDevelopmentDocument());
         
@@ -150,24 +170,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     private void changeRole(ProposalPerson person, ProposalDevelopmentDocument document) {
         getKeyPersonnelService().populateProposalPerson(person, document);
-
-        if (!person.isInvestigator()) {
-            // Cleanup from investigator related stuff
-            document.getInvestigators().remove(person);
-            
-            // If they are not an Investigator, the homeUnit is not necessary
-            person.setHomeUnit(EMPTY_STRING);
-            
-            List<PersistableBusinessObject> units = new ArrayList<PersistableBusinessObject>();
-            units.addAll(person.getUnits());
-            List<PersistableBusinessObject> creditSplits = new ArrayList<PersistableBusinessObject>();
-            units.addAll(person.getCreditSplits());
-            
-            getBusinessObjectService().delete(units);
-            person.getUnits().clear();
-            getBusinessObjectService().delete(creditSplits);
-            person.getCreditSplits().clear();
-        }
     }
 
     /**
@@ -217,22 +219,49 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     public ActionForward insertProposalPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
-
+        if ( isNotBlank(pdform.getNewProposalPerson().getProposalPersonRoleId())){
+        if(pdform.getNewProposalPerson().getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || pdform.getNewProposalPerson().equals(CO_INVESTIGATOR_ROLE))
+        {
+            pdform.getNewProposalPerson().setOptInUnitStatus("Y");
+            pdform.getNewProposalPerson().setOptInCertificationStatus("Y");
+            pdform.setOptInCertificationStatus("Y");
+        }else
+        {
+            pdform.getNewProposalPerson().setOptInUnitStatus("N");
+            pdform.getNewProposalPerson().setOptInCertificationStatus("N");
+            pdform.setOptInCertificationStatus("N");
+        }
+        }
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new AddKeyPersonEvent(pdform.getDocument(), pdform.getNewProposalPerson()));
-                
+
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             document.addProposalPerson(pdform.getNewProposalPerson());
             info(ADDED_PERSON_MSG, pdform.getNewProposalPerson().getProposalNumber(), pdform.getNewProposalPerson().getProposalPersonNumber());
-            getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
-            sort(document.getProposalPersons(), new ProposalPersonComparator());
-            sort(document.getInvestigators(), new ProposalPersonComparator());
-            pdform.setNewProposalPerson(new ProposalPerson());
-            pdform.setNewRolodexId("");
-            pdform.setNewPersonId("");
-        }
-        
+            // handle lead unit for investigators respective to coi or pi
+            if (getKeyPersonnelService().isPrincipalInvestigator(pdform.getNewProposalPerson())) {
+                getKeyPersonnelService().assignLeadUnit(pdform.getNewProposalPerson(), document.getOwnedByUnitNumber());
+            }
+            else {
+                // Lead Unit information needs to be removed in case the person used to be a PI
+                ProposalPersonUnit unit =pdform.getNewProposalPerson().getUnit(document.getOwnedByUnitNumber());
+                if (unit != null) {
+                    unit.setLeadUnit(false);
+                }                
+            }
+            if (isNotBlank(pdform.getNewProposalPerson().getHomeUnit())) {
+                getKeyPersonnelService().addUnitToPerson(pdform.getNewProposalPerson(),getKeyPersonnelService().createProposalPersonUnit(pdform.getNewProposalPerson().getHomeUnit(), pdform.getNewProposalPerson()));
+
+            }
+        }  
+        getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
+        sort(document.getProposalPersons(), new ProposalPersonComparator());
+        sort(document.getInvestigators(), new ProposalPersonComparator());
+        pdform.setNewProposalPerson(new ProposalPerson());
+        pdform.setNewRolodexId("");
+        pdform.setNewPersonId("");
+
         return mapping.findForward(MAPPING_BASIC);
     }
 
@@ -270,8 +299,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
          
         // check any business rules
         
-        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(new StringBuffer("newProposalPersonDegree[").append(selectedPersonIndex).append("]").toString(),
-                    document, person, degree).getProxy(null));
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, person, degree,selectedPersonIndex));
 
         if (rulePassed) {
             person.addDegree(degree);
@@ -297,7 +325,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(pdform.getNewProposalPersonUnit().get(selectedPersonIndex).getUnitNumber(), person);
         
         // check any business rules
-        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, person, unit));
+        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, person, unit,selectedPersonIndex));
 
         if (rulePassed) {
             getKeyPersonnelService().addUnitToPerson(person, unit);
@@ -347,17 +375,19 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     public ActionForward deleteUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
-        
-        ProposalPerson selectedPerson = getSelectedPerson(request, document);
+        int selectedPersonIndex = getSelectedPersonIndex(request, document);
+        ProposalPerson selectedPerson =  document.getProposalPerson(selectedPersonIndex);
         ProposalPersonUnit unit = selectedPerson.getUnit(getSelectedLine(request));
         unit.setDelete(true);
+        selectedPerson.setUnitDelete(true);
         
         // check any business rules
-        boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, selectedPerson, unit));
+       boolean rulePassed = getKualiRuleService().applyRules(new ChangeKeyPersonEvent(document, selectedPerson, unit,selectedPersonIndex));
 
         if (rulePassed) {
-            selectedPerson.getUnits().remove(getSelectedLine(request));
-            getBusinessObjectService().delete(unit);
+          ProposalPersonUnit testr=selectedPerson.getUnit(getSelectedLine(request));
+          selectedPerson.getUnits().remove(testr);
+         //getBusinessObjectService().delete(unit);
         }
         
         unit.setDelete(false);
@@ -416,6 +446,88 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         }
         return mapping.findForward(MAPPING_BASIC);
     }
+    
+
+    /**
+     *Adds the unit Details for the keyperson 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward addUnitDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        int selectedPersonIndex = getSelectedPersonIndex(request, document);
+        ProposalPerson person = document.getProposalPerson(selectedPersonIndex);
+        pdform.getNewProposalPersonUnit().add(selectedPersonIndex,new Unit());
+        person.setOptInUnitStatus("Y");
+        pdform.setOptInUnitDetails("Y");     
+        getKeyPersonnelService().populateProposalPerson(person, document);
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    
+    /**
+     * Removes the unit Details for  keyperson 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward removeUnitDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalPerson selectedPerson = getSelectedPerson(request, document);
+        pdform.setOptInUnitDetails("N");
+        selectedPerson.setOptInUnitStatus("N");
+        
+        selectedPerson.getUnits().clear();
+        List<ProposalPersonUnit> test=selectedPerson.getUnits();
+         document.getInvestigators().remove(selectedPerson);
+         return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    /**
+     *Adds the Certification Question for the keyperson 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward addCertificationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalPerson selectedPerson = getSelectedPerson(request, document);
+        pdform.setOptInCertificationStatus("Y");
+        selectedPerson.setOptInCertificationStatus("Y");
+        getKeyPersonnelService().populateProposalPerson(selectedPerson, document);
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    /**
+     * Removes the Certification Question for the keyperson 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward removeCertificationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        ProposalPerson selectedPerson = getSelectedPerson(request, document);
+        pdform.setOptInCertificationStatus("N");
+        selectedPerson.setOptInCertificationStatus("N");
+        selectedPerson.getProposalPersonYnqs().clear();
+        return mapping.findForward(MAPPING_BASIC);
+    }
 
     /**
      * Parses the method to call attribute to pick off the line number which should have an action performed on it.
@@ -441,7 +553,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         int selectedPersonIndex = -1;
         String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
         if (isNotBlank(parameterName)) {
-            selectedPersonIndex = Integer.parseInt(substringBetween(parameterName, "personIndex","."));
+            selectedPersonIndex = Integer.parseInt(substringBetween(parameterName, "proposalPersons[", "]."));
         }
 
         return selectedPersonIndex;
@@ -452,3 +564,5 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return getService(BusinessObjectService.class);
     }
 }
+
+
