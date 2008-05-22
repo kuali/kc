@@ -19,7 +19,7 @@
 <c:set var="degree" value="newProposalPersonDegree[${personIndex}]" />
 <c:set var="readOnly" value="false" />
 <c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" />
-<c:set var="actionMethod" value="insertDegree.personIndex${personIndex}" />
+<c:set var="actionMethod" value="insertDegree.${proposalPerson}.line${status.index}" />
 <c:set var="actionTitle" value="Add a Degree" />
 <c:set var="degreeIndexHeader" value="Add:" />
 <c:set var="degreeCodeProperty" value="${degree}.degreeCode" />

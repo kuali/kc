@@ -42,7 +42,7 @@
           	<tr>
 				<td>
               
-	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="true">
+	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" >
 			<div class="innerTab-container" align="left">
               <table class=tab cellpadding=0 cellspacing="0" summary=""> 
                 <tbody id="G1">
@@ -50,7 +50,7 @@
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.proposalPersonRoleId}" /></div></th>
                     <td colspan="3">
                       <kra-pd:proposalPersonRole proposalPerson="${proposalPerson}" personIndex="${personIndex}"/>
-                    </td>
+                     </td>
                   </tr>              
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.fullName}"  /></div></th>
@@ -229,41 +229,144 @@
 </table></div>
 </kul:innerTab>
 </td></tr>
-<bean:define id="isInvestigator" name="KualiForm" property="${proposalPerson}.investigatorFlag" />
-<c:if test="${isInvestigator == 'Yes'}">
-          	<tr>
-				<td colspan=4>
 
-  <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="true">
+<tr>
+<td colspan=4>
+<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.newProposalPersonDegree">
+ <table class=tab cellpadding=0 cellspacing="0" summary="" >
+     <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
+  </table>
+</kul:innerTab>
+</td></tr>
+<bean:define id="unitDetailsRequired" name="KualiForm" property="${proposalPerson}.role.unitDetailsRequired" />
+
+<c:choose>
+ <c:when test="${unitDetailsRequired == 'Y'  }">
+   	<tr>
+		<td colspan=4>
+  <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[{status.index}].newProposalPersonUnit*">
               <table class=tab cellpadding=0 cellspacing="0" summary="" >
               <kra-pd:personUnitSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
   </kul:innerTab>
-  </td></tr>
-</c:if>
-          	<tr>
-				<td colspan=4>
-
-<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="true" tabErrorKey="ProposalPersonDegree*">
-              <table class=tab cellpadding=0 cellspacing="0" summary="" >
-              <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
-  </table>
-</kul:innerTab>
-</td></tr>
-          	<tr>
-				<td colspan=4>
-
-<bean:define id="certificationRequired" name="KualiForm" property="${proposalPerson}.role.certificationRequired" />
-<c:if test="${certificationRequired == 'Yes'}">
-<kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="true">
-              <table class=tab cellpadding=0 cellspacing="0" summary="" >
-              <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
-  </table>
-</kul:innerTab>
-</c:if>
-</td></tr>
-</table>
-           </div>
+ 
+  </td>
+  </tr>
+  </c:when>
+  <c:otherwise>
+     <c:choose>
+      <c:when test="${KualiForm.document.proposalPersons[personIndex].optInUnitStatus == 'Y'}"> 
+   	  <tr><td colspan=4>
+      <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[{status.index}].newProposalPersonUnit*">
+        <div class="innerTab-container" align="left">
+         <table class=tab cellpadding=0 cellspacing="0" summary=""> 
+         <tr>
+            <td colspan=3><div class="floaters">
+               <p> You have the option to remove unit details for a key person.</p>
+               <p><html:image property="methodToCall.removeUnitDetails.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remunitdet.gif" title="Add Unit Details" alt="Add Unit Details" styleClass="tinybutton"/></p>
+             </div>
+           </td>
+        </tr>
+       <tr>
+        <td>
+           <table class=tab cellpadding=0 cellspacing="0" summary="" >
+           <kra-pd:personUnitSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
+           </table>
+       </td>
+     </tr>
+    </table>
+    </div>
+   </kul:innerTab>
+  </td>
+  </tr>
+  </c:when>
+   <c:otherwise>
+   <tr><td colspan=4>
+   <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[{status.index}].newProposalPersonUnit*">
+   <div class="innerTab-container" align="left">
+   <table class=tab cellpadding=0 cellspacing="0" summary=""> 
+    <tr>
+       <td colspan=3><div class="floaters">
+         <p> You have the option to add unit details for a key person</p>
+          <p><html:image property="methodToCall.addUnitDetails.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-addunitdet.gif" title="Add Unit Details" alt="Add Unit Details" styleClass="tinybutton"/></p>
           </div>
+       </td>
+     </tr>
+     </div>
+     </table>
+     </kul:innerTab>
+    </td>
+  </tr>
+   </c:otherwise>
+  </c:choose>
+</c:otherwise>
+</c:choose>
+ 
+<bean:define id="certificationRequired" name="KualiForm" property="${proposalPerson}.role.certificationRequired" /> 
+
+<c:choose>
+ <c:when test="${certificationRequired == 'Y'  }">
+   	<tr>
+	<td colspan=4>
+  <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false">
+     <table class=tab cellpadding=0 cellspacing="0" summary="" >
+     <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
+    </table>
+ </kul:innerTab>
+   </td>
+  </tr>
+  </c:when>
+  <c:otherwise>
+     <c:choose>
+      <c:when test="${KualiForm.document.proposalPersons[personIndex].optInCertificationStatus == 'Y'}"> 
+   	  <tr><td colspan=4>
+      <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false">
+      <div class="innerTab-container" align="left">
+       <table class=tab cellpadding=0 cellspacing="0" summary=""> 
+      <tr>
+       <td colspan=3><div class="floaters">
+         <p> You have the option to remove Certification Questions for a key person.</p>
+          <p><html:image property="methodToCall.removeCertificationQuestion.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-remcertquest.gif" title="Add Unit Details" alt="Add Unit Details" styleClass="tinybutton"/></p>
+          </div>
+       </td>
+     </tr>
+   <tr>
+     <td>
+       <table class=tab cellpadding=0 cellspacing="0" summary="" >
+        <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
+      </table>
+   </td>
+   </tr>
+   </div>
+   </table>
+   </kul:innerTab>
+  </td>
+  </tr>
+  </c:when>
+   <c:otherwise>
+   <tr><td colspan=4>
+   <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false">
+    <div class="innerTab-container" align="left">
+     <table class=tab cellpadding=0 cellspacing="0" summary=""> 
+      <tr>
+       <td colspan=3><div class="floaters">
+         <p> You have the option to add Certification Questions for a key person</p>
+          <p><html:image property="methodToCall.addCertificationQuestion.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-inclcertquest.gif" title="Add Certification Question" alt="Add Certification Question" styleClass="tinybutton"/></p>
+          </div>
+       </td>
+   </tr>
+   </div>
+   </table>
+   </kul:innerTab>
+  </td>
+  </tr>
+  </c:otherwise>
+ </c:choose>
+</c:otherwise>
+</c:choose>
+
+</table>
+  </div>
+   </div>
 </div>
 
