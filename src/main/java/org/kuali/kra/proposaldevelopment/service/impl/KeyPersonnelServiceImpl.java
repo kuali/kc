@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.service.impl;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
@@ -57,8 +58,8 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: vsoni $
- * @version $Revision: 1.27 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.28 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private static final String READ_ONLY_ROLES_PARAM_NAME = "proposaldevelopment.personrole.readonly.roles";
@@ -119,23 +120,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             }
             populateCreditTypes(person);
 
-            // handle lead unit for investigators respective to coi or pi
-            if (isPrincipalInvestigator(person)) {
-                assignLeadUnit(person, document.getOwnedByUnitNumber());
-            }
-            else {
-                // Lead Unit information needs to be removed in case the person used to be a PI
-                ProposalPersonUnit unit = person.getUnit(document.getOwnedByUnitNumber());
-                if (unit != null) {
-                    unit.setLeadUnit(false);
-                }                
-            }
         }
-        
-        if (isNotBlank(person.getHomeUnit())) {
-            addUnitToPerson(person,createProposalPersonUnit(person.getHomeUnit(), person));
-        }
-
         getNarrativeService().addDummyUserRole(document, person);
         person.refreshReferenceObject("role");
         
@@ -289,11 +274,24 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         return CO_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
     }
     
+    
+    /**
+     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCoInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     */
+    public boolean isKeyPerson(ProposalPerson person) {
+        return KEY_PERSON_ROLE.equals(person.getProposalPersonRoleId());
+    }
     /**
      * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
     public boolean isInvestigator(ProposalPerson person) {
-        return isPrincipalInvestigator(person) || isCoInvestigator(person);
+        if(isNotBlank(person.getOptInUnitStatus()) && (person.getOptInUnitStatus().equals("Y")))
+        {
+        return isPrincipalInvestigator(person) || isCoInvestigator(person) || isKeyPerson(person);
+        }else
+        {
+            return isPrincipalInvestigator(person) || isCoInvestigator(person);
+        }
     }
         
     /**
@@ -334,7 +332,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      * @param document
      * @param person Principal 
      */
-    private void assignLeadUnit(ProposalPerson person, String unitNumber) {
+    public void assignLeadUnit(ProposalPerson person, String unitNumber) {
         if (person.containsUnit(unitNumber)) {
             person.getUnit(unitNumber).setLeadUnit(true);
             return;
@@ -583,6 +581,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         if (roleId == null) {
             return false;
         }
+       // return true;
         return getConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,READ_ONLY_ROLES_PARAM_NAME).getParameterValue().toLowerCase().contains(roleId.toLowerCase());
     }
     
