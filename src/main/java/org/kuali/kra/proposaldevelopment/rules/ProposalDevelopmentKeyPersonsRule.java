@@ -24,14 +24,21 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOU
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_INVALID;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_YEAR;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_UNIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_SELECT_UNIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ONE_UNIT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
-
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+import org.apache.commons.lang.ObjectUtils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.Document;
@@ -55,8 +62,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
- * @author $Author: gmcgrego $
- * @version $Revision: 1.33.2.4 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.33.2.5 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
@@ -89,10 +96,11 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         boolean retval = true;
         int pi_cnt = 0;
         int personIndex = 0;
-        
+               
         for (ProposalPerson person : document.getProposalPersons()) {
             if (isPrincipalInvestigator(person)) {
                 pi_cnt++;
+                 
             }
             
             if (isBlank(person.getProposalPersonRoleId()) && person.getRole() == null) { 
@@ -107,6 +115,14 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             reportError("newProposalPerson*", ERROR_INVESTIGATOR_UPBOUND, getKeyPersonnelService().getPrincipalInvestigatorRoleDescription(document));            
         }        
 
+        for (ProposalPerson person : document.getProposalPersons()) {
+            if(isCoInvestigator(person) && (person.getUnits() != null) && (person.getUnits().size()==0)){
+                reportError("newProposalPerson*", ERROR_ONE_UNIT, person.getFullName());            
+            }
+            if(isKeyPerson(person) && (person.getOptInUnitStatus().equals("Y")) && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
+                reportError("newProposalPerson*", ERROR_ONE_UNIT, person.getFullName());  
+            }
+        }
         return retval;
     }
 
@@ -128,7 +144,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
         if (isPrincipalInvestigator(person) && hasPrincipalInvestigator(document)) {
             debug("error.principalInvestigator.limit");
-            reportError("newProposalPerson*", ERROR_INVESTIGATOR_UPBOUND);
+            reportError("newProposalPerson*", ERROR_INVESTIGATOR_UPBOUND, getKeyPersonnelService().getPrincipalInvestigatorRoleDescription(document));
             retval = false;
         }
         info("roleid is %s", person.getProposalPersonRoleId());
@@ -147,12 +163,13 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
         
-        if (isInvalid(Person.class, keyValue("personId", person.getPersonId())) 
-            && isInvalid(Rolodex.class, keyValue("rolodexId", person.getRolodexId()))) {
-            reportError("newProposalPerson*", ERROR_PROPOSAL_PERSON_INVALID, person.getFullName());
-            retval = false;
-        }
         
+            if (isInvalid(Person.class, keyValue("personId", person.getPersonId())) 
+                    && isInvalid(Rolodex.class, keyValue("rolodexId", person.getRolodexId()))) {
+                reportError("newProposalPerson*", ERROR_PROPOSAL_PERSON_INVALID, person.getFullName());
+                retval = false;
+            }
+       
         return retval;
     }
             
@@ -180,6 +197,19 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
     }
 
     /**
+     * @see KeyPersonnelService#isCoInvestigator(ProposalPerson)
+     */
+    private boolean isCoInvestigator(ProposalPerson person){
+        return getKeyPersonnelService().isCoInvestigator(person);
+    }
+    
+    /**
+     * @see KeyPersonnelService#isCoInvestigator(ProposalPerson)
+     */
+    private boolean isKeyPerson(ProposalPerson person){
+        return getKeyPersonnelService().isKeyPerson(person);
+    }
+    /**
      * Locate in Spring <code>{@link KeyPersonnelService}</code> singleton  
      * 
      * @return KeyPersonnelService
@@ -195,14 +225,14 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertDegree(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction#insertUnit(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source) {
+    public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source,int index) {
         boolean retval = true;
         
         if (source instanceof ProposalPersonDegree) {
-            retval &= validateDegree((ProposalPersonDegree) source);
+            retval &= validateDegree((ProposalPersonDegree) source,index);
         }
         else if (source instanceof ProposalPersonUnit) {
-            retval &= validateUnit((ProposalPersonUnit) source, proposalPerson);
+            retval &= validateUnit((ProposalPersonUnit) source, proposalPerson,index);
         }
         
         return retval;
@@ -214,7 +244,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @param source
      * @return boolean pass or fail
      */
-    private boolean validateUnit(ProposalPersonUnit source, ProposalPerson person) {
+    private boolean validateUnit(ProposalPersonUnit source, ProposalPerson person,int index) {
         boolean retval = true;
         
         if (source == null) {
@@ -223,28 +253,36 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         }
         
         debug("Validating unit %s",  source);
-        
-        if (source.getUnit() == null && isBlank(source.getUnitNumber())) {
+       
+        if (source.getUnit() == null && isBlank(source.getUnitNumber()) && (GlobalVariables.getErrorMap().getMessages("document.newProposalPersonUnit*")== null)) {
+            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonUnit",ERROR_SELECT_UNIT);
             retval = false;
         }
         
-        if (isNotBlank(source.getUnitNumber()) && isInvalid(Unit.class, keyValue("unitNumber", source.getUnitNumber()))) {
+        if (isNotBlank(source.getUnitNumber()) && isInvalid(Unit.class, keyValue("unitNumber", source.getUnitNumber())) && (GlobalVariables.getErrorMap().getMessages("document.newProposalPersonUnit*")== null)) {
+            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonUnit", ERROR_INVALID_UNIT,
+                    source.getUnitNumber(), person.getFullName());
             retval = false;
         }
 
         debug("isLeadUnit %s", source.isLeadUnit());
-        
-        if (isDeletingUnitFromPrincipalInvestigator(source, person)) {     
-            reportError("document.proposalPerson*", ERROR_DELETE_LEAD_UNIT);
-            retval = false;
+        if(source.isDelete()){
+            if(person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)){
+               if (isDeletingUnitFromPrincipalInvestigator(source, person)&& (GlobalVariables.getErrorMap().getMessages("document.newProposalPersonUnit*")== null)) {
+                   GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonUnit", ERROR_DELETE_LEAD_UNIT,
+                           source.getUnitNumber(), person.getFullName());
+                retval = false;
+               }
+            }
+        }else
+        {
+        if((unitExists(source , person)) && (GlobalVariables.getErrorMap().getMessages("document.newProposalPersonUnit*")== null)){
+            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonUnit", ERROR_ADD_EXISTING_UNIT,
+                     source.getUnitNumber(), person.getFullName());
+            retval=false;
         }
-
-        if (unitExists(source, person)) {
-            reportError("document.proposalPerson*", ERROR_ADD_EXISTING_UNIT, source.getUnitNumber(), person.getFullName());
-            retval = false;
         }
-
-        debug("validateUnit = %s", retval);
+         debug("validateUnit = %s", retval);
         
         return retval;
     }
@@ -292,31 +330,36 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      * @param source
      * @return boolean
      */
-    private boolean validateDegree(ProposalPersonDegree source) {
+    private boolean validateDegree(ProposalPersonDegree source,int index) {
         boolean retval = true;
-        
-        String regExpr = "\\d{4}";
-        if(source.getGraduationYear()!=null && !(source.getGraduationYear().matches(regExpr)) && GlobalVariables.getErrorMap().getMessages("ProposalPersonDegree*") == null) 
-        {
-            GlobalVariables.getErrorMap().putError("ProposalPersonDegree*", RiceKeyConstants.ERROR_INVALID_FORMAT,
-                    new String[] {"Graduation Year", source.getGraduationYear() });
-                            
-          
+     
+        String regExpr = "^(16|17|18|19|20)[0-9]{2}$";
+        if(source.getGraduationYear()!=null && !(source.getGraduationYear().matches(regExpr)) && GlobalVariables.getErrorMap().getMessages("document.newProposalPersonDegree") == null)
+        {            
+            GlobalVariables.getErrorMap().putError("document.newProposalPersonDegree", ERROR_INVALID_YEAR,
+                    new String[] { source.getGraduationYear() });
             retval = false;
-         }
-        
+        }
+
         if (source == null) {
             return false;
         }
         
-        // Add brute force check from data dictionary
-        retval &= getDictionaryValidationService().isBusinessObjectValid(source);
-            
-        
         if (isNotBlank(source.getDegreeCode()) && isInvalid(DegreeType.class, keyValue("degreeCode", source.getDegreeCode()))) {
             retval = false;
         }
-        
+        if(StringUtils.isBlank(source.getDegreeCode())){
+            GlobalVariables.getErrorMap().putError("document.newProposalPersonDegree", RiceKeyConstants.ERROR_REQUIRED,
+                    new String[] {"Degree Type" });
+            return false;
+        }
+
+        if((!StringUtils.isBlank(source.getDegreeCode())) && (StringUtils.isBlank(source.getDegree()))){
+
+            GlobalVariables.getErrorMap().putError("document.newProposalPersonDegree", RiceKeyConstants.ERROR_REQUIRED,
+                    new String[] {"Degree Description" });
+            return false;
+        }
         return retval;
     }
     

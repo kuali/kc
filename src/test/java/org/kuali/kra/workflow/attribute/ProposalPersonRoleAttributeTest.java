@@ -100,7 +100,8 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
         person.setProposalPersonRoleId("PI");
         person.setPersonId("000000001");
         person.setUserName("tdurkin");
-
+        person.setOptInCertificationStatus("Y");
+        person.setOptInUnitStatus("Y");
 
 
         ProposalPerson person2 = new ProposalPerson();
@@ -109,6 +110,9 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
         person2.setProposalPersonRoleId("COI");
         person2.setPersonId("000000008");
         person2.setUserName("jtester");
+        person2.setOptInCertificationStatus("Y");
+        person2.setOptInUnitStatus("Y");
+                
 
         
         ProposalPersons.add(person);

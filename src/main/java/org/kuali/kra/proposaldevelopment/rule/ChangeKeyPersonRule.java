@@ -34,6 +34,6 @@ public interface ChangeKeyPersonRule {
      * @param source the event source acting on the rule
      * @return boolean pass or fail
      */
-    public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source);
+    public boolean processChangeKeyPersonBusinessRules(ProposalPerson proposalPerson, BusinessObject source,int index);
 
 }

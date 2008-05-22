@@ -34,8 +34,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * Class intended to exercise testing of units of functionality within the
  * <code>{@link KeyPersonnelService}</code>
  *
- * @author $Author: gmcgrego $
- * @version $Revision: 1.5.2.2 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.5.2.3 $
  */
 public class KeyPersonnelServiceTest extends KraTestBase {
     private ProposalDevelopmentDocument document;
@@ -84,7 +84,7 @@ public class KeyPersonnelServiceTest extends KraTestBase {
         person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
         
         getKeyPersonnelService().populateProposalPerson(person, document);
-        
+        getKeyPersonnelService().assignLeadUnit(person, document.getOwnedByUnitNumber());
         boolean personHasLeadUnit = false;
         for (ProposalPersonUnit unit : person.getUnits()) {
             personHasLeadUnit |= (unit.isLeadUnit() && unit.getUnitNumber().equals("000001")); 
