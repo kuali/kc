@@ -50,6 +50,13 @@ public class KeyConstants {
     public static final String ERROR_DELETE_LEAD_UNIT = "error.deleteLeadUnit";
     public static final String ERROR_ADD_EXISTING_UNIT = "error.addExistingUnit";
     public static final String ERROR_YNQ_INCOMPLETE = "error.ynqIncomplete";
+    public static final String ERROR_INVALID_YEAR = "error.invalid.year";
+    public static final String ERROR_INVALID_UNIT = "error.invalid.unit";
+    public static final String ERROR_SELECT_UNIT="error.select.unit";
+    public static final String ERROR_ONE_UNIT="error.one.unit";
+   
+    
+    
     
     public static final String ERROR_REQUIRED_FOR_FILE_NAME="error.required.for.fileName";
     public static final String ERROR_ABSTRACT_TYPE_NOT_SELECTED = "error.abstractType.notselected";
