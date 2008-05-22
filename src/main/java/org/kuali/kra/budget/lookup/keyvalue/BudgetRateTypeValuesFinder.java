@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
@@ -30,7 +32,15 @@ public class BudgetRateTypeValuesFinder extends KeyValuesBase {
         KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("rateClassType", "O");
-        return keyValueFinderService.getKeyValues(RateClass.class, "rateClassCode", "description", queryMap);
+        List<KeyLabelPair> keyValueList = keyValueFinderService.getKeyValues(RateClass.class, "rateClassCode", "description", queryMap);
+        KeyLabelPair keyLabelPairSelect = new KeyLabelPair("", "select");
+        for (KeyLabelPair keyLabelPair : keyValueList) {
+            if (StringUtils.isBlank(keyLabelPair.getKey().toString())) {
+                keyLabelPairSelect = keyLabelPair;
+            }            
+        }
+        keyValueList.remove(keyLabelPairSelect);
+        return keyValueList;
 
         /*
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
