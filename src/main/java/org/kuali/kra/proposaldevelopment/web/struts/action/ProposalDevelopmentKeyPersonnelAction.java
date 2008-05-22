@@ -76,7 +76,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: jsalam $
- * @version $Revision: 1.52.2.6 $
+ * @version $Revision: 1.52.2.7 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
@@ -254,14 +254,15 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 getKeyPersonnelService().addUnitToPerson(pdform.getNewProposalPerson(),getKeyPersonnelService().createProposalPersonUnit(pdform.getNewProposalPerson().getHomeUnit(), pdform.getNewProposalPerson()));
 
             }
-        }  
-        getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
-        sort(document.getProposalPersons(), new ProposalPersonComparator());
-        sort(document.getInvestigators(), new ProposalPersonComparator());
-        pdform.setNewProposalPerson(new ProposalPerson());
-        pdform.setNewRolodexId("");
-        pdform.setNewPersonId("");
+            getKeyPersonnelService().populateProposalPerson(pdform.getNewProposalPerson(), document);
+            sort(document.getProposalPersons(), new ProposalPersonComparator());
+            sort(document.getInvestigators(), new ProposalPersonComparator());
+            pdform.setNewProposalPerson(new ProposalPerson());
+            pdform.setNewRolodexId("");
+            pdform.setNewPersonId("");
 
+        }  
+       
         return mapping.findForward(MAPPING_BASIC);
     }
 
