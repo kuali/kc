@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -48,6 +49,15 @@ public class BudgetSummaryAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetSummaryAction.class);
 
     
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+        updateTotalCost(((BudgetForm) form).getBudgetDocument());
+        return forward;
+    }
+
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
@@ -224,6 +234,19 @@ public class BudgetSummaryAction extends BudgetAction {
                 }
             }
         }
+
+    }
+    
+    private void updateTotalCost (BudgetDocument budgetDocument) {
+        BudgetDecimal totalCost = BudgetDecimal.ZERO;
+        for(BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+            if (budgetPeriod.getTotalDirectCost().isGreaterThan(BudgetDecimal.ZERO) || budgetPeriod.getTotalIndirectCost().isGreaterThan(BudgetDecimal.ZERO)) {
+                budgetPeriod.setTotalCost(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+            }
+            //totalCost = totalCost.add(directCost.add(indirectCost));
+            totalCost = totalCost.add(budgetPeriod.getTotalCost());
+        }
+        budgetDocument.setTotalCost(totalCost);
 
     }
     
