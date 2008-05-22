@@ -31,8 +31,8 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * @author $Author: lprzybyl $
- * @version $Revision: 1.37 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.38 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -61,6 +61,9 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private List<ProposalPersonDegree> proposalPersonDegrees;
     private List<ProposalPersonCreditSplit> creditSplits;
     private String simpleName;
+    private String optInUnitStatus;
+    private String optInCertificationStatus;
+    private boolean unitdelete;
     
     /**
      *
@@ -342,7 +345,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
         if (isNotBlank(argPropPersonRoleId)) {
             this.proposalPersonRoleId = argPropPersonRoleId;
             refreshReferenceObject("role");
-            setRoleChanged(true);
+            //setRoleChanged(true);
         }
     }
 
@@ -528,6 +531,14 @@ public class ProposalPerson extends Person implements CreditSplitable {
         this.delete = delete;
     }
     
+    public void setUnitDelete(boolean delete){
+        this.unitdelete=delete;
+    }
+    
+    public boolean isUnitDelete()
+    {
+        return unitdelete;
+    }
     /**
      * Gets index i from the creditSplits list.
      * 
@@ -659,4 +670,21 @@ public class ProposalPerson extends Person implements CreditSplitable {
     public void setOtherSignificantContributorFlag(boolean otherSignificantContributorFlag) {
         this.otherSignificantContributorFlag = otherSignificantContributorFlag;
     }
+
+    public String getOptInUnitStatus() {
+        return optInUnitStatus;
+    }
+
+    public void setOptInUnitStatus(String optInUnitStatus) {
+        this.optInUnitStatus = optInUnitStatus;
+    }
+
+    public String getOptInCertificationStatus() {
+        return optInCertificationStatus;
+    }
+
+    public void setOptInCertificationStatus(String optInCertificationStatus) {
+        this.optInCertificationStatus = optInCertificationStatus;
+    }
+
 }
