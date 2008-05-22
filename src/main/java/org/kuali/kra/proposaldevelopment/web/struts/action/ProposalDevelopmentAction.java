@@ -434,12 +434,12 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
             if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE))){
-                if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
+                if(StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())) {
                     pdform.setReject(true);
 
                 }
             }else if((person!= null) && (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
-                if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
+                if(StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())) {
                     pdform.setReject(true);
                 }
             }
