@@ -149,6 +149,7 @@
 					</div>
 	                </td>
 	            </tr>
+	            <c:set var="readOnly" value="false"/>
         	</c:forEach> 
         	        	<tr>
         		<td colspan="9" class="subhead">Totals</td>

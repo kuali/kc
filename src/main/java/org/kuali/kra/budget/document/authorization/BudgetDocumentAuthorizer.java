@@ -141,6 +141,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         boolean hasInitiateAuthorization = hasInitiateAuthorization(document, user);
+        flags.setCanRoute(hasInitiateAuthorization);
         
         // Allow finalized budgets to be edited
         if (workflowDocument.stateIsFinal()) {

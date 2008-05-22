@@ -24,11 +24,13 @@ import org.kuali.RiceConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.Core;
 
+import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.docsearch.DocSearchCriteriaVO;
 import edu.iu.uis.eden.docsearch.DocSearchVO;
 import edu.iu.uis.eden.docsearch.SearchableAttributeValue;
 import edu.iu.uis.eden.docsearch.StandardDocumentSearchResultProcessor;
 import edu.iu.uis.eden.lookupable.Column;
+import edu.iu.uis.eden.util.Utilities;
 import edu.iu.uis.eden.web.KeyValueSort;
 
 public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearchResultProcessor {
@@ -60,11 +62,22 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
         return urlBuffer.toString();
     }
     
+    private boolean isDocumentHandlerPopup() {
+        String applicationConstant = Utilities.getApplicationConstant(EdenConstants.DOCUMENT_SEARCH_DOCUMENT_POPUP_KEY).trim();
+        return (EdenConstants.DOCUMENT_SEARCH_DOCUMENT_POPUP_VALUE.equals(applicationConstant));
+    }
+
     private String getCustomFieldValue(DocSearchVO docSearchVO) {
         String fieldValue = null;
         String copyDocumentUrl = buildDocCopyHandlerUrl(docSearchVO.getRouteHeaderId().toString());
+        String linkPopup = "";
+        
         if(StringUtils.isNotEmpty(docSearchVO.getDocTypeName()) && docSearchVO.getDocTypeName().equalsIgnoreCase(DOC_TYPE_PROPOSAL_DEVELOPMENT)) {
-            fieldValue = "<a href='" + copyDocumentUrl + "' target='_blank'>Copy</a>" ;
+            if (this.isDocumentHandlerPopup()) {
+                linkPopup = " target=\"_blank\"";
+            }
+            //fieldValue = "<a href='" + copyDocumentUrl + "' target='_blank'>Copy</a>" ;
+            fieldValue = "<a href='" + copyDocumentUrl + "' " + linkPopup + ">Copy</a>" ;
         } else {
             fieldValue = "";
         }
