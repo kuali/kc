@@ -36,8 +36,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: vsoni $
- * @version $Revision: 1.7 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.8 $
  */
 public interface KeyPersonnelService {
     /**
@@ -135,6 +135,16 @@ public interface KeyPersonnelService {
      */
     public boolean isCoInvestigator(ProposalPerson person);
     
+    
+    /**
+     * Determines if a given {@link ProposalPerson} instance is considered a KP. This is done by comparing the {@link ProposalPersonRole} of the
+     *  {@link ProposalPerson} as a COI role.
+     * 
+     * @param person {@link ProposalPerson} instance to compare
+     * @return true if the {@link ProposalPerson} is a COI
+     */
+    public boolean isKeyPerson(ProposalPerson person);
+    
 
     /**
      * Determines if a given {@link ProposalPerson} instance is considered a PI or COI. This is done by comparing the {@link ProposalPersonRole} of the
@@ -207,4 +217,16 @@ public interface KeyPersonnelService {
      * @return Principal Investigator Role Description from the System Parameters
      */
     public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document);
+    
+    /**
+     * Assigns the lead unit of the proposal to the given principal investigator
+     *
+     * @param document
+     * @param person Principal 
+     */
+    
+    public void assignLeadUnit(ProposalPerson person, String unitNumber);
+    
+    
+     
 }

@@ -33,6 +33,7 @@ import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDocumentEvent, Traceable<ChangeKeyPersonEvent> {
     
     private BusinessObject source;
+    private int index;
         
     /**
      * Default Constructor
@@ -41,8 +42,8 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
      * @param person
      * @param source business object
      */
-    public ChangeKeyPersonEvent(ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source) {
-        this("", document, person, source);
+    public ChangeKeyPersonEvent(ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source, int index) {
+        this("", document, person, source ,index);
     }
 
     /**
@@ -52,9 +53,11 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
      * @param person
      * @param source business object 
      */
-    public ChangeKeyPersonEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source) {
-        super(errorPathPrefix, "add BusinessObject to person " + person, document, person);
+    public ChangeKeyPersonEvent(String errorPathPrefix, ProposalDevelopmentDocument document, ProposalPerson person, BusinessObject source,int index) {
+        super("add BusinessObject to person " + person, errorPathPrefix, document, person);
         setSource(source);
+        this.index=index;
+       
     }
 
     /**
@@ -86,9 +89,9 @@ public class ChangeKeyPersonEvent extends KeyPersonEventBase implements KualiDoc
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        GlobalVariables.getErrorMap().addToErrorPath(getErrorPathPrefix());
-        boolean retval = ((ChangeKeyPersonRule) rule).processChangeKeyPersonBusinessRules(getProposalPerson(), getSource());
-        GlobalVariables.getErrorMap().removeFromErrorPath(getErrorPathPrefix());
+        //GlobalVariables.getErrorMap().addToErrorPath(getErrorPathPrefix());
+        boolean retval = ((ChangeKeyPersonRule) rule).processChangeKeyPersonBusinessRules(getProposalPerson(), getSource(),index);
+       // GlobalVariables.getErrorMap().removeFromErrorPath(getErrorPathPrefix());
         
         return retval;
     }

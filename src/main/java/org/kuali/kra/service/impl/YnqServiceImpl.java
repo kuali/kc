@@ -33,7 +33,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.service.YnqService;
-
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 public class YnqServiceImpl implements YnqService {
 
     private BusinessObjectService businessObjectService;
@@ -84,9 +84,23 @@ public class YnqServiceImpl implements YnqService {
     public ProposalPerson getPersonYNQ(ProposalPerson proposalPerson) {
         /* get YNQ for person */
         boolean certificationRequired = false;
-        if(proposalPerson.getRole() !=  null) {
-            certificationRequired = proposalPerson.getRole().getCertificationRequired();
+        
+        if(proposalPerson.getRole() != null && proposalPerson.getRole().getCertificationRequired().equals("Y"))
+        {
+            certificationRequired = true;
         }
+        else if( (isNotBlank(proposalPerson.getOptInCertificationStatus())) && (proposalPerson.getOptInCertificationStatus().equals("Y")))
+        {
+            certificationRequired = true;
+        }
+        else
+        {
+            certificationRequired = false;
+        }
+        
+        /*if(proposalPerson.getRole() !=  null) {
+            certificationRequired = proposalPerson.getRole().getCertificationRequired();
+        }*/
         
         if(proposalPerson.getProposalPersonYnqs().isEmpty() && certificationRequired) {
             String questionType = Constants.QUESTION_TYPE_INDIVIDUAL;
