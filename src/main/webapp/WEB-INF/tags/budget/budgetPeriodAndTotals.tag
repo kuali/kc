@@ -90,8 +90,9 @@
             </kra:section>
             
         	<c:forEach var="budgetPeriods" items="${KualiForm.document.budgetPeriods}" varStatus="status">
+				  <c:set var="readOnly" value="false"/>
 				  <bean:define id="readOnlyFlag" name="KualiForm" property="document.budgetPeriods[${status.index}].readOnly" />
-				  <c:if test="${readOnlyFlag == 'Yes' or readOnly == 'true'}">
+				  <c:if test="${readOnlyFlag == 'Yes'}">
 				  		<c:set var="readOnly" value="true"/>
 				  </c:if>
 	             <tr>
@@ -137,7 +138,7 @@
 					<div align="center">&nbsp;
 						<kra:section permission="modifyBudgets"> 
 		          		<c:choose>
-		    				<c:when test="${readOnlyFlag == 'No' or readOnly == 'false'}">
+		    				<c:when test="${(readOnlyFlag == 'No' or readOnly == 'false') and status.index > 0}">
 								<html:image property="methodToCall.deleteBudgetPeriod.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 		    				</c:when>
@@ -149,7 +150,6 @@
 					</div>
 	                </td>
 	            </tr>
-	            <c:set var="readOnly" value="false"/>
         	</c:forEach> 
         	        	<tr>
         		<td colspan="9" class="subhead">Totals</td>
