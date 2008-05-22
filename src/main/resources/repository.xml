@@ -180,7 +180,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<reference-descriptor name="scienceKeyword" class-ref="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<reference-descriptor name="scienceKeyword" class-ref="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="scienceKeywordCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -493,7 +493,6 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" table="EPS_PROP_PERSON_DEGREE">
@@ -2080,7 +2079,7 @@
 		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="activityTypeCode"/> 
 		</reference-descriptor>
-		<!-- 
+		<!--
 		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.bo.RateType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
@@ -2150,7 +2149,7 @@
 		<reference-descriptor name="rateClassTypeRef" class-ref="org.kuali.kra.budget.bo.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassType"/>
 		</reference-descriptor>
-		<reference-descriptor name="dependentRateClassTypeRef" class-ref="org.kuali.kra.budget.bo.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+				<reference-descriptor name="dependentRateClassTypeRef" class-ref="org.kuali.kra.budget.bo.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="dependentRateClassType"/>
 		</reference-descriptor>
 		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.bo.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
