@@ -431,6 +431,8 @@
         <field-descriptor name="fedrDebrFlag" column="FEDR_DEBR_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="fedrDelqFlag" column="FEDR_DELQ_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="conflictOfInterestFlag" column="CONFLICT_OF_INTEREST_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="optInUnitStatus" column="OPT_IN_UNIT_STATUS" jdbc-type="CHAR" />
+         <field-descriptor name="optInCertificationStatus" column="OPT_IN_CERTIFICATION_STATUS" jdbc-type="CHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -485,11 +487,13 @@
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole" table="EPS_PROP_PERSON_ROLE">
         <field-descriptor name="proposalPersonRoleId" column="PROP_PERSON_ROLE_ID" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
-        <field-descriptor name="certificationRequired" column="CERTIFICATION_REQUIRED" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="certificationRequired" column="CERTIFICATION_REQUIRED" jdbc-type="CHAR" />
+        <field-descriptor name="unitDetailsRequired" column="UNIT_DETAILS_REQUIRED" jdbc-type="CHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree" table="EPS_PROP_PERSON_DEGREE">
@@ -2076,7 +2080,7 @@
 		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="activityTypeCode"/> 
 		</reference-descriptor>
-		<!--
+		<!-- 
 		<reference-descriptor name="rateType" class-ref="org.kuali.kra.budget.bo.RateType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassCode"/> 
 			<foreignkey field-ref="rateTypeCode"/> 
@@ -2146,7 +2150,7 @@
 		<reference-descriptor name="rateClassTypeRef" class-ref="org.kuali.kra.budget.bo.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rateClassType"/>
 		</reference-descriptor>
-				<reference-descriptor name="dependentRateClassTypeRef" class-ref="org.kuali.kra.budget.bo.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="dependentRateClassTypeRef" class-ref="org.kuali.kra.budget.bo.RateClassType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="dependentRateClassType"/>
 		</reference-descriptor>
 		<reference-descriptor name="rateClass" class-ref="org.kuali.kra.budget.bo.RateClass" auto-retrieve="true" auto-update="none" auto-delete="none"> 
