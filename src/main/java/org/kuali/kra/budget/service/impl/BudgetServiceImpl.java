@@ -56,6 +56,8 @@ public class BudgetServiceImpl implements BudgetService {
         budgetDocument.getDocumentHeader().setFinancialDocumentDescription(documentDescription);
         budgetDocument.setStartDate(pdDoc.getRequestedStartDateInitial());
         budgetDocument.setEndDate(pdDoc.getRequestedEndDateInitial());
+        budgetDocument.setOhRateTypeCode(kualiConfigurationService.getParameterValue(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE));
         budgetDocument.setOhRateClassCode(kualiConfigurationService.getParameterValue(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_DEFAULT_OVERHEAD_RATE_CODE));
         budgetDocument.setUrRateClassCode(kualiConfigurationService.getParameterValue(
