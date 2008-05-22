@@ -63,9 +63,9 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
         
         if (retval == 0) {
             if (isNotBlank(person1.getFullName())) {
-                retval = person1.getFullName().compareTo(person2.getFullName());
+                retval = person1.getLastName().compareTo(person2.getLastName());
             }
-            else if (isNotBlank(person2.getFullName())) {
+            else if (isNotBlank(person2.getLastName())) {
                 retval--; 
             }
         }
