@@ -92,9 +92,10 @@ public class BudgetPeriodTest {
     
     @Test
     public void testIfBudgetPeriodIsReadOnly() throws Exception {
+        // jira - 1177 period 1 is not default read only.  Only 'delete' button is grayed out
         budgetPeriod.setBudgetPeriod(1);
         budgetPeriod.getBudgetLineItems().clear();
-        Assert.assertTrue(budgetPeriod.isReadOnly());
+        Assert.assertFalse(budgetPeriod.isReadOnly());
         
         budgetPeriod.setBudgetPeriod(1);
         budgetPeriod.getBudgetLineItems().add(new BudgetLineItem());
