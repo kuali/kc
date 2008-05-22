@@ -232,7 +232,8 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
      * @return
      */
     public boolean isReadOnly() {
-        return (budgetPeriod != null && budgetPeriod == 1) || budgetLineItems.size() > 0;
+        //return (budgetPeriod != null && budgetPeriod == 1) || budgetLineItems.size() > 0;
+        return budgetLineItems != null && budgetLineItems.size() > 0;
     }
 
     public BudgetDecimal getExpenseTotal() {
