@@ -95,7 +95,7 @@ public class KeyPersonnelAuditRuleTest extends KraTestBase {
     
     @Test(expected=IllegalArgumentException.class)
     public void changeKeyPersonEvent() {
-        ChangeKeyPersonEvent event = new ChangeKeyPersonEvent(new ProposalDevelopmentDocument(), null, null).getProxy(null);
+        ChangeKeyPersonEvent event = new ChangeKeyPersonEvent(new ProposalDevelopmentDocument(), null, null, 0).getProxy(null);
         event.validate();
     }
 

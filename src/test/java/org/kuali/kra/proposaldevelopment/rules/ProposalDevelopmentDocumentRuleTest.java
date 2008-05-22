@@ -206,10 +206,10 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         
         ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(UNIT_NUMBER_TO_ADD, person);
         
-        assertTrue(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit));
+        assertTrue(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit,0));
         
         getKeyPersonnelService().addUnitToPerson(person, unit);
-        assertFalse(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit));        
+        assertFalse(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit,0));        
     }
 
     /**
@@ -229,11 +229,11 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         
         ProposalPersonUnit unit = getKeyPersonnelService().createProposalPersonUnit(UNIT_NUMBER_TO_ADD, person);
         
-        assertTrue(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit));
+        assertTrue(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit,0));
 
         getKeyPersonnelService().addUnitToPerson(person, unit);
 
-        assertFalse(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit));
+        assertFalse(new ProposalDevelopmentKeyPersonsRule().processChangeKeyPersonBusinessRules(person, unit,0));
     }
     
     /**
