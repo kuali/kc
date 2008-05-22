@@ -24,15 +24,15 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
- * @author $Author: lprzybyl $
- * @version $Revision: 1.5 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.6 $
  */
 public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
     private String proposalPersonRoleId;
     private String description;
-    private Boolean certificationRequired;
+    private String certificationRequired;
     private Boolean readOnly;
-
+    private String unitDetailsRequired;
 
     /**
      * Gets the value of proposalPersonRoleId
@@ -80,13 +80,7 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
         return propMap;
     }
 
-    public Boolean getCertificationRequired() {
-        return certificationRequired;
-    }
-
-    public void setCertificationRequired(Boolean certificationRequired) {
-        this.certificationRequired = certificationRequired;
-    }
+    
 
     /**
      * Gets the readOnly attribute. 
@@ -102,6 +96,22 @@ public class ProposalPersonRole extends KraPersistableBusinessObjectBase {
      */
     public void setReadOnly(Boolean readOnly) {
         this.readOnly = readOnly;
+    }
+
+    public String getUnitDetailsRequired() {
+        return unitDetailsRequired;
+    }
+
+    public void setUnitDetailsRequired(String unitDetailsRequired) {
+        this.unitDetailsRequired = unitDetailsRequired;
+    }
+
+    public String getCertificationRequired() {
+        return certificationRequired;
+    }
+
+    public void setCertificationRequired(String certificationRequired) {
+        this.certificationRequired = certificationRequired;
     }
 }
 
