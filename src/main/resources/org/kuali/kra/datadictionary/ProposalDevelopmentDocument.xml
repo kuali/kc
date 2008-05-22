@@ -426,7 +426,7 @@
 				<shortLabel>Mail Account ID</shortLabel>
 
 				<maxLength>7</maxLength>
-				<validationPattern><anyCharacter /></validationPattern>
+				<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
 				<required>false</required>
 
