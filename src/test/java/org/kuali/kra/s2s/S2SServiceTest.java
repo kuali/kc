@@ -160,7 +160,8 @@ public class S2SServiceTest extends KraTestBase implements S2SConstants{
         pp.setPercentageEffort(new KualiDecimal(100));
         pp.setUpdateTimestamp(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
         pp.setUpdateUser("quickst");
-        
+        pp.setOptInUnitStatus("Y");
+        pp.setOptInCertificationStatus("Y");
         addUnits(pp);
         return pp;
     }
