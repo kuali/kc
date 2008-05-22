@@ -24,25 +24,12 @@ import org.kuali.rice.test.data.UnitTestData;
 import org.kuali.rice.test.data.UnitTestFile;
 import org.kuali.rice.test.data.UnitTestSql;
 import org.kuali.rice.testharness.HtmlUnitUtil;
-
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-/*@PerTestUnitTestData(
-        @UnitTestData(
-                order = {UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES},
-                sqlStatements = {
-                        @UnitTestSql("delete from trv_acct where acct_fo_id between 101 and 301")
-                        ,@UnitTestSql("delete from trv_acct_fo where acct_fo_id between 101 and 301")
-                },
-                sqlFiles = {
-                        @UnitTestFile(filename = "classpath:testFiscalOfficers.sql", delimiter = ";")
-                        , @UnitTestFile(filename = "classpath:testTravelAccounts.sql", delimiter = ";")
-                }
-        )
-)*/
+
 /**
  * This class tests KULRICE-984: Lookups - Relative Limit Gap
  * making sure that lookup resultSetLimits set in the DD for
@@ -63,10 +50,10 @@ public class WebLookupTest extends KraWebTestBase {
      */
     @Test
     public void testLookupReturnLimits() throws Exception {
-        final HtmlPage page = getPortalPage();
-
-        HtmlPage lookupPage = clickOn(page, "Sponsor");
-        assertEquals(lookupPage.getTitleText(), "Kuali Portal Index");
+        
+        HtmlPage adminpage = clickOn(getPortalPage(), "Unit", "Kuali Portal Index");
+        assertEquals(adminpage.getTitleText(), "Kuali Portal Index");
+        HtmlPage lookupPage=clickOn(adminpage,"Sponsor Lookup");
         HtmlPage lookupResultsPage = clickOn(lookupPage, "methodToCall.search");
         assertTrue(lookupResultsPage.asText().contains("items found. Please refine your search criteria to narrow down your search."));
         assertTrue(lookupResultsPage.asText().contains("50 items found, displaying all items") || lookupResultsPage.asText().contains("50 items retrieved, displaying all items"));
