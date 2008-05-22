@@ -18,6 +18,7 @@
 <channel:portalChannelTop channelTitle="System" />
 <div class="body">
   <ul class="chan">
+  	<li><portal:portalLink displayTitle="true" title="Current Locks" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.core.document.authorization.PessimisticLock&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
     <li>Employee Status</li>
     <li>Employee Type</li>
     <li>Message of the Day</li>
