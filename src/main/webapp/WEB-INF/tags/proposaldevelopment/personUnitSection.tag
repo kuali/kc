@@ -18,6 +18,7 @@
 <c:set var="personUnitAttributes" value="${DataDictionary.ProposalPersonUnit.attributes}" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
 <bean:define id="proposalPersonUnits" name="KualiForm" property="${proposalPerson}.units" />
+
                 <tbody id="G3">
                   <tr>
                     <th width="10%">&nbsp;</th>
@@ -49,7 +50,7 @@
                       <kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="newProposalPersonUnit[${personIndex}].unitNumber" onblur="loadUnitName('newProposalPersonUnit[${personIndex}].unitNumber');" />
                       </div>
                         <span class="fineprint"></span> </td>
-                    <td class="infoline"><div align=center><html:image property="methodToCall.insertUnit.personIndex${personIndex}." src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div></td>
+                    <td class="infoline"><div align=center><html:image property="methodToCall.insertUnit.${proposalPerson}.line${status.index}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div></td>
                   </tr>
                   </kra:section>
                   
@@ -58,6 +59,7 @@
 	                    <th scope="row"  align="center"><c:out value="${status.index + 1}" /></th>
 	
 	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitName}" property="${proposalPerson}.unit[${status.index}].unit.unitName" readOnly="true" /></td>
+	                    
 	                    <td><kul:htmlControlAttribute attributeEntry="${unitAttributes.unitNumber}" property="${proposalPerson}.unit[${status.index}].unitNumber" /></td>
 	                    <td>
 	                    	<div align=center>&nbsp;

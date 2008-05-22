@@ -120,6 +120,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<KeyLabelPair> exemptNumberList;
     private String[] newExemptNumbers;
     private List<String[]> documentExemptNumbers;
+    public String optInUnitDetails;
+    public String optInCertificationStatus;
+   
 
 
     public ProposalDevelopmentForm() {
@@ -1097,4 +1100,29 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void setDocumentExemptNumbers(List<String[]> documentExemptNumbers) {
         this.documentExemptNumbers = documentExemptNumbers;
     }
+
+    public String getOptInUnitDetails() {
+        return optInUnitDetails;
+    }
+
+    public void setOptInUnitDetails(String optInUnitDetails) {
+        this.optInUnitDetails = optInUnitDetails;
+    }
+
+    public String getOptInCertificationStatus() {
+        return optInCertificationStatus;
+    }
+
+    public void setOptInCertificationStatus(String optInCertificationStatus) {
+        this.optInCertificationStatus = optInCertificationStatus;
+    }
+
+
+    
+
+    
+
+    
+
+    
 }
