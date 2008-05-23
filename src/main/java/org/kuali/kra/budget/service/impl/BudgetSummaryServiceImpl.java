@@ -28,6 +28,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.calculator.BudgetPeriodCalculator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
@@ -37,6 +38,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     private BusinessObjectService businessObjectService;
     private BudgetCalculationService budgetCalculationService;
+    
     
     /**
      * @see org.kuali.kra.proposaldevelopment.service.BudgetSummaryService#getBudgetLineItemForPeriod()
@@ -93,6 +95,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                         budgetLineItem.setBudgetPeriod(budPeriod);
                         budgetLineItem.setStartDate(budgetPeriod.getStartDate());
                         budgetLineItem.setEndDate(budgetPeriod.getEndDate());
+                        budgetLineItem.setBasedOnLineItem(budgetLineItem.getLineItemNumber());
                         budgetPeriod.getBudgetLineItems().add(budgetLineItem);
                         /* add personnel line items */
                         List<BudgetPersonnelDetails> budgetPersonnelDetails = periodLineItem.getBudgetPersonnelDetailsList();
@@ -105,6 +108,12 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                         }
                     }
             }
+        }
+        
+        BudgetPeriod firstPeriod = budgetPeriods.get(0);
+        List<BudgetLineItem> firstPerLineItems = firstPeriod.getBudgetLineItems();
+        for (BudgetLineItem budgetLineItem : firstPerLineItems) {
+            budgetCalculationService.applyToLaterPeriods(budgetDocument, firstPeriod, budgetLineItem);
         }
         
     }
