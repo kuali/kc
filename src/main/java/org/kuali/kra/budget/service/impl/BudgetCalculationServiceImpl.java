@@ -298,5 +298,13 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    public void rePopulateCalculatedAmount(BudgetDocument budgetDocument, BudgetLineItem budgetLineItem) {
+        budgetLineItem.getBudgetCalculatedAmounts().clear();
+        new LineItemCalculator(budgetDocument,budgetLineItem).setCalculatedAmounts(budgetDocument, budgetLineItem);
+    }
+    public void rePopulateCalculatedAmount(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails) {
+        newBudgetPersonnelDetails.getBudgetCalculatedAmounts().clear();
+        new PersonnelLineItemCalculator(budgetDocument,newBudgetPersonnelDetails).setCalculatedAmounts(budgetDocument, newBudgetPersonnelDetails);
+    }
 
 }

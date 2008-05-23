@@ -73,6 +73,14 @@ public interface BudgetCalculationService {
     public void populateCalculatedAmount(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem);
     /**
      * 
+     * This method is for calculating calculated amounts for each cost element. It looks at all
+     * applicable rates for a cost element and calculate all direct and indirect costs.
+     * @param budgetLineItem
+     * @throws BudgetException
+     */
+    public void rePopulateCalculatedAmount(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem);
+    /**
+     * 
      * This method...
      * @param budgetPersnnelLineItem
      * @throws BudgetException
@@ -108,5 +116,13 @@ public interface BudgetCalculationService {
      * @throws BudgetException
      */
     public void populateCalculatedAmount(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails);
+    /**
+     * 
+     * This method is for calculating calculated amounts for each cost element. It looks at all
+     * applicable rates for a cost element and calculate all direct and indirect costs.
+     * @param budgetLineItem
+     * @throws BudgetException
+     */
+    public void rePopulateCalculatedAmount(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails);
     
 }
