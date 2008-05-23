@@ -120,7 +120,7 @@
 		   	<c:forEach var="budgetPersonnelDetails" items="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].budgetPersonnelDetailsList}" varStatus="status">
 	        	<tr>
 	        		<c:choose>
-				      <c:when test="${KualiForm.personnelBudgetViewMode == 0}">
+				      <c:when test="${empty KualiForm.personnelBudgetViewMode || KualiForm.personnelBudgetViewMode == 0}">
 				      	<c:set var="rowspan" value="2" />
 				      </c:when>
 				      <c:otherwise>
@@ -165,10 +165,10 @@
 						</div>
 	                </td>
 				</tr>
-	            <c:if test="${KualiForm.personnelBudgetViewMode == 0}" >     
+	            <c:if test="${empty KualiForm.personnelBudgetViewMode || KualiForm.personnelBudgetViewMode == 0}" >     
             	<tr>
 					<td colspan="6">          		
-	        			<kul:innerTab parentTab="Personnel Budget" defaultOpen="false" tabTitle="Personnel Budget Details ${status.index+1}" >
+	        			<kul:innerTab parentTab="Personnel Budget" defaultOpen="false" tabTitle="Personnel Budget Details" useCurrentTabIndexAsKey = "true">
 	        				<div>
 	        				<table cellpadding=0 cellspacing=0 summary="">
 					        	<tr>
