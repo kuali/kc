@@ -127,6 +127,9 @@ public class BudgetAction extends ProposalActionBase {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.save(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
+        // jira 1288
+        budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(((BudgetForm) form).getBudgetDocument());
+
         if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
             DocumentService docService = KraServiceLocator.getService(DocumentService.class);
             ProposalDevelopmentDocument pdDoc = 

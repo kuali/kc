@@ -73,8 +73,6 @@ public class BudgetSummaryAction extends BudgetAction {
             if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag()) || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
                 KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budgetDocument, budgetDocument.getOnOffCampusFlag());
             }
-            /* calculate all periods */
-            budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
             if (budgetDocument.getFinalVersionFlag()) {
                 budgetDocument.getProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
             }
