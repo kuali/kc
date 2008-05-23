@@ -622,7 +622,7 @@ public abstract class AbstractBudgetCalculator {
 
     protected abstract void populateCalculatedAmountLineItems();
 
-    protected final void setCalculatedAmounts(BudgetDocument budgetDocument, BudgetLineItemBase budgetLineItem) {
+    public final void setCalculatedAmounts(BudgetDocument budgetDocument, BudgetLineItemBase budgetLineItem) {
         QueryEngine queryEngine = new QueryEngine();
         BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
         Map<String, String> costElementQMap = new HashMap<String, String>();
