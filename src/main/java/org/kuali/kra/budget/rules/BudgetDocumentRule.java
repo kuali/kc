@@ -32,6 +32,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -111,6 +112,8 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         valid &= processBudgetPersonnelBusinessRules(budgetDocument);
         
         valid &= processBudgetExpenseBusinessRules(budgetDocument);
+        
+        valid &= processBudgetPersonnelBudgetBusinessRules(budgetDocument);
         
         valid &= processBudgetRatesBusinessRule(budgetDocument);
 
@@ -271,7 +274,44 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
             i++;
         }
         return valid;
-    }    
+    }
+    
+    /**
+     * This method checks business rules related to Budget Personnel Budget functionality
+     * 
+     * @param budgetDocument
+     * @return
+     */
+    protected boolean processBudgetPersonnelBudgetBusinessRules(BudgetDocument budgetDocument) {
+        boolean valid = true;
+
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+        List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
+        int i=0;
+        int j=0;
+        int k=0;
+        for(BudgetPeriod budgetPeriod: budgetPeriods){
+            j=0;
+            budgetLineItems = budgetPeriod.getBudgetLineItems();
+            k=0;
+            for(BudgetLineItem budgetLineItem: budgetLineItems){
+                for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
+                    if(budgetPersonnelDetails!=null && budgetPersonnelDetails.getStartDate()!=null && budgetPersonnelDetails.getStartDate().before(budgetLineItem.getStartDate())){
+                        errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].budgetPersonnelDetailsList[" + k + "].startDate",KeyConstants.ERROR_PERSONNELBUDGETLINEITEM_STARTDATE_BEFORE_LINEITEM_STARTDATE);                    
+                    }
+                    if(budgetPersonnelDetails!=null && budgetPersonnelDetails.getEndDate()!=null && budgetPersonnelDetails.getEndDate().after(budgetLineItem.getEndDate())){
+                        errorMap.putError("budgetPeriod[" + i +"].budgetLineItem[" + j + "].budgetPersonnelDetailsList[" + k + "].endDate",KeyConstants.ERROR_PERSONNELBUDGETLINEITEM_ENDDATE_AFTER_LINEITEM_ENDDATE);
+                    }
+                    k++;
+                }
+                j++;
+            }
+            i++;
+        }
+        return valid;
+    }
     
     /**
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
