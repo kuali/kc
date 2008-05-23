@@ -177,13 +177,16 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 budgetPeriod.setCostSharingAmount(costSharingAmount);
                 totalDirectCost = totalDirectCost.add(directCost);
                 totalIndirectCost = totalIndirectCost.add(indirectCost);
-                totalCost = totalCost.add(directCost.add(indirectCost));
+                // change for jira-1341 - if only trc entered, then keep it, so it's not dc+idc
+                //totalCost = totalCost.add(directCost.add(indirectCost));
+                totalCost = totalCost.add(budgetPeriod.getTotalCost());
                 totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(underrecoveryAmount);
                 totalCostSharingAmount = totalCostSharingAmount.add(costSharingAmount);
            }else{
                totalDirectCost = totalDirectCost.add(budgetPeriod.getTotalDirectCost());
                totalIndirectCost = totalIndirectCost.add(budgetPeriod.getTotalIndirectCost());
-               totalCost = totalCost.add(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+               //totalCost = totalCost.add(budgetPeriod.getTotalDirectCost().add(budgetPeriod.getTotalIndirectCost()));
+               totalCost = totalCost.add(budgetPeriod.getTotalCost());
                totalUnderrecoveryAmount = totalUnderrecoveryAmount.add(budgetPeriod.getUnderrecoveryAmount());
                totalCostSharingAmount = totalCostSharingAmount.add(budgetPeriod.getCostSharingAmount());
             }
