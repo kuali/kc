@@ -38,6 +38,7 @@ import org.kuali.rice.testharness.TransactionalLifecycle;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
 @PerTestUnitTestData(
         @UnitTestData(
@@ -84,6 +85,8 @@ public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
     private TransactionalLifecycle transactionalLifecycle;
     private DocumentService documentService = null;
     private String documentNumber;
+    private String proposalNumber;
+    
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -107,19 +110,19 @@ public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
         HtmlPage proposalBudgetVersionsPage = getBudgetVersionsPage();
         /* add new version and open budget version page in budget module */
         addBudgetVersion(proposalBudgetVersionsPage);
-        ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber);
+        //ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument) documentService.getByDocumentHeaderId(documentNumber);
 
         // set up the details/detailscalamts properly
-        SQLDataLoader sqlDataLoader = new SQLDataLoader("update budget_details set proposal_number ="+ pd.getProposalNumber()+" where proposal_number=999999");
+        SQLDataLoader sqlDataLoader = new SQLDataLoader("update budget_details set proposal_number ="+ proposalNumber +" where proposal_number=999999");
         sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("update budget_details_cal_amts set proposal_number ="+ pd.getProposalNumber()+" where proposal_number=999999");
+        sqlDataLoader = new SQLDataLoader("update budget_details_cal_amts set proposal_number ="+ proposalNumber +" where proposal_number=999999");
         sqlDataLoader.runSql();
         sqlDataLoader = new SQLDataLoader("commit");
         sqlDataLoader.runSql();
 
         // docsearch is hung for proposal page, so try budget version page
         Map fieldValues = new HashMap();
-        fieldValues.put("proposalNumber", pd.getProposalNumber());
+        fieldValues.put("proposalNumber", proposalNumber);
         Collection budgetDocuments = (Collection)KraServiceLocator.getService(BusinessObjectService.class).findMatching(BudgetDocument.class, fieldValues);
         assertNotNull(budgetDocuments);
         HtmlPage budgetVersionsPage = docSearch(((BudgetDocument)budgetDocuments.iterator().next()).getDocumentNumber());
@@ -146,9 +149,9 @@ public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
         assertContains(budgetTotalsPage, TOTALS_LINE);
         
         // remove details test data
-        sqlDataLoader = new SQLDataLoader("delete from budget_details where proposal_number ="+ pd.getProposalNumber());
+        sqlDataLoader = new SQLDataLoader("delete from budget_details where proposal_number ="+ proposalNumber);
         sqlDataLoader.runSql();
-        sqlDataLoader = new SQLDataLoader("delete from budget_details_cal_amts where proposal_number ="+ pd.getProposalNumber());
+        sqlDataLoader = new SQLDataLoader("delete from budget_details_cal_amts where proposal_number ="+ proposalNumber);
         sqlDataLoader.runSql();
         sqlDataLoader = new SQLDataLoader("commit");
         sqlDataLoader.runSql();
@@ -168,9 +171,20 @@ public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
                 DEFAULT_PROPOSAL_ACTIVITY_TYPE,
                 DEFAULT_PROPOSAL_TYPE_CODE,
                 DEFAULT_PROPOSAL_OWNED_BY_UNIT);
+        
+        proposalPage = this.saveDoc(proposalPage);
+        proposalNumber = getProposalNumber(proposalPage);
+        
         HtmlPage budgetVersionsPage = clickOn(proposalPage, PDDOC_BUDGET_VERSIONS_LINK_NAME);
         return budgetVersionsPage;
     }
+    
+    private String getProposalNumber(HtmlPage proposalPage) {
+        System.out.println(proposalPage.asXml());
+        HtmlTable table = this.getTable(proposalPage, "tab-RequiredFieldsforSavingDocument-div");
+        return table.getRow(0).getCell(1).asText().trim();
+    }
+
 
     private HtmlPage addBudgetVersion(HtmlPage budgetVersionsPage) throws Exception {
         setFieldValue(budgetVersionsPage, NEW_BUDGET_VERSION_NAME, "Test Budget Version - 1");
