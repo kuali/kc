@@ -123,6 +123,7 @@ public interface Constants {
     public static final String BUDGET_STATUS_INCOMPLETE_CODE = "budgetStatusIncompleteCode";
     public static final String PROPOSAL_BUDGET_VERSION_NUMBER = "proposalDevelopment.budget.versionNumber";
     public static final String BUDGET_DEFAULT_OVERHEAD_RATE_CODE = "defaultOverheadRateClassCode";
+    public static final String BUDGET_DEFAULT_OVERHEAD_RATE_TYPE_CODE = "defaultOverheadRateTypeCode";
     public static final String BUDGET_DEFAULT_UNDERRECOVERY_RATE_CODE = "defaultUnderrecoveryRateClassCode";
     public static final String BUDGET_DEFAULT_MODULAR_FLAG = "defaultModularFlag";
     
