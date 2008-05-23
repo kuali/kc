@@ -251,10 +251,12 @@ public class BudgetExpensesAction extends BudgetAction {
             }
         }
         
-        BudgetCalculationService budgetCalculationService  = KraServiceLocator.getService(BudgetCalculationService.class);
-        for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
-            budgetCalculationService.calculateBudgetPeriod(budgetDocument, budgetPeriod);
-        }
+
+        // jira - 1288 move to super.save
+//        BudgetCalculationService budgetCalculationService  = KraServiceLocator.getService(BudgetCalculationService.class);
+//        for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+//            budgetCalculationService.calculateBudgetPeriod(budgetDocument, budgetPeriod);
+//        }
         ActionForward actionForward = super.save(mapping, form, request, response);
         budgetDocument.setBudgetLineItemDeleted(false);
         return actionForward;

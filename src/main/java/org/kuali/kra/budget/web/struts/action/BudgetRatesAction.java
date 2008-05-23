@@ -42,8 +42,6 @@ public class BudgetRatesAction extends BudgetAction {
         if(GlobalVariables.getKualiForm() == null) {
             GlobalVariables.setKualiForm((KualiForm)form);
         }
-        /* calculate all periods */
-        budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
         return super.save(mapping, form, request, response);
     }
     
