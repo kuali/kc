@@ -58,8 +58,8 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: jsalam $
- * @version $Revision: 1.28 $
+ * @author $Author: dbarre $
+ * @version $Revision: 1.29 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private static final String READ_ONLY_ROLES_PARAM_NAME = "proposaldevelopment.personrole.readonly.roles";
@@ -121,7 +121,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             populateCreditTypes(person);
 
         }
-        getNarrativeService().addDummyUserRole(document, person);
+        
         person.refreshReferenceObject("role");
         
         if (person.getRole() != null) {

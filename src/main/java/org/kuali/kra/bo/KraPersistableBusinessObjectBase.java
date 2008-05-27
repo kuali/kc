@@ -101,7 +101,6 @@ public abstract class KraPersistableBusinessObjectBase extends PersistableBusine
             return "Person not found";
         }
         else {
-            System.out.println("Person Name = " + user.getPersonName());
             return user.getPersonName();
         }
     }
