@@ -207,24 +207,23 @@ public class CustomAttributeServiceImplTest extends KraTestBase {
     }
     
     @Test public void testGetLookupReturns() throws Exception {
-        List userRoleProperties = new ArrayList();
-        userRoleProperties.add("roleId");
-        userRoleProperties.add("unitNumber");
-        userRoleProperties.add("userId");
-        userRoleProperties.add("descendFlag");
-        List lookupReturnFields = customAttributeService.getLookupReturns("org.kuali.kra.bo.UserRole");
-        assertEquals(userRoleProperties.size(), lookupReturnFields.size());
+        List<String> properties = new ArrayList<String>();
+        properties.add("degreeCode");
+        properties.add("degreeLevel");
+        properties.add("description");
+        List lookupReturnFields = customAttributeService.getLookupReturns("org.kuali.kra.bo.DegreeType");
+        assertEquals(properties.size(), lookupReturnFields.size());
 
         for(Object returnField : lookupReturnFields) {
-            assertTrue(userRoleProperties.contains(returnField));
+            assertTrue(properties.contains(returnField));
         }
     }
     
     @Test
     public void testGetLookupReturnsForAjaxCall() throws Exception {
-        String userRoleProperties = ",roleId;Role Id,unitNumber;Unit Number,userId;User Id,descendFlag;Descend Flag";
-        String lookupReturnFields = customAttributeService.getLookupReturnsForAjaxCall("org.kuali.kra.bo.UserRole");
-        assertEquals(userRoleProperties,lookupReturnFields);
+        String properties = ",degreeCode;Degree Code,degreeLevel;Degree Level,description;Description";
+        String lookupReturnFields = customAttributeService.getLookupReturnsForAjaxCall("org.kuali.kra.bo.DegreeType");
+        assertEquals(properties,lookupReturnFields);
     }
 
     private ProposalDevelopmentDocument getDocument() throws WorkflowException {

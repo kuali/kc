@@ -34,7 +34,6 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.NarrativeAuthZService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
@@ -339,54 +338,6 @@ public class NarrativeServiceImpl implements NarrativeService {
 //    private boolean isProposalAttachmentType(Narrative narrative) {
 //        return !(Constants.INSTITUTE_NARRATIVE_TYPE_GROUP_CODE.equals(narrative.getNarrativeType().getNarrativeTypeGroup()));
 //    }
-    /**
-     * Dummy method to add proposal user roles for narrative. This should be removed after 
-     * proposal user roles maintenance screen implementation
-     * 
-     */
-    public void populateDummyUserRoles(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        List<ProposalPerson> propPersons = proposalDevelopmentDocument.getProposalPersons();
-        for (ProposalPerson proposalPerson : propPersons) {
-            addDummyUserRole(proposalDevelopmentDocument, proposalPerson);
-        }
-
-    }
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#addDummyUserRole(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
-     */
-    public void addDummyUserRole(ProposalDevelopmentDocument document, ProposalPerson person) {
-        if (person.getPersonId() == null) {
-            return;
-        }
-        
-        if (userRoleExists(document, person.getPersonId())) {
-            return;
-        }
-
-        LOG.info("Adding user with id " + person.getPerson());
-        
-        ProposalUserRoles propUserRole = new ProposalUserRoles();
-        propUserRole.setProposalNumber(document.getProposalNumber());
-        propUserRole.setRoleId(new Integer(102));
-        propUserRole.setUserId(person.getPersonId());
-        document.getProposalUserRoles().add(propUserRole);
-    }
-    
-    /**
-     * Compares the user id against user roles in the <code>{@link ProposalDevelopmentDocument}</code> to see if the user id already
-     * has a role.
-     * 
-     * @return the user id is already bound to a role
-     */
-    private boolean userRoleExists(ProposalDevelopmentDocument document, String userId) {
-        for (ProposalUserRoles proposalUserRole : document.getProposalUserRoles()) {
-            if(StringUtils.equals(proposalUserRole.getUserId(), userId)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * @see org.kuali.kra.proposaldevelopment.service.NarrativeService#deletePerson(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
