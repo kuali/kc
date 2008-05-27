@@ -26,7 +26,7 @@ import org.kuali.kra.kim.bo.KimPerson;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.8 2008-05-13 18:34:54 dbarre Exp $
+ * $Id: Person.java,v 1.9 2008-05-27 20:29:38 dbarre Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -92,9 +92,6 @@ public class Person extends KraPersistableBusinessObjectBase {
     private Long kimPersonId;
     private KimPerson kimPerson;
     private Boolean active = true;
-
-    private List<UserRole> userRoles = new ArrayList();
-    
     
     public Person() {
         super();
@@ -1260,22 +1257,6 @@ public class Person extends KraPersistableBusinessObjectBase {
 		return hashmap;
 	}
 
-    /**
-     * Gets the userRoles attribute. 
-     * @return Returns the userRoles.
-     */
-    public List<UserRole> getUserRoles() {
-        return userRoles;
-    }
-
-    /**
-     * Sets the userRoles attribute value.
-     * @param userRoles The userRoles to set.
-     */
-    public void setUserRoles(List<UserRole> userRoles) {
-        this.userRoles = userRoles;
-    }
-    
     /**
      * Get the KIM Person ID.
      * @return the KIM Person ID
