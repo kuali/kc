@@ -179,7 +179,6 @@ public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
     }
     
     private String getProposalNumber(HtmlPage proposalPage) {
-        System.out.println(proposalPage.asXml());
         HtmlTable table = this.getTable(proposalPage, "tab-RequiredFieldsforSavingDocument-div");
         return table.getRow(0).getCell(1).asText().trim();
     }
