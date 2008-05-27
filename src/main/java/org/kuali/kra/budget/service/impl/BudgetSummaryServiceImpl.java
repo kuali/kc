@@ -96,16 +96,15 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                         budgetLineItem.setStartDate(budgetPeriod.getStartDate());
                         budgetLineItem.setEndDate(budgetPeriod.getEndDate());
                         budgetLineItem.setBasedOnLineItem(budgetLineItem.getLineItemNumber());
-                        budgetPeriod.getBudgetLineItems().add(budgetLineItem);
                         /* add personnel line items */
-                        List<BudgetPersonnelDetails> budgetPersonnelDetails = periodLineItem.getBudgetPersonnelDetailsList();
-                        for(BudgetPersonnelDetails periodOnePersonnelDetail: budgetPersonnelDetails) {
-                            BudgetPersonnelDetails budgetPersonnelDetail = (BudgetPersonnelDetails)ObjectUtils.deepCopy(periodOnePersonnelDetail);
+                        List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
+                        for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
                             budgetPersonnelDetail.setBudgetPeriod(budPeriod);
                             budgetPersonnelDetail.setStartDate(budgetPeriod.getStartDate());
                             budgetPersonnelDetail.setEndDate(budgetPeriod.getEndDate());
-                            periodLineItem.getBudgetPersonnelDetailsList().add(budgetPersonnelDetail);
                         }
+                        budgetPeriod.getBudgetLineItems().add(budgetLineItem);
+
                     }
             }
         }
