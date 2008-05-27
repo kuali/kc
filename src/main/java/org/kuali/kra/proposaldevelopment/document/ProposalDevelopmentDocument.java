@@ -52,7 +52,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUserRoles;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
@@ -117,7 +116,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private Integer nextProposalPersonNumber;
     private String budgetStatus;
     private List<Narrative> narratives;
-    private List<ProposalUserRoles> proposalUserRoles;
     private List<ProposalAbstract> proposalAbstracts;
     private List<Narrative> instituteAttachments;
     private List<ProposalPersonBiography> propPersonBios;
@@ -146,7 +144,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         proposalPersons = new ArrayList<ProposalPerson>();
         nextProposalPersonNumber = new Integer(1);
         narratives = new ArrayList<Narrative>();
-        proposalUserRoles = new ArrayList<ProposalUserRoles>();
         proposalAbstracts = new ArrayList<ProposalAbstract>();
         instituteAttachments = new ArrayList<Narrative>();
         propPersonBios = new ArrayList<ProposalPersonBiography>();
@@ -790,21 +787,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setNarratives(List<Narrative> narratives) {
         this.narratives = narratives;
     }
-    /**
-     * Get the list of User Roles for this Proposal.
-     * @return proposal user roles.
-     */
-    public List<ProposalUserRoles> getProposalUserRoles() {
-        return proposalUserRoles;
-    }
-
-    /**
-     * Set the list of User Roles for this Proposal.
-     * @param proposal user roles
-     */
-    public void setProposalUserRoles(List<ProposalUserRoles> proposalUserRoles) {
-        this.proposalUserRoles = proposalUserRoles;
-    }
 
     /**
      * Get the list of Abstracts for this Proposal.
@@ -1004,11 +986,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.proposalYnqs = proposalYnqs;
     }
 
-    public void populateDummyPropUserRolesForNarrative() {
-        getNarrativeService().populateDummyUserRoles(this);
-    }
-
-
     public List<YnqGroupName> getYnqGroupNames() {
         if(ynqGroupNames.isEmpty()) {
             getYnqService().populateProposalQuestions(this.proposalYnqs, this.ynqGroupNames);
@@ -1087,19 +1064,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
             getInstituteAttachments().add(new Narrative());
         }
         return (Narrative) getInstituteAttachments().get(index);
-    }
-
-    /**
-     * Gets index i from the proposalUserRoles list.
-     * 
-     * @param index
-     * @return Question at index i
-     */
-    public ProposalUserRoles getProposalUserRole(int index) {
-        while (getProposalUserRoles().size() <= index) {
-            getProposalUserRoles().add(new ProposalUserRoles());
-        }
-        return (ProposalUserRoles) getProposalUserRoles().get(index);
     }
 
     /**

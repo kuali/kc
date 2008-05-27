@@ -31,20 +31,7 @@ public interface NarrativeService {
     public void replaceAttachment(Narrative narrative);
     public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument);
     public void deleteInstitutionalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,int lineToDelete);
-    public void populateDummyUserRoles(ProposalDevelopmentDocument proposalDevelopmentDocument);
-
-    /**
-     * Determines if the given <code>{@link ProposalPerson}</code> instance was created from a valid <code>{@link Person}</code> instance,
-     * verifies that the <code>{@link ProposalPerson}</code> does not have a <code>{@link ProposalUserRole}</code> in the 
-     * <code>{@link ProposalDevelopmentDocument}</code>, then adds the <code>{@link ProposalUserRole}</code> to the <code>{@link ProposalDevelopmentDocument}</code>
-     * if those conditions are met. 
-     *
-     * 
-     * @param document <code>{@link ProposalDevelopmentDocument}</code> instance
-     * @param person <code>{@link ProposalPerson}</code> instance
-     */
-    public void addDummyUserRole(ProposalDevelopmentDocument document, ProposalPerson person);
-
+  
     public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument,Narrative narrative);
     
     /**
