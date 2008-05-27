@@ -34,8 +34,8 @@ import org.junit.Before;
 /**
  * Base class for all htmlunit tests involving the Proposal Development Page.
  * 
- * @author $Author: shyu $
- * @version $Revision: 1.13.2.1 $
+ * @author $Author: dbarre $
+ * @version $Revision: 1.13.2.2 $
  */
 public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     
@@ -43,6 +43,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected static final String ACTIONS_LINK_NAME = "actions.x";
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
     protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
+    protected static final String GRANTS_GOV_LINK_NAME = "grantsGov.x";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.financialDocumentDescription";
     protected static final String PROPOSAL_SPONSOR_CODE_ID = "document.sponsorCode";
