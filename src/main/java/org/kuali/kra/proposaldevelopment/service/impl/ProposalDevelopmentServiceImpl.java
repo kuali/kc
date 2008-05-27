@@ -35,12 +35,11 @@ import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.UserRole;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RightConstants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.KeyLabelPairComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber;
@@ -49,12 +48,12 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
-import org.kuali.kra.service.UserRoleService;
+import org.kuali.kra.service.UnitAuthorizationService;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
     private BusinessObjectService businessObjectService;
-    private UserRoleService userRoleService;
+    private UnitAuthorizationService unitAuthService;
 
     /**
      * This method...
@@ -105,16 +104,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         Person person = persons.get(0);
 
-        List<Unit> units = new ArrayList<Unit>();
-
-        List<UserRole> userRoles = getUserRoleService().getUserRoles(person.getPersonId(), RightConstants.MODIFY_PROPOSAL);
-        for (UserRole userRole : userRoles) {
-            Unit unit = userRole.getUnit();
-            if (!units.contains(unit))
-                units.add(unit);
-        }
-
-        return units;
+        return unitAuthService.getUnits(person.getUserName(), PermissionConstants.CREATE_PROPOSAL);
     }
 
     /**
@@ -152,23 +142,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-
+    
     /**
-     * Gets the userRoleService attribute.
-     * 
-     * @return Returns the userRoleService.
+     * Set the Unit Authorization Service.  Injected by Spring.
+     * @param unitAuthService
      */
-    public UserRoleService getUserRoleService() {
-        return userRoleService;
-    }
-
-    /**
-     * Sets the userRoleService attribute value.
-     * 
-     * @param userRoleService The userRoleService to set.
-     */
-    public void setUserRoleService(UserRoleService userRoleService) {
-        this.userRoleService = userRoleService;
+    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthService) {
+        this.unitAuthService = unitAuthService;
     }
 
     /**
