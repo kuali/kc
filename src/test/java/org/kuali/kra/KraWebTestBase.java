@@ -503,7 +503,7 @@ public abstract class KraWebTestBase extends KraTestBase {
      * @return the resulting web page.
      * @throws IOException
      */
-    protected final HtmlPage multiLookup(HtmlPage page, String tag, String searchFieldId, String searchValue) throws IOException {
+    protected HtmlPage multiLookup(HtmlPage page, String tag, String searchFieldId, String searchValue) throws IOException {
         HtmlPage lookupPage = clickOnLookup(page, tag);
 
         if (searchFieldId != null) {
