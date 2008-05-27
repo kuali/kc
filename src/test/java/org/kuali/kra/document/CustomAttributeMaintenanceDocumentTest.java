@@ -132,7 +132,7 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.name", "test99");
         webClient.setJavaScriptEnabled(false);
         // javascript is not working for onchange in lookupclass??
-        setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.lookupClass", "org.kuali.kra.bo.UserRole");
+        setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.lookupClass", "org.kuali.kra.bo.DegreeType");
         webClient.setJavaScriptEnabled(true);
         // can't set lookup return here bc ajax is not working, so it's empty
         //setFieldValue(customAttributeMaintenancePage, "document.newMaintainableObject.lookupReturn", "roleId");
@@ -141,11 +141,11 @@ public class CustomAttributeMaintenanceDocumentTest extends MaintenanceDocumentT
         assertContains(routeErrorCustomDataPage, "Errors found in this Section: Lookup Return is a required field");
 
         // lookupreturn should be loaded during page reload
-        setFieldValue(routeErrorCustomDataPage, Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN, "roleId");
+        setFieldValue(routeErrorCustomDataPage, Constants.DOCUMENT_NEWMAINTAINABLEOBJECT_LOOKUPRETURN, "degreeCode");
         HtmlPage routedCustomDataPage = clickOn(routeErrorCustomDataPage, "methodToCall.route", "Kuali :: CustomAttribute Maintenance Document");
         
         assertContains(routedCustomDataPage, "Document was successfully submitted.");
-        assertContains(routedCustomDataPage,"New Id: 999 Data Length: 8 Data Type Code: String Default Value: Group Name: test group Label: Test 99 Lookup Class: User Roles Lookup Return: Role Id Name: test99");
+        assertContains(routedCustomDataPage,"New Id: 999 Data Length: 8 Data Type Code: String Default Value: Group Name: test group Label: Test 99 Lookup Class: Degree Type Lookup Return: Degree Code Name: test99");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());

@@ -296,7 +296,7 @@
 	-->
 	<bean id="proposalDevelopmentService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
-    <property name="userRoleService" ref="userRoleService" />
+		<property name="unitAuthorizationService" ref="unitAuthorizationService" />
 	</bean>
 
 	<bean id="sponsorService" class="org.kuali.kra.service.impl.SponsorServiceImpl">
@@ -305,14 +305,6 @@
 		</property>
 	</bean>
 
-    <bean id="userRoleService" class="org.kuali.kra.service.impl.UserRoleServiceImpl">
-      <property name="userRoleDao">
-        <ref bean="userRoleDao" />
-      </property>
-    </bean>
-
-    <bean id="userRoleDao" parent="platformAwareDao" class="org.kuali.kra.dao.UserRoleDaoOjb"></bean>
-	
 	<bean id="narrativeAuthZService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeAuthZServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

@@ -53,8 +53,8 @@ public class CustomAttributeMaintenanceDocumentRuleTest extends MaintenanceRuleT
     public void testOK() throws Exception {
 
         CustomAttribute customAttribute = new CustomAttribute();
-        customAttribute.setLookupClass("org.kuali.kra.bo.UserRole");
-        customAttribute.setLookupReturn("roleId");
+        customAttribute.setLookupClass("org.kuali.kra.bo.DegreeType");
+        customAttribute.setLookupReturn("degreeCode");
         MaintenanceDocument customAttributeDocument = newMaintDoc(customAttribute);
         assertTrue(rule.processCustomRouteDocumentBusinessRules(customAttributeDocument));
         assertTrue(rule.processCustomApproveDocumentBusinessRules(customAttributeDocument));
@@ -69,7 +69,7 @@ public class CustomAttributeMaintenanceDocumentRuleTest extends MaintenanceRuleT
     public void testUnspecifiedLookupReturn() throws Exception {
 
         CustomAttribute customAttribute = new CustomAttribute();
-        customAttribute.setLookupClass("org.kuali.kra.bo.UserRole");
+        customAttribute.setLookupClass("org.kuali.kra.bo.DegreeType");
         //customAttribute.setLookupReturn("roleId");
         MaintenanceDocument customAttributeDocument = newMaintDoc(customAttribute);
         assertFalse(rule.processCustomRouteDocumentBusinessRules(customAttributeDocument));
