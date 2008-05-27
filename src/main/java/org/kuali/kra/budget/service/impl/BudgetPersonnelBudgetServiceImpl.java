@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.service.impl;
 
 import java.sql.Date;
+import java.util.Iterator;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -36,6 +37,8 @@ import org.kuali.kra.budget.service.BudgetPersonnelBudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+
+import static org.kuali.core.util.ObjectUtils.equalByKeys;
 
 /**
  * This class...
@@ -137,4 +140,38 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
         selectedBudgetLineItem.setBudgetPersonnelLineItemDeleted(true);
     }
 
+    /**
+     * Removes all {@link BudgetPersonnelDetails} instances for a given {@link BudgetPerson}. Has to iterate through {@link BudgetPeriod} instances,
+     * {@link BudgetLineItem} instances, and finally {@link BudgetPersonnelDetails} instances. Then the {@link BudgetPerson} instances are compared.
+     *
+     * @param document BudgetDocument to remove {@link BudgetPersonnelDetails} from
+     * @param person {@link BudgetPerson} we're looking for
+     */
+    public void deleteBudgetPersonnelDetailsForPerson(BudgetDocument document, BudgetPerson person) {
+        boolean personFound = false;
+        BudgetPerson toRemove = null;
+        BudgetLineItem lineItem = null;
+        
+        for (Iterator<BudgetPeriod> period_it = document.getBudgetPeriods().iterator(); period_it.hasNext() && !personFound;) {
+            BudgetPeriod period = period_it.next();
+
+            for (Iterator<BudgetLineItem> lineItem_it = period.getBudgetLineItems().iterator(); lineItem_it.hasNext() && !personFound;) {
+                lineItem = lineItem_it.next();
+
+                for (Iterator<BudgetPersonnelDetails> personnelDetails_it = lineItem.getBudgetPersonnelDetailsList().iterator(); personnelDetails_it.hasNext() && !personFound;) {
+                    BudgetPersonnelDetails personnelDetails = personnelDetails_it.next();
+
+                    if (equalByKeys(personnelDetails.getBudgetPerson(), person)) {
+                        lineItem.setBudgetPersonnelLineItemDeleted(true);
+                        personFound = true;
+                        toRemove = personnelDetails.getBudgetPerson();
+                    }
+                }
+            }
+        }
+        
+        if (personFound && toRemove != null && lineItem != null) {
+            lineItem.getBudgetPersonnelDetailsList().remove(toRemove);
+        }
+    }
 }

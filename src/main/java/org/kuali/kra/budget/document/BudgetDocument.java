@@ -519,6 +519,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         List<BudgetModularIdc> budgetModularIdcs = new ArrayList<BudgetModularIdc>();
         
         for (BudgetPeriod budgetPeriod: getBudgetPeriods()) {
+            // managedLists.addAll(buildDeletionAwareListsByPeriod(budgetPeriod));
             if (ObjectUtils.isNotNull(budgetPeriod.getBudgetModular())) {
                 budgetModularIdcs.addAll(budgetPeriod.getBudgetModular().getBudgetModularIdcs());
             }
@@ -536,10 +537,49 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         
         managedLists.add(budgetModularIdcs);
         managedLists.add(budgetLineItems);
-//        managedLists.add(budgetLineItemCalculatedAmounts);
+        managedLists.add(budgetLineItemCalculatedAmounts);
         managedLists.add(budgetPersonnelDetailsList);
-//        managedLists.add(budgetPersonnelCalculatedAmounts);
+        managedLists.add(budgetPersonnelCalculatedAmounts);
         return managedLists;
+    }
+
+    /**
+     * A {@link BudgetPeriod} contains {@link BudgetLineItem} instances and {@link BudgetPersonDetails} instances. Each of 
+     * these has a set of calculated amounts. We want to make sure that references to all of these are handled during deletion. 
+     *
+     * @param period the {@link BudgetPeriod} to apply to
+     * @return a List of business objects which are added in {@link #buildListOfDeletionAwareLists()}
+     */
+    private List buildDeletionAwareListsByPeriod(BudgetPeriod period) {
+        List retval = new ArrayList();
+        retval.add(buildDeletionAwareListOfBudgetModularIdc(period));
+            
+        List<BudgetLineItem> budgetLineItemsCopy = new ArrayList<BudgetLineItem>();
+        budgetLineItemsCopy.addAll(period.getBudgetLineItems());
+        retval.add(budgetLineItemsCopy);
+
+        for (BudgetLineItem budgetLineItem : budgetLineItemsCopy) {
+            // retval.add(budgetLineItem.getBudgetLineItemCalculatedAmounts());
+            
+            List<BudgetPersonnelDetails> personnelDetailsCopy = new ArrayList<BudgetPersonnelDetails>();
+            personnelDetailsCopy.addAll(budgetLineItem.getBudgetPersonnelDetailsList());
+            retval.add(personnelDetailsCopy);
+                       
+            for (BudgetPersonnelDetails budgetPersonnelDetails : personnelDetailsCopy) {
+                // retval.add(budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts());
+            }
+        }
+        
+        return retval;
+    }
+
+    private List<BudgetModularIdc> buildDeletionAwareListOfBudgetModularIdc(BudgetPeriod period) {
+        List<BudgetModularIdc> retval = new ArrayList<BudgetModularIdc>();
+        if (ObjectUtils.isNotNull(period.getBudgetModular())) {
+            retval = new ArrayList<BudgetModularIdc>();
+            retval.addAll(period.getBudgetModular().getBudgetModularIdcs());
+        }
+        return retval;
     }
     
     /**
