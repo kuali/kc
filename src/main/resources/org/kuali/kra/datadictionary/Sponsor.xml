@@ -59,41 +59,32 @@
 
             <lookupFields>
                 <lookupField attributeName="sponsorCode" required="false"/>
+                <lookupField attributeName="sponsorName" required="false"/>
                 <lookupField attributeName="acronym" required="false"/>
-                <lookupField attributeName="auditReportSentForFy" required="false"/>
-                <lookupField attributeName="cageNumber" required="false"/>
-                <lookupField attributeName="countryCode" required="false"/>
-                <lookupField attributeName="dodacNumber" required="false"/>
+                <lookupField attributeName="sponsorTypeCode" required="false" forceInquiry="true"/>
                 <lookupField attributeName="dunAndBradstreetNumber" required="false"/>
                 <lookupField attributeName="dunsPlusFourNumber" required="false"/>
-                <lookupField attributeName="ownedByUnit" required="false"/>
+                <lookupField attributeName="dodacNumber" required="false"/>
+                <lookupField attributeName="cageNumber" required="false"/>
                 <lookupField attributeName="postalCode" required="false"/>
-                <lookupField attributeName="rolodexId" required="false"/>
-                <lookupField attributeName="sponsorName" required="false"/>
-                <lookupField attributeName="sponsorTypeCode" required="false"/>
                 <lookupField attributeName="state" required="false"/>
+                <lookupField attributeName="countryCode" required="false" forceInquiry="true" />
+                <lookupField attributeName="auditReportSentForFy" required="false"/>
+                <lookupField attributeName="ownedByUnit" required="false"/>
+                <lookupField attributeName="rolodexId" required="false"/>
                 <lookupField attributeName="createUser" required="false"/>
-
             </lookupFields>
 
             <resultFields>
                 <field attributeName="sponsorCode" forceInquiry="true"/>
-                <field attributeName="acronym" forceInquiry="false"/>
-                <field attributeName="auditReportSentForFy" forceInquiry="false"/>
-                <field attributeName="cageNumber" forceInquiry="false"/>
-                <field attributeName="countryCode" forceInquiry="false"/>
-                <field attributeName="dodacNumber" forceInquiry="false"/>
-                <field attributeName="dunAndBradstreetNumber" forceInquiry="false"/>
-                <field attributeName="dunsPlusFourNumber" forceInquiry="false"/>
-                <field attributeName="ownedByUnit" forceInquiry="false"/>
-                <field attributeName="postalCode" forceInquiry="false"/>
-                <field attributeName="rolodexId" forceInquiry="false"/>
                 <field attributeName="sponsorName" forceInquiry="false"/>
+                <field attributeName="acronym" forceInquiry="false"/>
                 <field attributeName="sponsorTypeCode" forceInquiry="false"/>
-                <field attributeName="sponsorType.description" forceInquiry="false"/>
+                <field attributeName="dunAndBradstreetNumber" forceInquiry="false"/>
+                <field attributeName="dodacNumber" forceInquiry="false"/>
+                <field attributeName="cageNumber" forceInquiry="false"/>
                 <field attributeName="state" forceInquiry="false"/>
-                <field attributeName="createUser" forceInquiry="false"/>
-
+                <field attributeName="countryCode" forceInquiry="false"/>
             </resultFields>
             <resultSetLimit>50</resultSetLimit>
         </lookup>
