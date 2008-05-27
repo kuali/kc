@@ -44,6 +44,21 @@ public abstract class BudgetWebTestBase extends ProposalDevelopmentWebTestBase {
         return budgetVersionsPage;
     }
 
+    /**
+     * Convenience method used because the conventional way for adding a budget version is:
+     * <code>
+        addBudgetVersion*getBudgetVersionsPage());
+     * </code>
+     * 
+     * 
+     * @see #getBudgetVersionsPage()
+     * @see #addBudgetVersion(HtmlPage)
+     * @return HtmlPage the resulting page after adding a budget version
+     */
+    protected HtmlPage addBudgetVersion() throws Exception {
+        return addBudgetVersion(getBudgetVersionsPage());
+    }
+
     protected HtmlPage addBudgetVersion(HtmlPage budgetVersionsPage) throws Exception {
         setFieldValue(budgetVersionsPage, NEW_BUDGET_VERSION_NAME, "Test Budget Version - 1");
         HtmlElement addBtn = getElementByName(budgetVersionsPage, ADD_BUDGET_VERSION_BUTTON, true);

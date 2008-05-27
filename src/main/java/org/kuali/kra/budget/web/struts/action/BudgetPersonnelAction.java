@@ -39,6 +39,7 @@ import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.TbnPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetPersonService;
+import org.kuali.kra.budget.service.BudgetPersonnelBudgetService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -130,7 +131,11 @@ public class BudgetPersonnelAction extends BudgetAction {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_BUDGET_PERSON.equals(question)) {
             BudgetDocument budgetDocument = ((BudgetForm) form).getBudgetDocument();
-            budgetDocument.getBudgetPersons().remove(getLineToDelete(request));
+            getBudgetPersonnelBudgetService()
+                .deleteBudgetPersonnelDetailsForPerson(budgetDocument,             
+                                                       budgetDocument.getBudgetPerson(getLineToDelete(request)));            
+
+            budgetDocument.getBudgetPersons().remove(getLineToDelete(request));            
         }
         
         return mapping.findForward(MAPPING_BASIC);
@@ -195,5 +200,8 @@ public class BudgetPersonnelAction extends BudgetAction {
         String personName = budgetDocument.getBudgetPerson(getLineToDelete(request)).getPersonName();
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_BUDGET_PERSON, KeyConstants.QUESTION_DELETE_PERSON, personName);
     }
-    
+
+    private BudgetPersonnelBudgetService getBudgetPersonnelBudgetService() {
+        return KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
+    }
 }
