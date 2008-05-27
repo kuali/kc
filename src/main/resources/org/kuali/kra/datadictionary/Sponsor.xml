@@ -68,7 +68,7 @@
                 <lookupField attributeName="cageNumber" required="false"/>
                 <lookupField attributeName="postalCode" required="false"/>
                 <lookupField attributeName="state" required="false"/>
-                <lookupField attributeName="countryCode" required="false" forceInquiry="true" />
+                <lookupField attributeName="countryCode" required="false" forceLookup="true" />
                 <lookupField attributeName="auditReportSentForFy" required="false"/>
                 <lookupField attributeName="ownedByUnit" required="false"/>
                 <lookupField attributeName="rolodexId" required="false"/>
