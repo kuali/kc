@@ -76,11 +76,11 @@ public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String  OBJECTCODE_LINE_420258 = "420258 Office Supplies 1000.00 1000.00 1000.00 1000.00 4000.0"; 
     private static final String  OBJECTCODE_LINE_420600 = "420600 Subcontracts (first 25K) - Subject to F\\&A 60000.00 60000.00 60000.00 60000.00 240000.0"; 
     private static final String  OBJECTCODE_LINE_420710 = "420710 Consultants 10000.00 10000.00 10000.00 10000.00 40000.0"; 
-    private static final String  OH_MTDC_LINE = "Calculated Expenses F & A - MTDC 12000.00 24000.00 36000.00 48000.00 120000.0"; 
-    private static final String  OH_TDC_LINE = "F & A - TDC 1000.00 0.00 0.00 0.00 1000.0 "; 
-    private static final String  EMP_BENEFIT_LINE = "Fringe Benefits - Research Rate 7000.00 14000.00 21000.00 28000.00 70000.0"; 
-    private static final String  VACATION_LINE = "Vacation - Vacation 1000.00 2000.00 3000.00 4000.00 10000.0";
-    private static final String  TOTALS_LINE = "Totals 352000.00 371000.00 391000.00 411000.00 1525000.0";
+    private static final String  OH_MTDC_LINE = "Calculated Expenses F & A - MTDC 187500.00 187500.00 187500.00 187500.00 750000.0"; 
+    private static final String  OH_TDC_LINE = "F & A - TDC 30956.25 0.00 0.00 0.00 30956.25"; 
+    private static final String  EMP_BENEFIT_LINE = "Fringe Benefits - Research Rate 55350.00 55350.00 55350.00 55350.00 221400.0"; 
+    private static final String  VACATION_LINE = "Vacation - Vacation 4275.00 4275.00 4275.00 4275.00 17100.0";
+    private static final String  TOTALS_LINE = "Totals 609081.25 578125.00 578125.00 578125.00 2343456.25";
     
     private TransactionalLifecycle transactionalLifecycle;
     private DocumentService documentService = null;
@@ -155,7 +155,6 @@ public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
         sqlDataLoader.runSql();
         sqlDataLoader = new SQLDataLoader("commit");
         sqlDataLoader.runSql();
-
         
     }
     
