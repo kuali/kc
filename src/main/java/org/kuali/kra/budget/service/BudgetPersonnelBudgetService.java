@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.service;
 
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
 
@@ -28,4 +29,13 @@ public interface BudgetPersonnelBudgetService {
             BudgetPersonnelDetails budgetPersonnelDetails,  int lineNumber);
     public void deleteBudgetPersonnelDetails(BudgetDocument budgetDocument, int selectedBudgetPeriodIndex,
             int selectedBudgetLineItemIndex, int lineToDelete);
+
+    /**
+     * Removes all {@link BudgetPersonnelDetails} instances for a given {@link BudgetPerson}. Has to iterate through {@link BudgetPeriod} instances,
+     * {@link BudgetLineItem} instances, and finally {@link BudgetPersonnelDetails} instances. Then the {@link BudgetPerson} instances are compared.
+     *
+     * @param document BudgetDocument to remove {@link BudgetPersonnelDetails} from
+     * @param person {@link BudgetPerson} we're looking for
+     */
+    public void deleteBudgetPersonnelDetailsForPerson(BudgetDocument document, BudgetPerson person);
 }
