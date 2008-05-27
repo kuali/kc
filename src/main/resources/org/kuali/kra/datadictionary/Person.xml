@@ -104,7 +104,7 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="personId" forceInquiry="true" />
+                <lookupField attributeName="personId" forceLookup="true" />
                 <lookupField attributeName="lastName" />
                 <lookupField attributeName="firstName" />
                 <lookupField attributeName="userName" />

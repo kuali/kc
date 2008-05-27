@@ -61,7 +61,7 @@
                 <lookupField attributeName="sponsorCode" required="false"/>
                 <lookupField attributeName="sponsorName" required="false"/>
                 <lookupField attributeName="acronym" required="false"/>
-                <lookupField attributeName="sponsorTypeCode" required="false" forceInquiry="true"/>
+                <lookupField attributeName="sponsorTypeCode" required="false" forceLookup="true"/>
                 <lookupField attributeName="dunAndBradstreetNumber" required="false"/>
                 <lookupField attributeName="dunsPlusFourNumber" required="false"/>
                 <lookupField attributeName="dodacNumber" required="false"/>
