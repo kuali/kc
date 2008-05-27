@@ -16,16 +16,21 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
@@ -60,6 +65,8 @@ import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.KNSServiceLocator;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * The Proposal Copy Service creates a new Proposal Development Document
@@ -154,21 +161,19 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         
         if (rulePassed) {
             
-            DocumentService docService = KNSServiceLocator.getDocumentService();
-            ProposalDevelopmentDocument newDoc = (ProposalDevelopmentDocument) docService.getNewDocument(doc.getClass());
-    
+            ProposalDevelopmentDocument newDoc = createNewProposal(doc, criteria);
+            
             copyProposal(doc, newDoc, criteria);
             fixProposal(doc, newDoc, criteria);
-            
-            newDoc.getDocumentHeader().setFinancialDocumentTemplateNumber(doc.getDocumentNumber());
-            
+
+            DocumentService docService = KNSServiceLocator.getDocumentService();
             docService.saveDocument(newDoc);
             
 //          Copy over the budget(s) if required by the user.  newDoc must be saved so we know proposal number.
             if (criteria.getIncludeBudget()) {
                 copyBudget(doc, newDoc, criteria.getBudgetVersions());
             }
-            
+
             // Can't initialize authorization until a proposal is saved
             // and we have a new proposal number.
             initializeAuthorization(newDoc);
@@ -177,6 +182,52 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         
         return newDocNbr;
+    }
+    
+    /**
+     * Create a new proposal based upon a source proposal.  Only copy over the
+     * properties necessary for the initial creation of the proposal.  This will
+     * give us the proposal number to use when copying over the remainder of the
+     * proposal.
+     * @param srcDoc
+     * @param criteria
+     * @return
+     * @throws Exception
+     */
+    private ProposalDevelopmentDocument createNewProposal(ProposalDevelopmentDocument srcDoc, ProposalCopyCriteria criteria) throws Exception {
+        DocumentService docService = KNSServiceLocator.getDocumentService();
+        ProposalDevelopmentDocument newDoc = (ProposalDevelopmentDocument) docService.getNewDocument(srcDoc.getClass());
+        
+        // Copy over the document overview properties.
+        
+        copyOverviewProperties(srcDoc, newDoc);
+        
+        copyRequiredProperties(srcDoc, newDoc);
+        
+        // Set lead unit.
+        
+        setLeadUnit(newDoc, criteria.getLeadUnitNumber());
+        
+        newDoc.getDocumentHeader().setFinancialDocumentTemplateNumber(srcDoc.getDocumentNumber());
+        docService.saveDocument(newDoc);
+        
+        return newDoc;
+    }
+    
+    /**
+     * Copy over the required properties so we can do an initial save of the document
+     * in order to obtain a proposal number.
+     * @param srcDoc
+     * @param destDoc
+     */
+    private void copyRequiredProperties(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument destDoc) {
+        destDoc.getDocumentHeader().setFinancialDocumentDescription(srcDoc.getDocumentHeader().getFinancialDocumentDescription());
+        destDoc.setProposalTypeCode(srcDoc.getProposalTypeCode());
+        destDoc.setActivityTypeCode(srcDoc.getActivityTypeCode());
+        destDoc.setTitle(srcDoc.getTitle());
+        destDoc.setSponsorCode(srcDoc.getSponsorCode());
+        destDoc.setRequestedStartDateInitial(srcDoc.getRequestedStartDateInitial());
+        destDoc.setRequestedEndDateInitial(srcDoc.getRequestedEndDateInitial());
     }
     
     /**
@@ -193,14 +244,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         // those that are not filtered.
         
         copyProposalProperties(src, dest);
-        
-        // Copy over the document overview properties.
-        
-        copyOverviewProperties(src, dest);
-        
-        // Set lead unit.
-        
-        setLeadUnit(dest, criteria.getLeadUnitNumber());
         
         // Copy over the attachments if required by the user.
         
@@ -289,7 +332,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 if (!isFilteredProperty(name)) {
                     Method getter = getGetter(name, methods);         
                     if (getter != null) {   
-                        list.add(new DocProperty(getter, method));
+                        if ((getter.getParameterTypes().length == 0) &&
+                            (method.getParameterTypes().length == 1)) {
+                            list.add(new DocProperty(getter, method));
+                        }
                     }
                 }
             }
@@ -368,11 +414,104 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     /**
      * Fix the proposal.
      * @param criteria the copy criteria
+     * @throws Exception 
      */
-    private void fixProposal(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument newDoc, ProposalCopyCriteria criteria) {
+    private void fixProposal(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument newDoc, ProposalCopyCriteria criteria) throws Exception {
+        List<Object> list = new ArrayList<Object>();
+        fixProposalNumbers(newDoc, newDoc.getProposalNumber(), list);
+        list.clear();
+        fixVersionNumbers(newDoc, list);
         fixKeyPersonnel(newDoc, srcDoc.getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
     }
     
+    /**
+     * Recurse through all of the BOs and if a BO has a ProposalNumber property,
+     * set its value to the new proposal number.
+     * @param object the object
+     * @param proposalNumber the proposal number
+     */
+    private void fixProposalNumbers(Object object, String proposalNumber, List<Object> list) throws Exception {
+        if (object instanceof BusinessObject) {
+            if (list.contains(object)) return;
+            list.add(object);
+            Method[] methods = object.getClass().getDeclaredMethods();
+            for (Method method : methods) {
+                if (method.getName().equals("setProposalNumber")) {
+                    method.invoke(object, proposalNumber);
+                } else if (isPropertyGetterMethod(method, methods)) {
+                    Object value = method.invoke(object);
+                    if (value instanceof Collection) {
+                        Collection c = (Collection) value;
+                        Iterator iter = c.iterator();
+                        while (iter.hasNext()) {
+                            Object entry = iter.next();
+                            fixProposalNumbers(entry, proposalNumber, list);
+                        }
+                    } else {
+                        fixProposalNumbers(value, proposalNumber, list);
+                    }   
+                }
+            }
+        }
+    }
+    
+    /**
+     * Recurse through all of the BOs and reset all of the Version Number
+     * properties to null.  Note that the version number for the top-level
+     * document must be left as is.
+     * @param object the object
+     */
+    private void fixVersionNumbers(Object object, List<Object> list) throws Exception {
+        if (object instanceof BusinessObject) {
+            if (list.contains(object)) return;
+            list.add(object);
+            Method[] methods = object.getClass().getDeclaredMethods();
+            for (Method method : methods) {
+                if (method.getName().equals("setVersionNumber")) {
+                    if (!(object instanceof ProposalDevelopmentDocument)) {
+                        method.invoke(object, (Long) null);
+                    }
+                } else if (isPropertyGetterMethod(method, methods)) {
+                    Object value = method.invoke(object);
+                    if (value instanceof Collection) {
+                        Collection c = (Collection) value;
+                        Iterator iter = c.iterator();
+                        while (iter.hasNext()) {
+                            Object entry = iter.next();
+                            fixVersionNumbers(entry, list);
+                        }
+                    } else {
+                        fixVersionNumbers(value, list);
+                    }   
+                }
+            }
+        }
+    }
+    
+    /**
+     * Is the given method a getter method for a property?  Must conform to
+     * the following:
+     * <ol>
+     * <li>Must start with the <b>get</b></li>
+     * <li>Must have a corresponding setter method</li>
+     * <li>Must have zero arguments.</li>
+     * </ol>
+     * @param method the method to check
+     * @param methods the other methods in the object
+     * @return true if it is property getter method; otherwise false
+     */
+    private boolean isPropertyGetterMethod(Method method, Method methods[]) {
+        if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
+            String setterName = method.getName().replaceFirst("get", "set");
+            for (Method m : methods) {
+                if (m.getName().equals(setterName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Fix the Key Personnel.
      * @param doc the proposal development document
@@ -709,7 +848,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             }
         }
         if (getter != null && setter != null) {
-            docProperty = new DocProperty(getter, setter);
+            if ((getter.getParameterTypes().length == 0) &&
+                (setter.getParameterTypes().length == 1)) {
+                docProperty = new DocProperty(getter, setter);
+            }
         }
         return docProperty;
     }

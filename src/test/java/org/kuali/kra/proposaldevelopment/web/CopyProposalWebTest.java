@@ -207,6 +207,32 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
             assertEquals(unitNumber2, LEAD_UNIT_NBR_2);
         }
     }
+    
+    /**
+     * Verify that the Grants.Gov opportunity is copied.
+     * @throws Exception
+     */
+    @Test
+    public void testGrantsGovCopy() throws Exception {
+        HtmlPage actionsPage = buildDocument();
+        HtmlPage grantsPage = clickOnTab(actionsPage, GRANTS_GOV_LINK_NAME);
+        
+        grantsPage = lookup(grantsPage, "s2sOpportunity", "cfdaNumber", "00.000");
+        grantsPage = saveDoc(grantsPage);
+        
+        ProposalDevelopmentDocument srcDoc = getProposalDevelopmentDocument(grantsPage);
+        
+        actionsPage = clickOnTab(grantsPage, ACTIONS_LINK_NAME);
+        setFieldValue(actionsPage, COPY_ATTACHMENTS_ID, "off");
+        setFieldValue(actionsPage, COPY_LEAD_UNIT_ID, LEAD_UNIT_NBR_1);
+        
+        ProposalDevelopmentDocument destDoc = copyDocument(actionsPage);
+       
+        ProposalCopyCriteria criteria = new ProposalCopyCriteria();
+        criteria.setIncludeAttachments(false);
+        criteria.setLeadUnitNumber(LEAD_UNIT_NBR_1);
+        compareDocuments(srcDoc, destDoc, criteria, true);
+    }
 
     /**
      * Builds a Proposal Development Document.  Adds several attachments to
