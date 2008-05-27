@@ -104,66 +104,20 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="personId" />
-                <lookupField attributeName="socialSecurityNumber" />
+                <lookupField attributeName="personId" forceInquiry="true" />
                 <lookupField attributeName="lastName" />
                 <lookupField attributeName="firstName" />
-                <lookupField attributeName="middleName" />
-                <lookupField attributeName="fullName" />
-                <lookupField attributeName="priorName" />
                 <lookupField attributeName="userName" />
                 <lookupField attributeName="emailAddress" />
-                <lookupField attributeName="dateOfBirth" />
-                <lookupField attributeName="age" />
-                <lookupField attributeName="ageByFiscalYear" />
-                <lookupField attributeName="gender" />
-                <lookupField attributeName="race" />
-                <lookupField attributeName="educationLevel" />
-                <lookupField attributeName="degree" />
-                <lookupField attributeName="major" />
-                <lookupField attributeName="handicappedFlag" />
-                <lookupField attributeName="handicapType" />
-                <lookupField attributeName="veteranFlag" />
-                <lookupField attributeName="veteranType" />
-                <lookupField attributeName="visaCode" />
-                <lookupField attributeName="visaType" />
-                <lookupField attributeName="visaRenewalDate" />
-                <lookupField attributeName="hasVisa" />
+                <lookupField attributeName="homeUnit" />
+                <lookupField attributeName="directoryTitle" />
+                <lookupField attributeName="facultyFlag" />
+                <lookupField attributeName="researchStaffFlag" />
+                <lookupField attributeName="graduateStudentStaffFlag" />
                 <lookupField attributeName="officeLocation" />
                 <lookupField attributeName="officePhone" />
-                <lookupField attributeName="secondaryOfficeLocation" />
-                <lookupField attributeName="secondaryOfficePhone" />
                 <lookupField attributeName="school" />
-                <lookupField attributeName="yearGraduated" />
-                <lookupField attributeName="directoryDepartment" />
-                <lookupField attributeName="saluation" />
-                <lookupField attributeName="countryOfCitizenship" />
-                <lookupField attributeName="primaryTitle" />
-                <lookupField attributeName="directoryTitle" />
-                <lookupField attributeName="homeUnit" />
-                <lookupField attributeName="facultyFlag" />
-                <lookupField attributeName="graduateStudentStaffFlag" />
-                <lookupField attributeName="researchStaffFlag" />
-                <lookupField attributeName="serviceStaffFlag" />
-                <lookupField attributeName="supportStaffFlag" />
-                <lookupField attributeName="otherAcademicGroupFlag" />
-                <lookupField attributeName="medicalStaffFlag" />
-                <lookupField attributeName="vacationAccrualFlag" />
-                <lookupField attributeName="onSabbaticalFlag" />
-                <lookupField attributeName="idProvided" />
-                <lookupField attributeName="idVerified" />
-                <lookupField attributeName="addressLine1" />
-                <lookupField attributeName="addressLine2" />
-                <lookupField attributeName="addressLine3" />
-                <lookupField attributeName="city" />
-                <lookupField attributeName="county" />
-                <lookupField attributeName="state" />
-                <lookupField attributeName="postalCode" />
-                <lookupField attributeName="countryCode" />
-                <lookupField attributeName="faxNumber" />
-                <lookupField attributeName="pagerNumber" />
                 <lookupField attributeName="mobilePhoneNumber" />
-                <lookupField attributeName="eraCommonsUserName" />
                 <lookupField attributeName="active">
                     <defaultValue>Y</defaultValue>
                 </lookupField>
@@ -171,65 +125,14 @@
 
             <resultFields>
                 <field attributeName="personId" forceInquiry="true"/>
-                <field attributeName="socialSecurityNumber" forceInquiry="false" />
-                <field attributeName="lastName" forceInquiry="false" />
-                <field attributeName="firstName" forceInquiry="false" />
-                <field attributeName="middleName" forceInquiry="false" />
                 <field attributeName="fullName" forceInquiry="false" />
-                <field attributeName="priorName" forceInquiry="false" />
                 <field attributeName="userName" forceInquiry="false" />
                 <field attributeName="emailAddress" forceInquiry="false" />
-                <field attributeName="dateOfBirth" forceInquiry="false" />
-                <field attributeName="age" forceInquiry="false" />
-                <field attributeName="ageByFiscalYear" forceInquiry="false" />
-                <field attributeName="gender" forceInquiry="false" />
-                <field attributeName="race" forceInquiry="false" />
-                <field attributeName="educationLevel" forceInquiry="false" />
-                <field attributeName="degree" forceInquiry="false" />
-                <field attributeName="major" forceInquiry="false" />
-                <field attributeName="handicappedFlag" forceInquiry="false" />
-                <field attributeName="handicapType" forceInquiry="false" />
-                <field attributeName="veteranFlag" forceInquiry="false" />
-                <field attributeName="veteranType" forceInquiry="false" />
-                <field attributeName="visaCode" forceInquiry="false" />
-                <field attributeName="visaType" forceInquiry="false" />
-                <field attributeName="visaRenewalDate" forceInquiry="false" />
-                <field attributeName="hasVisa" forceInquiry="false" />
+                <field attributeName="directoryDepartment" forceInquiry="false" />
+                <field attributeName="directoryTitle" forceInquiry="false" />
                 <field attributeName="officeLocation" forceInquiry="false" />
                 <field attributeName="officePhone" forceInquiry="false" />
-                <field attributeName="secondaryOfficeLocation" forceInquiry="false" />
-                <field attributeName="secondaryOfficePhone" forceInquiry="false" />
                 <field attributeName="school" forceInquiry="false" />
-                <field attributeName="yearGraduated" forceInquiry="false" />
-                <field attributeName="directoryDepartment" forceInquiry="false" />
-                <field attributeName="saluation" forceInquiry="false" />
-                <field attributeName="countryOfCitizenship" forceInquiry="false" />
-                <field attributeName="primaryTitle" forceInquiry="false" />
-                <field attributeName="directoryTitle" forceInquiry="false" />
-                <field attributeName="homeUnit" forceInquiry="false" />
-                <field attributeName="facultyFlag" forceInquiry="false" />
-                <field attributeName="graduateStudentStaffFlag" forceInquiry="false" />
-                <field attributeName="researchStaffFlag" forceInquiry="false" />
-                <field attributeName="serviceStaffFlag" forceInquiry="false" />
-                <field attributeName="supportStaffFlag" forceInquiry="false" />
-                <field attributeName="otherAcademicGroupFlag" forceInquiry="false" />
-                <field attributeName="medicalStaffFlag" forceInquiry="false" />
-                <field attributeName="vacationAccrualFlag" forceInquiry="false" />
-                <field attributeName="onSabbaticalFlag" forceInquiry="false" />
-                <field attributeName="idProvided" forceInquiry="false" />
-                <field attributeName="idVerified" forceInquiry="false" />
-                <field attributeName="addressLine1" forceInquiry="false" />
-                <field attributeName="addressLine2" forceInquiry="false" />
-                <field attributeName="addressLine3" forceInquiry="false" />
-                <field attributeName="city" forceInquiry="false" />
-                <field attributeName="county" forceInquiry="false" />
-                <field attributeName="state" forceInquiry="false" />
-                <field attributeName="postalCode" forceInquiry="false" />
-                <field attributeName="countryCode" forceInquiry="false" />
-                <field attributeName="faxNumber" forceInquiry="false" />
-                <field attributeName="pagerNumber" forceInquiry="false" />
-                <field attributeName="mobilePhoneNumber" forceInquiry="false" />
-                <field attributeName="eraCommonsUserName" forceInquiry="false" />
                 <field attributeName="active" forceInquiry="false" />
            </resultFields>
         </lookup>
