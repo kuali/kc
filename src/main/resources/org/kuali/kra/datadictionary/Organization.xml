@@ -119,70 +119,27 @@
 
             <lookupFields>
             	<lookupField attributeName="organizationId" required="false"/>
+				<lookupField attributeName="organizationName" required="false"/>
 				<lookupField attributeName="address" required="false"/>
-				<lookupField attributeName="agencySymbol" required="false"/>
-				<lookupField attributeName="animalWelfareAssurance" required="false"/>
-				<lookupField attributeName="cableAddress" required="false"/>
-				<lookupField attributeName="cageNumber" required="false"/>
-				<lookupField attributeName="cognizantAuditor" required="false"/>
-				<lookupField attributeName="comGovEntityCode" required="false"/>
+				<lookupField attributeName="fedralEmployerId" required="false"/>
 				<lookupField attributeName="congressionalDistrict" required="false"/>
-				<lookupField attributeName="contactAddressId" required="false"/>
-				<lookupField attributeName="county" required="false"/>
-				<lookupField attributeName="dodacNumber" required="false"/>
 				<lookupField attributeName="dunsNumber" required="false"/>
 				<lookupField attributeName="dunsPlusFourNumber" required="false"/>
-				<lookupField attributeName="fedralEmployerId" required="false"/>
 				<lookupField attributeName="humanSubAssurance" required="false"/>
-				<lookupField attributeName="incorporatedDate" required="false"/>
-				<lookupField attributeName="incorporatedIn" required="false"/>
-				<lookupField attributeName="indirectCostRateAgreement" required="false"/>
-				<lookupField attributeName="irsTaxExcemption" required="false"/>
-				<lookupField attributeName="massEmployeeClaim" required="false"/>
-				<lookupField attributeName="massTaxExcemptNum" required="false"/>
-				<lookupField attributeName="nsfInstitutionalCode" required="false"/>
+				<lookupField attributeName="cageNumber" required="false"/>
+				<lookupField attributeName="dodacNumber" required="false"/>
 				<lookupField attributeName="numberOfEmployees" required="false"/>
-				<lookupField attributeName="onrResidentRep" required="false"/>
-				<lookupField attributeName="organizationName" required="false"/>
-				<lookupField attributeName="phsAcount" required="false"/>
-				<lookupField attributeName="scienceMisconductComplDate" required="false"/>
-				<lookupField attributeName="telexNumber" required="false"/>
-				<lookupField attributeName="vendorCode" required="false"/>
-
             </lookupFields>
 
             <resultFields>
             	<field attributeName="organizationId" forceInquiry="true"/>
+				<field attributeName="organizationName" forceInquiry="false"/>
 				<field attributeName="address" forceInquiry="false"/>
-				<field attributeName="agencySymbol" forceInquiry="false"/>
-				<field attributeName="animalWelfareAssurance" forceInquiry="false"/>
-				<field attributeName="cableAddress" forceInquiry="false"/>
-				<field attributeName="cageNumber" forceInquiry="false"/>
-				<field attributeName="cognizantAuditor" forceInquiry="false"/>
-				<field attributeName="comGovEntityCode" forceInquiry="false"/>
+				<field attributeName="fedralEmployerId" forceInquiry="false"/>
 				<field attributeName="congressionalDistrict" forceInquiry="false"/>
-				<field attributeName="contactAddressId" forceInquiry="false"/>
-				<field attributeName="county" forceInquiry="false"/>
-				<field attributeName="dodacNumber" forceInquiry="false"/>
 				<field attributeName="dunsNumber" forceInquiry="false"/>
 				<field attributeName="dunsPlusFourNumber" forceInquiry="false"/>
-				<field attributeName="fedralEmployerId" forceInquiry="false"/>
 				<field attributeName="humanSubAssurance" forceInquiry="false"/>
-				<field attributeName="incorporatedDate" forceInquiry="false"/>
-				<field attributeName="incorporatedIn" forceInquiry="false"/>
-				<field attributeName="indirectCostRateAgreement" forceInquiry="false"/>
-				<field attributeName="irsTaxExcemption" forceInquiry="false"/>
-				<field attributeName="massEmployeeClaim" forceInquiry="false"/>
-				<field attributeName="massTaxExcemptNum" forceInquiry="false"/>
-				<field attributeName="nsfInstitutionalCode" forceInquiry="false"/>
-				<field attributeName="numberOfEmployees" forceInquiry="false"/>
-				<field attributeName="onrResidentRep" forceInquiry="false"/>
-				<field attributeName="organizationName" forceInquiry="false"/>
-				<field attributeName="phsAcount" forceInquiry="false"/>
-				<field attributeName="scienceMisconductComplDate" forceInquiry="false"/>
-				<field attributeName="telexNumber" forceInquiry="false"/>
-				<field attributeName="vendorCode" forceInquiry="false"/>
-
             </resultFields>
         </lookup>
 
