@@ -15,20 +15,20 @@
  */
 package org.kuali.kra.budget.rules;
 
-import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.AuditError;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -45,21 +45,21 @@ public class BudgetExpensesAuditRule extends ResearchDocumentRuleBase implements
     public boolean processRunAuditBusinessRules(Document document) {
         BudgetDocument budgetDocument = (BudgetDocument) document;
         boolean retval = true;
-        Date projectStartDate = budgetDocument.getProposal().getRequestedStartDateInitial();
-        Date projectEndDate = budgetDocument.getProposal().getRequestedEndDateInitial();
         int i = 0;
-        List<AuditError> auditErrors = new ArrayList<AuditError>();
-        BudgetForm budgetForm = (BudgetForm)GlobalVariables.getKualiForm();
-        int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod().intValue();
-        if(budgetDocument.getBudgetPeriod(sltdBudgetPeriod).getTotalCostLimit().isGreaterThan(new BudgetDecimal(0)) && budgetDocument.getBudgetPeriod(sltdBudgetPeriod).getTotalCost().isGreaterThan(budgetDocument.getBudgetPeriod(sltdBudgetPeriod).getTotalCostLimit())){            
-            auditErrors.add(new AuditError("document.budgetPeriod[" + sltdBudgetPeriod + "].totalCostLimit", KeyConstants.WARNING_PERIOD_COST_LIMIT_EXCEEDED, Constants.BUDGET_EXPENSES_PAGE + "." + Constants.BUDGET_EXPENSES_OVERVIEW_PANEL_ANCHOR));
-            retval=false;
+       for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+            if(budgetPeriod.getTotalCostLimit().isGreaterThan(new BudgetDecimal(0)) && budgetPeriod.getTotalCost().isGreaterThan(budgetPeriod.getTotalCostLimit())){            
+                String key = "budgetExpensesAuditWarnings"+budgetPeriod.getBudgetPeriod();
+                AuditCluster auditCluster = (AuditCluster) GlobalVariables.getAuditErrorMap().get(key);
+                if (auditCluster == null) {
+                    List<AuditError> auditErrors = new ArrayList<AuditError>();
+                    auditCluster = new AuditCluster(Constants.BUDGET_EXPENSES_OVERVIEW_PANEL_NAME + budgetPeriod.getBudgetPeriod() + ")", auditErrors, Constants.AUDIT_WARNINGS);
+                    GlobalVariables.getAuditErrorMap().put(key, auditCluster);
+                }
+                List<AuditError> auditErrors = auditCluster.getAuditErrorList();
+                auditErrors.add(new AuditError("document.budgetPeriod[" + (budgetPeriod.getBudgetPeriod() - 1) + "].totalCostLimit", KeyConstants.WARNING_PERIOD_COST_LIMIT_EXCEEDED, Constants.BUDGET_EXPENSES_PAGE + "." + Constants.BUDGET_EXPENSES_OVERVIEW_PANEL_ANCHOR + "&viewBudgetPeriod=" + budgetPeriod.getBudgetPeriod()));
+                retval=false;
+            }        
         }
-        
-        if (auditErrors.size() > 0) {
-            GlobalVariables.getAuditErrorMap().put("budgetExpensesAuditWarnings", new AuditCluster(Constants.BUDGET_EXPENSES_OVERVIEW_PANEL_NAME + sltdBudgetPeriod + ")", auditErrors, Constants.AUDIT_WARNINGS));
-        }
-        
         
         return retval;
 

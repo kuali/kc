@@ -28,8 +28,10 @@
 		<c:set var="budgetPeriod" value="1" />
 	</c:otherwise>
 </c:choose>
-    
-<kul:tabTop tabTitle="Budget Overview (Period ${budgetPeriod})" defaultOpen="true" tabErrorKey="document.budgetPeriod[${budgetPeriod-1}].totalCostLimit" auditCluster="budgetExpensesAuditWarnings" tabAuditKey="document.budgetPeriod[${budgetPeriod-1}].totalCostLimit">	
+<c:set var="tabAuditCluster" value="budgetExpensesAuditWarnings${budgetPeriod}" />
+
+    <div id="workarea">
+<kul:tab tabTitle="Budget Overview (Period ${budgetPeriod})" transparentBackground="true" defaultOpen="true" tabErrorKey="document.budgetPeriod[${budgetPeriod-1}].totalCostLimit" auditCluster="${tabAuditCluster}" tabAuditKey="document.budgetPeriod[${budgetPeriod-1}].totalCostLimit" useRiceAuditMode="true">	
 	<div class="tab-container" align="center">
 	<c:if test="${KualiForm.lineAddedOrDeletedSinceLastSaveOrCalculate}" >		
 		<div align="left">
@@ -76,5 +78,5 @@
 	    	</tr>
     </table>
     </div>        
-</kul:tabTop>
-    
+</kul:tab>
+   
