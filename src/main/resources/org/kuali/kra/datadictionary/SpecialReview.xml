@@ -77,6 +77,9 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
+
+
+        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentSpecialReviewHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>
