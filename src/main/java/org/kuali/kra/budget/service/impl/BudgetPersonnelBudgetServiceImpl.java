@@ -39,6 +39,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 import static org.kuali.core.util.ObjectUtils.equalByKeys;
+import static org.kuali.kra.logging.BufferedLogger.*;
 
 /**
  * This class...
@@ -149,7 +150,7 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
      */
     public void deleteBudgetPersonnelDetailsForPerson(BudgetDocument document, BudgetPerson person) {
         boolean personFound = false;
-        BudgetPerson toRemove = null;
+        BudgetPersonnelDetails toRemove = null;
         BudgetLineItem lineItem = null;
         
         for (Iterator<BudgetPeriod> period_it = document.getBudgetPeriods().iterator(); period_it.hasNext() && !personFound;) {
@@ -160,17 +161,24 @@ public class BudgetPersonnelBudgetServiceImpl implements BudgetPersonnelBudgetSe
 
                 for (Iterator<BudgetPersonnelDetails> personnelDetails_it = lineItem.getBudgetPersonnelDetailsList().iterator(); personnelDetails_it.hasNext() && !personFound;) {
                     BudgetPersonnelDetails personnelDetails = personnelDetails_it.next();
+                    
+                    if (personnelDetails.getBudgetPerson() == null) {
+                        personnelDetails.refreshReferenceObject("budgetPerson");
+                    }
 
                     if (equalByKeys(personnelDetails.getBudgetPerson(), person)) {
+                        debug("Comparing ", personnelDetails.getBudgetPerson().getPersonId(),  " and ",  person.getPersonId());
+
                         lineItem.setBudgetPersonnelLineItemDeleted(true);
                         personFound = true;
-                        toRemove = personnelDetails.getBudgetPerson();
+                        toRemove = personnelDetails;
                     }
                 }
             }
         }
         
         if (personFound && toRemove != null && lineItem != null) {
+            debug("Removing ", toRemove);
             lineItem.getBudgetPersonnelDetailsList().remove(toRemove);
         }
     }
