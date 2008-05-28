@@ -26,6 +26,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public class PersonWebTest extends KraWebTestBase {
     
+    private static final long SLEEP_TIME = 2000; // 2 seconds
+    
     /**
      * Test the lookup for people based upon various values
      * of the Active flag.
@@ -88,6 +90,12 @@ public class PersonWebTest extends KraWebTestBase {
         setFieldValue(page, "document.documentHeader.financialDocumentDescription", "Test");
         setFieldValue(page, "document.newMaintainableObject.active", "off");
         clickOn(page, "submit");
+        
+        // Wait for workflow to finish processing the maintenance document.
+        // We are crossing our fingers hoping that workflow will finish during
+        // this sleep period.
+        
+        Thread.sleep(SLEEP_TIME);
         
         portalPage = getPortalPage();
         personPage = clickOn(portalPage, "Person");
