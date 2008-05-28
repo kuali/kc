@@ -279,10 +279,10 @@
 			<attribute name="percentCharged">
 			<label>Percent Charged </label>
 			<shortLabel>Percent Charged </shortLabel>
-			<maxLength>5</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<maxLength>6</maxLength>
+			<validationPattern><floatingPoint/></validationPattern>
 			<control>
-				<text size="5" />
+				<text size="6" />
 			</control>
 			<summary>Percent Charged </summary>
 			<description>Percent Charged </description>
@@ -291,10 +291,10 @@
 			<attribute name="percentEffort">
 			<label>Percent Effort </label>
 			<shortLabel>Percent Effort </shortLabel>
-			<maxLength>5</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<maxLength>6</maxLength>
+			<validationPattern><floatingPoint/></validationPattern>
 			<control>
-				<text size="5" />
+				<text size="6" />
 			</control>
 			<summary>Percent Effort </summary>
 			<description>Percent Effort </description>
