@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.web;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraWebTestBase;
 
@@ -27,6 +28,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class IFrameWebPortalPageTest extends KraWebTestBase {
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        setPortalPage(clickOn(getPortalPage(), "Maintenance"));
+    }
     
     /**
      * Verify that the when clicked on Sponsor link on portal; it opens the Sponsor Lookup page within an iFrame
