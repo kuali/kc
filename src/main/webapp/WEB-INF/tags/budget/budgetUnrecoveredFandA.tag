@@ -8,7 +8,7 @@
 			<c:when test="${KualiForm.unrecoveredFandAEditFormVisible}">
 				<div class="h2-container">
 					<span class="subhead-left"><h2>Unrecovered F&A Distribution List</h2></span>
-					<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+					<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetUnrecoveredFandA" altText="help"/></span>
 				</div>
 			
 				<div align="center">

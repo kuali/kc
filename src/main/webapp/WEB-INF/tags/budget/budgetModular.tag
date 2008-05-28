@@ -36,7 +36,7 @@
 	<div class="tab-container" align="center">
    		<div class="h2-container">
    			<span class="subhead-left"><h2>Modular Budget Overview (${periodLabel})</h2></span>
-   			<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetModular" altText="help"/></span>
        	</div>
         <table cellpadding="0" cellspacing="0" summary="Overview Breakdown">
             <tr>
@@ -95,7 +95,7 @@
 	<div class="tab-container" align="center">
    		<div class="h2-container">
    			<span class="subhead-left"><h2>Direct Cost</h2></span>
-   			<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetModular" altText="help"/></span>
        	</div>
 		<table cellpadding=0 cellspacing="0" summary="Direct Cost Breakdown">
             <tr>
@@ -145,7 +145,7 @@
 	<div class="tab-container" align="center">
    		<div class="h2-container">
    			<span class="subhead-left"><h2>F&A</h2></span>
-   			<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetUnrecoveredFandA" altText="help"/></span>
        	</div>
 		<table align="center" border="0" cellpadding="2" cellspacing="0" width="98%">
         	<tbody>

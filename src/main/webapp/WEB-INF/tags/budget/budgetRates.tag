@@ -57,7 +57,7 @@
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<h2><span class="subhead-left">${rateClass}</span></h2>
-    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.RateClass" altText="help"/></span>
         </div>
         <table id="${rateClass}" cellpadding=0 cellspacing="0"  class="result-table" summary="">
             <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.RateType.attributes.description" />
