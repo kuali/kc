@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
+import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_RECALCULATE_BUDGET_CONFIRMATION;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,10 +46,14 @@ import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 public class BudgetSummaryAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetSummaryAction.class);
-
+    private static final String CONFIRM_RECALCULATE_BUDGET_KEY = "calculateAllPeriods";
+    private static final String CONFIRM_SAVE_BUDGET_KEY = "saveAfterQuestion";
+    private static final String CONFIRM_HEADER_TAB_KEY = "headerTabAfterQuestion";
+    private static final String DO_NOTHING = "doNothing";
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -60,6 +66,35 @@ public class BudgetSummaryAction extends BudgetAction {
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        
+        if(!StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(),budgetForm.getOhRateClassCodePrevValue()) || !StringUtils.equalsIgnoreCase(budgetDocument.getUrRateClassCode(),budgetForm.getUrRateClassCodePrevValue())){
+            return confirm(buildRecalculateBudgetConfirmationQuestion(mapping, form, request, response), CONFIRM_SAVE_BUDGET_KEY, DO_NOTHING);            
+        }else{
+            if (budgetForm.isUpdateFinalVersion()) {
+                reconcileFinalBudgetFlags(budgetForm);
+                setBudgetStatuses(budgetForm.getBudgetDocument().getProposal());
+            }
+            boolean rulePassed = getKualiRuleService().applyRules(new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+            budgetDocument = budgetForm.getBudgetDocument();
+            if(rulePassed){
+                // update campus flag if budget level flag is changed
+                if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag()) || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
+                    KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budgetDocument, budgetDocument.getOnOffCampusFlag());
+                }
+                if (budgetDocument.getFinalVersionFlag()) {
+                    budgetDocument.getProposal().setBudgetStatus(budgetDocument.getBudgetStatus());
+                }
+                updateBudgetPeriodDbVersion(budgetDocument);
+                return super.save(mapping, form, request, response);
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward saveAfterQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         updateThisBudgetVersion(budgetForm.getBudgetDocument());
         if (budgetForm.isUpdateFinalVersion()) {
@@ -81,8 +116,6 @@ public class BudgetSummaryAction extends BudgetAction {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    
     /**
      * This method is used to add a new Budget Period
      * @param mapping
@@ -173,7 +206,23 @@ public class BudgetSummaryAction extends BudgetAction {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
+    public ActionForward questionCalculateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        
+        if(!StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(),budgetForm.getOhRateClassCodePrevValue()) || !StringUtils.equalsIgnoreCase(budgetDocument.getUrRateClassCode(),budgetForm.getUrRateClassCodePrevValue())){
+            return confirm(buildRecalculateBudgetConfirmationQuestion(mapping, form, request, response), CONFIRM_RECALCULATE_BUDGET_KEY, DO_NOTHING);            
+        }else{
+            if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag()) || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
+                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budgetDocument, budgetDocument.getOnOffCampusFlag());
+            }
+            /* calculate all periods */
+            budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     /**
      * This method is used to calculate all Budget Period data
      * @param mapping
@@ -183,16 +232,40 @@ public class BudgetSummaryAction extends BudgetAction {
      * @return mapping forward
      * @throws Exception
      */
-    public ActionForward calculateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward calculateAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();        
+        
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        if (CONFIRM_RECALCULATE_BUDGET_KEY.equals(question)) {        
+            if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag()) || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
+                KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budgetDocument, budgetDocument.getOnOffCampusFlag());
+            }
+            /* calculate all periods */
+            budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
+        }        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward doNothing(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        if (StringUtils.isBlank(budgetForm.getPrevOnOffCampusFlag()) || !budgetDocument.getOnOffCampusFlag().equals(budgetForm.getPrevOnOffCampusFlag())) {
-            KraServiceLocator.getService(BudgetSummaryService.class).updateOnOffCampusFlag(budgetDocument, budgetDocument.getOnOffCampusFlag());
-        }
-        /* calculate all periods */
-        budgetForm.getBudgetDocument().getBudgetSummaryService().calculateBudget(budgetDocument);
-
+        budgetDocument.setOhRateClassCode(budgetForm.getOhRateClassCodePrevValue());
+        budgetDocument.setUrRateClassCode(budgetForm.getUrRateClassCodePrevValue());
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    /**
+     * 
+     * This method builds a Opportunity Delete Confirmation Question as part of the Questions Framework
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    private StrutsConfirmation buildRecalculateBudgetConfirmationQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {                
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_RECALCULATE_BUDGET_KEY, QUESTION_RECALCULATE_BUDGET_CONFIRMATION);
     }
     
     private KualiRuleService getKualiRuleService() {
@@ -260,5 +333,22 @@ public class BudgetSummaryAction extends BudgetAction {
                 version.setBudgetStatus(budgetDocument.getBudgetStatus());
             }
         }
+    }
+    
+    @Override
+    public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        
+        if(!StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(),budgetForm.getOhRateClassCodePrevValue()) || !StringUtils.equalsIgnoreCase(budgetDocument.getUrRateClassCode(),budgetForm.getUrRateClassCodePrevValue())){
+            return confirm(buildRecalculateBudgetConfirmationQuestion(mapping, form, request, response), CONFIRM_HEADER_TAB_KEY, DO_NOTHING);            
+        }
+        
+        return super.headerTab(mapping, form, request, response);
+    }
+    
+    public ActionForward headerTabAfterQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return super.headerTab(mapping, form, request, response);
     }
 }

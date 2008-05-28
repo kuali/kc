@@ -93,6 +93,17 @@ public class BudgetForm extends ProposalFormBase {
     private boolean updateFinalVersion;
     private boolean lineAddedOrDeletedSinceLastSaveOrCalculate;
     
+    private String ohRateClassCodePrevValue;
+    private String urRateClassCodePrevValue;
+    
+    public String getOhRateClassCodePrevValue() {
+        return ohRateClassCodePrevValue;
+    }
+
+    public void setOhRateClassCodePrevValue(String ohRateClassCodePrevValue) {
+        this.ohRateClassCodePrevValue = ohRateClassCodePrevValue;
+    }
+
     public boolean isDocumentNextValueRefresh() {
         return documentNextValueRefresh;
     }
@@ -177,7 +188,7 @@ public class BudgetForm extends ProposalFormBase {
         String calculatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculatePeriods.gif"; 
         String appExternalImageURL = "ConfigProperties.kra.externalizable.images.url"; 
         addExtraButton("methodToCall.generateAllPeriods", generatePeriodImage, "Generate All Periods");
-        addExtraButton("methodToCall.calculateAllPeriods",calculatePeriodImage, "Calculate All Periods");
+        addExtraButton("methodToCall.questionCalculateAllPeriods",calculatePeriodImage, "Calculate All Periods");
         
         return extraButtons;
     }
@@ -585,5 +596,13 @@ public class BudgetForm extends ProposalFormBase {
         getDocInfo().add(docStatus); 
         getDocInfo().add(docInitiator);
         getDocInfo().add(docCreateDate);
+    }
+
+    public String getUrRateClassCodePrevValue() {
+        return urRateClassCodePrevValue;
+    }
+
+    public void setUrRateClassCodePrevValue(String urRateClassCodePrevValue) {
+        this.urRateClassCodePrevValue = urRateClassCodePrevValue;
     }
 }
