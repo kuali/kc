@@ -132,7 +132,7 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<text size="3" />
+				<hidden />
 			</control>
 			<summary>Rate Class </summary>
 			<description>Rate Class </description>
@@ -144,7 +144,7 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<text size="3" />
+				<hidden />
 			</control>
 			<summary>Rate Type </summary>
 			<description>Rate Type </description>
