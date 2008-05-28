@@ -61,14 +61,14 @@
                 <lookupField attributeName="sponsorCode" required="false"/>
                 <lookupField attributeName="sponsorName" required="false"/>
                 <lookupField attributeName="acronym" required="false"/>
-                <lookupField attributeName="sponsorTypeCode" required="false" forceInquiry="true"/>
+                <lookupField attributeName="sponsorTypeCode" required="false" forceLookup="true"/>
                 <lookupField attributeName="dunAndBradstreetNumber" required="false"/>
                 <lookupField attributeName="dunsPlusFourNumber" required="false"/>
                 <lookupField attributeName="dodacNumber" required="false"/>
                 <lookupField attributeName="cageNumber" required="false"/>
                 <lookupField attributeName="postalCode" required="false"/>
                 <lookupField attributeName="state" required="false"/>
-                <lookupField attributeName="countryCode" required="false" forceInquiry="true" />
+                <lookupField attributeName="countryCode" required="false" forceLookup="true" />
                 <lookupField attributeName="auditReportSentForFy" required="false"/>
                 <lookupField attributeName="ownedByUnit" required="false"/>
                 <lookupField attributeName="rolodexId" required="false"/>
@@ -263,6 +263,8 @@
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
+
+        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentSponsorHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>
