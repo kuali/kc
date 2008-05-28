@@ -104,7 +104,7 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="personId" forceInquiry="true" />
+                <lookupField attributeName="personId" forceLookup="true" />
                 <lookupField attributeName="lastName" />
                 <lookupField attributeName="firstName" />
                 <lookupField attributeName="userName" />
@@ -689,6 +689,8 @@
            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
+
+        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentPersonHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>
