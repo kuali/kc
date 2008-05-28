@@ -15,13 +15,16 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
 
 /**
  * This class is for calculating personnel line items.
@@ -59,6 +62,20 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
                 budgetPersonnelCalculatedAmount.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
             }
         }
+        
+        if(budgetDocument.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && !StringUtils.equalsIgnoreCase(budgetDocument.getOhRateClassCode(),((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
+            Long versionNumber = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts().get(0).getVersionNumber();
+            budgetPersonnelLineItem.setBudgetPersonnelCalculatedAmounts(new ArrayList<BudgetPersonnelCalculatedAmount>());
+            
+            setCalculatedAmounts(budgetDocument,budgetPersonnelLineItem);
+            List<BudgetPersonnelCalculatedAmount> budgetPerosnnelCalcAmts = budgetPersonnelLineItem.getBudgetPersonnelCalculatedAmounts();
+            for (BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPerosnnelCalcAmts) {
+                budgetPersonnelCalculatedAmount.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
+            }
+            for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount : budgetPerosnnelCalcAmts){
+                budgetPersonnelCalculatedAmount.setVersionNumber(versionNumber);
+            }
+        }        
     }
     @Override
     protected void updateBudgetLineItemCalculatedAmounts() {

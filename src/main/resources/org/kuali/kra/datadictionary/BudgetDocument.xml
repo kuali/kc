@@ -90,15 +90,15 @@
 
 
 			<attribute name="ohRateClassCode">
-			<label>Oh Rate Class Code </label>
-			<shortLabel>Oh Rate Class Code </shortLabel>
+			<label>F&amp;A Rate Type </label>
+			<shortLabel>F&amp;A Rate Type </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-				<text size="3" />
+				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder" />
 			</control>
-			<summary>Oh Rate Class Code </summary>
-			<description>Oh Rate Class Code </description>
+			<summary>F&amp;A Rate Type </summary>
+			<description>F&amp;A Rate Type </description>
 			</attribute>
 
 			<attribute name="ohRateTypeCode">
@@ -107,7 +107,7 @@
 			<maxLength>3</maxLength>
 			<validationPattern><numeric /></validationPattern>
 			<control>
-                    <select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetRateTypeValuesFinder" />
+                    <text size="3" />
 			</control>
 			<summary>F&amp;A Rate Type</summary>
 			<description>F&amp;A Rate Type</description>

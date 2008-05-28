@@ -15,16 +15,19 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 /**
  * 
@@ -49,8 +52,18 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         if (bli.getBudgetLineItemCalculatedAmounts().size() <= 0) {
             setCalculatedAmounts(bd,bli);
         }
-    }
-    
+
+        if(bd.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && !StringUtils.equalsIgnoreCase(bd.getOhRateClassCode(),((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
+            Long versionNumber = bli.getBudgetLineItemCalculatedAmounts().get(0).getVersionNumber();
+            bli.setBudgetLineItemCalculatedAmounts(new ArrayList<BudgetLineItemCalculatedAmount>());
+            
+            setCalculatedAmounts(bd,bli);
+            for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : bli.getBudgetLineItemCalculatedAmounts()){
+                budgetLineItemCalculatedAmount.setVersionNumber(versionNumber);
+            }
+        }
+         
+    }    
 //    public void calculate(){
 //        bli.setDirectCost(bli.getLineItemCost());
 //        bli.setIndirectCost(BudgetDecimal.ZERO);
