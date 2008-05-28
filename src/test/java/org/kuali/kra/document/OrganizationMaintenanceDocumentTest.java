@@ -56,17 +56,17 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
     private static final String DOCTYPE = "OrganizationMaintenanceDocument";
 
 
-    // @Test
+    @Test
     public void testDocumentCreation() throws Exception {
         testDocumentCreation(DOCTYPE);
     }
 
-    // @Test
+    @Test
     public void testCopyOrganization() throws Exception {
         HtmlPage organizationMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Organization");
         setFieldValue(organizationMaintenanceLookupPage,"organizationId","000425");
         HtmlPage searchPage = clickOn(organizationMaintenanceLookupPage, "search");
-        assertContains(searchPage, "Telex Number Vendor Code Actions 000425 251 Town and Country Village Palo Alto");
+        assertContains(searchPage, "251 Town and Country Village Palo Alto");
         
         HtmlAnchor copyLink = searchPage.getAnchorByHref("maintenance.do?organizationId=000425&businessObjectClassName=org.kuali.kra.bo.Organization&methodToCall=copy");
         HtmlPage organizationMaintenancePage = clickOn(copyLink, "Kuali :: Organization Maintenance Document");
@@ -138,7 +138,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
      * This method is to test creation or organization with collections, audit/idc/ynq/type, set up properly.
      * @throws Exception
      */
-    // @Test
+    @Test
     public void testCreateNewOrganization() throws Exception {
         HtmlPage organizationMaintenancePage = getMaintenanceDocumentPage("Organization",Organization.class.getName(),"Kuali :: Organization Maintenance Document");
         String documentNumber = getFieldValue(organizationMaintenancePage, "document.documentHeader.documentNumber");
