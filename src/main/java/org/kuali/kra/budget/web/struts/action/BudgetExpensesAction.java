@@ -53,6 +53,27 @@ public class BudgetExpensesAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        // for fixing audit error
+        if (budgetDocument.getBudgetCategoryTypeCodes() == null || budgetDocument.getBudgetCategoryTypeCodes().size() == 0) {
+            BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
+            List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();        
+            budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
+            for(int i=0;i<budgetCategoryTypes.size();i++){
+                budgetForm.getNewBudgetLineItems().add(new BudgetLineItem());
+            }
+            budgetDocument.setBudgetCategoryTypeCodes(budgetCategoryTypes);
+        }
+        return forward;
+    }
+
+
     /**
      * This method is used to add a new Budget Line Item
      * @param mapping
