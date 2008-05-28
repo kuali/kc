@@ -60,6 +60,7 @@
            		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.urRateClassCode}" /></div></th>
                 <td>
                 	<kra:kraControlAttribute property="document.urRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.urRateClassCode}"  styleClass="fixed-size-200-select"/>
+                	<input type="hidden" name="urRateClassCodePrevValue" value="${KualiForm.document.urRateClassCode}">
                 </td>
      		</tr>
         	<tr>
@@ -68,9 +69,10 @@
                 	<kul:htmlControlAttribute property="document.comments" attributeEntry="${budgetAttributes.comments}"/>
                     <kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${budgetAttributes.comments.label}" />
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateTypeCode}" /></div></th>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.ohRateClassCode}" /></div></th>
            		<td>
-           			<kra:kraControlAttribute property="document.ohRateTypeCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.ohRateTypeCode}"  styleClass="fixed-size-200-select"/>
+           			<kra:kraControlAttribute property="document.ohRateClassCode" readOnly="${readOnly}" attributeEntry="${budgetAttributes.ohRateClassCode}"  styleClass="fixed-size-200-select"/>
+           			<input type="hidden" name="ohRateClassCodePrevValue" value="${KualiForm.document.ohRateClassCode}">
            		</td>
      		</tr>
         	<tr>
