@@ -61,6 +61,7 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
     private static final String ADD_PERSONNEL_EXPENSE_IMAGE_NAME = "methodToCall.addBudgetLineItem.budgetCategoryTypeCodeP.catTypeIndex0.anchorPersonnel";
     private static final String ADD_PERSONNEL_BUDGET_IMAGE_NAME = "methodToCall.addBudgetPersonnelDetails.anchorPersonnelBudget";
     private static final String PERSONNEL_BUDGET_IMAGE_NAME = "methodToCall.personnelBudget.line0.anchor2";
+    private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private TransactionalLifecycle transactionalLifecycle;
 
     private HtmlPage currentBudgetPage;
@@ -111,6 +112,7 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
         deleteFirstBudgetPerson();
         navigateToExpenses();
         assertFalse(currentBudgetPage.asText().contains("java.sql.SQLException: ORA-02292"));
+        assertDoesNotContain(currentBudgetPage, ERRORS_FOUND_ON_PAGE);
         info(currentBudgetPage.asText());
         
     }
