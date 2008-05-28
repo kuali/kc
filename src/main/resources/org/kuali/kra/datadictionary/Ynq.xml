@@ -202,6 +202,7 @@
 	        </collection>
         </collections>
 		
+        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentYnqHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>

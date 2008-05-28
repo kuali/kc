@@ -10,7 +10,7 @@
 				<div class="h2-container">
 			    	<div class="h2-container">
 			    		<span class="subhead-left"><h2>Cost Sharing Distribution List</h2></span>
-			    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+			    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetCostShare" altText="help"/></span>
 			        </div>
 			    </div>
 				<div align="center">

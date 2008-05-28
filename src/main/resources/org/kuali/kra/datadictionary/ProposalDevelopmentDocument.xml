@@ -597,42 +597,52 @@
           <headerNavigationTab>
             <navigateTo>proposal</navigateTo>
             <displayName>Proposal</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentProposalHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
           	<navigateTo>budgetVersions</navigateTo>
           	<displayName>Budget Versions</displayName>
+             <pageHelp parameterNamespace="KRA-B" parameterName="budgetVersionsHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>keyPersonnel</navigateTo>
             <displayName>Key Personnel</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentKeyPersonnelHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>specialReview</navigateTo>
             <displayName>Special Review</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentSpecialReviewHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>customData</navigateTo>
             <displayName>Custom Data</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentCustomDataHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>questions</navigateTo>
             <displayName>Questions</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentQuestionsHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>permissions</navigateTo>
             <displayName>Permissions</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentPermissionsHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>abstractsAttachments</navigateTo>
             <displayName>Abstracts and Attachments </displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentAbstractsAttachmentsHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>grantsGov</navigateTo>
             <displayName>Grants.gov</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentGrantsGovHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>actions</navigateTo>
             <displayName>Proposal Actions</displayName>
+             <pageHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentActionsHelp"/> 
           </headerNavigationTab>
          <!--    <headerNavigationTab>
 		    <navigateTo>auditMode</navigateTo>

@@ -190,6 +190,8 @@
 			<attributeReference name="personName" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="fullName" />
 
 		</attributes>
+
+        <objectHelp parameterNamespace="KRA-B" parameterName="budgetPersonHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>

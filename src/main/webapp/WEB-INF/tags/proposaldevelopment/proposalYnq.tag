@@ -45,7 +45,7 @@
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<h2><span class="subhead-left">${trunGroupName}</span></h2>
-    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Ynq" altText="help"/></span>
         </div>
     	<div align="left" style="padding:12px;">
     		<strong>Full Group Name:</strong> 
