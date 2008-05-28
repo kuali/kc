@@ -33,7 +33,7 @@
     <table cellpadding=0 cellspacing=0 summary="">
     	<tr>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${costElementAttributes.costElement}" noColon="false" /></div></th>
-    		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].costElement}"/></div></td>
+    		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].costElementBO.description}"/></div></td>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.lineItemCost}" noColon="false" /></div></th>
     		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].lineItemCost}"/></td>
     	</tr>
