@@ -381,6 +381,8 @@
 			</attribute>
 
 		</attributes>
+
+        <objectHelp parameterNamespace="KRA-B" parameterName="budgetPersonnelDetailsHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>

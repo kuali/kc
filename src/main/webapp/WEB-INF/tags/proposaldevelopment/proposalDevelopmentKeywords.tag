@@ -10,7 +10,7 @@
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Keywords</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ScienceKeyword" altText="help"/></span>
         </div>
        
         <table cellpadding=0 cellspacing="0"  summary="">

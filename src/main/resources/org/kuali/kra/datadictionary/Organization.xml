@@ -526,6 +526,9 @@
 	            <description>Listing of Organization YNQ.</description>
 	        </collection>
 		</collections>
+
+
+        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentOrganizationHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>

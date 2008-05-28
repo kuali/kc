@@ -134,6 +134,7 @@
 			</attribute>
 		</attributes>
 
+        <objectHelp parameterNamespace="KRA-B" parameterName="budgetUnrecoveredFandAHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>

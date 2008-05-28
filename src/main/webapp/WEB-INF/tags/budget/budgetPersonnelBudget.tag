@@ -28,7 +28,7 @@
 	<div class="tab-container" align="center">
    	<div class="h2-container">
    		<span class="subhead-left"><h2>Line Item Overview </h2></span>
-	   	<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+	   	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetLineItem" altText="help"/></span>
     </div>
     <table cellpadding=0 cellspacing=0 summary="">
     	<tr>
@@ -61,7 +61,7 @@
 		<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Personnel Budget</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetPersonnelDetails" altText="help"/></span>
         </div>
         <table cellpadding=0 cellspacing=0 summary="">
           	<tr>
@@ -197,7 +197,7 @@
 					        </div>
 					        <div class="h2-container">
    								<span class="subhead-left"><h2>Rate Classes</h2></span>
-   								<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+   								<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.RateClass" altText="help"/></span>
        						</div>
        						<div>
        						<table cellpadding=0 cellspacing=0 summary="">
