@@ -502,6 +502,32 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
     /**
      * 
+     * This method is for budget expense rule when 'fix' is clicked.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward budgetExpenses(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        String forward = getForwardToBudgetUrl(form);
+        String methodToCallAttribute = (String)request.getAttribute("methodToCallAttribute");
+        String viewBudgetPeriodParam = null;
+        if (StringUtils.isNotBlank(methodToCallAttribute)) {
+            int idx = methodToCallAttribute.indexOf("&viewBudgetPeriod=");
+            if (idx > 0) {
+                viewBudgetPeriodParam = "viewBudgetPeriod=" + methodToCallAttribute.substring(methodToCallAttribute.indexOf("=", idx)+1,methodToCallAttribute.indexOf(".", idx))+"&";
+            }
+        }
+        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetExpenses.do?auditActivated=true&");
+        if (viewBudgetPeriodParam != null) {
+            forward = StringUtils.replace(forward, "budgetExpenses.do?", "budgetExpenses.do?"+viewBudgetPeriodParam); 
+        }
+        return new ActionForward(forward, true);
+    }
+    
+    /**
+     * 
      * This method is to forward to budget summary page for audit errors.
      * @param mapping
      * @param form
