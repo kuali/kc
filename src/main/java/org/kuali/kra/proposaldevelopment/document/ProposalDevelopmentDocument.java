@@ -1212,6 +1212,10 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         }
         
         KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
+        
+        if (this.getBudgetVersionOverviews() != null) {
+            updateDocumentDescriptions(this.getBudgetVersionOverviews());
+        }
     }
     
     @Override
@@ -1303,7 +1307,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.allowsNoteAttachments = allowsNoteAttachments;
     }
     
-    public void addNewBudgetVersion(BudgetDocument budgetDocument, String name) {
+    public void addNewBudgetVersion(BudgetDocument budgetDocument, String name, boolean isDescriptionUpdatable) {
         BudgetVersionOverview budgetVersion = new BudgetVersionOverview();
         budgetVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
         budgetVersion.setProposalNumber(this.getProposalNumber());
@@ -1313,6 +1317,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         budgetVersion.setEndDate(budgetDocument.getEndDate());
         budgetVersion.setOhRateTypeCode(budgetDocument.getOhRateTypeCode());
         budgetVersion.setVersionNumber(budgetDocument.getVersionNumber());
+        budgetVersion.setDescriptionUpdatable(isDescriptionUpdatable);
         
         String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);

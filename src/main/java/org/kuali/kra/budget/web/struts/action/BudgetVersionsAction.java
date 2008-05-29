@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
+import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,6 +39,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.question.CopyPeriodsQuestion;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Struts Action class for requests from the Budget Versions page.
@@ -68,7 +76,7 @@ public class BudgetVersionsAction extends BudgetAction {
         ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, budgetForm.getNewBudgetVersionName());
-        pdDoc.addNewBudgetVersion(newBudgetDoc, budgetForm.getNewBudgetVersionName());
+        pdDoc.addNewBudgetVersion(newBudgetDoc, budgetForm.getNewBudgetVersionName(), false);
         budgetForm.setNewBudgetVersionName("");
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -95,6 +103,8 @@ public class BudgetVersionsAction extends BudgetAction {
         return new ActionForward(forward, true);
     }
     
+    
+    
     /**
      * This method copies a budget version's data to a new budget version.
      * 
@@ -106,16 +116,22 @@ public class BudgetVersionsAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward copyBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
-        ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
-        BudgetVersionOverview budgetToCopy = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
-        pdDoc.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+      BudgetForm budgetForm = (BudgetForm) form;
+      BudgetVersionOverview versionToCopy = getSelectedVersion(budgetForm, request);
+      if (isNotBlank(request.getParameter(QUESTION_INST_ATTRIBUTE_NAME))) {
+          Object buttonClicked = request.getParameter(QUESTION_CLICKED_BUTTON);
+          if (CopyPeriodsQuestion.ONE.equals(buttonClicked)) {
+              return copyBudgetPeriodOne(mapping, form, request, response);
+          }
+          else if (CopyPeriodsQuestion.ALL.equals(buttonClicked)) {
+              return copyBudgetAllPeriods(mapping, form, request, response);
+          } else {
+              // URL hack, just return
+              return mapping.findForward(Constants.MAPPING_BASIC);
+          }
+      }
+      return performQuestionWithoutInput(mapping, form, request, response, COPY_BUDGET_PERIOD_QUESTION, QUESTION_TEXT + versionToCopy.getBudgetVersionNumber() + ".", QUESTION_TYPE, budgetForm.getMethodToCall(), "");
+
     }
     
     @Override
@@ -137,13 +153,6 @@ public class BudgetVersionsAction extends BudgetAction {
         } else {
             updateThisBudget(budgetForm.getBudgetDocument());
             setProposalStatus(budgetForm.getBudgetDocument().getProposal());
-            //setBudgetStatuses(budgetForm.getBudgetDocument().getProposal());
-//            if (budgetForm.getFinalBudgetVersion() != null 
-//                    && budgetForm.getFinalBudgetVersion().equals(budgetForm.getBudgetDocument().getBudgetVersionNumber())) {
-//                budgetForm.getBudgetDocument().setFinalVersionFlag(true);
-//            } else {
-//                budgetForm.getBudgetDocument().setFinalVersionFlag(false);
-//            }
             return super.save(mapping, form, request, response);
         }
 
@@ -159,6 +168,26 @@ public class BudgetVersionsAction extends BudgetAction {
         return forward;
     }
     
+    public ActionForward copyBudgetPeriodOne(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
+            copyBudget(form, request, true);
+        }
+        
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    public ActionForward copyBudgetAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
+            copyBudget(form, request, false);
+        }
+        
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
     private void updateThisBudget(BudgetDocument budgetDocument) {
         for (BudgetVersionOverview version: budgetDocument.getProposal().getBudgetVersionOverviews()) {
             if (budgetDocument.getBudgetVersionNumber().equals(version.getBudgetVersionNumber())) {
@@ -166,6 +195,18 @@ public class BudgetVersionsAction extends BudgetAction {
                 budgetDocument.setBudgetStatus(version.getBudgetStatus());
             }
         }
+    }
+    
+    private BudgetVersionOverview getSelectedVersion(BudgetForm budgetForm, HttpServletRequest request) {
+        return budgetForm.getBudgetDocument().getProposal().getBudgetVersionOverview(getSelectedLine(request));
+    }
+    
+    private void copyBudget(ActionForm form, HttpServletRequest request, boolean copyPeriodOneOnly) throws WorkflowException {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
+        ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
+        BudgetVersionOverview budgetToCopy = getSelectedVersion(budgetForm, request);
+        copyBudget(pdDoc, budgetToCopy, copyPeriodOneOnly);
     }
     
 }

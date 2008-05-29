@@ -22,16 +22,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
 import org.kuali.kra.service.CustomAttributeService;
 
 public class ResearchDocumentBase extends TransactionalDocumentBase {
@@ -73,6 +74,16 @@ public class ResearchDocumentBase extends TransactionalDocumentBase {
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
         populateCustomAttributes();
+    }
+    
+    protected void updateDocumentDescriptions(List<BudgetVersionOverview> budgetVersionOverviews) {
+        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        for (BudgetVersionOverview budgetVersion: budgetVersionOverviews) {
+            if (budgetVersion.isDescriptionUpdatable() && !StringUtils.isBlank(budgetVersion.getDocumentDescription())) {
+                budgetService.updateDocumentDescription(budgetVersion);
+                budgetVersion.setDescriptionUpdatable(false); // Only get one chance to set this
+            }
+        }
     }
 
     /**

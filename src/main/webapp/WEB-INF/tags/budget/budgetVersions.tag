@@ -24,6 +24,7 @@
 
 <c:set var="budgetAttributes" value="${DataDictionary.BudgetDocument.attributes}" />
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
+<c:set var="budgetVersionOverviewAttributes" value="${DataDictionary.BudgetVersionOverview.attributes}" />
 <c:set var="javascriptEnabled" value="true" />
 
 <kul:tabTop tabTitle="Budget Versions (${KualiForm.formattedStartDate} - ${KualiForm.formattedEndDate})" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS},${errorKey}">
@@ -67,6 +68,7 @@
           	
           	<c:forEach var="budgetVersion" items="${budgetVersionOverviews}" varStatus="status">
           		<c:set var="version" value="${pathToVersions}.budgetVersionOverview[${status.index}]" />
+          		<bean:define id="descriptionUpdatable" name="KualiForm" property="${pathToVersions}.budgetVersionOverview[${status.index}].descriptionUpdatable" />
           		<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
           		<c:set var="parentTab" value="Budget Versions" scope="request"/>
           		<c:set var="tabTitle" value="${status.index}" scope="request"/>
@@ -97,7 +99,7 @@
                				</c:if>
            				</div>
            			</td>
-           			<td class="tab-subhead1">${budgetVersion.documentDescription}</td>
+           			<td class="tab-subhead1"><kul:htmlControlAttribute property="${version}.documentDescription" attributeEntry="${budgetVersionOverviewAttributes.documentDescription}" readOnly="${descriptionUpdatable != 'Yes'}"/></td>
 	            	<td class="tab-subhead1"><div align="center">${budgetVersion.budgetVersionNumber}</div></td>
 		            <td class="tab-subhead1"><div align="right">&nbsp;${budgetVersion.totalDirectCost}</div></td>
 		            <td class="tab-subhead1"><div align="right">&nbsp;${budgetVersion.totalIndirectCost}</div></td>

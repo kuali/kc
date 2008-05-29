@@ -15,18 +15,29 @@
  */
 package org.kuali.kra.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class contains methods common to ProposalDevelopment and Budget actions.
  */
 public class ProposalActionBase extends KraTransactionalDocumentActionBase {
+    
+    protected static final String COPY_BUDGET_PERIOD_QUESTION = "copyBudgetQuestion";
+    protected static final String QUESTION_TYPE = "copyPeriodsQuestion";
+    protected static final String QUESTION_TEXT = "A new version of the budget will be created based on version ";
     
     /**
      * This method looks for the version corresponding to finalBudgetVersion in the list, then marks that version as final.
@@ -93,6 +104,28 @@ public class ProposalActionBase extends KraTransactionalDocumentActionBase {
                 budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
             }
         }
+    }
+    
+    /**
+     * Copy the given budget version and add it to the given proposal.
+     * 
+     * @param proposalDevelopmentDocument
+     * @param budgetToCopy
+     * @param copyPeriodOneOnly if only the first budget period is to be copied
+     */
+    protected void copyBudget(ProposalDevelopmentDocument proposalDevelopmentDocument, BudgetVersionOverview budgetToCopy, boolean copyPeriodOneOnly) 
+    throws WorkflowException {
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
+        if (copyPeriodOneOnly) {
+            BudgetPeriod firstPeriod = budgetDocToCopy.getBudgetPeriods().get(0);
+            List<BudgetPeriod> newBudgetPeriods = new ArrayList<BudgetPeriod>();
+            newBudgetPeriods.add(firstPeriod);
+            budgetDocToCopy.setBudgetPeriods(newBudgetPeriods);
+        }
+        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
+        proposalDevelopmentDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription(), true);
     }
 
 }
