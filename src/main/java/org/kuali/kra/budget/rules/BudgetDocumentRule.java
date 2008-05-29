@@ -104,9 +104,9 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         GlobalVariables.getErrorMap().addToErrorPath("proposal");
         if (ObjectUtils.isNull(budgetDocument.getProposal())) {
             budgetDocument.refreshReferenceObject("proposal");
-        }               
+        }
         
-        valid &= processBudgetVersionsBusinessRule(budgetDocument.getProposal().getBudgetVersionOverviews());
+        valid &= processBudgetVersionsBusinessRule(budgetDocument.getProposal().getBudgetVersionOverviews(), true);
         GlobalVariables.getErrorMap().removeFromErrorPath("proposal");
         
         valid &= processBudgetPersonnelBusinessRules(budgetDocument);
