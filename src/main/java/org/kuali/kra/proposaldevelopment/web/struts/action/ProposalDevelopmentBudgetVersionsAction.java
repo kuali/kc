@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
+import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,10 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -38,6 +40,9 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.question.CopyPeriodsQuestion;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Struts Action class for the Propsoal Development Budget Versions page
@@ -59,7 +64,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
-        pdForm.getProposalDevelopmentDocument().addNewBudgetVersion(newBudgetDoc, pdForm.getNewBudgetVersionName());
+        pdForm.getProposalDevelopmentDocument().addNewBudgetVersion(newBudgetDoc, pdForm.getNewBudgetVersionName(), false);
         pdForm.setNewBudgetVersionName("");
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -100,14 +105,32 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      */
     public ActionForward copyBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
-        BudgetVersionOverview budgetToCopy = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
-        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocument);
-        pdDoc.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        BudgetVersionOverview versionToCopy = getSelectedVersion(pdForm, request);
+        if (isNotBlank(request.getParameter(QUESTION_INST_ATTRIBUTE_NAME))) {
+            Object buttonClicked = request.getParameter(QUESTION_CLICKED_BUTTON);
+            if (CopyPeriodsQuestion.ONE.equals(buttonClicked)) {
+                return copyBudgetPeriodOne(mapping, form, request, response);
+            }
+            else if (CopyPeriodsQuestion.ALL.equals(buttonClicked)) {
+                return copyBudgetAllPeriods(mapping, form, request, response);
+            } else {
+                // URL hack, just return
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+        }
+        return performQuestionWithoutInput(mapping, form, request, response, COPY_BUDGET_PERIOD_QUESTION, QUESTION_TEXT + versionToCopy.getBudgetVersionNumber() + ".", QUESTION_TYPE, pdForm.getMethodToCall(), "");
+
+        
+        
+//        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+//        ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
+//        BudgetVersionOverview budgetToCopy = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
+//        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+//        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
+//        BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
+//        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocument);
+//        pdDoc.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription(), true);
+//        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     @Override
@@ -139,6 +162,37 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews()));
         setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
         return forward;
+    }
+    
+    public ActionForward copyBudgetPeriodOne(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
+            copyBudget(form, request, true);
+        }
+        
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    public ActionForward copyBudgetAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
+        if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
+            copyBudget(form, request, false);
+        }
+        
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    private BudgetVersionOverview getSelectedVersion(ProposalDevelopmentForm proposalDevelopmentForm, HttpServletRequest request) {
+        return proposalDevelopmentForm.getProposalDevelopmentDocument().getBudgetVersionOverview(getSelectedLine(request));
+    }
+    
+    private void copyBudget(ActionForm form, HttpServletRequest request, boolean copyPeriodOneOnly) throws WorkflowException {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        BudgetVersionOverview budgetToCopy = getSelectedVersion(proposalDevelopmentForm, request);
+        copyBudget(pdDoc, budgetToCopy, copyPeriodOneOnly);
     }
     
 }

@@ -52,6 +52,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private BudgetDecimal totalCostLimit;
     private BudgetDecimal underrecoveryAmount;
     private String comments;
+    private boolean descriptionUpdatable;
     
     private String name;
     private String budgetStatus;
@@ -200,6 +201,14 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         this.comments = comments;
     }
     
+    public boolean isDescriptionUpdatable() {
+        return descriptionUpdatable;
+    }
+
+    public void setDescriptionUpdatable(boolean descriptionUpdatable) {
+        this.descriptionUpdatable = descriptionUpdatable;
+    }
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup()
      */
@@ -208,15 +217,12 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         // The purpose of this lookup is to get the document description from the doc header,
         // without mapping the enire doc header (which can be large) in ojb.
         super.afterLookup(persistenceBroker);
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
-        Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put("documentNumber", this.documentNumber);
-        DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
+        DocumentHeader docHeader = getDocHeader();
         if (docHeader != null) {
             this.documentDescription = docHeader.getFinancialDocumentDescription();
         }
     }
-
+    
     /**
      * @see org.kuali.core.bo.BusinessObject#toStringMapper()
      */
@@ -228,6 +234,14 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
         propMap.put("updateTimestamp", this.getUpdateTimestamp());
         propMap.put("updateUser", this.getUpdateUser());
         return propMap;
+    }
+    
+    protected DocumentHeader getDocHeader() {
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+        keyMap.put("documentNumber", this.documentNumber);
+        DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
+        return docHeader;
     }
     
     /**

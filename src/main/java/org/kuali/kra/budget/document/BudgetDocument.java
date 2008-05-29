@@ -17,7 +17,6 @@ package org.kuali.kra.budget.document;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-import java.io.StringReader;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,7 +34,6 @@ import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.dom4j.io.SAXReader;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.service.BusinessObjectService;
@@ -49,7 +47,6 @@ import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.RateDecimal;
-import org.kuali.kra.budget.bo.BudgetCategoryType;
 import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -63,12 +60,14 @@ import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.CostElement;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.bo.RateType;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetRatesService;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
@@ -215,6 +214,9 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     public void prepareForSave() {
         super.prepareForSave();
         KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
+        if (this.getProposal() != null && this.getProposal().getBudgetVersionOverviews() != null) {
+            updateDocumentDescriptions(this.getProposal().getBudgetVersionOverviews());
+        }
     }
     
     @Override
