@@ -16,7 +16,6 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,17 +29,17 @@ import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -65,8 +64,6 @@ import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * The Proposal Copy Service creates a new Proposal Development Document
@@ -149,6 +146,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private KeyPersonnelService keyPersonnelService;
     private DocumentService documentService;
     private PersonService personService;
+    private KualiConfigurationService kualiConfigurationService;
 
     /**
      * @see org.kuali.kra.proposaldevelopment.service.ProposalCopyService#copyProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria)
@@ -422,6 +420,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         list.clear();
         fixVersionNumbers(newDoc, list);
         fixKeyPersonnel(newDoc, srcDoc.getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
+        fixBudgetVersions(newDoc);
     }
     
     /**
@@ -521,6 +520,19 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void fixKeyPersonnel(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) {
         clearCertifyQuestions(doc);
         fixKeyPersonnelUnits(doc, oldLeadUnitNumber, newLeadUnitNumber);
+    }
+    
+    /**
+     * Fix data related to Budget Versions.
+     * @param doc the proposal development document
+     * @param oldLeadUnitNumber the old lead unit number
+     * @param newLeadUnitNumber the new lead unit number
+     */
+    private void fixBudgetVersions(ProposalDevelopmentDocument doc) {
+        String budgetStatusIncompleteCode = kualiConfigurationService.getParameterValue(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+        
+        doc.setBudgetStatus(budgetStatusIncompleteCode);
     }
     
     /**
@@ -884,6 +896,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         budget.toCopy();
         ObjectUtils.setObjectPropertyDeep(budget, "proposalNumber", String.class, proposalNumber);
         ObjectUtils.setObjectPropertyDeep(budget, "budgetVersionNumber", Integer.class, budgetVersionNumber);
+        budget.setFinalVersionFlag(false);
         documentService.saveDocument(budget);
         documentService.routeDocument(budget, "Route to Final", new ArrayList());
     }
@@ -926,4 +939,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private KualiRuleService getKualiRuleService() {
         return KraServiceLocator.getService(KualiRuleService.class);
     }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+    
 }
