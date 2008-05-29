@@ -118,7 +118,7 @@
 	            <c:if test="${KualiForm.documentActionFlags.canClose}">
 	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>
 	            </c:if>            
-	            <c:if test="${KualiForm.documentActionFlags.canCancel}">
+	            <c:if test="${KualiForm.documentActionFlags.canCancel and not suppressRoutingControls}">
 	                <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" property="methodToCall.cancel" title="cancel" alt="cancel"/>
 	            </c:if>
 	                <c:if test="${KualiForm.documentActionFlags.canCopy}">
