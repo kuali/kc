@@ -1334,6 +1334,11 @@
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="budgetVersionNumber"/>
 		</collection-descriptor>
+		
+		<collection-descriptor name="budgetPersons" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<inverse-foreignkey field-ref="budgetVersionNumber"/>
+		</collection-descriptor>
 
 		<collection-descriptor name="budgetPeriods" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPeriod" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="budgetPeriod" sort="ASC" /> 
@@ -1355,11 +1360,6 @@
 		
 		<collection-descriptor name="budgetUnrecoveredFandAs" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetUnrecoveredFandA" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<orderby name="fiscalYear" sort="ASC" /> 
-			<inverse-foreignkey field-ref="proposalNumber"/>
-			<inverse-foreignkey field-ref="budgetVersionNumber"/>
-		</collection-descriptor>
-
-		<collection-descriptor name="budgetPersons" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 			<inverse-foreignkey field-ref="budgetVersionNumber"/>
 		</collection-descriptor>
