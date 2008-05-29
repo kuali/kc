@@ -126,7 +126,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
     public void testCreateNewCostElementMaintenanceDocument() throws Exception {
         HtmlPage costElementMaintenancePage = getMaintenanceDocumentPage("Cost Element","org.kuali.kra.budget.bo.CostElement","Kuali :: Cost Element Maintenance Document");
         String documentNumber = getFieldValue(costElementMaintenancePage, "document.documentHeader.documentNumber");
-        assertContains(costElementMaintenancePage,"Edit Cost Element New * Cost Element: Budget Category Code: * Description: * On/Off Campus Flag: unchecked");
+        assertContains(costElementMaintenancePage,"Edit Cost Element New * Object Code Name: Budget Category Code: * Description: * On/Off Campus Flag: unchecked");
         setFieldValue(costElementMaintenancePage, "document.documentHeader.financialDocumentDescription", "Cost Element - test");
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.budgetCategoryCode", "3");
         setFieldValue(costElementMaintenancePage, "document.newMaintainableObject.description", "test new cost element");
@@ -135,7 +135,7 @@ public class CostElementMaintenanceDocumentTest extends MaintenanceDocumentTestB
         HtmlPage routedCostElementMaintenanceDocumentPage = clickOn(costElementMaintenancePage, "methodToCall.route", "Kuali :: Cost Element Maintenance Document");
         
         assertContains(routedCostElementMaintenanceDocumentPage, "Document was successfully submitted.");
-        assertContains(routedCostElementMaintenanceDocumentPage,"New Cost Element: 999 Budget Category Code: 3 Description: test new cost element On/Off Campus Flag: Yes");
+        assertContains(routedCostElementMaintenanceDocumentPage,"New Object Code Name: 999 Budget Category Code: 3 Description: test new cost element On/Off Campus Flag: Yes");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
         assertNotNull(document.getDocumentHeader());
