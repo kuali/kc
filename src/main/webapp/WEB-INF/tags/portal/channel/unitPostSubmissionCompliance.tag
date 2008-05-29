@@ -22,7 +22,7 @@
     <td nowrap class="disabled-text">Committee</td>
     <td>
       <img src="static/images/add1.png" alt="add" width="16" height="16" border="0" align="absmiddle">
-      <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle">
+      <img src="static/images/searchicon1.gif" alt="lookup" width="16" height="16" align="absmiddle">
     </td>
   </tr>
   <tr>
