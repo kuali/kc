@@ -325,7 +325,7 @@
 				</control>
 
 				<summary>The CFDA Number for this Proposal.</summary>
-				<description>A unique identifier for the sponsor and the funding opportunity announcement.  AKA "Catalogue of Federal Domestic Assistance Number"</description>
+				<description>A unique identifier for the sponsor and the funding opportunity announcement.  AKA "Catalogue of Federal Domestic Assistance Number." The format for this CFDA Number is XX.XXX</description>
 			</attribute>
 
       		<attribute name="programAnnouncementNumber">
