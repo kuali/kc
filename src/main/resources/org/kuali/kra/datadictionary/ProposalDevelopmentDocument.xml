@@ -103,7 +103,7 @@
 
             <attributeReference name="requestedEndDateInitial" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericDate" >
                 <label>Project End Date</label>
-                <shortLabel>Endt Dt</shortLabel>
+                <shortLabel>End Dt</shortLabel>
 
  				<required>true</required>
 
