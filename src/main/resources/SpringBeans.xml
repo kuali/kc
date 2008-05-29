@@ -79,7 +79,7 @@
 				<value>enUserService</value>
 				<value>budgetExpenseLookupable</value>
 				<value>onOffCampusLookupable</value>
-				
+				<value>copyPeriodsQuestion</value>
 			</set>
 		</property>
 	</bean>	
@@ -723,5 +723,7 @@
 	<bean id="onOffCampusLookupableHelperServiceImpl" class="org.kuali.kra.lookup.OnOffCampusLookupableHelperServiceImpl" 
  		singleton="false" parent="lookupableHelperService">
   	</bean>
+  	
+  	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" singleton="false" />
 	
 </beans>
