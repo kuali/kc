@@ -518,7 +518,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(getBudgetProjectIncomes());
         managedLists.add(getBudgetCostShares());
         managedLists.add(getBudgetUnrecoveredFandAs());
-        managedLists.add(getBudgetPersons());
         List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
         List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
         List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
@@ -544,9 +543,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         
         managedLists.add(budgetModularIdcs);
         managedLists.add(budgetLineItems);
-        managedLists.add(budgetLineItemCalculatedAmounts);
+        // managedLists.add(budgetLineItemCalculatedAmounts);
         managedLists.add(budgetPersonnelDetailsList);
-        managedLists.add(budgetPersonnelCalculatedAmounts);
+        // managedLists.add(budgetPersonnelCalculatedAmounts);
+        managedLists.add(getBudgetPersons());
         return managedLists;
     }
 
