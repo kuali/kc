@@ -118,8 +118,15 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
     
     private String activityTypeCode="1";
+    
     private boolean BudgetLineItemDeleted = false;
+    
+    /*
+     * This field will soon be removed as it duplicated the BudgetLineItems on BudgetPeriod 
+     */
+    @Deprecated
     private List<BudgetLineItem> budgetLineItems;
+    
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
     private List<BudgetPerson> budgetPersons;
     
@@ -312,7 +319,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         for(BudgetUnrecoveredFandA unrecoveredFandA: getBudgetUnrecoveredFandAs()) {
             if (unrecoveredFandA.getAmount() != null) {
                 allocatedUnrecoveredFandA = allocatedUnrecoveredFandA.add(unrecoveredFandA.getAmount());
-            } 
+            }
         }
         return allocatedUnrecoveredFandA;
     }
@@ -326,7 +333,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         for(BudgetProjectIncome budgetProjectIncome: budgetProjectIncomes) {
             if(budgetProjectIncome.getProjectIncome() != null) {
                 projectIncomeTotal = projectIncomeTotal.add(budgetProjectIncome.getProjectIncome());
-            } 
+            }
         }
         return projectIncomeTotal;
     }
@@ -511,7 +518,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(getBudgetProjectIncomes());
         managedLists.add(getBudgetCostShares());
         managedLists.add(getBudgetUnrecoveredFandAs());
-        managedLists.add(getBudgetPersons());
         List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
         List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
         List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
@@ -537,9 +543,10 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         
         managedLists.add(budgetModularIdcs);
         managedLists.add(budgetLineItems);
-        managedLists.add(budgetLineItemCalculatedAmounts);
+        // managedLists.add(budgetLineItemCalculatedAmounts);
         managedLists.add(budgetPersonnelDetailsList);
-        managedLists.add(budgetPersonnelCalculatedAmounts);
+        // managedLists.add(budgetPersonnelCalculatedAmounts);
+        managedLists.add(getBudgetPersons());
         return managedLists;
     }
 
@@ -611,11 +618,19 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         }
         return (BudgetPeriod) getBudgetPeriods().get(index);
     }
-
+    
+    /*
+     * The budgetLineItems field will soon be removed as it duplicates the BudgetLineItems on BudgetPeriod
+     */
+    @Deprecated
     public List<BudgetLineItem> getBudgetLineItems() {
         return budgetLineItems;
     }
 
+    /*
+     * The budgetLineItems field will soon be removed as it duplicates the BudgetLineItems on BudgetPeriod
+     */
+    @Deprecated
     public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
         this.budgetLineItems = budgetLineItems;
     }
@@ -734,10 +749,10 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
 
     /**
-    * This method...
-    * @param index
-    * @return
-    */
+     * This method...
+     * @param index
+     * @return
+     */
     public BudgetProjectIncome getBudgetProjectIncome(int index) {
         while (getBudgetProjectIncomes().size() <= index) {
             getBudgetProjectIncomes().add(new BudgetProjectIncome());
@@ -849,23 +864,23 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
 
     /**
+     * This method...
+     * @param index
+     * @return
+     */
+    public BudgetCostShare getBudgetCostShare(int index) {
+        while (getBudgetCostShares().size() <= index) {
+            getBudgetCostShares().add(new BudgetCostShare());
+        }
+        return (BudgetCostShare) getBudgetCostShares().get(index);
+    }
+    
+    /**
      * This method does what its name says
      * @return
      */
     public List<BudgetCostShare> getBudgetCostShares() {
         return budgetCostShares;
-    }
-    
-    /**
-    * This method...
-    * @param index
-    * @return
-    */
-    public BudgetCostShare getBudgetCostShare(int index) {
-        while (getBudgetCostShares().size() <= index) {
-             getBudgetCostShares().add(new BudgetCostShare());
-        }
-        return (BudgetCostShare) getBudgetCostShares().get(index);
     }
     
     /**
@@ -877,23 +892,23 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
     
     /**
-     * This method does what its name says
+     * This method...
+     * @param index
      * @return
      */
-    public List<BudgetUnrecoveredFandA> getBudgetUnrecoveredFandAs() {
-        return budgetUnrecoveredFandAs;
-    }
-    
-    /**
-    * This method...
-    * @param index
-    * @return
-    */
     public BudgetUnrecoveredFandA getBudgetUnrecoveredFandA(int index) {
         while (getBudgetUnrecoveredFandAs().size() <= index) {
             getBudgetUnrecoveredFandAs().add(new BudgetUnrecoveredFandA());
         }
         return (BudgetUnrecoveredFandA) getBudgetUnrecoveredFandAs().get(index);
+    }
+    
+    /**
+     * This method does what its name says
+     * @return
+     */
+    public List<BudgetUnrecoveredFandA> getBudgetUnrecoveredFandAs() {
+        return budgetUnrecoveredFandAs;
     }
     
     /**
@@ -1356,23 +1371,22 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     public void setOnOffCampusFlag(String onOffCampusFlag) {
         this.onOffCampusFlag = onOffCampusFlag;
     }
-    
+
     /**
-    * Gets the budgetLineItemDeleted attribute. 
-    * @return Returns the budgetLineItemDeleted.
-    */
+     * Gets the budgetLineItemDeleted attribute. 
+     * @return Returns the budgetLineItemDeleted.
+     */
     public boolean isBudgetLineItemDeleted() {
         return BudgetLineItemDeleted;
     }
-    
+
     /**
-    * Sets the budgetLineItemDeleted attribute value.
-    * @param budgetLineItemDeleted The budgetLineItemDeleted to set.
-    */
+     * Sets the budgetLineItemDeleted attribute value.
+     * @param budgetLineItemDeleted The budgetLineItemDeleted to set.
+     */
     public void setBudgetLineItemDeleted(boolean budgetLineItemDeleted) {
         BudgetLineItemDeleted = budgetLineItemDeleted;
     }
-    
 }
 
 class RateClassTypeComparator implements Comparator<RateClassType> {
