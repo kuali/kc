@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.web;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.KraWebTestBase;
 
@@ -26,7 +27,13 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public class PersonWebTest extends KraWebTestBase {
     
-    private static final long SLEEP_TIME = 2000; // 2 seconds
+    private static final long SLEEP_TIME = 30000; // 30 seconds
+    
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        setPortalPage(clickOn(getPortalPage(), "System Admin"));
+    }
     
     /**
      * Test the lookup for people based upon various values

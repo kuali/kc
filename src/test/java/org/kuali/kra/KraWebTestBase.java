@@ -878,7 +878,7 @@ public abstract class KraWebTestBase extends KraTestBase {
         HtmlPage portalPage = this.getPortalPage();
         HtmlElement element = getElement(portalPage, "backdoorId");
         if (element == null) {
-            portalPage = clickOn(portalPage, "Administration");
+            portalPage = clickOn(portalPage, "Researcher");
         }
         setFieldValue(portalPage, "backdoorId", username);
         clickOn(portalPage, "imageField");

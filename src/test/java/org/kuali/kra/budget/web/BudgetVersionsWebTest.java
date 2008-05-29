@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.web;
+package org.kuali.kra.budget.web;
 
 import org.junit.Test;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -77,7 +78,7 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
         assertEquals(budgetStatus, budgetStatusIncompleteCode);
         
         String finalVersion = getFieldValue(bBudgetVersionsPage, PD_FIRST_FINAL_FLAG);
-        assertEquals("final version is: " + finalVersion, finalVersion, "off");
+        assertEquals(finalVersion, "off");
         
         bBudgetVersionsPage = addBudgetVersion(bBudgetVersionsPage);
         

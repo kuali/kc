@@ -66,7 +66,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         HtmlPage organizationMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Organization");
         setFieldValue(organizationMaintenanceLookupPage,"organizationId","000425");
         HtmlPage searchPage = clickOn(organizationMaintenanceLookupPage, "search");
-        assertContains(searchPage, "Telex Number Vendor Code Actions 000425 251 Town and Country Village Palo Alto");
+        assertContains(searchPage, "251 Town and Country Village Palo Alto");
         
         HtmlAnchor copyLink = searchPage.getAnchorByHref("maintenance.do?organizationId=000425&businessObjectClassName=org.kuali.kra.bo.Organization&methodToCall=copy");
         HtmlPage organizationMaintenancePage = clickOn(copyLink, "Kuali :: Organization Maintenance Document");
@@ -101,9 +101,10 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
     @Test
     public void testEditOrganization() throws Exception {
         HtmlPage organizationMaintenanceLookupPage = getMaintenanceDocumentLookupPage("Organization");
+        System.out.println(organizationMaintenanceLookupPage.asXml());
         setFieldValue(organizationMaintenanceLookupPage,"organizationId","000425");
         HtmlPage searchPage = clickOn(organizationMaintenanceLookupPage, "search");
-        assertContains(searchPage, "Telex Number Vendor Code Actions 000425 251 Town and Country Village Palo Alto");
+        assertContains(searchPage, "251 Town and Country Village Palo Alto");
         
         HtmlAnchor editLink = searchPage.getAnchorByHref("maintenance.do?organizationId=000425&businessObjectClassName=org.kuali.kra.bo.Organization&methodToCall=edit");
         HtmlPage organizationMaintenancePage = clickOn(editLink, "Kuali :: Organization Maintenance Document");
@@ -139,7 +140,7 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
      */
     @Test
     public void testCreateNewOrganization() throws Exception {
-        HtmlPage organizationMaintenancePage = getMaintenanceDocumentPage("Organization","org.kuali.kra.bo.Organization","Kuali :: Organization Maintenance Document");
+        HtmlPage organizationMaintenancePage = getMaintenanceDocumentPage("Organization",Organization.class.getName(),"Kuali :: Organization Maintenance Document");
         String documentNumber = getFieldValue(organizationMaintenancePage, "document.documentHeader.documentNumber");
         assertContains(organizationMaintenancePage,"Edit Organization New * Organization Id: Address: Agency Symbol: Animal Welfare Assurance: ");
         
