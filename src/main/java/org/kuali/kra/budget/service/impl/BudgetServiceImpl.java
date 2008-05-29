@@ -16,15 +16,20 @@
 package org.kuali.kra.budget.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -89,6 +94,17 @@ public class BudgetServiceImpl implements BudgetService {
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         return budgetDocument;
+    }
+    
+    public void updateDocumentDescription(BudgetVersionOverview budgetVersion) {
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+        keyMap.put("documentNumber", budgetVersion.getDocumentNumber());
+        DocumentHeader docHeader = (DocumentHeader) boService.findByPrimaryKey(DocumentHeader.class, keyMap);
+        if (!docHeader.getFinancialDocumentDescription().equals(budgetVersion.getDocumentDescription())) {
+            docHeader.setFinancialDocumentDescription(budgetVersion.getDocumentDescription());
+            boService.save(docHeader);
+        }
     }
     
     public void setDocumentService(DocumentService documentService) {

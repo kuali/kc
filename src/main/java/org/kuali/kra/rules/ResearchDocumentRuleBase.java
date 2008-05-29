@@ -28,6 +28,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
@@ -36,15 +37,13 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rules.KeyPersonnelAuditRule;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentSponsorProgramInformationAuditRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 
 /**
  * Base implementation class for KRA document business rules
  *
  * @author $Author: gmcgrego $
- * @version $Revision: 1.6.2.5 $
+ * @version $Revision: 1.6.2.6 $
  */
 public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implements DocumentAuditRule {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ResearchDocumentRuleBase.class);
@@ -77,20 +76,24 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
      * 
      * This method checks budget versions business rules
      * @param proposalDevelopmentDocument
+     * @param runDatactionaryValidation if dd validation should be run
      * @return
      */
-    protected boolean processBudgetVersionsBusinessRule(List<BudgetVersionOverview> budgetVersionOverviews) {
-        boolean valid = true;
+    protected boolean processBudgetVersionsBusinessRule(List<BudgetVersionOverview> budgetVersionOverviews, boolean runDatactionaryValidation) {
         
+        boolean valid = true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
+        boolean finalVersionFound = false;
+        DictionaryValidationService dictionaryValidationService = getDictionaryValidationService();
         
         String budgetStatusCompleteCode = getKualiConfigurationService().getParameter(
                 Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
         
-        boolean finalVersionFound = false;
-        
         int index = 0;
         for (BudgetVersionOverview budgetVersion: budgetVersionOverviews) {
+            if (runDatactionaryValidation) {
+                dictionaryValidationService.validateBusinessObject(budgetVersion, true);
+            }
             if (budgetVersion.isFinalVersionFlag()) {
                 if (finalVersionFound) {
                     errorMap.putError("finalVersionFlag", KeyConstants.ERROR_MULTIPLE_FINAL_BUDGETS);
