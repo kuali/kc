@@ -41,6 +41,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             // Modular period not initialized yet - create
             BudgetModular budgetModular = 
                 new BudgetModular(budgetPeriod.getProposalNumber(), budgetPeriod.getBudgetVersionNumber(), budgetPeriod.getBudgetPeriod());
+            budgetModular.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
             budgetPeriod.setBudgetModular(budgetModular);
         }
         
@@ -84,8 +85,9 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             
             if (ObjectUtils.isNull(budgetPeriod.getBudgetModular())) {
                 // Modular period not initialized yet - create
-                budgetPeriod.setBudgetModular(
-                        new BudgetModular(budgetPeriod.getProposalNumber(), budgetPeriod.getBudgetVersionNumber(), budgetPeriod.getBudgetPeriod()));
+                BudgetModular tmpBudgetModular = new BudgetModular(budgetPeriod.getProposalNumber(), budgetPeriod.getBudgetVersionNumber(), budgetPeriod.getBudgetPeriod());
+                tmpBudgetModular.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+                budgetPeriod.setBudgetModular(tmpBudgetModular);
             }
             
             BudgetModular budgetModular = budgetPeriod.getBudgetModular();
