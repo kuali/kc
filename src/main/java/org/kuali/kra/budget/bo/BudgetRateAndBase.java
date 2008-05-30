@@ -22,6 +22,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetRateAndBase extends KraPersistableBusinessObjectBase {
+    private Long budgetPeriodId;
+    
 	private Integer budgetPeriod;
 	private Integer lineItemNumber;
 	private String proposalNumber;
@@ -179,4 +181,12 @@ public class BudgetRateAndBase extends KraPersistableBusinessObjectBase {
 		hashMap.put("startDate", getStartDate());
 		return hashMap;
 	}
+
+    public Long getBudgetPeriodId() {
+        return budgetPeriodId;
+    }
+
+    public void setBudgetPeriodId(Long budgetPeriodId) {
+        this.budgetPeriodId = budgetPeriodId;
+    }
 }

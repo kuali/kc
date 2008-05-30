@@ -27,6 +27,7 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent {
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_PROJECT_INCOME_KEY";
     
+    private Long budgetPeriodId;
     private Integer budgetPeriodNumber;
     private String description;
     private KualiDecimal projectIncome;
@@ -106,5 +107,13 @@ public class BudgetProjectIncome extends BudgetDistributionAndIncomeComponent {
     @Override
     public String getDocumentComponentIdKey() {
         return DOCUMENT_COMPONENT_ID_KEY;
+    }
+
+    public Long getBudgetPeriodId() {
+        return budgetPeriodId;
+    }
+
+    public void setBudgetPeriodId(Long budgetPeriodId) {
+        this.budgetPeriodId = budgetPeriodId;
     }
 }
