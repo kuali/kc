@@ -58,7 +58,15 @@
     </table>
     </kul:tabTop>
 	<kul:tab tabTitle="Personnel Budget" defaultOpen="true" tabErrorKey="document.budgetPeriod*,budget.personnelBudget*,newBudgetPersonnelDetails.*">
-		<div class="tab-container" align="center">
+		<div class="tab-container" align="center">		
+		<c:forEach var="budgetPersonns" items="${KualiForm.document.budgetPersons}" varStatus="status">			
+			<c:if test="${budgetPersonns.calculationBase <= 0 or empty budgetPersonns.effectiveDate or empty budgetPersonns.jobCode or budgetPersonns.jobCode=='' or empty budgetPersonns.appointmentTypeCode or budgetPersonns.appointmentTypeCode==''}">
+			<div class="error">
+				<strong>&nbsp;&nbsp;&nbsp;Errors found in this Section:</strong><br/>
+				&nbsp;&nbsp;&nbsp;There are incomplete entries for budget personnel and please navigate to the "Project Personnel" screen to fix.<br/><br/>
+			</div>
+			</c:if>		
+		</c:forEach>
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Personnel Budget</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetPersonnelDetails" altText="help"/></span>
