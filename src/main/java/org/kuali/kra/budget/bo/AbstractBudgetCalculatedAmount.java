@@ -35,7 +35,17 @@ public abstract class AbstractBudgetCalculatedAmount extends KraPersistableBusin
 	private RateClass rateClass;
 	private RateType rateType;
 
-	/**
+	private Long budgetPeriodId;
+	
+	public Long getBudgetPeriodId() {
+        return budgetPeriodId;
+    }
+
+    public void setBudgetPeriodId(Long budgetPeriodId) {
+        this.budgetPeriodId = budgetPeriodId;
+    }
+
+    /**
      * Gets the rateClass attribute. 
      * @return Returns the rateClass.
      */

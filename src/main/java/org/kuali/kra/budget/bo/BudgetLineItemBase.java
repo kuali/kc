@@ -23,7 +23,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
 
 public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
-	private Integer budgetPeriod;
+    private Long budgetPeriodId;
+    
+    private Integer budgetPeriod;
 	private Integer lineItemNumber;
 	private String proposalNumber;
 	private Integer budgetVersionNumber;
@@ -280,6 +282,14 @@ public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBas
 
     public void setTotalCostSharingAmount(BudgetDecimal totalCostSharingAmount) {
         this.totalCostSharingAmount = totalCostSharingAmount;
+    }
+
+    public Long getBudgetPeriodId() {
+        return budgetPeriodId;
+    }
+
+    public void setBudgetPeriodId(Long budgetPeriodId) {
+        this.budgetPeriodId = budgetPeriodId;
     }
     
 }
