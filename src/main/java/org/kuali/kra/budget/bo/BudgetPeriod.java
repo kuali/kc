@@ -30,6 +30,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 
 public class BudgetPeriod extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -7318331486891820078L;
+    private Long budgetPeriodId;
     
     private Integer budgetPeriod;
 	private String proposalNumber;
@@ -49,7 +50,6 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
     private BudgetDecimal expenseTotal;
     private Date oldEndDate;
     private Date oldStartDate;
-
     
     private BudgetModular budgetModular;
 
@@ -314,5 +314,12 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
     public void setOldStartDate(Date oldStartDate) {
         this.oldStartDate = oldStartDate;
     }
-    
+
+    public Long getBudgetPeriodId() {
+        return budgetPeriodId;
+    }
+
+    public void setBudgetPeriodId(Long budgetPeriodId) {
+        this.budgetPeriodId = budgetPeriodId;
+    }
 }

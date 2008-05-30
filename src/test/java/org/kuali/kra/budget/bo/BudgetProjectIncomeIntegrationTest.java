@@ -81,6 +81,8 @@ public class BudgetProjectIncomeIntegrationTest extends BudgetDistributionAndInc
 
     @Override
     protected void addBudgetDistributionAndIncomeComponent(BudgetDistributionAndIncomeComponent component) {
+        BudgetProjectIncome budgetProjectIncome = (BudgetProjectIncome) component;
+        budgetProjectIncome.setBudgetPeriodId(budgetDocument.getBudgetPeriod(budgetProjectIncome.getBudgetPeriodNumber()-1).getBudgetPeriodId());
         budgetDocument.add((BudgetProjectIncome) component);
         
     }
