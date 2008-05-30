@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.bo.BudgetCategory;
@@ -38,8 +43,6 @@ import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
-import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryValuesFinder;
-import org.kuali.kra.budget.rules.BudgetPersonnelRule;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -208,12 +211,22 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         int selectedLineNumber = getSelectedLine(request);
-//        System.out.println(selectedLineNumber);
+//          System.out.println(selectedLineNumber);
         int selectedPeriod = budgetForm.getViewBudgetPeriod().intValue();
+        DictionaryValidationService dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
+        int i =0;
+        for(BudgetLineItem budgetLineItem:budgetDocument.getBudgetPeriod(selectedPeriod-1).getBudgetLineItems()){
+            GlobalVariables.getErrorMap().addToErrorPath("document.budgetPeriods[" + (selectedPeriod-1) + "].budgetLineItems[" + i + "]");
+            dictionaryValidationService.validateBusinessObject(budgetLineItem);
+            GlobalVariables.getErrorMap().removeFromErrorPath("document.budgetPeriods[" + (selectedPeriod-1) + "].budgetLineItems[" + i + "]");
+            i++;
+        }
         BudgetLineItem selectedLineItem = budgetDocument.getBudgetPeriod(selectedPeriod-1).getBudgetLineItem(selectedLineNumber);
+        if(GlobalVariables.getErrorMap().getPropertiesWithErrors().size()>0){            
+            return mapping.findForward(Constants.MAPPING_EXPENSES_BUDGET);           
+        }
         budgetForm.setSelectedBudgetLineItem(selectedLineItem);
         budgetForm.setSelectedBudgetLineItemIndex(selectedLineNumber);
-        (new BudgetPersonnelRule()).processCheckCompleteEntriesBusinessRules(budgetDocument);
         return mapping.findForward(Constants.MAPPING_PERSONNEL_BUDGET);
     }
     /**
@@ -272,7 +285,6 @@ public class BudgetExpensesAction extends BudgetAction {
             }
         }
         
-
         // jira - 1288 move to super.save
 //        BudgetCalculationService budgetCalculationService  = KraServiceLocator.getService(BudgetCalculationService.class);
 //        for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
