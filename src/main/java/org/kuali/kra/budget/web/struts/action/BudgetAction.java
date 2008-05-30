@@ -42,6 +42,7 @@ import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -152,6 +153,7 @@ public class BudgetAction extends ProposalActionBase {
 
     public ActionForward summary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         reconcileBudgetStatus((BudgetForm) form);
+        ((BudgetForm) form).getBudgetDocument().getBudgetSummaryService().setupOldStartEndDate(((BudgetForm) form).getBudgetDocument(),false);
         return mapping.findForward("summary");
     }
 
@@ -255,4 +257,6 @@ public class BudgetAction extends ProposalActionBase {
             budgetDocument.setBudgetStatus(budgetStatusIncompleteCode);
         }
     }
+    
+
 }

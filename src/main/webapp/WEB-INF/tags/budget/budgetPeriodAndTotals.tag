@@ -142,7 +142,7 @@
 					<div align="center">&nbsp;
 						<kra:section permission="modifyBudgets"> 
 		          		<c:choose>
-		    				<c:when test="${(readOnlyFlag == 'No' or readOnly == 'false') and (numberPeriods > 1 || status.index > 0)}">
+		    				<c:when test="${numberPeriods > 1}">
 								<html:image property="methodToCall.deleteBudgetPeriod.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 		    				</c:when>
