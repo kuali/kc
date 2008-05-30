@@ -117,7 +117,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
     
     private String activityTypeCode="1";
-    
     private boolean BudgetLineItemDeleted = false;
     
     /*
@@ -125,7 +124,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
      */
     @Deprecated
     private List<BudgetLineItem> budgetLineItems;
-    
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
     private List<BudgetPerson> budgetPersons;
     
@@ -218,7 +216,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
             updateDocumentDescriptions(this.getProposal().getBudgetVersionOverviews());
         }
     }
-    
+        
     @Override
     public void toCopy() throws WorkflowException, IllegalStateException {
         super.toCopy();
@@ -321,7 +319,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         for(BudgetUnrecoveredFandA unrecoveredFandA: getBudgetUnrecoveredFandAs()) {
             if (unrecoveredFandA.getAmount() != null) {
                 allocatedUnrecoveredFandA = allocatedUnrecoveredFandA.add(unrecoveredFandA.getAmount());
-            }
+            } 
         }
         return allocatedUnrecoveredFandA;
     }
@@ -335,7 +333,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         for(BudgetProjectIncome budgetProjectIncome: budgetProjectIncomes) {
             if(budgetProjectIncome.getProjectIncome() != null) {
                 projectIncomeTotal = projectIncomeTotal.add(budgetProjectIncome.getProjectIncome());
-            }
+            } 
         }
         return projectIncomeTotal;
     }
@@ -620,7 +618,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         }
         return (BudgetPeriod) getBudgetPeriods().get(index);
     }
-    
+
     /*
      * The budgetLineItems field will soon be removed as it duplicates the BudgetLineItems on BudgetPeriod
      */
@@ -751,10 +749,10 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
 
     /**
-     * This method...
-     * @param index
-     * @return
-     */
+    * This method...
+    * @param index
+    * @return
+    */
     public BudgetProjectIncome getBudgetProjectIncome(int index) {
         while (getBudgetProjectIncomes().size() <= index) {
             getBudgetProjectIncomes().add(new BudgetProjectIncome());
@@ -779,8 +777,22 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      * @return
      */
     public void add(BudgetProjectIncome budgetProjectIncome) {
+        budgetProjectIncome.setBudgetPeriodId(getBudgetPeriodId(budgetProjectIncome));
         addBudgetDistributionAndIncomeComponent(getBudgetProjectIncomes(), budgetProjectIncome);        
     }
+    
+    private Long getBudgetPeriodId(BudgetProjectIncome budgetProjectIncome) {
+        //BudgetPeriod budgetPeriod = getBudgetPeriod(budgetProjectIncome.getBudgetPeriodNumber());
+        List<BudgetPeriod> budgetPeriods = getBudgetPeriods();
+        if(budgetPeriods != null && budgetPeriods.size() > 0) {
+            for(BudgetPeriod bPeriod: budgetPeriods) {
+                if(bPeriod.getBudgetPeriod() != null && budgetProjectIncome.getBudgetPeriodNumber() != null && bPeriod.getBudgetPeriod().intValue() == budgetProjectIncome.getBudgetPeriodNumber().intValue()) {
+                    return bPeriod.getBudgetPeriodId();
+                }
+            }
+        }
+        return null;
+    } 
     
     /**
      * This method adds an item to its collection
@@ -864,12 +876,12 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     public final void setInstituteLaRates(List<InstituteLaRate> instituteLaRates) {
         this.instituteLaRates = instituteLaRates;
     }
-
+    
     /**
-     * This method...
-     * @param index
-     * @return
-     */
+    * This method...
+    * @param index
+    * @return
+    */
     public BudgetCostShare getBudgetCostShare(int index) {
         while (getBudgetCostShares().size() <= index) {
             getBudgetCostShares().add(new BudgetCostShare());
@@ -894,10 +906,10 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
     
     /**
-     * This method...
-     * @param index
-     * @return
-     */
+    * This method...
+    * @param index
+    * @return
+    */
     public BudgetUnrecoveredFandA getBudgetUnrecoveredFandA(int index) {
         while (getBudgetUnrecoveredFandAs().size() <= index) {
             getBudgetUnrecoveredFandAs().add(new BudgetUnrecoveredFandA());
@@ -1067,7 +1079,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         }
     }
     
-
+    
     /**
      * This method does what its name says
      * @param fiscalYear
@@ -1373,22 +1385,23 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     public void setOnOffCampusFlag(String onOffCampusFlag) {
         this.onOffCampusFlag = onOffCampusFlag;
     }
-
+    
     /**
-     * Gets the budgetLineItemDeleted attribute. 
-     * @return Returns the budgetLineItemDeleted.
-     */
+    * Gets the budgetLineItemDeleted attribute. 
+    * @return Returns the budgetLineItemDeleted.
+    */
     public boolean isBudgetLineItemDeleted() {
         return BudgetLineItemDeleted;
     }
-
+    
     /**
-     * Sets the budgetLineItemDeleted attribute value.
-     * @param budgetLineItemDeleted The budgetLineItemDeleted to set.
-     */
+    * Sets the budgetLineItemDeleted attribute value.
+    * @param budgetLineItemDeleted The budgetLineItemDeleted to set.
+    */
     public void setBudgetLineItemDeleted(boolean budgetLineItemDeleted) {
         BudgetLineItemDeleted = budgetLineItemDeleted;
     }
+    
 }
 
 class RateClassTypeComparator implements Comparator<RateClassType> {

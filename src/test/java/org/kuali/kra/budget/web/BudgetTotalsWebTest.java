@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -125,7 +126,22 @@ public class BudgetTotalsWebTest extends ProposalDevelopmentWebTestBase {
         fieldValues.put("proposalNumber", proposalNumber);
         Collection budgetDocuments = (Collection)KraServiceLocator.getService(BusinessObjectService.class).findMatching(BudgetDocument.class, fieldValues);
         assertNotNull(budgetDocuments);
-        HtmlPage budgetVersionsPage = docSearch(((BudgetDocument)budgetDocuments.iterator().next()).getDocumentNumber());
+        
+        SQLDataLoader tmpDataLoader;
+        BudgetDocument budgetDoc = (BudgetDocument) budgetDocuments.iterator().next();
+        for(BudgetPeriod bPeriod: budgetDoc.getBudgetPeriods()) {
+            Integer bVersionNumber = bPeriod.getBudgetVersionNumber();
+            Integer bPeriodNumber = bPeriod.getBudgetPeriod();
+            Long bPeriodId  = bPeriod.getBudgetPeriodId(); 
+            tmpDataLoader = new SQLDataLoader("UPDATE BUDGET_DETAILS_CAL_AMTS T SET T.BUDGET_PERIOD_NUMBER = " + bPeriodId + " WHERE T.BUDGET_PERIOD_NUMBER = " + (1110+bPeriodNumber) );
+            tmpDataLoader.runSql();
+            tmpDataLoader = new SQLDataLoader("UPDATE BUDGET_DETAILS T SET T.BUDGET_PERIOD_NUMBER = " + bPeriodId + " WHERE T.BUDGET_PERIOD_NUMBER = " + (1110+bPeriodNumber) );
+            tmpDataLoader.runSql();
+            tmpDataLoader = new SQLDataLoader("commit");
+            tmpDataLoader.runSql();
+        }
+
+        HtmlPage budgetVersionsPage = docSearch(budgetDoc.getDocumentNumber());
         //HtmlPage budgetVersionsPage = docSearch(Integer.toString(Integer.parseInt(documentNumber)+1));
         /* get budget totals page */
         HtmlPage budgetTotalsPage = clickOn(budgetVersionsPage, BDOC_BUDGET_TOTALS_LINK_NAME);
