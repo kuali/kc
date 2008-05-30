@@ -47,6 +47,9 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 	// expences total for 'totals' page
 	// if 'totalCost' is intended for 'totals' page, then this is not needed
     private BudgetDecimal expenseTotal;
+    private Date oldEndDate;
+    private Date oldStartDate;
+
     
     private BudgetModular budgetModular;
 
@@ -295,4 +298,21 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
             }
         }
     }
+
+    public Date getOldEndDate() {
+        return oldEndDate;
+    }
+
+    public void setOldEndDate(Date oldEndDate) {
+        this.oldEndDate = oldEndDate;
+    }
+
+    public Date getOldStartDate() {
+        return oldStartDate;
+    }
+
+    public void setOldStartDate(Date oldStartDate) {
+        this.oldStartDate = oldStartDate;
+    }
+    
 }

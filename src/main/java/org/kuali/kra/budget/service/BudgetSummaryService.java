@@ -49,5 +49,23 @@ public interface BudgetSummaryService {
      * @param onOffCampusFlag
      */
     public void updateOnOffCampusFlag(BudgetDocument budgetDocument, String onOffCampusFlag);
+    
+    /**
+     * 
+     * This method to adjust the start/end dates of budget line items if budget period's start/end
+     * date was adjusted
+     * @param budgetDocument
+     */
+    public void adjustStartEndDatesForLineItems(BudgetDocument budgetDocument);
+    
+    /**
+     * 
+     * This method hold the old start/end date, so it can be used for comparison upon save.
+     * 
+     * @param budgetDocument
+     */
+    public void setupOldStartEndDate (BudgetDocument budgetDocument, boolean resetAll);
+
+
 
 }
