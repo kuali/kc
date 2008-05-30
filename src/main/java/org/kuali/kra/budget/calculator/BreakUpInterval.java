@@ -15,7 +15,13 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.AbstractBudgetRate;
@@ -25,6 +31,7 @@ import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Or;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * Holds all the info required for the breakup interval for which calculation 
@@ -209,6 +216,10 @@ public class BreakUpInterval{
           
        }
        
+       BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class); 
+       Map<String, Object> keyMap = new HashMap<String, Object>();
+       
+       
        /** Add Calculated amounts and fetch the data to the BudgetRateBaseBean
         *Hold the breakup intervals data into the dataholder and save to the 
         *database as and when calculate is called
@@ -224,6 +235,17 @@ public class BreakUpInterval{
                budgetRateBaseBean.setProposalNumber(getProposalNumber());
                budgetRateBaseBean.setBudgetVersionNumber(getVersionNumber());
                budgetRateBaseBean.setBudgetPeriod(getBudgetPeriod());
+               
+               keyMap.put("proposalNumber", getProposalNumber());
+               keyMap.put("budgetVersionNumber", getVersionNumber());
+               keyMap.put("budgetPeriod", getBudgetPeriod());
+               BudgetPeriod bPeriod = (BudgetPeriod) boService.findByPrimaryKey(BudgetPeriod.class, keyMap);
+               if (bPeriod != null) {
+                   budgetRateBaseBean.setBudgetPeriodId(bPeriod.getBudgetPeriodId());
+               }
+               keyMap.clear();
+               
+               //budgetRateBaseBean.setBudgetPeriodId(getBudgetPeriod().)
                budgetRateBaseBean.setRateNumber(++rateNum);
                budgetRateBaseBean.setLineItemNumber(getLineItemNumber());
                budgetRateBaseBean.setStartDate(new java.sql.Date(boundary.getStartDate().getTime()));;

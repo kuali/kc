@@ -178,106 +178,29 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     }
 
     private void updateBudgetPeriods(List<BudgetPeriod> budgetPeriods, int checkPeriod, boolean deletePeriod) {
-        List<BudgetPeriod> newBudgetPeriods = new ArrayList<BudgetPeriod>();
-        List<BudgetPeriod> delBudgetPeriods = new ArrayList<BudgetPeriod>();
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             Integer budPeriod = budgetPeriod.getBudgetPeriod();
             if(budPeriod >= checkPeriod) {
-                /* remove budget period */
-                delBudgetPeriods.add(budgetPeriod);
                 int newPeriod = 0;
-                boolean addNewPeriod = true;
-                /* check action - if it is a DELETE or ADD budget period */ 
                 if(deletePeriod) {
                     newPeriod = budPeriod - 1;
-                    /* budget period removed - do not add this to new list */
-                    if(budPeriod == checkPeriod) {
-                        addNewPeriod = false;
-                    }
-                }else {    
+                }else {
                     newPeriod = budPeriod + 1;
                 }
-                /* build new budget period list */
-                if(addNewPeriod) {
-                    BudgetPeriod nBudgetPeriod = (BudgetPeriod)ObjectUtils.deepCopy(budgetPeriod);  
-                    nBudgetPeriod.setBudgetPeriod(newPeriod);
-                    newBudgetPeriods.add(nBudgetPeriod);
+                budgetPeriod.setBudgetPeriod(newPeriod);
+                List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
+                for(BudgetLineItem periodLineItem: budgetLineItems) {
+                    periodLineItem.setBudgetPeriod(newPeriod);
+                    List<BudgetPersonnelDetails> budgetPersonnelDetails = periodLineItem.getBudgetPersonnelDetailsList();
+                    for(BudgetPersonnelDetails budgetPersonnelDetail : budgetPersonnelDetails) {
+                        budgetPersonnelDetail.setBudgetPeriod(newPeriod);
+                    }
                 }
             }
-        }
-        //budgetPeriods.removeAll(delBudgetPeriods);
-        for(BudgetPeriod budgetPeriod: delBudgetPeriods) {
-            budgetPeriods.remove(budgetPeriod);
-        }
-        //budgetPeriods.addAll(newBudgetPeriods);
-        for(BudgetPeriod budgetPeriod: newBudgetPeriods) {
-            budgetPeriods.add(budgetPeriod);
+            
         }
     }
 
-    private void updateBudgetLineItems(List<BudgetLineItem> budgetLineItems, int checkPeriod, boolean deletePeriod) {
-        List<BudgetLineItem> newBudgetLineItems = new ArrayList<BudgetLineItem>();
-        List<BudgetLineItem> delBudgetLineItems = new ArrayList<BudgetLineItem>();
-        for(BudgetLineItem budgetLineItem: budgetLineItems) {
-            Integer budPeriod = budgetLineItem.getBudgetPeriod();
-            if(budPeriod >= checkPeriod) {
-                /* remove budget period */
-                delBudgetLineItems.add(budgetLineItem);
-                int newPeriod = 0;
-                boolean addNewPeriod = true;
-                /* check action - if it is a DELETE or ADD budget line item */ 
-                if(deletePeriod) {
-                    newPeriod = budPeriod - 1;
-                    /* budget period removed - do not add this to new list */
-                    if(budPeriod == checkPeriod) {
-                        addNewPeriod = false;
-                    }
-                }else {    
-                    newPeriod = budPeriod + 1;
-                }
-                /* build new budget line items list */
-                if(addNewPeriod) {
-                    BudgetLineItem nBudgetLineItem = (BudgetLineItem)ObjectUtils.deepCopy(budgetLineItem); 
-                    nBudgetLineItem.setBudgetPeriod(newPeriod);
-                    newBudgetLineItems.add(nBudgetLineItem);
-                }
-            }
-        }
-        budgetLineItems.removeAll(delBudgetLineItems);
-        budgetLineItems.addAll(newBudgetLineItems);
-    }
-    
-    private void updateBudgetPersonnelDetails(List<BudgetPersonnelDetails> budgetPersonnelDetails, int checkPeriod, boolean deletePeriod) {
-        List<BudgetPersonnelDetails> newBudgetPersonnelDetails = new ArrayList<BudgetPersonnelDetails>();
-        List<BudgetPersonnelDetails> delBudgetPersonnelDetails = new ArrayList<BudgetPersonnelDetails>();
-        for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
-            Integer budPeriod = budgetPersonnelDetail.getBudgetPeriod();
-            if(budPeriod >= checkPeriod) {
-                /* remove budget period */
-                delBudgetPersonnelDetails.add(budgetPersonnelDetail);
-                int newPeriod = 0;
-                boolean addNewPeriod = true;
-                /* check action - if it is a DELETE or ADD budget line item */ 
-                if(deletePeriod) {
-                    newPeriod = budPeriod - 1;
-                    /* budget period removed - do not add this to new list */
-                    if(budPeriod == checkPeriod) {
-                        addNewPeriod = false;
-                    }
-                }else {    
-                    newPeriod = budPeriod + 1;
-                }
-                /* build new budget personnel line items list */
-                if(addNewPeriod) {
-                    BudgetPersonnelDetails nBudgetPersonnelDetail = (BudgetPersonnelDetails)ObjectUtils.deepCopy(budgetPersonnelDetail); 
-                    nBudgetPersonnelDetail.setBudgetPeriod(newPeriod);
-                    newBudgetPersonnelDetails.add(nBudgetPersonnelDetail);
-                }
-            }
-        }
-        budgetPersonnelDetails.removeAll(delBudgetPersonnelDetails);
-        budgetPersonnelDetails.addAll(newBudgetPersonnelDetails);
-    }
 
     /* call budget calculation service to calculate budget */
     public void calculateBudget(BudgetDocument budgetDocument) {
@@ -286,47 +209,28 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     public void deleteBudgetPeriod(BudgetDocument budgetDocument, int delPeriod) {
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+        BudgetPeriod deletedPeriod = budgetPeriods.remove(delPeriod);
         updateBudgetPeriods(budgetPeriods, delPeriod+1, true);
-        //List<BudgetLineItem> budgetLineItems = budgetDocument.getBudgetLineItems();
-
-        for(BudgetPeriod budgetPeriod: budgetPeriods) {
-            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
-            updateBudgetLineItems(budgetLineItems, delPeriod+1, true);
-            for(BudgetLineItem periodLineItem: budgetLineItems) {
-                List<BudgetPersonnelDetails> budgetPersonnelDetails = periodLineItem.getBudgetPersonnelDetailsList();
-                updateBudgetPersonnelDetails(budgetPersonnelDetails, delPeriod+1, true);
-            }
-        }
-            
-        /*    
-        List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList();
         
-        updateBudgetPeriods(budgetPeriods, delPeriod+1, true);
-        updateBudgetLineItems(budgetLineItems, delPeriod+1, true);
-        updateBudgetPersonnelDetails(budgetPersonnelDetails, delPeriod+1, true);
-        */
+//         for(BudgetPeriod budgetPeriod: budgetPeriods) {
+//            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
+//            updateBudgetLineItems(budgetLineItems, delPeriod+1, true);
+//            for(BudgetLineItem periodLineItem: budgetLineItems) {
+//                List<BudgetPersonnelDetails> budgetPersonnelDetails = periodLineItem.getBudgetPersonnelDetailsList();
+//                updateBudgetPersonnelDetails(budgetPersonnelDetails, delPeriod+1, true);
+//            }
+//        }
     }
+
     
     public void addBudgetPeriod(BudgetDocument budgetDocument, BudgetPeriod newBudgetPeriod) {
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
-        //List<BudgetLineItem> budgetLineItems = budgetDocument.getBudgetLineItems();
-        //List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetDocument.getBudgetPersonnelDetailsList();
         Integer newPeriodIndex = newBudgetPeriod.getBudgetPeriod();
         int totalPeriods = budgetPeriods.size();
         if(newPeriodIndex > totalPeriods) {
             budgetPeriods.add(newBudgetPeriod);
         }else {
             updateBudgetPeriods(budgetPeriods, newPeriodIndex, false);
-            for(BudgetPeriod budgetPeriod: budgetPeriods) {
-                List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
-                updateBudgetLineItems(budgetLineItems, newPeriodIndex, true);
-                for(BudgetLineItem periodLineItem: budgetLineItems) {
-                    List<BudgetPersonnelDetails> budgetPersonnelDetails = periodLineItem.getBudgetPersonnelDetailsList();
-                    updateBudgetPersonnelDetails(budgetPersonnelDetails, newPeriodIndex, true);
-                }
-            }
-            //updateBudgetLineItems(budgetLineItems, newPeriodIndex, false);
-            //updateBudgetPersonnelDetails(budgetPersonnelDetails, newPeriodIndex, false);
             budgetPeriods.add(newPeriodIndex-1, newBudgetPeriod);
         }
     }
