@@ -24,15 +24,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.calculator.BudgetPeriodCalculator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
@@ -392,6 +393,97 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                 }
             }
         }                            
+    }
+
+    /**
+     * KRACOEUS-1376
+     * @see org.kuali.kra.budget.service.BudgetSummaryService#adjustStartEndDatesForLineItems(org.kuali.kra.budget.document.BudgetDocument)
+     */
+    public void adjustStartEndDatesForLineItems(BudgetDocument budgetDocument) {
+        
+        for(BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
+            if (budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0 || budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0 ) {
+                List <BudgetLineItem >budgetLineItems = budgetPeriod.getBudgetLineItems();
+                for(BudgetLineItem budgetLineItem: budgetLineItems) {
+                    Date newStartDate = budgetLineItem.getStartDate();
+                    Date newEndDate = budgetLineItem.getEndDate();
+                    if (budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0) {
+                        newStartDate=add(newStartDate,KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getOldStartDate(), budgetPeriod.getStartDate(), false));
+                        if (newStartDate.after(budgetPeriod.getEndDate())) {
+                            newStartDate = budgetPeriod.getStartDate();
+                        } else {                       
+                            if (newStartDate.after(budgetPeriod.getStartDate())) {
+                                // keep the duration, but the item start date relative to period start date is not maintained.
+                                int budgetDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
+                                int lineItemDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
+                                int daysTOEndDate = KraServiceLocator.getService(DateTimeService.class).dateDiff(newStartDate, budgetPeriod.getEndDate(), false);
+                                if (daysTOEndDate < lineItemDuration) {
+                                    if (budgetDuration > lineItemDuration) {
+                                        newEndDate = budgetPeriod.getEndDate();
+                                        newStartDate = add(newEndDate,lineItemDuration * (-1));
+                                    } else {
+                                        newStartDate = budgetPeriod.getStartDate();
+                                    }
+                                }   
+                            }
+                        }
+                        newEndDate=add(newStartDate,KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false));
+                        if (newEndDate.after(budgetPeriod.getEndDate())) {
+                            newEndDate = budgetPeriod.getEndDate();
+                        }
+                    } else {
+                        if (budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldStartDate()) != 0 &&  budgetPeriod.getEndDate().before(budgetLineItem.getEndDate())) {
+                            if (budgetPeriod.getEndDate().after(budgetLineItem.getStartDate()) && budgetPeriod.getEndDate().before(budgetLineItem.getEndDate())) {
+                                newEndDate = budgetPeriod.getEndDate();
+                            } else {
+                                if (budgetPeriod.getEndDate().before(budgetLineItem.getStartDate())) {
+                                    newStartDate=budgetPeriod.getStartDate();
+                                    newEndDate=add(newStartDate,KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false));
+                                    if (newEndDate.after(budgetPeriod.getEndDate())) {
+                                        newEndDate = budgetPeriod.getEndDate();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    budgetLineItem.setStartDate(newStartDate);
+                    budgetLineItem.setEndDate(newEndDate);
+                    budgetLineItem.setBasedOnLineItem(budgetLineItem.getLineItemNumber());
+                    List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
+                    for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
+                        budgetPersonnelDetail.setStartDate(newStartDate);
+                        budgetPersonnelDetail.setEndDate(newEndDate);
+                    }
+                }
+           }       
+            // set old start/end date - rollback may be needed if rule is failed
+            budgetPeriod.setOldStartDate(budgetPeriod.getStartDate());
+            budgetPeriod.setOldEndDate(budgetPeriod.getEndDate());
+        }
+    }
+    
+    /**
+     * 
+     * This method hold the old start/end date, so it can be used for comparison upon save.
+     * 
+     * @param budgetDocument
+     */
+    public void setupOldStartEndDate (BudgetDocument budgetDocument, boolean resetAll) {
+        for(BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+            if (budgetPeriod.getOldStartDate() == null || budgetPeriod.getOldEndDate() == null || resetAll) {
+                budgetPeriod.setOldStartDate(budgetPeriod.getStartDate());
+                budgetPeriod.setOldEndDate(budgetPeriod.getEndDate());
+            }
+        }
+
+    }
+    
+    private Date add(Date date, int days) {
+        Calendar c1 = Calendar.getInstance(); 
+        c1.setTime(new java.util.Date(date.getTime()));
+        c1.add(Calendar.DATE,days);
+        return new java.sql.Date(c1.getTime().getTime());
+        
     }
 
 }
