@@ -31,6 +31,29 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate {
     private String trackAffectedPeriod;
 
     
+    public AbstractBudgetRate() {
+        super();
+    }
+    
+    public AbstractBudgetRate(String unitNumber, AbstractInstituteRate abstractInstituteRate) {
+        this();
+        copyValues(unitNumber, abstractInstituteRate);
+    }
+
+    private void copyValues(String unitNumber, AbstractInstituteRate abstractInstituteRate) {
+        setApplicableRate(abstractInstituteRate.getInstituteRate());
+        setFiscalYear(abstractInstituteRate.getFiscalYear());
+        setInstituteRate(abstractInstituteRate.getInstituteRate());
+        setOnOffCampusFlag(abstractInstituteRate.getOnOffCampusFlag());
+        setRateClass(abstractInstituteRate.getRateClass());
+        setRateClassCode(abstractInstituteRate.getRateClassCode());
+        setRateType(abstractInstituteRate.getRateType());
+        setRateTypeCode(abstractInstituteRate.getRateTypeCode());
+        setStartDate(abstractInstituteRate.getStartDate());
+        setUnitNumber(unitNumber);
+        setOldApplicableRate(abstractInstituteRate.getInstituteRate());
+    }
+    
 	public String getProposalNumber() {
 		return proposalNumber;
 	}
