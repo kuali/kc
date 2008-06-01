@@ -15,12 +15,10 @@
  */
 package org.kuali.kra.bo;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.bo.RateClass;
-import org.kuali.kra.budget.bo.RateType;
+import org.kuali.kra.budget.bo.AbstractBudgetRate;
+import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 /**
  * 
  * This class represents INSTITUTE_LA_RATE record
@@ -40,5 +38,10 @@ public class InstituteLaRate extends AbstractInstituteRate{
 		hashMap.put("instituterate", getInstituteRate());
 		return hashMap;
 	}
+
+    @Override
+    protected AbstractBudgetRate createBudgetRate() {
+        return new BudgetProposalLaRate();
+    }
 	
 }

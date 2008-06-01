@@ -497,6 +497,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         }
         return budgetPeriods;
     }
+    
     /**
      * Gets the BudgetSummary attribute. 
      * @return Returns the BudgetSummary.
@@ -545,8 +546,15 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(budgetLineItems);
         // managedLists.add(budgetLineItemCalculatedAmounts);
         managedLists.add(budgetPersonnelDetailsList);
+
+        managedLists.add(budgetPersonnelCalculatedAmounts);
+        
+        managedLists.add(budgetProposalRates);
+        managedLists.add(budgetProposalLaRates);
+
         // managedLists.add(budgetPersonnelCalculatedAmounts);
         managedLists.add(getBudgetPersons());
+
         return managedLists;
     }
 
@@ -766,7 +774,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
 
     /**
      * This method adds an item to its collection
-     * @return
+     * @param budgetCostShare
      */
     public void add(BudgetCostShare budgetCostShare) {
         addBudgetDistributionAndIncomeComponent(getBudgetCostShares(), budgetCostShare);
@@ -774,7 +782,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     
     /**
      * This method adds an item to its collection
-     * @return
+     * @param budgetProjectIncome
      */
     public void add(BudgetProjectIncome budgetProjectIncome) {
         budgetProjectIncome.setBudgetPeriodId(getBudgetPeriodId(budgetProjectIncome));
@@ -793,6 +801,26 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         }
         return null;
     } 
+    
+    /**
+     * This method adds an item to its collection
+     * @param budgetProposalRate
+     */
+    public void add(BudgetProposalRate budgetProposalRate) {
+        if(budgetProposalRate != null) {
+            getBudgetProposalRates().add(budgetProposalRate);
+        }
+    }
+    
+    /**
+     * This method adds an item to its collection
+     * @param budgetProposalLaRate
+     */
+    public void add(BudgetProposalLaRate budgetProposalLaRate) {
+        if(budgetProposalLaRate != null) {
+            getBudgetProposalLaRates().add(budgetProposalLaRate);
+        }
+    }
     
     /**
      * This method adds an item to its collection
@@ -1365,7 +1393,7 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     public String getBudgetStatus() {
         return budgetStatus;
     }
-
+    
     public void setBudgetStatus(String budgetStatus) {
         this.budgetStatus = budgetStatus;
     }
