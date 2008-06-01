@@ -15,17 +15,11 @@
  */
 package org.kuali.kra.budget.service;
 
-import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.budget.bo.BudgetPeriod;
-import org.kuali.kra.budget.bo.BudgetProposalRate;
-import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.document.BudgetDocument;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface BudgetRatesService {
     public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument);

@@ -17,9 +17,9 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.web.format.Formatter;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
+import org.kuali.kra.budget.bo.AbstractBudgetRate;
+import org.kuali.kra.budget.bo.BudgetProposalRate;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 /**
  * 
