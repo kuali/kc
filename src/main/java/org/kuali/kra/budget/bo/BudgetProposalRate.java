@@ -17,10 +17,20 @@ package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kra.bo.InstituteRate;
+
 public class BudgetProposalRate extends AbstractBudgetRate {
 	private String activityTypeCode;
 
-
+	public BudgetProposalRate() {
+	    super();
+	}
+	
+	public BudgetProposalRate(String unitNumber, InstituteRate instituteRate) {
+	    super(unitNumber, instituteRate);
+	    setActivityTypeCode(instituteRate.getActivityTypeCode());
+	}
+	
     public String getActivityTypeCode() {
 		return activityTypeCode;
 	}
