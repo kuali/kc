@@ -18,13 +18,18 @@ package org.kuali.kra.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.kuali.core.web.format.Formatter;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateType;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
+import org.kuali.kra.infrastructure.Constants;
 
-public abstract class AbstractInstituteRate extends KraPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>{
+public abstract class AbstractInstituteRate extends KraPersistableBusinessObjectBase implements Comparable<AbstractInstituteRate>, AbstractInstituteRateKey {
 	private String fiscalYear;
 	private Boolean onOffCampusFlag;
 	private String rateClassCode;
@@ -37,10 +42,6 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
 	private RateType rateType;
 	private Unit unit;
 	
-    public AbstractInstituteRate(){
-        Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
-    }
-
 	public RateClass getRateClass() {
         return rateClass;
     }
@@ -114,9 +115,12 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
 	}
 
 
-	@Override 
+	@SuppressWarnings("unchecked")
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
+		hashMap.put("versionNumber", getVersionNumber());
+		hashMap.put("updateTimestamp", getUpdateTimestamp());
 		hashMap.put("fiscalYear", getFiscalYear());
 		hashMap.put("onOffCampusFlag", getOnOffCampusFlag());
 		hashMap.put("rateClassCode", getRateClassCode());
@@ -127,9 +131,11 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
 		return hashMap;
 	}
 	
-	public int compareTo(AbstractInstituteRate instituteLaRate) {
-        int dataCmp = getRateType().getDescription().compareTo(instituteLaRate.getRateType().getDescription());
-        return (dataCmp != 0 ? dataCmp : getFiscalYear().compareTo(instituteLaRate.getFiscalYear()));
+	public int compareTo(AbstractInstituteRate abstractInstituteRate) {
+        int result = getRateType().getDescription().compareTo(abstractInstituteRate.getRateType().getDescription());
+        result = result != 0 ? result : getFiscalYear().compareTo(abstractInstituteRate.getFiscalYear());
+        result = result != 0 ? result : getOnOffCampusFlag().compareTo(abstractInstituteRate.getOnOffCampusFlag());
+        return result;
     }
 
     public Unit getUnit() {
@@ -139,5 +145,20 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
-	
+    
+    public String getRateKeyAsString() {
+        return new StringBuilder(getRateClassCode())
+                    .append(getRateTypeCode())
+                    .append(getLocationFlagAsString(getOnOffCampusFlag()))
+                    .append(getStartDate())
+                    .toString();
+    }
+    
+    protected AbstractBudgetRate createBudgetRate() {
+        throw new RuntimeException(new OperationNotSupportedException("Cannot create BudgetRate."));
+    }
+    
+    private String getLocationFlagAsString(boolean onOffCampusFlag) {
+        return onOffCampusFlag ? Constants.ON_CAMUS_FLAG : Constants.OFF_CAMUS_FLAG;
+    }
 }
