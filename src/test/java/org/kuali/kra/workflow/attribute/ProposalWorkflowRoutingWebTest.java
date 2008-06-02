@@ -77,8 +77,11 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
     private DocumentService documentService = null;
     private Lifecycle customKEWLifecycle = null;
     private static final String CUSTOM_DATA_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.customData.x";
+    private static final String QUESTIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.questions.x";
     private static final String GRADUATE_STUDENT_COUNT_ID = "customAttributeValues(id4)";
     private static final String BILLING_ELEMENT_ID = "customAttributeValues(id1)";
+    private static final String BUTTON_SAVE = "save";
+    
      @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -110,10 +113,10 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         Calendar c = Calendar.getInstance(); 
         c.add(Calendar.DAY_OF_MONTH, 1);
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); 
-        String sponsordeadlinedate = sdf.format(c.getTime()); 
+        String sponsorDeadlineDate = sdf.format(c.getTime()); 
         HtmlPage proposaldevelopmentPage = getProposalDevelopmentPage();
         setDefaultRequiredFields(proposaldevelopmentPage);
-        setFieldValue(proposaldevelopmentPage,"document.deadlineDate",sponsordeadlinedate);
+        setFieldValue(proposaldevelopmentPage,"document.deadlineDate", sponsorDeadlineDate);
         HtmlForm proposaldevform = (HtmlForm) proposaldevelopmentPage.getForms().get(0);
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) proposaldevform.getInputByName("document.documentHeader.documentNumber");
         HtmlPage KeyPersonnelpage = clickOnTab(proposaldevelopmentPage, KEY_PERSONNEL_LINK_NAME);
@@ -134,7 +137,19 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         setFieldValue(customDataPage, GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
         setFieldValue(customDataPage, BILLING_ELEMENT_ID, TestUtilities.BILLING_ELEMENT_VALUE);
 
-        HtmlPage submitPage = clickOnTab(customDataPage, ACTIONS_LINK_NAME);
+        HtmlPage proposalPage = saveAndSearchDoc(customDataPage);
+        proposalPage = clickOn(proposalPage, QUESTIONS_LINK_NAME);
+        for(int i=0; i<4; i++) {
+            String fieldName = "document.proposalYnq[" + i + "].answer";
+            String explanation = "document.proposalYnq[" + i + "].explanation";
+            String reviewDate = "document.proposalYnq[" + i + "].reviewDate";
+            setFieldValue(proposalPage, fieldName, RADIO_FIELD_VALUE);
+            setFieldValue(proposalPage, explanation, "test comments");
+            setFieldValue(proposalPage, reviewDate, sponsorDeadlineDate);
+        }
+        proposalPage = clickOn(proposalPage, BUTTON_SAVE);
+
+        HtmlPage submitPage = clickOnTab(proposalPage, ACTIONS_LINK_NAME);
         HtmlForm form1 = (HtmlForm) submitPage.getForms().get(0);
         final HtmlPage confirmationPage = clickButton(submitPage, form1, "methodToCall.route", IMAGE_INPUT);
 

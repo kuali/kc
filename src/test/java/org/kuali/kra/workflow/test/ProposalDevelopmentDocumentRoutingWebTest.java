@@ -82,11 +82,13 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
     protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
     private static final String RADIO_FIELD_VALUE = "Y";
-
+    
     private Lifecycle customKEWLifecycle = null;
     private static final String CUSTOM_DATA_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.customData.x";
+    private static final String QUESTIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.questions.x";
     private static final String GRADUATE_STUDENT_COUNT_ID = "customAttributeValues(id4)";
     private static final String BILLING_ELEMENT_ID = "customAttributeValues(id1)";
+    private static final String BUTTON_SAVE = "save";
 
     private File xmlBackupDir = null;
     
@@ -174,7 +176,18 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
 
         // Save the proposal and re-check to be sure the data is still correctly displayed.
         HtmlPage proposalPage = saveAndSearchDoc(permissionsPage);
-        //HtmlForm form = (HtmlForm) proposalPage.getForms().get(0);
+        
+        proposalPage = clickOn(proposalPage, QUESTIONS_LINK_NAME);
+        for(int i=0; i<4; i++) {
+            String fieldName = "document.proposalYnq[" + i + "].answer";
+            String explanation = "document.proposalYnq[" + i + "].explanation";
+            String reviewDate = "document.proposalYnq[" + i + "].reviewDate";
+            setFieldValue(proposalPage, fieldName, RADIO_FIELD_VALUE);
+            setFieldValue(proposalPage, explanation, "test comments");
+            setFieldValue(proposalPage, reviewDate, sponsorDeadlineDate);
+        }
+        proposalPage = clickOn(proposalPage, BUTTON_SAVE);
+
         HtmlPage submitPage = clickOnTab(proposalPage, ACTIONS_LINK_NAME);
         HtmlForm submitForm = (HtmlForm) submitPage.getForms().get(0);
 
