@@ -25,8 +25,6 @@
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	showTabButtons="true">
 
-	<center>Under Construction</center>
-	
 	<div align="center">
 		<kra-b:budgetPrintForms />
 		<kra-b:budgetJustification />
