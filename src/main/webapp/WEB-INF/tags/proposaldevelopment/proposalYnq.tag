@@ -38,7 +38,7 @@
     </c:if> 
 <bean:define id="trunGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].truncGroupName"/>
 <bean:define id="fullGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].groupName"/>
-<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}">
+<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*"  auditCluster="ynqAuditErrors*" tabAuditKey="document.proposalYnq[${groupName}]*"   transparentBackground="${transparent}">
 <c:set var="tabErrorKey" value="document.proposalYnq[${gps.index}]"/>
     <c:set var="proposalYnq" value="document.proposalYnqs[${gps.index}]" /> 
     <c:set var="transparent" value="false" />
