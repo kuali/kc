@@ -387,7 +387,7 @@
 	<bean id="keyPersonnelService" class="org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="narrativeService" ref="narrativeService" />
-		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="configurationService" ref="kualiConfigurationService" />        
     	<property name="ynqService">
         	<ref bean="ynqService" />
     	</property>
@@ -690,11 +690,11 @@
 
     <bean id="nonOrganizationalRolodexLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
         <property name="lookupableHelperService" ref="nonOrganizationalRolodexHelperService" />
-    </bean>
+    </bean>    
 	
 	<bean id="budgetModularService" class="org.kuali.kra.budget.service.impl.BudgetModularServiceImpl">
 	</bean>
-
+	
 	<bean id="customAttributeLookupable" class="org.kuali.kra.lookup.CustomAttributeLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="lookupableHelperService" />
@@ -710,13 +710,13 @@
 	<bean id="budgetExpenseLookupableHelperService" class="org.kuali.kra.lookup.BudgetExpenseLookupableHelperServiceImpl" 
  		singleton="false" parent="lookupableHelperService">
   	</bean>
-  	
-  	<bean id="objectCodeToBudgetCategoryCodeService" class="org.kuali.kra.service.impl.ObjectCodeToBudgetCategoryCodeServiceImpl">
+	
+	<bean id="objectCodeToBudgetCategoryCodeService" class="org.kuali.kra.service.impl.ObjectCodeToBudgetCategoryCodeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
-		
+	
 	<bean id="onOffCampusLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
   		<property name="lookupableHelperService">
     		<ref bean="onOffCampusLookupableHelperServiceImpl" />
@@ -728,5 +728,13 @@
   	</bean>
   	
   	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" singleton="false" />
+
+	<bean id="coeusBean2KraBoConverterService" class="org.kuali.kra.budget.service.impl.CoeusBean2KraBoConverterServiceImpl">
+	</bean>
+	<bean id="budgetPrintService" class="org.kuali.kra.budget.service.impl.BudgetPrintServiceImpl">
+  		<property name="coeusBean2KraBoConverterService">
+    		<ref bean="coeusBean2KraBoConverterService" />
+  		</property>  		
+	</bean>
 	
 </beans>
