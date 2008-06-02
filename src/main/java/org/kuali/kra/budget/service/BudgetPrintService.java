@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,29 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.budget.bo;
+package org.kuali.kra.budget.service;
 
-import java.util.LinkedHashMap;
-import org.kuali.kra.budget.BudgetDecimal;
+import java.util.List;
+import java.util.Map;
 
-public class BudgetRateAndBase extends AbstractBudgetRateAndBase {
-	private BudgetDecimal baseCost;
+import org.kuali.kra.budget.bo.BudgetPrintForm;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
-
-	public BudgetDecimal getBaseCost() {
-		return baseCost;
-	}
-
-	public void setBaseCost(BudgetDecimal baseCost) {
-		this.baseCost = baseCost;
-	}
-
-
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = super.toStringMapper();
-		hashMap.put("baseCost", getBaseCost());
-		return hashMap;
-	}
-
+/**
+ * This class...
+ */
+public interface BudgetPrintService {
+    public void populateBudgetPrintForms(BudgetDocument budgetDocument);
+    public AttachmentDataSource readBudgetPrintStream(BudgetDocument budgetDocument, String selectedBudgetPrintFormId);
 }

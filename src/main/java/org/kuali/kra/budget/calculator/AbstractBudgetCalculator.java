@@ -201,11 +201,14 @@ public abstract class AbstractBudgetCalculator {
         budgetLineItem.setUnderrecoveryAmount(BudgetDecimal.ZERO);
         createAndCalculateBreakupIntervals();
         updateBudgetLineItemCalculatedAmounts();
+        populateBudgetRateBaseList();
         // if (!uRMatchesOh && (!OHAvailable || cvLineItemCalcAmts == null || cvLineItemCalcAmts.size() == 0)) {
         // calculateURBase();
         // }
 
     }
+    protected abstract void populateBudgetRateBaseList();
+    
     protected void updateBudgetLineItemCalculatedAmounts() {
         
         List<AbstractBudgetCalculatedAmount> lineItemCalcAmts = budgetLineItem.getBudgetCalculatedAmounts();

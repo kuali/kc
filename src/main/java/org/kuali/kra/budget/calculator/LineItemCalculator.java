@@ -25,10 +25,12 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.bo.BudgetRateAndBase;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+
 /**
  * 
  * This class for calculating non personnel line item
@@ -130,5 +132,44 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         budgetLineItemCalculatedAmt.refreshReferenceObject("rateType");
         budgetLineItemCalculatedAmt.refreshReferenceObject("rateClass");
         bli.getBudgetLineItemCalculatedAmounts().add(budgetLineItemCalculatedAmt);
+    }
+    @Override
+    protected void populateBudgetRateBaseList() {
+        List<BudgetRateAndBase> budgetRateAndBaseList = bli.getBudgetRateAndBaseList();
+        List<BreakUpInterval> breakupIntervals = getBreakupIntervals();
+        budgetRateAndBaseList.clear();
+        Integer rateNumber = 0;
+        for (BreakUpInterval breakUpInterval : breakupIntervals) {
+            List<RateAndCost> vecAmountBean = breakUpInterval.getRateAndCosts();
+            for (RateAndCost rateAndCost : vecAmountBean) {
+                BudgetRateAndBase budgetRateBase = new BudgetRateAndBase();
+                BudgetDecimal appliedRate = rateAndCost.getAppliedRate();
+                budgetRateBase.setAppliedRate(BudgetDecimal.returnZeroIfNull(appliedRate));
+                BudgetDecimal calculatedCost = rateAndCost.getCalculatedCost();
+                BudgetDecimal calculatedCostSharing = rateAndCost.getCalculatedCostSharing();
+                
+                budgetRateBase.setBaseCost(breakUpInterval.getApplicableAmt());
+                budgetRateBase.setBaseCostSharing(breakUpInterval.getApplicableAmtCostSharing());
+                
+                budgetRateBase.setBudgetPeriodId(bli.getBudgetPeriodId());
+                budgetRateBase.setBudgetPeriod(bli.getBudgetPeriod());
+                budgetRateBase.setCalculatedCost(calculatedCost);
+                budgetRateBase.setCalculatedCostSharing(calculatedCostSharing);
+                
+                java.util.Date endDate = breakUpInterval.getBoundary().getEndDate();
+                budgetRateBase.setEndDate(new java.sql.Date(endDate.getTime()));
+                
+                budgetRateBase.setLineItemNumber(bli.getLineItemNumber());
+                budgetRateBase.setOnOffCampusFlag(bli.getOnOffCampusFlag());
+                budgetRateBase.setProposalNumber(bli.getProposalNumber());
+                budgetRateBase.setRateClassCode(rateAndCost.getRateClassCode());
+                budgetRateBase.setRateNumber(++rateNumber);
+                budgetRateBase.setRateTypeCode(rateAndCost.getRateTypeCode());
+                java.util.Date startDate = breakUpInterval.getBoundary().getStartDate();
+                budgetRateBase.setStartDate(new java.sql.Date(startDate.getTime()));
+                budgetRateBase.setBudgetVersionNumber(bli.getBudgetVersionNumber());
+                budgetRateAndBaseList.add(budgetRateBase);
+            }   
+        }
     }
 }

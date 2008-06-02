@@ -56,9 +56,12 @@ import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase;
+import org.kuali.kra.budget.bo.BudgetPrintForm;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
+import org.kuali.kra.budget.bo.BudgetRateAndBase;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.CostElement;
@@ -142,6 +145,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private String budgetStatus;
     private String onOffCampusFlag;
     
+    private List<BudgetPrintForm> budgetPrintForms;
+    
     public BudgetDocument(){
         super();
         budgetCostShares = new ArrayList<BudgetCostShare>();
@@ -160,6 +165,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
         Formatter.registerFormatter(RateDecimal.class, RateDecimalFormatter.class);
         budgetCategoryTypeCodes = new ArrayList<KeyLabelPair>();
+        budgetPrintForms = new ArrayList<BudgetPrintForm>();
         setOnOffCampusFlag("D");
     }
 
@@ -514,15 +520,16 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     @SuppressWarnings("unchecked")
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(getBudgetPeriods());
         managedLists.add(getRateClassTypes());
         managedLists.add(getBudgetProjectIncomes());
         managedLists.add(getBudgetCostShares());
         managedLists.add(getBudgetUnrecoveredFandAs());
         List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
         List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
+        List<BudgetRateAndBase> budgetRateAndBaseList = new ArrayList<BudgetRateAndBase>();
         List<BudgetPersonnelDetails> budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
         List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
+        List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
         List<BudgetModularIdc> budgetModularIdcs = new ArrayList<BudgetModularIdc>();
         
         for (BudgetPeriod budgetPeriod: getBudgetPeriods()) {
@@ -534,27 +541,25 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
             budgetLineItems.addAll(tempLIs);
             for (BudgetLineItem budgetLineItem : tempLIs) {
                 budgetLineItemCalculatedAmounts.addAll(budgetLineItem.getBudgetLineItemCalculatedAmounts());
+                budgetRateAndBaseList.addAll(budgetLineItem.getBudgetRateAndBaseList());
                 List<BudgetPersonnelDetails> tempPerList = budgetLineItem.getBudgetPersonnelDetailsList();
                 budgetPersonnelDetailsList.addAll(tempPerList);
                 for (BudgetPersonnelDetails budgetPersonnelDetails : tempPerList) {
                     budgetPersonnelCalculatedAmounts.addAll(budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts());
+                    budgetPersonnelRateAndBaseList.addAll(budgetPersonnelDetails.getBudgetPersonnelRateAndBaseList());
                 }
             }
         }
         
         managedLists.add(budgetModularIdcs);
-        managedLists.add(budgetLineItems);
-        // managedLists.add(budgetLineItemCalculatedAmounts);
-        managedLists.add(budgetPersonnelDetailsList);
-
+        managedLists.add(budgetPersonnelRateAndBaseList);
         managedLists.add(budgetPersonnelCalculatedAmounts);
-        
-        managedLists.add(budgetProposalRates);
-        managedLists.add(budgetProposalLaRates);
-
-        // managedLists.add(budgetPersonnelCalculatedAmounts);
+        managedLists.add(budgetPersonnelDetailsList);
+        managedLists.add(budgetRateAndBaseList);
+        managedLists.add(budgetLineItemCalculatedAmounts);
+        managedLists.add(budgetLineItems);
         managedLists.add(getBudgetPersons());
-
+        managedLists.add(getBudgetPeriods());
         return managedLists;
     }
 
@@ -1423,13 +1428,28 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
     }
     
     /**
-    * Sets the budgetLineItemDeleted attribute value.
-    * @param budgetLineItemDeleted The budgetLineItemDeleted to set.
-    */
+     * Sets the budgetLineItemDeleted attribute value.
+     * @param budgetLineItemDeleted The budgetLineItemDeleted to set.
+     */
     public void setBudgetLineItemDeleted(boolean budgetLineItemDeleted) {
         BudgetLineItemDeleted = budgetLineItemDeleted;
     }
-    
+
+    /**
+     * Gets the budgetPrintForms attribute. 
+     * @return Returns the budgetPrintForms.
+     */
+    public List<BudgetPrintForm> getBudgetPrintForms() {
+        return budgetPrintForms;
+    }
+
+    /**
+     * Sets the budgetPrintForms attribute value.
+     * @param budgetPrintForms The budgetPrintForms to set.
+     */
+    public void setBudgetPrintForms(List<BudgetPrintForm> budgetPrintForms) {
+        this.budgetPrintForms = budgetPrintForms;
+    }
 }
 
 class RateClassTypeComparator implements Comparator<RateClassType> {
