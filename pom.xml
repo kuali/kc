@@ -220,10 +220,10 @@
 					<version>1.0.1</version>
 				</dependency>
 				<dependency>
- 					<groupId>relaxng</groupId>
- 					<artifactId>relaxngDatatype</artifactId>
- 					<version>0.0.1</version>
- 				</dependency>
+					<groupId>xsdlib</groupId>
+					<artifactId>xsdlib</artifactId>
+					<version>1.0</version>
+				</dependency>
 				<dependency>
 					<groupId>avalon-framework</groupId>
 					<artifactId>avalon-framework</artifactId>
