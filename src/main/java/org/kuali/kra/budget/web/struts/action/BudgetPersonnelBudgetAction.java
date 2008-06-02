@@ -24,17 +24,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ActionFormUtilMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -43,6 +42,7 @@ import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetPersonnelBudgetService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class BudgetPersonnelBudgetAction extends BudgetAction {
@@ -151,9 +151,32 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         int selectedBudgetPeriodIndex = budgetForm.getViewBudgetPeriod()-1;
         int selectedBudgetLineItemIndex = budgetForm.getSelectedBudgetLineItemIndex();
         BudgetLineItem selectedBudgetLineItem = budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex);
+        int k=0;
+        boolean errorFound = false;
+        GlobalVariables.getErrorMap().addToErrorPath("document");
+        for(BudgetPersonnelDetails budgetPersonnelDetails: selectedBudgetLineItem.getBudgetPersonnelDetailsList()){
+            if(budgetPersonnelDetails.getPercentEffort().isLessThan(new BudgetDecimal(0)) 
+                    || budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
+                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].percentEffort",KeyConstants.ERROR_PERCENT_EFFORT_INVALID);
+                errorFound=true;
+            }
+            if(budgetPersonnelDetails.getPercentCharged().isLessThan(new BudgetDecimal(0)) 
+                    || budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
+                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENT_CHARGED_INVALID);
+                errorFound=true;
+            }
+            if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(budgetPersonnelDetails.getPercentEffort())){
+                GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
+                errorFound=true;
+            }
+            k++;
+        }
+        GlobalVariables.getErrorMap().removeFromErrorPath("document");
 //        BudgetLineItem selectedBudgetLineItem = budgetForm.getSelectedBudgetLineItem();
-        BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
-        budgetCalculationService.calculateBudgetLineItem(budgetForm.getBudgetDocument(), selectedBudgetLineItem);
+        if(!errorFound){
+            BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
+            budgetCalculationService.calculateBudgetLineItem(budgetForm.getBudgetDocument(), selectedBudgetLineItem);
+        }
 //        BudgetPersonnelDetails budgetPersonnelDetails = selectedBudgetLineItem.getBudgetPersonnelDetailsList().get(getLineToDelete(request));        
 //        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
 //        budgetPersonnelBudgetService.calculateBudgetPersonnelBudget(budgetForm.getBudgetDocument(),selectedBudgetLineItem,budgetPersonnelDetails, getLineToDelete(request));
@@ -175,9 +198,27 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         int selectedBudgetPeriodIndex = budgetForm.getViewBudgetPeriod()-1;
         int selectedBudgetLineItemIndex = budgetForm.getSelectedBudgetLineItemIndex();
         BudgetLineItem selectedBudgetLineItem = budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex);
-        BudgetPersonnelDetails budgetPersonnelDetails = selectedBudgetLineItem.getBudgetPersonnelDetailsList().get(getLineToDelete(request));        
-        BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
-        budgetPersonnelBudgetService.calculateBudgetPersonnelBudget(budgetForm.getBudgetDocument(),selectedBudgetLineItem,budgetPersonnelDetails, getLineToDelete(request));
+        BudgetPersonnelDetails budgetPersonnelDetails = selectedBudgetLineItem.getBudgetPersonnelDetailsList().get(getLineToDelete(request));
+        boolean errorFound = false;
+        GlobalVariables.getErrorMap().addToErrorPath("document");
+        if(budgetPersonnelDetails.getPercentEffort().isLessThan(new BudgetDecimal(0)) 
+                || budgetPersonnelDetails.getPercentEffort().isGreaterThan(new BudgetDecimal(100))){
+            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex   +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + getLineToDelete(request) + "].percentEffort",KeyConstants.ERROR_PERCENT_EFFORT_INVALID);
+            errorFound=true;
+        }
+        if(budgetPersonnelDetails.getPercentCharged().isLessThan(new BudgetDecimal(0)) 
+                || budgetPersonnelDetails.getPercentCharged().isGreaterThan(new BudgetDecimal(100))){
+            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + getLineToDelete(request) + "].percentCharged",KeyConstants.ERROR_PERCENT_CHARGED_INVALID);
+            errorFound=true;
+        }
+        if(budgetPersonnelDetails.getPercentCharged().isGreaterThan(budgetPersonnelDetails.getPercentEffort())){
+            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + getLineToDelete(request) + "].percentCharged",KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
+            errorFound=true;
+        }
+        if(!errorFound){
+            BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
+            budgetPersonnelBudgetService.calculateBudgetPersonnelBudget(budgetForm.getBudgetDocument(),selectedBudgetLineItem,budgetPersonnelDetails, getLineToDelete(request));
+        }        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     @Override
