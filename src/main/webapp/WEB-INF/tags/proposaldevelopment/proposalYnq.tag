@@ -38,7 +38,7 @@
     </c:if> 
 <bean:define id="trunGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].truncGroupName"/>
 <bean:define id="fullGroupName" name="KualiForm" property="document.ynqGroupNames[${gps.index}].groupName"/>
-<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}">
+<kul:tab tabTitle="${trunGroupName}" spanForLongTabTitle="true" defaultOpen="false" tabErrorKey="document.proposalYnq[${groupName}]*" auditCluster="ynqAuditErrors*" tabAuditKey="document.proposalYnq[${groupName}]*" transparentBackground="${transparent}">
 <c:set var="tabErrorKey" value="document.proposalYnq[${gps.index}]"/>
     <c:set var="proposalYnq" value="document.proposalYnqs[${gps.index}]" /> 
     <c:set var="transparent" value="false" />
@@ -47,7 +47,7 @@
     		<h2><span class="subhead-left">${trunGroupName}</span></h2>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.Ynq" altText="help"/></span>
         </div>
-    	<div align="left" style="padding:12px;">
+    	<div align="left" style="padding:12px;"> 
     		<strong>Full Group Name:</strong> 
     		${fullGroupName}
         </div>
