@@ -137,7 +137,11 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
     protected void populateBudgetRateBaseList() {
         List<BudgetRateAndBase> budgetRateAndBaseList = bli.getBudgetRateAndBaseList();
         List<BreakUpInterval> breakupIntervals = getBreakupIntervals();
-        budgetRateAndBaseList.clear();
+        Long prevVersionNumber = null;
+        if(!budgetRateAndBaseList.isEmpty()){
+            prevVersionNumber = budgetRateAndBaseList.get(0).getVersionNumber();
+            budgetRateAndBaseList.clear();
+        }
         Integer rateNumber = 0;
         for (BreakUpInterval breakUpInterval : breakupIntervals) {
             List<RateAndCost> vecAmountBean = breakUpInterval.getRateAndCosts();
@@ -168,6 +172,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
                 java.util.Date startDate = breakUpInterval.getBoundary().getStartDate();
                 budgetRateBase.setStartDate(new java.sql.Date(startDate.getTime()));
                 budgetRateBase.setBudgetVersionNumber(bli.getBudgetVersionNumber());
+                if(prevVersionNumber!=null) budgetRateBase.setVersionNumber(prevVersionNumber);
                 budgetRateAndBaseList.add(budgetRateBase);
             }   
         }
