@@ -17,15 +17,13 @@ package org.kuali.kra.workflow.test;
 
 import java.io.File;
 import java.net.URL;
-import java.text.DateFormat;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +33,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.KraKEWXmlDataLoaderLifecycle;
 import org.kuali.kra.infrastructure.TestUtilities;
+import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 import org.kuali.rice.KNSServiceLocator;
@@ -85,9 +84,10 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
 
     private Lifecycle customKEWLifecycle = null;
     private static final String CUSTOM_DATA_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.customData.x";
+    private static final String QUESTIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.questions.x";
     private static final String GRADUATE_STUDENT_COUNT_ID = "customAttributeValues(id4)";
     private static final String BILLING_ELEMENT_ID = "customAttributeValues(id1)";
-
+    private static final String BUTTON_SAVE = "save";
     private File xmlBackupDir = null;
     
     @Before
@@ -174,6 +174,18 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
 
         // Save the proposal and re-check to be sure the data is still correctly displayed.
         HtmlPage proposalPage = saveAndSearchDoc(permissionsPage);
+        
+        proposalPage = clickOn(proposalPage, QUESTIONS_LINK_NAME);
+        for(int i=0; i<4; i++) {
+            String fieldName = "document.proposalYnq[" + i + "].answer";
+            String explanation = "document.proposalYnq[" + i + "].explanation";
+            String reviewDate = "document.proposalYnq[" + i + "].reviewDate";
+            setFieldValue(proposalPage, fieldName, RADIO_FIELD_VALUE);
+            setFieldValue(proposalPage, explanation, "test comments");
+            setFieldValue(proposalPage, reviewDate, sponsorDeadlineDate);
+        }
+        proposalPage = clickOn(proposalPage, BUTTON_SAVE);
+        
         //HtmlForm form = (HtmlForm) proposalPage.getForms().get(0);
         HtmlPage submitPage = clickOnTab(proposalPage, ACTIONS_LINK_NAME);
         HtmlForm submitForm = (HtmlForm) submitPage.getForms().get(0);
