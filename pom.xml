@@ -157,13 +157,13 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>1.0.3</version>
+					<version>1.0.4</version>
 				</dependency>
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>propdev-schema-v2</artifactId>
 					<version>1.2</version>
- 				</dependency> 
+ 				</dependency>  
 				<dependency>
 					<groupId>jaxb</groupId>
 					<artifactId>hyperjaxb</artifactId>
@@ -224,6 +224,16 @@
  					<artifactId>relaxngDatatype</artifactId>
  					<version>0.0.1</version>
  				</dependency>
+				<dependency>
+					<groupId>avalon-framework</groupId>
+					<artifactId>avalon-framework</artifactId>
+					<version>4.1.2</version>
+				</dependency>
+				<dependency>
+					<groupId>batik</groupId>
+					<artifactId>batik</artifactId>
+					<version>1.0</version>
+				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
@@ -328,7 +338,7 @@
 				<dependency>
 					<groupId>org.kuali.kra.s2s</groupId>
 					<artifactId>kra_s2s</artifactId>
-					<version>1.0.3</version>
+					<version>1.0.4</version>
 				</dependency>
 				<dependency>
 					<groupId>jaxb</groupId>
@@ -395,7 +405,16 @@
 					<artifactId>xsdlib</artifactId>
 					<version>1.0</version>
 				</dependency>
-				
+				<dependency>
+					<groupId>avalon-framework</groupId>
+					<artifactId>avalon-framework</artifactId>
+					<version>4.1.2</version>
+				</dependency>
+				<dependency>
+					<groupId>batik</groupId>
+					<artifactId>batik</artifactId>
+					<version>1.0</version>
+				</dependency>
 			</dependencies>
 		</profile>
 	</profiles>
