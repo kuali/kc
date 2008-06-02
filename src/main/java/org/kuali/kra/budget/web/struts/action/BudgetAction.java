@@ -49,6 +49,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.service.BudgetModularService;
+import org.kuali.kra.budget.service.BudgetPrintService;
 import org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -208,6 +209,12 @@ public class BudgetAction extends ProposalActionBase {
     }
 
     public ActionForward budgetActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        if(budgetDocument.getBudgetPrintForms().isEmpty()){
+            BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
+            budgetPrintService.populateBudgetPrintForms(budgetDocument);
+        }
         return mapping.findForward("budgetActions");
     }
     
@@ -257,6 +264,4 @@ public class BudgetAction extends ProposalActionBase {
             budgetDocument.setBudgetStatus(budgetStatusIncompleteCode);
         }
     }
-    
-
 }

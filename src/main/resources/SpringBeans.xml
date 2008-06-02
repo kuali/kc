@@ -728,5 +728,13 @@
   	</bean>
   	
   	<bean id="copyPeriodsQuestion" class="org.kuali.kra.question.CopyPeriodsQuestion" singleton="false" />
+
+	<bean id="coeusBean2KraBoConverterService" class="org.kuali.kra.budget.service.impl.CoeusBean2KraBoConverterServiceImpl">
+	</bean>
+	<bean id="budgetPrintService" class="org.kuali.kra.budget.service.impl.BudgetPrintServiceImpl">
+  		<property name="coeusBean2KraBoConverterService">
+    		<ref bean="coeusBean2KraBoConverterService" />
+  		</property>  		
+	</bean>
 	
 </beans>
