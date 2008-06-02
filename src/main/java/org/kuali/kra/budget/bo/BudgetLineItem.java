@@ -24,11 +24,13 @@ public class BudgetLineItem extends BudgetLineItemBase {
     private List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts;
 	private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 	private boolean budgetPersonnelLineItemDeleted;
+	private List<BudgetRateAndBase> budgetRateAndBaseList;
 	
 	public BudgetLineItem(){
 	    super();
 	    budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
 	    budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
+	    budgetRateAndBaseList = new ArrayList<BudgetRateAndBase>();
 	}
 	@Override 
 	protected LinkedHashMap toStringMapper() {
@@ -89,6 +91,20 @@ public class BudgetLineItem extends BudgetLineItemBase {
      */
     public void setBudgetPersonnelLineItemDeleted(boolean budgetPersonnelLineItemDeleted) {
         this.budgetPersonnelLineItemDeleted = budgetPersonnelLineItemDeleted;
+    }
+    /**
+     * Gets the budgetRateAndBaseList attribute. 
+     * @return Returns the budgetRateAndBaseList.
+     */
+    public List<BudgetRateAndBase> getBudgetRateAndBaseList() {
+        return budgetRateAndBaseList;
+    }
+    /**
+     * Sets the budgetRateAndBaseList attribute value.
+     * @param budgetRateAndBaseList The budgetRateAndBaseList to set.
+     */
+    public void setBudgetRateAndBaseList(List<BudgetRateAndBase> budgetRateAndBaseList) {
+        this.budgetRateAndBaseList = budgetRateAndBaseList;
     }
 
 }
