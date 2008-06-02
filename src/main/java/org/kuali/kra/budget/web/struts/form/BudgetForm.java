@@ -96,6 +96,8 @@ public class BudgetForm extends ProposalFormBase {
     private String ohRateClassCodePrevValue;
     private String urRateClassCodePrevValue;
     
+    private String selectedBudgetPrintFormId;
+    
     public String getOhRateClassCodePrevValue() {
         return ohRateClassCodePrevValue;
     }
@@ -164,8 +166,6 @@ public class BudgetForm extends ProposalFormBase {
         for(Object displayedErrorsKey: getDisplayedErrors().keySet()) {
             getDisplayedErrors().put(displayedErrorsKey, false);
         }
-        this.getBudgetDocument().setFinalVersionFlag(false);
-        this.getBudgetDocument().setModularBudgetFlag(false);
     }
 
     public BudgetPeriod getNewBudgetPeriod() {
@@ -606,5 +606,17 @@ public class BudgetForm extends ProposalFormBase {
 
     public void setUrRateClassCodePrevValue(String urRateClassCodePrevValue) {
         this.urRateClassCodePrevValue = urRateClassCodePrevValue;
+    }
+
+    public String getSelectedBudgetPrintFormId() {
+        return selectedBudgetPrintFormId;
+    }
+
+    /**
+     * Sets the selectedBudgetPrintFormId attribute value.
+     * @param selectedBudgetPrintFormId The selectedBudgetPrintFormId to set.
+     */
+    public void setSelectedBudgetPrintFormId(String selectedBudgetPrintFormId) {
+        this.selectedBudgetPrintFormId = selectedBudgetPrintFormId;
     }
 }

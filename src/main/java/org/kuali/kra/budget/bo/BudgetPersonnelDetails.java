@@ -38,9 +38,11 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 	private Integer personSequenceNumber;
 	private BudgetPerson budgetPerson;
     private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
+    private List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList;
 
     public BudgetPersonnelDetails(){
         budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
+        budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
     }
 	public Integer getPersonNumber() {
 		return personNumber;
@@ -195,5 +197,19 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     @Override
     public List getBudgetCalculatedAmounts() {
         return getBudgetPersonnelCalculatedAmounts();
+    }
+    /**
+     * Gets the budgetPersonnelRateAndBaseList attribute. 
+     * @return Returns the budgetPersonnelRateAndBaseList.
+     */
+    public List<BudgetPersonnelRateAndBase> getBudgetPersonnelRateAndBaseList() {
+        return budgetPersonnelRateAndBaseList;
+    }
+    /**
+     * Sets the budgetPersonnelRateAndBaseList attribute value.
+     * @param budgetPersonnelRateAndBaseList The budgetPersonnelRateAndBaseList to set.
+     */
+    public void setBudgetPersonnelRateAndBaseList(List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList) {
+        this.budgetPersonnelRateAndBaseList = budgetPersonnelRateAndBaseList;
     }
 }
