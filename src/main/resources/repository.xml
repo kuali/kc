@@ -1656,15 +1656,15 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<collection-descriptor name="budgetLineItemCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="budgetLineItemCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetPeriodId"/>
 			<inverse-foreignkey field-ref="lineItemNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="budgetPersonnelDetailsList" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersonnelDetails" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="budgetPersonnelDetailsList" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersonnelDetails" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetPeriodId"/>
 			<inverse-foreignkey field-ref="lineItemNumber"/> 
 		</collection-descriptor>
-		<collection-descriptor name="budgetRateAndBaseList" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetRateAndBase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="budgetRateAndBaseList" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetRateAndBase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none"> 
 			<inverse-foreignkey field-ref="budgetPeriodId"/>
 			<inverse-foreignkey field-ref="lineItemNumber"/>
 		</collection-descriptor>
@@ -1698,7 +1698,7 @@
 		<reference-descriptor name="budgetModular" class-ref="org.kuali.kra.budget.bo.BudgetModular" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<foreignkey field-ref="budgetPeriodId"/>  
 		</reference-descriptor>
-		<collection-descriptor name="budgetLineItems" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetLineItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="budgetLineItems" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetLineItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetPeriodId"/> 
 		</collection-descriptor>
 		
@@ -2152,12 +2152,12 @@
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="underrecoveryAmount" column="UNDERRECOVERY_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		 
-	 	<collection-descriptor name="budgetPersonnelCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+	 	<collection-descriptor name="budgetPersonnelCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetPeriodId"/>
 			<inverse-foreignkey field-ref="lineItemNumber"/>
 			<inverse-foreignkey field-ref="personNumber"/>
 		</collection-descriptor>
-	 	<collection-descriptor name="budgetPersonnelRateAndBaseList" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+	 	<collection-descriptor name="budgetPersonnelRateAndBaseList" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none"> 
 			<inverse-foreignkey field-ref="budgetPeriodId"/>
 			<inverse-foreignkey field-ref="lineItemNumber"/>
 			<inverse-foreignkey field-ref="personNumber"/>
