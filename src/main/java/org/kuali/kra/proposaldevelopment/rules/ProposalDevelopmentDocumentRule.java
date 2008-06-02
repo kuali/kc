@@ -87,8 +87,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         retval &= super.processCustomRouteDocumentBusinessRules(document);
         
-        retval &= processProposalYNQBusinessRule(proposalDevelopmentDocument, true);
-        
         retval &= processProposalPersonYNQBusinessRule(proposalDevelopmentDocument);
 
         return retval;
@@ -255,6 +253,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         //checkErrors();
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int i = 0;
+        
+        if(!errorMap.getErrorPath().contains("document")) {
+            errorMap.clearErrorPath();
+            errorMap.addToErrorPath("document");
+        }
+        
         for (ProposalYnq proposalYnq : proposalDevelopmentDocument.getProposalYnqs()) {
             
             String groupName = proposalYnq.getYnq().getGroupName();
@@ -454,6 +458,13 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         retval &= new ProposalDevelopmentSponsorProgramInformationAuditRule().processRunAuditBusinessRules(document);
         
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
+        
+        //Change for KRACOEUS-1403
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
+        proposalDevelopmentDocument.getYnqService().populateProposalQuestions(proposalDevelopmentDocument.getProposalYnqs(), proposalDevelopmentDocument.getYnqGroupNames());
+        processProposalYNQBusinessRule((ProposalDevelopmentDocument) document, true);
+        retval &= new ProposalDevelopmentYnqAuditRule().processRunAuditBusinessRules(document);
+        //Change for KRACOEUS-1403 ends here
         
         retval &= new ProposalSpecialReviewAuditRule().processRunAuditBusinessRules(document);        
         
