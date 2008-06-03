@@ -33,11 +33,6 @@
     <div id="workarea">
 <kul:tab tabTitle="Budget Overview (Period ${budgetPeriod})" transparentBackground="true" defaultOpen="true" tabErrorKey="document.budgetPeriod[${budgetPeriod-1}].totalCostLimit" auditCluster="${tabAuditCluster}" tabAuditKey="document.budgetPeriod[${budgetPeriod-1}].totalCostLimit" useRiceAuditMode="true">	
 	<div class="tab-container" align="center">
-	<c:if test="${KualiForm.lineAddedOrDeletedSinceLastSaveOrCalculate}" >		
-		<div align="left">
-		&nbsp;&nbsp;&nbsp;Lines have been added/deleted since you performed the last save/calculate.<br/><br/>
-		</div>
-	</c:if>	
 	<c:if test="${KualiForm.document.budgetPeriods[budgetPeriod - 1].totalCostLimit > 0 && KualiForm.document.budgetPeriods[budgetPeriod - 1].totalCost > KualiForm.document.budgetPeriods[budgetPeriod - 1].totalCostLimit }" >		
     	<div align="left">
     	&nbsp;&nbsp;&nbsp;The Period Cost Limit has Exceeded.<br/><br/>

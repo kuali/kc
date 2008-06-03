@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,8 +32,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.bo.BudgetCategory;
@@ -131,12 +127,14 @@ public class BudgetExpensesAction extends BudgetAction {
             newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
             newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
             
-            BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
-            budgetCalculationService.populateCalculatedAmount(budgetDocument, newBudgetLineItem);              
-            budgetForm.getBudgetDocument().getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems().add(newBudgetLineItem);
+            BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);                          
+            budgetForm.getBudgetDocument().getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems().add(newBudgetLineItem);            
+            budgetCalculationService.calculateBudgetPeriod(budgetForm.getBudgetDocument(), budgetForm.getBudgetDocument().getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1));
+            
+            budgetCalculationService.populateCalculatedAmount(budgetDocument, newBudgetLineItem);
 //            newBudgetLineItem = new BudgetLineItem();                
             budgetForm.getNewBudgetLineItems().set(budgetCategoryTypeIndex,new BudgetLineItem());
-            budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(true);
+            //budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(true);
         }        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
@@ -155,9 +153,11 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         int sltdBudgetPeriod = budgetForm.getViewBudgetPeriod()-1;
-        budgetForm.getBudgetDocument().getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItems().remove(getLineToDelete(request));
-        budgetDocument.setBudgetLineItemDeleted(true);
-        budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(true);
+        budgetForm.getBudgetDocument().getBudgetPeriod(sltdBudgetPeriod).getBudgetLineItems().remove(getLineToDelete(request));        
+        budgetDocument.setBudgetLineItemDeleted(true);        
+        //budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(true);
+        BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
+        budgetCalculationService.calculateBudgetPeriod(budgetForm.getBudgetDocument(), budgetForm.getBudgetDocument().getBudgetPeriod(sltdBudgetPeriod));
         return mapping.findForward("basic");
     }
     
@@ -245,7 +245,7 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetPeriod budgetPeriod = budgetDocument.getBudgetPeriod(selectedPeriod-1);
         BudgetCalculationService budgetCalculationService  = KraServiceLocator.getService(BudgetCalculationService.class);
         budgetCalculationService.calculateBudgetPeriod(budgetDocument, budgetPeriod);
-        budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(false);
+        //budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(false);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     /**
@@ -275,7 +275,7 @@ public class BudgetExpensesAction extends BudgetAction {
             throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(false);
+        //budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(false);
         for(BudgetPeriod budgetPeriod:budgetDocument.getBudgetPeriods()){
             for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){                
                 if(!StringUtils.equalsIgnoreCase(budgetLineItem.getCostElement(), budgetLineItem.getCostElementBO().getCostElement())){
