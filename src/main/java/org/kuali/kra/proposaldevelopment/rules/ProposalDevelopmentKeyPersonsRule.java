@@ -28,6 +28,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_YEAR;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_SELECT_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ONE_UNIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
@@ -36,6 +37,7 @@ import org.apache.commons.lang.ObjectUtils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -47,11 +49,15 @@ import org.kuali.kra.bo.DegreeType;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.AddKeyPersonRule;
+import org.kuali.kra.proposaldevelopment.rule.CalculateCreditSplitRule;
 import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
@@ -63,9 +69,9 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: jsalam $
- * @version $Revision: 1.33.2.5 $
+ * @version $Revision: 1.33.2.6 $
  */
-public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule {
+public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
     private static final String PROPOSAL_PERSON_KEY = "document.proposalPerson[%d]";
     
@@ -96,6 +102,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         boolean retval = true;
         int pi_cnt = 0;
         int personIndex = 0;
+        List<ProposalPerson> investigators=document.getInvestigators();
+        String reg="^(100(?:\\.0{1,2})?|0*?\\.\\d{1,2}|\\d{1,2}(?:\\.\\d{1,2})?)$"; 
                
         for (ProposalPerson person : document.getProposalPersons()) {
             if (isPrincipalInvestigator(person)) {
@@ -122,8 +130,41 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             if(isKeyPerson(person) && (person.getOptInUnitStatus().equals("Y")) && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
                 reportError("newProposalPerson*", ERROR_ONE_UNIT, person.getFullName());  
             }
+            personIndex++;
         }
-        return retval;
+        for (Iterator iter = investigators.iterator(); iter.hasNext();) {
+            ProposalPerson propPerson = (ProposalPerson) iter.next();
+            List<ProposalPersonCreditSplit> personCreditSplit=propPerson.getCreditSplits();
+            List<ProposalPersonUnit> propUnitCreditSplit=propPerson.getUnits();
+            int i=0;
+            for (ProposalPersonCreditSplit creditSplit : personCreditSplit) {
+                if(creditSplit.getCredit() !=null){
+
+                    String credit= String.valueOf( creditSplit.getCredit().intValue());
+                    if(!(credit.matches(reg))){
+                        GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_CREDIT_SPLIT);
+                        retval=false;
+                    }
+                }
+                
+           }
+            for(ProposalPersonUnit personUnitSplit:propUnitCreditSplit){
+                List<ProposalUnitCreditSplit> unitcreditsplit=personUnitSplit.getCreditSplits();
+                for(Iterator it=unitcreditsplit.iterator();it.hasNext();){
+                    ProposalUnitCreditSplit unitsplit=(ProposalUnitCreditSplit)it.next();
+                    if(unitsplit.getCredit()!= null){
+                        String credit=String.valueOf(unitsplit.getCredit().intValue());
+                        if(!(credit.matches(reg))){
+                            GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_CREDIT_SPLIT);
+                            retval=false; 
+                        }
+                        
+                    }
+                }
+             }
+           i++;
+        }
+    return retval;
     }
 
     /**
@@ -163,13 +204,13 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
         
-        
+        if(isNotBlank(person.getProposalPersonRoleId())){
             if (isInvalid(Person.class, keyValue("personId", person.getPersonId())) 
                     && isInvalid(Rolodex.class, keyValue("rolodexId", person.getRolodexId()))) {
                 reportError("newProposalPerson*", ERROR_PROPOSAL_PERSON_INVALID, person.getFullName());
                 retval = false;
             }
-       
+        }
         return retval;
     }
             
@@ -336,7 +377,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         String regExpr = "^(16|17|18|19|20)[0-9]{2}$";
         if(source.getGraduationYear()!=null && !(source.getGraduationYear().matches(regExpr)) && GlobalVariables.getErrorMap().getMessages("document.newProposalPersonDegree") == null)
         {            
-            GlobalVariables.getErrorMap().putError("document.newProposalPersonDegree", ERROR_INVALID_YEAR,
+            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonDegree", ERROR_INVALID_YEAR,
                     new String[] { source.getGraduationYear() });
             retval = false;
         }
@@ -349,17 +390,27 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
         }
         if(StringUtils.isBlank(source.getDegreeCode())){
-            GlobalVariables.getErrorMap().putError("document.newProposalPersonDegree", RiceKeyConstants.ERROR_REQUIRED,
+            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonDegree", RiceKeyConstants.ERROR_REQUIRED,
                     new String[] {"Degree Type" });
-            return false;
+            retval= false;
         }
 
-        if((!StringUtils.isBlank(source.getDegreeCode())) && (StringUtils.isBlank(source.getDegree()))){
+        if(StringUtils.isBlank(source.getDegree())){
 
-            GlobalVariables.getErrorMap().putError("document.newProposalPersonDegree", RiceKeyConstants.ERROR_REQUIRED,
+            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonDegree", RiceKeyConstants.ERROR_REQUIRED,
                     new String[] {"Degree Description" });
-            return false;
+            retval= false;
         }
+        
+        
+        if(StringUtils.isBlank(source.getGraduationYear())){
+
+            GlobalVariables.getErrorMap().putError("document.proposalPersons[" + index + "].newProposalPersonDegree", RiceKeyConstants.ERROR_REQUIRED,
+                    new String[] {"Graduation year" });
+            retval= false;
+        }
+        
+        
         return retval;
     }
     
@@ -370,6 +421,52 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
      */
     private ProposalPersonService getProposalPersonService() {
         return getService(ProposalPersonService.class);
+    }
+
+    public boolean processCalculateCreditSplitBusinessRules(ProposalDevelopmentDocument document) {
+
+        List<ProposalPerson> person=document.getInvestigators();
+        String reg="^(100(?:\\.0{1,2})?|0*?\\.\\d{1,2}|\\d{1,2}(?:\\.\\d{1,2})?)$"; 
+        boolean retval=true;
+   
+
+        for (Iterator iter = person.iterator(); iter.hasNext();) {
+            ProposalPerson propPerson = (ProposalPerson) iter.next();
+            List<ProposalPersonCreditSplit> personCreditSplit=propPerson.getCreditSplits();
+            List<ProposalPersonUnit> propUnitCreditSplit=propPerson.getUnits();
+            int i=0;
+            for (ProposalPersonCreditSplit creditSplit : personCreditSplit) {
+                if(creditSplit.getCredit() !=null){
+
+                    String credit= String.valueOf( creditSplit.getCredit().intValue());
+                    if(!(credit.matches(reg))){
+                        GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_CREDIT_SPLIT);
+                        retval=false;
+                    }
+                }
+                
+           }
+            for(ProposalPersonUnit personUnitSplit:propUnitCreditSplit){
+                List<ProposalUnitCreditSplit> unitcreditsplit=personUnitSplit.getCreditSplits();
+                for(Iterator it=unitcreditsplit.iterator();it.hasNext();){
+                    ProposalUnitCreditSplit unitsplit=(ProposalUnitCreditSplit)it.next();
+                    if(unitsplit.getCredit()!= null){
+                        String credit=String.valueOf(unitsplit.getCredit().intValue());
+                        if(!(credit.matches(reg))){
+                            GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_CREDIT_SPLIT);
+                            retval=false; 
+                        }
+                        
+                    }
+                }
+                
+                
+                
+            }
+            
+            i++;
+        }
+        return retval;
     }
 }
 
