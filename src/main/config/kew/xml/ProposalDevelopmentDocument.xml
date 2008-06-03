@@ -147,89 +147,37 @@
             <description>CustomDataAttribute</description>
             <type>RuleXmlAttribute</type>
             <routingConfig>
-                <!-- work in progress -->
-                <fieldDef name="billingElement" title="Billing Element" workflowType="RULE">
+              <fieldDef name="numberOfTrainees" title="Number Of Trainees" workflowType="RULE">
                     <display>
                         <type>text</type>
                     </display>
-                    <validation required="false" />
+                    <validation required="false"/>
                     <fieldEvaluation>
-                        <!-- expectation: this is run and evaluates to true -->
-                        <xpathexpression>string(//xmlRouting/field[@name='billingElement']/value) = wf:ruledata('billingElement')</xpathexpression>
+                         <!-- expectation: this is run and evaluates to true -->
+                         <xpathexpression>wf:xstreamsafe('//document/ownedByUnitNumber') = 'IN-CARR' and wf:xstreamsafe("//xmlRouting/field[@name='numberOfTrainees']/value") &gt;= wf:ruledata('numberOfTrainees')</xpathexpression>
                     </fieldEvaluation>
-                </fieldDef>
-                <fieldDef name="graduateStudentCount" title="Graduate Student Count" workflowType="RULE">
-                    <display>
-                        <type>text</type>
-                    </display>
-                    <validation required="false" />
-                    <fieldEvaluation>
-                        <!-- expectation: this is run and evaluates to true -->
-                        <xpathexpression>string(//xmlRouting/field[@name='graduateStudentCount']/value) = wf:ruledata('graduateStudentCount')</xpathexpression>
-                    </fieldEvaluation>
-                </fieldDef>
-                <fieldDef name="costSharingBudget" title="Cost Sharing Budget" workflowType="RULE">
-                    <display>
-                        <type>text</type>
-                    </display>
-                    <validation required="false" />
-                    <fieldEvaluation>
-                        <!-- expectation: this is run and evaluates to true -->
-                        <xpathexpression>string(//xmlRouting/field[@name='costSharingBudget']/value) = wf:ruledata('costSharingBudget')</xpathexpression>
-                    </fieldEvaluation>
-                </fieldDef>
-                <fieldDef name="numberOfTrainees" title="Number Of Trainees" workflowType="RULE">
-                    <display>
-                        <type>text</type>
-                    </display>
-                    <validation required="false" />
-                    <fieldEvaluation>
-                        <!-- expectation: this is run and evaluates to true -->
-                        <xpathexpression>string(//xmlRouting/field[@name='numberOfTrainees']/value) = wf:ruledata('numberOfTrainees')</xpathexpression>
-                    </fieldEvaluation>
-                </fieldDef>
-                <fieldDef name="tenured" title="Tenured" workflowType="RULE">
-                    <display>
-                        <type>text</type>
-                    </display>
-                    <validation required="false" />
-                    <fieldEvaluation>
-                        <!-- expectation: this is run and evaluates to true -->
-                        <xpathexpression>string(//xmlRouting/field[@name='tenured']/value) = wf:ruledata('tenured')</xpathexpression>
-                    </fieldEvaluation>
-                </fieldDef>
-                <fieldDef name="exportControls" title="Export Controls" workflowType="RULE">
-                    <display>
-                        <type>text</type>
-                    </display>
-                    <validation required="false" />
-                    <fieldEvaluation>
-                        <!-- expectation: this is run and evaluates to true -->
-                        <xpathexpression>string(//xmlRouting/field[@name='exportControls']/value) = wf:ruledata('exportControls')</xpathexpression>
-                    </fieldEvaluation>
-                </fieldDef>
-                <fieldDef name="inventions" title="Inventions" workflowType="RULE">
-                    <display>
-                        <type>text</type>
-                    </display>
-                    <validation required="false" /> 
-                    <fieldEvaluation>
-                        <!-- expectation: this is run and evaluates to true -->
-                        <xpathexpression>string(//xmlRouting/field[@name='inventions']/value) = wf:ruledata('inventions')</xpathexpression>
-                    </fieldEvaluation>
-                </fieldDef>
-                <fieldDef name="effDate" title="Effective Date" workflowType="RULE">
-                    <display>
-                        <type>text</type>
-                    </display>
-                    <validation required="false" />
-                    <fieldEvaluation>
-                        <!-- expectation: this is run and evaluates to true -->
-                        <xpathexpression>string(//xmlRouting/field[@name='effDate']/value) = wf:ruledata('effDate')</xpathexpression>
-                    </fieldEvaluation>
-                </fieldDef>
+              </fieldDef>
             </routingConfig>
-        </ruleAttribute>
+            </ruleAttribute>
+            <ruleAttribute>
+            <name>DepartmentalApprovalAttribute</name>
+            <className>edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <label>DepartmentalApprovalAttribute</label>
+            <description>DepartmentalApprovalAttribute</description>
+            <type>RuleXmlAttribute</type>
+            <routingConfig>
+              <fieldDef name="ownedByUnitNumber" title="Lead Unit" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false"/>
+                    <fieldEvaluation>
+                         <!-- expectation: this is run and evaluates to true -->
+                         <xpathexpression>wf:xstreamsafe('//document/ownedByUnitNumber') =  wf:ruledata('ownedByUnitNumber')</xpathexpression>
+                    </fieldEvaluation>
+              </fieldDef>
+            </routingConfig>
+            </ruleAttribute>
 			<!-- Role attribute -->
 		<ruleAttribute>
 			<name>ProposalPersonRoleAttribute</name>
@@ -245,41 +193,49 @@
 
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>ProposalDevelopmentDocument</name>
-			<description>Create an Awesome Development Proposal</description>
-			<label>KRA Proposal Development</label>
-			<postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-			<superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
-			<docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
-			<active>true</active>
-			<attributes>
-				<attribute>
-      				<name>CopyCustomActionListAttribute</name>
-        		</attribute>
-				<attribute>
-					<name>AggregatorSearchAttribute</name>
-				</attribute>
-				<attribute>
-					<name>BudgetCreatorSearchAttribute</name>
-				</attribute>
-				<attribute>
-					<name>NarrativeWriterSearchAttribute</name>
-				</attribute>
-				<attribute>
-					<name>ViewerSearchAttribute</name>
-				</attribute>
-				<attribute>
-					<name>ApproverSearchAttribute</name>
-				</attribute>
-			</attributes>
-			<routingVersion>2</routingVersion>
-			 <routePaths>
+      <name>ProposalDevelopmentDocument</name>
+      <description>Create an Awesome Development Proposal</description>
+      <label>KRA Proposal Development</label>
+      <postProcessorName>org.kuali.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <superUserWorkgroupName>WorkflowAdmin</superUserWorkgroupName>
+      <blanketApproveWorkgroupName>WorkflowAdmin</blanketApproveWorkgroupName>
+      <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
+      <docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <policies>
+       <policy> 
+      <name>LOOK_FUTURE</name> 
+      <value>true</value> 
+     </policy> 
+      </policies>
+     <attributes>
+	 	<attribute>
+      		<name>CopyCustomActionListAttribute</name>
+        </attribute>
+        <attribute>
+          <name>AggregatorSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>BudgetCreatorSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>NarrativeWriterSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>ViewerSearchAttribute</name>
+        </attribute>
+        <attribute>
+          <name>ApproverSearchAttribute</name>  
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+      <routePaths>
         <routePath>
           <start name="Initiated" nextNode="OSPInitial" />
           <requests name="OSPInitial" nextNode="ProposalPersons" />
-          <requests name="ProposalPersons" nextNode="OSPOfficeRouting" />
+          <requests name="ProposalPersons" nextNode="UnitRouting" />
+          <requests name="UnitRouting" nextNode="DepartmentalRouting" />
+          <requests name="DepartmentalRouting" nextNode="OSPOfficeRouting" />
           <requests name="OSPOfficeRouting" />
         </routePath>
       </routePaths>
@@ -301,6 +257,18 @@
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </requests>
+        <requests name="UnitRouting">
+          <activationType>P</activationType>
+          <ruleTemplate>CustomApproval</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="DepartmentalRouting">
+          <activationType>P</activationType>
+          <ruleTemplate>DepartmentalApproval</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
         <requests name="OSPOfficeRouting">
           <activationType>S</activationType>
           <ruleTemplate>OSPOfficeApproval</ruleTemplate>
@@ -308,29 +276,48 @@
           <finalApproval>false</finalApproval>
         </requests>
       </routeNodes>
-		</documentType>
+    </documentType>
 	</documentTypes>
 	<ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-          <ruleTemplate allowOverwrite="true">
+      <ruleTemplate allowOverwrite="true">
 			<name>OSPInitialApproval</name>
 			<description>OSP Initial Approval Routing Rule</description>
-		</ruleTemplate>
-		<ruleTemplate allowOverwrite="true">
+	  </ruleTemplate>
+	  <ruleTemplate allowOverwrite="true">
 			<name>ProposalPersonsApproval</name>
 			<description>ProposalPersons Approval Routing Rule</description>
-			<attributes>
-                <attribute>
+			  <attributes>
+                  <attribute>
                     <name>ProposalPersonRoleAttribute</name>
                     <required>false</required>
-                </attribute>
-            </attributes>
-			
-		</ruleTemplate>
-		<ruleTemplate allowOverwrite="true">  
-			<name>OSPOfficeApproval</name>
-			<description>
+                   </attribute>
+               </attributes>
+	 </ruleTemplate>
+	 <ruleTemplate allowOverwrite="true">  
+		 <name>OSPOfficeApproval</name>
+		  <description>
 				OSP Office Approval Routing Rule 
-			</description>
-		</ruleTemplate>
+		  </description>
+	 </ruleTemplate>
+	<ruleTemplate allowOverwrite="true">
+      <name>CustomApproval</name>
+      <description>Custom Approval Routing Rule</description>
+        <attributes>
+           <attribute>
+              <name>CustomDataAttribute</name>
+           <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+     <ruleTemplate allowOverwrite="true">
+      <name>DepartmentalApproval</name>
+      <description>Department Approval Routing Rule</description>
+      <attributes>
+        <attribute>
+          <name>DepartmentalApprovalAttribute</name>
+          <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
     </ruleTemplates>
 </data>
