@@ -93,6 +93,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
         BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmt = new BudgetPersonnelCalculatedAmount();
             budgetPersonnelCalculatedAmt.setProposalNumber(budgetPersonnelLineItem.getProposalNumber());
             budgetPersonnelCalculatedAmt.setBudgetVersionNumber(budgetPersonnelLineItem.getBudgetVersionNumber());
+            budgetPersonnelCalculatedAmt.setBudgetPeriodId(budgetPersonnelLineItem.getBudgetPeriodId());
             budgetPersonnelCalculatedAmt.setBudgetPeriod(budgetPersonnelLineItem.getBudgetPeriod());
             budgetPersonnelCalculatedAmt.setLineItemNumber(budgetPersonnelLineItem.getLineItemNumber());
             budgetPersonnelCalculatedAmt.setPersonNumber(budgetPersonnelLineItem.getPersonNumber());
@@ -149,7 +150,7 @@ public class PersonnelLineItemCalculator extends AbstractBudgetCalculator {
                 java.util.Date startDate = breakUpInterval.getBoundary().getStartDate();
                 budgetRateBase.setStartDate(new java.sql.Date(startDate.getTime()));
                 budgetRateBase.setBudgetVersionNumber(budgetPersonnelLineItem.getBudgetVersionNumber());
-                if(prevVersionNumber!=null) budgetRateBase.setVersionNumber(prevVersionNumber);
+//                if(prevVersionNumber!=null) budgetRateBase.setVersionNumber(prevVersionNumber);
                 budgetRateAndBaseList.add(budgetRateBase);
             }   
         }
