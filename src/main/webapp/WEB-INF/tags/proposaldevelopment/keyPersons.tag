@@ -24,18 +24,36 @@
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
-
-    <kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
+<c:choose>
+<c:when test="${KualiForm.document.nih}">
+<c:set var="nihdescription" value="${KualiForm.document.nihDescription}" />
+<c:set var="desc" value="${nihdescription[person.role.proposalPersonRoleId]}" />
+    
+     <kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
+             tabDescription="${desc}"
+             leftSideHtmlProperty="${proposalPersonProperty}.delete" 
+            leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
+         	 leftSideHtmlDisabled="false" 
+                      defaultOpen="false" 
+            transparentBackground="${transparent}"> 
+       
+        <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
+     </kul:tab>
+     </c:when>
+     <c:otherwise>
+     <kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
              tabDescription="${person.role.description}"
              leftSideHtmlProperty="${proposalPersonProperty}.delete" 
             leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
          	 leftSideHtmlDisabled="false" 
                       defaultOpen="false" 
-            transparentBackground="${transparent}" 
-                      tabErrorKey="${proposalPersonProperty}*,newProposalPersonDegree[${status.index}]*,newProposalPersonUnit[${status.index}]*">
+            transparentBackground="${transparent}"> 
+       
         <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
      </kul:tab>
-</c:forEach>
+     </c:otherwise>
+      </c:choose>
+ </c:forEach>
 
 <c:if test="${not empty KualiForm.creditSplitEnabled and KualiForm.creditSplitEnabled}">
     <kra-pd:creditSplit/>

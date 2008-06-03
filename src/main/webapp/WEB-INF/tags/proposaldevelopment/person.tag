@@ -232,7 +232,7 @@
 
 <tr>
 <td colspan=4>
-<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.newProposalPersonDegree">
+<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonDegree*">
  <table class=tab cellpadding=0 cellspacing="0" summary="" >
      <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
@@ -244,7 +244,7 @@
  <c:when test="${unitDetailsRequired == 'Y'  }">
    	<tr>
 		<td colspan=4>
-  <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[{status.index}].newProposalPersonUnit*">
+  <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonUnit*, newProposalPersonUnit[${status.index}]*">
               <table class=tab cellpadding=0 cellspacing="0" summary="" >
               <kra-pd:personUnitSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
@@ -257,7 +257,7 @@
      <c:choose>
       <c:when test="${KualiForm.document.proposalPersons[personIndex].optInUnitStatus == 'Y'}"> 
    	  <tr><td colspan=4>
-      <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[{status.index}].newProposalPersonUnit*">
+      <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonUnit*,newProposalPersonUnit[${status.index}]*">
         <div class="innerTab-container" align="left">
          <table class=tab cellpadding=0 cellspacing="0" summary=""> 
          <tr>
@@ -282,7 +282,7 @@
   </c:when>
    <c:otherwise>
    <tr><td colspan=4>
-   <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[{status.index}].newProposalPersonUnit*">
+   <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonUnit*,newProposalPersonUnit[${status.index}]*">
    <div class="innerTab-container" align="left">
    <table class=tab cellpadding=0 cellspacing="0" summary=""> 
     <tr>

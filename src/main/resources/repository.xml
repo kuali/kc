@@ -1049,6 +1049,37 @@
     	</reference-descriptor>
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kra.bo.SponsorHierarchy" table="SPONSOR_HIERARCHY">
+		<field-descriptor name="hierarchyName" column="HIERARCHY_NAME" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true"/>
+		<field-descriptor name="level1" column="LEVEL1" jdbc-type="VARCHAR"/>
+		<field-descriptor name="level10" column="LEVEL10" jdbc-type="VARCHAR"/>
+		<field-descriptor name="level10Sortid" column="LEVEL10_SORTID" jdbc-type="INTEGER"/>
+		<field-descriptor name="level1Sortid" column="LEVEL1_SORTID" jdbc-type="INTEGER"/>
+		<field-descriptor name="level2" column="LEVEL2" jdbc-type="VARCHAR"/>
+		<field-descriptor name="level2Sortid" column="LEVEL2_SORTID" jdbc-type="INTEGER"/>
+		<field-descriptor name="level3" column="LEVEL3" jdbc-type="VARCHAR"/>
+		<field-descriptor name="level3Sortid" column="LEVEL3_SORTID" jdbc-type="INTEGER"/>
+		<field-descriptor name="level4" column="LEVEL4" jdbc-type="VARCHAR"/>
+		<field-descriptor name="level4Sortid" column="LEVEL4_SORTID" jdbc-type="INTEGER"/>
+		<field-descriptor name="level5" column="LEVEL5" jdbc-type="VARCHAR"/>
+		<field-descriptor name="level5Sortid" column="LEVEL5_SORTID" jdbc-type="INTEGER"/>
+		<field-descriptor name="level6" column="LEVEL6" jdbc-type="VARCHAR"/>
+		<field-descriptor name="level6Sortid" column="LEVEL6_SORTID" jdbc-type="INTEGER"/>
+		<field-descriptor name="level7" column="LEVEL7" jdbc-type="VARCHAR"/>
+		<field-descriptor name="level7Sortid" column="LEVEL7_SORTID" jdbc-type="INTEGER"/>
+		<field-descriptor name="level8" column="LEVEL8" jdbc-type="VARCHAR"/>
+		<field-descriptor name="level8Sortid" column="LEVEL8_SORTID" jdbc-type="INTEGER"/>
+		<field-descriptor name="level9" column="LEVEL9" jdbc-type="VARCHAR"/>
+		<field-descriptor name="level9Sortid" column="LEVEL9_SORTID" jdbc-type="INTEGER"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="sponsorCode"/> 
+		</reference-descriptor>
+	</class-descriptor>
+
+
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview" table="EPS_PROP_SPECIAL_REVIEW">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
