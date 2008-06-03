@@ -35,6 +35,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
@@ -288,6 +289,28 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         person.setRolodexId(-1);
         person.setPersonId("-1");
         
+        assertFalse(new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person));
+    }
+    
+    
+    
+    /**
+     * Tests the {@link ProposalDevelopmentKeyPersonsRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument, ProposalPerson)}
+     * by running the rule on a document with the {@link ProposalPerson} that has null values for degree fields
+     * 
+     */
+    @Test
+    public void testRemoveDegreeRule() {
+        ProposalPerson person = new ProposalPerson();
+        ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
+        document.setOwnedByUnitNumber("000001");
+        person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
+        getKeyPersonnelService().populateProposalPerson(person, document);
+        document.addProposalPerson(person);
+        ProposalPersonDegree degree = new ProposalPersonDegree();
+        person.addDegree(degree);
+        person.setRolodexId(-1);
+        person.setPersonId("-1");
         assertFalse(new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person));
     }
     
