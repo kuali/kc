@@ -32,8 +32,8 @@ public class CopyPeriodsQuestion extends QuestionBase {
         // this should be set by question form
         super("Confirm", new ArrayList(2));
         ArrayList<String> buttons = new ArrayList<String>();
-        buttons.add("Copy period 1");
-        buttons.add("Copy all periods");
+        buttons.add("copyoneper");
+        buttons.add("copyallperiods");
         super.setButtons(buttons);
 
     }
