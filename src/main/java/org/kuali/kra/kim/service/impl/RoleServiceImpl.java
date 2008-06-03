@@ -171,7 +171,7 @@ public class RoleServiceImpl implements RoleService {
         Long permissionId = helper.getPermissionId(namespaceId, permissionName);
      
         int cnt = helper.countMatching(KimRolePermission.class, "roleId", roleId,
-                                                         "permissionId", permissionId);
+                                                         "permissionId", permissionId, "active", true);
         return cnt > 0;
     }
 

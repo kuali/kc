@@ -18,24 +18,23 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.kim.bo.KimRole">
+    <businessObject businessObjectClass="org.kuali.kra.kim.bo.KimPermission">
 
         <inquiry>
-            <title>Role</title>
+            <title>KIM Permission</title>
 
-            <inquirySections><inquirySection title="KimRole"><inquiryFields>
-                <field attributeName="id" forceInquiry="true"/>
+            <inquirySections><inquirySection title="KimPermission"><inquiryFields>
                 <field attributeName="name"/>
                 <field attributeName="description"/>
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Role Lookup</title>
+            <title>KIM Permission Lookup</title>
             <menubar>
                 <![CDATA[<a href="index.jsp">Main</a>]]>
             </menubar>
-            <instructions>Look up a KIM Role</instructions>
+            <instructions>Look up a KIM Permission</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
@@ -58,26 +57,26 @@
         <titleAttribute>id</titleAttribute>
         <attributes>
             <attribute name="id">
-                <label>Role Id </label>
-                <shortLabel>Role Id </shortLabel>
+                <label>Permission Id </label>
+                <shortLabel>Permission Id </shortLabel>
                 <maxLength>8</maxLength>
                 <validationPattern><numeric /></validationPattern>
                 <control>
                     <hidden />
                 </control>
-                <summary>Role Id </summary>
-                <description>Role Id </description>
+                <summary>Permission Id </summary>
+                <description>Permission Id </description>
             </attribute>
 
             <attribute name="name" >
-                <label>Role Name</label>
-                <shortLabel>Role Name</shortLabel>
+                <label>Permission Name</label>
+                <shortLabel>Permission Name</shortLabel>
                 <maxLength>500</maxLength>
                 <control>
                     <text size="40" />
                 </control>
-                <summary>Role Name</summary>
-                <description>Role Name</description>
+                <summary>Permission Name</summary>
+                <description>Permission Name</description>
             </attribute>
 
             <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="bigDescription">

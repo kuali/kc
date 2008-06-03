@@ -39,7 +39,6 @@
 				<label>Role </label>
 				<shortLabel>Role </shortLabel>
 				<maxLength>5</maxLength>
-				<validationPattern><numeric /></validationPattern>
 				<control>
 					<select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalRoleValuesFinder" />
 				</control>
