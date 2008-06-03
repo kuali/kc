@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.kra.bo.SponsorHierarchy</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>WorkflowAdmin</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>SponsorHierarchyMaintenanceDocument</documentTypeName>
+        <documentTypeCode>SPHI</documentTypeCode>
+
+        <label>SponsorHierarchy Maintenance Document</label>
+        <shortLabel>sponsorHierarchyMaintDoc</shortLabel>
+
+        <summary>SponsorHierarchy Maintenance Document</summary>
+        <description>Document used to create or update SponsorHierarchy Reference objects</description>
+
+        <lockingKeys>
+        	<field attributeName="hierarchyName"/>
+			<field attributeName="sponsorCode"/>
+
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit SponsorHierarchy">
+                <maintainableItems>
+                	<maintainableField name="hierarchyName" required="true"/>
+					<maintainableField name="sponsorCode" required="true"/>
+					<maintainableField name="level1" required="false"/>
+					<maintainableField name="level10" required="false"/>
+					<maintainableField name="level10Sortid" required="false"/>
+					<maintainableField name="level1Sortid" required="false"/>
+					<maintainableField name="level2" required="false"/>
+					<maintainableField name="level2Sortid" required="false"/>
+					<maintainableField name="level3" required="false"/>
+					<maintainableField name="level3Sortid" required="false"/>
+					<maintainableField name="level4" required="false"/>
+					<maintainableField name="level4Sortid" required="false"/>
+					<maintainableField name="level5" required="false"/>
+					<maintainableField name="level5Sortid" required="false"/>
+					<maintainableField name="level6" required="false"/>
+					<maintainableField name="level6Sortid" required="false"/>
+					<maintainableField name="level7" required="false"/>
+					<maintainableField name="level7Sortid" required="false"/>
+					<maintainableField name="level8" required="false"/>
+					<maintainableField name="level8Sortid" required="false"/>
+					<maintainableField name="level9" required="false"/>
+					<maintainableField name="level9Sortid" required="false"/>
+
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>
