@@ -31,6 +31,9 @@ public class KimRolePermission extends PersistableBusinessObjectBase {
     
     private Long roleId;
     private Long permissionId;
+    private Boolean active;
+    private KimRole role;
+    private KimPermission permission;
 
     /**
      * Get the Role's ID.
@@ -62,6 +65,38 @@ public class KimRolePermission extends PersistableBusinessObjectBase {
      */
     public void setPermissionId(Long permissionId) {
         this.permissionId = permissionId;
+    }
+    
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public KimRole getRole() {
+        return role;
+    }
+    
+    public void setRole(KimRole role) {
+        this.role = role;
+    }
+    
+    public String getRoleName() {
+        return this.role.getName();
+    }
+    
+    public KimPermission getPermission() {
+        return permission;
+    }
+    
+    public void setPermission(KimPermission permission) {
+        this.permission = permission;
+    }
+    
+    public String getPermissionName() {
+        return this.permission.getName();
     }
 
     /**

@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.kra.kim.bo.KraQualifiedRolePerson</businessObjectClass>
+        <businessObjectClass>org.kuali.kra.kim.bo.KimRolePermission</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
@@ -32,28 +32,28 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KraQualifiedRolePersonMaintenanceDocument</documentTypeName>
-        <documentTypeCode>KQRP</documentTypeCode>
+        <documentTypeName>KimRolePermissionMaintenanceDocument</documentTypeName>
+        <documentTypeCode>KIRP</documentTypeCode>
 
-        <label>KRA Qualified Role Person Maintenance Document</label>
-        <shortLabel>kraQualifiedRolePersonMaintDoc</shortLabel>
+        <label>Role-Permission Maintenance Document</label>
+        <shortLabel>rolePermissionMaintDoc</shortLabel>
 
-        <summary>KRA Qualified Role Person Maintenance Document</summary>
-        <description>Document used to create or update KRA Qualified Role Person Reference objects</description>
+        <summary>Role-Permission Maintenance Document</summary>
+        <description>Document used to create or update Role-Permission Reference objects</description>
 
         <lockingKeys>
-            <field attributeName="id"/>
-
+            <field attributeName="roleId"/>
+            <field attributeName="permissionId"/>
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit KRA Qualified Role Person">
+            <maintainableSection title="Edit Role-Permission">
                 <maintainableItems>
-                    <maintainableField name="id" required="true"/>
                     <maintainableField name="roleId" required="true"/>
-                    <maintainableField name="personId" required="true"/>
-                    <maintainableField name="unitNumber" required="false"/>
-                    <maintainableField name="subUnitsAllowed" required="false"/>
+                    <maintainableField name="permissionId" required="true"/>
+                    <maintainableField name="active" required="true">
+                        <defaultValue>true</defaultValue>
+                    </maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
