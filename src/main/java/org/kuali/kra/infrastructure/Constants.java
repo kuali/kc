@@ -64,7 +64,9 @@ public interface Constants {
 
     public static final String PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX = "proposaldevelopment.personrole.";
     public static final String NIH_SPONSOR_ACRONYM = "NIH";
-
+    public static final String SPONSOR_LEVEL_HIERARCHY = "sponsorLevelHierarchy";
+    public static final String SPONSOR_HIERARCHY_NAME = "sponsorGroupHierarchyName";
+    
     public static final String PARAMETER_MODULE_PROPOSAL_DEVELOPMENT = "KRA-PD";
     public static final String PARAMETER_COMPONENT_DOCUMENT = "D";
     public static final String INSTITUTE_NARRATIVE_TYPE_GROUP_CODE = "O";
