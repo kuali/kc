@@ -2343,8 +2343,15 @@
     <class-descriptor class="org.kuali.kra.kim.bo.KimRolePermission" table="KIM_ROLES_PERMISSIONS_T">
         <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true"/>
         <field-descriptor name="permissionId" column="PERMISSION_ID" jdbc-type="BIGINT" primarykey="true"/>
+        <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <reference-descriptor name="role" class-ref="org.kuali.kra.kim.bo.KimRole" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="roleId"/>
+        </reference-descriptor>
+        <reference-descriptor name="permission" class-ref="org.kuali.kra.kim.bo.KimPermission" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="permissionId"/>
+        </reference-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.kim.bo.KimRolePerson" table="KIM_ROLES_PERSONS_T">
@@ -2400,8 +2407,47 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     </class-descriptor>
-
+    
+    <class-descriptor class="org.kuali.kra.bo.UnitAclEntry" table="UNIT_ACL">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_UNIT_ACL_ID" />
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="subunits" column="SUBUNITS" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+          
+        <reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="personId"/>
+        </reference-descriptor>
+        <reference-descriptor name="role" class-ref="org.kuali.kra.kim.bo.KimRole" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="roleId"/>
+        </reference-descriptor>
+         <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="unitNumber"/>
+        </reference-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate" table="PROP_ROLE_TEMPLATE">
+        <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROP_ROLE_TEMPLATE_ID" />
+        <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="roleName" column="ROLE_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+          
+        <reference-descriptor name="person" class-ref="org.kuali.kra.bo.Person" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="personId"/>
+        </reference-descriptor>
+         <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="unitNumber"/>
+        </reference-descriptor>
+    </class-descriptor>
+    
     <!-- End KIM OJB Mappings -->
+    
 		<!-- Custom Attributes: start -->
 
 	<class-descriptor class="org.kuali.kra.bo.CustomAttribute" table="CUSTOM_ATTRIBUTE">
@@ -2561,4 +2607,6 @@
 		-->
 	</class-descriptor>
  <!-- sp rev enhancement -->	
+ 
+ 
 </descriptor-repository>
