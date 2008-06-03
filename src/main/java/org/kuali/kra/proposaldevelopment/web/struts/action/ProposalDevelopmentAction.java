@@ -17,11 +17,18 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.NIH_SPONSOR_ACRONYM;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX;
+import static org.kuali.kra.infrastructure.Constants.SPONSOR_HIERARCHY_NAME;
+import static org.kuali.kra.infrastructure.Constants.SPONSOR_LEVEL_HIERARCHY;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +39,7 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,6 +66,8 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.Person;
+import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -66,6 +76,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -81,6 +92,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public class ProposalDevelopmentAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
+    private String hierarchyname="Sponsor Groups";
 
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -117,7 +129,8 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-            String keywordPanelDisplay = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
+         String keywordPanelDisplay = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
                     Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);        
             request.getSession().setAttribute(Constants.KEYWORD_PANEL_DISPLAY, keywordPanelDisplay);
             // TODO: not sure it's should be here - for audit error display.
@@ -160,10 +173,17 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             KualiConfigurationService configService = getService(KualiConfigurationService.class);
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("deliveryInfoDisplayIndicator", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "deliveryInfoDisplayIndicator"));
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("proposalNarrativeTypeGroup", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "proposalNarrativeTypeGroup"));
-        
-        return actionForward;
+         return actionForward;
     }
     
+    
+    protected String findNIHRoleDescription(ProposalPersonRole role) {
+        return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+            PARAMETER_COMPONENT_DOCUMENT, 
+            PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
+            + "nonnih."
+            + role.getProposalPersonRoleId().toLowerCase());    
+}
     /**
      * Do nothing.  Used when the Proposal is in view-only mode.  Instead of saving
      * the proposal when the tab changes, we simply do nothing.
