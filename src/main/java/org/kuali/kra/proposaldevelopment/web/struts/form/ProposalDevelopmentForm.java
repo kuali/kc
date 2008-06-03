@@ -116,12 +116,14 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private SortedMap<String, List> customAttributeGroups;
     private Map<String, String[]> customAttributeValues;
     private List<Narrative> narratives;
-    public boolean reject;
+    private boolean reject;
     private List<KeyLabelPair> exemptNumberList;
     private String[] newExemptNumbers;
     private List<String[]> documentExemptNumbers;
-    public String optInUnitDetails;
-    public String optInCertificationStatus;
+    private String optInUnitDetails;
+    private String optInCertificationStatus;
+    
+   
    
 
 
@@ -474,7 +476,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
 
     public Map getCreditSplitTotals() {
+        Map test=getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());
         return getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());
+        
     }
 
 
@@ -1116,13 +1120,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void setOptInCertificationStatus(String optInCertificationStatus) {
         this.optInCertificationStatus = optInCertificationStatus;
     }
-
-
-    
-
-    
-
-    
 
     
 }
