@@ -20,14 +20,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import static org.kuali.kra.logging.FormattedLogger.*;
 
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>
- *  @author $Author: gmcgrego $
- *  @version $Revision: 1.11.2.3 $
+ *  @author $Author: jsalam $
+ *  @version $Revision: 1.11.2.4 $
  */
 public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelWebTest.class);
@@ -191,10 +192,70 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
 
         assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+        HtmlElement unitNumber = getElementById(keyPersonnelPage, "document.proposalPersons[0].unit[0].unitNumber");
+        assertNull(unitNumber);
+        assertTrue(keyPersonnelPage.asText().contains("You have the option to add Certification Questions for a key person"));
+        assertTrue(keyPersonnelPage.asText().contains("You have the option to add unit details for a key person"));
+         saveAndSearchDoc(keyPersonnelPage);
+    }
+    
+    
+    
+    /**
+     * Test adding a Unit Details for key person
+     */
+    @Test
+    public void optInUnitDetailsKeyPerson() throws Exception {
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
+        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
 
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.addUnitDetails.document.proposalPersons[0].line", true));
+
+        assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+        HtmlElement unitNumber = getElementById(keyPersonnelPage, "document.proposalPersons[0].unit[0].unitNumber");
+        HtmlElement unitName = getElementById(keyPersonnelPage, "document.proposalPersons[0].unit[0].unit.unitName");
+        assertEquals("000001", unitNumber.asText());
+        assertTrue(keyPersonnelPage.asText().contains("Combined Credit Split"));
         saveAndSearchDoc(keyPersonnelPage);
     }
 
+    /**
+     * Test Removing a Unit Details for key person
+     */
+    @Test
+    public void removeUnitDetailsKeyPerson() throws Exception {
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
+        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
+
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.addUnitDetails.document.proposalPersons[0].line", true));
+
+        assertFalse(keyPersonnelPage.asText().contains(ERRORS_FOUND_ON_PAGE));
+        HtmlElement unitNumber = getElementById(keyPersonnelPage, "document.proposalPersons[0].unit[0].unitNumber");
+        HtmlElement unitName = getElementById(keyPersonnelPage, "document.proposalPersons[0].unit[0].unit.unitName");
+        assertEquals("000001", unitNumber.asText());
+        assertTrue(keyPersonnelPage.asText().contains("Combined Credit Split"));
+        saveAndSearchDoc(keyPersonnelPage);
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.removeUnitDetails.document.proposalPersons[0].line", true));
+        assertFalse(keyPersonnelPage.asText().contains("Combined Credit Split"));
+    }
+
+    /**
+     * Test Removing a Unit Details for key person
+     */
+    @Test
+    public void addCertificationQuestionKeyPerson() throws Exception {
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
+        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.addCertificationQuestion.document.proposalPersons[0].line", true));
+        assertTrue(keyPersonnelPage.asText().contains("Lobbying activities have been conducted regarding the proposal"));
+
+       }
     /**
      * @see org.kuali.kra.KraWebTestBase#testHelpLinks()
      */
