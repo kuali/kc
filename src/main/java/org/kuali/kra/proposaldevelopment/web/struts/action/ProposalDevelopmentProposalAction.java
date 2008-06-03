@@ -137,51 +137,51 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                 PARAMETER_COMPONENT_DOCUMENT, 
                 SPONSOR_HIERARCHY_NAME ));
         proposalDevelopmentDocument.setNih(false);
-        Collection<Person> sponsor_hierarchy=  bos.findMatching(SponsorHierarchy.class, valueMap);
+        Collection<SponsorHierarchy> sponsor_hierarchy=  bos.findMatching(SponsorHierarchy.class, valueMap);
         if (CollectionUtils.isNotEmpty(sponsor_hierarchy)) {
             for (Object variable : sponsor_hierarchy) {
                 SponsorHierarchy sponhierarchy=(SponsorHierarchy) variable;
-                if(sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                if(StringUtils.isNotEmpty(sponhierarchy.getLevel1()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
+                        SPONSOR_LEVEL_HIERARCHY )))){
                     proposalDevelopmentDocument.setNih(true);
-                }else if(sponhierarchy.getLevel2().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel2()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
+                        SPONSOR_LEVEL_HIERARCHY )))){
                     
                     proposalDevelopmentDocument.setNih(true);
-                }else if(sponhierarchy.getLevel3().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel3()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
+                        SPONSOR_LEVEL_HIERARCHY )))){
                     
                     proposalDevelopmentDocument.setNih(true);
-                }else if(sponhierarchy.getLevel4().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel4()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
+                        SPONSOR_LEVEL_HIERARCHY )))){
                     proposalDevelopmentDocument.setNih(true);
-                }else if(sponhierarchy.getLevel5().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel5()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
+                        SPONSOR_LEVEL_HIERARCHY )))){
                     proposalDevelopmentDocument.setNih(true);
-                }else if(sponhierarchy.getLevel6().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel6()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
+                        SPONSOR_LEVEL_HIERARCHY )))){
                     proposalDevelopmentDocument.setNih(true);
-                }else if(sponhierarchy.getLevel7().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel7()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
+                        SPONSOR_LEVEL_HIERARCHY )))){
                     proposalDevelopmentDocument.setNih(true);
-                }else if(sponhierarchy.getLevel8().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel8()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
+                        SPONSOR_LEVEL_HIERARCHY )))){
                     proposalDevelopmentDocument.setNih(true);
-                }else if(sponhierarchy.getLevel9().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
+                        SPONSOR_LEVEL_HIERARCHY )))){
                     proposalDevelopmentDocument.setNih(true);
-                }else if (sponhierarchy.getLevel10().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                         PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
+                        SPONSOR_LEVEL_HIERARCHY )))){
                     proposalDevelopmentDocument.setNih(true);
                 }
             }
