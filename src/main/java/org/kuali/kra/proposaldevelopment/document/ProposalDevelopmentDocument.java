@@ -1373,34 +1373,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     }
     
     
-    /**
-     * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
-     * 
-     * @see org.kuali.core.document.Document#wrapDocumentWithMetadataForXmlSerialization()
-     */
-    @Override
-    public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
-        ProposalAuthorizationService proposalauthservice=(ProposalAuthorizationService)KraServiceLocator.getService(ProposalAuthorizationService.class); 
-        KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
-        DocumentInitiator initiatior = new DocumentInitiator();
-        String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-        try {
-            UniversalUser initiatorUser = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
-            initiatorUser.getModuleUsers(); // init the module users map for serialization
-            initiatior.setUniversalUser(initiatorUser);
-        }
-        catch (UserNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        transInfo.setDocumentInitiator(initiatior);
-        KraDocumentXMLMaterializer xmlWrapper=new KraDocumentXMLMaterializer(); 
-        //KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer(); 
-        xmlWrapper.setDocument(getDocumentRepresentationForSerialization()); 
-        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo); 
-        xmlWrapper.setRolepersons(proposalauthservice.getAllRolePersons(this)); 
-        return xmlWrapper; 
-
-    }
+   
 
     public boolean isNih() {
         return nih;
