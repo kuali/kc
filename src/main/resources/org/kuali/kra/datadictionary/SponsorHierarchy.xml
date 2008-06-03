@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.SponsorHierarchy">
+
+        <inquiry>
+            <title>Sponsor Hierarchy</title>
+
+            <inquirySections><inquirySection title="Sponsor Hierarchy"><inquiryFields>
+            	<field attributeName="hierarchyName" forceInquiry="true"/>
+				<field attributeName="sponsorCode" forceInquiry="true"/>
+				<field attributeName="level1"/>
+				<field attributeName="level10"/>
+				<field attributeName="level10Sortid"/>
+				<field attributeName="level1Sortid"/>
+				<field attributeName="level2"/>
+				<field attributeName="level2Sortid"/>
+				<field attributeName="level3"/>
+				<field attributeName="level3Sortid"/>
+				<field attributeName="level4"/>
+				<field attributeName="level4Sortid"/>
+				<field attributeName="level5"/>
+				<field attributeName="level5Sortid"/>
+				<field attributeName="level6"/>
+				<field attributeName="level6Sortid"/>
+				<field attributeName="level7"/>
+				<field attributeName="level7Sortid"/>
+				<field attributeName="level8"/>
+				<field attributeName="level8Sortid"/>
+				<field attributeName="level9"/>
+				<field attributeName="level9Sortid"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Sponsor Hierarchy Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Sponsor Hierarchy</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="hierarchyName"/>
+					<sortAttribute attributeName="sponsorCode"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="hierarchyName" required="false"/>
+				<lookupField attributeName="sponsorCode" required="false"/>
+				<lookupField attributeName="level1" required="false"/>
+				<lookupField attributeName="level10" required="false"/>
+				<lookupField attributeName="level10Sortid" required="false"/>
+				<lookupField attributeName="level1Sortid" required="false"/>
+				<lookupField attributeName="level2" required="false"/>
+				<lookupField attributeName="level2Sortid" required="false"/>
+				<lookupField attributeName="level3" required="false"/>
+				<lookupField attributeName="level3Sortid" required="false"/>
+				<lookupField attributeName="level4" required="false"/>
+				<lookupField attributeName="level4Sortid" required="false"/>
+				<lookupField attributeName="level5" required="false"/>
+				<lookupField attributeName="level5Sortid" required="false"/>
+				<lookupField attributeName="level6" required="false"/>
+				<lookupField attributeName="level6Sortid" required="false"/>
+				<lookupField attributeName="level7" required="false"/>
+				<lookupField attributeName="level7Sortid" required="false"/>
+				<lookupField attributeName="level8" required="false"/>
+				<lookupField attributeName="level8Sortid" required="false"/>
+				<lookupField attributeName="level9" required="false"/>
+				<lookupField attributeName="level9Sortid" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="hierarchyName" forceInquiry="true"/>
+				<field attributeName="sponsorCode" forceInquiry="true"/>
+				<field attributeName="level1" forceInquiry="false"/>
+				<field attributeName="level10" forceInquiry="false"/>
+				<field attributeName="level10Sortid" forceInquiry="false"/>
+				<field attributeName="level1Sortid" forceInquiry="false"/>
+				<field attributeName="level2" forceInquiry="false"/>
+				<field attributeName="level2Sortid" forceInquiry="false"/>
+				<field attributeName="level3" forceInquiry="false"/>
+				<field attributeName="level3Sortid" forceInquiry="false"/>
+				<field attributeName="level4" forceInquiry="false"/>
+				<field attributeName="level4Sortid" forceInquiry="false"/>
+				<field attributeName="level5" forceInquiry="false"/>
+				<field attributeName="level5Sortid" forceInquiry="false"/>
+				<field attributeName="level6" forceInquiry="false"/>
+				<field attributeName="level6Sortid" forceInquiry="false"/>
+				<field attributeName="level7" forceInquiry="false"/>
+				<field attributeName="level7Sortid" forceInquiry="false"/>
+				<field attributeName="level8" forceInquiry="false"/>
+				<field attributeName="level8Sortid" forceInquiry="false"/>
+				<field attributeName="level9" forceInquiry="false"/>
+				<field attributeName="level9Sortid" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>hierarchyName</titleAttribute>
+		<!-- <titleAttribute>sponsorCode</titleAttribute> -->
+        <attributes>
+
+	        <attribute name="hierarchyName">
+			<label>Hierarchy Name </label>
+			<shortLabel>Hierarchy Name </shortLabel>
+			<maxLength>100</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<control>
+				<text size="60" />
+			</control>
+			<summary>Hierarchy Name </summary>
+			<description>Hierarchy Name </description>
+			</attribute>
+
+			<attribute name="sponsorCode">
+			<label>Sponsor Code </label>
+			<shortLabel>Sponsor Code </shortLabel>
+			<maxLength>6</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="false" /></validationPattern>
+			<control>
+				<text size="6" />
+			</control>
+			<summary>Sponsor Code </summary>
+			<description>Sponsor Code </description>
+			</attribute>
+
+			<attribute name="level1">
+			<label>Level1 </label>
+			<shortLabel>Level1 </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Level1 </summary>
+			<description>Level1 </description>
+			</attribute>
+
+			<attribute name="level10">
+			<label>Level10 </label>
+			<shortLabel>Level10 </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Level10 </summary>
+			<description>Level10 </description>
+			</attribute>
+
+			<attribute name="level10Sortid">
+			<label>Level10 Sortid </label>
+			<shortLabel>Level10 Sortid </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Level10 Sortid </summary>
+			<description>Level10 Sortid </description>
+			</attribute>
+
+			<attribute name="level1Sortid">
+			<label>Level1 Sortid </label>
+			<shortLabel>Level1 Sortid </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Level1 Sortid </summary>
+			<description>Level1 Sortid </description>
+			</attribute>
+
+			<attribute name="level2">
+			<label>Level2 </label>
+			<shortLabel>Level2 </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Level2 </summary>
+			<description>Level2 </description>
+			</attribute>
+
+			<attribute name="level2Sortid">
+			<label>Level2 Sortid </label>
+			<shortLabel>Level2 Sortid </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Level2 Sortid </summary>
+			<description>Level2 Sortid </description>
+			</attribute>
+
+			<attribute name="level3">
+			<label>Level3 </label>
+			<shortLabel>Level3 </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Level3 </summary>
+			<description>Level3 </description>
+			</attribute>
+
+			<attribute name="level3Sortid">
+			<label>Level3 Sortid </label>
+			<shortLabel>Level3 Sortid </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Level3 Sortid </summary>
+			<description>Level3 Sortid </description>
+			</attribute>
+
+			<attribute name="level4">
+			<label>Level4 </label>
+			<shortLabel>Level4 </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Level4 </summary>
+			<description>Level4 </description>
+			</attribute>
+
+			<attribute name="level4Sortid">
+			<label>Level4 Sortid </label>
+			<shortLabel>Level4 Sortid </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Level4 Sortid </summary>
+			<description>Level4 Sortid </description>
+			</attribute>
+
+			<attribute name="level5">
+			<label>Level5 </label>
+			<shortLabel>Level5 </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Level5 </summary>
+			<description>Level5 </description>
+			</attribute>
+
+			<attribute name="level5Sortid">
+			<label>Level5 Sortid </label>
+			<shortLabel>Level5 Sortid </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Level5 Sortid </summary>
+			<description>Level5 Sortid </description>
+			</attribute>
+
+			<attribute name="level6">
+			<label>Level6 </label>
+			<shortLabel>Level6 </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Level6 </summary>
+			<description>Level6 </description>
+			</attribute>
+
+			<attribute name="level6Sortid">
+			<label>Level6 Sortid </label>
+			<shortLabel>Level6 Sortid </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Level6 Sortid </summary>
+			<description>Level6 Sortid </description>
+			</attribute>
+
+			<attribute name="level7">
+			<label>Level7 </label>
+			<shortLabel>Level7 </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Level7 </summary>
+			<description>Level7 </description>
+			</attribute>
+
+			<attribute name="level7Sortid">
+			<label>Level7 Sortid </label>
+			<shortLabel>Level7 Sortid </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Level7 Sortid </summary>
+			<description>Level7 Sortid </description>
+			</attribute>
+
+			<attribute name="level8">
+			<label>Level8 </label>
+			<shortLabel>Level8 </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Level8 </summary>
+			<description>Level8 </description>
+			</attribute>
+
+			<attribute name="level8Sortid">
+			<label>Level8 Sortid </label>
+			<shortLabel>Level8 Sortid </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Level8 Sortid </summary>
+			<description>Level8 Sortid </description>
+			</attribute>
+
+			<attribute name="level9">
+			<label>Level9 </label>
+			<shortLabel>Level9 </shortLabel>
+			<maxLength>50</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Level9 </summary>
+			<description>Level9 </description>
+			</attribute>
+
+			<attribute name="level9Sortid">
+			<label>Level9 Sortid </label>
+			<shortLabel>Level9 Sortid </shortLabel>
+			<maxLength>4</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="4" />
+			</control>
+			<summary>Level9 Sortid </summary>
+			<description>Level9 Sortid </description>
+			</attribute>
+
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
