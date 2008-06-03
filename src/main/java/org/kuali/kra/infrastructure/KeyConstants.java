@@ -45,7 +45,7 @@ public class KeyConstants {
     public static final String ERROR_PROPOSAL_PERSON_EXISTS = "error.proposalPersonExists";
     public static final String ERROR_PROPOSAL_PERSON_INVALID = "error.proposalPersonInvalid";
     public static final String ERROR_TOTAL_CREDIT_SPLIT_UPBOUND = "error.totalCreditSplit.upbound";
-    public static final String ERROR_CREDIT_SPLIT_LOWBOUND = "error.creditSplit.lowbound";
+   public static final String ERROR_CREDIT_SPLIT_LOWBOUND = "error.creditSplit.lowbound";
     public static final String ERROR_CREDIT_SPLIT_UPBOUND = "error.creditSplit.upbound";
     public static final String ERROR_DELETE_LEAD_UNIT = "error.deleteLeadUnit";
     public static final String ERROR_ADD_EXISTING_UNIT = "error.addExistingUnit";
@@ -54,7 +54,8 @@ public class KeyConstants {
     public static final String ERROR_INVALID_UNIT = "error.invalid.unit";
     public static final String ERROR_SELECT_UNIT="error.select.unit";
     public static final String ERROR_ONE_UNIT="error.one.unit";
-   
+    public static final String ERROR_CREDIT_SPLIT="error.credit.split";
+    
     
     
     
