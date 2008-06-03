@@ -445,7 +445,7 @@
 		</property>
 	</bean>
 
-	<bean id="unitAuthorizationService" class="org.kuali.kra.service.impl.UnitAuthorizationServiceImpl">
+	<bean id="unitAuthorizationService" class="org.kuali.kra.service.impl.UnitAuthorizationServiceAclImpl">
 		<property name="systemAuthorizationService">
 			<ref bean="systemAuthorizationService" />
 		</property>
@@ -457,6 +457,12 @@
 		</property>
 		<property name="unitService">
 			<ref bean="unitService" />
+		</property>
+		<property name="businessObjectService">
+		    <ref bean="businessObjectService" />
+		</property>
+		<property name="personService">
+		    <ref bean="personService" />
 		</property>
 	</bean>
 	
@@ -736,5 +742,17 @@
     		<ref bean="coeusBean2KraBoConverterService" />
   		</property>  		
 	</bean>
+	
+	<bean id="proposalRoleTemplateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalRoleTemplateServiceImpl">
+        <property name="proposalAuthorizationService">
+            <ref bean="proposalAuthorizationService" />
+        </property>
+        <property name="personService">
+            <ref bean="personService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
 	
 </beans>

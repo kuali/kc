@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate">
+
+        <inquiry>
+            <title>Proposal Role Template</title>
+
+            <inquirySections><inquirySection title="Person-Role"><inquiryFields>
+                <field attributeName="personId"/>
+                <field attributeName="roleName"/>
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Proposal Role Template Lookup</title>
+            <menubar>
+                <![CDATA[<a href="index.jsp">Main</a>]]>
+            </menubar>
+            <instructions>Look up a Proposal Role Template</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="personId"/>
+                    <sortAttribute attributeName="roleName"/>
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="personId" required="false"/>
+                <lookupField attributeName="roleName" required="false"/>
+                <lookupField attributeName="unitNumber" required="false"/>
+                <lookupField attributeName="active" required="false"/>
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="personId" forceInquiry="false"/>
+                <field attributeName="personName" forceInquiry="false"/>
+                <field attributeName="roleName" forceInquiry="false"/>
+                <field attributeName="unitNumber" forceInquiry="false"/>
+                <field attributeName="unitName" forceInquiry="false"/>
+                <field attributeName="active" forceInquiry="false"/>
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>id</titleAttribute>
+        <attributes>
+            <attribute name="id">
+                <label>Id </label>
+                <shortLabel>Id </shortLabel>
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <control>
+                    <hidden />
+                </control>
+                <summary>Id </summary>
+                <description>Id </description>
+            </attribute>
+
+            <attribute name="personId" >
+                <label>Person Id</label>
+                <shortLabel>Person Id</shortLabel>
+                <maxLength>10</maxLength>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>Person Id</summary>
+                <description>Person Id</description>
+            </attribute>
+            
+             <attribute name="personName" >
+                <label>Person Full Name</label>
+                <shortLabel>Person Full Name</shortLabel>
+                <maxLength>500</maxLength>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>Person Full Name</summary>
+                <description>Person Full Name</description>
+            </attribute>
+
+            <attribute name="roleName">
+                <label>Role </label>
+                <shortLabel>Role </shortLabel>
+                <maxLength>500</maxLength>
+                <control>
+                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalRoleValuesFinder" />
+                </control>
+                <summary>Role Name </summary>
+                <description>Role Name </description>
+            </attribute>
+            
+            <attribute name="unitNumber" >
+                <label>Unit Number</label>
+                <shortLabel>Unit Number</shortLabel>
+                <maxLength>10</maxLength>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>Unit Number</summary>
+                <description>Unit Number</description>
+            </attribute>
+            
+            <attribute name="unitName" >
+                <label>Unit Name</label>
+                <shortLabel>Unit Name</shortLabel>
+                <maxLength>500</maxLength>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>Unit Name</summary>
+                <description>Unit Name</description>
+            </attribute>
+           
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Active</label>
+                <shortLabel>Active </shortLabel>
+                <summary>Active</summary>
+                <description>Active</description>
+            </attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
+    </businessObject>
+
+</dictionaryEntry>

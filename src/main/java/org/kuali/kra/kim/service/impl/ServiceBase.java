@@ -157,6 +157,15 @@ public class ServiceBase {
         return businessObjectService.countMatching(clazz, fieldValues);
     }
     
+    public final int countMatching(Class clazz, String fieldName1, Object fieldValue1,
+            String fieldName2, Object fieldValue2, String fieldName3, Object fieldValue3) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(fieldName1, fieldValue1);
+        fieldValues.put(fieldName2, fieldValue2);
+        fieldValues.put(fieldName3, fieldValue3);
+        return businessObjectService.countMatching(clazz, fieldValues);
+    }
+    
     /**
      * Get a business object by its primary key.
      * @param clazz the business object class
@@ -356,7 +365,7 @@ public class ServiceBase {
      */
     public final List<KimPermission> getRolePermissions(Long roleId) {
         List<KimPermission> permissions = new ArrayList<KimPermission>();
-        Collection<KimRolePermission> rolePermissions = findMatching(KimRolePermission.class, "roleId", roleId);
+        Collection<KimRolePermission> rolePermissions = findMatching(KimRolePermission.class, "roleId", roleId, "active", true);
         for (KimRolePermission rolePermission : rolePermissions) {
             permissions.add(getPermission(rolePermission.getPermissionId()));
         }
@@ -401,6 +410,7 @@ public class ServiceBase {
         Map<String, Object> primaryKey = new HashMap<String, Object>();
         primaryKey.put("roleId", roleId);
         primaryKey.put("permissionId", permissionId);
+        primaryKey.put("active", true);
         int count = businessObjectService.countMatching(KimRolePermission.class, primaryKey);
         return count > 0;
     }
