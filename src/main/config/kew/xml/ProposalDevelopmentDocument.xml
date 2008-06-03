@@ -26,7 +26,7 @@
 					<fieldEvaluation>
 					    <!-- not sure yet -->
 					    <!--  example //organization/organizationId -->
-						<xpathexpression>//universalUser/personUserIdentifier</xpathexpression>
+						<xpathexpression>//aggregator/string</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
 				<xmlSearchContent>
@@ -51,7 +51,7 @@
 					</display>
 					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" /> 
 					<fieldEvaluation>
-						<xpathexpression>//users/budgetCreator/value</xpathexpression>
+						<xpathexpression>//budgetcreator/string</xpathexpression>
 					</fieldEvaluation> 
 				</fieldDef>
 				<xmlSearchContent>
@@ -76,7 +76,7 @@
 					</display>
 					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />
 					<fieldEvaluation>
-						<xpathexpression>//narrativeWriter/value</xpathexpression>
+						<xpathexpression>//narrativewriter/string</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
 				<xmlSearchContent>
@@ -101,7 +101,7 @@
 					</display>
 					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />
 					<fieldEvaluation>
-						<xpathexpression>//viewer/value</xpathexpression>
+						<xpathexpression>//viewer/string</xpathexpression>
 					</fieldEvaluation>
 				</fieldDef>
 				<xmlSearchContent>
@@ -113,31 +113,6 @@
 				</xmlSearchContent>
 			</searchingConfig>
 		</ruleAttribute>
-		<ruleAttribute>		
-			<name>ApproverSearchAttribute</name>
-			<className>edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
-			<label>ApproverSearchAttribute</label>
-			<description>ApproverSearchAttribute</description>
-			<type>SearchableXmlAttribute</type>
-			<searchingConfig>		
-				<fieldDef name="approver" title="Approver">
-					<display>
-						<type>text</type>
-					</display>
-					<quickfinder service="UserLookupableImplService" appliesTo="networkId" draw="true" />
-					<fieldEvaluation>
-						<xpathexpression>//approver/value</xpathexpression>
-					</fieldEvaluation>
-				</fieldDef>
-				<xmlSearchContent>
-					<users>
-						<approver>
-							<value>%approver%</value>
-						</approver>
-					</users>
-				</xmlSearchContent>
-			</searchingConfig>
-		</ruleAttribute>	
 		
 		<!-- custom attribute -->
 		<ruleAttribute>
@@ -155,6 +130,25 @@
                     <fieldEvaluation>
                          <!-- expectation: this is run and evaluates to true -->
                          <xpathexpression>wf:xstreamsafe('//document/ownedByUnitNumber') = 'IN-CARR' and wf:xstreamsafe("//xmlRouting/field[@name='numberOfTrainees']/value") &gt;= wf:ruledata('numberOfTrainees')</xpathexpression>
+                    </fieldEvaluation>
+              </fieldDef>
+            </routingConfig>
+            </ruleAttribute>
+            <ruleAttribute>
+            <name>DepartmentalApprovalAttribute</name>
+            <className>edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute</className>
+            <label>DepartmentalApprovalAttribute</label>
+            <description>DepartmentalApprovalAttribute</description>
+            <type>RuleXmlAttribute</type>
+            <routingConfig>
+              <fieldDef name="ownedByUnitNumber" title="Lead Unit" workflowType="RULE">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <validation required="false"/>
+                    <fieldEvaluation>
+                         <!-- expectation: this is run and evaluates to true -->
+                         <xpathexpression>wf:xstreamsafe('//document/ownedByUnitNumber') =  wf:ruledata('ownedByUnitNumber')</xpathexpression>
                     </fieldEvaluation>
               </fieldDef>
             </routingConfig>
@@ -183,7 +177,13 @@
       <defaultExceptionWorkgroupName>WorkflowAdmin</defaultExceptionWorkgroupName>
       <docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
       <active>true</active>
-      <attributes>
+      <policies>
+       <policy> 
+      <name>LOOK_FUTURE</name> 
+      <value>true</value> 
+     </policy> 
+      </policies>
+     <attributes>
 	 	<attribute>
       		<name>CopyCustomActionListAttribute</name>
         </attribute>
@@ -209,7 +209,8 @@
           <start name="Initiated" nextNode="OSPInitial" />
           <requests name="OSPInitial" nextNode="ProposalPersons" />
           <requests name="ProposalPersons" nextNode="UnitRouting" />
-          <requests name="UnitRouting" nextNode="OSPOfficeRouting" />
+          <requests name="UnitRouting" nextNode="DepartmentalRouting" />
+          <requests name="DepartmentalRouting" nextNode="OSPOfficeRouting" />
           <requests name="OSPOfficeRouting" />
         </routePath>
       </routePaths>
@@ -234,6 +235,12 @@
         <requests name="UnitRouting">
           <activationType>P</activationType>
           <ruleTemplate>CustomApproval</ruleTemplate>
+          <mandatoryRoute>false</mandatoryRoute>
+          <finalApproval>false</finalApproval>
+        </requests>
+        <requests name="DepartmentalRouting">
+          <activationType>P</activationType>
+          <ruleTemplate>DepartmentalApproval</ruleTemplate>
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </requests>
@@ -274,6 +281,16 @@
            <attribute>
               <name>CustomDataAttribute</name>
            <required>false</required>
+        </attribute>
+      </attributes>
+    </ruleTemplate>
+     <ruleTemplate allowOverwrite="true">
+      <name>DepartmentalApproval</name>
+      <description>Department Approval Routing Rule</description>
+      <attributes>
+        <attribute>
+          <name>DepartmentalApprovalAttribute</name>
+          <required>false</required>
         </attribute>
       </attributes>
     </ruleTemplate>
