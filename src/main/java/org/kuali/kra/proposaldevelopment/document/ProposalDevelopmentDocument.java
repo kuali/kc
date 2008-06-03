@@ -21,17 +21,23 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
+import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.document.authorization.PessimisticLock;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.workflow.DocumentInitiator;
+import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -55,6 +61,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
@@ -131,8 +138,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<ProposalYnq> proposalYnqs;
     private List<YnqGroupName> ynqGroupNames;
     private List<BudgetVersionOverview> budgetVersionOverviews;
-    
     private String creationStatusCode;
+    private boolean nih=false;
+    HashMap<String, String> nihDescription ;
 
     @SuppressWarnings("unchecked")
     public ProposalDevelopmentDocument() {
@@ -1362,5 +1370,27 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public int getNumberOfVersions() {
         return this.getBudgetVersionOverviews().size();
     }
+    
+    
+  
+
+    public boolean isNih() {
+        return nih;
+    }
+
+    public void setNih(boolean nih) {
+        this.nih = nih;
+    }
+
+    public HashMap getNihDescription() {
+        return nihDescription;
+    }
+
+    public void setNihDescription(HashMap nihDescription) {
+        this.nihDescription = nihDescription;
+       
+    }
+
+   
     
 }
