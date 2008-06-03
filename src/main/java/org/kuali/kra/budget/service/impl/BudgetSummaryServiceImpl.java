@@ -84,6 +84,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         HashMap newBudgetPersonnelLineItems = new HashMap();
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             Integer budPeriod = budgetPeriod.getBudgetPeriod();
+            Long budgetPeriodId = budgetPeriod.getBudgetPeriodId();
             switch(budPeriod) {
                 case 1 :
                     // get line items for first period
@@ -93,14 +94,18 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                     /* add line items for following periods */
                     for(BudgetLineItem periodLineItem: budgetLineItems) {
                         BudgetLineItem budgetLineItem = (BudgetLineItem)ObjectUtils.deepCopy(periodLineItem);
+                        budgetLineItem.getBudgetCalculatedAmounts().clear();
                         budgetLineItem.setBudgetPeriod(budPeriod);
+                        budgetLineItem.setBudgetPeriodId(budgetPeriodId);
                         budgetLineItem.setStartDate(budgetPeriod.getStartDate());
                         budgetLineItem.setEndDate(budgetPeriod.getEndDate());
                         budgetLineItem.setBasedOnLineItem(budgetLineItem.getLineItemNumber());
                         /* add personnel line items */
                         List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
                         for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
+                            budgetPersonnelDetail.getBudgetCalculatedAmounts().clear();
                             budgetPersonnelDetail.setBudgetPeriod(budPeriod);
+                            budgetPersonnelDetail.setBudgetPeriodId(budgetPeriodId);
                             budgetPersonnelDetail.setStartDate(budgetPeriod.getStartDate());
                             budgetPersonnelDetail.setEndDate(budgetPeriod.getEndDate());
                         }
