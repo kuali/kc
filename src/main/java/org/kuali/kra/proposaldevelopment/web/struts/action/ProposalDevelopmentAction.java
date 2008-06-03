@@ -71,6 +71,7 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
+import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 import org.kuali.rice.KNSServiceLocator;
@@ -391,6 +392,11 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         String username = user.getPersonUserIdentifier();
         ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
         proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, doc);
+        
+        // Add the users defined in the role templates for the proposal's lead unit
+        
+        ProposalRoleTemplateService proposalRoleTemplateService = KraServiceLocator.getService(ProposalRoleTemplateService.class);
+        proposalRoleTemplateService.addUsers(doc);
     }
     
     /**
