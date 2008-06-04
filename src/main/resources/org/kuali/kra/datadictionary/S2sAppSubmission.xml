@@ -107,7 +107,7 @@
 				<maxLength>50</maxLength>
 				<validationPattern><numeric /></validationPattern>
 				<control>
-					<hidden />
+					<text size="50"/>
 				</control>
 				<summary>Agency Tracking Id</summary>
 				<description>Agency Tracking Id</description>
@@ -119,19 +119,19 @@
 				<maxLength>2000</maxLength>
 				<validationPattern><numeric /></validationPattern>
 				<control>
-					<hidden />
+					<textarea rows="3" cols="30" />
 				</control>
 				<summary>Comments</summary>
 				<description>Comments</description>
 			</attribute>
 			
 			<attribute name="ggTrackingId">
-				<label>"GG Tracking Id" </label>
+				<label>GG Tracking Id </label>
 				<shortLabel>GG Tracking Id</shortLabel>
 				<maxLength>50</maxLength>
 				<validationPattern><numeric /></validationPattern>
 				<control>
-					<hidden />
+					<text size="50"/>
 				</control>
 				<summary>GG Tracking Id</summary>
 				<description>GG Tracking Id</description>
@@ -140,21 +140,21 @@
 			<attributeReference name="lastModifiedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
 				<label>Last Modified Date</label>
 				<control>
-					<text size="7" />
+					<text size="10" />
 				</control>
 			</attributeReference>	
 			
 			<attributeReference name="lastNotifiedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
 				<label>Last Notified Date</label>
 				<control>
-					<text size="7" />
+					<text size="10" />
 				</control>
 			</attributeReference>	
 			
 			<attributeReference name="receivedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
 				<label>Received Date</label>
 				<control>
-					<text size="7" />
+					<text size="10" />
 				</control>
 			</attributeReference>	
 			
@@ -164,7 +164,7 @@
 				<maxLength>50</maxLength>
 				<validationPattern><numeric /></validationPattern>
 				<control>
-					<hidden />
+					<text size="50"/>
 				</control>
 				<summary>Status </summary>
 				<description>Status </description>

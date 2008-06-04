@@ -116,7 +116,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<S2sOppForms> s2sOppForms;    
     private ProposalPerson principalInvestigator;
     private S2sOpportunity s2sOpportunity;
-    private S2sAppSubmission s2sAppSubmission;
+    private List<S2sAppSubmission> s2sAppSubmission;
     private String newScienceKeywordCode;
     private String newDescription;
     private Sponsor sponsor;
@@ -159,7 +159,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         ynqGroupNames = new ArrayList<YnqGroupName>();
         budgetVersionOverviews = new TypedArrayList(BudgetVersionOverview.class);
         investigators = new ArrayList<ProposalPerson>();
-        s2sOppForms = new ArrayList<S2sOppForms>();        
+        s2sOppForms = new ArrayList<S2sOppForms>();
+        s2sAppSubmission = new ArrayList<S2sAppSubmission>();
     }
 
     public void initialize() {
@@ -702,7 +703,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         managedLists.add(getPropScienceKeywords());
         managedLists.add(getProposalAbstracts());
         managedLists.add(getPropPersonBios());
-        
+        managedLists.add(getS2sAppSubmission());
         /*
          * This is really bogus, but OJB doesn't delete a BO component from the
          * database after it is set to null, i.e. the S2S Opportunity.  It is
@@ -1232,14 +1233,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this);
     }
     
-    public S2sAppSubmission getS2sAppSubmission() {
-        return s2sAppSubmission;
-    }
-
-    public void setS2sAppSubmission(S2sAppSubmission s2sAppSubmission) {
-        this.s2sAppSubmission = s2sAppSubmission;
-    }
-    
     public ProposalPerson getProposalEmployee(String personId) {
         for (ProposalPerson proposalPerson: getProposalPersons()) {
             if (personId.equals(proposalPerson.getPersonId())) {
@@ -1389,6 +1382,14 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setNihDescription(HashMap nihDescription) {
         this.nihDescription = nihDescription;
        
+    }
+
+    public List<S2sAppSubmission> getS2sAppSubmission() {
+        return s2sAppSubmission;
+    }
+
+    public void setS2sAppSubmission(List<S2sAppSubmission> appSubmission) {
+        s2sAppSubmission = appSubmission;
     }
 
    
