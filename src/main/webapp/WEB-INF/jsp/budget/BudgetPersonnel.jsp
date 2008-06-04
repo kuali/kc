@@ -17,7 +17,7 @@
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 
 <c:if test="${KualiForm.editingMode['modifyBudgets']}">
-	<c:set var="extraButtonSource" value="fill me in" />
+	<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_synctoprop.gif" />
 	<c:set var="extraButtonProperty" value="methodToCall.synchToProposal" />
 	<c:set var="extraButtonAlt" value="Synch to Proposal" />
 </c:if>
