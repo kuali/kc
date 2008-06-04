@@ -21,20 +21,20 @@
     <businessObject businessObjectClass="org.kuali.kra.bo.SpecialReview">
 
         <inquiry>
-            <title>Special Review</title>
+            <title>Special Review Approval Type</title>
 
-            <inquirySections><inquirySection title="Special Review"><inquiryFields>
+            <inquirySections><inquirySection title="Special Review Approval Type"><inquiryFields>
                 <field attributeName="specialReviewCode" forceInquiry="true" />
                 <field attributeName="description" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Special Review Lookup</title>
+            <title>Special Review Approval Type Lookup</title>
 			<menubar>
 				<![CDATA[<a href="index.jsp">Main</a>]]>
 			</menubar>
-            <instructions>Look up a Special Review Type</instructions>
+            <instructions>Look up a Special Review Approval Type</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
