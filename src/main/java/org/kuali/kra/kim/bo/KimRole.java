@@ -15,9 +15,13 @@
  */
 package org.kuali.kra.kim.bo;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
  * A KIM Role defines a role within a given organization, e.g. President,
@@ -35,6 +39,8 @@ public class KimRole extends PersistableBusinessObjectBase {
 	private Long id;
 	private String name;
 	private String description;
+	private String roleTypeCode;
+	private KimRoleType roleType;
 
     /**
      * Get the Role's ID.
@@ -83,14 +89,35 @@ public class KimRole extends PersistableBusinessObjectBase {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String getRoleTypeCode() {
+	     return roleTypeCode;
+	}
 
-	/**
+	public void setRoleTypeCode(String roleTypeCode) {
+	    this.roleTypeCode = roleTypeCode;
+	}
+
+	public KimRoleType getRoleType() {
+	    return roleType;
+    }
+
+    public void setRoleType(KimRoleType roleType) {
+        this.roleType = roleType;
+    }
+    
+    public String getRoleTypeName() {
+       return roleType.getDescription();
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("id", getId());
         map.put("name", getName());
+        map.put("roleTypeCode", getRoleTypeCode());
         map.put("description", getDescription());
         return map;
 	}

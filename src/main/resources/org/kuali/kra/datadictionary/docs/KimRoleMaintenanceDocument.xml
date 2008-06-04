@@ -52,6 +52,7 @@
 		<lockingKeys>
 			<field attributeName="id" />
 			<field attributeName="name" />
+			<field attributeName="roleTypeCode" />
 		</lockingKeys>
 
 		<maintainableSections>
@@ -59,8 +60,8 @@
 				<maintainableItems>
 					<maintainableField name="id" required="false" />
 					<maintainableField name="name" required="true" />
-					<maintainableField name="description"
-						required="false" />
+					<maintainableField name="roleTypeCode" required="true" />
+					<maintainableField name="description" required="false" />
 					<maintainableField name="versionNumber" />
 				</maintainableItems>
 			</maintainableSection>
