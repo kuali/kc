@@ -89,11 +89,20 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
             GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.percentCharged",KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
             errorFound=true;
         }
+        HashMap uniqueBudgetPersonnelCount = new HashMap();
+        int qty = 0;
         if(!errorFound){
             BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
             budgetPersonnelBudgetService.addBudgetPersonnelDetails(budgetForm.getBudgetDocument(), selectedBudgetPeriodIndex,selectedBudgetLineItemIndex, newBudgetPersonnelDetails);
+            for (BudgetPersonnelDetails budgetPersonnelDetails : budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex).getBudgetPersonnelDetailsList()) {
+                if(!uniqueBudgetPersonnelCount.containsValue(budgetPersonnelDetails.getPersonId())){
+                    uniqueBudgetPersonnelCount.put(qty, budgetPersonnelDetails.getPersonId());
+                    qty = qty + 1;
+                }
+            }    
+            budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex).setQuantity(new Integer(qty));
             BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
-            budgetCalculationService.calculateBudgetPeriod(budgetForm.getBudgetDocument(), budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex));        
+            budgetCalculationService.calculateBudgetPeriod(budgetForm.getBudgetDocument(), budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex));
             budgetForm.setNewBudgetPersonnelDetails(new BudgetPersonnelDetails());
         }        
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -127,6 +136,16 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         int selectedBudgetLineItemIndex = budgetForm.getSelectedBudgetLineItemIndex();
         BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
         budgetPersonnelBudgetService.deleteBudgetPersonnelDetails(budgetForm.getBudgetDocument(), selectedBudgetPeriodIndex,selectedBudgetLineItemIndex, getLineToDelete(request));
+        HashMap uniqueBudgetPersonnelCount = new HashMap();
+        int qty = 0;
+        for (BudgetPersonnelDetails budgetPersonnelDetails : budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex).getBudgetPersonnelDetailsList()) {
+            if(!uniqueBudgetPersonnelCount.containsValue(budgetPersonnelDetails.getPersonId())){
+                uniqueBudgetPersonnelCount.put(qty, budgetPersonnelDetails.getPersonId());
+                qty = qty + 1;
+            }
+        }    
+        budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex).setQuantity(new Integer(qty));
+        
         BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
         budgetCalculationService.calculateBudgetPeriod(budgetForm.getBudgetDocument(), budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex));
         return mapping.findForward(Constants.MAPPING_BASIC);

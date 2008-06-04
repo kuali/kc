@@ -53,7 +53,7 @@
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.lineItemDescription}" noColon="false" /></div></th>
     		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].lineItemDescription}"/></div></td>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.quantity}" noColon="false" /></div></th>
-    		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].quantity}"/></div></td>
+    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].quantity" attributeEntry="${budgetLineItemAttributes.quantity}" /></div></td>
     	</tr>
     </table>
     </kul:tabTop>

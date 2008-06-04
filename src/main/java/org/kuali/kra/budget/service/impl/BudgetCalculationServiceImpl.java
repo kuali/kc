@@ -108,19 +108,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         if(budgetLineItemToCalc.isBudgetPersonnelLineItemDeleted() || (budgetPersonnelDetList!=null && !budgetPersonnelDetList.isEmpty())){
             BudgetDecimal personnelLineItemTotal  = BudgetDecimal.ZERO;
             BudgetDecimal personnelTotalCostSharing  = BudgetDecimal.ZERO;
-            HashMap uniqueBudgetPersonnelCount = new HashMap();
-            int qty = 0;
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetList) {
-                if(!uniqueBudgetPersonnelCount.containsValue(budgetPersonnelDetails.getPersonSequenceNumber())){
-                    uniqueBudgetPersonnelCount.put(qty, budgetPersonnelDetails.getPersonSequenceNumber());
-                    qty = qty + 1;
-                }
                 copyLineItemToPersonnelDetails(budgetLineItemToCalc, budgetPersonnelDetails);
                 new PersonnelLineItemCalculator(budgetDocument,budgetPersonnelDetails).calculate();
                 personnelLineItemTotal = personnelLineItemTotal.add(budgetPersonnelDetails.getLineItemCost());
                 personnelTotalCostSharing = personnelTotalCostSharing.add(budgetPersonnelDetails.getCostSharingAmount());
             }
-            budgetLineItem.setQuantity(new Integer(qty));
             budgetLineItem.setLineItemCost(personnelLineItemTotal);
             budgetLineItem.setCostSharingAmount(personnelTotalCostSharing);
         }
