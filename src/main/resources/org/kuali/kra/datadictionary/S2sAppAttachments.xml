@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.s2s.bo.S2sAppAttachments">
+    
+    <inquiry>
+            <title>S2s App Attachments</title>
+
+            <inquirySections><inquirySection title="S2s App Attachments"><inquiryFields>
+            	<field attributeName="proposalNumber" forceInquiry="true"/>            	
+            	<field attributeName="contentId" />
+            	<field attributeName="contentType" />
+            	<field attributeName="hashCode" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>S2s App Submission</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up an S2s App Attachment</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="contentId"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>            	
+				<lookupField attributeName="proposalNumber"  required="false"/>
+            	<lookupField attributeName="contentId"  required="false"/>
+            	<lookupField attributeName="contentType"  required="false"/>
+            	<lookupField attributeName="hashCode"  required="false"/>            	
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="proposalNumber" forceInquiry="false"/>
+				<field attributeName="contentId" forceInquiry="false"/>
+				<field attributeName="contentType" forceInquiry="false"/>
+				<field attributeName="hashCode" forceInquiry="false"/>
+            </resultFields>
+        </lookup>
+		
+		<attributes>        
+			<attribute name="proposalNumber">
+				<label>Proposal Number </label>
+				<shortLabel>Proposal Number </shortLabel>
+				<maxLength>8</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>Proposal Number </summary>
+				<description>Proposal Number </description>
+			</attribute>
+			
+			<attribute name="contentId">
+				<label>Attachments </label>
+				<shortLabel>Attachments </shortLabel>
+				<maxLength>300</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<text size="300"/>
+				</control>
+				<summary>Attachments </summary>
+				<description>Attachments </description>
+			</attribute>
+			
+			<attribute name="contentType">
+				<label>Content Type </label>
+				<shortLabel>Content Type </shortLabel>
+				<maxLength>30</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<text size="30"/>
+				</control>
+				<summary>Content Type</summary>
+				<description>Content Type</description>
+			</attribute>
+			
+			<attribute name="hashCode">
+				<label>Hash Code </label>
+				<shortLabel>Hash Code</shortLabel>
+				<maxLength>300</maxLength>
+				<validationPattern><numeric /></validationPattern>
+				<control>
+					<hidden />
+				</control>
+				<summary>Hash Code</summary>
+				<description>Hash Code</description>
+			</attribute>
+		
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
+        
