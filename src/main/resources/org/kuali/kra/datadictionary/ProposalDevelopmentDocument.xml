@@ -602,7 +602,7 @@
           <headerNavigationTab>
           	<navigateTo>budgetVersions</navigateTo>
           	<displayName>Budget Versions</displayName>
-             <pageHelp parameterNamespace="KRA-B" parameterName="budgetVersionsHelp"/> 
+             <pageHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetVersionsHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>keyPersonnel</navigateTo>
