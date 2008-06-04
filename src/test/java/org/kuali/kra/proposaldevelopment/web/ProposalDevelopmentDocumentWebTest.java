@@ -205,7 +205,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         final URL url = new URL("http://localhost:" + getPort() + "/kra-dev/");
         final HtmlPage page3 = login(webClient, url, "proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument");
         
-        assertContains(page3,"Sponsor Code:");
+        assertContains(page3,"Sponsor Name:");
         assertContains(page3,"PI:");
         
         final HtmlForm kualiForm = (HtmlForm) page3.getForms().get(0);
@@ -220,7 +220,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
 
         assertNotNull(doc);
 
-        assertContains(page3,"Sponsor Code:");
+        assertContains(page3,"Sponsor Name:");
         assertContains(page3,"PI:");        
     }
 
@@ -812,7 +812,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         setFieldValue(kualiForm, TEXT_AREA, "document.title", title);
         setFieldValue(kualiForm, TEXT_INPUT, "document.requestedStartDateInitial", startDate);
         setFieldValue(kualiForm, TEXT_INPUT, "document.requestedEndDateInitial", endDate);
-        setFieldValue(kualiForm, SELECTED_INPUT, "document.activityTypeCode", activityType, 10);
+        setFieldValue(kualiForm, SELECTED_INPUT, "document.activityTypeCode", activityType, 6);
         setFieldValue(kualiForm, SELECTED_INPUT, "document.proposalTypeCode", proposalType, 7);
         setFieldValue(kualiForm, SELECTED_INPUT, "document.ownedByUnitNumber", ownedByUnit, -1);
     }
