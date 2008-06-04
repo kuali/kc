@@ -520,8 +520,8 @@ into li_fringe, li_fringe_cs
   AND       MAPS.category_type = 'O'
   AND  		MAPPING.MAPPING_NAME = 'S2S'
   group by  bd.budget_period;
-
-
+		exception When NO_DATA_FOUND then 
+            li_period:=0; li_cost:=0; li_cost_cs:=0; 
 
 select  	 a.budget_period,
           decode(sum(a.calculated_cost) ,null,0,sum(a.calculated_cost)),
