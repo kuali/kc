@@ -56,6 +56,7 @@
                 <field attributeName="personName" forceInquiry="false"/>
                 <field attributeName="roleId" forceInquiry="false"/>
                 <field attributeName="roleName" forceInquiry="false"/>
+                <field attributeName="roleTypeName" forceInquiry="false"/>
                 <field attributeName="unitNumber" forceInquiry="false"/>
                 <field attributeName="unitName" forceInquiry="false"/>
                 <field attributeName="subunits" forceInquiry="false"/>
@@ -119,6 +120,17 @@
                 </control>
                 <summary>Role Name</summary>
                 <description>Role Name</description>
+            </attribute>
+            
+            <attribute name="roleTypeName" >
+                <label>Role Type</label>
+                <shortLabel>Role Type</shortLabel>
+                <maxLength>500</maxLength>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>Role Type</summary>
+                <description>Role Type</description>
             </attribute>
             
             <attribute name="unitNumber" >
