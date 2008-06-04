@@ -255,47 +255,47 @@
           <headerNavigationTab>
             <navigateTo>versions</navigateTo>
             <displayName>Budget Versions</displayName>
-             <pageHelp parameterNamespace="KRA-B" parameterName="budgetVersionsHelp"/> 
+             <pageHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetVersionsHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>summary</navigateTo>
             <displayName>Summary</displayName>
-             <pageHelp parameterNamespace="KRA-B" parameterName="budgetSummaryHelp"/> 
+             <pageHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetSummaryHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>rates</navigateTo>
             <displayName>Rates</displayName>
-             <pageHelp parameterNamespace="KRA-B" parameterName="budgetRatesHelp"/> 
+             <pageHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetRatesHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>personnel</navigateTo>
             <displayName>Project Personnel</displayName>
-             <pageHelp parameterNamespace="KRA-B" parameterName="budgetPersonnelHelp"/> 
+             <pageHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetPersonnelHelp"/> 
           </headerNavigationTab>          
           <headerNavigationTab>
             <navigateTo>expenses</navigateTo>
             <displayName>Expenses</displayName>
-             <pageHelp parameterNamespace="KRA-B" parameterName="budgetExpensesHelp"/> 
+             <pageHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetExpensesHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>totals</navigateTo>
             <displayName>Totals</displayName>
-             <pageHelp parameterNamespace="KRA-B" parameterName="budgetTotalsHelp"/> 
+             <pageHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetTotalsHelp"/> 
           </headerNavigationTab>          
           <headerNavigationTab>
             <navigateTo>distributionAndIncome</navigateTo>
             <displayName>Distribution &amp; Income </displayName>
-             <pageHelp parameterNamespace="KRA-B" parameterName="budgetDistributionAndIncomeHelp"/> 
+             <pageHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetDistributionAndIncomeHelp"/> 
           </headerNavigationTab>
           <headerNavigationTab>
             <navigateTo>modularBudget</navigateTo>
             <displayName>Modular Budget</displayName>
-             <pageHelp parameterNamespace="KRA-B" parameterName="budgetModularBudgetHelp"/> 
+             <pageHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetModularBudgetHelp"/> 
           </headerNavigationTab>                    
           <headerNavigationTab>
             <navigateTo>budgetActions</navigateTo>
             <displayName>Budget Actions</displayName>
-             <pageHelp parameterNamespace="KRA-B" parameterName="budgetActionsHelp"/> 
+             <pageHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetActionsHelp"/> 
           </headerNavigationTab>
         </headerNavigation>
 
