@@ -105,6 +105,10 @@ public class UnitAclEntry extends KraPersistableBusinessObjectBase {
     public void setRole(KimRole role) {
         this.role = role;
     }
+    
+    public String getRoleTypeName() {
+        return role.getRoleTypeName();
+    }
 
     @Override 
 	protected LinkedHashMap toStringMapper() {

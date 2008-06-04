@@ -87,6 +87,10 @@ public class KimRolePermission extends PersistableBusinessObjectBase {
         return this.role.getName();
     }
     
+    public String getRoleTypeName() {
+        return this.role.getRoleTypeName();
+    }
+    
     public KimPermission getPermission() {
         return permission;
     }
