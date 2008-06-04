@@ -35,18 +35,18 @@
         <documentTypeName>SpecialReviewMaintenanceDocument</documentTypeName>
         <documentTypeCode>SPRV</documentTypeCode>
 
-        <label>Special Review Maintenance Document</label>
+        <label>Special Review Approval Type Maintenance Document</label>
         <shortLabel>specialReviewMaintDoc</shortLabel>
 
-        <summary>Special Review Maintenance Document</summary>
-        <description>Document used to create or update Special Review Reference objects</description>
+        <summary>Special Review Approval Type Maintenance Document</summary>
+        <description>Document used to create or update Special Review Approval Type Reference objects</description>
 
         <lockingKeys>
             <field attributeName="specialReviewCode" />
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Special Review Codes">
+            <maintainableSection title="Edit Special Review Approval Type Codes">
                 <maintainableItems>
                     <maintainableField name="specialReviewCode" required="true" />
                     <maintainableField name="description" required="true" />
