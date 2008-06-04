@@ -229,7 +229,7 @@
 
 		</attributes>
 
-        <objectHelp parameterNamespace="KRA-B" parameterName="budgetPeriodHelpUrl"/> 
+        <objectHelp parameterNamespace="KRA-B" parameterDetailType="D"  parameterName="budgetPeriodHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>

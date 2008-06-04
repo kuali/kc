@@ -324,7 +324,7 @@
 			</attribute>
 
 		</attributes>
-        <objectHelp parameterNamespace="KRA-B" parameterName="budgetLineItemHelpUrl"/> 
+        <objectHelp parameterNamespace="KRA-B" parameterDetailType="D"  parameterName="budgetLineItemHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>
