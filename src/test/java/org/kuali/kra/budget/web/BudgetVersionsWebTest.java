@@ -21,8 +21,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 
+import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlImageInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 
@@ -180,10 +184,27 @@ public class BudgetVersionsWebTest extends ProposalDevelopmentWebTestBase {
         pdBudgetVersionsPage = addBudgetVersion(pdBudgetVersionsPage);
         pdBudgetVersionsPage = copyBudgetVersion(pdBudgetVersionsPage, 0);
         
+        assertTrue(pdBudgetVersionsPage.asText().contains("Kuali :: Question Dialog Page"));
+        HtmlForm form3 = (HtmlForm) pdBudgetVersionsPage.getForms().get(0);
+        pdBudgetVersionsPage = clickImageButton(pdBudgetVersionsPage, form3, "methodToCall.processAnswer.button0");
+        assertNotNull(pdBudgetVersionsPage);
+        
         HtmlTable table = getTable(pdBudgetVersionsPage, BUDGET_VERSIONS_TABLE);
         assertTrue("row count is " + table.getRowCount(), table.getRowCount() == 4);
     }
     
+    private HtmlPage clickImageButton(HtmlPage page, HtmlForm htmlForm, String buttonName) throws Exception {
+        String completeButtonName = getImageTagName(page, buttonName);
+        final HtmlImageInput button = (HtmlImageInput) htmlForm.getInputByName(completeButtonName);
+        return (HtmlPage) button.click();
+    }
+
+    private String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
+        int idx1 = page.asXml().indexOf(uniqueNamePrefix);
+        int idx2 = page.asXml().indexOf("\"", idx1);
+        return page.asXml().substring(idx1, idx2).replace("&amp;", "&").replace("((&lt;&gt;))", "((<>))");
+    }
+
     /***********************************************************************
      * Helper methods
      ***********************************************************************/
