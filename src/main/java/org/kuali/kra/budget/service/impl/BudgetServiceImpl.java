@@ -15,14 +15,19 @@
  */
 package org.kuali.kra.budget.service.impl;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -91,6 +96,22 @@ public class BudgetServiceImpl implements BudgetService {
      */
     public BudgetDocument copyBudgetVersion(BudgetDocument budgetDocument) throws WorkflowException {
         budgetDocument.toCopy();
+        ObjectUtils.materializeAllSubObjects(budgetDocument);
+
+        try {
+            Map<String, Object> objectMap = new HashMap<String, Object>();
+            fixProperty(budgetDocument, "setBudgetPeriodId", Long.class, null, objectMap);
+            objectMap.clear();
+            fixProperty(budgetDocument, "setBudgetVersionNumber", Integer.class, budgetDocument.getBudgetVersionNumber(), objectMap); 
+            objectMap.clear();
+            fixProperty(budgetDocument, "setVersionNumber", Long.class, new Long(0), objectMap);
+            objectMap.clear();
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        budgetDocument.setVersionNumber(null);
+        
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         return budgetDocument;
@@ -119,4 +140,78 @@ public class BudgetServiceImpl implements BudgetService {
         this.budgetPersonService = budgetPersonService;
     }
     
+    /**
+     * Recurse through all of the BOs and if a BO has a ProposalNumber property,
+     * set its value to the new proposal number.
+     * @param object the object
+     * @param proposalNumber the proposal number
+     */
+    private void fixProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap) throws Exception {
+        if(ObjectUtils.isNotNull(object)) {
+            if (object instanceof PersistableBusinessObject) {
+                PersistableBusinessObject objectWId = (PersistableBusinessObject) object;
+                if (objectMap.get(objectWId.getObjectId()) != null) return;
+                objectMap.put(((PersistableBusinessObject) object).getObjectId(), object);
+                
+                Method[] methods = object.getClass().getMethods();
+                for (Method method : methods) {
+                    if (method.getName().equals(methodName)) {
+                        if (!(object instanceof BudgetDocument)) {
+                              try {
+                                if(clazz.equals(Long.class))
+                                    method.invoke(object, (Long) propertyValue);  
+                                else 
+                                    method.invoke(object, (Integer) propertyValue);
+                               } catch (Throwable e) { }  
+                        }
+                    } else if (isPropertyGetterMethod(method, methods)) {
+                        Object value = null;
+                        try {
+                            value = method.invoke(object);
+                        } catch (Throwable e) {
+                            //We don't need to propagate this exception
+                        }
+                        
+                        if(value != null) {
+                            if (value instanceof Collection) {
+                                Collection c = (Collection) value;
+                                Iterator iter = c.iterator();
+                                while (iter.hasNext()) {
+                                    Object entry = iter.next();
+                                    fixProperty(entry, methodName, clazz, propertyValue, objectMap);
+                                }
+                            } else {
+                                fixProperty(value, methodName, clazz, propertyValue, objectMap);
+                            }   
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    /**
+     * Is the given method a getter method for a property?  Must conform to
+     * the following:
+     * <ol>
+     * <li>Must start with the <b>get</b></li>
+     * <li>Must have a corresponding setter method</li>
+     * <li>Must have zero arguments.</li>
+     * </ol>
+     * @param method the method to check
+     * @param methods the other methods in the object
+     * @return true if it is property getter method; otherwise false
+     */
+    private boolean isPropertyGetterMethod(Method method, Method methods[]) {
+        if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
+            String setterName = method.getName().replaceFirst("get", "set");
+            for (Method m : methods) {
+                if (m.getName().equals(setterName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
