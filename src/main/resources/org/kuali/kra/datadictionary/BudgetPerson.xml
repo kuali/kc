@@ -191,7 +191,7 @@
 
 		</attributes>
 
-        <objectHelp parameterNamespace="KRA-B" parameterName="budgetPersonHelpUrl"/> 
+        <objectHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetPersonHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>
