@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase">
+
+        <lookup>
+            <title>Budget Personnel Rate and Base</title>
+            <menubar>
+                <![CDATA[<a href="/kra-dev/">Main</a>]]>
+            </menubar>
+            <instructions>Look up a Budget Personnel Rate and Base</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="proposalNumber"/>
+                    <sortAttribute attributeName="budgetVersionNumber"/>
+                    <sortAttribute attributeName="budgetPeriod"/>
+                </sortAttributes>
+            </defaultSort>
+
+             <lookupFields>
+                <lookupField attributeName="proposalNumber" required="false" />
+                <lookupField attributeName="budgetVersionNumber" required="false" />
+                <lookupField attributeName="budgetPeriod" required="false" />
+                <lookupField attributeName="personId" required="false" />
+                <lookupField attributeName="lineItemNumber" required="false" />
+                <lookupField attributeName="rateClassCode" required="false" />
+                <lookupField attributeName="rateNumber" required="false" />
+                <lookupField attributeName="rateTypeCode" required="false" />
+                <lookupField attributeName="appliedRate" required="false" />
+                <lookupField attributeName="salaryRequested" required="false" />
+                <lookupField attributeName="baseCostSharing" required="false" />
+                <lookupField attributeName="calculatedCost" required="false" />
+                <lookupField attributeName="calculatedCostSharing" required="false" />
+                <lookupField attributeName="endDate" required="false" />
+                <lookupField attributeName="startDate" required="false" />
+                <lookupField attributeName="onOffCampusFlag" required="false" />
+
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="proposalNumber" forceInquiry="false" />
+                <field attributeName="budgetVersionNumber" forceInquiry="false" />
+                <field attributeName="budgetPeriod" forceInquiry="false" />
+                <field attributeName="personId" forceInquiry="false" />
+                <field attributeName="lineItemNumber" forceInquiry="false" />
+                <field attributeName="rateClassCode" forceInquiry="false" />
+                <field attributeName="rateNumber" forceInquiry="false" />
+                <field attributeName="rateTypeCode" forceInquiry="false" />
+                <field attributeName="appliedRate" forceInquiry="false" />
+                <field attributeName="salaryRequested" forceInquiry="false" />
+                <field attributeName="baseCostSharing" forceInquiry="false" />
+                <field attributeName="calculatedCost" forceInquiry="false" />
+                <field attributeName="calculatedCostSharing" forceInquiry="false" />
+                <field attributeName="endDate" forceInquiry="false" />
+                <field attributeName="startDate" forceInquiry="false" />
+                <field attributeName="onOffCampusFlag" forceInquiry="false" />
+
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>personId</titleAttribute>
+
+        <attributes>
+
+            <attributeReference name="proposalNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="proposalNumber" />
+
+            <attributeReference name="budgetVersionNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetModular" sourceAttributeName="budgetVersionNumber" />
+
+            <attributeReference name="budgetPeriod" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount" sourceAttributeName="budgetPeriod" />
+
+            <attributeReference name="personId" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="personId" />
+
+            <attributeReference name="lineItemNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="lineItemNumber" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="versionNumber" />
+
+            <attributeReference name="rateClassCode" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount" sourceAttributeName="rateClassCode" >
+                <control>
+                    <text size="3" />
+                </control>        
+            </attributeReference>
+
+            <attributeReference name="rateTypeCode" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount" sourceAttributeName="rateTypeCode" >
+                <control>
+                    <text size="3" />
+                </control>        
+            </attributeReference>
+
+            <attributeReference name="rateNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetModularIdc" sourceAttributeName="rateNumber" />
+
+            <attribute name="appliedRate">
+                <label>Applied Rate </label>
+                <shortLabel>Applied Rate </shortLabel>
+                <maxLength>5</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <control>
+                    <text size="5" />
+                </control>
+                <summary>Applied Rate </summary>
+                <description>Applied Rate </description>
+            </attribute>
+
+            <attributeReference name="salaryRequested" sourceClassName="org.kuali.kra.budget.bo.BudgetPerson" sourceAttributeName="calculationBase">
+                <label>Salary Requested</label>
+                <shortLabel>Salary Requested</shortLabel>
+
+                <summary>Salary Requested</summary>
+                <description>Salary Requested</description>
+            </attributeReference>
+
+            <attributeReference name="baseCostSharing" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="costSharingAmount">
+                <label>Base Cost Sharing</label>
+                <shortLabel>Base Cost Sharing</shortLabel>
+
+                <summary>Base Cost Sharing</summary>
+                <description>Base Cost Sharing</description>
+            </attributeReference>
+
+            <attributeReference name="calculatedCost" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="lineItemCost" >
+                <label>Calculated Cost</label>
+                <shortLabel>Calculated Cost</shortLabel>
+
+                <summary>Calculated Cost</summary>
+                <description>Calculated Cost</description>
+            </attributeReference>
+
+
+            <attributeReference name="calculatedCostSharing" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="costSharingAmount" >
+                <label>Calculated Cost Sharing</label>
+                <shortLabel>Calculated Cost Sharing</shortLabel>
+
+                <summary>Calculated Cost Sharing</summary>
+                <description>Calculated Cost Sharing</description>
+            </attributeReference>
+
+            <attributeReference name="endDate" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="endDate" />
+
+            <attributeReference name="startDate" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="startDate" />
+
+            <attributeReference name="onOffCampusFlag" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItem" sourceAttributeName="onOffCampusFlag" />
+
+        </attributes>
+    </businessObject>
+
+</dictionaryEntry>
