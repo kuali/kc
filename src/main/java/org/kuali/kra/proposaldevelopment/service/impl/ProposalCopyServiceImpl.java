@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import java.beans.PropertyDescriptor;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,9 +26,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
@@ -35,10 +39,12 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.format.FormatException;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
@@ -896,9 +902,65 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         budget.toCopy();
         ObjectUtils.setObjectPropertyDeep(budget, "proposalNumber", String.class, proposalNumber);
         ObjectUtils.setObjectPropertyDeep(budget, "budgetVersionNumber", Integer.class, budgetVersionNumber);
+        
+        ObjectUtils.materializeAllSubObjects(budget);
+
+        Map<String, Object> objectMap = new HashMap<String, Object>();
+        fixNumericProperty(budget, "setBudgetPeriodId", Long.class, null, objectMap);
+        objectMap.clear();
+        fixNumericProperty(budget, "setVersionNumber", Long.class, new Long(0), objectMap);
+        objectMap.clear(); 
+        
         budget.setFinalVersionFlag(false);
         documentService.saveDocument(budget);
         documentService.routeDocument(budget, "Route to Final", new ArrayList());
+
+    }
+    
+    /**
+     * Recurse through all of the BOs and if a BO has a specific property,
+     * set its value to the new value.
+     * @param object the object
+     * @param propertyValue 
+     */
+    private void fixNumericProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap) throws Exception {
+        if(ObjectUtils.isNotNull(object) && object instanceof PersistableBusinessObject) {
+            PersistableBusinessObject objectWId = (PersistableBusinessObject) object;
+            if (objectMap.get(objectWId.getObjectId()) != null) return;
+            objectMap.put(((PersistableBusinessObject) object).getObjectId(), object);
+            
+            Method[] methods = object.getClass().getMethods();
+            for (Method method : methods) {
+                if (method.getName().equals(methodName)) {
+                      try {
+                        if(clazz.equals(Long.class))
+                            method.invoke(object, (Long) propertyValue);  
+                        else 
+                            method.invoke(object, (Integer) propertyValue);
+                       } catch (Throwable e) { }  
+                } else if (isPropertyGetterMethod(method, methods)) {
+                    Object value = null;
+                    try {
+                        value = method.invoke(object);
+                    } catch (Throwable e) {
+                        //We don't need to propagate this exception
+                    }
+                    
+                    if(value != null) {
+                        if (value instanceof Collection) {
+                            Collection c = (Collection) value;
+                            Iterator iter = c.iterator();
+                            while (iter.hasNext()) {
+                                Object entry = iter.next();
+                                fixNumericProperty(entry, methodName, clazz, propertyValue, objectMap);
+                            }
+                        } else {
+                            fixNumericProperty(value, methodName, clazz, propertyValue, objectMap);
+                        }   
+                    }
+                }
+            }
+        }
     }
     
     /**
