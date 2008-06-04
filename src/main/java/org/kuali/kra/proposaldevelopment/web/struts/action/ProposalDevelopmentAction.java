@@ -137,10 +137,8 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             if (proposalDevelopmentForm.isAuditActivated()) {
                 getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
             }
-            
-            //if(proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()!=null){
-                proposalDevelopmentForm.setAdditionalDocInfo1(new KeyLabelPair("DataDictionary.Sponsor.attributes.sponsorCode",proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()));    
-            //}
+
+            assignSponsor(proposalDevelopmentForm);
             
             if (getKeyPersonnelService().hasPrincipalInvestigator(proposalDevelopmentForm.getProposalDevelopmentDocument())) {
                 boolean found = false;
@@ -175,8 +173,24 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("proposalNarrativeTypeGroup", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "proposalNarrativeTypeGroup"));
          return actionForward;
     }
-    
-    
+
+    /**
+     * Assigns the {@link Sponsor} name of the {@link ProposalDevelopmentDocument} instance contained in the given
+     * {@link ProposalDevelopmentForm}. If the {@link Sponsor} has not been set on the {@link ProposalDevelopmentDocument} (the {@link Sponsor} reference is <code>null</code>,)
+     * then the value on the form is simply an empty {@link String}
+     *
+     * @param form the {@link ProposalDevelopmentForm} instance to assign the {@link Sponsor} name to
+     */
+    private void assignSponsor(ProposalDevelopmentForm form) {
+        KeyLabelPair sponsorName = new KeyLabelPair("DataDictionary.Sponsor.attributes.sponsorName", "");
+
+        if (form.getProposalDevelopmentDocument().getSponsor() != null) {
+            sponsorName.setLabel(form.getProposalDevelopmentDocument().getSponsor().getSponsorName());
+        }
+        
+        form.setAdditionalDocInfo1(sponsorName);
+    }
+
     protected String findNIHRoleDescription(ProposalPersonRole role) {
         return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
             PARAMETER_COMPONENT_DOCUMENT, 
