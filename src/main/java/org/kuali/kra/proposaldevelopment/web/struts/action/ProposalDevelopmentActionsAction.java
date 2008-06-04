@@ -291,6 +291,31 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         proposalDevelopmentForm.setAuditActivated(true);
+        
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
+        boolean errorExists = false;
+        boolean warningExists = false;
+        if(!(KraServiceLocator.getService(KualiRuleService.class).applyRules(
+                new DocumentAuditEvent(proposalDevelopmentForm.getDocument())) & s2sService.validateApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber()))){
+            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
+                    errorExists=true;
+                    break;
+                }
+                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
+                    errorExists = true;
+                    break;
+                }
+                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
+                    warningExists = true;
+                }
+            }
+            if(errorExists){
+                GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+            }           
+        }
 
         // TODO : this rull will be called again in proposaldevelopmentaction.execute
         // should we comment out here
