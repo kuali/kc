@@ -1,0 +1,1 @@
+@/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/procfunpacks/s2sED524V11Pkg.sql
