@@ -197,6 +197,13 @@ public class OrganizationMaintenanceDocumentTest extends MaintenanceDocumentTest
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[8].answer", "Y");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[9].answer", "N");
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs[10].answer", "Y");
+        
+        for (int i = 0; i < 11; i++) {
+            setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs["+i+"].explanation", "test");
+            setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.organizationYnqs["+i+"].reviewDate", "01/01/2008");
+
+        }
+
         // add organization type
         setFieldValue(organizationMaintenancePage, "document.newMaintainableObject.add.organizationTypes.organizationTypeCode", "1");
         // in 'edit', there is a hidden fiels with same tag name, so the tag name is longer than 'create new'

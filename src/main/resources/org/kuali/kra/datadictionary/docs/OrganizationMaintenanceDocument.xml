@@ -22,6 +22,8 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.bo.Organization</businessObjectClass>
         <maintainableClass>org.kuali.kra.maintenance.OrganizationMaintenableImpl</maintainableClass> 
+        <businessRulesClass>org.kuali.kra.rules.OrganizationMaintenanceDocumentRule</businessRulesClass>
+                                                
 		 <!-- 
 		<maintainableClass>
 			org.kuali.core.maintenance.KualiMaintainableImpl
@@ -127,6 +129,8 @@
                        <maintainableField name="ynq.description" readOnly="true" /> 
 						<maintainableField name="questionId" readOnly="true" />
 						<maintainableField name="answer" required="true"/>
+						<maintainableField name="explanation" required="false"/>
+						<maintainableField name="reviewDate" required="false"/>
 						<summaryFields>
                             <summaryField name="ynq.description" />
                         </summaryFields>
