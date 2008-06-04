@@ -157,7 +157,8 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         }
         catch (CoeusException e) {
             LOG.error(e.getMessage(), e);
-            return false;
+            throw new RuntimeException(e);
+//            return false;
         }
         return true;
     }
@@ -183,7 +184,8 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
         }
         catch(Exception e){
             LOG.error(e.getMessage(), e);
-            return false;
+            throw new RuntimeException(e);
+//            return false;
         }
         return true;
     }
