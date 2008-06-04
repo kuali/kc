@@ -120,7 +120,7 @@
 			</attribute>
 		</attributes>
 
-        <objectHelp parameterNamespace="KRA-B" parameterName="budgetCostShareHelpUrl"/> 
+        <objectHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetCostShareHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>
