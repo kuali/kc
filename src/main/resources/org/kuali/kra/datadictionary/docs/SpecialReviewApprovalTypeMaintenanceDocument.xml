@@ -35,11 +35,11 @@
         <documentTypeName>SpecialReviewApprovalTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>SRAT</documentTypeCode>
 
-        <label>Approval Type Maintenance Document</label>
+        <label>Special Review Approval Status Maintenance Document</label>
         <shortLabel>specialReviewApprovalTypeMaintDoc</shortLabel>
 
-        <summary>Approval Type Maintenance Document</summary>
-        <description>Document used to create or update Approval Type Reference objects</description>
+        <summary>Special Review Approval Status Maintenance Document</summary>
+        <description>Document used to create or update Special Review  Approval Status Reference objects</description>
 
         <lockingKeys>
             <field attributeName="approvalTypeCode" />
