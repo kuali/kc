@@ -140,6 +140,10 @@
 	  <reference-descriptor name="s2sOpportunity" class-ref="org.kuali.kra.s2s.bo.S2sOpportunity" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<foreignkey field-ref="proposalNumber"/>
 	  </reference-descriptor>
+	  
+	  <collection-descriptor name="s2sAppSubmission" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sAppSubmission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<inverse-foreignkey field-ref="proposalNumber"/>
+	  </collection-descriptor>
 
 		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="activityTypeCode"/>
