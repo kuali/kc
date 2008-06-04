@@ -84,7 +84,7 @@
 
             <attributeReference name="budgetVersionNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetModular" sourceAttributeName="budgetVersionNumber" />
 
-            <attributeReference name="budgetPeriod" sourceClassName="org.kuali.kra.budget.bo.BudgetPeriod" sourceAttributeName="budgetPeriod" />
+            <attributeReference name="budgetPeriod" sourceClassName="org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount" sourceAttributeName="budgetPeriod" />
 
             <attributeReference name="personId" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="personId" />
 
