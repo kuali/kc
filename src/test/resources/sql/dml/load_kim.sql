@@ -10,12 +10,15 @@ insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(6,'MODIF
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(7,'VIEW_BUDGET','View Proposal Budget', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(8,'MAINTAIN_PROPOSAL_ACCESS','Assign Users to Proposal Roles', 2);
 
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(1,'Proposal Creator','Proposal Creator');
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(2,'Aggregator','Proposal Aggregator');
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(3,'Narrative Writer','Proposal Narrative Writer');
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(4,'Budget Creator','Proposal Budget Creator');
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(5,'Viewer','Proposal Viewer');
-insert into KIM_ROLES_T (ID,NAME,DESCRIPTION) values(6,'unassigned','Unassigned - no permissions');
+insert into KIM_ROLE_TYPE_T (ROLE_TYPE_CODE, DESCRIPTION) values ('P', 'Proposal');
+insert into KIM_ROLE_TYPE_T (ROLE_TYPE_CODE, DESCRIPTION) values ('O', 'OSP');
+
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE) values(1,'Proposal Creator','Proposal Creator', 'O');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE) values(2,'Aggregator','Proposal Aggregator', 'P');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE) values(3,'Narrative Writer','Proposal Narrative Writer', 'P');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE) values(4,'Budget Creator','Proposal Budget Creator', 'P');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE) values(5,'Viewer','Proposal Viewer', 'P');
+insert into KIM_ROLES_T (ID,NAME,DESCRIPTION, ROLE_TYPE_CODE) values(6,'unassigned','Unassigned - no permissions', 'P');
 
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(1,1);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,2);
