@@ -341,10 +341,10 @@
 			<attribute name="incorporatedDate">
 			<label>Incorporated Date </label>
 			<shortLabel>Incorporated Date </shortLabel>
-			<maxLength>7</maxLength>
+			<maxLength>10</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-				<text size="7" />
+				<text size="10" />
 			</control>
 			<summary>Incorporated Date </summary>
 			<description>Incorporated Date </description>
@@ -473,10 +473,10 @@
 			<attribute name="scienceMisconductComplDate">
 			<label>Science Misconduct Compl Date </label>
 			<shortLabel>Science Misconduct Compl Date </shortLabel>
-			<maxLength>7</maxLength>
+			<maxLength>10</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-				<text size="7" />
+				<text size="10" />
 			</control>
 			<summary>Science Misconduct Compl Date </summary>
 			<description>Science Misconduct Compl Date </description>
