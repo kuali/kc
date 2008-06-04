@@ -26,6 +26,7 @@
             <inquirySections><inquirySection title="KimRole"><inquiryFields>
                 <field attributeName="id" forceInquiry="true"/>
                 <field attributeName="name"/>
+                <field attributeName="roleTypeName" />
                 <field attributeName="description"/>
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -35,22 +36,24 @@
             <menubar>
                 <![CDATA[<a href="index.jsp">Main</a>]]>
             </menubar>
-            <instructions>Look up a KIM Role</instructions>
+            <instructions>Look up a Role</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
                     <sortAttribute attributeName="name"/>
-                    <sortAttribute attributeName="description"/>
+                    <sortAttribute attributeName="roleTypeName"/>
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
                 <lookupField attributeName="name" required="false"/>
+                <lookupField attributeName="roleTypeCode" required="false"/>
                 <lookupField attributeName="description" required="false"/>
             </lookupFields>
 
             <resultFields>
                 <field attributeName="name" forceInquiry="false"/>
+                <field attributeName="roleTypeName" forceInquiry="false"/>
                 <field attributeName="description" forceInquiry="false"/>
             </resultFields>
         </lookup>
@@ -79,12 +82,37 @@
                 <summary>Role Name</summary>
                 <description>Role Name</description>
             </attribute>
+            
+             <attribute name="roleTypeCode">
+                <label>Role Type</label>
+                <shortLabel>Role Type</shortLabel>
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.kra.kim.lookup.keyvalue.KimRoleTypeValuesFinder" />
+                </control>
+                <summary>Role Type</summary>
+                <description>Role Type</description>
+            </attribute>
 
             <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="bigDescription">
                 <maxLength>4000</maxLength>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+       
+            <attribute name="roleTypeName" >
+                <label>Role Type</label>
+                <shortLabel>Role Type </shortLabel>
+                <maxLength>500</maxLength>
+                <required>false</required>
+                <control>
+                    <text size="40" />
+                </control>
+                <summary>Role Type</summary>
+                <description>Role Type</description>
+            </attribute>
         </attributes>
     </businessObject>
 

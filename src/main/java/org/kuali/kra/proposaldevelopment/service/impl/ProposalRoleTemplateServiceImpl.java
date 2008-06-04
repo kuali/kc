@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.bo.UnitAclEntry;
 import org.kuali.kra.proposaldevelopment.bo.ProposalRoleTemplate;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
@@ -33,7 +35,9 @@ import org.kuali.kra.service.PersonService;
  * The Proposal Role Template Service Implementation.
  */
 public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateService {
-
+    
+    private static final String PROPOSAL_ROLE_TYPE = "P";
+    
     private ProposalAuthorizationService proposalAuthorizationService;
     private BusinessObjectService businessObjectService;
     private PersonService personService;
@@ -68,8 +72,8 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
     public void addUsers(ProposalDevelopmentDocument doc) {
         String creatorUsername = getCreator(doc);
         
-        Collection<ProposalRoleTemplate> proposalRoleTemplates = getRoleTemplates(doc.getOwnedByUnitNumber());
-        for (ProposalRoleTemplate proposalRoleTemplate : proposalRoleTemplates) {
+        Collection<UnitAclEntry> proposalRoleTemplates = getRoleTemplates(doc.getOwnedByUnitNumber());
+        for (UnitAclEntry proposalRoleTemplate : proposalRoleTemplates) {
             String personId = proposalRoleTemplate.getPersonId();
             String username = personService.getPerson(personId).getUserName();
             if (username != null && !StringUtils.equals(username, creatorUsername)) {
@@ -96,11 +100,19 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
      * @param unitNumber the lead unit of the proposal
      * @return the collection of role templates
      */
-    private Collection<ProposalRoleTemplate> getRoleTemplates(String unitNumber) {
+    private Collection<UnitAclEntry> getRoleTemplates(String unitNumber) {
+        Collection<UnitAclEntry> list = new ArrayList<UnitAclEntry>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("unitNumber", unitNumber);
         fieldValues.put("active", true);
-        return businessObjectService.findMatching(ProposalRoleTemplate.class, fieldValues);
+        Collection<UnitAclEntry> aclList = businessObjectService.findMatching(UnitAclEntry.class, fieldValues);
+        for (UnitAclEntry aclEntry : aclList) {
+            String roleTypeCode = aclEntry.getRole().getRoleTypeCode();
+            if (StringUtils.equals(roleTypeCode, PROPOSAL_ROLE_TYPE)) {
+                list.add(aclEntry);
+            }
+        }
+        return list;
     }
 
 }
