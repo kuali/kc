@@ -27,6 +27,7 @@ import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAclEntry;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.RoleService;
@@ -40,6 +41,8 @@ import org.kuali.kra.service.UnitService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class UnitAuthorizationServiceAclImpl implements UnitAuthorizationService {
+    
+    private static final String PROPOSAL_ROLE_TYPE = "P";
     
     private SystemAuthorizationService systemAuthorizationService;
     private PersonService kimPersonService;
@@ -141,7 +144,8 @@ public class UnitAuthorizationServiceAclImpl implements UnitAuthorizationService
         fieldValues.put("personId", personId);
         fieldValues.put("unitNumber", unitNumber);
         fieldValues.put("active", true);
-        return businessObjectService.findMatching(UnitAclEntry.class, fieldValues);
+        Collection<UnitAclEntry> aclList = businessObjectService.findMatching(UnitAclEntry.class, fieldValues);
+        return filterAcl(aclList);
     }
 
     /**
@@ -200,14 +204,14 @@ public class UnitAuthorizationServiceAclImpl implements UnitAuthorizationService
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
         fieldValues.put("active", true);
-        return businessObjectService.findMatching(UnitAclEntry.class, fieldValues);
+        Collection<UnitAclEntry> aclList = businessObjectService.findMatching(UnitAclEntry.class, fieldValues);
+        return filterAcl(aclList);
     }
     
     private List<Unit> getUnits(String unitNumber, Collection<UnitAclEntry> entries) {
         List<Unit> units = new ArrayList<Unit>();
         List<Unit> subunits = unitService.getSubUnits(unitNumber);
         for (Unit unit : subunits) {
-            //System.out.println(unit.getUnitNumber());
             if (!isInAcl(unit, entries)) {
                 units.add(unit);
                 units.addAll(getUnits(unit.getUnitNumber(), entries));
@@ -224,5 +228,16 @@ public class UnitAuthorizationServiceAclImpl implements UnitAuthorizationService
             }
         }
         return false;
+    }
+    
+    private Collection<UnitAclEntry> filterAcl(Collection<UnitAclEntry> aclList) {
+        List<UnitAclEntry> list = new ArrayList<UnitAclEntry>();
+        for (UnitAclEntry aclEntry : aclList) {
+            KimRole role = aclEntry.getRole();
+            if (!StringUtils.equals(role.getRoleTypeCode(), PROPOSAL_ROLE_TYPE)) {
+                list.add(aclEntry);
+            }
+        }
+        return list;
     }
 }
