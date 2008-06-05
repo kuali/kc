@@ -71,16 +71,14 @@
 	                
 	            </tr>    	
     	</c:forEach>
-    		<!--  Commented Temporarily    	 
-    			<tr>
-    				<td colspan="5">
-    					<div align="right">
-    						<html:image src="/kra-dev/kr/static/images/tinybutton-printsel.gif" styleClass="globalbuttons" property="methodToCall.printForms" alt="Print Selected Forms"/>
-    						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    					</div>
-    				</td>
-    			</tr>
-    		-->	
+   			<tr>
+   				<td colspan="5">
+   					<div align="right">
+   						<html:image src="/kra-dev/kr/static/images/tinybutton-printsel.gif" styleClass="globalbuttons" property="methodToCall.printForms" alt="Print Selected Forms"/>
+   						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   					</div>
+   				</td>
+   			</tr>
     	</c:when>    	
     	<c:when test="${empty KualiForm.document.s2sOpportunity}" >
     		<tr><td>

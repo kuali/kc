@@ -19,6 +19,8 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,6 +45,7 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PessimisticLockService;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.AuditModeAction;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
@@ -52,6 +55,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -498,9 +502,28 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @throws Exception
      */
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //TODO: Call Printing Service here 
-        //KraServiceLocator.getService(S2SService.class).printForm(((ProposalDevelopmentForm)form).getProposalDevelopmentDocument().getS2sOpportunity().getS2sOppForms());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        //TODO: Call Printing Service here
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        super.save(mapping, form, request, response);
+        AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
+        if(attachmentDataSource==null || attachmentDataSource.getContent()==null) return mapping.findForward(Constants.MAPPING_BASIC);
+        ByteArrayOutputStream baos = null;
+        try{
+            baos = new ByteArrayOutputStream(attachmentDataSource.getContent().length);
+            baos.write(attachmentDataSource.getContent());
+            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
+        }finally{
+            try{
+                if(baos!=null){
+                    baos.close();
+                    baos = null;
+                }
+            }catch(IOException ioEx){
+                LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }        
+        return null;
     }
     
     private KualiRuleService getKualiRuleService() {
