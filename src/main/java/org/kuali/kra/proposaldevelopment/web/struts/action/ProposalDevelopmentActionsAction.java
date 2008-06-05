@@ -300,27 +300,28 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
         boolean errorExists = false;
         boolean warningExists = false;
-        if(!(KraServiceLocator.getService(KualiRuleService.class).applyRules(
-                new DocumentAuditEvent(proposalDevelopmentForm.getDocument())) & s2sService.validateApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber()))){
-            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
-                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
-                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
-                    errorExists=true;
-                    break;
+        if(proposalDevelopmentDocument.getS2sOpportunity()!=null){
+            if(!(KraServiceLocator.getService(KualiRuleService.class).applyRules(
+                    new DocumentAuditEvent(proposalDevelopmentForm.getDocument())) & s2sService.validateApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber()))){
+                for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
+                    AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                    if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
+                        errorExists=true;
+                        break;
+                    }
+                    if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
+                        errorExists = true;
+                        break;
+                    }
+                    if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
+                        warningExists = true;
+                    }
                 }
-                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
-                    errorExists = true;
-                    break;
-                }
-                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
-                    warningExists = true;
-                }
+                if(errorExists){
+                    GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+                }           
             }
-            if(errorExists){
-                GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
-            }           
         }
-        
 
         // TODO : this rull will be called again in proposaldevelopmentaction.execute
         // should we comment out here
@@ -438,31 +439,34 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         // TODO : this rull will be called again in proposaldevelopmentaction.execute
         // should we comment out here
-        if(KraServiceLocator.getService(KualiRuleService.class).applyRules(
-                new DocumentAuditEvent(proposalDevelopmentForm.getDocument())) & s2sService.validateApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber())){            
-            submitApplication(mapping,form,request,response);            
-        }else{
-            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
-                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
-                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
-                    errorExists=true;
-                    break;
+        if(proposalDevelopmentDocument.getS2sOpportunity()!=null){
+            if(KraServiceLocator.getService(KualiRuleService.class).applyRules(
+                    new DocumentAuditEvent(proposalDevelopmentForm.getDocument())) & s2sService.validateApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber())){            
+                submitApplication(mapping,form,request,response);            
+            }else{
+                for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
+                    AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                    if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
+                        errorExists=true;
+                        break;
+                    }
+                    if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
+                        errorExists = true;
+                        break;
+                    }
+                    if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
+                        warningExists = true;
+                    }
                 }
-                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
-                    errorExists = true;
-                    break;
-                }
-                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
-                    warningExists = true;
-                }
+                if(errorExists){
+                    GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+                }else if(warningExists){
+                    return confirm(buildSubmitToGrantsGovWithWarningsQuestion(mapping, form, request, response), CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, EMPTY_STRING);
+                }            
             }
-            if(errorExists){
-                GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
-            }else if(warningExists){
-                return confirm(buildSubmitToGrantsGovWithWarningsQuestion(mapping, form, request, response), CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, EMPTY_STRING);
-            }            
+        }else{
+            GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_S2SOPPORTUNITY_NOTSELECTED);
         }
-        
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
