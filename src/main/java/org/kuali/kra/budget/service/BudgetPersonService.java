@@ -18,6 +18,7 @@ package org.kuali.kra.budget.service;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
+
 /**
  * Budget Person Service interface
  */
@@ -29,6 +30,13 @@ public interface BudgetPersonService {
      * @param budgetPerson
      */
     public void populateBudgetPersonData(BudgetDocument budgetDocument, BudgetPerson budgetPerson);
+    
+    /**
+     * Populate each Budget Person's system default data, where it is not already populated.
+     * 
+     * @param budgetDocument
+     */
+    public void populateBudgetPersonDefaultDataIfEmpty(BudgetDocument budgetDocument);
     
     /**
      * This method will synchronize BudgetPersons with ProposalPersons.  New proposal persons will
