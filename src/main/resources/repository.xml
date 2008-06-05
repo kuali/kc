@@ -2297,6 +2297,7 @@
         <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
         <field-descriptor name="roleTypeCode" column="ROLE_TYPE_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <reference-descriptor name="roleType" class-ref="org.kuali.kra.kim.bo.KimRoleType" auto-retrieve="true" auto-update="none" auto-delete="none">

@@ -40,6 +40,7 @@ public class KimRole extends PersistableBusinessObjectBase {
 	private String name;
 	private String description;
 	private String roleTypeCode;
+	private Boolean descend;
 	private KimRoleType roleType;
 
     /**
@@ -108,6 +109,14 @@ public class KimRole extends PersistableBusinessObjectBase {
     
     public String getRoleTypeName() {
        return roleType.getDescription();
+    }
+
+    public Boolean getDescend() {
+        return descend;
+    }
+
+    public void setDescend(Boolean descend) {
+        this.descend = descend;
     }
 
     /**

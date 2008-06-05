@@ -28,6 +28,7 @@
                 <field attributeName="name"/>
                 <field attributeName="roleTypeName" />
                 <field attributeName="description"/>
+                <field attributeName="descend"/>
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -49,12 +50,14 @@
                 <lookupField attributeName="name" required="false"/>
                 <lookupField attributeName="roleTypeCode" required="false"/>
                 <lookupField attributeName="description" required="false"/>
+                <lookupField attributeName="descend" required="false"/>
             </lookupFields>
 
             <resultFields>
                 <field attributeName="name" forceInquiry="false"/>
                 <field attributeName="roleTypeName" forceInquiry="false"/>
                 <field attributeName="description" forceInquiry="false"/>
+                <field attributeName="descend" forceInquiry="false"/>
             </resultFields>
         </lookup>
 
@@ -86,8 +89,7 @@
              <attribute name="roleTypeCode">
                 <label>Role Type</label>
                 <shortLabel>Role Type</shortLabel>
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <maxLength>1</maxLength>
                 <required>true</required>
                 <control>
                     <select valuesFinderClass="org.kuali.kra.kim.lookup.keyvalue.KimRoleTypeValuesFinder" />
@@ -113,6 +115,13 @@
                 <summary>Role Type</summary>
                 <description>Role Type</description>
             </attribute>
+            
+            <attributeReference name="descend" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Descend</label>
+                <shortLabel>Descend </shortLabel>
+                <summary>Descend</summary>
+                <description>Descend</description>
+            </attributeReference>
         </attributes>
     </businessObject>
 

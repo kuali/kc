@@ -31,7 +31,7 @@ public class KimPerson extends PersistableBusinessObjectBase {
 
 	private static final long serialVersionUID = -1207463934478758540L;
 	
-	private Long id;
+	private Long id = null;
 	private String username;
 	private String password;
 	
