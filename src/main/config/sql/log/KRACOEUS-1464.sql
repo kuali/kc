@@ -185,7 +185,7 @@ end;
  
 
 
-  CREATE OR REPLACE PACKAGE "OSPA"."S2SNASAOTHERPROJECTINFORPKG" as
+  CREATE OR REPLACE PACKAGE  S2SNASAOTHERPROJECTINFORPKG as
 
 procedure get_historic
           (as_proposal_number IN osp$eps_proposal.proposal_number%type,
@@ -206,7 +206,7 @@ procedure get_persons
 
 end;
 /
-CREATE OR REPLACE PACKAGE BODY "OSPA"."S2SNASAOTHERPROJECTINFORPKG" as
+CREATE OR REPLACE PACKAGE BODY  S2SNASAOTHERPROJECTINFORPKG as
 -------------------------------
 -- procedure get_historic
 -------------------------------
