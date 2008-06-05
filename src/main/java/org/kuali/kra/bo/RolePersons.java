@@ -27,58 +27,69 @@ import org.kuali.core.bo.BusinessObjectBase;
  */
 public class RolePersons extends BusinessObjectBase {
     
-    private String roleName;
-    private List<String> userNames;
+   
+    private List<String> approver;
+    private List<String> aggregator;
+    private List<String> narrativewriter;
+    private List<String> budgetcreator;
+    private List<String> viewer;
     
-    /**
-     * Constructs a RolePersons.
-     */
-    public RolePersons() {
-        this.roleName = null;
-        this.userNames = null;
-    }
     
-    /**
-     * Get the role name.
-     * @return the role name
-     */
-    public String getRoleName() {
-        return roleName;
-    }
-
-    /**
-     * Set the role name.
-     * @param roleName the role name
-     */
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    /**
-     * Get the user names in the role.
-     * @return the user names in the role
-     */
-    public List<String> getUserNames() {
-        return userNames;
-    }
-
-    /**
-     * Set the user names in the role.
-     * @param userNames the user names in the role
-     */
-    public void setUserNames(List<String> userNames) {
-        this.userNames = userNames;
-    }
-
+  
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
-        map.put("roleName", this.getRoleName());
-        map.put("userNames", getUserNames());
+        map.put(approver,this.getapprover());
+        map.put(aggregator,this.getAggregator());
+        map.put(narrativewriter,this.getNarrativewriter());
+        map.put(viewer,this.getViewer());
         return map;
     }
 
     public void refresh() {
         // do nothing
+    }
+
+   
+
+    public List<String> getapprover() {
+        return approver;
+    }
+
+    public void setapprover(List<String> approver) {
+        this.approver = approver;
+        System.out.println(approver);
+    }
+
+    public List<String> getAggregator() {
+        return aggregator;
+    }
+
+    public void setAggregator(List<String> aggregator) {
+        this.aggregator = aggregator;
+    }
+
+    public List<String> getNarrativewriter() {
+        return narrativewriter;
+    }
+
+    public void setNarrativewriter(List<String> narrativewriter) {
+        this.narrativewriter = narrativewriter;
+    }
+
+    public List<String> getBudgetcreator() {
+        return budgetcreator;
+    }
+
+    public void setBudgetcreator(List<String> budgetcreator) {
+        this.budgetcreator = budgetcreator;
+    }
+
+    public List<String> getViewer() {
+        return viewer;
+    }
+
+    public void setViewer(List<String> viewer) {
+        this.viewer = viewer;
     }
 }
