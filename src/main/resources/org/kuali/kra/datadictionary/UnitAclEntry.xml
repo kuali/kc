@@ -156,10 +156,10 @@
             </attribute>
             
             <attributeReference name="subunits" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
-                <label>Sub-units</label>
-                <shortLabel>Sub-units </shortLabel>
-                <summary>Sub-units</summary>
-                <description>Sub-units</description>
+                <label>Descend</label>
+                <shortLabel>Descend </shortLabel>
+                <summary>Descend</summary>
+                <description>Descend</description>
             </attributeReference>
            
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
