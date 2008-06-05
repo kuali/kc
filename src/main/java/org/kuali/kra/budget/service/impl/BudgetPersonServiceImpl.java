@@ -18,12 +18,14 @@ package org.kuali.kra.budget.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetPerson;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -37,6 +39,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     
     private KualiConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
+    
     /**
      * @see org.kuali.kra.budget.service.BudgetPersonService#populateBudgetPersonData(org.kuali.kra.budget.document.BudgetDocument, org.kuali.kra.budget.bo.BudgetPerson)
      */
@@ -46,13 +49,16 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         budgetPerson.setBudgetVersionNumber(budgetDocument.getBudgetVersionNumber());
         budgetPerson.setPersonSequenceNumber(budgetDocument.getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
         
-        if (budgetDocument.getProposal() != null) {
-            budgetPerson.setEffectiveDate(budgetDocument.getProposal().getRequestedStartDateInitial());
+        populatePersonDefaultDataIfEmpty(budgetDocument, budgetPerson);
+    }
+    
+    /**
+     * @see org.kuali.kra.budget.service.BudgetPersonService#populateDefaultDataIfEmpty(org.kuali.kra.budget.document.BudgetDocument, org.kuali.kra.budget.bo.BudgetPerson)
+     */
+    public void populateBudgetPersonDefaultDataIfEmpty(BudgetDocument budgetDocument) {
+        for (BudgetPerson budgetPerson: budgetDocument.getBudgetPersons()) {
+            populatePersonDefaultDataIfEmpty(budgetDocument, budgetPerson);
         }
-        
-        budgetPerson.setCalculationBase(new BudgetDecimal(kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
-        
     }
     
     /**
@@ -78,6 +84,22 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
                     budgetDocument.addBudgetPerson(newBudgetPerson);
                 }
             }
+        }
+    }
+    
+    private void populatePersonDefaultDataIfEmpty(BudgetDocument budgetDocument, BudgetPerson budgetPerson) {
+        if (budgetDocument.getProposal() != null && ObjectUtils.isNull(budgetPerson.getEffectiveDate())) {
+            budgetPerson.setEffectiveDate(budgetDocument.getProposal().getRequestedStartDateInitial());
+        }
+        
+        if (ObjectUtils.isNull(budgetPerson.getCalculationBase())) {
+            budgetPerson.setCalculationBase(new BudgetDecimal(kualiConfigurationService.getParameterValue(
+                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
+        }
+        
+        if (StringUtils.isBlank(budgetPerson.getAppointmentTypeCode())) {
+            budgetPerson.setAppointmentTypeCode(kualiConfigurationService.getParameterValue(
+                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE));
         }
     }
 
