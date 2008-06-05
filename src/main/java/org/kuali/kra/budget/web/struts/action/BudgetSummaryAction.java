@@ -224,7 +224,14 @@ public class BudgetSummaryAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         int delPeriod = getLineToDelete(request);
+        int viewPeriod = 0;
+        if (budgetForm.getViewBudgetPeriod() != null) {
+            viewPeriod = budgetForm.getViewBudgetPeriod();
+        }
         List <BudgetLineItem> budgetLineItems = budgetDocument.getBudgetPeriods().get(delPeriod).getBudgetLineItems();
+        if (viewPeriod > 0 && ((delPeriod+1) == viewPeriod || budgetDocument.getBudgetPeriods().size() == viewPeriod)) {
+            budgetForm.setViewBudgetPeriod(new Integer(1));
+        }
         if (budgetLineItems != null && budgetLineItems.size() > 0) {
             return confirm(buildDeleteBudgetPeriodConfirmationQuestion(mapping, form, request, response,
                      delPeriod+1), CONFIRM_DELETE_BUDGET_PERIOD, "");
