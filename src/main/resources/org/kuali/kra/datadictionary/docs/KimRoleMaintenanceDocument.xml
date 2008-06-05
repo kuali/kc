@@ -26,7 +26,8 @@
 		<maintainableClass>
 			org.kuali.core.maintenance.KualiMaintainableImpl
 		</maintainableClass>
-
+		<businessRulesClass>org.kuali.kra.kim.rules.KimRoleRule</businessRulesClass>
+        
 		<documentAuthorizerClass>
 			org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase
 		</documentAuthorizerClass>
@@ -51,17 +52,16 @@
 
 		<lockingKeys>
 			<field attributeName="id" />
-			<field attributeName="name" />
-			<field attributeName="roleTypeCode" />
 		</lockingKeys>
 
 		<maintainableSections>
 			<maintainableSection title="Edit Role">
 				<maintainableItems>
 					<maintainableField name="id" required="false" />
-					<maintainableField name="name" required="true" />
-					<maintainableField name="roleTypeCode" required="true" />
+					<maintainableField name="name" required="true" readOnlyAfterAdd="true" />
+					<maintainableField name="roleTypeCode" required="true" readOnlyAfterAdd="true" />
 					<maintainableField name="description" required="false" />
+					<maintainableField name="descend" required="true" readOnlyAfterAdd="true"/>
 					<maintainableField name="versionNumber" />
 				</maintainableItems>
 			</maintainableSection>

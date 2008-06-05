@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kra.kim.bo.KimPerson;
 
 /**
@@ -26,7 +28,7 @@ import org.kuali.kra.kim.bo.KimPerson;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.9 2008-05-27 20:29:38 dbarre Exp $
+ * $Id: Person.java,v 1.10 2008-06-05 06:05:37 dbarre Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -89,13 +91,12 @@ public class Person extends KraPersistableBusinessObjectBase {
     private String pagerNumber;
     private String mobilePhoneNumber;
     private String eraCommonsUserName;
-    private Long kimPersonId;
-    private KimPerson kimPerson;
+    private Long kimPersonId = null;
+    private KimPerson kimPerson = null;
     private Boolean active = true;
     
     public Person() {
         super();
-        kimPerson = new KimPerson();
     }
 
     /**
@@ -105,6 +106,18 @@ public class Person extends KraPersistableBusinessObjectBase {
      */
     public String getPersonId() {
         return this.personId;
+    }
+    
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
+     */
+    @Override
+    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.beforeInsert(persistenceBroker);
+        if (kimPerson == null) {
+            kimPerson = new KimPerson();
+            kimPerson.setUsername(userName);
+        }
     }
 
     /**
@@ -1290,10 +1303,15 @@ public class Person extends KraPersistableBusinessObjectBase {
     }
 
     public String getPassword() {
+        if (kimPerson == null) {
+            return null;
+        }
         return kimPerson.getPassword();
     }
     
     public void setPassword(String password) {
-        this.kimPerson.setPassword(password);
+        if (kimPerson != null) {
+            this.kimPerson.setPassword(password);
+        }
     }
 }
