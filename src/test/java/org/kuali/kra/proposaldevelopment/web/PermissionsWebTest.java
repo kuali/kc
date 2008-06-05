@@ -704,19 +704,19 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
     }
     
     /**
-     * Test the cancel button.  Add some users and then click on
-     * the Cancel button and answer yes for the confirmation.  Retrieve
+     * Test the close button.  Add some users and then click on
+     * the Close button and answer no for the saving.  Retrieve
      * the proposal and make sure those users are not there.
      * @throws Exception
      */
     @Test
-    public void testCancel() throws Exception {
+    public void testClose() throws Exception {
         HtmlPage page = getPermissionsPage();
         String docNbr = this.getDocNbr(page);
         page = addAllUsers(page);
-        HtmlPage confirmationPage = clickOn(page, "cancel");
+        HtmlPage confirmationPage = clickOn(page, "close");
         
-        clickOn(confirmationPage, YES_BTN_ID);
+        clickOn(confirmationPage, NO_BTN_ID);
         page = docSearch(docNbr);
         page = clickOnTab(page, PERMISSIONS_LINK_NAME);
         
