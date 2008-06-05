@@ -528,7 +528,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             if(errors!=null)
             for (ErrorBean error : errors) {                
                 LOG.error(error.getMsg());
-                auditErrors.add(new AuditError(Constants.NO_FIELD, error.getMsg(), Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
+                auditErrors.add(new AuditError(Constants.NO_FIELD, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR,new String[]{error.getMsg()}));
             }
 //            LOG.error(e.getMessage(), e);
             GlobalVariables.getAuditErrorMap().put("grantsGovAuditErrors", new AuditCluster(Constants.GRANTS_GOV_OPPORTUNITY_PANEL, auditErrors, Constants.GRANTSGOV_ERRORS));            
