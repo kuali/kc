@@ -37,6 +37,8 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.bo.BudgetCategory;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
+import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.service.BudgetCalculationService;
@@ -220,6 +222,7 @@ public class BudgetExpensesAction extends BudgetAction {
             dictionaryValidationService.validateBusinessObject(budgetLineItem);
             GlobalVariables.getErrorMap().removeFromErrorPath("document.budgetPeriods[" + (selectedPeriod-1) + "].budgetLineItems[" + i + "]");
             i++;
+            updatePersonnelBudgetRate(budgetLineItem);
         }
         BudgetLineItem selectedLineItem = budgetDocument.getBudgetPeriod(selectedPeriod-1).getBudgetLineItem(selectedLineNumber);
         if(GlobalVariables.getErrorMap().getPropertiesWithErrors().size()>0){            
@@ -243,6 +246,9 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         int selectedPeriod = budgetForm.getViewBudgetPeriod().intValue();
         BudgetPeriod budgetPeriod = budgetDocument.getBudgetPeriod(selectedPeriod-1);
+        for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
+            updatePersonnelBudgetRate(budgetLineItem);
+        }
         BudgetCalculationService budgetCalculationService  = KraServiceLocator.getService(BudgetCalculationService.class);
         budgetCalculationService.calculateBudgetPeriod(budgetDocument, budgetPeriod);
         //budgetForm.setLineAddedOrDeletedSinceLastSaveOrCalculate(false);
@@ -282,6 +288,7 @@ public class BudgetExpensesAction extends BudgetAction {
                     budgetLineItem.refreshReferenceObject("costElementBO");
                     budgetLineItem.setBudgetCategoryCode(budgetLineItem.getCostElementBO().getBudgetCategoryCode());
                 }
+                updatePersonnelBudgetRate(budgetLineItem);
             }
         }
         
@@ -335,4 +342,14 @@ public class BudgetExpensesAction extends BudgetAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
+        int j = 0;
+        for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
+            j=0;
+            for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount:budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts()){
+                budgetPersonnelCalculatedAmount.setApplyRateFlag(budgetLineItem.getBudgetLineItemCalculatedAmounts().get(j).getApplyRateFlag());                        
+                j++;
+            }
+        }
+    }
 }
