@@ -108,23 +108,39 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
      * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
      */
     public boolean hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
-        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber());
-        boolean userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
-        if (!userHasPermission) {
-            String unitNumber = doc.getOwnedByUnitNumber();
-            userHasPermission = unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
+        boolean userHasPermission = false;
+        if (isValidPerson(username)) {
+            Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+            qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber());
+            userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
+            if (!userHasPermission) {
+                String unitNumber = doc.getOwnedByUnitNumber();
+                userHasPermission = unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
+            }
         }
         return userHasPermission;
     }
    
+    private boolean isValidPerson(String username) {
+        boolean isValid = false;
+        Person person = personService.getPersonByName(username);
+        if (person != null) {
+            isValid = person.getActive();
+        } 
+        return isValid;
+    }
+
     /**
      * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#hasRole(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
      */
     public boolean hasRole(String username, ProposalDevelopmentDocument doc, String roleName) {
-        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber());
-        return kimPersonService.hasQualifiedRole(username, roleName, qualifiedRoleAttributes);
+        boolean userHasPermission = false;
+        if (isValidPerson(username)) {
+            Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+            qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber());
+            return kimPersonService.hasQualifiedRole(username, roleName, qualifiedRoleAttributes);
+        }
+        return false;
     }
     
     /**
@@ -132,15 +148,17 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
      */
     public List<String> getRoles(String username, ProposalDevelopmentDocument doc) {
         List<String> roleNames = new ArrayList<String>();
-        String proposalNbr = doc.getProposalNumber();
-        if (proposalNbr != null) {
-            List<QualifiedRole> roles = kimPersonService.getQualifiedRoles(username);
-            for (QualifiedRole role : roles) {
-                Map<String, String> attrs = role.getQualifiedRoleAttributes();
-                if (attrs.containsKey(PROPOSAL_KEY)) {
-                    String value = attrs.get(PROPOSAL_KEY);
-                    if (value.equals(proposalNbr)) {
-                        roleNames.add(role.getRoleName());
+        if (isValidPerson(username)) {
+            String proposalNbr = doc.getProposalNumber();
+            if (proposalNbr != null) {
+                List<QualifiedRole> roles = kimPersonService.getQualifiedRoles(username);
+                for (QualifiedRole role : roles) {
+                    Map<String, String> attrs = role.getQualifiedRoleAttributes();
+                    if (attrs.containsKey(PROPOSAL_KEY)) {
+                        String value = attrs.get(PROPOSAL_KEY);
+                        if (value.equals(proposalNbr)) {
+                            roleNames.add(role.getRoleName());
+                        }
                     }
                 }
             }
@@ -158,7 +176,7 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
         List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
         for (String username : usernames) {
             Person person = personService.getPersonByName(username);
-            if (person != null) {
+            if (person != null && person.getActive()) {
                 persons.add(person);
             }
         }
@@ -182,8 +200,14 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
             qualifiedRoleAttrs.put(PROPOSAL_KEY, doc.getProposalNumber());
             List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
             RolePersons rolePersons = new RolePersons();
+            List<String> list = new ArrayList<String>();
             rolePersons.setRoleName(roleName);
-            rolePersons.setUserNames(usernames);
+            for (String username : usernames) {
+                if (isValidPerson(username)) {
+                    list.add(username);
+                }
+            }
+            rolePersons.setUserNames(list);
             rolePersonsList.add(rolePersons);
         }
         

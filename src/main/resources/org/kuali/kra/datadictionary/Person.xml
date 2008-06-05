@@ -142,6 +142,7 @@
             <attributeReference name="personId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
                 <label>Person Id </label>
                 <shortLabel>Person Id </shortLabel>
+                <maxLength>10</maxLength>   
                 <summary>Person Id </summary>
             	<description>Person Id </description>
             </attributeReference>
@@ -679,6 +680,18 @@
             	<description>Era Commons User Name</description>
            </attribute>
            
+            <attribute name="kimPersonId">
+                <label>KIM Person Id </label>
+                <shortLabel>KIM Person Id </shortLabel>
+                <maxLength>8</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <control>
+                    <hidden />
+                </control>
+                <summary>KIM Person Id </summary>
+                <description>KIM Person Id </description>
+            </attribute>
+            
            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Active</label>
                 <shortLabel>Active </shortLabel>
