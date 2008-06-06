@@ -32,7 +32,7 @@
     </c:otherwise>
 </c:choose>
 
-<kul:tabTop tabTitle="Modular Budget Overview (${periodLabel})" defaultOpen="true">
+<kul:tabTop tabTitle="Modular Budget Overview (${periodLabel})" defaultOpen="true" tabErrorKey="document.modularBudget">
 	<div class="tab-container" align="center">
    		<div class="h2-container">
    			<span class="subhead-left"><h2>Modular Budget Overview (${periodLabel})</h2></span>
@@ -91,7 +91,7 @@
     </div>
 </kul:tabTop>
 
-<kul:tab tabTitle="Direct Cost" defaultOpen="false">
+<kul:tab tabTitle="Direct Cost" defaultOpen="false" tabErrorKey="document.budgetPeriod[${periodNum - 1}].budgetModular.directCostLessConsortiumFna,document.budgetPeriod[${periodNum - 1}].budgetModular.consortiumFna">
 	<div class="tab-container" align="center">
    		<div class="h2-container">
    			<span class="subhead-left"><h2>Direct Cost</h2></span>
@@ -141,7 +141,7 @@
    	</div>
 </kul:tab>
 
-<kul:tab tabTitle="F&A" defaultOpen="false">
+<kul:tab tabTitle="F&A" defaultOpen="false" tabErrorKey="document.budgetPeriod[${periodNum - 1}].budgetModular.budgetModularIdc*,newBudgetModularIdc*">
 	<div class="tab-container" align="center">
    		<div class="h2-container">
    			<span class="subhead-left"><h2>F&A</h2></span>
