@@ -281,6 +281,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             this.loadDocument(proposalDevelopmentForm);
 
             nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
+            
+            proposalDevelopmentForm.setCopyCriteria(new ProposalCopyCriteria());
             }
         }
 
