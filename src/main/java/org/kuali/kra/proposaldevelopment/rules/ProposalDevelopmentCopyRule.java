@@ -45,7 +45,7 @@ public class ProposalDevelopmentCopyRule extends ResearchDocumentRuleBase implem
             // If the user didn't select a lead unit, i.e. he/she choose the "select:" option,
             // then the Lead Unit Number will be "blank".
             isValid = false;
-            GlobalVariables.getErrorMap().putError(Constants.COPY_PROPOSAL_PROPERTY_KEY + ".leadUnitNumber", 
+            GlobalVariables.getErrorMap().putError("copyCriteria.leadUnitNumber", 
                                                    KeyConstants.ERROR_LEAD_UNIT_REQUIRED);
         }
 
