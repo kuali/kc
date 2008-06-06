@@ -30,7 +30,7 @@
         jspContext.setAttribute("openFlag", openFlag);
 %>
 
- <kul:tab tabTitle="Copy to New Document" defaultOpen="${openFlag}" tabErrorKey="copyProposal*">
+ <kul:tab tabTitle="Copy to New Document" defaultOpen="${openFlag}" tabErrorKey="copyCriteria*,copyCriteria.*">
          
 	<div class="tab-container" align="center">
     	<div class="h2-container">
