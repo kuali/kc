@@ -322,7 +322,8 @@ public class SalaryCalculator {
     } // end createSalBreakupIntervals
 
     private void populateAppointmentType(BudgetPerson budgetPerson) {
-        if(budgetPerson.getAppointmentType()==null){
+        // JIRA-1467 : not sure why it is == null
+        if(budgetPerson.getAppointmentType()!=null){
             Map<String,String> qPersonMap = new HashMap<String,String>();
             qPersonMap.put("appointmentTypeCode", budgetPerson.getAppointmentTypeCode());
             AppointmentType appointmentType = (AppointmentType)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(AppointmentType.class, 
