@@ -187,13 +187,13 @@
 					        	</tr>
 					        	<tr>
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.salaryRequested}" noColon="true" /></div></th>
-					        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].salaryRequested" attributeEntry="${budgetPersonnelDetailsAttributes.salaryRequested}" /></div></td>
+					        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].salaryRequested" attributeEntry="${budgetPersonnelDetailsAttributes.salaryRequested}" readOnly="true"/></div></td>
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.costSharingAmount}" noColon="true" /></div></th>
-					        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].costSharingAmount" attributeEntry="${budgetPersonnelDetailsAttributes.costSharingAmount}"/></div></td>
+					        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].costSharingAmount" attributeEntry="${budgetPersonnelDetailsAttributes.costSharingAmount}" readOnly="true"/></div></td>
 					        	</tr>
 					        	<tr>
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.underrecoveryAmount}" noColon="true" /></div></th>
-					        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].underrecoveryAmount" attributeEntry="${budgetPersonnelDetailsAttributes.underrecoveryAmount}" /></div></td>
+					        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].underrecoveryAmount" attributeEntry="${budgetPersonnelDetailsAttributes.underrecoveryAmount}" readOnly="true"/></div></td>
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetPersonnelDetailsAttributes.costSharingPercent}" noColon="true" /></div></th>
 					        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].costSharingPercent" attributeEntry="${budgetPersonnelDetailsAttributes.costSharingPercent}"/></div></td>
 					        	</tr>
