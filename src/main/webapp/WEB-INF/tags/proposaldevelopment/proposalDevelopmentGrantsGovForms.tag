@@ -44,6 +44,9 @@
 		               	<c:when test="${isMandatory}"> 		                	
 		               		<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].include" attributeEntry="${s2sFormAttributes.include}" readOnly="true"/>
 		               	</c:when>
+		               	<c:when test="${!KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}"> 		                	
+		               		<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].include" attributeEntry="${s2sFormAttributes.include}" disabled="true"/>
+		               	</c:when>
 		               	<c:otherwise>
 							<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].include" attributeEntry="${s2sFormAttributes.include}"/>                		
  		               	</c:otherwise>
