@@ -530,10 +530,12 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param newLeadUnitNumber the new lead unit number
      */
     private void fixBudgetVersions(ProposalDevelopmentDocument doc) {
-        String budgetStatusIncompleteCode = kualiConfigurationService.getParameterValue(
-                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-        
-        doc.setBudgetStatus(budgetStatusIncompleteCode);
+        if (doc.getBudgetVersionOverviews().size() > 0) {
+            String budgetStatusIncompleteCode = kualiConfigurationService.getParameterValue(
+                    Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+            
+            doc.setBudgetStatus(budgetStatusIncompleteCode);
+        }
     }
     
     /**
