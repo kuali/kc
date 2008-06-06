@@ -42,6 +42,7 @@ import org.kuali.kra.budget.rule.AddBudgetProjectIncomeRule;
 import org.kuali.kra.budget.rule.DeleteBudgetPeriodRule;
 import org.kuali.kra.budget.rule.GenerateBudgetPeriodRule;
 import org.kuali.kra.budget.rule.SaveBudgetPeriodRule;
+import org.kuali.kra.budget.rule.SyncModularBudgetRule;
 import org.kuali.kra.budget.rule.event.AddBudgetCostShareEvent;
 import org.kuali.kra.budget.rule.event.AddBudgetPeriodEvent;
 import org.kuali.kra.budget.rule.event.AddBudgetProjectIncomeEvent;
@@ -52,7 +53,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
-public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule {
+public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddBudgetPeriodRule, AddBudgetCostShareRule, AddBudgetProjectIncomeRule, SaveBudgetPeriodRule, DeleteBudgetPeriodRule, GenerateBudgetPeriodRule, DocumentAuditRule, SyncModularBudgetRule {
 
     /** 
      * @see org.kuali.kra.budget.rule.AddBudgetCostShareRule#processAddBudgetCostShareBusinessRules(org.kuali.kra.budget.rule.event.AddBudgetCostShareEvent)
@@ -348,6 +349,36 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         retval &= new BudgetPersonnelAuditRule().processRunPersonnelAuditBusinessRules(document);
 
         return retval;
+    }
+    
+    public boolean processSyncModularBusinessRules(Document document) {
+        if (!(document instanceof BudgetDocument)) {
+            return false;
+        }
+        
+        boolean valid = true;
+        
+        BudgetDocument budgetDocument = (BudgetDocument) document;
+        
+        GlobalVariables.getErrorMap().addToErrorPath("document");
+        
+        List budgetPeriods = budgetDocument.getBudgetPeriods();
+        if (ObjectUtils.isNotNull(budgetPeriods) || budgetPeriods.size() >= 1) {
+            BudgetPeriod period1 = (BudgetPeriod) budgetPeriods.get(0);
+            if (ObjectUtils.isNull(period1.getBudgetLineItems()) || period1.getBudgetLineItems().isEmpty()) {
+                valid = false;
+            }
+        } else {
+            valid = false;
+        }
+        
+        if (!valid) {
+            GlobalVariables.getErrorMap().putError("modularBudget", KeyConstants.ERROR_NO_DETAILED_BUDGET);
+        }
+        
+        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+        
+        return valid;
     }
 
     /**

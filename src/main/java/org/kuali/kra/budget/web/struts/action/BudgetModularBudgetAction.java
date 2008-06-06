@@ -17,6 +17,7 @@ package org.kuali.kra.budget.web.struts.action;
 
 import static org.kuali.RiceConstants.QUESTION_INST_ATTRIBUTE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,10 +27,12 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.kra.budget.bo.BudgetModular;
 import org.kuali.kra.budget.bo.BudgetModularIdc;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.rule.event.SyncModularBudgetEvent;
 import org.kuali.kra.budget.service.BudgetModularService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -79,7 +82,11 @@ public class BudgetModularBudgetAction extends BudgetAction {
     }
     
     public ActionForward sync(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return confirm(buildSyncBudgetModularConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_BUDGET_MODULAR, "");
+        boolean passed = getKualiRuleService().applyRules(createSyncModularBudgetEvent(((BudgetForm) form).getBudgetDocument()));
+        if (passed) {
+            return confirm(buildSyncBudgetModularConfirmationQuestion(mapping, form, request, response), CONFIRM_SYNC_BUDGET_MODULAR, "");
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     @Override
@@ -128,6 +135,18 @@ public class BudgetModularBudgetAction extends BudgetAction {
         budgetModularService.generateModularPeriod(budgetPeriod);
         // Also update project totals
         budgetForm.setBudgetModularSummary(budgetModularService.generateModularSummary(budgetForm.getBudgetDocument()));
+    }
+    
+    protected SyncModularBudgetEvent createSyncModularBudgetEvent(BudgetDocument budgetDocument) {
+        return new SyncModularBudgetEvent("SyncModularBudgetEvent", Constants.EMPTY_STRING, budgetDocument);
+    }
+    
+    /**
+     * Convenience method to allow stubbing
+     * @return
+     */
+    protected KualiRuleService getKualiRuleService() {
+        return getService(KualiRuleService.class);
     }
     
 }

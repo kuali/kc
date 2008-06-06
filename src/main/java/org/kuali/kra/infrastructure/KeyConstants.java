@@ -108,6 +108,7 @@ public class KeyConstants {
 
     // Budget Modular Constants
     public static final String QUESTION_SYNC_BUDGET_MODULAR = "document.question.syncBudgetModular.text";
+    public static final String ERROR_NO_DETAILED_BUDGET = "error.modular.noDetail";
     
     // KRA Proposal Permission 
     public static final String QUESTION_DELETE_PROPOSAL_USER_CONFIRMATION = "document.question.deleteProposalUser.text";
