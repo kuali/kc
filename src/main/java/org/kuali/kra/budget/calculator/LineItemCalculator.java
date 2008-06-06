@@ -118,7 +118,7 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
             baseCost=lineItemCost.multiply(daysFactor).divide(new BudgetDecimal((double) 100.0));
         }
         boundary.setApplicableCost(lineItemCost==null?BudgetDecimal.ZERO:baseCost);
-        boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:lineItemCostSharing.multiply(daysFactor));
+        boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:lineItemCostSharing.multiply(daysFactor).divide(new BudgetDecimal((double) 100.0)));
     }
     @Override
     protected void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode, String rateClassType) {
