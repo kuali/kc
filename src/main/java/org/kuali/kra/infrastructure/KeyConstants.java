@@ -194,4 +194,5 @@ public class KeyConstants {
     public static final String QUESTION_SAVE_BUDGET_SUMMARY = "document.question.saveBudgetSummary.text";
     public static final String QUESTION_SAVE_BUDGET_SUMMARY_FOR_RATE_AND_DATE_CHANGE = "document.question.saveBudgetSummary.forRateAndDateChange.text";
     public static final String QUESTION_DELETE_BUDGET_PERIOD = "document.question.deleteBudgetPeriod.text";
+    public static final String QUESTION_SYNCH_BUDGET_RATE = "document.question.synchBudgetRate.text";
 }
