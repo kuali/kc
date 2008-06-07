@@ -40,6 +40,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.question.CopyPeriodsQuestion;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -48,7 +49,9 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class BudgetVersionsAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetVersionsAction.class);
-    
+    private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
+    private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
+
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ActionForward forward = super.docHandler(mapping, form, request, response);
@@ -95,6 +98,39 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
+        if (KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetDoc.getBudgetVersionNumber().toString())) {
+            return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
+                    KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
+
+        } else {
+            BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
+            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+            BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+            Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            String forward = buildForwardUrl(routeHeaderId);
+            return new ActionForward(forward, true);
+        }
+    }
+    
+    public ActionForward confirmSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
+
+        ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
+        BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String forward = buildForwardUrl(routeHeaderId);
+        forward = forward.replace("budgetSummary.do?", "budgetSummary.do?syncBudgetRate=Y&");
+        return new ActionForward(forward, true);
+    }
+
+    public ActionForward noSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
+
+        ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
@@ -102,8 +138,7 @@ public class BudgetVersionsAction extends BudgetAction {
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);
     }
-    
-    
+
     
     /**
      * This method copies a budget version's data to a new budget version.
@@ -209,4 +244,11 @@ public class BudgetVersionsAction extends BudgetAction {
         copyBudget(pdDoc, budgetToCopy, copyPeriodOneOnly);
     }
     
+    
+    private StrutsConfirmation syncBudgetRateConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,
+                message, "");
+    }
+
 }
