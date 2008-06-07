@@ -145,9 +145,11 @@ public class SalaryCalculator {
         Equals eEndDate = new Equals("effectiveDate", this.endDate);
         Or ltOrEqEndDate = new Or(ltEndDate, eEndDate);
         And personIdAndJobCodeAndltOrEqEndDate = new And(personIdAndRoldexIdAndJobCode, ltOrEqEndDate);
+        And personIdAndJobCodeAndltOrEqEndDateAndPersonSeqNumber = new And(personIdAndRoldexIdAndJobCode, ePersonSeqNumber);
+
 //        And personIdAndJobCodeAndltOrEqEndDate = new And(personIdAndJobCode, ltOrEqEndDate);
-        filteredPersons = budgetPersons.filter(personIdAndJobCodeAndltOrEqEndDate);
-        LOG.info("budget persons list size after filtering persons list with oprator" + personIdAndJobCodeAndltOrEqEndDate + " is "
+        filteredPersons = budgetPersons.filter(personIdAndJobCodeAndltOrEqEndDateAndPersonSeqNumber);
+        LOG.info("budget persons list size after filtering persons list with oprator" + personIdAndJobCodeAndltOrEqEndDateAndPersonSeqNumber + " is "
                 + filteredPersons.size());
 
         LesserThan ltStartDate = new LesserThan("effectiveDate", this.startDate);
