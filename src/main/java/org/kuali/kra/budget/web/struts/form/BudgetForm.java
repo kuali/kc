@@ -96,7 +96,8 @@ public class BudgetForm extends ProposalFormBase {
     private String urRateClassCodePrevValue;
     
     private String selectedBudgetPrintFormId;
-    
+    private String syncBudgetRate;
+
     public String getOhRateClassCodePrevValue() {
         return ohRateClassCodePrevValue;
     }
@@ -608,5 +609,13 @@ public class BudgetForm extends ProposalFormBase {
      */
     public void setSelectedBudgetPrintFormId(String selectedBudgetPrintFormId) {
         this.selectedBudgetPrintFormId = selectedBudgetPrintFormId;
+    }
+
+    public String getSyncBudgetRate() {
+        return syncBudgetRate;
+    }
+
+    public void setSyncBudgetRate(String syncBudgetRate) {
+        this.syncBudgetRate = syncBudgetRate;
     }
 }

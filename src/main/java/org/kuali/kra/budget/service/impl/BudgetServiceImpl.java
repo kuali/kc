@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
@@ -29,6 +30,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetPersonService;
@@ -214,4 +216,24 @@ public class BudgetServiceImpl implements BudgetService {
         }
         return false;
     }
+    
+    public boolean checkActivityTypeChange(ProposalDevelopmentDocument pdDoc, String budgetVersionNumber) {
+        Map qMap = new HashMap();
+        qMap.put("proposalNumber",pdDoc.getProposalNumber());
+        qMap.put("budgetVersionNumber",budgetVersionNumber);
+        Collection<BudgetProposalRate> allPropRates = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+                BudgetProposalRate.class, qMap);
+        if (CollectionUtils.isNotEmpty(allPropRates)) {
+            qMap.put("activityTypeCode",pdDoc.getActivityTypeCode());
+            Collection<BudgetProposalRate> matchActivityTypePropRates = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+                BudgetProposalRate.class, qMap);
+            if (CollectionUtils.isEmpty(matchActivityTypePropRates)) {
+                return true;
+            }
+        }
+                
+        return false;
+        
+    }
+
 }
