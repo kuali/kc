@@ -46,4 +46,12 @@ public interface BudgetService {
     
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion);
     
+    /**
+     * 
+     * This method check if activity type changed, then display confirmation message on 'open' budget version.
+     * @param budgetDocument
+     * @return
+     */
+    public boolean checkActivityTypeChange(ProposalDevelopmentDocument pdDoc, String budgetVersionNumbe);
+
 }
