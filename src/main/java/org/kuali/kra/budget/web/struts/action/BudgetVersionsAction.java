@@ -113,20 +113,14 @@ public class BudgetVersionsAction extends BudgetAction {
     }
     
     public ActionForward confirmSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
-
-        ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
-        BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        String forward = buildForwardUrl(routeHeaderId);
-        forward = forward.replace("budgetSummary.do?", "budgetSummary.do?syncBudgetRate=Y&");
-        return new ActionForward(forward, true);
+        return synchBudgetRate(mapping, form, request, response, true);
     }
 
     public ActionForward noSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return synchBudgetRate(mapping, form, request, response, false);
+    }
+
+    private ActionForward synchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
 
@@ -136,10 +130,13 @@ public class BudgetVersionsAction extends BudgetAction {
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         String forward = buildForwardUrl(routeHeaderId);
+        if (confirm) {
+            forward = forward.replace("budgetSummary.do?", "budgetSummary.do?syncBudgetRate=Y&");
+        }
         return new ActionForward(forward, true);
     }
 
-    
+
     /**
      * This method copies a budget version's data to a new budget version.
      * 
