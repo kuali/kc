@@ -18,13 +18,12 @@ package org.kuali.kra.budget.calculator;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
-import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetRateAndBase;
 import org.kuali.kra.budget.bo.ValidCalcType;
 import org.kuali.kra.budget.calculator.query.And;

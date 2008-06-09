@@ -29,8 +29,12 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.document.authorization.PessimisticLock;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetService;
@@ -41,6 +45,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.question.CopyPeriodsQuestion;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -64,6 +69,17 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
+                
+        PessimisticLock budgetLockForProposalDoc = null;
+        for(PessimisticLock pdLock : pdDoc.getPessimisticLocks()) {
+            if(pdLock.getLockDescriptor().contains("BUDGET")) {
+                budgetLockForProposalDoc = pdLock;
+                break;
+            }
+        }
+        PessimisticLock budgetLockForBudgetDoc = KNSServiceLocator.getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
+        newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
+        
         pdForm.getProposalDevelopmentDocument().addNewBudgetVersion(newBudgetDoc, pdForm.getNewBudgetVersionName(), false);
         pdForm.setNewBudgetVersionName("");
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -149,11 +165,30 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             GlobalVariables.getErrorMap().putError("document.budgetVersionOverview["+Integer.toString(pdForm.getFinalBudgetVersion()-1)+"].budgetStatus", KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
+	        updateProposalDocument(pdForm);
             setProposalStatus(pdForm.getProposalDevelopmentDocument());
             //setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
             return super.save(mapping, form, request, response);
         }
     }
+    
+    @Override 
+    protected void updateProposalDocument(ProposalDevelopmentForm pdForm) {
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
+        DocumentHeader currentDocumentHeader = pdDocument.getDocumentHeader();
+        KualiWorkflowDocument workflowDoc = currentDocumentHeader.getWorkflowDocument();
+        ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
+
+        if(updatedDocCopy != null && updatedDocCopy.getVersionNumber() > pdDocument.getVersionNumber()) {
+              //refresh the reference
+            updatedDocCopy.setBudgetVersionOverviews(pdDocument.getBudgetVersionOverviews());
+            updatedDocCopy.getDocumentHeader().setWorkflowDocument(workflowDoc);
+            pdForm.setDocument(updatedDocCopy);
+        }
+        
+        boService.save(pdDocument.getBudgetVersionOverviews());
+    }    
     
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
