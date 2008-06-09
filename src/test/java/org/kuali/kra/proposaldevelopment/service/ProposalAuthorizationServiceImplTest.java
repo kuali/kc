@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +33,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.mocks.MockKimDatabase;
 import org.kuali.kra.kim.mocks.MockKimPersonService;
 import org.kuali.kra.kim.mocks.MockKimQualifiedRoleService;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.impl.ProposalAuthorizationServiceImpl;
 import org.kuali.kra.service.impl.mocks.MockPersonService;
@@ -168,27 +172,32 @@ public class ProposalAuthorizationServiceImplTest extends KraTestBase {
     @Test
     public void testGetAllRolePersons() {
         ProposalDevelopmentDocument doc = createProposal("1");
-        List<RolePersons> rolePersonsList = proposalAuthService.getAllRolePersons(doc);
-        assertEquals(5, rolePersonsList.size());
-        for (RolePersons rolePersons : rolePersonsList) {
-            String roleName = rolePersons.getRoleName();
-            List<String> userNames = rolePersons.getUserNames();
-            if (StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
-                assertEquals(2, userNames.size());
-                assertTrue(userNames.contains("don"));
-                assertTrue(userNames.contains("gary"));
-            } else if (StringUtils.equals(roleName, RoleConstants.VIEWER)) {
-                assertEquals(1, userNames.size());
-                assertTrue(userNames.contains("molly"));
-            } else if (StringUtils.equals(roleName, RoleConstants.UNASSIGNED)) {
-                assertEquals(1, userNames.size());
-                assertTrue(userNames.contains("leo"));
-            } else {
-                assertEquals(0, userNames.size());
-            } 
+       
+        
+       List<RolePersons> rolePersonsList = proposalAuthService.getAllRolePersons(doc);
+       assertEquals(4, rolePersonsList.size());
+        for (RolePersons rolePersons : rolePersonsList){
+            if(rolePersons.getAggregator()!= null )
+            {
+                List<String> aggregators= rolePersons.getAggregator();
+                assertEquals(2, aggregators.size());
+                assertTrue(aggregators.contains("don"));
+                assertTrue(aggregators.contains("gary"));
+                
+            }else if(rolePersons.getViewer()!= null){
+                List<String> viewer=rolePersons.getViewer();
+                assertEquals(1, viewer.size());
+                assertTrue(viewer.contains("molly"));
+                
+            }
+            
+            
         }
-    }
-    
+        
+    }   
+                
+
+
     /**
      * Create a proposal development document.  For testing
      * purposes, we only need its proposal number to be set.
