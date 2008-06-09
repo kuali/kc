@@ -24,20 +24,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.workflow.DocumentInitiator;
-import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -61,7 +56,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
@@ -159,7 +153,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         ynqGroupNames = new ArrayList<YnqGroupName>();
         budgetVersionOverviews = new TypedArrayList(BudgetVersionOverview.class);
         investigators = new ArrayList<ProposalPerson>();
-        s2sOppForms = new ArrayList<S2sOppForms>();
+        s2sOppForms = new ArrayList<S2sOppForms>();        
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
     }
 
@@ -1387,7 +1381,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public List<S2sAppSubmission> getS2sAppSubmission() {
         return s2sAppSubmission;
     }
-
+   
     public void setS2sAppSubmission(List<S2sAppSubmission> appSubmission) {
         s2sAppSubmission = appSubmission;
     }

@@ -142,7 +142,7 @@ public class BudgetAction extends ProposalActionBase {
         }
 
         return forward;
-    }
+    } 
 
     public ActionForward versions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         BudgetForm budgetForm = (BudgetForm) form;
