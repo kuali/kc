@@ -18,7 +18,7 @@
 <c:set var="categories" value="Errors,Warnings,Grants.Gov Errors" />
 
 <kul:tabTop tabTitle="Data Validation" defaultOpen="${KualiForm.auditActivated}"  
-            tabErrorKey="document.audit*,document.datavalidation*,noKey">
+            tabErrorKey="document.audit*,document.datavalidation*,document.noKey">
 	<div class="tab-container"  align="center">
 		<div class="h2-container"> 
 			<span class="subhead-left"> <h2>Data Validation</h2> </span>
