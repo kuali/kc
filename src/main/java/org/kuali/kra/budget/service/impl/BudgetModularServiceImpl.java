@@ -16,17 +16,16 @@
 package org.kuali.kra.budget.service.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetModular;
 import org.kuali.kra.budget.bo.BudgetModularIdc;
 import org.kuali.kra.budget.bo.BudgetModularSummary;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetRateAndBase;
 import org.kuali.kra.budget.calculator.LineItemCalculator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetModularService;
@@ -103,22 +102,16 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                     consortiumFna = consortiumFna.add(budgetLineItem.getDirectCost());
                     break;
                 }
-                // Loop through line item calculated amounts
-                BudgetDecimal rateMultiplier = new BudgetDecimal(100);
-                for (Iterator iter = budgetLineItem.getBudgetLineItemCalculatedAmounts().iterator(); iter.hasNext();) {
-                    
-                    BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount = (BudgetLineItemCalculatedAmount) iter.next();
-                    budgetLineItemCalculatedAmount.refreshReferenceObject("rateClass");
-                    if (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals("O")) {
-                        // F&A
+                // Loop through rate and base amounts
+                for (BudgetRateAndBase budgetRateAndBase: budgetLineItem.getBudgetRateAndBaseList()) {
+                    budgetRateAndBase.refreshReferenceObject("rateClass");
+                    if (budgetRateAndBase.getRateClass().getRateClassType().equals("O")) {
                         BudgetModularIdc budgetModularIdc = new BudgetModularIdc();
-                        //budgetDocument.refreshReferenceObject("documentNextvalues");
                         budgetModularIdc.setRateNumber(budgetDocument.getHackedDocumentNextValue("rateNumber"));
-                        budgetModularIdc.setFundsRequested(budgetLineItemCalculatedAmount.getCalculatedCost());
-                        budgetModularIdc.setDescription(budgetLineItemCalculatedAmount.getRateClassCode());
-                        budgetModularIdc.setIdcBase(budgetLineItem.getLineItemCost());
-                        budgetModularIdc.setIdcRate(
-                                budgetModularIdc.getFundsRequested().divide(budgetModularIdc.getIdcBase()).multiply(rateMultiplier));
+                        budgetModularIdc.setDescription(budgetRateAndBase.getRateClassCode());
+                        budgetModularIdc.setIdcRate(budgetRateAndBase.getAppliedRate());
+                        budgetModularIdc.setIdcBase(budgetRateAndBase.getBaseCost());
+                        budgetModularIdc.setFundsRequested(budgetRateAndBase.getCalculatedCost());
                         budgetModular.addNewBudgetModularIdc(budgetModularIdc);
                     }
                 }
@@ -132,5 +125,11 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             budgetModular.setConsortiumFna(consortiumFna);
             budgetModular.calculateAllTotals();
         }
+    }
+    
+    protected List<BudgetModularIdc> generateBudgetModularIdcsForLineItem(BudgetLineItem budgetLineItem) {
+        List<BudgetModularIdc> budgetModularIdcs = new ArrayList<BudgetModularIdc>();
+        
+        return budgetModularIdcs;
     }
 }
