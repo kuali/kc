@@ -24,15 +24,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.SessionDocument;
 import org.kuali.core.document.authorization.PessimisticLock;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.workflow.DocumentInitiator;
+import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
@@ -56,6 +61,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
@@ -63,6 +69,7 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.service.YnqService;
+import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.KNSServiceLocator;
 
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
@@ -1358,7 +1365,35 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         return this.getBudgetVersionOverviews().size();
     }
     
-    
+    /**
+     * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
+     * 
+     * @see org.kuali.core.document.Document#wrapDocumentWithMetadataForXmlSerialization()
+     */
+    @Override
+    public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
+        ProposalAuthorizationService proposalauthservice=(ProposalAuthorizationService)KraServiceLocator.getService(ProposalAuthorizationService.class); 
+        KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
+        DocumentInitiator initiatior = new DocumentInitiator();
+        String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        try {
+            UniversalUser initiatorUser = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
+            initiatorUser.getModuleUsers(); // init the module users map for serialization
+            initiatior.setUniversalUser(initiatorUser);
+        }
+        catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        transInfo.setDocumentInitiator(initiatior);
+        KraDocumentXMLMaterializer xmlWrapper=new KraDocumentXMLMaterializer(); 
+        //KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer(); 
+        xmlWrapper.setDocument(getDocumentRepresentationForSerialization()); 
+        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo); 
+        xmlWrapper.setRolepersons(proposalauthservice.getAllRolePersons(this)); 
+        return xmlWrapper; 
+
+    } 
+  
    
 
     public boolean isNih() {
