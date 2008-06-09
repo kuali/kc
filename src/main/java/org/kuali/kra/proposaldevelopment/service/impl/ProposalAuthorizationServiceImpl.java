@@ -188,29 +188,53 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
      */
     public List<RolePersons> getAllRolePersons(ProposalDevelopmentDocument doc) {
         String[] roleNames = { RoleConstants.AGGREGATOR, 
-                               RoleConstants.BUDGET_CREATOR, 
-                               RoleConstants.NARRATIVE_WRITER, 
-                               RoleConstants.VIEWER, 
-                               RoleConstants.UNASSIGNED };
-        
+                RoleConstants.BUDGET_CREATOR, 
+                RoleConstants.NARRATIVE_WRITER, 
+                RoleConstants.VIEWER, 
+                "approver"
+        };
         List<RolePersons> rolePersonsList = new ArrayList<RolePersons>();
-        
         for (String roleName : roleNames) {
-            Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>();
-            qualifiedRoleAttrs.put(PROPOSAL_KEY, doc.getProposalNumber());
-            List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
-            RolePersons rolePersons = new RolePersons();
-            List<String> list = new ArrayList<String>();
-            rolePersons.setRoleName(roleName);
-            for (String username : usernames) {
-                if (isValidPerson(username)) {
-                    list.add(username);
-                }
-            }
-            rolePersons.setUserNames(list);
-            rolePersonsList.add(rolePersons);
+            if(roleName==RoleConstants.AGGREGATOR)
+            {
+                Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>(); 
+                qualifiedRoleAttrs.put(PROPOSAL_KEY, doc.getProposalNumber());
+                List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
+                RolePersons rolePersons = new RolePersons();
+
+                rolePersons.setAggregator(usernames);
+                rolePersonsList.add(rolePersons);
+            }else if(roleName==RoleConstants.BUDGET_CREATOR)
+            {
+                Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>(); 
+                qualifiedRoleAttrs.put(PROPOSAL_KEY, doc.getProposalNumber());
+                List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
+                RolePersons rolePersons = new RolePersons();
+
+                rolePersons.setBudgetcreator(usernames);
+                rolePersonsList.add(rolePersons);
+            } else if(roleName==RoleConstants.NARRATIVE_WRITER)
+            {
+                Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>(); 
+                qualifiedRoleAttrs.put(PROPOSAL_KEY, doc.getProposalNumber());
+                List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
+                RolePersons rolePersons = new RolePersons();
+
+                rolePersons.setNarrativewriter(usernames);
+                rolePersonsList.add(rolePersons);
+
+            }else if(roleName==RoleConstants.VIEWER){
+                Map<String, String> qualifiedRoleAttrs = new HashMap<String, String>(); 
+                qualifiedRoleAttrs.put(PROPOSAL_KEY, doc.getProposalNumber());
+                List<String> usernames = kimQualifiedRoleService.getPersonUsernames(roleName, qualifiedRoleAttrs);
+                RolePersons rolePersons = new RolePersons();
+                rolePersons.setViewer(usernames);
+                rolePersonsList.add(rolePersons);
+
+            }                
+
         }
-        
+
         return rolePersonsList;
     }
 }
