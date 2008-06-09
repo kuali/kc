@@ -23,7 +23,10 @@ import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,14 +38,18 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
+import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PessimisticLockService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
@@ -345,21 +352,56 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     protected boolean exitingDocument() {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(
                 KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        return super.exitingDocument() || StringUtils.isEmpty(activeLockRegion);
+        Boolean activeLockRegionChangedInd = (Boolean) GlobalVariables.getUserSession().retrieveObject(
+                KraAuthorizationConstants.LOCK_REGION_CHANGE_IND);
+        
+        return super.exitingDocument() || StringUtils.isEmpty(activeLockRegion) || (activeLockRegionChangedInd != null && activeLockRegionChangedInd.booleanValue());
     }
 
+    private List<PessimisticLock> findMatchingLocksWithGivenDescriptor(String lockDescriptor) {
+        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
+        Map fieldValues = new HashMap();
+        fieldValues.put("lockDescriptor", lockDescriptor);
+        List<PessimisticLock> matchingLocks = (List<PessimisticLock>) boService.findMatching(PessimisticLock.class, fieldValues);
+        return matchingLocks;
+    }
+    
     @Override
     protected void releaseLocks(Document document, String methodToCall) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(
                 KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         GlobalVariables.getUserSession().removeObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
+        UniversalUser loggedInUser = GlobalVariables.getUserSession().getUniversalUser();
+        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
 
+        String budgetLockDescriptor = null;
+        for(PessimisticLock lock: document.getPessimisticLocks()) {
+            if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && lock.getLockDescriptor().contains("BUDGET")) {
+                budgetLockDescriptor = lock.getLockDescriptor();
+                break;
+            }
+        }
+        
         // first check if the method to call is listed as required lock clearing
         if (document.getLockClearningMethodNames().contains(methodToCall) || StringUtils.isEmpty(activeLockRegion)) {
             // find all locks for the current user and remove them
-            KNSServiceLocator.getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(),
-                    GlobalVariables.getUserSession().getUniversalUser());
+            lockService.releaseAllLocksForUser(document.getPessimisticLocks(), loggedInUser);
+            
+            if(StringUtils.isNotEmpty(activeLockRegion) && activeLockRegion.contains("BUDGET")) {
+                //Add code here
+                List<PessimisticLock> otherBudgetLocks = findMatchingLocksWithGivenDescriptor(budgetLockDescriptor); 
+                lockService.releaseAllLocksForUser(otherBudgetLocks, loggedInUser, budgetLockDescriptor);
+            }
         }
+        
+        //Check the locks held by the user - detect user's navigation away from one lock region to another
+        for(PessimisticLock lock: document.getPessimisticLocks()) {
+            if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && StringUtils.isNotEmpty(activeLockRegion) && !lock.getLockDescriptor().contains(activeLockRegion)) {
+                List<PessimisticLock> otherLocks = findMatchingLocksWithGivenDescriptor(lock.getLockDescriptor());
+                lockService.releaseAllLocksForUser(otherLocks, loggedInUser, lock.getLockDescriptor());
+            }
+        }  
     }
 
 }

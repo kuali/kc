@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
@@ -41,6 +42,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -51,7 +53,7 @@ public class BudgetVersionsAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetVersionsAction.class);
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
-
+    
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ActionForward forward = super.docHandler(mapping, form, request, response);
@@ -79,6 +81,17 @@ public class BudgetVersionsAction extends BudgetAction {
         ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, budgetForm.getNewBudgetVersionName());
+        
+        PessimisticLock budgetLockForProposalDoc = null;
+        for(PessimisticLock pdLock : pdDoc.getPessimisticLocks()) {
+            if(pdLock.getLockDescriptor().contains("BUDGET")) {
+                budgetLockForProposalDoc = pdLock;
+                break;
+            }
+        }
+        PessimisticLock budgetLockForBudgetDoc = KNSServiceLocator.getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
+        newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
+
         pdDoc.addNewBudgetVersion(newBudgetDoc, budgetForm.getNewBudgetVersionName(), false);
         budgetForm.setNewBudgetVersionName("");
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -103,27 +116,27 @@ public class BudgetVersionsAction extends BudgetAction {
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
 
         } else {
-            BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
-            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-            BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-            Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-            String forward = buildForwardUrl(routeHeaderId);
-            return new ActionForward(forward, true);
+        BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        String forward = buildForwardUrl(routeHeaderId);
+        return new ActionForward(forward, true);
         }
     }
     
     public ActionForward confirmSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return synchBudgetRate(mapping, form, request, response, true);
     }
-
+    
     public ActionForward noSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return synchBudgetRate(mapping, form, request, response, false);
     }
-
+    
     private ActionForward synchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
-
+    
         ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
@@ -247,5 +260,5 @@ public class BudgetVersionsAction extends BudgetAction {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,
                 message, "");
     }
-
+    
 }

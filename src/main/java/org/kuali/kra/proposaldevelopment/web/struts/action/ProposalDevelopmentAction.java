@@ -48,6 +48,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
 import org.kuali.RicePropertyConstants;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
@@ -62,6 +63,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.bo.CustomAttributeDocValue;
@@ -231,6 +233,12 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         String originalStatus = getStatus(doc);
             
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(
+                KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        if(StringUtils.isEmpty(activeLockRegion) || activeLockRegion.contains("PROPOSAL")) {
+            updateProposalDocument(proposalDevelopmentForm);
+        }
+        
         ActionForward forward = super.save(mapping, form, request, response);
            
         // Special processing on the initial save of a proposal goes here!
@@ -247,7 +255,27 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         return forward;
     }
     
-
+    protected void updateProposalDocument(ProposalDevelopmentForm pdForm) {
+        ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
+        
+        if(updatedDocCopy != null && updatedDocCopy.getVersionNumber() > pdDocument.getVersionNumber()) {
+              //refresh the reference
+            pdDocument.setBudgetVersionOverviews(updatedDocCopy.getBudgetVersionOverviews());
+            pdDocument.setBudgetStatus(updatedDocCopy.getBudgetStatus());
+            pdDocument.setVersionNumber(updatedDocCopy.getVersionNumber());
+        }
+    }
+    
+    
+    protected ProposalDevelopmentDocument getProposalDoc(String pdDocumentNumber) {
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+        keyMap.put("documentNumber", pdDocumentNumber);
+        ProposalDevelopmentDocument newCopy = (ProposalDevelopmentDocument) boService.findByPrimaryKey(ProposalDevelopmentDocument.class, keyMap);
+        return newCopy;
+    }
+    
     public ActionForward proposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("proposal");
     }
