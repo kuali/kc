@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KeyValuesService;
@@ -53,13 +54,13 @@ import edu.iu.uis.eden.engine.node.KeyValuePair;
  * Temporary class until this can be gotten working via table.
  *
  * @author $Author: jsalam $
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonRoleValuesFinder.class);
 
     private String forAddedPerson;
-    private boolean nih=false;
+    
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
      */
@@ -69,67 +70,9 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         final boolean hasPrincipalInvestigator = getKeyPersonnelService().hasPrincipalInvestigator(document);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         keyValues.add(new KeyLabelPair("", "select"));
-        Map valueMap = new HashMap();
-        valueMap.put("sponsorCode", document.getSponsorCode());
-        valueMap.put("hierarchyName",getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                PARAMETER_COMPONENT_DOCUMENT, 
-                SPONSOR_HIERARCHY_NAME ));
-        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
-        Collection<Person> sponsor_hierarchy=  bos.findMatching(SponsorHierarchy.class, valueMap);
-        if (CollectionUtils.isNotEmpty(sponsor_hierarchy)) {
-            for (Object variable : sponsor_hierarchy) {
-                SponsorHierarchy sponhierarchy=(SponsorHierarchy) variable;
-                if(sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
-                    nih=true;
-                }else if(sponhierarchy.getLevel2().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
-                    
-                    nih=true;
-                }else if(sponhierarchy.getLevel3().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
-                    
-                    nih=true;
-                }else if(sponhierarchy.getLevel4().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
-                    nih=true;
-                }else if(sponhierarchy.getLevel5().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
-                    nih=true;
-                }else if(sponhierarchy.getLevel6().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
-                    nih=true;
-                }else if(sponhierarchy.getLevel7().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
-                    nih=true;
-                }else if(sponhierarchy.getLevel8().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
-                    nih=true;
-                }else if(sponhierarchy.getLevel9().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
-                    nih=true;
-                }else if (sponhierarchy.getLevel10().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-                        PARAMETER_COMPONENT_DOCUMENT, 
-                        SPONSOR_LEVEL_HIERARCHY ))){
-                    nih=true;
-                }
-
-            }
-
-        }
-
-        for (ProposalPersonRole role : roles) {
+         for (ProposalPersonRole role : roles) {
             info("Adding role %s", role.getProposalPersonRoleId());
-            info("With description %s", findRoleDescription(role));
+            info("With description %s", findRoleDescription(role,document));
 
             boolean showRole = true;
 
@@ -141,12 +84,12 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
             info("showRole = %s", showRole);
 
             if (showRole) {
-                if(nih){
-                    keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findNIHRoleDescription(role)));
+                if(document.isNih()){
+                    keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findNIHRoleDescription(role,document)));
                 }
                 else
                 {
-                    keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findRoleDescription(role)));
+                    keyValues.add(new KeyLabelPair(role.getProposalPersonRoleId(), findRoleDescription(role,document)));
                 }
             }
 
@@ -154,8 +97,8 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
         }
         return keyValues;
     }
-    protected String getRoleIdPrefix() {
-        if(nih){
+    protected String getRoleIdPrefix(ProposalDevelopmentDocument document) {
+        if(document.isNih()){
             return "nonnih.";
         }
         else
@@ -163,20 +106,20 @@ public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
             return new String();
         }
     }
-    protected String findRoleDescription(ProposalPersonRole role) {
+    protected String findRoleDescription(ProposalPersonRole role,ProposalDevelopmentDocument document) {
           return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                 PARAMETER_COMPONENT_DOCUMENT, 
                 PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
-                + getRoleIdPrefix()
+                + getRoleIdPrefix(document)
                 + role.getProposalPersonRoleId().toLowerCase());    
     }
 
 
-    protected String findNIHRoleDescription(ProposalPersonRole role) {
+    protected String findNIHRoleDescription(ProposalPersonRole role,ProposalDevelopmentDocument document) {
             return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
                 PARAMETER_COMPONENT_DOCUMENT, 
                 PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
-                + getRoleIdPrefix()
+                + getRoleIdPrefix(document)
                 + role.getProposalPersonRoleId().toLowerCase());    
     }
     /**
