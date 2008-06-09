@@ -39,6 +39,7 @@ public abstract class AbstractBudgetRateAndBase extends KraPersistableBusinessOb
 	private Date endDate;
 	private Boolean onOffCampusFlag;
 	private Date startDate;
+    private RateClass rateClass;
 
 	public Integer getBudgetPeriod() {
 		return budgetPeriod;
@@ -151,9 +152,16 @@ public abstract class AbstractBudgetRateAndBase extends KraPersistableBusinessOb
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
+    
+	public RateClass getRateClass() {
+        return rateClass;
+    }
 
+    public void setRateClass(RateClass rateClass) {
+        this.rateClass = rateClass;
+    }
 
-	@Override 
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("budgetPeriod", getBudgetPeriod());
