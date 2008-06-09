@@ -114,32 +114,41 @@ public class BudgetPeriodCalculator {
 //            allLineItems.addAll(budgetPeriod.getBudgetLineItems());
             QueryList<BudgetLineItem> currentBudgetPeriodLineItems = new QueryList<BudgetLineItem>(budgetPeriod.getBudgetLineItems());
             for (BudgetLineItem budgetLineItemToBeApplied : currentBudgetPeriodLineItems) {
-                if(prevBudgetLineItem.getLineItemNumber().equals(budgetLineItemToBeApplied.getBasedOnLineItem())
-                        && prevBudgetLineItem.getApplyInRateFlag()){
+                if(prevBudgetLineItem.getLineItemNumber().equals(budgetLineItemToBeApplied.getBasedOnLineItem())) {
+                    if (prevBudgetLineItem.getApplyInRateFlag()){
                     
-                    if (budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode() == PERSONNEL_CATEGORY
-                            && (!budgetLineItemToBeApplied.getBudgetPersonnelDetailsList().isEmpty())) {
-                        errorMessages.add("This line item contains personnel budget details"
-                                + " and there is already a line item on period " + budgetPeriod + " based on this line item. \n"
-                                + "Cannot apply the changes to later periods.");
-                        return;
+                        if (budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode() == PERSONNEL_CATEGORY
+                                && (!budgetLineItemToBeApplied.getBudgetPersonnelDetailsList().isEmpty())) {
+                            errorMessages.add("This line item contains personnel budget details"
+                                    + " and there is already a line item on period " + budgetPeriod + " based on this line item. \n"
+                                    + "Cannot apply the changes to later periods.");
+                            return;
+                        }
+                        
+                        BudgetDecimal lineItemCost = calculateInflation(budgetDocument, prevBudgetLineItem, budgetLineItemToBeApplied
+                                .getStartDate());
+                        if(!budgetLineItemToBeApplied.getCostElement().equals(prevBudgetLineItem.getCostElement())){
+                            budgetLineItemToBeApplied.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
+                            budgetLineItemToBeApplied.setBudgetCategory(prevBudgetLineItem.getBudgetCategory());
+                            budgetLineItemToBeApplied.setStartDate(budgetPeriod.getStartDate());
+                            budgetLineItemToBeApplied.setEndDate(budgetPeriod.getEndDate());
+                            budgetLineItemToBeApplied.setCostElement(prevBudgetLineItem.getCostElement());
+                            budgetLineItemToBeApplied.refreshReferenceObject("costElementBO");
+                            budgetLineItemToBeApplied.setBudgetCategoryCode(budgetLineItemToBeApplied.getCostElementBO().getBudgetCategoryCode());
+    //                        budgetLineItemToBeApplied.setCostElement(prevBudgetLineItem.getCostElement());
+    //                        budgetLineItemToBeApplied.setCostElementBO(prevBudgetLineItem.getCostElementBO());
+    //                        budgetCalculationService.rePopulateCalculatedAmount(budgetDocument, budgetLineItemToBeApplied);
+                        }
+                        
+                        budgetLineItemToBeApplied.setLineItemCost(lineItemCost);
                     }
-                    
-                    BudgetDecimal lineItemCost = calculateInflation(budgetDocument, prevBudgetLineItem, budgetLineItemToBeApplied
-                            .getStartDate());
-                    if(!budgetLineItemToBeApplied.getCostElement().equals(prevBudgetLineItem.getCostElement())){
-                        budgetLineItemToBeApplied.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
-                        budgetLineItemToBeApplied.setBudgetCategory(prevBudgetLineItem.getBudgetCategory());
-                        budgetLineItemToBeApplied.setStartDate(budgetPeriod.getStartDate());
-                        budgetLineItemToBeApplied.setEndDate(budgetPeriod.getEndDate());
-                        budgetLineItemToBeApplied.setCostElement(prevBudgetLineItem.getCostElement());
-                        budgetLineItemToBeApplied.refreshReferenceObject("costElementBO");
-                        budgetLineItemToBeApplied.setBudgetCategoryCode(budgetLineItemToBeApplied.getCostElementBO().getBudgetCategoryCode());
-//                        budgetLineItemToBeApplied.setCostElement(prevBudgetLineItem.getCostElement());
-//                        budgetLineItemToBeApplied.setCostElementBO(prevBudgetLineItem.getCostElementBO());
-//                        budgetCalculationService.rePopulateCalculatedAmount(budgetDocument, budgetLineItemToBeApplied);
+                    for (BudgetLineItemCalculatedAmount prevCalAmts : prevBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
+                        for (BudgetLineItemCalculatedAmount CalAmts : budgetLineItemToBeApplied.getBudgetLineItemCalculatedAmounts()) {
+                            if (prevCalAmts.getRateClassCode().equals(CalAmts.getRateClassCode()) && prevCalAmts.getRateTypeCode().equals(CalAmts.getRateTypeCode())) {
+                                CalAmts.setApplyRateFlag(prevCalAmts.getApplyRateFlag());
+                            }
+                        }
                     }
-                    budgetLineItemToBeApplied.setLineItemCost(lineItemCost);
                     
                     budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItemToBeApplied);
                 }
