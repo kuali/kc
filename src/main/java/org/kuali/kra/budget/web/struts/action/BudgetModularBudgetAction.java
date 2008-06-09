@@ -53,7 +53,6 @@ public class BudgetModularBudgetAction extends BudgetAction {
     
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetModularIdc newBudgetModularIdc = budgetForm.getNewBudgetModularIdc();
         newBudgetModularIdc.setRateNumber(budgetForm.getBudgetDocument().getHackedDocumentNextValue("rateNumber"));
         newBudgetModularIdc.calculateFundsRequested();
@@ -92,6 +91,13 @@ public class BudgetModularBudgetAction extends BudgetAction {
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.reload(mapping, form, request, response);
+        generateModularPeriod((BudgetForm) form);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.save(mapping, form, request, response);
         generateModularPeriod((BudgetForm) form);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
