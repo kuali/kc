@@ -141,15 +141,15 @@
             <description>DepartmentalApprovalAttribute</description>
             <type>RuleXmlAttribute</type>
             <routingConfig>
-              <fieldDef name="ownedByUnitNumber" title="Lead Unit" workflowType="RULE">
+              <fieldDef name="totalCost" title="Toal" workflowType="RULE">
                     <display>
                         <type>text</type>
                     </display>
                     <validation required="false"/>
                     <fieldEvaluation>
-                         <!-- expectation: this is run and evaluates to true -->
-                         <xpathexpression>wf:xstreamsafe('//document/ownedByUnitNumber') =  wf:ruledata('ownedByUnitNumber')</xpathexpression>
-                    </fieldEvaluation>
+                         
+                          <xpathexpression>wf:xstreamsafe('//document/ownedByUnitNumber') = 'IN-CARD' and wf:xstreamsafe("//budgetVersionOverviews/org.kuali.kra.budget.bo.BudgetVersionOverview/totalCost/value") &gt;= wf:ruledata('totalCost')</xpathexpression>
+                     </fieldEvaluation>
               </fieldDef>
             </routingConfig>
             </ruleAttribute>
@@ -199,10 +199,7 @@
         <attribute>
           <name>ViewerSearchAttribute</name>
         </attribute>
-        <attribute>
-          <name>ApproverSearchAttribute</name>  
-        </attribute>
-      </attributes>
+        </attributes>
       <routingVersion>2</routingVersion>
       <routePaths>
         <routePath>
