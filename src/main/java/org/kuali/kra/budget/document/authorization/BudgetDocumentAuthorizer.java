@@ -31,6 +31,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -175,8 +176,13 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     @Override
     protected String getCustomLockDescriptor(Document document, Map editMode, UniversalUser user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        if(StringUtils.isNotEmpty(activeLockRegion))
-            return document.getDocumentNumber()+"-"+activeLockRegion; 
+        if(StringUtils.isNotEmpty(activeLockRegion)) {
+            ProposalDevelopmentDocument parent = ((BudgetDocument) document).getProposal();
+            if(parent != null) {
+                return parent.getDocumentNumber()+"-"+activeLockRegion; 
+            }
+            return document.getDocumentNumber()+"-"+activeLockRegion;
+        }
         
         return null;
     }
@@ -215,6 +221,19 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         } 
         
         return false;
+    }
+
+    protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, UniversalUser user) {
+        BudgetDocument budgetDocument = (BudgetDocument) document;
+        if (useCustomLockDescriptors()) {
+            //String lockDescriptor = getCustomLockDescriptor(budgetDocument.getProposal(), editMode, user);
+            String lockDescriptor = getCustomLockDescriptor(budgetDocument, editMode, user);
+            PessimisticLock budgetLockForProposal = KNSServiceLocator.getPessimisticLockService().generateNewLock(budgetDocument.getProposal().getDocumentNumber(), lockDescriptor, user);
+            budgetDocument.getProposal().addPessimisticLock(budgetLockForProposal);
+            return KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), lockDescriptor, user);
+        } else {
+            return KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), user);
+        }  
     }
 
 }
