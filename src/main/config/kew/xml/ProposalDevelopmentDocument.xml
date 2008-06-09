@@ -148,7 +148,7 @@
                     <validation required="false"/>
                     <fieldEvaluation>
                          <!-- expectation: this is run and evaluates to true -->
-                         <xpathexpression>wf:xstreamsafe('//document/ownedByUnitNumber') =  wf:ruledata('ownedByUnitNumber')</xpathexpression>
+                         <xpathexpression>wf:xstreamsafe('//document/ownedByUnitNumber') = 'IN-CARD' and wf:xstreamsafe("//budgetVersionOverviews/org.kuali.kra.budget.bo.BudgetVersionOverview/totalCost/value") &gt;= wf:ruledata('totalCost')</xpathexpression>
                     </fieldEvaluation>
               </fieldDef>
             </routingConfig>
