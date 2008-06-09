@@ -37,7 +37,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: jsalam $
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public interface KeyPersonnelService {
     /**
@@ -228,5 +228,13 @@ public interface KeyPersonnelService {
     public void assignLeadUnit(ProposalPerson person, String unitNumber);
     
     
+    /**
+     * Determines whether the sponsor on the document is NIH
+     *
+     * @param document
+     * @return true or false
+     */
+    
+    public boolean isSponsorNIH(ProposalDevelopmentDocument document);
      
 }
