@@ -60,7 +60,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.NewNarrativeUserRightsEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.service.S2SService;
@@ -512,8 +511,32 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         super.save(mapping, form, request, response);
+        boolean grantsGovErrorExists = false;
+        boolean errorExists = false;
+        boolean warningExists = false;
         AttachmentDataSource attachmentDataSource = KraServiceLocator.getService(S2SService.class).printForm(proposalDevelopmentDocument);
-        if(attachmentDataSource==null || attachmentDataSource.getContent()==null) return mapping.findForward(Constants.MAPPING_BASIC);
+        if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
+            for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
+                    errorExists=true;
+                    break;
+                }
+                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
+                    grantsGovErrorExists = true;
+                    break;
+                }
+                if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
+                    warningExists = true;
+                }
+            }
+            if(grantsGovErrorExists){
+                GlobalVariables.getErrorMap().putError("document.noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+                proposalDevelopmentForm.setAuditActivated(true);
+                return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
+            }
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
         ByteArrayOutputStream baos = null;
         try{
             baos = new ByteArrayOutputStream(attachmentDataSource.getContent().length);
