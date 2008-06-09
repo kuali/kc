@@ -145,10 +145,12 @@ public class SalaryCalculator {
         Equals eEndDate = new Equals("effectiveDate", this.endDate);
         Or ltOrEqEndDate = new Or(ltEndDate, eEndDate);
         And personIdAndJobCodeAndltOrEqEndDate = new And(personIdAndRoldexIdAndJobCode, ltOrEqEndDate);
-//        And personIdAndJobCodeAndltOrEqEndDate = new And(personIdAndJobCode, ltOrEqEndDate);
-        filteredPersons = budgetPersons.filter(personIdAndJobCodeAndltOrEqEndDate);
-        LOG.info("budget persons list size after filtering persons list with oprator" + personIdAndJobCodeAndltOrEqEndDate + " is "
-                + filteredPersons.size());
+        And personIdAndJobCodeAndltOrEqEndDateAndPersonSeqNumber = new And(personIdAndRoldexIdAndJobCode, ePersonSeqNumber);
+
+//      And personIdAndJobCodeAndltOrEqEndDate = new And(personIdAndJobCode, ltOrEqEndDate);
+        filteredPersons = budgetPersons.filter(personIdAndJobCodeAndltOrEqEndDateAndPersonSeqNumber);
+        LOG.info("budget persons list size after filtering persons list with oprator" + personIdAndJobCodeAndltOrEqEndDateAndPersonSeqNumber + " is "
+              + filteredPersons.size());
 
         LesserThan ltStartDate = new LesserThan("effectiveDate", this.startDate);
         Equals eStartDate = new Equals("effectiveDate", this.startDate);
@@ -322,14 +324,14 @@ public class SalaryCalculator {
     } // end createSalBreakupIntervals
 
     private void populateAppointmentType(BudgetPerson budgetPerson) {
-        // JIRA-1467 : not sure why it is == null
-        if(budgetPerson.getAppointmentType()!=null){
+        // JIRA-1467 : reset apointment type need to check too
+       // if(budgetPerson.getAppointmentType()!=null){
             Map<String,String> qPersonMap = new HashMap<String,String>();
             qPersonMap.put("appointmentTypeCode", budgetPerson.getAppointmentTypeCode());
             AppointmentType appointmentType = (AppointmentType)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(AppointmentType.class, 
                         qPersonMap);
             budgetPerson.setAppointmentType(appointmentType);
-        }
+       // }
     }
 
     public class SalaryDetails {
