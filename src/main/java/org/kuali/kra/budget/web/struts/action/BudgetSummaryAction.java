@@ -70,8 +70,14 @@ public class BudgetSummaryAction extends BudgetAction {
             throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
         updateTotalCost(((BudgetForm) form).getBudgetDocument());
-        ((BudgetForm) form).getBudgetDocument().getBudgetSummaryService().setupOldStartEndDate(
-                ((BudgetForm) form).getBudgetDocument(), false);
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        budgetDocument.getBudgetSummaryService().setupOldStartEndDate(
+                budgetForm.getBudgetDocument(), false);
+        if (StringUtils.isNotBlank(budgetForm.getSyncBudgetRate()) && budgetForm.getSyncBudgetRate().equals("Y")) {
+            ((BudgetForm) form).getBudgetDocument().getBudgetRatesService().syncAllBudgetRates(((BudgetForm) form).getBudgetDocument());
+            budgetForm.setSyncBudgetRate("");
+        }
         return forward;
     }
 

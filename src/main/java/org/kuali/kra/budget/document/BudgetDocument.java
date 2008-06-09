@@ -561,6 +561,8 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(budgetLineItems);
         managedLists.add(getBudgetPersons());
         managedLists.add(getBudgetPeriods());
+        managedLists.add(getBudgetProposalLaRates());
+        managedLists.add(getBudgetProposalRates());
         return managedLists;
     }
 
