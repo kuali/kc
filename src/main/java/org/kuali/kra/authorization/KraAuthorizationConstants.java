@@ -22,6 +22,8 @@ package org.kuali.kra.authorization;
  */
 public class KraAuthorizationConstants {
     public static final String ACTIVE_LOCK_REGION = "ACTIVE_LOCK_REGION";
+    public static final String LOCK_REGION_CHANGE_IND = "ACTIVE_LOCK_REGION_CHANGED";
+    
     public static final String LOCK_DESCRIPTOR_PROPOSAL = "PROPOSAL";
     public static final String LOCK_DESCRIPTOR_BUDGET = "BUDGET";
     public static final String LOCK_DESCRIPTOR_NARRATIVES = "NARRATIVES";

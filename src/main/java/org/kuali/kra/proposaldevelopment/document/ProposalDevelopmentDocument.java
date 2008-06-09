@@ -84,7 +84,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private Date requestedStartDateInitial;
     private Date requestedEndDateInitial;
     private String title;
-    private String currentAwardNumber;
+    private String currentAwardNumber; 
     private Date deadlineDate;
     private String noticeOfOpportunityCode;
     private String deadlineType;
