@@ -1,1 +1,0 @@
-@/Users/geo/eclipse/workspace/kra_project/src/main/config/sql/s2s/views/OSP$EPS_PROP_KEY_PERSONS.sql;
