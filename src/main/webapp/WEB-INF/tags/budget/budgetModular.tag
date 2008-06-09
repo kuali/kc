@@ -151,7 +151,7 @@
         	<tbody>
              	<tr align="center" valign="top">
                		<th>&nbsp;</th>
-               		<th>Unrecovered F&amp;A Rate Type</th>
+               		<th>F&amp;A Rate Type</th>
                		<th>IDC Rate</th>
                		<th>IDC Base</th>
                		<th>Funds Requested</th>
