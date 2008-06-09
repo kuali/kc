@@ -23,6 +23,9 @@ import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMEN
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_INVESTIGATOR;
+import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX;
+import static org.kuali.kra.infrastructure.Constants.SPONSOR_HIERARCHY_NAME;
+import static org.kuali.kra.infrastructure.Constants.SPONSOR_LEVEL_HIERARCHY;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
 
@@ -31,14 +34,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -58,8 +65,8 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: dbarre $
- * @version $Revision: 1.23.2.8 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.23.2.9 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private static final String READ_ONLY_ROLES_PARAM_NAME = "proposaldevelopment.personrole.readonly.roles";
@@ -607,4 +614,92 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         }
         return getConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,parameterName).getParameterValue();
     }
+
+ public boolean isSponsorNIH(ProposalDevelopmentDocument document) {
+        
+        boolean nih=false;
+        Map valueMap = new HashMap();
+        HashMap nihDescription=new HashMap<String, String>();
+        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
+        final Collection<ProposalPersonRole> roles = bos.findAll(ProposalPersonRole.class);
+        document.setNih(false);
+        valueMap.put("sponsorCode", document.getSponsorCode());
+        valueMap.put("hierarchyName",getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                PARAMETER_COMPONENT_DOCUMENT, 
+                SPONSOR_HIERARCHY_NAME ));
+         Collection<SponsorHierarchy> sponsor_hierarchy=  bos.findMatching(SponsorHierarchy.class, valueMap);
+        if (CollectionUtils.isNotEmpty(sponsor_hierarchy)) {
+            for (Object variable : sponsor_hierarchy) {
+                SponsorHierarchy sponhierarchy=(SponsorHierarchy) variable;
+                if(StringUtils.isNotEmpty(sponhierarchy.getLevel1()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                        PARAMETER_COMPONENT_DOCUMENT, 
+                        SPONSOR_LEVEL_HIERARCHY )))){
+                    document.setNih(true);
+                    nih=true;
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel2()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                        PARAMETER_COMPONENT_DOCUMENT, 
+                        SPONSOR_LEVEL_HIERARCHY )))){
+                        document.setNih(true);
+                        nih=true;
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel3()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                        PARAMETER_COMPONENT_DOCUMENT, 
+                        SPONSOR_LEVEL_HIERARCHY )))){
+                         document.setNih(true);
+                         nih=true;
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel4()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                        PARAMETER_COMPONENT_DOCUMENT, 
+                        SPONSOR_LEVEL_HIERARCHY )))){
+                       document.setNih(true);
+                       nih=true;
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel5()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                        PARAMETER_COMPONENT_DOCUMENT, 
+                        SPONSOR_LEVEL_HIERARCHY )))){
+                       document.setNih(true);
+                       nih=true;
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel6()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                        PARAMETER_COMPONENT_DOCUMENT, 
+                        SPONSOR_LEVEL_HIERARCHY )))){
+                       document.setNih(true);
+                       nih=true;
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel7()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                        PARAMETER_COMPONENT_DOCUMENT, 
+                        SPONSOR_LEVEL_HIERARCHY )))){
+                      document.setNih(true);
+                      nih=true;
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel8()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                        PARAMETER_COMPONENT_DOCUMENT, 
+                        SPONSOR_LEVEL_HIERARCHY )))){
+                      document.setNih(true);
+                      nih=true;
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                        PARAMETER_COMPONENT_DOCUMENT, 
+                        SPONSOR_LEVEL_HIERARCHY )))){
+                      document.setNih(true);
+                      nih=true;
+                }else if(StringUtils.isNotEmpty(sponhierarchy.getLevel9()) && (sponhierarchy.getLevel1().equals(getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                        PARAMETER_COMPONENT_DOCUMENT, 
+                        SPONSOR_LEVEL_HIERARCHY )))){
+                      document.setNih(true);
+                      nih=true;
+                }
+            }
+        }
+        if(document.isNih()){
+            for (ProposalPersonRole role : roles) {
+                nihDescription.put(role.getProposalPersonRoleId(), findNIHRoleDescription(role));
+                
+            }
+            document.setNihDescription(nihDescription);
+        }
+        return nih;
+        // TODO Auto-generated method stub
+        
+    }
+ protected String findNIHRoleDescription(ProposalPersonRole role) {
+     return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+         PARAMETER_COMPONENT_DOCUMENT, 
+         PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
+         + "nonnih."
+         + role.getProposalPersonRoleId().toLowerCase());    
+}
 }
