@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,13 +114,8 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         }
         BudgetDecimal lineItemCost = bli.getLineItemCost();
         BudgetDecimal lineItemCostSharing = bli.getCostSharingAmount();
-        BudgetDecimal daysFactor = new BudgetDecimal(((double)boundaryNumOfDays * 100.0) / (double)totalNumOfDays);
-        BudgetDecimal baseCost = BudgetDecimal.ZERO;
-        if (lineItemCost != null) {
-            baseCost=lineItemCost.multiply(daysFactor).divide(new BudgetDecimal((double) 100.0));
-        }
-        boundary.setApplicableCost(lineItemCost==null?BudgetDecimal.ZERO:baseCost);
-        boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:lineItemCostSharing.multiply(daysFactor).divide(new BudgetDecimal((double) 100.0)));
+        boundary.setApplicableCost(lineItemCost==null?BudgetDecimal.ZERO:new BudgetDecimal(lineItemCost.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
+        boundary.setApplicableCostSharing(lineItemCostSharing==null?BudgetDecimal.ZERO:new BudgetDecimal(lineItemCostSharing.bigDecimalValue().multiply(((new BigDecimal(boundaryNumOfDays)))).divide(new BigDecimal(totalNumOfDays),2, RoundingMode.HALF_UP)));
     }
     @Override
     protected void addBudgetLineItemCalculatedAmount(String rateClassCode, String rateTypeCode, String rateClassType) {
