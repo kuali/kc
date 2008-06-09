@@ -479,7 +479,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
         s2sService.submitApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber());
-        
+        proposalDevelopmentDocument.refreshReferenceObject("s2sAppSubmission");
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
