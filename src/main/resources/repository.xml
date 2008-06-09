@@ -132,7 +132,7 @@
           <foreignkey field-ref="ownedByUnitNumber" />
       </reference-descriptor>
       
-      <collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+      <collection-descriptor name="budgetVersionOverviews" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetVersionOverview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
 	  	<orderby name="budgetVersionNumber" sort="ASC" />
 	  	<inverse-foreignkey field-ref="proposalNumber"/>
 	  </collection-descriptor>
@@ -140,7 +140,7 @@
 	  <reference-descriptor name="s2sOpportunity" class-ref="org.kuali.kra.s2s.bo.S2sOpportunity" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<foreignkey field-ref="proposalNumber"/>
 	  </reference-descriptor>
-	  
+
 	  <collection-descriptor name="s2sAppSubmission" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sAppSubmission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 	  </collection-descriptor>
@@ -1890,7 +1890,6 @@
 			<foreignkey field-ref="rateClassCode"/>
 		</reference-descriptor>
 	</class-descriptor>
-	
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetPersonnelRateAndBase" table="BUDGET_PER_DET_RATE_AND_BASE">
 		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_NUMBER" jdbc-type="BIGINT" primarykey="true"/>
 		<field-descriptor name="lineItemNumber" column="LINE_ITEM_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
@@ -2301,7 +2300,7 @@
         <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
         <field-descriptor name="roleTypeCode" column="ROLE_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+                <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <reference-descriptor name="roleType" class-ref="org.kuali.kra.kim.bo.KimRoleType" auto-retrieve="true" auto-update="none" auto-delete="none">

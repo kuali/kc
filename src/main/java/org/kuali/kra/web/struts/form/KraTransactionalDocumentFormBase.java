@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.web.struts.form;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
-import org.kuali.RiceKeyConstants;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
@@ -34,9 +32,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.rice.KNSServiceLocator;  
+import org.kuali.rice.KNSServiceLocator;
   
 public class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
@@ -95,7 +91,6 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         
         Map editMode = documentAuthorizer.getEditMode(getDocument(), kualiUser);
         String lockRegion = getLockRegion();
-        //editMode.put(KraAuthorizationConstants.ACTIVE_LOCK_REGION, lockRegion);
         GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object)lockRegion);  
         
         if (KNSServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(getDocument().getClass().getName())
@@ -108,14 +103,31 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         
         setSaveDocumentControl(temp, editMode);
         setDocumentActionFlags(temp);
+        
+        boolean activeLockRegionChangedInd = hasActiveLockRegionChanged(getDocument(), lockRegion);
+        GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.LOCK_REGION_CHANGE_IND, activeLockRegionChangedInd);
     }
 
+    private boolean hasActiveLockRegionChanged(Document document, String activeLockRegion) {
+        if(StringUtils.isNotEmpty(activeLockRegion)) {
+            for(PessimisticLock lock: document.getPessimisticLocks()) {
+                if(!lock.getLockDescriptor().contains(activeLockRegion)) {
+                    return true;
+                }
+            } 
+        } else if (document.getPessimisticLocks().size()>0) {
+            return true;
+        }
+        
+        return false;
+    }
+    
     private boolean isProposalAction() {
         boolean isProposalAction = false;
 
         if ((StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall())) 
                 && actionName.startsWith("Proposal") && !actionName.contains("AbstractsAttachments")
-                && !getMethodToCall().equalsIgnoreCase("headerTab")) {
+                && !actionName.contains("BudgetVersions") && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isProposalAction = true;
         }
         else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("proposal") 
@@ -162,24 +174,6 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     private boolean isNarrativeAction() {
         boolean isNarrativeAction = false;
 
-//        if (StringUtils.isNotBlank(actionName) && actionName.contains("AbstractsAttachments") && 
-//                (StringUtils.equals(getMethodToCall(), "addProposalAttachmentRights")
-//                || StringUtils.equals(getMethodToCall(), "addProposalAttachment") 
-//                || StringUtils.equals(getMethodToCall(), "downloadProposalAttachment")
-//                || StringUtils.equals(getMethodToCall(), "deleteProposalAttachment")
-//                || StringUtils.equals(getMethodToCall(), "replaceProposalAttachment")
-//                || StringUtils.equals(getMethodToCall(), "addInstituteAttachmentRights")
-//                || StringUtils.equals(getMethodToCall(), "addInstitutionalAttachment") 
-//                || StringUtils.equals(getMethodToCall(), "downloadInstituteAttachment")
-//                || StringUtils.equals(getMethodToCall(), "deleteInstitutionalAttachment")
-//                || StringUtils.equals(getMethodToCall(), "replaceInstituteAttachment") 
-//                || StringUtils.equals(getMethodToCall(), "addAbstract") 
-//                || StringUtils.equals(getMethodToCall(), "deleteAbstract") 
-//                || StringUtils.equals(getMethodToCall(), "save")) 
-//                ) {
-//            isNarrativeAction = true;
-//        }
-        
         if (StringUtils.isNotBlank(actionName) && StringUtils.isNotBlank(getMethodToCall()) 
                 && actionName.contains("AbstractsAttachments") && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isNarrativeAction = true;
@@ -195,7 +189,8 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     private boolean isBudgetAction() {
         boolean isBudgetAction = false;
 
-        if (StringUtils.isNotBlank(actionName) && actionName.startsWith("Budget") && StringUtils.isNotBlank(getMethodToCall()) && !getMethodToCall().equalsIgnoreCase("headerTab")) {
+        if (StringUtils.isNotBlank(actionName) && (actionName.startsWith("Budget") || actionName.contains("BudgetVersions")) 
+                && StringUtils.isNotBlank(getMethodToCall()) && !getMethodToCall().equalsIgnoreCase("headerTab")) {
             isBudgetAction = true;
         }
         else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("versions") 
@@ -231,7 +226,6 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
             lockRegion = "PROPOSAL";
         }
         else if (isNarrativeAction()) {
-            //lockRegion = "NARRATIVES";
             lockRegion = null;
         }
         else if (isBudgetAction()) {
@@ -242,8 +236,6 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     }
     
     private void setSaveDocumentControl(DocumentActionFlags tempDocumentActionFlags, Map editMode) {
-        String navigateToPage = getNavigateToPage(); 
-
         tempDocumentActionFlags.setCanSave(false);   
 
         if (isProposalAction() && hasModifyProposalPermission(editMode)) {

@@ -32,12 +32,14 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.clientapp.WorkflowInfo;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
@@ -358,4 +360,21 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         //currentEditMode.put("lockOwnedBy", new UniversalUser());
         return super.getEditModeWithEditableModesRemoved(currentEditMode);
     }
+    
+    @Override
+    protected PessimisticLock createNewPessimisticLock(Document document, Map editMode, UniversalUser user) {
+        if (useCustomLockDescriptors()) {
+            String lockDescriptor = getCustomLockDescriptor(document, editMode, user);
+            ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) document;
+            if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains("BUDGET")) {
+                for(BudgetVersionOverview budgetOverview: pdDocument.getBudgetVersionOverviews()) {
+                    KNSServiceLocator.getPessimisticLockService().generateNewLock(budgetOverview.getDocumentNumber(), lockDescriptor, user);
+                }  
+            }
+            return KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), lockDescriptor, user);
+        } else {
+            return KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), user);
+        }
+    }
+
 }
