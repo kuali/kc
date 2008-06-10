@@ -78,7 +78,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: jsalam $
- * @version $Revision: 1.52.2.8 $
+ * @version $Revision: 1.52.2.9 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
@@ -221,6 +221,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     public ActionForward insertProposalPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        GlobalVariables.getErrorMap().removeFromErrorPath("document.proposalPersons");
+        
         if ( isNotBlank(pdform.getNewProposalPerson().getProposalPersonRoleId())){
             if(pdform.getNewProposalPerson().getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || pdform.getNewProposalPerson().equals(CO_INVESTIGATOR_ROLE))
             {
