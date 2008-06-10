@@ -28,7 +28,7 @@ import static org.kuali.kra.logging.FormattedLogger.*;
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>
  *  @author $Author: jsalam $
- *  @version $Revision: 1.14 $
+ *  @version $Revision: 1.15 $
  */
 public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelWebTest.class);
@@ -196,6 +196,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         assertNull(unitNumber);
         assertTrue(keyPersonnelPage.asText().contains("You have the option to add Certification Questions for a key person"));
         assertTrue(keyPersonnelPage.asText().contains("You have the option to add unit details for a key person"));
+        setFieldValue(keyPersonnelPage,"document.proposalPersons[0].projectRole", "Co-Investigator");
          saveAndSearchDoc(keyPersonnelPage);
     }
     

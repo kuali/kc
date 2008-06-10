@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
-
+<c:set var="keypersonrole" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
 <c:choose>
 <c:when test="${empty KualiForm.document.proposalPersons[personIndex].fullName}">
 <c:set var="parentTabName" value="" />
@@ -42,7 +42,7 @@
           	<tr>
 				<td>
               
-	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" >
+	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].projectRole*">
 			<div class="innerTab-container" align="left">
               <table class=tab cellpadding=0 cellspacing="0" summary=""> 
                 <tbody id="G1">
@@ -205,27 +205,39 @@
                     <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.facultyFlag}"  /></div></th>
 
                     <td align="left"><label>
-                      <kul:htmlControlAttribute property="${proposalPerson}.facultyFlag" 
+                       <kul:htmlControlAttribute property="${proposalPerson}.facultyFlag" 
                                           attributeEntry="${proposalPersonAttributes.facultyFlag}" 
                                                 readOnly="${!personEditableFields['facultyFlag']}" />
                     </label></td>
                   </tr>
-    <c:if test="${KualiForm.document.sponsor.acronym == Constants.NIH_SPONSOR_ACRONYM && KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == Constants.KEY_PERSON_ROLE}">
+   </tr>
+    
+    
+     <c:if test="${KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
+    
                   <tr>
-                    <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.otherSignificantContributorFlag}" /></div></th>
+                  <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.projectRole}"  /></div></th>
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.projectRole" 
+                                                                     attributeEntry="${proposalPersonAttributes.projectRole}" 
+                                                                       readOnly="${!personEditableFields['projectRole'] }" />
+                    </td>
+                    
+
+ 
+       <c:if test="${KualiForm.document.nih && KualiForm.document.proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
+                 <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.otherSignificantContributorFlag}" /></div></th>
                     <td align="left"><span>
                       <kul:htmlControlAttribute property="${proposalPerson}.otherSignificantContributorFlag" 
                                           attributeEntry="${proposalPersonAttributes.otherSignificantContributorFlag}" 
                                                 readOnly="${!personEditableFields['otherSignificantContributorFlag'] }" />
                     </span></td>
-                    <th align="left" nowrap="nowrap"><div align="right"></div></th>
-
-                    <td align="left"><label>
-                      
-                    </label></td>
-                  </tr>
-     </c:if>
-                </tbody>
+         </c:if>
+          
+           </tr>
+       </c:if>           
+    
+      </tr>
+       </tbody>
 </table></div>
 </kul:innerTab>
 </td></tr>
