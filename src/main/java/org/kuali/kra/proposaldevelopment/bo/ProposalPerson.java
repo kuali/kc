@@ -32,7 +32,7 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
  * @author $Author: jsalam $
- * @version $Revision: 1.36.2.3 $
+ * @version $Revision: 1.36.2.4 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -64,6 +64,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private String optInUnitStatus;
     private String optInCertificationStatus;
     private boolean unitdelete;
+    private String projectRole;
+    
     
     /**
      *
@@ -242,7 +244,7 @@ public class ProposalPerson extends Person implements CreditSplitable {
      * @return the value of percentageEffort
      */
     public KualiDecimal getPercentageEffort() {
-        return this.percentageEffort;
+          return this.percentageEffort;
     }
 
     /**
@@ -686,5 +688,14 @@ public class ProposalPerson extends Person implements CreditSplitable {
     public void setOptInCertificationStatus(String optInCertificationStatus) {
         this.optInCertificationStatus = optInCertificationStatus;
     }
+
+   public String getProjectRole() {
+        return projectRole;
+    }
+
+    public void setProjectRole(String projectRole) {
+        this.projectRole = projectRole;
+    }
+
 
 }
