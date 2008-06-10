@@ -21,6 +21,7 @@ import static org.kuali.kra.test.fixtures.ProposalPersonFixture.INVESTIGATOR_SPL
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -32,9 +33,12 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
@@ -289,6 +293,69 @@ public class ProposalDevelopmentDocumentRuleTest extends KraTestBase {
         person.setPersonId("-1");
         
         assertFalse(new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person));
+    }
+    
+    
+    
+    /**
+     * Tests the {@link ProposalDevelopmentKeyPersonsRule#processAddKeyPersonBusinessRules(ProposalDevelopmentDocument, ProposalPerson)}
+     * by running the rule on a document with the {@link ProposalPerson} that has null values for degree fields
+     * 
+     */
+    @Test
+    public void testRemoveDegreeRule() {
+        ProposalPerson person = new ProposalPerson();
+        ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
+        document.setOwnedByUnitNumber("000001");
+        person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
+        getKeyPersonnelService().populateProposalPerson(person, document);
+        document.addProposalPerson(person);
+        ProposalPersonDegree degree = new ProposalPersonDegree();
+        person.addDegree(degree);
+        person.setRolodexId(-1);
+        person.setPersonId("-1");
+        assertFalse(new ProposalDevelopmentKeyPersonsRule().processAddKeyPersonBusinessRules(document, person));
+    }
+    
+    @Test
+    public void testPercentage()
+    {
+        ProposalPerson person = new ProposalPerson();
+        ProposalDevelopmentDocument document = new ProposalDevelopmentDocument();
+        document.setOwnedByUnitNumber("000001");
+        person.setProposalPersonRoleId(PRINCIPAL_INVESTIGATOR_ROLE);
+        getKeyPersonnelService().populateProposalPerson(person, document);
+        KualiDecimal dec=new KualiDecimal(109.00);
+        person.setPercentageEffort(dec);
+        List<ProposalPersonCreditSplit> personcreditsplit=new ArrayList<ProposalPersonCreditSplit>();
+        ProposalPersonCreditSplit creditsplit=new ProposalPersonCreditSplit();
+        creditsplit.setInvCreditTypeCode("0");
+        creditsplit.setCredit(dec);
+        ProposalPersonCreditSplit creditsplit1=new ProposalPersonCreditSplit();
+        creditsplit1.setInvCreditTypeCode("1");
+        creditsplit1.setCredit(dec);
+        
+        ProposalPersonCreditSplit creditsplit2=new ProposalPersonCreditSplit();
+        creditsplit2.setInvCreditTypeCode("2");
+        creditsplit2.setCredit(dec);
+        
+        ProposalPersonCreditSplit creditsplit3=new ProposalPersonCreditSplit();
+        creditsplit3.setInvCreditTypeCode("3");
+        creditsplit3.setCredit(dec);
+        
+        personcreditsplit.add(creditsplit);
+        personcreditsplit.add(creditsplit1);
+        personcreditsplit.add(creditsplit2);
+        personcreditsplit.add(creditsplit3);
+        
+        
+        person.setCreditSplits(personcreditsplit);
+            
+        document.addProposalPerson(person);
+        
+        assertFalse(new ProposalDevelopmentKeyPersonsRule().processSaveKeyPersonBusinessRules(document));
+        
+        
     }
     
     /**

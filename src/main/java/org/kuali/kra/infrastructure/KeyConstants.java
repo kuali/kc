@@ -54,7 +54,7 @@ public class KeyConstants {
     public static final String ERROR_INVALID_UNIT = "error.invalid.unit";
     public static final String ERROR_SELECT_UNIT="error.select.unit";
     public static final String ERROR_ONE_UNIT="error.one.unit";
-    public static final String ERROR_CREDIT_SPLIT="error.credit.split";
+    public static final String ERROR_PERCENTAGE="error.percentage";
     
     
     

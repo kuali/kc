@@ -42,7 +42,7 @@
           	<tr>
 				<td>
               
-	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].projectRole*">
+	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].projectRole*,document.proposalPersons[${personIndex}].percentageEffort*">
 			<div class="innerTab-container" align="left">
               <table class=tab cellpadding=0 cellspacing="0" summary=""> 
                 <tbody id="G1">
