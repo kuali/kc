@@ -57,6 +57,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
+import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
@@ -419,9 +420,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void fixProposal(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument newDoc, ProposalCopyCriteria criteria) throws Exception {
         List<Object> list = new ArrayList<Object>();
         fixProposalNumbers(newDoc, newDoc.getProposalNumber(), list);
+        fixKeyPersonnel(newDoc, srcDoc.getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
         list.clear();
         fixVersionNumbers(newDoc, list);
-        fixKeyPersonnel(newDoc, srcDoc.getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
         fixBudgetVersions(newDoc);
     }
     
@@ -518,8 +519,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the proposal development document
      * @param oldLeadUnitNumber the old lead unit number
      * @param newLeadUnitNumber the new lead unit number
+     * @throws Exception 
      */
-    private void fixKeyPersonnel(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) {
+    private void fixKeyPersonnel(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) throws Exception {
         clearCertifyQuestions(doc);
         fixKeyPersonnelUnits(doc, oldLeadUnitNumber, newLeadUnitNumber);
     }
@@ -567,11 +569,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param doc the proposal development document
      * @param oldLeadUnitNumber the old lead unit number
      * @param newLeadUnitNumber the new lead unit number
+     * @throws Exception 
      */
-    private void fixKeyPersonnelUnits(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) {
+    private void fixKeyPersonnelUnits(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) throws Exception {
+       
         List<ProposalPerson> persons = doc.getProposalPersons();
         for (ProposalPerson person : persons) {
-            Integer personNumber = doc.getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER);
+            Integer personNumber = doc.getNextProposalPersonNumber();
             person.setProposalNumber(null);
             person.setProposalPersonNumber(personNumber);
             
@@ -584,16 +588,12 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 List<ProposalPersonUnit> proposalPersonUnits = person.getUnits();
                 List<ProposalPersonUnit> newProposalPersonUnits = new ArrayList<ProposalPersonUnit>();
                 
-                ProposalPersonUnit unit = keyPersonnelService.createProposalPersonUnit(newLeadUnitNumber, person);
-                unit.setLeadUnit(true);
-                unit.setDelete(false);
+                ProposalPersonUnit unit = createProposalPersonUnit(person, newLeadUnitNumber, true, false, proposalPersonUnits);
                 newProposalPersonUnits.add(unit);
                 
                 String homeUnitNumber = person.getHomeUnit();
                 if (!StringUtils.equals(newLeadUnitNumber, homeUnitNumber)) {
-                    unit = keyPersonnelService.createProposalPersonUnit(homeUnitNumber, person);
-                    unit.setLeadUnit(false);
-                    unit.setDelete(true);
+                    unit = createProposalPersonUnit(person, homeUnitNumber, false, true, proposalPersonUnits);
                     newProposalPersonUnits.add(unit);
                 }
                 
@@ -603,9 +603,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                         !StringUtils.equals(homeUnitNumber, oldUnitNumber) && 
                         !StringUtils.equals(oldLeadUnitNumber, oldUnitNumber)) {
                         
-                        unit = keyPersonnelService.createProposalPersonUnit(oldUnitNumber, person);
-                        unit.setLeadUnit(false);
-                        unit.setDelete(true);
+                        unit = createProposalPersonUnit(person, newLeadUnitNumber, false, true, proposalPersonUnits);
                         newProposalPersonUnits.add(unit);
                     }
                 }
@@ -613,38 +611,78 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 person.setUnits(newProposalPersonUnits);  
             } 
             
-            List<ProposalPersonUnit> proposalPersonUnits = person.getUnits();
-            if (proposalPersonUnits != null) {
-                for (ProposalPersonUnit myUnit : proposalPersonUnits) {
-                    myUnit.setProposalNumber(null);
-                    myUnit.setProposalPersonNumber(personNumber);
-                }
-            }
-                
-            ProposalInvestigatorCertification c = person.getCertification();
-            if (c != null) {
-                c.setProposalNumber(null);
-                c.setProposalPersonNumber(personNumber);
-            }
-                
+            List<Object> list = new ArrayList<Object>();
+            fixProposalPersonNumbers(person, personNumber, list);
+            
             for (ProposalPersonYnq ynq : person.getProposalPersonYnqs()) {
-                ynq.setProposalNumber(null);
-                ynq.setProposalPersonNumber(personNumber);
                 ynq.setAnswer(null);
             }
-                
-            for (ProposalPersonDegree degree : person.getProposalPersonDegrees()) {
-                degree.setProposalNumber(null);
-                degree.setProposalPersonNumber(personNumber);
+        }
+        doc.setInvestigators(new ArrayList<ProposalPerson>());
+        keyPersonnelService.populateDocument(doc);
+    }
+    
+    private ProposalPersonUnit createProposalPersonUnit(ProposalPerson person, String unitNumber, boolean isLeadUnit, boolean isDeletable, List<ProposalPersonUnit> oldProposalPersonUnits) {
+        ProposalPersonUnit proposalPersonUnit = keyPersonnelService.createProposalPersonUnit(unitNumber, person);
+        proposalPersonUnit.setLeadUnit(isLeadUnit);
+        proposalPersonUnit.setDelete(isDeletable);
+        proposalPersonUnit.setVersionNumber(null);
+        
+        ProposalPersonUnit oldProposalPersonUnit = findProposalPersonUnit(unitNumber, oldProposalPersonUnits);
+        if (oldProposalPersonUnit != null) {
+            List<ProposalUnitCreditSplit> newUnitCreditSplits = new ArrayList<ProposalUnitCreditSplit>();
+            List<ProposalUnitCreditSplit> oldUnitCreditSplits = oldProposalPersonUnit.getCreditSplits();
+            for (ProposalUnitCreditSplit oldUnitCreditSplit : oldUnitCreditSplits) {
+                ProposalUnitCreditSplit newUnitCreditSplit = (ProposalUnitCreditSplit) ObjectUtils.deepCopy(oldUnitCreditSplit);
+                newUnitCreditSplit.setVersionNumber(null);
+                newUnitCreditSplits.add(newUnitCreditSplit);
             }
-                
-            for (ProposalPersonCreditSplit split : person.getCreditSplits()) {
-               split.setProposalNumber(null);
-               split.setProposalPersonNumber(personNumber);
+            proposalPersonUnit.setCreditSplits(newUnitCreditSplits);
+        }
+        
+        return proposalPersonUnit;
+    }
+    
+    private ProposalPersonUnit findProposalPersonUnit(String unitNumber, List<ProposalPersonUnit> proposalPersonUnits) {
+        for (ProposalPersonUnit proposalPersonUnit : proposalPersonUnits) {
+            if (StringUtils.equals(unitNumber, proposalPersonUnit.getUnitNumber())) {
+                return proposalPersonUnit;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Recurse through all of the BOs and if a BO has a ProposalPersonNumber property,
+     * set its value to the new proposal person number.
+     * @param object the object
+     * @param proposalPersonNumber the proposal person number
+     */
+    private void fixProposalPersonNumbers(Object object, Integer proposalPersonNumber, List<Object> list) throws Exception {
+        if (object instanceof BusinessObject) {
+            if (list.contains(object)) return;
+            list.add(object);
+            Method[] methods = object.getClass().getDeclaredMethods();
+            for (Method method : methods) {
+                if (method.getName().equals("setProposalPersonNumber")) {
+                    method.invoke(object, proposalPersonNumber);
+                } else if (isPropertyGetterMethod(method, methods)) {
+                    Object value = method.invoke(object);
+                    if (value instanceof Collection) {
+                        Collection c = (Collection) value;
+                        Iterator iter = c.iterator();
+                        while (iter.hasNext()) {
+                            Object entry = iter.next();
+                            fixProposalPersonNumbers(entry, proposalPersonNumber, list);
+                        }
+                    } else {
+                        fixProposalPersonNumbers(value, proposalPersonNumber, list);
+                    }   
+                }
             }
         }
     }
-    
+
     /**
      * Initialize the Authorizations for a new proposal.  The initiator/creator
      * is assigned the Aggregator role.
