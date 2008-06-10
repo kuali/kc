@@ -215,6 +215,18 @@
  	            <summary>FedrDelq</summary>
                 <description>FedrDelq</description>
             </attributeReference>
+            
+            
+            <attribute name="projectRole" >
+                <label>Key Person Role</label>
+                <shortLabel>Key Person Role</shortLabel>
+                <maxLength>60</maxLength>
+                 <control>
+                    <text size="15" />
+                </control>
+                <summary>Key Person Role</summary>
+            	<description>Key Person Role</description>
+            </attribute>
 
             <attributeReference name="eraCommonsUserName" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="eraCommonsUserName" />
 
