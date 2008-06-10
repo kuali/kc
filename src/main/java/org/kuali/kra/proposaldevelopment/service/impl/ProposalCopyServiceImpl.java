@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.beans.PropertyDescriptor;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.DocumentHeader;
@@ -39,12 +36,10 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.FormatException;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
@@ -127,6 +122,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     private static String[] filteredProperties = { "ProposalNumber",
                                                    "OwnedByUnitNumber",
+                                                   "OwnedByUnit",
                                                    "Narratives",
                                                    "InstituteAttachments",
                                                    "PropPersonBios",
@@ -573,98 +569,80 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param newLeadUnitNumber the new lead unit number
      */
     private void fixKeyPersonnelUnits(ProposalDevelopmentDocument doc, String oldLeadUnitNumber, String newLeadUnitNumber) {
-        /*
-         * We have nothing to do if the lead unit didn't change.
-         */
-        if (!StringUtils.equals(oldLeadUnitNumber, newLeadUnitNumber)) {
-            /*
-             * The key personnel must be updated.  The PI and COIs need to have
-             * the new lead unit and their home units.
-             */
-            List<ProposalPerson> persons = doc.getProposalPersons();
-            for (ProposalPerson person : persons) {
-                Integer personNumber = doc.getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER);
-                ProposalPersonRole role = person.getRole();
-                person.setProposalNumber(null);
-                person.setProposalPersonNumber(personNumber);
-                String roleId = role.getProposalPersonRoleId();
-                List<ProposalPersonUnit> units = person.getUnits();
-                if ((StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) || 
-                    (StringUtils.equals(roleId, Constants.CO_INVESTIGATOR_ROLE))) {
-                  
-                    // Change the old lead unit to the new lead unit.
-                    
-                    ProposalPersonUnit unit = findProposalPersonUnit(units, oldLeadUnitNumber);
-                    if (unit != null) {
-                        unit.setUnitNumber(newLeadUnitNumber);
-                    }
-                    else {
-                        unit = keyPersonnelService.createProposalPersonUnit(newLeadUnitNumber, person);
-                        unit.setLeadUnit(true);
-                        unit.setDelete(false);
-                        units.add(0, unit);
-                    }
-               
-                    /*
-                     * If the PI's home unit is not in the PI's list, add it.
-                     */
-                    if (StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
-                        String homeUnitNumber = person.getHomeUnit();
-                        unit = findProposalPersonUnit(units, homeUnitNumber);
-                        if (unit == null) {
-                            unit = keyPersonnelService.createProposalPersonUnit(homeUnitNumber, person);
-                            unit.setLeadUnit(false);
-                            unit.setDelete(true);
-                            units.add(1, unit);
-                        }
-                    }
-                   
+        List<ProposalPerson> persons = doc.getProposalPersons();
+        for (ProposalPerson person : persons) {
+            Integer personNumber = doc.getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER);
+            person.setProposalNumber(null);
+            person.setProposalPersonNumber(personNumber);
+            
+            ProposalPersonRole role = person.getRole();
+            String roleId = role.getProposalPersonRoleId();
+            
+            if ((StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) || 
+                (StringUtils.equals(roleId, Constants.CO_INVESTIGATOR_ROLE))) {
+                
+                List<ProposalPersonUnit> proposalPersonUnits = person.getUnits();
+                List<ProposalPersonUnit> newProposalPersonUnits = new ArrayList<ProposalPersonUnit>();
+                
+                ProposalPersonUnit unit = keyPersonnelService.createProposalPersonUnit(newLeadUnitNumber, person);
+                unit.setLeadUnit(true);
+                unit.setDelete(false);
+                newProposalPersonUnits.add(unit);
+                
+                String homeUnitNumber = person.getHomeUnit();
+                if (!StringUtils.equals(newLeadUnitNumber, homeUnitNumber)) {
+                    unit = keyPersonnelService.createProposalPersonUnit(homeUnitNumber, person);
+                    unit.setLeadUnit(false);
+                    unit.setDelete(true);
+                    newProposalPersonUnits.add(unit);
                 }
                 
-                for (ProposalPersonUnit myUnit : units) {
+                for (ProposalPersonUnit oldUnit : proposalPersonUnits) {
+                    String oldUnitNumber = oldUnit.getUnitNumber();
+                    if (!StringUtils.equals(newLeadUnitNumber, oldUnitNumber) &&
+                        !StringUtils.equals(homeUnitNumber, oldUnitNumber) && 
+                        !StringUtils.equals(oldLeadUnitNumber, oldUnitNumber)) {
+                        
+                        unit = keyPersonnelService.createProposalPersonUnit(oldUnitNumber, person);
+                        unit.setLeadUnit(false);
+                        unit.setDelete(true);
+                        newProposalPersonUnits.add(unit);
+                    }
+                }
+                
+                person.setUnits(newProposalPersonUnits);  
+            } 
+            
+            List<ProposalPersonUnit> proposalPersonUnits = person.getUnits();
+            if (proposalPersonUnits != null) {
+                for (ProposalPersonUnit myUnit : proposalPersonUnits) {
                     myUnit.setProposalNumber(null);
                     myUnit.setProposalPersonNumber(personNumber);
                 }
+            }
                 
-                ProposalInvestigatorCertification c = person.getCertification();
-                if (c != null) {
-                    c.setProposalNumber(null);
-                    c.setProposalPersonNumber(personNumber);
-                }
+            ProposalInvestigatorCertification c = person.getCertification();
+            if (c != null) {
+                c.setProposalNumber(null);
+                c.setProposalPersonNumber(personNumber);
+            }
                 
-                for (ProposalPersonYnq ynq : person.getProposalPersonYnqs()) {
-                    ynq.setProposalNumber(null);
-                    ynq.setProposalPersonNumber(personNumber);
-                    ynq.setAnswer(null);
-                }
+            for (ProposalPersonYnq ynq : person.getProposalPersonYnqs()) {
+                ynq.setProposalNumber(null);
+                ynq.setProposalPersonNumber(personNumber);
+                ynq.setAnswer(null);
+            }
                 
-                for (ProposalPersonDegree degree : person.getProposalPersonDegrees()) {
-                    degree.setProposalNumber(null);
-                    degree.setProposalPersonNumber(personNumber);
-                }
+            for (ProposalPersonDegree degree : person.getProposalPersonDegrees()) {
+                degree.setProposalNumber(null);
+                degree.setProposalPersonNumber(personNumber);
+            }
                 
-                for (ProposalPersonCreditSplit split : person.getCreditSplits()) {
-                   split.setProposalNumber(null);
-                   split.setProposalPersonNumber(personNumber);
-                }
+            for (ProposalPersonCreditSplit split : person.getCreditSplits()) {
+               split.setProposalNumber(null);
+               split.setProposalPersonNumber(personNumber);
             }
         }
-    }
-    
-    /**
-     * Find the proposal person unit with the matching unit number.
-     * @param units the proposal person units to search through
-     * @param unitNumber the unit number to search for
-     * @return the found proposal person unit or null if not found
-     */
-    private ProposalPersonUnit findProposalPersonUnit(List<ProposalPersonUnit> units, String unitNumber) {
-        for (ProposalPersonUnit unit : units) {
-            String number = unit.getUnitNumber();
-            if (StringUtils.equals(number, unitNumber)) {
-                return unit;
-            }
-        }
-        return null;
     }
     
     /**
@@ -916,7 +894,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         budget.setFinalVersionFlag(false);
         documentService.saveDocument(budget);
         documentService.routeDocument(budget, "Route to Final", new ArrayList());
-
     }
     
     /**
