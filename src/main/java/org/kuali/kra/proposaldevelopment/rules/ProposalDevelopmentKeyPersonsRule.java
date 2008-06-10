@@ -69,7 +69,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: jsalam $
- * @version $Revision: 1.33.2.6 $
+ * @version $Revision: 1.33.2.7 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
@@ -104,6 +104,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         int personIndex = 0;
         List<ProposalPerson> investigators=document.getInvestigators();
         String reg="^(100(?:\\.0{1,2})?|0*?\\.\\d{1,2}|\\d{1,2}(?:\\.\\d{1,2})?)$"; 
+       
                
         for (ProposalPerson person : document.getProposalPersons()) {
             if (isPrincipalInvestigator(person)) {
@@ -122,13 +123,17 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             retval = false;
             reportError("newProposalPerson*", ERROR_INVESTIGATOR_UPBOUND, getKeyPersonnelService().getPrincipalInvestigatorRoleDescription(document));            
         }        
-
+         personIndex=0;
         for (ProposalPerson person : document.getProposalPersons()) {
+            
             if(isCoInvestigator(person) && (person.getUnits() != null) && (person.getUnits().size()==0)){
                 reportError("newProposalPerson*", ERROR_ONE_UNIT, person.getFullName());            
             }
             if(isKeyPerson(person) && (person.getOptInUnitStatus().equals("Y")) && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
                 reportError("newProposalPerson*", ERROR_ONE_UNIT, person.getFullName());  
+            }
+            if(isKeyPerson(person) && StringUtils.isBlank(person.getProjectRole())){
+                reportError("document.proposalPersons[" + personIndex + "].projectRole",RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
             }
             personIndex++;
         }

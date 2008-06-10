@@ -47,9 +47,10 @@
             leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
          	 leftSideHtmlDisabled="false" 
                       defaultOpen="false" 
-            transparentBackground="${transparent}"> 
+            transparentBackground="${transparent}">
+          
        
-        <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
+        <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}" />
      </kul:tab>
      </c:otherwise>
       </c:choose>
