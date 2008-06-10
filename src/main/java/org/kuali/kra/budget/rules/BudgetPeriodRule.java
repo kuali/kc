@@ -107,7 +107,11 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
             rulePassed = false;
             saveErrors("ERROR_PERIOD_LINE_ITEM_DOESNOT_EXIST", errorMap);
-        }else if(document.getBudgetPeriods().size() > (budgetPeriodNumber+1) && getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber+1)) {
+        } else if(document.getBudgetPeriods().size() <= (budgetPeriodNumber+1)) {
+            errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
+            rulePassed = false;
+            saveErrors("ERROR_NO_FUTURE_PERIOD_TO_GENERATE", errorMap);
+        } else if(getBudgetSummaryService().budgetLineItemExists(document, budgetPeriodNumber+1)) {
             errorMap.addToErrorPath(NEW_BUDGET_PERIOD);
             rulePassed = false;
             saveErrors("ERROR_GENERATE_PERIOD", errorMap);
