@@ -33,7 +33,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
@@ -221,5 +220,15 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
             }
         }        
         return null;
+    }
+    
+    public ActionForward refreshSubmissionDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        if(KraServiceLocator.getService(S2SService.class).refreshGrantsGov(proposalDevelopmentDocument.getProposalNumber())){
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }else{
+            throw new RuntimeException("Refresh Failed");
+        }
     }
 }
