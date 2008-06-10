@@ -28,7 +28,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_YEAR;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_SELECT_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ONE_UNIT;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_CREDIT_SPLIT;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERCENTAGE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
@@ -69,7 +69,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: jsalam $
- * @version $Revision: 1.40 $
+ * @version $Revision: 1.41 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
@@ -118,14 +118,14 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             }
             personIndex++;
         }
-        
+
         if (pi_cnt > 1) {
             retval = false;
             reportError("newProposalPerson*", ERROR_INVESTIGATOR_UPBOUND, getKeyPersonnelService().getPrincipalInvestigatorRoleDescription(document));            
         }        
-         personIndex=0;
+        personIndex=0;
         for (ProposalPerson person : document.getProposalPersons()) {
-            
+
             if(isCoInvestigator(person) && (person.getUnits() != null) && (person.getUnits().size()==0)){
                 reportError("newProposalPerson*", ERROR_ONE_UNIT, person.getFullName());            
             }
@@ -134,6 +134,13 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
             }
             if(isKeyPerson(person) && StringUtils.isBlank(person.getProjectRole())){
                 reportError("document.proposalPersons[" + personIndex + "].projectRole",RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
+            }
+            if(person.getPercentageEffort()!= null){
+                String percentageeffort=String.valueOf(person.getPercentageEffort().intValue());
+                if(!(percentageeffort.matches(reg))){
+                    GlobalVariables.getErrorMap().putError("document.proposalPersons[" + personIndex + "].percentageEffort", ERROR_PERCENTAGE,
+                            new String[] {"Percentage Effort" });
+                }
             }
             personIndex++;
         }
@@ -147,7 +154,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
                     String credit= String.valueOf( creditSplit.getCredit().intValue());
                     if(!(credit.matches(reg))){
-                        GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_CREDIT_SPLIT);
+                        GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_PERCENTAGE,
+                                new String[] {"Credit Split" });
                         retval=false;
                     }
                 }
@@ -160,7 +168,9 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                     if(unitsplit.getCredit()!= null){
                         String credit=String.valueOf(unitsplit.getCredit().intValue());
                         if(!(credit.matches(reg))){
-                            GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_CREDIT_SPLIT);
+                            GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_PERCENTAGE,
+                                    new String[] {"Credit Split" });
+                            //GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_PERCENTAGE);
                             retval=false; 
                         }
                         
@@ -169,6 +179,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
              }
            i++;
         }
+        
+      
     return retval;
     }
 
@@ -445,7 +457,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
 
                     String credit= String.valueOf( creditSplit.getCredit().intValue());
                     if(!(credit.matches(reg))){
-                        GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_CREDIT_SPLIT);
+                        GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_PERCENTAGE,
+                                new String[] {"Credit Split" });
                         retval=false;
                     }
                 }
@@ -458,7 +471,8 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                     if(unitsplit.getCredit()!= null){
                         String credit=String.valueOf(unitsplit.getCredit().intValue());
                         if(!(credit.matches(reg))){
-                            GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_CREDIT_SPLIT);
+                            GlobalVariables.getErrorMap().putError("document.creditSplit", ERROR_PERCENTAGE,
+                                    new String[] {"Credit Split" });
                             retval=false; 
                         }
                         
