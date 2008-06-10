@@ -55,8 +55,16 @@
 		<td align="left" valign="middle" colspan="4">
 	    	<kul:htmlControlAttribute property="document.s2sAppSubmission[${submissionToBeDisplayed-1}].s2sApplication[0].s2sAppAttachmentList[${status.index}].contentId" attributeEntry="${s2sAppAttachmentsAttributes.contentId}" readOnly="true" />
 		</td>
-	</tr>			
-	</c:forEach>	
+	</tr>	
+	</c:forEach>
+	<tr>
+    	<td colspan="5">
+    		<div align="right">
+    			<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="globalbuttons" property="methodToCall.refreshSubmissionDetails" alt="Refresh Submission Details"/>
+    				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    		</div>
+    	</td>
+    </tr>	
  	</c:otherwise>
  </c:choose>
  	   </tbody>
