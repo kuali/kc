@@ -29,4 +29,7 @@ public interface PermissionConstants {
     public static final String MODIFY_BUDGET = "MODIFY_BUDGET";
     public static final String VIEW_BUDGET = "VIEW_BUDGET";
     public static final String MAINTAIN_PROPOSAL_ACCESS = "MAINTAIN_PROPOSAL_ACCESS";
+    public static final String CERTIFY = "CERTIFY";
+    public static final String PRINT_PROPOSAL = "PRINT_PROPOSAL";
+    public static final String ALTER_PROPOSAL_DATA = "ALTER_PROPOSAL_DATA";
 }
