@@ -223,13 +223,13 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         String lockRegion = ""; 
         
         if (isProposalAction()) {
-            lockRegion = "PROPOSAL";
+            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_PROPOSAL;
         }
         else if (isNarrativeAction()) {
             lockRegion = null;
         }
         else if (isBudgetAction()) {
-            lockRegion = "BUDGET";
+            lockRegion = KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
         }
         
         return lockRegion;

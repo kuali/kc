@@ -366,7 +366,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         if (useCustomLockDescriptors()) {
             String lockDescriptor = getCustomLockDescriptor(document, editMode, user);
             ProposalDevelopmentDocument pdDocument = (ProposalDevelopmentDocument) document;
-            if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains("BUDGET")) {
+            if(StringUtils.isNotEmpty(lockDescriptor) && lockDescriptor.contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
                 for(BudgetVersionOverview budgetOverview: pdDocument.getBudgetVersionOverviews()) {
                     KNSServiceLocator.getPessimisticLockService().generateNewLock(budgetOverview.getDocumentNumber(), lockDescriptor, user);
                 }  

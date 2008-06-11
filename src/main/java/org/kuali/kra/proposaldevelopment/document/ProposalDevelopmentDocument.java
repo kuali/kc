@@ -1364,7 +1364,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public int getNumberOfVersions() {
         return this.getBudgetVersionOverviews().size();
     }
-    
+
     /**
      * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
      * 
@@ -1394,8 +1394,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     } 
   
-   
-
     public boolean isNih() {
         return nih;
     }
