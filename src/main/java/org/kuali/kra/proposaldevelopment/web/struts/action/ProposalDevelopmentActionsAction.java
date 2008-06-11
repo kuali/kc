@@ -62,6 +62,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.KNSServiceLocator;
@@ -278,7 +279,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
             proposalDevelopmentForm.setDocId(newDocId);
             this.loadDocument(proposalDevelopmentForm);
-
+            
+            ProposalDevelopmentDocument copiedDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+            copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
+            DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+            docService.saveDocument(copiedDocument);
+            
             nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
             
             proposalDevelopmentForm.setCopyCriteria(new ProposalCopyCriteria());
