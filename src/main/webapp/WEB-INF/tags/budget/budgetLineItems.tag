@@ -31,7 +31,7 @@
 </c:if>
 
 <c:set var="budgetExpensePanelReadOnlyIfBudgetVersionIsFinal" value="${budgetExpensePanelReadOnly}" />
-<c:if test="${budgetCategoryTypeCode == 'P' and fn:length(KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList) > 0}" >
+<c:if test="${!empty KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].versionNumber}" >
 	<c:set var="budgetExpensePanelReadOnly" value="true" />
 </c:if>
 
