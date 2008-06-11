@@ -118,7 +118,10 @@ public class SalaryCalculator {
         And gtOrEqStartDateAndltOrEqEndDate = new And(gtOrEqStartDate, ltOrEqEndDate);
         And dateAndRate = new And(inflRCandRT, gtOrEqStartDateAndltOrEqEndDate);
         
-        return getInflationRates()==null?new QueryList<BudgetProposalRate>():getInflationRates().filter(dateAndRate);
+        Equals onOffCampus = new Equals("onOffCampusFlag", costElement.getOnOffCampusFlag());
+        And dateAndRateAndOnOffCampusFlag = new And(dateAndRate, onOffCampus);
+
+        return getInflationRates()==null?new QueryList<BudgetProposalRate>(budgetDocument.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
 
     }
 
@@ -236,6 +239,8 @@ public class SalaryCalculator {
         BudgetDecimal totalSalary = ZERO;
         List<SalaryDetails> brkupSalaryDetails = createSalBreakupIntervals();
         for (SalaryDetails salaryDetails : brkupSalaryDetails) {
+            this.startDate = salaryDetails.getBoundary().getStartDate();
+            this.endDate = salaryDetails.getBoundary().getEndDate();
             totalSalary = totalSalary.add(salaryDetails.calculateSalary());
         }
         BudgetDecimal charged = personnelLineItem.getPercentCharged();
@@ -274,6 +279,12 @@ public class SalaryCalculator {
             if(personFlag){
                 budgetPerson = (BudgetPerson)changedObject;
                 rateChangeDate = budgetPerson.getStartDate();
+                prevSalaryDetails.setActualBaseSalary(budgetPerson.getCalculationBase());
+                if (budgetPerson.getAppointmentType() == null) {
+                    budgetPerson.refreshReferenceObject("appointmentType");
+                }
+                prevSalaryDetails.setWorkingMonths(budgetPerson.getAppointmentType().getDuration());
+
             }else{
                 budgetProposalRate = (BudgetProposalRate)changedObject;
                 rateChangeDate = budgetProposalRate.getStartDate();
@@ -291,7 +302,10 @@ public class SalaryCalculator {
                 salaryDetails = new SalaryDetails();
                 salaryDetails.setBoundary(boundary);
                 if(!personFlag && budgetProposalRate!=null){
-                    salaryDetails.calculateActualBaseSalary(budgetProposalRate.getApplicableRate());
+                    // may have problem here, prevSalaryDetails may not be set yet.
+                    // before apply the inflation applicable rate
+                    salaryDetails.setActualBaseSalary(prevSalaryDetails.getActualBaseSalary());
+                    //salaryDetails.calculateActualBaseSalary(budgetProposalRate.getApplicableRate());
                     salaryDetails.setWorkingMonths(prevSalaryDetails.getWorkingMonths());
                 }
                 if(personFlag && budgetPerson!=null){
@@ -314,6 +328,10 @@ public class SalaryCalculator {
         if(budgetPerson!=null){
             salaryDetails.setActualBaseSalary(budgetPerson.getCalculationBase());
             populateAppointmentType(budgetPerson);
+            if(budgetProposalRate!=null){
+                salaryDetails.calculateActualBaseSalary(budgetProposalRate.getApplicableRate());
+            }
+
             salaryDetails.setWorkingMonths(budgetPerson.getAppointmentType()==null?
                         DEFAULT_WORKING_MONTHS:
                         budgetPerson.getAppointmentType().getDuration());
@@ -379,6 +397,9 @@ public class SalaryCalculator {
         public void calculateActualBaseSalary(BudgetDecimal applicableRate) {
             BudgetDecimal actualBaseSal = getActualBaseSalary();
             setActualBaseSalary(actualBaseSal.percentage(applicableRate).add(actualBaseSal));
+            // only calculate the applicable rate portion
+            // the salarybase is calculated in budgetperson's salarydetails ?
+            //setActualBaseSalary(actualBaseSal.percentage(applicableRate));
         }
 
         /**
