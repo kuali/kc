@@ -19,15 +19,17 @@
 <%@ attribute name="anchor" required="false" %>
 <%@ attribute name="tabindexOverride" required="false" %>
 
-<c:choose>
-  <c:when test="${!empty tabindexOverride}">
-    <c:set var="tabindex" value="${tabindexOverride}"/>
-  </c:when>
-  <c:otherwise>
-    <c:set var="tabindex" value="${KualiForm.nextArbitrarilyHighIndex}"/>
-  </c:otherwise>
-</c:choose>
-
-<html:image tabindex="${tabindex}" property="methodToCall.performInquiry.(!!${boClassName}!!).((#${inquiryParameters}#)).anchor${anchor}"
-   onclick="javascript: inquiryPop('${boClassName}','${inquiryParameters}'); return false"
-   src="${ConfigProperties.kr.externalizable.images.url}book_open.png" styleClass="tinybutton" title="Direct Inquiry" alt="Direct Inquiry"/>
+<c:if test="${empty readOnly or readOnly != true}" > 
+	<c:choose>
+	  <c:when test="${!empty tabindexOverride}">
+	    <c:set var="tabindex" value="${tabindexOverride}"/>
+	  </c:when>
+	  <c:otherwise>
+	    <c:set var="tabindex" value="${KualiForm.nextArbitrarilyHighIndex}"/>
+	  </c:otherwise>
+	</c:choose>
+	
+	<html:image tabindex="${tabindex}" property="methodToCall.performInquiry.(!!${boClassName}!!).((#${inquiryParameters}#)).anchor${anchor}"
+	   onclick="javascript: inquiryPop('${boClassName}','${inquiryParameters}'); return false"
+	   src="${ConfigProperties.kr.externalizable.images.url}book_open.png" styleClass="tinybutton" title="Direct Inquiry" alt="Direct Inquiry"/>
+</c:if>   
