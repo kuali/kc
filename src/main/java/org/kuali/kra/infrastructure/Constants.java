@@ -225,4 +225,8 @@ public interface Constants {
     public static final String APPLICABLE_RATE_LIMIT = "999.99";
     public static final String APPLICABLE_RATE_DECIMAL_CHAR = ".";
     
+    // Modular Budget
+    public static final String PARAMETER_FNA_COST_ELEMENTS = "consortiumFnaCostElements";
+    public static final String PARAMETER_FNA_RATE_CLASS_TYPE = "fnaRateClassTypeCode";
+    
 }
