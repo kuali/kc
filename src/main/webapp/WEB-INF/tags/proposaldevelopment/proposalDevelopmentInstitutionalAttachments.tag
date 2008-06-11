@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyNarratives']}" scope="request" />
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
@@ -23,17 +24,19 @@
 
 <kul:tab tabTitle="Internal Attachments (${fn:length(KualiForm.document.instituteAttachments)})" defaultOpen="true" tabErrorKey="document.instituteAttachment*,newInstituteAttachment*">
 	<div class="tab-container" align="center">
-	
+        <c:set var="sectionLabel" value="Internal Attachments" />
+	   
 	    <kra:section permission="modifyNarratives">
-	        <c:set var="label" value="Add Internal Attachments" />
-	    </kra:section>
-	    <div class="h2-container">
-	    	<span class="subhead-left"><h2>${label}</h2></span>
-	    	<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+	    	<c:set var="sectionLabel" value="Add ${sectionLabel}" />
+        </kra:section>
+        
+        <div class="h2-container">
+	    	<span class="subhead-left"><h2>${sectionLabel}</h2></span>
+	    	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
 	    </div>
         
         <table cellpadding=0 cellspacing=0 summary="">
-            
+            <c:if test="${fn:length(KualiForm.document.instituteAttachments) > 0  || KualiForm.editingMode['modifyNarratives']}" >
 	        <tr>
 	          	<th><div align="left">&nbsp</div></th> 
 	            <th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" noColon="true" /></div></th>
@@ -43,6 +46,7 @@
 	          	<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.fileName}" noColon="true" /></div></th>
 	            <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/> 		
 	        </tr>  
+	        </c:if>
 	          
 	        <kra:section permission="modifyNarratives">    
 	          	<tr>
@@ -76,6 +80,7 @@
 	            </tr>
             </kra:section>
 
+			<c:if test="${fn:length(KualiForm.document.instituteAttachments) > 0}" >
         	<c:forEach var="instituteAttachment" items="${KualiForm.document.instituteAttachments}" varStatus="status">
 	             <tr>
 					<th class="infoline" align="right">
@@ -131,10 +136,10 @@
 	                </td>
 	            </tr>
         	</c:forEach>        
-
+			</c:if>
           	
         </table>
-
+		<c:set var="sectionLabel" value="" />
     </div>
 
 </kul:tab>
