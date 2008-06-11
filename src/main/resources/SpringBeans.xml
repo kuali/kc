@@ -699,6 +699,9 @@
     </bean>    
 	
 	<bean id="budgetModularService" class="org.kuali.kra.budget.service.impl.BudgetModularServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
 	</bean>
 	
 	<bean id="customAttributeLookupable" class="org.kuali.kra.lookup.CustomAttributeLookupableImpl" singleton="false">

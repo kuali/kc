@@ -18,6 +18,7 @@ package org.kuali.kra.budget.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
@@ -29,10 +30,14 @@ import org.kuali.kra.budget.bo.BudgetRateAndBase;
 import org.kuali.kra.budget.calculator.LineItemCalculator;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetModularService;
+import org.kuali.kra.infrastructure.Constants;
 
 public class BudgetModularServiceImpl implements BudgetModularService {
     
-    private static final String consortiumFnaCostElement = "420630";
+    private static final String RATE_CLASS_PROPERTY_NAME = "rateClass";
+    private static final String RATE_NUMBER_PROPERTY_NAME = "rateNumber";
+    
+    private KualiConfigurationService kualiConfigurationService;
     
     public void generateModularPeriod(BudgetPeriod budgetPeriod) {
 
@@ -96,18 +101,20 @@ public class BudgetModularServiceImpl implements BudgetModularService {
             
             for (BudgetLineItem budgetLineItem: budgetPeriod.getBudgetLineItems()) {
                 new LineItemCalculator(budgetDocument, budgetLineItem).calculate();
-//              TODO use configuration service
-                if (budgetLineItem.getCostElement().equals("420630") || budgetLineItem.getCostElement().equals("420610")) {
-                    // Consortium F&A
+                List consortiumFnaCostElements = kualiConfigurationService.getParameterValues(
+                        Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_FNA_COST_ELEMENTS);
+                if (consortiumFnaCostElements.contains(budgetLineItem.getCostElement())) {
                     consortiumFna = consortiumFna.add(budgetLineItem.getDirectCost());
-                    break;
+                } else {
+                    directCostLessConsortiumFna = directCostLessConsortiumFna.add(budgetLineItem.getDirectCost());
                 }
-                // Loop through rate and base amounts
                 for (BudgetRateAndBase budgetRateAndBase: budgetLineItem.getBudgetRateAndBaseList()) {
-                    budgetRateAndBase.refreshReferenceObject("rateClass");
-                    if (budgetRateAndBase.getRateClass().getRateClassType().equals("O")) {
+                    budgetRateAndBase.refreshReferenceObject(RATE_CLASS_PROPERTY_NAME);
+                    String fnaRateClassType = kualiConfigurationService.getParameterValue(
+                            Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_FNA_RATE_CLASS_TYPE);
+                    if (budgetRateAndBase.getRateClass().getRateClassType().equals(fnaRateClassType)) {
                         BudgetModularIdc budgetModularIdc = new BudgetModularIdc();
-                        budgetModularIdc.setRateNumber(budgetDocument.getHackedDocumentNextValue("rateNumber"));
+                        budgetModularIdc.setRateNumber(budgetDocument.getHackedDocumentNextValue(RATE_NUMBER_PROPERTY_NAME));
                         budgetModularIdc.setDescription(budgetRateAndBase.getRateClassCode());
                         budgetModularIdc.setIdcRate(budgetRateAndBase.getAppliedRate());
                         budgetModularIdc.setIdcBase(budgetRateAndBase.getBaseCost());
@@ -115,7 +122,6 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                         budgetModular.addNewBudgetModularIdc(budgetModularIdc);
                     }
                 }
-                directCostLessConsortiumFna = directCostLessConsortiumFna.add(budgetLineItem.getDirectCost());
             }
             BudgetDecimal modularTdc = new BudgetDecimal(0);
             while (directCostLessConsortiumFna.isGreaterThan(modularTdc)) {
@@ -132,4 +138,9 @@ public class BudgetModularServiceImpl implements BudgetModularService {
         
         return budgetModularIdcs;
     }
+
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+    
 }
