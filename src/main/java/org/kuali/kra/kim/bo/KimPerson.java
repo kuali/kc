@@ -112,6 +112,7 @@ public class KimPerson extends PersistableBusinessObjectBase {
         if (!obj.getClass().equals(this.getClass()))
             return false;
         KimPerson person = (KimPerson) obj;
+        if (id == null) return false;
         return id.equals(person.id);
     }
 }
