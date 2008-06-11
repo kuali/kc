@@ -79,7 +79,7 @@
 		</attributes>
 
 
-        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentSpecialReviewHelpUrl"/> 
+        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentSpecialReviewHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>
