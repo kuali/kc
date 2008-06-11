@@ -19,6 +19,7 @@
 <%@ attribute name="textAreaLabel" required="true" %>
 <%@ attribute name="disabled" required="false" %>
 
+<c:if test="${empty readOnly or readOnly != true}" > 
   <c:choose>
     <c:when test="${disabled}">
       <img class="nobord" src="${ConfigProperties.kra.externalizable.images.url}pencil_add1.png" alt="expand textarea">
@@ -27,3 +28,4 @@
        <html:image property="methodToCall.updateTextArea.((#${textAreaFieldName}:${action}:${textAreaLabel}#))" src='${ConfigProperties.kra.externalizable.images.url}pencil_add.png' onclick="javascript: textAreaPop('${textAreaFieldName}','${action}','${textAreaLabel}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}');return false" styleClass="tinybutton"  title="Expanded Text Area" alt="Expanded Text Area"/>
     </c:otherwise>
   </c:choose>
+</c:if>
