@@ -436,7 +436,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         if (object instanceof BusinessObject) {
             if (list.contains(object)) return;
             list.add(object);
-            Method[] methods = object.getClass().getDeclaredMethods();
+            Method[] methods = object.getClass().getMethods();
             for (Method method : methods) {
                 if (method.getName().equals("setProposalNumber")) {
                     method.invoke(object, proposalNumber);
@@ -464,16 +464,22 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * @param object the object
      */
     private void fixVersionNumbers(Object object, List<Object> list) throws Exception {
+        
         if (object instanceof BusinessObject) {
             if (list.contains(object)) return;
             list.add(object);
-            Method[] methods = object.getClass().getDeclaredMethods();
+            Method[] methods = object.getClass().getMethods();
             for (Method method : methods) {
                 if (method.getName().equals("setVersionNumber")) {
                     if (!(object instanceof ProposalDevelopmentDocument)) {
                         method.invoke(object, (Long) null);
                     }
-                } else if (isPropertyGetterMethod(method, methods)) {
+                    break;
+                }
+            }
+            methods = object.getClass().getDeclaredMethods();
+            for (Method method : methods) {
+                if (isPropertyGetterMethod(method, methods)) {
                     Object value = method.invoke(object);
                     if (value instanceof Collection) {
                         Collection c = (Collection) value;
@@ -562,6 +568,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
     }
     
+    private ProposalPerson dondon;
+    
     /**
      * Fix the Key Personnel.  This requires changing the lead unit for the PI
      * and the COIs to the new lead unit.  Also, if the PI's home unit is not in
@@ -575,14 +583,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
        
         List<ProposalPerson> persons = doc.getProposalPersons();
         for (ProposalPerson person : persons) {
-            Integer personNumber = doc.getNextProposalPersonNumber();
+            Integer personNumber = doc.getDocumentNextValue(Constants.PROPOSAL_PERSON_NUMBER);
             person.setProposalNumber(null);
             person.setProposalPersonNumber(personNumber);
-            
+           
             ProposalPersonRole role = person.getRole();
             String roleId = role.getProposalPersonRoleId();
             
-            if ((StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) || 
+            if ((StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) ||
                 (StringUtils.equals(roleId, Constants.CO_INVESTIGATOR_ROLE))) {
                 
                 List<ProposalPersonUnit> proposalPersonUnits = person.getUnits();
@@ -609,7 +617,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 }
                 
                 person.setUnits(newProposalPersonUnits);  
-            } 
+            } else {
+                dondon = person;
+            }
             
             List<Object> list = new ArrayList<Object>();
             fixProposalPersonNumbers(person, personNumber, list);
@@ -662,7 +672,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         if (object instanceof BusinessObject) {
             if (list.contains(object)) return;
             list.add(object);
-            Method[] methods = object.getClass().getDeclaredMethods();
+            Method[] methods = object.getClass().getMethods();
             for (Method method : methods) {
                 if (method.getName().equals("setProposalPersonNumber")) {
                     method.invoke(object, proposalPersonNumber);
