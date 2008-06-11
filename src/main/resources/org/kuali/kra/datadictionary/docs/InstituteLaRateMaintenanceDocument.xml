@@ -62,6 +62,7 @@
 					<maintainableField name="startDate" required="true"/>
 					<maintainableField name="unitNumber" required="true"/>
 					<maintainableField name="instituteRate" required="true"/>
+					<maintainableField name="active" required="true"/>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
