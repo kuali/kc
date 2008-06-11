@@ -319,7 +319,7 @@
     </session-config>
 
 	<listener>
-		<listener-class>org.kuali.core.web.listener.KualiHttpSessionListener</listener-class>
+		<listener-class>org.kuali.kra.web.listener.KraHttpSessionListener</listener-class>
 	</listener>
 	
 	<!-- ******************* END CAS Servlet Mappings ********************* -->

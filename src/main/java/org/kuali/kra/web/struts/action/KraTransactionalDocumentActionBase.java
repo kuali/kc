@@ -373,11 +373,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         GlobalVariables.getUserSession().removeObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
         PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
         UniversalUser loggedInUser = GlobalVariables.getUserSession().getUniversalUser();
-        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
 
         String budgetLockDescriptor = null;
         for(PessimisticLock lock: document.getPessimisticLocks()) {
-            if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && lock.getLockDescriptor().contains("BUDGET")) {
+            if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
                 budgetLockDescriptor = lock.getLockDescriptor();
                 break;
             }
@@ -388,7 +387,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             // find all locks for the current user and remove them
             lockService.releaseAllLocksForUser(document.getPessimisticLocks(), loggedInUser);
             
-            if(StringUtils.isNotEmpty(activeLockRegion) && activeLockRegion.contains("BUDGET")) {
+            if(StringUtils.isNotEmpty(activeLockRegion) && activeLockRegion.contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
                 //Add code here
                 List<PessimisticLock> otherBudgetLocks = findMatchingLocksWithGivenDescriptor(budgetLockDescriptor); 
                 lockService.releaseAllLocksForUser(otherBudgetLocks, loggedInUser, budgetLockDescriptor);
