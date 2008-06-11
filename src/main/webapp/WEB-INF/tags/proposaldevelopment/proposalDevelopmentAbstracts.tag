@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="proposalAbstractAttributes" value="${DataDictionary.ProposalAbstract.attributes}" />
@@ -29,12 +30,12 @@
     		<span class="subhead-left"><h2>Abstracts</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalAbstract" altText="help"/></span>
         </div>
-        
+    
         <table id="abstracts-table" cellpadding="0" cellspacing="0" summary="">
         <tbody>
         
         	<%-- Table headers --%>
-        	
+        	<c:if test="${fn:length(KualiForm.document.proposalAbstracts) > 0 || KualiForm.editingMode['modifyProposal']}" >
           	<tr>
           		<th><div align="left">&nbsp</div></th> 
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalAbstractAttributes.updateTimestamp}" noColon="true" /></div></th>
@@ -43,9 +44,10 @@
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${proposalAbstractAttributes.abstractDetails}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	</tr>
+          	</c:if>
           	
           	<%-- The input controls for adding a new abstract. --%>
-          	
+          	<kra:section permission="modifyProposal">   
             <tr> 
 				<th class="infoline">
 					<c:out value="Add:" />
@@ -72,9 +74,10 @@
 					</div>
                 </td>
             </tr>
-            
+            </kra:section>   
             <%-- The list of current abstracts --%>
             
+            <c:if test="${fn:length(KualiForm.document.proposalAbstracts) > 0}" >
         	<c:forEach var="abstract" items="${KualiForm.document.proposalAbstracts}" varStatus="status">
 	             <tr>
 	             	<th>${status.index + 1}</th>
@@ -98,13 +101,16 @@
                 	</td>
                 	
 				    <td>
-				        <div align="center">
+				        <div align="center">&nbsp;
+				        	<kra:section permission="modifyProposal">  
 					          <html:image property="methodToCall.deleteAbstract.line${status.index}.anchor${tabKey}"
 									      src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+							</kra:section>
 				    	</div>
 				    </td>
 				</tr>	
         	</c:forEach>
+        	</c:if>
         </tbody>
         </table>
     </div> 
