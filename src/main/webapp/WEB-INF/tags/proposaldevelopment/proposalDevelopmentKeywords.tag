@@ -44,7 +44,7 @@
 					lookupParameters="" hideReturnLink="false" />
                 </td>
                 <td><div align="center">
-                  <kul:htmlControlAttribute property="document.propScienceKeyword[${ctr}].selectKeyword" attributeEntry="${DataDictionary.PropScienceKeyword.attributes.selectKeyword}" readOnly="false" />
+                  <kul:htmlControlAttribute property="document.propScienceKeyword[${ctr}].selectKeyword" attributeEntry="${DataDictionary.PropScienceKeyword.attributes.selectKeyword}" readOnly="${readOnly}" />
                 </div></td>
               </tr>
             </logic:iterate>
