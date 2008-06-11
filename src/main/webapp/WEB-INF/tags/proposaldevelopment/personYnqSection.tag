@@ -41,14 +41,30 @@
                     <span class="fineprint"></span> </td>
 					<bean:define id="noOfAnswers" name="KualiForm" property="${proposalPerson}.proposalPersonYnq[${status.index}].ynq.noOfAnswers" />
                     <td width="20%" class="${tdClass}"><div align=left><span class="copy">
+					
 					<c:choose>
-					<c:when test="${noOfAnswers == answerYesNo}">
-	                    <kul:htmlControlAttribute property="${proposalPerson}.proposalPersonYnq[${status.index}].answer" attributeEntry="${answerAttribute}" /> 
-					</c:when>
-					<c:when test="${noOfAnswers == answerYesNoNa}">
-	                    <kul:htmlControlAttribute property="${proposalPerson}.proposalPersonYnq[${status.index}].answer" attributeEntry="${dummyAnswerAttribute}" /> 
-					</c:when>
+					    <c:when test="${KualiForm.editingMode['certify']}">
+							<c:choose>
+								<c:when test="${noOfAnswers == answerYesNo}">
+				                    <kul:htmlControlAttribute property="${proposalPerson}.proposalPersonYnq[${status.index}].answer" attributeEntry="${answerAttribute}" /> 
+								</c:when>
+								<c:when test="${noOfAnswers == answerYesNoNa}">
+				                    <kul:htmlControlAttribute property="${proposalPerson}.proposalPersonYnq[${status.index}].answer" attributeEntry="${dummyAnswerAttribute}" /> 
+								</c:when>
+							</c:choose>
+						</c:when>
+						<c:otherwise>
+							<c:choose>
+	                            <c:when test="${noOfAnswers == answerYesNo}">
+	                                <kul:htmlControlAttribute readOnly="true" property="${proposalPerson}.proposalPersonYnq[${status.index}].answer" attributeEntry="${answerAttribute}" /> 
+	                            </c:when>
+	                            <c:when test="${noOfAnswers == answerYesNoNa}">
+	                                <kul:htmlControlAttribute readOnly="true" property="${proposalPerson}.proposalPersonYnq[${status.index}].answer" attributeEntry="${dummyAnswerAttribute}" /> 
+	                            </c:when>
+	                        </c:choose>
+						</c:otherwise>
 					</c:choose>
+					
                     </span></div>
                     <span class="fineprint"></span> </td>
                   </tr>
