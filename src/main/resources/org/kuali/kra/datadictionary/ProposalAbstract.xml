@@ -106,7 +106,7 @@
 			
 		</attributes>
 
-        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentAbstractHelpUrl"/> 
+        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentAbstractHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>

@@ -202,7 +202,7 @@
 	        </collection>
         </collections>
 		
-        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentYnqHelpUrl"/> 
+        <objectHelp parameterNamespace="KRA-PD"  parameterDetailType="D" parameterName="proposalDevelopmentYnqHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>
