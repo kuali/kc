@@ -229,6 +229,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         editModeMap.put("modifyPermissions", hasPermission(username, doc, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS));
         editModeMap.put("modifyNarratives", hasPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE));
         editModeMap.put("viewNarratives", hasPermission(username, doc, PermissionConstants.VIEW_NARRATIVE));
+        editModeMap.put("certify", hasPermission(username, doc, PermissionConstants.CERTIFY));
+        editModeMap.put("printProposal", hasPermission(username, doc, PermissionConstants.PRINT_PROPOSAL));
+        editModeMap.put("alterProposalData", hasPermission(username, doc, PermissionConstants.ALTER_PROPOSAL_DATA));
         
         entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL, KraAuthorizationConstants.ProposalEditMode.VIEW_PROPOSAL);
         entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_PERMISSIONS, KraAuthorizationConstants.ProposalEditMode.VIEW_PERMISSIONS);
