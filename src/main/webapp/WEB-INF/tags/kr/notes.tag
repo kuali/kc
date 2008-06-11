@@ -31,6 +31,7 @@
 <c:choose>
 	<c:when test="${fn:endsWith(KualiForm.document.class.name, 'ProposalDevelopmentDocument')}">
 		<c:set var="allowsAttachments" value="${KualiForm.document.allowsNoteAttachments}" />
+		<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
 	</c:when>
 	<c:otherwise>
 		<c:set var="allowsAttachments" value="true" />
@@ -63,6 +64,7 @@
         <table cellpadding="0" cellspacing="0" class="datatable" summary="view/add notes">
             <tbody>
 
+				<c:if test="${fn:length(notesBo) > 0 || (empty readOnly or readOnly != true) }" >
                 <tr>
                     <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" align="left"/>
                     <kul:htmlAttributeHeaderCell attributeEntry="${notesAttributes.notePostedTimestamp}" hideRequiredAsterisk="true" scope="col" align="left"/>
@@ -87,7 +89,9 @@
                     </c:if>
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
                 </tr>
+				</c:if>
 
+				<c:if test="${empty readOnly or readOnly != true}" >
                 <tr>
                 	<html:hidden property="newNote.noteTypeCode" value="${noteType.code}"/>
                     <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
@@ -124,7 +128,9 @@
                 		</div>
             		</td>
                 </tr>
+                </c:if>
 
+	<c:if test="${fn:length(notesBo) > 0}" >
 	<c:forEach var="note" items="${notesBo}" varStatus="status">
     	<tr>
         	<html:hidden property="${propPrefix}boNote[${status.index}].versionNumber" />
@@ -223,6 +229,7 @@
                         </div></td>
                     </tr>
 	</c:forEach>
+	</c:if>
 	            </tbody>
         </table>
     </div>
