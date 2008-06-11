@@ -35,6 +35,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetService;
@@ -75,7 +76,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         
         PessimisticLock budgetLockForProposalDoc = null;
         for(PessimisticLock pdLock : pdDoc.getPessimisticLocks()) {
-            if(pdLock.getLockDescriptor().contains("BUDGET")) {
+            if(pdLock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
                 budgetLockForProposalDoc = pdLock;
                 break;
             }

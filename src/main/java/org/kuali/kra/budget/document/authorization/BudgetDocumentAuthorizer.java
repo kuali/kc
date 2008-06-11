@@ -214,7 +214,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         } else {
             for (Iterator iterator = budgetDocument.getProposal().getPessimisticLocks().iterator(); iterator.hasNext();) {
                 PessimisticLock lock = (PessimisticLock) iterator.next();
-                if (lock.getLockDescriptor().endsWith("BUDGET") && lock.isOwnedByUser(user)) {
+                if (lock.getLockDescriptor().endsWith(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET) && lock.isOwnedByUser(user)) {
                     return true;
                 }
             }
