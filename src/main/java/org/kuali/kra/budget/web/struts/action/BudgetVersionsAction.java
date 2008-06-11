@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetService;
@@ -84,7 +85,7 @@ public class BudgetVersionsAction extends BudgetAction {
         
         PessimisticLock budgetLockForProposalDoc = null;
         for(PessimisticLock pdLock : pdDoc.getPessimisticLocks()) {
-            if(pdLock.getLockDescriptor().contains("BUDGET")) {
+            if(pdLock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
                 budgetLockForProposalDoc = pdLock;
                 break;
             }

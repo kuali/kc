@@ -92,18 +92,18 @@
                 
                 
                 <td align="left" valign="middle" class="infoline">
-                <div align="center">
-                    <c:set var="selected" value="" />
+               		 <div align="center">
+                    	<c:set var="selected" value="" />
 						<c:forEach var="key" items="${KualiForm.newExemptNumbers}">
 						   <c:set var="selected" value="${selected},${key}" />
 						</c:forEach>
-		  			<select name="newExemptNumbers" multiple="true" size="4"  style="${exemptNumberStyle}">
-						<c:forEach var="keyLabel" items="${KualiForm.exemptNumberList}">
-		  			    	<c:if test="${!empty keyLabel.key}" >
-                                <option value="${keyLabel.key}" <c:if test="${fn:contains(selected, keyLabel.key)}"> selected="true" </c:if> >${keyLabel.label}</option>
-							</c:if>
-						</c:forEach>
-					</select>	
+						<select name="newExemptNumbers" multiple="true" size="4"  style="${exemptNumberStyle}">
+							<c:forEach var="keyLabel" items="${KualiForm.exemptNumberList}">
+			  			    	<c:if test="${!empty keyLabel.key}" >
+	                                <option value="${keyLabel.key}" <c:if test="${fn:contains(selected, keyLabel.key)}"> selected="true" </c:if> >${keyLabel.label}</option>
+								</c:if>
+							</c:forEach>
+						</select>
 					</div>	  			
                 </td>
                 <td align="left" valign="middle" class="infoline">
@@ -166,16 +166,27 @@
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
                     <c:set var="selected" value="" />
+                    <c:set var="selectedExemptText" value="" />
 						<c:forEach var="key" items="${KualiForm.documentExemptNumbers[status.index]}">
 						   <c:set var="selected" value="${selected},${key}" />
+						   <c:set var="selectedExemptText" value="${selectedExemptText},${KualiForm.exemptNumberList[key-1].label}" />
 						</c:forEach>
-		  			<select name="documentExemptNumbers[${status.index}]" multiple="true" size="4"  style="${exemptNumberStyle}">
-						<c:forEach var="keyLabel" items="${KualiForm.exemptNumberList}">
-		  			    	<c:if test="${!empty keyLabel.key}" >
-                                <option value="${keyLabel.key}" <c:if test="${fn:contains(selected, keyLabel.key)}"> selected="true" </c:if> >${keyLabel.label}</option>
+						<c:choose> 
+						<c:when test="${readOnly}">
+							<c:if test="${not empty selectedExemptText}" >
+								<c:out value="${fn:substring(selectedExemptText, 1, fn:length(selectedExemptText))}" />
 							</c:if>
-						</c:forEach>
-					</select>	
+						</c:when>
+						<c:otherwise>
+			  				<select name="documentExemptNumbers[${status.index}]" multiple="true" size="4"  style="${exemptNumberStyle}">
+								<c:forEach var="keyLabel" items="${KualiForm.exemptNumberList}">
+				  			    	<c:if test="${!empty keyLabel.key}" >
+		                                <option value="${keyLabel.key}" <c:if test="${fn:contains(selected, keyLabel.key)}"> selected="true" </c:if> >${keyLabel.label}</option>
+									</c:if>
+								</c:forEach>
+							</select>
+						</c:otherwise>
+						</c:choose>
 					</div>	  			
                 </td>
 
