@@ -81,8 +81,12 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
                 break;
             }
         }
-        PessimisticLock budgetLockForBudgetDoc = KNSServiceLocator.getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
-        newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
+        try {
+            PessimisticLock budgetLockForBudgetDoc = KNSServiceLocator.getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
+            newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
+        } catch (Exception e) {
+            
+        }
 
         pdForm.getProposalDevelopmentDocument().addNewBudgetVersion(newBudgetDoc, pdForm.getNewBudgetVersionName(), false);
         pdForm.setNewBudgetVersionName("");
