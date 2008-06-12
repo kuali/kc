@@ -15,11 +15,12 @@
  */
 package org.kuali.kra.maintenance;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.service.BusinessObjectService;
+import org.apache.commons.collections.CollectionUtils;
+import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.util.AssertionUtils;
+import org.kuali.core.web.ui.Section;
 import org.kuali.kra.bo.Ynq;
 import org.kuali.kra.bo.YnqExplanation;
 import org.kuali.kra.bo.YnqExplanationType;
@@ -39,6 +40,19 @@ public class YnqMaintainableImpl extends KraMaintainableImpl {
             initExplanation();
         }
         super.setGenerateDefaultValues(generateDefaultValues);
+    }
+    
+    /**
+     * This is just trying to populate existing ynq that has no explanation
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.core.maintenance.Maintainable)
+     */
+    @Override
+    public List<Section> getCoreSections(Maintainable oldMaintainable) {
+        Ynq ynq = ((Ynq)getBusinessObject());
+        if (CollectionUtils.isEmpty(ynq.getYnqExplanations())) {
+            initExplanation();
+        }
+        return super.getCoreSections(oldMaintainable);
     }
 
     /**
