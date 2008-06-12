@@ -18,7 +18,7 @@
 		<property name="targetMethod" value="getProperties" />
 	</bean>
 
-	<!-- 
+	<!-- Atomikos JTA configuration
 	<bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
 		<property name="forceShutdown" value="true"/>
 		<property name="transactionTimeout" value="${transaction.timeout}" />
@@ -26,6 +26,18 @@
 	
 	<bean id="AtomikosUsrTx" class="com.atomikos.icatch.jta.UserTransactionImp">
 		<property name="transactionTimeout" value="${transaction.timeout}"/>
+	</bean>
+	
+	<bean id="dataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
+		<property name="uniqueResourceName" value="kraDataSource"/>
+		<property name="driverClassName" value="${datasource.driver.name}" />
+		<property name="poolSize" value="${datasource.poolSize}" />
+		<property name="connectionTimeout" value="${datasource.connectionTimeout}" />
+		<property name="validatingQuery" value="${datasource.pool.validationQuery}"/>
+		<property name="testOnBorrow" value="true"/>
+		<property name="url" value="${datasource.url}" />
+		<property name="user" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
 	</bean>
 	 -->
 	
@@ -52,20 +64,6 @@
 		<property name="password" value="${datasource.password}" />
 	</bean>
 	 
-	<!-- 
-	<bean id="dataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
-		<property name="uniqueResourceName" value="kraDataSource"/>
-		<property name="driverClassName" value="${datasource.driver.name}" />
-		<property name="poolSize" value="${datasource.poolSize}" />
-		<property name="connectionTimeout" value="${datasource.connectionTimeout}" />
-		<property name="validatingQuery" value="${datasource.pool.validationQuery}"/>
-		<property name="testOnBorrow" value="true"/>
-		<property name="url" value="${datasource.url}" />
-		<property name="user" value="${datasource.username}" />
-		<property name="password" value="${datasource.password}" />
-	</bean>
-	 -->
-
   <bean id="dbPlatformFactory" class="org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory">
     <property name="ojbPlatform" value="${datasource.ojb.platform}" />
     <property name="dataSource" ref="dataSource" />
