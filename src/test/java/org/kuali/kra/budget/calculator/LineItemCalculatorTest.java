@@ -143,12 +143,12 @@ public class LineItemCalculatorTest extends KraTestBase {
 //        }
         BudgetDecimal directCost = bli.getDirectCost();
         try{
-            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(15935.00),directCost );
+            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(15932.50),directCost );
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
         try{
-            assertEquals("Indirect cost for 400250 is not correct",new BudgetDecimal(8206.50),bli.getIndirectCost() );
+            assertEquals("Indirect cost for 400250 is not correct",new BudgetDecimal(8208.61),bli.getIndirectCost() );
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
@@ -161,29 +161,29 @@ public class LineItemCalculatorTest extends KraTestBase {
         bcs.calculateBudgetLineItem(bd,bli1);
         BudgetDecimal directCost1 = bli1.getDirectCost();
         try{
-            assertEquals("Direct cost for 400025 is not correct",new BudgetDecimal(15085.00),directCost1);
+            assertEquals("Direct cost for 400025 is not correct",new BudgetDecimal(15081.68),directCost1);
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
         try{
-            assertEquals("Direct cost for 400025 is not correct",new BudgetDecimal(7687.00),bli1.getIndirectCost());
+            assertEquals("Direct cost for 400025 is not correct",new BudgetDecimal(7688.54),bli1.getIndirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
 
         bcs.calculateBudgetPeriod(bd,bp);
         try{
-            assertEquals("Total direct cost for 400250 is not correct",new BudgetDecimal(31020.00),bp.getTotalDirectCost());
+            assertEquals("Total direct cost for 400250 is not correct",new BudgetDecimal(31014.18),bp.getTotalDirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
         try{
-            assertEquals("Total indirect cost for 400250 is not correct",new BudgetDecimal(15893.50),bp.getTotalIndirectCost());
+            assertEquals("Total indirect cost for 400250 is not correct",new BudgetDecimal(15897.15),bp.getTotalIndirectCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
         try{
-            assertEquals("Total cost for 400250 is not correct",new BudgetDecimal(46913.50),bp.getTotalCost());
+            assertEquals("Total cost for 400250 is not correct",new BudgetDecimal(46911.33),bp.getTotalCost());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
@@ -207,11 +207,11 @@ public class LineItemCalculatorTest extends KraTestBase {
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudgetLineItem(bd,bli);
         try{
-            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(15935.00),bli.getDirectCost() );
+            assertEquals("Direct cost for 400250 is not correct",new BudgetDecimal(15932.50),bli.getDirectCost() );
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }try{
-            assertEquals("Uderrecovery for 400250 is not correct",new BudgetDecimal(541.36),bli.getUnderrecoveryAmount());
+            assertEquals("Uderrecovery for 400250 is not correct",new BudgetDecimal(540.31),bli.getUnderrecoveryAmount());
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
