@@ -25,14 +25,18 @@
 <c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />
 <c:set var="action" value="budgetExpensesAction" />
 <c:set var="textAreaFieldNameLineItemDescription" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
+	<c:set var="objectCodeReadOnly" value="false" />
 
 <c:if test="${readOnly}" >
 	<c:set var="budgetExpensePanelReadOnly" value="true" />
 </c:if>
 
 <c:set var="budgetExpensePanelReadOnlyIfBudgetVersionIsFinal" value="${budgetExpensePanelReadOnly}" />
-<c:if test="${!empty KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].versionNumber}" >
+<c:if test="${budgetCategoryTypeCode == 'P' and fn:length(KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList) > 0}" >
 	<c:set var="budgetExpensePanelReadOnly" value="true" />
+</c:if>
+<c:if test="${!empty KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].versionNumber}" >
+	<c:set var="objectCodeReadOnly" value="true" />
 </c:if>
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
@@ -66,7 +70,7 @@
 					</c:forEach> 
 					
 					 <c:choose>
-	                    <c:when test="${budgetExpensePanelReadOnly}">
+	                    <c:when test="${budgetExpensePanelReadOnly || objectCodeReadOnly}">
 	                    	<c:out value="${selectedCostElement}"/>	 
 	                    </c:when>
                      	<c:otherwise>
