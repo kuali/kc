@@ -34,21 +34,15 @@ public class BudgetExpenseRule {
     public BudgetExpenseRule() {
     }
 
-    public boolean processCheckExistBudgetPersonnelDetailsBusinessRules(BudgetDocument budgetDocument, BudgetLineItem budgetLineItem) {
+    public boolean processCheckExistBudgetPersonnelDetailsBusinessRules(BudgetDocument budgetDocument, BudgetLineItem budgetLineItem, int lineItemToDelete) {
         boolean valid = true;
         
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        Map qMap = new HashMap();
-        qMap.put("proposalNumber", budgetDocument.getProposalNumber());
-        qMap.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber());
-        qMap.put("lineItemNumber", budgetLineItem.getLineItemNumber());
-        qMap.put("budgetPeriod", budgetLineItem.getBudgetPeriod());
-        Collection budgetPersonnelDetails = KraServiceLocator.getService(BusinessObjectService.class).findMatching(BudgetPersonnelDetails.class, qMap);
-        if (CollectionUtils.isNotEmpty(budgetPersonnelDetails)) {
-                // just try to make sure key is on budget personnel tab
-                errorMap.putError("document.budgetPeriods["+(budgetLineItem.getBudgetPeriod()-1)+"].budgetLineItems[0].costElement", KeyConstants.ERROR_DELETE_LINE_ITEM);
-                    valid = false;
-        }
+        if (CollectionUtils.isNotEmpty(budgetLineItem.getBudgetPersonnelDetailsList())) {
+            // just try to make sure key is on budget personnel tab
+            errorMap.putError("document.budgetPeriods["+(budgetLineItem.getBudgetPeriod()-1)+"].budgetLineItems["+lineItemToDelete+"].costElement", KeyConstants.ERROR_DELETE_LINE_ITEM);
+                valid = false;
+    }
                     
         return valid;
     }
