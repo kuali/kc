@@ -499,7 +499,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
         s2sService.submitApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber());
-        proposalDevelopmentDocument.refreshReferenceObject("s2sAppSubmission");        
+        proposalDevelopmentDocument.refreshReferenceObject("s2sAppSubmission");
+        GlobalVariables.getMessageList().add(Constants.GRANTS_GOV_SUBMISSION_SUCCESSFUL_MESSAGE);
         S2sSubmissionHistory s2sSubmissionHistory = new S2sSubmissionHistory();
         s2sSubmissionHistory.setProposalNumber(proposalDevelopmentDocument.getProposalNumber());
         s2sSubmissionHistory.setProposalNumberOrig(proposalDevelopmentDocument.getProposalNumber());
