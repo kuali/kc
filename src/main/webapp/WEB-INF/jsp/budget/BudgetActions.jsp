@@ -26,8 +26,16 @@
   	showTabButtons="true">
 
 	<div align="center">
-		<kra-b:budgetPrintForms />
-		<kra-b:budgetJustification />
+	    <c:choose>
+	       <c:when test="${KualiForm.editingMode['printProposal']}">
+		       <kra-b:budgetPrintForms />
+		       <kra-b:budgetJustification top="false" />
+		   </c:when>
+		   <c:otherwise>
+		       <kra-b:budgetJustification top="true" />
+		   </c:otherwise>
+	    </c:choose>
+		
 		<kul:panelFooter />
 	</div>
 
