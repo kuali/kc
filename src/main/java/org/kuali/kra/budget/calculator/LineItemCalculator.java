@@ -20,6 +20,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
@@ -58,12 +59,17 @@ public class LineItemCalculator extends AbstractBudgetCalculator {
         }
 
         if(bd.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && !StringUtils.equalsIgnoreCase(bd.getOhRateClassCode(),((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue())){
-            Long versionNumber = bli.getBudgetLineItemCalculatedAmounts().get(0).getVersionNumber();
+            Long versionNumber = null;
+            if (CollectionUtils.isNotEmpty(bli.getBudgetLineItemCalculatedAmounts())) {
+                versionNumber = bli.getBudgetLineItemCalculatedAmounts().get(0).getVersionNumber();
+            }
             bli.setBudgetLineItemCalculatedAmounts(new ArrayList<BudgetLineItemCalculatedAmount>());
             
             setCalculatedAmounts(bd,bli);
-            for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : bli.getBudgetLineItemCalculatedAmounts()){
-                budgetLineItemCalculatedAmount.setVersionNumber(versionNumber);
+            if (versionNumber != null) {
+                for(BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : bli.getBudgetLineItemCalculatedAmounts()){
+                    budgetLineItemCalculatedAmount.setVersionNumber(versionNumber);
+                }
             }
         }
          
