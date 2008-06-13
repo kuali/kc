@@ -78,7 +78,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
  * @author $Author: jsalam $
- * @version $Revision: 1.59 $
+ * @version $Revision: 1.60 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
@@ -93,7 +93,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ActionForward retval = super.execute(mapping, form, request, response);
+        pdform.setTabStates(new HashMap());
         prepare(form, request);
         Map errorMap = GlobalVariables.getErrorMap();
         return retval;
@@ -446,6 +448,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        pdform.setTabStates(new HashMap());
         boolean rulePassed = true;
 
         // check any business rules

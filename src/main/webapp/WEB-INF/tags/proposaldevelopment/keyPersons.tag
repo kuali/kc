@@ -24,30 +24,30 @@
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
+<kul:checkErrors keyMatch="document.proposalPersons[${status.index}]*"/>
+  <c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
 <c:choose>
 <c:when test="${KualiForm.document.nih}">
 <c:set var="nihdescription" value="${KualiForm.document.nihDescription}" />
 <c:set var="desc" value="${nihdescription[person.role.proposalPersonRoleId]}" />
-    
-     <kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
+       <kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
              tabDescription="${desc}"
              leftSideHtmlProperty="${proposalPersonProperty}.delete" 
-            leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
+             leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
          	 leftSideHtmlDisabled="false" 
-                      defaultOpen="false" 
-            transparentBackground="${transparent}"> 
-       
-        <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
+             defaultOpen="${hasErrors}" 
+             transparentBackground="${transparent}"> 
+         <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
      </kul:tab>
      </c:when>
      <c:otherwise>
      <kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
              tabDescription="${person.role.description}"
              leftSideHtmlProperty="${proposalPersonProperty}.delete" 
-            leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
+             leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
          	 leftSideHtmlDisabled="false" 
-                      defaultOpen="false" 
-            transparentBackground="${transparent}"> 
+             defaultOpen="${hasErrors}" 
+             transparentBackground="${transparent}"> 
        
         <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
      </kul:tab>
@@ -62,4 +62,5 @@
 <c:if test="${fn:length(KualiForm.document.proposalPersons) > 0}">
     <kul:panelFooter />
 </c:if>
+
 </div>
