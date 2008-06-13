@@ -38,6 +38,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.TbnPerson;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.rules.BudgetPersonnelRule;
 import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.budget.service.BudgetPersonnelBudgetService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -122,7 +123,12 @@ public class BudgetPersonnelAction extends BudgetAction {
      */
     public ActionForward deleteBudgetPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return confirm(buildDeleteBudgetPersonConfirmationQuestion(mapping, form, request, response), CONFIRM_DELETE_BUDGET_PERSON, "");
+        BudgetDocument budgetDocument = ((BudgetForm) form).getBudgetDocument();
+        if (!new BudgetPersonnelRule().processCheckExistBudgetPersonnelDetailsBusinessRules(budgetDocument, budgetDocument.getBudgetPerson(getLineToDelete(request)))) {
+            return mapping.findForward(MAPPING_BASIC);
+        } else {
+            return confirm(buildDeleteBudgetPersonConfirmationQuestion(mapping, form, request, response), CONFIRM_DELETE_BUDGET_PERSON, "");
+        }
     }
 
     /**
