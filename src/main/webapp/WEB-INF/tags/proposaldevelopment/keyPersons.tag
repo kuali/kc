@@ -24,6 +24,8 @@
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
+<kul:checkErrors keyMatch="document.proposalPersons[${status.index}]*"/>
+  <c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
 <c:choose>
 <c:when test="${KualiForm.document.nih}">
 <c:set var="nihdescription" value="${KualiForm.document.nihDescription}" />
@@ -34,7 +36,7 @@
              leftSideHtmlProperty="${proposalPersonProperty}.delete" 
             leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
          	 leftSideHtmlDisabled="false" 
-                      defaultOpen="false" 
+                      defaultOpen="${hasErrors}" 
             transparentBackground="${transparent}"> 
        
         <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
@@ -46,7 +48,7 @@
              leftSideHtmlProperty="${proposalPersonProperty}.delete" 
             leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
          	 leftSideHtmlDisabled="false" 
-                      defaultOpen="false" 
+                      defaultOpen="${hasErrors}"
             transparentBackground="${transparent}">
           
        
