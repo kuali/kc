@@ -15,13 +15,21 @@
  */
 package org.kuali.kra.budget.rules;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class BudgetPersonnelRule {
 
@@ -46,6 +54,32 @@ public class BudgetPersonnelRule {
                 errorMap.putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_IMCOMPLETE_PERSON_ENTRIES);
                     valid = false;
             }
+        }
+                    
+        return valid;
+    }
+
+    /**
+     * 
+     * This method to check the 'selected' person to delete is not associate with budget personnel details
+     * @param budgetDocument
+     * @param budgetPerson
+     * @return
+     */
+    public boolean processCheckExistBudgetPersonnelDetailsBusinessRules(BudgetDocument budgetDocument, BudgetPerson budgetPerson) {
+        boolean valid = true;
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        Map qMap = new HashMap();
+        qMap.put("proposalNumber", budgetDocument.getProposalNumber());
+        qMap.put("budgetVersionNumber", budgetDocument.getBudgetVersionNumber());
+        qMap.put("personId", budgetPerson.getPersonId());
+        qMap.put("personSequenceNumber", budgetPerson.getPersonSequenceNumber());
+        Collection budgetPersonnelDetails = KraServiceLocator.getService(BusinessObjectService.class).findMatching(BudgetPersonnelDetails.class, qMap);
+        if (CollectionUtils.isNotEmpty(budgetPersonnelDetails)) {
+                // just try to make sure key is on budget personnel tab
+                errorMap.putError("document.budgetPersons[0].personNumber", KeyConstants.ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL, budgetPerson.getPersonName());
+                    valid = false;
         }
                     
         return valid;
