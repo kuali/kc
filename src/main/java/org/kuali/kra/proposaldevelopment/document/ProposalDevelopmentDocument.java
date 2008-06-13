@@ -68,6 +68,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.YnqService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.KNSServiceLocator;
@@ -140,6 +141,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<YnqGroupName> ynqGroupNames;
     private List<BudgetVersionOverview> budgetVersionOverviews;
     private String creationStatusCode;
+    private List<S2sSubmissionHistory> s2sSubmissionHistory;
     private boolean nih=false;
     HashMap<String, String> nihDescription ;
 
@@ -705,6 +707,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         managedLists.add(getProposalAbstracts());
         managedLists.add(getPropPersonBios());
         managedLists.add(getS2sAppSubmission());
+        managedLists.add(getS2sSubmissionHistory());
         /*
          * This is really bogus, but OJB doesn't delete a BO component from the
          * database after it is set to null, i.e. the S2S Opportunity.  It is
@@ -1418,6 +1421,14 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public void setS2sAppSubmission(List<S2sAppSubmission> appSubmission) {
         s2sAppSubmission = appSubmission;
+    }
+
+    public List<S2sSubmissionHistory> getS2sSubmissionHistory() {
+        return s2sSubmissionHistory;
+    }
+
+    public void setS2sSubmissionHistory(List<S2sSubmissionHistory> submissionHistory) {
+        s2sSubmissionHistory = submissionHistory;
     }
 
    

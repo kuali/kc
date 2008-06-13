@@ -43,7 +43,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.Person;
@@ -71,6 +70,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitService;
@@ -1001,9 +1001,31 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public List<ExtraButton> getExtraActionsButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
+        boolean showSubmitButton = true;
+        boolean showResubmitButton = true;
+        ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
+        if(doc.getS2sSubmissionHistory()!=null && doc.getS2sSubmissionHistory().size()!=0){
+            for(S2sSubmissionHistory s2sSubmissionHistory:doc.getS2sSubmissionHistory()){
+                if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getProposalNumberOrig(),doc.getProposalNumber())){
+                    showSubmitButton=false;
+                }
+                if(StringUtils.equalsIgnoreCase(s2sSubmissionHistory.getOriginalProposalId() ,doc.getProposalNumber())){
+                    showResubmitButton=false;
+                }
+            }
+        }else{
+            showResubmitButton=false;
+        }  
+        
         String externalImageURL = "kra.externalizable.images.url";
-        String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submitgrantsgov.gif";
-        addExtraButton("methodToCall.submitToGrantsGov", submitToGrantsGovImage, "Submit To Grants Gov");
+        if(showSubmitButton){
+            String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submitgrantsgov.gif";
+            addExtraButton("methodToCall.submitToGrantsGov", submitToGrantsGovImage, "Submit To Grants Gov");
+        }else if(showResubmitButton){
+            String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_resubmission.gif";
+            addExtraButton("methodToCall.resubmit", resubmissionImage, "Replace Sponsor");
+        }       
+        
         return extraButtons;
     }
     

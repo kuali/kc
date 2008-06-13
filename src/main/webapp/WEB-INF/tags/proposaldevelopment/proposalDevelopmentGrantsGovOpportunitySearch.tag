@@ -44,6 +44,11 @@
 	        			<kra-pd:proposalDevelopmentGrantsGovForms />   
                     </td>
                 </tr>
+                <tr>    
+                    <td>
+	        			<kra-pd:proposalDevelopmentSubmissionHistory />   
+                    </td>
+                </tr>
 			</table>
 	    </div>  
 	   
