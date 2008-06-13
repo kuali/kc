@@ -42,8 +42,34 @@
                           </div>
                       </th>
                       <td>
-                          <kul:htmlControlAttribute property="document.s2sOpportunity.s2sSubmissionTypeCode" 
-                                                    attributeEntry="${s2sOpportunity.s2sSubmissionTypeCode}" />
+						<html:select property="document.s2sOpportunity.s2sSubmissionTypeCode" tabindex="0" >			
+						<c:choose>
+						<c:when test="${not empty KualiForm.document.continuedFrom}">
+		       				<c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.S2sSubmissionTypeValuesFinderForResubmission', paramMap)}" var="option">
+		        				<c:choose>                    	
+		        				<c:when test="${KualiForm.document.s2sOpportunity.s2sSubmissionTypeCode == option.key}">
+		            				<option value="${option.key}" selected>${option.label}</option>
+		            			</c:when>
+		            			<c:otherwise>
+		            				<option value="${option.key}">${option.label}</option>
+		            			</c:otherwise>
+	            				</c:choose>                    
+	        				</c:forEach>
+	        			</c:when>
+				        <c:otherwise>
+	        				<c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.S2sSubmissionTypeValuesFinder', paramMap)}" var="option">
+		        				<c:choose>                    	
+	        					<c:when test="${KualiForm.document.s2sOpportunity.s2sSubmissionTypeCode == option.key}">
+		            				<option value="${option.key}" selected>${option.label}</option>
+		            			</c:when>
+		            			<c:otherwise>
+	            					<option value="${option.key}">${option.label}</option>
+	            				</c:otherwise>
+	            				</c:choose>                    
+	        				</c:forEach>
+	        			</c:otherwise>
+	        			</c:choose>
+	    				</html:select>                          
                      </td>
                    </tr>           
 
