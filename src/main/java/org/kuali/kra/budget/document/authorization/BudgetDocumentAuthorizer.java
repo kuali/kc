@@ -76,20 +76,35 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
                 editModeMap.put("viewBudgets", TRUE);
                 entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
             }
+            editModeMap.put("printProposal", hasPermission(username, proposalDoc, PermissionConstants.PRINT_PROPOSAL));
         }
         else if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.VIEW_BUDGET)) {
             editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
             editModeMap.put("viewBudgets", TRUE);
+            editModeMap.put("printProposal", hasPermission(username, proposalDoc, PermissionConstants.PRINT_PROPOSAL));
         }
         else if (hasWorkflowPermission(username, budgetDoc)) {
             editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
             editModeMap.put("viewBudgets", TRUE);
+            editModeMap.put("printProposal", hasPermission(username, proposalDoc, PermissionConstants.PRINT_PROPOSAL));
         } 
         else {
             editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
         }
         
         return editModeMap;
+    }
+    
+    /**
+     * Does the user have the given permission for the given proposal?
+     * @param username the user's username
+     * @param doc the proposal development document
+     * @param permissionName the name of the permission
+     * @return "TRUE" if has permission; otherwise "FALSE"
+     */
+    private String hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
+        ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
+        return proposalAuthService.hasPermission(username, doc, permissionName) ? TRUE : FALSE;
     }
     
     /**
