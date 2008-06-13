@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +41,9 @@ import org.kuali.RiceConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.DocumentAuditEvent;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PessimisticLockService;
 import org.kuali.core.util.AuditCluster;
@@ -63,6 +66,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
+import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.KNSServiceLocator;
@@ -447,29 +451,39 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         // TODO : this rull will be called again in proposaldevelopmentaction.execute
         // should we comment out here
         if(proposalDevelopmentDocument.getS2sOpportunity()!=null){
-            if(KraServiceLocator.getService(KualiRuleService.class).applyRules(
-                    new DocumentAuditEvent(proposalDevelopmentForm.getDocument())) & s2sService.validateApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber())){            
-                submitApplication(mapping,form,request,response);            
+            if(proposalDevelopmentDocument.getContinuedFrom()==null 
+                    || (!(StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(),KraServiceLocator.getService(KualiConfigurationService.class).getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW).getParameterValue()) 
+                            || StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode(),KraServiceLocator.getService(KualiConfigurationService.class).getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.S2S_SUBMISSIONTYPE_APPLICATION).getParameterValue())))){
+                if(KraServiceLocator.getService(KualiRuleService.class).applyRules(
+                        new DocumentAuditEvent(proposalDevelopmentForm.getDocument())) & s2sService.validateApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber())){            
+                    submitApplication(mapping,form,request,response);            
+                }else{
+                    for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
+                        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                        if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
+                            errorExists=true;
+                            break;
+                        }
+                        if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
+                            errorExists = true;
+                            break;
+                        }
+                        if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
+                            warningExists = true;
+                        }
+                    }
+                    if(errorExists){
+                        GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+                    }else if(warningExists){
+                        return confirm(buildSubmitToGrantsGovWithWarningsQuestion(mapping, form, request, response), CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, EMPTY_STRING);
+                    }            
+                }               
             }else{
-                for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
-                    AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
-                    if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
-                        errorExists=true;
-                        break;
-                    }
-                    if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
-                        errorExists = true;
-                        break;
-                    }
-                    if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
-                        warningExists = true;
-                    }
+                if(StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(),KraServiceLocator.getService(KualiConfigurationService.class).getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW).getParameterValue())){
+                    GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_PROPOSALTYPE_IS_NEW);
+                }else if(StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode(),KraServiceLocator.getService(KualiConfigurationService.class).getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.S2S_SUBMISSIONTYPE_APPLICATION).getParameterValue())){
+                    GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_OPPORTUNITY_IS_APPLICATION);
                 }
-                if(errorExists){
-                    GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
-                }else if(warningExists){
-                    return confirm(buildSubmitToGrantsGovWithWarningsQuestion(mapping, form, request, response), CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, EMPTY_STRING);
-                }            
             }
         }else{
             GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_S2SOPPORTUNITY_NOTSELECTED);
@@ -485,7 +499,44 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
         s2sService.submitApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber());
-        proposalDevelopmentDocument.refreshReferenceObject("s2sAppSubmission");
+        proposalDevelopmentDocument.refreshReferenceObject("s2sAppSubmission");        
+        S2sSubmissionHistory s2sSubmissionHistory = new S2sSubmissionHistory();
+        s2sSubmissionHistory.setProposalNumber(proposalDevelopmentDocument.getProposalNumber());
+        s2sSubmissionHistory.setProposalNumberOrig(proposalDevelopmentDocument.getProposalNumber());
+        s2sSubmissionHistory.setOriginalProposalId(proposalDevelopmentDocument.getContinuedFrom());
+        s2sSubmissionHistory.setFederalIdentifier(proposalDevelopmentDocument.getS2sAppSubmission().get(proposalDevelopmentDocument.getS2sAppSubmission().size()-1).getGgTrackingId());
+        if(proposalDevelopmentDocument.getS2sOpportunity()!=null){
+            s2sSubmissionHistory.setS2sRevisionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode());
+            s2sSubmissionHistory.setS2sSubmissionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode());
+        }            
+        s2sSubmissionHistory.setSubmittedBy(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        s2sSubmissionHistory.setSubmissionTime(proposalDevelopmentDocument.getS2sAppSubmission().get(proposalDevelopmentDocument.getS2sAppSubmission().size()-1).getReceivedDate());
+        proposalDevelopmentDocument.getS2sSubmissionHistory().add(s2sSubmissionHistory);
+        String continuedFrom = proposalDevelopmentDocument.getContinuedFrom();        
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        ProposalDevelopmentDocument pd = new ProposalDevelopmentDocument();
+        S2sSubmissionHistory newS2sSubmissionHistory;
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map queryPDD = new HashMap();
+        while(continuedFrom!=null){
+            queryPDD.put("proposalNumber", continuedFrom);
+            pd = (ProposalDevelopmentDocument)businessObjectService.findByPrimaryKey(ProposalDevelopmentDocument.class, queryPDD);
+            newS2sSubmissionHistory = new S2sSubmissionHistory();
+            newS2sSubmissionHistory.setProposalNumber(pd.getProposalNumber());
+            newS2sSubmissionHistory.setProposalNumberOrig(proposalDevelopmentDocument.getProposalNumber());
+            newS2sSubmissionHistory.setOriginalProposalId(proposalDevelopmentDocument.getContinuedFrom());
+            newS2sSubmissionHistory.setFederalIdentifier(proposalDevelopmentDocument.getS2sAppSubmission().get(proposalDevelopmentDocument.getS2sAppSubmission().size()-1).getGgTrackingId());
+            if(proposalDevelopmentDocument.getS2sOpportunity()!=null){
+                newS2sSubmissionHistory.setS2sRevisionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode());
+                newS2sSubmissionHistory.setS2sSubmissionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode());
+            }            
+            newS2sSubmissionHistory.setSubmittedBy(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            newS2sSubmissionHistory.setSubmissionTime(proposalDevelopmentDocument.getS2sAppSubmission().get(proposalDevelopmentDocument.getS2sAppSubmission().size()-1).getReceivedDate());
+            pd.getS2sSubmissionHistory().add(newS2sSubmissionHistory);
+            businessObjectService.save(pd.getS2sSubmissionHistory());
+            continuedFrom=pd.getContinuedFrom();
+        }
+        businessObjectService.save(proposalDevelopmentDocument.getS2sSubmissionHistory());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -513,8 +564,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @return
      * @throws Exception
      */
-    public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //TODO: Call Printing Service here
+    public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         super.save(mapping, form, request, response);
@@ -624,6 +674,19 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
         
         return new ActionForward(forward, true);
+    }
+    
+    /**
+     * 
+     * This method gets called upon clicking of resubmit(replace sponsor) button on Proposal Actions page.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward resubmit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("resubmit");
     }
 
     /**
