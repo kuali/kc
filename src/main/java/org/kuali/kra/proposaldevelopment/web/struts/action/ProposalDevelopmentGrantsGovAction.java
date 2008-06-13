@@ -226,6 +226,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         if(KraServiceLocator.getService(S2SService.class).refreshGrantsGov(proposalDevelopmentDocument.getProposalNumber())){
+            proposalDevelopmentDocument.refreshReferenceObject("s2sAppSubmission");
             return mapping.findForward(Constants.MAPPING_BASIC);
         }else{
             throw new RuntimeException("Refresh Failed");

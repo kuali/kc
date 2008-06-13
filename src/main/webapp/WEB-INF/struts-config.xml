@@ -74,7 +74,7 @@
           <forward name="instituteAttachmentRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentInstituteAttachmentRights.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentCustomData.jsp" />
           <forward name="actions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentActions.jsp" />
-       
+       	  <forward name="resubmit" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentResubmission.jsp" />
           <forward name="grantsGov" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentGrantsGov.jsp" />
           <forward name="permissions" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissions.jsp" />
           <forward name="permissionsRoleRights" path="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopmentPermissionsRoleRights.jsp" />
