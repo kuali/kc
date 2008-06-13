@@ -93,10 +93,12 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         if(proposalDevelopmentDocument.getS2sOpportunity().getSchemaUrl()!=null){
             s2sOppForms = KraServiceLocator.getService(S2SService.class).parseOpportunityForms(proposalDevelopmentDocument.getS2sOpportunity());
-            for(S2sOppForms s2sOppForm:s2sOppForms){
-                if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
-                    mandatoryFormNotAvailable = true;
-                    break;
+            if(s2sOppForms!=null){
+                for(S2sOppForms s2sOppForm:s2sOppForms){
+                    if(s2sOppForm.getMandatory() && !s2sOppForm.getAvailable()){
+                        mandatoryFormNotAvailable = true;
+                        break;
+                    }
                 }
             }
             if(!mandatoryFormNotAvailable){
