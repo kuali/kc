@@ -473,7 +473,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
      */
     protected String getActionName() {
         String name = getClass().getSimpleName();
-        int endIndex = name.indexOf("Action");
+        int endIndex = name.lastIndexOf("Action");
         return name.substring(19, endIndex);
     }
     
