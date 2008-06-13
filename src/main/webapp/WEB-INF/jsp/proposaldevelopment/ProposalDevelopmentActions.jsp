@@ -29,7 +29,9 @@ showDocumentInfo="true"
 
 <kra-pd:proposalDevelopmentDataValidation /> 
 <kra-pd:proposalDevelopmentHierarchy /> 
-<kra-pd:proposalDevelopmentPrintForms /> 
+<kra:section permission="printProposal">
+   <kra-pd:proposalDevelopmentPrintForms /> 
+</kra:section>
 <kra-pd:proposalDevelopmentCopy /> 
 <kul:routeLog /> 
 <kul:adHocRecipients /> 
