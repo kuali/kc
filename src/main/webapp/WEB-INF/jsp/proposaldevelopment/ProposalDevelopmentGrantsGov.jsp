@@ -27,9 +27,6 @@
   	headerTabActive="grantsGov">
 
 <kra-pd:proposalDevelopmentGrantsGovOpportunitySearch />
-<kra-pd:proposalDevelopmentGrantsGovOpportunity />
-<kra-pd:proposalDevelopmentGrantsGovSubmissionDetails />
-<kra-pd:proposalDevelopmentGrantsGovForms />
 
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
