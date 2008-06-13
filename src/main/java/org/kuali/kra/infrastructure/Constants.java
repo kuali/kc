@@ -182,7 +182,7 @@ public interface Constants {
     public static final String NO_FIELD= "noField";
     public static final String GRANTS_GOV_LINK="message.grantsgov.link";
     public static final String GRANTS_GOV_GENERIC_ERROR_KEY= "error.grantsgov.schemavalidation.generic.errorkey";
-    
+    public static final String GRANTS_GOV_SUBMISSION_SUCCESSFUL_MESSAGE = "message.grantsGov.submission.successful";
     
     // custom attribute
     public static final String CUSTOM_ATTRIBUTE_ID = "customAttributeId";
