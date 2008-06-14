@@ -65,6 +65,20 @@
 					<maintainableField name="versionNumber" />
 				</maintainableItems>
 			</maintainableSection>
+			<maintainableSection title="Edit Role-Permission">
+                <maintainableItems>
+                	<maintainableCollection name="rolePermissions" businessObjectClass="org.kuali.kra.kim.bo.KimRolePermission" sourceClassName="org.kuali.kra.kim.bo.KimPermission" sourceAttributeName="rolePermissions">
+    	                <maintainableField name="permissionId" template="id" required="true"/>
+        	            <maintainableField name="active" required="true">
+            	            <defaultValue>true</defaultValue>
+                	    </maintainableField>
+                    	<maintainableField name="versionNumber" />
+                    	<summaryFields>
+                    		<summaryField name="permission.name" />
+                    	</summaryFields>
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
 		</maintainableSections>
 	</maintenanceDocument>
 </dictionaryEntry>
