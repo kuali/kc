@@ -15,12 +15,15 @@
  */
 package org.kuali.kra.kim.bo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
 /**
@@ -42,7 +45,15 @@ public class KimRole extends PersistableBusinessObjectBase {
 	private String roleTypeCode;
 	private Boolean descend;
 	private KimRoleType roleType;
+	private List<KimRolePermission> rolePermissions;
 
+	/**
+	 * Default constructor. Initializes <code>rolePermissions</code>
+	 */
+	public KimRole() {
+	    rolePermissions = new TypedArrayList(KimRolePermission.class);
+	}
+	
     /**
      * Get the Role's ID.
      * @return the Role's ID
@@ -151,4 +162,21 @@ public class KimRole extends PersistableBusinessObjectBase {
         KimRole role = (KimRole) obj;
         return id.equals(role.id);
     }
+
+    /**
+     * Gets the rolePermissions attribute. 
+     * @return Returns the rolePermissions.
+     */
+    public List<KimRolePermission> getRolePermissions() {
+        return rolePermissions;
+    }
+
+    /**
+     * Sets the rolePermissions attribute value.
+     * @param rolePermissions The rolePermissions to set.
+     */
+    public void setRolePermissions(List<KimRolePermission> rolePermissions) {
+        this.rolePermissions = rolePermissions;
+    }
+
 }
