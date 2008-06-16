@@ -29,7 +29,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>WorkflowAdmin</workgroup>
+                    <workgroup>KualiUniversalGroup</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
