@@ -273,10 +273,10 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     }
     
     @SuppressWarnings("unchecked")
-    private Collection getAbstractInstituteRates(BudgetDocument budgetDocument, Class klass, Map rateFilterMap) {
+    private Collection getAbstractInstituteRates(BudgetDocument budgetDocument, Class rateType, Map rateFilterMap) {
         ProposalDevelopmentDocument proposal = budgetDocument.getProposal(); 
         String unitNumber = proposal.getOwnedByUnitNumber();                               
-        Collection abstractInstituteRates = getFilteredInstituteRates(klass, unitNumber, proposal.getOwnedByUnit(), rateFilterMap);        
+        Collection abstractInstituteRates = getFilteredInstituteRates(rateType, unitNumber, proposal.getOwnedByUnit(), rateFilterMap);        
         
         return abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();
     }
@@ -294,14 +294,29 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     }
 
     @SuppressWarnings("unchecked")
-    private Collection getFilteredInstituteRates(Class klass, String unitNumber, Unit currentUnit, Map<String, String> rateFilterMap) {
+    private Collection getFilteredInstituteRates(Class rateType, String unitNumber, Unit currentUnit, Map<String, String> rateFilterMap) {
         Collection abstractInstituteRates;
         do {
-            abstractInstituteRates = getBusinessObjectService().findMatching(klass, rateFilterMap);
+            abstractInstituteRates = filterForActiveRatesOnly(getBusinessObjectService().findMatching(rateType, rateFilterMap));
             currentUnit = makeParentUnitAsCurrentUnit(currentUnit, rateFilterMap);
         } while(abstractInstituteRates.size() == 0 && currentUnit != null);
         
         return abstractInstituteRates;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Collection filterForActiveRatesOnly(Collection abstractInstituteRates) {        
+        List filteredList = new ArrayList();
+        for(AbstractInstituteRate rate: (Collection<AbstractInstituteRate>) abstractInstituteRates) {
+            if(rate.getActive()) {
+                filteredList.add(rate);
+            } else {
+                if(LOG.isDebugEnabled()) {
+                    LOG.debug("Filtering inactive rate: " + rate.getObjectId());
+                }
+            }
+        }
+        return filteredList;
     }
 
     private Unit makeParentUnitAsCurrentUnit(Unit currentUnit, Map<String, String> rateFilterMap) {
