@@ -20,7 +20,7 @@
                           <th width="150"><div align="center">
                           Select to Print:
                           <br/>
-                          (<html:link href="#" onclick="javascript: selectAllGGForms(document);return false">All Included</html:link>
+                          (<html:link href="#" onclick="javascript: selectAllIncludedGGForms(document);return false">All Included</html:link>
                           |
                           <html:link href="#" onclick="javascript: unselectAllGGForms(document);return false">None</html:link>)
                           </div></th>
