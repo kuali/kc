@@ -221,8 +221,12 @@ public class BudgetAction extends ProposalActionBase {
     public ActionForward returnToProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         DocumentService docService = KraServiceLocator.getService(DocumentService.class);
-        ProposalDevelopmentDocument pdDoc = 
-            (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(budgetForm.getBudgetDocument().getProposal().getDocumentNumber());
+        String docNumber = budgetForm.getBudgetDocument().getProposal().getDocumentNumber();
+        ProposalDevelopmentDocument pdDoc = (ProposalDevelopmentDocument) docService.getByDocumentHeaderId(docNumber);
+        
+        // JIRA KRACOEUS-1441
+        save(mapping, form, request, response);
+        
         String forward = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
         return new ActionForward(forward, true);
     }
