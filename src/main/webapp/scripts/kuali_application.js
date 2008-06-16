@@ -3,10 +3,37 @@ function selectAllGGForms(document) {
     var j = 0;
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
 	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'checkbox') {
+	  	if (e.name == 'document.s2sOpportunity.s2sOppForms[' + j + '].selectToPrint') {
+ 		    if(e.disabled == false){
+ 		    	e.checked = true;
+ 		    }
+	  		j++; 
+	  	}
+	  }
+	}
+}
+
+function selectAllIncludedGGForms(document) {
+    var j = 0;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if (e.name == 'document.s2sOpportunity.s2sOppForms[' + j + '].mandatory') {
+	  		var e1 = e;
+	  }
+	  	if (e.name == 'document.s2sOpportunity.s2sOppForms[' + j + '].include') {
+	  		var e2 = e;
+	  }
 	  if(e.type == 'checkbox') {	  	
-	  	var name = 'document.s2sOpportunity.s2sOppForms[' + j + '].selectToPrint';	  	
-	  	if (e.name == name & e.disabled == false) {
- 		    e.checked = true;
+	  	if (e.name == 'document.s2sOpportunity.s2sOppForms[' + j + '].selectToPrint') {
+ 		    if(e.disabled == false){
+ 		    	if(e1.value == 'Yes'){
+ 		    		e.checked = true;
+ 		    	}
+ 		    	if(e2.checked == true){
+ 		    		e.checked = true;
+ 		    	}
+ 		    }
 	  		j++; 
 	  	}
 	  }
@@ -17,10 +44,11 @@ function unselectAllGGForms(document) {
     var j = 0;
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
 	  var e = document.KualiForm.elements[i];
-	  if(e.type == 'checkbox') {	  	
-	  	var name = 'document.s2sOpportunity.s2sOppForms[' + j + '].selectToPrint';	  	
-	  	if (e.name == name & e.disabled == false) {
- 		    e.checked = false;
+	  if(e.type == 'checkbox') {
+	  	if (e.name == 'document.s2sOpportunity.s2sOppForms[' + j + '].selectToPrint') {
+ 		    if(e.disabled == false){
+ 		    	e.checked = false;
+ 		    }
 	  		j++; 
 	  	}
 	  }
