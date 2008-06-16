@@ -26,7 +26,8 @@
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="rates"
-  	extraTopButtons="${KualiForm.extraTopButtons}">
+  	extraTopButtons="${KualiForm.extraTopButtons}"
+  	showTabButtons="true">
 
 <kra-b:budgetRates /> 
 
