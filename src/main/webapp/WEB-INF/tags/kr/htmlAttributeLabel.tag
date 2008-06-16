@@ -24,7 +24,9 @@
 <%@ attribute name="readOnly" required="false" %>
 <%@ attribute name="useShortLabel" required="false" %>
 <%@ attribute name="labelFor" required="false" %>
-<%@ attribute name="skipHelpUrl" required="false" %>
+<%@ attribute name="includeHelpUrl" required="false" description="If set to true, then the help link will render a help URL regardless of the skipHelpUrl parameter value." %>
+<%@ attribute name="skipHelpUrl" required="false" description="If set to true and includeHelpUrl is set to false, then the help link will not be rendered for this attribute.  If both
+              this attribute and includeHelpUrl are set to false, then the KualiForm.fieldLevelHelpEnabled will control whether to render the help link." %>
 <%@ attribute name="noColon" required="false" %>
 <%@ attribute name="forceRequired" required="false" %>
 
@@ -38,11 +40,11 @@
 <c:if test="${(attributeEntry.required == true || forceRequired) && readOnly != true}">
   <font color="">${Constants.REQUIRED_FIELD_SYMBOL}&nbsp;</font></c:if
 ><c:if test="${not empty labelFor}"><label for="${labelFor}"></c:if
-><c:if test="${!skipHelpUrl}"><a
+><c:if test="${includeHelpUrl || (!skipHelpUrl && KualiForm.fieldLevelHelpEnabled)}"><a
         href="${ConfigProperties.kr.url}/help.do?methodToCall=getAttributeHelpText&amp;businessObjectClassName=${attributeEntry.fullClassName}&amp;attributeName=${attributeEntry.name}"
         tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow" title="[Help] ${attributeEntry.label}"></c:if
 ><c:if test="${useShortLabel == true}"><c:out value="${attributeEntry.shortLabel}" /></c:if
 ><c:if test="${useShortLabel != true}"><c:out value="${attributeEntry.label}" /></c:if
 ><c:if test="${!noColon}">:</c:if>
-<c:if test="${!skipHelpUrl}"></a></c:if>
+<c:if test="${includeHelpUrl || (!skipHelpUrl && KualiForm.fieldLevelHelpEnabled)}"></a></c:if>
 <c:if test="${not empty labelFor}"></label></c:if>
