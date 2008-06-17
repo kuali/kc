@@ -51,6 +51,7 @@ import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetDistributionAndIncomeComponent;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.bo.BudgetModular;
 import org.kuali.kra.budget.bo.BudgetModularIdc;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
@@ -63,14 +64,12 @@ import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetRateAndBase;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.bo.CostElement;
 import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.bo.RateType;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetRatesService;
-import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
@@ -532,11 +531,13 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
         List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
         List<BudgetModularIdc> budgetModularIdcs = new ArrayList<BudgetModularIdc>();
+        List<BudgetModular> budgetModular = new ArrayList<BudgetModular>();
         
         for (BudgetPeriod budgetPeriod: getBudgetPeriods()) {
             // managedLists.addAll(buildDeletionAwareListsByPeriod(budgetPeriod));
             if (ObjectUtils.isNotNull(budgetPeriod.getBudgetModular())) {
                 budgetModularIdcs.addAll(budgetPeriod.getBudgetModular().getBudgetModularIdcs());
+                budgetModular.add(budgetPeriod.getBudgetModular());
             }
             List<BudgetLineItem> tempLIs = budgetPeriod.getBudgetLineItems();
             budgetLineItems.addAll(tempLIs);
@@ -553,6 +554,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         }
         
         managedLists.add(budgetModularIdcs);
+        managedLists.add(budgetModular);
         managedLists.add(budgetPersonnelRateAndBaseList);
         managedLists.add(budgetPersonnelCalculatedAmounts);
         managedLists.add(budgetPersonnelDetailsList);

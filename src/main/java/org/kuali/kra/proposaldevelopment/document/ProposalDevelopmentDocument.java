@@ -1001,7 +1001,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     public List<YnqGroupName> getYnqGroupNames() {
         if(ynqGroupNames.isEmpty()) {
-            getYnqService().populateProposalQuestions(this.proposalYnqs, this.ynqGroupNames);
+            getYnqService().populateProposalQuestions(this.proposalYnqs, this.ynqGroupNames, this);
         }
         Collections.sort(ynqGroupNames, new YnqGroupName());
         return ynqGroupNames;
