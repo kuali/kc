@@ -93,9 +93,10 @@ public class BudgetPersonnelRule {
         int i = 0;
         for (BudgetPerson budgetPerson : budgetDocument.getBudgetPersons()) {
             if (budgetPerson.getCalculationBase() == null || budgetPerson.getCalculationBase().isNegative()) {
-                errorMap.putError("document.budgetPerson["+(i++)+"].calculationBase", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] { "Base Salary", budgetPerson.getCalculationBase()!=null ? budgetPerson.getCalculationBase().toString() : null });
+                errorMap.putError("document.budgetPerson["+i+"].calculationBase", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] { "Base Salary", budgetPerson.getCalculationBase()!=null ? budgetPerson.getCalculationBase().toString() : null });
                     valid = false;
             }
+            i++;
         }
                     
         return valid;
