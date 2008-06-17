@@ -462,7 +462,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         //Change for KRACOEUS-1403
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
-        proposalDevelopmentDocument.getYnqService().populateProposalQuestions(proposalDevelopmentDocument.getProposalYnqs(), proposalDevelopmentDocument.getYnqGroupNames());
+        proposalDevelopmentDocument.getYnqService().populateProposalQuestions(proposalDevelopmentDocument.getProposalYnqs(), proposalDevelopmentDocument.getYnqGroupNames(), proposalDevelopmentDocument);
         processProposalYNQBusinessRule((ProposalDevelopmentDocument) document, true);
         retval &= new ProposalDevelopmentYnqAuditRule().processRunAuditBusinessRules(document);
         //Change for KRACOEUS-1403 ends here

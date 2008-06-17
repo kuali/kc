@@ -15,12 +15,16 @@
  */
 package org.kuali.kra.service.impl;
 
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
@@ -32,8 +36,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.YnqService;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
 public class YnqServiceImpl implements YnqService {
 
     private BusinessObjectService businessObjectService;
@@ -81,7 +85,7 @@ public class YnqServiceImpl implements YnqService {
      * @param proposalPerson
      * @return ProposalPerson
      */
-    public ProposalPerson getPersonYNQ(ProposalPerson proposalPerson) {
+    public ProposalPerson getPersonYNQ(ProposalPerson proposalPerson, ProposalDevelopmentDocument document) {
         /* get YNQ for person */
         boolean certificationRequired = false;
         
@@ -102,18 +106,46 @@ public class YnqServiceImpl implements YnqService {
             certificationRequired = proposalPerson.getRole().getCertificationRequired();
         }*/
         
-        if(proposalPerson.getProposalPersonYnqs().isEmpty() && certificationRequired) {
+        if(certificationRequired) {
             String questionType = Constants.QUESTION_TYPE_INDIVIDUAL;
-            List<Ynq> ynqs = getYnq(questionType);
-            for (Ynq type : ynqs) {
-                ProposalPersonYnq proposalPersonYnq = new ProposalPersonYnq();
-                proposalPersonYnq.setQuestionId(type.getQuestionId());
-                proposalPersonYnq.setYnq(type); 
-                proposalPerson.getProposalPersonYnqs().add(proposalPersonYnq);
+            List<Ynq> ynqs = new ArrayList<Ynq>();
+            
+            /* retrieve questions to compare if document is not submitted to grants.gov / workflow */
+            if(!isDocumentSubmitted(document))  {
+                ynqs = getYnq(questionType);
+            }
+
+            if(proposalPerson.getProposalPersonYnqs().isEmpty()) {
+                addCertificationQuestions(ynqs, proposalPerson);
+            }else {
+                Set<String> proposalPersonQuestionIds = new HashSet<String>();
+                /* get all existing questions */
+                for(ProposalPersonYnq proposalPersonYnq : proposalPerson.getProposalPersonYnqs()) {
+                    proposalPersonQuestionIds.add(proposalPersonYnq.getQuestionId());
+                }
+                /* compare existing and new questions. if not found add to new list */
+                List<Ynq> newYnqs = new ArrayList<Ynq>();
+                for(Ynq ynq : ynqs) {
+                    if(!proposalPersonQuestionIds.contains(ynq.getQuestionId())) {
+                        newYnqs.add(ynq);
+                    }
+                }
+                addCertificationQuestions(newYnqs, proposalPerson);
             }
         }
         return proposalPerson;
     }
+    
+    /* add proposal certification questions */
+    private void addCertificationQuestions(List<Ynq> ynqs, ProposalPerson proposalPerson) {
+        for (Ynq type : ynqs) {
+            ProposalPersonYnq proposalPersonYnq = new ProposalPersonYnq();
+            proposalPersonYnq.setQuestionId(type.getQuestionId());
+            proposalPersonYnq.setYnq(type); 
+            proposalPerson.getProposalPersonYnqs().add(proposalPersonYnq);
+        }
+    }
+    
     
     /* set required fields comments - check question configuration to figure out required fields */
     private void setRequiredFields(Ynq type, ProposalYnq proposalYnq) {
@@ -142,9 +174,7 @@ public class YnqServiceImpl implements YnqService {
     }
 
     /* get questions from YNQ configuration */
-    private void getProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames) {
-        String questionType = Constants.QUESTION_TYPE_PROPOSAL;
-        List<Ynq> ynqs = getYnq(questionType);
+    private void getProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames, List<Ynq> ynqs) {
         for (Ynq type : ynqs) {
             ProposalYnq proposalYnq = new ProposalYnq();
             proposalYnq.setQuestionId(type.getQuestionId());
@@ -155,6 +185,7 @@ public class YnqServiceImpl implements YnqService {
             setGroupName(type.getGroupName(), ynqGroupNames);
         }
     }
+
     
     /* set group name */
     private void setGroupName(String groupName, List<YnqGroupName> ynqGroupNames) {
@@ -171,12 +202,58 @@ public class YnqServiceImpl implements YnqService {
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#populateQuestions()
      */
     /* get YNQ for proposal */
-    public void populateProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames) {
-        if(proposalYnqs.isEmpty()) {
-            getProposalQuestions(proposalYnqs, ynqGroupNames);
-        }else if(ynqGroupNames.isEmpty()) {
-            getGroupNames(proposalYnqs, ynqGroupNames);
+    public void populateProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames, ProposalDevelopmentDocument document) {
+        String questionType = Constants.QUESTION_TYPE_PROPOSAL;
+        List<Ynq> ynqs = new ArrayList<Ynq>();
+        
+        /* retrieve questions to compare if document is not submitted to grants.gov / workflow */
+        if(!isDocumentSubmitted(document))  {
+            ynqs = getYnq(questionType);
         }
+        
+        if(proposalYnqs.isEmpty()) {
+            getProposalQuestions(proposalYnqs, ynqGroupNames, ynqs);
+        }else {
+            if(ynqGroupNames.isEmpty()) {
+                getGroupNames(proposalYnqs, ynqGroupNames);
+            }
+            /* check for new questions */
+            if(!ynqs.isEmpty())  {
+                addNewProposalQuestions(proposalYnqs, ynqs, ynqGroupNames);
+            }
+        }
+    }
+
+    /* check existing proposal YNQ and add new questions if exists */
+    public void addNewProposalQuestions(List<ProposalYnq> proposalYnqs, List<Ynq> ynqs, List<YnqGroupName> ynqGroupNames) {
+        List<Ynq> newYnqs = new ArrayList<Ynq>();
+        Set<String> proposalQuestionIds = new HashSet<String>();
+        
+        /* get all existing questions */
+        for(ProposalYnq proposalYnq : proposalYnqs) {
+            proposalQuestionIds.add(proposalYnq.getQuestionId());
+        }
+        
+        /* compare existing and new questions. if not found add to new list */
+        for(Ynq ynq : ynqs) {
+            if(!proposalQuestionIds.contains(ynq.getQuestionId())) {
+                newYnqs.add(ynq);
+            }
+        }
+        getProposalQuestions(proposalYnqs, ynqGroupNames, newYnqs);
+    }
+    
+    
+    private boolean isDocumentSubmitted(ProposalDevelopmentDocument document) {
+        boolean submitted = false;
+        String documentStatusCode = document.getDocumentHeader().getFinancialDocumentStatusCode();
+        if(!documentStatusCode.equalsIgnoreCase(Constants.DOCUMENT_INITIATED)) {
+            if(!documentStatusCode.equalsIgnoreCase(Constants.DOCUMENT_SAVED) ||
+                    (document.getS2sAppSubmission() != null || !document.getS2sAppSubmission().isEmpty())) {
+                submitted = true;
+            }
+        }
+        return submitted;
     }
     
     private boolean isDuplicateGroupName(String groupName, List<YnqGroupName> ynqGroupNames) {
