@@ -117,7 +117,7 @@
 
 		</attributes>
 
-        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentLocationHelpUrl"/> 
+        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentLocationHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>
