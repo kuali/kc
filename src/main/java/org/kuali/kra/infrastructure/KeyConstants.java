@@ -99,6 +99,7 @@ public class KeyConstants {
     public static final String ERROR_NO_FINAL_BUDGET = "error.final.budget.required";
     public static final String CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE = "clear.audit.error.before.change.status.to.complete";
     public static final String ERROR_MULTIPLE_FINAL_BUDGETS = "error.final.multiple";
+    public static final String AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL = "error.no.budgetVersion.completeAndFinal";
     
     // Budget Personnel constants
     public static final String ERROR_DUPLICATE_BUDGET_PERSON = "error.budgetPerson.duplicate";

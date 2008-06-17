@@ -29,6 +29,9 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.AuditCluster;
+import org.kuali.core.util.AuditError;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.ExemptionType;
@@ -38,6 +41,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
@@ -157,10 +161,27 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      */
     public boolean validateBudgetAuditRule(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception {
         boolean valid = true;
+        boolean finalAndCompleteBudgetVersionFound = false;
+        boolean budgetVersionsExists = false;
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        String budgetStatusCompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameter(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE).getParameterValue();
         for (BudgetVersionOverview budgetVersion : proposalDevelopmentDocument.getBudgetVersionOverviews()) {
+            budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
                 valid &= applyAuditRuleForBudgetDocument(budgetVersion);
+                if (budgetVersion.getBudgetStatus()!= null 
+                        && budgetVersion.getBudgetStatus().equals(budgetStatusCompleteCode)) {
+                    finalAndCompleteBudgetVersionFound = true;
+                }
             }
+        }
+        if(budgetVersionsExists && !finalAndCompleteBudgetVersionFound){
+            auditErrors.add(new AuditError("document.budgetVersionOverview", KeyConstants.AUDIT_ERROR_NO_BUDGETVERSION_COMPLETE_AND_FINAL, Constants.BUDGET_VERSIONS_PAGE + "." + Constants.BUDGET_VERSIONS_PANEL_ANCHOR));
+            valid &= false;
+        }
+        if (auditErrors.size() > 0) {
+            GlobalVariables.getAuditErrorMap().put("budgetVersionErrors", new AuditCluster(Constants.BUDGET_VERSION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
 
         return valid;
