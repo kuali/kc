@@ -462,5 +462,6 @@ public class BudgetRatesServiceTest {
         public void updateOnOffCampusFlag(BudgetDocument budgetDocument, String onOffCampusFlag) {}
         public void adjustStartEndDatesForLineItems(BudgetDocument budgetDocument) { }
         public void setupOldStartEndDate(BudgetDocument budgetDocument, boolean resetAll) { }        
+        public void setupOldStartEndDate(List <BudgetLineItem > budgetLineItems) { }        
     }
 }
