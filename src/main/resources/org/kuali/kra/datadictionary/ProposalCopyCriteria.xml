@@ -76,6 +76,8 @@
                 <description>The copied proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit.</description>
             </attribute>
 		</attributes>
+
+        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentCopyCriteriaHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>

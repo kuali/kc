@@ -321,7 +321,7 @@
 
 		</attributes>
 
-        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentNarrativeHelpUrl"/> 
+        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentNarrativeHelpUrl"/> 
 	</businessObject>
 
 </dictionaryEntry>

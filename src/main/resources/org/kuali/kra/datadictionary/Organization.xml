@@ -528,7 +528,7 @@
 		</collections>
 
 
-        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentOrganizationHelpUrl"/> 
+        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentOrganizationHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>

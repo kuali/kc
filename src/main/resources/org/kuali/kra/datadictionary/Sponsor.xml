@@ -264,7 +264,7 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
 
-        <objectHelp parameterNamespace="KRA-PD" parameterName="proposalDevelopmentSponsorHelpUrl"/> 
+        <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentSponsorHelpUrl"/> 
     </businessObject>
 
 </dictionaryEntry>
