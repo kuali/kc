@@ -58,10 +58,10 @@
 	    		</c:choose>
 	    		<c:choose>
 	    			<c:when test="${empty tabErrorKeyString3}">
-	    				<c:set var="tabErrorKeyString3" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].*"/>
+	    				<c:set var="tabErrorKeyString3" value="document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
 	    			</c:when>
 	    			<c:otherwise>
-	    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${status.index}].*"/>
+	    				<c:set var="tabErrorKeyString3" value="${tabErrorKeyString3},document.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${status.index}].*"/>
 	    			</c:otherwise>
 	    		</c:choose>			    		
     		</c:if>    		
