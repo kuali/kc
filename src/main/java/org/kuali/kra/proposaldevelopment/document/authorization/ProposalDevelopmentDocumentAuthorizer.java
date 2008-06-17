@@ -195,7 +195,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
             NetworkIdVO userId = new NetworkIdVO(username);
             WorkflowInfo info = new WorkflowInfo();
             try {
-                isInWorkflow = info.isUserAuthenticatedByRouteLog(routeHeaderId, userId, false);
+                isInWorkflow = info.isUserAuthenticatedByRouteLog(routeHeaderId, userId, true);
             }
             catch (WorkflowException e) {
             }
