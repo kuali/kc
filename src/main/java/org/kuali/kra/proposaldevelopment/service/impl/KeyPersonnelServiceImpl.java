@@ -65,8 +65,8 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: jsalam $
- * @version $Revision: 1.30 $
+ * @author $Author: rmancher $
+ * @version $Revision: 1.31 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private static final String READ_ONLY_ROLES_PARAM_NAME = "proposaldevelopment.personrole.readonly.roles";
@@ -87,6 +87,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
             info("Need to repopulate investigator list");
             populateInvestigators(document);
         }
+        
+        /* check for new certification questions */
+        for (ProposalPerson person : document.getProposalPersons()) {
+            getYnqService().getPersonYNQ(person, document);
+        }
+        
     }
 
     /**
@@ -117,7 +123,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
      */
     public void populateProposalPerson(ProposalPerson person, ProposalDevelopmentDocument document) {
         /* populate certification questions for new person */
-        person = getYnqService().getPersonYNQ(person);
+        person = getYnqService().getPersonYNQ(person, document);
 
         person.setInvestigatorFlag(isInvestigator(person));
         
