@@ -145,7 +145,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         } else {
             if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.MODIFY_PROPOSAL)) {
                 if (isRouted(proposalDoc)) {
-                    editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+                    editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
                     setPermissions(username, proposalDoc, editModeMap);
                 }
                 else {
@@ -195,7 +195,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
             NetworkIdVO userId = new NetworkIdVO(username);
             WorkflowInfo info = new WorkflowInfo();
             try {
-                isInWorkflow = info.isUserAuthenticatedByRouteLog(routeHeaderId, userId, false);
+                isInWorkflow = info.isUserAuthenticatedByRouteLog(routeHeaderId, userId, true);
             }
             catch (WorkflowException e) {
             }
