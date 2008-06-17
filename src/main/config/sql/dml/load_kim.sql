@@ -12,6 +12,7 @@ insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(8,'MAINT
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(9,'ALTER_PROPOSAL_DATA','Change proposal master data once the proposal is locked', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(10,'PRINT_PROPOSAL','Print proposal on a sponsor specific path', 2);
 insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(11,'CERTIFY','Certify', 2);
+insert into KIM_PERMISSIONS_T (ID,NAME,DESCRIPTION,NAMESPACE_ID) values(12,'SUBMIT_TO_SPONSOR','Submit a Proposal to Grants.gov', 2);
 
 insert into KIM_ROLE_TYPE_T (ROLE_TYPE_CODE, DESCRIPTION) values ('P', 'Proposal');
 insert into KIM_ROLE_TYPE_T (ROLE_TYPE_CODE, DESCRIPTION) values ('O', 'OSP');
@@ -56,3 +57,4 @@ insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(2,10);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(3,10);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(4,10);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,10);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(8,12);
