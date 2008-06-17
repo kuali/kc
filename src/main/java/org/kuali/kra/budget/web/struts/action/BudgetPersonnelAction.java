@@ -105,9 +105,11 @@ public class BudgetPersonnelAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         BudgetDocument budgetDocument = ((BudgetForm) form).getBudgetDocument();
-        BudgetPersonService budgetPersonService = KraServiceLocator.getService(BudgetPersonService.class);
-        budgetPersonService.populateBudgetPersonDefaultDataIfEmpty(budgetDocument);
-        super.save(mapping, form, request, response);
+        if (new BudgetPersonnelRule().processCheckBaseSalaryFormat(budgetDocument)) {
+            BudgetPersonService budgetPersonService = KraServiceLocator.getService(BudgetPersonService.class);
+            budgetPersonService.populateBudgetPersonDefaultDataIfEmpty(budgetDocument);
+            super.save(mapping, form, request, response);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
