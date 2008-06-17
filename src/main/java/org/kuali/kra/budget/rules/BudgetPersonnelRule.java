@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -80,6 +81,21 @@ public class BudgetPersonnelRule {
                 // just try to make sure key is on budget personnel tab
                 errorMap.putError("document.budgetPersons[0].personNumber", KeyConstants.ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL, budgetPerson.getPersonName());
                     valid = false;
+        }
+                    
+        return valid;
+    }
+
+    public boolean processCheckBaseSalaryFormat(BudgetDocument budgetDocument) {
+        boolean valid = true;
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        int i = 0;
+        for (BudgetPerson budgetPerson : budgetDocument.getBudgetPersons()) {
+            if (budgetPerson.getCalculationBase() == null || budgetPerson.getCalculationBase().isNegative()) {
+                errorMap.putError("document.budgetPerson["+(i++)+"].calculationBase", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] { "Base Salary", budgetPerson.getCalculationBase()!=null ? budgetPerson.getCalculationBase().toString() : null });
+                    valid = false;
+            }
         }
                     
         return valid;
