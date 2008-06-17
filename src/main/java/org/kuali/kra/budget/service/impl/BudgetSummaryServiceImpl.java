@@ -304,62 +304,59 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         for(BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
             if (budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0 || budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldEndDate()) != 0 ) {
                 List <BudgetLineItem >budgetLineItems = budgetPeriod.getBudgetLineItems();
+                setupOldStartEndDate(budgetLineItems);
                 for(BudgetLineItem budgetLineItem: budgetLineItems) {
                     Date newStartDate = budgetLineItem.getStartDate();
                     Date newEndDate = budgetLineItem.getEndDate();
-                    if (budgetPeriod.getStartDate().compareTo(budgetPeriod.getOldStartDate()) != 0) {
-                        newStartDate=add(newStartDate,KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getOldStartDate(), budgetPeriod.getStartDate(), false));
-                        if (newStartDate.after(budgetPeriod.getEndDate())) {
-                            newStartDate = budgetPeriod.getStartDate();
-                        } else {                       
-                            if (newStartDate.after(budgetPeriod.getStartDate())) {
-                                // keep the duration, but the item start date relative to period start date is not maintained.
-                                int budgetDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
-                                int lineItemDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
-                                int daysTOEndDate = KraServiceLocator.getService(DateTimeService.class).dateDiff(newStartDate, budgetPeriod.getEndDate(), false);
-                                if (daysTOEndDate < lineItemDuration) {
-                                    if (budgetDuration > lineItemDuration) {
-                                        newEndDate = budgetPeriod.getEndDate();
-                                        newStartDate = add(newEndDate,lineItemDuration * (-1));
-                                    } else {
-                                        newStartDate = budgetPeriod.getStartDate();
-                                    }
-                                }   
-                            }
-                        }
-                        newEndDate=add(newStartDate,KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false));
-                        if (newEndDate.after(budgetPeriod.getEndDate())) {
-                            newEndDate = budgetPeriod.getEndDate();
-                        }
-                    } else {
-                        if (budgetPeriod.getEndDate().compareTo(budgetPeriod.getOldStartDate()) != 0 &&  budgetPeriod.getEndDate().before(budgetLineItem.getEndDate())) {
-                            if (budgetPeriod.getEndDate().after(budgetLineItem.getStartDate()) && budgetPeriod.getEndDate().before(budgetLineItem.getEndDate())) {
-                                newEndDate = budgetPeriod.getEndDate();
-                            } else {
-                                if (budgetPeriod.getEndDate().before(budgetLineItem.getStartDate())) {
-                                    newStartDate=budgetPeriod.getStartDate();
-                                    newEndDate=add(newStartDate,KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false));
-                                    if (newEndDate.after(budgetPeriod.getEndDate())) {
-                                        newEndDate = budgetPeriod.getEndDate();
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    List <Date> startEndDates = new ArrayList<Date>();
+                    startEndDates.add(0, budgetLineItem.getStartDate());
+                    startEndDates.add(1, budgetLineItem.getEndDate());
+                    
+                    getNewStartEndDates(budgetPeriod.getStartDate(), budgetPeriod.getOldStartDate(), budgetPeriod.getEndDate(), budgetPeriod.getOldEndDate(), startEndDates);
+                    newStartDate=startEndDates.get(0);
+                    newEndDate=startEndDates.get(1);
+                    
                     budgetLineItem.setStartDate(newStartDate);
                     budgetLineItem.setEndDate(newEndDate);
                     budgetLineItem.setBasedOnLineItem(budgetLineItem.getLineItemNumber());
-                    List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
-                    for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
-                        budgetPersonnelDetail.setStartDate(newStartDate);
-                        budgetPersonnelDetail.setEndDate(newEndDate);
-                    }
+//                    List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
+//                    for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
+//                        budgetPersonnelDetail.setStartDate(newStartDate);
+//                        budgetPersonnelDetail.setEndDate(newEndDate);
+//                    }
                 }
+                adjustStartEndDatesForPersonnelLineItems(budgetLineItems);
            }       
             // set old start/end date - rollback may be needed if rule is failed
             budgetPeriod.setOldStartDate(budgetPeriod.getStartDate());
             budgetPeriod.setOldEndDate(budgetPeriod.getEndDate());
         }
+    }
+    
+    
+    public void adjustStartEndDatesForPersonnelLineItems(List <BudgetLineItem > budgetLineItems) {
+
+        for(BudgetLineItem budgetLineItem: budgetLineItems) {            
+            if (budgetLineItem.getStartDate().compareTo(budgetLineItem.getOldStartDate()) != 0 || budgetLineItem.getEndDate().compareTo(budgetLineItem.getOldEndDate()) != 0 ) {
+                List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
+                for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
+                    Date newStartDate = budgetPersonnelDetail.getStartDate();
+                    Date newEndDate = budgetPersonnelDetail.getEndDate();
+                    List <Date> startEndDates = new ArrayList<Date>();
+                    startEndDates.add(0, budgetPersonnelDetail.getStartDate());
+                    startEndDates.add(1, budgetPersonnelDetail.getEndDate());
+                    
+                    getNewStartEndDates(budgetLineItem.getStartDate(), budgetLineItem.getOldStartDate(), budgetLineItem.getEndDate(), budgetLineItem.getOldEndDate(), startEndDates);
+                    newStartDate=startEndDates.get(0);
+                    newEndDate=startEndDates.get(1);
+                    budgetPersonnelDetail.setStartDate(newStartDate);
+                    budgetPersonnelDetail.setEndDate(newEndDate);
+                }
+            }
+            budgetLineItem.setOldStartDate(budgetLineItem.getStartDate());
+            budgetLineItem.setOldEndDate(budgetLineItem.getEndDate());
+        }
+
     }
     
     /**
@@ -378,6 +375,16 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     }
     
+    public void setupOldStartEndDate (List <BudgetLineItem > budgetLineItems) {
+        for(BudgetLineItem budgetLineItem: budgetLineItems) {
+            if (budgetLineItem.getOldStartDate() == null || budgetLineItem.getOldEndDate() == null) {
+                budgetLineItem.setOldStartDate(budgetLineItem.getStartDate());
+                budgetLineItem.setOldEndDate(budgetLineItem.getEndDate());
+            }
+        }
+
+    }
+
     private Date add(Date date, int days) {
         Calendar c1 = Calendar.getInstance(); 
         c1.setTime(new java.util.Date(date.getTime()));
@@ -385,4 +392,80 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         return new java.sql.Date(c1.getTime().getTime());
         
     }
+
+    /**
+     * 
+     * This method is to be shared by adjusting dates for budgetperiod->lineitem and lineitem->personnellineitem
+     * refer to jira-1376 for rules
+     * @param parentStartDate
+     * @param oldStartDate
+     * @param parentEndDate
+     * @param startEndDates
+     * @return
+     */
+    private List<Date> getNewStartEndDates(Date parentStartDate, Date oldStartDate, Date parentEndDate, Date oldEndDate, List<Date> startEndDates) {
+        Date startDate = startEndDates.get(0);
+        Date endDate = startEndDates.get(1);
+        Date newStartDate = startDate;
+        Date newEndDate = endDate;
+        if (startDate.compareTo(oldStartDate) == 0 && endDate.compareTo(oldEndDate) == 0) {
+            // if initiall, both are matching, then keep matching.
+            newStartDate = parentStartDate;
+            newEndDate = parentEndDate;
+        } else {
+            // duration has priority over child start date relative to parent start date
+            if (parentStartDate.compareTo(oldStartDate) != 0) {
+                // keep the gap between child start date and parent start date
+                newStartDate=add(newStartDate,KraServiceLocator.getService(DateTimeService.class).dateDiff(oldStartDate, parentStartDate, false));
+                if (newStartDate.after(parentEndDate)) {
+                    newStartDate = parentStartDate;
+                } else {                       
+                    if (newStartDate.after(parentStartDate)) {
+                        // keep the duration, but the item start date relative to period start date is not maintained.
+                        int parentDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(parentStartDate, parentEndDate, false);
+                        int duration = KraServiceLocator.getService(DateTimeService.class).dateDiff(startDate, endDate, false);
+                        int daysTOEndDate = KraServiceLocator.getService(DateTimeService.class).dateDiff(newStartDate, parentEndDate, false);
+                        if (daysTOEndDate < duration) {
+                            if (parentDuration > duration) {
+                                newEndDate = parentEndDate;
+                                newStartDate = add(newEndDate,duration * (-1));
+                            } else {
+                                // can't keep duration because parent duration is smaller than child initial duration
+                                newStartDate = parentStartDate;
+                            }
+                        }   
+                    }
+                }
+                newEndDate=add(newStartDate,KraServiceLocator.getService(DateTimeService.class).dateDiff(startDate, endDate, false));
+                if (newEndDate.after(parentEndDate)) {
+                    newEndDate = parentEndDate;
+                }
+            } else {
+                // end date changed
+                if (parentEndDate.compareTo(oldStartDate) != 0 &&  parentEndDate.before(endDate)) {
+                    if (parentEndDate.after(startDate) && parentEndDate.before(endDate)) {
+                        newEndDate = parentEndDate;
+                        // try to keep duration
+                        newStartDate = add(newEndDate,KraServiceLocator.getService(DateTimeService.class).dateDiff(endDate, startDate,  false));
+                        if (newStartDate.before(parentStartDate)) {
+                            newStartDate = parentStartDate;
+                        }
+                    } else {
+                        if (parentEndDate.before(startDate)) {
+                            newStartDate=parentStartDate;
+                            newEndDate=add(newStartDate,KraServiceLocator.getService(DateTimeService.class).dateDiff(startDate, endDate, false));
+                            if (newEndDate.after(parentEndDate)) {
+                                newEndDate = parentEndDate;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        startEndDates.clear();
+        startEndDates.add(0, newStartDate);
+        startEndDates.add(1, newEndDate);
+        return startEndDates;
+    }
+
 }
