@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.bo;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,6 +26,8 @@ public class BudgetLineItem extends BudgetLineItemBase {
 	private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 	private boolean budgetPersonnelLineItemDeleted;
 	private List<BudgetRateAndBase> budgetRateAndBaseList;
+    private Date oldStartDate;
+    private Date oldEndDate;
 	
 	public BudgetLineItem(){
 	    super();
@@ -105,6 +108,18 @@ public class BudgetLineItem extends BudgetLineItemBase {
      */
     public void setBudgetRateAndBaseList(List<BudgetRateAndBase> budgetRateAndBaseList) {
         this.budgetRateAndBaseList = budgetRateAndBaseList;
+    }
+    public Date getOldStartDate() {
+        return oldStartDate;
+    }
+    public void setOldStartDate(Date oldStartDate) {
+        this.oldStartDate = oldStartDate;
+    }
+    public Date getOldEndDate() {
+        return oldEndDate;
+    }
+    public void setOldEndDate(Date oldEndDate) {
+        this.oldEndDate = oldEndDate;
     }
 
 }
