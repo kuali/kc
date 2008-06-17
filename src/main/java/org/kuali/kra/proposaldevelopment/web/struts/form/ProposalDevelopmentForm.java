@@ -51,11 +51,14 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.kim.bo.KimRole;
 import org.kuali.kra.kim.pojo.Permission;
+import org.kuali.kra.kim.pojo.Role;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
+import org.kuali.kra.proposaldevelopment.bo.ProposalAssignedRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -272,10 +275,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         // when the form is submitted.
         ProposalUserEditRoles editRoles = this.getProposalUserEditRoles();
         if (editRoles != null) {
-            editRoles.setAggregator(Boolean.FALSE);
-            editRoles.setBudgetCreator(Boolean.FALSE);
-            editRoles.setNarrativeWriter(Boolean.FALSE);
-            editRoles.setViewer(Boolean.FALSE);
+            editRoles.clear();
         }
         
         // reset exempt numbers.
@@ -627,43 +627,21 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
     
     /**
-     * Get the names of the Aggregators for this proposal from 
-     * the Proposal's ACL only.  Used by the JSP tags to display
-     * the Aggregators.
-     * @return a list of the names of the Aggregators.
+     * Used by the Assigned Roles panel in the Permissions page.  
+     * @return
      */
-    public List<String> getAggregatorsByName() {
-        return getUsersInRole(RoleConstants.AGGREGATOR);
-    }
-    
-    /**
-     * Get the names of the Budget Creators for this proposal from 
-     * the Proposal's ACL only.  Used by the JSP tags to display
-     * the Budget Creators.
-     * @return a list of the names of the Budget Creators.
-     */
-    public List<String> getBudgetCreatorsByName() {
-        return getUsersInRole(RoleConstants.BUDGET_CREATOR);
-    }
-    
-    /**
-     * Get the names of the Narrative Writers for this proposal from 
-     * the Proposal's ACL only.  Used by the JSP tags to display
-     * the Narrative Writers.
-     * @return a list of the names of the Narrative Writers.
-     */
-    public List<String> getNarrativeWritersByName() {
-        return getUsersInRole(RoleConstants.NARRATIVE_WRITER);
-    }
-    
-    /**
-     * Get the names of the Proposal Viewers for this proposal from 
-     * the Proposal's ACL only.  Used by the JSP tags to display
-     * the Viewers.
-     * @return a list of the names of the Proposal Viewers.
-     */
-    public List<String> getViewersByName() {
-        return getUsersInRole(RoleConstants.VIEWER);
+    public List<ProposalAssignedRole> getProposalAssignedRoles() {
+        List<ProposalAssignedRole> assignedRoles = new ArrayList<ProposalAssignedRole>();
+        
+        Collection<KimRole> roles = getKimProposalRoles();
+        for (KimRole role : roles) {
+            if (!role.isUnassigned()) {
+                ProposalAssignedRole assignedRole = 
+                    new ProposalAssignedRole(role.getName(), getUsersInRole(role.getName()));
+                assignedRoles.add(assignedRole);
+            }
+        }
+        return assignedRoles;
     }
     
     /**
@@ -694,42 +672,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         return names;
     }
     
-    /**
-     * Get the list of permissions for the Aggregator role.
-     * @return the list of Aggregator permissions
-     */
-    public List<Permission> getAggregatorPermissions() {
-        SystemAuthorizationService systemAuthService = KraServiceLocator.getService(SystemAuthorizationService.class);
-        return systemAuthService.getPermissionsForRole(RoleConstants.AGGREGATOR);
-    }
-    
-    /**
-     * Get the list of permissions for the Budget Creator role.
-     * @return the list of Budget Creator permissions
-     */
-    public List<Permission> getBudgetCreatorPermissions() {
-        SystemAuthorizationService systemAuthService = KraServiceLocator.getService(SystemAuthorizationService.class);
-        return systemAuthService.getPermissionsForRole(RoleConstants.BUDGET_CREATOR);
-    }
-    
-    /**
-     * Get the list of permissions for the Narrative Writer role.
-     * @return the list of Narrative Writer permissions
-     */
-    public List<Permission> getNarrativeWriterPermissions() {
-        SystemAuthorizationService systemAuthService = KraServiceLocator.getService(SystemAuthorizationService.class);
-        return systemAuthService.getPermissionsForRole(RoleConstants.NARRATIVE_WRITER);
-    }
-    
-    /**
-     * Get the list of permissions for the Viewer role.
-     * @return the list of Viewer permissions
-     */
-    public List<Permission> getViewerPermissions() {
-        SystemAuthorizationService systemAuthService = (SystemAuthorizationService) KraServiceLocator.getService(SystemAuthorizationService.class);
-        return systemAuthService.getPermissionsForRole(RoleConstants.VIEWER);
-    }
-    
     /** 
      * Gets the new proposal user.  This is the proposal user that is filled
      * in by the user on the form before pressing the add button.
@@ -751,6 +693,21 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
     
     /**
+     * Get the list of all of the Proposal roles (filter out unassigned).
+     * @return the list of proposal roles
+     */
+    public List<KimRole> getProposalRoles() {
+        List<KimRole> proposalRoles = new ArrayList<KimRole>();
+        Collection<KimRole> roles = getKimProposalRoles();
+        for (KimRole role : roles) {
+            if (!role.isUnassigned()) {
+                proposalRoles.add(role);
+            }
+        }
+        return proposalRoles;
+    }
+    
+    /**
      * Get the list of Proposal User Roles.  Each user has one or more
      * roles assigned to the proposal.  This method builds the list each
      * time it is invoked.  It is always invoked when the Permissions page
@@ -765,12 +722,10 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
             proposalUserRolesList = new ArrayList<ProposalUserRoles>();
             
             // Add persons into the ProposalUserRolesList for each of the roles.
-            
-            addPersons(proposalUserRolesList, RoleConstants.AGGREGATOR);
-            addPersons(proposalUserRolesList, RoleConstants.BUDGET_CREATOR);
-            addPersons(proposalUserRolesList, RoleConstants.NARRATIVE_WRITER);
-            addPersons(proposalUserRolesList, RoleConstants.VIEWER);
-            addPersons(proposalUserRolesList, RoleConstants.UNASSIGNED);
+            Collection<KimRole> roles = getKimProposalRoles();
+            for (KimRole role : roles) {
+                addPersons(proposalUserRolesList, role.getName());
+            }
             
             sortProposalUsers();  
         }
@@ -781,14 +736,48 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public List<ProposalUserRoles> getCurrentProposalUserRoles() {
         List<ProposalUserRoles> current = new ArrayList<ProposalUserRoles>();
         
-        addPersons(current, RoleConstants.AGGREGATOR);
-        addPersons(current, RoleConstants.BUDGET_CREATOR);
-        addPersons(current, RoleConstants.NARRATIVE_WRITER);
-        addPersons(current, RoleConstants.VIEWER);
-        addPersons(current, RoleConstants.UNASSIGNED);
+        Collection<KimRole> roles = getKimProposalRoles();
+        for (KimRole role : roles) {
+            addPersons(current, role.getName());
+        }
         
         return current;
     }
+    
+    /**
+     * Get all of the proposal roles.
+     * @return
+     */
+    public Collection<KimRole> getKimProposalRoles() {
+        List<KimRole> proposalRoles = new ArrayList<KimRole>();
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("roleTypeCode", RoleConstants.PROPOSAL_ROLE_TYPE);
+        Collection<KimRole> roles = businessObjectService.findMatching(KimRole.class, fieldValues);
+       
+        /*
+         * Add in unassigned and standard proposal roles first so that
+         * they always show up first on the web pages.
+         */
+        for (KimRole role : roles) {
+            if (role.isUnassigned()) {
+                proposalRoles.add(0, role);
+            } else if (role.isStandardProposalRole()) {
+                proposalRoles.add(role);
+            }
+        }
+        
+        /*
+         * Now add in any user-define proposal roles.
+         */
+        for (KimRole role : roles) {
+            if (!role.isUnassigned() && !role.isStandardProposalRole()) {
+                proposalRoles.add(role);
+            }
+        }
+        return proposalRoles;
+    }
+   
     
     private void sortProposalUsers() {
         // Sort the list of users by their full name.

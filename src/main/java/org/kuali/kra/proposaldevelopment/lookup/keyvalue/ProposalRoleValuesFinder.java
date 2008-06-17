@@ -16,11 +16,16 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
+import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.kim.bo.KimRole;
 
 /**
  * Finds the available set of proposal roles.  See
@@ -37,12 +42,35 @@ public class ProposalRoleValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
+        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        Collection<KimRole> roles = keyValuesService.findAll(KimRole.class);
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair(RoleConstants.UNASSIGNED, RoleConstants.UNASSIGNED_LABEL));
-        keyValues.add(new KeyLabelPair(RoleConstants.AGGREGATOR, RoleConstants.AGGREGATOR_LABEL));
-        keyValues.add(new KeyLabelPair(RoleConstants.NARRATIVE_WRITER, RoleConstants.NARRATIVE_WRITER_LABEL));
-        keyValues.add(new KeyLabelPair(RoleConstants.BUDGET_CREATOR, RoleConstants.BUDGET_CREATOR_LABEL));
-        keyValues.add(new KeyLabelPair(RoleConstants.VIEWER, RoleConstants.VIEWER_LABEL));
+        
+        /*
+         * Add in all of the standard proposal roles so they show up first in the drop-down list.
+         */
+        for (KimRole role : roles) {
+            if (StringUtils.equals(role.getRoleTypeCode(), RoleConstants.PROPOSAL_ROLE_TYPE)) {
+                KeyLabelPair pair = new KeyLabelPair(role.getName(), role.getName());
+                if (role.isUnassigned()) {
+                    keyValues.add(0, pair);
+                } else if (role.isStandardProposalRole()){
+                    keyValues.add(pair);
+                }
+            }
+        }
+        
+        /*
+         * Now add in all of the other user-defined proposal roles.
+         */
+        for (KimRole role : roles) {
+            if (StringUtils.equals(role.getRoleTypeCode(), RoleConstants.PROPOSAL_ROLE_TYPE)) {
+                KeyLabelPair pair = new KeyLabelPair(role.getName(), role.getName());
+                if (!role.isUnassigned() && !role.isStandardProposalRole()) {
+                    keyValues.add(pair);
+                }
+            }
+        }
         return keyValues;
     }
 }

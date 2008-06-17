@@ -16,15 +16,18 @@
 package org.kuali.kra.kim.bo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 
 /**
  * A KIM Role defines a role within a given organization, e.g. President,
@@ -129,6 +132,22 @@ public class KimRole extends PersistableBusinessObjectBase {
     public void setDescend(Boolean descend) {
         this.descend = descend;
     }
+    
+    public List<KimPermission> getPermissions() {
+        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
+        HashMap<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("active", true);
+        fieldValues.put("roleId", id);
+        Collection<KimRolePermission> rolePermissions = bos.findMatching(KimRolePermission.class, fieldValues);
+        List<KimPermission> permissions = new ArrayList<KimPermission>();
+        for (KimRolePermission rolePermission : rolePermissions) {
+            HashMap<String, Object> primaryKeys = new HashMap<String, Object>();
+            primaryKeys.put("id", rolePermission.getPermissionId());
+            KimPermission permission = (KimPermission) bos.findByPrimaryKey(KimPermission.class, primaryKeys);
+            permissions.add(permission);
+        }
+        return permissions;
+    }
 
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -177,6 +196,17 @@ public class KimRole extends PersistableBusinessObjectBase {
      */
     public void setRolePermissions(List<KimRolePermission> rolePermissions) {
         this.rolePermissions = rolePermissions;
+    }
+    
+    public boolean isUnassigned() {
+        return StringUtils.equals(name, RoleConstants.UNASSIGNED);
+    }
+
+    public boolean isStandardProposalRole() {
+        return StringUtils.equals(name, RoleConstants.AGGREGATOR) ||
+               StringUtils.equals(name, RoleConstants.NARRATIVE_WRITER) ||
+               StringUtils.equals(name, RoleConstants.BUDGET_CREATOR) ||
+               StringUtils.equals(name, RoleConstants.VIEWER);
     }
 
 }

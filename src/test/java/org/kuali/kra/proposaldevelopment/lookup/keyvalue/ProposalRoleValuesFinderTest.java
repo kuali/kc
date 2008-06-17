@@ -43,10 +43,10 @@ public class ProposalRoleValuesFinderTest extends ValuesFinderTestBase {
      */
     @Override
     protected void addKeyValues() {
-        addKeyValue(RoleConstants.UNASSIGNED, RoleConstants.UNASSIGNED_LABEL);
-        addKeyValue(RoleConstants.AGGREGATOR, RoleConstants.AGGREGATOR_LABEL);
-        addKeyValue(RoleConstants.NARRATIVE_WRITER, RoleConstants.NARRATIVE_WRITER_LABEL);
-        addKeyValue(RoleConstants.BUDGET_CREATOR, RoleConstants.BUDGET_CREATOR_LABEL);
-        addKeyValue(RoleConstants.VIEWER, RoleConstants.VIEWER_LABEL);
+        addKeyValue(RoleConstants.UNASSIGNED, RoleConstants.UNASSIGNED);
+        addKeyValue(RoleConstants.AGGREGATOR, RoleConstants.AGGREGATOR);
+        addKeyValue(RoleConstants.NARRATIVE_WRITER, RoleConstants.NARRATIVE_WRITER);
+        addKeyValue(RoleConstants.BUDGET_CREATOR, RoleConstants.BUDGET_CREATOR);
+        addKeyValue(RoleConstants.VIEWER, RoleConstants.VIEWER);
     }
 }
