@@ -22,11 +22,21 @@
           
 	<script language="javascript" src="scripts/kuali_application.js"></script>
 	<script>
-		updateEditRoles(${KualiForm.proposalUserEditRoles.lineNum},
-		                ${KualiForm.proposalUserEditRoles.aggregator}, 
-		                ${KualiForm.proposalUserEditRoles.budgetCreator},
-		                ${KualiForm.proposalUserEditRoles.narrativeWriter},
-		                ${KualiForm.proposalUserEditRoles.viewer},
-		                ${KualiForm.proposalUserEditRoles.unassigned});
+	    var propRoleStates = new Array();
+	    var rs;
+	    var cnt = 0;
+	    <c:forEach var="roleState" items="${KualiForm.proposalUserEditRoles.roleStates}" varStatus="status">
+           rs = new PropRoleState('${roleState.name}', '${roleState.state}');
+           propRoleStates[propRoleStates.length] = rs;
+           if (rs.getState().toLowerCase() == 'true') {
+               cnt++;
+           }
+        </c:forEach>
+        if (cnt == 0) {
+            propRoleStates[propRoleStates.length] = new PropRoleState('unassigned', 'true');
+        }
+        
+		updateEditRoles(${KualiForm.proposalUserEditRoles.lineNum}, propRoleStates);
 	</script>
+	
 </kul:page>

@@ -404,15 +404,6 @@ String.prototype.trim = function() {
 }
 
 /**
- * Role Label Constants (same as labels in RoleConstants.java)
- */
-var AGGREGATOR = "Aggregator";
-var BUDGET_CREATOR = "Budget Creator";
-var NARRATIVE_WRITER = "Narrative Writer";
-var VIEWER = "Viewer";
-var UNASSIGNED = "unassigned";
-
-/**
  * The User Class.  A user has a name, its line number
  * within the user table, and a set of roles.
  */
@@ -456,20 +447,44 @@ User.prototype.hasRole = function(role) {
 }
 
 /**
+ * The PropRoleState Class.  Stores the states of the roles as 
+ * selected by the Edit Roles web page.  We store the name of the
+ * role and it's state (true or false).  A value of true indicates
+ * that the role was selected by the user; otherwise false is
+ * unselected.
+ */
+function PropRoleState(name, state) {
+    this._name = name;
+    this._state = state;
+}
+
+PropRoleState.prototype._name;
+PropRoleState.prototype._state;
+
+PropRoleState.prototype.getName = function() {
+    return this._name;
+}
+
+PropRoleState.prototype.getState = function() {
+    return this._state;
+}
+
+
+/**
  * When the Edit Roles popup window is closed, this function is invoked in
  * order to update the parent window and to close the popup window.  We need
  * to change the roles for the user that was modified.  We also need to 
  * update the listing of assigned roles.
  */
-function updateEditRoles(lineNumber, aggregator, budgetCreator, narrativeWriter, viewer, unassigned) {
+function updateEditRoles(lineNumber, roleStates) {
 
 	var users = getUsers();
-	updateUserRoles(users[lineNumber], aggregator, budgetCreator, narrativeWriter, viewer, unassigned)
+	updateUserRoles(users[lineNumber], roleStates);
     displayUserRoles(users[lineNumber]);
-    displayAssignedRoles(users, "Aggregators", AGGREGATOR);
-    displayAssignedRoles(users, "BudgetCreators", BUDGET_CREATOR);
-    displayAssignedRoles(users, "NarrativeWriters", NARRATIVE_WRITER);
-    displayAssignedRoles(users, "Viewers", VIEWER);
+    
+    for (var i = 0; i < roleStates.length; i++) {
+        displayAssignedRoles(users, roleStates[i].getName(), roleStates[i].getName());
+    }
     
     self.close();
 }
@@ -494,40 +509,29 @@ function displayUserRoles(user) {
  * Displays the names of users for a specific role.
  */
 function displayAssignedRoles(users, elementId, role) {
-    var usernames = new Array();
-	for (var i = 0; i < users.length; i++) {
-	    if (users[i].hasRole(role)) {
-	        usernames[usernames.length] = users[i].getName();
-	    }
+    if (role != "unassigned") {
+	    var usernames = new Array();
+		for (var i = 0; i < users.length; i++) {
+		    if (users[i].hasRole(role)) {
+		        usernames[usernames.length] = users[i].getName();
+		    }
+		}
+		var node = opener.document.getElementById(elementId);
+		node.innerHTML = usernames.join("; ");
 	}
-	var node = opener.document.getElementById(elementId);
-	node.innerHTML = usernames.join("; ");
 }
 
 /**
  * Changes the roles for a user.  The current set of roles is cleared and
  * a new set of roles is added.
  */
-function updateUserRoles(user, aggregator, budgetCreator, narrativeWriter, viewer, unassigned) {
+function updateUserRoles(user, roleStates) {
     user.clearRoles();
-    if (aggregator == true) {
-        user.addRole(AGGREGATOR);
-    }
-    
-    if (budgetCreator == true) {
-        user.addRole(BUDGET_CREATOR);
-    }
-    
-    if (narrativeWriter == true) {
-        user.addRole(NARRATIVE_WRITER);
-    }
-    
-    if (viewer == true) {
-        user.addRole(VIEWER);
-    }
-    
-    if (unassigned == true) {
-        user.addRole(UNASSIGNED);
+    for (var i = 0; i < roleStates.length; i++) {
+        var state = roleStates[i].getState();
+        if (state.toLowerCase() == 'true') {
+            user.addRole(roleStates[i].getName());
+        }
     }
  }
     

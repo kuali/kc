@@ -21,8 +21,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalRoleState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -95,8 +95,8 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
         // The Aggregator encompasses all of the other roles.  Therefore, if the
         // user selects the Aggregator role, don't allow any of the other roles
         // to be selected.
-            
-        if (editRoles.getAggregator() && (editRoles.getBudgetCreator() || editRoles.getNarrativeWriter() || editRoles.getViewer())) {
+        
+        if (hasAggregator(editRoles) && hasNonAggregator(editRoles)) {
             isValid = false;
             this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
                              KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
@@ -104,12 +104,49 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
             
         // The user cannot delete the last Aggregator on a proposal.
             
-        else if (!editRoles.getAggregator() && isLastAggregator(editRoles.getUsername(), proposalUserRolesList)) {
+        else if (!hasAggregator(editRoles) && isLastAggregator(editRoles.getUsername(), proposalUserRolesList)) {
             isValid = false;
             this.reportError(Constants.EDIT_ROLES_PROPERTY_KEY, 
                              KeyConstants.ERROR_LAST_AGGREGATOR);
         }
+        
         return isValid;
+    }
+    
+    /**
+     * Has the Aggregator role been selected?
+     * @param editRoles the Proposal Edit Roles
+     * @return true if the Aggregator is selected; otherwise false
+     */
+    private boolean hasAggregator(ProposalUserEditRoles editRoles) {
+        List<ProposalRoleState> roleStates = editRoles.getRoleStates();
+        for (ProposalRoleState roleState : roleStates) {
+            if (roleState.getState()) {
+                String roleName = roleState.getName();
+                if (StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Has any role other than Aggregator been selected?
+     * @param editRoles the Proposal Edit Roles
+     * @return true if a role other than Aggregator has been selected; otherwise false
+     */
+    private boolean hasNonAggregator(ProposalUserEditRoles editRoles) {
+        List<ProposalRoleState> roleStates = editRoles.getRoleStates();
+        for (ProposalRoleState roleState : roleStates) {
+            if (roleState.getState()) {
+                String roleName = roleState.getName();
+                if (!StringUtils.equals(roleName, RoleConstants.AGGREGATOR)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
