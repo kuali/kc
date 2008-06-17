@@ -169,7 +169,10 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
 
         i = 0;
         for (BudgetProposalLaRate budgetProposalLaRate : budgetDocument.getBudgetProposalLaRates()) {
-            String rateClassType = budgetProposalLaRate.getRateClass().getRateClassTypeT().getDescription();
+            String rateClassType = "";
+            if (ObjectUtils.isNotNull(budgetProposalLaRate.getRateClass()) && ObjectUtils.isNotNull(budgetProposalLaRate.getRateClass().getRateClassTypeT())) {
+                rateClassType = budgetProposalLaRate.getRateClass().getRateClassTypeT().getDescription();
+            }
             String errorPath = "budgetProposalRate[" + rateClassType + "][" + i + "]";
             errorMap.addToErrorPath(errorPath);
             /* look for applicable rate */
