@@ -8,6 +8,9 @@ KEY ("CATEGORY_TYPE")
 REFERENCES "BUDGET_CATEGORY_TYPE" ("BUDGET_CATEGORY_TYPE_CODE") ENABLE;         
                                                                                 
                                                                                 
+ALTER TABLE "BUDGET_MODULAR" ADD CONSTRAINT "FK_BUDGET_MODULAR_BP_KRA" FOREIGN  
+KEY ("BUDGET_PERIOD_NUMBER")                                                    
+REFERENCES "BUDGET_PERIODS" ("BUDGET_PERIOD_NUMBER") ENABLE;                    
 ALTER TABLE "BUDGET_MODULAR" ADD CONSTRAINT "FK_PROPOSAL_MODULAR_KRA" FOREIGN   
 KEY ("PROPOSAL_NUMBER", "VERSION_NUMBER")                                       
 REFERENCES "BUDGET" ("PROPOSAL_NUMBER", "VERSION_NUMBER") ENABLE;               
@@ -32,9 +35,8 @@ REFERENCES "APPOINTMENT_TYPE" ("APPOINTMENT_TYPE_CODE") ENABLE;
                                                                                 
                                                                                 
 ALTER TABLE "BUDGET_PROJECT_INCOME" ADD CONSTRAINT "FK_BUDGET_PROJ_INC_BP_KRA"  
-FOREIGN KEY ("PROPOSAL_NUMBER", "BUDGET_VERSION_NUMBER", "BUDGET_PERIOD")       
-REFERENCES "BUDGET_PERIODS" ("PROPOSAL_NUMBER", "VERSION_NUMBER",               
-"BUDGET_PERIOD") ENABLE;                                                        
+FOREIGN KEY ("BUDGET_PERIOD_NUMBER")                                            
+REFERENCES "BUDGET_PERIODS" ("BUDGET_PERIOD_NUMBER") ENABLE;                    
 ALTER TABLE "BUDGET_PROJECT_INCOME" ADD CONSTRAINT                              
 "FK_BUDGET_PROJ_INC_BUDGET_KRA" FOREIGN KEY ("PROPOSAL_NUMBER",                 
 "BUDGET_VERSION_NUMBER")                                                        
@@ -184,9 +186,6 @@ REFERENCES "SPECIAL_REVIEW" ("SPECIAL_REVIEW_CODE") ENABLE;
 ALTER TABLE "EPS_PROP_USER_ROLES" ADD CONSTRAINT "FK_EPS_PROP_USER_ROLES_KRA"   
 FOREIGN KEY ("PROPOSAL_NUMBER")                                                 
 REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE;                           
-ALTER TABLE "EPS_PROP_USER_ROLES" ADD CONSTRAINT "FK_EPS_ROLE_ID_KRA" FOREIGN   
-KEY ("ROLE_ID")                                                                 
-REFERENCES "ROLE" ("ROLE_ID") ENABLE;                                           
 ALTER TABLE "EPS_PROP_USER_ROLES" ADD CONSTRAINT "FK_USER_ID_KRA" FOREIGN KEY   
 ("USER_ID")                                                                     
 REFERENCES "PERSON" ("PERSON_ID") ENABLE;                                       
@@ -451,10 +450,15 @@ ALTER TABLE "PERSON" ADD CONSTRAINT "FK_PERSON_KIM_PERSON_ID" FOREIGN KEY
 REFERENCES "KIM_PERSONS_T" ("ID") ENABLE;                                       
                                                                                 
                                                                                 
-ALTER TABLE "ROLE_RIGHTS" ADD CONSTRAINT "FK_ROLE_RIGHTS_KRA" FOREIGN KEY       
+ALTER TABLE "RATE_CLASS" ADD CONSTRAINT "FK_RATE_CLASS_TYPE" FOREIGN KEY        
+("RATE_CLASS_TYPE")                                                             
+REFERENCES "RATE_CLASS_TYPE" ("RATE_CLASS_TYPE") ENABLE;                        
+                                                                                
+                                                                                
+ALTER TABLE "ROLE_RIGHTS" ADD CONSTRAINT "FK_ROLE_RIGHTS_RIGHT" FOREIGN KEY     
 ("RIGHT_ID")                                                                    
 REFERENCES "RIGHTS" ("RIGHT_ID") ENABLE;                                        
-ALTER TABLE "ROLE_RIGHTS" ADD CONSTRAINT "FK_ROLE_RIGHTS_ROLE_KRA" FOREIGN KEY  
+ALTER TABLE "ROLE_RIGHTS" ADD CONSTRAINT "FK_ROLE_RIGHTS_ROLE" FOREIGN KEY      
 ("ROLE_ID")                                                                     
 REFERENCES "ROLE" ("ROLE_ID") ENABLE;                                           
                                                                                 
@@ -529,6 +533,11 @@ ALTER TABLE "SPONSOR" ADD CONSTRAINT "FK_SPONSOR_TYPE_CODE_KRA" FOREIGN KEY
 REFERENCES "SPONSOR_TYPE" ("SPONSOR_TYPE_CODE") ENABLE;                         
                                                                                 
                                                                                 
+ALTER TABLE "SPONSOR_HIERARCHY" ADD CONSTRAINT "FK_SPONSOR_HIERARCHY_KRA"       
+FOREIGN KEY ("SPONSOR_CODE")                                                    
+REFERENCES "SPONSOR" ("SPONSOR_CODE") ON DELETE CASCADE ENABLE;                 
+                                                                                
+                                                                                
 ALTER TABLE "STATE_CODE" ADD CONSTRAINT "FK_STATE_CODE_COUNTRY" FOREIGN KEY     
 ("COUNTRY_CODE")                                                                
 REFERENCES "COUNTRY_CODE" ("COUNTRY_CODE") ENABLE;                              
@@ -559,11 +568,14 @@ FOREIGN KEY ("CHANNEL_ID")
 REFERENCES "NOTIFICATION_CHANNELS" ("ID") ENABLE;                               
                                                                                 
                                                                                 
-ALTER TABLE "USER_ROLES" ADD CONSTRAINT "FK_USER_ROLES_KRA" FOREIGN KEY         
+ALTER TABLE "USER_ROLES" ADD CONSTRAINT "FK_USER_ROLES_PERSON" FOREIGN KEY      
+("USER_ID")                                                                     
+REFERENCES "PERSON" ("PERSON_ID") ENABLE;                                       
+ALTER TABLE "USER_ROLES" ADD CONSTRAINT "FK_USER_ROLES_ROLE" FOREIGN KEY        
 ("ROLE_ID")                                                                     
 REFERENCES "ROLE" ("ROLE_ID") ENABLE;                                           
-ALTER TABLE "USER_ROLES" ADD CONSTRAINT "FK_USER_ROLES_UNIT_NUMBER_KRA" FOREIGN 
-KEY ("UNIT_NUMBER")                                                             
+ALTER TABLE "USER_ROLES" ADD CONSTRAINT "FK_USER_ROLES_UNIT" FOREIGN KEY        
+("UNIT_NUMBER")                                                                 
 REFERENCES "UNIT" ("UNIT_NUMBER") ENABLE;                                       
                                                                                 
                                                                                 
