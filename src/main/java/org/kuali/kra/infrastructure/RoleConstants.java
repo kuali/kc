@@ -22,7 +22,13 @@ package org.kuali.kra.infrastructure;
  */
 public interface RoleConstants {
     
-    // The names of the roles as used by KIM to identify a role.
+    // Role Types
+    
+    public static final String PROPOSAL_ROLE_TYPE = "P";
+    public static final String OSP_ROLE_TYPE = "O";
+    public static final String DEPARTMENT_ROLE_TYPE = "D";
+    
+    // The names of the standard roles as used by KIM to identify a role.
     
     public static final String PROPOSAL_CREATOR = "Proposal Creator";
     public static final String AGGREGATOR = "Aggregator";
@@ -30,15 +36,4 @@ public interface RoleConstants {
     public static final String BUDGET_CREATOR = "Budget Creator";
     public static final String VIEWER = "Viewer";
     public static final String UNASSIGNED = "unassigned";
-    
-    // The labels that are displayed to the user on the web page.
-    // Current the same as the role names, but a separate set makes
-    // it easier if a role name or label requires changing.
-    
-    public static final String PROPOSAL_CREATOR_LABEL = "Proposal Creator";
-    public static final String AGGREGATOR_LABEL = "Aggregator";
-    public static final String NARRATIVE_WRITER_LABEL = "Narrative Writer";
-    public static final String BUDGET_CREATOR_LABEL = "Budget Creator";
-    public static final String VIEWER_LABEL = "Viewer";
-    public static final String UNASSIGNED_LABEL = "unassigned";
 }

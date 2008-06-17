@@ -18,19 +18,30 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles">
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalRoleState">
 
         <attributes>
 
-			<attribute name="username">
-				<label>Name </label>
-				<shortLabel>Name </shortLabel>
+			<attribute name="name">
+				<label>Role Name </label>
+				<shortLabel>Role Name </shortLabel>
+				<maxLength>500</maxLength>
+				<control>
+					<text size="30" />
+				</control>
+				<summary>Role Name</summary>
+				<description>Role Name</description>
+			</attribute>
+
+			<attribute name="state">
+				<label>State </label>
+				<shortLabel>State </shortLabel>
 				<maxLength>1</maxLength>
 				<control>
-					<hidden />
+					<checkbox />
 				</control>
-				<summary>Name</summary>
-				<description>Name</description>
+				<summary>State</summary>
+				<description>State</description>
 			</attribute>
 
 		</attributes>

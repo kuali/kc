@@ -26,6 +26,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalRoleState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -127,9 +129,8 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testEditOK() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUserEditRoles editRoles = new ProposalUserEditRoles();
-        editRoles.setUsername("aslusar");
-        editRoles.setNarrativeWriter(Boolean.TRUE);
+        ProposalUserEditRoles editRoles = createProposalUserEditRoles("aslusar");
+        editRoles.setRoleState(RoleConstants.NARRATIVE_WRITER, Boolean.TRUE);
         assertTrue(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
     }
 
@@ -142,12 +143,29 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testEditAggregatorOnly() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUserEditRoles editRoles = new ProposalUserEditRoles();
-        editRoles.setUsername("aslusar");
-        editRoles.setAggregator(Boolean.TRUE);
-        editRoles.setNarrativeWriter(Boolean.TRUE);
+        ProposalUserEditRoles editRoles = createProposalUserEditRoles("aslusar");
+        editRoles.setRoleState(RoleConstants.AGGREGATOR, Boolean.TRUE);
+        editRoles.setRoleState(RoleConstants.NARRATIVE_WRITER, Boolean.TRUE);
         assertFalse(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
         assertError(Constants.EDIT_ROLES_PROPERTY_KEY, KeyConstants.ERROR_AGGREGATOR_INCLUSIVE);
+    }
+    
+    /**
+     * Create a Proposal Edit Roles.  The standard proposal roles will be added
+     * and their states will be set to false.
+     * @param username the username of the user
+     * @return a Proposal Edit Roles
+     */
+    private ProposalUserEditRoles createProposalUserEditRoles(String username) {
+        ProposalUserEditRoles editRoles = new ProposalUserEditRoles();
+        editRoles.setUsername(username);
+        List<ProposalRoleState> roleStates = new ArrayList<ProposalRoleState>();
+        roleStates.add(new ProposalRoleState(RoleConstants.AGGREGATOR));
+        roleStates.add(new ProposalRoleState(RoleConstants.NARRATIVE_WRITER));
+        roleStates.add(new ProposalRoleState(RoleConstants.BUDGET_CREATOR));
+        roleStates.add(new ProposalRoleState(RoleConstants.VIEWER));
+        editRoles.setRoleStates(roleStates);
+        return editRoles;
     }
 
     /**
@@ -159,9 +177,8 @@ public class ProposalDevelopmentPermissionsRuleTest extends ProposalDevelopmentR
     public void testEditLastAggregator() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         List<ProposalUserRoles> proposalUserRolesList = getProposalUserRoles();
-        ProposalUserEditRoles editRoles = new ProposalUserEditRoles();
-        editRoles.setUsername("quickstart");
-        editRoles.setNarrativeWriter(Boolean.TRUE);
+        ProposalUserEditRoles editRoles = createProposalUserEditRoles("quickstart");
+        editRoles.setRoleState(RoleConstants.NARRATIVE_WRITER, Boolean.TRUE);
         assertFalse(rule.processEditProposalUserRolesBusinessRules(document, proposalUserRolesList, editRoles));
         assertError(Constants.EDIT_ROLES_PROPERTY_KEY, KeyConstants.ERROR_LAST_AGGREGATOR);
     }

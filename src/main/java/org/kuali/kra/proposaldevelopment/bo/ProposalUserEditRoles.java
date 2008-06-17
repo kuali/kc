@@ -15,8 +15,11 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObjectBase;
 
 /**
@@ -33,10 +36,7 @@ import org.kuali.core.bo.BusinessObjectBase;
 public class ProposalUserEditRoles extends BusinessObjectBase {
     
     private String username;
-    private Boolean aggregator = Boolean.FALSE;
-    private Boolean budgetCreator = Boolean.FALSE;
-    private Boolean narrativeWriter = Boolean.FALSE;
-    private Boolean viewer = Boolean.FALSE;
+    private List<ProposalRoleState> roleStates;
     private int lineNum = 0;
     private boolean javaScriptEnabled;
     
@@ -44,7 +44,7 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
      * Constructs a ProposalUserEditRoles.
      */
     public ProposalUserEditRoles() {
-       
+       roleStates = new ArrayList<ProposalRoleState>();
     }
     
     /**
@@ -64,77 +64,21 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
     }
     
     /**
-     * Is the Aggregator role assigned?
-     * @return true if the Aggregator role is assigned; otherwise false
-     */
-    public Boolean getAggregator() {
-        return aggregator;
-    }
-
-    /**
-     * Set the Aggregator role to assigned or unassigned.
-     * @param aggregator true if assigned; false if unassigned
-     */
-    public void setAggregator(Boolean aggregator) {
-        this.aggregator = aggregator;
-    }
-
-    /**
-     * Is the Budget Creator role assigned?
-     * @return true if the Budget Creator role is assigned; otherwise false
-     */
-    public Boolean getBudgetCreator() {
-        return budgetCreator;
-    }
-
-    /**
-     * Set the Budget Creator role to assigned or unassigned.
-     * @param budgetCreator true if assigned; false if unassigned
-     */
-    public void setBudgetCreator(Boolean budgetCreator) {
-        this.budgetCreator = budgetCreator;
-    }
-
-    /**
-     * Is the Narrative Writer role assigned?
-     * @return true if the Narrative Writer role is assigned; otherwise false
-     */
-    public Boolean getNarrativeWriter() {
-        return narrativeWriter;
-    }
-
-    /**
-     * Set the Narrative Writer role to assigned or unassigned.
-     * @param narrativeWriter true if assigned; false if unassigned
-     */
-    public void setNarrativeWriter(Boolean narrativeWriter) {
-        this.narrativeWriter = narrativeWriter;
-    }
-
-    /**
-     * Is the Viewer role assigned?
-     * @return true if the Viewer role is assigned; otherwise false
-     */
-    public Boolean getViewer() {
-        return viewer;
-    }
-
-    /**
-     * Set the Viewer role to assigned or unassigned.
-     * @param viewer true if assigned; false if unassigned
-     */
-    public void setViewer(Boolean viewer) {
-        this.viewer = viewer;
-    }
-    
-    /**
      * Is this user assigned to the "unassigned" role?
      * @return true if unassigned; otherwise false
      */
-    public Boolean getUnassigned() {
-        return !getAggregator() && !getBudgetCreator() && !getNarrativeWriter() && !getViewer();
-    }
+    //public Boolean getUnassigned() {
+     //   return !getAggregator() && !getBudgetCreator() && !getNarrativeWriter() && !getViewer();
+    //}
     
+    public List<ProposalRoleState> getRoleStates() {
+        return roleStates;
+    }
+
+    public void setRoleStates(List<ProposalRoleState> roleStates) {
+        this.roleStates = roleStates;
+    }
+
     /**
      * Set the line number.
      * @param lineNum the line number
@@ -173,10 +117,7 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
-        map.put("aggregator", getAggregator());
-        map.put("budgetCreator", getBudgetCreator());
-        map.put("narrativeWriter", getNarrativeWriter());
-        map.put("viewer", getViewer());
+       
         return map;
     }
 
@@ -185,5 +126,20 @@ public class ProposalUserEditRoles extends BusinessObjectBase {
      */
     public void refresh() {
         // do nothing
+    }
+
+    public void setRoleState(String roleName, Boolean state) {
+        for (ProposalRoleState roleState : roleStates) {
+            if (StringUtils.equals(roleName, roleState.getName())) {
+                roleState.setState(state);
+                break;
+            }
+        }
+    }
+
+    public void clear() {
+        for (ProposalRoleState roleState : roleStates) {
+            roleState.setState(Boolean.FALSE);
+        }
     }
 }
