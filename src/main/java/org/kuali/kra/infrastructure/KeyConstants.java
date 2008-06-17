@@ -203,5 +203,7 @@ public class KeyConstants {
 
     public static final String ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL = "error.delete.person.with.personnelDetails";
     public static final String ERROR_DELETE_LINE_ITEM = "error.delete.lineitem";
+    public static final String ERROR_INSERT_BUDGET_PERIOD = "error.insert.budget.period";
+    public static final String ERROR_APPLY_TO_LATER_PERIODS = "error.applyTo.later.periods";
 
 }
