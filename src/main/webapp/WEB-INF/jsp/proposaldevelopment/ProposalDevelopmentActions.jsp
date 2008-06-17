@@ -35,7 +35,7 @@ showDocumentInfo="true"
 </kra:section>
 <kra-pd:proposalDevelopmentCopy /> 
 <kul:routeLog /> 
-<kul:adHocRecipients /> 
+<kra-pd:adHocRecipients /> 
 <kul:panelFooter />
 <c:if test="${not KualiForm.suppressAllButtons}">
           <c:if test="${KualiForm.documentActionFlags.canApprove and KualiForm.reject}">
