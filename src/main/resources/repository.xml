@@ -1736,7 +1736,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="budgetModular" class-ref="org.kuali.kra.budget.bo.BudgetModular" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<reference-descriptor name="budgetModular" class-ref="org.kuali.kra.budget.bo.BudgetModular" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<foreignkey field-ref="budgetPeriodId"/>  
 		</reference-descriptor>
 		<collection-descriptor name="budgetLineItems" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetLineItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
@@ -1854,6 +1854,12 @@
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/> 
 		</reference-descriptor>
+
+		<collection-descriptor name="budgetPersonnelDetails" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersonnelDetails" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<inverse-foreignkey field-ref="budgetVersionNumber"/>
+			<inverse-foreignkey field-ref="personSequenceNumber"/> 
+		</collection-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.bo.TbnPerson" table="TBN">
@@ -2230,7 +2236,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     	
-    	<collection-descriptor name="budgetModularIdcs" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetModularIdc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+    	<collection-descriptor name="budgetModularIdcs" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetModularIdc" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
     		<inverse-foreignkey field-ref="budgetPeriodId"/>
 		</collection-descriptor>
 	</class-descriptor>
@@ -2308,12 +2314,17 @@
         <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
         <field-descriptor name="roleTypeCode" column="ROLE_TYPE_CODE" jdbc-type="VARCHAR" />
-                <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+        <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        
         <reference-descriptor name="roleType" class-ref="org.kuali.kra.kim.bo.KimRoleType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="roleTypeCode"/>
         </reference-descriptor>
+        
+        <collection-descriptor name="rolePermissions" proxy="true" element-class-ref="org.kuali.kra.kim.bo.KimRolePermission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="roleId"/>
+        </collection-descriptor>
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.kim.bo.KimRoleType" table="KIM_ROLE_TYPE_T">
