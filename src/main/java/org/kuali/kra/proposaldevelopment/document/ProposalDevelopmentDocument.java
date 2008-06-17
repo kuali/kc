@@ -164,6 +164,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         investigators = new ArrayList<ProposalPerson>();
         s2sOppForms = new ArrayList<S2sOppForms>();        
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
+        s2sSubmissionHistory = new ArrayList<S2sSubmissionHistory>();
     }
 
     public void initialize() {
