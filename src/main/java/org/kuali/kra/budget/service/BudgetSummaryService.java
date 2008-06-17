@@ -66,6 +66,12 @@ public interface BudgetSummaryService {
      */
     public void setupOldStartEndDate (BudgetDocument budgetDocument, boolean resetAll);
 
+    /**
+     * 
+     * This method is to seld old start/end date for line items, then they can be used for date adjustment.
+     * @param budgetLineItems
+     */
+    public void setupOldStartEndDate (List <BudgetLineItem > budgetLineItems);
 
 
 }
