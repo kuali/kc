@@ -15,8 +15,9 @@ http://www.opensource.org/licenses/ecl1.php
 	--%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%-- Proposal Actions Page - Submit To Grants.gov Button - Commented Temporarily--%>
+<kra:section permission="submitToSponsor">
  <c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/> 
-
+</kra:section>
 <kul:documentPage
 showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentActions"

@@ -577,6 +577,23 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="submitToSponsorAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
+                    <property name="action" value="Actions" />
+                    <property name="task" value="submitToGrantsGov" />
+                    <property name="permission" value="SUBMIT_TO_SPONSOR" />
+                </bean>
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
+                    <property name="action" value="Actions" />
+                    <property name="task" value="resubmit" />
+                    <property name="permission" value="SUBMIT_TO_SPONSOR" />
+                </bean>
+            </list>
+        </property>
+    </bean>
 
     <bean id="narrativeAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
 		<property name="taskAuthorizers">
@@ -657,6 +674,7 @@
 				<ref bean="permissionsAuthorizer" />
 				<ref bean="proposalBudgetVersionsAuthorizer" />
 				<ref bean="printFormsAuthorizer" />
+				<ref bean="submitToSponsorAuthorizer" />
 			</list>
 		</property>
 	</bean>
