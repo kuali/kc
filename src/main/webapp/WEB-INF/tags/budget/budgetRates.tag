@@ -63,7 +63,9 @@
             <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.RateType.attributes.description" />
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.onOffCampusFlag" />
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.fiscalYear" />
+             <!-- 
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.affectedBudgetPeriod" />
+	    	-->
 
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.startDate" />
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.BudgetProposalRate.attributes.instituteRate" />

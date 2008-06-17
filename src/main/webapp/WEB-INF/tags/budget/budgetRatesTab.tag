@@ -45,6 +45,8 @@
                       	</span>
                       	</div>
                     </td>
+                    
+                    <!-- 
                     <td width="15%" class="${tdClass}">
                     	<div align=left>
                     	<span class="copy">
@@ -53,6 +55,7 @@
                       	</span>
                       	</div>
                     </td>
+                     -->
                     <td width="10%" class="${tdClass}">
                     	<div align=center>
                     	<span class="copy">
