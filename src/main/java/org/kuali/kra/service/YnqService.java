@@ -47,8 +47,8 @@ public interface YnqService {
      * This method is used to populate questions.
      * 
      */
-    public void populateProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames);
+    public void populateProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames, ProposalDevelopmentDocument document);
     
-    public ProposalPerson getPersonYNQ(ProposalPerson proposalPerson);
+    public ProposalPerson getPersonYNQ(ProposalPerson proposalPerson, ProposalDevelopmentDocument document);
 
 }
