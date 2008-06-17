@@ -93,6 +93,7 @@ public interface Constants {
     public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_NAME = "Budget Overview (Period ";
     // Proposal Document Property Constants
     public static final String PROPOSAL_NUMBER = "proposalNumber";
+    public static final String BUDGET_VERSION_PANEL_NAME = "Budget Versions";
     public static final String BUDGET_VERSION_OVERVIEWS = "budgetVersionOverviews";
     
     // Budget Document Property Constants
@@ -207,7 +208,9 @@ public interface Constants {
     public static final String SPECIAL_REVIEW_PANEL_NAME = "Special Review Information";
     public static final String BUDGET_PERIOD_PANEL_NAME = "Budget Period And Totals Information";
     public static final String BUDGET_PERIOD_PAGE = "summary";
+    public static final String BUDGET_VERSIONS_PAGE = "budgetVersions";
     public static final String BUDGET_PERIOD_PANEL_ANCHOR = "BudgetPeriodsAmpTotals";
+    public static final String BUDGET_VERSIONS_PANEL_ANCHOR = "BudgetVersions";
     public static final String BUDGET_PERIOD_KEY = "document.budgetPeriod*";
     
     // Change Password
