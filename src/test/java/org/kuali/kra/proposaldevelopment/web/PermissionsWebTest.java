@@ -51,10 +51,10 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String USER4_USERNAME = "ljoconno";
     private static final String USER4_FULLNAME = "Lora OConnor";
     
-    private static final String AGGREGATORS_ID = "Aggregators";
-    private static final String BUDGET_CREATORS_ID = "BudgetCreators";
-    private static final String NARRATIVE_WRITERS_ID = "NarrativeWriters";
-    private static final String VIEWERS_ID = "Viewers";
+    private static final String AGGREGATORS_ID = "Aggregator";
+    private static final String BUDGET_CREATORS_ID = "Budget Creator";
+    private static final String NARRATIVE_WRITERS_ID = "Narrative Writer";
+    private static final String VIEWERS_ID = "Viewer";
     
     private static final String USER_TABLE_ID = "user-roles";
     
@@ -95,9 +95,9 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
     private static final String DELETE_BTN = "methodToCall.deleteProposalUser";
     private static final String EDIT_ROLES_BTN = "methodToCall.editRoles";
     
-    private static final String AGGREGATOR_FIELD_ID = "proposalUserEditRoles.aggregator";
-    private static final String BUDGET_CREATOR_FIELD_ID = "proposalUserEditRoles.budgetCreator";
-    private static final String NARRATIVE_WRITER_FIELD_ID = "proposalUserEditRoles.narrativeWriter";
+    private static final String AGGREGATOR_FIELD_ID = "proposalUserEditRoles.roleStates[0].state";
+    private static final String BUDGET_CREATOR_FIELD_ID = "proposalUserEditRoles.roleStates[2].state";
+    private static final String NARRATIVE_WRITER_FIELD_ID = "proposalUserEditRoles.roleStates[1].state";
     
     private static final String ATTACHMENT_FILENAME = "/org/kuali/kra/proposaldevelopment/web/ProposalAttachmentWebTest.class";
     private static final String NARRATIVE_FILE_ID = "newNarrative.narrativeFile";
@@ -448,7 +448,7 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
         // Check the User table.
         
         List<User> users = new ArrayList<User>();
-        String[] roles = buildArray(BUDGET_CREATOR_NAME, NARRATIVE_WRITER_NAME);
+        String[] roles = buildArray(NARRATIVE_WRITER_NAME, BUDGET_CREATOR_NAME);
         users.add(new User(USER2_USERNAME, USER2_FULLNAME, UNIT_NUMBER, UNIT_NAME, roles));
         users.add(new User(QUICKSTART_USERNAME, QUICKSTART_FULLNAME, UNIT_NUMBER, UNIT_NAME, AGGREGATOR_NAME));
         users.add(new User(TESTER_USERNAME, TESTER_FULLNAME, INCARD_UNIT_NUMBER, INCARD_UNIT_NAME, VIEWER_NAME));

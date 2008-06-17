@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="editRolesAttributes" value="${DataDictionary.ProposalUserEditRoles.attributes}" />
+<c:set var="roleStateAttributes" value="${DataDictionary.ProposalRoleState.attributes}" />
 
 <kul:tabTop defaultOpen="true" tabTitle="Roles" tabErrorKey="proposalUserEditRole*">
 	<div class="tab-container" align="center">
@@ -23,30 +23,18 @@
     		<span class="subhead-left"><h2>Roles</h2></span>
         </div>	
         <table id="edit-roles-table" cellpadding="0" cellspacing="0" summary="">
-          	<tr>
-            	<th width="35%"><div align="right">Aggregator</div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="proposalUserEditRoles.aggregator" attributeEntry="${editRolesAttributes.aggregator}" />
-				</td>
-        	</tr>
-        	<tr>
-            	<th><div align="right">Budget Creator</div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="proposalUserEditRoles.budgetCreator" attributeEntry="${editRolesAttributes.budgetCreator}" />
-				</td>
-        	</tr>
-        	<tr>
-            	<th><div align="right">Narrative Writer</div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="proposalUserEditRoles.narrativeWriter" attributeEntry="${editRolesAttributes.narrativeWriter}" />
-				</td>
-        	</tr>
-        	<tr>
-            	<th><div align="right">Viewer</div></th>
-                <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="proposalUserEditRoles.viewer" attributeEntry="${editRolesAttributes.viewer}" />
-				</td>
-        	</tr>
+             
+            <c:forEach var="roleState" items="${KualiForm.proposalUserEditRoles.roleStates}" varStatus="status">
+            
+	          	<tr>
+	            	<th width="35%"><div align="right">${roleState.name}</div></th>
+	                <td align="left" valign="middle">
+	                	<kul:htmlControlAttribute property="proposalUserEditRoles.roleStates[${status.index}].state" attributeEntry="${roleStateAttributes.state}" />
+					</td>
+	        	</tr>
+	        	
+	        </c:forEach>
+        	
         </table>
     </div>
 </kul:tabTop>

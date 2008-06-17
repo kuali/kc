@@ -31,10 +31,9 @@
         </div>
         
         <table cellpadding="0" cellspacing="0" summary="">
-			<kra-pd:roleUsers id="Aggregators" roleName="Aggregators" userList="${KualiForm.aggregatorsByName}" />
-        	<kra-pd:roleUsers id="BudgetCreators" roleName="Budget Creators" userList="${KualiForm.budgetCreatorsByName}" />
-        	<kra-pd:roleUsers id="NarrativeWriters" roleName="Narrative Writers" userList="${KualiForm.narrativeWritersByName}" />
-			<kra-pd:roleUsers id="Viewers" roleName="Viewers" userList="${KualiForm.viewersByName}" />
+            <c:forEach var="assignedRole" items="${KualiForm.proposalAssignedRoles}" varStatus="status">
+			    <kra-pd:roleUsers id="${assignedRole.roleName}" roleName="${assignedRole.roleName}" userList="${assignedRole.userNames}" />
+        	</c:forEach>
         </table>
     </div> 
 </kul:tabTop>

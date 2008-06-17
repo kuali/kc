@@ -16,8 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <kul:tabTop defaultOpen="true" tabTitle="Roles">
-	<kra-pd:roleRights roleName="Aggregator" permissions="${KualiForm.aggregatorPermissions}" />
-	<kra-pd:roleRights roleName="Budget Creator" permissions="${KualiForm.budgetCreatorPermissions}" />
-	<kra-pd:roleRights roleName="Narrative Writer" permissions="${KualiForm.narrativeWriterPermissions}" />
-	<kra-pd:roleRights roleName="Viewer" permissions="${KualiForm.viewerPermissions}" />
+    <c:forEach var="role" items="${KualiForm.proposalRoles}" varStatus="status">    
+	   <kra-pd:roleRights roleName="${role.name}" permissions="${role.permissions}" />
+    </c:forEach>
 </kul:tabTop>
