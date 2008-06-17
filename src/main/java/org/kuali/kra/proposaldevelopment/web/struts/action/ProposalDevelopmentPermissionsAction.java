@@ -21,6 +21,7 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_NARRATIVE_ATTACHMEN
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +45,8 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.kim.bo.KimRole;
+import org.kuali.kra.proposaldevelopment.bo.ProposalRoleState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -321,17 +324,20 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         editRoles.setLineNum(lineNum);
         editRoles.setJavaScriptEnabled(isJavaScriptEnabled(request));
         editRoles.setUsername(proposalUserRoles.getUsername());
+        
+        List<ProposalRoleState> roleStates = new ArrayList<ProposalRoleState>();
+        Collection<KimRole> proposalRoles = proposalDevelopmentForm.getKimProposalRoles();
+        for (KimRole proposalRole : proposalRoles) {
+            if (!proposalRole.isUnassigned()) {
+                ProposalRoleState roleState = new ProposalRoleState(proposalRole.getName());
+                roleStates.add(roleState);
+            }
+        }
+        editRoles.setRoleStates(roleStates);
+        
         List<String> roleNames = proposalUserRoles.getRoleNames();
         for (String roleName : roleNames) {
-            if (RoleConstants.AGGREGATOR.equals(roleName)) {
-                editRoles.setAggregator(Boolean.TRUE);
-            } else if (RoleConstants.BUDGET_CREATOR.equals(roleName)) {
-                editRoles.setBudgetCreator(Boolean.TRUE);
-            } else if (RoleConstants.NARRATIVE_WRITER.equals(roleName)) {
-                editRoles.setNarrativeWriter(Boolean.TRUE);
-            } else if (RoleConstants.VIEWER.equals(roleName)) {
-                editRoles.setViewer(Boolean.TRUE);
-            }
+            editRoles.setRoleState(roleName, Boolean.TRUE);
         }
         proposalDevelopmentForm.setProposalUserEditRoles(editRoles);
         return mapping.findForward(Constants.MAPPING_PERMISSIONS_EDIT_ROLES_PAGE);
@@ -388,17 +394,11 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             
             // Assign the user to the new roles for the proposal.
             
-            if (editRoles.getAggregator()) {
-                roleNames.add(RoleConstants.AGGREGATOR);
-            }
-            if (editRoles.getBudgetCreator()) {
-                roleNames.add(RoleConstants.BUDGET_CREATOR);
-            } 
-            if (editRoles.getNarrativeWriter()) {
-                roleNames.add(RoleConstants.NARRATIVE_WRITER);
-            } 
-            if (editRoles.getViewer()) {
-                roleNames.add(RoleConstants.VIEWER);
+            List<ProposalRoleState> roleStates = editRoles.getRoleStates();
+            for (ProposalRoleState roleState : roleStates) {
+                if (roleState.getState()) {
+                    roleNames.add(roleState.getName());
+                }
             }
             
             // If the user isn't assigned to any of the standard proposal roles, then he/she will

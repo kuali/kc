@@ -147,24 +147,6 @@ public class ProposalUserRoles {
      * @return the user's role labels in the proposal.
      */
     public List<String> getRoleLabels() {
-        List<String> labels = new ArrayList<String>();
-        for (String roleName : roleNames) {
-            if (RoleConstants.UNASSIGNED.equals(roleName)) {
-                labels.add(RoleConstants.UNASSIGNED_LABEL);
-            }
-            else if (RoleConstants.AGGREGATOR.equals(roleName)) {
-                labels.add(RoleConstants.AGGREGATOR_LABEL);
-            }
-            else if (RoleConstants.BUDGET_CREATOR.equals(roleName)) {
-                labels.add(RoleConstants.BUDGET_CREATOR_LABEL);
-            }
-            else if (RoleConstants.NARRATIVE_WRITER.equals(roleName)) {
-                labels.add(RoleConstants.NARRATIVE_WRITER_LABEL);
-            }
-            else if (RoleConstants.VIEWER.equals(roleName)) {
-                labels.add(RoleConstants.VIEWER_LABEL);
-            }
-        }
-        return labels;
+        return roleNames;
     }
 }
