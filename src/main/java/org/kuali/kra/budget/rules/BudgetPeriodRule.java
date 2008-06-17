@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -66,6 +67,10 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
             rulePassed = false;
         }
 
+        if (rulePassed) {
+            rulePassed = isValidToInsert(document, newBudgetPeriod);
+        }
+        
         return rulePassed;
     }
 
@@ -426,6 +431,33 @@ public class BudgetPeriodRule extends ResearchDocumentRuleBase implements AddBud
 
     public void setErrorParameter(String[] errorParameter) {
         this.errorParameter = errorParameter;
+    }
+    
+    private boolean isValidToInsert(BudgetDocument budgetDocument, BudgetPeriod newBudgetPeriod) {
+        
+        int expenseExistStatus = checkExpenseInBudget(budgetDocument);
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        if (newBudgetPeriod.getEndDate().before(budgetDocument.getBudgetPeriod(0).getStartDate())) {
+            // insert before 1st period
+            if (expenseExistStatus >= 1) {
+                errorMap.putError("newBudgetPeriod.error", KeyConstants.ERROR_INSERT_BUDGET_PERIOD);
+                return false;
+            }
+        } else if (newBudgetPeriod.getEndDate().before(budgetDocument.getBudgetPeriod(budgetDocument.getBudgetPeriods().size()-1).getStartDate()) && expenseExistStatus > 1) {
+            errorMap.putError("newBudgetPeriod.error", KeyConstants.ERROR_INSERT_BUDGET_PERIOD);
+            return false;
+        }
+        return true;
+    }
+    
+    private int checkExpenseInBudget(BudgetDocument budgetDocument) {
+        int retVal = 0;
+        for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+            if (CollectionUtils.isNotEmpty(budgetPeriod.getBudgetLineItems())) {
+                retVal = budgetPeriod.getBudgetPeriod();
+            }
+        }
+        return retVal;
     }
 }
 
