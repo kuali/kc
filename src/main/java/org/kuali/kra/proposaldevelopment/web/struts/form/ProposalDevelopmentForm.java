@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,6 +60,7 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAssignedRole;
+import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -125,10 +127,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<String[]> documentExemptNumbers;
     private String optInUnitDetails;
     private String optInCertificationStatus;
-    
-   
-   
-
+    private ProposalChangedData newProposalChangedData;
 
     public ProposalDevelopmentForm() {
         super();
@@ -156,6 +155,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
         newProposalPersonRoleRendered = false;
+        setNewProposalChangedData(new ProposalChangedData());
     }
 
     /**
@@ -201,6 +201,12 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         if (copyCriteria != null) {
             copyCriteria.setOriginalLeadUnitNumber(proposalDevelopmentDocument.getOwnedByUnitNumber());
         }
+    }
+
+    private void populateCurrentProposalColumnValues() {
+        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
+        Set<String> attributeNames = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getAttributes().keySet();
+
     }
 
     public ProposalLocation getNewPropLocation() {
@@ -1131,4 +1137,13 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void setOptInCertificationStatus(String optInCertificationStatus) {
         this.optInCertificationStatus = optInCertificationStatus;
     }
+    
+    public ProposalChangedData getNewProposalChangedData() {
+        return newProposalChangedData;
+    }
+
+    public void setNewProposalChangedData(ProposalChangedData newProposalChangedData) {
+        this.newProposalChangedData = newProposalChangedData;
+    }
+    
  }
