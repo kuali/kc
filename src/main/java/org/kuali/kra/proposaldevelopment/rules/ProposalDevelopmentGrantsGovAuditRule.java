@@ -21,11 +21,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.AuditError;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule{
@@ -40,8 +42,13 @@ public class ProposalDevelopmentGrantsGovAuditRule  implements DocumentAuditRule
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if(proposalDevelopmentDocument.getS2sOpportunity()!=null && (proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode()==null || StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode().toString(),""))){
-            valid = false;
-            auditErrors.add(new AuditError(Constants.S2S_SUBMISSIONTYPE_CODE_KEY, KeyConstants.ERROR_NOT_SELECTED_SUBMISSION_TYPE, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
+            valid = false;            
+            auditErrors.add(new AuditError(Constants.S2S_SUBMISSIONTYPE_CODE_KEY, KeyConstants.ERROR_NOT_SELECTED_SUBMISSION_TYPE, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));            
+        }
+        
+        if (proposalDevelopmentDocument.getProposalTypeCode()!=null && proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && proposalDevelopmentDocument.getProposalTypeCode().equals(KraServiceLocator.getService(KualiConfigurationService.class).getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION).getParameterValue()) && proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode()==null) {            
+            valid &= false;
+            auditErrors.add(new AuditError("document.s2sOpportunity.revisionCode", KeyConstants.ERROR_IF_PROPOSALTYPE_IS_REVISION, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
         }
         
         if (auditErrors.size() > 0) {
