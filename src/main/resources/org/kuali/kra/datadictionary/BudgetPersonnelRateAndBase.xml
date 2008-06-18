@@ -106,17 +106,12 @@
 
             <attributeReference name="rateNumber" sourceClassName="org.kuali.kra.budget.bo.BudgetModularIdc" sourceAttributeName="rateNumber" />
 
-            <attribute name="appliedRate">
+            <attributeReference name="appliedRate" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericRate">
                 <label>Applied Rate </label>
                 <shortLabel>Applied Rate </shortLabel>
-                <maxLength>5</maxLength>
-                <validationPattern><numeric /></validationPattern>
-                <control>
-                    <text size="5" />
-                </control>
                 <summary>Applied Rate </summary>
                 <description>Applied Rate </description>
-            </attribute>
+            </attributeReference>
 
             <attributeReference name="salaryRequested" sourceClassName="org.kuali.kra.budget.bo.BudgetPerson" sourceAttributeName="calculationBase">
                 <label>Salary Requested</label>
