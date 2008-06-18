@@ -120,7 +120,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     
     private String activityTypeCode="1";
     private boolean BudgetLineItemDeleted = false;
-    
+    private boolean rateClassTypesReloaded = false ;
     /*
      * This field will soon be removed as it duplicated the BudgetLineItems on BudgetPeriod 
      */
@@ -743,9 +743,13 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
 
     public List<RateClassType> getRateClassTypes() {
         /* check budget rates - if empty get all budget rates */
-        if(rateClassTypes.isEmpty()) {            
+        if(rateClassTypes.isEmpty() || !rateClassTypesReloaded) {  
+            if (!rateClassTypes.isEmpty()) {
+                rateClassTypes.clear();
+            }
             getBudgetRatesService().getBudgetRates(this.rateClassTypes, this);
             Collections.sort(rateClassTypes, new RateClassTypeComparator());
+            rateClassTypesReloaded = true;
 			}
         return rateClassTypes;
     }
@@ -1454,6 +1458,14 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
      */
     public void setBudgetPrintForms(List<BudgetPrintForm> budgetPrintForms) {
         this.budgetPrintForms = budgetPrintForms;
+    }
+
+    public boolean isRateClassTypesReloaded() {
+        return rateClassTypesReloaded;
+    }
+
+    public void setRateClassTypesReloaded(boolean rateClassTypesReloaded) {
+        this.rateClassTypesReloaded = rateClassTypesReloaded;
     }
 }
 
