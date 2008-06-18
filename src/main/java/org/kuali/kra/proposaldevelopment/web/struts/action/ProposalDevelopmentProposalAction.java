@@ -136,15 +136,7 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return actionForward;
     }
     
-    protected String findNIHRoleDescription(ProposalPersonRole role) {
-        return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-            PARAMETER_COMPONENT_DOCUMENT, 
-            PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
-            + "nonnih."
-            + role.getProposalPersonRoleId().toLowerCase());    
-}
-
-    /**
+     /**
      * 
      * This method sets the flag for keyword display panel - display keyword panel if parameter is set to true
      * 
