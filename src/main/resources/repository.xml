@@ -148,13 +148,88 @@
 		<reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<foreignkey field-ref="activityTypeCode"/>
 		</reference-descriptor>
-		
+
 		<collection-descriptor name="s2sSubmissionHistory" proxy="true" element-class-ref="org.kuali.kra.s2s.bo.S2sSubmissionHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
-
+		
+		<collection-descriptor name="proposalChangedDataList" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<orderby name="columnName" sort="DESC" /> 
+			<orderby name="changedValue" sort="DESC" /> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
+		
 	</class-descriptor>
 	
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter" table="EPS_PROP_COLUMNS_TO_ALTER">
+		<field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="columnLabel" column="COLUMN_LABEL" jdbc-type="VARCHAR"/>
+		<field-descriptor name="dataLength" column="DATA_LENGTH" jdbc-type="INTEGER"/>
+		<field-descriptor name="dataType" column="DATA_TYPE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="hasLookup" column="HAS_LOOKUP" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="lookupArgument" column="LOOKUP_ARGUMENT" jdbc-type="VARCHAR"/>
+		<field-descriptor name="lookupWindow" column="LOOKUP_WINDOW" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" table="EPS_PROP_CHANGED_DATA">
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="changeNumber" column="CHANGE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="changedValue" column="CHANGED_VALUE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
+		<field-descriptor name="displayValue" column="DISPLAY_VALUE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="oldDisplayValue" column="OLD_DISPLAY_VALUE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+		
+		<reference-descriptor name="editableColumn" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter" auto-retrieve="true" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="columnName"/>
+		</reference-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalOverview" table="EPS_PROPOSAL">
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="creationStatusCode" column="CREATION_STATUS_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="continuedFrom" column="CONTINUED_FROM" jdbc-type="VARCHAR" />
+    	<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="ownedByUnitNumber" column="OWNED_BY_UNIT" jdbc-type="VARCHAR" />
+    	<field-descriptor name="requestedStartDateInitial" column="REQUESTED_START_DATE_INITIAL" jdbc-type="DATE" />
+    	<field-descriptor name="requestedEndDateInitial" column="REQUESTED_END_DATE_INITIAL" jdbc-type="DATE" />
+    	<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="currentAwardNumber" column="CURRENT_AWARD_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="deadlineDate" column="DEADLINE_DATE" jdbc-type="DATE" />
+    	<field-descriptor name="noticeOfOpportunityCode" column="NOTICE_OF_OPPORTUNITY_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="deadlineType" column="DEADLINE_TYPE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="programAnnouncementNumber" column="PROGRAM_ANNOUNCEMENT_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="sponsorProposalNumber" column="SPONSOR_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+    	<field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="subcontracts" column="SUBCONTRACT_FLAG" conversion="org.kuali.core.util.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
+    	<field-descriptor name="agencyDivisionCode" column="AGENCY_DIVISION_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="agencyProgramCode" column="AGENCY_PROGRAM_CODE" jdbc-type="VARCHAR" />
+    	<field-descriptor name="programAnnouncementTitle" column="PROGRAM_ANNOUNCEMENT_TITLE" jdbc-type="VARCHAR" />
+		<field-descriptor name="mailBy" column="MAIL_BY" jdbc-type="VARCHAR" />
+		<field-descriptor name="mailType" column="MAIL_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="mailAccountNumber" column="MAIL_ACCOUNT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="mailDescription" column="MAIL_DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="mailingAddressId" column="MAILING_ADDRESS_ID" jdbc-type="INTEGER" />
+		<field-descriptor name="numberOfCopies" column="NUMBER_OF_COPIES" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="performingOrganizationId" column="PERFORMING_ORGANIZATION_ID" jdbc-type="VARCHAR"/>
+    	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+    		
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus" table="EPS_PROPOSAL_BUDGET_STATUS">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="budgetStatusCode" column="BUDGET_STATUS_CODE" jdbc-type="VARCHAR" />
@@ -2309,10 +2384,9 @@
         <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
         <field-descriptor name="roleTypeCode" column="ROLE_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+                <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        
         <reference-descriptor name="roleType" class-ref="org.kuali.kra.kim.bo.KimRoleType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="roleTypeCode"/>
         </reference-descriptor>
@@ -2670,13 +2744,13 @@
 		</reference-descriptor>
 		-->
 	</class-descriptor>
- <!-- sp rev enhancement -->
+ <!-- sp rev enhancement -->	
  <!--  Resubmission enhancement --> 
 	<class-descriptor class="org.kuali.kra.s2s.bo.S2sSubmissionHistory" table="SUBMISSION_HISTORY">
  		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" sequence-name="SEQUENCE_SUBMISSION_HISTORY" primarykey="true" autoincrement="true"/>
  		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
  		<field-descriptor name="proposalNumberOrig" column="PROPOSAL_NUMBER_ORIG" jdbc-type="VARCHAR" /> 		
- 		<field-descriptor name="originalProposalId" column="ORIGINAL_PROPOSAL_ID " jdbc-type="VARCHAR" />
+ 		<field-descriptor name="originalProposalId" column="ORIGINAL_PROPOSAL_ID" jdbc-type="VARCHAR" />
  		<field-descriptor name="submittedBy" column="SUBMITTED_BY" jdbc-type="VARCHAR"/>		
  		<field-descriptor name="s2sSubmissionTypeCode" column="S2S_SUBMISSION_TYPE_CODE" jdbc-type="VARCHAR" />
  		<field-descriptor name="s2sRevisionTypeCode" column="S2S_REVISION_TYPE_CODE" jdbc-type="VARCHAR" />
