@@ -192,29 +192,19 @@
 			<description>Apply Rate Flag </description>
 			</attribute>
 
-			<attribute name="calculatedCost">
+            <attributeReference name="calculatedCost" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Calculated Cost </label>
 			<shortLabel>Calculated Cost </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Calculated Cost </summary>
 			<description>Calculated Cost </description>
-			</attribute>
+			</attributeReference>
 
-			<attribute name="calculatedCostSharing">
+            <attributeReference name="calculatedCostSharing" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Calculated Cost Sharing </label>
 			<shortLabel>Calculated Cost Sharing </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Calculated Cost Sharing </summary>
 			<description>Calculated Cost Sharing </description>
-			</attribute>
+			</attributeReference>
 
 		</attributes>
     </businessObject>
