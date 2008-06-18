@@ -54,7 +54,6 @@ function unselectAllGGForms(document) {
 	  }
 	}
 }
-
 function selectAllKeywords(document) {
     var j = 0;
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
@@ -510,15 +509,15 @@ function displayUserRoles(user) {
  */
 function displayAssignedRoles(users, elementId, role) {
     if (role != "unassigned") {
-	    var usernames = new Array();
-		for (var i = 0; i < users.length; i++) {
-		    if (users[i].hasRole(role)) {
-		        usernames[usernames.length] = users[i].getName();
-		    }
-		}
-		var node = opener.document.getElementById(elementId);
-		node.innerHTML = usernames.join("; ");
+    var usernames = new Array();
+	for (var i = 0; i < users.length; i++) {
+	    if (users[i].hasRole(role)) {
+	        usernames[usernames.length] = users[i].getName();
+	    }
 	}
+	var node = opener.document.getElementById(elementId);
+	node.innerHTML = usernames.join("; ");
+}
 }
 
 /**
@@ -531,7 +530,7 @@ function updateUserRoles(user, roleStates) {
         var state = roleStates[i].getState();
         if (state.toLowerCase() == 'true') {
             user.addRole(roleStates[i].getName());
-        }
+    }
     }
  }
     
@@ -643,6 +642,148 @@ function updateLookupReturn_Callback( data ) {
 				  optionNum+=1;
 			 }
 
+}
+ 
+var oldDisplayValue;
+var displayValue;
+var dataType;
+var hasLookup;
+var lookupArgument;
+var lookupWindow;
+var lookupReturn;
+var fieldPrefix;
+var changedValue;
+var comments;
+
+
+function updateOtherFields(editableColumnNameField, callbackFunction ) {
+	var proposalNumber = DWRUtil.getValue( 'document.proposalNumber' );
+
+	fieldPrefix = findElPrefix( editableColumnNameField.name );
+	oldDisplayValue =  fieldPrefix + ".oldDisplayValue" ;
+	displayValue =  fieldPrefix + ".displayValue" ;
+	dataType =  fieldPrefix + ".editableColumn.dataType" ;
+	hasLookup =  fieldPrefix + ".editableColumn.hasLookup" ;
+	lookupArgument =  fieldPrefix + ".editableColumn.lookupArgument" ;
+	lookupWindow =  fieldPrefix + ".editableColumn.lookupWindow" ;
+	lookupReturn = fieldPrefix + ".editableColumn.lookupReturn" ;
+	changedValue = fieldPrefix + ".changedValue" ;
+	comments = fieldPrefix + ".comments" ;
+
+	var editableColumnNameRef = fieldPrefix + ".editableColumn.columnName" ;
+	document.getElementById(editableColumnNameRef).value = editableColumnNameField.value; 
+	
+	var editableColumnName = editableColumnNameField.value;
+	if (editableColumnName != "") {
+		var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}
+		};
+		ProposalDevelopmentService.populateProposalEditableFieldMetaDataForAjaxCall(proposalNumber, editableColumnName, dwrReply );
+	} else {
+			document.getElementById(oldDisplayValue).value = ""; 
+			document.getElementById(displayValue).value = ""; 
+			document.getElementById(dataType).value = "";
+			document.getElementById(hasLookup).value = "";
+			document.getElementById(lookupArgument).value = "";
+			document.getElementById(lookupWindow).value = "";
+			document.getElementById(lookupReturn).value = "";
+			document.getElementById(changedValue).value = "";
+			document.getElementById(changedValue).style.borderColor = "";
+			
+			document.getElementById(comments).value = "";
+			document.getElementById('calendarDiv').style.display = "none";
+	}
+}
+
+function updateOtherFields_Callback( data ) {
+	var value_array = data.split(",");
+	var counter=0;
+	
+	//reset
+	document.getElementById(oldDisplayValue).value = ""; 
+	document.getElementById(displayValue).value = ""; 
+	document.getElementById(dataType).value = "";
+	document.getElementById(hasLookup).value = "";
+	document.getElementById(lookupArgument).value = "";
+	document.getElementById(lookupWindow).value = "";
+	document.getElementById(lookupReturn).value = "";
+
+	document.getElementById(changedValue).value = "";
+	document.getElementById(changedValue).style.borderColor = "";
+	
+	document.getElementById(comments).value = "";
+	document.getElementById('calendarDiv').style.display = "none";
+	
+	while (counter < value_array.length)
+	{
+		if(counter == 0) {
+			document.getElementById(lookupReturn).value = value_array[counter];
+		}
+		
+		if(counter == 1) {
+			document.getElementById(oldDisplayValue).value = value_array[counter];
+			document.getElementById(displayValue).value = value_array[counter];
+		}
+		
+		if(counter == 2) {
+			document.getElementById(dataType).value = value_array[counter];
+			
+		}
+		
+		if(counter == 3) {
+			document.getElementById(hasLookup).value = value_array[counter];
+		}
+		
+		if(counter == 4) {
+			document.getElementById(lookupArgument).value = value_array[counter];
+		}
+		
+		if(counter == 5) {
+			document.getElementById(lookupWindow).value = value_array[counter]; 
+		}
+		
+		counter+=1;
+	}
+	
+	var prefix = findElPrefix( document.getElementById(displayValue).name );
+	var imageUrl = document.getElementById("imageUrl").value;
+	var tabIndex = document.getElementById("tabIndex").value;
+	var lookupClass = document.getElementById(lookupArgument).value;
+	var lookupReturnValue = document.getElementById(lookupReturn).value;
+	var changedValueFieldName = document.getElementById(changedValue).name;
+	var myDiv = document.getElementById('changedValueExtraBody');
+	var dataTypeValue = document.getElementById(dataType).value;
+	
+	dynamicDivUpdate(lookupClass, lookupReturnValue, changedValueFieldName, dataTypeValue);
+}
+
+function dynamicDivUpdate(lookupClass, lookupReturnValue, changedValueFieldName, dataTypeValue) {
+   	var imageUrl = document.getElementById("imageUrl").value;
+	var tabIndex = document.getElementById("tabIndex").value;
+    var myDiv = document.getElementById('changedValueExtraBody');
+	var innerDivContent = "";
+	
+	if(lookupClass != "" && lookupReturnValue != "" && changedValueFieldName != "") {
+		innerDivContent = "<input type='image' tabindex='' ";
+		innerDivContent = innerDivContent + " name='methodToCall.performLookup.(!!" + lookupClass + "!!).(((" + lookupReturnValue + ":" + changedValueFieldName + "))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorProposalDataOverride' ";
+		innerDivContent = innerDivContent + " src='" + imageUrl + "searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search' title='Search' /> ";
+	} 
+	
+	if(dataTypeValue != "" && (dataTypeValue == 'DATE' || dataTypeValue == 'date')) {
+		Calendar.setup(
+			{
+			  inputField : "newProposalChangedData.changedValue", // ID of the input field
+			  ifFormat : "%m/%d/%Y", // the date format
+			  button : "newProposalChangedData.changedValue_datepicker" // ID of the button
+		    }
+		);
+		document.getElementById('calendarDiv').style.display = "block";
+	}
+	
+	myDiv.innerHTML = innerDivContent;
 }
 
 function enableBudgetStatus(document, index) {

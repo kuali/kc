@@ -38,6 +38,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.DocumentAuditEvent;
@@ -45,9 +46,11 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.service.PessimisticLockService;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.AuditModeAction;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -59,15 +62,21 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
+import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.s2s.service.S2SService;
+import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -236,6 +245,93 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         
         return false;  
+    }
+    
+    /**
+     * Updates an Editable Proposal Field and 
+     * adds it to the Proposal Change History
+     * 
+     * @param mapping the Struct's Action Mapping.
+     * @param form the Proposal Development Form.
+     * @param request the HTTP request.
+     * @param response the HTTP response
+     * @return the next web page to display
+     * @throws Exception
+     */
+    public ActionForward addProposalChangedData(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        KraPersistenceStructureService kraPersistenceStructureService = KraServiceLocator.getService(KraPersistenceStructureService.class);
+
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
+        ProposalChangedData newProposalChangedData = pdForm.getNewProposalChangedData();
+        
+        newProposalChangedData.setProposalNumber(pdDocument.getProposalNumber());
+        newProposalChangedData.setChangeNumber(getNextChangeNumber(boService, newProposalChangedData.getProposalNumber(), newProposalChangedData.getColumnName()));
+        if(StringUtils.isEmpty(newProposalChangedData.getDisplayValue()) && StringUtils.isNotEmpty(newProposalChangedData.getChangedValue())) {
+            newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
+        }
+        
+        if(newProposalChangedData.getEditableColumn() != null) {
+            newProposalChangedData.refreshReferenceObject("editableColumn");
+        }
+
+        if(!newProposalChangedData.getEditableColumn().getHasLookup()) {
+            newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
+        }
+            
+        if(getKualiRuleService().applyRules(new ProposalDataOverrideEvent(pdForm.getProposalDevelopmentDocument(), newProposalChangedData))){
+            boService.save(newProposalChangedData);
+        
+            ProposalOverview proposalWrapper = createProposalWrapper(pdDocument);
+            Map<String, String> columnToAttributesMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
+            String proposalAttributeToPersist = columnToAttributesMap.get(newProposalChangedData.getColumnName());
+            ObjectUtils.setObjectProperty(proposalWrapper, proposalAttributeToPersist, newProposalChangedData.getChangedValue());
+            ObjectUtils.setObjectProperty(pdDocument, proposalAttributeToPersist, newProposalChangedData.getChangedValue());
+            
+            boService.save(proposalWrapper);
+            pdForm.getProposalDevelopmentDocument().setVersionNumber(proposalWrapper.getVersionNumber());
+            
+            pdForm.setNewProposalChangedData(new ProposalChangedData());
+            growProposalChangedHistory(pdDocument, newProposalChangedData);
+        }
+        
+        return mapping.findForward("basic");
+    }
+    
+    private void growProposalChangedHistory(ProposalDevelopmentDocument pdDocument, ProposalChangedData newProposalChangedData) {
+        Map<String, List<ProposalChangedData>> changeHistory = pdDocument.getProposalChangeHistory();
+        if(changeHistory.get(newProposalChangedData.getEditableColumn().getColumnLabel()) == null) {
+            changeHistory.put(newProposalChangedData.getEditableColumn().getColumnLabel(), new ArrayList<ProposalChangedData>());
+        } 
+        
+        changeHistory.get(newProposalChangedData.getEditableColumn().getColumnLabel()).add(newProposalChangedData);
+    }
+    
+    private ProposalOverview createProposalWrapper(ProposalDevelopmentDocument pdDocument) throws Exception {
+        ProposalOverview proposalWrapper = new ProposalOverview();
+        PersistenceStructureService persistentStructureService = KraServiceLocator.getService(PersistenceStructureService.class);
+        List<String> fieldsToUpdate = (List<String>) persistentStructureService.listFieldNames(ProposalOverview.class);
+        Object tempVal;
+        for(String field: fieldsToUpdate) {
+            tempVal = ObjectUtils.getPropertyValue(pdDocument, field);
+            ObjectUtils.setObjectProperty(proposalWrapper, field, (tempVal != null) ? tempVal.toString() : null);
+        }
+        return proposalWrapper;
+    } 
+    
+    private int getNextChangeNumber(BusinessObjectService boService, String proposalNumber, String columnName) {
+        int changeNumber = 0;
+        Map<String, Object> keyMap = new HashMap<String, Object>();
+        keyMap.put("proposalNumber", proposalNumber);
+        keyMap.put("columnName", columnName);
+        List<ProposalChangedData> changedDataList = (List<ProposalChangedData>) boService.findMatchingOrderBy(ProposalChangedData.class, keyMap, "changeNumber", true);
+        if(CollectionUtils.isNotEmpty(changedDataList)) {
+            changeNumber = ((ProposalChangedData) changedDataList.get(changedDataList.size()-1)).getChangeNumber();
+        }
+        
+        return ++changeNumber;
     }
 
     /**

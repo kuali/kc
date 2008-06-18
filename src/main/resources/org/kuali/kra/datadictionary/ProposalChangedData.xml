@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData">
+
+        <inquiry>
+            <title>Prop Changed Data</title>
+
+            <inquirySections><inquirySection title="Prop Changed Data"><inquiryFields>
+            	<field attributeName="changeNumber" forceInquiry="true"/>
+				<field attributeName="columnName" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="changedValue"/>
+				<field attributeName="comments"/>
+				<field attributeName="displayValue"/>
+				<field attributeName="oldDisplayValue"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Prop Changed Data Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Prop Changed Data</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                	<sortAttribute attributeName="changeNumber"/>
+					<sortAttribute attributeName="columnName"/>
+					<sortAttribute attributeName="proposalNumber"/>
+
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="changeNumber" required="false"/>
+				<lookupField attributeName="columnName" required="false"/>
+				<lookupField attributeName="proposalNumber" required="false"/>
+				<lookupField attributeName="changedValue" required="false"/>
+				<lookupField attributeName="comments" required="false"/>
+				<lookupField attributeName="displayValue" required="false"/>
+				<lookupField attributeName="oldDisplayValue" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="changeNumber" forceInquiry="true"/>
+				<field attributeName="columnName" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="changedValue" forceInquiry="false"/>
+				<field attributeName="comments" forceInquiry="false"/>
+				<field attributeName="displayValue" forceInquiry="false"/>
+				<field attributeName="oldDisplayValue" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        <!-- <titleAttribute>changeNumber</titleAttribute>
+		<titleAttribute>columnName</titleAttribute> -->
+		<titleAttribute>proposalNumber</titleAttribute>
+        <attributes>
+
+	        <attribute name="changeNumber">
+			<label>Change Number </label>
+			<shortLabel>Change Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Change Number </summary>
+			<description>Change Number </description>
+			</attribute>
+
+			<attribute name="columnName">
+			<label>Field To Edit</label>
+			<shortLabel>Field</shortLabel>
+			<maxLength>30</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+                    <select valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalEditableColumnsValuesFinder" script="updateOtherFields(this, updateOtherFields_Callback)" />
+			</control>
+			<summary>Field</summary>
+			<description>Field</description>
+			</attribute>
+
+			<attribute name="proposalNumber">
+			<label>Proposal Number </label>
+			<shortLabel>Proposal Number </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<hidden />
+			</control>
+			<summary>Proposal Number </summary>
+			<description>Proposal Number </description>
+			</attribute>
+
+
+			<attribute name="changedValue">
+			<label>Changed Value </label>
+			<shortLabel>Changed Value </shortLabel>
+			<maxLength>200</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<text size="10" />
+			</control>
+			<summary>Changed Value </summary>
+			<description>Changed Value </description>
+			</attribute>
+
+			<attribute name="comments">
+			<label>Comments </label>
+			<shortLabel>Comments </shortLabel>
+			<maxLength>300</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<text size="50" />
+			</control>
+			<summary>Comments </summary>
+			<description>Comments </description>
+			</attribute>
+
+			<attribute name="displayValue">
+			<label>Display Value </label>
+			<shortLabel>Display Value </shortLabel>
+			<maxLength>200</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Display Value </summary>
+			<description>Display Value </description>
+			</attribute>
+
+			<attribute name="oldDisplayValue">
+			<label>Old Display Value </label>
+			<shortLabel>Old Display Value </shortLabel>
+			<maxLength>200</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<text size="30" />
+			</control>
+			<summary>Old Display Value </summary>
+			<description>Old Display Value </description>
+			</attribute>
+
+            <attributeReference name="updateUser" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="updateUser" >
+				<label>Changed By</label>
+				<shortLabel>Changed By</shortLabel>
+				<summary>User who changes the field</summary>
+				<description>User who changes the field</description>
+			</attributeReference>
+			
+			<attributeReference name="updateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+				<label>Changed Date</label>
+				<shortLabel>Changed Date</shortLabel>
+				<summary>Date when field gets updated</summary>
+				<description>Date when field gets updated</description>
+			</attributeReference>
+
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>

@@ -23,7 +23,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
@@ -53,6 +56,7 @@ import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
+import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
@@ -144,7 +148,10 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private List<S2sSubmissionHistory> s2sSubmissionHistory;
     private boolean nih=false;
     HashMap<String, String> nihDescription ;
-
+    
+    private List<ProposalChangedData> proposalChangedDataList;
+    private Map<String, List<ProposalChangedData>> proposalChangeHistory;
+    
     @SuppressWarnings("unchecked")
     public ProposalDevelopmentDocument() {
         super();
@@ -165,6 +172,9 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         s2sOppForms = new ArrayList<S2sOppForms>();
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
         s2sSubmissionHistory = new ArrayList<S2sSubmissionHistory>();
+        proposalChangedDataList = new TypedArrayList(ProposalChangedData.class);
+        proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
+        
     }
 
     public void initialize() {
@@ -1236,6 +1246,18 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
         KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this);
+        
+        proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
+        //Arranging Proposal Change History
+        if(CollectionUtils.isNotEmpty(this.getProposalChangedDataList())) {
+            for(ProposalChangedData proposalChangedData : this.getProposalChangedDataList()) {
+                if(this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()) == null) {
+                    this.getProposalChangeHistory().put(proposalChangedData.getEditableColumn().getColumnLabel(), new ArrayList<ProposalChangedData>());
+                } 
+                
+                this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()).add(proposalChangedData);
+            }
+        }
     }
     
     public ProposalPerson getProposalEmployee(String personId) {
@@ -1432,6 +1454,21 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         s2sSubmissionHistory = submissionHistory;
     }
 
-   
+    public List<ProposalChangedData> getProposalChangedDataList() {
+        return proposalChangedDataList;
+    }
+
+    public void setProposalChangedDataList(List<ProposalChangedData> proposalChangedDataList) {
+        this.proposalChangedDataList = proposalChangedDataList;
+    }
+
+    public Map<String, List<ProposalChangedData>> getProposalChangeHistory() {
+        return proposalChangeHistory;
+    }
+
+    public void setProposalChangeHistory(Map<String, List<ProposalChangedData>> proposalChangeHistory) {
+        this.proposalChangeHistory = proposalChangeHistory;
+    }
+  
     
 }

@@ -34,7 +34,12 @@ showDocumentInfo="true"
 <kra:section permission="printProposal">
    <kra-pd:proposalDevelopmentPrintForms /> 
 </kra:section>
-<kra-pd:proposalDevelopmentCopy /> 
+<kra-pd:proposalDevelopmentCopy />
+
+<c:if test="${KualiForm.workflowDocument.routeHeader.docRouteStatus == 'R'}">
+	<kra-pd:proposalDataOverride />
+</c:if>
+
 <kul:routeLog /> 
 <kra-pd:adHocRecipients /> 
 <kul:panelFooter />
@@ -57,5 +62,8 @@ transactionalDocument="true"
 </p>
 
 <script language="javascript" src="scripts/kuali_application.js"></script>
-
+<SCRIPT type="text/javascript">
+var kualiForm = document.forms['KualiForm'];
+var kualiElements = kualiForm.elements;
+</SCRIPT>
 </kul:documentPage>
