@@ -145,7 +145,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         } else {
             if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.MODIFY_PROPOSAL)) {
                 if (isRouted(proposalDoc)) {
-                    editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+                    editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
                     setPermissions(username, proposalDoc, editModeMap);
                 }
                 else {
