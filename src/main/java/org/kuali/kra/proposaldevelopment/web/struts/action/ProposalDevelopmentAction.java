@@ -193,14 +193,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         form.setAdditionalDocInfo1(sponsorName);
     }
 
-    protected String findNIHRoleDescription(ProposalPersonRole role) {
-        return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-            PARAMETER_COMPONENT_DOCUMENT, 
-            PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
-            + "nonnih."
-            + role.getProposalPersonRoleId().toLowerCase());    
-}
-    /**
+   /**
      * Do nothing.  Used when the Proposal is in view-only mode.  Instead of saving
      * the proposal when the tab changes, we simply do nothing.
      * 

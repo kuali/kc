@@ -575,7 +575,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
        final HtmlPage page2 = lookup(webClient, keyPersonnelPage, form1, "methodToCall.performLookup.(!!org.kuali.kra.bo.Person!!).(((personId:newPersonId)))", "000000001",
                 "proposalDevelopmentKeyPersonnel.do?refreshCaller=kualiLookupable", "personId");
         final HtmlForm form2 = (HtmlForm) page2.getForms().get(0);
-        setFieldValue(form2, SELECTED_INPUT, "newProposalPerson.proposalPersonRoleId", "KP",4);
+        setFieldValue(form2, SELECTED_INPUT, "newProposalPerson.proposalPersonRoleId", "COI",4);
         final HtmlPage page3 = clickButton(page2, form2, "methodToCall.insertProposalPerson", IMAGE_INPUT);
         final HtmlForm form3 = (HtmlForm) page3.getForms().get(0);
 
@@ -583,7 +583,7 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
         final HtmlPage page4 = lookup(webClient, page3, form3, "methodToCall.performLookup.(!!org.kuali.kra.bo.Person!!).(((personId:newPersonId)))", "000000003",
                 "proposalDevelopmentKeyPersonnel.do?refreshCaller=kualiLookupable", "personId");
         final HtmlForm form4 = (HtmlForm) page4.getForms().get(0);
-        setFieldValue(form4, SELECTED_INPUT, "newProposalPerson.proposalPersonRoleId", "KP",4);
+        setFieldValue(form4, SELECTED_INPUT, "newProposalPerson.proposalPersonRoleId", "COI",4);
         return clickButton(page4, form4, "methodToCall.insertProposalPerson", IMAGE_INPUT);
 
     }
