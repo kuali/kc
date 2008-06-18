@@ -19,11 +19,15 @@ import static java.util.Collections.sort;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
@@ -32,6 +36,9 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.AuditCluster;
 import org.kuali.core.util.AuditError;
 import org.kuali.core.util.GlobalVariables;
+
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.bo.ExemptionType;
@@ -46,19 +53,24 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder;
 import org.kuali.kra.lookup.keyvalue.KeyLabelPairComparator;
+import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 import org.kuali.kra.proposaldevelopment.bo.ProposalExemptNumber;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
+import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.rice.KNSServiceLocator;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
     private BusinessObjectService businessObjectService;
     private UnitAuthorizationService unitAuthService;
-
+    private KraPersistenceStructureService kraPersistenceStructureService;
+    
     /**
      * This method...
      * 
@@ -186,7 +198,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         return valid;
     }
-
+    
     /**
      * 
      * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#validateBudgetAuditRuleBeforeSaveBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
@@ -299,6 +311,121 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             proposalSpecialReview.setProposalExemptNumbers(newProposalExemptNumbers);
         }
 
+    }
+
+    public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn) {
+        return populateProposalEditableFieldMetaData(proposalNumber, editableFieldDBColumn);
+    }
+    
+    private ProposalOverview getProposalOverview(String proposalNumber) {
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put("proposalNumber", proposalNumber);
+        ProposalOverview currentProposal = (ProposalOverview) businessObjectService.findByPrimaryKey(ProposalOverview.class, primaryKeys);
+        return currentProposal;
+    }
+
+    private String getLookupDisplayValue(String lookupClassName, String value) {
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        List<String> lookupClassPkFields = null;
+        Class lookupClass = null;
+        String displayValue = "";
+        String returnValue = "";
+        
+        if(StringUtils.isNotEmpty(lookupClassName)) {
+            try {
+                lookupClass = Class.forName(lookupClassName);
+                lookupClassPkFields = (List<String>) kraPersistenceStructureService.getPrimaryKeys(lookupClass);
+            }
+            catch (ClassNotFoundException e) {}
+            
+            if(CollectionUtils.isNotEmpty(lookupClassPkFields)){
+                returnValue = lookupClassPkFields.get(0);
+                primaryKeys.put(lookupClassPkFields.get(0), value);
+                PersistableBusinessObject businessObject = (PersistableBusinessObject) businessObjectService.findByPrimaryKey(lookupClass, primaryKeys);
+                displayValue = getPropertyValue(businessObject, "description");
+                if(StringUtils.isEmpty(displayValue)) {  
+                    List<String> fields = kraPersistenceStructureService.listFieldNames(lookupClass);
+                    for(String fieldName : fields) {
+                        if(fieldName.toLowerCase().contains("name")) {
+                            displayValue = getPropertyValue(businessObject, fieldName);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return returnValue + "," + displayValue;
+    }
+    
+    private String getPropertyValue(BusinessObject businessObject, String fieldName) {
+        String displayValue = "";
+        try {
+            displayValue = (String) ObjectUtils.getPropertyValue(businessObject, fieldName);
+        }
+        //Might happen due to Unknown Property Exception 
+        catch (RuntimeException e) { }
+        return displayValue;  
+    }
+    
+    public Object getProposalFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) {
+        Object fieldValue = null;
+        Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
+        String proposalAttributeName = fieldMap.get(dbColumnName);
+        if(StringUtils.isNotEmpty(proposalAttributeName)) {
+            ProposalOverview currentProposal =  getProposalOverview(proposalNumber);
+            if(currentProposal != null) {
+                fieldValue = ObjectUtils.getPropertyValue(currentProposal, proposalAttributeName);
+            }
+        }
+        return fieldValue;
+    }
+    
+    private String populateProposalEditableFieldMetaData(String proposalNumber, String editableFieldDBColumn) { 
+        String returnValue = "";
+        //Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
+        //String proposalAttributeName = fieldMap.get(editableFieldDBColumn);
+        
+        if(GlobalVariables.getErrorMap() != null) {
+            GlobalVariables.getErrorMap().clear();
+        }
+        
+//        if(StringUtils.isNotEmpty(proposalAttributeName)) {
+//            ProposalOverview currentProposal =  getProposalOverview(proposalNumber);
+//            if(currentProposal != null) {
+//                Object fieldValue = ObjectUtils.getPropertyValue(currentProposal, proposalAttributeName);
+                
+                Object fieldValue = getProposalFieldValueFromDBColumnName(proposalNumber, editableFieldDBColumn);
+                Map<String, Object> primaryKeys = new HashMap<String, Object>();
+                primaryKeys.put("columnName", editableFieldDBColumn);
+                ProposalColumnsToAlter editableColumn = (ProposalColumnsToAlter) businessObjectService.findByPrimaryKey(ProposalColumnsToAlter.class, primaryKeys);
+                
+                if(fieldValue != null && editableColumn.getHasLookup()) {
+                     returnValue = getLookupDisplayValue(editableColumn.getLookupArgument(), fieldValue.toString());
+                } else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")){
+                    returnValue = "," + KNSServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
+                } else if (fieldValue != null) {
+                    returnValue = "," + fieldValue.toString();
+                } else {
+                    returnValue = ",,";
+                }
+        
+                returnValue+=","+editableColumn.getDataType();
+                returnValue+=","+editableColumn.getHasLookup();
+                returnValue+=","+editableColumn.getLookupArgument();
+                returnValue+=","+editableColumn.getLookupWindow();
+//            }
+//        }
+        
+        return returnValue; 
+    }
+
+    public KraPersistenceStructureService getKraPersistenceStructureService() {
+        return kraPersistenceStructureService;
+    }
+
+    public void setKraPersistenceStructureService(KraPersistenceStructureService kraPersistenceStructureService) {
+        this.kraPersistenceStructureService = kraPersistenceStructureService;
     }
 
 }
