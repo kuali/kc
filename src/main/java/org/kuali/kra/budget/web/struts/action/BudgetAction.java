@@ -119,6 +119,7 @@ public class BudgetAction extends ProposalActionBase {
             } else {
                 budgetForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.budgetName", Constants.EMPTY_STRING));
             } 
+            budgetDocument.setRateClassTypesReloaded(false);
         }
         
         return actionForward;
