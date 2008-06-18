@@ -175,14 +175,10 @@
 			<description>Appointment Type </description>
 			</attribute>
 
-			<attributeReference name="calculationBase" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+			<attributeReference name="calculationBase" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Base Salary</label>
 			<shortLabel>Base Salary</shortLabel>
-			<maxLength>12</maxLength>
 			<required>true</required>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Base Salary </summary>
 			<description>Calculation Base </description>			
 			</attributeReference>

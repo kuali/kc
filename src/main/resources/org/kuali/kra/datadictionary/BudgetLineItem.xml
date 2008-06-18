@@ -223,17 +223,12 @@
 			<description>Object Code Name </description>
 			</attribute>
 
-			<attribute name="costSharingAmount">
+            <attributeReference name="costSharingAmount" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Cost Sharing </label>
 			<shortLabel>Cost Sharing </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Cost Sharing </summary>
 			<description>Cost Sharing </description>
-			</attribute>
+			</attributeReference>
 
             <attributeReference name="endDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
                 <label>End Date</label>
@@ -243,18 +238,12 @@
                 <description>End Date.</description>
       		</attributeReference>
 
-			<attribute name="lineItemCost">
+            <attributeReference name="lineItemCost" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Total Base Cost </label>
 			<shortLabel>Total Base Cost </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
-			<required>true</required>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Total Base Cost </summary>
 			<description>Total Base Cost </description>
-			</attribute>
+			</attributeReference>
 
 			<attribute name="lineItemDescription">
 			<label>Description </label>
