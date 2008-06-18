@@ -187,6 +187,28 @@
 				<description>Budget Name for header display.</description>
 			</attribute>
 			
+			
+			<attribute name="genericAmount" forceUppercase="false">
+                <label>Amount</label>
+                <shortLabel>Amt</shortLabel>
+
+                <maxLength>17</maxLength>
+
+                <validationPattern>
+                    <fixedPoint allowNegative="true" precision="12" scale="2" />
+                </validationPattern>
+
+                <control>
+                    <currency size="16" formattedMaxLength="22" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This attribute should always be overriden on the descriptive elements.</description>
+            </attribute>
+			
+			
         </attributes>
         
     </businessObject>
