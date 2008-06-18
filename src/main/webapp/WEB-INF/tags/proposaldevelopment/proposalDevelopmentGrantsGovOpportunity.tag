@@ -5,7 +5,7 @@
 <c:set var="textAreaFieldName" value="document.opportunityTitle" />
 <c:set var="action" value="proposalDevelopmentProposal" />
 
-<kul:innerTab parentTab="Opportunity Search" defaultOpen="false" tabTitle="Opportunity" tabErrorKey="document.s2sOpportunity.opportunityId,document.s2sOpportunity.opportunityTitle,document.s2sOpportunity.s2sSubmissionTypeCode,document.s2sOpportunity.revisionCode,document.s2sOpportunity.cfdaNumber,document.s2sOpportunity.competetionId,document.s2sOpportunity.openingDate,document.s2sOpportunity.closingDate,document.s2sOpportunity.instructionUrl,document.s2sOpportunity.schemaUrl,document.s2sOpportunity.revisionOtherDescription,noField" auditCluster="grantsGovAuditWarnings,grantsGovAuditErrors" tabAuditKey="document.s2sOpportunity.s2sSubmissionTypeCode">
+<kul:innerTab parentTab="Opportunity Search" defaultOpen="false" tabTitle="Opportunity" tabErrorKey="document.s2sOpportunity.opportunityId,document.s2sOpportunity.opportunityTitle,document.s2sOpportunity.s2sSubmissionTypeCode,document.s2sOpportunity.revisionCode,document.s2sOpportunity.cfdaNumber,document.s2sOpportunity.competetionId,document.s2sOpportunity.openingDate,document.s2sOpportunity.closingDate,document.s2sOpportunity.instructionUrl,document.s2sOpportunity.schemaUrl,document.s2sOpportunity.revisionOtherDescription,noField" auditCluster="grantsGovAuditWarnings,grantsGovAuditErrors" tabAuditKey="document.s2sOpportunity.s2sSubmissionTypeCode,document.s2sOpportunity.revisionCode">
     <div class="innerTab-container" align="left">
         <table cellpadding=0 cellspacing=0 summary="">
         <tr>
