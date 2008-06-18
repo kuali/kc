@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.service.BusinessObjectService;
@@ -42,8 +43,11 @@ import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetRatesService;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public class BudgetRatesServiceImpl implements BudgetRatesService {
@@ -149,7 +153,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
      * 
      * */
     public void checkActivityPrefixForRateClassTypes(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument) {
-        String activityTypeDescription = budgetDocument.getProposal().getActivityType().getDescription().concat(SPACE);
+        //String activityTypeDescription = budgetDocument.getProposal().getActivityType().getDescription().concat(SPACE);
+        String activityTypeDescription = getActivityTypeDescription(budgetDocument);
         List<BudgetProposalRate> budgetProposalRates = budgetDocument.getBudgetProposalRates();
         List<BudgetProposalLaRate> budgetProposalLaRates = budgetDocument.getBudgetProposalLaRates();
         for(RateClassType rateClassType : rateClassTypes) {
@@ -171,6 +176,31 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
                         BPLRateClassType.setDescription(newRateClassTypeDescription);
                     }
                 }
+            }
+        }
+    }
+    
+    private String getActivityTypeDescription(BudgetDocument budgetDocument) {
+        if (!KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(budgetDocument.getProposal(), budgetDocument.getBudgetVersionNumber().toString())) {
+            return budgetDocument.getProposal().getActivityType().getDescription().concat(SPACE);
+        } else {
+            ProposalDevelopmentDocument pdDoc = budgetDocument.getProposal();
+            String activityTypeCode=null;
+            if (CollectionUtils.isNotEmpty(budgetDocument.getBudgetProposalRates())) {
+                activityTypeCode = ((BudgetProposalRate)budgetDocument.getBudgetProposalRates().get(0)).getActivityTypeCode();
+            }
+
+            if (activityTypeCode != null) {
+                Map pkMap = new HashMap();
+                pkMap.put("activityTypeCode",activityTypeCode);
+                ActivityType activityType = (ActivityType)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(ActivityType.class, pkMap);
+                if (activityType == null) {
+                    return "";
+                } else {
+                    return activityType.getDescription().concat(SPACE);
+                }
+            } else {
+                return "";
             }
         }
     }
