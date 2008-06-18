@@ -209,29 +209,20 @@
 			<description>Budget Justification </description>
 			</attribute>
 
-			<attribute name="costSharingAmount">
+            <attributeReference name="costSharingAmount" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Cost Sharing Amount </label>
 			<shortLabel>Cost Sharing Amount </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Cost Sharing Amount </summary>
 			<description>Cost Sharing Amount </description>
-			</attribute>
+			</attributeReference>
 
-			<attribute name="costSharingPercent">
+			<!-- can we use generic rate for percent too precision 5.2 ?? -->
+            <attributeReference name="costSharingPercent" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericRate">
 			<label>Cost Sharing Percent </label>
 			<shortLabel>Cost Sharing Percent </shortLabel>
-			<maxLength>5</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="5" />
-			</control>
 			<summary>Cost Sharing Percent </summary>
 			<description>Cost Sharing Percent </description>
-			</attribute>
+			</attributeReference>
 
             <attributeReference name="endDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
                 <label>End Date</label>
@@ -336,17 +327,12 @@
 			<description>Person Id </description>
 			</attribute>
 
-			<attribute name="salaryRequested">
+            <attributeReference name="salaryRequested" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Calculated Salary</label>
 			<shortLabel>Calculated Salary</shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Calculated Salary</summary>
 			<description>Calculated Salary</description>
-			</attribute>
+			</attributeReference>
 
 			<attribute name="sequenceNumber">
 			<label>Sequence Number </label>
@@ -368,17 +354,12 @@
                 <description>Start Date.</description>
       		</attributeReference>
 
-			<attribute name="underrecoveryAmount">
+            <attributeReference name="underrecoveryAmount" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Underrecovery Amount </label>
 			<shortLabel>Underrecovery Amount </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><numeric /></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Underrecovery Amount </summary>
 			<description>Underrecovery Amount </description>
-			</attribute>
+			</attributeReference>
 
 		</attributes>
 
