@@ -92,4 +92,7 @@ public interface ProposalDevelopmentService {
      */
     public void populateProposalExempNumbers(ProposalDevelopmentForm proposalDevelopmentForm);
 
+    public String populateProposalEditableFieldMetaDataForAjaxCall(String proposalNumber, String editableFieldDBColumn);
+    
+    public Object getProposalFieldValueFromDBColumnName(String proposalNumber, String dbColumnName) ;
 }

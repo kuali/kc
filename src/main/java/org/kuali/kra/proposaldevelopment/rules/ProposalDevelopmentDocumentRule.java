@@ -54,6 +54,7 @@ import org.kuali.kra.proposaldevelopment.rule.ChangeKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.CopyProposalRule;
 import org.kuali.kra.proposaldevelopment.rule.NewNarrativeUserRightsRule;
 import org.kuali.kra.proposaldevelopment.rule.PermissionsRule;
+import org.kuali.kra.proposaldevelopment.rule.ProposalDataOverrideRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveKeyPersonRule;
 import org.kuali.kra.proposaldevelopment.rule.SaveNarrativesRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddInstituteAttachmentEvent;
@@ -62,6 +63,7 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddPersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalLocationEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
+import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveNarrativesEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SavePersonnelAttachmentEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
@@ -79,7 +81,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * @see org.kuali.proposaldevelopment.rules.ProposalDevelopmentKeyPersonsRule
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalLocationRule,AddProposalSpecialReviewRule , AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule  {
+public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, AddNarrativeRule,SaveNarrativesRule, AddInstituteAttachmentRule, AddPersonnelAttachmentRule, AddProposalLocationRule,AddProposalSpecialReviewRule , AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, PermissionsRule, CustomAttributeRule, NewNarrativeUserRightsRule, SaveKeyPersonRule,CalculateCreditSplitRule, ProposalDataOverrideRule  {
     
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -601,6 +603,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     public boolean processCalculateCreditSplitBusinessRules(ProposalDevelopmentDocument document) {
         // TODO Auto-generated method stub
         return new ProposalDevelopmentKeyPersonsRule().processCalculateCreditSplitBusinessRules(document);
+    }
+
+    public boolean processProposalDataOverrideRules(ProposalDataOverrideEvent proposalDataOverrideEvent) {
+        return new ProposalDevelopmentDataOverrideRule().processProposalDataOverrideRules(proposalDataOverrideEvent);
     }
 
 }

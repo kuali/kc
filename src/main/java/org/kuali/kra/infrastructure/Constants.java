@@ -187,6 +187,7 @@ public interface Constants {
     public static final String GRANTS_GOV_GENERIC_ERROR_KEY= "error.grantsgov.schemavalidation.generic.errorkey";
     public static final String GRANTS_GOV_SUBMISSION_SUCCESSFUL_MESSAGE = "message.grantsGov.submission.successful";
     
+    
     // custom attribute
     public static final String CUSTOM_ATTRIBUTE_ID = "customAttributeId";
     public static final String DOCUMENT_NEWMAINTAINABLEOBJECT_ACTIVE = "document.newMaintainableObject.active";
@@ -233,5 +234,11 @@ public interface Constants {
     // Modular Budget
     public static final String PARAMETER_FNA_COST_ELEMENTS = "consortiumFnaCostElements";
     public static final String PARAMETER_FNA_RATE_CLASS_TYPE = "fnaRateClassTypeCode";
+    
+    public static final String PROPOSALDATA_OVERRIDE_PROPERTY_KEY = "newProposalChangedData";
+    public static final String PROPOSALDATA_CHANGED_VAL_KEY = "newProposalChangedData.changedValue";
+    public static final String PROPOSALDATA_DISPLAY_VAL_KEY = "newProposalChangedData.displayValue";
+    public static final String PROPOSALDATA_CURRENT_DISPLAY_KEY = "newProposalChangedData.oldDisplayValue";
+    public static final String PROPOSALDATA_COMMENTS_KEY = "newProposalChangedData.comments";
     
 }

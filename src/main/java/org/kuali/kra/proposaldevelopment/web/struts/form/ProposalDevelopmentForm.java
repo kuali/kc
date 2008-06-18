@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,6 +60,7 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAssignedRole;
+import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -125,7 +127,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private List<String[]> documentExemptNumbers;
     private String optInUnitDetails;
     private String optInCertificationStatus;
-    
+    private ProposalChangedData newProposalChangedData;
+
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
@@ -152,6 +155,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         this.setHeaderNavigationTabs((dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName())).getHeaderTabNavigation());
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
         newProposalPersonRoleRendered = false;
+        setNewProposalChangedData(new ProposalChangedData());
     }
 
     /**
@@ -199,6 +203,12 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         }
     }
 
+    private void populateCurrentProposalColumnValues() {
+        DataDictionaryService dataDictionaryService = (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
+        Set<String> attributeNames = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getAttributes().keySet();
+
+    }
+    
     public ProposalLocation getNewPropLocation() {
         return newPropLocation;
     }
@@ -628,15 +638,15 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public List<ProposalAssignedRole> getProposalAssignedRoles() {
         List<ProposalAssignedRole> assignedRoles = new ArrayList<ProposalAssignedRole>();
-        
+    
         Collection<KimRole> roles = getKimProposalRoles();
         for (KimRole role : roles) {
             if (!role.isUnassigned()) {
                 ProposalAssignedRole assignedRole = 
                     new ProposalAssignedRole(role.getName(), getUsersInRole(role.getName()));
                 assignedRoles.add(assignedRole);
-            }
-        }
+    }
+    }
         return assignedRoles;
     }
     
@@ -668,7 +678,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         return names;
     }
     
-    /** 
+    /**
      * Gets the new proposal user.  This is the proposal user that is filled
      * in by the user on the form before pressing the add button.
      *
@@ -1013,7 +1023,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         
         return extraButtons;
     }
-    
+        
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
@@ -1127,4 +1137,14 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void setOptInCertificationStatus(String optInCertificationStatus) {
         this.optInCertificationStatus = optInCertificationStatus;
     }
+
+    public ProposalChangedData getNewProposalChangedData() {
+        return newProposalChangedData;
+    }
+
+    public void setNewProposalChangedData(ProposalChangedData newProposalChangedData) {
+        this.newProposalChangedData = newProposalChangedData;
+    }
+
+    
 }
