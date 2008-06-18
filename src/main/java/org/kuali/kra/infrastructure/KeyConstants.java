@@ -205,6 +205,9 @@ public class KeyConstants {
     public static final String ERROR_DELETE_LINE_ITEM = "error.delete.lineitem";
     public static final String ERROR_INSERT_BUDGET_PERIOD = "error.insert.budget.period";
     public static final String ERROR_APPLY_TO_LATER_PERIODS = "error.applyTo.later.periods";
-    
+
     public static final String PROPOSAL_DATA_OVERRIDE_SAME_VALUE = "error.proposalData.override.samevalue";
+    public static final String ERROR_LINE_ITEM_DATES = "error.line.item.dates";
+    
+
 }
