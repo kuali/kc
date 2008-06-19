@@ -198,7 +198,7 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
         
         setFieldValue(page2,"document.s2sOpportunity.s2sSubmissionTypeCode","1");
-        setFieldValue(page2,"document.s2sOpportunity.revisionCode","5");
+        setFieldValue(page2,"document.s2sOpportunity.revisionCode","E");
         HtmlPage page3 = clickOn(page2, "methodToCall.save", "Kuali :: Proposal Development Document");
         
         assertContains(page3,"If Revision Type is Other, the Description must be present for it");                
@@ -229,7 +229,7 @@ public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
         assertContains(page2,VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2);
         
         setFieldValue(page2,"document.s2sOpportunity.s2sSubmissionTypeCode","1");
-        setFieldValue(page2,"document.s2sOpportunity.revisionCode","5");
+        setFieldValue(page2,"document.s2sOpportunity.revisionCode","E");
         setFieldValue(page2,"document.s2sOpportunity.revisionOtherDescription","RevisionType Is Other");
         clickOn(page2, "methodToCall.save", "Kuali :: Proposal Development Document");
         
