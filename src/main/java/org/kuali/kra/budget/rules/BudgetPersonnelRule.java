@@ -92,9 +92,12 @@ public class BudgetPersonnelRule {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         int i = 0;
         for (BudgetPerson budgetPerson : budgetDocument.getBudgetPersons()) {
-            if (budgetPerson.getCalculationBase() == null || budgetPerson.getCalculationBase().isNegative()) {
-                errorMap.putError("document.budgetPerson["+i+"].calculationBase", RiceKeyConstants.ERROR_INVALID_FORMAT, new String[] { "Base Salary", budgetPerson.getCalculationBase()!=null ? budgetPerson.getCalculationBase().toString() : null });
+            if (budgetPerson.getCalculationBase() == null) {
+                errorMap.putError("document.budgetPerson["+i+"].calculationBase", RiceKeyConstants.ERROR_REQUIRED, new String[] { "Base Salary"});
                     valid = false;
+            } else if (budgetPerson.getCalculationBase().isNegative()) {
+                errorMap.putError("document.budgetPerson["+i+"].calculationBase", KeyConstants.ERROR_NEGATIVE_AMOUNT, new String[] { "Base Salary"});
+                valid = false;
             }
             i++;
         }
