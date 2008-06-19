@@ -14,6 +14,7 @@ public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
 	private String lookupArgument;
 	private String lookupWindow;
 	private String lookupReturn;
+	private String lookupDisplayAttrName;
 	
 	public ProposalColumnsToAlter(){
 		super();
@@ -82,18 +83,26 @@ public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
     public void setLookupReturn(String lookupReturn) {
         this.lookupReturn = lookupReturn;
     }
-    
-	@Override 
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap hashMap = new LinkedHashMap();
-		hashMap.put("columnName", getColumnName());
-		hashMap.put("columnLabel", getColumnLabel());
-		hashMap.put("dataLength", getDataLength());
-		hashMap.put("dataType", getDataType());
-		hashMap.put("hasLookup", getHasLookup());
-		hashMap.put("lookupArgument", getLookupArgument());
-		hashMap.put("lookupWindow", getLookupWindow());
-		return hashMap;
-	}
+
+    public String getLookupDisplayAttrName() {
+        return lookupDisplayAttrName;
+    }
+
+    public void setLookupDisplayAttrName(String lookupDisplayAttrName) {
+        this.lookupDisplayAttrName = lookupDisplayAttrName;
+    }
+
+    @Override 
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap hashMap = new LinkedHashMap();
+        hashMap.put("columnName", getColumnName());
+        hashMap.put("columnLabel", getColumnLabel());
+        hashMap.put("dataLength", getDataLength());
+        hashMap.put("dataType", getDataType());
+        hashMap.put("hasLookup", getHasLookup());
+        hashMap.put("lookupArgument", getLookupArgument());
+        hashMap.put("lookupWindow", getLookupWindow());
+        return hashMap;
+    }
 
 }

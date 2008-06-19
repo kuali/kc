@@ -61,9 +61,20 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) proposalDataOverrideEvent.getDocument();
         ProposalChangedData proposalOverriddenData = proposalDataOverrideEvent.getProposalChangedData();
         boolean valid = true;
+        DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
         
         if(proposalOverriddenData != null && StringUtils.isNotEmpty(proposalOverriddenData.getChangedValue())) {
-            valid &= validateAttributeFormat(proposalOverriddenData);
+            valid &= validateAttributeFormat(proposalOverriddenData, dataDictionaryService);
+        }
+        
+        if(proposalOverriddenData != null && StringUtils.isNotEmpty(proposalOverriddenData.getComments())) {
+            int commentsMaxLength = dataDictionaryService.getAttributeMaxLength(ProposalChangedData.class, "comments");
+            String commentsLabel = dataDictionaryService.getAttributeLabel(ProposalChangedData.class, "comments");
+            if (commentsMaxLength < proposalOverriddenData.getComments().length()) {
+                GlobalVariables.getErrorMap().putError(Constants.PROPOSALDATA_COMMENTS_KEY, RiceKeyConstants.ERROR_MAX_LENGTH,
+                        new String[] { commentsLabel, commentsMaxLength+""});
+                return false;
+            }
         }
         
         return valid;
@@ -76,8 +87,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
      * @param errorKey
      * @return
      */
-    private boolean validateAttributeFormat(ProposalChangedData proposalOverriddenData) {
-        DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
+    private boolean validateAttributeFormat(ProposalChangedData proposalOverriddenData, DataDictionaryService dataDictionaryService) {
         ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
         DateTimeService dateTimeService = KNSServiceLocator.getDateTimeService();
         
