@@ -933,8 +933,10 @@
 
                     lookupReadonly      lookupReadonly      boolean String
 
+                    file				file				org.apache.struts.upload.FormFile
+
                 -->
-                <!ELEMENT control (checkbox|hidden|radio|select|apcSelect|text|textarea|currency|kualiUser|lookupHidden|lookupReadonly|workflowWorkgroup)>
+                <!ELEMENT control (checkbox|hidden|radio|select|apcSelect|text|textarea|currency|kualiUser|lookupHidden|lookupReadonly|workflowWorkgroup|file)>
                     <!-- ............  checkbox element  ............
 
                         The checkbox element is used to render an HTML checkbox
@@ -1110,6 +1112,17 @@
                     -->
                     <!ELEMENT workflowWorkgroup EMPTY>
                     <!ATTLIST workflowWorkgroup
+                        size CDATA #REQUIRED
+                    >
+
+					<!-- ............  file element  ............
+                        
+                        The file element defines an HTML file control element.
+
+                        DD: See FileControlDefinition.java
+                    -->
+                    <!ELEMENT file EMPTY>
+ 					<!ATTLIST file
                         size CDATA #REQUIRED
                     >
 
