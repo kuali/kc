@@ -140,7 +140,7 @@ public class BudgetActionsAction extends BudgetAction {
         }catch(Exception ex){
             LOG.warn(ex);
         }
-        return null;
+        return budgetForm.getSelectedBudgetPrintFormId() == null ? mapping.findForward(MAPPING_BASIC) : null;
     }
 
     public void setBudgetJustificationService(BudgetJustificationService budgetJustificationService) {
