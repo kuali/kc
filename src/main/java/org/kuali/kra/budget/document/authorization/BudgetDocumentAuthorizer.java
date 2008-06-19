@@ -69,7 +69,12 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
                 editModeMap.put("modifyBudgets", FALSE);
                 editModeMap.put("viewBudgets", TRUE);
                 entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
-            } 
+            } else if (isBudgetComplete(proposalDoc, budgetDoc)) {
+                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+                editModeMap.put("modifyBudgets", FALSE);
+                editModeMap.put("viewBudgets", TRUE);
+                entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
+            }
             else {
                 editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
                 editModeMap.put("modifyBudgets", TRUE);
@@ -249,6 +254,18 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         } else {
             return KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), user);
         }  
+    }
+    
+    protected boolean isBudgetComplete(ProposalDevelopmentDocument proposalDoc, BudgetDocument budgetDocument) {
+        if (!proposalDoc.isProposalComplete()) {
+            return false;
+        }
+        for (BudgetVersionOverview budgetVersion: proposalDoc.getBudgetVersionOverviews()) {
+            if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetVersionNumber().equals(budgetDocument.getBudgetVersionNumber())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
