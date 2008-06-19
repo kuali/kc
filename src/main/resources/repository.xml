@@ -1505,7 +1505,10 @@
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
-	<!-- 	<collection-descriptor name="BudgetModular" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetModular" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+    	<collection-descriptor name="budgetSubAwards" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
+	 	<!--<collection-descriptor name="BudgetModular" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetModular" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
 		<collection-descriptor name="BudgetPeriods" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPeriods" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
@@ -1513,11 +1516,7 @@
 		</collection-descriptor>
 		<collection-descriptor name="BudgetPersons" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersons" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
-		</collection-descriptor>
-		<collection-descriptor name="BudgetSubAwards" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="proposalNumber"/>
-			<inverse-foreignkey field-ref="versionNumber"/>
-		</collection-descriptor>
+		</collection-descriptor>		
 		<collection-descriptor name="PropCostSharing" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropCostSharing" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
@@ -1654,7 +1653,7 @@
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="organizationName" column="ORGANIZATION_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="subAwardStatusCode" column="SUB_AWARD_STATUS_CODE" jdbc-type="INTEGER"/>
-		<field-descriptor name="subAwardXfdFile" column="SUB_AWARD_XFD_FILE" jdbc-type="BINARY"/>
+		<field-descriptor name="subAwardXfdFileData" column="SUB_AWARD_XFD_FILE" jdbc-type="LONGVARBINARY"/>
 		<field-descriptor name="subAwardXfdFileName" column="SUB_AWARD_XFD_FILE_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="subAwardXmlFile" column="SUB_AWARD_XML_FILE" jdbc-type="CLOB"/>
 		<field-descriptor name="translationComments" column="TRANSLATION_COMMENTS" jdbc-type="VARCHAR"/>
@@ -1683,11 +1682,11 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="BudgetSubAwards" class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<!--  <reference-descriptor name="BudgetSubAwards" class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalNumber"/> 
 			<foreignkey field-ref="subAwardNumber"/> 
 			<foreignkey field-ref="budgetVersionNumber"/> 
-		</reference-descriptor>
+		</reference-descriptor>-->
 	</class-descriptor>    
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetCategory" table="BUDGET_CATEGORY">
 		<field-descriptor name="budgetCategoryCode" column="BUDGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>

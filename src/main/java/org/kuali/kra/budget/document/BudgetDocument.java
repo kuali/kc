@@ -63,6 +63,7 @@ import org.kuali.kra.budget.bo.BudgetProjectIncome;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetRateAndBase;
+import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.bo.CostElement;
 import org.kuali.kra.budget.bo.RateClass;
@@ -145,6 +146,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private String onOffCampusFlag;
     
     private List<BudgetPrintForm> budgetPrintForms;
+    private List<BudgetSubAwards> budgetSubAwards;
     
     public BudgetDocument(){
         super();
@@ -165,6 +167,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         Formatter.registerFormatter(RateDecimal.class, RateDecimalFormatter.class);
         budgetCategoryTypeCodes = new ArrayList<KeyLabelPair>();
         budgetPrintForms = new ArrayList<BudgetPrintForm>();
+        budgetSubAwards = new ArrayList<BudgetSubAwards>();
         setOnOffCampusFlag("D");
     }
 
@@ -565,6 +568,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         managedLists.add(getBudgetPeriods());
         managedLists.add(getBudgetProposalLaRates());
         managedLists.add(getBudgetProposalRates());
+        managedLists.add(getBudgetSubAwards());
         return managedLists;
     }
 
@@ -1466,6 +1470,14 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
 
     public void setRateClassTypesReloaded(boolean rateClassTypesReloaded) {
         this.rateClassTypesReloaded = rateClassTypesReloaded;
+    }
+
+    public List<BudgetSubAwards> getBudgetSubAwards() {
+        return budgetSubAwards;
+    }
+
+    public void setBudgetSubAwards(List<BudgetSubAwards> budgetSubAwards) {
+        this.budgetSubAwards = budgetSubAwards;
     }
 }
 
