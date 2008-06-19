@@ -181,9 +181,9 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         for (BudgetVersionOverview budgetVersion : proposalDevelopmentDocument.getBudgetVersionOverviews()) {
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
-                valid &= applyAuditRuleForBudgetDocument(budgetVersion);
-                if (budgetVersion.getBudgetStatus()!= null 
-                        && budgetVersion.getBudgetStatus().equals(budgetStatusCompleteCode)) {
+                valid &= applyAuditRuleForBudgetDocument(budgetVersion);                
+                if (proposalDevelopmentDocument.getBudgetStatus()!= null 
+                        && proposalDevelopmentDocument.getBudgetStatus().equals(budgetStatusCompleteCode)) {
                     finalAndCompleteBudgetVersionFound = true;
                 }
             }
