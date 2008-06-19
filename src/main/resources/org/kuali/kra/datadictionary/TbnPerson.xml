@@ -101,6 +101,7 @@
             </attribute>
 
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+		</attributes>
 
           <relationships>
             <relationship objectAttributeName="jobCodeReference">
@@ -108,7 +109,6 @@
                 <supportAttribute sourceName="jobCodeReference.jobTitle" targetName="jobTitle" identifier="true" />
             </relationship>
         </relationships>
-		</attributes>
     </businessObject>
 
 </dictionaryEntry>
