@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyNarratives']}" scope="request" />
 
 <c:set var="propPersonBioAttributes" value="${DataDictionary.ProposalPersonBiography.attributes}" />
 <c:set var="propPerDocTypeAttributes" value="${DataDictionary.PropPerDocType.attributes}" />
@@ -21,12 +22,18 @@
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
 <kul:tab tabTitle="Personnel Attachments (${fn:length(KualiForm.document.propPersonBios)})" defaultOpen="true" tabErrorKey="document.propPersonBio*,newPropPersonBio*">
 	<div class="tab-container" align="center">
-    	<div class="h2-container">
-    		<span class="subhead-left"><h2>Add Personnel Attachments</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
-        </div>
+	<c:set var="sectionLabel" value="Personnel Attachments" />
+	
+		<kra:section permission="modifyNarratives">
+			<c:set var="sectionLabel" value="Add ${sectionLabel}" />
+        </kra:section>
         
+        <div class="h2-container">
+    		<span class="subhead-left"><h2><c:out value="${sectionLabel}" /></h2></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
+	    </div>
         <table cellpadding=0 cellspacing=0 summary="">
+        	<c:if test="${fn:length(KualiForm.document.propPersonBios) > 0  || KualiForm.editingMode['modifyNarratives']}" >
           	<tr>
           	    <th><div align="left">&nbsp</div></th> 
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.updateTimestamp}" noColon="true" /></div></th>
@@ -36,8 +43,10 @@
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.description}" noColon="true" /></div></th>
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.fileName}" noColon="true" /></div></th>
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
-	  			             		
-          	</tr>        
+          	</tr>   
+          	</c:if>  
+          	
+          	<kra:section permission="modifyNarratives">   
           	<tr>
           	  <c:set var="personSelectStyle" value="" scope="request"/>
           	  
@@ -82,7 +91,9 @@
 					</div>
                 </td>
             </tr>
-
+ 			</kra:section>
+ 
+ 			<c:if test="${fn:length(KualiForm.document.propPersonBios) > 0}" >
         	<c:forEach var="propPersonBio" items="${KualiForm.document.propPersonBios}" varStatus="status">
 	             <tr>
 					<th class="infoline" align="right">
@@ -118,15 +129,20 @@
 					<div align=center>
 						<html:image property="methodToCall.viewPersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
-									onclick="javascript: openNewWindow('proposalDevelopmentAbstractsAttachments','viewPersonnelAttachment',${status.index},${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
-						<html:image property="methodToCall.deletePersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+									onclick="javascript: openNewWindow('proposalDevelopmentAbstractsAttachments','viewPersonnelAttachment',${status.index},${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" /> 
+						
+						<kra:section permission="modifyNarratives">  									
+							<html:image property="methodToCall.deletePersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+						</kra:section>
 					</div>
 	                </td>
 	            </tr>
-        	</c:forEach>        
+        	</c:forEach> 
+        	</c:if>       
 
           	
         </table>
+        <c:set var="sectionLabel" value="" />
     </div>
 </kul:tab>
