@@ -28,7 +28,7 @@ import org.kuali.kra.kim.bo.KimPerson;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.11 2008-06-19 03:28:14 lprzybyl Exp $
+ * $Id: Person.java,v 1.12 2008-06-19 20:32:15 jsalam Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -94,7 +94,7 @@ public class Person extends KraPersistableBusinessObjectBase {
     private Long kimPersonId = null;
     private KimPerson kimPerson = null;
     private Boolean active = true;
-    private Unit unit;
+   // private Unit unit;
     
     public Person() {
     }
@@ -1203,23 +1203,23 @@ public class Person extends KraPersistableBusinessObjectBase {
         return active;
     }
 
-    /**
+   /* *//**
      * Unit reference referred by {@link #getOwnedByUnit()}
      *
      * @param unit 
-     */
+     *//*
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
 
-    /**
+    *//**
      * Unit reference referred by {@link #getOwnedByUnit()}
      *
      * @return unit 
-     */
+     *//*
     public Unit getUnit() {
         return unit;
-    }
+    }*/
 
 	@Override 
 	protected LinkedHashMap toStringMapper() {
