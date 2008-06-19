@@ -18,6 +18,8 @@ package org.kuali.kra.budget.web.struts.action;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,6 +40,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.Task;
@@ -54,6 +57,7 @@ import org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -62,6 +66,7 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 public class BudgetAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
@@ -92,9 +97,11 @@ public class BudgetAction extends ProposalActionBase {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        if (("totals").equals(actionForward.getName())) { 
-            ((BudgetForm)form).suppressButtonsForTotalPage();
-        }        		
+        if (actionForward != null) {
+            if (("totals").equals(actionForward.getName())) { 
+                ((BudgetForm)form).suppressButtonsForTotalPage();
+            }               
+        }
         // check if audit rule check is done from PD
         if (((BudgetForm)form).isAuditActivated()) {
             KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(((BudgetForm)form).getBudgetDocument()));
@@ -122,7 +129,7 @@ public class BudgetAction extends ProposalActionBase {
             budgetDocument.setRateClassTypesReloaded(false);
         }
         
-        return actionForward;
+        return actionForward == null ? mapping.findForward(MAPPING_BASIC) : actionForward;
     }
 
 
@@ -267,6 +274,32 @@ public class BudgetAction extends ProposalActionBase {
             String budgetStatusIncompleteCode = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
                     Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
             budgetDocument.setBudgetStatus(budgetStatusIncompleteCode);
+        }
+    }
+
+    /**
+     * 
+     * Handy method to stream the byte array to response object
+     * @param attachmentDataSource
+     * @param response
+     * @throws Exception
+     */
+    public void streamToResponse(AttachmentDataSource attachmentDataSource,HttpServletResponse response) throws Exception{
+        byte[] xbts = attachmentDataSource.getContent();
+        ByteArrayOutputStream baos = null;
+        try{
+            baos = new ByteArrayOutputStream(xbts.length);
+            baos.write(xbts);
+            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
+        }finally{
+            try{
+                if(baos!=null){
+                    baos.close();
+                    baos = null;
+                }
+            }catch(IOException ioEx){
+                LOG.warn(ioEx.getMessage(), ioEx);
+            }
         }
     }
 }
