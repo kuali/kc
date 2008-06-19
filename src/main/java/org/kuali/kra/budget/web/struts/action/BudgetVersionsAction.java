@@ -109,6 +109,7 @@ public class BudgetVersionsAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        save(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
