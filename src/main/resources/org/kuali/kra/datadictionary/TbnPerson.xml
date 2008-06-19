@@ -25,7 +25,7 @@
             <inquirySections><inquirySection title="TBN Persons"><inquiryFields>
             	<field attributeName="tbnId" forceInquiry="true"/>
             	<field attributeName="personName"/>
-				<field attributeName="jobCode" forceInquiry="true"/>
+				<field attributeName="jobCodeReference.jobTitle" forceInquiry="true"/>
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -51,7 +51,7 @@
             <resultFields>
             	<field attributeName="tbnId" forceInquiry="true"/>
             	<field attributeName="personName" forceInquiry="false"/>
-				<field attributeName="jobCode" forceInquiry="true"/>
+				<field attributeName="jobCodeReference.jobTitle" forceInquiry="true"/>
             </resultFields>
         </lookup>
 
@@ -83,6 +83,11 @@
 				<summary>Job Code</summary>
 				<description>Job Code</description>
 			</attribute>
+
+			<attributeReference name="jobCodeReference.jobTitle" sourceClassName="org.kuali.kra.budget.bo.JobCode" sourceAttributeName="jobTitle" >
+				<label>Job</label>
+				<shortLabel>Job</shortLabel>
+            </attributeReference>
 			
 			<attribute name="personName" >
                 <label>Person Name</label>
@@ -97,6 +102,12 @@
 
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
+          <relationships>
+            <relationship objectAttributeName="jobCodeReference">
+                <primitiveAttribute sourceName="jobCode" targetName="jobCode" />
+                <supportAttribute sourceName="jobCodeReference.jobTitle" targetName="jobTitle" identifier="true" />
+            </relationship>
+        </relationships>
 		</attributes>
     </businessObject>
 

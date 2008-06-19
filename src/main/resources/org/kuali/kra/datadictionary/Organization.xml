@@ -33,7 +33,7 @@
 				<field attributeName="cognizantAuditor"/>
 				<field attributeName="comGovEntityCode"/>
 				<field attributeName="congressionalDistrict"/>
-				<field attributeName="contactAddressId"/>
+				<field attributeName="rolodex.addressLine1"/>
 				<field attributeName="county"/>
 				<field attributeName="dodacNumber"/>
 				<field attributeName="dunsNumber"/>
@@ -60,7 +60,7 @@
             <inquirySection title="Organization Types">
 	            <inquiryFields>
 		            <inquiryCollection name="organizationTypes" businessObjectClass="org.kuali.kra.bo.OrganizationType">
-						<field attributeName="organizationTypeCode"/>
+						<field attributeName="organizationTypeList.description"/>
 		            </inquiryCollection>
 	            </inquiryFields>
 	         </inquirySection>
@@ -265,6 +265,11 @@
 			<summary>Contact Address Id </summary>
 			<description>Contact Address Id </description>
 			</attribute>
+
+            <attributeReference name="rolodex.addressLine1" sourceClassName="org.kuali.kra.bo.Rolodex" sourceAttributeName="addressLine1" >
+			    <label>Contact Address Id </label>
+			    <shortLabel>Contact Address Id </shortLabel>
+            </attributeReference>
 
 			<attribute name="county">
 			<label>County </label>
@@ -527,8 +532,15 @@
 	        </collection>
 		</collections>
 
+        <relationships>
+            <relationship objectAttributeName="rolodex">
+                <primitiveAttribute sourceName="contactAddressId" targetName="rolodexId" />
+                <supportAttribute sourceName="rolodex.addressLine1" targetName="addressLine1" identifier="true" />
+            </relationship>
+        </relationships>
 
         <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentOrganizationHelpUrl"/> 
+
     </businessObject>
 
 </dictionaryEntry>

@@ -32,11 +32,11 @@
                 <field attributeName="dodacNumber"/>
                 <field attributeName="dunAndBradstreetNumber"/>
                 <field attributeName="dunsPlusFourNumber"/>
-                <field attributeName="ownedByUnit"/>
+                <field attributeName="unit.unitName"/>
                 <field attributeName="postalCode"/>
                 <field attributeName="rolodexId"/>
                 <field attributeName="sponsorName"/>
-                <field attributeName="sponsorTypeCode"/>
+                <field attributeName="sponsorType.description"/>
                 <field attributeName="state"/>
                 <field attributeName="createUser"/>
 
@@ -79,7 +79,7 @@
                 <field attributeName="sponsorCode" forceInquiry="true"/>
                 <field attributeName="sponsorName" forceInquiry="false"/>
                 <field attributeName="acronym" forceInquiry="false"/>
-                <field attributeName="sponsorTypeCode" forceInquiry="false"/>
+                <field attributeName="sponsorType.description" forceInquiry="false"/>
                 <field attributeName="dunAndBradstreetNumber" forceInquiry="false"/>
                 <field attributeName="dodacNumber" forceInquiry="false"/>
                 <field attributeName="cageNumber" forceInquiry="false"/>
@@ -188,6 +188,11 @@
             <description>Owned By Unit </description>
             </attribute>
 
+            <attributeReference name="unit.unitName" sourceClassName="org.kuali.kra.bo.Unit" sourceAttributeName="unitName" >
+                <label>Owned By Unit </label>
+                <shortLabel>Owned By Unit </shortLabel>
+            </attributeReference>
+
             <attribute name="postalCode">
             <label>Postal Code </label>
             <shortLabel>Postal Code </shortLabel>
@@ -235,16 +240,11 @@
             <summary>Sponsor Type Code </summary>
             <description>Sponsor Type Code </description>
             </attribute>
-            <attribute name="sponsorType.description">
-            <label>Sponsor Type</label>
-            <shortLabel>Sponsor Type</shortLabel>
-            <maxLength>40</maxLength>
-            <control>
-                <hidden/>
-            </control>
-            <summary>Sponsor Type</summary>
-            <description>Sponsor Type</description>
-            </attribute>
+
+            <attributeReference name="sponsorType.description" sourceClassName="org.kuali.kra.bo.SponsorType" sourceAttributeName="description" >
+                <label>Sponsor Type</label>
+                <shortLabel>Sponsor Type</shortLabel>
+            </attributeReference>
 
             <attributeReference name="state" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="state" />
 
@@ -263,6 +263,18 @@
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
+
+        <relationships>
+            <relationship objectAttributeName="unit">
+                <primitiveAttribute sourceName="ownedByUnit" targetName="unitNumber" />
+                <supportAttribute sourceName="unit.unitName" targetName="unitName" identifier="true" />
+            </relationship>
+
+            <relationship objectAttributeName="sponsorType">
+                <primitiveAttribute sourceName="sponsorTypeCode" targetName="sponsorTypeCode" />
+                <supportAttribute sourceName="sponsorType.description" targetName="description" identifier="true" />
+            </relationship>
+        </relationships>
 
         <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentSponsorHelpUrl"/> 
     </businessObject>

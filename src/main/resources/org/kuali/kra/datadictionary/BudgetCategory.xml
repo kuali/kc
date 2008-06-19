@@ -25,7 +25,7 @@
 
             <inquirySections><inquirySection title="Budget Category"><inquiryFields>
             	<field attributeName="budgetCategoryCode" forceInquiry="true"/>
-				<field attributeName="budgetCategoryTypeCode"/>
+				<field attributeName="budgetCategoryType.description"/>
 				<field attributeName="description"/>
 
             </inquiryFields></inquirySection></inquirySections>
@@ -54,11 +54,13 @@
 
             <resultFields>
             	<field attributeName="budgetCategoryCode" forceInquiry="true"/>
-				<field attributeName="budgetCategoryTypeCode" forceInquiry="false"/>
+				<field attributeName="budgetCategoryType.description" forceInquiry="false"/>
 				<field attributeName="description" forceInquiry="false"/>
 
             </resultFields>
         </lookup>
+
+        <titleAttribute>budgetCategoryCode</titleAttribute>
         
         <attributes>
 
@@ -86,10 +88,22 @@
 			<description>Category Type </description>
 			</attribute>
 
+			<attributeReference name="budgetCategoryType.description" sourceClassName="org.kuali.kra.budget.bo.BudgetCategoryType" sourceAttributeName="description" >
+			    <label>Budget Category Type</label>
+			    <shortLabel>Budget Category</shortLabel>
+            </attributeReference>
+
             <attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
+
+        <relationships>
+            <relationship objectAttributeName="budgetCategoryType">
+                <primitiveAttribute sourceName="budgetCategoryTypeCode" targetName="budgetCategoryTypeCode" />
+                <supportAttribute sourceName="budgetCategoryType.description" targetName="description" identifier="true" />
+            </relationship>
+        </relationships>
     </businessObject>
 
 </dictionaryEntry>
