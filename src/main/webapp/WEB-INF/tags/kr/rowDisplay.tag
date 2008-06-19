@@ -165,14 +165,14 @@
 
 			<c:choose>
 
-				<c:when test="${isFieldSecure}">
+				<c:when test="${isFieldSecure and field.fieldType ne field.FILE}">
 
 					<input type="hidden" name="${field.propertyName}" 
 						value='<c:out value="${field.encryptedValue}"/>' />
 
 				</c:when>
 
-				<c:when test="${isFieldReadOnly && not isFieldAContainer}">
+				<c:when test="${isFieldReadOnly && not isFieldAContainer and field.fieldType ne field.FILE}">
 
 					<input type="hidden" name="${field.propertyName}" 
 						value='<c:out value="${fieldValue}"/>' />
@@ -644,6 +644,68 @@
 						</c:choose>
 					</td>
 				
+				</c:when>
+				
+				<c:when test="${field.fieldType eq field.FILE}">
+					<kul:fieldDefaultLabel isLookup="${isLookup}" isRequired="${field.fieldRequired}" isReadOnly="${isFieldReadOnly}" 
+						cellWidth="${dataCellWidth}%" fieldType="${field.fieldType}" fieldLabel="${field.fieldLabel}" />
+								
+					<td class="grid" width="${dataCellWidth}%">
+						<c:choose>
+							<c:when test="${isFieldReadOnly}">
+								<c:if test="${empty fieldValue}" >
+									<c:out value="<%=((String) request.getAttribute("fileName"))%>" />&nbsp;
+								</c:if>
+								<c:if test="${not empty fieldValue}" >
+									<kul:fieldShowReadOnly field="${field}" addHighlighting="${addHighlighting}" />
+								</c:if>
+							</c:when>
+									
+							<c:otherwise>
+									<c:choose>
+										<c:when test="${empty fieldValue}" >
+											<c:if test="${isMaintenance}" >
+											<input type="file" name='${field.propertyName}'
+												id='${field.propertyName}' 
+												size='${field.size}'
+												class="${field.styleClass}"/>
+											</c:if>
+										</c:when>
+										<c:otherwise>
+										<div id="replaceDiv" style="display:block;">
+											<html:image property="methodToCall.downloadAttachment" src="${ConfigProperties.kr.externalizable.images.url}clip.gif" alt="download attachment" style="padding:5px" onclick="excludeSubmitRestriction=true"/>
+											<c:out value="${fieldValue}"/>
+	                                    	&nbsp;&nbsp;
+	                                    	<input type="hidden" name='methodToCall' />
+    										<script type="text/javascript">
+												function replaceAttachment() {
+													excludeSubmitRestriction=true;
+													showHide('replaceFileDiv','replaceDiv');
+													document.forms[0].methodToCall.value='replaceAttachment';
+													submitForm();
+												}
+											</script>
+	                                    	<html:link linkName="replaceAttachment" onclick="javascript: replaceAttachment();" href="" anchor="" property="methodToCall.replaceAttachment">replace</html:link>
+	                                    </div>
+                                    	<div id="replaceFileDiv" valign="middle" style="display:none;">
+				                			<input type="file" name='${field.propertyName}'
+												id='${field.propertyName}'  
+												size='${field.size}'
+												class="${field.styleClass}"/>  
+										</div> 
+										</c:otherwise>
+									</c:choose>
+									
+								 	
+								<kul:fieldShowIcons isReadOnly="${isFieldReadOnly}" field="${field}" addHighlighting="${addHighlighting}" />
+							
+							</c:otherwise>
+					
+						</c:choose>
+						</div>
+					
+					</td>
+				    
 				</c:when>
 					
 				<c:when test="${field.fieldType eq field.LOOKUP_HIDDEN || field.fieldType eq field.LOOKUP_READONLY}">
