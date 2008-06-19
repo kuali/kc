@@ -69,6 +69,7 @@
                 <maintainableItems>
                 	<maintainableCollection name="rolePermissions" businessObjectClass="org.kuali.kra.kim.bo.KimRolePermission" sourceClassName="org.kuali.kra.kim.bo.KimPermission" sourceAttributeName="rolePermissions">
     	                <maintainableField name="permissionId" template="id" required="true"/>
+    	                <maintainableField name="permission.name" template="name" readOnly="true"/>
         	            <maintainableField name="active" required="true">
             	            <defaultValue>true</defaultValue>
                 	    </maintainableField>

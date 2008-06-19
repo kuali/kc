@@ -25,8 +25,8 @@
 
             <inquirySections><inquirySection title="Unit"><inquiryFields>
             	<field attributeName="unitNumber" forceInquiry="true"/>
-				<field attributeName="parentUnitNumber"/>
-				<field attributeName="organizationId"/>
+				<field attributeName="parentUnit.unitName"/>
+				<field attributeName="organization.organizationName"/>
 				<field attributeName="unitName"/>
 
             </inquiryFields></inquirySection></inquirySections>
@@ -56,8 +56,8 @@
 
             <resultFields>
             	<field attributeName="unitNumber" forceInquiry="true"/>
-				<field attributeName="parentUnitNumber" forceInquiry="false"/>
-				<field attributeName="organizationId" forceInquiry="false"/>
+				<field attributeName="parentUnit.unitName" forceInquiry="false"/>
+				<field attributeName="organization.organizationName" forceInquiry="false"/>
 				<field attributeName="unitName" forceInquiry="false"/>
 
             </resultFields>
@@ -90,6 +90,11 @@
 			<description>Parent Unit Number </description>
 			</attribute>
 
+            <attributeReference name="parentUnit.unitName" sourceClassName="org.kuali.kra.bo.Unit" sourceAttributeName="unitName" >
+                <label>Parent Unit</label>
+                <shortLabel>Parent Unit</shortLabel>
+            </attributeReference>
+
 			<attribute name="organizationId">
 			<label>Organization Id </label>
 			<shortLabel>Organization Id </shortLabel>
@@ -101,6 +106,11 @@
 			<summary>Organization Id </summary>
 			<description>Organization Id </description>
 			</attribute>
+
+            <attributeReference name="organization.organizationName" sourceClassName="org.kuali.kra.bo.Organization" sourceAttributeName="organizationName" >
+                <label>Organization</label>
+                <shortLabel>Organization</shortLabel>
+            </attributeReference>
 
 			<attribute name="unitName">
 			<label>Unit Name </label>
@@ -116,6 +126,18 @@
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
+
+        <relationships>
+            <relationship objectAttributeName="parentUnit">
+                <primitiveAttribute sourceName="parentUnitNumber" targetName="unitNumber" />
+                <supportAttribute sourceName="parentUnit.unitName" targetName="unitName" identifier="true" />
+            </relationship>
+
+            <relationship objectAttributeName="organization">
+                <primitiveAttribute sourceName="organizationId" targetName="organizationId" />
+                <supportAttribute sourceName="organization.organizationName" targetName="organizationName" identifier="true" />
+            </relationship>
+        </relationships>
     </businessObject>
 
 </dictionaryEntry>

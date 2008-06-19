@@ -60,7 +60,7 @@
                 <field attributeName="countryOfCitizenship" />
                 <field attributeName="primaryTitle" />
                 <field attributeName="directoryTitle" />
-                <field attributeName="homeUnit" />
+                <field attributeName="unit.unitName" />
                 <field attributeName="facultyFlag" />
                 <field attributeName="graduateStudentStaffFlag" />
                 <field attributeName="researchStaffFlag" />
@@ -499,6 +499,11 @@
             	<description>Home Unit</description>
             </attribute>
 
+            <attributeReference name="unit.unitName" sourceClassName="org.kuali.kra.bo.Unit" sourceAttributeName="unitName" >
+                <label>Home Unit</label>
+                <shortLabel>Home Unit</shortLabel>
+            </attributeReference>
+
             <attributeReference name="facultyFlag" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Faculty</label>
                 <shortLabel>Faculty</shortLabel>
@@ -702,6 +707,13 @@
            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
+
+        <relationships>
+            <relationship objectAttributeName="unit">
+                <primitiveAttribute sourceName="homeUnit" targetName="unitNumber" />
+                <supportAttribute sourceName="unit.unitName" targetName="unitName" identifier="true" />
+            </relationship>
+        </relationships>
 
         <objectHelp parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentPersonHelpUrl"/> 
     </businessObject>
