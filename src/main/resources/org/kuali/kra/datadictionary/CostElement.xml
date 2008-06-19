@@ -21,11 +21,11 @@
     <businessObject businessObjectClass="org.kuali.kra.budget.bo.CostElement">
 
         <inquiry>
-            <title>Cost Element</title>
+            <title>Object Code</title>
 
-            <inquirySections><inquirySection title="Cost Element"><inquiryFields>
+            <inquirySections><inquirySection title="Object Code"><inquiryFields>
             	<field attributeName="costElement" forceInquiry="true"/>
-				<field attributeName="budgetCategoryCode"/>
+				<field attributeName="budgetCategory.description"/>
 				<field attributeName="description"/>
 				<field attributeName="onOffCampusFlag"/>
             </inquiryFields></inquirySection></inquirySections>
@@ -33,11 +33,11 @@
 
         <lookup>
         	<lookupableID>budgetExpenseLookupable</lookupableID>
-            <title>Cost Element Lookup</title>
+            <title>Object Code Lookup</title>
 			<menubar>
 				<![CDATA[<a href="/kra-dev/">Main</a>]]>
 			</menubar>
-            <instructions>Look up a Cost Element</instructions>
+            <instructions>Look up a Object Code</instructions>
             <defaultSort sortAscending="true">
                 <sortAttributes>
                 	<sortAttribute attributeName="costElement"/>
@@ -53,7 +53,7 @@
 
             <resultFields>
             	<field attributeName="costElement" forceInquiry="true"/>
-				<field attributeName="budgetCategoryCode" forceInquiry="false"/>
+				<field attributeName="budgetCategory.description" forceInquiry="false"/>
 				<field attributeName="description" forceInquiry="false"/>
 				<field attributeName="onOffCampusFlag" forceInquiry="false"/>
             </resultFields>
@@ -86,6 +86,11 @@
 			<description>Budget Category Code </description>
 			</attribute>
 
+			<attributeReference name="budgetCategory.description" sourceClassName="org.kuali.kra.budget.bo.BudgetCategory" sourceAttributeName="description" >
+			    <label>Budget Category</label>
+			    <shortLabel>Budget Category</shortLabel>
+            </attributeReference>
+
 			<attributeReference name="description" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="description" />
 
 			<attribute name="onOffCampusFlag">
@@ -117,6 +122,13 @@
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
+
+        <relationships>
+            <relationship objectAttributeName="budgetCategory">
+                <primitiveAttribute sourceName="budgetCategoryCode" targetName="budgetCategoryCode" />
+                <supportAttribute sourceName="budgetCategory.description" targetName="description" identifier="true" />
+            </relationship>
+        </relationships>
     </businessObject>
 
 </dictionaryEntry>
