@@ -55,7 +55,7 @@
 					<maintainableField name="dataLength" required="false"/>
 					<maintainableField name="dataTypeCode" required="true"/>
 					<maintainableField name="defaultValue" required="false"/>
-					<maintainableField name="groupName" required="false"/>
+					<maintainableField name="groupName" required="true"/>
 					<maintainableField name="label" required="true"/>
 					<maintainableField name="lookupClass" required="false" />
 					<maintainableField name="lookupReturn" required="false" />
