@@ -17,9 +17,13 @@ package org.kuali.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Timestamp;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 
 public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
 	private String proposalNumber;
@@ -28,9 +32,10 @@ public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
 	private String comments;
 	private String organizationName;
 	private Integer subAwardStatusCode;
-	private String subAwardXfdFile;
+	transient private FormFile subAwardXfdFile;
+	private byte[] subAwardXfdFileData;
 	private String subAwardXfdFileName;
-	private String subAwardXmlFile;
+	transient private FormFile subAwardXmlFile;
 	private String translationComments;
 	private Timestamp xfdUpdateTimestamp;
 	private String xfdUpdateUser;
@@ -86,28 +91,12 @@ public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
 		this.subAwardStatusCode = subAwardStatusCode;
 	}
 
-	public String getSubAwardXfdFile() {
-		return subAwardXfdFile;
-	}
-
-	public void setSubAwardXfdFile(String subAwardXfdFile) {
-		this.subAwardXfdFile = subAwardXfdFile;
-	}
-
 	public String getSubAwardXfdFileName() {
 		return subAwardXfdFileName;
 	}
 
 	public void setSubAwardXfdFileName(String subAwardXfdFileName) {
 		this.subAwardXfdFileName = subAwardXfdFileName;
-	}
-
-	public String getSubAwardXmlFile() {
-		return subAwardXmlFile;
-	}
-
-	public void setSubAwardXmlFile(String subAwardXmlFile) {
-		this.subAwardXmlFile = subAwardXmlFile;
 	}
 
 	public String getTranslationComments() {
@@ -156,18 +145,18 @@ public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("proposalNumber", getProposalNumber());
 		hashMap.put("subAwardNumber", getSubAwardNumber());
-		hashMap.put("versionNumber", getVersionNumber());
+		hashMap.put("budgetVersionNumber", getBudgetVersionNumber());
 		hashMap.put("comments", getComments());
 		hashMap.put("organizationName", getOrganizationName());
-		hashMap.put("subAwardStatusCode", getSubAwardStatusCode());
-		hashMap.put("subAwardXfdFile", getSubAwardXfdFile());
-		hashMap.put("subAwardXfdFileName", getSubAwardXfdFileName());
-		hashMap.put("subAwardXmlFile", getSubAwardXmlFile());
+		hashMap.put("subAwardStatusCode", getSubAwardStatusCode());		
+		hashMap.put("subAwardXfdFileName", getSubAwardXfdFileName());		
 		hashMap.put("translationComments", getTranslationComments());
 		hashMap.put("xfdUpdateTimestamp", getXfdUpdateTimestamp());
 		hashMap.put("xfdUpdateUser", getXfdUpdateUser());
 		hashMap.put("xmlUpdateTimestamp", getXmlUpdateTimestamp());
 		hashMap.put("xmlUpdateUser", getXmlUpdateUser());
+		hashMap.put("updateTimestamp", this.getUpdateTimestamp());
+        hashMap.put("updateUser", this.getUpdateUser());
 		return hashMap;
 	}
 
@@ -185,5 +174,29 @@ public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
      */
     public void setBudgetSubAwardAttachments(List<BudgetSubAwardAttachment> budgetSubAwardAttachments) {
         this.budgetSubAwardAttachments = budgetSubAwardAttachments;
+    }
+
+    public FormFile getSubAwardXfdFile() {
+        return subAwardXfdFile;
+    }
+
+    public void setSubAwardXfdFile(FormFile subAwardXfdFile) {
+        this.subAwardXfdFile = subAwardXfdFile;
+    }
+
+    public FormFile getSubAwardXmlFile() {
+        return subAwardXmlFile;
+    }
+
+    public void setSubAwardXmlFile(FormFile subAwardXmlFile) {
+        this.subAwardXmlFile = subAwardXmlFile;
+    }
+
+    public byte[] getSubAwardXfdFileData() {
+        return subAwardXfdFileData;
+    }
+
+    public void setSubAwardXfdFileData(byte[] subAwardXfdFileData) {
+        this.subAwardXfdFileData = subAwardXfdFileData;
     }
 }

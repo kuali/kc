@@ -35,16 +35,18 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.BudgetException;
+import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetJustificationService;
 import org.kuali.kra.budget.service.BudgetPrintService;
 import org.kuali.kra.budget.service.impl.BudgetJustificationServiceImpl;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.budget.web.struts.form.BudgetJustificationWrapper;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAbstractsAttachmentsAction;
 import org.kuali.rice.KNSServiceLocator;
 
 public class BudgetActionsAction extends BudgetAction {
@@ -128,6 +130,39 @@ public class BudgetActionsAction extends BudgetAction {
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.reload(mapping, form, request, response);
+    }
+    
+    public ActionForward translateXFD(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm)form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetSubAwards newBudgetSubAward = budgetForm.getNewSubAward();
+        DocumentNextvalue documentNextValue = new DocumentNextvalue();
+        if(budgetDocument.getHackedDocumentNextValue("subAwardNumber")!=null){
+            newBudgetSubAward.setSubAwardNumber(budgetDocument.getHackedDocumentNextValue("subAwardNumber"));
+        }else{
+            newBudgetSubAward.setSubAwardNumber(1);
+        }
+        //TODO: SubAwardStatus Code = should it be updated as per attachment value?
+        newBudgetSubAward.setSubAwardStatusCode(1);
+        newBudgetSubAward.setSubAwardXfdFileName(newBudgetSubAward.getSubAwardXfdFile().getFileName());
+        newBudgetSubAward.setSubAwardXfdFileData(newBudgetSubAward.getSubAwardXfdFile().getFileData());
+        newBudgetSubAward.setBudgetVersionNumber(budgetDocument.getBudgetVersionNumber());
+        //TODO: To Call Geo's translate service and update BudgetSubAward BO accordingly.
+        budgetDocument.getBudgetSubAwards().add(newBudgetSubAward);
+        budgetForm.setNewSubAward(new BudgetSubAwards());                
+        return mapping.findForward(Constants.MAPPING_BASIC);        
+    }
+    
+    public ActionForward viewXFD(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward viewXML(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     public ActionForward printBudgetForm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

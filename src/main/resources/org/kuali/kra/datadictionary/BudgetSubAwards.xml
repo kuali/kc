@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.budget.bo.BudgetSubAwards">
+
+        <inquiry>
+            <title>Budget Sub Awards</title>
+
+            <inquirySections><inquirySection title="Budget Details"><inquiryFields>
+            	<field attributeName="proposalNumber" forceInquiry="true"/>
+            	<field attributeName="subAwardNumber" forceInquiry="true"/>
+				<field attributeName="budgetVersionNumber" forceInquiry="true"/>				
+				<field attributeName="versionNumber" forceInquiry="true"/>
+				<field attributeName="comments"/>
+				<field attributeName="organizationName"/>
+				<field attributeName="subAwardStatusCode"/>
+				<field attributeName="subAwardXfdFileData"/>
+				<field attributeName="subAwardXfdFileName"/>
+				<field attributeName="subAwardXmlFile"/>
+				<field attributeName="translationComments"/>
+				<field attributeName="xfdUpdateTimestamp"/>
+				<field attributeName="xfdUpdateUser"/>
+				<field attributeName="xmlUpdateTimestamp"/>
+				<field attributeName="xmlUpdateUser"/>
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Budget Sub Awards</title>
+			<menubar>
+				<![CDATA[<a href="/kra-dev/">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Budget Sub Award</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>                	
+					<sortAttribute attributeName="subAwardNumber"/>
+					<sortAttribute attributeName="proposalNumber"/>
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="subAwardNumber" required="false"/>
+				<lookupField attributeName="budgetVersionNumber" required="false"/>
+				<lookupField attributeName="proposalNumber" required="false"/>
+				<lookupField attributeName="versionNumber" required="false"/>
+				<lookupField attributeName="comments" required="false"/>
+				<lookupField attributeName="organizationName" required="false"/>
+				<lookupField attributeName="subAwardStatusCode" required="false"/>
+				<lookupField attributeName="subAwardXfdFileData" required="false"/>
+				<lookupField attributeName="subAwardXfdFileName" required="false"/>
+				<lookupField attributeName="subAwardXmlFile" required="false"/>
+				<lookupField attributeName="translationComments" required="false"/>
+				<lookupField attributeName="xfdUpdateTimestamp" required="false"/>
+				<lookupField attributeName="xfdUpdateUser" required="false"/>
+				<lookupField attributeName="xmlUpdateTimestamp" required="false"/>
+				<lookupField attributeName="xmlUpdateUser" required="false"/>
+            </lookupFields>
+
+            <resultFields>
+            	<field attributeName="subAwardNumber" forceInquiry="true"/>
+				<field attributeName="budgetVersionNumber" forceInquiry="true"/>
+				<field attributeName="proposalNumber" forceInquiry="true"/>
+				<field attributeName="versionNumber" forceInquiry="true"/>
+				<field attributeName="comments" forceInquiry="false"/>
+				<field attributeName="organizationName" forceInquiry="false"/>
+				<field attributeName="subAwardStatusCode" forceInquiry="false"/>
+				<field attributeName="subAwardXfdFileData" forceInquiry="false"/>
+				<field attributeName="subAwardXfdFileName" forceInquiry="false"/>
+				<field attributeName="subAwardXmlFile" forceInquiry="false"/>
+				<field attributeName="translationComments" forceInquiry="false"/>
+				<field attributeName="xfdUpdateTimestamp" forceInquiry="false"/>
+				<field attributeName="xfdUpdateUser" forceInquiry="false"/>
+				<field attributeName="xmlUpdateTimestamp" forceInquiry="false"/>
+				<field attributeName="xmlUpdateUser" forceInquiry="false"/>
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>subAwardNumber</titleAttribute>
+		
+        <attributes>
+
+	        <attribute name="subAwardNumber">
+			<label>subAwardNumber</label>
+			<shortLabel>subAwardNumber </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<hidden />
+			</control>
+			<summary>subAwardNumber </summary>
+			<description>subAwardNumber </description>
+			</attribute>
+
+			<attribute name="comments">
+			<label>Comments </label>
+			<shortLabel>Comments </shortLabel>
+			<maxLength>2000</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<textarea rows="3" cols="30" />
+			</control>
+			<summary>Comments </summary>
+			<description>Comments </description>
+			</attribute>
+
+			<attribute name="proposalNumber">
+			<label>Proposal Number </label>
+			<shortLabel>Proposal Number </shortLabel>
+			<maxLength>12</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="12" />
+			</control>
+			<summary>Proposal Number </summary>
+			<description>Proposal Number </description>
+			</attribute>
+			
+			<attribute name="budgetVersionNumber">
+			<label>Budget Version Number </label>
+			<shortLabel>Budget Version Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Budget Version Number </summary>
+			<description>Budget Version Number </description>
+			</attribute>
+
+			<attribute name="organizationName">
+			<label>Organization Name </label>
+			<shortLabel>Organization Name </shortLabel>
+			<maxLength>60</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<text size="60" />
+			</control>
+			<summary>Organization Name </summary>
+			<description>Organization Name </description>
+			</attribute>
+
+			<attribute name="subAwardStatusCode">
+			<label>Sub Award Status Code </label>
+			<shortLabel>Sub Award Status Code </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Sub Award Status Code </summary>
+			<description>Sub Award Status Code </description>
+			</attribute>
+
+			
+			<attribute name="subAwardXfdFileData">
+			<label>subAwardXfdFileData</label>
+			<shortLabel>subAwardXfdFileData </shortLabel>
+			<maxLength>0</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="0" />
+			</control>
+			<summary>subAwardXfdFileData </summary>
+			<description>subAwardXfdFileData </description>
+			</attribute>
+
+			<attribute name="subAwardXfdFileName">
+			<label>Sub Award Xfd File Name </label>
+			<shortLabel>Sub Award Xfd File Name </shortLabel>
+			<maxLength>256</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<text size="256" />
+			</control>
+			<summary>Sub Award Xfd File Name </summary>
+			<description>Sub Award Xfd File Name </description>
+			</attribute>
+			<!--  
+			<attribute name="subAwardXmlFile">
+			<label>Object Code Name </label>
+			<shortLabel>Object Code Name </shortLabel>
+			<maxLength>8</maxLength>						
+			<validationPattern><alphaNumeric /></validationPattern>
+			<required>false</required>
+			<control>
+				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder" />
+			</control>
+			<summary>Object Code Name </summary>
+			<description>Object Code Name </description>
+			</attribute>-->
+
+			<attribute name="translationComments">
+			<label>Translation Comments </label>
+			<shortLabel>Translation Comments </shortLabel>
+			<maxLength>2000</maxLength>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<control>
+				<textarea rows="3" cols="30" />
+			</control>
+			<summary>Translation Comments </summary>
+			<description>Translation Comments </description>
+			</attribute>
+
+            <attributeReference name="xfdUpdateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp" >
+                <label>xmlUpdateTimestamp</label>                
+      		</attributeReference>
+      		
+      		<attribute name="xfdUpdateUser">
+				<label>xfdUpdateUser</label>
+				<shortLabel>xfdUpdateUser</shortLabel>
+				<maxLength>60</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+				<required>false</required>
+				<control>
+					<text size="60"/>
+				</control>
+				<summary>xfdUpdateUser</summary>
+				<description>xfdUpdateUser</description>
+			</attribute>
+      		
+      		<attributeReference name="xmlUpdateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp" >
+                <label>xmlUpdateTimestamp</label>
+      		</attributeReference>
+      		
+      		<attribute name="xmlUpdateUser">
+				<label>xmlUpdateUser</label>
+				<shortLabel>xmlUpdateUser</shortLabel>
+				<maxLength>60</maxLength>
+				<validationPattern><anyCharacter /></validationPattern>
+				<required>false</required>
+				<control>
+					<text size="60"/>
+				</control>
+				<summary>xmlUpdateUser</summary>
+				<description>xmlUpdateUser</description>
+			</attribute>
+			
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+		</attributes>
+        <objectHelp parameterNamespace="KRA-B" parameterDetailType="D"  parameterName="budgetLineItemHelpUrl"/> 
+    </businessObject>
+
+</dictionaryEntry>
