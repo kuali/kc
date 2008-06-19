@@ -181,7 +181,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         for (BudgetVersionOverview budgetVersion : proposalDevelopmentDocument.getBudgetVersionOverviews()) {
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
-                valid &= applyAuditRuleForBudgetDocument(budgetVersion);                
+                valid &= applyAuditRuleForBudgetDocument(budgetVersion);
                 if (proposalDevelopmentDocument.getBudgetStatus()!= null 
                         && proposalDevelopmentDocument.getBudgetStatus().equals(budgetStatusCompleteCode)) {
                     finalAndCompleteBudgetVersionFound = true;
@@ -330,6 +330,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         Class lookupClass = null;
         String displayValue = "";
         String returnValue = "";
+        String displayAttributeName = "";
         
         if(StringUtils.isNotEmpty(lookupClassName)) {
             try {
@@ -342,11 +343,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 returnValue = lookupClassPkFields.get(0);
                 primaryKeys.put(lookupClassPkFields.get(0), value);
                 PersistableBusinessObject businessObject = (PersistableBusinessObject) businessObjectService.findByPrimaryKey(lookupClass, primaryKeys);
-                displayValue = getPropertyValue(businessObject, "description");
+                displayAttributeName = "description";
+                displayValue = getPropertyValue(businessObject, displayAttributeName);
                 if(StringUtils.isEmpty(displayValue)) {  
                     List<String> fields = kraPersistenceStructureService.listFieldNames(lookupClass);
                     for(String fieldName : fields) {
                         if(fieldName.toLowerCase().contains("name")) {
+                            displayAttributeName = fieldName;
                             displayValue = getPropertyValue(businessObject, fieldName);
                             break;
                         }
@@ -355,7 +358,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             }
         }
         
-        return returnValue + "," + displayValue;
+        return returnValue + "," + displayAttributeName + "," + displayValue;
     }
     
     private String getPropertyValue(BusinessObject businessObject, String fieldName) {
@@ -383,39 +386,29 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     
     private String populateProposalEditableFieldMetaData(String proposalNumber, String editableFieldDBColumn) { 
         String returnValue = "";
-        //Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(ProposalOverview.class);
-        //String proposalAttributeName = fieldMap.get(editableFieldDBColumn);
-        
         if(GlobalVariables.getErrorMap() != null) {
             GlobalVariables.getErrorMap().clear();
         }
         
-//        if(StringUtils.isNotEmpty(proposalAttributeName)) {
-//            ProposalOverview currentProposal =  getProposalOverview(proposalNumber);
-//            if(currentProposal != null) {
-//                Object fieldValue = ObjectUtils.getPropertyValue(currentProposal, proposalAttributeName);
-                
-                Object fieldValue = getProposalFieldValueFromDBColumnName(proposalNumber, editableFieldDBColumn);
-                Map<String, Object> primaryKeys = new HashMap<String, Object>();
-                primaryKeys.put("columnName", editableFieldDBColumn);
-                ProposalColumnsToAlter editableColumn = (ProposalColumnsToAlter) businessObjectService.findByPrimaryKey(ProposalColumnsToAlter.class, primaryKeys);
-                
-                if(fieldValue != null && editableColumn.getHasLookup()) {
-                     returnValue = getLookupDisplayValue(editableColumn.getLookupArgument(), fieldValue.toString());
-                } else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")){
-                    returnValue = "," + KNSServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
-                } else if (fieldValue != null) {
-                    returnValue = "," + fieldValue.toString();
-                } else {
-                    returnValue = ",,";
-                }
+        Object fieldValue = getProposalFieldValueFromDBColumnName(proposalNumber, editableFieldDBColumn);
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put("columnName", editableFieldDBColumn);
+        ProposalColumnsToAlter editableColumn = (ProposalColumnsToAlter) businessObjectService.findByPrimaryKey(ProposalColumnsToAlter.class, primaryKeys);
         
-                returnValue+=","+editableColumn.getDataType();
-                returnValue+=","+editableColumn.getHasLookup();
-                returnValue+=","+editableColumn.getLookupArgument();
-                returnValue+=","+editableColumn.getLookupWindow();
-//            }
-//        }
+        if(fieldValue != null && editableColumn.getHasLookup()) {
+             returnValue = getLookupDisplayValue(editableColumn.getLookupArgument(), fieldValue.toString());
+        } else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")){
+            returnValue = ",," + KNSServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
+        } else if (fieldValue != null) {
+            returnValue = ",," + fieldValue.toString();
+        } else {
+            returnValue = ",,";
+        }
+
+        returnValue+=","+editableColumn.getDataType();
+        returnValue+=","+editableColumn.getHasLookup();
+        returnValue+=","+editableColumn.getLookupArgument();
+        returnValue+=","+editableColumn.getLookupWindow();
         
         return returnValue; 
     }
