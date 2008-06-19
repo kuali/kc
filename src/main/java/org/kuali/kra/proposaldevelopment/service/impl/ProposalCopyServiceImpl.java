@@ -568,8 +568,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
     }
     
-    private ProposalPerson dondon;
-    
     /**
      * Fix the Key Personnel.  This requires changing the lead unit for the PI
      * and the COIs to the new lead unit.  Also, if the PI's home unit is not in
@@ -602,7 +600,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 String homeUnitNumber = person.getHomeUnit();
                 if (!StringUtils.equals(newLeadUnitNumber, homeUnitNumber)) {
                     unit = createProposalPersonUnit(person, homeUnitNumber, false, true, proposalPersonUnits);
-                    newProposalPersonUnits.add(unit);
+                    if (unit != null) {
+                        newProposalPersonUnits.add(unit);
+                    }
                 }
                 
                 for (ProposalPersonUnit oldUnit : proposalPersonUnits) {
@@ -617,8 +617,6 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 }
                 
                 person.setUnits(newProposalPersonUnits);  
-            } else {
-                dondon = person;
             }
             
             List<Object> list = new ArrayList<Object>();
@@ -634,6 +632,9 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     
     private ProposalPersonUnit createProposalPersonUnit(ProposalPerson person, String unitNumber, boolean isLeadUnit, boolean isDeletable, List<ProposalPersonUnit> oldProposalPersonUnits) {
         ProposalPersonUnit proposalPersonUnit = keyPersonnelService.createProposalPersonUnit(unitNumber, person);
+        if (proposalPersonUnit.getUnitNumber() == null) {
+            return null;
+        }
         proposalPersonUnit.setLeadUnit(isLeadUnit);
         proposalPersonUnit.setDelete(isDeletable);
         proposalPersonUnit.setVersionNumber(null);
