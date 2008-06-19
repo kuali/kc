@@ -132,10 +132,10 @@
 			<label>Comments </label>
 			<shortLabel>Comments </shortLabel>
 			<maxLength>300</maxLength>
-			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+			<validationPattern><anyCharacter  allowWhitespace="true" /></validationPattern>				
 			<control>
-				<text size="50" />
-			</control>
+                   <textarea rows="3" cols="40" />
+            </control>
 			<summary>Comments </summary>
 			<description>Comments </description>
 			</attribute>

@@ -20,7 +20,7 @@
 <c:set var="proposalColumnsToAlterAttributes" value="${DataDictionary.ProposalColumnsToAlter.attributes}" />
 <c:set var="action" value="proposalDevelopmentActions" />
 
- <kul:tab tabTitle="Proposal Data Override" defaultOpen="${openFlag}" tabErrorKey="" >
+ <kul:tab tabTitle="Proposal Data Override" defaultOpen="${openFlag}" tabErrorKey="newProposalChangedData.*">
          
 	<div class="tab-container" align="center">
     	<div class="h2-container">
@@ -31,12 +31,13 @@
         <kra:section permission="alterProposalData">   
 		 <table cellpadding="0" cellspacing="0" summary="">
 			<input type="hidden" name="document.proposalNumber" value="${KualiForm.document.proposalNumber}" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.lookupReturn" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.dataType" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.hasLookup" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.lookupArgument" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.lookupWindow" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.columnName" /> 
+			<input type="hidden" name="newProposalChangedData.editableColumn.lookupReturn" value="${KualiForm.newProposalChangedData.editableColumn.lookupReturn}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.dataType" value="${KualiForm.newProposalChangedData.editableColumn.dataType}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.hasLookup" value="${KualiForm.newProposalChangedData.editableColumn.hasLookup}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.lookupArgument" value="${KualiForm.newProposalChangedData.editableColumn.lookupArgument}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.lookupDisplayAttrName" value="${KualiForm.newProposalChangedData.editableColumn.lookupDisplayAttrName}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.lookupWindow" value="${KualiForm.newProposalChangedData.editableColumn.lookupWindow}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.columnName" value="${KualiForm.newProposalChangedData.editableColumn.columnName}" />
 			<input type="hidden" name="imageUrl" value="${ConfigProperties.kr.externalizable.images.url}" /> 
 			<input type="hidden" name="tabIndex" value="${KualiForm.nextArbitrarilyHighIndex}" />
 		    <c:set var="textAreaFieldName" value="newProposalChangedData.comments" />
@@ -66,7 +67,11 @@
 						<kul:htmlControlAttribute property="newProposalChangedData.changedValue" attributeEntry="${proposalChangedDataAttributes.changedValue}" />
 							<div id="changedValueExtraBody" >
 			                   		<c:if test="${not empty KualiForm.newProposalChangedData.editableColumn.lookupArgument and KualiForm.newProposalChangedData.editableColumn.lookupArgument != 'null'}">
-										<kul:lookup boClassName="${KualiForm.newProposalChangedData.editableColumn.lookupArgument}" fieldConversions="${KualiForm.newProposalChangedData.editableColumn.lookupReturn}:newProposalChangedData.changedValue," anchor="${tabKey}"/>
+				                   		<c:if test="${not empty KualiForm.newProposalChangedData.editableColumn.lookupReturn and KualiForm.newProposalChangedData.editableColumn.lookupReturn != 'null'}">
+				                   		<c:if test="${not empty KualiForm.newProposalChangedData.editableColumn.lookupDisplayAttrName and KualiForm.newProposalChangedData.editableColumn.lookupDisplayAttrName != 'null'}">
+											<kul:lookup boClassName="${KualiForm.newProposalChangedData.editableColumn.lookupArgument}" fieldConversions="${KualiForm.newProposalChangedData.editableColumn.lookupReturn}:newProposalChangedData.changedValue,${KualiForm.newProposalChangedData.editableColumn.lookupDisplayAttrName}:newProposalChangedData.displayValue" anchor="${tabKey}"/>
+										</c:if>
+										</c:if>
 									</c:if>
 									<c:if test="${KualiForm.newProposalChangedData.editableColumn.dataType == 'DATE'}">
 						                <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="newProposalChangedData.changedValue_datepicker" style="cursor: pointer;"
@@ -103,12 +108,12 @@
 				</td>
 			</tr>
 			<tr>
-		                <th align="right" valign="middle"><kul:htmlAttributeLabel attributeEntry="${proposalChangedDataAttributes.comments}"noColon="true" /></th>
-		                <td align="left" valign="middle">
+		         <th align="right" valign="middle"><kul:htmlAttributeLabel attributeEntry="${proposalChangedDataAttributes.comments}" noColon="false" /></th>
+		         <td align="left" valign="middle">
 					<kul:htmlControlAttribute property="newProposalChangedData.comments" attributeEntry="${proposalChangedDataAttributes.comments}" />
-			               	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalChangedDataAttributes.comments.label}" />
+			      	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${proposalChangedDataAttributes.comments.label}" />
 				</td>
-		        </tr>
+		    </tr>
 			<tr>
 				<td align="center" colspan="2">
 				<div align="center">

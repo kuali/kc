@@ -654,7 +654,7 @@ var lookupReturn;
 var fieldPrefix;
 var changedValue;
 var comments;
-
+var lookupDisplayAttrName;
 
 function updateOtherFields(editableColumnNameField, callbackFunction ) {
 	var proposalNumber = DWRUtil.getValue( 'document.proposalNumber' );
@@ -667,6 +667,7 @@ function updateOtherFields(editableColumnNameField, callbackFunction ) {
 	lookupArgument =  fieldPrefix + ".editableColumn.lookupArgument" ;
 	lookupWindow =  fieldPrefix + ".editableColumn.lookupWindow" ;
 	lookupReturn = fieldPrefix + ".editableColumn.lookupReturn" ;
+	lookupDisplayAttrName = fieldPrefix + ".editableColumn.lookupDisplayAttrName" ;
 	changedValue = fieldPrefix + ".changedValue" ;
 	comments = fieldPrefix + ".comments" ;
 
@@ -690,9 +691,9 @@ function updateOtherFields(editableColumnNameField, callbackFunction ) {
 			document.getElementById(lookupArgument).value = "";
 			document.getElementById(lookupWindow).value = "";
 			document.getElementById(lookupReturn).value = "";
+			document.getElementById(lookupDisplayAttrName).value = "";
 			document.getElementById(changedValue).value = "";
 			document.getElementById(changedValue).style.borderColor = "";
-			
 			document.getElementById(comments).value = "";
 			document.getElementById('calendarDiv').style.display = "none";
 	}
@@ -710,10 +711,9 @@ function updateOtherFields_Callback( data ) {
 	document.getElementById(lookupArgument).value = "";
 	document.getElementById(lookupWindow).value = "";
 	document.getElementById(lookupReturn).value = "";
-
+	document.getElementById(lookupDisplayAttrName).value = "";
 	document.getElementById(changedValue).value = "";
 	document.getElementById(changedValue).style.borderColor = "";
-	
 	document.getElementById(comments).value = "";
 	document.getElementById('calendarDiv').style.display = "none";
 	
@@ -722,32 +722,37 @@ function updateOtherFields_Callback( data ) {
 		if(counter == 0) {
 			document.getElementById(lookupReturn).value = value_array[counter];
 		}
-		
+
 		if(counter == 1) {
+			document.getElementById(lookupDisplayAttrName).value = value_array[counter];
+		}
+		
+		if(counter == 2) {
 			document.getElementById(oldDisplayValue).value = value_array[counter];
 			document.getElementById(displayValue).value = value_array[counter];
 		}
 		
-		if(counter == 2) {
+		if(counter == 3) {
 			document.getElementById(dataType).value = value_array[counter];
 			
 		}
 		
-		if(counter == 3) {
+		if(counter == 4) {
 			document.getElementById(hasLookup).value = value_array[counter];
 		}
 		
-		if(counter == 4) {
+		if(counter == 5) {
 			document.getElementById(lookupArgument).value = value_array[counter];
 		}
 		
-		if(counter == 5) {
+		if(counter == 6) {
 			document.getElementById(lookupWindow).value = value_array[counter]; 
 		}
 		
 		counter+=1;
 	}
 	
+	var displayValueField = document.getElementById(displayValue).name;
 	var prefix = findElPrefix( document.getElementById(displayValue).name );
 	var imageUrl = document.getElementById("imageUrl").value;
 	var tabIndex = document.getElementById("tabIndex").value;
@@ -756,11 +761,11 @@ function updateOtherFields_Callback( data ) {
 	var changedValueFieldName = document.getElementById(changedValue).name;
 	var myDiv = document.getElementById('changedValueExtraBody');
 	var dataTypeValue = document.getElementById(dataType).value;
-	
-	dynamicDivUpdate(lookupClass, lookupReturnValue, changedValueFieldName, dataTypeValue);
+	var lookupDisplayAttr = document.getElementById(lookupDisplayAttrName).value;
+	dynamicDivUpdate(lookupClass, lookupReturnValue, lookupDisplayAttr, changedValueFieldName, displayValueField, dataTypeValue);
 }
 
-function dynamicDivUpdate(lookupClass, lookupReturnValue, changedValueFieldName, dataTypeValue) {
+function dynamicDivUpdate(lookupClass, lookupReturnValue, lookupDisplayAttr, changedValueFieldName, displayValueField, dataTypeValue) {
    	var imageUrl = document.getElementById("imageUrl").value;
 	var tabIndex = document.getElementById("tabIndex").value;
     var myDiv = document.getElementById('changedValueExtraBody');
@@ -768,9 +773,25 @@ function dynamicDivUpdate(lookupClass, lookupReturnValue, changedValueFieldName,
 	
 	if(lookupClass != "" && lookupReturnValue != "" && changedValueFieldName != "") {
 		innerDivContent = "<input type='image' tabindex='' ";
-		innerDivContent = innerDivContent + " name='methodToCall.performLookup.(!!" + lookupClass + "!!).(((" + lookupReturnValue + ":" + changedValueFieldName + "))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorProposalDataOverride' ";
+		innerDivContent = innerDivContent + " name='methodToCall.performLookup.(!!" + lookupClass + "!!).(((" + lookupReturnValue + ":" + changedValueFieldName + "," + lookupDisplayAttr + ":" + displayValueField + "))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorProposalDataOverride' ";
 		innerDivContent = innerDivContent + " src='" + imageUrl + "searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search' title='Search' /> ";
 	} 
+	
+	if(dataTypeValue != "" && (dataTypeValue == 'DATE' || dataTypeValue == 'date')) {
+		innerDivContent = innerDivContent + "<img src=\"" + imageUrl + "cal.gif\" id=\"newProposalChangedData.changedValue_datepicker\" style=\"cursor: pointer;\"";
+		innerDivContent = innerDivContent + " title=\"Date selector\" alt=\"Date selector\" onmouseover=\"this.style.backgroundColor='red';\" onmouseout=\"this.style.backgroundColor='transparent';\" />";
+	
+		//Calendar.setup(
+		//	{
+		//	  inputField : "newProposalChangedData.changedValue", // ID of the input field
+		//	  ifFormat : "%m/%d/%Y", // the date format
+		//	  button : "newProposalChangedData.changedValue_datepicker" // ID of the button
+		//    }
+		//);
+		//document.getElementById('calendarDiv').style.display = "block";
+	}
+	
+	myDiv.innerHTML = innerDivContent;
 	
 	if(dataTypeValue != "" && (dataTypeValue == 'DATE' || dataTypeValue == 'date')) {
 		Calendar.setup(
@@ -780,10 +801,7 @@ function dynamicDivUpdate(lookupClass, lookupReturnValue, changedValueFieldName,
 			  button : "newProposalChangedData.changedValue_datepicker" // ID of the button
 		    }
 		);
-		document.getElementById('calendarDiv').style.display = "block";
 	}
-	
-	myDiv.innerHTML = innerDivContent;
 }
 
 function enableBudgetStatus(document, index) {
