@@ -155,7 +155,7 @@
 		
 		<collection-descriptor name="proposalChangedDataList" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
 			<orderby name="columnName" sort="DESC" /> 
-			<orderby name="changedValue" sort="DESC" /> 
+			<orderby name="changeNumber" sort="DESC" /> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
 		
@@ -280,7 +280,6 @@
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ActivityType" table="ACTIVITY_TYPE">
 		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
