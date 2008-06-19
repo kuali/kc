@@ -107,7 +107,7 @@ public class UnitAuthorizationServiceAclImpl implements UnitAuthorizationService
             // the permission in a higher-level unit with the SUBUNITS flag set to YES.
             
             boolean requireSubunits = false;
-            Collection<UnitAclEntry> entries = getAclEntries(username, unitNumber);
+            Collection<UnitAclEntry> entries = getAclEntries(username, unitNumber, permissionName);
             while (entries.isEmpty()) {
                 requireSubunits = true;
                 Unit unit = unitService.getUnit(unitNumber);
@@ -119,33 +119,17 @@ public class UnitAuthorizationServiceAclImpl implements UnitAuthorizationService
                     break;
                 }
                 unitNumber = parentUnitNumber;
-                entries = getAclEntries(username, unitNumber);
+                entries = getAclEntries(username, unitNumber, permissionName);
             }
             
             for (UnitAclEntry entry : entries) {
-                String roleName = entry.getRole().getName();
-                if (kimRoleService.hasPermission(roleName, Constants.KRA_NAMESPACE, permissionName)) {
-                    if (!requireSubunits || entry.getSubunits()) {
-                        userHasPermission = true;
-                        break;
-                    }
+                if (!requireSubunits || entry.getSubunits()) {
+                    userHasPermission = true;
+                    break;
                 }
             }
         }
         return userHasPermission;
-    }
-
-    
-    private Collection<UnitAclEntry> getAclEntries(String username, String unitNumber) {
-        Person person = personService.getPersonByName(username);
-        String personId = person.getPersonId();
-        
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("personId", personId);
-        fieldValues.put("unitNumber", unitNumber);
-        fieldValues.put("active", true);
-        Collection<UnitAclEntry> aclList = businessObjectService.findMatching(UnitAclEntry.class, fieldValues);
-        return filterAcl(aclList);
     }
 
     /**
@@ -158,13 +142,13 @@ public class UnitAuthorizationServiceAclImpl implements UnitAuthorizationService
         
         boolean userHasPermission = systemAuthorizationService.hasPermission(username, permissionName);
         if (!userHasPermission) {
-            Collection<UnitAclEntry> entries = getAclEntries(username);
-            for (UnitAclEntry entry : entries) {
-                String roleName = entry.getRole().getName();
-                if (kimRoleService.hasPermission(roleName, Constants.KRA_NAMESPACE, permissionName)) {
-                    userHasPermission = true;
-                    break;
-                }
+            
+            // We just want to know if the person has the given permission anywhere.
+            // So, if they do have that permission in any unit, then the answer is yes.
+            
+            Collection<UnitAclEntry> entries = getAclEntries(username, permissionName);
+            if (entries.size() > 0) {
+                userHasPermission = true;
             }
         }
             
@@ -186,40 +170,73 @@ public class UnitAuthorizationServiceAclImpl implements UnitAuthorizationService
             units.addAll(unitService.getUnits());
         }
         else {
-           Collection<UnitAclEntry> entries = getAclEntries(username);
+            /*
+             * The following algorithm is a little tricky.  First, find all the
+             * ACL entries where the user has the permission.  For those ACL entries
+             * that descend to subunits, we must add those subunits.  But there is
+             * one exception: we don't traverse subunits that are also in the list
+             * of ACL entries.  This is because the permission may be assigned in
+             * different units within the unit hierarchy tree.  As we go down the
+             * tree, we may encounter a unit where the permission no longer descends.
+             */
+           Collection<UnitAclEntry> entries = getAclEntries(username, permissionName);
            for (UnitAclEntry entry : entries) {
-               units.add(entry.getUnit());
+               addUnitToList(entry.getUnit(), units);
                if (entry.getSubunits()) {
-                   units.addAll(getUnits(entry.getUnitNumber(), entries));
+                   addUnitsToList(getSubUnits(entry.getUnitNumber(), entries), units);
                }
            }
         }
         return units;
     }
     
-    private Collection<UnitAclEntry> getAclEntries(String username) {
-        Person person = personService.getPersonByName(username);
-        String personId = person.getPersonId();
-        
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("personId", personId);
-        fieldValues.put("active", true);
-        Collection<UnitAclEntry> aclList = businessObjectService.findMatching(UnitAclEntry.class, fieldValues);
-        return filterAcl(aclList);
+    /**
+     * Don't add duplicate units to the list.
+     * @param unit
+     * @param unitList
+     */
+    private void addUnitToList(Unit unit, List<Unit> unitList) {
+        if (!unitList.contains(unit)) {
+            unitList.add(unit);
+        }
     }
     
-    private List<Unit> getUnits(String unitNumber, Collection<UnitAclEntry> entries) {
+    /**
+     * Don't add duplicate units to the list.
+     * @param units
+     * @param unitList
+     */
+    private void addUnitsToList(List<Unit> units, List<Unit> unitList) {
+        for (Unit unit : units) {
+            addUnitToList(unit, unitList);
+        }
+    }
+    
+    /**
+     * Get all of the subunits for a unit, but exclude any subunits that are
+     * in the Unit ACL.
+     * @param unitNumber
+     * @param entries
+     * @return
+     */
+    private List<Unit> getSubUnits(String unitNumber, Collection<UnitAclEntry> entries) {
         List<Unit> units = new ArrayList<Unit>();
         List<Unit> subunits = unitService.getSubUnits(unitNumber);
         for (Unit unit : subunits) {
             if (!isInAcl(unit, entries)) {
                 units.add(unit);
-                units.addAll(getUnits(unit.getUnitNumber(), entries));
+                units.addAll(getSubUnits(unit.getUnitNumber(), entries));
             }
         }
         return units;
     }
     
+    /**
+     * Is the unit in the Unit ACL?
+     * @param unit
+     * @param entries
+     * @return
+     */
     private boolean isInAcl(Unit unit, Collection<UnitAclEntry> entries) {
         String unitNumber = unit.getUnitNumber();
         for (UnitAclEntry entry : entries) {
@@ -230,12 +247,59 @@ public class UnitAuthorizationServiceAclImpl implements UnitAuthorizationService
         return false;
     }
     
-    private Collection<UnitAclEntry> filterAcl(Collection<UnitAclEntry> aclList) {
+    /**
+     * Get the list of Unit ACL entries where the user has the given permission.
+     * @param username
+     * @param permissionName
+     * @return
+     */
+    private Collection<UnitAclEntry> getAclEntries(String username, String permissionName) {
+        Person person = personService.getPersonByName(username);
+        String personId = person.getPersonId();
+        
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("personId", personId);
+        fieldValues.put("active", true);
+        Collection<UnitAclEntry> aclList = businessObjectService.findMatching(UnitAclEntry.class, fieldValues);
+        return filterAcl(aclList, permissionName);
+    }
+    
+    /**
+     * Get the list of Unit ACL entries where the user has the given permission in the
+     * given unit.
+     * @param username
+     * @param unitNumber
+     * @param permissionName
+     * @return
+     */
+    private Collection<UnitAclEntry> getAclEntries(String username, String unitNumber, String permissionName) {
+        Person person = personService.getPersonByName(username);
+        String personId = person.getPersonId();
+        
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("personId", personId);
+        fieldValues.put("unitNumber", unitNumber);
+        fieldValues.put("active", true);
+        Collection<UnitAclEntry> aclList = businessObjectService.findMatching(UnitAclEntry.class, fieldValues);
+        return filterAcl(aclList, permissionName);
+    }
+    
+    /**
+     * Filter out the Proposal Roles.  Within the Unit ACL, the assignment
+     * of a person to a proposal role is only used as a template, not a 
+     * real assignment of a person to a role.
+     * @param aclList
+     * @return
+     */
+    private Collection<UnitAclEntry> filterAcl(Collection<UnitAclEntry> aclList, String permissionName) {
         List<UnitAclEntry> list = new ArrayList<UnitAclEntry>();
         for (UnitAclEntry aclEntry : aclList) {
             KimRole role = aclEntry.getRole();
             if (!StringUtils.equals(role.getRoleTypeCode(), PROPOSAL_ROLE_TYPE)) {
-                list.add(aclEntry);
+                String roleName = role.getName();
+                if (kimRoleService.hasPermission(roleName, Constants.KRA_NAMESPACE, permissionName)) {
+                    list.add(aclEntry);
+                }
             }
         }
         return list;
