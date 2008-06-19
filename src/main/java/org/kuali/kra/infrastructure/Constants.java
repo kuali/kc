@@ -241,4 +241,6 @@ public interface Constants {
     public static final String PROPOSALDATA_CURRENT_DISPLAY_KEY = "newProposalChangedData.oldDisplayValue";
     public static final String PROPOSALDATA_COMMENTS_KEY = "newProposalChangedData.comments";
     
+    public static final String BUDGET_SALARY_REPORT = "ProposalBudget/Salaries";
+    
 }

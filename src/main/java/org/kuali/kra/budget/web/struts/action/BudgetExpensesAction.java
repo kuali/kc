@@ -43,10 +43,12 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.rules.BudgetExpenseRule;
 import org.kuali.kra.budget.service.BudgetCalculationService;
+import org.kuali.kra.budget.service.BudgetPrintService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 public class BudgetExpensesAction extends BudgetAction {
     private static final Log LOG = LogFactory.getLog(BudgetExpensesAction.class);
@@ -267,6 +269,15 @@ public class BudgetExpensesAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward viewPersonnelSalaries(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm)form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
+        try{
+            AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budgetDocument, Constants.BUDGET_SALARY_REPORT);
+            streamToResponse(dataStream,response);
+        }catch(Exception ex){
+            LOG.warn(ex);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
