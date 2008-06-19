@@ -25,7 +25,7 @@
 
             <inquirySections><inquirySection title="Organization Type"><inquiryFields>
             	<field attributeName="organizationId" forceInquiry="true"/>
-				<field attributeName="organizationTypeCode" forceInquiry="true"/>
+				<field attributeName="organizationTypeList.description" forceInquiry="true"/>
 
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -53,7 +53,7 @@
 
             <resultFields>
             	<field attributeName="organizationId" forceInquiry="true"/>
-				<field attributeName="organizationTypeCode" forceInquiry="true"/>
+				<field attributeName="organizationTypeList.description" forceInquiry="true"/>
 
             </resultFields>
         </lookup>
@@ -85,9 +85,22 @@
 			<summary>Organization Type Code </summary>
 			<description>Organization Type Code </description>
 			</attribute>
+
+            <attributeReference name="organizationTypeList.description" sourceClassName="org.kuali.kra.bo.OrganizationTypeList" sourceAttributeName="description" >
+			    <label>Organization Type</label>
+			    <shortLabel>Organization Type</shortLabel>
+            </attributeReference>
+
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
 		</attributes>
+
+        <relationships>
+            <relationship objectAttributeName="organizationTypeList">
+                <primitiveAttribute sourceName="organizationTypeCode" targetName="organizationTypeCode" />
+                <supportAttribute sourceName="organizationTypeList.description" targetName="description" identifier="true" />
+            </relationship>
+        </relationships>
     </businessObject>
 
 </dictionaryEntry>

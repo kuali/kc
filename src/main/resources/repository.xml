@@ -435,6 +435,9 @@
         <reference-descriptor name="kimPerson" class-ref="org.kuali.kra.kim.bo.KimPerson" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="kimPersonId" />
         </reference-descriptor>
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="homeUnit" />
+    	</reference-descriptor>
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" table="EPS_PROP_PERSON">
@@ -855,6 +858,14 @@
 			<foreignkey field-ref="countryCode"/>
 		</reference-descriptor>
 		-->
+
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="ownedByUnit" />
+    	</reference-descriptor>
+
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="sponsorCode" />
+    	</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.bo.NonOrganizationalRolodex" table="ROLODEX">
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" primarykey="true"/>
@@ -917,6 +928,12 @@
 			<foreignkey field-ref="countryCode"/>
 		</reference-descriptor>
 		-->
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="ownedByUnit" />
+    	</reference-descriptor>
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="sponsorCode" />
+    	</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalLocation" table="EPS_PROP_LOCATION">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
@@ -1088,7 +1105,7 @@
 		<field-descriptor name="dodacNumber" column="DODAC_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="dunAndBradstreetNumber" column="DUN_AND_BRADSTREET_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="dunsPlusFourNumber" column="DUNS_PLUS_FOUR_NUMBER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="ownedByUnit" column="OWNED_BY_UNIT" jdbc-type="VARCHAR"/>
+		<field-descriptor id="1" name="ownedByUnit" column="OWNED_BY_UNIT" jdbc-type="VARCHAR"/>
 		<field-descriptor name="postalCode" column="POSTAL_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="sponsorName" column="SPONSOR_NAME" jdbc-type="VARCHAR"/>
@@ -1131,6 +1148,10 @@
 		</reference-descriptor> -->
 		<reference-descriptor name="sponsorType" class-ref="org.kuali.kra.bo.SponsorType" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="sponsorTypeCode" />
+    	</reference-descriptor>
+
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
 	</class-descriptor>
 
@@ -1940,7 +1961,8 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="jobCodeReference" class-ref="org.kuali.kra.budget.bo.JobCode" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+
+		<reference-descriptor name="jobCodeReference" class-ref="org.kuali.kra.budget.bo.JobCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="jobCode"/>
 		</reference-descriptor>
 	</class-descriptor>
