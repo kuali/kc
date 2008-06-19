@@ -97,6 +97,8 @@ public class BudgetAction extends ProposalActionBase {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
+        
+        
         if (actionForward != null) {
             if (("totals").equals(actionForward.getName())) { 
                 ((BudgetForm)form).suppressButtonsForTotalPage();
@@ -129,7 +131,7 @@ public class BudgetAction extends ProposalActionBase {
             budgetDocument.setRateClassTypesReloaded(false);
         }
         
-        return actionForward == null ? mapping.findForward(MAPPING_BASIC) : actionForward;
+        return actionForward; 
     }
 
 
@@ -290,7 +292,9 @@ public class BudgetAction extends ProposalActionBase {
         try{
             baos = new ByteArrayOutputStream(xbts.length);
             baos.write(xbts);
+            
             WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
+            
         }finally{
             try{
                 if(baos!=null){
