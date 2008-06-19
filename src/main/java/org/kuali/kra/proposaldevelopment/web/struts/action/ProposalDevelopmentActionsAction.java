@@ -306,7 +306,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             changeHistory.put(newProposalChangedData.getEditableColumn().getColumnLabel(), new ArrayList<ProposalChangedData>());
         } 
         
-        changeHistory.get(newProposalChangedData.getEditableColumn().getColumnLabel()).add(newProposalChangedData);
+        changeHistory.get(newProposalChangedData.getEditableColumn().getColumnLabel()).add(0, newProposalChangedData);
     }
     
     private ProposalOverview createProposalWrapper(ProposalDevelopmentDocument pdDocument) throws Exception {
