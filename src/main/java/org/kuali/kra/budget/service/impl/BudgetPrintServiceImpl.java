@@ -91,6 +91,7 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
     private static final String PERIOD_COST_VALUE = "periodCostValue";
     private static final Log LOG = LogFactory.getLog(BudgetPrintServiceImpl.class);
     private CoeusBean2KraBoConverterService coeusBean2KraBoConverterService;
+    private static final String CONTENT_TYPE = "application/pdf";
 
     @SuppressWarnings("unchecked")
     private AttachmentDataSource readStream(String reportId,String reportName,Map params){
@@ -111,7 +112,8 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
                     return streamData;
                 }
             };
-            attachment.setFileName(reportName);
+            attachment.setFileName(reportName.concat(".pdf"));
+            attachment.setContentType(CONTENT_TYPE);
             return attachment;
         }
         catch (CoeusException e) {
