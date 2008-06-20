@@ -29,7 +29,7 @@
 	    <kra:section permission="modifyNarratives">
 	    	<div class="h2-container">
 	    		<span class="subhead-left"><h2>Add Proposal Attachments</h2></span>
-	    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
 	        </div>
         </kra:section>
         <table cellpadding=0 cellspacing=0 summary="">

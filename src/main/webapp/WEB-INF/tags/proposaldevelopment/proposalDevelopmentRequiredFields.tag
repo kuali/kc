@@ -9,7 +9,7 @@
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Required Fields for Saving Document</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalType" altText="help"/></span>
         </div>
         
         <table cellpadding=0 cellspacing=0 summary="">
@@ -80,7 +80,7 @@
          <br>
             <div class="h2-container">
               <span class="subhead-left"><h2>Institutional Fields Conditionally Required</h2></span>
-              <span class="subhead-right"><kul:help businessObjectClassName="fillMeIn" altText="help"/></span>
+              <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalType" altText="help"/></span>
             </div>
             
             <table summary="" cellpadding="0" cellspacing="0">
