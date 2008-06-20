@@ -27,6 +27,9 @@ public class Rolodex extends KraPersistableBusinessObjectBase {
 	private String state;
 	private String suffix;
 	private String title;
+    private Unit unit;
+    private Sponsor sponsor;
+
 
 	public Integer getRolodexId() {
 		return rolodexId;
@@ -220,6 +223,41 @@ public class Rolodex extends KraPersistableBusinessObjectBase {
 		this.title = title;
 	}
 
+    /**
+     * Unit reference referred by {@link #getOwnedByUnit()}
+     *
+     * @param unit 
+     */
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    /**
+     * Unit reference referred by {@link #getOwnedByUnit()}
+     *
+     * @return unit 
+     */
+    public Unit getUnit() {
+        return unit;
+    }
+
+    /**
+     * Sponsor reference referred by {@link #getSponsorCode()}
+     *
+     * @param sponsor 
+     */
+    public void setSponsor(Sponsor sponsor) {
+        this.sponsor = sponsor;
+    }
+
+    /**
+     * Sponsor reference referred by {@link #getSponsorCode()}
+     *
+     * @return Sponsor 
+     */
+    public Sponsor getSponsor() {
+        return sponsor;
+    }
 
 	@Override 
 	protected LinkedHashMap toStringMapper() {

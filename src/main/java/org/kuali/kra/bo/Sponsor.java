@@ -39,6 +39,8 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     private SponsorType sponsorType;
     private Country country;
 
+    private Unit unit;
+
     public Sponsor(){
         super();
         setCreateUser(getUpdateUser());
@@ -154,6 +156,24 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
 	public void setState(String state) {
 		this.state = state;
 	}
+
+    /**
+     * Unit reference referred by {@link #getOwnedByUnit()}
+     *
+     * @param unit 
+     */
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    /**
+     * Unit reference referred by {@link #getOwnedByUnit()}
+     *
+     * @return unit 
+     */
+    public Unit getUnit() {
+        return unit;
+    }
 
 
 	@Override 

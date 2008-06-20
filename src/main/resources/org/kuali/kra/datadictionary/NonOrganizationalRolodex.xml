@@ -40,12 +40,12 @@
                 <field attributeName="lastName"/>
                 <field attributeName="middleName"/>
                 <field attributeName="organization"/>
-                <field attributeName="ownedByUnit"/>
+                <field attributeName="unit.unitName"/>
                 <field attributeName="phoneNumber"/>
                 <field attributeName="postalCode"/>
                 <field attributeName="prefix"/>
                 <field attributeName="sponsorAddressFlag"/>
-                <field attributeName="sponsorCode"/>
+                <field attributeName="sponsor.sponsorName"/>
                 <field attributeName="suffix"/>
                 <field attributeName="title"/>
 
@@ -112,12 +112,12 @@
                 <field attributeName="lastName" forceInquiry="false"/>
                 <field attributeName="middleName" forceInquiry="false"/>
                 <field attributeName="organization" forceInquiry="false"/>
-                <field attributeName="ownedByUnit" forceInquiry="false"/>
+                <field attributeName="unit.unitName" forceInquiry="false"/>
                 <field attributeName="phoneNumber" forceInquiry="false"/>
                 <field attributeName="postalCode" forceInquiry="false"/>
                 <field attributeName="prefix" forceInquiry="false"/>
                 <field attributeName="sponsorAddressFlag" forceInquiry="false"/>
-                <field attributeName="sponsorCode" forceInquiry="false"/>
+                <field attributeName="sponsor.sponsorName" forceInquiry="false"/>
                 <field attributeName="suffix" forceInquiry="false"/>
                 <field attributeName="title" forceInquiry="false"/>
 
@@ -274,6 +274,11 @@
             <description>Owned By Unit </description>
             </attribute>
 
+            <attributeReference name="unit.unitName" sourceClassName="org.kuali.kra.bo.Unit" sourceAttributeName="unitName" >
+                <label>Owned By Unit</label>
+                <shortLabel>Owned By Unit</shortLabel>
+            </attributeReference>
+
             <attribute name="phoneNumber">
             <label>Phone Number </label>
             <shortLabel>Phone Number </shortLabel>
@@ -334,6 +339,11 @@
             <description>Sponsor Code </description>
             </attribute>
 
+            <attributeReference name="sponsor.sponsorName" sourceClassName="org.kuali.kra.bo.Sponsor" sourceAttributeName="sponsorName" >
+            <label>Sponsor</label>
+            <shortLabel>Sponsor</shortLabel>
+            </attributeReference>
+
             <attributeReference name="city" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="city" />
 
             <attributeReference name="county" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="county" />
@@ -367,6 +377,18 @@
             </attribute>
 
         </attributes>
+
+        <relationships>
+          <relationship objectAttributeName="unit">
+              <primitiveAttribute sourceName="ownedByUnit" targetName="unitNumber" />
+                <supportAttribute sourceName="unit.unitName" targetName="unitName" identifier="true" />
+            </relationship>
+
+            <relationship objectAttributeName="sponsor">
+                <primitiveAttribute sourceName="sponsorCode" targetName="sponsorCode" />
+                <supportAttribute sourceName="sponsor.sponsorName" targetName="sponsorName" identifier="true" />
+            </relationship>
+        </relationships>
     </businessObject>
 
 </dictionaryEntry>
