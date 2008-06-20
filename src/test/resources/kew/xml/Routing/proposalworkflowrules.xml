@@ -23,7 +23,7 @@ resource:WorkflowData">
       <ignorePrevious>true</ignorePrevious>
       <responsibilities>
         <responsibility>
-          <role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!PROPOSALINVESTIGATOR</role>
+          <role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!PRINCIPALINVESTIGATOR</role>
           <approvePolicy>A</approvePolicy>
           <actionRequested>A</actionRequested>
           <priority>1</priority>
@@ -45,7 +45,20 @@ resource:WorkflowData">
         </responsibility>
       </responsibilities>
     </rule>
-    
+    <rule>
+      <documentType>ProposalDevelopmentDocument</documentType>
+      <ruleTemplate>ProposalPersonsApproval</ruleTemplate>
+      <description>ProposalPersons Approval</description>
+      <ignorePrevious>false</ignorePrevious>
+      <responsibilities>
+        <responsibility>
+          <role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!KEYPERSON</role>
+          <approvePolicy>A</approvePolicy>
+          <actionRequested>A</actionRequested>
+          <priority>1</priority>
+        </responsibility>
+      </responsibilities>
+    </rule>
     
     <rule>
       <documentType>ProposalDevelopmentDocument</documentType>

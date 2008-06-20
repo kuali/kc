@@ -68,7 +68,7 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
     public void proposalpersontest() throws Exception {
         ProposalDevelopmentDocument proposaldevelopmentdocument = (ProposalDevelopmentDocument) documentService.getNewDocument("ProposalDevelopmentDocument");
         setDocumentFields(proposaldevelopmentdocument);
-       documentService.saveDocument(proposaldevelopmentdocument);
+        documentService.saveDocument(proposaldevelopmentdocument);
         DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(proposaldevelopmentdocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
         RouteContext routecontext=RouteContext.createNewRouteContext();  
         routecontext.setDocument(routeHeader);
@@ -85,10 +85,15 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
             AuthenticationUserId authid = (AuthenticationUserId) ids.next();
             assertEquals(authid.getId(),"jtester");
         }
+        ResolvedQualifiedRole resolvedrole2=roleattribute.resolveQualifiedRole(routecontext, KEY_PERSON_ROLE.getName(), KEY_PERSON_ROLE.getBaseName());
+         for (Iterator<Id> ids = resolvedrole2.getRecipients().iterator(); ids.hasNext();) {
+            AuthenticationUserId authid = (AuthenticationUserId) ids.next();
+            assertEquals(authid.getId(),"bhutchinson");
+        }
+         
 
     
     }
-
     private void setDocumentFields(ProposalDevelopmentDocument document) {
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
@@ -113,11 +118,21 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
         person2.setOptInCertificationStatus("Y");
         person2.setOptInUnitStatus("Y");
                 
-
-        
+        ProposalPerson person3= new ProposalPerson();
+        person3.setProposalNumber("7");
+        person3.setProposalPersonNumber(5);
+        person3.setProposalPersonRoleId("KP");
+        person3.setPersonId("000000005");
+        person3.setUserName("bhutchinson");
+        person3.setOptInCertificationStatus("Y");
+        person3.setOptInUnitStatus("Y");
+        person3.setProjectRole("test");
         ProposalPersons.add(person);
        
         ProposalPersons.add(person2);
+        
+        ProposalPersons.add(person3);
+        
         
         
         document.setProposalPersons(ProposalPersons);

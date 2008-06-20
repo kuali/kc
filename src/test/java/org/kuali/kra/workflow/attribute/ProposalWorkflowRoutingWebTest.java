@@ -116,7 +116,7 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         String sponsorDeadlineDate = sdf.format(c.getTime()); 
         HtmlPage proposaldevelopmentPage = getProposalDevelopmentPage();
         setDefaultRequiredFields(proposaldevelopmentPage);
-        setFieldValue(proposaldevelopmentPage,"document.deadlineDate", sponsorDeadlineDate);
+        setFieldValue(proposaldevelopmentPage,"document.deadlineDate",sponsorDeadlineDate);
         HtmlForm proposaldevform = (HtmlForm) proposaldevelopmentPage.getForms().get(0);
         final HtmlHiddenInput documentNumber = (HtmlHiddenInput) proposaldevform.getInputByName("document.documentHeader.documentNumber");
         HtmlPage KeyPersonnelpage = clickOnTab(proposaldevelopmentPage, KEY_PERSONNEL_LINK_NAME);
@@ -128,10 +128,20 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
+        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.Person", "personId", "000000005");
+        assertEquals("Bryan Hutchinson", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
+        setFieldValue(KeyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "KP");
+        KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.insertProposalPerson");
+        KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.addCertificationQuestion.document.proposalPersons[1].line");
+        setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].projectRole","test");
+              
         // set up required custom attributes
         HtmlPage customDataPage = clickOn(KeyPersonnelpage, CUSTOM_DATA_LINK_NAME);
         assertContains(customDataPage,TestUtilities.GROUP_NAME_1);
-        assertContains(customDataPage,TestUtilities.GROUP_NAME_2);
+        assertContains(customDataPage,TestUtilities.GROUP_NAME_2);  
         assertContains(customDataPage,TestUtilities.GROUP_NAME_3);
   
         setFieldValue(customDataPage, GRADUATE_STUDENT_COUNT_ID, TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
@@ -173,12 +183,13 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         final HtmlPage approvalConfirmationPage = clickButton(approvePage, form2, "methodToCall.approve", IMAGE_INPUT);
         assertNotNull(approvalConfirmationPage);
 
-        GlobalVariables.setUserSession(new UserSession("tdurkin"));
+        GlobalVariables.setUserSession(new UserSession("bhutchinson"));
         final WebClient newWebClient1 = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
         final URL url1 = new URL("http://localhost:" + getPort() + "/kra-dev/");
-        final HtmlPage pageAfterLogin1 = login(newWebClient1, url1, "en/ActionList.do", "tdurkin");
+        final HtmlPage pageAfterLogin1 = login(newWebClient1, url1, "en/ActionList.do", "bhutchinson");
         assertNotNull(pageAfterLogin1);
-
+            
+        
         HtmlAnchor docLink1 = getAnchorFromPage(pageAfterLogin1, "docId=" + documentNumber.getDefaultValue());
         assertNotNull(docLink1);
         HtmlPage docDisplay1 = (HtmlPage) docLink1.click();
@@ -193,7 +204,8 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         assertNotNull(workflowDoc);
         String currentnodename=workflowDoc.getCurrentRouteNodeNames();
         assertEquals(currentnodename,"ProposalPersons");
-
+        
+        
     }
 
 
