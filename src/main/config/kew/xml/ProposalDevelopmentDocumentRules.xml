@@ -50,7 +50,21 @@ resource:WorkflowData">
       <ignorePrevious>true</ignorePrevious>
       <responsibilities>
         <responsibility>
-          <role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!PROPOSALINVESTIGATOR</role>
+          <role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!PRINCIPALINVESTIGATOR</role>
+          <approvePolicy>A</approvePolicy>
+          <actionRequested>A</actionRequested>
+          <priority>1</priority>
+        </responsibility>
+      </responsibilities>
+    </rule>
+    <rule>
+      <documentType>ProposalDevelopmentDocument</documentType>
+      <ruleTemplate>ProposalPersonsApproval</ruleTemplate>
+      <description>ProposalPersons Approval</description>
+      <ignorePrevious>true</ignorePrevious>
+      <responsibilities>
+        <responsibility>
+          <role>org.kuali.kra.workflow.ProposalPersonRoleAttribute!KEYPERSON</role>
           <approvePolicy>A</approvePolicy>
           <actionRequested>A</actionRequested>
           <priority>1</priority>
@@ -105,41 +119,32 @@ resource:WorkflowData">
           <user>schulte</user>
           <actionRequested>A</actionRequested>
           <priority>1</priority>
-        </responsibility>
-      </responsibilities>
-    </rule>
-      <rule>
-      <documentType>ProposalDevelopmentDocument</documentType>
-      <ruleTemplate>DepartmentalApproval</ruleTemplate>
-      <description>Departmental Approval Routing Rule for IN-CARD</description>
-      <ignorePrevious>false</ignorePrevious>
-      <ruleExtensions>
-        <ruleExtension>
-          <attribute>DepartmentalApprovalAttribute</attribute>
-          <ruleTemplate>DepartmentalApproval</ruleTemplate>
-          <ruleExtensionValues>
-            <ruleExtensionValue>
-              <key>ownedByUnitNumber</key>
-              <value>IN-CARD</value>
-            </ruleExtensionValue>
-          </ruleExtensionValues>
-        </ruleExtension>
-        <ruleExtension>
-          <attribute>DepartmentalBudgetApprovalAttribute</attribute>
-          <ruleTemplate>DepartmentalApproval</ruleTemplate>
-          <ruleExtensionValues>
-            <ruleExtensionValue>
-              <key>totalCost</key>
-              <value>100000</value>
-            </ruleExtensionValue>
-          </ruleExtensionValues>
-        </ruleExtension>
-      </ruleExtensions>
-      <responsibilities>
-        <responsibility>
-          <workgroup>Departmental_Routing</workgroup>
-          <actionRequested>A</actionRequested>
-          <priority>1</priority>
+          <delegations>
+            <rule>
+              <documentType>ProposalDevelopmentDocument</documentType>
+              <ruleTemplate>DepartmentalDelegationTemplate</ruleTemplate>
+              <description>Primary Delegation</description>
+              <ignorePrevious>false</ignorePrevious>
+              <responsibilities>
+                <responsibility>
+                  <user>woods</user>
+                </responsibility>
+              </responsibilities>
+              <delegationType>P</delegationType>
+            </rule>
+            <rule>
+              <documentType>ProposalDevelopmentDocument</documentType>
+              <ruleTemplate>DepartmentalDelegationTemplate</ruleTemplate>
+              <description>Secondary Delegation</description>
+              <ignorePrevious>false</ignorePrevious>
+              <responsibilities>
+                <responsibility>
+                  <user>westfall</user>
+                </responsibility>
+              </responsibilities>
+              <delegationType>S</delegationType>
+            </rule>
+          </delegations>
         </responsibility>
       </responsibilities>
     </rule>
