@@ -154,6 +154,28 @@ public class BudgetActionsAction extends BudgetAction {
     }
     
     public ActionForward viewXFD(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm)form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        int selectedLineNumber = getSelectedLine(request);
+        
+        byte[] xbts = budgetDocument.getBudgetSubAwards().get(selectedLineNumber).getSubAwardXfdFileData();
+        String contentType = budgetDocument.getBudgetSubAwards().get(selectedLineNumber).getSubAwardXfdFile().getContentType();
+        String fileName = budgetDocument.getBudgetSubAwards().get(selectedLineNumber).getSubAwardXfdFile().getFileName();
+        ByteArrayOutputStream baos = null;
+        try{
+            baos = new ByteArrayOutputStream(xbts.length);
+            baos.write(xbts);
+            WebUtils.saveMimeOutputStreamAsFile(response, contentType, baos, fileName);
+        }finally{
+            try{
+                if(baos!=null){
+                    baos.close();
+                    baos = null;
+                }
+            }catch(IOException ioEx){
+                LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -162,6 +184,10 @@ public class BudgetActionsAction extends BudgetAction {
     }
     
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm)form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        int selectedLineNumber = getSelectedLine(request);
+        budgetDocument.getBudgetSubAwards().remove(selectedLineNumber);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
