@@ -44,17 +44,20 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
 
     private static final long serialVersionUID = 1L;
 
-    private static final Role PROPOSAL_INVESTIGATOR = new Role(ProposalPersonRoleAttribute.class, "PROPOSALINVESTIGATOR", "ProposalInvestigator");
+    private static final Role PRINCIPAL_INVESTIGATOR = new Role(ProposalPersonRoleAttribute.class, "PRINCIPALINVESTIGATOR", "PrincipalInvestigator");
     private static final Role CO_INVESTIGATOR = new Role(ProposalPersonRoleAttribute.class, "COINVESTIGATOR", "CoInvestigator");
-    private static final String PROPOSAL_INVESTIGATOR_ROLE_KEY = "PROPOSALINVESTIGATOR";
+    private static final Role KEYPERSON = new Role(ProposalPersonRoleAttribute.class, "KEYPERSON", "Keyperson");
+    private static final String PRINCIPAL_INVESTIGATOR_ROLE_KEY = "PRINCIPALINVESTIGATOR";
     private static final String COINVESTIGATOR_ROLE_KEY = "COINVESTIGATOR";
+    private static final String KEYPERSON_ROLE_KEY = "KEYPERSON";
 
 
 
     public List<Role> getRoleNames() {
         List<Role> roles = new ArrayList<Role>();
-        roles.add(PROPOSAL_INVESTIGATOR);
+        roles.add(PRINCIPAL_INVESTIGATOR);
         roles.add(CO_INVESTIGATOR);
+        roles.add(KEYPERSON);
         return roles;
     }
 
@@ -66,7 +69,7 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         ResolvedQualifiedRole qualRole = new ResolvedQualifiedRole();
         List<Id> members = new ArrayList<Id>();
         UserId roleUserId = null;
-        if (StringUtils.equals(PROPOSAL_INVESTIGATOR.getBaseName(), qualifiedRole)) {
+        if (StringUtils.equals(PRINCIPAL_INVESTIGATOR.getBaseName(), qualifiedRole)) {
             List<String> proposalinvestigator=getProposalInvestigator(routeContext);
             for (Iterator<String> pis = proposalinvestigator.iterator(); pis.hasNext();) {
                 String  id = pis.next();
@@ -75,7 +78,7 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
             }  
             qualRole.setRecipients(members);
             qualRole.setAnnotation("ProposalInvestigator Approval");
-            qualRole.setQualifiedRoleLabel(PROPOSAL_INVESTIGATOR.getLabel());
+            qualRole.setQualifiedRoleLabel(PRINCIPAL_INVESTIGATOR.getLabel());
 
         } else if (StringUtils.equals(CO_INVESTIGATOR.getBaseName(), qualifiedRole)) {
 
@@ -88,10 +91,18 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
             qualRole.setRecipients(members);
             qualRole.setAnnotation("CO-Investigator Approval");
             qualRole.setQualifiedRoleLabel(CO_INVESTIGATOR.getLabel());
-        } 
-
-
-
+        } else if(StringUtils.equals(KEYPERSON.getBaseName(), qualifiedRole)){
+            List<String> keypersons=getKeyPersons(routeContext);
+            for (Iterator<String> kp = keypersons.iterator(); kp.hasNext();) {
+                String  id = kp.next();
+                roleUserId = new AuthenticationUserId(id);
+                members.add(roleUserId);
+            }
+            qualRole.setRecipients(members);
+            qualRole.setAnnotation("Keyperson Approval");
+            qualRole.setQualifiedRoleLabel(KEYPERSON.getLabel());
+            
+        }
         return qualRole;
 
     }
@@ -99,14 +110,18 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
     public List<String> getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
         List<String> qualifiedRoleNames = new ArrayList<String>();
 
-        if ( PROPOSAL_INVESTIGATOR_ROLE_KEY.equals(roleName)) {
+        if ( PRINCIPAL_INVESTIGATOR_ROLE_KEY.equals(roleName)) {
 
-            qualifiedRoleNames.add(PROPOSAL_INVESTIGATOR_ROLE_KEY);
+            qualifiedRoleNames.add(PRINCIPAL_INVESTIGATOR_ROLE_KEY);
 
         }
         else if(COINVESTIGATOR_ROLE_KEY.equals(roleName))
         {
             qualifiedRoleNames.add(COINVESTIGATOR_ROLE_KEY);
+        }
+        else if(KEYPERSON_ROLE_KEY.equals(roleName)){
+            
+            qualifiedRoleNames.add(KEYPERSON_ROLE_KEY);
         }
         return  qualifiedRoleNames;
     }
@@ -169,7 +184,7 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         return Investigators;
     }
 
-    public List<String> getProposalKeyPersons(RouteContext routeContext) {
+    public List<String> getKeyPersons(RouteContext routeContext) {
         List<String> KeyPersons = new ArrayList<String>();
         Element rootElement=routeContext.getDocumentContent().getApplicationContent();
         if(rootElement!=null){
@@ -179,7 +194,7 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
             for (int i = 0; i < proposalperonList.getLength(); i++) {
                 Node proposalpersonNode =proposalperonList.item(i);
                 if(getChildElementTextValue(proposalpersonNode,"proposalPersonRoleId")!=null){
-                    if(getChildElementTextValue(proposalpersonNode, "proposalPersonRoleId").equals(KEY_PERSON_ROLE)){
+                    if(getChildElementTextValue(proposalpersonNode, "proposalPersonRoleId").equals(KEY_PERSON_ROLE) && getChildElementTextValue(proposalpersonNode,"optInCertificationStatus").equals("Y")){
                         KeyPersons.add(getChildElementTextValue(proposalpersonNode, "userName"));
                     }
                 }
