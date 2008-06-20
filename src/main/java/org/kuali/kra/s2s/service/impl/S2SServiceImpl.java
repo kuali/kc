@@ -83,6 +83,8 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
     private String reportPath;
     private static final Logger LOG = Logger.getLogger(S2SServiceImpl.class);
     private BusinessObjectService businessObjectService;
+    private static final String CONTENT_TYPE = "application/pdf";
+    
     public S2SServiceImpl() {
         s2sSubmissionTxnBean = new S2SSubmissionDataTxnBean();
         coeusMessageResourcesBean = new CoeusMessageResourcesBean();
@@ -518,8 +520,8 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
                     return doc.getDocumentData();
                 }
             };
-            attDataSource.setContentType(doc.getMimeType());
-            attDataSource.setFileName(doc.getDocumentName());
+            attDataSource.setContentType(CONTENT_TYPE);
+            attDataSource.setFileName(doc.getDocumentName()+".pdf");            
             return attDataSource;
         }catch(S2SValidationException ex){
 //            LOG.error(ex);
