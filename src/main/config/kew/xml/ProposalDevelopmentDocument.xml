@@ -202,15 +202,7 @@
 			<type>RuleAttribute</type>
 		</ruleAttribute>
 		<!-- Role attribute -->
-		<ruleAttribute>
-			<name>ProposalPersonRoleAttribute</name>
-			<className>
-				org.kuali.kra.workflow.ProposalPersonRoleAttribute
-			</className>
-			<label>Proposal Routing</label>
-			<description>Proposal Routing</description>
-			<type>RuleAttribute</type>
-		</ruleAttribute>
+		
 
 	</ruleAttributes>
 
@@ -336,6 +328,7 @@
 		<ruleTemplate allowOverwrite="true">
 			<name>DepartmentalApproval</name>
 			<description>Department Approval Routing Rule</description>
+			<delegationTemplate>DepartmentalDelegationTemplate</delegationTemplate>
 			<attributes>
 				<attribute>
 					<name>DepartmentalApprovalAttribute</name>
@@ -347,5 +340,11 @@
 				</attribute>
 			</attributes>
 		</ruleTemplate>
+		<ruleTemplate allowOverwrite="true">
+			<name>DepartmentalDelegationTemplate</name>
+			<description>DepartmentalDelegationTemplate</description>
+		</ruleTemplate>
+		
+		
 	</ruleTemplates>
 </data>
