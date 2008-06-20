@@ -29,6 +29,9 @@ import static org.kuali.kra.infrastructure.Constants.PROPOSAL_PERSON_KEY;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_YNQ_INCOMPLETE;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
@@ -100,8 +103,13 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
     private boolean validateYesNoQuestions(ProposalDevelopmentDocument document) {
         boolean retval = true;
         
-        for (ProposalPerson investigator : document.getInvestigators()) {
-            retval = validateYesNoQuestions(investigator);
+        for (ProposalPerson investigator : document.getProposalPersons()) {
+            if(investigator.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE) || investigator.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)){
+                retval = validateYesNoQuestions(investigator);
+            }
+            if(investigator.getProposalPersonRoleId().equals(KEY_PERSON_ROLE) && isNotBlank(investigator.getOptInCertificationStatus()) && investigator.getOptInCertificationStatus().equals("Y")){
+                retval = validateYesNoQuestions(investigator);
+            }
         }
         
         if (!retval) {
@@ -126,6 +134,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         boolean retval = true;
         
         for (ProposalPersonYnq question : investigator.getProposalPersonYnqs()) {
+           
             retval &= isNotBlank(question.getAnswer());
         }
                
