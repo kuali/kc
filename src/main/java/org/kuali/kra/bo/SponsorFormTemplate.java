@@ -17,18 +17,36 @@ package org.kuali.kra.bo;
 
 import java.util.LinkedHashMap;
 
-public class SponsorFormTemplate extends KraPersistableBusinessObjectBase {
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
+import org.apache.struts.upload.FormFile;
+import org.kuali.core.bo.PersistableAttachment;
+
+public class SponsorFormTemplate extends KraPersistableBusinessObjectBase implements PersistableAttachment{
 	private Integer packageNumber;
 	private Integer pageNumber;
 	private String sponsorCode;
 	private byte[] formTemplate;
 	private String pageDescription;
+    private String fileName;
+    private String contentType;
+    private byte[] attachmentContent;
+    private FormFile templateFile;
+    private SponsorForms sponsorForms;
 
 	public Integer getPackageNumber() {
 		return packageNumber;
 	}
 
-	public void setPackageNumber(Integer packageNumber) {
+    public byte[] getAttachmentContent() {
+        return this.attachmentContent;
+    }
+
+    public void setAttachmentContent(byte[] attachmentContent) {
+        this.attachmentContent = attachmentContent;
+    }
+
+    public void setPackageNumber(Integer packageNumber) {
 		this.packageNumber = packageNumber;
 	}
 
@@ -75,4 +93,46 @@ public class SponsorFormTemplate extends KraPersistableBusinessObjectBase {
 		hashMap.put("pageDescription", getPageDescription());
 		return hashMap;
 	}
+
+    public FormFile getTemplateFile() {
+        return templateFile;
+    }
+    
+    public void setTemplateFile(FormFile templateFile) {
+        this.templateFile = templateFile;
+    }
+
+    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+	    super.beforeInsert(persistenceBroker);
+	}
+
+	public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+	    super.afterLookup(persistenceBroker);
+	}	
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public final SponsorForms getSponsorForms() {
+        return sponsorForms;
+    }
+
+    public final void setSponsorForms(SponsorForms sponsorForms) {
+        this.sponsorForms = sponsorForms;
+    }
+    
+    
 }
