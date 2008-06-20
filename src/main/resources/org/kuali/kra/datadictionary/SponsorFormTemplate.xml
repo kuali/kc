@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl1.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kra.bo.SponsorFormTemplate">
+
+        <inquiry>
+            <title>Sponsor Form Templates</title>
+
+            <inquirySections><inquirySection title="Sponsor Form Templates"><inquiryFields>
+				<field attributeName="packageNumber"/>
+				<field attributeName="pageDescription"/>
+				<field attributeName="pageNumber"/>
+				<field attributeName="sponsorCode"/>
+
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Sponsor Form Templates Lookup</title>
+			<menubar>
+				<![CDATA[<a href="index.jsp">Main</a>]]>
+			</menubar>
+            <instructions>Look up a Sponsor Form Templates</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="packageNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+				<lookupField attributeName="packageNumber" required="false"/>
+				<lookupField attributeName="pageDescription" required="false"/>
+				<lookupField attributeName="pageNumber" required="false"/>
+				<lookupField attributeName="sponsorCode" required="false"/>
+
+            </lookupFields>
+
+            <resultFields>
+				<field attributeName="packageNumber" forceInquiry="false"/>
+				<field attributeName="pageDescription" forceInquiry="false"/>
+				<field attributeName="pageNumber" forceInquiry="false"/>
+				<field attributeName="sponsorCode" forceInquiry="false"/>
+                <field attributeName="templateFile" forceInquiry="false"/>
+
+            </resultFields>
+        </lookup>
+
+        
+        <attributes>
+
+	        <attribute name="templateFile">
+			<label>Attachment </label>
+			<shortLabel>Attachment </shortLabel>
+			<maxLength>150</maxLength>
+			<required>false</required>
+			<control>
+				<file size="100" />
+			</control>
+			<summary>Attachment </summary>
+			<description>Sponsor Form Template </description>
+			</attribute>
+
+			<attribute name="packageNumber">
+			<label>Package Number </label>
+			<shortLabel>Package Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Package Number </summary>
+			<description>Package Number </description>
+			</attribute>
+
+			<attribute name="pageDescription">
+			<label>Page Description </label>
+			<shortLabel>Page Description </shortLabel>
+			<maxLength>200</maxLength>
+			<control>
+				<text size="200" />
+			</control>
+			<summary>Page Description </summary>
+			<description>Page Description </description>
+			</attribute>
+
+			<attribute name="pageNumber">
+			<label>Page Number </label>
+			<shortLabel>Page Number </shortLabel>
+			<maxLength>3</maxLength>
+			<validationPattern><numeric /></validationPattern>
+			<control>
+				<text size="3" />
+			</control>
+			<summary>Page Number </summary>
+			<description>Page Number </description>
+			</attribute>
+
+			<attribute name="sponsorCode">
+			<label>Sponsor Code </label>
+			<shortLabel>Sponsor Code </shortLabel>
+			<maxLength>6</maxLength>
+			<validationPattern><alphaNumeric /></validationPattern>
+			<control>
+				<text size="6" />
+			</control>
+			<summary>Sponsor Code </summary>
+			<description>Sponsor Code </description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+		</attributes>
+    </businessObject>
+
+</dictionaryEntry>
