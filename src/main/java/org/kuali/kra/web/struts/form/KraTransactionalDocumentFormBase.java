@@ -66,13 +66,15 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         super.reset(mapping, request);
         if (request.getParameter("checkboxToReset") != null) {
             String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
-            for (int i = 0; i < checkboxesToReset.length; i++) {
-                String propertyName = (String) checkboxesToReset[i];
-                try {
-                    PropertyUtils.setNestedProperty(this, propertyName, false);
-                } catch (Exception e1) {
-                    LOG.error("Error occurred in reset " + e1.getMessage());
-                    throw new RuntimeException(e1.getMessage(), e1);
+            if(checkboxesToReset != null && checkboxesToReset.length > 0) {
+                for (int i = 0; i < checkboxesToReset.length; i++) {
+                    String propertyName = (String) checkboxesToReset[i];
+                    try {
+                        PropertyUtils.setNestedProperty(this, propertyName, false);
+                    } catch (Exception e1) {
+                        LOG.error("Error occurred in reset " + e1.getMessage());
+                        throw new RuntimeException(e1.getMessage(), e1);
+                    }
                 }
             }
         }
