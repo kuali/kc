@@ -22,7 +22,7 @@
 	<div align="center">
     	<table  cellpadding="0" cellspacing="0" summary="">
         	<tr>
-                <td width="48%">
+                <td>
                 	<div align="right">Location:
                   		<kul:htmlControlAttribute readOnly="false" property="viewLocation" attributeEntry="${budgetProposalRatesAttributes.viewLocation}" styleClass="fixed-size-200-select"/>
                 	</div>
@@ -30,11 +30,13 @@
                 <td width="4%">
                 	&nbsp;
                 </td>
+                <!-- 
                 <td width="48%">
                 	<div align="right">Budget Period:
                   		<kul:htmlControlAttribute readOnly="false" property="viewBudgetPeriod" attributeEntry="${budgetProposalRatesAttributes.budgetPeriod}" styleClass="fixed-size-200-select"/>
 					</div>                  
                 </td>
+                 -->
             </tr>
         </table>
         <br>
