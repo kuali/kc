@@ -47,4 +47,17 @@ public class KraRequestProcessor extends KualiRequestProcessor {
         
         return actionForward;
     }
+    
+    @Override
+    protected void processPopulate(HttpServletRequest request, HttpServletResponse response, ActionForm form,
+        ActionMapping mapping) throws ServletException {
+            
+        Boolean sessionExpired = (Boolean) request.getSession().getAttribute(KeyConstants.SESSION_EXPIRED_IND);  
+        if (sessionExpired != null && sessionExpired.booleanValue() == true) {
+            return;
+        }
+        
+        super.processPopulate(request, response, form, mapping);
+    }
+
 }
