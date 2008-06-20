@@ -434,6 +434,9 @@
         <reference-descriptor name="kimPerson" class-ref="org.kuali.kra.kim.bo.KimPerson" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="kimPersonId" />
         </reference-descriptor>
+		 <!-- <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="homeUnit" /> 
+    	</reference-descriptor> -->
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" table="EPS_PROP_PERSON">
@@ -854,6 +857,14 @@
 			<foreignkey field-ref="countryCode"/>
 		</reference-descriptor>
 		-->
+
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="ownedByUnit" />
+    	</reference-descriptor>
+
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="sponsorCode" />
+    	</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.bo.NonOrganizationalRolodex" table="ROLODEX">
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" primarykey="true"/>
@@ -916,6 +927,12 @@
 			<foreignkey field-ref="countryCode"/>
 		</reference-descriptor>
 		-->
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="ownedByUnit" />
+    	</reference-descriptor>
+		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="sponsorCode" />
+    	</reference-descriptor>
 	</class-descriptor>
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalLocation" table="EPS_PROP_LOCATION">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
@@ -1087,7 +1104,7 @@
 		<field-descriptor name="dodacNumber" column="DODAC_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="dunAndBradstreetNumber" column="DUN_AND_BRADSTREET_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="dunsPlusFourNumber" column="DUNS_PLUS_FOUR_NUMBER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="ownedByUnit" column="OWNED_BY_UNIT" jdbc-type="VARCHAR"/>
+		<field-descriptor id="1" name="ownedByUnit" column="OWNED_BY_UNIT" jdbc-type="VARCHAR"/>
 		<field-descriptor name="postalCode" column="POSTAL_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="sponsorName" column="SPONSOR_NAME" jdbc-type="VARCHAR"/>
@@ -1130,6 +1147,10 @@
 		</reference-descriptor> -->
 		<reference-descriptor name="sponsorType" class-ref="org.kuali.kra.bo.SponsorType" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="sponsorTypeCode" />
+    	</reference-descriptor>
+
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
 	</class-descriptor>
 
@@ -1483,7 +1504,10 @@
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
-	<!-- 	<collection-descriptor name="BudgetModular" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetModular" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+    	<collection-descriptor name="budgetSubAwards" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="proposalNumber"/>
+		</collection-descriptor>
+	 	<!--<collection-descriptor name="BudgetModular" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetModular" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
 		<collection-descriptor name="BudgetPeriods" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPeriods" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
@@ -1491,11 +1515,7 @@
 		</collection-descriptor>
 		<collection-descriptor name="BudgetPersons" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersons" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
-		</collection-descriptor>
-		<collection-descriptor name="BudgetSubAwards" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="proposalNumber"/>
-			<inverse-foreignkey field-ref="versionNumber"/>
-		</collection-descriptor>
+		</collection-descriptor>		
 		<collection-descriptor name="PropCostSharing" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropCostSharing" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
@@ -1632,7 +1652,7 @@
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="organizationName" column="ORGANIZATION_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="subAwardStatusCode" column="SUB_AWARD_STATUS_CODE" jdbc-type="INTEGER"/>
-		<field-descriptor name="subAwardXfdFile" column="SUB_AWARD_XFD_FILE" jdbc-type="BINARY"/>
+		<field-descriptor name="subAwardXfdFileData" column="SUB_AWARD_XFD_FILE" jdbc-type="LONGVARBINARY"/>
 		<field-descriptor name="subAwardXfdFileName" column="SUB_AWARD_XFD_FILE_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="subAwardXmlFile" column="SUB_AWARD_XML_FILE" jdbc-type="CLOB"/>
 		<field-descriptor name="translationComments" column="TRANSLATION_COMMENTS" jdbc-type="VARCHAR"/>
@@ -1661,11 +1681,11 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="BudgetSubAwards" class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<!--  <reference-descriptor name="BudgetSubAwards" class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalNumber"/> 
 			<foreignkey field-ref="subAwardNumber"/> 
 			<foreignkey field-ref="budgetVersionNumber"/> 
-		</reference-descriptor>
+		</reference-descriptor>-->
 	</class-descriptor>    
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetCategory" table="BUDGET_CATEGORY">
 		<field-descriptor name="budgetCategoryCode" column="BUDGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
@@ -1928,6 +1948,7 @@
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/> 
 		</reference-descriptor>
+
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.bo.TbnPerson" table="TBN">
@@ -1938,7 +1959,8 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="jobCodeReference" class-ref="org.kuali.kra.budget.bo.JobCode" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+
+		<reference-descriptor name="jobCodeReference" class-ref="org.kuali.kra.budget.bo.JobCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="jobCode"/>
 		</reference-descriptor>
 	</class-descriptor>
@@ -2382,10 +2404,9 @@
         <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
         <field-descriptor name="roleTypeCode" column="ROLE_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+                <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        
         <reference-descriptor name="roleType" class-ref="org.kuali.kra.kim.bo.KimRoleType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="roleTypeCode"/>
         </reference-descriptor>
@@ -2743,7 +2764,7 @@
 		</reference-descriptor>
 		-->
 	</class-descriptor>
- <!-- sp rev enhancement -->
+ <!-- sp rev enhancement -->	
  <!--  Resubmission enhancement --> 
 	<class-descriptor class="org.kuali.kra.s2s.bo.S2sSubmissionHistory" table="SUBMISSION_HISTORY">
  		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" sequence-name="SEQUENCE_SUBMISSION_HISTORY" primarykey="true" autoincrement="true"/>
