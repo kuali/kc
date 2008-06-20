@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.Constants.NIH_SPONSOR_ACRONYM;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
@@ -502,6 +503,11 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             }else if((person!= null) && (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
                 if(StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
                     pdform.setReject(true);
+                }
+                else if((person!= null) && (person.getProposalPersonRoleId().equals(KEY_PERSON_ROLE))){
+                    if(StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
+                        pdform.setReject(true);
+                    }
                 }
             }
         }
