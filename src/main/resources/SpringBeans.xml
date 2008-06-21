@@ -802,5 +802,7 @@
             <ref bean="businessObjectService" />
         </property>
     </bean>
-	
+    
+	<bean id="proposalStateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl" />
+    
 </beans>

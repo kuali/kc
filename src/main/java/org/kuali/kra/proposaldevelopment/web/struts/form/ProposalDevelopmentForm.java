@@ -45,7 +45,9 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
 import org.kuali.core.web.ui.ExtraButton;
+import org.kuali.core.web.ui.HeaderField;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.Unit;
@@ -67,6 +69,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUser;
 import org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -80,6 +83,7 @@ import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class...
@@ -201,6 +205,16 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         if (copyCriteria != null) {
             copyCriteria.setOriginalLeadUnitNumber(proposalDevelopmentDocument.getOwnedByUnitNumber());
         }
+    }
+    
+    protected void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
+        
+        ProposalDevelopmentDocument pd = getProposalDevelopmentDocument();
+        ProposalState proposalState = (pd == null) ? null : pd.getProposalState();
+        HeaderField docStatus = new HeaderField("DataDictionary.DocumentHeader.attributes.financialDocumentStatusCode", proposalState == null? "" : proposalState.getDescription());
+        
+        getDocInfo().set(1, docStatus);
     }
 
     private void populateCurrentProposalColumnValues() {
@@ -1008,14 +1022,21 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
                     showResubmitButton=false;
                 }
             }
-        }else{
+        } else if (doc.getSubmitFlag()) {
+            /*
+             * If we get here, we have a non-electronic submission which doesn't have a submission history.
+             */
+            showSubmitButton = false;
+            showResubmitButton = false;
+        }
+        else {
             showResubmitButton=false;
         }  
         
         String externalImageURL = "kra.externalizable.images.url";
         if(showSubmitButton){
             String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submitgrantsgov.gif";
-            addExtraButton("methodToCall.submitToGrantsGov", submitToGrantsGovImage, "Submit To Grants Gov");
+            addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
         }else if(showResubmitButton){
             String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_resubmission.gif";
             addExtraButton("methodToCall.resubmit", resubmissionImage, "Replace Sponsor");
