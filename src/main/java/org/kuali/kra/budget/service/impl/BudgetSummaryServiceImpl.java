@@ -561,7 +561,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     }
 
     
-    private List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate) {
+    public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate) {
         // duration is < (enddate - start date)
         Date startDate = startEndDates.get(0);
         Date endDate = startEndDates.get(1);
