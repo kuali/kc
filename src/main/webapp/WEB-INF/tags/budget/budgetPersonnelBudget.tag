@@ -57,7 +57,7 @@
     	</tr>
     </table>
     </kul:tabTop>
-	<kul:tab tabTitle="Personnel Budget" defaultOpen="true" tabErrorKey="document.budgetPeriod*,budget.personnelBudget*,newBudgetPersonnelDetails.*">
+	<kul:tab tabTitle="Personnel Budget" defaultOpen="true" tabErrorKey="document.budgetPeriod*,budget.personnelBudget*,newBudgetPersonnelDetails.*"  auditCluster="budgetPeriodProjectDateAuditErrors"  tabAuditKey="document.budgetPeriod*" useRiceAuditMode="true">
 		<div class="tab-container" align="center">		
 		<c:forEach var="budgetPersonns" items="${KualiForm.document.budgetPersons}" varStatus="status">			
 			<c:if test="${budgetPersonns.calculationBase <= 0 or empty budgetPersonns.effectiveDate or empty budgetPersonns.jobCode or budgetPersonns.jobCode=='' or empty budgetPersonns.appointmentTypeCode or budgetPersonns.appointmentTypeCode==''}">

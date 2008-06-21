@@ -241,4 +241,5 @@ public interface Constants {
     public static final String PROPOSALDATA_COMMENTS_KEY = "newProposalChangedData.comments";
 
     public static final String BUDGET_SALARY_REPORT = "ProposalBudget/Salaries";
+    public static final String PERSONNEL_BUDGET_PANEL_NAME = "Personnel Budget";
 }
