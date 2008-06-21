@@ -67,6 +67,14 @@
 			</div>
 			</c:if>		
 		</c:forEach>
+    	<div style="text-align:left;width: 98%" >
+		   	<c:forEach var="budgetPersonnelDetails" items="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].budgetPersonnelDetailsList}" varStatus="status">
+				<c:set var="msg" value="${budgetPersonnelDetails.effdtAfterStartdtMsg}" /> 
+     			<c:if test="${!empty  msg}" >
+     			    <strong><c:out value="${msg}" /> </strong><br/>
+     			</c:if>
+			</c:forEach>
+        </div></br>
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Personnel Budget</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetPersonnelDetails" altText="help"/></span>
