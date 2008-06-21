@@ -39,7 +39,7 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
 	private BudgetPerson budgetPerson;
     private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
     private List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList;
-
+    private String effdtAfterStartdtMsg;
     public BudgetPersonnelDetails(){
         budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
         budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
@@ -211,5 +211,18 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
      */
     public void setBudgetPersonnelRateAndBaseList(List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList) {
         this.budgetPersonnelRateAndBaseList = budgetPersonnelRateAndBaseList;
+    }
+    
+    public String getEffdtAfterStartdtMsg() {
+        if (budgetPerson == null) {
+            this.refreshReferenceObject("budgetPerson");
+        }
+        if (budgetPerson.getEffectiveDate().after(getStartDate())) {
+            return "Earning Period Start Date is before "+budgetPerson.getPersonName() +"'s Salary Effective Date. Salary is calculated based on Effective Date."; 
+        }
+        return "";
+    }
+    public void setEffdtAfterStartdtMsg(String effdtAfterStartdtMsg) {
+        this.effdtAfterStartdtMsg = effdtAfterStartdtMsg;
     }
 }
