@@ -74,7 +74,12 @@ public class BudgetExpensesAction extends BudgetAction {
             }
             budgetDocument.setBudgetCategoryTypeCodes(budgetCategoryTypes);
         }
+        if (budgetForm.getPersonnelDetailLine() != null) {
+            forward = personnelBudgetAudit(mapping, form, request, response, budgetForm.getPersonnelDetailLine());
+            budgetForm.setPersonnelDetailLine(null);
+        }         
         return forward;
+        
     }
 
 
@@ -368,4 +373,27 @@ public class BudgetExpensesAction extends BudgetAction {
             }
         }
     }
+    
+    public ActionForward personnelBudgetAudit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, int selectedLineNumber) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        int selectedPeriod = budgetForm.getViewBudgetPeriod().intValue();
+        DictionaryValidationService dictionaryValidationService = KraServiceLocator.getService(DictionaryValidationService.class);
+        int i =0;
+        for(BudgetLineItem budgetLineItem:budgetDocument.getBudgetPeriod(selectedPeriod-1).getBudgetLineItems()){
+            GlobalVariables.getErrorMap().addToErrorPath("document.budgetPeriods[" + (selectedPeriod-1) + "].budgetLineItems[" + i + "]");
+            dictionaryValidationService.validateBusinessObject(budgetLineItem);
+            GlobalVariables.getErrorMap().removeFromErrorPath("document.budgetPeriods[" + (selectedPeriod-1) + "].budgetLineItems[" + i + "]");
+            i++;
+            updatePersonnelBudgetRate(budgetLineItem);
+        }
+        BudgetLineItem selectedLineItem = budgetDocument.getBudgetPeriod(selectedPeriod-1).getBudgetLineItem(selectedLineNumber);
+        if(GlobalVariables.getErrorMap().getPropertiesWithErrors().size()>0){            
+            return mapping.findForward(Constants.MAPPING_EXPENSES_BUDGET);           
+        }
+        budgetForm.setSelectedBudgetLineItem(selectedLineItem);
+        budgetForm.setSelectedBudgetLineItemIndex(selectedLineNumber);
+        return mapping.findForward(Constants.MAPPING_PERSONNEL_BUDGET);
+    }
+
 }
