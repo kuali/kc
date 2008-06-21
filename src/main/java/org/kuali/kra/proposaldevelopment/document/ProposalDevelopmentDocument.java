@@ -62,12 +62,14 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.bo.YnqGroupName;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
+import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
@@ -89,7 +91,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private Date requestedStartDateInitial;
     private Date requestedEndDateInitial;
     private String title;
-    private String currentAwardNumber; 
+    private String currentAwardNumber;
     private Date deadlineDate;
     private String noticeOfOpportunityCode;
     private String deadlineType;
@@ -108,6 +110,8 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private String mailDescription;
     private Integer mailingAddressId;
     private String numberOfCopies;
+    private String proposalStateTypeCode;
+    private ProposalState proposalState = null;
     private String organizationId;
     private String performingOrganizationId;
     private List<ProposalLocation> proposalLocations;
@@ -151,10 +155,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     
     private List<ProposalChangedData> proposalChangedDataList;
     private Map<String, List<ProposalChangedData>> proposalChangeHistory;
+
+    private Boolean submitFlag = false;
     
     @SuppressWarnings("unchecked")
     public ProposalDevelopmentDocument() {
         super();
+        setProposalStateTypeCode(ProposalState.IN_PROGRESS);
         propScienceKeywords = new TypedArrayList(PropScienceKeyword.class);
         newDescription = getDefaultNewDescription();
         proposalLocations = new ArrayList<ProposalLocation>();
@@ -169,12 +176,11 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         ynqGroupNames = new ArrayList<YnqGroupName>();
         budgetVersionOverviews = new TypedArrayList(BudgetVersionOverview.class);
         investigators = new ArrayList<ProposalPerson>();
-        s2sOppForms = new ArrayList<S2sOppForms>();
+        s2sOppForms = new ArrayList<S2sOppForms>();        
         s2sAppSubmission = new ArrayList<S2sAppSubmission>();
         s2sSubmissionHistory = new ArrayList<S2sSubmissionHistory>();
         proposalChangedDataList = new TypedArrayList(ProposalChangedData.class);
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
-        
     }
 
     public void initialize() {
@@ -1390,7 +1396,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public int getNumberOfVersions() {
         return this.getBudgetVersionOverviews().size();
     }
-    
+
     /**
      * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
      * 
@@ -1420,7 +1426,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     } 
   
-
     public boolean isNih() {
         return nih;
     }
@@ -1441,7 +1446,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public List<S2sAppSubmission> getS2sAppSubmission() {
         return s2sAppSubmission;
     }
-
+   
     public void setS2sAppSubmission(List<S2sAppSubmission> appSubmission) {
         s2sAppSubmission = appSubmission;
     }
@@ -1469,6 +1474,37 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     public void setProposalChangeHistory(Map<String, List<ProposalChangedData>> proposalChangeHistory) {
         this.proposalChangeHistory = proposalChangeHistory;
     }
-  
+
+    public void setSubmitFlag(Boolean submitFlag) {
+        this.submitFlag = submitFlag;
+    }
     
+    public Boolean getSubmitFlag() {
+        return this.submitFlag;
+    }
+
+    public String getProposalStateTypeCode() {
+        return proposalStateTypeCode;
+    }
+
+    public void setProposalStateTypeCode(String proposalStateTypeCode) {
+        this.proposalStateTypeCode = proposalStateTypeCode;
+        if (proposalStateTypeCode == null) {
+            this.proposalState = null;
+        } else {
+            refreshReferenceObject("proposalState");
+        }
+    }
+
+    public ProposalState getProposalState() {
+        return proposalState;
+    }
+    
+    @Override
+    public void handleRouteStatusChange() {
+        super.handleRouteStatusChange();
+        
+        ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
+        setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(this));
+    }
 }
