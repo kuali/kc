@@ -50,6 +50,7 @@ create table eps_proposal
   cfda_number                   varchar2 (6),
   agency_program_code			varchar2(50),
   agency_division_code			varchar2(50),
+  submit_flag                   CHAR(1) NOT NULL,
   VER_NBR NUMBER(8,0) DEFAULT 1 constraint eps_proposal_n7 NOT NULL,
   OBJ_ID VARCHAR2(36) DEFAULT SYS_GUID() constraint eps_proposal_n8 NOT NULL,
   constraint eps_proposal_p1 primary key (proposal_number),
