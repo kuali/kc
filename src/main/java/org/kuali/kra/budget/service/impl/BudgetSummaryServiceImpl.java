@@ -84,13 +84,21 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         List<BudgetPersonnelDetails> newPersonnelItems = new ArrayList<BudgetPersonnelDetails>();
         HashMap newBudgetLineItems = new HashMap();
         HashMap newBudgetPersonnelLineItems = new HashMap();
+        int period1Duration=0;
+        BudgetPeriod budgetPeriod1=null;
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             Integer budPeriod = budgetPeriod.getBudgetPeriod();
             Long budgetPeriodId = budgetPeriod.getBudgetPeriodId();
+            int lineDuration = 0;
+            int currentPeriodDuration = 0;
+            int gap=0; 
+            List <Date> startEndDates = new ArrayList<Date>();
             switch(budPeriod) {
                 case 1 :
                     // get line items for first period
+                    budgetPeriod1 = budgetPeriod;
                     budgetLineItems = budgetPeriod.getBudgetLineItems();
+                    period1Duration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
                     break;
                 default :    
                     /* add line items for following periods */
@@ -99,17 +107,42 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                         budgetLineItem.getBudgetCalculatedAmounts().clear();
                         budgetLineItem.setBudgetPeriod(budPeriod);
                         budgetLineItem.setBudgetPeriodId(budgetPeriodId);
-                        budgetLineItem.setStartDate(budgetPeriod.getStartDate());
-                        budgetLineItem.setEndDate(budgetPeriod.getEndDate());
+                        //boolean isLeapDateInPeriod = isLeapDaysInPeriod(budgetLineItem.getStartDate(), budgetLineItem.getEndDate()) ;
+                        gap=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod1.getStartDate(), budgetLineItem.getStartDate(), false);
+                        lineDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
+                        currentPeriodDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
+                        if (period1Duration == lineDuration || lineDuration > currentPeriodDuration) {
+                            budgetLineItem.setStartDate(budgetPeriod.getStartDate());
+                            budgetLineItem.setEndDate(budgetPeriod.getEndDate());
+                        } else {
+                            startEndDates.add(0, budgetPeriod.getStartDate());
+                            startEndDates.add(1, budgetPeriod.getEndDate());
+                            List <Date> dates = getNewStartEndDates(startEndDates, gap, lineDuration, budgetLineItem.getStartDate());
+                            budgetLineItem.setStartDate(dates.get(0));
+                            budgetLineItem.setEndDate(dates.get(1));
+                        }
                         budgetLineItem.setBasedOnLineItem(budgetLineItem.getLineItemNumber());
+                        lineDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(periodLineItem.getStartDate(), periodLineItem.getEndDate(), false);
+                        int personnelDuration = 0;
                         /* add personnel line items */
                         List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
                         for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
                             budgetPersonnelDetail.getBudgetCalculatedAmounts().clear();
+                            personnelDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
                             budgetPersonnelDetail.setBudgetPeriod(budPeriod);
                             budgetPersonnelDetail.setBudgetPeriodId(budgetPeriodId);
-                            budgetPersonnelDetail.setStartDate(budgetPeriod.getStartDate());
-                            budgetPersonnelDetail.setEndDate(budgetPeriod.getEndDate());
+                            gap=KraServiceLocator.getService(DateTimeService.class).dateDiff(periodLineItem.getStartDate(), budgetPersonnelDetail.getStartDate(), false);
+                            if (personnelDuration >= lineDuration) {
+                                budgetPersonnelDetail.setStartDate(budgetLineItem.getStartDate());
+                                budgetPersonnelDetail.setEndDate(budgetLineItem.getEndDate());
+                            } else {
+                                startEndDates.add(0, budgetLineItem.getStartDate());
+                                startEndDates.add(1, budgetLineItem.getEndDate());
+                                //isLeapDateInPeriod = isLeapDaysInPeriod(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate()) ;
+                                List <Date> dates = getNewStartEndDates(startEndDates, gap, personnelDuration, budgetPersonnelDetail.getStartDate());
+                                budgetPersonnelDetail.setStartDate(dates.get(0));
+                                budgetPersonnelDetail.setEndDate(dates.get(1));
+                            }
                         }
                         budgetPeriod.getBudgetLineItems().add(budgetLineItem);
 
@@ -527,4 +560,110 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         return startEndDates;
     }
 
+    
+    private List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate) {
+        // duration is < (enddate - start date)
+        Date startDate = startEndDates.get(0);
+        Date endDate = startEndDates.get(1);
+        Date newStartDate = startDate;
+        Date newEndDate = endDate;
+        if (gap == 0) {
+            newEndDate = add(startDate,duration);;
+        } else {
+                // keep the gap between child start date and parent start date
+            newStartDate=add(startDate,gap);
+            newEndDate = add(newStartDate,duration);;
+            if (newStartDate.after(endDate)) {
+                newStartDate = startDate;
+                newEndDate=add(startDate,duration);
+            } else  if(newEndDate.after(endDate)) {
+                newEndDate=endDate;
+                newStartDate = add(endDate,duration *(-1));                
+            } 
+        }
+        startEndDates.clear();
+        if (isLeapYear(prevDate) && prevDate.compareTo(getLeapDay(prevDate)) >= 0 && !isLeapYear(newStartDate)) {
+            if (newStartDate.after(startDate)) {
+                // shift non-leap year date
+                newStartDate = add(newStartDate, -1);                
+                newEndDate = add(newEndDate, -1);                                
+            }
+        } else if (isLeapYear(newStartDate) && newStartDate.compareTo(getLeapDay(newStartDate)) >= 0 && !isLeapYear(prevDate)) {
+            if (newEndDate.before(endDate)) {
+                // shift leap year date
+                newStartDate = add(newStartDate, 1);                
+                newEndDate = add(newEndDate, 1);                                
+            }
+            
+        }
+        startEndDates.add(0, newStartDate);
+        startEndDates.add(1, newEndDate);
+        return startEndDates;
+    }
+
+    private boolean isLeapYear(Date date) {
+        int year = getYear(date);
+              
+        return isLeapYear(year);
+    }
+
+    private boolean isLeapYear(int year) {
+        boolean isLeapYear;
+
+        isLeapYear = (year % 4 == 0);
+        isLeapYear = isLeapYear && (year % 100 != 0);
+        isLeapYear = isLeapYear || (year % 400 == 0);        
+        return isLeapYear;
+
+    }
+    
+    private int getYear(Date date) {
+        Calendar c1 = Calendar.getInstance(); 
+        c1.setTime(new java.util.Date(date.getTime()));
+        return c1.get(Calendar.YEAR);
+
+    }
+    
+    private Date getLeapDay(Date date) {
+        Calendar c1 = Calendar.getInstance(); 
+        c1.clear();
+        c1.set(getYear(date), 1, 29);
+        return new java.sql.Date(c1.getTime().getTime());
+
+    }
+    
+    private boolean isLeapDaysInPeriod(Date sDate, Date eDate) {
+        Date leapDate;
+        int sYear = getYear(sDate);
+        int eYear = getYear(eDate);
+        if (isLeapYear(sDate)) {            
+            Calendar c1 = Calendar.getInstance(); 
+            c1.set(sYear, 1, 29);
+            leapDate = new java.sql.Date(c1.getTime().getTime());
+            // start date is before 2/29 & enddate >= 2/29
+            if (sDate.before(leapDate)) {
+                if (eDate.compareTo(leapDate) >= 0) {
+                    return true;
+                }           
+            } else if (sDate.equals(leapDate)) {
+                return true;
+            }
+        } else if (isLeapYear(sDate)) {
+            Calendar c1 = Calendar.getInstance(); 
+            c1.set(eYear, 1, 29);
+            leapDate = new java.sql.Date(c1.getTime().getTime());
+            if (eDate.compareTo(leapDate) >= 0) {
+                return true;
+            }
+        } else {
+            sYear++;
+            while (eYear > sYear) {
+                if (isLeapYear(sYear)) {
+                    return true;
+                }
+                sYear++;
+            }
+        }
+        return false;
+    }
 }
