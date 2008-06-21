@@ -18,6 +18,7 @@ package org.kuali.kra.budget.calculator;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +43,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
 
 public class BudgetPeriodCalculator {
@@ -102,8 +104,7 @@ public class BudgetPeriodCalculator {
         }
         if(budgetDocument.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
             ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budgetDocument.getOhRateClassCode());
-        }
-        
+        }        
         // syncBudgetTotals(budgetDocument);
     }
 
@@ -112,6 +113,8 @@ public class BudgetPeriodCalculator {
         //put all lineitems in one bucket
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         BudgetLineItem prevBudgetLineItem = currentBudgetLineItem;
+        int periodDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetPeriod.getEndDate(), false);
+        
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(budgetPeriod.getBudgetPeriod()<=currentBudgetPeriod.getBudgetPeriod()) continue;
 //            allLineItems.addAll(budgetPeriod.getBudgetLineItems());
@@ -152,23 +155,52 @@ public class BudgetPeriodCalculator {
                             }
                         }
                     }
-                    
+
                     budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItemToBeApplied);
                     prevBudgetLineItem = budgetLineItemToBeApplied;
                 }
             }
             // new line item check
+            int gap;
+            int lineDuration;
+            int currentPeriodDuration;
             if (prevBudgetLineItem.getBudgetPeriod() < (budgetPeriod.getBudgetPeriod())) {
                 BudgetLineItem budgetLineItem = (BudgetLineItem)ObjectUtils.deepCopy(prevBudgetLineItem);
                 budgetLineItem.getBudgetCalculatedAmounts().clear();
                 budgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                 budgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
-                budgetLineItem.setStartDate(budgetPeriod.getStartDate());
-                budgetLineItem.setEndDate(budgetPeriod.getEndDate());
+                //budgetLineItem.setStartDate(budgetPeriod.getStartDate());
+                //budgetLineItem.setEndDate(budgetPeriod.getEndDate());
+                
+                gap=KraServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate(), false);
+                lineDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
+                currentPeriodDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
+                List <java.sql.Date> startEndDates = new ArrayList<java.sql.Date> ();
+                if (periodDuration == lineDuration || lineDuration > currentPeriodDuration) {
+                    budgetLineItem.setStartDate(budgetPeriod.getStartDate());
+                    budgetLineItem.setEndDate(budgetPeriod.getEndDate());
+                } else {
+                    startEndDates.add(0, budgetPeriod.getStartDate());
+                    startEndDates.add(1, budgetPeriod.getEndDate());
+                    List <java.sql.Date> dates = getNewStartEndDates(startEndDates, gap, lineDuration, budgetLineItem.getStartDate());
+                    budgetLineItem.setStartDate(dates.get(0));
+                    budgetLineItem.setEndDate(dates.get(1));
+                }
+
+                
                 budgetLineItem.setBasedOnLineItem(prevBudgetLineItem.getLineItemNumber());
                 //budgetLineItem.setLineItemNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));                    
                 //budgetLineItem.setLineItemSequence(budgetLineItem.getLineItemNumber());
                 budgetLineItem.setVersionNumber(null);
+                
+                if (prevBudgetLineItem.getApplyInRateFlag()){
+                    BudgetDecimal lineItemCost = calculateInflation(budgetDocument, prevBudgetLineItem, budgetLineItem.getStartDate());
+                    budgetLineItem.setLineItemCost(lineItemCost);
+                }
+                
+                lineDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
+                int personnelDuration = 0;
+
                 /* add personnel line items */
                 List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
                 for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
@@ -177,8 +209,23 @@ public class BudgetPeriodCalculator {
                     budgetPersonnelDetail.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
                     //budgetPersonnelDetail.setLineItemNumber(budgetLineItem.getLineItemNumber());
                     budgetPersonnelDetail.setLineItemSequence(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
-                    budgetPersonnelDetail.setStartDate(budgetPeriod.getStartDate());
-                    budgetPersonnelDetail.setEndDate(budgetPeriod.getEndDate());
+                    //budgetPersonnelDetail.setStartDate(budgetPeriod.getStartDate());
+                    //budgetPersonnelDetail.setEndDate(budgetPeriod.getEndDate());
+                    
+                    personnelDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
+                    gap=KraServiceLocator.getService(DateTimeService.class).dateDiff(prevBudgetLineItem.getStartDate(), budgetPersonnelDetail.getStartDate(), false);
+                    if (personnelDuration >= lineDuration) {
+                        budgetPersonnelDetail.setStartDate(budgetLineItem.getStartDate());
+                        budgetPersonnelDetail.setEndDate(budgetLineItem.getEndDate());
+                    } else {
+                        startEndDates.add(0, budgetLineItem.getStartDate());
+                        startEndDates.add(1, budgetLineItem.getEndDate());
+                        List <java.sql.Date> dates = getNewStartEndDates(startEndDates, gap, personnelDuration, budgetPersonnelDetail.getStartDate());
+                        budgetPersonnelDetail.setStartDate(dates.get(0));
+                        budgetPersonnelDetail.setEndDate(dates.get(1));
+                    }
+
+                    
                     budgetPersonnelDetail.setVersionNumber(null);
                 }
                 budgetPeriod.getBudgetLineItems().add(budgetLineItem);
@@ -317,4 +364,119 @@ public class BudgetPeriodCalculator {
         this.errorMessages = errorMessages;
     }
 
+    private List<java.sql.Date> getNewStartEndDates(List<java.sql.Date> startEndDates, int gap, int duration, java.sql.Date prevDate) {
+        // duration is < (enddate - start date)
+        java.sql.Date startDate = startEndDates.get(0);
+        java.sql.Date endDate = startEndDates.get(1);
+        java.sql.Date newStartDate = startDate;
+        java.sql.Date newEndDate = endDate;
+        if (gap == 0) {
+            newEndDate = add(startDate,duration);;
+        } else {
+                // keep the gap between child start date and parent start date
+            newStartDate=add(startDate,gap);
+            newEndDate = add(newStartDate,duration);;
+            if (newStartDate.after(endDate)) {
+                newStartDate = startDate;
+                newEndDate=add(startDate,duration);
+            } else  if(newEndDate.after(endDate)) {
+                newEndDate=endDate;
+                newStartDate = add(endDate,duration *(-1));                
+            } 
+        }
+        startEndDates.clear();
+        if (isLeapYear(prevDate) && prevDate.compareTo(getLeapDay(prevDate)) >= 0 && !isLeapYear(newStartDate)) {
+            if (newStartDate.after(startDate)) {
+                // shift non-leap year date
+                newStartDate = add(newStartDate, -1);                
+                newEndDate = add(newEndDate, -1);                                
+            }
+        } else if (isLeapYear(newStartDate) && newStartDate.compareTo(getLeapDay(newStartDate)) >= 0 && !isLeapYear(prevDate)) {
+            if (newEndDate.before(endDate)) {
+                // shift leap year date
+                newStartDate = add(newStartDate, 1);                
+                newEndDate = add(newEndDate, 1);                                
+            }
+            
+        }
+        startEndDates.add(0, newStartDate);
+        startEndDates.add(1, newEndDate);
+        return startEndDates;
+    }
+
+    private boolean isLeapYear(java.sql.Date date) {
+        int year = getYear(date);
+              
+        return isLeapYear(year);
+    }
+
+    private boolean isLeapYear(int year) {
+        boolean isLeapYear;
+
+        isLeapYear = (year % 4 == 0);
+        isLeapYear = isLeapYear && (year % 100 != 0);
+        isLeapYear = isLeapYear || (year % 400 == 0);        
+        return isLeapYear;
+
+    }
+    
+    private int getYear(java.sql.Date date) {
+        Calendar c1 = Calendar.getInstance(); 
+        c1.setTime(new java.util.Date(date.getTime()));
+        return c1.get(Calendar.YEAR);
+
+    }
+    
+    private Date getLeapDay(java.sql.Date date) {
+        Calendar c1 = Calendar.getInstance(); 
+        c1.clear();
+        c1.set(getYear(date), 1, 29);
+        return new java.sql.Date(c1.getTime().getTime());
+
+    }
+    
+    private boolean isLeapDaysInPeriod(java.sql.Date sDate, java.sql.Date eDate) {
+        java.sql.Date leapDate;
+        int sYear = getYear(sDate);
+        int eYear = getYear(eDate);
+        if (isLeapYear(sDate)) {            
+            Calendar c1 = Calendar.getInstance(); 
+            c1.set(sYear, 1, 29);
+            leapDate = new java.sql.Date(c1.getTime().getTime());
+            // start date is before 2/29 & enddate >= 2/29
+            if (sDate.before(leapDate)) {
+                if (eDate.compareTo(leapDate) >= 0) {
+                    return true;
+                }           
+            } else if (sDate.equals(leapDate)) {
+                return true;
+            }
+        } else if (isLeapYear(sDate)) {
+            Calendar c1 = Calendar.getInstance(); 
+            c1.set(eYear, 1, 29);
+            leapDate = new java.sql.Date(c1.getTime().getTime());
+            if (eDate.compareTo(leapDate) >= 0) {
+                return true;
+            }
+        } else {
+            sYear++;
+            while (eYear > sYear) {
+                if (isLeapYear(sYear)) {
+                    return true;
+                }
+                sYear++;
+            }
+        }
+        return false;
+    }
+
+    private java.sql.Date add(java.sql.Date date, int days) {
+        Calendar c1 = Calendar.getInstance(); 
+        c1.setTime(new java.util.Date(date.getTime()));
+        c1.add(Calendar.DATE,days);
+        return new java.sql.Date(c1.getTime().getTime());
+        
+    }
+
+    
 }
