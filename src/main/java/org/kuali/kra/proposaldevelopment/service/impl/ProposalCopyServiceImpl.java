@@ -591,8 +591,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             ProposalPersonRole role = person.getRole();
             String roleId = role.getProposalPersonRoleId();
             
-            if ((StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) ||
-                (StringUtils.equals(roleId, Constants.CO_INVESTIGATOR_ROLE))) {
+            if (StringUtils.equals(roleId, Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
                 
                 List<ProposalPersonUnit> proposalPersonUnits = person.getUnits();
                 List<ProposalPersonUnit> newProposalPersonUnits = new ArrayList<ProposalPersonUnit>();
@@ -614,7 +613,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                         !StringUtils.equals(homeUnitNumber, oldUnitNumber) && 
                         !StringUtils.equals(oldLeadUnitNumber, oldUnitNumber)) {
                         
-                        unit = createProposalPersonUnit(person, newLeadUnitNumber, false, true, proposalPersonUnits);
+                        unit = createProposalPersonUnit(person, oldUnitNumber, false, true, proposalPersonUnits);
                         newProposalPersonUnits.add(unit);
                     }
                 }
