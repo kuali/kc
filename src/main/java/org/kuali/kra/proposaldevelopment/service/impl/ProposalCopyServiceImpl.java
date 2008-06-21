@@ -127,7 +127,10 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                                                    "Narratives",
                                                    "InstituteAttachments",
                                                    "PropPersonBios",
-                                                   "BudgetVersionOverviews"};
+                                                   "BudgetVersionOverviews",
+                                                   "SubmitFlag",
+                                                   "ProposalStateTypeCode",
+                                                   "ProposalState" };
     
     /**
      * Each property in the document that can be copied is represented

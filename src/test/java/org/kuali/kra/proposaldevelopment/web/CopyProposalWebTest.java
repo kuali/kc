@@ -51,7 +51,10 @@ public class CopyProposalWebTest extends ProposalDevelopmentWebTestBase {
                                                    "PropPersonBios",
                                                    "ProposalPersonBiographyService",
                                                    "NarrativeService",
-                                                   "OwnedByUnit" };
+                                                   "OwnedByUnit",
+                                                   "SubmitFlag",
+                                                   "ProposalStateTypeCode",
+                                                   "ProposalState" };
     
     private static final String LEAD_UNIT_NBR_1 = "000001";
     private static final String LEAD_UNIT_NBR_2 = "BL-IIDC";
