@@ -21,6 +21,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,7 +39,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.DocumentAuditEvent;
@@ -66,12 +66,11 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.rule.event.AddProposalSpecialReviewEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalCopyService;
+import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
@@ -106,6 +105,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     private static final String CONFIRM_SUBMISSION_WITH_WARNINGS_KEY = "submitApplication";
     private static final String EMPTY_STRING = "";
+    
+    private static final int OK = 0;
+    private static final int WARNING = 1;
+    private static final int ERROR = 2;
     
     /**
      * Struts mapping for the Proposal web page.  
@@ -531,110 +534,225 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward((RiceConstants.MAPPING_BASIC));
          }
         
-}
+    }
     
-    public ActionForward submitToGrantsGov(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    /**
+     * Submit a proposal to a sponsor.  
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward submitToSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response)throws Exception{
-        boolean errorExists = false;
-        boolean warningExists = false;
-        
+      
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
 
-        proposalDevelopmentForm.setAuditActivated(true);        
-        S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
+        proposalDevelopmentForm.setAuditActivated(true);
         
-        // TODO : this rull will be called again in proposaldevelopmentaction.execute
-        // should we comment out here
-        if(proposalDevelopmentDocument.getS2sOpportunity()!=null){
-            if(proposalDevelopmentDocument.getContinuedFrom()==null 
-                    || (!(StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(),KraServiceLocator.getService(KualiConfigurationService.class).getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW).getParameterValue()) 
-                            || StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode(),KraServiceLocator.getService(KualiConfigurationService.class).getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.S2S_SUBMISSIONTYPE_APPLICATION).getParameterValue())))){
-                if(KraServiceLocator.getService(KualiRuleService.class).applyRules(
-                        new DocumentAuditEvent(proposalDevelopmentForm.getDocument())) & s2sService.validateApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber())){            
-                    submitApplication(mapping,form,request,response);            
-                }else{
-                    for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();){     
-                        AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
-                        if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_ERRORS)){
-                            errorExists=true;
-                            break;
-                        }
-                        if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.GRANTSGOV_ERRORS)){
-                            errorExists = true;
-                            break;
-                        }
-                        if(StringUtils.equalsIgnoreCase(auditCluster.getCategory(),Constants.AUDIT_WARNINGS)){
-                            warningExists = true;
-                        }
-                    }
-                    if(errorExists){
-                        GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
-                    }else if(warningExists){
-                        return confirm(buildSubmitToGrantsGovWithWarningsQuestion(mapping, form, request, response), CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, EMPTY_STRING);
-                    }            
-                }               
-            }else{
-                if(StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getProposalTypeCode(),KraServiceLocator.getService(KualiConfigurationService.class).getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW).getParameterValue())){
-                    GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_PROPOSALTYPE_IS_NEW);
-                }else if(StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode(),KraServiceLocator.getService(KualiConfigurationService.class).getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.S2S_SUBMISSIONTYPE_APPLICATION).getParameterValue())){
-                    GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_OPPORTUNITY_IS_APPLICATION);
-                }
-            }
-        }else{
-            GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_S2SOPPORTUNITY_NOTSELECTED);
-        }    
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);        
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        int status = isValidSubmission(proposalDevelopmentDocument);
+        if (status == OK) {
+            forward = submitApplication(mapping, form, request, response);
+        } 
+        else if (status == WARNING) {
+            StrutsConfirmation question = buildSubmitToGrantsGovWithWarningsQuestion(mapping, form, request, response);
+            forward = confirm(question, CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, EMPTY_STRING);
+        }
+       
+        return forward;      
     }
     
+    /**
+     * Is this a valid submission?  
+     * @param proposalDevelopmentDocument
+     * @return OK, WARNING or ERROR
+     */
+    private int isValidSubmission(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        int state = OK;
+        
+        /*
+         * If this proposal is a continuation from another proposal, it is illegal for
+         * it to be a New Proposal Type or for it to be an S2S Submission Application Type.
+         */
+        if ((proposalDevelopmentDocument.getContinuedFrom() != null) && 
+            (isNewProposalType(proposalDevelopmentDocument) || isSubmissionApplication(proposalDevelopmentDocument))) {
+            state = ERROR;
+            if (isNewProposalType(proposalDevelopmentDocument)) {
+                GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_PROPOSALTYPE_IS_NEW);
+            } else if (isSubmissionApplication(proposalDevelopmentDocument)) {
+                GlobalVariables.getErrorMap().putError("noKey", KeyConstants.ERROR_RESUBMISSION_OPPORTUNITY_IS_APPLICATION);
+            }
+        }
+        else {
+            /* 
+             * Don't know what to do about the Audit Rules.  The parent class invokes the Audit rules
+             * from its execute() method.  It will stay this way for the time being because I this is
+             * what the code did before it was refactored.
+             */
+            KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
+            boolean auditPassed = ruleService.applyRules(new DocumentAuditEvent(proposalDevelopmentDocument));
+            
+            /*
+             * Check for S2S validation if we have a Grants.gov Opportunity.  If there is no Grants.gov
+             * Opportunity, then the user wants to submit the proposal manually (printing and sending via
+             * snail mail).
+             */
+            boolean s2sPassed = true;
+            if (proposalDevelopmentDocument.getS2sOpportunity() != null) {
+                S2SService s2sService = (S2SService) KraServiceLocator.getService(S2SService.class);
+                s2sPassed = s2sService.validateApplication(proposalDevelopmentDocument.getProposalNumber());
+            }
+            
+            /*
+             * If either reported an error, then we have to check to see if we only have warnings or
+             * if we also have some errors.
+             */
+            if (!auditPassed || !s2sPassed) {
+                state = WARNING;
+                for (Iterator iter = GlobalVariables.getAuditErrorMap().keySet().iterator(); iter.hasNext();) {
+                    AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(iter.next());
+                    if (!StringUtils.equalsIgnoreCase(auditCluster.getCategory(), Constants.AUDIT_WARNINGS)) {
+                        state = ERROR;
+                        GlobalVariables.getErrorMap().putError("noKey", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
+                        break;
+                    }
+                }
+            }
+        }
+            
+        return state;
+    }
+        
+    /**
+     * Is the proposal classified as NEW according to its proposal type?
+     * @param doc the proposal development document
+     * @return true if new; otherwise false
+     */
+    private boolean isNewProposalType(ProposalDevelopmentDocument doc) {
+        String newProposalTypeValue = getProposalParameterValue(KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
+        return StringUtils.equalsIgnoreCase(doc.getProposalTypeCode(), newProposalTypeValue);
+    }
+                
+    /**
+     * Does the proposal have a Grants.gov Opportunity with a S2S submission type of APPLICATION?
+     * @param doc the proposal development document
+     * @return true if proposal has grants.gov with submission type of APPLICATION; otherwise false
+     */
+    private boolean isSubmissionApplication(ProposalDevelopmentDocument doc) {
+        if (doc.getS2sOpportunity() != null) {
+            String applicationSubmissionValue = getProposalParameterValue(KeyConstants.S2S_SUBMISSIONTYPE_APPLICATION);
+            return StringUtils.equalsIgnoreCase(doc.getS2sOpportunity().getS2sSubmissionTypeCode(), applicationSubmissionValue);
+        }
+        return false;
+    }
+    
+    /**
+     * Get a Proposal parameter value from the Kuali System Parameters.
+     * @param parameterName the name of the parameter
+     * @return the parameter's value
+     */
+    private String getProposalParameterValue(String parameterName) {
+        KualiConfigurationService configurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+        return configurationService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+                                                 Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                                                 parameterName).getParameterValue();
+    }
+    
+    /**
+     * Submit the proposal to the sponsor without any further error checking.  Can be invoked if the user
+     * wishes to ignore an warnings that occurred when first trying to submit the proposal.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward submitApplication(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response)throws Exception{
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         
+        /*
+         * If there is an opportunity, then this is a Grants.gov submission.  
+         */
+        if (proposalDevelopmentDocument.getS2sOpportunity() != null) {
+            submitS2sApplication(proposalDevelopmentDocument);
+            createSubmissionHistory(proposalDevelopmentDocument);
+        }
+       
+        proposalDevelopmentDocument.setSubmitFlag(true);
+        
+        ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
+        proposalDevelopmentDocument.setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument));
+        
+        DocumentService documentService = KNSServiceLocator.getDocumentService();
+        documentService.saveDocument(proposalDevelopmentDocument);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Submit a proposal to Grants.gov.
+     * @param proposalDevelopmentDocument
+     * @throws Exception
+     */
+    private void submitS2sApplication(ProposalDevelopmentDocument proposalDevelopmentDocument) throws Exception{
         S2SService s2sService = ((S2SService) KraServiceLocator.getService(S2SService.class));
         s2sService.submitApplication(proposalDevelopmentDocument.getS2sOpportunity().getProposalNumber());
+    }
+        
+    /**
+     * Create the submission history for a proposal.
+     * @param proposalDevelopmentDocument
+     * @throws Exception
+     */
+    private void createSubmissionHistory(ProposalDevelopmentDocument proposalDevelopmentDocument)throws Exception{
         proposalDevelopmentDocument.refreshReferenceObject("s2sAppSubmission");
         GlobalVariables.getMessageList().add(Constants.GRANTS_GOV_SUBMISSION_SUCCESSFUL_MESSAGE);
+        S2sSubmissionHistory s2sSubmissionHistory = createSubmissionHistory(proposalDevelopmentDocument.getProposalNumber(), proposalDevelopmentDocument);
+        proposalDevelopmentDocument.getS2sSubmissionHistory().add(s2sSubmissionHistory);
+               
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        
+        Map queryPDD = new HashMap();
+        String continuedFrom = proposalDevelopmentDocument.getContinuedFrom(); 
+        while (continuedFrom!=null) {
+            queryPDD.put("proposalNumber", continuedFrom);
+            ProposalDevelopmentDocument pd = (ProposalDevelopmentDocument)businessObjectService.findByPrimaryKey(ProposalDevelopmentDocument.class, queryPDD);
+            
+            S2sSubmissionHistory newS2sSubmissionHistory = createSubmissionHistory(pd.getProposalNumber(), proposalDevelopmentDocument);
+            pd.getS2sSubmissionHistory().add(newS2sSubmissionHistory);
+            businessObjectService.save(pd.getS2sSubmissionHistory());
+            continuedFrom = pd.getContinuedFrom();
+        }
+        businessObjectService.save(proposalDevelopmentDocument.getS2sSubmissionHistory());
+    }
+    
+    /**
+     * Create a single Submission History entry.
+     * @param proposalNumber
+     * @param proposalDevelopmentDocument
+     * @return
+     */
+    private S2sSubmissionHistory createSubmissionHistory(String proposalNumber, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         S2sSubmissionHistory s2sSubmissionHistory = new S2sSubmissionHistory();
-        s2sSubmissionHistory.setProposalNumber(proposalDevelopmentDocument.getProposalNumber());
+        s2sSubmissionHistory.setProposalNumber(proposalNumber);
         s2sSubmissionHistory.setProposalNumberOrig(proposalDevelopmentDocument.getProposalNumber());
         s2sSubmissionHistory.setOriginalProposalId(proposalDevelopmentDocument.getContinuedFrom());
-        s2sSubmissionHistory.setFederalIdentifier(proposalDevelopmentDocument.getS2sAppSubmission().get(proposalDevelopmentDocument.getS2sAppSubmission().size()-1).getGgTrackingId());
-        if(proposalDevelopmentDocument.getS2sOpportunity()!=null){
+        List<S2sAppSubmission> submissions = proposalDevelopmentDocument.getS2sAppSubmission();
+        s2sSubmissionHistory.setFederalIdentifier(submissions.get(submissions.size()-1).getGgTrackingId());
+        if (proposalDevelopmentDocument.getS2sOpportunity() != null) {
             s2sSubmissionHistory.setS2sRevisionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode());
             s2sSubmissionHistory.setS2sSubmissionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode());
         }            
         s2sSubmissionHistory.setSubmittedBy(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-        s2sSubmissionHistory.setSubmissionTime(proposalDevelopmentDocument.getS2sAppSubmission().get(proposalDevelopmentDocument.getS2sAppSubmission().size()-1).getReceivedDate());
-        proposalDevelopmentDocument.getS2sSubmissionHistory().add(s2sSubmissionHistory);
-        String continuedFrom = proposalDevelopmentDocument.getContinuedFrom();        
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        ProposalDevelopmentDocument pd = new ProposalDevelopmentDocument();
-        S2sSubmissionHistory newS2sSubmissionHistory;
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        Map queryPDD = new HashMap();
-        while(continuedFrom!=null){
-            queryPDD.put("proposalNumber", continuedFrom);
-            pd = (ProposalDevelopmentDocument)businessObjectService.findByPrimaryKey(ProposalDevelopmentDocument.class, queryPDD);
-            newS2sSubmissionHistory = new S2sSubmissionHistory();
-            newS2sSubmissionHistory.setProposalNumber(pd.getProposalNumber());
-            newS2sSubmissionHistory.setProposalNumberOrig(proposalDevelopmentDocument.getProposalNumber());
-            newS2sSubmissionHistory.setOriginalProposalId(proposalDevelopmentDocument.getContinuedFrom());
-            newS2sSubmissionHistory.setFederalIdentifier(proposalDevelopmentDocument.getS2sAppSubmission().get(proposalDevelopmentDocument.getS2sAppSubmission().size()-1).getGgTrackingId());
-            if(proposalDevelopmentDocument.getS2sOpportunity()!=null){
-                newS2sSubmissionHistory.setS2sRevisionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode());
-                newS2sSubmissionHistory.setS2sSubmissionTypeCode(proposalDevelopmentDocument.getS2sOpportunity().getS2sSubmissionTypeCode());
-            }            
-            newS2sSubmissionHistory.setSubmittedBy(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-            newS2sSubmissionHistory.setSubmissionTime(proposalDevelopmentDocument.getS2sAppSubmission().get(proposalDevelopmentDocument.getS2sAppSubmission().size()-1).getReceivedDate());
-            pd.getS2sSubmissionHistory().add(newS2sSubmissionHistory);
-            businessObjectService.save(pd.getS2sSubmissionHistory());
-            continuedFrom=pd.getContinuedFrom();
-        }
-        businessObjectService.save(proposalDevelopmentDocument.getS2sSubmissionHistory());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        s2sSubmissionHistory.setSubmissionTime(submissions.get(submissions.size()-1).getReceivedDate());
+        return s2sSubmissionHistory;
     }
     
     /**
