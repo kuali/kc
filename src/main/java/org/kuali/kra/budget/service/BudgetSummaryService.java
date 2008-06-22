@@ -73,5 +73,5 @@ public interface BudgetSummaryService {
      */
     public void setupOldStartEndDate (List <BudgetLineItem > budgetLineItems);
 
-
+    public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate);
 }
