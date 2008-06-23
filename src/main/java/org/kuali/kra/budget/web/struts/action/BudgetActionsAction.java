@@ -2,12 +2,12 @@
  * Copyright 2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this file except inputStream compliance with the License.
  * You may obtain a copy of the License at
  * 
  * http://www.opensource.org/licenses/ecl1.php
  * 
- * Unless required by applicable law or agreed to in writing, software
+ * Unless required by applicable law or agreed to inputStream writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.kuali.RiceConstants;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.question.ConfirmationQuestion;
@@ -35,19 +36,24 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.BudgetException;
+import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetJustificationService;
 import org.kuali.kra.budget.service.BudgetPrintService;
 import org.kuali.kra.budget.service.impl.BudgetJustificationServiceImpl;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.budget.web.struts.form.BudgetJustificationWrapper;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAbstractsAttachmentsAction;
 import org.kuali.rice.KNSServiceLocator;
 
 public class BudgetActionsAction extends BudgetAction {
+    private static final String CONTENT_TYPE_XML = "text/xml";
+    private static final String XML_FILE_EXTENSION = "xml";
+    private static final String CONTENT_TYPE_PDF = "application/pdf";
     private BudgetJustificationService budgetJustificationService;
     private static final Log LOG = LogFactory.getLog(BudgetActionsAction.class);
 
@@ -129,6 +135,38 @@ public class BudgetActionsAction extends BudgetAction {
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.reload(mapping, form, request, response);
     }
+    
+    @SuppressWarnings("unchecked")
+    public ActionForward translateXFD(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm)form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        BudgetSubAwards newBudgetSubAward = budgetForm.getNewSubAward();
+        newBudgetSubAward.setSubAwardNumber(generateSubAwardNumber(budgetDocument));
+        newBudgetSubAward.setBudgetVersionNumber(budgetDocument.getBudgetVersionNumber());
+        budgetDocument.getBudgetSubAwards().add(newBudgetSubAward);
+        budgetForm.setNewSubAward(new BudgetSubAwards());                
+        return mapping.findForward(Constants.MAPPING_BASIC);        
+    }
+    
+    public ActionForward viewXFD(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
+        downloadFile(form, request, response, subAward.getSubAwardXfdFileData(), subAward.getSubAwardXfdFileName(), CONTENT_TYPE_PDF);
+        return null;
+    }
+    
+    public ActionForward viewXML(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
+        downloadFile(form, request, response, subAward.getSubAwardXmlFileData().getBytes(), createXMLFileName(subAward), CONTENT_TYPE_XML);
+        return null;
+    }
+    
+    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm)form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        int selectedLineNumber = getSelectedLine(request);
+        budgetDocument.getBudgetSubAwards().remove(selectedLineNumber);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
     public ActionForward printBudgetForm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm)form;
@@ -147,6 +185,14 @@ public class BudgetActionsAction extends BudgetAction {
         this.budgetJustificationService = budgetJustificationService;
     }
 
+    private String createXMLFileName(BudgetSubAwards subAward) {
+        return subAward.getSubAwardXfdFileName().substring(0, subAward.getSubAwardXfdFileName().lastIndexOf(".") + 1) + XML_FILE_EXTENSION;
+    }
+    
+    private Integer generateSubAwardNumber(BudgetDocument budgetDocument) {
+        return budgetDocument.getHackedDocumentNextValue("subAwardNumber") != null ? budgetDocument.getHackedDocumentNextValue("subAwardNumber") : 1;
+    }
+    
     private BudgetDocument getBudgetDocument(ActionForm form) {
         return ((BudgetForm) form).getBudgetDocument();
     }
@@ -155,4 +201,28 @@ public class BudgetActionsAction extends BudgetAction {
         return ((BudgetForm) form).getBudgetJustification();
     }
     
+    private BudgetSubAwards getSelectedBudgetSubAward(ActionForm form, HttpServletRequest request) {
+        BudgetForm budgetForm = (BudgetForm)form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        int selectedLineNumber = getSelectedLine(request);
+        return budgetDocument.getBudgetSubAwards().get(selectedLineNumber);
+    }
+    
+    private void downloadFile(ActionForm form, HttpServletRequest request, HttpServletResponse response, byte[] bytesToDownload, String fileName, String contentType) throws Exception {
+        ByteArrayOutputStream baos = null;
+        try{
+            baos = new ByteArrayOutputStream(bytesToDownload.length);
+            baos.write(bytesToDownload);
+            WebUtils.saveMimeOutputStreamAsFile(response, contentType, baos, fileName);
+        }finally{
+            try{
+                if(baos!=null){
+                    baos.close();
+                    baos = null;
+                }
+            }catch(IOException ioEx){
+                LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }
+    }
 }
