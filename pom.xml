@@ -137,6 +137,10 @@
 							<groupId>org.springframework</groupId>
 							<artifactId>spring-mock</artifactId>
 						</exclusion>
+						<exclusion>
+							<groupId>itext</groupId>
+							<artifactId>itext</artifactId>
+						</exclusion>
 					</exclusions>
 				</dependency>
 				<dependency>
@@ -234,6 +238,11 @@
 					<artifactId>batik</artifactId>
 					<version>1.0</version>
 				</dependency>
+				<dependency>
+					<groupId>com.lowagie</groupId>
+					<artifactId>iText</artifactId>
+					<version>2.1.2</version>
+				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
@@ -308,6 +317,12 @@
 					<groupId>org.kuali.rice</groupId>
 					<artifactId>rice-kns</artifactId>
 					<version>0.9.3-kra-SNAPSHOT</version>
+					<exclusions>
+						<exclusion>
+							<groupId>itext</groupId>
+							<artifactId>itext</artifactId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 				<dependency>
 					<groupId>htmlunit</groupId>
@@ -414,6 +429,11 @@
 					<groupId>batik</groupId>
 					<artifactId>batik</artifactId>
 					<version>1.0</version>
+				</dependency>
+				<dependency>
+					<groupId>com.lowagie</groupId>
+					<artifactId>iText</artifactId>
+					<version>2.1.2</version>
 				</dependency>
 			</dependencies>
 		</profile>
