@@ -23,7 +23,6 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_DELETE_LEAD_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_MISSING_PERSON_ROLE;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_EXISTS;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_INVALID;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_YEAR;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVALID_UNIT;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_SELECT_UNIT;
@@ -69,7 +68,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: jsalam $
- * @version $Revision: 1.33.2.8 $
+ * @version $Revision: 1.33.2.9 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
@@ -224,7 +223,7 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         if(isNotBlank(person.getProposalPersonRoleId())){
             if (isInvalid(Person.class, keyValue("personId", person.getPersonId())) 
                     && isInvalid(Rolodex.class, keyValue("rolodexId", person.getRolodexId()))) {
-                reportError("newProposalPerson*", ERROR_PROPOSAL_PERSON_INVALID, person.getFullName());
+                reportError("newProposalPerson*", ERROR_MISSING_PERSON_ROLE, person.getFullName());
                 retval = false;
             }
         }
