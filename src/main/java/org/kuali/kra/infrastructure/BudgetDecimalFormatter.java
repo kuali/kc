@@ -16,22 +16,80 @@
 package org.kuali.kra.infrastructure;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.web.format.BigDecimalFormatter;
+import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.core.web.format.FormatException;
 import org.kuali.kra.budget.BudgetDecimal;
 
 /**
  * This class makes a BudgetDecimal from a String
  */
 public class BudgetDecimalFormatter extends BigDecimalFormatter {
+//public class BudgetDecimalFormatter extends BigDecimalFormatter {
     private static final long serialVersionUID = 8395988033199649377L;
-    
+    private static Logger LOG = Logger.getLogger(BudgetDecimalFormatter.class);
+
+    public BudgetDecimalFormatter() {
+        super();
+//        if (this.settings == null) {
+//            this.settings = new HashMap();
+//        }
+//        this.settings.put(CurrencyFormatter.SHOW_SYMBOL, "false");
+    }
     /**
      * Overriden to produce a BudgetDecimal
      * @see org.kuali.core.web.format.BigDecimalFormatter#convertToObject(java.lang.String)
      */
     @Override
     protected Object convertToObject(String target) {
-        return new BudgetDecimal((BigDecimal)super.convertToObject(target));
+        
+        return new BudgetDecimal(((BigDecimal)super.convertToObject(target)));
     }
+    
+    
+    /**
+     * Returns a string representation of its argument formatted as a currency value.
+     */
+    public Object format(Object obj) {
+        LOG.info("format '" + obj + "'");
+
+        if (obj == null)
+            return null;
+
+        //NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        NumberFormat formatter = NumberFormat.getNumberInstance();
+        if (formatter instanceof DecimalFormat) {
+            ((DecimalFormat) formatter).setParseBigDecimal(true);
+        }
+        String string = null;
+
+        try {
+            BudgetDecimal number = (BudgetDecimal) obj;
+            string = formatter.format(number.doubleValue());
+        }
+        catch (IllegalArgumentException e) {
+            throw new FormatException("formatting", RiceKeyConstants.ERROR_CURRENCY, obj.toString(), e);
+        }
+        catch (ClassCastException e) {
+            throw new FormatException("formatting", RiceKeyConstants.ERROR_CURRENCY, obj.toString(), e);
+        }
+
+        //return showSymbol() ? string : removeSymbol(string);
+        //return removeSymbol(string);
+        return removeSymbol(string);
+    }
+    
+    protected String removeSymbol(String target) {
+        int index = target.indexOf("$");
+        String prefix = (index > 0 ? target.substring(0, index) : "");
+        return prefix + target.substring(index + 1);
+    }
+   
 }
