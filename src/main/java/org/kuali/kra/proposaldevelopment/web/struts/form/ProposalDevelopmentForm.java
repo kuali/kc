@@ -1039,10 +1039,10 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         
         String externalImageURL = "kra.externalizable.images.url";
         if(showSubmitButton){
-            String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_submitgrantsgov.gif";
+            String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "submittosponsor.gif";
             addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
         }else if(showResubmitButton){
-            String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_resubmission.gif";
+            String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "replaceproposal.gif";
             addExtraButton("methodToCall.resubmit", resubmissionImage, "Replace Sponsor");
         }       
         
@@ -1172,8 +1172,9 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
     
     public boolean isSubmissionStatusVisible() {
-        return this.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
-        .getDocRouteStatus().equals(EdenConstants.ROUTE_HEADER_PROCESSED_CD);
+        String routeStatus = this.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
+        .getDocRouteStatus();
+        return EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeStatus) || EdenConstants.ROUTE_HEADER_FINAL_CD.equals(routeStatus);
     }
     
     public boolean isSubmissionStatusReadOnly() {
