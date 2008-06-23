@@ -37,6 +37,7 @@ import org.kuali.kra.budget.bo.BudgetModularSummary;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetProjectIncome;
+import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.budget.bo.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -97,8 +98,9 @@ public class BudgetForm extends ProposalFormBase {
     
     private String selectedBudgetPrintFormId;
     private String syncBudgetRate;
+    private BudgetSubAwards newSubAward;
     private Integer personnelDetailLine;
-
+    
     public String getOhRateClassCodePrevValue() {
         return ohRateClassCodePrevValue;
     }
@@ -154,6 +156,7 @@ public class BudgetForm extends ProposalFormBase {
         newBudgetLineItems = new ArrayList<BudgetLineItem>();        
         setDocumentNextValueRefresh(true);
         budgetJustificationWrapper = new BudgetJustificationWrapper(getBudgetDocument().getBudgetJustification());
+        newSubAward = new BudgetSubAwards();
     }
     
     public BudgetDocument getBudgetDocument() {
@@ -619,7 +622,15 @@ public class BudgetForm extends ProposalFormBase {
     public void setSyncBudgetRate(String syncBudgetRate) {
         this.syncBudgetRate = syncBudgetRate;
     }
-    
+
+    public BudgetSubAwards getNewSubAward() {
+        return newSubAward;
+    }
+
+    public void setNewSubAward(BudgetSubAwards newSubAward) {
+        this.newSubAward = newSubAward;
+    }
+
     public Integer getPersonnelDetailLine() {
         return personnelDetailLine;
     }
@@ -627,5 +638,4 @@ public class BudgetForm extends ProposalFormBase {
     public void setPersonnelDetailLine(Integer personnelDetailLine) {
         this.personnelDetailLine = personnelDetailLine;
     }
-
 }
