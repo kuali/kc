@@ -40,10 +40,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.Parameter;
+import org.kuali.core.bo.user.KualiGroup;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ActionFormUtilMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.HeaderField;
 import org.kuali.core.web.ui.KeyLabelPair;
@@ -53,10 +56,10 @@ import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KimRole;
-import org.kuali.kra.kim.pojo.Permission;
-import org.kuali.kra.kim.pojo.Role;
+import org.kuali.kra.kim.service.GroupService;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -80,10 +83,11 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.PersonService;
-import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
 import org.kuali.rice.KNSServiceLocator;
+
+import edu.iu.uis.eden.EdenConstants;
 
 /**
  * This class...
@@ -1167,5 +1171,23 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         this.newProposalChangedData = newProposalChangedData;
     }
 
+public boolean isSubmissionStatusVisible() {
+        return this.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
+        .getDocRouteStatus().equals(EdenConstants.ROUTE_HEADER_PROCESSED_CD);
+    }
+    
+    public boolean isSubmissionStatusReadOnly() {
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        boolean canModify = proposalAuthService.hasPermission(user.getPersonUserIdentifier(), this.getProposalDevelopmentDocument(), PermissionConstants.MODIFY_PROPOSAL);
+        if (canModify) { return false; }
+        List<KualiGroup> groups = user.getGroups();
+        for (KualiGroup group: groups) {
+            if (group.getGroupName().equals("OSP")) {
+                return false;
+            }
+        }
+        return true;
+    }
     
 }

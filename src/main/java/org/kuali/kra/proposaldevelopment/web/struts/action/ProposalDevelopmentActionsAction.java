@@ -903,6 +903,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward resubmit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("resubmit");
     }
+    
+    public ActionForward saveProposalActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return save(mapping, form, request, response);
+    }
 
     /**
      * 

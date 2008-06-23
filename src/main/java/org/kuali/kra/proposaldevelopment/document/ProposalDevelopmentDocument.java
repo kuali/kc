@@ -82,7 +82,7 @@ import org.kuali.rice.KNSServiceLocator;
 public class ProposalDevelopmentDocument extends ResearchDocumentBase implements Copyable, SessionDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProposalDevelopmentDocument.class);
     
-    private String proposalNumber;    
+    private String proposalNumber;
     private String proposalTypeCode;
     private String continuedFrom;
     private String sponsorCode;
@@ -132,6 +132,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     private Sponsor sponsor;
     private Integer nextProposalPersonNumber;
     private String budgetStatus;
+    private Integer postSubmissionStatusCode;
     private List<Narrative> narratives;
     private List<ProposalAbstract> proposalAbstracts;
     private List<Narrative> instituteAttachments;
@@ -1507,4 +1508,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
         setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(this));
     }
+
+    public Integer getPostSubmissionStatusCode() {
+        return postSubmissionStatusCode;
+    }
+
+    public void setPostSubmissionStatusCode(Integer postSubmissionStatusCode) {
+        this.postSubmissionStatusCode = postSubmissionStatusCode;
+    }
+    
 }
