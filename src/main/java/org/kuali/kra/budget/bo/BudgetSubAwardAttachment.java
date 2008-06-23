@@ -19,14 +19,30 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class BudgetSubAwardAttachment extends KraPersistableBusinessObjectBase {
-	private String contentId;
-	private String proposalNumber;
-	private Integer subAwardNumber;
-	private Integer budgetVersionNumber;
-	private String attachment;
-	private String contentType;
+import edu.mit.coeus.budget.bean.BudgetSubAwardAttachmentBean;
 
+public class BudgetSubAwardAttachment extends KraPersistableBusinessObjectBase {
+    private byte[] attachment;
+    private Integer budgetVersionNumber;
+    private String contentId;
+    private String contentType;
+    private String proposalNumber;
+	private Integer subAwardNumber;
+	
+	public BudgetSubAwardAttachment() {
+	    super();
+	}
+	
+	public BudgetSubAwardAttachment(BudgetSubAwardAttachmentBean bean, Integer budgetVersionNumber, Integer subAwardNumber) {
+	    this();
+	    setBudgetVersionNumber(budgetVersionNumber);
+	    setSubAwardNumber(subAwardNumber);
+	    
+	    setAttachment(bean.getAttachment());
+	    setContentId(bean.getContentId());
+	    setContentType(bean.getContentType());
+	}
+	
 	public String getContentId() {
 		return contentId;
 	}
@@ -59,11 +75,11 @@ public class BudgetSubAwardAttachment extends KraPersistableBusinessObjectBase {
 		this.budgetVersionNumber = budgetVersionNumber;
 	}
 
-	public String getAttachment() {
+	public byte[] getAttachment() {
 		return attachment;
 	}
 
-	public void setAttachment(String attachment) {
+	public void setAttachment(byte[] attachment) {
 		this.attachment = attachment;
 	}
 
@@ -74,8 +90,7 @@ public class BudgetSubAwardAttachment extends KraPersistableBusinessObjectBase {
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
-
-
+	
 	@Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
@@ -83,7 +98,7 @@ public class BudgetSubAwardAttachment extends KraPersistableBusinessObjectBase {
 		hashMap.put("proposalNumber", getProposalNumber());
 		hashMap.put("subAwardNumber", getSubAwardNumber());
 		hashMap.put("versionNumber", getVersionNumber());
-		hashMap.put("attachment", getAttachment());
+		hashMap.put("attachment", new String(getAttachment()));
 		hashMap.put("contentType", getContentType());
 		return hashMap;
 	}
