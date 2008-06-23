@@ -39,6 +39,15 @@ showDocumentInfo="true"
 	<kra-pd:proposalDataOverride />
 </c:if>
 
+<c:if test="${KualiForm.submissionStatusVisible}">
+	<kra-pd:proposalDevelopmentPostSubmissionStatus />
+	<c:if test="${!KualiForm.submissionStatusReadOnly}">
+		<c:set var="extraButtonSource" value="${ConfigProperties.externalizable.images.url}buttonsmall_save.gif"/>
+    	<c:set var="extraButtonProperty" value="methodToCall.saveProposalActions"/>
+    	<c:set var="extraButtonAlt" value="Save the document"/>
+    </c:if>
+</c:if>
+
 <kul:routeLog /> 
 <kra-pd:adHocRecipients /> 
 <kul:panelFooter />
