@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayOutputStream;
@@ -888,6 +886,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
         
         return new ActionForward(forward, true);
+    }
+    
+    public ActionForward saveProposalActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return save(mapping, form, request, response);
     }
 
     /**
