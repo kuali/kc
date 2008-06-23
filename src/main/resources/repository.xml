@@ -1525,12 +1525,16 @@
 			<inverse-foreignkey field-ref="budgetVersionNumber"/>
 		</collection-descriptor>
 
+		<collection-descriptor name="budgetSubAwards" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<orderby name="subAwardNumber" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber"/>
+			<inverse-foreignkey field-ref="budgetVersionNumber"/>
+		</collection-descriptor>
+
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
-    	<collection-descriptor name="budgetSubAwards" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="proposalNumber"/>
-		</collection-descriptor>
+    	
 	 	<!--<collection-descriptor name="BudgetModular" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetModular" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
@@ -1678,7 +1682,7 @@
 		<field-descriptor name="subAwardStatusCode" column="SUB_AWARD_STATUS_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="subAwardXfdFileData" column="SUB_AWARD_XFD_FILE" jdbc-type="LONGVARBINARY"/>
 		<field-descriptor name="subAwardXfdFileName" column="SUB_AWARD_XFD_FILE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="subAwardXmlFile" column="SUB_AWARD_XML_FILE" jdbc-type="CLOB"/>
+		<field-descriptor name="subAwardXmlFileData" column="SUB_AWARD_XML_FILE" jdbc-type="CLOB"/>
 		<field-descriptor name="translationComments" column="TRANSLATION_COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>

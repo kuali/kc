@@ -49,7 +49,7 @@
 			<c:forEach var="budgetSubAwards" items="${KualiForm.document.budgetSubAwards}" varStatus="status">
 		    	<tr>
     				<th width="5%" rowspan=2 class="infoline">
-						<c:out value="${budgetLineItemSequenceNumber+1}" />
+						<c:out value="${status.index + 1}" />
 					</th>
 					<td valign="middle" class="infoline">
 	                	<div align="center">
@@ -85,6 +85,10 @@
 	             	<kul:innerTab parentTab="budgetSubAwards" defaultOpen="false" tabTitle="Details" tabErrorKey="" useCurrentTabIndexAsKey="true">
 	             		<div>
     						<table cellpadding=0 cellspacing=0 summary="">
+    							<tr>		        					
+					        		<th width="25%"><div align="right">Attachments:</div></th>
+					        		<td><div align="left"><bean:write name="budgetSubAwards" property="attachmentContentIds" filter="false" /></div></td>
+			        			</tr>
 			        			<tr>		        					
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.xfdUpdateTimestamp}" noColon="true" /></div></th>
 					        		<td><div align="left"><kul:htmlControlAttribute property="document.budgetSubAwards[${status.index}].xfdUpdateTimestamp" attributeEntry="${budgetSubAwardsAttributes.xfdUpdateTimestamp}" readOnly="true"/></div></td>

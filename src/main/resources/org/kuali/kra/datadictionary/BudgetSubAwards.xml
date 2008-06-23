@@ -220,7 +220,7 @@
 			</attribute>
 
             <attributeReference name="xfdUpdateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp" >
-                <label>xmlUpdateTimestamp</label>                
+                <label>XFD Last Updated</label>                
       		</attributeReference>
       		
       		<attribute name="xfdUpdateUser">
@@ -237,7 +237,7 @@
 			</attribute>
       		
       		<attributeReference name="xmlUpdateTimestamp" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp" >
-                <label>xmlUpdateTimestamp</label>
+                <label>XFD Last Updated</label>
       		</attributeReference>
       		
       		<attribute name="xmlUpdateUser">
