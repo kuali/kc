@@ -84,6 +84,7 @@
 		<!-- GENERATE NEXT VALUE -->
 
 		<collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="ordinalPosition" sort="ASC" />
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
 
@@ -441,6 +442,9 @@
         <reference-descriptor name="kimPerson" class-ref="org.kuali.kra.kim.bo.KimPerson" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="kimPersonId" />
         </reference-descriptor>
+		 <!-- <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="homeUnit" /> 
+    	</reference-descriptor> -->
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" table="EPS_PROP_PERSON">
@@ -516,6 +520,7 @@
         <field-descriptor name="optInUnitStatus" column="OPT_IN_UNIT_STATUS" jdbc-type="CHAR" />
         <field-descriptor name="optInCertificationStatus" column="OPT_IN_CERTIFICATION_STATUS" jdbc-type="CHAR" />
         <field-descriptor name="projectRole" column="PROJECT_ROLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="ordinalPosition" column="ORDINAL_POSITION" jdbc-type="INTEGER" />
          
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
@@ -1531,7 +1536,8 @@
     	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber" />
     	</reference-descriptor>
-	<!-- 	<collection-descriptor name="BudgetModular" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetModular" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+    	
+	 	<!--<collection-descriptor name="BudgetModular" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetModular" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
 		<collection-descriptor name="BudgetPeriods" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPeriods" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
@@ -1539,11 +1545,7 @@
 		</collection-descriptor>
 		<collection-descriptor name="BudgetPersons" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetPersons" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
-		</collection-descriptor>
-		<collection-descriptor name="BudgetSubAwards" proxy="true" element-class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
-			<inverse-foreignkey field-ref="proposalNumber"/>
-			<inverse-foreignkey field-ref="versionNumber"/>
-		</collection-descriptor>
+		</collection-descriptor>		
 		<collection-descriptor name="PropCostSharing" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.PropCostSharing" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
@@ -1709,11 +1711,11 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="BudgetSubAwards" class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<!--  <reference-descriptor name="BudgetSubAwards" class-ref="org.kuali.kra.budget.bo.BudgetSubAwards" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalNumber"/> 
 			<foreignkey field-ref="subAwardNumber"/> 
 			<foreignkey field-ref="budgetVersionNumber"/> 
-		</reference-descriptor>
+		</reference-descriptor>-->
 	</class-descriptor>    
 	<class-descriptor class="org.kuali.kra.budget.bo.BudgetCategory" table="BUDGET_CATEGORY">
 		<field-descriptor name="budgetCategoryCode" column="BUDGET_CATEGORY_CODE" jdbc-type="VARCHAR" primarykey="true"/>
@@ -1976,6 +1978,7 @@
 		<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="rolodexId"/> 
 		</reference-descriptor>
+
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.budget.bo.TbnPerson" table="TBN">
@@ -1986,6 +1989,7 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+
 		<reference-descriptor name="jobCodeReference" class-ref="org.kuali.kra.budget.bo.JobCode" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="jobCode"/>
 		</reference-descriptor>
@@ -2430,10 +2434,9 @@
         <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
         <field-descriptor name="roleTypeCode" column="ROLE_TYPE_CODE" jdbc-type="VARCHAR" />
-        <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+                <field-descriptor name="descend" column="DESCEND_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        
         <reference-descriptor name="roleType" class-ref="org.kuali.kra.kim.bo.KimRoleType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="roleTypeCode"/>
         </reference-descriptor>
@@ -2791,7 +2794,7 @@
 		</reference-descriptor>
 		-->
 	</class-descriptor>
- <!-- sp rev enhancement -->
+ <!-- sp rev enhancement -->	
  <!--  Resubmission enhancement --> 
 	<class-descriptor class="org.kuali.kra.s2s.bo.S2sSubmissionHistory" table="SUBMISSION_HISTORY">
  		<field-descriptor name="id" column="ID" jdbc-type="BIGINT" sequence-name="SEQUENCE_SUBMISSION_HISTORY" primarykey="true" autoincrement="true"/>
@@ -2815,7 +2818,6 @@
 		</reference-descriptor>
 	</class-descriptor>
 <!--  resubmission enhancement -->		
- 
  
 	<class-descriptor class="org.kuali.kra.bo.SponsorForms" table="SPONSOR_FORMS">
 		<field-descriptor name="packageName" column="PACKAGE_NAME" jdbc-type="VARCHAR"/>
