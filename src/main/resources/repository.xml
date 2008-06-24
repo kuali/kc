@@ -84,6 +84,7 @@
 		<!-- GENERATE NEXT VALUE -->
 
 		<collection-descriptor name="proposalPersons" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="ordinalPosition" sort="ASC" />
 			<inverse-foreignkey field-ref="proposalNumber"/>
 		</collection-descriptor>
 
@@ -519,6 +520,7 @@
         <field-descriptor name="optInUnitStatus" column="OPT_IN_UNIT_STATUS" jdbc-type="CHAR" />
         <field-descriptor name="optInCertificationStatus" column="OPT_IN_CERTIFICATION_STATUS" jdbc-type="CHAR" />
         <field-descriptor name="projectRole" column="PROJECT_ROLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="ordinalPosition" column="ORDINAL_POSITION" jdbc-type="INTEGER" />
          
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
