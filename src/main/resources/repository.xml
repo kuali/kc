@@ -409,7 +409,7 @@
 		<field-descriptor name="countryOfCitizenship" column="COUNTRY_OF_CITIZENSHIP" jdbc-type="VARCHAR" />
 		<field-descriptor name="primaryTitle" column="PRIMARY_TITLE" jdbc-type="VARCHAR" />
 		<field-descriptor name="directoryTitle" column="DIRECTORY_TITLE" jdbc-type="VARCHAR" />
-		<field-descriptor id="1" name="homeUnit" column="HOME_UNIT" jdbc-type="VARCHAR" />
+		<field-descriptor name="homeUnit" column="HOME_UNIT" jdbc-type="VARCHAR" />
 		<field-descriptor name="facultyFlag" column="IS_FACULTY" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 		<field-descriptor name="graduateStudentStaffFlag" column="IS_GRADUATE_STUDENT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 		<field-descriptor name="researchStaffFlag" column="IS_RESEARCH_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
@@ -443,7 +443,7 @@
             <foreignkey field-ref="kimPersonId" />
         </reference-descriptor>
 		 <reference-descriptor name="homeUnitRef" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
-        	<foreignkey field-id-ref="1" /> 
+        	<foreignkey field-ref="homeUnit" /> 
     	</reference-descriptor>
 	</class-descriptor>
 
