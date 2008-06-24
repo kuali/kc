@@ -201,9 +201,18 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
      * @return the value of proposalPersons
      */
     public List<ProposalPerson> getProposalPersons() {
+        evaluateMoveOptions();
         return this.proposalPersons;
     }
-
+    
+    private void evaluateMoveOptions() {
+        for(int i = 0; i < proposalPersons.size(); i++) {
+            ProposalPerson person = proposalPersons.get(i);
+            person.setMoveUpAllowed(i > 0 && person.getProposalPersonRoleId().equals(proposalPersons.get(i-1).getProposalPersonRoleId()));
+            person.setMoveDownAllowed(i < (proposalPersons.size() - 1) && person.getProposalPersonRoleId().equals(proposalPersons.get(i+1).getProposalPersonRoleId()));
+        }
+    }
+    
     public void setInvestigators(List<ProposalPerson> investigators) {
         this.investigators = investigators;
     }

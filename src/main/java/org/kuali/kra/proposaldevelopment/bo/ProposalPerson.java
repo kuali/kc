@@ -31,8 +31,8 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * @author $Author: jsalam $
- * @version $Revision: 1.36.2.4 $
+ * @author $Author: jfrosch $
+ * @version $Revision: 1.36.2.5 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -65,8 +65,27 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private String optInCertificationStatus;
     private boolean unitdelete;
     private String projectRole;
+    private Integer ordinalPosition;
     
+    private transient boolean moveDownAllowed;
+    private transient boolean moveUpAllowed;    
     
+    public boolean isMoveDownAllowed() {
+        return moveDownAllowed;
+    }
+
+    public boolean isMoveUpAllowed() {
+        return moveUpAllowed;
+    }
+
+    public void setMoveDownAllowed(boolean moveDownAllowed) {
+        this.moveDownAllowed = moveDownAllowed;
+    }
+
+    public void setMoveUpAllowed(boolean moveUpAllowed) {
+        this.moveUpAllowed = moveUpAllowed;
+    }
+
     /**
      *
      * new ProposalPerson
@@ -432,9 +451,10 @@ public class ProposalPerson extends Person implements CreditSplitable {
         this.person = argPerson;
     }
 
+	@SuppressWarnings("unchecked")
     @Override 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap hashmap = super.toStringMapper();
+	protected LinkedHashMap toStringMapper() {
+   	    LinkedHashMap hashmap = super.toStringMapper();
 
         hashmap.put("conflictOfInterest", getConflictOfInterestFlag());
         hashmap.put("percentageEffort", getPercentageEffort());
@@ -446,8 +466,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
         hashmap.put("proposalPersonNumber", getProposalPersonNumber());
         hashmap.put("proposalPersonRoleId", getProposalPersonRoleId());
         
-        return hashmap;
-    }
+		return hashmap;
+	}
 
     /**
      * Adds a new degree to the collection in the person
@@ -688,13 +708,20 @@ public class ProposalPerson extends Person implements CreditSplitable {
     public void setOptInCertificationStatus(String optInCertificationStatus) {
         this.optInCertificationStatus = optInCertificationStatus;
     }
-
-   public String getProjectRole() {
+    public String getProjectRole() {
         return projectRole;
     }
 
     public void setProjectRole(String projectRole) {
         this.projectRole = projectRole;
+    }
+
+    public Integer getOrdinalPosition() {
+        return ordinalPosition;
+    }
+
+    public void setOrdinalPosition(Integer ordinalPosition) {
+        this.ordinalPosition = ordinalPosition;
     }
 
 
