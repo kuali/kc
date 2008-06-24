@@ -229,6 +229,7 @@ public class BudgetPeriodCalculator {
                     budgetPersonnelDetail.setVersionNumber(null);
                 }
                 budgetPeriod.getBudgetLineItems().add(budgetLineItem);
+                budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItem);
                 prevBudgetLineItem=budgetLineItem;
             }
 
