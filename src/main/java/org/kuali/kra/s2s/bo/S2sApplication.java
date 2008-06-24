@@ -62,7 +62,7 @@ public class S2sApplication extends KraPersistableBusinessObjectBase {
      * Sets the s2sAttachments attribute value.
      * @param attachments The s2sAttachments to set.
      */
-    public void setS2sAttachments(List<S2sAppAttachments> s2sAppAttachmentList) {
+    public void setS2sAppAttachmentList(List<S2sAppAttachments> s2sAppAttachmentList) {
         this.s2sAppAttachmentList = s2sAppAttachmentList;
     }
 }
