@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiForm;
+import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
@@ -42,6 +43,14 @@ public class BudgetRatesAction extends BudgetAction {
         if(GlobalVariables.getKualiForm() == null) {
             GlobalVariables.setKualiForm((KualiForm)form);
         }
+        budgetDocument.setRateSynced(false);
+        for (BudgetProposalRate budgetProposalRate : budgetDocument.getBudgetProposalRates()) {
+            //if (budgetProposalRate.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode()) ) {
+//                if (budgetProposalRate.getRateClassCode().equals("4") && budgetProposalRate.getRateTypeCode().equals("2")) {
+//                    budgetProposalRate.setVersionNumber(null);
+//                }
+            //}
+        } 
         return super.save(mapping, form, request, response);
     }
     
@@ -79,6 +88,10 @@ public class BudgetRatesAction extends BudgetAction {
         RateClassType rateClassT = budgetDocument.getRateClassTypes().get(getSelectedLine(request));
         String rateClassType = rateClassT.getRateClassType();
         budgetDocument.getBudgetRatesService().syncBudgetRatesForRateClassType(rateClassType, budgetDocument);
+        budgetDocument.setRateClassTypesReloaded(false);
+        if (rateClassType.equals("O")) {
+            budgetDocument.setRateSynced(true);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -95,6 +108,8 @@ public class BudgetRatesAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         budgetDocument.getBudgetRatesService().syncAllBudgetRates(budgetDocument);
+        budgetDocument.setRateClassTypesReloaded(false);
+        budgetDocument.setRateSynced(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

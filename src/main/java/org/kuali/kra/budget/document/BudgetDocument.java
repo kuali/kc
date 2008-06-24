@@ -147,7 +147,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     
     private List<BudgetPrintForm> budgetPrintForms;
     private List<BudgetSubAwards> budgetSubAwards;
-    
+    private boolean rateSynced;
     public BudgetDocument(){
         super();
         budgetCostShares = new ArrayList<BudgetCostShare>();
@@ -1478,6 +1478,14 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
 
     public void setBudgetSubAwards(List<BudgetSubAwards> budgetSubAwards) {
         this.budgetSubAwards = budgetSubAwards;
+    }
+
+    public boolean isRateSynced() {
+        return rateSynced;
+    }
+
+    public void setRateSynced(boolean rateSynced) {
+        this.rateSynced = rateSynced;
     }
 }
 
