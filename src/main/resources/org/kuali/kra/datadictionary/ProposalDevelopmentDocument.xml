@@ -669,7 +669,7 @@
         </headerNavigation> 
 
         <allowsErrorCorrection>false</allowsErrorCorrection>
-        <allowsNoteAttachments>true</allowsNoteAttachments> <!-- KRACOEUS-594/605 -->
+        <allowsNoteAttachments>false</allowsNoteAttachments> <!-- KRACOEUS-594/605 -->
         <displayTopicFieldInNotes>true</displayTopicFieldInNotes> <!-- KRACOEUS-511 -->        
     </transactionalDocument>
 </dictionaryEntry>
