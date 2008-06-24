@@ -130,10 +130,14 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
      * */
     public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument) {
         if(isOutOfSync(budgetDocument)) {
+            Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalRates = mapRatesToKeys(budgetDocument.getBudgetProposalRates()); 
+            Map<String, AbstractInstituteRate> mapOfExistingBudgetProposalLaRates = mapRatesToKeys(budgetDocument.getBudgetProposalLaRates());
             replaceRateClassesForRateClassType(rateClassType, budgetDocument, budgetDocument.getInstituteRates());
             replaceRateClassesForRateClassType(rateClassType, budgetDocument, budgetDocument.getInstituteLaRates());
             replaceBudgetRatesForRateClassType(rateClassType, budgetDocument, budgetDocument.getBudgetProposalRates(), budgetDocument.getInstituteRates());
             replaceBudgetRatesForRateClassType(rateClassType, budgetDocument, budgetDocument.getBudgetProposalLaRates(), budgetDocument.getInstituteLaRates());
+            syncVersionNumber(mapOfExistingBudgetProposalRates, budgetDocument.getBudgetProposalRates());
+            syncVersionNumber(mapOfExistingBudgetProposalLaRates, budgetDocument.getBudgetProposalLaRates());
         } else {
             List<RateClass> rateClasses = budgetDocument.getRateClasses();            
             syncBudgetRatesForRateClassType(rateClasses, rateClassType, getInstituteRates(budgetDocument), budgetDocument.getBudgetProposalRates());
@@ -181,7 +185,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     }
     
     private String getActivityTypeDescription(BudgetDocument budgetDocument) {
-        if (!KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(budgetDocument.getProposal(), budgetDocument.getBudgetVersionNumber().toString())) {
+        if (budgetDocument.isRateSynced() || !KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(budgetDocument.getProposal(), budgetDocument.getBudgetVersionNumber().toString())) {
             return budgetDocument.getProposal().getActivityType().getDescription().concat(SPACE);
         } else {
             ProposalDevelopmentDocument pdDoc = budgetDocument.getProposal();
