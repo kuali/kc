@@ -31,8 +31,8 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * @author $Author: jsalam $
- * @version $Revision: 1.39 $
+ * @author $Author: jfrosch $
+ * @version $Revision: 1.40 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**
@@ -65,8 +65,27 @@ public class ProposalPerson extends Person implements CreditSplitable {
     private String optInCertificationStatus;
     private boolean unitdelete;
     private String projectRole;
+    private Integer ordinalPosition;
     
+    private transient boolean moveDownAllowed;
+    private transient boolean moveUpAllowed;    
     
+    public boolean isMoveDownAllowed() {
+        return moveDownAllowed;
+    }
+
+    public boolean isMoveUpAllowed() {
+        return moveUpAllowed;
+    }
+
+    public void setMoveDownAllowed(boolean moveDownAllowed) {
+        this.moveDownAllowed = moveDownAllowed;
+    }
+
+    public void setMoveUpAllowed(boolean moveUpAllowed) {
+        this.moveUpAllowed = moveUpAllowed;
+    }
+
     /**
      *
      * new ProposalPerson
@@ -432,7 +451,8 @@ public class ProposalPerson extends Person implements CreditSplitable {
         this.person = argPerson;
     }
 
-	@Override 
+	@SuppressWarnings("unchecked")
+    @Override 
 	protected LinkedHashMap toStringMapper() {
    	    LinkedHashMap hashmap = super.toStringMapper();
 
@@ -694,6 +714,14 @@ public class ProposalPerson extends Person implements CreditSplitable {
 
     public void setProjectRole(String projectRole) {
         this.projectRole = projectRole;
+    }
+
+    public Integer getOrdinalPosition() {
+        return ordinalPosition;
+    }
+
+    public void setOrdinalPosition(Integer ordinalPosition) {
+        this.ordinalPosition = ordinalPosition;
     }
 
 
