@@ -227,7 +227,7 @@ public class BudgetServiceImpl implements BudgetService {
             qMap.put("activityTypeCode",pdDoc.getActivityTypeCode());
             Collection<BudgetProposalRate> matchActivityTypePropRates = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
                 BudgetProposalRate.class, qMap);
-            if (CollectionUtils.isEmpty(matchActivityTypePropRates)) {
+            if (CollectionUtils.isEmpty(matchActivityTypePropRates) || allPropRates.size() != matchActivityTypePropRates.size()) {
                 return true;
             }
         }
