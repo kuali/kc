@@ -20,30 +20,26 @@ import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.substringBetween;
-import static org.kuali.RiceConstants.EMPTY_STRING;
 import static org.kuali.RiceConstants.METHOD_TO_CALL_ATTRIBUTE;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_FLAG;
 import static org.kuali.kra.infrastructure.Constants.CREDIT_SPLIT_ENABLED_RULE_NAME;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.NEW_PERSON_LOOKUP_FLAG;
-import static org.kuali.kra.infrastructure.Constants.NEW_PROPOSAL_PERSON_PROPERTY_NAME;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
 import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
+import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
 import static org.kuali.kra.logging.FormattedLogger.warn;
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import static org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,21 +47,16 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
@@ -77,8 +68,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * Handles actions from the Key Persons page of the 
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>
  *
- * @author $Author: jsalam $
- * @version $Revision: 1.60 $
+ * @author $Author: jfrosch $
+ * @version $Revision: 1.61 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
@@ -95,12 +86,26 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
        
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ActionForward retval = super.execute(mapping, form, request, response);
-        pdform.setTabStates(new HashMap());
+        pdform.setTabStates(new HashMap<String, String>());
         prepare(form, request);
-        Map errorMap = GlobalVariables.getErrorMap();
         return retval;
     }
-
+    
+    public ActionForward moveDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getProposalPersons();
+        swapAdjacentPersonnel(keyPersonnel, getLineToDelete(request), MoveOperationEnum.MOVING_PERSON_DOWN);
+        
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    public ActionForward moveUp(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getProposalPersons();
+        swapAdjacentPersonnel(keyPersonnel, getLineToDelete(request), MoveOperationEnum.MOVING_PERSON_UP);
+        
+        return mapping.findForward(MAPPING_BASIC);
+    }
+    
+    
     /**
      * Common helper method for preparing to <code>{@link #execute(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)}</code>
      * @param form ActionForm
@@ -448,9 +453,11 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        pdform.setTabStates(new HashMap());
+        pdform.setTabStates(new HashMap<String, String>());
         boolean rulePassed = true;
 
+        updateCurrentOrdinalPositions(((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getProposalPersons());
+        
         // check any business rules
         rulePassed &= getKualiRuleService().applyRules(new SaveKeyPersonEvent(EMPTY_STRING, pdform.getDocument()));
 
@@ -503,9 +510,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         pdform.setOptInUnitDetails("N");
         selectedPerson.setOptInUnitStatus("N");
         selectedPerson.getUnits().clear();
-        List<ProposalPersonUnit> test=selectedPerson.getUnits();
-         document.getInvestigators().remove(selectedPerson);
-         return mapping.findForward(MAPPING_BASIC);
+        document.getInvestigators().remove(selectedPerson);
+        return mapping.findForward(MAPPING_BASIC);
     }
     
     /**
@@ -554,7 +560,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     protected ProposalPerson getSelectedPerson(HttpServletRequest request, ProposalDevelopmentDocument document) {
         ProposalPerson retval = null;
-        int selectedLine = -1;
         String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
         if (isNotBlank(parameterName)) {
             int lineNumber = Integer.parseInt(substringBetween(parameterName, "proposalPersons[", "]."));
@@ -565,7 +570,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
 
     protected int getSelectedPersonIndex(HttpServletRequest request, ProposalDevelopmentDocument document) {
-        ProposalPerson retval = null;
         int selectedPersonIndex = -1;
         String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
         if (isNotBlank(parameterName)) {
@@ -581,25 +585,48 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      * @param proposalperson
      * @return boolean
      */
+    @SuppressWarnings("unchecked")
     protected boolean isValidHomeUnit(ProposalPerson person, String unitId){
-        boolean retval=true;
-       ProposalPersonUnit personhomeunit = new ProposalPersonUnit();
         Map valueMap = new HashMap();
         valueMap.put("unitNumber", unitId);
         Collection<Unit> units = getBusinessObjectService().findMatching(Unit.class, valueMap);
-        if(CollectionUtils.isNotEmpty(units)){
-            retval=true;
-        }else
-        {
-            retval=false;
-        }
         
-        return retval;
+        return CollectionUtils.isNotEmpty(units);
     }
        
 
     private BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
+    }
+    
+    private void swapAdjacentPersonnel(List<ProposalPerson> keyPersonnel, int index1, MoveOperationEnum op) {
+        ProposalPerson movingPerson = keyPersonnel.get(index1);
+        
+        if ((op == MoveOperationEnum.MOVING_PERSON_DOWN && movingPerson.isMoveDownAllowed()) || (op == MoveOperationEnum.MOVING_PERSON_UP && movingPerson.isMoveUpAllowed())) {            
+            int index2 = index1 + op.getOffset();
+            keyPersonnel.set(index1, keyPersonnel.get(index2));
+            keyPersonnel.set(index2, movingPerson);
+        }
+    }
+    
+    private enum MoveOperationEnum {
+        MOVING_PERSON_DOWN (1),
+        MOVING_PERSON_UP(-1);
+        
+        private int offset;
+        
+        private MoveOperationEnum(int offset) {
+            this.offset = offset;
+        }
+        
+        public int getOffset() { return offset; }
+    };
+    
+    private void updateCurrentOrdinalPositions(List<ProposalPerson> keyPersonnel) {
+        Integer index = 0;
+        for(ProposalPerson person: keyPersonnel) {
+            person.setOrdinalPosition(index++);
+        }
     }
 }
 

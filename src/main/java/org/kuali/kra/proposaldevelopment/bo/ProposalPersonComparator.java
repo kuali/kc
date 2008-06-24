@@ -62,6 +62,10 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
         }
         
         if (retval == 0) {
+            retval = massageOrdinalNumber(person1).compareTo(massageOrdinalNumber(person2));
+        }
+        
+        if (retval == 0) {
             if (isNotBlank(person1.getFullName())) {
                 retval = person1.getLastName().compareTo(person2.getLastName());
             }
@@ -75,4 +79,8 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
         return retval;
     }
 
+    private Integer massageOrdinalNumber(ProposalPerson person) {
+        return person.getOrdinalPosition() != null ? person.getOrdinalPosition() : -1;
+    }
+    
 }
