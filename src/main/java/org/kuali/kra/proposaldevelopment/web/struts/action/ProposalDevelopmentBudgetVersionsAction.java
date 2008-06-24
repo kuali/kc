@@ -23,6 +23,7 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -185,13 +186,33 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
         if (!valid) {
             // set up error message to go to validate panel
-            GlobalVariables.getErrorMap().putError("document.budgetVersionOverview["+Integer.toString(pdForm.getFinalBudgetVersion()-1)+"].budgetStatus", KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+            int errorBudgetVersion = getTentativeFinalBudgetVersion(pdForm);
+            if(errorBudgetVersion != -1) {
+                GlobalVariables.getErrorMap().putError("document.budgetVersionOverview["+ (errorBudgetVersion-1) +"].budgetStatus", KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
+            }
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
 	        updateProposalDocument(pdForm);
             setProposalStatus(pdForm.getProposalDevelopmentDocument());
             return super.save(mapping, form, request, response);
         }
+    }
+    
+    private int getTentativeFinalBudgetVersion(ProposalDevelopmentForm pdForm) {
+        if(pdForm.getFinalBudgetVersion() != null) {
+            return pdForm.getFinalBudgetVersion().intValue();
+        }
+        
+        ProposalDevelopmentDocument document = pdForm.getProposalDevelopmentDocument();
+        if(document != null && CollectionUtils.isNotEmpty(document.getBudgetVersionOverviews())) {
+            for(BudgetVersionOverview budget : document.getBudgetVersionOverviews()) {
+                if(budget.isFinalVersionFlag()) {
+                    return budget.getBudgetVersionNumber();
+                }
+            }
+        }
+        
+        return -1;
     }
     
     @Override 
