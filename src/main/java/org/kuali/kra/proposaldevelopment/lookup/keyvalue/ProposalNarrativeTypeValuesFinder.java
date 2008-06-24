@@ -16,14 +16,20 @@
 package org.kuali.kra.proposaldevelopment.lookup.keyvalue;
 
 import static org.kuali.core.util.GlobalVariables.getKualiForm;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_COMPONENT_DOCUMENT;
+import static org.kuali.kra.infrastructure.Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder;
-import org.kuali.core.service.KeyValuesService;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -91,8 +97,15 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
     
     @SuppressWarnings("unchecked")
     protected Collection<NarrativeType> loadAllNarrativeTypes() {
-        KeyValuesService boService = KNSServiceLocator.getKeyValuesService();
-        return (Collection<NarrativeType>) boService.findAll(getBusinessObjectClass());
+        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
+        KualiConfigurationService configurationService = KNSServiceLocator.getKualiConfigurationService();
+        
+        String proposalNarrativeTypeGroup = configurationService.getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, PARAMETER_COMPONENT_DOCUMENT, Constants.PROPOSAL_NARRATIVE_TYPE_GROUP);
+        Map<String,String> queryMap = new HashMap<String,String>();
+        queryMap.put("narrativeTypeGroup", proposalNarrativeTypeGroup);
+        queryMap.put("systemGenerated", "N");
+        //return boService.findMatchingOrderBy(getBusinessObjectClass(), queryMap, "narrativeTypeCode", true);
+        return boService.findMatching(getBusinessObjectClass(), queryMap);
     }
 
     protected ProposalDevelopmentDocument getDocumentFromForm() {
