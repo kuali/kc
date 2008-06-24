@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -28,7 +26,7 @@ import org.kuali.kra.kim.bo.KimPerson;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.6.2.5 2008-06-20 01:43:33 gmcgrego Exp $
+ * $Id: Person.java,v 1.6.2.6 2008-06-24 21:22:08 gmcgrego Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;
@@ -94,7 +92,7 @@ public class Person extends KraPersistableBusinessObjectBase {
     private Long kimPersonId = null;
     private KimPerson kimPerson = null;
     private Boolean active = true;
-   // private Unit unit;
+    private Unit homeUnitRef;
     
     public Person() {
     }
@@ -1203,23 +1201,23 @@ public class Person extends KraPersistableBusinessObjectBase {
         return active;
     }
 
-   /* *//**
+   /**
      * Unit reference referred by {@link #getOwnedByUnit()}
      *
      * @param unit 
-     *//*
-    public void setUnit(Unit unit) {
-        this.unit = unit;
+     */
+    public void setHomeUnitRef(Unit unit) {
+        this.homeUnitRef = unit;
     }
 
-    *//**
+    /**
      * Unit reference referred by {@link #getOwnedByUnit()}
      *
      * @return unit 
-     *//*
-    public Unit getUnit() {
-        return unit;
-    }*/
+     */
+    public Unit getHomeUnitRef() {
+        return homeUnitRef;
+    }
 
 	@Override 
 	protected LinkedHashMap toStringMapper() {
@@ -1332,4 +1330,5 @@ public class Person extends KraPersistableBusinessObjectBase {
             this.kimPerson.setPassword(password);
         }
     }
+
 }
