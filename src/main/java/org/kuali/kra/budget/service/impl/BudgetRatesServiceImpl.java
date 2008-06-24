@@ -707,7 +707,7 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     private Map<String, AbstractBudgetRate> preservePersistedBudgetRatesForRateClassType(String rateClassType, List<AbstractBudgetRate> abstractBudgetRates) {
         Map<String, AbstractBudgetRate> existingBudgetRateMap = new HashMap<String, AbstractBudgetRate>();        
         for(AbstractBudgetRate abstractBudgetRate: abstractBudgetRates) {
-            if(rateClassType.equals(abstractBudgetRate.getRateTypeCode())) {
+            if(rateClassType.equals(abstractBudgetRate.getRateClass().getRateClassType())) {
                 existingBudgetRateMap.put(abstractBudgetRate.getRateKeyAsString(), abstractBudgetRate);
             }
         }
