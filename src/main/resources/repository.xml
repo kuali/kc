@@ -409,7 +409,7 @@
 		<field-descriptor name="countryOfCitizenship" column="COUNTRY_OF_CITIZENSHIP" jdbc-type="VARCHAR" />
 		<field-descriptor name="primaryTitle" column="PRIMARY_TITLE" jdbc-type="VARCHAR" />
 		<field-descriptor name="directoryTitle" column="DIRECTORY_TITLE" jdbc-type="VARCHAR" />
-		<field-descriptor name="homeUnit" column="HOME_UNIT" jdbc-type="VARCHAR" />
+		<field-descriptor id="1" name="homeUnit" column="HOME_UNIT" jdbc-type="VARCHAR" />
 		<field-descriptor name="facultyFlag" column="IS_FACULTY" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 		<field-descriptor name="graduateStudentStaffFlag" column="IS_GRADUATE_STUDENT_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 		<field-descriptor name="researchStaffFlag" column="IS_RESEARCH_STAFF" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
@@ -442,9 +442,9 @@
         <reference-descriptor name="kimPerson" class-ref="org.kuali.kra.kim.bo.KimPerson" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="kimPersonId" />
         </reference-descriptor>
-		 <!-- <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
-        	<foreignkey field-ref="homeUnit" /> 
-    	</reference-descriptor> -->
+		 <reference-descriptor name="homeUnitRef" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-id-ref="1" /> 
+    	</reference-descriptor>
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalPerson" table="EPS_PROP_PERSON">
@@ -1283,7 +1283,7 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.bo.Unit" table="UNIT">
-		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor id="1" name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="parentUnitNumber" column="PARENT_UNIT_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="unitName" column="UNIT_NAME" jdbc-type="VARCHAR"/>
