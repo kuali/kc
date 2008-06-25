@@ -72,7 +72,7 @@
     	</c:if>
     </c:forEach>
 
-	<c:set var="budgetExpensePanelReadOnly" value="${KualiForm.document.proposal.budgetVersionOverviews[KualiForm.document.budgetVersionNumber-1].finalVersionFlag}" />
+	<%--<c:set var="budgetExpensePanelReadOnly" value="${KualiForm.document.proposal.budgetVersionOverviews[KualiForm.document.budgetVersionNumber-1].finalVersionFlag}" /> --%>
 	 	
 	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}" tabItemCount="${budgetLineItemSize}" defaultOpen="false" tabErrorKey="*costElement*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}">
 		<div class="tab-container" align="center">
@@ -121,7 +121,7 @@
 					</td>
 					<td valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemDescription" attributeEntry="${budgetLineItemAttributes.lineItemDescription}" readOnly="${budgetExpensePanelReadOnly}"/>
+	                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemDescription" attributeEntry="${budgetLineItemAttributes.lineItemDescription}" />
 	                	<kra:expandedTextArea textAreaFieldName="${textAreaFieldName}" action="${action}" textAreaLabel="${budgetLineItemAttributes.lineItemDescription.label}" />                	
 	                	</div>
 					</td>
@@ -132,21 +132,21 @@
 					</td>
 	                <td valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].costSharingAmount" attributeEntry="${budgetLineItemAttributes.costSharingAmount}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/>
+	                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].costSharingAmount" attributeEntry="${budgetLineItemAttributes.costSharingAmount}" styleClass="amount" />
 	                	</div>
 					</td>
 	                <td valign="middle" class="infoline">
 	                	<div align="center">
-	                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].quantity" attributeEntry="${budgetLineItemAttributes.quantity}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/>
+	                	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].quantity" attributeEntry="${budgetLineItemAttributes.quantity}" styleClass="amount" />
 	                	</div>
 	                </td>
 	                <td valign="middle" class="infoline">                	
 	                	<div align="center">
-	                  	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemCost" attributeEntry="${budgetLineItemAttributes.lineItemCost}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/> 
+	                  	<kul:htmlControlAttribute property="newBudgetLineItems[${catCodes}].lineItemCost" attributeEntry="${budgetLineItemAttributes.lineItemCost}" styleClass="amount" /> 
 	                	</div>
 					</td>				
 					<td class="infoline">
-						<c:if test="${!budgetExpensePanelReadOnly}" >
+						<c:if test="${!readOnly}" >
 						<div align=center>
 							<html:image property="methodToCall.addBudgetLineItem.budgetCategoryTypeCode${budgetCategoryTypeCodesKey}.catTypeIndex${catCodes}.anchor${tabKey}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
@@ -161,7 +161,7 @@
 			    		<c:set var="index" value="0"/>
 			    		<c:forEach var="budgetLineItems" items="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems}" varStatus="status">
 			    		<c:if test="${budgetLineItems.budgetCategory.budgetCategoryTypeCode == budgetCategoryTypeIndex.key}" >
-							<kra-b:budgetLineItems budgetPeriod = "${budgetPeriod}" budgetCategoryTypeCode = "${budgetCategoryTypeCodesKey}" budgetLineItemNumber="${status.index}" budgetLineItemSequenceNumber="${index}" innerTabParent="${budgetCategoryTypeCodesLabel}" budgetExpensePanelReadOnly="${budgetExpensePanelReadOnly}"/>
+							<kra-b:budgetLineItems budgetPeriod = "${budgetPeriod}" budgetCategoryTypeCode = "${budgetCategoryTypeCodesKey}" budgetLineItemNumber="${status.index}" budgetLineItemSequenceNumber="${index}" innerTabParent="${budgetCategoryTypeCodesLabel}" budgetExpensePanelReadOnly="${readOnly}"/>
 							<c:set var="index" value="${index+1}"/>			    		
 			    		</c:if> 		
 			    		</c:forEach>
