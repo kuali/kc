@@ -14,6 +14,23 @@
  limitations under the License.
 --%>
 <link href="en/css/kuali.css" rel="stylesheet" type="text/css">
+
+<%@page import="edu.iu.uis.eden.util.Utilities" %>
+<%@page import="edu.iu.uis.eden.EdenConstants" %>
+<%@page import="org.apache.commons.lang.StringUtils" %>
+
+<%
+	String target = ""; 
+	String popUpNeeded = Utilities.getApplicationConstant(EdenConstants.ACTION_LIST_DOCUMENT_POPUP_KEY).trim();
+	
+	if(StringUtils.isNotEmpty(popUpNeeded)) {
+		if(Boolean.parseBoolean(popUpNeeded) == true)  
+			target = " target='_blank'";
+		else
+			target = " target='_parent'";
+	}
+%>
+
 <div valign="center">
-<a href='${pageContext.request.contextPath}/DocCopyHandler.do?command=displayDocSearchView&docId=<%=request.getParameter("docId")%>' target='_blank'>Copy Proposal</a>
+	<a href='${pageContext.request.contextPath}/DocCopyHandler.do?command=displayDocSearchView&docId=<%=request.getParameter("docId")%>' <%=target%> >Copy Proposal</a>
 </div>
