@@ -1039,7 +1039,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         
         String externalImageURL = "kra.externalizable.images.url";
         if(showSubmitButton){
-            String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "submittosponsor.gif";
+            String submitToGrantsGovImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "buttonsmall_sponsorsubmit.gif";
             addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
         }else if(showResubmitButton){
             String resubmissionImage = KraServiceLocator.getService(KualiConfigurationService.class).getPropertyString(externalImageURL) + "replaceproposal.gif";
