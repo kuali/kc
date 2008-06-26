@@ -296,6 +296,7 @@
 			<shortLabel>Period Type </shortLabel>
 			<maxLength>3</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
+			<required>true</required>
 			<control>
 				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetPeriodTypeValuesFinder" />
 			</control>
