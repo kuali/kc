@@ -21,7 +21,7 @@ import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 
 /**
- * This is a description of what this class does - chitra07 don't forget to fill this in.
+ * Testing ObjectUtils equalsByKey logic change
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
