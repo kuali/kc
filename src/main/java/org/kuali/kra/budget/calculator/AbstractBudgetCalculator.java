@@ -99,7 +99,8 @@ public abstract class AbstractBudgetCalculator {
 //            budgetRateService.resetAllBudgetRates(budgetDocument);
 //        }
         if (!rates.isEmpty() && rates.get(0) instanceof BudgetProposalRate) {
-            return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getActivityTypeCode());
+            return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getProposal().getActivityTypeCode());
+            //return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getActivityTypeCode());
         }
         else {
             return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), null);
