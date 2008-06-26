@@ -70,19 +70,17 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         List<Id> members = new ArrayList<Id>();
         UserId roleUserId = null;
         if (StringUtils.equals(PRINCIPAL_INVESTIGATOR.getBaseName(), qualifiedRole)) {
-            List<String> proposalinvestigator=getProposalInvestigator(routeContext);
+            List<String> proposalinvestigator=getPrincipalInvestigator(routeContext);
             for (Iterator<String> pis = proposalinvestigator.iterator(); pis.hasNext();) {
                 String  id = pis.next();
                 roleUserId = new AuthenticationUserId(id);
                 members.add(roleUserId);
-            }  
+           }
             qualRole.setRecipients(members);
             qualRole.setAnnotation("ProposalInvestigator Approval");
             qualRole.setQualifiedRoleLabel(PRINCIPAL_INVESTIGATOR.getLabel());
-
         } else if (StringUtils.equals(CO_INVESTIGATOR.getBaseName(), qualifiedRole)) {
-
-            List<String> coinvestigators=getProposalCoInvestigators(routeContext);
+            List<String> coinvestigators=getCoInvestigators(routeContext);
             for (Iterator<String> coi = coinvestigators.iterator(); coi.hasNext();) {
                 String  id = coi.next();
                 roleUserId = new AuthenticationUserId(id);
@@ -101,12 +99,9 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
             qualRole.setRecipients(members);
             qualRole.setAnnotation("Keyperson Approval");
             qualRole.setQualifiedRoleLabel(KEYPERSON.getLabel());
-            
         }
         return qualRole;
-
     }
-
     public List<String> getQualifiedRoleNames(String roleName, DocumentContent docContent) throws EdenUserNotFoundException {
         List<String> qualifiedRoleNames = new ArrayList<String>();
 
@@ -120,13 +115,13 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
             qualifiedRoleNames.add(COINVESTIGATOR_ROLE_KEY);
         }
         else if(KEYPERSON_ROLE_KEY.equals(roleName)){
-            
+
             qualifiedRoleNames.add(KEYPERSON_ROLE_KEY);
         }
         return  qualifiedRoleNames;
     }
 
-    public List<String> getProposalCoInvestigators(RouteContext routeContext) {
+    public List<String> getCoInvestigators(RouteContext routeContext) {
         // TODO Auto-generated method stub
         List<String> coinvestigators = new ArrayList<String>();
         Element rootElement=routeContext.getDocumentContent().getApplicationContent(); 
@@ -138,14 +133,16 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
                 Node proposalpersonNode =proposalperonList.item(i);
                 if(getChildElementTextValue(proposalpersonNode,"proposalPersonRoleId")!=null){
                     if(getChildElementTextValue(proposalpersonNode,"proposalPersonRoleId").equals(CO_INVESTIGATOR_ROLE)){
-                        coinvestigators.add(getChildElementTextValue(proposalpersonNode, "userName"));
+                        if(StringUtils.isNotBlank(getChildElementTextValue(proposalpersonNode,"userName"))){
+                            coinvestigators.add(getChildElementTextValue(proposalpersonNode, "userName"));
+                        }
                     }
                 }
             }
         }
         return coinvestigators;
     }
-    public List<String> getProposalInvestigator(RouteContext routeContext) {
+    public List<String> getPrincipalInvestigator(RouteContext routeContext) {
         // TODO Auto-generated method stub
         List<String> Principalinvestigator = new ArrayList<String>();
         Element rootElement=routeContext.getDocumentContent().getApplicationContent();
@@ -157,7 +154,9 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
                 Node proposalpersonNode =proposalperonList.item(i);
                 if(getChildElementTextValue(proposalpersonNode,"proposalPersonRoleId")!=null){
                     if(getChildElementTextValue(proposalpersonNode,"proposalPersonRoleId").equals(PRINCIPAL_INVESTIGATOR_ROLE)){
-                        Principalinvestigator.add(getChildElementTextValue(proposalpersonNode, "userName"));
+                        if(StringUtils.isNotBlank(getChildElementTextValue(proposalpersonNode,"userName"))){
+                            Principalinvestigator.add(getChildElementTextValue(proposalpersonNode, "userName"));
+                        }
                     }
                 }
             }
@@ -165,7 +164,6 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         return Principalinvestigator;
     } 
     public List<String> getProposalInvestigators(RouteContext routeContext) {
-
         List<String> Investigators = new ArrayList<String>();
         Element rootElement=routeContext.getDocumentContent().getApplicationContent();
         if(rootElement!=null){
@@ -176,7 +174,9 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
                 Node proposalpersonNode =proposalperonList.item(i);
                 if(getChildElementTextValue(proposalpersonNode,"proposalPersonRoleId")!=null){
                     if((getChildElementTextValue(proposalpersonNode, "proposalPersonRoleId").equals(PRINCIPAL_INVESTIGATOR_ROLE)) || (getChildElementTextValue(proposalpersonNode, "proposalPersonRoleId").equals(CO_INVESTIGATOR_ROLE))){
-                        Investigators.add(getChildElementTextValue(proposalpersonNode, "userName"));
+                        if(StringUtils.isNotBlank(getChildElementTextValue(proposalpersonNode,"userName"))){
+                            Investigators.add(getChildElementTextValue(proposalpersonNode, "userName"));
+                        }
                     }
                 }
             }
@@ -194,16 +194,15 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
                 Node proposalpersonNode =proposalperonList.item(i);
                 if(getChildElementTextValue(proposalpersonNode,"proposalPersonRoleId")!=null){
                     if(getChildElementTextValue(proposalpersonNode, "proposalPersonRoleId").equals(KEY_PERSON_ROLE) && getChildElementTextValue(proposalpersonNode,"optInCertificationStatus").equals("Y")){
-                        KeyPersons.add(getChildElementTextValue(proposalpersonNode, "userName"));
+                        if(StringUtils.isNotBlank(getChildElementTextValue(proposalpersonNode,"userName"))){
+                            KeyPersons.add(getChildElementTextValue(proposalpersonNode, "userName"));
+                        }
                     }
                 }
-
             }
         }
         return KeyPersons;
-
     }
-
     public List<String> getProposalPersons(RouteContext routeContext) {
         List<String> ProposalPersons = new ArrayList<String>();
         Element rootElement=routeContext.getDocumentContent().getApplicationContent();
@@ -215,16 +214,15 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
                 Node proposalpersonNode =proposalperonList.item(i);
                 if(getChildElementTextValue(proposalpersonNode,"proposalPersonRoleId")!=null){
                     if((getChildElementTextValue(proposalpersonNode, "proposalPersonRoleId").equals(PRINCIPAL_INVESTIGATOR_ROLE)) || (getChildElementTextValue(proposalpersonNode, "proposalPersonRoleId").equals(CO_INVESTIGATOR_ROLE)) || (getChildElementTextValue(proposalpersonNode, "proposalPersonRoleId").equals(KEY_PERSON_ROLE))){
-                        ProposalPersons.add(getChildElementTextValue(proposalpersonNode, "userName"));
+                        if(StringUtils.isNotBlank(getChildElementTextValue(proposalpersonNode,"userName"))){
+                            ProposalPersons.add(getChildElementTextValue(proposalpersonNode, "userName"));
+                        }
                     }
                 }
             }
         }
         return ProposalPersons;
-
     }
-
-
     /**
      * Returns a node child with the specified tag name of the specified parent node,
      * or null if no such child node is found.
@@ -249,9 +247,6 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         }
         return null;
     }
-
-
-
     /**
      * Returns the text value of a child element with the given name, of the given parent element,
      * or null if the child does not exist or does not have a child text node
@@ -271,6 +266,4 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         }
         return textNode.getNodeValue();
     }
-
-
 }
