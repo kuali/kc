@@ -25,7 +25,6 @@
 <c:set var="budgetLineItemAttributes" value="${DataDictionary.BudgetLineItem.attributes}" />
 <c:set var="action" value="budgetExpensesAction" />
 <c:set var="textAreaFieldNameLineItemDescription" value="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].lineItemDescription" />
-	<c:set var="objectCodeReadOnly" value="false" />
 
 <c:if test="${readOnly}" >
 	<c:set var="budgetExpensePanelReadOnly" value="true" />
@@ -34,9 +33,6 @@
 <c:set var="budgetExpensePanelReadOnlyIfBudgetVersionIsFinal" value="${budgetExpensePanelReadOnly}" />
 <c:if test="${budgetCategoryTypeCode == 'P' and fn:length(KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].budgetPersonnelDetailsList) > 0}" >
 	<c:set var="budgetExpensePanelReadOnly" value="true" />
-</c:if>
-<c:if test="${!empty KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].versionNumber}" >
-	<c:set var="objectCodeReadOnly" value="true" />
 </c:if>
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
@@ -69,17 +65,7 @@
 						</c:choose>
 					</c:forEach> 
 					
-					 <c:choose>
-	                    <c:when test="${budgetExpensePanelReadOnly || objectCodeReadOnly}">
 	                    	<c:out value="${selectedCostElement}"/>
-	                    	<input type="hidden" name="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" value="${KualiForm.document.budgetPeriods[budgetPeriod - 1].budgetLineItems[budgetLineItemNumber].costElement}">	 
-	                    </c:when>
-                     	<c:otherwise>
-                     	<html:select property="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement" tabindex="0" onchange="loadBudgetCategoryCode('document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement', 'document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode');">
-	                   		${costElementOptions} 
-                    	</html:select> 
-                    	</c:otherwise>  
-                    </c:choose>
 				<input type="hidden" name="document.budgetCategoryTypeLineItem[${budgetLineItemNumber}]" value="${budgetCategoryTypeCode}">
 				<c:if test="${!(budgetExpensePanelReadOnly || objectCodeReadOnly)}">
 					<kul:lookup boClassName="org.kuali.kra.budget.bo.CostElement" fieldConversions="costElement:document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement,budgetCategoryCode:document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].budgetCategoryCode" anchor="${tabKey}" lookupParameters="document.budgetPeriods[${budgetPeriod - 1}].budgetLineItems[${budgetLineItemNumber}].costElement:costElement,document.budgetCategoryTypeLineItem[${budgetLineItemNumber}]:budgetCategoryTypeCode" autoSearch="yes" />
