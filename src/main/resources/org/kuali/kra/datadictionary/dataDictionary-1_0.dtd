@@ -699,7 +699,7 @@
                     exact regex patterns.
                     e.g. validationPatternRegex.date for regex used in date validation.
                 -->
-                <!ELEMENT validationPattern (alpha|numeric|alphaNumeric|anyCharacter|charset|javaClass|floatingPoint|fixedPoint|zipcode|date|year|month|emailAddress|phoneNumber|timestamp)>
+                <!ELEMENT validationPattern (alpha|numeric|alphaNumeric|anyCharacter|charset|javaClass|floatingPoint|fixedPoint|zipcode|date|year|month|emailAddress|phoneNumber|timestamp|regex)>
                     <!-- character-level patterns -->
                     <!-- ............  alpha element  ............
 
@@ -872,6 +872,18 @@
                     -->
                     <!ELEMENT phoneNumber EMPTY>
 
+                    <!-- ............  regex element  ............
+
+                        The regex element defines a regular expression for validating
+                        an attribute value. e.g. "[0-9]".
+
+                        DD: See RegexValidationPattern.java
+                    -->
+                    <!ELEMENT regex EMPTY>
+                    <!ATTLIST regex
+                        pattern CDATA #REQUIRED
+                    >
+
                 <!-- ............  required element  ............
 
                     The required element allows values of "true" or "false".
@@ -932,7 +944,7 @@
                     lookupHidden        lookupHidden        boolean String
 
                     lookupReadonly      lookupReadonly      boolean String
-
+                    
                     file				file				org.apache.struts.upload.FormFile
 
                 -->
@@ -1114,8 +1126,8 @@
                     <!ATTLIST workflowWorkgroup
                         size CDATA #REQUIRED
                     >
-
-					<!-- ............  file element  ............
+                    
+                    <!-- ............  file element  ............
                         
                         The file element defines an HTML file control element.
 
@@ -1125,7 +1137,6 @@
  					<!ATTLIST file
                         size CDATA #REQUIRED
                     >
-
                 <!-- ............  attributeAuthorization element  ............
 
                     The attributeAuthorization element is used to provide field-level
@@ -1687,7 +1698,7 @@
 
         See TransactionalDocumentEntryMapper.java
     -->
-    <!ELEMENT transactionalDocument (documentClass, %COPYABLE_DOCUMENT_ATTRIBUTES;, allowsErrorCorrection, allowsNoteDelete?, allowsNoteAttachments?, displayTopicFieldInNotes?, attachmentTypesValuesFinderClass?) >
+    <!ELEMENT transactionalDocument (documentClass, %COPYABLE_DOCUMENT_ATTRIBUTES;, allowsErrorCorrection, allowsNoteDelete?, allowsNoteAttachments?, displayTopicFieldInNotes?, attachmentTypesValuesFinderClass?, workflowProperties?) >
         <!-- ............  documentClass element  ............
 
             The documentClass element is the name of the java class
@@ -1723,7 +1734,7 @@
             * attachmentTypeValuesFinderClass (String)
             * attributes (Map)
     -->
-    <!ELEMENT maintenanceDocument (businessObjectClass, maintainableClass, %DOCUMENT_ATTRIBUTES;, additionalSectionsFile*, lockingKeys, allowsNewOrCopy?, defaultExistenceChecks?, applyApcRules?, maintainableSections, allowsNoteDelete?, allowsNoteAttachments?, displayTopicFieldInNotes?, attachmentTypesValuesFinderClass?) >
+    <!ELEMENT maintenanceDocument (businessObjectClass, maintainableClass, %DOCUMENT_ATTRIBUTES;, additionalSectionsFile*, lockingKeys, allowsNewOrCopy?, defaultExistenceChecks?, applyApcRules?, maintainableSections, allowsNoteDelete?, allowsNoteAttachments?, displayTopicFieldInNotes?, attachmentTypesValuesFinderClass?, workflowProperties?) >
         <!-- ............  businessObjectClass element  ............
             This attribute is used in many contexts, for example, in maintenance docs, it's used to specify the classname
             of the BO being maintained.
@@ -2143,3 +2154,39 @@
                 	<!ATTLIST duplicateIdentificationField
                     	name CDATA #IMPLIED
                     >
+
+        <!-- ............  workflowProperties element  ............
+        
+            This element is used to define a set of workflowPropertyGroups, which are used to
+            specify which document properties should be serialized during the document serialization
+            process.
+        -->
+        <!ELEMENT workflowProperties (workflowPropertyGroup*)>
+            <!-- ............  workflowPropertyGroup element  ............
+
+                This element is used to define a set of workflowProperty tags, which are used to
+                specify which document properties should be serialized during the document serialization
+                process.  This element allows for all the nested workflowProperty tags to be relative
+                to some base path.  This base path itself is relative to the object being serialized
+                during the document serialization process (which is not necessarily the document itself,
+                but a wrapper around the document).
+                
+                If blank/missing, the base path will be assumed to be the property path to the document
+                
+                See org.kuali.core.datadictionary.WorkflowPropertyGroup for more details.
+            -->
+            <!ELEMENT workflowPropertyGroup (workflowProperty*)>
+            <!ATTLIST workflowPropertyGroup
+                basePath CDATA #IMPLIED
+            >
+                <!-- ............  workflowProperty element  ............
+
+                    This element specifies a property relative to the base path of the workflowPropertyGroup
+                    containing this element.
+
+                    See org.kuali.core.datadictionary.WorkflowProperty for more details.
+                -->
+                <!ELEMENT workflowProperty EMPTY>
+                <!ATTLIST workflowProperty
+                    path CDATA #REQUIRED
+                >
