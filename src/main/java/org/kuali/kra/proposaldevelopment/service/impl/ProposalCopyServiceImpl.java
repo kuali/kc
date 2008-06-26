@@ -38,6 +38,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.bo.BudgetModular;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -943,6 +945,28 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         objectMap.clear(); 
         
         budget.setFinalVersionFlag(false);
+        
+        //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
+        Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>(); 
+        for(BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
+            BudgetModular tmpObject = null;
+            if(budgetPeriod.getBudgetModular() != null) {
+                tmpObject = (BudgetModular) ObjectUtils.deepCopy(budgetPeriod.getBudgetModular());
+            }
+            tmpBudgetModulars.put(budgetPeriod.getProposalNumber()+ (budgetPeriod.getVersionNumber()+1) + budgetPeriod.getBudgetPeriod(), tmpObject);
+            budgetPeriod.setBudgetModular(null);
+        }
+        
+        documentService.saveDocument(budget);
+        
+        for(BudgetPeriod tmpBudgetPeriod: budget.getBudgetPeriods()) {
+            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod.getProposalNumber()+ tmpBudgetPeriod.getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
+            if(tmpBudgetModular != null) {
+                tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
+                tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
+            }
+        }
+        
         documentService.saveDocument(budget);
         documentService.routeDocument(budget, "Route to Final", new ArrayList());
     }

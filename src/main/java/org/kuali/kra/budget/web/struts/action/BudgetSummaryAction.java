@@ -433,7 +433,7 @@ public class BudgetSummaryAction extends BudgetAction {
                 BudgetPeriod.class, budgetPeriodMap);
         for (BudgetPeriod budgetPeriod : existBudgetPeriods) {
             for (BudgetPeriod newBudgetPeriod : budgetDocument.getBudgetPeriods()) {
-                if (budgetPeriod.getBudgetPeriod().equals(newBudgetPeriod.getBudgetPeriod())) {
+                if (budgetPeriod.getBudgetPeriodId().equals(newBudgetPeriod.getBudgetPeriodId())) {
                     newBudgetPeriod.setVersionNumber(budgetPeriod.getVersionNumber());
                 }
             }
