@@ -496,23 +496,21 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
             if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE))){
-                if(StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
+                if(StringUtils.isNotBlank(person.getUserName()) && StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
                     pdform.setReject(true);
 
                 }
             }else if((person!= null) && (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
-                if(StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
+                if(StringUtils.isNotBlank(person.getUserName())&& StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
                     pdform.setReject(true);
                 }
                 else if((person!= null) && (person.getProposalPersonRoleId().equals(KEY_PERSON_ROLE))){
-                    if(StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
+                    if(StringUtils.isNotBlank(person.getUserName())&& StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
                         pdform.setReject(true);
                     }
                 }
             }
         }
-
-
         return super.headerTab(mapping, form, request, response);
     }
 
