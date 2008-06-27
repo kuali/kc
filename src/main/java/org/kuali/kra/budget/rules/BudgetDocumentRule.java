@@ -21,8 +21,6 @@ import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.kuali.RiceKeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.DocumentAuditRule;
 import org.kuali.core.util.AuditCluster;
@@ -31,6 +29,7 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.bo.BudgetCostShare;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
@@ -119,6 +118,8 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         valid &= processBudgetPersonnelBudgetBusinessRules(budgetDocument);
         
         valid &= processBudgetRatesBusinessRule(budgetDocument);
+        
+        valid &= processBudgetProjectIncomeBusinessRule(budgetDocument);
 
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
         
@@ -126,6 +127,31 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         return valid;
     }
 
+    /**
+    *
+    * Validate budget project income. 
+    * costshare percentage must be between 0 and 999.99
+    * @param budgetDocument
+    * @return
+    */
+    protected boolean processBudgetProjectIncomeBusinessRule(BudgetDocument budgetDocument) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        int i = 0;
+        for (BudgetCostShare budgetCostShare : budgetDocument.getBudgetCostShares()) {
+            String errorPath = "budgetCostShare[" + i + "]";
+            errorMap.addToErrorPath(errorPath);
+            if(budgetCostShare.getSharePercentage().isLessThan(new BudgetDecimal(0)) || 
+               budgetCostShare.getSharePercentage().isGreaterThan(new BudgetDecimal(100))) {
+                errorMap.putError("sharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE);
+                valid = false;
+            }
+            errorMap.removeFromErrorPath(errorPath);
+            i++;
+        }
+        
+        return valid;
+    }
     
     /**
     *
