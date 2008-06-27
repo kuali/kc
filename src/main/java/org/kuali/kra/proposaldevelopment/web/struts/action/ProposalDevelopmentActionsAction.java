@@ -116,8 +116,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getProposalDevelopmentDocument();
         return actionForward;
     }
 
