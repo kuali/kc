@@ -512,7 +512,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             ActionForward actionForward = super.route(mapping, form, request, response);
             return actionForward;
         }else   {
-        GlobalVariables.getErrorMap().putError("document.datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+        GlobalVariables.getErrorMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
         return mapping.findForward((RiceConstants.MAPPING_BASIC));
          }
         
