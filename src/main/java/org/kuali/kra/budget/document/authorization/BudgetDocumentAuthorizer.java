@@ -70,7 +70,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
                 editModeMap.put("viewBudgets", TRUE);
                 entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
             } else if (isBudgetComplete(proposalDoc, budgetDoc)) {
-                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+                editModeMap.put("modifyCompletedBudgets", TRUE); 
                 editModeMap.put("modifyBudgets", FALSE);
                 editModeMap.put("viewBudgets", TRUE);
                 entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
