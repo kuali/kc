@@ -118,24 +118,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getProposalDevelopmentDocument();
-
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
-        for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
-            ProposalPerson person = person_it.next();
-            if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE))){
-                if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
-                    pdform.setReject(true);
-
-                }
-            }else if((person!= null) && (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
-                    if(person.getUserName().equals(currentUser.getPersonUserIdentifier())){
-                        pdform.setReject(true);
-                    }
-                }
-        }
-            
         return actionForward;
     }
 
