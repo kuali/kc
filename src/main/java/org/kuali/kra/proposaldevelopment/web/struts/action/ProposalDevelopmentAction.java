@@ -81,8 +81,10 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentDocumentAuthorizer;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
+import org.kuali.kra.proposaldevelopment.service.NarrativeService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
@@ -91,6 +93,9 @@ import org.kuali.kra.web.struts.action.ProposalActionBase;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
+import edu.iu.uis.eden.clientapp.WorkflowInfo;
+import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class ProposalDevelopmentAction extends ProposalActionBase {
@@ -132,6 +137,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocumentAuthorizer documentauthorizer=new ProposalDevelopmentDocumentAuthorizer();
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
          String keywordPanelDisplay = KraServiceLocator.getService(KualiConfigurationService.class).getParameterValue(
                     Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.KEYWORD_PANEL_DISPLAY);        
@@ -140,7 +146,31 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             if (proposalDevelopmentForm.isAuditActivated()) {
                 getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
             }
-
+            /*boolean approversAdded=true;
+             if(isRouted(document)){
+                 WorkflowInfo info = new WorkflowInfo();
+                 NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
+                 ActionRequestVO[] actionRequests = info.getActionRequests(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+                UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
+                for(ActionRequestVO actionRequest: actionRequests) {
+                    //narrativeService.
+                    
+                    narrativeService.addPerson(actionRequest.getUserVO().getNetworkId(), document, "Viewer");
+                }*/
+               /* NetworkIdVO userId = new NetworkIdVO(currentUser.getPersonUserIdentifier());
+                boolean isInWorkflow = false;
+                try {
+                 isInWorkflow = info.isUserAuthenticatedByRouteLog(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), userId, true);
+                }
+                catch (WorkflowException e) {
+                }
+                if(isInWorkflow){
+                    
+                    narrativeService.addPerson(currentUser.getPersonUserIdentifier(), document, "Viewer");
+                    
+                    
+                }
+            }*/
             assignSponsor(proposalDevelopmentForm);
             
             if (getKeyPersonnelService().hasPrincipalInvestigator(proposalDevelopmentForm.getProposalDevelopmentDocument())) {
@@ -159,7 +189,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             else {
                 proposalDevelopmentForm.setAdditionalDocInfo2(new KeyLabelPair("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
             }
-            
+           
             //if(isPrincipalInvestigator){
             //}
             
@@ -176,7 +206,16 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put("proposalNarrativeTypeGroup", configService.getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT, "proposalNarrativeTypeGroup"));
          return actionForward;
     }
-
+    
+    /**
+     * Has the document been routed to the workflow system?
+     * @param doc the document
+     * @return true if routed; otherwise false
+     */
+    private boolean isRouted(Document doc) {
+        String status = doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
+        return !(StringUtils.equals("INITIATED", status) ||  StringUtils.equals("SAVED", status));
+    }
     /**
      * Assigns the {@link Sponsor} name of the {@link ProposalDevelopmentDocument} instance contained in the given
      * {@link ProposalDevelopmentForm}. If the {@link Sponsor} has not been set on the {@link ProposalDevelopmentDocument} (the {@link Sponsor} reference is <code>null</code>,)
@@ -490,29 +529,25 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ((KualiForm) form).setTabStates(new HashMap());
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposaldevelopmentdocument=pdform.getProposalDevelopmentDocument();
-
         UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
-        for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
+         for (Iterator<ProposalPerson> person_it = proposaldevelopmentdocument.getProposalPersons().iterator(); person_it.hasNext();) {
             ProposalPerson person = person_it.next();
             if((person!= null) && (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE))){
-                if(StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
+                if(StringUtils.isNotBlank(person.getUserName()) && StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
                     pdform.setReject(true);
-
                 }
             }else if((person!= null) && (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE))){
-                if(StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
+                if(StringUtils.isNotBlank(person.getUserName())&& StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
                     pdform.setReject(true);
                 }
-            }else if((person!= null) && (person.getProposalPersonRoleId().equals(KEY_PERSON_ROLE))){
-                if(StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
-                    pdform.setReject(true);
+                else if((person!= null) && (person.getProposalPersonRoleId().equals(KEY_PERSON_ROLE))){
+                    if(StringUtils.isNotBlank(person.getUserName())&& StringUtils.equals(person.getUserName(), currentUser.getPersonUserIdentifier())){
+                        pdform.setReject(true);
+                    }
                 }
             }
         }
-
-
         return super.headerTab(mapping, form, request, response);
     }
-
 
 }
