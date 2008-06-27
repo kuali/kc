@@ -176,27 +176,28 @@
                 </td>
                 <td width="15%" valign="middle" class="infoline">                	
                 	<div align="center">
-                		<strong> ${KualiForm.document.totalCost} </strong>
+                	    <strong> <kul:htmlControlAttribute property="document.totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" readOnly="true"/> </strong>
                 	</div>
 				</td>
                 <td width="10%" valign="middle" class="infoline">
                 	<div align="center">
-                		<strong> ${KualiForm.document.totalDirectCost} </strong>
+                	    <strong> <kul:htmlControlAttribute property="document.totalDirectCost" attributeEntry="${budgetPeriodAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/> </strong>
+                		
                 	</div>
                 </td>
                 <td width="10%" valign="middle" class="infoline">
                  	<div align="center">
-                		<strong> ${KualiForm.document.totalIndirectCost} </strong>
+                	    <strong> <kul:htmlControlAttribute property="document.totalIndirectCost" attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/> </strong>
                 	</div>
                 </td>
                 <td width="15%" valign="middle" class="infoline">
                  	<div align="center">
-                		<strong> ${KualiForm.document.underrecoveryAmount} </strong>
+                	    <strong> <kul:htmlControlAttribute property="document.underrecoveryAmount" attributeEntry="${budgetPeriodAttributes.underrecoveryAmount}" styleClass="amount" readOnly="true"/> </strong>
                 	</div>
                 </td>
                 <td width="15%" valign="middle" class="infoline">
                 	<div align="center">
-                		<strong> ${KualiForm.document.costSharingAmount} </strong>
+                	    <strong> <kul:htmlControlAttribute property="document.costSharingAmount" attributeEntry="${budgetPeriodAttributes.costSharingAmount}" styleClass="amount" readOnly="true"/> </strong>
                 	</div>
                 </td>
 				<td width="10%" class="infoline">
