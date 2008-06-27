@@ -300,17 +300,12 @@
                 <description>Start Date.</description>
       		</attributeReference>
 
-			<attribute name="underrecoveryAmount">
+            <attributeReference name="underrecoveryAmount" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="genericAmount">
 			<label>Unrecovered F&amp;A </label>
 			<shortLabel>Unrecovered F&amp;A </shortLabel>
-			<maxLength>12</maxLength>
-			<validationPattern><fixedPoint allowNegative="false" precision="12" scale="2"/></validationPattern>
-			<control>
-				<text size="12" />
-			</control>
 			<summary>Unrecovered F&amp;A </summary>
 			<description>Unrecovered F&amp;A </description>
-			</attribute>
+			</attributeReference>
 
 		</attributes>
         <objectHelp parameterNamespace="KRA-B" parameterDetailType="D"  parameterName="budgetLineItemHelpUrl"/> 
