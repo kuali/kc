@@ -441,8 +441,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         KualiWorkflowDocument workflowdocument=kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument();
         Long routeHeaderId=kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        //List currentNodeInstances = KEWServiceLocator.getRouteNodeService().getCurrentNodeInstances(routeHeaderId);
-       List currentNodeInstances = KEWServiceLocator.getRouteNodeService().getInitialNodeInstances(routeHeaderId);
+        List currentNodeInstances = KEWServiceLocator.getRouteNodeService().getCurrentNodeInstances(routeHeaderId);
         List<RouteNodeInstance> nodeInstances = new ArrayList<RouteNodeInstance>();
         for (Iterator iterator = currentNodeInstances.iterator(); iterator.hasNext();) {
            RouteNodeInstance nodeInstance = (RouteNodeInstance) iterator.next();
