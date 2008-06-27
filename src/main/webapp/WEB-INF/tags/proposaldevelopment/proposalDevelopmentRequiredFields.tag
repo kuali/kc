@@ -5,7 +5,7 @@
 <c:set var="action" value="proposalDevelopmentProposal" />
 <c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 
-<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.currentAwardNumber*,document.continuedFrom,document.sponsorCode*,document.proposalTypeCode*,document.requestedStartDateInitial*,document.ownedByUnit*,document.requestedEndDateInitial*,document.activityTypeCode*,document.title">
+<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.currentAwardNumber*,document.continuedFrom,document.sponsorCode*,document.proposalTypeCode*,document.requestedStartDateInitial*,document.ownedByUnit*,document.requestedEndDateInitial*,document.activityTypeCode*,document.title" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Required Fields for Saving Document</h2></span>

@@ -65,6 +65,7 @@ public interface Constants {
 
     public static final String PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX = "proposaldevelopment.personrole.";
     public static final String NIH_SPONSOR_ACRONYM = "NIH";
+    public static final String NIH_SPONSOR_CODE = "000340";
     public static final String SPONSOR_LEVEL_HIERARCHY = "sponsorLevelHierarchy";
     public static final String SPONSOR_HIERARCHY_NAME = "sponsorGroupHierarchyName";
     
@@ -76,6 +77,7 @@ public interface Constants {
     public static final String ABSTRACTS_PROPERTY_KEY = "newProposalAbstract";
     public static final String SPONSOR_PROPOSAL_NUMBER_PROPERTY_KEY = "sponsorProposalNumber";
     public static final String DEADLINE_DATE_KEY = "document.deadlineDate";
+    public static final String PROJECT_TITLE_KEY = "document.title";
     public static final String SPONSOR_PROPOSAL_NUMBER_LABEL = "Sponsor Proposal ID";
 
     public static final String AUDIT_ERRORS = "Errors";
@@ -87,6 +89,8 @@ public interface Constants {
     public static final String QUESTIONS_PAGE = "questions";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR = "SponsorProgramInformation";
     public static final String SPONSOR_PROGRAM_INFORMATION_PANEL_NAME = "Sponsor & Program Information";
+    public static final String REQUIRED_FIELDS_PANEL_ANCHOR = "RequiredFieldsforSavingDocument";
+    public static final String REQUIRED_FIELDS_PANEL_NAME = "Required Fields for Saving Document ";
     
     public static final String BUDGET_EXPENSES_PAGE = "budgetExpenses";
     public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_ANCHOR = "BudgetOvervieV";
