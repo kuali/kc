@@ -163,6 +163,17 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         return false;
     }
 
+    private boolean hasModifyCompletedBudgetPermission(Map editMode) {
+        if (editMode != null && editMode.containsKey("modifyCompletedBudgets")) {
+            String modifyBudgetPermission = (String) editMode.get("modifyCompletedBudgets");
+            editMode.remove("modifyCompletedBudgets");
+            return ((ObjectUtils.isNotNull(modifyBudgetPermission)) && (DocumentAuthorizerBase.EDIT_MODE_DEFAULT_TRUE_VALUE
+                    .equals(modifyBudgetPermission)));
+        }
+
+        return false;
+    }
+    
     private boolean hasModifyNarrativesPermission(Map editMode) {
         if (editMode != null && editMode.containsKey(KraAuthorizationConstants.ProposalEditMode.MODIFY_NARRATIVES)) {
             String modifyNarrativesPermission = (String) editMode.get(KraAuthorizationConstants.ProposalEditMode.MODIFY_NARRATIVES);
@@ -208,6 +219,21 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
 
     }
 
+    private boolean isBudgetVersionsAction() {
+        boolean isBudgetVersionsAction = false;
+
+        if (StringUtils.isNotBlank(actionName) && actionName.contains("BudgetVersions")  
+                && StringUtils.isNotBlank(getMethodToCall()) && !getMethodToCall().equalsIgnoreCase("headerTab")) {
+            isBudgetVersionsAction = true;
+        }
+        else if (StringUtils.isNotEmpty(navigateTo) && (navigateTo.equalsIgnoreCase("versions") 
+                || navigateTo.equalsIgnoreCase("budgetVersions"))) {
+            isBudgetVersionsAction = true; 
+        }
+
+        return isBudgetVersionsAction;
+    }
+
     private String getNavigateToPage() {
         String navigateToPage = null;
 
@@ -247,6 +273,9 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
             tempDocumentActionFlags.setCanSave(true);
         }
         else if (isBudgetAction() && hasModifyBudgetPermission(editMode)) {
+            tempDocumentActionFlags.setCanSave(true);
+        }
+        else if (isBudgetVersionsAction() && hasModifyCompletedBudgetPermission(editMode)) {
             tempDocumentActionFlags.setCanSave(true);
         }
     }
