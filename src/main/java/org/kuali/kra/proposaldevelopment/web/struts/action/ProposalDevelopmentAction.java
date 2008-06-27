@@ -146,31 +146,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             if (proposalDevelopmentForm.isAuditActivated()) {
                 getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
             }
-            /*boolean approversAdded=true;
-             if(isRouted(document)){
-                 WorkflowInfo info = new WorkflowInfo();
-                 NarrativeService narrativeService = KraServiceLocator.getService(NarrativeService.class);
-                 ActionRequestVO[] actionRequests = info.getActionRequests(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-                UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
-                for(ActionRequestVO actionRequest: actionRequests) {
-                    //narrativeService.
-                    
-                    narrativeService.addPerson(actionRequest.getUserVO().getNetworkId(), document, "Viewer");
-                }*/
-               /* NetworkIdVO userId = new NetworkIdVO(currentUser.getPersonUserIdentifier());
-                boolean isInWorkflow = false;
-                try {
-                 isInWorkflow = info.isUserAuthenticatedByRouteLog(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId(), userId, true);
-                }
-                catch (WorkflowException e) {
-                }
-                if(isInWorkflow){
-                    
-                    narrativeService.addPerson(currentUser.getPersonUserIdentifier(), document, "Viewer");
-                    
-                    
-                }
-            }*/
+            
             assignSponsor(proposalDevelopmentForm);
             
             if (getKeyPersonnelService().hasPrincipalInvestigator(proposalDevelopmentForm.getProposalDevelopmentDocument())) {
