@@ -453,6 +453,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         
         retval &= super.processRunAuditBusinessRules(document);
         
+        retval &= new ProposalDevelopmentProposalRequiredFieldsAuditRule().processRunAuditBusinessRules(document);
+        
         retval &= new ProposalDevelopmentSponsorProgramInformationAuditRule().processRunAuditBusinessRules(document);
         
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
