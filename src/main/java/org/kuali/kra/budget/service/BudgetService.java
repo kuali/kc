@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.service;
 
+import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -53,5 +54,14 @@ public interface BudgetService {
      * @return
      */
     public boolean checkActivityTypeChange(ProposalDevelopmentDocument pdDoc, String budgetVersionNumbe);
+    
+    /**
+     * check if this line item CE has inflation rate
+     * This method...
+     * @param budgetDocument
+     * @param budgetLineItem
+     * @return
+     */
+    public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem);
 
 }

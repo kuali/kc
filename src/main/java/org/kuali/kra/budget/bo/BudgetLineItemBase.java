@@ -21,6 +21,8 @@ import java.sql.Date;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBase {
     private Long budgetPeriodId;
@@ -51,7 +53,8 @@ public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBas
 	private CostElement costElementBO;
 
     private BudgetDecimal totalCostSharingAmount;
-	
+    private boolean validToApplyInRate;
+
 	public BudgetLineItemBase(){
 	}
 	
@@ -292,4 +295,11 @@ public abstract class BudgetLineItemBase extends KraPersistableBusinessObjectBas
         this.budgetPeriodId = budgetPeriodId;
     }
     
+    public boolean isValidToApplyInRate() {
+        return KraServiceLocator.getService(BudgetService.class).ValidInflationCeRate(this);
+    }
+    public void setValidToApplyInRate(boolean validToApplyInRate) {
+        this.validToApplyInRate = validToApplyInRate;
+    }
+
 }
