@@ -24,6 +24,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
@@ -41,6 +42,7 @@ import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetCalculationService;
+import org.kuali.kra.budget.web.struts.form.BudgetForm;
 
 
 /**
@@ -55,7 +57,15 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(isCalculationRequired(budgetDocument,budgetPeriod)){
+                String workOhCode = null;
+                if(budgetDocument.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budgetDocument.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
+                    workOhCode = ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue();
+                }
                 calculateBudgetPeriod(budgetDocument, budgetPeriod);
+                if(budgetDocument.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budgetDocument.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
+                        // this should be set at the last period, otherwise, only the first period will be updated properly because lots of places check prevohrateclass
+                    ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(workOhCode);
+                }
             }
 //            List<BudgetLineItem> cvLineItemDetails = budgetPeriod.getBudgetLineItems();
 //            if(cvLineItemDetails.isEmpty() ){
