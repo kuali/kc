@@ -463,6 +463,7 @@ public class BudgetRatesServiceTest {
         public void adjustStartEndDatesForLineItems(BudgetDocument budgetDocument) { }
         public void setupOldStartEndDate(BudgetDocument budgetDocument, boolean resetAll) { }        
         public void setupOldStartEndDate(List <BudgetLineItem > budgetLineItems) { }        
-        public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate) { return new ArrayList <Date>();}
+        public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate, boolean leapDayInPeriod) { return new ArrayList <Date>();}
+        public boolean isLeapDaysInPeriod(Date sDate, Date eDate){ return false; }
     }
 }
