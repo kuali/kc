@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.rules;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +74,51 @@ public class BudgetExpenseRule {
         }
         
                     
+        return true;
+    }
+
+    /**
+     * 
+     * This method is to check line item start date < line item end date.
+     * If in budgetdocument rule, the budgetcalculation has exception.  So, need to check this first.
+     * @param budgetDocument
+     * @return
+     */
+    public boolean processCheckLineItemDates(BudgetDocument budgetDocument) {
+        boolean valid = true;
+        //TODO - put budget expense validation rules here.
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+        List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
+        int i=0;
+        int j=0;
+        for(BudgetPeriod budgetPeriod: budgetPeriods){
+            j=0;
+            budgetLineItems = budgetPeriod.getBudgetLineItems();
+            for(BudgetLineItem budgetLineItem: budgetLineItems){
+                if(budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) <=0 ) {                        
+                        errorMap.putError("document.budgetPeriod["+i+"].budgetLineItem["+j+"].endDate", KeyConstants.ERROR_LINE_ITEM_DATES);
+                        return false;
+                }
+         
+                j++;
+            }
+            i++;
+        }
+        return valid;
+    }
+
+    
+    public boolean processCheckLineItemDates(BudgetPeriod currentBudgetPeriod,  int selectedLineItem) {
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        BudgetLineItem budgetLineItem = currentBudgetPeriod.getBudgetLineItems().get(selectedLineItem);
+        if(budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) <=0 ) {                        
+            errorMap.putError("document.budgetPeriod["+(currentBudgetPeriod.getBudgetPeriod()-1)+"].budgetLineItem["+selectedLineItem+"].endDate", KeyConstants.ERROR_LINE_ITEM_DATES);
+            return false;
+        }
+                           
         return true;
     }
 
