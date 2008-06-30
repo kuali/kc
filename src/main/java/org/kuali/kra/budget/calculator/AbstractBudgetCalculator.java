@@ -642,8 +642,10 @@ public abstract class AbstractBudgetCalculator {
         Equals eqInflation = new Equals("rateClassType", RateClassType.INFLATION.getRateClassType());
         QueryList<ValidCeRateType> inflationValidCeRates = qValidCeRateTypes.filter(eqInflation);
         if (!inflationValidCeRates.isEmpty()) {
-            setInfltionValidCalcCeRates(inflationValidCeRates);
-            budgetLineItem.setApplyInRateFlag(true);
+            if (budgetLineItem.getApplyInRateFlag()) {
+                setInfltionValidCalcCeRates(inflationValidCeRates);
+            }
+            //budgetLineItem.setApplyInRateFlag(true);
         }
         else {
             budgetLineItem.setApplyInRateFlag(false);

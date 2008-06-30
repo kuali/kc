@@ -122,7 +122,11 @@ public class SalaryCalculator {
         Equals onOffCampus = new Equals("onOffCampusFlag", costElement.getOnOffCampusFlag());
         And dateAndRateAndOnOffCampusFlag = new And(dateAndRate, onOffCampus);
 
-        return getInflationRates()==null?new QueryList<BudgetProposalRate>(budgetDocument.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
+        if (personnelLineItem.getApplyInRateFlag()) {
+            return getInflationRates()==null?new QueryList<BudgetProposalRate>(budgetDocument.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
+        } else {
+            return new QueryList<BudgetProposalRate>();
+        }
 
     }
 
@@ -582,7 +586,13 @@ public class SalaryCalculator {
         Equals onOffCampus = new Equals("onOffCampusFlag", costElement.getOnOffCampusFlag());
         And dateAndRateAndOnOffCampusFlag = new And(dateAndRate, onOffCampus);
 
-        return getInflationRates()==null?new QueryList<BudgetProposalRate>(budgetDocument.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
+        //return getInflationRates()==null?new QueryList<BudgetProposalRate>(budgetDocument.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
+        if (personnelLineItem.getApplyInRateFlag()) {
+            return getInflationRates()==null?new QueryList<BudgetProposalRate>(budgetDocument.getBudgetProposalRates()).filter(dateAndRateAndOnOffCampusFlag):getInflationRates().filter(dateAndRateAndOnOffCampusFlag);
+        } else {
+            return new QueryList<BudgetProposalRate>();
+        }
+
         
     }
     

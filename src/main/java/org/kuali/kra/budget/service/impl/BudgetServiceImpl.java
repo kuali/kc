@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -29,9 +30,17 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.budget.bo.BudgetLineItemBase;
+import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.bo.CostElement;
+import org.kuali.kra.budget.bo.ValidCeRateType;
+import org.kuali.kra.budget.calculator.QueryList;
+import org.kuali.kra.budget.calculator.RateClassType;
+import org.kuali.kra.budget.calculator.query.Equals;
+import org.kuali.kra.budget.calculator.query.QueryEngine;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.budget.service.BudgetService;
@@ -234,6 +243,30 @@ public class BudgetServiceImpl implements BudgetService {
                 
         return false;
         
+    }
+    
+    
+    public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem) {
+        //QueryEngine queryEngine = new QueryEngine();
+        //BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
+        Map<String, String> costElementQMap = new HashMap<String, String>();
+        costElementQMap.put("costElement", budgetLineItem.getCostElement());
+        CostElement costElementBO = (CostElement) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CostElement.class, costElementQMap);
+        budgetLineItem.setCostElementBO(costElementBO);
+        Map<String, String> validCeQMap = new HashMap<String, String>();
+        validCeQMap.put("costElement", budgetLineItem.getCostElement());
+        costElementBO.refreshReferenceObject("validCeRateTypes");
+        List<ValidCeRateType> validCeRateTypes = costElementBO.getValidCeRateTypes();
+        QueryList<ValidCeRateType> qValidCeRateTypes = validCeRateTypes == null ? new QueryList() : new QueryList(validCeRateTypes);
+        // Check whether it contains Inflation Rate
+        Equals eqInflation = new Equals("rateClassType", RateClassType.INFLATION.getRateClassType());
+        QueryList<ValidCeRateType> inflationValidCeRates = qValidCeRateTypes.filter(eqInflation);
+        if (!inflationValidCeRates.isEmpty()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 }
