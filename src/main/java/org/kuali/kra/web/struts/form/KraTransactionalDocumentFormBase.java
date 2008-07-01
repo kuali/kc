@@ -103,14 +103,7 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         setEditingMode(editMode);
         DocumentActionFlags temp = documentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser);
         
-        /* 
-         * The setSaveDocumentControl() was commented out because the document authorizer
-         * is responsible for setting the "canSave" document flag.  Also, the code used by
-         * the setSaveDocumentControl() looks really bizarre.  We should not be comparing
-         * against classnames, method names, etc. for our logic.  This code needs to be
-         * refactored in the future.
-         */
-        //setSaveDocumentControl(temp, editMode);
+        setSaveDocumentControl(temp, editMode);
         setDocumentActionFlags(temp);
         
         boolean activeLockRegionChangedInd = hasActiveLockRegionChanged(getDocument(), lockRegion);
