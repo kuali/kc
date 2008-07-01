@@ -71,6 +71,12 @@
         <param-name>edu.yale.its.tp.cas.logoutPage</param-name>
         <param-value>/cas/logout.jsp</param-value>
     </context-param>
+    
+    <!-- Directory where performance logs will be written -->
+    <context-param>
+        <param-name>org.kuali.kra.perftest.REPORT_DIRECTORY</param-name>
+        <param-value>/opt/logs/dev/kra/perf_reports</param-value>
+    </context-param>
 
 	<!-- ******************* END CAS Context Parameters ********************* -->
 
@@ -129,6 +135,15 @@
   	<filter-mapping>
     	<filter-name>ResponseOverrideFilter</filter-name>
     	<url-pattern>*.jsp</url-pattern>
+  	</filter-mapping>
+
+	<filter>
+        <filter-name>PerformanceMeasurementFilter</filter-name>
+        <filter-class>org.kuali.kra.web.filter.PerformanceMeasurementFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PerformanceMeasurementFilter</filter-name>
+    	<url-pattern>*.do</url-pattern>
   	</filter-mapping>
 
     <listener>
