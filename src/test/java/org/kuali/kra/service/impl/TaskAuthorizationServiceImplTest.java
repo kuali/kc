@@ -18,12 +18,12 @@ package org.kuali.kra.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizer;
-import org.kuali.kra.authorization.TaskGroupAuthorizer;
+import org.kuali.kra.authorization.TaskAuthorizerGroup;
+import org.kuali.kra.authorization.TaskAuthorizerImpl;
 import org.kuali.kra.service.TaskAuthorizationService;
 
 /**
@@ -35,10 +35,8 @@ public class TaskAuthorizationServiceImplTest extends KraTestBase {
      * The inner Test Authorizer class is used to create a
      * bunch of simple authorizers.
      */
-    class TestAuthorizer implements TaskAuthorizer {
+    class TestAuthorizer extends TaskAuthorizerImpl {
 
-        private String actionName;
-        private String taskName;
         private boolean result;
         
         /**
@@ -47,18 +45,9 @@ public class TaskAuthorizationServiceImplTest extends KraTestBase {
          * @param taskName the name of the task
          * @param result the result to return from isAuthorized()
          */
-        public TestAuthorizer(String actionName, String taskName, boolean result) {
-            this.actionName = actionName;
-            this.taskName = taskName;
+        public TestAuthorizer(String taskName, boolean result) {
+            this.setTaskName(taskName);
             this.result = result;
-        }
-
-        /**
-         * @see org.kuali.kra.authorization.TaskAuthorizer#isResponsible(org.kuali.kra.authorization.Task)
-         */
-        public boolean isResponsible(Task task) {
-            return StringUtils.equals(actionName, task.getActionName()) &&
-                   StringUtils.equals(taskName, task.getTaskName());
         }
         
         /**
@@ -112,58 +101,39 @@ public class TaskAuthorizationServiceImplTest extends KraTestBase {
      * @return
      */
     private TaskAuthorizationService buildService() {
-        TaskAuthorizer task1_a = new TestAuthorizer("1", "A", true);
-        TaskAuthorizer task1_b = new TestAuthorizer("1", "B", false);
-        TaskAuthorizer task1_c = new TestAuthorizer("1", "C", true);
-        TaskAuthorizer task1_d = new TestAuthorizer("1", "D", false);
         
-        TaskAuthorizer task2_a = new TestAuthorizer("2", "A", false);
-        TaskAuthorizer task2_b = new TestAuthorizer("2", "B", true);
-        TaskAuthorizer task2_c = new TestAuthorizer("2", "C", false);
-        TaskAuthorizer task2_d = new TestAuthorizer("2", "D", true);
+        List<TaskAuthorizerGroup> taskAuthorizerGroups = new ArrayList<TaskAuthorizerGroup>();
         
-        List<TaskAuthorizer> authorizers = new ArrayList<TaskAuthorizer>();
-        authorizers.add(task1_a);
-        authorizers.add(task1_b);
-        TaskGroupAuthorizer group1_a = new TaskGroupAuthorizer();
-        group1_a.setTaskAuthorizers(authorizers);
+        TaskAuthorizerGroup taskAuthorizerGroup = new TaskAuthorizerGroup();
+        taskAuthorizerGroup.setGroupName("1");
+        List<TaskAuthorizer> taskAuthorizers = new ArrayList<TaskAuthorizer>();
+        TaskAuthorizer task1_a = new TestAuthorizer("A", true);
+        TaskAuthorizer task1_b = new TestAuthorizer("B", false);
+        TaskAuthorizer task1_c = new TestAuthorizer("C", true);
+        TaskAuthorizer task1_d = new TestAuthorizer("D", false);
+        taskAuthorizers.add(task1_a);
+        taskAuthorizers.add(task1_b);
+        taskAuthorizers.add(task1_c);
+        taskAuthorizers.add(task1_d);
+        taskAuthorizerGroup.setTaskAuthorizers(taskAuthorizers);
+        taskAuthorizerGroups.add(taskAuthorizerGroup);
         
-        authorizers = new ArrayList<TaskAuthorizer>();
-        authorizers.add(task1_c);
-        authorizers.add(task1_d);
-        TaskGroupAuthorizer group1_b = new TaskGroupAuthorizer();
-        group1_b.setTaskAuthorizers(authorizers);
+        taskAuthorizerGroup = new TaskAuthorizerGroup();
+        taskAuthorizerGroup.setGroupName("2");
+        taskAuthorizers = new ArrayList<TaskAuthorizer>();
+        TaskAuthorizer task2_a = new TestAuthorizer("A", false);
+        TaskAuthorizer task2_b = new TestAuthorizer("B", true);
+        TaskAuthorizer task2_c = new TestAuthorizer("C", false);
+        TaskAuthorizer task2_d = new TestAuthorizer("D", true);
+        taskAuthorizers.add(task2_a);
+        taskAuthorizers.add(task2_b);
+        taskAuthorizers.add(task2_c);
+        taskAuthorizers.add(task2_d);
+        taskAuthorizerGroup.setTaskAuthorizers(taskAuthorizers);
+        taskAuthorizerGroups.add(taskAuthorizerGroup);
         
-        authorizers = new ArrayList<TaskAuthorizer>();
-        authorizers.add(group1_a);
-        authorizers.add(group1_b);
-        TaskGroupAuthorizer group1 = new TaskGroupAuthorizer();
-        group1.setTaskAuthorizers(authorizers);
-        
-        authorizers = new ArrayList<TaskAuthorizer>();
-        authorizers.add(task2_a);
-        authorizers.add(task2_b);
-        TaskGroupAuthorizer group2_a = new TaskGroupAuthorizer();
-        group2_a.setTaskAuthorizers(authorizers);
-        
-        authorizers = new ArrayList<TaskAuthorizer>();
-        authorizers.add(task2_c);
-        authorizers.add(task2_d);
-        TaskGroupAuthorizer group2_b = new TaskGroupAuthorizer();
-        group2_b.setTaskAuthorizers(authorizers);
-        
-        authorizers = new ArrayList<TaskAuthorizer>();
-        authorizers.add(group2_a);
-        authorizers.add(group2_b);
-        TaskGroupAuthorizer group2 = new TaskGroupAuthorizer();
-        group2.setTaskAuthorizers(authorizers);
-        
-        authorizers = new ArrayList<TaskAuthorizer>();
-        authorizers.add(group1);
-        authorizers.add(group2);
         TaskAuthorizationServiceImpl service = new TaskAuthorizationServiceImpl();
-        service.setTaskAuthorizers(authorizers);
-        
+        service.setTaskAuthorizerGroups(taskAuthorizerGroups);
         return service;
     }
 }
