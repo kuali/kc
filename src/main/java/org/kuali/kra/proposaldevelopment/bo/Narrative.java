@@ -30,9 +30,15 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.PersonService;
+import org.kuali.kra.service.TaskAuthorizationService;
 
 /**
  * 
@@ -56,14 +62,10 @@ public class Narrative extends KraPersistableBusinessObjectBase {
     private List<NarrativeAttachment> narrativeAttachmentList;
     transient private FormFile narrativeFile;
     private String institutionalAttachmentTypeCode;
-    private boolean viewAttachment;
-    private boolean modifyAttachment;
-    private String loggedInUserPersonId;
 
     public Narrative() {
         narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
         narrativeUserRights = new ArrayList<NarrativeUserRights>();
-        loggedInUserPersonId = findLoggedInUserPersonId();
         setModuleStatusCode("I");
     }
     
@@ -262,66 +264,74 @@ public class Narrative extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the view attribute.
-     * 
-     * @return Returns the view.
+     * Can the current user download (view) the attachment?
+     * @return true if the user can view the attachment; otherwise false
      */
-    public boolean getViewAttachment() {
+    public boolean getDownloadAttachment() {
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
-        List<NarrativeUserRights> narrativeUserRights = getNarrativeUserRights();
-        loggedInUserPersonId = findLoggedInUserPersonId();
-        for (NarrativeUserRights narrativeRight : narrativeUserRights) {
-            if (StringUtils.equals(narrativeRight.getUserId(),loggedInUserPersonId)) {
-                return (narrativeRight.getAccessType().equals(
-                        NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType()) || 
-                        narrativeRight.getAccessType().equals(
-                        NarrativeRight.VIEW_NARRATIVE_RIGHT.getAccessType()));
-            }
+        
+        String username = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getProposalDevelopmentDocument(), this));
+    }
+
+    /**
+     * Can the current user replace the attachment?
+     * @return true if the user can replace the attachment; otherwise false
+     */
+    public boolean getReplaceAttachment() {
+        if (getNarrativeUserRights().isEmpty()) {
+            refreshReferenceObject("narrativeUserRights");
         }
-        return false;
+      
+        String username = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getProposalDevelopmentDocument(), this));
     }
-
+    
     /**
-     * Sets the view attribute value.
-     * 
-     * @param view The view to set.
+     * Can the current user delete the attachment?
+     * @return true if the user can delete the attachment; otherwise false
      */
-    public void setViewAttachment(boolean view) {
-        this.viewAttachment = view;
+    public boolean getDeleteAttachment() {
+        if (getNarrativeUserRights().isEmpty()) {
+            refreshReferenceObject("narrativeUserRights");
+        }
+      
+        String username = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DELETE_NARRATIVE, getProposalDevelopmentDocument(), this));
     }
-
+    
     /**
-     * Gets the modify attribute.
-     * 
-     * @return Returns the modify.
+     * Can the current user modify the user rights for the attachment?
+     * @return true if the user can modify the user rights; otherwise false
      */
-    public boolean getModifyAttachment() {
-      if (getNarrativeUserRights().isEmpty()) {
-          refreshReferenceObject("narrativeUserRights");
-      }
-      List<NarrativeUserRights> narrativeUserRights = getNarrativeUserRights();
-      loggedInUserPersonId = findLoggedInUserPersonId();
-      for (NarrativeUserRights narrativeRight : narrativeUserRights) {
-          if (StringUtils.equals(narrativeRight.getUserId(),loggedInUserPersonId)) {
-              return narrativeRight.getAccessType().equals(
-                      NarrativeRight.MODIFY_NARRATIVE_RIGHT.getAccessType());
-          }
-      }
-      return false;
+    public boolean getModifyNarrativeRights() {
+        if (getNarrativeUserRights().isEmpty()) {
+            refreshReferenceObject("narrativeUserRights");
+        }
+      
+        String username = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
+        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getProposalDevelopmentDocument(), this));
     }
-
+    
     /**
-     * Sets the modify attribute value.
+     * Get the Proposal Development Document for the current session.  The
+     * document is within the current form.
      * 
-     * @param modify The modify to set.
+     * @return the current document or null if not found
      */
-    public void setModifyAttachment(boolean modify) {
-        this.modifyAttachment = modify;
-        // If user has modify right, gets view access as well
-        if (modify)
-            setViewAttachment(true);
+    private ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+        ProposalDevelopmentDocument doc = null;
+        ProposalDevelopmentForm form = (ProposalDevelopmentForm) GlobalVariables.getKualiForm();
+        if (form != null) {
+            doc = form.getProposalDevelopmentDocument();
+        }
+        return doc;
     }
 
     /**

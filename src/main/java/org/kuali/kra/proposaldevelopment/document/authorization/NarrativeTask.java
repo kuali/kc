@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorization;
 
+import org.kuali.kra.authorization.Task;
+import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
@@ -22,22 +24,31 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * A Narrative Task is a task that corresponds to
  * task on a particular Narrative.
  */
-public class NarrativeTask extends ProposalTask {
-
+public class NarrativeTask extends Task {
+   
+    private ProposalDevelopmentDocument document;
     private Narrative narrative;
     
     /**
      * Constructs a NarrativeTask.
-     * @param actionName the name of the action
      * @param taskName the name of the task
      * @param document the Proposal Development Document
      * @param narrative the narrative
      */
-    public NarrativeTask(String actionName, String taskName, ProposalDevelopmentDocument document, Narrative narrative) {
-        super(actionName, taskName, document);
+    public NarrativeTask(String taskName, ProposalDevelopmentDocument document, Narrative narrative) {
+        super(TaskGroupName.NARRATIVE, taskName);
+        this.document = document;
         this.narrative = narrative;
     }
 
+    /**
+     * Get the Proposal Development Document.
+     * @return the Proposal Development Document
+     */
+    public ProposalDevelopmentDocument getProposalDevelopmentDocument() {
+        return document;
+    }
+    
     /**
      * Get the Narrative.
      * @return the Narrative

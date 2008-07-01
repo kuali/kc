@@ -830,52 +830,6 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         return forward;
     }
     
-    /**
-     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#buildTask(java.lang.String, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
-     */
-    protected Task buildTask(String actionName, String taskName, ActionForm form, HttpServletRequest request) {
-        Task task = null;
-        if (isNarrativeTask(taskName)) {
-            ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-            int index = getLineNumber(request);
-            Narrative narrative = proposalDevelopmentForm.getProposalDevelopmentDocument().getNarrative(index);
-            task = new NarrativeTask(actionName, taskName, proposalDevelopmentForm.getProposalDevelopmentDocument(), narrative);
-        }
-        else if (isInstitutionalTask(taskName)) {
-            ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-            int index = getLineNumber(request);
-            Narrative narrative = proposalDevelopmentForm.getProposalDevelopmentDocument().getInstituteAttachment(index);
-            task = new NarrativeTask(actionName, taskName, proposalDevelopmentForm.getProposalDevelopmentDocument(), narrative);
-        } else {
-            task = super.buildTask(actionName, taskName, form, request);
-        }
-        return task;
-    }
-    
-    /**
-     * Is this one of the narrative tasks?
-     * @param taskName the name of the task
-     * @return true if a narrative task; otherwise false
-     */
-    private boolean isNarrativeTask(String taskName) {
-        return StringUtils.equals(taskName, "addProposalAttachmentRights") ||
-               StringUtils.equals(taskName, "downloadProposalAttachment") ||
-               StringUtils.equals(taskName, "deleteProposalAttachment") ||
-               StringUtils.equals(taskName, "replaceProposalAttachment");
-    }
-    
-    /**
-     * Is this one of the institutional tasks?
-     * @param taskName the name of the task
-     * @return true if an institutional task; otherwise false
-     */
-    private boolean isInstitutionalTask(String taskName) {
-        return StringUtils.equals(taskName, "addInstituteAttachmentRights") ||
-               StringUtils.equals(taskName, "downloadInstituteAttachment") ||
-               StringUtils.equals(taskName, "deleteInstitutionalAttachment") ||
-               StringUtils.equals(taskName, "replaceInstituteAttachment");
-    }
-    
     private int getLineNumber(HttpServletRequest request) {
         int lineNumber = 0;
         String lineStr = request.getParameter(LINE_NUMBER);

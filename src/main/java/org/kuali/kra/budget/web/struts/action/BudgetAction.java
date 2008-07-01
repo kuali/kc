@@ -254,19 +254,6 @@ public class BudgetAction extends ProposalActionBase {
             }
         }
     }
-
-    /**
-     * Build a Proposal Task.  We build a Proposal Task because budget permissions are
-     * based upon its Proposal.  
-     * @param taskName the name of the task
-     * @param form the Budget Form
-     * @return the Proposal Task
-     */
-    protected Task buildTask(String actionName, String taskName, ActionForm form, HttpServletRequest request) {
-        BudgetForm budgetForm = (BudgetForm) form;
-        ProposalDevelopmentDocument proposalDoc = budgetForm.getBudgetDocument().getProposal();
-        return new ProposalTask(actionName, taskName, proposalDoc);
-    }
     
     protected void reconcileBudgetStatus(BudgetForm budgetForm) {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();

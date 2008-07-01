@@ -103,7 +103,14 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
         setEditingMode(editMode);
         DocumentActionFlags temp = documentAuthorizer.getDocumentActionFlags(getDocument(), kualiUser);
         
-        setSaveDocumentControl(temp, editMode);
+        /* 
+         * The setSaveDocumentControl() was commented out because the document authorizer
+         * is responsible for setting the "canSave" document flag.  Also, the code used by
+         * the setSaveDocumentControl() looks really bizarre.  We should not be comparing
+         * against classnames, method names, etc. for our logic.  This code needs to be
+         * refactored in the future.
+         */
+        //setSaveDocumentControl(temp, editMode);
         setDocumentActionFlags(temp);
         
         boolean activeLockRegionChangedInd = hasActiveLockRegionChanged(getDocument(), lockRegion);
@@ -175,8 +182,8 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     }
     
     private boolean hasModifyNarrativesPermission(Map editMode) {
-        if (editMode != null && editMode.containsKey(KraAuthorizationConstants.ProposalEditMode.MODIFY_NARRATIVES)) {
-            String modifyNarrativesPermission = (String) editMode.get(KraAuthorizationConstants.ProposalEditMode.MODIFY_NARRATIVES);
+        if (editMode != null && editMode.containsKey(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES)) {
+            String modifyNarrativesPermission = (String) editMode.get(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES);
             return ((ObjectUtils.isNotNull(modifyNarrativesPermission)) && (DocumentAuthorizerBase.EDIT_MODE_DEFAULT_TRUE_VALUE
                     .equals(modifyNarrativesPermission)));
         }

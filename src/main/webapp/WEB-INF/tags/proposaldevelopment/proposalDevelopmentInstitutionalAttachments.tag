@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="readOnly" value="${not KualiForm.editingMode['modifyNarratives']}" scope="request" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['addNarratives']}" scope="request" />
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
@@ -26,7 +26,7 @@
 	<div class="tab-container" align="center">
         <c:set var="sectionLabel" value="Internal Attachments" />
 	   
-	    <kra:section permission="modifyNarratives">
+	    <kra:section permission="addNarratives">
 	    	<c:set var="sectionLabel" value="Add ${sectionLabel}" />
         </kra:section>
         
@@ -36,7 +36,7 @@
 	    </div>
         
         <table cellpadding=0 cellspacing=0 summary="">
-            <c:if test="${fn:length(KualiForm.document.instituteAttachments) > 0  || KualiForm.editingMode['modifyNarratives']}" >
+            <c:if test="${fn:length(KualiForm.document.instituteAttachments) > 0  || KualiForm.editingMode['addNarratives']}" >
 	        <tr>
 	          	<th><div align="left">&nbsp</div></th> 
 	            <th><div align="left"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.updateTimestamp}" noColon="true" /></div></th>
@@ -48,7 +48,7 @@
 	        </tr>  
 	        </c:if>
 	          
-	        <kra:section permission="modifyNarratives">    
+	        <kra:section permission="addNarratives">    
 	          	<tr>
 					<th class="infoline">
 						<c:out value="Add:" />
@@ -101,15 +101,15 @@
 	                <td>
 	                    <div id="replaceInstDiv${status.index}" style="display:block;">
 					                <kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
-					                <c:if test="${(instituteAttachment.viewAttachment || instituteAttachment.modifyAttachment) }"> 
+					                <c:if test="${(instituteAttachment.downloadAttachment || instituteAttachment.replaceAttachment) }"> 
 						                (
-						                <c:if test="${instituteAttachment.viewAttachment && (!empty instituteAttachment.fileName)}">
+						                <c:if test="${instituteAttachment.downloadAttachment && (!empty instituteAttachment.fileName)}">
 						                <html:link linkName="downloadInstituteAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadInstituteAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadInstituteAttachment.line${status.index}">download</html:link>
-							                <c:if test="${instituteAttachment.modifyAttachment}">
+							                <c:if test="${instituteAttachment.downloadAttachment && instituteAttachment.replaceAttachment}">
 							                &nbsp;|&nbsp;
 							                </c:if> 
 						                </c:if>
-						                <c:if test="${instituteAttachment.modifyAttachment}">
+						                <c:if test="${instituteAttachment.replaceAttachment}">
 						                <html:link linkName="replaceInstituteAttachment.line${status.index}" onclick="javascript: showHide('instFileDiv${status.index}','replaceInstDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.replaceInstituteAttachment.line${status.index}">replace</html:link>
 						                </c:if>
 						                )
@@ -123,10 +123,10 @@
 	                </td>
 	                <td>
 					<div align=center>
-					    <kra:section permission="modifyNarratives">
+					    <c:if test="${instituteAttachment.deleteAttachment}">
 							<html:image property="methodToCall.deleteInstitutionalAttachment.line${status.index}.anchor${currentTabIndex}"
 								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
-					    </kra:section>
+					    </c:if>
 						<c:if test="${!empty instituteAttachment.fileName}" >
 						<html:image styleId="getInstituteAttachmentRights.line${status.index}" property="methodToCall.getInstituteAttachmentRights.line${status.index}.anchor${currentTabIndex}"
 										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-vieweditrights.gif' 
