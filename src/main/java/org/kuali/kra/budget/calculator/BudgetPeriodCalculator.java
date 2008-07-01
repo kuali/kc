@@ -117,6 +117,8 @@ public class BudgetPeriodCalculator {
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         BudgetLineItem prevBudgetLineItem = currentBudgetLineItem;
         int periodDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetPeriod.getEndDate(), false);
+        // calculate for the apply-from item in case there is any change, so it will be updated properly after apply-to
+        budgetCalculationService.calculateBudgetLineItem(budgetDocument, currentBudgetLineItem);
         
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(budgetPeriod.getBudgetPeriod()<=currentBudgetPeriod.getBudgetPeriod()) continue;
@@ -155,6 +157,12 @@ public class BudgetPeriodCalculator {
                     } else {
                         budgetLineItemToBeApplied.setLineItemCost(prevBudgetLineItem.getLineItemCost());
                     }
+                    budgetLineItemToBeApplied.setCostSharingAmount(prevBudgetLineItem.getCostSharingAmount());
+                    budgetLineItemToBeApplied.setLineItemDescription(prevBudgetLineItem.getLineItemDescription());
+                    budgetLineItemToBeApplied.setQuantity(prevBudgetLineItem.getQuantity());
+                    budgetLineItemToBeApplied.setUnderrecoveryAmount(prevBudgetLineItem.getUnderrecoveryAmount());
+                    budgetLineItemToBeApplied.setOnOffCampusFlag(prevBudgetLineItem.getOnOffCampusFlag());
+
                     for (BudgetLineItemCalculatedAmount prevCalAmts : prevBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                         for (BudgetLineItemCalculatedAmount CalAmts : budgetLineItemToBeApplied.getBudgetLineItemCalculatedAmounts()) {
                             if (prevCalAmts.getRateClassCode().equals(CalAmts.getRateClassCode()) && prevCalAmts.getRateTypeCode().equals(CalAmts.getRateTypeCode())) {
