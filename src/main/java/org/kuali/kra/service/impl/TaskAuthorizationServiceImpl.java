@@ -17,8 +17,10 @@ package org.kuali.kra.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizer;
+import org.kuali.kra.authorization.TaskAuthorizerGroup;
 import org.kuali.kra.service.TaskAuthorizationService;
 
 /**
@@ -26,7 +28,15 @@ import org.kuali.kra.service.TaskAuthorizationService;
  */
 public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
 
-    private List<TaskAuthorizer> taskAuthorizers = null;
+    private List<TaskAuthorizerGroup> taskAuthorizerGroups = null;
+    
+    /**
+     * Set the list of Task Authorizer Groups.  Injected by the Spring Framework.
+     * @param taskAuthorizerGroups the list of Task Authorizer Groups
+     */
+    public void setTaskAuthorizerGroups(List<TaskAuthorizerGroup> taskAuthorizerGroups) {
+        this.taskAuthorizerGroups = taskAuthorizerGroups;
+    }
     
     /**
      * Delegate the authorization work to a Task Authorizer who is 
@@ -36,21 +46,34 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
      * @see org.kuali.kra.service.TaskAuthorizationService#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
     public boolean isAuthorized(String username, Task task) {
-        if (taskAuthorizers != null) {
-            for (TaskAuthorizer taskAuthorizer : taskAuthorizers) {
-                if (taskAuthorizer.isResponsible(task)) {
-                    return taskAuthorizer.isAuthorized(username, task);
+        boolean isAuthorized = true;
+        if (taskAuthorizerGroups != null) {
+            String groupName = task.getGroupName();
+            for (TaskAuthorizerGroup taskAuthorizerGroup : taskAuthorizerGroups) {
+                if (StringUtils.equals(taskAuthorizerGroup.getGroupName(), groupName)) {
+                    TaskAuthorizer taskAuthorizer = taskAuthorizerGroup.getTaskAuthorizer(task.getTaskName());
+                    if (taskAuthorizer != null) {
+                        isAuthorized = taskAuthorizer.isAuthorized(username, task);
+                    }
+                    break;
                 }
             }
         }
-        return true;
+        return isAuthorized;
     }
 
     /**
-     * Set the list of Task Authorizers.  Injected by the Spring Framework.
-     * @param taskAuthorizers the list of Task Authorizers
+     * @see org.kuali.kra.service.TaskAuthorizationService#isTaskDefined(java.lang.String, java.lang.String)
      */
-    public void setTaskAuthorizers(List<TaskAuthorizer> taskAuthorizers) {
-        this.taskAuthorizers = taskAuthorizers;
+    public boolean isTaskDefined(String taskGroupName, String taskName) {
+        if (taskAuthorizerGroups != null) {
+            for (TaskAuthorizerGroup taskAuthorizerGroup : taskAuthorizerGroups) {
+                if (StringUtils.equals(taskAuthorizerGroup.getGroupName(), taskGroupName)) {
+                    TaskAuthorizer taskAuthorizer = taskAuthorizerGroup.getTaskAuthorizer(taskName);
+                    return (taskAuthorizer != null);
+                }
+            }
+        }
+        return false;
     }
 }

@@ -30,20 +30,15 @@ import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.exceptions.PessimisticLockingException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
-import org.kuali.kra.service.UnitAuthorizationService;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.clientapp.WorkflowInfo;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * The Proposal Development Document Authorizer.  Primarily responsible for determining if
@@ -123,9 +118,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     public Map getEditMode(Document doc, UniversalUser user) {
    
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) doc;
-        
-        ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
-        
+          
         Map editModeMap = new HashMap();
         String proposalNbr = proposalDoc.getProposalNumber();
         
@@ -136,71 +129,27 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         
         String username = user.getPersonUserIdentifier();
         if (proposalNbr == null) {
-            if (hasCreatePermission(user)) {
+            if (canCreateProposal(user)) {
                 editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
                 setPermissions(username, proposalDoc, editModeMap);
             } else {
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
             }
         } else {
-            if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.MODIFY_PROPOSAL)) {
-                if (isRouted(proposalDoc)) {
-                    editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
-                    setPermissions(username, proposalDoc, editModeMap);
-                }
-                else {
-                    editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-                    setPermissions(username, proposalDoc, editModeMap);
-                }
+            if (canExecuteProposalTask(username, proposalDoc, TaskName.MODIFY_PROPOSAL)) {  
+                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+                setPermissions(username, proposalDoc, editModeMap);
             }
-            else if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.VIEW_PROPOSAL)) {
+            else if (canExecuteProposalTask(username, proposalDoc, TaskName.VIEW_PROPOSAL)) {
                 editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
                 setPermissions(username, proposalDoc, editModeMap);
             }
-            else if (hasWorkflowPermission(username, proposalDoc)) {
-                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
-                setPermissions(username, proposalDoc, editModeMap);
-            } 
             else {
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
             }
         }
  
         return editModeMap;
-    }
-    
-    /**
-     * Has the document been routed to the workflow system?
-     * @param doc the document
-     * @return true if routed; otherwise false
-     */
-    private boolean isRouted(Document doc) {
-        String status = doc.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue();
-        return !(StringUtils.equals("INITIATED", status) ||  StringUtils.equals("SAVED", status));
-    }
-    
-    /**
-     * Is the user in the proposal's workflow?  If so, then that user has 
-     * permission to access the proposal even if they are not given explicit
-     * permissions in KIM.
-     * @param username the user's username
-     * @param doc the proposal development document
-     * @return true if the user is in the workflow; otherwise false
-     */
-    private boolean hasWorkflowPermission(String username, ProposalDevelopmentDocument doc) {
-        boolean isInWorkflow = false;
-        KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
-        if (workflowDoc != null) {
-            Long routeHeaderId = workflowDoc.getRouteHeader().getRouteHeaderId();
-            NetworkIdVO userId = new NetworkIdVO(username);
-            WorkflowInfo info = new WorkflowInfo();
-            try {
-                isInWorkflow = info.isUserAuthenticatedByRouteLog(routeHeaderId, userId, true);
-            }
-            catch (WorkflowException e) {
-            }
-        }
-        return isInWorkflow;
     }
 
     /**
@@ -222,35 +171,47 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @param doc the Proposal Development Document
      * @param editModeMap the edit mode map
      */
+    @SuppressWarnings("unchecked")
     private void setPermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
         editModeMap.put("modifyProposal", editModeMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) ? TRUE : FALSE);
-        editModeMap.put("modifyBudgets", hasPermission(username, doc, PermissionConstants.MODIFY_BUDGET));
-        editModeMap.put("viewBudgets", hasPermission(username, doc, PermissionConstants.VIEW_BUDGET));
-        editModeMap.put("modifyPermissions", hasPermission(username, doc, PermissionConstants.MAINTAIN_PROPOSAL_ACCESS));
-        editModeMap.put("modifyNarratives", hasPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE));
-        editModeMap.put("viewNarratives", hasPermission(username, doc, PermissionConstants.VIEW_NARRATIVE));
-        editModeMap.put("certify", hasPermission(username, doc, PermissionConstants.CERTIFY));
-        editModeMap.put("printProposal", hasPermission(username, doc, PermissionConstants.PRINT_PROPOSAL));
-        editModeMap.put("alterProposalData", hasPermission(username, doc, PermissionConstants.ALTER_PROPOSAL_DATA));
-        editModeMap.put("submitToSponsor", hasPermission(username, doc, PermissionConstants.SUBMIT_TO_SPONSOR));
+        editModeMap.put("addBudget", canExecuteTask(username, doc, TaskName.ADD_BUDGET));
+        editModeMap.put("openBudgets", canExecuteTask(username, doc, TaskName.OPEN_BUDGETS));
+        editModeMap.put("modifyPermissions", canExecuteTask(username, doc, TaskName.MODIFY_PROPOSAL_ROLES));
+        editModeMap.put("addNarratives", canExecuteTask(username, doc, TaskName.ADD_NARRATIVE));
+        editModeMap.put("certify", canExecuteTask(username, doc, TaskName.CERTIFY));
+        editModeMap.put("printProposal", canExecuteTask(username, doc, TaskName.PRINT_PROPOSAL));
+        editModeMap.put("alterProposalData", canExecuteTask(username, doc, TaskName.ALTER_PROPOSAL_DATA));
+        editModeMap.put("submitToSponsor", canExecuteTask(username, doc, TaskName.SUBMIT_TO_SPONSOR));
         
         entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL, KraAuthorizationConstants.ProposalEditMode.VIEW_PROPOSAL);
         entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_PERMISSIONS, KraAuthorizationConstants.ProposalEditMode.VIEW_PERMISSIONS);
-        entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_NARRATIVES, KraAuthorizationConstants.ProposalEditMode.VIEW_NARRATIVES);
+        entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES, KraAuthorizationConstants.ProposalEditMode.VIEW_NARRATIVES);
         entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
         entryEditModeReplacementMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, AuthorizationConstants.EditMode.VIEW_ONLY);
     } 
     
     /**
+     * Can the user execute the given task?
+     * @param username the user's username
+     * @param doc the proposal development document
+     * @param taskName the name of the task
+     * @return "TRUE" if has permission; otherwise "FALSE"
+     */
+    private String canExecuteTask(String username, ProposalDevelopmentDocument doc, String taskName) {
+        return canExecuteProposalTask(username, doc, taskName) ? TRUE : FALSE;
+    }
+    
+    /**
      * Does the user have the given permission for the given proposal?
      * @param username the user's username
      * @param doc the proposal development document
-     * @param permissionName the name of the permission
-     * @return "TRUE" if has permission; otherwise "FALSE"
+     * @param taskName the name of the task
+     * @return true if has permission; otherwise false
      */
-    private String hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
-        ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
-        return proposalAuthService.hasPermission(username, doc, permissionName) ? TRUE : FALSE;
+    private boolean canExecuteProposalTask(String username, ProposalDevelopmentDocument doc, String taskName) {
+        ProposalTask task = new ProposalTask(taskName, doc);       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(username, task);
     }
 
     /**
@@ -260,7 +221,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
         super.canInitiate(documentTypeName, user);
-        if (!hasCreatePermission(user)) {
+        if (!canCreateProposal(user)) {
             throw new DocumentInitiationAuthorizationException(KeyConstants.ERROR_AUTHORIZATION_DOCUMENT_INITIATION, 
                                                                new String[] { user.getPersonUserIdentifier(), documentTypeName });
         }
@@ -273,17 +234,15 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
     
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) document;
-        ProposalAuthorizationService auth = 
-            (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
-                
+         
         String proposalNbr = proposalDoc.getProposalNumber();
         String username = user.getPersonUserIdentifier();
         boolean permission;
         if (proposalNbr == null) {
-            permission = hasCreatePermission(user);
+            permission = canCreateProposal(user);
         }
         else {
-            permission = auth.hasPermission(username, proposalDoc, PermissionConstants.MODIFY_PROPOSAL);
+            permission = canExecuteProposalTask(username, proposalDoc, TaskName.MODIFY_PROPOSAL);
         }
         return permission;
     }
@@ -294,10 +253,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @param user the user
      * @return true if the user has the CREATE_PROPOSAL permission in at least one unit; otherwise false
      */
-    private boolean hasCreatePermission(UniversalUser user) {
+    private boolean canCreateProposal(UniversalUser user) {
         String username = user.getPersonUserIdentifier();
-        UnitAuthorizationService auth = (UnitAuthorizationService) KraServiceLocator.getService(UnitAuthorizationService.class);
-        return auth.hasPermission(username, PermissionConstants.CREATE_PROPOSAL);
+        ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROPOSAL);       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(username, task);
     }
     
     /**
@@ -335,7 +295,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     @Override
     protected boolean isEntryEditMode(Map.Entry entry) {
         if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(entry.getKey())
-                || KraAuthorizationConstants.ProposalEditMode.MODIFY_NARRATIVES.equals(entry.getKey())
+                || KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES.equals(entry.getKey())
                 || KraAuthorizationConstants.ProposalEditMode.MODIFY_PERMISSIONS.equals(entry.getKey())
                 || KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL.equals(entry.getKey())
                 || KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET.equals(entry.getKey())

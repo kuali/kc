@@ -31,10 +31,10 @@ public class KraAuthorizationConstants {
     public static class ProposalEditMode {
         public static final String MODIFY_PROPOSAL = "modifyProposal";
         public static final String MODIFY_PERMISSIONS = "modifyPermissions";
-        public static final String MODIFY_NARRATIVES = "modifyNarratives";
+        public static final String ADD_NARRATIVES = "addNarratives";
         public static final String VIEW_PROPOSAL = "viewProposal";
         public static final String VIEW_PERMISSIONS = "viewPermissions";
-        public static final String VIEW_NARRATIVES = "viewNarratives";
+        public static final String VIEW_NARRATIVES = "downloadNarratives";
     }
     
     public static class BudgetEditMode {

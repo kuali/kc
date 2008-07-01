@@ -15,40 +15,34 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalAuthorizer;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 
 /**
- * The Save Proposal Authorizer checks to see if the user has 
- * permission to save a proposal. Authorization depends upon whether
+ * The Modify Proposal Authorizer checks to see if the user has 
+ * permission to modify a proposal. Authorization depends upon whether
  * the proposal is being created or modified.  For creation, the
  * user needs the CREATE_PROPOSAL permission in the Lead Unit for
  * that proposal.  If the proposal is being modified, the user only
- * needs to have the MODIFY_PROPOSAL permission for that proposal.
+ * needs to have the MODIFY_PROPOSAL permission for that proposal and
+ * the document cannot be in workflow.
  */
-public class SaveProposalAuthorizer extends ProposalAuthorizer {
+public class ModifyProposalAuthorizer extends ProposalAuthorizer {
 
     /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorization.ProposalAuthorizer#isResponsible(org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
-     */
-    public boolean isResponsible(ProposalTask task) {
-        return StringUtils.equals("save", task.getTaskName());
-    }
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorization.ProposalAuthorizer#isAuthorized(org.kuali.core.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
+     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.core.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String username, ProposalTask task) {
         boolean hasPermission = true;
         ProposalDevelopmentDocument doc = task.getProposalDevelopmentDocument();
         String proposalNbr = doc.getProposalNumber();
         if (proposalNbr == null) {
+            
+            // We have to consider the case when we are saving the document for the first time.
+            
             String unitNumber = doc.getOwnedByUnitNumber();
             
             // If the unit number is not specified, we will let the save operation continue because it
@@ -60,8 +54,12 @@ public class SaveProposalAuthorizer extends ProposalAuthorizer {
                 hasPermission = auth.hasPermission(username, unitNumber, PermissionConstants.CREATE_PROPOSAL);
             }
         } else {
-            ProposalAuthorizationService auth = KraServiceLocator.getService(ProposalAuthorizationService.class);
-            hasPermission = auth.hasPermission(username, doc, PermissionConstants.MODIFY_PROPOSAL);
+            /*
+             * After the initial save, the proposal can only be modified if it is not in workflow
+             * and the user has the require permission.
+             */
+            hasPermission = hasProposalPermission(username, doc, PermissionConstants.MODIFY_PROPOSAL) &&
+                            !kraWorkflowService.isInWorkflow(doc);
         }
         return hasPermission;
     }
