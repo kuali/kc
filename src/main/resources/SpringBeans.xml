@@ -532,183 +532,390 @@
   		</property>
 	</bean>
 
-	<bean id="permissionsAuthorizer" class="org.kuali.kra.proposaldevelopment.document.authorizer.MultiProposalAuthorizer">
-		<property name="action" value="Permissions" />
-		<property name="tasks">
-			<list>
-				<value>addProposalUser</value>
-				<value>deleteProposalUser</value>
-				<value>setEditRoles</value>
-			</list>
-		</property>
-		<property name="permission" value="MAINTAIN_PROPOSAL_ACCESS" />
-	</bean>
-	
-    <bean id="printFormsAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
+	<bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl" />
+    
+    <!-- ************* TASK AUTHORIZATION BEGIN **************** -->
+
+    <bean id="parentAuthorizer" class="org.kuali.kra.authorization.BogusTaskAuthorizer">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="proposalAuthorizationService" ref="proposalAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+    </bean>
+    
+    <!-- Application Task Authorizers -->
+     <bean id="applicationTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="application" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="Actions" />
-                    <property name="task" value="printForms" />
-                    <property name="permission" value="PRINT_PROPOSAL" />
-                </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="GrantsGov" />
-                    <property name="task" value="printForms" />
-                    <property name="permission" value="PRINT_PROPOSAL" />
-                </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="BudgetActionsAction" />
-                    <property name="task" value="printBudgetForm" />
-                    <property name="permission" value="PRINT_PROPOSAL" />
+                <bean class="org.kuali.kra.authorizer.CreateProposalAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="createProposal" />
                 </bean>
             </list>
         </property>
     </bean>
-    
-    <bean id="submitToSponsorAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
+
+    <!-- Proposal Task Authorizers -->
+    <bean id="proposalTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="proposal" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="Actions" />
-                    <property name="task" value="submitToGrantsGov" />
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ModifyProposalAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="modifyProposal" />
+                </bean>
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ViewProposalAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="viewProposal" />
+                </bean>
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="printProposal" />
+                    <property name="permission" value="PRINT_PROPOSAL" />
+                </bean>
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="submitToSponsor" />
                     <property name="permission" value="SUBMIT_TO_SPONSOR" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="Actions" />
-                    <property name="task" value="resubmit" />
-                    <property name="permission" value="SUBMIT_TO_SPONSOR" />
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="certify" />
+                    <property name="permission" value="CERTIFY" />
+                </bean>
+
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="alterProposalData" />
+                    <property name="permission" value="ALTER_PROPOSAL_DATA" />
+                </bean>
+                
+                <!--  Task Authorizer for modifying persons and their roles on a proposal -->
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="modifyProposalRoles" />
+                    <property name="permission" value="MAINTAIN_PROPOSAL_ACCESS" />
+                </bean>
+                
+                <!-- Narratives -->
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeAddAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="addNarrative" />
+                </bean>
+                
+                 <!-- Budget -->
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetAddAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="addBudget" />
+                </bean>
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BudgetOpenAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="openBudgets" />
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="narrativeAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
-		<property name="taskAuthorizers">
-			<list>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-				    <property name="action" value="AbstractsAttachments" />
-				    <property name="task" value="addProposalAttachment" />
-				    <property name="permission" value="MODIFY_NARRATIVE" />
-				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
-				    <property name="task" value="addProposalAttachmentRights" />
-				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReadAuthorizer">
-				    <property name="task" value="downloadProposalAttachment" />
-				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
-				    <property name="task" value="deleteProposalAttachment" />
-				</bean>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
-				    <property name="task" value="replaceProposalAttachment" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="institutionalAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
+    <!-- Narrative Task Authorizers -->
+    <bean id="narrativeTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="narrative" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="AbstractsAttachments" />
-                    <property name="task" value="addInstitutionalAttachment" />
-                    <property name="permission" value="MODIFY_NARRATIVE" />
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="modifyNarrativeRights" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
-                    <property name="task" value="addInstituteAttachmentRights" />
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReadAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="downloadNarrative" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReadAuthorizer">
-                    <property name="task" value="downloadInstituteAttachment" />
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="deleteNarrative" />
                 </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
-                    <property name="task" value="deleteInstitutionalAttachment" />
-                </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeModifyAuthorizer">
-                    <property name="task" value="replaceInstituteAttachment" />
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.NarrativeReplaceAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="replaceNarrative" />
                 </bean>
             </list>
         </property>
     </bean>
     
-    <bean id="proposalBudgetVersionsAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
-       <property name="taskAuthorizers">
-            <list>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="BudgetVersions" />
-                    <property name="task" value="addBudgetVersion" />
-                    <property name="permission" value="MODIFY_BUDGET" />
-                </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="BudgetVersions" />
-                    <property name="task" value="openBudgetVersion" />
-                    <property name="permission" value="VIEW_BUDGET" />
-                </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="BudgetVersions" />
-                    <property name="task" value="copyBudgetVersion" />
-                    <property name="permission" value="MODIFY_BUDGET" />
-                </bean>
-            </list>
-       </property>
-    </bean>
-    
-	<bean id="proposalAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
-		<property name="taskAuthorizers">
-			<list>
-				<bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SaveProposalAuthorizer" />
-				<ref bean="narrativeAuthorizer" />
-				<ref bean="institutionalAuthorizer" />
-				<ref bean="permissionsAuthorizer" />
-				<ref bean="proposalBudgetVersionsAuthorizer" />
-				<ref bean="printFormsAuthorizer" />
-				<ref bean="submitToSponsorAuthorizer" />
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="budgetVersionsAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
-	   <property name="taskAuthorizers">
-            <list>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="Versions" />
-                    <property name="task" value="addBudgetVersion" />
-                    <property name="permission" value="MODIFY_BUDGET" />
-                </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="Versions" />
-                    <property name="task" value="openBudgetVersion" />
-                    <property name="permission" value="VIEW_BUDGET" />
-                </bean>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="action" value="Versions" />
-                    <property name="task" value="copyBudgetVersion" />
-                    <property name="permission" value="MODIFY_BUDGET" />
-                </bean>
-            </list>
-       </property>
-	</bean>
-	
-	<bean id="budgetAuthorizer" class="org.kuali.kra.authorization.TaskGroupAuthorizer">
+    <!-- Budget Authorizers -->
+    <bean id="budgetTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="budget" />
         <property name="taskAuthorizers">
             <list>
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer">
-                    <property name="task" value="save" />
-                    <property name="permission" value="MODIFY_BUDGET" />
+                <bean class="org.kuali.kra.budget.document.authorizer.BudgetModifyAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="modifyBudget" />
                 </bean>
-                <ref bean="budgetVersionsAuthorizer" />
+                
+                <bean class="org.kuali.kra.budget.document.authorizer.BudgetViewAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="viewBudget" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Task Authorization Service -->
+
+    <bean id="taskAuthorizationService" class="org.kuali.kra.service.impl.TaskAuthorizationServiceImpl">
+        <property name="taskAuthorizerGroups">
+            <list>
+                <ref bean="applicationTaskAuthorizers" />
+                <ref bean="proposalTaskAuthorizers" />
+                <ref bean="narrativeTaskAuthorizers" />
+                <ref bean="budgetTaskAuthorizers" />
+            </list>
+        </property>
+    </bean>
+    
+    <!-- ************* TASK AUTHORIZATION END **************** -->
+
+    <!-- ************* WEB AUTHORIZATION BEGIN **************** -->
+
+    <bean id="parentTaskFactory" class="org.kuali.kra.web.struts.authorization.impl.BogusWebTaskFactory">
+        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
+    </bean>
+
+    <bean id="proposalDevelopmentWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction" />
+        <property name="mappings">
+            <map>
+                <entry key="save">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyProposal" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="abstractsAttachmentsWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAbstractsAttachmentsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addProposalAttachment">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="addNarrative" />
+                    </bean>
+                </entry>
+                <entry key="addProposalAttachmentRights">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalAttachmentTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyNarrativeRights" />
+                    </bean>
+                </entry>
+                <entry key="downloadProposalAttachment">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalAttachmentTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="downloadNarrative" />
+                    </bean>
+                </entry>
+                <entry key="deleteProposalAttachment">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalAttachmentTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="deleteNarrative" />
+                    </bean>
+                </entry>
+                <entry key="replaceProposalAttachment">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalAttachmentTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="replaceNarrative" />
+                    </bean>
+                </entry>
+                
+                <entry key="addInstitutionalAttachment">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="addNarrative" />
+                    </bean>
+                </entry>
+                <entry key="addInstituteAttachmentRights">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.InstituteAttachmentTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyNarrativeRights" />
+                    </bean>
+                </entry>
+                <entry key="downloadInstituteAttachment">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.InstituteAttachmentTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="downloadNarrative" />
+                    </bean>
+                </entry>
+                <entry key="deleteInstitutionalAttachment">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.InstituteAttachmentTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="deleteNarrative" />
+                    </bean>
+                </entry>
+                <entry key="replaceInstituteAttachment">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.InstituteAttachmentTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="replaceNarrative" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="proposalPermissionsWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentPermissionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addProposalUser">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyProposalRoles" />
+                    </bean>
+                </entry>
+                <entry key="deleteProposalUser">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyProposalRoles" />
+                    </bean>
+                </entry>
+                <entry key="setEditRoles">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyProposalRoles" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="proposalActionsWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentActionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="printForms">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="printProposal" />
+                    </bean>
+                </entry>
+                <entry key="submitToSponsor">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="submitToSponsor" />
+                    </bean>
+                </entry>
+                 <entry key="resubmit">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="submitToSponsor" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="proposalGrantsGovWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentGrantsGovAction" />
+        <property name="mappings">
+            <map>
+                <entry key="printForms">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="printProposal" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="proposalBudgetVersionsWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentBudgetVersionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+                <entry key="openBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="openBudgets" />
+                    </bean>
+                </entry>
+                <entry key="copyBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="budgetWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.budget.web.struts.action.BudgetAction" />
+        <property name="mappings">
+            <map>
+                <entry key="save">
+                    <bean class="org.kuali.kra.budget.web.struts.authorization.BudgetTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyBudget" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="budgetVersionsWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.budget.web.struts.action.BudgetVersionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+                <entry key="openBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="openBudgets" />
+                    </bean>
+                </entry>
+                <entry key="copyBudgetVersion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="addBudget" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="budgetActionsWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.budget.web.struts.action.BudgetActionsAction" />
+        <property name="mappings">
+            <map>
+                <entry key="printBudgetForm">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="printProposal" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="webAuthorizationService" class="org.kuali.kra.web.struts.authorization.impl.WebAuthorizationServiceImpl">
+        <property name="taskAuthorizationService" ref="taskAuthorizationService" />
+        <property name="webAuthorizers">
+            <list>
+                <ref bean="proposalDevelopmentWebAuthorizer" />
+                <ref bean="abstractsAttachmentsWebAuthorizer" />
+                <ref bean="proposalPermissionsWebAuthorizer" />
+                <ref bean="proposalGrantsGovWebAuthorizer" />
+                <ref bean="proposalActionsWebAuthorizer" />
+                <ref bean="proposalBudgetVersionsWebAuthorizer" />
+                <ref bean="budgetWebAuthorizer" />
+                <ref bean="budgetActionsWebAuthorizer" />
+                <ref bean="budgetVersionsWebAuthorizer" />
             </list>
         </property>
     </bean>
 
-	<bean id="taskAuthorizationService" class="org.kuali.kra.service.impl.TaskAuthorizationServiceImpl">
-	    <property name="taskAuthorizers">
-		    <list>
-		        <ref bean="proposalAuthorizer" />
-		        <ref bean="budgetAuthorizer" />
-		    </list>
-	    </property>
-	</bean>
+    <!-- ************* WEB AUTHORIZATION END **************** -->
 	
 	<bean id="s2sOpportunityLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
   		<property name="lookupableHelperService">

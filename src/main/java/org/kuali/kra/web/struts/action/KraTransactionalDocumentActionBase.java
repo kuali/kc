@@ -23,7 +23,6 @@ import static org.kuali.RiceConstants.QUESTION_CLICKED_BUTTON;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
-import org.kuali.core.UserSession;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.PessimisticLock;
@@ -49,17 +47,15 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PessimisticLockService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchDocumentService;
-import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.notification.util.NotificationConstants;
 import org.kuali.rice.KNSServiceLocator;
@@ -91,14 +87,14 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      */
     @Override
     protected ActionForward dispatchMethod(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response, String taskName) throws Exception {
+            HttpServletResponse response, String methodName) throws Exception {
 
         ActionForward actionForward = null;
-        if (!isTaskAuthorized(taskName, form, request)) {
-            actionForward = processAuthorizationViolation(taskName, mapping, form, request, response);
+        if (!isTaskAuthorized(methodName, form, request)) {
+            actionForward = processAuthorizationViolation(methodName, mapping, form, request, response);
         }
         else {
-            actionForward = super.dispatchMethod(mapping, form, request, response, taskName);
+            actionForward = super.dispatchMethod(mapping, form, request, response, methodName);
         }
         return actionForward;
     }
@@ -283,40 +279,17 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @param request the HTTP request
      * @throws AuthorizationException
      */
-    private boolean isTaskAuthorized(String taskName, ActionForm form, HttpServletRequest request) {
-        TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+    private boolean isTaskAuthorized(String methodName, ActionForm form, HttpServletRequest request) {
+        WebAuthorizationService webAuthorizationService = KraServiceLocator.getService(WebAuthorizationService.class);
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         String username = user.getPersonUserIdentifier();
-        String actionName = getActionName();
         ((KraTransactionalDocumentFormBase) form).setActionName(getClass().getSimpleName());
-        Task task = buildTask(actionName, taskName, form, request);
-        boolean isAuthorized = taskAuthorizationService.isAuthorized(username, task);
+        boolean isAuthorized = webAuthorizationService.isAuthorized(username, this.getClass(), methodName, form, request);
         if (!isAuthorized) {
-            LOG.error("User not authorized to perform " + taskName + " for document: "
+            LOG.error("User not authorized to perform " + methodName + " for document: "
                     + ((KualiDocumentFormBase) form).getDocument().getClass().getName());
         }
         return isAuthorized;
-    }
-
-    /**
-     * Get the name of the action. This method is normally overridden.
-     * 
-     * @return the action's name
-     */
-    protected String getActionName() {
-        return getClass().getSimpleName();
-    }
-
-    /**
-     * Build a Task. Subclasses may override this method to create a different type of Task, e.g. one for proposals.
-     * 
-     * @param actionName the name of the action
-     * @param taskName the name of the task
-     * @param form the Form
-     * @return the Task
-     */
-    protected Task buildTask(String actionName, String taskName, ActionForm form, HttpServletRequest request) {
-        return new Task(actionName, taskName);
     }
 
     /**

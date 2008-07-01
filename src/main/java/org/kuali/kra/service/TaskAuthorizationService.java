@@ -30,4 +30,12 @@ public interface TaskAuthorizationService {
      * @return true if the user is authorized; otherwise false
      */
     public boolean isAuthorized(String username, Task task);
+
+    /**
+     * Is the given task defined within the system?
+     * @param taskGroupName the task's group name
+     * @param taskName the task's name
+     * @return true if defined; otherwise false
+     */
+    public boolean isTaskDefined(String taskGroupName, String taskName);
 }

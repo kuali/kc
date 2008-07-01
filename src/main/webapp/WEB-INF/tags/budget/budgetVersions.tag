@@ -43,12 +43,12 @@
 				<th>Total</th>
 				<th>Budget Status</th>
 				<th><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.finalVersionFlag}" useShortLabel="true" noColon="true"/></th>
-				<kra:section permission="viewBudgets">
+				<kra:section permission="openBudgets">
 				    <th><div align="center">Actions</div></th>
 				</kra:section>
 			</tr>
 			
-			<kra:section permission="modifyBudgets">
+			<kra:section permission="addBudget">
 			<tr>
             	<th width="50" align="right" scope="row"><div align="right">Add:</div></th>
             	<td class="infoline"><label><html:text name="KualiForm" property="newBudgetVersionName" size="16"/></label></td>
@@ -118,11 +118,11 @@
 	            			<html:hidden name="KualiForm" property="${version}.finalVersionFlag" disabled="true" />
 	            		</div>
 	            	</td>
-	            	<kra:section permission="viewBudgets">
+	            	<kra:section permission="openBudgets">
 	           			<td nowrap class="tab-subhead1">
 	           				<div align=center>
 	           					<html:image property="methodToCall.openBudgetVersion.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-open.gif' alt="open budget" />
-	           					<kra:section permission="modifyBudgets">
+	           					<kra:section permission="addBudget">
 	           					    <html:image property="methodToCall.copyBudgetVersion.line${status.index}.x" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-copy2.gif' alt="copy budget" />
 	           				    </kra:section>
 	           				</div>

@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="readOnly" value="${not KualiForm.editingMode['modifyNarratives']}" scope="request" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['addNarratives']}" scope="request" />
 
 <c:set var="propPersonBioAttributes" value="${DataDictionary.ProposalPersonBiography.attributes}" />
 <c:set var="propPerDocTypeAttributes" value="${DataDictionary.PropPerDocType.attributes}" />
@@ -24,7 +24,7 @@
 	<div class="tab-container" align="center">
 	<c:set var="sectionLabel" value="Personnel Attachments" />
 	
-		<kra:section permission="modifyNarratives">
+		<kra:section permission="addNarratives">
 			<c:set var="sectionLabel" value="Add ${sectionLabel}" />
         </kra:section>
         
@@ -33,7 +33,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
 	    </div>
         <table cellpadding=0 cellspacing=0 summary="">
-        	<c:if test="${fn:length(KualiForm.document.propPersonBios) > 0  || KualiForm.editingMode['modifyNarratives']}" >
+        	<c:if test="${fn:length(KualiForm.document.propPersonBios) > 0  || KualiForm.editingMode['addNarratives']}" >
           	<tr>
           	    <th><div align="left">&nbsp</div></th> 
           		<th><div align="left"><kul:htmlAttributeLabel attributeEntry="${propPersonBioAttributes.updateTimestamp}" noColon="true" /></div></th>
@@ -46,7 +46,7 @@
           	</tr>   
           	</c:if>  
           	
-          	<kra:section permission="modifyNarratives">   
+          	<kra:section permission="addNarratives">   
           	<tr>
           	  <c:set var="personSelectStyle" value="" scope="request"/>
           	  
@@ -131,7 +131,7 @@
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
 									onclick="javascript: openNewWindow('proposalDevelopmentAbstractsAttachments','viewPersonnelAttachment',${status.index},${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" /> 
 						
-						<kra:section permission="modifyNarratives">  									
+						<kra:section permission="addNarratives">  									
 							<html:image property="methodToCall.deletePersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
 								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 						</kra:section>

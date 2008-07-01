@@ -16,20 +16,15 @@
 package org.kuali.kra.authorization;
 
 /**
- * A Task Authorizer determines if a user can execute a given task.
- * Task Authorizers can be responsible for zero or more tasks.   
+ * A Task Authorizer determines if a user can execute a specific task.
  */
 public interface TaskAuthorizer {
     
     /**
-     * Determines if the Task Authorizer is responsible for authorization.
-     * This method must return true in order to reliably invoke the isAuthorized()
-     * method.
-     * @param task the task
-     * @return true if the Task Authorizer can determine the authorization 
-     *         for this task; otherwise false
+     * Get the name of the task.
+     * @return the task's name
      */
-    public boolean isResponsible(Task task);
+    public String getTaskName();
     
     /**
      * Is the user authorized to execute the given task?

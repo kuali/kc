@@ -36,7 +36,7 @@
         	</tr>
 	       </c:forEach>
 	       
-	    <c:if test="${selectedInstituteAttachment.modifyAttachment}"> 
+	    <c:if test="${selectedInstituteAttachment.modifyNarrativeRights}"> 
 		<tr>
 			<td colspan="2">
 			<div id="globalbuttons" class="globalbuttons"><input
