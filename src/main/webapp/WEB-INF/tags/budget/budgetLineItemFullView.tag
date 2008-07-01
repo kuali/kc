@@ -33,7 +33,7 @@
 <jsp:useBean id="parameterMap" class="java.util.HashMap" scope="request" />
 <c:set target="${parameterMap}" property="budgetCategoryTypeCode" value="${budgetCategoryTypeCode}" />
           		
-       			<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Line Item Details" useCurrentTabIndexAsKey="true">
+       			<kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Line Item Details" tabErrorKey="document.budgetPeriod[${budgetPeriod-1}].budgetLineItem[${budgetLineItemNumber}].*" useCurrentTabIndexAsKey="true">
        				<div>
        				<table cellpadding=0 cellspacing=0 summary="">
 			        	<tr>
