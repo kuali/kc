@@ -16,33 +16,31 @@
 package org.kuali.kra.authorization;
 
 /**
- * A Task represents a single request from a user.  A task directly 
- * corresponds to a single Struts Action method, i.e. the name of the
- * task and the name of the method must be exactly the same.  This
- * base class can be used as is or extended in order to provide more
- * data pertaining to the actual task.
+ * A Task represents a single operation that can be performed by
+ * a user.  This base class can be used as is or extended in order 
+ * to provide more data pertaining to the actual task.
  */
 public class Task {
 
-    private String actionName;
-    private String taskName;
+    private String groupName;
+    private String taskName; 
     
     /**
      * Constructs a Task.
-     * @param actionName the name of the action
+     * @param groupName the name of the group
      * @param taskName the name of the task
      */
-    public Task(String actionName, String taskName) {
-        this.actionName = actionName;
+    public Task(String groupName, String taskName) {
+        this.groupName = groupName;
         this.taskName = taskName;
     }
     
     /**
-     * Get the name of the action.
-     * @return the task's action name
+     * Get the name of the group.
+     * @return the task's group name
      */
-    public String getActionName() {
-        return actionName;
+    public String getGroupName() {
+        return groupName;
     }
     
     /**
@@ -57,6 +55,6 @@ public class Task {
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        return actionName + ":" + taskName;
+        return groupName + "." + taskName;
     }
 }

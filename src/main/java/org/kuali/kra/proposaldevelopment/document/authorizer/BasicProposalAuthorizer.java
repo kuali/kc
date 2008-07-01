@@ -15,12 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalAuthorizer;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 
 /**
  * The Basic Proposal Authorizer checks to see if the user has 
@@ -28,25 +24,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
  */
 public class BasicProposalAuthorizer extends ProposalAuthorizer {
    
-    private String actionName = null;
-    private String taskName = null;
     private String permissionName = null;
-    
-    /**
-     * Set the name of the task.  Injected by the Spring Framework.
-     * @param taskName the name of the task
-     */
-    public void setAction(String actionName) {
-        this.actionName = actionName;
-    }
-    
-    /**
-     * Set the name of the task.  Injected by the Spring Framework.
-     * @param taskName the name of the task
-     */
-    public void setTask(String taskName) {
-        this.taskName = taskName;
-    }
     
     /**
      * Set the name of the required permission.  Injected by the Spring Framework.
@@ -57,23 +35,10 @@ public class BasicProposalAuthorizer extends ProposalAuthorizer {
     }
     
     /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorization.ProposalAuthorizer#isResponsible(org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
-     */
-    public boolean isResponsible(ProposalTask task) {
-        if (actionName == null) {
-            return StringUtils.equals(taskName, task.getTaskName());
-        } else {
-            return StringUtils.equals(actionName, task.getActionName()) &&
-                   StringUtils.equals(taskName, task.getTaskName());
-        }
-    }
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorization.ProposalAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
+     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask)
      */
     public boolean isAuthorized(String username, ProposalTask task) {
-        ProposalAuthorizationService proposalAuthorizationService = KraServiceLocator.getService(ProposalAuthorizationService.class);
         ProposalDevelopmentDocument doc = task.getProposalDevelopmentDocument();
-        return proposalAuthorizationService.hasPermission(username, doc, permissionName);
+        return hasProposalPermission(username, doc, permissionName);
     }
 }

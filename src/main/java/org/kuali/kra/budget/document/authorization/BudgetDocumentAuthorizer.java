@@ -29,19 +29,15 @@ import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
+import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.KNSServiceLocator;
-
-import edu.iu.uis.eden.clientapp.WorkflowInfo;
-import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
-import edu.iu.uis.eden.exception.WorkflowException;
 
 public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
     
@@ -56,43 +52,24 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     @Override
     public Map getEditMode(Document d, UniversalUser u) {
         Map editModeMap = new HashMap();
-        
-        ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
-        
+          
         BudgetDocument budgetDoc = (BudgetDocument) d;
         ProposalDevelopmentDocument proposalDoc = budgetDoc.getProposal();
         String username = u.getPersonUserIdentifier();
         
-        if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.MODIFY_BUDGET)) {
-            if (isRouted(proposalDoc)) {
-                editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
-                editModeMap.put("modifyBudgets", FALSE);
-                editModeMap.put("viewBudgets", TRUE);
-                entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
-            } else if (isBudgetComplete(proposalDoc, budgetDoc)) {
-                editModeMap.put("modifyCompletedBudgets", TRUE); 
-                editModeMap.put("modifyBudgets", FALSE);
-                editModeMap.put("viewBudgets", TRUE);
-                entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
-            }
-            else {
-                editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
-                editModeMap.put("modifyBudgets", TRUE);
-                editModeMap.put("viewBudgets", TRUE);
-                entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
-            }
-            editModeMap.put("printProposal", hasPermission(username, proposalDoc, PermissionConstants.PRINT_PROPOSAL));
-        }
-        else if (proposalAuthService.hasPermission(username, proposalDoc, PermissionConstants.VIEW_BUDGET)) {
-            editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+        if (canExecuteBudgetTask(username, budgetDoc, TaskName.MODIFY_BUDGET)) {
+            editModeMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, TRUE);
+            editModeMap.put("modifyBudgets", TRUE);
             editModeMap.put("viewBudgets", TRUE);
-            editModeMap.put("printProposal", hasPermission(username, proposalDoc, PermissionConstants.PRINT_PROPOSAL));
+            setPermissions(username, proposalDoc, editModeMap);
+            entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
         }
-        else if (hasWorkflowPermission(username, budgetDoc)) {
+        else if (canExecuteBudgetTask(username, budgetDoc, TaskName.VIEW_BUDGET)) {
             editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
+            editModeMap.put("modifyBudgets", FALSE);
             editModeMap.put("viewBudgets", TRUE);
-            editModeMap.put("printProposal", hasPermission(username, proposalDoc, PermissionConstants.PRINT_PROPOSAL));
-        } 
+            setPermissions(username, proposalDoc, editModeMap);
+        }
         else {
             editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
         }
@@ -101,57 +78,82 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     }
     
     /**
-     * Does the user have the given permission for the given proposal?
+     * Set the permissions to be used during the creation of the web pages.  
+     * The JSP files can access the editModeMap (editingMode) to determine what
+     * to display to the user.  For example, a JSP file may contain the following:
+     * 
+     *     <kra:section permission="modifyProposal">
+     *         .
+     *         .
+     *         .
+     *     </kra:section>
+     * 
+     * In the above example, the contents are only rendered if the user is allowed
+     * to modify the proposal.  Note that permissions are always signified as 
+     * either TRUE or FALSE.
+     * 
+     * @param username the user's unique username
+     * @param doc the Proposal Development Document
+     * @param editModeMap the edit mode map
+     */
+    private void setPermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
+        editModeMap.put("addBudget", canExecuteTask(username, doc, TaskName.ADD_BUDGET));
+        editModeMap.put("openBudgets", canExecuteTask(username, doc, TaskName.OPEN_BUDGETS));
+       
+        editModeMap.put("printProposal", canExecuteTask(username, doc, TaskName.PRINT_PROPOSAL));
+     } 
+    
+    /**
+     * Can the user execute the given task?
      * @param username the user's username
      * @param doc the proposal development document
-     * @param permissionName the name of the permission
+     * @param taskName the name of the task
      * @return "TRUE" if has permission; otherwise "FALSE"
      */
-    private String hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
-        ProposalAuthorizationService proposalAuthService = (ProposalAuthorizationService) KraServiceLocator.getService(ProposalAuthorizationService.class);
-        return proposalAuthService.hasPermission(username, doc, permissionName) ? TRUE : FALSE;
+    private String canExecuteTask(String username, ProposalDevelopmentDocument doc, String taskName) {
+        return canExecuteProposalTask(username, doc, taskName) ? TRUE : FALSE;
     }
     
     /**
-     * Has the document been routed to the workflow system?
-     * @param doc the document
-     * @return true if routed; otherwise false
-     */
-    private boolean isRouted(Document doc) {
-        KualiWorkflowDocument workflowDocument = GlobalVariables.getUserSession().getWorkflowDocument(doc.getDocumentNumber());
-        if (workflowDocument == null) {
-            return false;
-        }
-        else {
-            String status = workflowDocument.getStatusDisplayValue();
-            return !(StringUtils.equals("INITIATED", status) ||  StringUtils.equals("SAVED", status));
-    	}
-    }
-    
-    /**
-     * Is the user in the budget's workflow?  If so, then that user has 
-     * permission to access the budget even if they are not given explicit
-     * permissions in KIM.
+     * Can the user execute the given proposal task?
      * @param username the user's username
-     * @param doc the document
-     * @return true if the user is in the workflow; otherwise false
+     * @param doc the proposal development document
+     * @param taskName the name of the task
+     * @return true if has permission; otherwise false
      */
-    private boolean hasWorkflowPermission(String username, Document doc) {
-        boolean isInWorkflow = false;
-        KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
-        if (workflowDoc != null) {
-            Long routeHeaderId = workflowDoc.getRouteHeader().getRouteHeaderId();
-            NetworkIdVO userId = new NetworkIdVO(username);
-            WorkflowInfo info = new WorkflowInfo();
-            try {
-                isInWorkflow = info.isUserAuthenticatedByRouteLog(routeHeaderId, userId, false);
-            }
-            catch (WorkflowException e) {
-            }
-        }
-        return isInWorkflow;
+    private boolean canExecuteProposalTask(String username, ProposalDevelopmentDocument doc, String taskName) {
+        ProposalTask task = new ProposalTask(taskName, doc);       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(username, task);
     }
 
+    
+    /**
+     * Can the user execute the given budget task?
+     * @param username the user's username
+     * @param doc the proposal development document
+     * @param budgetDocument the budget document
+     * @param taskName the name of the task
+     * @return true if has permission; otherwise false
+     */
+    private boolean canExecuteBudgetTask(String username, BudgetDocument budgetDocument, String taskName) {
+        BudgetTask task = new BudgetTask(taskName, budgetDocument);       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(username, task);
+    }
+    
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
+
+        BudgetDocument budgetDoc = (BudgetDocument) document;
+        String username = user.getPersonUserIdentifier();
+        
+        return canExecuteBudgetTask(username, budgetDoc, TaskName.MODIFY_BUDGET);
+    }
+    
     /**
      * Adds settings for transactional-document-specific flags.
      * 

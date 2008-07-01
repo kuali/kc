@@ -17,7 +17,7 @@
 
 <%@ attribute name="htmlFormAction" required="false" %>
 <%@ attribute name="renderMultipart" required="false" %>
-<c:set var="readOnly" value="${not KualiForm.editingMode['modifyNarratives']}" scope="request" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['addNarratives']}" scope="request" />
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
@@ -26,14 +26,14 @@
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
 <kul:tabTop tabTitle="Proposal Attachments (${fn:length(KualiForm.document.narratives)})" defaultOpen="true" tabErrorKey="newNarrative*,document.narrative*">
 	<div class="tab-container" align="center">
-	    <kra:section permission="modifyNarratives">
+	    <kra:section permission="addNarratives">
 	    	<div class="h2-container">
 	    		<span class="subhead-left"><h2>Add Proposal Attachments</h2></span>
 	    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
 	        </div>
         </kra:section>
         <table cellpadding=0 cellspacing=0 summary="">
-            <kra:section permission="modifyNarratives">
+            <kra:section permission="addNarratives">
 	           	<tr>
 	         		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}"/></div></th>
 	                <td align="left" valign="middle">
@@ -115,15 +115,15 @@
 			                <%-- %><c:if test="${(!empty narrative.fileName)}">--%>
 				                <div id="replaceDiv${status.index}" style="display:block;">
 					                <kul:htmlControlAttribute property="document.narrative[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
-					                <c:if test="${(narrative.viewAttachment || narrative.modifyAttachment) }">
+					                <c:if test="${(narrative.downloadAttachment || narrative.replaceAttachment) }">
 						                (
-						                <c:if test="${narrative.viewAttachment && (!empty narrative.fileName)}">
+						                <c:if test="${narrative.downloadAttachment && (!empty narrative.fileName)}">
 						                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
-							                <c:if test="${narrative.modifyAttachment}">
+							                <c:if test="${narrative.downloadAttachment && narrative.replaceAttachment}">
 							                &nbsp;|&nbsp;
 							                </c:if>
 						                </c:if>
-						                <c:if test="${narrative.modifyAttachment}">
+						                <c:if test="${narrative.replaceAttachment}">
 						                <html:link linkName="replaceProposalAttachment.line${status.index}" onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.replaceProposalAttachment.line${status.index}">replace</html:link>
 						                </c:if>
 						                )
@@ -184,7 +184,7 @@
 			          	<tr>
 							<td colspan=4>
 								<div align="center">
-								    <c:if test="${narrative.modifyAttachment}">
+								    <c:if test="${narrative.deleteAttachment}">
 										<html:image styleId="deleteProposalAttachment.line${status.index}" property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 										            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 									</c:if>
