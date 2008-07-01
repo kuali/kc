@@ -74,7 +74,7 @@
 
 	<%--<c:set var="budgetExpensePanelReadOnly" value="${KualiForm.document.proposal.budgetVersionOverviews[KualiForm.document.budgetVersionNumber-1].finalVersionFlag}" /> --%>
 	 	
-	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}" tabItemCount="${budgetLineItemSize}" defaultOpen="false" tabErrorKey="*costElement*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString},${tabErrorKeyString2},${tabErrorKeyString3}">
+	<kul:tab tabTitle="${budgetCategoryTypeCodesLabel}" tabItemCount="${budgetLineItemSize}" defaultOpen="false" tabErrorKey="*costElement*,newBudgetLineItems[${catCodes}].*,${tabErrorKeyString},${tabErrorKeyString2}">
 		<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>${budgetCategoryTypeCodesLabel}</h2></span>
