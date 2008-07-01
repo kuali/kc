@@ -63,7 +63,6 @@ public class NarrativeServiceImpl implements NarrativeService {
         narrative.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
         narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
         updateUserTimestamp(narrative);
-        narrative.setModifyAttachment(true);
         narrative.refreshReferenceObject("narrativeType");
         narrative.refreshReferenceObject("narrativeStatus");
         narrative.populateAttachment();
@@ -218,7 +217,6 @@ public class NarrativeServiceImpl implements NarrativeService {
         narrative.setProposalNumber(proposaldevelopmentDocument.getProposalNumber());
         narrative.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
         narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(proposaldevelopmentDocument));
-        narrative.setModifyAttachment(true);
         narrative.refreshReferenceObject("narrativeType");
         narrative.populateAttachment();
         

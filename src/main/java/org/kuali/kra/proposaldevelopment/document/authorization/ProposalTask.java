@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.document.authorization;
 
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 /**
@@ -23,18 +24,17 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * Proposal Development Document.  To assist authorization, the
  * Proposal Development Document is available.
  */
-public class ProposalTask extends Task {
-
+public final class ProposalTask extends Task {
+    
     private ProposalDevelopmentDocument document;
     
     /**
      * Constructs a ProposalTask.
-     * @param actionName the name of the action
      * @param taskName the name of the task
      * @param doc the Proposal Development Document
      */
-    public ProposalTask(String actionName, String taskName, ProposalDevelopmentDocument document) {
-        super(actionName, taskName);
+    public ProposalTask(String taskName, ProposalDevelopmentDocument document) {
+        super(TaskGroupName.PROPOSAL, taskName);
         this.document = document;
     }
 

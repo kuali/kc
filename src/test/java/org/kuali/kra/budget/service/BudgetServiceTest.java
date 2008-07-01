@@ -25,7 +25,10 @@ import org.kuali.core.UserSession;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.KraTestBase;
 import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.core.UserSession;
 import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.rice.KNSServiceLocator;
@@ -123,6 +126,10 @@ public class BudgetServiceTest extends KraTestBase {
         pdDocument.setRequestedEndDateInitial(new Date(12/31/2008));
         
         getDocumentService().saveDocument(pdDocument);
+        
+        String username = "quickstart";
+        ProposalAuthorizationService proposalAuthService = KraServiceLocator.getService(ProposalAuthorizationService.class);
+        proposalAuthService.addRole(username, RoleConstants.AGGREGATOR, pdDocument);
         
         return pdDocument;
     }
