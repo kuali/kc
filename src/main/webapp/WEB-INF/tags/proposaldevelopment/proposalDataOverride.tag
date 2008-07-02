@@ -34,9 +34,8 @@
 			<input type="hidden" name="newProposalChangedData.editableColumn.lookupReturn" value="${KualiForm.newProposalChangedData.editableColumn.lookupReturn}" />
 			<input type="hidden" name="newProposalChangedData.editableColumn.dataType" value="${KualiForm.newProposalChangedData.editableColumn.dataType}" />
 			<input type="hidden" name="newProposalChangedData.editableColumn.hasLookup" value="${KualiForm.newProposalChangedData.editableColumn.hasLookup}" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.lookupArgument" value="${KualiForm.newProposalChangedData.editableColumn.lookupArgument}" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.lookupDisplayAttrName" value="${KualiForm.newProposalChangedData.editableColumn.lookupDisplayAttrName}" />
-			<input type="hidden" name="newProposalChangedData.editableColumn.lookupWindow" value="${KualiForm.newProposalChangedData.editableColumn.lookupWindow}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.lookupClass" value="${KualiForm.newProposalChangedData.editableColumn.lookupClass}" />
+			<input type="hidden" name="newProposalChangedData.editableColumn.lookupPkReturn" value="${KualiForm.newProposalChangedData.editableColumn.lookupPkReturn}" />
 			<input type="hidden" name="newProposalChangedData.editableColumn.columnName" value="${KualiForm.newProposalChangedData.editableColumn.columnName}" />
 			<input type="hidden" name="imageUrl" value="${ConfigProperties.kr.externalizable.images.url}" /> 
 			<input type="hidden" name="tabIndex" value="${KualiForm.nextArbitrarilyHighIndex}" />
@@ -66,10 +65,10 @@
 					<div nowrap>
 						<kul:htmlControlAttribute property="newProposalChangedData.changedValue" attributeEntry="${proposalChangedDataAttributes.changedValue}" />
 							<div id="changedValueExtraBody" >
-			                   		<c:if test="${not empty KualiForm.newProposalChangedData.editableColumn.lookupArgument and KualiForm.newProposalChangedData.editableColumn.lookupArgument != 'null'}">
+			                   		<c:if test="${not empty KualiForm.newProposalChangedData.editableColumn.lookupClass and KualiForm.newProposalChangedData.editableColumn.lookupClass != 'null'}">
+				                   		<c:if test="${not empty KualiForm.newProposalChangedData.editableColumn.lookupPkReturn and KualiForm.newProposalChangedData.editableColumn.lookupPkReturn != 'null'}">
 				                   		<c:if test="${not empty KualiForm.newProposalChangedData.editableColumn.lookupReturn and KualiForm.newProposalChangedData.editableColumn.lookupReturn != 'null'}">
-				                   		<c:if test="${not empty KualiForm.newProposalChangedData.editableColumn.lookupDisplayAttrName and KualiForm.newProposalChangedData.editableColumn.lookupDisplayAttrName != 'null'}">
-											<kul:lookup boClassName="${KualiForm.newProposalChangedData.editableColumn.lookupArgument}" fieldConversions="${KualiForm.newProposalChangedData.editableColumn.lookupReturn}:newProposalChangedData.changedValue,${KualiForm.newProposalChangedData.editableColumn.lookupDisplayAttrName}:newProposalChangedData.displayValue" anchor="${tabKey}"/>
+											<kul:lookup boClassName="${KualiForm.newProposalChangedData.editableColumn.lookupClass}" fieldConversions="${KualiForm.newProposalChangedData.editableColumn.lookupPkReturn}:newProposalChangedData.changedValue,${KualiForm.newProposalChangedData.editableColumn.lookupReturn}:newProposalChangedData.displayValue" anchor="${tabKey}"/>
 										</c:if>
 										</c:if>
 									</c:if>
@@ -96,14 +95,6 @@
 		              				</c:if>
 		              			  </c:forEach>
 	              			  </c:if>
-	              			  
-	 						  <div id="calendarDiv" style="display:none;">
-								  <c:if test="${empty KualiForm.newProposalChangedData.editableColumn.dataType or overrideDataError == 'true'}">
-											<img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="newProposalChangedData.changedValue_datepicker" style="cursor: pointer;"
-								                     title="Date selector" alt="Date selector"
-								                     onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';" />
-								 </c:if>
-							 </div>
 					</div>
 				</td>
 			</tr>

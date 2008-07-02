@@ -324,13 +324,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return currentProposal;
     }
 
-    private String getLookupDisplayValue(String lookupClassName, String value) {
+    private String getLookupDisplayValue(String lookupClassName, String value, String displayAttributeName) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         List<String> lookupClassPkFields = null;
         Class lookupClass = null;
         String displayValue = "";
         String returnValue = "";
-        String displayAttributeName = "";
+        PersistableBusinessObject businessObject = null;
         
         if(StringUtils.isNotEmpty(lookupClassName)) {
             try {
@@ -340,23 +340,18 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             catch (ClassNotFoundException e) {}
             
             if(CollectionUtils.isNotEmpty(lookupClassPkFields)){
-                returnValue = lookupClassPkFields.get(0);
-                primaryKeys.put(lookupClassPkFields.get(0), value);
-                PersistableBusinessObject businessObject = (PersistableBusinessObject) businessObjectService.findByPrimaryKey(lookupClass, primaryKeys);
-                displayAttributeName = "description";
-                displayValue = getPropertyValue(businessObject, displayAttributeName);
-                if(StringUtils.isEmpty(displayValue)) {  
-                    List<String> fields = kraPersistenceStructureService.listFieldNames(lookupClass);
-                    for(String fieldName : fields) {
-                        if(fieldName.toLowerCase().contains("name")) {
-                            displayAttributeName = fieldName;
-                            displayValue = getPropertyValue(businessObject, fieldName);
-                            break;
-                        }
+                returnValue = StringUtils.isNotEmpty(lookupClassPkFields.get(0)) ? lookupClassPkFields.get(0) : "";
+                
+                if(StringUtils.isNotEmpty(value)) {
+                    primaryKeys.put(lookupClassPkFields.get(0), value);
+                    businessObject = (PersistableBusinessObject) businessObjectService.findByPrimaryKey(lookupClass, primaryKeys);
+                    if(businessObject != null) {
+                        displayValue = getPropertyValue(businessObject, displayAttributeName);
+                        displayValue = StringUtils.isNotEmpty(displayValue) ? displayValue : "";
                     }
-                }
+                } 
             }
-        }
+        } 
         
         return returnValue + "," + displayAttributeName + "," + displayValue;
     }
@@ -395,8 +390,8 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         primaryKeys.put("columnName", editableFieldDBColumn);
         ProposalColumnsToAlter editableColumn = (ProposalColumnsToAlter) businessObjectService.findByPrimaryKey(ProposalColumnsToAlter.class, primaryKeys);
         
-        if(fieldValue != null && editableColumn.getHasLookup()) {
-             returnValue = getLookupDisplayValue(editableColumn.getLookupArgument(), fieldValue.toString());
+        if(editableColumn.getHasLookup()) {
+             returnValue = getLookupDisplayValue(editableColumn.getLookupClass(), (fieldValue != null ? fieldValue.toString() : ""), editableColumn.getLookupReturn());
         } else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")){
             returnValue = ",," + KNSServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
         } else if (fieldValue != null) {
@@ -407,8 +402,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         returnValue+=","+editableColumn.getDataType();
         returnValue+=","+editableColumn.getHasLookup();
-        returnValue+=","+editableColumn.getLookupArgument();
-        returnValue+=","+editableColumn.getLookupWindow();
+        returnValue+=","+editableColumn.getLookupClass();
         
         return returnValue; 
     }
