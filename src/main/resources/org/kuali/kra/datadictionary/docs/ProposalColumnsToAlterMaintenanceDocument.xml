@@ -21,7 +21,8 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <maintainableClass>org.kuali.kra.maintenance.KraMaintainableImpl</maintainableClass>
+		<businessRulesClass>org.kuali.kra.rules.ProposalColumnsToAlterMaintenanceDocumentRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -34,7 +35,8 @@
 
         <documentTypeName>ProposalColumnsToAlterMaintenanceDocument</documentTypeName>
         <documentTypeCode>PCTA</documentTypeCode>
-
+ 		<webScriptFile>../dwr/interface/CustomAttributeService.js</webScriptFile>
+ 
         <label>ProposalColumnsToAlter Maintenance Document</label>
         <shortLabel>proposalColumnsToAlterMaintDoc</shortLabel>
 
@@ -53,8 +55,8 @@
 					<maintainableField name="dataLength" required="false"/>
 					<maintainableField name="dataType" required="true"/>
 					<maintainableField name="hasLookup" required="true"/>
-					<maintainableField name="lookupArgument" required="false"/>
-					<maintainableField name="lookupWindow" required="false"/>
+					<maintainableField name="lookupClass" required="false"/>
+					<maintainableField name="lookupReturn" required="false"/>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
