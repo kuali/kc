@@ -90,7 +90,7 @@
 				<value>enWebAuthenticationService</value>
 				<value>lookupableHelperService</value>	
 				<value>s2sOpportunityLookupable</value>	
-				<value>customAttributeLookupable</value>	
+				<value>customLookupable</value>	
 				<value>nonOrganizationalRolodexLookupable</value>
 				<value>universalUserService</value>
 				<value>enUserService</value>
@@ -830,7 +830,7 @@
             </map>
         </property>
     </bean>
-    
+
     <bean id="proposalKeyPersonnelWebAuthorizer"
           class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
 
@@ -1005,7 +1005,7 @@
 		</property>
 	</bean>
 	
-	<bean id="customAttributeLookupable" class="org.kuali.kra.lookup.CustomAttributeLookupableImpl" singleton="false">
+	<bean id="customLookupable" class="org.kuali.kra.lookup.CustomLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="lookupableHelperService" />
 		</property>

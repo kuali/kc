@@ -649,12 +649,11 @@ var displayValue;
 var dataType;
 var hasLookup;
 var lookupArgument;
-var lookupWindow;
-var lookupReturn;
+var lookupPkReturn;
 var fieldPrefix;
 var changedValue;
 var comments;
-var lookupDisplayAttrName;
+var lookupReturn;
 
 function updateOtherFields(editableColumnNameField, callbackFunction ) {
 	var proposalNumber = DWRUtil.getValue( 'document.proposalNumber' );
@@ -664,10 +663,9 @@ function updateOtherFields(editableColumnNameField, callbackFunction ) {
 	displayValue =  fieldPrefix + ".displayValue" ;
 	dataType =  fieldPrefix + ".editableColumn.dataType" ;
 	hasLookup =  fieldPrefix + ".editableColumn.hasLookup" ;
-	lookupArgument =  fieldPrefix + ".editableColumn.lookupArgument" ;
-	lookupWindow =  fieldPrefix + ".editableColumn.lookupWindow" ;
+	lookupArgument =  fieldPrefix + ".editableColumn.lookupClass" ;
 	lookupReturn = fieldPrefix + ".editableColumn.lookupReturn" ;
-	lookupDisplayAttrName = fieldPrefix + ".editableColumn.lookupDisplayAttrName" ;
+	lookupPkReturn = fieldPrefix + ".editableColumn.lookupPkReturn" ;
 	changedValue = fieldPrefix + ".changedValue" ;
 	comments = fieldPrefix + ".comments" ;
 
@@ -689,13 +687,11 @@ function updateOtherFields(editableColumnNameField, callbackFunction ) {
 			document.getElementById(dataType).value = "";
 			document.getElementById(hasLookup).value = "";
 			document.getElementById(lookupArgument).value = "";
-			document.getElementById(lookupWindow).value = "";
 			document.getElementById(lookupReturn).value = "";
-			document.getElementById(lookupDisplayAttrName).value = "";
+			document.getElementById(lookupPkReturn).value = "";
 			document.getElementById(changedValue).value = "";
 			document.getElementById(changedValue).style.borderColor = "";
 			document.getElementById(comments).value = "";
-			document.getElementById('calendarDiv').style.display = "none";
 	}
 }
 
@@ -709,22 +705,20 @@ function updateOtherFields_Callback( data ) {
 	document.getElementById(dataType).value = "";
 	document.getElementById(hasLookup).value = "";
 	document.getElementById(lookupArgument).value = "";
-	document.getElementById(lookupWindow).value = "";
 	document.getElementById(lookupReturn).value = "";
-	document.getElementById(lookupDisplayAttrName).value = "";
+	document.getElementById(lookupPkReturn).value = "";
 	document.getElementById(changedValue).value = "";
 	document.getElementById(changedValue).style.borderColor = "";
 	document.getElementById(comments).value = "";
-	document.getElementById('calendarDiv').style.display = "none";
 	
 	while (counter < value_array.length)
 	{
 		if(counter == 0) {
-			document.getElementById(lookupReturn).value = value_array[counter];
+			document.getElementById(lookupPkReturn).value = value_array[counter];
 		}
 
 		if(counter == 1) {
-			document.getElementById(lookupDisplayAttrName).value = value_array[counter];
+			document.getElementById(lookupReturn).value = value_array[counter];
 		}
 		
 		if(counter == 2) {
@@ -745,10 +739,6 @@ function updateOtherFields_Callback( data ) {
 			document.getElementById(lookupArgument).value = value_array[counter];
 		}
 		
-		if(counter == 6) {
-			document.getElementById(lookupWindow).value = value_array[counter]; 
-		}
-		
 		counter+=1;
 	}
 	
@@ -757,38 +747,29 @@ function updateOtherFields_Callback( data ) {
 	var imageUrl = document.getElementById("imageUrl").value;
 	var tabIndex = document.getElementById("tabIndex").value;
 	var lookupClass = document.getElementById(lookupArgument).value;
-	var lookupReturnValue = document.getElementById(lookupReturn).value;
+	var lookupPkReturnValue = document.getElementById(lookupPkReturn).value;
 	var changedValueFieldName = document.getElementById(changedValue).name;
 	var myDiv = document.getElementById('changedValueExtraBody');
 	var dataTypeValue = document.getElementById(dataType).value;
-	var lookupDisplayAttr = document.getElementById(lookupDisplayAttrName).value;
-	dynamicDivUpdate(lookupClass, lookupReturnValue, lookupDisplayAttr, changedValueFieldName, displayValueField, dataTypeValue);
+	var lookupReturnValue = document.getElementById(lookupReturn).value;
+	dynamicDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, changedValueFieldName, displayValueField, dataTypeValue);
 }
 
-function dynamicDivUpdate(lookupClass, lookupReturnValue, lookupDisplayAttr, changedValueFieldName, displayValueField, dataTypeValue) {
+function dynamicDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, changedValueFieldName, displayValueField, dataTypeValue) {
    	var imageUrl = document.getElementById("imageUrl").value;
 	var tabIndex = document.getElementById("tabIndex").value;
     var myDiv = document.getElementById('changedValueExtraBody');
 	var innerDivContent = "";
 	
-	if(lookupClass != "" && lookupReturnValue != "" && changedValueFieldName != "") {
+	if(lookupClass != "" && lookupPkReturnValue != "" && changedValueFieldName != "") {
 		innerDivContent = "<input type='image' tabindex='' ";
-		innerDivContent = innerDivContent + " name='methodToCall.performLookup.(!!" + lookupClass + "!!).(((" + lookupReturnValue + ":" + changedValueFieldName + "," + lookupDisplayAttr + ":" + displayValueField + "))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorProposalDataOverride' ";
+		innerDivContent = innerDivContent + " name='methodToCall.performLookup.(!!" + lookupClass + "!!).(((" + lookupPkReturnValue + ":" + changedValueFieldName + "," + lookupReturnValue + ":" + displayValueField + "))).((##)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~)).anchorProposalDataOverride' ";
 		innerDivContent = innerDivContent + " src='" + imageUrl + "searchicon.gif' border='0' class='tinybutton' valign='middle' alt='Search' title='Search' /> ";
 	} 
 	
 	if(dataTypeValue != "" && (dataTypeValue == 'DATE' || dataTypeValue == 'date')) {
 		innerDivContent = innerDivContent + "<img src=\"" + imageUrl + "cal.gif\" id=\"newProposalChangedData.changedValue_datepicker\" style=\"cursor: pointer;\"";
 		innerDivContent = innerDivContent + " title=\"Date selector\" alt=\"Date selector\" onmouseover=\"this.style.backgroundColor='red';\" onmouseout=\"this.style.backgroundColor='transparent';\" />";
-	
-		//Calendar.setup(
-		//	{
-		//	  inputField : "newProposalChangedData.changedValue", // ID of the input field
-		//	  ifFormat : "%m/%d/%Y", // the date format
-		//	  button : "newProposalChangedData.changedValue_datepicker" // ID of the button
-		//    }
-		//);
-		//document.getElementById('calendarDiv').style.display = "block";
 	}
 	
 	myDiv.innerHTML = innerDivContent;

@@ -11,10 +11,9 @@ public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
 	private Integer dataLength;
 	private String dataType;
 	private boolean hasLookup;
-	private String lookupArgument;
-	private String lookupWindow;
+	private String lookupClass;
 	private String lookupReturn;
-	private String lookupDisplayAttrName;
+	private String lookupPkReturn;
 	
 	public ProposalColumnsToAlter(){
 		super();
@@ -60,21 +59,13 @@ public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
 		this.hasLookup = hasLookup;
 	}
 
-	public String getLookupArgument() {
-		return lookupArgument;
-	}
+	public String getLookupClass() {
+        return lookupClass;
+    }
 
-	public void setLookupArgument(String lookupArgument) {
-		this.lookupArgument = lookupArgument;
-	}
-
-	public String getLookupWindow() {
-		return lookupWindow;
-	}
-
-	public void setLookupWindow(String lookupWindow) {
-		this.lookupWindow = lookupWindow;
-	}
+    public void setLookupClass(String lookupClass) {
+        this.lookupClass = lookupClass;
+    }
 
     public String getLookupReturn() {
         return lookupReturn;
@@ -84,12 +75,12 @@ public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
         this.lookupReturn = lookupReturn;
     }
 
-    public String getLookupDisplayAttrName() {
-        return lookupDisplayAttrName;
+    public String getLookupPkReturn() {
+        return lookupPkReturn;
     }
 
-    public void setLookupDisplayAttrName(String lookupDisplayAttrName) {
-        this.lookupDisplayAttrName = lookupDisplayAttrName;
+    public void setLookupPkReturn(String lookupPkReturn) {
+        this.lookupPkReturn = lookupPkReturn;
     }
 
     @Override 
@@ -100,8 +91,8 @@ public class ProposalColumnsToAlter extends KraPersistableBusinessObjectBase {
         hashMap.put("dataLength", getDataLength());
         hashMap.put("dataType", getDataType());
         hashMap.put("hasLookup", getHasLookup());
-        hashMap.put("lookupArgument", getLookupArgument());
-        hashMap.put("lookupWindow", getLookupWindow());
+        hashMap.put("lookupClass", getLookupClass());
+        hashMap.put("lookupReturn", getLookupReturn());
         return hashMap;
     }
 
