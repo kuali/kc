@@ -27,8 +27,8 @@ import static org.kuali.kra.logging.FormattedLogger.*;
 
 /**
  *  Web Test class for testing the Key Personnel Tab of the <code>{@link ProposalDevelopmentDocument}</code>
- *  @author $Author: jsalam $
- *  @version $Revision: 1.11.2.4 $
+ *  @author $Author: dbarre $
+ *  @version $Revision: 1.11.2.5 $
  */
 public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonnelWebTest.class);
@@ -36,7 +36,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
 
     private HtmlPage keyPersonnelPage;
-
+    private boolean javaScriptEnabled;
 
     /**
      * @see org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase#setUp()
@@ -49,12 +49,16 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         warn("");
         error("");
         fatal("");
+        javaScriptEnabled = webClient.isJavaScriptEnabled();
+        webClient.setJavaScriptEnabled(false);
     }
-
+    
     @After
     public void tearDown() throws Exception {
+        webClient.setJavaScriptEnabled(javaScriptEnabled);
         super.tearDown();
     }
+    
 
     /**
      * Assign key personnel page
@@ -184,7 +188,7 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
      * Test adding a Key Person
      */
     @Test
-    public void addKeyPerson() throws Exception {
+    public void testAddKeyPerson() throws Exception {
         HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
         assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
         setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
@@ -256,6 +260,60 @@ public class KeyPersonnelWebTest extends ProposalDevelopmentWebTestBase {
         assertTrue(keyPersonnelPage.asText().contains("Lobbying activities have been conducted regarding the proposal"));
 
        }
+    
+    /**
+     * For a proposal viewer, they should not be able to opt in the certify questions
+     * for a Key Person.
+     * @throws Exception
+     */
+    @Test
+    public void testNoOptInCertifyForViewer() throws Exception {
+        HtmlPage keyPersonnelPage = addKeyPerson();
+        HtmlPage permissionsPage = clickOnTab(keyPersonnelPage, PERMISSIONS_LINK_NAME);
+        
+        permissionsPage = addUserToRole(permissionsPage, "tdurkin", "Viewer");
+        String docNbr = this.getDocNbr(permissionsPage);
+        saveAndCloseDoc(permissionsPage);
+        
+        backdoorLogin("tdurkin");
+        
+        HtmlPage proposalPage = docSearch(docNbr);
+        keyPersonnelPage = clickOnTab(proposalPage, KEY_PERSONNEL_LINK_NAME);
+        
+        assertTrue(!keyPersonnelPage.asText().contains("You have the option to add Certification Questions for a key person"));
+        assertTrue(!keyPersonnelPage.asText().contains("You have the option to add unit details for a key person"));
+    }
+    
+    /**
+     * Add a Key Person.
+     * @return
+     * @throws Exception
+     */
+    private HtmlPage addKeyPerson() throws Exception {
+        HtmlPage keyPersonnelPage = lookup(getKeyPersonnelPage(), "org.kuali.kra.bo.Person", "personId", "000000001");
+        assertEquals("Terry Durkin", getFieldValue(keyPersonnelPage, "newProposalPerson.fullName"));
+        setFieldValue(keyPersonnelPage,"newProposalPerson.proposalPersonRoleId", "KP");
+
+        keyPersonnelPage = clickOn(getElementByName(keyPersonnelPage, "methodToCall.insertProposalPerson", true));
+        setFieldValue(keyPersonnelPage, "document.proposalPersons[0].projectRole", "xxx");
+        return keyPersonnelPage;
+    }
+    
+    /**
+     * Add a single user to the proposal.
+     * @param page
+     * @param username
+     * @param roleName
+     * @return
+     * @throws Exception
+     */
+    private HtmlPage addUserToRole(HtmlPage page, String username, String roleName) throws Exception {
+        setFieldValue(page, "newProposalUser.username", username);
+        setFieldValue(page, "newProposalUser.roleName", roleName);
+        HtmlElement addBtn = getElementByName(page, "methodToCall.addProposalUser", true);
+        return clickOn(addBtn);
+    }
+    
     /**
      * @see org.kuali.kra.KraWebTestBase#testHelpLinks()
      */
