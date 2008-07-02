@@ -36,17 +36,19 @@ public class KraRequestProcessor extends KualiRequestProcessor {
     @Override
     protected ActionForward processActionPerform(final HttpServletRequest request, final HttpServletResponse response,
 	    final Action action, final ActionForm form, final ActionMapping mapping) throws IOException, ServletException {
-
-        ActionForward actionForward = super.processActionPerform(request, response, action, form, mapping);
         
+        ActionForward actionForward = null;
         Boolean sessionExpired = (Boolean) request.getSession().getAttribute(KeyConstants.SESSION_EXPIRED_IND);  
+        
         if (sessionExpired != null && sessionExpired.booleanValue() == true) {
             request.getSession().removeAttribute(KeyConstants.SESSION_EXPIRED_IND);
             actionForward = mapping.findForward(RiceConstants.MAPPING_PORTAL); 
+        } else {
+            actionForward = super.processActionPerform(request, response, action, form, mapping);
         }
         
         return actionForward;
-    }
+    }  
     
     @Override
     protected void processPopulate(HttpServletRequest request, HttpServletResponse response, ActionForm form,
