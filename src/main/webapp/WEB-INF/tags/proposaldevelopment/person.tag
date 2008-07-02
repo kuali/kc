@@ -253,7 +253,7 @@
 <bean:define id="unitDetailsRequired" name="KualiForm" property="${proposalPerson}.role.unitDetailsRequired" />
 
 <c:choose>
- <c:when test="${unitDetailsRequired == 'Y'  }">
+ <c:when test="${unitDetailsRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
 		<td colspan=4>
   <kul:innerTab tabTitle="Unit Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonUnit*, newProposalPersonUnit[${status.index}]*">
@@ -317,7 +317,7 @@
 <bean:define id="certificationRequired" name="KualiForm" property="${proposalPerson}.role.certificationRequired" /> 
 
 <c:choose>
- <c:when test="${certificationRequired == 'Y'  }">
+ <c:when test="${certificationRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
    	<tr>
 	<td colspan=4>
   <kul:innerTab tabTitle="Certify" parentTab="${parentTabName}" defaultOpen="false">
@@ -375,6 +375,7 @@
   </c:otherwise>
  </c:choose>
 </c:otherwise>
+
 </c:choose>
 
 </table>
