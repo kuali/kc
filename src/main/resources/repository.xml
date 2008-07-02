@@ -175,8 +175,8 @@
 		<field-descriptor name="dataLength" column="DATA_LENGTH" jdbc-type="INTEGER"/>
 		<field-descriptor name="dataType" column="DATA_TYPE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="hasLookup" column="HAS_LOOKUP" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-		<field-descriptor name="lookupArgument" column="LOOKUP_ARGUMENT" jdbc-type="VARCHAR"/>
-		<field-descriptor name="lookupWindow" column="LOOKUP_WINDOW" jdbc-type="VARCHAR"/>
+		<field-descriptor name="lookupClass" column="LOOKUP_ARGUMENT" jdbc-type="VARCHAR"/>
+		<field-descriptor name="lookupReturn" column="LOOKUP_RETURN" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

@@ -25,9 +25,9 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.lookup.keyvalue.CustomAttributeLookupReturnValuesFinder;
+import org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder;
 
-public class CustomAttributeLookupableImpl extends KualiLookupableImpl {
+public class CustomLookupableImpl extends KualiLookupableImpl {
 
     /**
      * This is to force to reload the lookupreturn dropdown list for the lookupform. It's not pretty. The
@@ -46,7 +46,7 @@ public class CustomAttributeLookupableImpl extends KualiLookupableImpl {
                     Field field = (Field) iterator.next();
                     if (field.getPropertyName().equals("lookupReturn")) {
                         GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object) lookupClassName);
-                        CustomAttributeLookupReturnValuesFinder finder = new CustomAttributeLookupReturnValuesFinder();
+                        LookupReturnValuesFinder finder = new LookupReturnValuesFinder();
                         field.setFieldValidValues(finder.getKeyValues());
                         GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
                         GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_CLASS_NAME);

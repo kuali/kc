@@ -38,7 +38,7 @@
         </inquiry>
 
         <lookup>
-        	<lookupableID>customAttributeLookupable</lookupableID>
+        	<lookupableID>customLookupable</lookupableID>
         
             <title>Custom Attribute Lookup</title>
 			<menubar>
@@ -173,7 +173,7 @@
 			<maxLength>30</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-                 <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.CustomAttributeLookupReturnValuesFinder" />
+                 <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.LookupReturnValuesFinder" />
 			</control>
 			<summary>Lookup Return </summary>
 			<description>Lookup Return </description>
