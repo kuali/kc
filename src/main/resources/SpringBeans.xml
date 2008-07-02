@@ -830,6 +830,37 @@
             </map>
         </property>
     </bean>
+    
+    <bean id="proposalKeyPersonnelWebAuthorizer"
+          class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
+
+        <property name="classname"
+                  value="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction" />
+        <property name="mappings">
+            <map>
+                <entry key="addCertificationQuestion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyProposal" />
+                    </bean>
+                </entry>
+                <entry key="removeCertificationQuestion">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyProposal" />
+                    </bean>
+                </entry>
+                <entry key="addUnitDetails">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyProposal" />
+                    </bean>
+                </entry>
+                <entry key="removeUnitDetails">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="modifyProposal" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
 
     <bean id="proposalBudgetVersionsWebAuthorizer"
           class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
@@ -923,6 +954,7 @@
                 <ref bean="abstractsAttachmentsWebAuthorizer" />
                 <ref bean="proposalPermissionsWebAuthorizer" />
                 <ref bean="proposalGrantsGovWebAuthorizer" />
+                <ref bean="proposalKeyPersonnelWebAuthorizer" />
                 <ref bean="proposalActionsWebAuthorizer" />
                 <ref bean="proposalBudgetVersionsWebAuthorizer" />
                 <ref bean="budgetWebAuthorizer" />
