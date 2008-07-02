@@ -207,6 +207,9 @@ public class KeyConstants {
     public static final String ERROR_APPLY_TO_LATER_PERIODS = "error.applyTo.later.periods";
 
     public static final String PROPOSAL_DATA_OVERRIDE_SAME_VALUE = "error.proposalData.override.samevalue";
+    public static final String PROPOSAL_EDITABLECOLUMN_DATATYPE_MISMATCH = "error.column.datatype.mismatch";
+    public static final String PROPOSAL_EDITABLECOLUMN_DATALENGTH_MISMATCH = "error.column.dataLength.mismatch";
+    
     public static final String ERROR_LINE_ITEM_DATES = "error.line.item.dates";
     public static final String ERROR_NEGATIVE_AMOUNT = "error.negativeAmount";
     public static final String WARNING_EFFDT_AFTER_PERIOD_START_DATE = "warning.effdt.after.periodStartDate";

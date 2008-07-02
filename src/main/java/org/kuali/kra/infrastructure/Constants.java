@@ -246,4 +246,8 @@ public interface Constants {
 
     public static final String BUDGET_SALARY_REPORT = "ProposalBudget/Salaries";
     public static final String PERSONNEL_BUDGET_PANEL_NAME = "Personnel Budget";
+
+    public static final String PROPOSAL_EDITABLECOLUMN_DATATYPE = "document.newMaintainableObject.dataType";
+    public static final String PROPOSAL_EDITABLECOLUMN_DATALENGTH = "document.newMaintainableObject.dataLength";
+    public static final String PROPOSAL_EDITABLECOLUMN_LOOKUPRETURN = "document.newMaintainableObject.lookupReturn";
 }

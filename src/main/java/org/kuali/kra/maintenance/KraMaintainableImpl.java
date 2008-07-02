@@ -26,6 +26,7 @@ import org.kuali.core.web.struts.form.KualiMaintenanceForm;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.proposaldevelopment.bo.ProposalColumnsToAlter;
 
 /**
  * This class...
@@ -55,6 +56,10 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
             if (businessObject instanceof CustomAttribute && StringUtils.isNotBlank(((CustomAttribute)businessObject).getLookupClass())) {
                     GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)((CustomAttribute)businessObject).getLookupClass());
             }
+            
+            if (businessObject instanceof ProposalColumnsToAlter && StringUtils.isNotBlank(((ProposalColumnsToAlter)businessObject).getLookupClass())) {
+                GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)((ProposalColumnsToAlter)businessObject).getLookupClass());
+            }
 
         }
 
@@ -75,6 +80,18 @@ public class KraMaintainableImpl extends KualiMaintainableImpl {
                 }
             }
         }
+        
+        if (businessObject instanceof ProposalColumnsToAlter) {
+            if (GlobalVariables.getKualiForm() != null && GlobalVariables.getKualiForm() instanceof KualiMaintenanceForm) {
+                ProposalColumnsToAlter proposalColumnsToAlter = (ProposalColumnsToAlter)((MaintenanceDocumentBase)((KualiMaintenanceForm)GlobalVariables.getKualiForm()).getDocument()).getDocumentBusinessObject();
+                if (StringUtils.isNotBlank(proposalColumnsToAlter.getLookupClass())) {
+                    if (StringUtils.isBlank((String)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_CLASS_NAME)) && ((((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS))) == null || ((List)GlobalVariables.getUserSession().retrieveObject(Constants.LOOKUP_RETURN_FIELDS)).size() == 0)) {
+                        GlobalVariables.getUserSession().addObject(Constants.LOOKUP_CLASS_NAME, (Object)proposalColumnsToAlter.getLookupClass());                    
+                    }
+                }
+            }
+        }
+        
         return super.getSections(oldMaintainable);
     }
 }

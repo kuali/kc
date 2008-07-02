@@ -35,8 +35,8 @@ import org.kuali.kra.service.CustomAttributeService;
  * 
  * This class get a list of lookup fileds for the selected lookup class
  */
-public class CustomAttributeLookupReturnValuesFinder extends KeyValuesBase {
-    private static final Log LOG = LogFactory.getLog(CustomAttributeLookupReturnValuesFinder.class);
+public class LookupReturnValuesFinder extends KeyValuesBase {
+    private static final Log LOG = LogFactory.getLog(LookupReturnValuesFinder.class);
 
     public List<KeyLabelPair> getKeyValues() {
         // this will be called twice for each maintenancedocument page load
