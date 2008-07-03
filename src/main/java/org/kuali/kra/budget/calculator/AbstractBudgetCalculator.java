@@ -99,7 +99,11 @@ public abstract class AbstractBudgetCalculator {
 //            budgetRateService.resetAllBudgetRates(budgetDocument);
 //        }
         if (!rates.isEmpty() && rates.get(0) instanceof BudgetProposalRate) {
-            return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getProposal().getActivityTypeCode());
+            QueryList qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getProposal().getActivityTypeCode());
+            if (qList.isEmpty() && !budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode())) {
+                qList = filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getActivityTypeCode());                
+            }
+            return qList;
             //return filterRates(rates, budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), budgetDocument.getActivityTypeCode());
         }
         else {
@@ -285,6 +289,11 @@ public abstract class AbstractBudgetCalculator {
                         totalCalculatedCostSharing : 
                         budgetLineItem.getCostSharingAmount().add(totalCalculatedCostSharing));
 
+        } else if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0 && budgetLineItem.getLineItemCost().equals(BudgetDecimal.ZERO)) {
+            for (AbstractBudgetCalculatedAmount calculatedAmount : lineItemCalcAmts) {
+                  calculatedAmount.setCalculatedCost(BudgetDecimal.ZERO);
+                  calculatedAmount.setCalculatedCostSharing(BudgetDecimal.ZERO);
+          }
         }
     }
 
