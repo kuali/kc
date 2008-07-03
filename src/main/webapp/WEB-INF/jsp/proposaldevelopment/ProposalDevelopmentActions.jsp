@@ -36,9 +36,9 @@ showDocumentInfo="true"
 </kra:section>
 <kra-pd:proposalDevelopmentCopy />
 
-<c:if test="${KualiForm.workflowDocument.routeHeader.docRouteStatus == 'R'}">
+<kra:section permission="showAlterProposalData">
 	<kra-pd:proposalDataOverride />
-</c:if>
+</kra:section>
 
 <c:if test="${KualiForm.submissionStatusVisible}">
 	<kra-pd:proposalDevelopmentPostSubmissionStatus />

@@ -260,8 +260,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             newProposalChangedData.refreshReferenceObject("editableColumn");
         }
 
-        if(!newProposalChangedData.getEditableColumn().getHasLookup()) {
-            newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
+        if(newProposalChangedData.getEditableColumn() != null) {
+            if(!newProposalChangedData.getEditableColumn().getHasLookup()) {
+                newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
+            }
         }
             
         if(getKualiRuleService().applyRules(new ProposalDataOverrideEvent(pdForm.getProposalDevelopmentDocument(), newProposalChangedData))){
