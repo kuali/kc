@@ -110,6 +110,9 @@ public class BudgetRatesAction extends BudgetAction {
         budgetDocument.getBudgetRatesService().syncAllBudgetRates(budgetDocument);
         budgetDocument.setRateClassTypesReloaded(false);
         budgetDocument.setRateSynced(true);
+        if (!budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode())) {
+            budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

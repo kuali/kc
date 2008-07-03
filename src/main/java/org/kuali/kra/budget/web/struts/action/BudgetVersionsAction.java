@@ -118,12 +118,16 @@ public class BudgetVersionsAction extends BudgetAction {
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
 
         } else {
-        BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        String forward = buildForwardUrl(routeHeaderId);
-        return new ActionForward(forward, true);
+            BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
+            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+            BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+            Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());
+            if (!budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode())) {
+                budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());
+            }
+            String forward = buildForwardUrl(routeHeaderId);
+            return new ActionForward(forward, true);
         }
     }
     
@@ -144,6 +148,7 @@ public class BudgetVersionsAction extends BudgetAction {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+        budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
             forward = forward.replace("budgetSummary.do?", "budgetSummary.do?syncBudgetRate=Y&");
