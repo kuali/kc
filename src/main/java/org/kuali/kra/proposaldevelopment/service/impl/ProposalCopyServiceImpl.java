@@ -175,14 +175,14 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             DocumentService docService = KNSServiceLocator.getDocumentService();
             docService.saveDocument(newDoc);
             
+            // Can't initialize authorization until a proposal is saved
+            // and we have a new proposal number.
+            initializeAuthorization(newDoc);
+            
 //          Copy over the budget(s) if required by the user.  newDoc must be saved so we know proposal number.
             if (criteria.getIncludeBudget()) {
                 copyBudget(doc, newDoc, criteria.getBudgetVersions());
             }
-
-            // Can't initialize authorization until a proposal is saved
-            // and we have a new proposal number.
-            initializeAuthorization(newDoc);
             
             newDocNbr = newDoc.getDocumentNumber();
         }
