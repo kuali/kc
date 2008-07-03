@@ -16,6 +16,8 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
+
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentGrantsGov"

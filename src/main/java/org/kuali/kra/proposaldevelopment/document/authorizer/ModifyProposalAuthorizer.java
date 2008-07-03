@@ -59,7 +59,8 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
              * and the user has the require permission.
              */
             hasPermission = hasProposalPermission(username, doc, PermissionConstants.MODIFY_PROPOSAL) &&
-                            !kraWorkflowService.isInWorkflow(doc);
+                            !kraWorkflowService.isInWorkflow(doc) &&
+                            !doc.getSubmitFlag();
         }
         return hasPermission;
     }
