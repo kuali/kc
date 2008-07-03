@@ -921,17 +921,17 @@
         <property name="mappings">
             <map>
                 <entry key="addBudgetVersion">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="addBudget" />
                     </bean>
                 </entry>
                 <entry key="openBudgetVersion">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="openBudgets" />
                     </bean>
                 </entry>
                 <entry key="copyBudgetVersion">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="addBudget" />
                     </bean>
                 </entry>
