@@ -181,6 +181,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         editModeMap.put("certify", canExecuteTask(username, doc, TaskName.CERTIFY));
         editModeMap.put("printProposal", canExecuteTask(username, doc, TaskName.PRINT_PROPOSAL));
         editModeMap.put("alterProposalData", canExecuteTask(username, doc, TaskName.ALTER_PROPOSAL_DATA));
+        editModeMap.put("showAlterProposalData", canExecuteTask(username, doc, TaskName.SHOW_ALTER_PROPOSAL_DATA));
         editModeMap.put("submitToSponsor", canExecuteTask(username, doc, TaskName.SUBMIT_TO_SPONSOR));
         
         entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL, KraAuthorizationConstants.ProposalEditMode.VIEW_PROPOSAL);
