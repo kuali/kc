@@ -66,7 +66,7 @@
                                         <c:out value="Not Available"/>
                                      </c:otherwise>
                                 </c:choose>
-                                <kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].available" attributeEntry="${s2sFormAttributes.available}"/>
+                                <kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].available" attributeEntry="${s2sFormAttributes.available}" readOnlyBody="${readOnly}"/>
                             </div>
                         </td>
                     
