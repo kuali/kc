@@ -35,7 +35,7 @@ import org.junit.Before;
  * Base class for all htmlunit tests involving the Proposal Development Page.
  * 
  * @author $Author: dbarre $
- * @version $Revision: 1.13.2.2 $
+ * @version $Revision: 1.13.2.3 $
  */
 public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     
@@ -44,6 +44,7 @@ public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
     protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
     protected static final String GRANTS_GOV_LINK_NAME = "grantsGov.x";
+    protected static final String BUDGET_VERSIONS_LINK_NAME = "budgetVersions.x";
     
     protected static final String DOCUMENT_DESCRIPTION_ID = "document.documentHeader.financialDocumentDescription";
     protected static final String PROPOSAL_SPONSOR_CODE_ID = "document.sponsorCode";
