@@ -23,12 +23,13 @@
  <kul:tab tabTitle="Proposal Data Override" defaultOpen="${openFlag}" tabErrorKey="newProposalChangedData.*">
          
 	<div class="tab-container" align="center">
+	 <kra:section permission="alterProposalData">  
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Proposal Data Override</h2></span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" altText="help"/></span>
         </div>
         
-        <kra:section permission="alterProposalData">   
+        
 		 <table cellpadding="0" cellspacing="0" summary="">
 			<input type="hidden" name="document.proposalNumber" value="${KualiForm.document.proposalNumber}" />
 			<input type="hidden" name="newProposalChangedData.editableColumn.lookupReturn" value="${KualiForm.newProposalChangedData.editableColumn.lookupReturn}" />
