@@ -55,6 +55,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      */
     public void calculateBudget(BudgetDocument budgetDocument){
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+        String ohRateClassCodePrevValue = null;
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(isCalculationRequired(budgetDocument,budgetPeriod)){
                 String workOhCode = null;
@@ -64,6 +65,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 calculateBudgetPeriod(budgetDocument, budgetPeriod);
                 if(budgetDocument.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budgetDocument.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
                         // this should be set at the last period, otherwise, only the first period will be updated properly because lots of places check prevohrateclass
+                    ohRateClassCodePrevValue = ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue();
                     ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(workOhCode);
                 }
             }
@@ -78,6 +80,11 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 //                    
 //                }
 //            }
+        }
+        if (((BudgetForm)GlobalVariables.getKualiForm())!=null && ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue() == null && ohRateClassCodePrevValue != null) {
+            // if not all periods are calculated, then this code has potential to be null, and this will force
+            // to create calamts again
+            ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(ohRateClassCodePrevValue);            
         }
         if(budgetPeriods!=null && !budgetPeriods.isEmpty()){
             syncCostsToBudgetDocument(budgetDocument);
