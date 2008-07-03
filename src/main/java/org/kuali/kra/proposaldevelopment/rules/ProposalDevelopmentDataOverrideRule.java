@@ -63,6 +63,11 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         boolean valid = true;
         DataDictionaryService dataDictionaryService = KNSServiceLocator.getDataDictionaryService();
         
+        if (StringUtils.isEmpty(proposalOverriddenData.getColumnName())) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("newProposalChangedData.columnName", KeyConstants.ERROR_NO_FIELD_TO_EDIT);
+        }
+        
         if(proposalOverriddenData != null && StringUtils.isNotEmpty(proposalOverriddenData.getChangedValue())) {
             valid &= validateAttributeFormat(proposalOverriddenData, dataDictionaryService);
         }
