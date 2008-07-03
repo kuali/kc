@@ -43,7 +43,8 @@ public class BudgetModifyAuthorizer extends TaskAuthorizerImpl {
         
         return !kraWorkflowService.isInWorkflow(doc) &&
                !isBudgetCompleted(doc, budgetDocument) &&
-               hasProposalPermission(username, doc, PermissionConstants.MODIFY_BUDGET);
+               hasProposalPermission(username, doc, PermissionConstants.MODIFY_BUDGET) &&
+               !doc.getSubmitFlag();
     }
     
     /**
