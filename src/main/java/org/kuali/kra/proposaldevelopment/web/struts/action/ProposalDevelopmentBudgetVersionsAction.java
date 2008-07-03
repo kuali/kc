@@ -113,15 +113,18 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
         } else {
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
-        Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
-        String forward = buildForwardUrl(routeHeaderId);
-        if (pdForm.isAuditActivated()) {
-            forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
+            DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+            BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
+            Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            if (!budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode())) {
+                budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());
+            }
+            String forward = buildForwardUrl(routeHeaderId);
+            if (pdForm.isAuditActivated()) {
+                forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
+            }
+            return new ActionForward(forward, true);
         }
-        return new ActionForward(forward, true);
-    }
     }
     
     
@@ -142,6 +145,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
+            budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());
             forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?syncBudgetRate=Y&");
         }
         if (pdForm.isAuditActivated()) {

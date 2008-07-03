@@ -31,7 +31,6 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
@@ -40,7 +39,6 @@ import org.kuali.kra.budget.bo.ValidCeRateType;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.calculator.query.QueryEngine;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetPersonService;
 import org.kuali.kra.budget.service.BudgetService;
@@ -267,6 +265,34 @@ public class BudgetServiceImpl implements BudgetService {
         else {
             return false;
         }
+    }
+
+    
+    public String getActivityTypeForBudget(BudgetDocument budgetDocument) {
+        ProposalDevelopmentDocument pdDoc = budgetDocument.getProposal();
+        Map qMap = new HashMap();
+        qMap.put("proposalNumber",pdDoc.getProposalNumber());
+        qMap.put("budgetVersionNumber",budgetDocument.getBudgetVersionNumber());
+        ArrayList<BudgetProposalRate> allPropRates = (ArrayList)KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+                BudgetProposalRate.class, qMap);
+        if (CollectionUtils.isNotEmpty(allPropRates)) {
+            qMap.put("activityTypeCode",pdDoc.getActivityTypeCode());
+            Collection<BudgetProposalRate> matchActivityTypePropRates = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+                BudgetProposalRate.class, qMap);
+            if (CollectionUtils.isNotEmpty(matchActivityTypePropRates)) {
+                for (BudgetProposalRate budgetProposalRate : allPropRates) { 
+                    if (!budgetProposalRate.getActivityTypeCode().equals(pdDoc.getActivityTypeCode())) {
+                        return budgetProposalRate.getActivityTypeCode();
+                    }
+                }
+                return pdDoc.getActivityTypeCode();                
+            } else {
+                return allPropRates.get(0).getActivityTypeCode();
+            }
+        }
+                
+        return "x";
+        
     }
 
 }
