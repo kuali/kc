@@ -38,6 +38,7 @@ public interface TaskName {
     public static final String ADD_NARRATIVE = "addNarrative";
     public static final String CERTIFY = "certify";
     public static final String ALTER_PROPOSAL_DATA = "alterProposalData";
+    public static final String SUBMIT_TO_WORKFLOW = "submitToWorkflow";
     
     /*
      * Narrative Tasks.

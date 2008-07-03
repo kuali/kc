@@ -188,6 +188,7 @@ public class RoleServiceTest extends KraTestBase {
             permissions.add(PermissionConstants.MAINTAIN_PROPOSAL_ACCESS);
             permissions.add(PermissionConstants.CERTIFY);
             permissions.add(PermissionConstants.PRINT_PROPOSAL);
+            permissions.add(PermissionConstants.SUBMIT_PROPOSAL);
         } else if (StringUtils.equals(RoleConstants.BUDGET_CREATOR, roleName)) {
             permissions.add(PermissionConstants.VIEW_PROPOSAL);
             permissions.add(PermissionConstants.VIEW_BUDGET);
