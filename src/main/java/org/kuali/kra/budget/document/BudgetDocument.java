@@ -119,7 +119,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private List<BudgetCostShare> budgetCostShares;
     private List<BudgetUnrecoveredFandA> budgetUnrecoveredFandAs;
     
-    private String activityTypeCode="1";
+    private String activityTypeCode="x";
     private boolean BudgetLineItemDeleted = false;
     private boolean rateClassTypesReloaded = false ;
     /*

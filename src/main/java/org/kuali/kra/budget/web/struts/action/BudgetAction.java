@@ -15,14 +15,9 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
-import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,18 +29,14 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.bo.BudgetLineItem;
-import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -53,20 +44,18 @@ import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.service.BudgetModularService;
 import org.kuali.kra.budget.service.BudgetPrintService;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 public class BudgetAction extends ProposalActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
@@ -86,6 +75,10 @@ public class BudgetAction extends ProposalActionBase {
             budgetForm.initialize();
         }
         
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        if (budgetDocument.getActivityTypeCode().equals("x")) {
+            budgetDocument.setActivityTypeCode(KraServiceLocator.getService(BudgetService.class).getActivityTypeForBudget(budgetDocument));
+        }
         reconcileBudgetStatus(budgetForm);
         return forward;
     }
