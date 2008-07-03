@@ -532,7 +532,7 @@
   		</property>
 	</bean>
 
-	<bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl" />
+    <bean id="kraWorkflowService" class="org.kuali.kra.service.impl.KraWorkflowServiceImpl" />
     
     <!-- ************* TASK AUTHORIZATION BEGIN **************** -->
 
@@ -577,7 +577,7 @@
                     <property name="permission" value="SUBMIT_TO_SPONSOR" />
                 </bean>
                 
-                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToWorkflowAuthorizer" parent="parentAuthorizer">
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToWorkflowAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="submitToWorkflow" />
                 </bean>
                 
@@ -798,7 +798,7 @@
                         <property name="taskName" value="submitToSponsor" />
                     </bean>
                 </entry>
-                 <entry key="resubmit">
+                <entry key="resubmit">
                     <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="submitToSponsor" />
                     </bean>
@@ -904,17 +904,17 @@
         <property name="mappings">
             <map>
                 <entry key="addBudgetVersion">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="addBudget" />
                     </bean>
                 </entry>
                 <entry key="openBudgetVersion">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="openBudgets" />
                     </bean>
                 </entry>
                 <entry key="copyBudgetVersion">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="addBudget" />
                     </bean>
                 </entry>
