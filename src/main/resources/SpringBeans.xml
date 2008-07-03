@@ -602,10 +602,13 @@
                     <property name="taskName" value="certify" />
                     <property name="permission" value="CERTIFY" />
                 </bean>
-
-                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentAuthorizer">
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.ShowAlterProposalDataAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="showAlterProposalData" />
+                </bean>
+                
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.AlterProposalDataAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="alterProposalData" />
-                    <property name="permission" value="ALTER_PROPOSAL_DATA" />
                 </bean>
                 
                 <!--  Task Authorizer for modifying persons and their roles on a proposal -->
