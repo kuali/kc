@@ -594,6 +594,10 @@
                     <property name="permission" value="SUBMIT_TO_SPONSOR" />
                 </bean>
                 
+                <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.SubmitToWorkflowAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="submitToWorkflow" />
+                </bean>
+                
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.BasicProposalAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="certify" />
                     <property name="permission" value="CERTIFY" />
@@ -801,12 +805,17 @@
                         <property name="taskName" value="printProposal" />
                     </bean>
                 </entry>
+                <entry key="route">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                        <property name="taskName" value="submitToWorkflow" />
+                    </bean>
+                </entry>
                 <entry key="submitToSponsor">
                     <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="submitToSponsor" />
                     </bean>
                 </entry>
-                 <entry key="resubmit">
+                <entry key="resubmit">
                     <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="submitToSponsor" />
                     </bean>

@@ -278,6 +278,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
             flags.setCanCancel(true);
             flags.setCanReload(true);
         }
+        
+        flags.setCanRoute(canExecuteProposalTask(user.getPersonUserIdentifier(), (ProposalDevelopmentDocument) document, TaskName.SUBMIT_TO_WORKFLOW));
 
         return flags;
     }
