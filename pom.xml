@@ -143,6 +143,18 @@
 							<groupId>itext</groupId>
 							<artifactId>itext</artifactId>
 						</exclusion>
+						<exclusion>
+							<groupId>com.oracle</groupId>
+							<artifactId>ojdbc14</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>org.kuali.rice</groupId>
+							<artifactId>rice-testharness</artifactId>
+						</exclusion>
+						<exclusion>
+							<groupId>javax.resource</groupId>
+							<artifactId>connector</artifactId>
+						</exclusion>
 					</exclusions>
 				</dependency>
 				<dependency>
