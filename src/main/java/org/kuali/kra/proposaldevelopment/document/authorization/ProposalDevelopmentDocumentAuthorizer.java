@@ -149,6 +149,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
             }
         }
      
+        if(isBudgetComplete(proposalDoc)) {
+            editModeMap.put("modifyCompletedBudgets", TRUE);
+            editModeMap.put("modifyBudgets", FALSE);
+            editModeMap.put("addBudget", FALSE);
+        }
+     
         return editModeMap;
     }
 
@@ -342,6 +348,18 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         } else {
             return KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), user);
         }
+    }
+
+    protected boolean isBudgetComplete(ProposalDevelopmentDocument proposalDoc) {
+        if (!proposalDoc.isProposalComplete()) {
+            return false;
+        }
+        for (BudgetVersionOverview budgetVersion: proposalDoc.getBudgetVersionOverviews()) {
+            if (budgetVersion.isFinalVersionFlag()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
