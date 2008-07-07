@@ -68,10 +68,17 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
             editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
             editModeMap.put("modifyBudgets", FALSE);
             editModeMap.put("viewBudgets", TRUE);
+            
             setPermissions(username, proposalDoc, editModeMap);
         }
         else {
             editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
+        }
+        
+        if(isBudgetComplete(proposalDoc, budgetDoc)) {
+            editModeMap.put("modifyCompletedBudgets", TRUE);
+            editModeMap.put("modifyBudgets", FALSE);
+            editModeMap.put("addBudget", FALSE);
         }
         
         return editModeMap;
