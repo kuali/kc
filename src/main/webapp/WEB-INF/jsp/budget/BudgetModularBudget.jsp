@@ -39,14 +39,22 @@
 	<br/>
 	
 	<kra-b:budgetModular periodNum="${KualiForm.modularSelectedPeriod}"/>
+	<c:set var="extraButtonSource" value="" scope="request" />
+	<c:set var="extraButtonProperty" value="" scope="request" />
+	<c:set var="extraButtonAlt" value="" scope="request" />
+	<c:if test="${KualiForm.editingMode['modifyBudgets'] && KualiForm.document.budgetStatus != '1'}">
+		<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_sync.gif" scope="request" />
+	    <c:set var="extraButtonProperty" value="methodToCall.sync" scope="request" />
+		<c:set var="extraButtonAlt" value="" scope="request" />
+	</c:if>
 	
 	<kul:documentControls 
 		transactionalDocument="false"
 		suppressRoutingControls="true"
 		viewOnly="${KualiForm.editingMode['viewOnly']}"
-		extraButtonSource="${ConfigProperties.kra.externalizable.images.url}buttonsmall_sync.gif"
-		extraButtonProperty="methodToCall.sync"
-		extraButtonAlt="Sync"
+		extraButtonSource="${extraButtonSource}"
+		extraButtonProperty="${extraButtonProperty}"
+		extraButtonAlt="${extraButtonAlt}"
 		/>
 
 </kul:documentPage>
