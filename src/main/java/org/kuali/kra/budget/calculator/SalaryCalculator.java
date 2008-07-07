@@ -389,13 +389,15 @@ public class SalaryCalculator {
             Calendar endDateCalendar = dateTimeService.getCalendar(endDate);
             int endMonth = endDateCalendar.get(MONTH);
             double totalSalary = 0d;
-            while(startDateCalendar.before(endDateCalendar)){
+            while(startDateCalendar.compareTo(endDateCalendar) <= 0){
                 int noOfDaysInMonth = startDateCalendar.getActualMaximum(DAY_OF_MONTH);
                 int noOfActualDays = 0;
-                if(startDateCalendar.get(MONTH)==startMonth){
+                if (startDateCalendar.get(MONTH) == endDateCalendar.get(MONTH) && startDateCalendar.get(Calendar.YEAR) == endDateCalendar.get(Calendar.YEAR)) {
+                    noOfActualDays = endDateCalendar.get(DAY_OF_MONTH)-startDateCalendar.get(DAY_OF_MONTH)+1;
+                } else if(startDateCalendar.get(MONTH)==startMonth){
                     noOfActualDays = noOfDaysInMonth-startDateCalendar.get(DAY_OF_MONTH)+1;
-                }else if(startDateCalendar.get(MONTH)==endMonth){
-                    noOfActualDays = endDateCalendar.get(DAY_OF_MONTH);
+//                }else if(startDateCalendar.get(MONTH)==endMonth){
+//                    noOfActualDays = endDateCalendar.get(DAY_OF_MONTH);
                 }else{
                     noOfActualDays = noOfDaysInMonth;
                 }
