@@ -63,5 +63,8 @@ public interface BudgetService {
      * @return
      */
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem);
+    
+    public String getActivityTypeForBudget(BudgetDocument budgetDocument);
+    
 
 }

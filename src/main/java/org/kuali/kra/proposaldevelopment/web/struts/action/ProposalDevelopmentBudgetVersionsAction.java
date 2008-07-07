@@ -112,6 +112,9 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
             BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
+            if (!budgetDocument.getActivityTypeCode().equals(budgetDocument.getProposal().getActivityTypeCode())) {
+                budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());
+            }
             String forward = buildForwardUrl(routeHeaderId);
             if (pdForm.isAuditActivated()) {
                 forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
@@ -138,6 +141,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {
+            budgetDocument.setActivityTypeCode(budgetDocument.getProposal().getActivityTypeCode());
             forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?syncBudgetRate=Y&");
         }
         if (pdForm.isAuditActivated()) {
