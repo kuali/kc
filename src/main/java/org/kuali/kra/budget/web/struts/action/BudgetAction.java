@@ -33,11 +33,13 @@ import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.bo.BudgetLineItem;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
@@ -52,7 +54,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -76,9 +77,18 @@ public class BudgetAction extends ProposalActionBase {
         }
         
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        // populate costelement and other shared field to personnel detail
+        // primarily to prevent sync modular budget in case 'reload' on modular budget page
+        copyLineItemToPersonnelDetails(budgetDocument);
         if (budgetDocument.getActivityTypeCode().equals("x")) {
             budgetDocument.setActivityTypeCode(KraServiceLocator.getService(BudgetService.class).getActivityTypeForBudget(budgetDocument));
         }
+        if(budgetDocument.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null){
+            // this is to prevent item calamts to be regenerated again when load doc from doc search
+            // getting uglier.  definitely candidate for refactoring
+            ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budgetDocument.getOhRateClassCode());
+        }        
+        
         reconcileBudgetStatus(budgetForm);
         return forward;
     }
@@ -286,4 +296,27 @@ public class BudgetAction extends ProposalActionBase {
             }
         }
     }
+    
+    
+    private void copyLineItemToPersonnelDetails(BudgetDocument budgetDocument) {
+        for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+            if (budgetPeriod.getBudgetLineItems() != null && !budgetPeriod.getBudgetLineItems().isEmpty()) {
+                for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
+        
+                    if (budgetLineItem.getBudgetPersonnelDetailsList() != null && !budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
+                        for (BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
+                            budgetPersonnelDetails.setProposalNumber(budgetLineItem.getProposalNumber());
+                            budgetPersonnelDetails.setBudgetVersionNumber(budgetLineItem.getBudgetVersionNumber());
+                            budgetPersonnelDetails.setBudgetPeriod(budgetLineItem.getBudgetPeriod());
+                            budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
+                            budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
+                            budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
+                       }
+                    }
+                }
+            }
+        }
+    }
+
+    
 }
