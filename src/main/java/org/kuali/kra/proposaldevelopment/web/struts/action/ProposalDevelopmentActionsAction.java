@@ -258,9 +258,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             newProposalChangedData.setDisplayValue(newProposalChangedData.getChangedValue());
         }
         
+        String tmpLookupReturnPk = "";
         if(newProposalChangedData.getEditableColumn() != null) {
-            newProposalChangedData.refreshReferenceObject("editableColumn");
+            tmpLookupReturnPk = newProposalChangedData.getEditableColumn().getLookupPkReturn();
         }
+        
+        newProposalChangedData.refreshReferenceObject("editableColumn");
+        newProposalChangedData.getEditableColumn().setLookupPkReturn(tmpLookupReturnPk);
         
         if(newProposalChangedData.getEditableColumn() != null) {
             if(!newProposalChangedData.getEditableColumn().getHasLookup()) {
