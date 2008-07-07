@@ -30,7 +30,7 @@
 <div class="tab-container" align="center">
 	<div class="h2-container">
 		<span class="subhead-left"><h2>${displayName}</h2></span>
-		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.CustomAttribute" altText="help"/></span>
+		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.bo.CustomAttribute" altText="help"/></span>
 	</div>
 	<div align="left" style="padding:12px;"><strong> Full Group Name: </strong>${fullName}</div>
 	<table cellpadding=0 cellspacing="0" class="result-table">

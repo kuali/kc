@@ -1,0 +1,1 @@
+d2hStoreMenuItems("TX__8518", [["WordDocuments/specifythecredittypetab.htm", "right", "Specify the Credit Type Tab"],["WordDocuments/specifythecredittypetab1.htm", "right", "Specify the Credit Type Tab"]]);

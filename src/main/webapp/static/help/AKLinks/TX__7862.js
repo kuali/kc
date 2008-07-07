@@ -1,0 +1,1 @@
+d2hStoreMenuItems("TX__7862", [["WordDocuments/gloss_kuali1.htm", "d2hWnd_SecondaryPopup", "Kuali"],["WordDocuments/kuali.htm", "right", "Kuali"]]);
