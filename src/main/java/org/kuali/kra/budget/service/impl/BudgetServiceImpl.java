@@ -269,4 +269,31 @@ public class BudgetServiceImpl implements BudgetService {
         }
     }
 
+    public String getActivityTypeForBudget(BudgetDocument budgetDocument) {
+        ProposalDevelopmentDocument pdDoc = budgetDocument.getProposal();
+        Map qMap = new HashMap();
+        qMap.put("proposalNumber",pdDoc.getProposalNumber());
+        qMap.put("budgetVersionNumber",budgetDocument.getBudgetVersionNumber());
+        ArrayList<BudgetProposalRate> allPropRates = (ArrayList)KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+                BudgetProposalRate.class, qMap);
+        if (CollectionUtils.isNotEmpty(allPropRates)) {
+            qMap.put("activityTypeCode",pdDoc.getActivityTypeCode());
+            Collection<BudgetProposalRate> matchActivityTypePropRates = KraServiceLocator.getService(BusinessObjectService.class).findMatching(
+                BudgetProposalRate.class, qMap);
+            if (CollectionUtils.isNotEmpty(matchActivityTypePropRates)) {
+                for (BudgetProposalRate budgetProposalRate : allPropRates) { 
+                    if (!budgetProposalRate.getActivityTypeCode().equals(pdDoc.getActivityTypeCode())) {
+                        return budgetProposalRate.getActivityTypeCode();
+                    }
+                }
+                return pdDoc.getActivityTypeCode();                
+            } else {
+                return allPropRates.get(0).getActivityTypeCode();
+            }
+        }
+                
+        return "x";
+        
+    }
+
 }

@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.BudgetDecimal;
@@ -30,6 +31,7 @@ import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.bo.CostElement;
 import org.kuali.kra.budget.bo.RateType;
@@ -55,6 +57,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
      */
     public void calculateBudget(BudgetDocument budgetDocument){
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
+        String ohRateClassCodePrevValue = null;
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             if(isCalculationRequired(budgetDocument,budgetPeriod)){
                 String workOhCode = null;
@@ -64,6 +67,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                 calculateBudgetPeriod(budgetDocument, budgetPeriod);
                 if(budgetDocument.getOhRateClassCode()!=null && ((BudgetForm)GlobalVariables.getKualiForm())!=null && budgetDocument.getBudgetPeriods().size() > budgetPeriod.getBudgetPeriod()){
                         // this should be set at the last period, otherwise, only the first period will be updated properly because lots of places check prevohrateclass
+                    ohRateClassCodePrevValue = ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue();
                     ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(workOhCode);
                 }
             }
@@ -78,6 +82,11 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 //                    
 //                }
 //            }
+        }
+        if (((BudgetForm)GlobalVariables.getKualiForm())!=null && ((BudgetForm)GlobalVariables.getKualiForm()).getOhRateClassCodePrevValue() == null && ohRateClassCodePrevValue != null) {
+            // if not all periods are calculated, then this code has potential to be null, and this will force
+            // to create calamts again
+            ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(ohRateClassCodePrevValue);            
         }
         if(budgetPeriods!=null && !budgetPeriods.isEmpty()){
             syncCostsToBudgetDocument(budgetDocument);
@@ -118,16 +127,57 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         if(budgetLineItemToCalc.isBudgetPersonnelLineItemDeleted() || (budgetPersonnelDetList!=null && !budgetPersonnelDetList.isEmpty())){
             BudgetDecimal personnelLineItemTotal  = BudgetDecimal.ZERO;
             BudgetDecimal personnelTotalCostSharing  = BudgetDecimal.ZERO;
+            Map<String, BudgetDecimal> totalCalculatedCost = new HashMap<String, BudgetDecimal> ();
+            Map<String, BudgetDecimal> totalCalculatedCostSharing = new HashMap<String, BudgetDecimal> ();
+             
             for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetList) {
                 copyLineItemToPersonnelDetails(budgetLineItemToCalc, budgetPersonnelDetails);
                 new PersonnelLineItemCalculator(budgetDocument,budgetPersonnelDetails).calculate();
                 personnelLineItemTotal = personnelLineItemTotal.add(budgetPersonnelDetails.getLineItemCost());
                 personnelTotalCostSharing = personnelTotalCostSharing.add(budgetPersonnelDetails.getCostSharingAmount());
+                List<BudgetPersonnelCalculatedAmount> calAmts = budgetPersonnelDetails.getBudgetCalculatedAmounts();
+                if (CollectionUtils.isNotEmpty(calAmts)) {
+                    String rateKey;
+                    for (BudgetPersonnelCalculatedAmount personnelCalAmt :calAmts) {
+                        rateKey = personnelCalAmt.getRateClassCode()+":"+personnelCalAmt.getRateTypeCode();
+                        if (!totalCalculatedCost.containsKey(rateKey)) {
+                            totalCalculatedCost.put(rateKey, personnelCalAmt.getCalculatedCost());
+                            totalCalculatedCostSharing.put(rateKey, personnelCalAmt.getCalculatedCostSharing());
+                        } else {
+                            BudgetDecimal value = totalCalculatedCost.get(rateKey);
+                            value = value.add(personnelCalAmt.getCalculatedCost());
+                            totalCalculatedCost.put(rateKey, value);
+                            
+                            value = totalCalculatedCostSharing.get(rateKey);
+                            value = value.add(personnelCalAmt.getCalculatedCostSharing());
+                            totalCalculatedCostSharing.put(rateKey, value);
+                            
+                        }
+                        
+                    }
+                    
+                }
             }
             budgetLineItem.setLineItemCost(personnelLineItemTotal);
             budgetLineItem.setCostSharingAmount(personnelTotalCostSharing);
+            // still need to populate budgetrateandbase ?
+            new LineItemCalculator(budgetDocument,budgetLineItem).calculate();
+            
+            List <BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
+            if (CollectionUtils.isNotEmpty(budgetLineItemCalculatedAmounts)) {
+                String rateKey;
+                for (BudgetLineItemCalculatedAmount lineItemCalAmt : budgetLineItemCalculatedAmounts) {
+                    rateKey = lineItemCalAmt.getRateClassCode()+":"+lineItemCalAmt.getRateTypeCode();
+                    if (totalCalculatedCost.containsKey(rateKey)) {
+                        lineItemCalAmt.setCalculatedCost(totalCalculatedCost.get(rateKey));
+                        lineItemCalAmt.setCalculatedCostSharing(totalCalculatedCostSharing.get(rateKey));
+                    }
+                }
+            }
+        
+        } else {
+            new LineItemCalculator(budgetDocument,budgetLineItem).calculate();
         }
-        new LineItemCalculator(budgetDocument,budgetLineItem).calculate();
     }
     public void calculateAndSyncBudgetLineItem(BudgetDocument budgetDocument,BudgetLineItem budgetLineItem){
         new LineItemCalculator(budgetDocument,budgetLineItem).calculate();
