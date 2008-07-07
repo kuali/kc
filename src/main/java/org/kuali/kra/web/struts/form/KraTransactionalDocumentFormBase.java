@@ -154,13 +154,23 @@ public class KraTransactionalDocumentFormBase extends KualiTransactionalDocument
     }
 
     private boolean hasModifyBudgetPermission(Map editMode) {
+        String modifyBudgetPermission = "";
+        boolean hasModifyBudgetPermission = false;
+        
         if (editMode != null && editMode.containsKey(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET)) {
-            String modifyBudgetPermission = (String) editMode.get(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET);
-            return ((ObjectUtils.isNotNull(modifyBudgetPermission)) && (DocumentAuthorizerBase.EDIT_MODE_DEFAULT_TRUE_VALUE
+            modifyBudgetPermission = (String) editMode.get(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET);
+            hasModifyBudgetPermission = ((ObjectUtils.isNotNull(modifyBudgetPermission)) && (DocumentAuthorizerBase.EDIT_MODE_DEFAULT_TRUE_VALUE
                     .equals(modifyBudgetPermission)));
         }
 
-        return false;
+        //Included the new addBudget permission as well - For the New AuthZ Framework
+        if (!hasModifyBudgetPermission && editMode != null && editMode.containsKey("addBudget")) {
+            modifyBudgetPermission = (String) editMode.get("addBudget");
+            hasModifyBudgetPermission = ((ObjectUtils.isNotNull(modifyBudgetPermission)) && (DocumentAuthorizerBase.EDIT_MODE_DEFAULT_TRUE_VALUE
+                    .equals(modifyBudgetPermission)));
+        }
+        
+        return hasModifyBudgetPermission;
     }
 
     private boolean hasModifyCompletedBudgetPermission(Map editMode) {
