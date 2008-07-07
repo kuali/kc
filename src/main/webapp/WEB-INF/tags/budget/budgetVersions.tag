@@ -31,7 +31,7 @@
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Budget Versions</h2></span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.budget.bo.BudgetStatus" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" altText="help"/></span>
         </div>
         <table id="budget-versions-table" cellpadding="0" cellspacing="0" summary="Budget Versions">
 			<tr>
