@@ -97,7 +97,7 @@ public class BudgetExpenseRule {
             j=0;
             budgetLineItems = budgetPeriod.getBudgetLineItems();
             for(BudgetLineItem budgetLineItem: budgetLineItems){
-                if(budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) <=0 ) {                        
+                if(budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) <0 ) {                        
                         errorMap.putError("document.budgetPeriod["+i+"].budgetLineItem["+j+"].endDate", KeyConstants.ERROR_LINE_ITEM_DATES);
                         return false;
                 }
@@ -114,7 +114,7 @@ public class BudgetExpenseRule {
         
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         BudgetLineItem budgetLineItem = currentBudgetPeriod.getBudgetLineItems().get(selectedLineItem);
-        if(budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) <=0 ) {                        
+        if(budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) <0 ) {                        
             errorMap.putError("document.budgetPeriod["+(currentBudgetPeriod.getBudgetPeriod()-1)+"].budgetLineItem["+selectedLineItem+"].endDate", KeyConstants.ERROR_LINE_ITEM_DATES);
             return false;
         }
