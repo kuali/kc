@@ -225,6 +225,10 @@
 					<name>LOOK_FUTURE</name>
 					<value>true</value>
 				</policy>
+				<policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>
 			</policies>
 			<attributes>
 				<attribute>
