@@ -103,6 +103,7 @@ public class BudgetSummaryAction extends BudgetAction {
             }
         }
         else {
+            updateThisBudgetVersion(budgetForm.getBudgetDocument());
             if (budgetForm.isUpdateFinalVersion()) {
                 reconcileFinalBudgetFlags(budgetForm);
                 setBudgetStatuses(budgetForm.getBudgetDocument().getProposal());
