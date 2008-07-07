@@ -37,6 +37,7 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPerson;
+import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
@@ -95,6 +96,10 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
             GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.periodTypeCode", RiceKeyConstants.ERROR_REQUIRED, new String[] { "Period Type (Period Type)" });
             errorFound=true;
         }
+        if (budgetForm.getNewBudgetPersonnelDetails().getPersonSequenceNumber() == null) {
+            GlobalVariables.getErrorMap().putError("newBudgetPersonnelDetails.personSequenceNumber", RiceKeyConstants.ERROR_REQUIRED, new String[] { "Person (Person)" });
+            errorFound=true;
+        }
 
         HashMap uniqueBudgetPersonnelCount = new HashMap();
         int qty = 0;
@@ -108,6 +113,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
                 }
             }    
             budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex).setQuantity(new Integer(qty));
+            updatePersonnelBudgetRate(budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex));
             BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
             budgetCalculationService.calculateBudgetPeriod(budgetForm.getBudgetDocument(), budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex));
             budgetForm.setNewBudgetPersonnelDetails(new BudgetPersonnelDetails());
@@ -171,19 +177,31 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         int selectedBudgetPeriodIndex = budgetForm.getViewBudgetPeriod()-1;
         int selectedBudgetLineItemIndex = budgetForm.getSelectedBudgetLineItemIndex();
         BudgetLineItem selectedBudgetLineItem = budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex);
-        BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
-        budgetCalculationService.calculateBudgetLineItem(budgetForm.getBudgetDocument(), selectedBudgetLineItem);
-        
-        BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
-        List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();        
-        budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
-        for(int i=0;i<budgetCategoryTypes.size();i++){
-            budgetForm.getNewBudgetLineItems().add(new BudgetLineItem());
+        int k=0;
+        boolean errorFound = false;
+        GlobalVariables.getErrorMap().addToErrorPath("document");
+        for(BudgetPersonnelDetails budgetPersonnelDetails: selectedBudgetLineItem.getBudgetPersonnelDetailsList()){
+           errorFound=personnelDatesCheck(budgetPersonnelDetails, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, k);
+            k++;
         }
-        budgetForm.getBudgetDocument().setBudgetCategoryTypeCodes(budgetCategoryTypes);
-        
-        request.setAttribute("fromPersonnelBudget"+budgetForm.getViewBudgetPeriod()+""+selectedBudgetLineItemIndex, true);
-        return mapping.findForward("expenses");
+        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+        if (errorFound) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
+            budgetCalculationService.calculateBudgetLineItem(budgetForm.getBudgetDocument(), selectedBudgetLineItem);
+            
+            BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
+            List<KeyLabelPair> budgetCategoryTypes = new ArrayList<KeyLabelPair>();        
+            budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
+            for(int i=0;i<budgetCategoryTypes.size();i++){
+                budgetForm.getNewBudgetLineItems().add(new BudgetLineItem());
+            }
+            budgetForm.getBudgetDocument().setBudgetCategoryTypeCodes(budgetCategoryTypes);
+            request.setAttribute("fromPersonnelBudget"+budgetForm.getViewBudgetPeriod()+""+selectedBudgetLineItemIndex, true);
+            
+            return mapping.findForward("expenses");
+        }
     }
     /**
      * This method calculates the salary
@@ -217,6 +235,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
                 GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + k + "].percentCharged",KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
                 errorFound=true;
             }
+            errorFound=personnelDatesCheck(budgetPersonnelDetails, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, k);
             k++;
         }
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
@@ -263,6 +282,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
             GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + getLineToDelete(request) + "].percentCharged",KeyConstants.ERROR_PERCENT_EFFORT_LESS_THAN_PERCENT_CHARGED);
             errorFound=true;
         }
+        errorFound=personnelDatesCheck(budgetPersonnelDetails, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, getLineToDelete(request));
         if(!errorFound){
             BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
             budgetPersonnelBudgetService.calculateBudgetPersonnelBudget(budgetForm.getBudgetDocument(),selectedBudgetLineItem,budgetPersonnelDetails, getLineToDelete(request));
@@ -278,9 +298,42 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         BudgetLineItem selectedBudgetLineItem = budgetForm.getBudgetDocument().getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex);
         BudgetCalculationService budgetCalculationService = KraServiceLocator.getService(BudgetCalculationService.class);
         budgetCalculationService.calculateBudgetLineItem(budgetForm.getBudgetDocument(), selectedBudgetLineItem);
-        ActionForward actionForward = super.save(mapping, form, request, response);
-        selectedBudgetLineItem.setBudgetPersonnelLineItemDeleted(false);
-        return actionForward;
+        int k=0;
+        boolean errorFound = false;
+        GlobalVariables.getErrorMap().addToErrorPath("document");
+        for(BudgetPersonnelDetails budgetPersonnelDetails: selectedBudgetLineItem.getBudgetPersonnelDetailsList()){
+           errorFound=personnelDatesCheck(budgetPersonnelDetails, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, k);
+            k++;
+        }
+        GlobalVariables.getErrorMap().removeFromErrorPath("document");
+        if (errorFound) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            ActionForward actionForward = super.save(mapping, form, request, response);
+            selectedBudgetLineItem.setBudgetPersonnelLineItemDeleted(false);
+            return actionForward;
+        }
     }
+    
+    private boolean personnelDatesCheck(BudgetPersonnelDetails budgetPersonnelDetails, int selectedBudgetPeriodIndex, int selectedBudgetLineItemIndex, int detailIndex) {
+        boolean errorFound = false;
+        if(budgetPersonnelDetails.getEndDate().compareTo(budgetPersonnelDetails.getStartDate()) < 0) {
+            GlobalVariables.getErrorMap().putError("budgetPeriod[" + selectedBudgetPeriodIndex +"].budgetLineItems[" + selectedBudgetLineItemIndex + "].budgetPersonnelDetailsList[" + detailIndex + "].endDate",KeyConstants.ERROR_PERSONNEL_DETAIL_DATES);
+            errorFound=true;
+        }
+        return errorFound;
+    }
+     
+    private void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
+        int j = 0;
+        for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
+            j=0;
+            for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount:budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts()){
+                budgetPersonnelCalculatedAmount.setApplyRateFlag(budgetLineItem.getBudgetLineItemCalculatedAmounts().get(j).getApplyRateFlag());                        
+                j++;
+            }
+        }
+    }
+
     
 }
