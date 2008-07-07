@@ -53,20 +53,14 @@ public class PerformanceMeasurementFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         final long startTime = System.currentTimeMillis();
-        
-        chain.doFilter(request, response);
-        
-        final int elapsedTime = (int) (System.currentTimeMillis() - startTime);
-        final String outputDirectory = filterConfig.getServletContext().getInitParameter("org.kuali.kra.perftest.REPORT_DIRECTORY");
-        final HttpSample httpSample = new HttpSample((HttpServletRequest) request, (HttpServletResponse) response, outputDirectory, startTime, elapsedTime);
-        
-        Thread t = new Thread(new Runnable() {
-           public void run() {               
-               logSample(httpSample, outputDirectory);
-           }
-        });
-        
-        t.start();
+        PerformanceFilterResponse filterResponse = new PerformanceFilterResponse((HttpServletResponse) response); 
+        chain.doFilter(request, filterResponse);        
+        try {
+            processResponse(request, filterResponse, startTime);
+        } catch(Throwable t) {
+            Logger logger = Logger.getLogger(PerformanceMeasurementFilter.class);
+            logger.error(t.getMessage(), t);
+        }
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -117,6 +111,20 @@ public class PerformanceMeasurementFilter implements Filter {
         }
     }
     
+    private void processResponse(ServletRequest request, PerformanceFilterResponse response, final long startTime) {
+        final int elapsedTime = (int) (System.currentTimeMillis() - startTime);
+        final String outputDirectory = filterConfig.getServletContext().getInitParameter("org.kuali.kra.perftest.REPORT_DIRECTORY");
+        final HttpSample httpSample = new HttpSample((HttpServletRequest) request, response, outputDirectory, startTime, elapsedTime);
+        
+        Thread t = new Thread(new Runnable() {
+           public void run() {               
+               logSample(httpSample, outputDirectory);
+           }
+        });
+        
+        t.start();
+    }
+    
     private synchronized void setPerformanceLogCalendar(Calendar performanceLogCalendar) {
         this._performanceLogCalendar = performanceLogCalendar;
     }
@@ -159,20 +167,9 @@ public class PerformanceMeasurementFilter implements Filter {
         private int latency;
         private int elapsedTime;
         
-        public HttpSample(HttpServletRequest request, HttpServletResponse response, String outputDirectory, long startTime, int elapsedTime) {
-            String responseInfo = response.toString();
-            responseContentLength = getResponseContentLength(responseInfo);
-            dataType = response.getContentType() != null ? response.getContentType().substring(0, response.getContentType().indexOf("/")) : "text";
-            sampleName = "Real-time Performance Sample";
-            returnCode = getResponseReturnCode(responseInfo);
-            returnMessage = getResponseReturnMessage(responseInfo);
-            label = getRequestLabel(request);
-            success = returnCode >= 200 && returnCode <= 299;
-            
-            requestTimeStamp = startTime;
-            this.elapsedTime = elapsedTime;
-            latency = elapsedTime;
-        }
+        public HttpSample(HttpServletRequest request, PerformanceFilterResponse response, String outputDirectory, long startTime, int elapsedTime) {
+            init(request, response, startTime, elapsedTime);
+        }        
         
         public int getResponseContentLength() {
             return responseContentLength;
@@ -238,26 +235,6 @@ public class PerformanceMeasurementFilter implements Filter {
             sb.append("\"");
         }
         
-        private int findReturnCodeIndex(String responseInfo) {
-            return responseInfo.indexOf("HTTP/") + "HTTP/".length() + 4;
-        }
-        
-        private int getResponseContentLength(String responseInfo) {
-            int contentLengthIndex = responseInfo.indexOf("Content-Length:");
-            return contentLengthIndex != -1 ? Integer.valueOf(responseInfo.substring(contentLengthIndex + "Content-Length:".length() + 1, 
-                                                                responseInfo.indexOf("\n", contentLengthIndex) - 1)) : -1;
-        }
-        
-        private int getResponseReturnCode(String responseInfo) {
-            int returnCodeIndex = findReturnCodeIndex(responseInfo);
-            return returnCodeIndex != -1 ? Integer.valueOf(responseInfo.substring(returnCodeIndex, responseInfo.indexOf(" ", returnCodeIndex))) : -1;
-        }        
-        
-        private String getResponseReturnMessage(String responseInfo) {
-            int returnMessageIndex = responseInfo.indexOf(" ", findReturnCodeIndex(responseInfo));
-            return returnCode == 200 ? "OK" : responseInfo.substring(returnMessageIndex, responseInfo.indexOf("\n", returnMessageIndex)).trim();
-        }
-        
         @SuppressWarnings("unchecked")
         private String getRequestLabel(HttpServletRequest request) {
             StringBuilder sb = new StringBuilder();
@@ -281,6 +258,20 @@ public class PerformanceMeasurementFilter implements Filter {
         private void addMethodToCall(StringBuilder sb, String methodToCall) {
             sb.append(";methodToCall=");
             sb.append(methodToCall);
+        }
+        
+        private void init(HttpServletRequest request, PerformanceFilterResponse response, long startTime, int elapsedTime) {
+            responseContentLength = response.getContentLength();
+            dataType = response.getContentType() != null ? response.getContentType().substring(0, response.getContentType().indexOf("/")) : "text";
+            sampleName = "Real-time Performance Sample";
+            returnCode = response.getStatusCode();
+            returnMessage = response.getMessage();
+            label = getRequestLabel(request);
+            success = returnCode == 0 || returnCode == 200 || (returnCode > 200 && returnCode <= 399);
+            
+            requestTimeStamp = startTime;
+            this.elapsedTime = elapsedTime;
+            latency = elapsedTime;
         }
     }
 }
