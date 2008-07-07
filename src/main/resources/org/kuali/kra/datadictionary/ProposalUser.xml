@@ -46,6 +46,8 @@
 				<description>Role Name </description>
 			</attribute>
 		</attributes>
+		
+		<objectHelp parameterNamespace="KRA-PD"  parameterDetailType="D" parameterName="proposalDevelopmentPermissionsHelp"/> 
     </businessObject>
 
 </dictionaryEntry>

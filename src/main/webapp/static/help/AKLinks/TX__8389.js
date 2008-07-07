@@ -1,0 +1,1 @@
+d2hStoreMenuItems("TX__8389", [["WordDocuments/quicklinksmenugroup.htm", "right", "Quick Links Menu Group"],["WordDocuments/quicklinksmenugroup1.htm", "right", "Quick Links Menu Group"],["WordDocuments/quicklinksmenugroup2.htm", "right", "Quick Links Menu Group"]]);
