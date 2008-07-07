@@ -216,7 +216,7 @@ public class KeyConstants {
     public static final String WARNING_EFFDT_AFTER_PERIOD_START_DATE = "warning.effdt.after.periodStartDate";
 
     public static final String ERROR_COST_SHARE_PERCENTAGE = "error.costSharing.percentage";
-    public static final String ERROR_PERSONNEL_ETAIL_DATES = "error.personnel.detail.dates";
+    public static final String ERROR_PERSONNEL_DETAIL_DATES = "error.personnel.detail.dates";
     public static final String ERROR_NO_FIELD_TO_EDIT = "error.alterproposaldata.nofieldtoedit";
 
 }
