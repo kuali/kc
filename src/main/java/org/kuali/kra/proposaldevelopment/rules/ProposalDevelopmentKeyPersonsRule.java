@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
+import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.core.util.GlobalVariables.getErrorMap;
@@ -31,6 +32,7 @@ import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PERCENTAGE;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
+import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
 import org.apache.commons.lang.ObjectUtils;
 import java.io.PrintWriter;
@@ -50,6 +52,7 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
@@ -68,7 +71,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  *
  * @see org.kuali.core.rules.BusinessRule
  * @author $Author: jsalam $
- * @version $Revision: 1.42 $
+ * @version $Revision: 1.43 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
@@ -179,6 +182,34 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
            i++;
         }
         
+        if(retval){
+            boolean leadunit=false;
+            ProposalPersonUnit unit=null;
+            for (ProposalPerson person : document.getProposalPersons()) {
+                if (person.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)) {
+                      for(ProposalPersonUnit personunit:person.getUnits()){
+                        if(personunit.isLeadUnit())
+                            leadunit=true;
+                         }
+                    if(!leadunit){
+                        getKeyPersonnelService().assignLeadUnit(person, document.getOwnedByUnitNumber()); 
+                    }
+                    leadunit=false;
+                }else if (person.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
+                    for(ProposalPersonUnit personunit:person.getUnits()){
+                        if(personunit.isLeadUnit() && StringUtils.isNotBlank(person.getHomeUnit())&& !(person.getHomeUnit().equals(document.getOwnedByUnitNumber()))){
+                            leadunit=true;
+                           personunit.setLeadUnit(false);
+                            unit= person.getUnit(personunit.getUnitNumber());
+                        }
+                    }
+                    if(leadunit && unit!=null){
+                        person.getUnits().remove(unit);
+                     }
+               }
+           }
+            sort(document.getProposalPersons(), new ProposalPersonComparator());
+        }
       
     return retval;
     }
