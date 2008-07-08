@@ -496,6 +496,8 @@ into li_fringe, li_fringe_cs
    and   osp$budget_personnel_details.line_item_number = osp$budget_personnel_cal_amts.line_item_number
    and   osp$budget_personnel_details.version_number = ai_version_number
    and   osp$budget_personnel_details.budget_period = ai_period;
+	exception When NO_DATA_FOUND then
+            li_period:=0; li_cost:=0; li_cost_cs:=0;
 
 
 	select	bd.budget_period  ,
@@ -520,6 +522,8 @@ into li_fringe, li_fringe_cs
   AND       MAPS.category_type = 'O'
   AND  		MAPPING.MAPPING_NAME = 'S2S'
   group by  bd.budget_period;
+	exception When NO_DATA_FOUND then
+            li_period:=0; li_cost:=0; li_cost_cs:=0;
 
 
 
@@ -540,6 +544,8 @@ select  	 a.budget_period,
  and   		a.version_number = d.version_number
  and   		a.line_item_number = d.line_item_number
 group by 	a.budget_period;
+	exception When NO_DATA_FOUND then
+            li_period:=0; li_cost:=0; li_cost_cs:=0;
 
 li_total_cost := 0;
 li_total_cs := 0;
