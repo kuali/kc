@@ -61,6 +61,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalLocation;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
@@ -726,7 +727,12 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
                 break;  
             } 
         } 
-        
+        List<ProposalPersonUnit> units = new ArrayList<ProposalPersonUnit>();
+        for (ProposalPerson person : getProposalPersons()) {
+        units.addAll(person.getUnits());
+        }
+
+        managedLists.add(units);
         managedLists.add(getProposalLocations());
         managedLists.add(getPropSpecialReviews());
         managedLists.add(getProposalPersons());
