@@ -40,7 +40,7 @@ public class BudgetViewAuthorizer extends TaskAuthorizerImpl {
         BudgetDocument budgetDocument = budgetTask.getBudgetDocument();
         ProposalDevelopmentDocument doc = budgetDocument.getProposal();
         
-        return kraWorkflowService.hasWorkflowPermission(username, budgetDocument) ||
+        return kraWorkflowService.hasWorkflowPermission(username, doc) ||
                hasProposalPermission(username, doc, PermissionConstants.VIEW_BUDGET);
     }
 }
