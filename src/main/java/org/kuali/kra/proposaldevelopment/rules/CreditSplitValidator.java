@@ -52,8 +52,8 @@ import static org.kuali.kra.logging.FormattedLogger.*;
  * Validates Credit Splits on a <code>{@link ProposalPerson}</code> and/or <code>{@link ProposalPersonUnit}</code> by
  * traversing the tree of <code>{@link ProposalPerson}</code> <code>{@link ProposalPersonUnit}</code> instances.
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.8 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.9 $
  */
 public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidator.class);
@@ -159,7 +159,7 @@ public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
      * @return <code>false</code> if the credit split total is anything other than 100.00 or 0.00; otherwise, return <code>true</code> 
      */
     private boolean isCreditSplitTotalValid(KualiDecimal total) {
-        return (CREDIT_UPBOUND.compareTo(total) == 0 || CREDIT_LOWBOUND.compareTo(total) == 0);
+        return (CREDIT_UPBOUND.compareTo(total) == 0 || CREDIT_LOWBOUND.compareTo(total) > 0);
     }
 
 
