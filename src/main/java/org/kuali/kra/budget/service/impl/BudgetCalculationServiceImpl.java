@@ -124,6 +124,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         BudgetLineItem budgetLineItemToCalc = (BudgetLineItem)budgetLineItem;
         List<BudgetPersonnelDetails> budgetPersonnelDetList = budgetLineItemToCalc.getBudgetPersonnelDetailsList();
         if(budgetLineItemToCalc.isBudgetPersonnelLineItemDeleted() || (budgetPersonnelDetList!=null && !budgetPersonnelDetList.isEmpty())){
+            updatePersonnelBudgetRate(budgetLineItemToCalc);
             BudgetDecimal personnelLineItemTotal  = BudgetDecimal.ZERO;
             BudgetDecimal personnelTotalCostSharing  = BudgetDecimal.ZERO;
             Map<String, BudgetDecimal> totalCalculatedCost = new HashMap<String, BudgetDecimal> ();
@@ -357,6 +358,17 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     public void rePopulateCalculatedAmount(BudgetDocument budgetDocument, BudgetPersonnelDetails newBudgetPersonnelDetails) {
         newBudgetPersonnelDetails.getBudgetCalculatedAmounts().clear();
         new PersonnelLineItemCalculator(budgetDocument,newBudgetPersonnelDetails).setCalculatedAmounts(budgetDocument, newBudgetPersonnelDetails);
+    }
+
+    private void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
+        int j = 0;
+        for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
+            j=0;
+            for(BudgetPersonnelCalculatedAmount budgetPersonnelCalculatedAmount:budgetPersonnelDetails.getBudgetPersonnelCalculatedAmounts()){
+                budgetPersonnelCalculatedAmount.setApplyRateFlag(budgetLineItem.getBudgetLineItemCalculatedAmounts().get(j).getApplyRateFlag());                        
+                j++;
+            }
+        }
     }
 
 }
