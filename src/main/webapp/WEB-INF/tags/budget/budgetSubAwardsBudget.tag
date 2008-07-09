@@ -35,7 +35,7 @@
 					</td>
 	                <td valign="middle" class="infoline">
 	                	<div align="center">	                		                	
-	                	<html:file property="newSubAward.subAwardXfdFile" />						
+	                	<html:file property="subAwardFile" />						
 	                	</div>
 					</td>
 					<td class="infoline">
@@ -66,7 +66,7 @@
 	                <td valign="middle" class="infoline">
 	                	<div align="center">
 	                	<kul:htmlControlAttribute property="document.budgetSubAwards[${status.index}].subAwardXfdFileName" attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" readOnly="true"/>	                		                	
-	                	<!--<html:file property="document.budgetSubAwards[${status.index}].subAwardXfdFile" />-->						
+	                	<%--<html:file property="document.budgetSubAwards[${status.index}].subAwardXfdFile" />--%>						
 	                	</div>
 					</td>
 					<td class="infoline">
