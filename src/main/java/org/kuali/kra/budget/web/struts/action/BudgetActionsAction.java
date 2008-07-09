@@ -19,6 +19,10 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,16 +36,21 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.RiceConstants;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.BudgetException;
+import org.kuali.kra.budget.bo.BudgetSubAwardAttachment;
+import org.kuali.kra.budget.bo.BudgetSubAwardFiles;
+import org.kuali.kra.budget.bo.BudgetSubAwardReader;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetJustificationService;
 import org.kuali.kra.budget.service.BudgetPrintService;
+import org.kuali.kra.budget.service.BudgetSubAwardService;
 import org.kuali.kra.budget.service.impl.BudgetJustificationServiceImpl;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.budget.web.struts.form.BudgetJustificationWrapper;
@@ -91,7 +100,8 @@ public class BudgetActionsAction extends BudgetAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         budgetJustificationService.preSave(getBudgetDocument(form), getBudgetJusticationWrapper(form));
-        
+        BudgetForm budgetForm = (BudgetForm)form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         return super.save(mapping, form, request, response);
     }
     /**
@@ -133,7 +143,11 @@ public class BudgetActionsAction extends BudgetAction {
     
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.reload(mapping, form, request, response);
+        ActionForward forward = super.reload(mapping, form, request, response);
+        BudgetForm budgetForm = (BudgetForm)form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardAttachments(budgetDocument);
+        return forward;
     }
     
     @SuppressWarnings("unchecked")
@@ -141,22 +155,59 @@ public class BudgetActionsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm)form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetSubAwards newBudgetSubAward = budgetForm.getNewSubAward();
+        
+        FormFile subAwardFile = budgetForm.getSubAwardFile();
+        byte[] subAwardData = subAwardFile.getFileData();
+        String subAwardFileName = subAwardFile.getFileName();
+        
+        newBudgetSubAward.setProposalNumber(budgetDocument.getProposalNumber());
         newBudgetSubAward.setSubAwardNumber(generateSubAwardNumber(budgetDocument));
         newBudgetSubAward.setBudgetVersionNumber(budgetDocument.getBudgetVersionNumber());
+        newBudgetSubAward.setSubAwardStatusCode(1);
+        BudgetSubAwardFiles newBudgetsubAwardFiles = new BudgetSubAwardFiles();
+        newBudgetsubAwardFiles.setSubAwardXfdFileData(subAwardData);
+        newBudgetSubAward.getBudgetSubAwardFiles().add(newBudgetsubAwardFiles);
+        KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardFiles(newBudgetSubAward);
+        newBudgetsubAwardFiles.setSubAwardXfdFileName(subAwardFileName);
+        newBudgetSubAward.setSubAwardXfdFileName(subAwardFileName);
+//        new BudgetSubAwardReader().populateSubAward(budgetSubAwardBean)
+        budgetForm.setNewSubAward(new BudgetSubAwards());   
+        List listToBeSaved = new ArrayList();
+        listToBeSaved.add(newBudgetSubAward);
+        listToBeSaved.addAll(newBudgetSubAward.getBudgetSubAwardFiles());
+        listToBeSaved.addAll(newBudgetSubAward.getBudgetSubAwardAttachments());
+        
+        KraServiceLocator.getService(BusinessObjectService.class).save(listToBeSaved);
+        newBudgetSubAward.getBudgetSubAwardFiles().clear();
+        List<BudgetSubAwardAttachment> attList = newBudgetSubAward.getBudgetSubAwardAttachments();
+        for (BudgetSubAwardAttachment budgetSubAwardAttachment : attList) {
+            budgetSubAwardAttachment.setAttachment(null);
+        }
         budgetDocument.getBudgetSubAwards().add(newBudgetSubAward);
-        budgetForm.setNewSubAward(new BudgetSubAwards());                
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
     public ActionForward viewXFD(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
-        downloadFile(form, request, response, subAward.getSubAwardXfdFileData(), subAward.getSubAwardXfdFileName(), CONTENT_TYPE_PDF);
+        subAward.refreshReferenceObject("budgetSubAwardFiles");
+        if(!subAward.getBudgetSubAwardFiles().isEmpty()){
+            BudgetSubAwardFiles subAwardFiles = subAward.getBudgetSubAwardFiles().get(0);
+            downloadFile(form, request, response, subAwardFiles.getSubAwardXfdFileData(), subAward.getSubAwardXfdFileName(), CONTENT_TYPE_PDF);
+        }else{
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+//        downloadFile(form, request, response, subAward.getSubAwardXfdFileData(), subAward.getSubAwardXfdFileName(), CONTENT_TYPE_PDF);
         return null;
     }
     
     public ActionForward viewXML(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
-        downloadFile(form, request, response, subAward.getSubAwardXmlFileData().getBytes(), createXMLFileName(subAward), CONTENT_TYPE_XML);
+        subAward.refreshReferenceObject("budgetSubAwardFiles");
+        if(!subAward.getBudgetSubAwardFiles().isEmpty()){
+            BudgetSubAwardFiles subAwardFiles = subAward.getBudgetSubAwardFiles().get(0);
+            downloadFile(form, request, response, subAwardFiles.getSubAwardXmlFileData().getBytes(), createXMLFileName(subAward), CONTENT_TYPE_XML);
+        }
+//        downloadFile(form, request, response, new String(subAward.getSubAwardXmlFileData()).getBytes(), createXMLFileName(subAward), CONTENT_TYPE_XML);
         return null;
     }
     

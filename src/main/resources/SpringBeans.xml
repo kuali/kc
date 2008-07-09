@@ -1073,4 +1073,5 @@
     
     <bean id="proposalStateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl" />
 	
+    <bean id="budgetSubAwardService" class="org.kuali.kra.budget.service.impl.BudgetSubAwardServiceImpl" />
 </beans>
