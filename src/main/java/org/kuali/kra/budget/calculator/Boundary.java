@@ -71,39 +71,6 @@ public class Boundary {
         calendar.setTime(startDate);
         return calendar.get(Calendar.MONTH)+1;
     }        
-    public Map getNoOfDaysList(){
-        noOfDaysList = new HashMap<Date,Integer>();
-        calendar.setTime(startDate);
-        int stYear = calendar.get(Calendar.YEAR);
-        int stMonth = calendar.get(Calendar.MONTH);
-        calendar.setTime(endDate);
-        int endYear = calendar.get(Calendar.YEAR);
-        int endMonth = calendar.get(Calendar.MONTH);
-        int staticMonth =0;
-        if(endMonth==0){
-            staticMonth =12;
-        }else{
-            staticMonth =13;
-        }
-        if(stYear == endYear && stMonth==endMonth){
-                noOfDaysList.put(startDate,
-                                new Integer((int)this.getDateDifference()));
-        }else{
-            noOfDaysList.put(startDate, new Integer(this.getStartDateRemainingDays()));
-            for(int yrIndex=stYear;yrIndex<=endYear;yrIndex++){
-                int tmpEndMonth = yrIndex==endYear?endMonth:staticMonth;
-                for(int monthIndex=stMonth+1;monthIndex<tmpEndMonth;monthIndex++){
-                    calendar.set(yrIndex,monthIndex,1);
-                    int noOfDays = calendar.getActualMaximum(Calendar.DATE);
-                    noOfDaysList.put(calendar.getTime(), new Integer(noOfDays));
-                }
-                stMonth=-1;
-            }
-            noOfDaysList.put(endDate,new Integer(this.getEndDateNoOfDays()));
-        }
-        return noOfDaysList;
-    }
-    
 /**
  * Returns the total no. of days in startDate
  * 
