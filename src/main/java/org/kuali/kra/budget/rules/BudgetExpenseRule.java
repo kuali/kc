@@ -99,9 +99,26 @@ public class BudgetExpenseRule {
             for(BudgetLineItem budgetLineItem: budgetLineItems){
                 if(budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) <0 ) {                        
                         errorMap.putError("document.budgetPeriod["+i+"].budgetLineItem["+j+"].endDate", KeyConstants.ERROR_LINE_ITEM_DATES);
-                        return false;
+                        valid = false;
                 }
-         
+                if(budgetPeriod.getEndDate().compareTo(budgetLineItem.getEndDate()) < 0) {
+                    errorMap.putError("document.budgetPeriod["+i+"].budgetLineItem["+j+"].endDate",KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[] {"can not be after", "end date"});
+                    valid = false;
+                }
+                if(budgetPeriod.getStartDate().compareTo(budgetLineItem.getEndDate()) > 0) {
+                    errorMap.putError("document.budgetPeriod["+i+"].budgetLineItem["+j+"].endDate",KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[] {"can not be before", "start date"});
+                    valid = false;
+                }
+                if(budgetPeriod.getStartDate().compareTo(budgetLineItem.getStartDate()) > 0) {
+                    errorMap.putError("document.budgetPeriod["+i+"].budgetLineItem["+j+"].startDate",KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[] {"can not be before", "start date"});
+                    valid = false;
+                }
+                if(budgetPeriod.getEndDate().compareTo(budgetLineItem.getStartDate()) < 0) {
+                    errorMap.putError("document.budgetPeriod["+i+"].budgetLineItem["+j+"].startDate",KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[] {"can not be after", "end date"});
+                    valid = false;
+                }
+
+                
                 j++;
             }
             i++;
@@ -112,14 +129,32 @@ public class BudgetExpenseRule {
     
     public boolean processCheckLineItemDates(BudgetPeriod currentBudgetPeriod,  int selectedLineItem) {
         
+        boolean valid=true;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         BudgetLineItem budgetLineItem = currentBudgetPeriod.getBudgetLineItems().get(selectedLineItem);
         if(budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) <0 ) {                        
             errorMap.putError("document.budgetPeriod["+(currentBudgetPeriod.getBudgetPeriod()-1)+"].budgetLineItem["+selectedLineItem+"].endDate", KeyConstants.ERROR_LINE_ITEM_DATES);
-            return false;
+            valid = false;
         }
-                           
-        return true;
+                 
+        if(currentBudgetPeriod.getEndDate().compareTo(budgetLineItem.getEndDate()) < 0) {
+            errorMap.putError("document.budgetPeriod["+(currentBudgetPeriod.getBudgetPeriod()-1)+"].budgetLineItem["+selectedLineItem+"].endDate",KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[] {"can not be after", "end date"});
+            valid = false;
+        }
+        if(currentBudgetPeriod.getStartDate().compareTo(budgetLineItem.getEndDate()) > 0) {
+            errorMap.putError("document.budgetPeriod["+(currentBudgetPeriod.getBudgetPeriod()-1)+"].budgetLineItem["+selectedLineItem+"].endDate",KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[] {"can not be before", "start date"});
+            valid = false;
+        }
+        if(currentBudgetPeriod.getStartDate().compareTo(budgetLineItem.getStartDate()) > 0) {
+            errorMap.putError("document.budgetPeriod["+(currentBudgetPeriod.getBudgetPeriod()-1)+"].budgetLineItem["+selectedLineItem+"].startDate",KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[] {"can not be before", "start date"});
+            valid = false;
+        }
+        if(currentBudgetPeriod.getEndDate().compareTo(budgetLineItem.getStartDate()) < 0) {
+            errorMap.putError("document.budgetPeriod["+(currentBudgetPeriod.getBudgetPeriod()-1)+"].budgetLineItem["+selectedLineItem+"].startDate",KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[] {"can not be after", "end date"});
+            valid = false;
+        }
+
+        return valid;
     }
 
 }
