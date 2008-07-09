@@ -217,5 +217,9 @@ public class KeyConstants {
     public static final String ERROR_COST_SHARE_PERCENTAGE = "error.costSharing.percentage";
     public static final String ERROR_NO_FIELD_TO_EDIT = "error.alterproposaldata.nofieldtoedit";
     public static final String ERROR_PERSONNEL_DETAIL_DATES = "error.personnel.detail.dates";
+    public static final String ERROR_PERSONNEL_DETAIL_END_DATE = "error.personnel.detail.end.date";
+    public static final String ERROR_PERSONNEL_DETAIL_START_DATE = "error.personnel.detail.start.date";
+    public static final String ERROR_LINE_ITEM_END_DATE = "error.line.item.end.date";
+    public static final String ERROR_LINE_ITEM_START_DATE = "error.line.item.start.date";
 
 }
