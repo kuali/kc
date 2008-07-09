@@ -21,6 +21,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -100,6 +101,7 @@ public class BudgetForm extends ProposalFormBase {
     private String syncBudgetRate;
     private BudgetSubAwards newSubAward;
     private Integer personnelDetailLine;
+    private FormFile subAwardFile;
     
     public String getOhRateClassCodePrevValue() {
         return ohRateClassCodePrevValue;
@@ -637,5 +639,21 @@ public class BudgetForm extends ProposalFormBase {
 
     public void setPersonnelDetailLine(Integer personnelDetailLine) {
         this.personnelDetailLine = personnelDetailLine;
+    }
+
+    /**
+     * Gets the subAwardFile attribute. 
+     * @return Returns the subAwardFile.
+     */
+    public FormFile getSubAwardFile() {
+        return subAwardFile;
+    }
+
+    /**
+     * Sets the subAwardFile attribute value.
+     * @param subAwardFile The subAwardFile to set.
+     */
+    public void setSubAwardFile(FormFile subAwardFile) {
+        this.subAwardFile = subAwardFile;
     }
 }

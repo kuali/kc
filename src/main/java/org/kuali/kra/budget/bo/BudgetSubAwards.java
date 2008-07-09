@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
@@ -48,10 +49,16 @@ public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
 	private Timestamp xmlUpdateTimestamp;
 	private String xmlUpdateUser;
 	private List<BudgetSubAwardAttachment> budgetSubAwardAttachments;
+    private List<BudgetSubAwardFiles> budgetSubAwardFiles;
 
-	private transient FormFile subAwardXfdFile;
-	private transient FormFile subAwardXmlFile;
+//	private transient FormFile subAwardXfdFile;
+//	private transient FormFile subAwardXmlFile;
 	
+    
+    public BudgetSubAwards(){
+        budgetSubAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
+        budgetSubAwardFiles = new ArrayList<BudgetSubAwardFiles>();
+    }
 	public String getProposalNumber() {
 		return proposalNumber;
 	}
@@ -200,29 +207,18 @@ public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
         this.budgetSubAwardAttachments = budgetSubAwardAttachments;
     }
 
-    public FormFile getSubAwardXfdFile() {
-        return subAwardXfdFile;
-    }
-
-    public void setSubAwardXfdFile(FormFile subAwardXfdFile) throws Exception {
-        this.subAwardXfdFile = subAwardXfdFile;
-        if(subAwardXfdFile != null && subAwardXfdFile.getFileData().length > 0) {
-            setSubAwardXfdFileData(subAwardXfdFile.getFileData());
-            setSubAwardXfdFileName(subAwardXfdFile.getFileName());
-            parseDataFromXfdFile();
-        }
-    }
-
-    public FormFile getSubAwardXmlFile() {
-        if(subAwardXmlFile == null) {
-            subAwardXmlFile = new BudgetSubAwardXMLFormFile(getSubAwardXfdFileName(), getSubAwardXmlFileData().getBytes());
-        }
-        return subAwardXmlFile;
-    }
-
-    public void setSubAwardXmlFile(FormFile subAwardXmlFile) {
-        this.subAwardXmlFile = subAwardXmlFile;
-    }
+//    public FormFile getSubAwardXfdFile() {
+//        return subAwardXfdFile;
+//    }
+//
+//    public void setSubAwardXfdFile(FormFile subAwardXfdFile) throws Exception {
+//        this.subAwardXfdFile = subAwardXfdFile;
+//        if(subAwardXfdFile != null && subAwardXfdFile.getFileData().length > 0) {
+//            setSubAwardXfdFileData(subAwardXfdFile.getFileData());
+//            setSubAwardXfdFileName(subAwardXfdFile.getFileName());
+//            parseDataFromXfdFile();
+//        }
+//    }
 
     public byte[] getSubAwardXfdFileData() {
         return subAwardXfdFileData;
@@ -240,100 +236,44 @@ public class BudgetSubAwards extends KraPersistableBusinessObjectBase {
         this.subAwardXmlFileData = subAwardXmlFileData;
     }
     
-    @SuppressWarnings("unchecked")
-    public void parseDataFromXfdFile() throws Exception {
-        BudgetSubAwardBean budgetSubAwardBean = new BudgetSubAwardBean();
-        budgetSubAwardBean.setSubAwardXFD(getSubAwardXfdFileData());
-        byte[] xmlBytes = new BudgetSubAwardReader().populateSubAward(budgetSubAwardBean);
-        
-        setSubAwardStatusCode(budgetSubAwardBean.getSubAwardStatusCode());
-        setSubAwardXmlFileData(new String(xmlBytes));
-        setTranslationComments(budgetSubAwardBean.getTranslationComments());
-        setSubAwardStatusCode(budgetSubAwardBean.getSubAwardStatusCode());
-        
-        parseAttachmentDataFromBudgetSubAwardBean(budgetSubAwardBean);
+//    @SuppressWarnings("unchecked")
+//    private void parseDataFromXfdFile() throws Exception {
+//        BudgetSubAwardBean budgetSubAwardBean = new BudgetSubAwardBean();
+//        budgetSubAwardBean.setSubAwardXFD(getSubAwardXfdFileData());
+//        new BudgetSubAwardReader().populateSubAward(budgetSubAwardBean);
+//        
+//        setSubAwardStatusCode(budgetSubAwardBean.getSubAwardStatusCode());
+//        setSubAwardXmlFileData(new String(budgetSubAwardBean.getSubAwardXML()));
+//        setTranslationComments(budgetSubAwardBean.getTranslationComments());
+//        setSubAwardStatusCode(budgetSubAwardBean.getSubAwardStatusCode());
+//        
+//        parseAttachmentDataFromBudgetSubAwardBean(budgetSubAwardBean);
+//    }
+    
+//    @SuppressWarnings("unchecked")
+//    private void parseAttachmentDataFromBudgetSubAwardBean(BudgetSubAwardBean budgetSubAwardBean) {
+//        List<BudgetSubAwardAttachmentBean> budgetSubAwardBeanAttachments = (List<BudgetSubAwardAttachmentBean>) budgetSubAwardBean.getAttachments();
+//        List<BudgetSubAwardAttachment> budgetSubAwardAttachments =  new ArrayList<BudgetSubAwardAttachment>();
+//        
+//        for(BudgetSubAwardAttachmentBean budgetSubAwardAttachmentBean: budgetSubAwardBeanAttachments) {
+//            budgetSubAwardAttachments.add(new BudgetSubAwardAttachment(budgetSubAwardAttachmentBean, getBudgetVersionNumber(), getSubAwardNumber()));            
+//        }
+//        
+//        setBudgetSubAwardAttachments(budgetSubAwardAttachments);
+//    }
+    /**
+     * Gets the budgetSubAwardFiles attribute. 
+     * @return Returns the budgetSubAwardFiles.
+     */
+    public List<BudgetSubAwardFiles> getBudgetSubAwardFiles() {
+        return budgetSubAwardFiles;
+    }
+    /**
+     * Sets the budgetSubAwardFiles attribute value.
+     * @param budgetSubAwardFiles The budgetSubAwardFiles to set.
+     */
+    public void setBudgetSubAwardFiles(List<BudgetSubAwardFiles> budgetSubAwardFiles) {
+        this.budgetSubAwardFiles = budgetSubAwardFiles;
     }
     
-    @SuppressWarnings("unchecked")
-    private void parseAttachmentDataFromBudgetSubAwardBean(BudgetSubAwardBean budgetSubAwardBean) {
-        List<BudgetSubAwardAttachmentBean> budgetSubAwardBeanAttachments = (List<BudgetSubAwardAttachmentBean>) budgetSubAwardBean.getAttachments();
-        List<BudgetSubAwardAttachment> budgetSubAwardAttachments =  new ArrayList<BudgetSubAwardAttachment>();
-        
-        for(BudgetSubAwardAttachmentBean budgetSubAwardAttachmentBean: budgetSubAwardBeanAttachments) {
-            budgetSubAwardAttachments.add(new BudgetSubAwardAttachment(budgetSubAwardAttachmentBean, getBudgetVersionNumber(), getSubAwardNumber()));            
-        }
-        
-        setBudgetSubAwardAttachments(budgetSubAwardAttachments);
-    }
-    
-    public class BudgetSubAwardXMLFormFile implements FormFile {
-        private static final String TEXT_XML = "text/xml";
-        private byte[] xmlData;
-        private String fileName;
-        private int fileSize;
-        private String contentType;
-        private transient InputStream inputStream;
-        
-        private final Log LOG = LogFactory.getLog(BudgetSubAwardXMLFormFile.class);
-        
-        public BudgetSubAwardXMLFormFile() {
-            
-        }
-        
-        public BudgetSubAwardXMLFormFile(String fileName, byte[] xmlData) {
-            this.xmlData = xmlData;
-            setFileName(fileName);
-            setFileSize(xmlData.length);
-            setContentType(TEXT_XML);
-        }
-        
-        public void destroy() {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch(IOException e) {
-                    
-                }
-            }
-        }
-
-        public String getContentType() {
-            return TEXT_XML;
-        }
-
-        public byte[] getFileData() throws FileNotFoundException, IOException {
-            return xmlData;
-        }
-
-        public String getFileName() {
-            return fileName;
-        }
-
-        public int getFileSize() {
-            return fileSize;
-        }
-
-        public InputStream getInputStream() throws FileNotFoundException, IOException {
-            xmlData = new byte[getFileSize()];
-            inputStream = new ByteArrayInputStream(xmlData);
-            return inputStream;
-        }
-
-        public void setContentType(String contentType) {
-            this.contentType = contentType;
-            
-        }
-
-        public void setFileName(String fileName) {
-            this.fileName = fileName;
-        }
-
-        public void setFileSize(int fileSize) {
-            this.fileSize = fileSize; 
-        }
-        
-        public String toString() {
-            return new String(xmlData);
-        }
-    }
 }

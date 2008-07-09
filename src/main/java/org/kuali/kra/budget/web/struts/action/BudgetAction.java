@@ -47,6 +47,7 @@ import org.kuali.kra.budget.service.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.service.BudgetModularService;
 import org.kuali.kra.budget.service.BudgetPrintService;
 import org.kuali.kra.budget.service.BudgetService;
+import org.kuali.kra.budget.service.BudgetSubAwardService;
 import org.kuali.kra.budget.service.impl.BudgetDistributionAndIncomeServiceImpl;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -228,6 +229,7 @@ public class BudgetAction extends ProposalActionBase {
             BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
             budgetPrintService.populateBudgetPrintForms(budgetDocument);
         }
+        KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardAttachments(budgetDocument);
         return mapping.findForward("budgetActions");
     }
     
