@@ -330,8 +330,17 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
     
     @Override
     protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
-        //currentEditMode.put("lockOwnedBy", new UniversalUser());
-        return super.getEditModeWithEditableModesRemoved(currentEditMode);
+        Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
+        for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
+            Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
+            if (StringUtils.equals(entry.getKey(), "addBudget")) {
+                entry.setValue(FALSE);
+            }
+            else if (StringUtils.equals(entry.getKey(), "openBudgets")) {
+                entry.setValue(FALSE);
+            }
+        }
+        return editModeMap;
     }
     
     @Override
