@@ -45,6 +45,10 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     private static final String FALSE = "FALSE";
     private static Map<String, String> entryEditModeReplacementMap = new HashMap<String, String>();
     
+    public BudgetDocumentAuthorizer() {
+        entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
+    }
+    
     /**
      * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
@@ -62,7 +66,6 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
             editModeMap.put("modifyBudgets", TRUE);
             editModeMap.put("viewBudgets", TRUE);
             setPermissions(username, proposalDoc, editModeMap);
-            entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
         }
         else if (canExecuteBudgetTask(username, budgetDoc, TaskName.VIEW_BUDGET)) {
             editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
@@ -226,6 +229,22 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
         }
         return false;
     }
+    
+    @Override
+    protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
+        Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
+        for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
+            Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
+            if (StringUtils.equals(entry.getKey(), "addBudget")) {
+                entry.setValue(FALSE);
+            }
+            else if (StringUtils.equals(entry.getKey(), "openBudgets")) {
+                entry.setValue(FALSE);
+            }
+        }
+        return editModeMap;
+    }
+        
     
     @Override
     protected Map getEntryEditModeReplacementMode(Map.Entry entry) {
