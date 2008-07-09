@@ -73,7 +73,7 @@ public interface BudgetSummaryService {
      */
     public void setupOldStartEndDate (List <BudgetLineItem > budgetLineItems);
 
-    public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate, boolean leapDayInPeriod);
+    public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate, boolean leapDayInPeriod, boolean leapDayInGap);
 
     public boolean isLeapDaysInPeriod(Date sDate, Date eDate);
 }
