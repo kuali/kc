@@ -137,7 +137,6 @@
     	<url-pattern>*.jsp</url-pattern>
   	</filter-mapping>
  
- 	<!-- 
 	<filter>
         <filter-name>PerformanceMeasurementFilter</filter-name>
         <filter-class>org.kuali.kra.web.filter.PerformanceMeasurementFilter</filter-class>
@@ -147,7 +146,6 @@
         <filter-name>PerformanceMeasurementFilter</filter-name>
     	<url-pattern>*.do</url-pattern>
   	</filter-mapping>
-  	-->
 
     <listener>
 		<listener-class>org.kuali.kra.infrastructure.KraServiceLocatorListener</listener-class>
