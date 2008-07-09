@@ -33,15 +33,15 @@ public class BudgetSubAwardAttachment extends KraPersistableBusinessObjectBase {
 	    super();
 	}
 	
-	public BudgetSubAwardAttachment(BudgetSubAwardAttachmentBean bean, Integer budgetVersionNumber, Integer subAwardNumber) {
-	    this();
-	    setBudgetVersionNumber(budgetVersionNumber);
-	    setSubAwardNumber(subAwardNumber);
-	    
-	    setAttachment(bean.getAttachment());
-	    setContentId(bean.getContentId());
-	    setContentType(bean.getContentType());
-	}
+//	public BudgetSubAwardAttachment(BudgetSubAwardAttachmentBean bean, Integer budgetVersionNumber, Integer subAwardNumber) {
+//	    this();
+//	    setBudgetVersionNumber(budgetVersionNumber);
+//	    setSubAwardNumber(subAwardNumber);
+//	    
+//	    setAttachment(bean.getAttachment());
+//	    setContentId(bean.getContentId());
+//	    setContentType(bean.getContentType());
+//	}
 	
 	public String getContentId() {
 		return contentId;
@@ -98,7 +98,7 @@ public class BudgetSubAwardAttachment extends KraPersistableBusinessObjectBase {
 		hashMap.put("proposalNumber", getProposalNumber());
 		hashMap.put("subAwardNumber", getSubAwardNumber());
 		hashMap.put("versionNumber", getVersionNumber());
-		hashMap.put("attachment", new String(getAttachment()));
+//		hashMap.put("attachment", new String(getAttachment()));
 		hashMap.put("contentType", getContentType());
 		return hashMap;
 	}
