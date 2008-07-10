@@ -84,6 +84,8 @@
 
 			<c:if test="${fn:length(KualiForm.document.instituteAttachments) > 0}" >
         	<c:forEach var="instituteAttachment" items="${KualiForm.document.instituteAttachments}" varStatus="status">
+        	    <c:set var="downloadAttachment" value="${instituteAttachment.downloadAttachment}" />
+                <c:set var="replaceAttachment" value="${instituteAttachment.replaceAttachment}" />
 	             <tr>
 					<th class="infoline" align="right">
 						${status.index + 1}:
@@ -103,15 +105,15 @@
 	                <td>
 	                    <div id="replaceInstDiv${status.index}" style="display:block;">
 					                <kul:htmlControlAttribute property="document.instituteAttachments[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
-					                <c:if test="${(instituteAttachment.downloadAttachment || instituteAttachment.replaceAttachment) }"> 
+					                <c:if test="${(downloadAttachment || replaceAttachment) }"> 
 						                (
-						                <c:if test="${instituteAttachment.downloadAttachment && (!empty instituteAttachment.fileName)}">
+						                <c:if test="${downloadAttachment && (!empty instituteAttachment.fileName)}">
 						                <html:link linkName="downloadInstituteAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadInstituteAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadInstituteAttachment.line${status.index}">download</html:link>
-							                <c:if test="${instituteAttachment.downloadAttachment && instituteAttachment.replaceAttachment}">
+							                <c:if test="${downloadAttachment && replaceAttachment}">
 							                &nbsp;|&nbsp;
 							                </c:if> 
 						                </c:if>
-						                <c:if test="${instituteAttachment.replaceAttachment}">
+						                <c:if test="${replaceAttachment}">
 						                <html:link linkName="replaceInstituteAttachment.line${status.index}" onclick="javascript: showHide('instFileDiv${status.index}','replaceInstDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.replaceInstituteAttachment.line${status.index}">replace</html:link>
 						                </c:if>
 						                )
