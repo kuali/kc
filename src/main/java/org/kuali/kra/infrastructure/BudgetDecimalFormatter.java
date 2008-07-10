@@ -18,13 +18,11 @@ package org.kuali.kra.infrastructure;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.HashMap;
-import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.RiceKeyConstants;
 import org.kuali.core.web.format.BigDecimalFormatter;
-import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.format.FormatException;
 import org.kuali.kra.budget.BudgetDecimal;
 
@@ -65,9 +63,10 @@ public class BudgetDecimalFormatter extends BigDecimalFormatter {
 
         //NumberFormat formatter = NumberFormat.getCurrencyInstance();
         NumberFormat formatter = NumberFormat.getNumberInstance();
-        if (formatter instanceof DecimalFormat) {
-            ((DecimalFormat) formatter).setParseBigDecimal(true);
-        }
+        //if (formatter instanceof DecimalFormat) {
+        ((DecimalFormat) formatter).setParseBigDecimal(true);
+        ((DecimalFormat) formatter).setDecimalSeparatorAlwaysShown(true);
+        //}
         String string = null;
 
         try {
@@ -75,21 +74,21 @@ public class BudgetDecimalFormatter extends BigDecimalFormatter {
             string = formatter.format(number.doubleValue());
         }
         catch (IllegalArgumentException e) {
-            throw new FormatException("formatting", RiceKeyConstants.ERROR_CURRENCY, obj.toString(), e);
+            throw new FormatException("formatting", RiceKeyConstants.ERROR_BIG_DECIMAL, obj.toString(), e);
         }
         catch (ClassCastException e) {
-            throw new FormatException("formatting", RiceKeyConstants.ERROR_CURRENCY, obj.toString(), e);
+            throw new FormatException("formatting", RiceKeyConstants.ERROR_BIG_DECIMAL, obj.toString(), e);
         }
 
-        //return showSymbol() ? string : removeSymbol(string);
-        //return removeSymbol(string);
-        return removeSymbol(string);
+        if (StringUtils.isNotBlank(string)) {
+            if (string.indexOf(".") == string.length() - 1) {
+                string = string +"00";
+            } else if (string.indexOf(".") == string.length() - 2) {
+                string = string +"0";
+            }
+        }
+        return string;
     }
     
-    protected String removeSymbol(String target) {
-        int index = target.indexOf("$");
-        String prefix = (index > 0 ? target.substring(0, index) : "");
-        return prefix + target.substring(index + 1);
-    }
    
 }
