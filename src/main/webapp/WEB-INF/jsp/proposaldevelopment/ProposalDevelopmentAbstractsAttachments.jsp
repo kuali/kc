@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<%@ page language="java" %> 
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentAbstractsAttachments"
