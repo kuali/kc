@@ -32,12 +32,15 @@ import org.kuali.kra.proposaldevelopment.document.authorization.NarrativeTask;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class NarrativeReplaceAuthorizer extends NarrativeAuthorizer {
- 
+    
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NarrativeReplaceAuthorizer.class);
+
     /**
      * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.core.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
      */
     public boolean isAuthorized(String username, Task task) {
         
+        long startTime = System.currentTimeMillis();
         NarrativeTask narrativeTask = (NarrativeTask) task;
         
         ProposalDevelopmentDocument doc = narrativeTask.getProposalDevelopmentDocument();
@@ -47,6 +50,10 @@ public class NarrativeReplaceAuthorizer extends NarrativeAuthorizer {
         if (!doc.getSubmitFlag() && hasProposalPermission(username, doc, PermissionConstants.MODIFY_NARRATIVE)) {
             hasPermission = hasNarrativeRight(username, narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
         }
+        
+        long endTime = System.currentTimeMillis();
+        LOG.info("NarrativeReplaceAuthorizer Execution Time: " + (endTime - startTime));
+       
         return hasPermission;
     }
 }

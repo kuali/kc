@@ -17,6 +17,13 @@
 
 <%@ attribute name="htmlFormAction" required="false" %>
 <%@ attribute name="renderMultipart" required="false" %>
+
+<%! static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(org.kuali.kra.proposaldevelopment.bo.Narrative.class); %>
+<% long startTime = 0; %>
+<% long endTime = 0; %>
+
+    
+           <% startTime = System.currentTimeMillis(); %>
 <c:set var="readOnly" value="${not KualiForm.editingMode['addNarratives']}" scope="request" />
 
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.ProposalDevelopmentDocument.attributes}" />
@@ -94,14 +101,19 @@
 	            </tr>
             </kra:section>
             
+ 
             <c:if test="${fn:length(KualiForm.document.narratives) > 0}">
             <tr>
             	<td colspan="4">
             	<div  align="left">
+            	
+            	
         	<c:forEach var="narrative" items="${KualiForm.document.narratives}" varStatus="status">
         	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].parameterValue}">
 			<c:set var="narrType" value="${narrative.narrativeType.description}"/>
 			<c:set var="narrStatus" value="${narrative.narrativeStatus.description}"/>
+			<c:set var="downloadAttachment" value="${narrative.downloadAttachment}" />
+			<c:set var="replaceAttachment" value="${narrative.replaceAttachment}" />
 			<kul:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}">
 				<div class="innerTab-container" align="left">
 					<table class=tab cellpadding=0 cellspacing=0 summary="">
@@ -115,15 +127,15 @@
 			                <%-- %><c:if test="${(!empty narrative.fileName)}">--%>
 				                <div id="replaceDiv${status.index}" style="display:block;">
 					                <kul:htmlControlAttribute property="document.narrative[${status.index}].fileName" readOnly="true" attributeEntry="${narrativeAttributes.fileName}" />
-					                <c:if test="${(narrative.downloadAttachment || narrative.replaceAttachment) }">
+					                <c:if test="${(downloadAttachment || replaceAttachment) }">
 						                (
-						                <c:if test="${narrative.downloadAttachment && (!empty narrative.fileName)}">
+						                <c:if test="${downloadAttachment && (!empty narrative.fileName)}">
 						                <html:link linkName="downloadProposalAttachment.line${status.index}" onclick="javascript: openNewWindow('${action}','downloadProposalAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return true" href="" anchor="${currentTabIndex}" property="methodToCall.downloadProposalAttachment.line${status.index}">download</html:link>
-							                <c:if test="${narrative.downloadAttachment && narrative.replaceAttachment}">
+							                <c:if test="${downloadAttachment && replaceAttachment}">
 							                &nbsp;|&nbsp;
 							                </c:if>
 						                </c:if>
-						                <c:if test="${narrative.replaceAttachment}">
+						                <c:if test="${replaceAttachment}">
 						                <html:link linkName="replaceProposalAttachment.line${status.index}" onclick="javascript: showHide('fileDiv${status.index}','replaceDiv${status.index}')" href="" anchor="${currentTabIndex}" property="methodToCall.replaceProposalAttachment.line${status.index}">replace</html:link>
 						                </c:if>
 						                )
@@ -199,10 +211,15 @@
 			     </kul:innerTab>
 			   </c:if>
         	</c:forEach> 
+        	
         	</div>
         	</td>
         	</tr>
         	</c:if>
+        	
+            
         </table>
     </div>
 </kul:tabTop>
+<% endTime = System.currentTimeMillis();
+               LOG.info("JSP Narrative Time = " + (endTime - startTime)); %>

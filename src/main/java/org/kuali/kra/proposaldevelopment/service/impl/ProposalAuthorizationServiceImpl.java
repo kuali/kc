@@ -27,6 +27,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.QualifiedRoleService;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -37,6 +38,7 @@ import org.kuali.kra.service.UnitAuthorizationService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationService {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalAuthorizationServiceImpl.class);
     
     private static final String PROPOSAL_KEY = "kra.proposal";
     
@@ -108,6 +110,7 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
      * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
      */
     public boolean hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
+       long startTime = System.currentTimeMillis();
         boolean userHasPermission = false;
         if (isValidPerson(username)) {
             Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
@@ -118,6 +121,8 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
                 userHasPermission = unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
             }
         }
+        long endTime = System.currentTimeMillis();
+        LOG.info("Proposal Permission Execution Time: " + (endTime - startTime));
         return userHasPermission;
     }
    
