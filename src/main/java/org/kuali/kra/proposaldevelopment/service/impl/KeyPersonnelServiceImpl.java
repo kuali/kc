@@ -65,8 +65,8 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: rmancher $
- * @version $Revision: 1.31 $
+ * @author $Author: jsalam $
+ * @version $Revision: 1.32 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private static final String READ_ONLY_ROLES_PARAM_NAME = "proposaldevelopment.personrole.readonly.roles";
@@ -205,12 +205,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         Collection<InvestigatorCreditType> creditTypes = document.getInvestigatorCreditTypes();
         
         for (ProposalPerson investigator : document.getInvestigators()) {
-            Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getSimpleName());
+            Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getUserName());
             Map<String,KualiDecimal> investigatorCreditTypeTotals = retval.get(PROPOSAL_PERSON_INVESTIGATOR);
 
             if (creditTypeTotals == null) {
                 creditTypeTotals = new HashMap<String,KualiDecimal>();
-                retval.put(investigator.getSimpleName(), creditTypeTotals);
+                retval.put(investigator.getUserName(), creditTypeTotals);
             }
             if (investigatorCreditTypeTotals == null) {
                 investigatorCreditTypeTotals = new HashMap<String,KualiDecimal>();
