@@ -39,12 +39,16 @@ import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 
 /**
  * 
  * This class is BO for narrarive
  */
 public class Narrative extends KraPersistableBusinessObjectBase {
+    
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(Narrative.class);
+    
     private String proposalNumber;
     private Integer moduleNumber;
     private String comments;
@@ -268,13 +272,17 @@ public class Narrative extends KraPersistableBusinessObjectBase {
      * @return true if the user can view the attachment; otherwise false
      */
     public boolean getDownloadAttachment() {
+        long startTime = System.currentTimeMillis();
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
         
         String username = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getProposalDevelopmentDocument(), this));
+        boolean isAuthorized = taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DOWNLOAD_NARRATIVE, getProposalDevelopmentDocument(), this));
+        long endTime = System.currentTimeMillis();
+        LOG.info("Download Execution Time = " + (endTime - startTime));
+        return isAuthorized;
     }
 
     /**
@@ -282,13 +290,17 @@ public class Narrative extends KraPersistableBusinessObjectBase {
      * @return true if the user can replace the attachment; otherwise false
      */
     public boolean getReplaceAttachment() {
+        long startTime = System.currentTimeMillis();
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
       
         String username = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getProposalDevelopmentDocument(), this));
+        boolean isAuthorized = taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.REPLACE_NARRATIVE, getProposalDevelopmentDocument(), this));
+        long endTime = System.currentTimeMillis();
+        LOG.info("Replace Execution Time = " + (endTime - startTime));
+        return isAuthorized;
     }
     
     /**
@@ -296,13 +308,17 @@ public class Narrative extends KraPersistableBusinessObjectBase {
      * @return true if the user can delete the attachment; otherwise false
      */
     public boolean getDeleteAttachment() {
+        long startTime = System.currentTimeMillis();
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
       
         String username = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DELETE_NARRATIVE, getProposalDevelopmentDocument(), this));
+        boolean isAuthorized = taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.DELETE_NARRATIVE, getProposalDevelopmentDocument(), this));
+        long endTime = System.currentTimeMillis();
+        LOG.info("Delete Execution Time = " + (endTime - startTime));
+        return isAuthorized;
     }
     
     /**
@@ -310,13 +326,17 @@ public class Narrative extends KraPersistableBusinessObjectBase {
      * @return true if the user can modify the user rights; otherwise false
      */
     public boolean getModifyNarrativeRights() {
+        long startTime = System.currentTimeMillis();
         if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
       
         String username = GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier();
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        return taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getProposalDevelopmentDocument(), this));
+        boolean isAuthorized = taskAuthorizationService.isAuthorized(username, new NarrativeTask(TaskName.MODIFY_NARRATIVE_RIGHTS, getProposalDevelopmentDocument(), this));
+        long endTime = System.currentTimeMillis();
+        LOG.info("Modify Rights Execution Time = " + (endTime - startTime));
+        return isAuthorized;
     }
     
     /**
