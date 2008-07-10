@@ -194,6 +194,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_PERMISSIONS, KraAuthorizationConstants.ProposalEditMode.VIEW_PERMISSIONS);
         entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES, KraAuthorizationConstants.ProposalEditMode.VIEW_NARRATIVES);
         entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
+        entryEditModeReplacementMap.put("addBudget", "openBudgets");
         entryEditModeReplacementMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, AuthorizationConstants.EditMode.VIEW_ONLY);
     } 
     
@@ -308,6 +309,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
                 || KraAuthorizationConstants.ProposalEditMode.MODIFY_PERMISSIONS.equals(entry.getKey())
                 || KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL.equals(entry.getKey())
                 || KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET.equals(entry.getKey())
+                || "addBudget".equals(entry.getKey()) 
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
             return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && (EDIT_MODE_DEFAULT_TRUE_VALUE.equals(fullEntryEditModeValue)) );

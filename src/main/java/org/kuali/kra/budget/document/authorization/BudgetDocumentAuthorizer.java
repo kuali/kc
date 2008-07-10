@@ -71,7 +71,6 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
             editModeMap.put(AuthorizationConstants.EditMode.VIEW_ONLY, TRUE);
             editModeMap.put("modifyBudgets", FALSE);
             editModeMap.put("viewBudgets", TRUE);
-            
             setPermissions(username, proposalDoc, editModeMap);
         }
         else {
@@ -82,6 +81,8 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
             editModeMap.put("modifyCompletedBudgets", TRUE);
             editModeMap.put("modifyBudgets", FALSE);
             editModeMap.put("addBudget", FALSE);
+            entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
+            entryEditModeReplacementMap.put("addBudget", "openBudgets");
         }
         
         return editModeMap;
@@ -109,8 +110,10 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     private void setPermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
         editModeMap.put("addBudget", canExecuteTask(username, doc, TaskName.ADD_BUDGET));
         editModeMap.put("openBudgets", canExecuteTask(username, doc, TaskName.OPEN_BUDGETS));
-       
         editModeMap.put("printProposal", canExecuteTask(username, doc, TaskName.PRINT_PROPOSAL));
+        
+        entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
+        entryEditModeReplacementMap.put("addBudget", "openBudgets");
      } 
     
     /**
@@ -223,6 +226,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
     protected boolean isEntryEditMode(Map.Entry entry) {
         if (AuthorizationConstants.EditMode.FULL_ENTRY.equals(entry.getKey())
                 || KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET.equals(entry.getKey())
+                 || "addBudget".equals(entry.getKey())
                 ) {
             String fullEntryEditModeValue = (String)entry.getValue();
             return ( (ObjectUtils.isNotNull(fullEntryEditModeValue)) && (EDIT_MODE_DEFAULT_TRUE_VALUE.equals(fullEntryEditModeValue)) );
