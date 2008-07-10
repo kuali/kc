@@ -50,12 +50,9 @@ import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
-import org.kuali.kra.proposaldevelopment.bo.ProposalInvestigatorCertification;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonYnq;
@@ -918,22 +915,22 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_FINAL_VERSION)) {
             BudgetVersionOverview finalBudgetVersion = src.getFinalBudgetVersion();
             if (finalBudgetVersion != null) {
-                copyAndFinalizeBudgetVersion(finalBudgetVersion.getDocumentNumber(), dest.getProposalNumber(), 1);
+                copyAndFinalizeBudgetVersion(finalBudgetVersion.getDocumentNumber(), dest, 1);
             }
         } else if (budgetVersions.equals(ProposalCopyCriteria.BUDGET_ALL_VERSIONS)) {
             int i = 1;
             for (BudgetVersionOverview budgetVersionOverview: src.getBudgetVersionOverviews()) {
-                copyAndFinalizeBudgetVersion(budgetVersionOverview.getDocumentNumber(), dest.getProposalNumber(), i++);
+                copyAndFinalizeBudgetVersion(budgetVersionOverview.getDocumentNumber(), dest, i++);
             }
         }
         
     }
     
-    private void copyAndFinalizeBudgetVersion(String documentNumber, String proposalNumber, int budgetVersionNumber) throws Exception {
+    private void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber) throws Exception {
         BudgetDocument budget = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
         budget.getProposal().setBudgetVersionOverviews(new ArrayList<BudgetVersionOverview>());
         budget.toCopy();
-        ObjectUtils.setObjectPropertyDeep(budget, "proposalNumber", String.class, proposalNumber);
+        ObjectUtils.setObjectPropertyDeep(budget, "proposalNumber", String.class, dest.getProposalNumber());
         ObjectUtils.setObjectPropertyDeep(budget, "budgetVersionNumber", Integer.class, budgetVersionNumber);
         
         ObjectUtils.materializeAllSubObjects(budget);
@@ -945,6 +942,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         objectMap.clear(); 
         
         budget.setFinalVersionFlag(false);
+        budget.setProposal(dest);
         
         //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
         Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>(); 
