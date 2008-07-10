@@ -15,24 +15,26 @@
  */
 package org.kuali.kra.budget.calculator;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.AbstractBudgetCalculatedAmount;
+import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.bo.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
-import org.kuali.kra.budget.bo.AbstractBudgetRate;
 import org.kuali.kra.budget.bo.BudgetProposalLaRate;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.CostElement;
@@ -41,12 +43,12 @@ import org.kuali.kra.budget.bo.ValidCeRateType;
 import org.kuali.kra.budget.calculator.query.And;
 import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.calculator.query.GreaterThan;
+import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.kra.budget.calculator.query.NotEquals;
 import org.kuali.kra.budget.calculator.query.Or;
 import org.kuali.kra.budget.calculator.query.QueryEngine;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.budget.calculator.query.LesserThan;
 import org.kuali.rice.KNSServiceLocator;
 /**
  * 
@@ -269,21 +271,61 @@ public abstract class AbstractBudgetCalculator {
              * then update the line item details.
              */
             NotEquals notEqualsOH = new NotEquals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
-            directCost = cvCombinedAmtDetails.sumObjects("calculatedCost", notEqualsOH);
+            boolean directCostRolledUp = false;
+            boolean resetTotalUnderRecovery = false;
+            BudgetDecimal newTotalUrAmount = BudgetDecimal.ZERO;
+            BudgetDecimal newTotalCostSharing = BudgetDecimal.ZERO;
+            if (budgetLineItem instanceof BudgetLineItem && CollectionUtils.isNotEmpty(((BudgetLineItem)budgetLineItem).getBudgetPersonnelDetailsList())) {
+                for (BudgetPersonnelDetails budgetPersonnelDetail : ((BudgetLineItem)budgetLineItem).getBudgetPersonnelDetailsList()) {
+                    List personnelCalAmts = budgetPersonnelDetail.getBudgetCalculatedAmounts();
+                    newTotalUrAmount = newTotalUrAmount.add(budgetPersonnelDetail.getUnderrecoveryAmount());
+                    resetTotalUnderRecovery = true;
+                    if (CollectionUtils.isNotEmpty(personnelCalAmts)) {
+                        for (Object obj : personnelCalAmts) {
+                            BudgetPersonnelCalculatedAmount personnelCalAmt = (BudgetPersonnelCalculatedAmount) obj;
+                            if (personnelCalAmt.getRateClass() == null) {
+                                personnelCalAmt.refreshReferenceObject("rateClass");
+                            }
+                            if (!personnelCalAmt.getRateClass().getRateClassType().equals("O")) {
+                                directCost = directCost.add(personnelCalAmt.getCalculatedCost());
+                            } else {
+                                indirectCost = indirectCost.add(personnelCalAmt.getCalculatedCost());
+                                
+                            }
+                            newTotalCostSharing = newTotalCostSharing.add(personnelCalAmt.getCalculatedCostSharing());
+                            directCostRolledUp = true;
+
+                            
+                        }
+                    }
+                }
+            }
+            if (resetTotalUnderRecovery) {
+                budgetLineItem.setUnderrecoveryAmount(newTotalUrAmount);
+            }
+            if (!directCostRolledUp) {
+                directCost = cvCombinedAmtDetails.sumObjects("calculatedCost", notEqualsOH);
+            }
             budgetLineItem.setDirectCost(directCost.add(budgetLineItem.getLineItemCost()));
             /*
              * Sum up all Indirect costs ie, rates for RateClassType = 'O', for each breakup interval and then update the line item
              * details.
              */
             Equals equalsOH = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
-            indirectCost = cvCombinedAmtDetails.sumObjects("calculatedCost", equalsOH);
+            if (!directCostRolledUp) {
+                indirectCost = cvCombinedAmtDetails.sumObjects("calculatedCost", equalsOH);
+            }
             budgetLineItem.setIndirectCost(indirectCost);
 
             /*
              * Sum up all Cost Sharing amounts ie, rates for RateClassType <> 'O' and set in the calculatedCostSharing field of line
              * item details
              */
-            totalCalculatedCostSharing = cvCombinedAmtDetails.sumObjects("calculatedCostSharing");
+            if (!directCostRolledUp) {
+                totalCalculatedCostSharing = cvCombinedAmtDetails.sumObjects("calculatedCostSharing");
+            } else {
+                totalCalculatedCostSharing = newTotalCostSharing;
+            }
 
             budgetLineItem.setTotalCostSharingAmount(budgetLineItem.getCostSharingAmount() == null ? 
                         totalCalculatedCostSharing : 
