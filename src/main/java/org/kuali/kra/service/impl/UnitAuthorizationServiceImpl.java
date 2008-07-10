@@ -25,6 +25,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
 import org.kuali.kra.kim.service.RoleService;
+import org.kuali.kra.proposaldevelopment.service.impl.ProposalAuthorizationServiceImpl;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.UnitService;
@@ -35,6 +36,7 @@ import org.kuali.kra.service.UnitService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalAuthorizationServiceImpl.class);
 
     private static final String UNIT_NUMBER_KEY = "kra.unitNumber";
     private static final String SUBUNITS_KEY = "kra.subunits";
@@ -81,11 +83,14 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
      * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String, java.lang.String)
      */
     public boolean hasPermission(String username, String unitNumber, String permissionName) {
-        
+        long startTime = System.currentTimeMillis();
         // Do a quick check to see if the user has the permission
         // in the global space.
         
         boolean userHasPermission = systemAuthorizationService.hasPermission(username, permissionName);
+        long endTime = System.currentTimeMillis();
+        LOG.info("systemAuthorizationService.hasPermission Execution Time: " + (endTime - startTime));
+
         if (!userHasPermission && unitNumber != null) {
             
             // Check the unit for the permission. If the user doesn't have the permission
@@ -95,10 +100,16 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
             Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
             qualifiedRoleAttributes.put(UNIT_NUMBER_KEY, unitNumber);
             userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
+            endTime = System.currentTimeMillis();
+            LOG.info("kimPersonService.hasQualifiedPermission Execution Time: " + (endTime - startTime));
             while (!userHasPermission) {
                 Unit unit = unitService.getUnit(unitNumber);
+                endTime = System.currentTimeMillis();
+                LOG.info("unitService.getUnit Execution Time: " + (endTime - startTime));
                 if (unit != null) {
                     String parentUnitNumber = unit.getParentUnitNumber();
+                    endTime = System.currentTimeMillis();
+                    LOG.info("unit.getParentUnitNumber Execution Time: " + (endTime - startTime));
                     if (parentUnitNumber == null) {
                         break;
                     }
@@ -107,6 +118,8 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
                     qualifiedRoleAttributes.put(UNIT_NUMBER_KEY, unitNumber);
                     qualifiedRoleAttributes.put(SUBUNITS_KEY, YES);
                     userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
+                    endTime = System.currentTimeMillis();
+                    LOG.info("kimPersonService.hasQualifiedPermission Execution Time: " + (endTime - startTime));
                 }
             }
         }

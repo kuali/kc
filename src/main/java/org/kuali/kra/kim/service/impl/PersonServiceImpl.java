@@ -31,6 +31,7 @@ import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
 import org.kuali.kra.kim.pojo.Person;
 import org.kuali.kra.kim.pojo.QualifiedRole;
 import org.kuali.kra.kim.service.PersonService;
+import org.kuali.kra.proposaldevelopment.service.impl.ProposalAuthorizationServiceImpl;
 
 /**
  * The KIM Person Service.
@@ -38,6 +39,7 @@ import org.kuali.kra.kim.service.PersonService;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class PersonServiceImpl implements PersonService {
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalAuthorizationServiceImpl.class);
 
     private ServiceBase helper;
     
@@ -116,17 +118,35 @@ public class PersonServiceImpl implements PersonService {
      * @see org.kuali.kra.kim.service.PersonService#hasQualifiedPermission(java.lang.String, java.lang.String, java.util.Map)
      */
     public boolean hasQualifiedPermission(String personUserName, String namespaceName, String permissionName, Map<String, String> qualifiedRoleAttributes) {
+        long startTime = System.currentTimeMillis();
         Long personId = helper.getPersonId(personUserName);
+        long endTime = System.currentTimeMillis();
+        LOG.info("hasQualifiedPermission(helper.getPersonId) Execution Time: " + (endTime - startTime));
         Long namespaceId = helper.getNamespaceId(namespaceName);
+        endTime = System.currentTimeMillis();
+        LOG.info("hasQualifiedPermission(helper.getNamespaceId) Execution Time: " + (endTime - startTime));
         Long permissionId = helper.getPermissionId(namespaceId, permissionName);
+        endTime = System.currentTimeMillis();
+        LOG.info("hasQualifiedPermission(helper.getPermissionId) Execution Time: " + (endTime - startTime));
         
         Set<Long> roleIds = helper.getPersonQualifiedRoleIds(personId, qualifiedRoleAttributes);
+        endTime = System.currentTimeMillis();
+        LOG.info("hasQualifiedPermission(helper.getPersonQualifiedRoleIds) Execution Time: " + (endTime - startTime));
+
         boolean hasPermission = helper.hasPermission(roleIds, permissionId);
+        endTime = System.currentTimeMillis();
+        LOG.info("hasQualifiedPermission(helper.hasPermission) Execution Time: " + (endTime - startTime));
         if (!hasPermission) {
              Set<Long> groupIds = helper.getPersonGroupIds(personId, true);
+             endTime = System.currentTimeMillis();
+             LOG.info("hasQualifiedPermission(helper.getPersonGroupIds) Execution Time: " + (endTime - startTime));
              for (Long groupId : groupIds) {
                 roleIds = helper.getGroupQualifiedRoleIds(groupId, qualifiedRoleAttributes);
+                endTime = System.currentTimeMillis();
+                LOG.info("hasQualifiedPermission(helper.getGroupQualifiedRoleIds) Execution Time: " + (endTime - startTime));
                 if (helper.hasPermission(roleIds, permissionId)) {
+                    endTime = System.currentTimeMillis();
+                    LOG.info("hasQualifiedPermission(helper.hasPermission) Execution Time: " + (endTime - startTime));
                     hasPermission = true;
                     break;
                 }
