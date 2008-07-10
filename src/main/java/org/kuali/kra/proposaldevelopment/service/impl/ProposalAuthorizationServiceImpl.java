@@ -116,9 +116,13 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
             Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
             qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber());
             userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
+            long endTime = System.currentTimeMillis();
+            LOG.info("kimPersonService.hasQualifiedPermission Execution Time: " + (endTime - startTime));
             if (!userHasPermission) {
                 String unitNumber = doc.getOwnedByUnitNumber();
                 userHasPermission = unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
+                endTime = System.currentTimeMillis();
+                LOG.info("unitAuthorizationService.hasPermission Execution Time: " + (endTime - startTime));
             }
         }
         long endTime = System.currentTimeMillis();
@@ -127,11 +131,14 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
     }
    
     private boolean isValidPerson(String username) {
+        long startTime = System.currentTimeMillis();
         boolean isValid = false;
         Person person = personService.getPersonByName(username);
         if (person != null) {
             isValid = person.getActive();
         } 
+        long endTime = System.currentTimeMillis();
+        LOG.info("isValidPerson Execution Time: " + (endTime - startTime));
         return isValid;
     }
 
