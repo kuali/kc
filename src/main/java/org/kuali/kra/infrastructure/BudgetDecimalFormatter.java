@@ -16,8 +16,14 @@
 package org.kuali.kra.infrastructure;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.kuali.RiceKeyConstants;
 import org.kuali.core.web.format.BigDecimalFormatter;
+import org.kuali.core.web.format.FormatException;
 import org.kuali.kra.budget.BudgetDecimal;
 
 /**
@@ -25,13 +31,63 @@ import org.kuali.kra.budget.BudgetDecimal;
  */
 public class BudgetDecimalFormatter extends BigDecimalFormatter {
     private static final long serialVersionUID = 8395988033199649377L;
-    
+    private static Logger LOG = Logger.getLogger(BudgetDecimalFormatter.class);
+
+    public BudgetDecimalFormatter() {
+        super();
+//        if (this.settings == null) {
+//            this.settings = new HashMap();
+//        }
+//        this.settings.put(CurrencyFormatter.SHOW_SYMBOL, "false");
+    }
     /**
      * Overriden to produce a BudgetDecimal
      * @see org.kuali.core.web.format.BigDecimalFormatter#convertToObject(java.lang.String)
      */
     @Override
     protected Object convertToObject(String target) {
-        return new BudgetDecimal((BigDecimal)super.convertToObject(target));
+        
+        return new BudgetDecimal(((BigDecimal)super.convertToObject(target)));
     }
+    
+    
+    /**
+     * Returns a string representation of its argument formatted as a currency value.
+     */
+    public Object format(Object obj) {
+        LOG.info("format '" + obj + "'");
+
+        if (obj == null)
+            return null;
+
+        //NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        NumberFormat formatter = NumberFormat.getNumberInstance();
+        //if (formatter instanceof DecimalFormat) {
+        ((DecimalFormat) formatter).setParseBigDecimal(true);
+        ((DecimalFormat) formatter).setDecimalSeparatorAlwaysShown(true);
+        //}
+        String string = null;
+
+        try {
+            BudgetDecimal number = (BudgetDecimal) obj;
+            string = formatter.format(number.doubleValue());
+        }
+        catch (IllegalArgumentException e) {
+            throw new FormatException("formatting", RiceKeyConstants.ERROR_BIG_DECIMAL, obj.toString(), e);
+        }
+        catch (ClassCastException e) {
+            throw new FormatException("formatting", RiceKeyConstants.ERROR_BIG_DECIMAL, obj.toString(), e);
+        }
+
+        if (StringUtils.isNotBlank(string)) {
+            if (string.indexOf(".") == string.length() - 1) {
+                string = string +"00";
+            } else if (string.indexOf(".") == string.length() - 2) {
+                string = string +"0";
+            }
+        }
+        return string;
+    }
+    
+   
 }
