@@ -14,6 +14,36 @@ function selectAllGGForms(document) {
 	}
 }
 
+function selectAllSponsorForms(document) {
+    var j = 0;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'checkbox') {
+	  	if (e.name == 'document.sponsorFormTemplates[' + j + '].selectToPrint') {
+ 		    if(e.disabled == false){
+ 		    	e.checked = true;
+ 		    }
+	  		j++; 
+	  	}
+	  }
+	}
+}
+
+function unselectAllSponsorForms(document) {
+    var j = 0;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'checkbox') {
+	  	if (e.name == 'document.sponsorFormTemplates[' + j + '].selectToPrint') {
+ 		    if(e.disabled == false){
+ 		    	e.checked = false;
+ 		    }
+	  		j++; 
+	  	}
+	  }
+	}
+}
+
 function selectAllIncludedGGForms(document) {
     var j = 0;
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
