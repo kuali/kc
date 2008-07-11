@@ -93,7 +93,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         pdForm.setNewBudgetVersionName("");
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * This method opens a particular budget version.
      * 
@@ -105,7 +105,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      * @throws Exception
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        save(mapping, form, request, response);
+        save(mapping, form, request, response);  
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
@@ -202,7 +202,14 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         } else {
             updateProposalDocument(pdForm);
             setProposalStatus(pdForm.getProposalDevelopmentDocument());
-            return super.save(mapping, form, request, response);
+            ActionForward forward = super.save(mapping, form, request, response);
+            
+            //Need to facilitate releasing the Budget locks if user is redirected to Actions page
+            if(forward != null && forward.getName().equalsIgnoreCase("actions")) {
+                pdForm.setMethodToCall("actions");
+            }
+            
+            return forward;
         }
     }
     
