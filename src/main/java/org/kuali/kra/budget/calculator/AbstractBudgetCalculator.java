@@ -331,12 +331,13 @@ public abstract class AbstractBudgetCalculator {
                         totalCalculatedCostSharing : 
                         budgetLineItem.getCostSharingAmount().add(totalCalculatedCostSharing));
 
-        } else if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0 && budgetLineItem.getLineItemCost().equals(BudgetDecimal.ZERO)) {
+        } else if (lineItemCalcAmts != null && lineItemCalcAmts.size() > 0 && (budgetLineItem.getLineItemCost().equals(BudgetDecimal.ZERO) || CollectionUtils.isEmpty(cvLIBreakupIntervals))) {
+            // if total is 0 or no matching rate to calculate
             for (AbstractBudgetCalculatedAmount calculatedAmount : lineItemCalcAmts) {
                   calculatedAmount.setCalculatedCost(BudgetDecimal.ZERO);
                   calculatedAmount.setCalculatedCostSharing(BudgetDecimal.ZERO);
           }
-        }
+        } 
     }
 
 
