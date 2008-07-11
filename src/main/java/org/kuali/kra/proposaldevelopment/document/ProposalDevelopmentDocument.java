@@ -1541,8 +1541,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
     }
 
     public final List<SponsorFormTemplate> getSponsorFormTemplates() {
-        PrintService printService = KraServiceLocator.getService(PrintService.class);
-        printService.populateSponsorForms(this.sponsorFormTemplates, this.sponsorCode);
         return sponsorFormTemplates;
     }
 
