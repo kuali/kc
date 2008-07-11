@@ -110,36 +110,30 @@ public class ProposalAuthorizationServiceImpl implements ProposalAuthorizationSe
      * @see org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService#hasPermission(java.lang.String, org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, java.lang.String)
      */
     public boolean hasPermission(String username, ProposalDevelopmentDocument doc, String permissionName) {
-       long startTime = System.currentTimeMillis();
+      // long startTime = System.currentTimeMillis();
+      // long startTime2 = 0;
         boolean userHasPermission = false;
         if (isValidPerson(username)) {
+            //startTime2 = System.currentTimeMillis();
             Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
             qualifiedRoleAttributes.put(PROPOSAL_KEY, doc.getProposalNumber());
             userHasPermission = kimPersonService.hasQualifiedPermission(username, Constants.KRA_NAMESPACE, permissionName, qualifiedRoleAttributes);
-            long endTime = System.currentTimeMillis();
-            LOG.info("kimPersonService.hasQualifiedPermission Execution Time: " + (endTime - startTime));
+           // long endTime = System.currentTimeMillis();
+           // LOG.info("kimPersonService.hasQualifiedPermission Execution Time: " + (endTime - startTime));
             if (!userHasPermission) {
                 String unitNumber = doc.getOwnedByUnitNumber();
                 userHasPermission = unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
-                endTime = System.currentTimeMillis();
-                LOG.info("unitAuthorizationService.hasPermission Execution Time: " + (endTime - startTime));
+                //endTime = System.currentTimeMillis();
+                //LOG.info("unitAuthorizationService.hasPermission Execution Time: " + (endTime - startTime));
             }
         }
-        long endTime = System.currentTimeMillis();
-        LOG.info("Proposal Permission Execution Time: " + (endTime - startTime));
+        //long endTime = System.currentTimeMillis();
+        //LOG.info("Proposal Permission Execution Time: " + (endTime - startTime));
         return userHasPermission;
     }
    
     private boolean isValidPerson(String username) {
-        long startTime = System.currentTimeMillis();
-        boolean isValid = false;
-        Person person = personService.getPersonByName(username);
-        if (person != null) {
-            isValid = person.getActive();
-        } 
-        long endTime = System.currentTimeMillis();
-        LOG.info("isValidPerson Execution Time: " + (endTime - startTime));
-        return isValid;
+        return personService.isActiveByName(username);
     }
 
     /**

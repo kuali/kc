@@ -73,4 +73,11 @@ public class MockPersonService implements PersonService {
     public Collection<Person> getPersonsInUnit(String unitNumber) {
         return null;
     }
+
+    /**
+     * @see org.kuali.kra.service.PersonService#isActiveByName(java.lang.String)
+     */
+    public boolean isActiveByName(String username) {
+        return true;
+    }
 }

@@ -55,4 +55,11 @@ public interface PersonService {
      * @return the person or null if not found
      */
     public Person getPersonByName(String username);
+    
+    /**
+     * Is this an active user?
+     * @param username the person's username
+     * @return true if active; otherwise false
+     */
+    public boolean isActiveByName(String username);
 }
