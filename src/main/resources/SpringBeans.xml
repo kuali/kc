@@ -431,6 +431,9 @@
  		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="personDao">
+            <ref bean="personDao" />
+        </property>
  	</bean>
  	
     <bean id="kimServiceHelper" class="org.kuali.kra.kim.service.impl.ServiceBase">
@@ -1000,6 +1003,10 @@
     <bean id="rolodexDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.RolodexDaoOjb" >
         <property name="lookupDao" ref="lookupDao" />
     </bean>
+    
+    <bean id="kimDao" parent="platformAwareDao" class="org.kuali.kra.kim.service.impl.KimDaoImpl" />
+    	
+    <bean id="personDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PersonDaoOjb" />
     	
     <bean id="nonOrganizationalRolodexHelperService" class="org.kuali.kra.lookup.NonOrganizationalRolodexLookupableHelperServiceImpl" 
         singleton="false" parent="lookupableHelperService">
