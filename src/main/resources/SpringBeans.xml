@@ -1059,6 +1059,12 @@
   		</property>  		
 	</bean>
 	
+	<bean id="printService" class="org.kuali.kra.s2s.service.impl.PrintServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+
 	<bean id="proposalRoleTemplateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalRoleTemplateServiceImpl">
         <property name="proposalAuthorizationService">
             <ref bean="proposalAuthorizationService" />
