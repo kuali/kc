@@ -68,7 +68,7 @@
 			<shortLabel>Package Name </shortLabel>
 			<maxLength>200</maxLength>
 			<control>
-				<text size="200" />
+				<text size="50" />
 			</control>
 			<summary>Package Name </summary>
 			<description>Package Name </description>

@@ -24,5 +24,7 @@
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.s2s.S2sOpportunity" altText="help"/></span>
         </div>
 	<kra-pd:proposalDevelopmentActionsPrintForms />
+	<kra-pd:printProposalSponsorForms /> 
+	
     </div> 
 </kul:tab>

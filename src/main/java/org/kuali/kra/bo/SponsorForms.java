@@ -12,7 +12,7 @@ public class SponsorForms extends KraPersistableBusinessObjectBase {
 	private String sponsorCode;
 	private Sponsor sponsor;
     private List<SponsorFormTemplate> sponsorFormTemplates;
-	
+
 
 	public SponsorForms(){
 		super();
@@ -68,4 +68,5 @@ public class SponsorForms extends KraPersistableBusinessObjectBase {
     public final void setSponsorFormTemplates(List<SponsorFormTemplate> sponsorFormTemplates) {
         this.sponsorFormTemplates = sponsorFormTemplates;
     }
+
 }

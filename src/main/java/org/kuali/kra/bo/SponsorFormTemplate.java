@@ -33,6 +33,7 @@ public class SponsorFormTemplate extends KraPersistableBusinessObjectBase implem
     private byte[] attachmentContent;
     private FormFile templateFile;
     private SponsorForms sponsorForms;
+    private Boolean selectToPrint = false;
 
 	public Integer getPackageNumber() {
 		return packageNumber;
@@ -134,5 +135,13 @@ public class SponsorFormTemplate extends KraPersistableBusinessObjectBase implem
         this.sponsorForms = sponsorForms;
     }
     
+
+    public final Boolean getSelectToPrint() {
+        return selectToPrint;
+    }
+
+    public final void setSelectToPrint(Boolean selectToPrint) {
+        this.selectToPrint = selectToPrint;
+    }
     
 }

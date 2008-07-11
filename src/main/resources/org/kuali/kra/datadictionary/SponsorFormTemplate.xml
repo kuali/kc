@@ -95,7 +95,7 @@
 			<shortLabel>Page Description </shortLabel>
 			<maxLength>200</maxLength>
 			<control>
-				<text size="200" />
+				<text size="100" />
 			</control>
 			<summary>Page Description </summary>
 			<description>Page Description </description>
