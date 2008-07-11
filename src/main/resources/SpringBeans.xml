@@ -936,7 +936,7 @@
         <property name="mappings">
             <map>
                 <entry key="printBudgetForm">
-                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.ProposalTaskFactory" parent="parentTaskFactory">
+                    <bean class="org.kuali.kra.proposaldevelopment.web.struts.authorization.BudgetProposalTaskFactory" parent="parentTaskFactory">
                         <property name="taskName" value="printProposal" />
                     </bean>
                 </entry>
