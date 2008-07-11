@@ -198,7 +198,14 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         } else {
 	        updateProposalDocument(pdForm);
             setProposalStatus(pdForm.getProposalDevelopmentDocument());
-            return super.save(mapping, form, request, response);
+            ActionForward forward = super.save(mapping, form, request, response);
+            
+            //Need to facilitate releasing the Budget locks if user is redirected to Actions page
+            if(forward != null && forward.getName().equalsIgnoreCase("actions")) {
+                pdForm.setMethodToCall("actions");
+            }
+            
+            return forward;
         }
     }
     
