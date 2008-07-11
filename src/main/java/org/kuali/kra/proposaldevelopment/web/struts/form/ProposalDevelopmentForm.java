@@ -53,6 +53,7 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PersonEditableField;
+import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -137,6 +138,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private String optInCertificationStatus;
     private ProposalChangedData newProposalChangedData;
 
+    private String proposalFormTabTitle = "Print Sponsor Form Packages ";
+    
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
@@ -293,6 +296,13 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         for(int i=0; i<keywords.size(); i++) {
             PropScienceKeyword propScienceKeyword = (PropScienceKeyword)keywords.get(i);
             propScienceKeyword.setSelectKeyword(false);
+        }
+
+        
+        /* reset check box in sponsor form templates */
+        List<SponsorFormTemplate> sponsorFormTemplates = proposalDevelopmentDocument.getSponsorFormTemplates();
+        for(SponsorFormTemplate sponsorFormTemplate : sponsorFormTemplates) {
+            sponsorFormTemplate.setSelectToPrint(false);
         }
         
         // Clear the edit roles so that they can then be set by struts
@@ -1189,6 +1199,15 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
             }
         }
         return true;
+    }
+
+    public final String getProposalFormTabTitle() {
+        String totalForms = getProposalDevelopmentDocument().getSponsorFormTemplates().size() + "";
+        return proposalFormTabTitle.concat("(" + totalForms + ")");
+    }
+
+    public final void setProposalFormTabTitle(String proposalFormTabTitle) {
+        this.proposalFormTabTitle = proposalFormTabTitle;
     }
     
 }
