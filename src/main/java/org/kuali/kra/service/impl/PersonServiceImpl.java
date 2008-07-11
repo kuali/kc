@@ -22,11 +22,13 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Person;
+import org.kuali.kra.dao.PersonDao;
 import org.kuali.kra.service.PersonService;
 
 public class PersonServiceImpl implements PersonService {
     
     private BusinessObjectService businessObjectService;
+    private PersonDao personDao;
     
     /**
      * Sets the businessObjectService attribute value.
@@ -35,6 +37,10 @@ public class PersonServiceImpl implements PersonService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public void setPersonDao(PersonDao personDao) {
+        this.personDao = personDao;
     }
 
     /**
@@ -90,5 +96,12 @@ public class PersonServiceImpl implements PersonService {
         }
 
         return person;
+    }
+    
+    /**
+     * @see org.kuali.kra.service.PersonService#isActiveByName(java.lang.String)
+     */
+    public boolean isActiveByName(String username) {
+        return personDao.isActiveByName(username);
     }
 }
