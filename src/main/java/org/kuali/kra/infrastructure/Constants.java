@@ -250,4 +250,9 @@ public interface Constants {
     public static final String PROPOSAL_EDITABLECOLUMN_DATATYPE = "document.newMaintainableObject.dataType";
     public static final String PROPOSAL_EDITABLECOLUMN_DATALENGTH = "document.newMaintainableObject.dataLength";
     public static final String PROPOSAL_EDITABLECOLUMN_LOOKUPRETURN = "document.newMaintainableObject.lookupReturn";
+
+    public static final String PDF_REPORT_CONTENT_TYPE = "application/pdf";
+    public static final String PDF_FILE_EXTENSION = ".pdf";
+    public static final String GENERIC_SPONSOR_CODE = "GENERIC_SPONSOR_CODE";
+
 }

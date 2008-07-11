@@ -2847,12 +2847,10 @@
 		<reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="sponsorCode"/> 
 		</reference-descriptor>
-		<!-- 
-        <collection-descriptor name="sponsorFormTemplates" proxy="true" element-class-ref="org.kuali.kra.bo.SponsorFormTemplate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="sponsorFormTemplates" proxy="true" element-class-ref="org.kuali.kra.bo.SponsorFormTemplate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
             <inverse-foreignkey field-ref="sponsorCode"/>
             <inverse-foreignkey field-ref="packageNumber"/>
         </collection-descriptor>
-         -->
 	</class-descriptor>
  
 	<class-descriptor class="org.kuali.kra.bo.SponsorFormTemplate" table="SPONSOR_FORM_TEMPLATES">
@@ -2871,6 +2869,14 @@
 			<foreignkey field-ref="packageNumber"/> 
 			<foreignkey field-ref="sponsorCode"/> 
 		</reference-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.bo.Parameter" table="OSP$PARAMETER">
+		<field-descriptor name="parameter" column="PARAMETER" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="effectiveDate" column="EFFECTIVE_DATE" jdbc-type="DATE"/>
+		<field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 	</class-descriptor>
 
 </descriptor-repository>
