@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KimGroup;
 import org.kuali.kra.kim.bo.KimGroupAttribute;
 import org.kuali.kra.kim.bo.KimGroupGroup;
@@ -63,6 +64,10 @@ import org.kuali.kra.kim.pojo.Role;
 public class ServiceBase {
 
     private BusinessObjectService businessObjectService = null;
+    private KimCache personCache = new KimCache();
+    private KimCache namespaceCache = new KimCache();
+    private KimCache permissionCache = new KimCache();
+    private KimCache roleCache = new KimCache();
 
     /**
      * Set the Business Object Service.  This service is used
@@ -219,8 +224,13 @@ public class ServiceBase {
      * @return the Namespace's ID
      */
     public final Long getNamespaceId(String namespaceName) {
-        KimNamespace namespace = getNamespaceByName(namespaceName);
-        return namespace.getId();
+        Long namespaceId = namespaceCache.getId(namespaceName);
+        if (namespaceId == null) {
+            KimNamespace namespace = getNamespaceByName(namespaceName);
+            namespaceId = namespace.getId();
+            namespaceCache.addId(namespaceName, namespaceId);
+        }
+        return namespaceId;
     }
     
     /**
@@ -266,14 +276,19 @@ public class ServiceBase {
      * @return the Permission's ID
      */
     public final Long getPermissionId(Long namespaceId, String permissionName) {
-        Collection<KimPermission> permissions = findMatching(KimPermission.class, 
-                                                             "namespaceId", namespaceId,
-                                                             "name", permissionName);
-        if (permissions.size() != 1) {
-            throw new UnknownPermissionNameException(permissionName);
-        }
+        Long permissionId = permissionCache.getId(namespaceId, permissionName);
+        if (permissionId == null) {
+            Collection<KimPermission> permissions = findMatching(KimPermission.class, 
+                                                                 "namespaceId", namespaceId,
+                                                                 "name", permissionName);
+            if (permissions.size() != 1) {
+                throw new UnknownPermissionNameException(permissionName);
+            }
         
-        return permissions.iterator().next().getId();
+            permissionId = permissions.iterator().next().getId();
+            permissionCache.addId(namespaceId, permissionName, permissionId);
+        }
+        return permissionId;
     }
     
     /**
@@ -308,8 +323,13 @@ public class ServiceBase {
      * @return the Role's ID
      */
     public final Long getRoleId(String roleName) {
-        KimRole role = getRoleByName(roleName);
-        return role.getId();
+        Long roleId = roleCache.getId(roleName);
+        if (roleId == null) {
+            KimRole role = getRoleByName(roleName);
+            roleId = role.getId();
+            roleCache.addId(roleName, roleId);
+        }
+        return roleId;
     }
 
     /**
@@ -422,12 +442,8 @@ public class ServiceBase {
      * @return true if any of the roles has the permission; otherwise false
      */
     public final boolean hasPermission(Collection<Long> roleIds, Long permissionId) {
-        for (Long roleId : roleIds) {
-            if (hasPermission(roleId, permissionId)) {
-                return true;
-            }
-        }
-        return false;
+        KimDao personRoleDao = KraServiceLocator.getService(KimDao.class);
+        return personRoleDao.hasPermission(roleIds, permissionId);
     }
     
     //////////////////////////////////////////////////////////////////////////////////
@@ -448,8 +464,13 @@ public class ServiceBase {
      * @return Person's ID
      */
     public final Long getPersonId(String username) {
-        KimPerson person = getPersonByName(username);
-        return person.getId();
+        Long personId = personCache.getId(username);
+        if (personId == null) {
+            KimPerson person = getPersonByName(username);
+            personId =  person.getId();
+            personCache.addId(username, personId);
+        }
+        return personId;
     }
     
     /**
@@ -980,18 +1001,30 @@ public class ServiceBase {
      * @return the set of Role IDs
      */
     public final Set<Long> getPersonQualifiedRoleIds(Long personId, Map<String, String> qualifiedRoleAttributes) {
-        // Get all of the Qualified Roles that the Person is in.
-        List<KimQualifiedRolePerson> qualifiedRoles = getPersonQualifiedRoles(personId);
+        Collection<KimQualifiedRolePerson> qualifiedRoles = null;
+        if (qualifiedRoleAttributes == null || qualifiedRoleAttributes.size() == 0) {
+            // Get all of the Qualified Roles that the Person is in.
+            qualifiedRoles = getPersonQualifiedRoles(personId);
+        }
+        else {
+            //long startTime = System.currentTimeMillis();
+            KimDao personRoleDao = KraServiceLocator.getService(KimDao.class);
+            qualifiedRoles = personRoleDao.getPersonQualifiedRoles(personId, qualifiedRoleAttributes);
+           //long endTime = System.currentTimeMillis();
+          // System.out.println("Query Time = " + (endTime - startTime));
+        }
         
         // Only add the Role IDs for those Qualified Roles 
         // that match the given qualifiedRoleAttributes.
-        
+       // long startTime = System.currentTimeMillis();
         Set<Long> roleIds = new HashSet<Long>();
         for (KimQualifiedRolePerson rolePerson : qualifiedRoles) {
             if (rolePerson.partialMatch(qualifiedRoleAttributes)) {
                 roleIds.add(rolePerson.getRoleId());
             }
         }
+        //long endTime = System.currentTimeMillis();
+        //System.out.println("Filter Time = " + (endTime - startTime));
         
         return roleIds;
     }
