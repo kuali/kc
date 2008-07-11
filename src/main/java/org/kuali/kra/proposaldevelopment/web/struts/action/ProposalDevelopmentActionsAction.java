@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayOutputStream;
@@ -54,6 +55,7 @@ import org.kuali.core.web.struts.action.AuditModeAction;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -72,6 +74,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
+import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -754,6 +757,68 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private StrutsConfirmation buildSubmitToGrantsGovWithWarningsQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, KeyConstants.QUESTION_SUMBMIT_OPPORTUNITY_WITH_WARNINGS_CONFIRMATION);
     }
+
+    
+    
+    /**
+     * 
+     * This method is called to print forms
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printSponsorForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
+        String proposalNumber = proposalDevelopmentDocument.getProposalNumber();
+        List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();  //proposalDevelopmentDocument.getSponsorForm(0).getSponsorFormTemplates();
+        
+        List<SponsorFormTemplate> sponsorFormTemplates = proposalDevelopmentDocument.getSponsorFormTemplates();
+        for(SponsorFormTemplate sponsorFormTemplate : sponsorFormTemplates) {
+            if(sponsorFormTemplate.getSelectToPrint()) {
+                printFormTemplates.add(sponsorFormTemplate);
+            }
+        }
+        if(!printFormTemplates.isEmpty()) {
+            String contentType = Constants.PDF_REPORT_CONTENT_TYPE;
+            String ReportName = proposalNumber.concat("_" + proposalDevelopmentDocument.getSponsorCode()).concat(Constants.PDF_FILE_EXTENSION);
+            streamToResponse(printFormTemplates, proposalNumber, contentType, ReportName, response);
+            actionForward = null;
+        }
+        return actionForward;
+    }
+
+    public void streamToResponse(List<SponsorFormTemplate> printFormTemplates, String proposalNumber, String contentType, String ReportName, HttpServletResponse response) throws Exception{
+        
+        
+        byte[] sftByteStream = KraServiceLocator.getService(PrintService.class).printProposalSponsorForms(proposalNumber, printFormTemplates);
+        
+        if(sftByteStream == null) {
+            return;
+        }
+        ByteArrayOutputStream baos = null;
+        try{
+            baos = new ByteArrayOutputStream(sftByteStream.length);
+            baos.write(sftByteStream);
+            
+            WebUtils.saveMimeOutputStreamAsFile(response, contentType, baos, ReportName);
+            
+        }finally{
+            try{
+                if(baos!=null){
+                    baos.close();
+                    baos = null;
+                }
+            }catch(IOException ioEx){
+                LOG.warn(ioEx.getMessage(), ioEx);
+            }
+        }
+}
+
     
     /**
      * 
