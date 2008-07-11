@@ -101,9 +101,9 @@
            			</td>
            			<td class="tab-subhead1"><kul:htmlControlAttribute property="${version}.documentDescription" attributeEntry="${budgetVersionOverviewAttributes.documentDescription}" readOnly="${descriptionUpdatable != 'Yes'}"/></td>
 	            	<td class="tab-subhead1"><div align="center">${budgetVersion.budgetVersionNumber}</div></td>
-		            <td class="tab-subhead1"><div align="right">&nbsp;${budgetVersion.totalDirectCost}</div></td>
-		            <td class="tab-subhead1"><div align="right">&nbsp;${budgetVersion.totalIndirectCost}</div></td>
-		            <td class="tab-subhead1"><div align="right">&nbsp;${budgetVersion.totalCost}</div></td>
+		            <td class="tab-subhead1"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalDirectCost" attributeEntry="${budgetVersionOverviewAttributes.totalDirectCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead1"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalIndirectCost" attributeEntry="${budgetVersionOverviewAttributes.totalIndirectCost}" styleClass="amount" readOnly="true"/></div></td>
+		            <td class="tab-subhead1"><div align="right">&nbsp;<kul:htmlControlAttribute property="${version}.totalCost" attributeEntry="${budgetVersionOverviewAttributes.totalCost}" styleClass="amount" readOnly="true"/></div></td>
 		            <td class="tab-subhead1">
 		            	<div align="center">
 		            		<!--  This field is to hold select status if it's disabled by javascript -->
