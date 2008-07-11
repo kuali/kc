@@ -194,7 +194,8 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_PERMISSIONS, KraAuthorizationConstants.ProposalEditMode.VIEW_PERMISSIONS);
         entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES, KraAuthorizationConstants.ProposalEditMode.VIEW_NARRATIVES);
         entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
-        entryEditModeReplacementMap.put("addBudget", "openBudgets");
+        //Looks like addBudget is needed in EditModeMap at all times
+        //entryEditModeReplacementMap.put("addBudget", "openBudgets");
         entryEditModeReplacementMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, AuthorizationConstants.EditMode.VIEW_ONLY);
     } 
     
@@ -336,9 +337,6 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
             if (StringUtils.equals(entry.getKey(), "addBudget")) {
-                entry.setValue(FALSE);
-            }
-            else if (StringUtils.equals(entry.getKey(), "openBudgets")) {
                 entry.setValue(FALSE);
             }
         }
