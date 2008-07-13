@@ -53,7 +53,7 @@ public class NarrativeReadAuthorizer extends NarrativeAuthorizer {
         if(!hasPermission) {
             hasPermission = kraWorkflowService.hasWorkflowPermission(username, doc);  
         }
-        
+       
         return hasPermission;
     }
 }

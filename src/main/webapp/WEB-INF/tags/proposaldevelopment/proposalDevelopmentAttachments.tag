@@ -112,8 +112,12 @@
         	<c:if test="${narrative.narrativeType.narrativeTypeGroup eq KualiForm.proposalDevelopmentParameters['proposalNarrativeTypeGroup'].parameterValue}">
 			<c:set var="narrType" value="${narrative.narrativeType.description}"/>
 			<c:set var="narrStatus" value="${narrative.narrativeStatus.description}"/>
-			<c:set var="downloadAttachment" value="${narrative.downloadAttachment}" />
-			<c:set var="replaceAttachment" value="${narrative.replaceAttachment}" />
+			<c:set var="downloadKey" value="proposalAttachment.${narrative.moduleNumber}.download" />
+			<c:set var="downloadAttachment" value="${KualiForm.editingMode[downloadKey]}" />
+			<c:set var="replaceKey" value="proposalAttachment.${narrative.moduleNumber}.replace" />
+			<c:set var="replaceAttachment" value="${KualiForm.editingMode[replaceKey]}" />
+			<c:set var="deleteKey" value="proposalAttachment.${narrative.moduleNumber}.delete" />
+            <c:set var="deleteAttachment" value="${KualiForm.editingMode[deleteKey]}" />
 			<kul:innerTab parentTab="Proposal Attachments" defaultOpen="false" tabDescription="${narrType} - ${narrStatus}" tabTitle="${status.index+1}. ${narrType} - ${narrStatus}">
 				<div class="innerTab-container" align="left">
 					<table class=tab cellpadding=0 cellspacing=0 summary="">
@@ -196,7 +200,7 @@
 			          	<tr>
 							<td colspan=4>
 								<div align="center">
-								    <c:if test="${narrative.deleteAttachment}">
+								    <c:if test="${deleteAttachment}">
 										<html:image styleId="deleteProposalAttachment.line${status.index}" property="methodToCall.deleteProposalAttachment.line${status.index}.anchor${currentTabIndex}"
 										            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 									</c:if>
