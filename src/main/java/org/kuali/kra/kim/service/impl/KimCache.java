@@ -18,34 +18,80 @@ package org.kuali.kra.kim.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The KIM Cache is used to store mappings between names and IDs.  In KIM, 
+ * we always have to map names to IDs, this includes persons, namespaces, roles, 
+ * and permissions.  Permissions are slightly different as explained below.
+ * 
+ * This cache was introduced in order to increase performance.
+ */
 public class KimCache {
 
-    private Map<String, Long> cache = new HashMap<String, Long>();
-    private Map<Long, KimCache> keyCache = new HashMap<Long, KimCache>();
+    /**
+     * The <code>nameIdMap</code> is used for simple mappings between
+     * a name and an ID.  This is used by persons, roles, and namespaces.
+     */
+    private Map<String, Long> nameIdMap = new HashMap<String, Long>();
     
+    /**
+     * The <code>idNameIdMap</code> is used to handle permissions.  Unlike
+     * persons, roles, and namespaces which are uniquely identified by their
+     * name, permissions require a namespace and a permission name.  So, to
+     * find a permission ID, we start with the namespace ID which maps to
+     * a KimCache.  We can then use the permissions name to find its ID.
+     */
+    private Map<Long, KimCache> idNameIdMap = new HashMap<Long, KimCache>();
+    
+    /**
+     * Get a ID for a name.
+     * @param name the name
+     * @return the ID or null if not found
+     */
     public synchronized Long getId(String name) {
-        return cache.get(name);
+        return nameIdMap.get(name);
     }
     
+    /**
+     * Add an ID to the cache.
+     * @param name the name
+     * @param id the ID value
+     */
     public synchronized void addId(String name, Long id) {
-        cache.put(name, id);
+        nameIdMap.put(name, id);
     }
     
-    public synchronized Long getId(Long key, String name) {
-        KimCache kimCache = getKimCache(key);
+    /**
+     * Get an ID based upon a 
+     * @param namespaceId the namespace ID
+     * @param name the name to look up
+     * @return the ID or null if not found
+     */
+    public synchronized Long getId(Long namespaceId, String name) {
+        KimCache kimCache = getCache(namespaceId);
         return kimCache.getId(name);
     }
     
-    public synchronized void addId(Long key, String name, Long id) {
-        KimCache kimCache = getKimCache(key);
+    /**
+     * Add an ID associated with a namespace and a name.
+     * @param namespaceId the namespace ID
+     * @param name the name
+     * @param id the ID value
+     */
+    public synchronized void addId(Long namespaceId, String name, Long id) {
+        KimCache kimCache = getCache(namespaceId);
         kimCache.addId(name, id);
     }
     
-    private synchronized KimCache getKimCache(Long key) {
-        KimCache kimCache = keyCache.get(key);
+    /**
+     * Get the cache for a namespace.
+     * @param namespaceId the namespace ID
+     * @return the associated cache of name/id mappings
+     */
+    private synchronized KimCache getCache(Long namespaceId) {
+        KimCache kimCache = idNameIdMap.get(namespaceId);
         if (kimCache == null) {
             kimCache = new KimCache();
-            keyCache.put(key, kimCache);
+            idNameIdMap.put(namespaceId, kimCache);
         }
         return kimCache;
     }

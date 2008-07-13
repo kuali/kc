@@ -37,7 +37,10 @@
         	</tr>
 	       </c:forEach>
 	       
-	    <c:if test="${selectedProposalAttachment.modifyNarrativeRights}">
+	    <c:set var="modifyRightsKey" value="proposalAttachment.${selectedProposalAttachment.moduleNumber}.modifyRights" />
+        <c:set var="modifyRights" value="${KualiForm.editingMode[modifyRightsKey]}" />
+        
+	    <c:if test="${modifyRights}">
 		<tr>
 			<td colspan="2">
 			<div id="globalbuttons" class="globalbuttons"><input

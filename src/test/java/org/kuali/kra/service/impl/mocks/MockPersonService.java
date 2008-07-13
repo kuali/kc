@@ -74,9 +74,10 @@ public class MockPersonService implements PersonService {
         return null;
     }
 
-    /**
-     * @see org.kuali.kra.service.PersonService#isActiveByName(java.lang.String)
-     */
+    public String getPersonUserName(String userId) {  
+        return null;
+    }
+
     public boolean isActiveByName(String username) {
         return true;
     }
