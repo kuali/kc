@@ -62,4 +62,11 @@ public interface PersonService {
      * @return true if active; otherwise false
      */
     public boolean isActiveByName(String username);
+
+    /**
+     * Given a user's ID, get his/her username.
+     * @param userId the user's ID
+     * @return the person's username or null if not found
+     */
+    public String getPersonUserName(String userId);
 }

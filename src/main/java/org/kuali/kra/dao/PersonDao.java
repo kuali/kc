@@ -16,14 +16,16 @@
 package org.kuali.kra.dao;
 
 /**
- * Person DAO.
+ * Person DAO.  The DAO is necessary for fast SQL queries.  When
+ * we don't want to read an entire BO, the DAO is used to retrieve
+ * the raw data that we need.
  */
 public interface PersonDao {
     
     /**
-     * Is this an active user?
-     * @param username the person's username
-     * @return true if active; otherwise false
+     * Get the username of a person based upon the person's ID.
+     * @param userId the person's ID
+     * @return the person's username
      */
-    public boolean isActiveByName(String username);
+    public String getUserName(String userId);
 }

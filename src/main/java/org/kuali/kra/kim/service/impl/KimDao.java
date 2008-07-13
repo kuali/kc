@@ -20,11 +20,27 @@ import java.util.Map;
 
 import org.kuali.kra.kim.bo.KimQualifiedRolePerson;
 
+/**
+ * The KIM DAO has specialized methods for querying the database.
+ * The KIM DAO was added in order to improve performance.
+ */
 public interface KimDao {
+    
+    /**
+     * Gets a list of the qualified roles for a person based upon the given qualified attributes.
+     * Actually, this is really a hack. As long as a qualified role has the first qualified attribute
+     * entry in the map, the role is returned.
+     * @param personId the person's ID
+     * @param qualifiedRoleAttributes the qualified attributes (only the first is used)
+     * @return the list of qualified roles having the first qualified attribute
+     */
     public Collection<KimQualifiedRolePerson> getPersonQualifiedRoles(Long personId, Map<String, String> qualifiedRoleAttributes);
+    
+    /**
+     * Do any of the given roles have the given permission?
+     * @param roleIds the set of roles
+     * @param permissionId the permission to look for
+     * @return true if one or more of the roles has the given permission; otherwise false
+     */
     public boolean hasPermission(Collection<Long> roleIds, Long permissionId);
-    public Long getPersonId(String username);
-    public Long getNamespaceId(String namespaceName);
-    public Long getRoleId(String roleName);
-    public Long getPermissionId(Long namespaceId, String permissionName);
 }

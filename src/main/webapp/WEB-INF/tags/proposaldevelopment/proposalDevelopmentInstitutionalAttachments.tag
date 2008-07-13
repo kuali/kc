@@ -82,8 +82,12 @@
 
 			<c:if test="${fn:length(KualiForm.document.instituteAttachments) > 0}" >
         	<c:forEach var="instituteAttachment" items="${KualiForm.document.instituteAttachments}" varStatus="status">
-        	    <c:set var="downloadAttachment" value="${instituteAttachment.downloadAttachment}" />
-                <c:set var="replaceAttachment" value="${instituteAttachment.replaceAttachment}" />
+        	    <c:set var="downloadKey" value="instituteAttachment.${instituteAttachment.moduleNumber}.download" />
+                <c:set var="downloadAttachment" value="${KualiForm.editingMode[downloadKey]}" />
+                <c:set var="replaceKey" value="instituteAttachment.${instituteAttachment.moduleNumber}.replace" />
+                <c:set var="replaceAttachment" value="${KualiForm.editingMode[replaceKey]}" />
+                <c:set var="deleteKey" value="instituteAttachment.${instituteAttachment.moduleNumber}.delete" />
+                <c:set var="deleteAttachment" value="${KualiForm.editingMode[deleteKey]}" />>
                 
 	             <tr>
 					<th class="infoline" align="right">
@@ -126,7 +130,7 @@
 	                </td>
 	                <td>
 					<div align=center>
-					    <c:if test="${instituteAttachment.deleteAttachment}">
+					    <c:if test="${deleteAttachment}">
 							<html:image property="methodToCall.deleteInstitutionalAttachment.line${status.index}.anchor${currentTabIndex}"
 								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 					    </c:if>

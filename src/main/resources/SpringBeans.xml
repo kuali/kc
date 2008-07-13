@@ -543,6 +543,7 @@
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="proposalAuthorizationService" ref="proposalAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="personService" ref="personService" />
     </bean>
     
     <!-- Application Task Authorizers -->
