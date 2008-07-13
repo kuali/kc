@@ -22,6 +22,7 @@ import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizer;
 import org.kuali.kra.authorization.TaskAuthorizerGroup;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Task Authorization Service Implementation.
@@ -45,6 +46,7 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
      * 
      * @see org.kuali.kra.service.TaskAuthorizationService#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
      */
+    @Transactional
     public boolean isAuthorized(String username, Task task) {
         boolean isAuthorized = true;
         if (taskAuthorizerGroups != null) {
@@ -65,6 +67,7 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
     /**
      * @see org.kuali.kra.service.TaskAuthorizationService#isTaskDefined(java.lang.String, java.lang.String)
      */
+    @Transactional
     public boolean isTaskDefined(String taskGroupName, String taskName) {
         if (taskAuthorizerGroups != null) {
             for (TaskAuthorizerGroup taskAuthorizerGroup : taskAuthorizerGroups) {

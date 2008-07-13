@@ -15,9 +15,11 @@
  */
 package org.kuali.kra.dao.ojb;
 
+import java.util.Iterator;
+
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.dao.PersonDao;
@@ -26,16 +28,23 @@ import org.kuali.kra.dao.PersonDao;
  * Person DAO Implementation.
  */
 public class PersonDaoOjb extends PlatformAwareDaoBaseOjb implements PersonDao {
-
+    
     /**
-     * @see org.kuali.kra.dao.PersonDao#isActiveByName(java.lang.String)
+     * @see org.kuali.kra.dao.PersonDao#getUserName(java.lang.String)
      */
-    public boolean isActiveByName(String username) {
+    public String getUserName(String userId) {
+        String userName = null;
+        
         Criteria crit = new Criteria();
-        crit.addEqualTo("userName", username);
-        crit.addEqualTo("active", Boolean.TRUE);
-        Query q = QueryFactory.newQuery(Person.class, crit);
+        crit.addEqualTo("personId", userId);
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(Person.class, crit);
+        q.setAttributes(new String[] { "userName" });
 
-        return getPersistenceBrokerTemplate().getCount(q) > 0;
+        Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+        while (iter != null && iter.hasNext()) {
+            Object[] row = iter.next();
+            userName = (String) row[0];
+        }
+        return userName;
     }
 }
