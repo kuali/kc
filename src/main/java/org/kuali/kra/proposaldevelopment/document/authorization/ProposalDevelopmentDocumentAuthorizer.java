@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.document.authorization;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,6 +37,7 @@ import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.KNSServiceLocator;
@@ -189,6 +191,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         editModeMap.put("alterProposalData", canExecuteTask(username, doc, TaskName.ALTER_PROPOSAL_DATA));
         editModeMap.put("showAlterProposalData", canExecuteTask(username, doc, TaskName.SHOW_ALTER_PROPOSAL_DATA));
         editModeMap.put("submitToSponsor", canExecuteTask(username, doc, TaskName.SUBMIT_TO_SPONSOR));
+        setNarrativePermissions(username, doc, editModeMap);
         
         entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_PROPOSAL, KraAuthorizationConstants.ProposalEditMode.VIEW_PROPOSAL);
         entryEditModeReplacementMap.put(KraAuthorizationConstants.ProposalEditMode.MODIFY_PERMISSIONS, KraAuthorizationConstants.ProposalEditMode.VIEW_PERMISSIONS);
@@ -199,6 +202,26 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
         entryEditModeReplacementMap.put(AuthorizationConstants.EditMode.FULL_ENTRY, AuthorizationConstants.EditMode.VIEW_ONLY);
     } 
     
+    private void setNarrativePermissions(String username, ProposalDevelopmentDocument doc, Map editModeMap) {
+        List<Narrative> narratives = doc.getNarratives();
+        for (Narrative narrative : narratives) {
+            String prefix = "proposalAttachment." + narrative.getModuleNumber() + ".";
+            editModeMap.put(prefix + "download", narrative.getDownloadAttachment(username) ? TRUE : FALSE);
+            editModeMap.put(prefix + "replace", narrative.getReplaceAttachment(username) ? TRUE : FALSE);
+            editModeMap.put(prefix + "delete", narrative.getDeleteAttachment(username) ? TRUE : FALSE);
+            editModeMap.put(prefix + "modifyRights", narrative.getModifyNarrativeRights(username) ? TRUE : FALSE);
+        }
+        
+        narratives = doc.getInstituteAttachments();
+        for (Narrative narrative : narratives) {
+            String prefix = "instituteAttachment." + narrative.getModuleNumber() + ".";
+            editModeMap.put(prefix + "download", narrative.getDownloadAttachment(username) ? TRUE : FALSE);
+            editModeMap.put(prefix + "replace", narrative.getReplaceAttachment(username) ? TRUE : FALSE);
+            editModeMap.put(prefix + "delete", narrative.getDeleteAttachment(username) ? TRUE : FALSE);
+            editModeMap.put(prefix + "modifyRights", narrative.getModifyNarrativeRights(username) ? TRUE : FALSE);
+        }
+    }
+
     /**
      * Can the user execute the given task?
      * @param username the user's username

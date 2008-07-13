@@ -35,8 +35,11 @@
 				</td>
         	</tr>
 	       </c:forEach>
-	       
-	    <c:if test="${selectedInstituteAttachment.modifyNarrativeRights}"> 
+	      
+	    <c:set var="modifyRightsKey" value="instituteAttachment.${selectedInstituteAttachment.moduleNumber}.modifyRights" />
+        <c:set var="modifyRights" value="${KualiForm.editingMode[modifyRightsKey]}" />
+        
+        <c:if test="${modifyRights}">
 		<tr>
 			<td colspan="2">
 			<div id="globalbuttons" class="globalbuttons"><input

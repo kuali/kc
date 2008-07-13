@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.bo.Person;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.NarrativeRight;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -40,12 +39,10 @@ public abstract class NarrativeAuthorizer extends TaskAuthorizerImpl {
      * @return true if the user has the narrative right for the narrative
      */
     protected final boolean hasNarrativeRight(String username, Narrative narrative, NarrativeRight narrativeRight) {
-        PersonService personService = KraServiceLocator.getService(PersonService.class);
-
         List<NarrativeUserRights> userRightsList = narrative.getNarrativeUserRights();
         for (NarrativeUserRights userRights : userRightsList) {
-            Person person = personService.getPerson(userRights.getUserId());
-            if (StringUtils.equals(username, person.getUserName())) {
+            String personUserName = personService.getPersonUserName(userRights.getUserId());
+            if (StringUtils.equals(username, personUserName)) {
                 if (StringUtils.equals(userRights.getAccessType(), narrativeRight.getAccessType())) {
                     return true;
                 }
