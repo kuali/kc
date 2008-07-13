@@ -306,6 +306,10 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     
     public ActionForward budgetVersions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        String headerTabCall = getHeaderTabDispatch(request);
+        if(StringUtils.isEmpty(headerTabCall)) {
+            pdForm.getProposalDevelopmentDocument().refreshPessimisticLocks();
+        }        
         pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetVersionOverviews()));
         setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
         return mapping.findForward("budgetVersions");
