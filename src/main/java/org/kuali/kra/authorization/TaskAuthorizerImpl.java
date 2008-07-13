@@ -18,6 +18,7 @@ package org.kuali.kra.authorization;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
+import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
 
 /**
@@ -30,6 +31,7 @@ public abstract class TaskAuthorizerImpl implements TaskAuthorizer {
     private ProposalAuthorizationService proposalAuthorizationService;
     private UnitAuthorizationService unitAuthorizationService;
     protected KraWorkflowService kraWorkflowService;
+    protected PersonService personService;
     
     /**
      * Set the name of the task.  Injected by the Spring Framework.
@@ -61,6 +63,14 @@ public abstract class TaskAuthorizerImpl implements TaskAuthorizer {
      */
     public final void setKraWorkflowService(KraWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
+    }
+    
+    /**
+     * Set the Person Service.  Injected by the Spring Framework.
+     * @param personService the Person Service
+     */
+    public final void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
     
     /**

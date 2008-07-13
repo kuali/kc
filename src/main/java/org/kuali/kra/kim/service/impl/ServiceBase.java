@@ -1007,25 +1007,19 @@ public class ServiceBase {
             qualifiedRoles = getPersonQualifiedRoles(personId);
         }
         else {
-            //long startTime = System.currentTimeMillis();
             KimDao personRoleDao = KraServiceLocator.getService(KimDao.class);
             qualifiedRoles = personRoleDao.getPersonQualifiedRoles(personId, qualifiedRoleAttributes);
-           //long endTime = System.currentTimeMillis();
-          // System.out.println("Query Time = " + (endTime - startTime));
         }
         
         // Only add the Role IDs for those Qualified Roles 
         // that match the given qualifiedRoleAttributes.
-       // long startTime = System.currentTimeMillis();
         Set<Long> roleIds = new HashSet<Long>();
         for (KimQualifiedRolePerson rolePerson : qualifiedRoles) {
             if (rolePerson.partialMatch(qualifiedRoleAttributes)) {
                 roleIds.add(rolePerson.getRoleId());
             }
         }
-        //long endTime = System.currentTimeMillis();
-        //System.out.println("Filter Time = " + (endTime - startTime));
-        
+         
         return roleIds;
     }
     

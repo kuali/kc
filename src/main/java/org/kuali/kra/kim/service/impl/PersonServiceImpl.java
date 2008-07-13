@@ -116,12 +116,10 @@ public class PersonServiceImpl implements PersonService {
      * @see org.kuali.kra.kim.service.PersonService#hasQualifiedPermission(java.lang.String, java.lang.String, java.util.Map)
      */
     public boolean hasQualifiedPermission(String personUserName, String namespaceName, String permissionName, Map<String, String> qualifiedRoleAttributes) {
-       // long startTime = System.currentTimeMillis();
         Long personId = helper.getPersonId(personUserName);
         Long namespaceId = helper.getNamespaceId(namespaceName);
         Long permissionId = helper.getPermissionId(namespaceId, permissionName);
-       // long etime = System.currentTimeMillis();
-        
+     
         Set<Long> roleIds = helper.getPersonQualifiedRoleIds(personId, qualifiedRoleAttributes);
         boolean hasPermission = helper.hasPermission(roleIds, permissionId);
         if (!hasPermission) {
@@ -134,8 +132,6 @@ public class PersonServiceImpl implements PersonService {
                 }
             }
         }
-        //long endTime = System.currentTimeMillis();
-        //System.out.println("Has Qualified Permission Time: " + (endTime - startTime) + ", " + (etime - startTime));
         return hasPermission;
     }
 

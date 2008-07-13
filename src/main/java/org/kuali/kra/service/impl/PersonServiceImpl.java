@@ -24,8 +24,11 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.dao.PersonDao;
 import org.kuali.kra.service.PersonService;
+import org.springframework.transaction.annotation.Transactional;
 
 public class PersonServiceImpl implements PersonService {
+    
+    private Map<String, String> userNameCache = new HashMap<String, String>();
     
     private BusinessObjectService businessObjectService;
     private PersonDao personDao;
@@ -42,7 +45,7 @@ public class PersonServiceImpl implements PersonService {
     public void setPersonDao(PersonDao personDao) {
         this.personDao = personDao;
     }
-
+    
     /**
      * @see org.kuali.kra.service.PersonService#getPersonFullname(java.lang.String)
      */
@@ -102,6 +105,38 @@ public class PersonServiceImpl implements PersonService {
      * @see org.kuali.kra.service.PersonService#isActiveByName(java.lang.String)
      */
     public boolean isActiveByName(String username) {
-        return personDao.isActiveByName(username);
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("userName", username);
+        fieldValues.put("active", Boolean.TRUE);
+        int cnt = businessObjectService.countMatching(Person.class, fieldValues);
+        return cnt > 0;
+    }
+
+    // we have a problem if the username changes.
+    /**
+     * We need performance.  We can't keep querying the database for a 
+     * @see org.kuali.kra.service.PersonService#getPersonUserName(java.lang.String)
+     */
+    @Transactional
+    public String getPersonUserName(String userId) {
+        return personDao.getUserName(userId);
+    }
+    
+    /**
+     * Get a username from the cache.
+     * @param userId the user's id
+     * @return the username or null if not found
+     */
+    private synchronized String getUserNameFromCache(String userId) {
+        return userNameCache.get(userId);
+    }
+    
+    /**
+     * Add a username to the cache using the person's id as the key.
+     * @param userId the user's id
+     * @param userName the username
+     */
+    private synchronized void addUserNameToCache(String userId, String userName) {
+        userNameCache.put(userId, userName);
     }
 }
