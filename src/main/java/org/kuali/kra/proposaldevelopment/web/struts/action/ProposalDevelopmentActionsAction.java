@@ -56,6 +56,7 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.bo.SponsorFormTemplate;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
@@ -759,6 +760,16 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
 
     
+
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.reload(mapping, form, request, response);
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        PrintService printService = KraServiceLocator.getService(PrintService.class);
+        printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getSponsorCode());
+        return forward;
+    }
     
     /**
      * 
@@ -775,14 +786,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
         ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
         String proposalNumber = proposalDevelopmentDocument.getProposalNumber();
-        List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();  //proposalDevelopmentDocument.getSponsorForm(0).getSponsorFormTemplates();
+        List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();  
         
-        List<SponsorFormTemplate> sponsorFormTemplates = proposalDevelopmentDocument.getSponsorFormTemplates();
-        for(SponsorFormTemplate sponsorFormTemplate : sponsorFormTemplates) {
-            if(sponsorFormTemplate.getSelectToPrint()) {
-                printFormTemplates.add(sponsorFormTemplate);
-            }
-        }
+        List<SponsorFormTemplateList> sponsorFormTemplateLists = proposalDevelopmentForm.getSponsorFormTemplates();
+        PrintService printService = KraServiceLocator.getService(PrintService.class);
+        printFormTemplates = printService.getSponsorFormTemplates(sponsorFormTemplateLists); 
+        
         if(!printFormTemplates.isEmpty()) {
             String contentType = Constants.PDF_REPORT_CONTENT_TYPE;
             String ReportName = proposalNumber.concat("_" + proposalDevelopmentDocument.getSponsorCode()).concat(Constants.PDF_FILE_EXTENSION);
