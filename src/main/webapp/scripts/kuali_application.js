@@ -19,7 +19,7 @@ function selectAllSponsorForms(document) {
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
 	  var e = document.KualiForm.elements[i];
 	  if(e.type == 'checkbox') {
-	  	if (e.name == 'document.sponsorFormTemplates[' + j + '].selectToPrint') {
+	  	if (e.name == 'sponsorFormTemplates[' + j + '].selectToPrint') {
  		    if(e.disabled == false){
  		    	e.checked = true;
  		    }
@@ -34,7 +34,7 @@ function unselectAllSponsorForms(document) {
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
 	  var e = document.KualiForm.elements[i];
 	  if(e.type == 'checkbox') {
-	  	if (e.name == 'document.sponsorFormTemplates[' + j + '].selectToPrint') {
+	  	if (e.name == 'sponsorFormTemplates[' + j + '].selectToPrint') {
  		    if(e.disabled == false){
  		    	e.checked = false;
  		    }
