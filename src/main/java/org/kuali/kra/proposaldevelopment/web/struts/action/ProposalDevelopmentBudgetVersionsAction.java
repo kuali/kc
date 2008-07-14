@@ -105,14 +105,14 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      * @throws Exception
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        save(mapping, form, request, response);  
+		save(mapping, form, request, response);  
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
         if (KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetToOpen.getBudgetVersionNumber().toString())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        } else {
+        } else { 
             DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
             BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
@@ -200,7 +200,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             }
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
-            updateProposalDocument(pdForm);
+            //updateProposalDocument(pdForm);
             setProposalStatus(pdForm.getProposalDevelopmentDocument());
             ActionForward forward = super.save(mapping, form, request, response);
             
