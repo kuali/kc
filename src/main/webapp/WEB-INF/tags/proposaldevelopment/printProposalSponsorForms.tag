@@ -8,19 +8,19 @@
 	<div class="innerTab-container" align="center" >
         <table align="right" cellpadding="0" cellspacing="0" summary="">
         <tbody>    
-		    	<c:forEach var="form" items="${KualiForm.document.sponsorFormTemplates}" varStatus="status">
+		    	<c:forEach var="form" items="${KualiForm.sponsorFormTemplates}" varStatus="status">
 		            <tr>	                
 		                <td width="50">
 		                </td>
 		                <td align="left" valign="middle">
-		                	<c:out value="${KualiForm.document.sponsorFormTemplates[status.index].sponsorForms.packageName}"/>
+		                	<c:out value="${KualiForm.sponsorFormTemplates[status.index].sponsorForms.packageName}"/>
 						</td>
 		                <td align="left" valign="middle">
-		                	<c:out value="${KualiForm.document.sponsorFormTemplates[status.index].pageDescription}"/>
+		                	<c:out value="${KualiForm.sponsorFormTemplates[status.index].pageDescription}"/>
 						</td>
 		                <td align="center" valign="middle">
 		                	<div align="center">
-                            	<html:checkbox property="document.sponsorFormTemplates[${status.index}].selectToPrint"/>                        
+                            	<html:checkbox property="sponsorFormTemplates[${status.index}].selectToPrint"/>                         
 		                	</div>
 		                </td>			       
 		            </tr>    	

@@ -375,6 +375,10 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
 
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        PrintService printService = KraServiceLocator.getService(PrintService.class);
+        printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getSponsorCode());
         return mapping.findForward("actions");
     }
 

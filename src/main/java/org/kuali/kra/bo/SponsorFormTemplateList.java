@@ -22,24 +22,10 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.PersistableAttachment;
 
-public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements PersistableAttachment{
-    private String fileName;
-    private String contentType;
-    private byte[] attachmentContent;
-    private FormFile templateFile;
+public class SponsorFormTemplateList extends AbstractSponsorFormTemplate {
     private Boolean selectToPrint = false;
 
-    public byte[] getAttachmentContent() {
-        return this.attachmentContent;
-    }
-
-    public void setAttachmentContent(byte[] attachmentContent) {
-        this.attachmentContent = attachmentContent;
-    }
-
-
-
-	@Override 
+    @Override 
 	protected LinkedHashMap toStringMapper() {
 		LinkedHashMap hashMap = new LinkedHashMap();
 		hashMap.put("packageNumber", getPackageNumber());
@@ -48,38 +34,6 @@ public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements 
 		hashMap.put("pageDescription", getPageDescription());
 		return hashMap;
 	}
-
-    public FormFile getTemplateFile() {
-        return templateFile;
-    }
-    
-    public void setTemplateFile(FormFile templateFile) {
-        this.templateFile = templateFile;
-    }
-
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-	    super.beforeInsert(persistenceBroker);
-	}
-
-	public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-	    super.afterLookup(persistenceBroker);
-	}	
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
 
     public final Boolean getSelectToPrint() {
         return selectToPrint;
