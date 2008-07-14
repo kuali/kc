@@ -16,9 +16,14 @@
 
 package org.kuali.kra.web.struts.action;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.Globals;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
@@ -27,7 +32,16 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.RiceConstants;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.PessimisticLock;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.PessimisticLockService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.KNSServiceLocator;
 
 
 /**
@@ -44,6 +58,38 @@ public class KraExceptionAction extends Action {
         errors.add(ActionMessages.GLOBAL_MESSAGE, errorInfo);
         
         saveErrors(request, errors);
+        
+        UniversalUser loggedInUser = GlobalVariables.getUserSession().getUniversalUser();
+        String documentNumber = (String) request.getSession().getAttribute(RiceConstants.DOCUMENT_HTTP_SESSION_KEY);
+        PessimisticLockService lockService = KNSServiceLocator.getPessimisticLockService();
+        
+        if(StringUtils.isNotEmpty(documentNumber)) {
+            Document document = KNSServiceLocator.getDocumentService().getByDocumentHeaderId(documentNumber);
+
+            if (ObjectUtils.isNotNull(document)) {
+                String budgetLockDescriptor = null;
+                for(PessimisticLock lock: document.getPessimisticLocks()) {
+                    if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && lock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
+                        budgetLockDescriptor = lock.getLockDescriptor();
+                        break;
+                    }
+                }
+            
+                lockService.releaseAllLocksForUser(document.getPessimisticLocks(), loggedInUser);
+                List<PessimisticLock> otherBudgetLocks = findMatchingLocksWithGivenDescriptor(budgetLockDescriptor); 
+                lockService.releaseAllLocksForUser(otherBudgetLocks, loggedInUser, budgetLockDescriptor);
+            }
+        }
+        
         return returnForward;
     }
+    
+    private List<PessimisticLock> findMatchingLocksWithGivenDescriptor(String lockDescriptor) {
+        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
+        Map fieldValues = new HashMap();
+        fieldValues.put("lockDescriptor", lockDescriptor);
+        List<PessimisticLock> matchingLocks = (List<PessimisticLock>) boService.findMatching(PessimisticLock.class, fieldValues);
+        return matchingLocks;
+    }
+
 }
