@@ -75,6 +75,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -370,6 +371,10 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
     }
 
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        PrintService printService = KraServiceLocator.getService(PrintService.class);
+        printService.populateSponsorForms(proposalDevelopmentForm.getSponsorFormTemplates(), proposalDevelopmentDocument.getSponsorCode());
         return mapping.findForward("actions");
     }
 
