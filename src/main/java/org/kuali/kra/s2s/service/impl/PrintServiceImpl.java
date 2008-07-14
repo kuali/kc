@@ -19,16 +19,19 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Parameter;
 import org.kuali.kra.bo.SponsorFormTemplate;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.service.PrintService;
 
 import edu.mit.coeus.exception.CoeusException;
@@ -78,7 +81,7 @@ public class PrintServiceImpl implements PrintService {
         return null;
     }
     
-    public void populateSponsorForms(List<SponsorFormTemplate> sponsorFormTemplates, String sponsorCode) {
+    public void populateSponsorForms(List<SponsorFormTemplateList> sponsorFormTemplates, String sponsorCode) {
         /* check if sponsor forms isEmpty */
         if(!sponsorFormTemplates.isEmpty()) {
             /* if exists - check if sponsor code has changed */
@@ -90,7 +93,7 @@ public class PrintServiceImpl implements PrintService {
         if(sponsorFormTemplates.isEmpty()) {
             /* get templates for proposal sponsor code */
             String genericSponsorCode = null;
-            Collection<SponsorFormTemplate> clsponsorFormTemplates = getSponsorTemlates(sponsorCode);
+            Collection<SponsorFormTemplateList> clsponsorFormTemplates = getSponsorTemplatesList(sponsorCode);
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
             /* get templates for generic sponsor code */
             Map<String, String> parameterMap = new HashMap<String, String>();
@@ -99,15 +102,70 @@ public class PrintServiceImpl implements PrintService {
             for(Parameter parameter : parameters) {
                 genericSponsorCode = parameter.getValue();
             }
-            clsponsorFormTemplates = getSponsorTemlates(genericSponsorCode);
+            clsponsorFormTemplates = getSponsorTemplatesList(genericSponsorCode);
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
         }
     }
     
-    private Collection<SponsorFormTemplate> getSponsorTemlates(String sponsorCode) {
+    public List<SponsorFormTemplate> getSponsorFormTemplates(List<SponsorFormTemplateList> sponsorFormTemplateLists) {
+        List<SponsorFormTemplate> sponsorFormTemplates = new ArrayList<SponsorFormTemplate>();
+        Set<String> sponsorCodes = new HashSet<String>();
+        Set<String> formKeys = new HashSet<String>();
+        for(SponsorFormTemplateList sponsorFormTemplateList : sponsorFormTemplateLists) {
+            if(sponsorFormTemplateList.getSelectToPrint()) {
+                if(!sponsorCodes.contains(sponsorFormTemplateList.getSponsorCode())) {
+                    sponsorCodes.add(sponsorFormTemplateList.getSponsorCode());
+                }
+                String fKeys = sponsorFormTemplateList.getSponsorCode() + sponsorFormTemplateList.getPackageNumber().toString() + sponsorFormTemplateList.getPageNumber().toString();
+                if(!formKeys.contains(fKeys)) {
+                    formKeys.add(fKeys);
+                }
+            }
+        }
+
+        String sponsorCode = null;
+        Iterator iter = sponsorCodes.iterator();
+        /* get all templates for applicable sponsor codes */
+        while(iter.hasNext()) { 
+            sponsorCode = iter.next().toString();
+            Collection<SponsorFormTemplate> clsponsorFormTemplates = getSponsorTemplates(sponsorCode);
+            sponsorFormTemplates.addAll(clsponsorFormTemplates);
+            iter.remove();
+        }
+
+        /* verify selected package */
+        List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();
+        for(SponsorFormTemplate sponsorFormTemplate : sponsorFormTemplates) {
+            String fKeys = sponsorFormTemplate.getSponsorCode() + sponsorFormTemplate.getPackageNumber().toString() + sponsorFormTemplate.getPageNumber().toString();
+            iter = formKeys.iterator();
+            boolean pageSelected = false;
+            while(iter.hasNext()) {
+                if(fKeys.equalsIgnoreCase(iter.next().toString())) {
+                    pageSelected = true;
+                    break;
+                }
+                iter.remove();
+            }
+            if(pageSelected) {
+                printFormTemplates.add(sponsorFormTemplate);
+            }
+            
+        }
+        return printFormTemplates;
+    }
+
+    private Collection<SponsorFormTemplate> getSponsorTemplates(String sponsorCode) {
         Map<String, String> sponsorCodeMap = new HashMap<String, String>();
         sponsorCodeMap.put("sponsorCode", sponsorCode);
         Collection<SponsorFormTemplate> sponsorFormTemplates = getBusinessObjectService().findMatching(SponsorFormTemplate.class, sponsorCodeMap);
+        System.out.println("sponsorFormTemplates = > " + sponsorFormTemplates.size());
+        return sponsorFormTemplates;
+    }
+
+    private Collection<SponsorFormTemplateList> getSponsorTemplatesList(String sponsorCode) {
+        Map<String, String> sponsorCodeMap = new HashMap<String, String>();
+        sponsorCodeMap.put("sponsorCode", sponsorCode);
+        Collection<SponsorFormTemplateList> sponsorFormTemplates = getBusinessObjectService().findMatching(SponsorFormTemplateList.class, sponsorCodeMap);
         return sponsorFormTemplates;
     }
 

@@ -46,7 +46,7 @@ import org.kuali.kra.bo.Organization;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorFormTemplate;
-import org.kuali.kra.bo.SponsorForms;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -78,7 +78,6 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
-import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.service.YnqService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.KNSServiceLocator;
@@ -163,7 +162,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
 
     private Boolean submitFlag = false;
 
-    private List<SponsorFormTemplate> sponsorFormTemplates;
     
     @SuppressWarnings("unchecked")
     public ProposalDevelopmentDocument() {
@@ -189,7 +187,6 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         proposalChangedDataList = new TypedArrayList(ProposalChangedData.class);
         proposalChangeHistory = new TreeMap<String, List<ProposalChangedData>>();
 
-        sponsorFormTemplates = new ArrayList<SponsorFormTemplate>();
     }
 
     public void initialize() {
@@ -1540,20 +1537,5 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         this.postSubmissionStatusCode = postSubmissionStatusCode;
     }
 
-    public final List<SponsorFormTemplate> getSponsorFormTemplates() {
-        return sponsorFormTemplates;
-    }
-
-    public final void setSponsorFormTemplates(List<SponsorFormTemplate> sponsorFormTemplates) {
-        this.sponsorFormTemplates = sponsorFormTemplates;
-    }
-
-    public SponsorFormTemplate getSponsorFormTemplate(int index) {
-        while (getProposalPersons().size() <= index) {
-            getSponsorFormTemplates().add(new SponsorFormTemplate());
-        }
-        
-        return getSponsorFormTemplates().get(index);
-    }
     
 }
