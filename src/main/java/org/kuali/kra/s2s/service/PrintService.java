@@ -18,12 +18,13 @@ package org.kuali.kra.s2s.service;
 import java.util.List;
 
 import org.kuali.kra.bo.SponsorFormTemplate;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 
 /**
  * This class...
  */
 public interface PrintService {
     public byte[] printProposalSponsorForms(String proposalNumber,List<SponsorFormTemplate> sponsorFormTemplates);
-    public void populateSponsorForms(List<SponsorFormTemplate> sponsorFormTemplates, String sponsorCode);
+    public void populateSponsorForms(List<SponsorFormTemplateList> sponsorFormTemplates, String sponsorCode);
+    public List<SponsorFormTemplate> getSponsorFormTemplates(List<SponsorFormTemplateList> sponsorFormTemplateLists);
 }

@@ -22,21 +22,45 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.PersistableAttachment;
 
-public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements PersistableAttachment{
-    private String fileName;
-    private String contentType;
-    private byte[] attachmentContent;
-    private FormFile templateFile;
-    private Boolean selectToPrint = false;
+public abstract class AbstractSponsorFormTemplate extends KraPersistableBusinessObjectBase{
+	private Integer packageNumber;
+	private Integer pageNumber;
+	private String sponsorCode;
+	private String pageDescription;
+    private SponsorForms sponsorForms;
 
-    public byte[] getAttachmentContent() {
-        return this.attachmentContent;
-    }
+	public Integer getPackageNumber() {
+		return packageNumber;
+	}
 
-    public void setAttachmentContent(byte[] attachmentContent) {
-        this.attachmentContent = attachmentContent;
-    }
+    public void setPackageNumber(Integer packageNumber) {
+		this.packageNumber = packageNumber;
+	}
 
+	public Integer getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(Integer pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	public String getSponsorCode() {
+		return sponsorCode;
+	}
+
+	public void setSponsorCode(String sponsorCode) {
+		this.sponsorCode = sponsorCode;
+	}
+
+
+	public String getPageDescription() {
+		return pageDescription;
+	}
+
+	public void setPageDescription(String pageDescription) {
+		this.pageDescription = pageDescription;
+	}
 
 
 	@Override 
@@ -49,14 +73,6 @@ public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements 
 		return hashMap;
 	}
 
-    public FormFile getTemplateFile() {
-        return templateFile;
-    }
-    
-    public void setTemplateFile(FormFile templateFile) {
-        this.templateFile = templateFile;
-    }
-
     public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
 	    super.beforeInsert(persistenceBroker);
 	}
@@ -65,28 +81,12 @@ public class SponsorFormTemplate extends AbstractSponsorFormTemplate implements 
 	    super.afterLookup(persistenceBroker);
 	}	
 
-    public String getFileName() {
-        return fileName;
+    public final SponsorForms getSponsorForms() {
+        return sponsorForms;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public final Boolean getSelectToPrint() {
-        return selectToPrint;
-    }
-
-    public final void setSelectToPrint(Boolean selectToPrint) {
-        this.selectToPrint = selectToPrint;
+    public final void setSponsorForms(SponsorForms sponsorForms) {
+        this.sponsorForms = sponsorForms;
     }
     
 }

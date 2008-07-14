@@ -54,13 +54,13 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PersonEditableField;
 import org.kuali.kra.bo.SponsorFormTemplate;
+import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KimRole;
-import org.kuali.kra.kim.service.GroupService;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -86,7 +86,6 @@ import org.kuali.kra.s2s.bo.S2sSubmissionHistory;
 import org.kuali.kra.service.PersonService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.ProposalFormBase;
-import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.EdenConstants;
 
@@ -139,11 +138,15 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private ProposalChangedData newProposalChangedData;
 
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
+
+    /* This is just a list of sponsor form package details - large objects not loaded */
+    private List<SponsorFormTemplateList> sponsorFormTemplates;
     
     public ProposalDevelopmentForm() {
         super();
         this.setDocument(new ProposalDevelopmentDocument());
         initialize();
+        sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
     }
 
     /**
@@ -300,8 +303,8 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
 
         
         /* reset check box in sponsor form templates */
-        List<SponsorFormTemplate> sponsorFormTemplates = proposalDevelopmentDocument.getSponsorFormTemplates();
-        for(SponsorFormTemplate sponsorFormTemplate : sponsorFormTemplates) {
+        List<SponsorFormTemplateList> sponsorFormTemplates = getSponsorFormTemplates();
+        for(SponsorFormTemplateList sponsorFormTemplate : sponsorFormTemplates) {
             sponsorFormTemplate.setSelectToPrint(false);
         }
         
@@ -1202,12 +1205,28 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
 
     public final String getProposalFormTabTitle() {
-        String totalForms = getProposalDevelopmentDocument().getSponsorFormTemplates().size() + "";
+        String totalForms = getSponsorFormTemplates().size() + "";
         return proposalFormTabTitle.concat("(" + totalForms + ")");
     }
 
     public final void setProposalFormTabTitle(String proposalFormTabTitle) {
         this.proposalFormTabTitle = proposalFormTabTitle;
+    }
+
+    public List<SponsorFormTemplateList> getSponsorFormTemplates() {
+        return sponsorFormTemplates;
+    }
+
+    public void setSponsorFormTemplates(List<SponsorFormTemplateList> sponsorFormTemplates) {
+        this.sponsorFormTemplates = sponsorFormTemplates;
+    }
+
+    public SponsorFormTemplateList getSponsorFormTemplate(int index) {
+        while (getSponsorFormTemplates().size() <= index) {
+            getSponsorFormTemplates().add(new SponsorFormTemplateList());
+        }
+        
+        return getSponsorFormTemplates().get(index);
     }
     
 }
