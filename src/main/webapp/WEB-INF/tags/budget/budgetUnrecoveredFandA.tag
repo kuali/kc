@@ -78,7 +78,7 @@
 			            		<td><div align="center">
 				            		 <c:choose>
 					                    <c:when test="${readOnly}">
-					                    	<c:set var="campusFlagText" value="${KualiForm.document.budgetUnrecoveredFandA[status.index].onCampusFlag}" /> 
+					                    	<c:set var="campusFlagText" value="${unrecoveredFandA.onCampusFlag}" /> 
 					                    	<c:if test="${campusFlagText == 'Y'}" >
 					                    		<c:set var="campusFlagText" value="Yes" />
 					                    	</c:if>
