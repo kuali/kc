@@ -52,24 +52,16 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.Person;
-import org.kuali.kra.bo.SponsorHierarchy;
-import org.kuali.kra.budget.bo.BudgetVersionOverview;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalAuthorizationService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
@@ -216,12 +208,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         String originalStatus = getStatus(doc);
             
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(
-                KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        if(StringUtils.isEmpty(activeLockRegion) || activeLockRegion.contains("PROPOSAL")) {
-            updateProposalDocument(proposalDevelopmentForm);
-        }
-        
+		updateProposalDocument(proposalDevelopmentForm);
         ActionForward forward = super.save(mapping, form, request, response);
            
         // Special processing on the initial save of a proposal goes here!
@@ -242,11 +229,21 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
         ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
         
-        if(updatedDocCopy != null && updatedDocCopy.getVersionNumber() > pdDocument.getVersionNumber()) {
-              //refresh the reference
-            pdDocument.setBudgetVersionOverviews(updatedDocCopy.getBudgetVersionOverviews());
-            pdDocument.setBudgetStatus(updatedDocCopy.getBudgetStatus());
-            pdDocument.setVersionNumber(updatedDocCopy.getVersionNumber());
+        //For Budget Lock region, this is the only way in which a Proposal Document might get updated
+        if(StringUtils.isNotEmpty(pdForm.getActionName()) && !pdForm.getActionName().equalsIgnoreCase("ProposalDevelopmentBudgetVersionsAction" )) {
+            if(updatedDocCopy != null && updatedDocCopy.getVersionNumber() > pdDocument.getVersionNumber()) {
+                  //refresh the reference
+                pdDocument.setBudgetVersionOverviews(updatedDocCopy.getBudgetVersionOverviews());
+                pdDocument.setBudgetStatus(updatedDocCopy.getBudgetStatus());
+                pdDocument.setVersionNumber(updatedDocCopy.getVersionNumber());
+                pdDocument.getDocumentHeader().setVersionNumber(updatedDocCopy.getDocumentHeader().getVersionNumber());
+                for(DocumentNextvalue documentNextValue : pdDocument.getDocumentNextvalues()) {
+                    DocumentNextvalue updatedDocumentNextvalue = updatedDocCopy.getDocumentNextvalueBo(documentNextValue.getPropertyName());
+                    if(updatedDocumentNextvalue != null) {
+                        documentNextValue.setVersionNumber(updatedDocumentNextvalue.getVersionNumber());
+                    }
+                }
+            }
         }
     }
     
