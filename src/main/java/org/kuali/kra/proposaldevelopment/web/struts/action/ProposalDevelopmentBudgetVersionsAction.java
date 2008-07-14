@@ -196,7 +196,6 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             }
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
-	        updateProposalDocument(pdForm);
             setProposalStatus(pdForm.getProposalDevelopmentDocument());
             ActionForward forward = super.save(mapping, form, request, response);
             
