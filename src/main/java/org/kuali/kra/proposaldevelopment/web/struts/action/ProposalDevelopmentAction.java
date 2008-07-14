@@ -55,6 +55,7 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.infrastructure.Constants;
@@ -219,12 +220,7 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         String originalStatus = getStatus(doc);
             
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(
-                KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        if(StringUtils.isEmpty(activeLockRegion) || activeLockRegion.contains("PROPOSAL")) {
-            updateProposalDocument(proposalDevelopmentForm);
-        }
-        
+        updateProposalDocument(proposalDevelopmentForm);
         ActionForward forward = super.save(mapping, form, request, response);
            
         // Special processing on the initial save of a proposal goes here!
@@ -245,11 +241,20 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
         ProposalDevelopmentDocument pdDocument = pdForm.getProposalDevelopmentDocument();
         ProposalDevelopmentDocument updatedDocCopy = getProposalDoc(pdDocument.getDocumentNumber());
         
-        if(updatedDocCopy != null && updatedDocCopy.getVersionNumber() > pdDocument.getVersionNumber()) {
-              //refresh the reference
-            pdDocument.setBudgetVersionOverviews(updatedDocCopy.getBudgetVersionOverviews());
-            pdDocument.setBudgetStatus(updatedDocCopy.getBudgetStatus());
-            pdDocument.setVersionNumber(updatedDocCopy.getVersionNumber());
+        if(StringUtils.isNotEmpty(pdForm.getActionName()) && !pdForm.getActionName().equalsIgnoreCase("ProposalDevelopmentBudgetVersionsAction" )) {
+            if(updatedDocCopy != null && updatedDocCopy.getVersionNumber() > pdDocument.getVersionNumber()) {
+                  //refresh the reference
+                pdDocument.setBudgetVersionOverviews(updatedDocCopy.getBudgetVersionOverviews());
+                pdDocument.setBudgetStatus(updatedDocCopy.getBudgetStatus());
+                pdDocument.setVersionNumber(updatedDocCopy.getVersionNumber());
+                pdDocument.getDocumentHeader().setVersionNumber(updatedDocCopy.getDocumentHeader().getVersionNumber());
+                for(DocumentNextvalue documentNextValue : pdDocument.getDocumentNextvalues()) {
+                    DocumentNextvalue updatedDocumentNextvalue = updatedDocCopy.getDocumentNextvalueBo(documentNextValue.getPropertyName());
+                    if(updatedDocumentNextvalue != null) {
+                        documentNextValue.setVersionNumber(updatedDocumentNextvalue.getVersionNumber());
+                    }
+                }
+            }
         }
     }
     
