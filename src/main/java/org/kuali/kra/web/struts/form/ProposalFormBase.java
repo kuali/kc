@@ -21,7 +21,10 @@ import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.web.format.Formatter;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.BudgetDecimalFormatter;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 /**
@@ -43,6 +46,11 @@ public class ProposalFormBase extends KraTransactionalDocumentFormBase {
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
      */
     private String lookupResultsSequenceNumber;
+    
+    public ProposalFormBase() {
+        super();
+        Formatter.registerFormatter(BudgetDecimal.class, BudgetDecimalFormatter.class);
+    }
     
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
