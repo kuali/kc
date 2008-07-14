@@ -90,6 +90,10 @@ public abstract class TaskAuthorizerImpl implements TaskAuthorizer {
         return unitAuthorizationService.hasPermission(username, permissionName);
     }
     
+    protected final boolean hasUnitPermission(String username, String unitNumber, String permissionName) {
+        return unitAuthorizationService.hasPermission(username, unitNumber, permissionName);
+    }
+    
     /**
      * Does the given user has the permission for this proposal development document?
      * @param username the unique username of the user
