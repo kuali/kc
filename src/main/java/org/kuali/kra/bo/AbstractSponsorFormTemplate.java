@@ -22,7 +22,7 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.PersistableAttachment;
 
-public abstract class AbstractSponsorFormTemplate extends KraPersistableBusinessObjectBase{
+public abstract class AbstractSponsorFormTemplate extends KraPersistableBusinessObjectBase implements Comparable<AbstractSponsorFormTemplate>{
 	private Integer packageNumber;
 	private Integer pageNumber;
 	private String sponsorCode;
@@ -73,20 +73,18 @@ public abstract class AbstractSponsorFormTemplate extends KraPersistableBusiness
 		return hashMap;
 	}
 
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-	    super.beforeInsert(persistenceBroker);
-	}
-
-	public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-	    super.afterLookup(persistenceBroker);
-	}	
-
     public final SponsorForms getSponsorForms() {
         return sponsorForms;
     }
 
     public final void setSponsorForms(SponsorForms sponsorForms) {
         this.sponsorForms = sponsorForms;
+    }
+    
+    public int compareTo(AbstractSponsorFormTemplate abstractSponsorFormTemplate) {
+        int result = getPackageNumber().compareTo(abstractSponsorFormTemplate.getPackageNumber());
+        result = result != 0 ? result : getPageNumber().compareTo(abstractSponsorFormTemplate.getPageNumber());
+        return result;
     }
     
 }
