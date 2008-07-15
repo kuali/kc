@@ -23,10 +23,10 @@ version_num := aw_version_number;
 
 if mod_budget = 'N' then
 
-	SELECT TOTAL_COST,
-		    TOTAL_DIRECT_COST,
-		    TOTAL_INDIRECT_COST,
-		    COST_SHARING_AMOUNT
+	SELECT nvl(TOTAL_COST, 0) TOTAL_COST,
+		    nvl(TOTAL_DIRECT_COST, 0) TOTAL_DIRECT_COST,
+		    nvl(TOTAL_INDIRECT_COST, 0) TOTAL_INDIRECT_COST,
+		    nvl(COST_SHARING_AMOUNT, 0) COST_SHARING_AMOUNT
 	INTO   tot_cost,tot_direct_cost,tot_ind_cost,cost_shar_amt
    FROM   OSP$BUDGET
 	WHERE  PROPOSAL_NUMBER = AW_PROPOSAL_NUMBER
