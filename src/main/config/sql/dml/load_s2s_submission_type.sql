@@ -5,4 +5,4 @@ INSERT INTO S2S_SUBMISSION_TYPE(S2S_SUBMISSION_TYPE_CODE, DESCRIPTION, SORT_ID, 
   VALUES(1, 'PreApplication',  2, sysdate,user);
   
 INSERT INTO S2S_SUBMISSION_TYPE(S2S_SUBMISSION_TYPE_CODE, DESCRIPTION, SORT_ID, UPDATE_TIMESTAMP, UPDATE_USER)
-  VALUES(3, 'Changed/Corrected Application', 3,  sysdate,user);
+  VALUES(3, 'Change/Corrected Application', 3,  sysdate,user);
