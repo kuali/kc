@@ -101,16 +101,22 @@
 					</div>
 				</td>
 				<td valign="middle">&nbsp;
-					<kra:section permission="modifyBudgets">
-						<div align=center>
-						<html:image property="methodToCall.deleteBudgetLineItem.line${budgetLineItemNumber}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
-						<c:if test="${budgetCategoryTypeCode=='P' }">
-						<html:image property="methodToCall.personnelBudget.line${budgetLineItemNumber}.anchor${currentTabIndex}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-personnelbudget.gif' />
-						</c:if>
-						</div>
-					</kra:section>
+					<table style="border-width: 0px;" cellspacing=0 cellpadding=0>
+		   			   <tr style="border-width: 0px;">
+			             <td style="border-width: 0px;" width="35%" align=right>
+			                <kra:section permission="modifyBudgets">
+			                    <html:image property="methodToCall.deleteBudgetLineItem.line${budgetLineItemNumber}.anchor${currentTabIndex}"
+			                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
+			                </kra:section>
+			            </td>
+			            <td style="border-width: 0px;" width="65%">
+			                <c:if test="${budgetCategoryTypeCode=='P' }">
+			                    <html:image property="methodToCall.personnelBudget.line${budgetLineItemNumber}.anchor${currentTabIndex}"
+			                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-personnelbudget.gif' />
+			                </c:if>
+			            </td>
+			    	</tr>
+		        </table>  
                 </td>
 	        </tr>
 	        <c:choose>
