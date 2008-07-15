@@ -106,10 +106,10 @@
 			<attribute name="personId">
 			<label>Person Id </label>
 			<shortLabel>Person Id </shortLabel>
-			<maxLength>9</maxLength>
+			<maxLength>10</maxLength>
 			<validationPattern><alphaNumeric /></validationPattern>
 			<control>
-				<text size="9" />
+				<text size="10" />
 			</control>
 			<summary>Person Id </summary>
 			<description>Person Id </description>
