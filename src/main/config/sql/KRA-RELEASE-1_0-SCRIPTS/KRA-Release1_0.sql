@@ -357,6 +357,8 @@ set term off;
 @S2S/procfunpacks/UPD_S2S_OPPORTUNITY.sql
 @S2S/procfunpacks/UPD_S2S_OPP_FORMS.sql
 @S2S/procfunpacks/UPD_S2S_SUB_ATTACHMENT.sql
+@S2S/procfunpacks/DW_GET_UNIT_DETAIL_NEW.sql
+@S2S/procfunpacks/GET_UNIT_HIERARCHY_NODE.sql
 
 exec recompile;
 exec recompile;
