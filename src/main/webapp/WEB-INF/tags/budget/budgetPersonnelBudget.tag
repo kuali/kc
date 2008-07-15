@@ -22,6 +22,7 @@
 <c:set var="action" value="budgetPersonnelBudgetAction" />
 <c:set var="selectedBudgetPeriod" value="${KualiForm.viewBudgetPeriod - 1}" />
 <c:set var="selectedBudgetLineItemIndex" value="${KualiForm.selectedBudgetLineItemIndex}" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 
 <div style="padding-top: 3em;">
     <kul:tabTop tabTitle="Line Item Overview (Period ${selectedBudgetPeriod + 1})" defaultOpen="true" tabErrorKey="budget.personnelBudget*">
@@ -125,10 +126,12 @@
                 	</div>
 				</td>
 				<td class="infoline">
+				<kra:section permission="modifyBudgets">
 					<div align=center>
 						<html:image property="methodToCall.addBudgetPersonnelDetails.anchor${tabKey}"
 						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
 					</div>
+					</kra:section>
                 </td>
             </tr>
 		   	<c:set var="personnelList" value="(${fn:length(KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].budgetPersonnelDetailsList)})" />
@@ -173,12 +176,14 @@
 					</td>
 					<td>
 						<%--<div align="center"></div>--%>
+						<kra:section permission="modifyBudgets">
 						<div align=center>
 	                	 <html:image property="methodToCall.calculateSalary.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-calculate.gif' />
 						<html:image property="methodToCall.deleteBudgetPersonnelDetails.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' />
 						</div>
+						</kra:section>
 	                </td>
 				</tr>
 	            <c:if test="${empty KualiForm.personnelBudgetViewMode || KualiForm.personnelBudgetViewMode == 0}" >     
