@@ -822,6 +822,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
+	
 	<class-descriptor class="org.kuali.kra.bo.Rolodex" table="ROLODEX">
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="addressLine1" column="ADDRESS_LINE_1" jdbc-type="VARCHAR"/>
@@ -831,9 +832,7 @@
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="countryCode" column="COUNTRY_CODE" jdbc-type="CHAR"/>
 		<field-descriptor name="county" column="COUNTY" jdbc-type="VARCHAR"/>
-		<!-- no sure about this field
 		<field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR"/>
-		-->
 		<field-descriptor name="deleteFlag" column="DELETE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="emailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="faxNumber" column="FAX_NUMBER" jdbc-type="VARCHAR"/>
@@ -853,7 +852,9 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-<!-- not available yet
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		
+		<!-- not available yet
 		<collection-descriptor name="AwardContact" proxy="true" element-class-ref="org.kuali.kra.bo.AwardContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
@@ -892,6 +893,7 @@
         	<foreignkey field-ref="sponsorCode" />
     	</reference-descriptor>
 	</class-descriptor>
+	
 	<class-descriptor class="org.kuali.kra.bo.NonOrganizationalRolodex" table="ROLODEX">
 		<field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" primarykey="true"/>
 		<field-descriptor name="addressLine1" column="ADDRESS_LINE_1" jdbc-type="VARCHAR"/>
@@ -901,9 +903,7 @@
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="countryCode" column="COUNTRY_CODE" jdbc-type="CHAR"/>
 		<field-descriptor name="county" column="COUNTY" jdbc-type="VARCHAR"/>
-		<!-- no sure about this field
 		<field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR"/>
-		-->
 		<field-descriptor name="deleteFlag" column="DELETE_FLAG" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="emailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR"/>
 		<field-descriptor name="faxNumber" column="FAX_NUMBER" jdbc-type="VARCHAR"/>
@@ -923,7 +923,9 @@
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-<!-- may not need
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		
+		<!-- may not need
 		<collection-descriptor name="AwardContact" proxy="true" element-class-ref="org.kuali.kra.bo.AwardContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="rolodexId"/>
 		</collection-descriptor>
@@ -960,6 +962,7 @@
         	<foreignkey field-ref="sponsorCode" />
     	</reference-descriptor>
 	</class-descriptor>
+	
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalLocation" table="EPS_PROP_LOCATION">
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="locationSequenceNumber" column="LOCATION_SEQUENCE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
