@@ -18,6 +18,7 @@ package org.kuali.kra.s2s.service.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -104,6 +105,15 @@ public class PrintServiceImpl implements PrintService {
             }
             clsponsorFormTemplates = getSponsorTemplatesList(genericSponsorCode);
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
+        }else {
+            resetSelectedFormList(sponsorFormTemplates);
+        }
+        Collections.sort(sponsorFormTemplates);
+    }
+    
+    private void resetSelectedFormList(List<SponsorFormTemplateList> sponsorFormTemplates) {
+        for(SponsorFormTemplateList sponsorFormTemplateList : sponsorFormTemplates) {
+            sponsorFormTemplateList.setSelectToPrint(false);
         }
     }
     
@@ -116,6 +126,7 @@ public class PrintServiceImpl implements PrintService {
                 if(!sponsorCodes.contains(sponsorFormTemplateList.getSponsorCode())) {
                     sponsorCodes.add(sponsorFormTemplateList.getSponsorCode());
                 }
+            }else {
                 String fKeys = sponsorFormTemplateList.getSponsorCode() + sponsorFormTemplateList.getPackageNumber().toString() + sponsorFormTemplateList.getPageNumber().toString();
                 if(!formKeys.contains(fKeys)) {
                     formKeys.add(fKeys);
@@ -135,30 +146,27 @@ public class PrintServiceImpl implements PrintService {
 
         /* verify selected package */
         List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();
+        HashMap formTemplates = new HashMap<String, SponsorFormTemplate>();
         for(SponsorFormTemplate sponsorFormTemplate : sponsorFormTemplates) {
-            String fKeys = sponsorFormTemplate.getSponsorCode() + sponsorFormTemplate.getPackageNumber().toString() + sponsorFormTemplate.getPageNumber().toString();
-            iter = formKeys.iterator();
-            boolean pageSelected = false;
-            while(iter.hasNext()) {
-                if(fKeys.equalsIgnoreCase(iter.next().toString())) {
-                    pageSelected = true;
-                    break;
-                }
-                iter.remove();
-            }
-            if(pageSelected) {
-                printFormTemplates.add(sponsorFormTemplate);
-            }
-            
+            String templateKey = sponsorFormTemplate.getSponsorCode() + sponsorFormTemplate.getPackageNumber().toString() + sponsorFormTemplate.getPageNumber().toString();
+            formTemplates.put(templateKey, sponsorFormTemplate);
         }
+        Iterator keyIter = formKeys.iterator();
+        while(keyIter.hasNext()) {
+            String formKey = keyIter.next().toString();
+            formTemplates.remove(formKey);
+            keyIter.remove();
+        }
+        printFormTemplates.addAll(formTemplates.values());
+        Collections.sort(printFormTemplates);
+        resetSelectedFormList(sponsorFormTemplateLists);
         return printFormTemplates;
     }
 
     private Collection<SponsorFormTemplate> getSponsorTemplates(String sponsorCode) {
         Map<String, String> sponsorCodeMap = new HashMap<String, String>();
         sponsorCodeMap.put("sponsorCode", sponsorCode);
-        Collection<SponsorFormTemplate> sponsorFormTemplates = getBusinessObjectService().findMatching(SponsorFormTemplate.class, sponsorCodeMap);
-        System.out.println("sponsorFormTemplates = > " + sponsorFormTemplates.size());
+        Collection<SponsorFormTemplate> sponsorFormTemplates = getBusinessObjectService().findMatchingOrderBy(SponsorFormTemplate.class, sponsorCodeMap, "pageNumber", false);
         return sponsorFormTemplates;
     }
 
