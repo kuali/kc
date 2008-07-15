@@ -176,7 +176,7 @@ public enum ProposalPersonFixture {
     }
     
     public void populatePerson(ProposalDevelopmentDocument document, ProposalPerson person) { 
-         getService(KeyPersonnelService.class).populateProposalPerson(person, document);
+        getService(KeyPersonnelService.class).populateProposalPerson(person, document);
         if (getService(KeyPersonnelService.class).isPrincipalInvestigator(person)) {
             getService(KeyPersonnelService.class).assignLeadUnit(person, document.getOwnedByUnitNumber());
         }else {
@@ -185,6 +185,13 @@ public enum ProposalPersonFixture {
             if (unit != null) {
                 unit.setLeadUnit(false);
             }                
+        }
+        
+        for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
+            creditSplit.refreshReferenceObject("investigatorCreditType");
+            if (creditSplit.getInvestigatorCreditType().addsToHundred()){
+                creditSplit.setCredit(new KualiDecimal(100.00));
+            }
         }
         
         for (ProposalPersonUnit unit : person.getUnits()) {
