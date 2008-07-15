@@ -29,9 +29,23 @@ public class Rolodex extends KraPersistableBusinessObjectBase {
 	private String title;
     private Unit unit;
     private Sponsor sponsor;
+    private String createUser;
+    
+    public String getCreateUser() {
+        return createUser;
+    }
 
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
 
-	public Integer getRolodexId() {
+    @Override 
+    public void setUpdateUser(String updateUser) {
+        super.setUpdateUser(updateUser);
+        setCreateUser(updateUser);
+    }
+    
+    public Integer getRolodexId() {
 		return rolodexId;
 	}
 
