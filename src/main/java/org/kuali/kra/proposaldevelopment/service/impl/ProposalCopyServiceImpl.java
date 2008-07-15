@@ -421,6 +421,13 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      */
     private void fixProposal(ProposalDevelopmentDocument srcDoc, ProposalDevelopmentDocument newDoc, ProposalCopyCriteria criteria) throws Exception {
         List<Object> list = new ArrayList<Object>();
+        // force to materialize - jira 1644 only happen for disapproved doc ??
+        for (ProposalPerson proposalperson : newDoc.getProposalPersons()) {
+            for (ProposalPersonUnit proposalPersonUnit : proposalperson.getUnits()) {
+                ObjectUtils.materializeObjects(proposalPersonUnit.getCreditSplits());
+            }
+        }
+            
         fixProposalNumbers(newDoc, newDoc.getProposalNumber(), list);
         fixKeyPersonnel(newDoc, srcDoc.getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
         list.clear();
