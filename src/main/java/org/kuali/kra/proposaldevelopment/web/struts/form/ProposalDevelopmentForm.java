@@ -302,12 +302,6 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         }
 
         
-        /* reset check box in sponsor form templates */
-        List<SponsorFormTemplateList> sponsorFormTemplates = getSponsorFormTemplates();
-        for(SponsorFormTemplateList sponsorFormTemplate : sponsorFormTemplates) {
-            sponsorFormTemplate.setSelectToPrint(false);
-        }
-        
         // Clear the edit roles so that they can then be set by struts
         // when the form is submitted.
         ProposalUserEditRoles editRoles = this.getProposalUserEditRoles();
