@@ -37,8 +37,7 @@
                 <field attributeName="rolodexId"/>
                 <field attributeName="sponsorName"/>
                 <field attributeName="sponsorType.description"/>
-                <field attributeName="state"/>
-                <field attributeName="createUser"/>
+                <field attributeName="state"/>                
 
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -71,8 +70,7 @@
                 <lookupField attributeName="countryCode" required="false" forceLookup="true" />
                 <lookupField attributeName="auditReportSentForFy" required="false"/>
                 <lookupField attributeName="ownedByUnit" required="false"/>
-                <lookupField attributeName="rolodexId" required="false"/>
-                <lookupField attributeName="createUser" required="false"/>
+                <lookupField attributeName="rolodexId" required="false"/>                
             </lookupFields>
 
             <resultFields>
@@ -250,17 +248,6 @@
 
             <attributeReference name="countryCode" sourceClassName="org.kuali.kra.bo.KraAttributeReferenceDummy" sourceAttributeName="countryCode" />
 
-            <attribute name="createUser">
-                <label>Create User </label>
-                <shortLabel>Create User </shortLabel>
-                <maxLength>60</maxLength>
-                <control>
-                    <text size="8" />
-                </control>
-                <summary>Create User </summary>
-                <description>Create User </description>
-            </attribute>
-
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
 
@@ -273,6 +260,11 @@
             <relationship objectAttributeName="sponsorType">
                 <primitiveAttribute sourceName="sponsorTypeCode" targetName="sponsorTypeCode" />
                 <supportAttribute sourceName="sponsorType.description" targetName="description" identifier="true" />
+            </relationship>
+            
+            <relationship objectAttributeName="rolodex">
+                <primitiveAttribute sourceName="rolodexId" targetName="rolodexId" />
+                <supportAttribute sourceName="rolodex.rolodexId" targetName="rolodexId" identifier="true" />
             </relationship>
         </relationships>
 
