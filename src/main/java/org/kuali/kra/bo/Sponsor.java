@@ -40,6 +40,7 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     private Country country;
 
     private Unit unit;
+    private Rolodex rolodex;
 
     public Sponsor(){
         super();
@@ -211,6 +212,12 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
+    
+    @Override 
+    public void setUpdateUser(String updateUser) {
+        super.setUpdateUser(updateUser);
+        setCreateUser(updateUser);
+    }
     /**
      * Gets the country attribute. 
      * @return Returns the country.
@@ -224,5 +231,11 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
      */
     public void setCountry(Country country) {
         this.country = country;
+    }
+    public Rolodex getRolodex() {
+        return rolodex;
+    }
+    public void setRolodex(Rolodex rolodex) {
+        this.rolodex = rolodex;
     }
 }
