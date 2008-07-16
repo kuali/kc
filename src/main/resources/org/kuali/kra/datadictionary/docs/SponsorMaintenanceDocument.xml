@@ -61,8 +61,7 @@
 					<maintainableField name="rolodexId" required="true"/>
 					<maintainableField name="sponsorName" required="true"/>
 					<maintainableField name="sponsorTypeCode" required="true"/>
-					<maintainableField name="state" required="false"/>
-                    <maintainableField name="createUser" required="true"/>
+					<maintainableField name="state" required="false"/>                    
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>
