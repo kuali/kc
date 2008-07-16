@@ -1183,6 +1183,9 @@
 		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
+    	<reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
+        	<foreignkey field-ref="rolodexId" />
+    	</reference-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.bo.SponsorHierarchy" table="SPONSOR_HIERARCHY">
