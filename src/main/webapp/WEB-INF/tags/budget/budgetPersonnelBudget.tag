@@ -151,7 +151,8 @@
 					</th>
              		<td width="10%" valign="middle">
 						<div align=center>
-                		<kul:htmlControlAttribute property="document.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].personSequenceNumber" attributeEntry="${budgetPersonnelDetailsAttributes.personSequenceNumber}"/>
+                		<kul:htmlControlAttribute property="document.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].personSequenceNumber" attributeEntry="${budgetPersonnelDetailsAttributes.personSequenceNumber}"
+                		readOnlyAlternateDisplay="${budgetPersonnelDetails.budgetPerson.personName}"/>
 						</div>
 					</td>
              		<td width="10%" valign="middle">
