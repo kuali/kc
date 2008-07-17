@@ -200,7 +200,7 @@ public class KeyConstants {
     public static final String QUESTION_SAVE_BUDGET_SUMMARY_FOR_RATE_AND_DATE_CHANGE = "document.question.saveBudgetSummary.forRateAndDateChange.text";
     public static final String QUESTION_DELETE_BUDGET_PERIOD = "document.question.deleteBudgetPeriod.text";
     public static final String QUESTION_SYNCH_BUDGET_RATE = "document.question.synchBudgetRate.text";
-    
+
     public static final String ERROR_DELETE_PERSON_WITH_PERSONNEL_DETAIL = "error.delete.person.with.personnelDetails";
     public static final String ERROR_DELETE_LINE_ITEM = "error.delete.lineitem";
     public static final String ERROR_INSERT_BUDGET_PERIOD = "error.insert.budget.period";
@@ -211,14 +211,12 @@ public class KeyConstants {
     public static final String PROPOSAL_EDITABLECOLUMN_DATALENGTH_MISMATCH = "error.column.dataLength.mismatch";
     
     public static final String ERROR_LINE_ITEM_DATES = "error.line.item.dates";
-    
     public static final String ERROR_NEGATIVE_AMOUNT = "error.negativeAmount";
     public static final String WARNING_EFFDT_AFTER_PERIOD_START_DATE = "warning.effdt.after.periodStartDate";
 
     public static final String ERROR_COST_SHARE_PERCENTAGE = "error.costSharing.percentage";
-    public static final String ERROR_PERSONNEL_DETAIL_DATES = "error.personnel.detail.dates";
     public static final String ERROR_NO_FIELD_TO_EDIT = "error.alterproposaldata.nofieldtoedit";
-    
+    public static final String ERROR_PERSONNEL_DETAIL_DATES = "error.personnel.detail.dates";
     public static final String ERROR_PERSONNEL_DETAIL_END_DATE = "error.personnel.detail.end.date";
     public static final String ERROR_PERSONNEL_DETAIL_START_DATE = "error.personnel.detail.start.date";
     public static final String ERROR_LINE_ITEM_END_DATE = "error.line.item.end.date";

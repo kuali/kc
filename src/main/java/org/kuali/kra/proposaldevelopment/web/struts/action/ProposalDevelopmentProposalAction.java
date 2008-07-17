@@ -112,14 +112,13 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
 
         if (proposalDevelopmentDocument.getInvestigators().size() > 0)
             sort(proposalDevelopmentDocument.getInvestigators(), new ProposalPersonComparator());
-         
-        
+           
         kpservice.isSponsorNIH(proposalDevelopmentDocument);
         
         return actionForward;
     }
-    
-     /**
+
+    /**
      * 
      * This method sets the flag for keyword display panel - display keyword panel if parameter is set to true
      * 

@@ -34,8 +34,8 @@ import org.junit.Before;
 /**
  * Base class for all htmlunit tests involving the Proposal Development Page.
  * 
- * @author $Author: dbarre $
- * @version $Revision: 1.16 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.17 $
  */
 public abstract class ProposalDevelopmentWebTestBase extends KraWebTestBase {
     

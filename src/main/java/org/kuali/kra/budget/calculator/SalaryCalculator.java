@@ -127,7 +127,7 @@ public class SalaryCalculator {
         } else {
             return new QueryList<BudgetProposalRate>();
         }
-        
+
     }
 
     /**
@@ -155,10 +155,10 @@ public class SalaryCalculator {
         And personIdAndJobCodeAndltOrEqEndDate = new And(personIdAndRoldexIdAndJobCode, ltOrEqEndDate);
         And personIdAndJobCodeAndltOrEqEndDateAndPersonSeqNumber = new And(personIdAndRoldexIdAndJobCode, ePersonSeqNumber);
 
-//        And personIdAndJobCodeAndltOrEqEndDate = new And(personIdAndJobCode, ltOrEqEndDate);
+//      And personIdAndJobCodeAndltOrEqEndDate = new And(personIdAndJobCode, ltOrEqEndDate);
         filteredPersons = budgetPersons.filter(personIdAndJobCodeAndltOrEqEndDateAndPersonSeqNumber);
         LOG.info("budget persons list size after filtering persons list with oprator" + personIdAndJobCodeAndltOrEqEndDateAndPersonSeqNumber + " is "
-                + filteredPersons.size());
+              + filteredPersons.size());
 
         LesserThan ltStartDate = new LesserThan("effectiveDate", this.startDate);
         Equals eStartDate = new Equals("effectiveDate", this.startDate);
@@ -360,13 +360,13 @@ public class SalaryCalculator {
 
     private void populateAppointmentType(BudgetPerson budgetPerson) {
         // JIRA-1467 : reset apointment type need to check too
-        // if(budgetPerson.getAppointmentType()!=null){
+       // if(budgetPerson.getAppointmentType()!=null){
             Map<String,String> qPersonMap = new HashMap<String,String>();
             qPersonMap.put("appointmentTypeCode", budgetPerson.getAppointmentTypeCode());
             AppointmentType appointmentType = (AppointmentType)KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(AppointmentType.class, 
                         qPersonMap);
             budgetPerson.setAppointmentType(appointmentType);
-        //}
+       // }
     }
 
     public class SalaryDetails {
@@ -520,7 +520,6 @@ public class SalaryCalculator {
         return inflationRates;
     }
     
-    
     private BudgetDecimal getPrevSalaryBase(BudgetPerson budgetPerson, Boundary boundary) {
         //int daysToEndDate = KraServiceLocator.getService(DateTimeService.class).dateDiff(newStartDate, parentEndDate, false);
         Date p1StartDate = budgetDocument.getBudgetPeriods().get(0).getStartDate();
@@ -547,7 +546,7 @@ public class SalaryCalculator {
         return calBase;
         
     }
-    
+        
     
     private QueryList<BudgetProposalRate> filterInflationRates(Date sDate, Date eDate) {
         CostElement costElement = personnelLineItem.getCostElementBO();
@@ -596,6 +595,7 @@ public class SalaryCalculator {
             return new QueryList<BudgetProposalRate>();
         }
 
+        
     }
     
     
@@ -606,5 +606,5 @@ public class SalaryCalculator {
         return new java.sql.Date(c1.getTime().getTime());
         
     }
-
+    
 }

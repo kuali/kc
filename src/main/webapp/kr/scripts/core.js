@@ -222,4 +222,5 @@ function getStyleObject(objectId) {
 	} else {
 		return false;
 	} 
-}
+} 
+

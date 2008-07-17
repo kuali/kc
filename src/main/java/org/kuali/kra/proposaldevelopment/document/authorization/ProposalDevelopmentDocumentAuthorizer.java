@@ -118,9 +118,9 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
      * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
      */
     public Map getEditMode(Document doc, UniversalUser user) {
-   
+        
         ProposalDevelopmentDocument proposalDoc = (ProposalDevelopmentDocument) doc;
-          
+         
         Map editModeMap = new HashMap();
         String proposalNbr = proposalDoc.getProposalNumber();
         
@@ -149,14 +149,14 @@ public class ProposalDevelopmentDocumentAuthorizer extends TransactionalDocument
             else {
                 editModeMap.put(AuthorizationConstants.EditMode.UNVIEWABLE, TRUE);
             }
-            
-            if(isBudgetComplete(proposalDoc)) {
-                editModeMap.put("modifyCompletedBudgets", TRUE);
-                editModeMap.put("modifyBudgets", FALSE);
-                editModeMap.put("addBudget", FALSE);
-            }
+    
+	        if(isBudgetComplete(proposalDoc)) {
+    	        editModeMap.put("modifyCompletedBudgets", TRUE);
+        	    editModeMap.put("modifyBudgets", FALSE);
+            	editModeMap.put("addBudget", FALSE);
+        	}
         }
- 
+        
         return editModeMap;
     }
 

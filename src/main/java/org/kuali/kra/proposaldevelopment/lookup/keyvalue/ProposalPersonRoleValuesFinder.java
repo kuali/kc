@@ -53,8 +53,8 @@ import edu.iu.uis.eden.engine.node.KeyValuePair;
 /**
  * Temporary class until this can be gotten working via table.
  *
- * @author $Author: jsalam $
- * @version $Revision: 1.14 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.15 $
  */
 public class ProposalPersonRoleValuesFinder extends KeyValuesBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPersonRoleValuesFinder.class);

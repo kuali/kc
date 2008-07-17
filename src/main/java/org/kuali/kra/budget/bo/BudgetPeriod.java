@@ -305,12 +305,12 @@ public class BudgetPeriod extends KraPersistableBusinessObjectBase {
 
     public void setOldEndDate(Date oldEndDate) {
         this.oldEndDate = oldEndDate;
-            }
+    }
 
     public Date getOldStartDate() {
         return oldStartDate;
     }
-    
+
     public void setOldStartDate(Date oldStartDate) {
         this.oldStartDate = oldStartDate;
     }

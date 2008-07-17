@@ -41,7 +41,7 @@ public class YnqMaintainableImpl extends KraMaintainableImpl {
         }
         super.setGenerateDefaultValues(generateDefaultValues);
     }
-    
+
     /**
      * This is just trying to populate existing ynq that has no explanation
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#getCoreSections(org.kuali.core.maintenance.Maintainable)

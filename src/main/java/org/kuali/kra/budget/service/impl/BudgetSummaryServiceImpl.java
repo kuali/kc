@@ -23,11 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPersonnelDetails;
@@ -243,52 +241,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
     }
 
-    
-    private void shiftBudgetDetailsForward(List<BudgetPeriod> budgetPeriods, int checkPeriod) {
-        List <BudgetPeriod> copyBudgetPeriods = new ArrayList<BudgetPeriod>();
-        for(BudgetPeriod budgetPeriod: budgetPeriods) {
-            if (budgetPeriod.getBudgetPeriod() >= checkPeriod) {
-                copyBudgetPeriods.add((BudgetPeriod) ObjectUtils.deepCopy(budgetPeriod));
-            }
-        }
-        
-        for(BudgetPeriod budgetPeriod: copyBudgetPeriods) {
-            if (budgetPeriod.getBudgetPeriod() < budgetPeriods.size()) {
-                int shiftFromPeriod = budgetPeriod.getBudgetPeriod()+1;    
-                int shiftToPeriod = budgetPeriod.getBudgetPeriod();    
-                BudgetPeriod shiftToBudgetPeriod = budgetPeriods.get(budgetPeriod.getBudgetPeriod() - 1);
-                BudgetPeriod shiftFromBudgetPeriod = budgetPeriods.get(budgetPeriod.getBudgetPeriod());
-                
-                List<BudgetLineItem> budgetLineItems = shiftToBudgetPeriod.getBudgetLineItems();
-                if (budgetLineItems == null) {
-                    budgetLineItems = new ArrayList();
-                }
-                
-                if (CollectionUtils.isNotEmpty(shiftFromBudgetPeriod.getBudgetLineItems())) {
-                    for(BudgetLineItem budgetLineItem: shiftFromBudgetPeriod.getBudgetLineItems()) {
-                        budgetLineItem.setBudgetPeriod(shiftToPeriod);
-                        budgetLineItem.setBudgetPeriodId(shiftToBudgetPeriod.getBudgetPeriodId());
-                        budgetLineItem.setStartDate(shiftToBudgetPeriod.getStartDate());
-                        budgetLineItem.setEndDate(shiftToBudgetPeriod.getEndDate());
-                        List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
-                        for(BudgetPersonnelDetails budgetPersonnelDetail : budgetPersonnelDetails) {
-                            budgetPersonnelDetail.setBudgetPeriod(shiftToPeriod);
-                            budgetPersonnelDetail.setBudgetPeriodId(shiftToBudgetPeriod.getBudgetPeriodId());
-                            budgetPersonnelDetail.setStartDate(shiftToBudgetPeriod.getStartDate());
-                            budgetPersonnelDetail.setEndDate(shiftToBudgetPeriod.getEndDate());
-                        }
-                        budgetLineItems.add(budgetLineItem);
-                    }
-                    shiftFromBudgetPeriod.getBudgetLineItems().clear();
-                    shiftFromBudgetPeriod.setTotalDirectCost(BudgetDecimal.ZERO);
-                    shiftFromBudgetPeriod.setTotalIndirectCost(BudgetDecimal.ZERO);
-                    shiftFromBudgetPeriod.setTotalCost(BudgetDecimal.ZERO);
-                }
-            }
-        }
-            
-    }
-   
 
     /* call budget calculation service to calculate budget */
     public void calculateBudget(BudgetDocument budgetDocument) {
@@ -299,15 +251,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudgetPeriods();
         BudgetPeriod deletedPeriod = budgetPeriods.remove(delPeriod);
         updateBudgetPeriods(budgetPeriods, delPeriod+1, true);
-        
-//         for(BudgetPeriod budgetPeriod: budgetPeriods) {
-//            List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
-//            updateBudgetLineItems(budgetLineItems, delPeriod+1, true);
-//            for(BudgetLineItem periodLineItem: budgetLineItems) {
-//                List<BudgetPersonnelDetails> budgetPersonnelDetails = periodLineItem.getBudgetPersonnelDetailsList();
-//                updateBudgetPersonnelDetails(budgetPersonnelDetails, delPeriod+1, true);
-//            }
-//        }
     }
 
     
@@ -320,8 +263,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }else {
             updateBudgetPeriods(budgetPeriods, newPeriodIndex, false);
             budgetPeriods.add(newPeriodIndex-1, newBudgetPeriod);
-//            shiftBudgetDetailsForward(budgetPeriods, newPeriodIndex);            
-
         }
     }
     
@@ -388,7 +329,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             }
         }                            
     }
-
+    
     /**
      * KRACOEUS-1376
      * @see org.kuali.kra.budget.service.BudgetSummaryService#adjustStartEndDatesForLineItems(org.kuali.kra.budget.document.BudgetDocument)
@@ -700,4 +641,5 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
         return false;
     }
+    
 }

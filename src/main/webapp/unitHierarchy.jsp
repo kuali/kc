@@ -71,7 +71,7 @@ body {
 <html:form styleId="kualiForm" method="post"
 	action="/unitHierarchy.do" enctype=""
 	onsubmit="return hasFormAlreadyBeenSubmitted();"> 
-	
+
 <div class="headerarea-small" id="headerarea-small">	
 	<h1 align="center"> Unit Hierarchy </h1>
 </div>

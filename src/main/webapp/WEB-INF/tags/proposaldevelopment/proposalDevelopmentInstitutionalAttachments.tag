@@ -34,10 +34,8 @@
 	    	<span class="subhead-left"><h2>${sectionLabel}</h2></span>
 	    	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.proposaldevelopment.bo.Narrative" altText="help"/></span>
 	    </div>
-
-         
+        
         <table cellpadding=0 cellspacing=0 summary="">
-            
             <c:if test="${fn:length(KualiForm.document.instituteAttachments) > 0  || KualiForm.editingMode['addNarratives']}" >
 	        <tr>
 	          	<th><div align="left">&nbsp</div></th> 
@@ -89,8 +87,9 @@
                 <c:set var="replaceKey" value="instituteAttachment.${instituteAttachment.moduleNumber}.replace" />
                 <c:set var="replaceAttachment" value="${KualiForm.editingMode[replaceKey]}" />
                 <c:set var="deleteKey" value="instituteAttachment.${instituteAttachment.moduleNumber}.delete" />
-                <c:set var="deleteAttachment" value="${KualiForm.editingMode[deleteKey]}" />
-             <tr>
+                <c:set var="deleteAttachment" value="${KualiForm.editingMode[deleteKey]}" />>
+                
+	             <tr>
 					<th class="infoline" align="right">
 						${status.index + 1}:
 					</th>

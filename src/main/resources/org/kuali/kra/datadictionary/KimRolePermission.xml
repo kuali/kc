@@ -84,10 +84,6 @@
             
             <attributeReference name="roleName" sourceClassName="org.kuali.kra.kim.bo.KimRole" sourceAttributeName="name" />
             <attributeReference name="permissionName" sourceClassName="org.kuali.kra.kim.bo.KimPermission" sourceAttributeName="name" />
-            <attributeReference name="permission.name" sourceClassName="org.kuali.kra.kim.bo.KimPermission" sourceAttributeName="name" >
-                <label>Permission</label>
-                <shortLabel>Permission</shortLabel>
-            </attributeReference>
             <attributeReference name="roleTypeName" sourceClassName="org.kuali.kra.kim.bo.KimRole" sourceAttributeName="roleTypeName" />
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">

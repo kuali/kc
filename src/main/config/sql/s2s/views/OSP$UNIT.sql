@@ -21,6 +21,6 @@ AS select
 	           and U.UNIT_NUMBER = OA.UNIT_NUMBER(+)
 	           and U.UNIT_NUMBER = UH.UNIT_NUMBER(+)
 	           and U.UNIT_NUMBER = DV.UNIT_NUMBER(+)
-	           and U.UNIT_NUMBER = OI.UNIT_NUMBER(+);
+	           and U.UNIT_NUMBER = OI.UNIT_NUMBER(+)
 	
 	

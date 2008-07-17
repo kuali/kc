@@ -203,10 +203,12 @@ public interface Constants {
     public static final String MAPPING_EXPENSES_BUDGET = "expenses";
     public static final String BUDGET_PERSON_LINE_NUMBER = "budget.budgetPersonnelDetails.personNumber";
     public static final String BUDGET_PERSON_LINE_SEQUENCE_NUMBER = "budget.budgetPersonnelDetails.sequenceNumber";
+   
+    // Change Password
+    public static final String CHANGE_PASSWORD_PROPERTY_KEY = "changePassword";
     
     public static final String TRUE_FLAG = "Y";
     public static final String FALSE_FLAG = "N";
-
     public static final String PROPOSAL_SPECIAL_REVIEW_KEY = "document.proposalSpecialReview*";
     public static final String SPECIAL_REVIEW_PAGE = "specialReview";
     public static final String SPECIAL_REVIEW_PANEL_ANCHOR = "SpecialReview";
@@ -218,17 +220,14 @@ public interface Constants {
     public static final String BUDGET_VERSIONS_PANEL_ANCHOR = "BudgetVersions";
     public static final String BUDGET_PERIOD_KEY = "document.budgetPeriod*";
     
-    // Change Password
-    public static final String CHANGE_PASSWORD_PROPERTY_KEY = "changePassword";
-    
     // Copy proposal
     public static final String COPY_PROPOSAL_PROPERTY_KEY = "copyProposal";
     
     public static final String MAPPING_COPY_PROPOSAL_PAGE = "copyProposal";
     public static final String HEADER_TAB = "headerTab";
-
-    public static final String ON_OFF_CAMPUS_FLAG = "onOffCampusFlag";
     
+    public static final String ON_OFF_CAMPUS_FLAG = "onOffCampusFlag";
+
     // Budget Rates
     public static final int APPLICABLE_RATE_PRECISION = 3;
     public static final int APPLICABLE_RATE_SCALE = 2;
@@ -244,14 +243,14 @@ public interface Constants {
     public static final String PROPOSALDATA_DISPLAY_VAL_KEY = "newProposalChangedData.displayValue";
     public static final String PROPOSALDATA_CURRENT_DISPLAY_KEY = "newProposalChangedData.oldDisplayValue";
     public static final String PROPOSALDATA_COMMENTS_KEY = "newProposalChangedData.comments";
-    
+
     public static final String BUDGET_SALARY_REPORT = "ProposalBudget/Salaries";
     public static final String PERSONNEL_BUDGET_PANEL_NAME = "Personnel Budget";
-    
+
     public static final String PROPOSAL_EDITABLECOLUMN_DATATYPE = "document.newMaintainableObject.dataType";
     public static final String PROPOSAL_EDITABLECOLUMN_DATALENGTH = "document.newMaintainableObject.dataLength";
     public static final String PROPOSAL_EDITABLECOLUMN_LOOKUPRETURN = "document.newMaintainableObject.lookupReturn";
-    
+
     public static final String PDF_REPORT_CONTENT_TYPE = "application/pdf";
     public static final String PDF_FILE_EXTENSION = ".pdf";
     public static final String GENERIC_SPONSOR_CODE = "GENERIC_SPONSOR_CODE";

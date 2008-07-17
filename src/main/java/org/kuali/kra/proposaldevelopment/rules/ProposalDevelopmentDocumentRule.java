@@ -403,7 +403,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     */
     private boolean processProposalGrantsGovBusinessRule(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         boolean valid = true;
-        
+                
         if(proposalDevelopmentDocument.getS2sOpportunity()!= null && proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId()!=null && StringUtils.equalsIgnoreCase(proposalDevelopmentDocument.getS2sOpportunity().getRevisionCode(), getKualiConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,KeyConstants.S2S_REVISIONTYPE_OTHER).getParameterValue()) && (proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription()==null||StringUtils.equals(proposalDevelopmentDocument.getS2sOpportunity().getRevisionOtherDescription().trim(), ""))){
             reportError("s2sOpportunity.revisionOtherDescription",KeyConstants.ERROR_IF_REVISIONTYPE_IS_OTHER);
             valid &= false;
@@ -477,7 +477,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             throw new RuntimeException("Validate Budget Audit rules encountered exception", ex);
         }
         return retval;
-	}
+    }
 
     /**
      * @see org.kuali.kra.proposaldevelopment.rule.AbstractsRule#processAddAbstractBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, org.kuali.kra.proposaldevelopment.bo.ProposalAbstract)

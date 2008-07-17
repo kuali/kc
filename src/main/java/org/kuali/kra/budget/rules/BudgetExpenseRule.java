@@ -44,7 +44,7 @@ public class BudgetExpenseRule {
         
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         if (CollectionUtils.isNotEmpty(budgetLineItem.getBudgetPersonnelDetailsList())) {
-            // just try to make sure key is on budget personnel tab
+                // just try to make sure key is on budget personnel tab
             errorMap.putError("document.budgetPeriod["+(budgetLineItem.getBudgetPeriod()-1)+"].budgetLineItem["+lineItemToDelete+"].costElement", KeyConstants.ERROR_DELETE_LINE_ITEM);
                 valid = false;
     }

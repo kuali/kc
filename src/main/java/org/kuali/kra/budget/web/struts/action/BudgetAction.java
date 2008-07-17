@@ -89,7 +89,7 @@ public class BudgetAction extends ProposalActionBase {
             // getting uglier.  definitely candidate for refactoring
             ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budgetDocument.getOhRateClassCode());
         }        
-        
+
         reconcileBudgetStatus(budgetForm);
         return forward;
     }
@@ -299,7 +299,6 @@ public class BudgetAction extends ProposalActionBase {
         }
     }
     
-    
     private void copyLineItemToPersonnelDetails(BudgetDocument budgetDocument) {
         for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
             if (budgetPeriod.getBudgetLineItems() != null && !budgetPeriod.getBudgetLineItems().isEmpty()) {
@@ -320,5 +319,5 @@ public class BudgetAction extends ProposalActionBase {
         }
     }
 
-    
+
 }

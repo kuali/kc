@@ -97,6 +97,8 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
 
     @After
     public void tearDown() throws Exception {
+
+
         super.tearDown();
         customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml");
         customKEWLifecycle.start();

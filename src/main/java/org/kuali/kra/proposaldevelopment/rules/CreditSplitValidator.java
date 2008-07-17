@@ -52,8 +52,8 @@ import static org.kuali.kra.logging.FormattedLogger.*;
  * Validates Credit Splits on a <code>{@link ProposalPerson}</code> and/or <code>{@link ProposalPersonUnit}</code> by
  * traversing the tree of <code>{@link ProposalPerson}</code> <code>{@link ProposalPersonUnit}</code> instances.
  *
- * @author $Author: jsalam $
- * @version $Revision: 1.9 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.10 $
  */
 public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CreditSplitValidator.class);
