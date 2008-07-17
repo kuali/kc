@@ -30,7 +30,6 @@ import org.kuali.kra.budget.BudgetDecimal;
  * This class makes a BudgetDecimal from a String
  */
 public class BudgetDecimalFormatter extends BigDecimalFormatter {
-//public class BudgetDecimalFormatter extends BigDecimalFormatter {
     private static final long serialVersionUID = 8395988033199649377L;
     private static Logger LOG = Logger.getLogger(BudgetDecimalFormatter.class);
 

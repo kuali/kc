@@ -26,7 +26,7 @@ import org.kuali.kra.kim.bo.KimPerson;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * $Id: Person.java,v 1.13 2008-06-24 19:13:20 gmcgrego Exp $
+ * $Id: Person.java,v 1.14 2008-07-17 01:36:18 gmcgrego Exp $
  */
 public class Person extends KraPersistableBusinessObjectBase {
     private String personId;

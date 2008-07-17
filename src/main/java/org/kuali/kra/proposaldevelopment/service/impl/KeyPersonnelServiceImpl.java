@@ -65,8 +65,8 @@ import org.kuali.kra.service.YnqService;
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: jsalam $
- * @version $Revision: 1.32 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.33 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService {
     private static final String READ_ONLY_ROLES_PARAM_NAME = "proposaldevelopment.personrole.readonly.roles";
@@ -427,7 +427,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
                 prop_person.setFullName(rolodex.getFirstName());
             }
             if (isNotBlank(rolodex.getMiddleName())) {
-                prop_person.setFullName(prop_person.getFullName() + " " + rolodex.getMiddleName());                		
+                prop_person.setFullName(prop_person.getFullName() + " " + rolodex.getMiddleName());                     
             }
             if (isNotBlank(rolodex.getLastName())) {
                 prop_person.setFullName(prop_person.getFullName() + " " + rolodex.getLastName());                     
@@ -621,7 +621,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         return getConfigurationService().getParameter(Constants.PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, Constants.PARAMETER_COMPONENT_DOCUMENT,parameterName).getParameterValue();
     }
 
-    public boolean isSponsorNIH(ProposalDevelopmentDocument document) {
+ public boolean isSponsorNIH(ProposalDevelopmentDocument document) {
         
         boolean nih=false;
         Map valueMap = new HashMap();
@@ -701,11 +701,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService {
         // TODO Auto-generated method stub
         
     }
-    protected String findNIHRoleDescription(ProposalPersonRole role) {
-        return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
-            PARAMETER_COMPONENT_DOCUMENT, 
-            PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
-            + "nonnih."
-            + role.getProposalPersonRoleId().toLowerCase());    
+ protected String findNIHRoleDescription(ProposalPersonRole role) {
+     return getConfigurationService().getParameterValue(PARAMETER_MODULE_PROPOSAL_DEVELOPMENT, 
+         PARAMETER_COMPONENT_DOCUMENT, 
+         PROPOSAL_PERSON_ROLE_PARAMETER_PREFIX 
+         + "nonnih."
+         + role.getProposalPersonRoleId().toLowerCase());    
 }
 }

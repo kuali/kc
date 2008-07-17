@@ -21,7 +21,6 @@ import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 
 import java.util.*;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -224,7 +223,6 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         }
         return ProposalPersons;
     }
-
     /**
      * Returns a node child with the specified tag name of the specified parent node,
      * or null if no such child node is found.
@@ -249,7 +247,6 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         }
         return null;
     }
-
     /**
      * Returns the text value of a child element with the given name, of the given parent element,
      * or null if the child does not exist or does not have a child text node
@@ -269,9 +266,4 @@ public class ProposalPersonRoleAttribute extends AbstractRoleAttribute
         }
         return textNode.getNodeValue();
     }
-
-
-
-
-
 }

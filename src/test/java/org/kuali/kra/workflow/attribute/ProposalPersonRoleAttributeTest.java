@@ -94,7 +94,6 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
 
     
     }
-
     private void setDocumentFields(ProposalDevelopmentDocument document) {
         Date requestedStartDateInitial = new Date(System.currentTimeMillis());
         Date requestedEndDateInitial = new Date(System.currentTimeMillis());
@@ -118,7 +117,7 @@ public class ProposalPersonRoleAttributeTest extends KraTestBase{
         person2.setUserName("jtester");
         person2.setOptInCertificationStatus("Y");
         person2.setOptInUnitStatus("Y");
-        		
+                
         ProposalPerson person3= new ProposalPerson();
         person3.setProposalNumber("7");
         person3.setProposalPersonNumber(5);

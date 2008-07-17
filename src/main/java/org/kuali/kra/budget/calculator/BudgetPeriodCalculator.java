@@ -107,7 +107,7 @@ public class BudgetPeriodCalculator {
             // this should be set at the last period, otherwise, only the first period will be updated properly because lots of places check prevohrateclass
             // This approach affect other area, so rolled it back.
             ((BudgetForm)GlobalVariables.getKualiForm()).setOhRateClassCodePrevValue(budgetDocument.getOhRateClassCode());
-        }
+        }        
         // syncBudgetTotals(budgetDocument);
     }
 
@@ -201,7 +201,7 @@ public class BudgetPeriodCalculator {
                 } else {
                     startEndDates.add(0, budgetPeriod.getStartDate());
                     startEndDates.add(1, budgetPeriod.getEndDate());
-                    List <java.sql.Date> dates = KraServiceLocator.getService(BudgetSummaryService.class).getNewStartEndDates(startEndDates, gap, lineDuration, budgetLineItem.getStartDate(),isLeapDateInPeriod, isLeapDayInGap);
+                    List <java.sql.Date> dates = KraServiceLocator.getService(BudgetSummaryService.class).getNewStartEndDates(startEndDates, gap, lineDuration, budgetLineItem.getStartDate(), isLeapDateInPeriod,isLeapDayInGap);
                     budgetLineItem.setStartDate(dates.get(0));
                     budgetLineItem.setEndDate(dates.get(1));
                 }
@@ -250,7 +250,6 @@ public class BudgetPeriodCalculator {
                     budgetPersonnelDetail.setVersionNumber(null);
                 }
                 budgetPeriod.getBudgetLineItems().add(budgetLineItem);
-                // to generate calamts
                 budgetCalculationService.calculateBudgetLineItem(budgetDocument, budgetLineItem);
                 for (BudgetLineItemCalculatedAmount prevCalAmts : prevBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                     for (BudgetLineItemCalculatedAmount CalAmts : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {

@@ -62,7 +62,7 @@
 					<version>2.4</version>
 					<scope>provided</scope>
 				</dependency>
-				<!--  cause compilation for Jack's performancetest filter
+				<!--  maybe the cause for Jack's compiling error
 				<dependency>
 					<groupId>javax.servlet</groupId>
 					<artifactId>servlet-api</artifactId>

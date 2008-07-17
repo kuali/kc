@@ -18,6 +18,7 @@ http://www.opensource.org/licenses/ecl1.php
 <kra:section permission="submitToSponsor">
  <c:set var="extraButtons" value="${KualiForm.extraActionsButtons}" scope="request"/> 
 </kra:section>
+
 <kul:documentPage
 showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentActions"
@@ -31,9 +32,9 @@ showDocumentInfo="true"
 <kra-pd:proposalDevelopmentDataValidation /> 
 <kra-pd:proposalDevelopmentHierarchy /> 
 <kra:section permission="printProposal">
-<kra-pd:proposalDevelopmentPrintForms /> 
+   <kra-pd:proposalDevelopmentPrintForms /> 
 </kra:section>
-<kra-pd:proposalDevelopmentCopy /> 
+<kra-pd:proposalDevelopmentCopy />
 
 <kra:section permission="showAlterProposalData">
 	<kra-pd:proposalDataOverride />
@@ -74,5 +75,4 @@ transactionalDocument="true"
 var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 </SCRIPT>
-
 </kul:documentPage>

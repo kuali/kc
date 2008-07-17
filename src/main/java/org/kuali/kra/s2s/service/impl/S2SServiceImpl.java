@@ -521,7 +521,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
                 }
             };
             attDataSource.setContentType(CONTENT_TYPE);
-            attDataSource.setFileName(doc.getDocumentName()+".pdf");            
+            attDataSource.setFileName(doc.getDocumentName()+".pdf");
             return attDataSource;
         }catch(S2SValidationException ex){
 //            LOG.error(ex);
@@ -529,7 +529,7 @@ public class S2SServiceImpl implements S2SService, S2SConstants {
             List<AuditError> auditErrors = new ArrayList<AuditError>();
             if(errors!=null)
             for (ErrorBean error : errors) {                
-                LOG.error(error.getMsg());                
+                LOG.error(error.getMsg());
                 auditErrors.add(new AuditError(Constants.NO_FIELD, Constants.GRANTS_GOV_GENERIC_ERROR_KEY, Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR,new String[]{error.getMsg()}));
             }
 //            LOG.error(e.getMessage(), e);

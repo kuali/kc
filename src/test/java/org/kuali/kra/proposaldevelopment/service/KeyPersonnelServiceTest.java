@@ -34,8 +34,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * Class intended to exercise testing of units of functionality within the
  * <code>{@link KeyPersonnelService}</code>
  *
- * @author $Author: jsalam $
- * @version $Revision: 1.7 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.8 $
  */
 public class KeyPersonnelServiceTest extends KraTestBase {
     private ProposalDevelopmentDocument document;

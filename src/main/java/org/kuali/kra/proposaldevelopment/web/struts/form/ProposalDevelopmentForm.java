@@ -206,7 +206,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
 
         proposalDevelopmentDocument.refreshReferenceObject("sponsor");
 
-		// Temporary hack for KRACOEUS-489
+        // Temporary hack for KRACOEUS-489
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }       
@@ -232,7 +232,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         Set<String> attributeNames = dataDictionaryService.getDataDictionary().getDocumentEntry(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument.class.getName()).getAttributes().keySet();
 
     }
-    
+
     public ProposalLocation getNewPropLocation() {
         return newPropLocation;
     }
@@ -663,15 +663,15 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
      */
     public List<ProposalAssignedRole> getProposalAssignedRoles() {
         List<ProposalAssignedRole> assignedRoles = new ArrayList<ProposalAssignedRole>();
-    
+        
         Collection<KimRole> roles = getKimProposalRoles();
         for (KimRole role : roles) {
             if (!role.isUnassigned()) {
                 ProposalAssignedRole assignedRole = 
                     new ProposalAssignedRole(role.getName(), getUsersInRole(role.getName()));
                 assignedRoles.add(assignedRole);
-    }
-    }
+            }
+        }
         return assignedRoles;
     }
     
@@ -703,7 +703,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         return names;
     }
     
-    /**
+    /** 
      * Gets the new proposal user.  This is the proposal user that is filled
      * in by the user on the form before pressing the add button.
      *
@@ -1055,7 +1055,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         
         return extraButtons;
     }
-        
+    
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
@@ -1169,7 +1169,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void setOptInCertificationStatus(String optInCertificationStatus) {
         this.optInCertificationStatus = optInCertificationStatus;
     }
-
+    
     public ProposalChangedData getNewProposalChangedData() {
         return newProposalChangedData;
     }
@@ -1177,7 +1177,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public void setNewProposalChangedData(ProposalChangedData newProposalChangedData) {
         this.newProposalChangedData = newProposalChangedData;
     }
-
+    
     public boolean isSubmissionStatusVisible() {
         String routeStatus = this.getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader()
         .getDocRouteStatus();
@@ -1197,7 +1197,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         }
         return true;
     }
-
+    
     public final String getProposalFormTabTitle() {
         String totalForms = getSponsorFormTemplates().size() + "";
         return proposalFormTabTitle.concat("(" + totalForms + ")");
@@ -1206,7 +1206,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     public final void setProposalFormTabTitle(String proposalFormTabTitle) {
         this.proposalFormTabTitle = proposalFormTabTitle;
     }
-
+ 
     public List<SponsorFormTemplateList> getSponsorFormTemplates() {
         return sponsorFormTemplates;
     }
@@ -1222,5 +1222,5 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         
         return getSponsorFormTemplates().get(index);
     }
-    
+
 }

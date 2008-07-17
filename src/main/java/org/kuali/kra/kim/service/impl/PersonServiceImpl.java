@@ -116,10 +116,11 @@ public class PersonServiceImpl implements PersonService {
      * @see org.kuali.kra.kim.service.PersonService#hasQualifiedPermission(java.lang.String, java.lang.String, java.util.Map)
      */
     public boolean hasQualifiedPermission(String personUserName, String namespaceName, String permissionName, Map<String, String> qualifiedRoleAttributes) {
+       
         Long personId = helper.getPersonId(personUserName);
         Long namespaceId = helper.getNamespaceId(namespaceName);
         Long permissionId = helper.getPermissionId(namespaceId, permissionName);
-     
+        
         Set<Long> roleIds = helper.getPersonQualifiedRoleIds(personId, qualifiedRoleAttributes);
         boolean hasPermission = helper.hasPermission(roleIds, permissionId);
         if (!hasPermission) {
