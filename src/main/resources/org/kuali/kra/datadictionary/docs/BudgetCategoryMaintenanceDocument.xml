@@ -41,6 +41,7 @@
 
         <summary>BudgetCategory Maintenance Document</summary>
         <description>Document used to create or update BudgetCategory Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="budgetCategoryMaintenanceHelp" />
 
         <lockingKeys>
         	<field attributeName="budgetCategoryCode"/>
