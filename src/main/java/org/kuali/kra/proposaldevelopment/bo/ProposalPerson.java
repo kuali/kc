@@ -31,8 +31,8 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
  *
  * @see org.kuali.core.bo.BusinessObject
  * @see org.kuali.core.bo.PersistableBusinessObject
- * @author $Author: jfrosch $
- * @version $Revision: 1.40 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.41 $
  */
 public class ProposalPerson extends Person implements CreditSplitable {
     /**

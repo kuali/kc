@@ -59,7 +59,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentBudgetVersionsAction.class);
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
-    
+
     /**
      * Action called to create a new budget version.
      * 
@@ -74,7 +74,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
         BudgetDocument newBudgetDoc = budgetService.getNewBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
-        
+                
         PessimisticLock budgetLockForProposalDoc = null;
         for(PessimisticLock pdLock : pdDoc.getPessimisticLocks()) {
             if(pdLock.getLockDescriptor().contains(KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET)) {
@@ -82,18 +82,14 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
                 break;
             }
         }
-        try {
-            PessimisticLock budgetLockForBudgetDoc = KNSServiceLocator.getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
-            newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
-        } catch (Exception e) {
-            
-        }
-
+        PessimisticLock budgetLockForBudgetDoc = KNSServiceLocator.getPessimisticLockService().generateNewLock(newBudgetDoc.getDocumentNumber(), budgetLockForProposalDoc.getLockDescriptor(), budgetLockForProposalDoc.getOwnedByUser());
+        newBudgetDoc.addPessimisticLock(budgetLockForBudgetDoc);
+        
         pdForm.getProposalDevelopmentDocument().addNewBudgetVersion(newBudgetDoc, pdForm.getNewBudgetVersionName(), false);
         pdForm.setNewBudgetVersionName("");
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
+    
     /**
      * This method opens a particular budget version.
      * 
@@ -105,14 +101,14 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      * @throws Exception
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		save(mapping, form, request, response);  
+        save(mapping, form, request, response);
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
         if (KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetToOpen.getBudgetVersionNumber().toString())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        } else { 
+        } else {
             DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
             BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
             Long routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId();
@@ -213,20 +209,20 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     }
     
     private int getTentativeFinalBudgetVersion(ProposalDevelopmentForm pdForm) {
-         if(pdForm.getFinalBudgetVersion() != null) {
-             return pdForm.getFinalBudgetVersion().intValue();
-         }
-         
-         ProposalDevelopmentDocument document = pdForm.getProposalDevelopmentDocument();
-         if(document != null && CollectionUtils.isNotEmpty(document.getBudgetVersionOverviews())) {
-             for(BudgetVersionOverview budget : document.getBudgetVersionOverviews()) {
-                 if(budget.isFinalVersionFlag()) {
-                     return budget.getBudgetVersionNumber();
-                 }
-             }
-         }
-         
-         return -1;
+        if(pdForm.getFinalBudgetVersion() != null) {
+            return pdForm.getFinalBudgetVersion().intValue();
+        }
+        
+        ProposalDevelopmentDocument document = pdForm.getProposalDevelopmentDocument();
+        if(document != null && CollectionUtils.isNotEmpty(document.getBudgetVersionOverviews())) {
+            for(BudgetVersionOverview budget : document.getBudgetVersionOverviews()) {
+                if(budget.isFinalVersionFlag()) {
+                    return budget.getBudgetVersionNumber();
+                }
+            }
+        }
+        
+        return -1;
     }
     
     @Override 
@@ -245,7 +241,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
         
         boService.save(pdDocument.getBudgetVersionOverviews());
-    }
+    }    
     
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -264,7 +260,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         }
         
         return mapping.findForward(MAPPING_BASIC);
-    } 
+    }
     
     public ActionForward copyBudgetAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -292,5 +288,5 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,
                 message, "");
     }
-    
+
 }

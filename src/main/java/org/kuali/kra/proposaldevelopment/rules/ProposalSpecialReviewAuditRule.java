@@ -46,7 +46,7 @@ public class ProposalSpecialReviewAuditRule extends ResearchDocumentRuleBase imp
             if (proposalSpecialReview.getExpirationDate() != null && proposalSpecialReview.getExpirationDate().before(new java.sql.Date(new java.util.Date().getTime()))) {
                 retval = false;
                 getAuditErrors().add(new AuditError("document.propSpecialReview[" + i + "].expirationDate", KeyConstants.ERROR_EXPIRATION_DATE_PAST, Constants.SPECIAL_REVIEW_PAGE + "." + Constants.SPECIAL_REVIEW_PANEL_ANCHOR));
-            } 
+            }
             i++;
         }
                     

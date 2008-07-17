@@ -48,6 +48,6 @@ public class NarrativeReplaceAuthorizer extends NarrativeAuthorizer {
             hasPermission = hasNarrativeRight(username, narrative, NarrativeRight.MODIFY_NARRATIVE_RIGHT);
         }
         
-        return hasPermission;  
+        return hasPermission;
     }
 }

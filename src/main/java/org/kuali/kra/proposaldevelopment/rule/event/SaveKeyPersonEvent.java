@@ -29,8 +29,8 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
  * Event triggered when a Key Person is added to a
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.2 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.3 $
  */
 public class SaveKeyPersonEvent extends KraDocumentEventBase {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(SaveKeyPersonEvent.class);

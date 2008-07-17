@@ -40,11 +40,6 @@ import org.apache.log4j.Logger;
  * <httpSample t="4031" lt="843" ts="1211383064375" s="true" lb="Load Portal Page" rc="200" rm="OK" tn="20 Users, 5 Iterations 1-1" dt="text" by="38007" ng="20" na="20">
  */
 public class PerformanceMeasurementFilter implements Filter {
-    private static final String DATE_PATTERN = "yyyy-MM-dd";
-    private static final String LOG_EXTENSION = ".xml";
-    private static final String REAL_TIME_PERFORMANCE_LOG_NAME_PREFIX = "Real-time Performance Log v1.1 ";
-    private static final String PERFTEST_REPORT_DIRECTORY_KEY = "org.kuali.kra.perftest.REPORT_DIRECTORY";
-
     private FilterConfig filterConfig;
     
     private Calendar _performanceLogCalendar;
@@ -57,21 +52,6 @@ public class PerformanceMeasurementFilter implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if(getReportDirectory() != null) {
-            doPerformanceFilter(request, response, chain);
-        } else {
-            skipPerformanceFilter(request, response, chain);
-        }
-    }
-
-    public void init(FilterConfig filterConfig) throws ServletException {
-        this.filterConfig = filterConfig;
-        
-        setPerformanceLogCalendar(getDateOnlyCalendar());
-        dateFormatter = new SimpleDateFormat(DATE_PATTERN);
-    }
-
-    private void doPerformanceFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         final long startTime = System.currentTimeMillis();
         PerformanceFilterResponse filterResponse = new PerformanceFilterResponse((HttpServletResponse) response); 
         chain.doFilter(request, filterResponse);        
@@ -82,9 +62,12 @@ public class PerformanceMeasurementFilter implements Filter {
             logger.error(t.getMessage(), t);
         }
     }
-    
-    private void skipPerformanceFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        chain.doFilter(request, response);
+
+    public void init(FilterConfig filterConfig) throws ServletException {
+        this.filterConfig = filterConfig;
+        
+        setPerformanceLogCalendar(getDateOnlyCalendar());
+        dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
     }
     
     private String getPerformanceLogFileName() {
@@ -93,10 +76,7 @@ public class PerformanceMeasurementFilter implements Filter {
             setPerformanceLogCalendar(todayCalendar);
         }
         
-        return new StringBuilder(REAL_TIME_PERFORMANCE_LOG_NAME_PREFIX)
-                        .append(dateFormatter.format(getPerformanceLogCalendar().getTime()))
-                        .append(LOG_EXTENSION)
-                        .toString();
+        return new StringBuilder("Real-time Performance Log ").append(dateFormatter.format(getPerformanceLogCalendar().getTime())).append(".xml").toString();
     }
 
     private boolean isNewFileNeeded(Calendar todayCalendar) {
@@ -116,10 +96,6 @@ public class PerformanceMeasurementFilter implements Filter {
         return _performanceLogCalendar;
     }
     
-    private String getReportDirectory() {
-        return filterConfig.getServletContext().getInitParameter(PERFTEST_REPORT_DIRECTORY_KEY);
-    }
-    
     private void logSample(HttpSample sample, String outputDirectory) {
         try {
             File file = new File(outputDirectory, getPerformanceLogFileName());
@@ -128,7 +104,7 @@ public class PerformanceMeasurementFilter implements Filter {
             }
             
             insertLine(file, sample);
-            
+                       
         } catch(Exception e) {
             Logger logger = Logger.getLogger(PerformanceMeasurementFilter.class);
             logger.warn(e.getMessage(), e);
@@ -137,7 +113,7 @@ public class PerformanceMeasurementFilter implements Filter {
     
     private void processResponse(ServletRequest request, PerformanceFilterResponse response, final long startTime) {
         final int elapsedTime = (int) (System.currentTimeMillis() - startTime);
-        final String outputDirectory = getReportDirectory();
+        final String outputDirectory = filterConfig.getServletContext().getInitParameter("org.kuali.kra.perftest.REPORT_DIRECTORY");
         final HttpSample httpSample = new HttpSample((HttpServletRequest) request, response, outputDirectory, startTime, elapsedTime);
         
         Thread t = new Thread(new Runnable() {
@@ -154,25 +130,15 @@ public class PerformanceMeasurementFilter implements Filter {
     }
     
     private void createNewFile(File file) throws IOException {
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter(file, true);
-            writer.write(getReportTemplate(file));
-            writer.flush();
-        } finally {
-            if(writer != null) { writer.close(); }
-        }
-    }
-
-    private String getReportTemplate(File file) {
-        StringBuilder sb = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n");
-        sb.append("<!-- Performance Log File: ");
-        sb.append(file.getName());
-        sb.append(" -->\n\n");
-        sb.append("<httpSamples>");
-        sb.append("\n</httpSamples>");
-        String reportTemplate = sb.toString();
-        return reportTemplate;
+        FileWriter writer = new FileWriter(file, true);
+        writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n");
+        writer.write("<!-- Performance Log File: ");
+        writer.write(file.getName());
+        writer.write(" -->\n\n");
+        writer.write("<httpSamples>");
+        writer.write("\n</httpSamples>");
+        writer.flush();
+        writer.close();
     }
     
     private void insertLine(File file, HttpSample httpSample) throws IOException {
@@ -290,7 +256,6 @@ public class PerformanceMeasurementFilter implements Filter {
         }
 
         private void addMethodToCall(StringBuilder sb, String methodToCall) {
-            methodToCall = escapeXMLCharactersInMethodToCall(methodToCall);
             sb.append(";methodToCall=");
             sb.append(methodToCall);
         }
@@ -307,27 +272,6 @@ public class PerformanceMeasurementFilter implements Filter {
             requestTimeStamp = startTime;
             this.elapsedTime = elapsedTime;
             latency = elapsedTime;
-        }
-        
-//        private String getTruncatedMethodToCall(String methodToCall) {
-//            if(methodToCall != null) {
-//                if(methodToCall.length() > MAX_METHODTOCALL_LENGTH) {
-//                    methodToCall = methodToCall.substring(0, MAX_METHODTOCALL_LENGTH);
-//                }
-//            } else {
-//                methodToCall = "";
-//            }
-//            return methodToCall;
-//        }
-        
-        private String escapeXMLCharactersInMethodToCall(String methodToCall) {
-            if(methodToCall == null) { return ""; }
-            
-            methodToCall = methodToCall.replace("&", "&amp;");
-            methodToCall = methodToCall.replace("<", "&lt;");
-            methodToCall = methodToCall.replace(">", "&gt;");
-            
-            return methodToCall;
         }
     }
 }

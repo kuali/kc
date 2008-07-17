@@ -26,8 +26,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * Base implementation for events triggered when a Key Person state is modified on a 
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
- * @author $Author: lprzybyl $
- * @version $Revision: 1.4 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.5 $
  */
 public abstract class KeyPersonEventBase extends KraDocumentEventBase implements KeyPersonEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonEventBase.class);

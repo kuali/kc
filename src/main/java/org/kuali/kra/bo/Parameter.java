@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 /**
  * Class representation of the Degree Type Business Object
  *
- * $Id: Parameter.java,v 1.1 2008-07-11 16:15:26 rmancher Exp $
+ * $Id: Parameter.java,v 1.2 2008-07-17 01:36:18 gmcgrego Exp $
  */
 public class Parameter extends KraPersistableBusinessObjectBase {
 	

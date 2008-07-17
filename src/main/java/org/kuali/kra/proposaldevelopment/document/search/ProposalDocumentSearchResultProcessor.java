@@ -76,6 +76,7 @@ public class ProposalDocumentSearchResultProcessor extends StandardDocumentSearc
             if (this.isDocumentHandlerPopup()) {
                 linkPopup = " target=\"_blank\"";
             }
+            //fieldValue = "<a href='" + copyDocumentUrl + "' target='_blank'>Copy</a>" ;
             fieldValue = "<a href='" + copyDocumentUrl + "' " + linkPopup + ">Copy</a>" ;
         } else {
             fieldValue = "";

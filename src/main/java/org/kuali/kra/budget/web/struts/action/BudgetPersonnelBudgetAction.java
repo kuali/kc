@@ -283,7 +283,6 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
             errorFound=true;
         }
         errorFound=errorFound || personnelDatesCheck(selectedBudgetLineItem, budgetPersonnelDetails, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, getLineToDelete(request));
-
         if(!errorFound){
             BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
             budgetPersonnelBudgetService.calculateBudgetPersonnelBudget(budgetForm.getBudgetDocument(),selectedBudgetLineItem,budgetPersonnelDetails, getLineToDelete(request));
@@ -341,7 +340,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         
         return errorFound;
     }
-
+     
     private void updatePersonnelBudgetRate(BudgetLineItem budgetLineItem){
         int j = 0;
         for(BudgetPersonnelDetails budgetPersonnelDetails: budgetLineItem.getBudgetPersonnelDetailsList()){
@@ -353,4 +352,5 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         }
     }
 
+    
 }

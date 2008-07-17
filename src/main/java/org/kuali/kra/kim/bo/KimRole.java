@@ -149,7 +149,6 @@ public class KimRole extends PersistableBusinessObjectBase {
         return permissions;
     }
 
-
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
@@ -198,7 +197,7 @@ public class KimRole extends PersistableBusinessObjectBase {
     public void setRolePermissions(List<KimRolePermission> rolePermissions) {
         this.rolePermissions = rolePermissions;
     }
-
+    
     public boolean isUnassigned() {
         return StringUtils.equals(name, RoleConstants.UNASSIGNED);
     }

@@ -180,7 +180,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
             if (criteria.getIncludeBudget()) {
                 copyBudget(doc, newDoc, criteria.getBudgetVersions());
             }
-            
+
             newDocNbr = newDoc.getDocumentNumber();
         }
         
@@ -427,7 +427,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 ObjectUtils.materializeObjects(proposalPersonUnit.getCreditSplits());
             }
         }
-            
+
         fixProposalNumbers(newDoc, newDoc.getProposalNumber(), list);
         fixKeyPersonnel(newDoc, srcDoc.getOwnedByUnitNumber(), criteria.getLeadUnitNumber());
         list.clear();
