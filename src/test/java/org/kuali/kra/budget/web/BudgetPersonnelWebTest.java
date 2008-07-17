@@ -83,13 +83,13 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
      *
      */
     // @Test
-    public void addAndDeletePersonnel() throws Exception {
-        assignBudgetPersonnel();
-        navigateToBudgetPersonnel();
-        deleteFirstBudgetPerson();
-
-        info(currentBudgetPage.asText());
-    }
+//    public void addAndDeletePersonnel() throws Exception {
+//        assignBudgetPersonnel();
+//        navigateToBudgetPersonnel();
+//        deleteFirstBudgetPerson();
+//
+//        info(currentBudgetPage.asText());
+//    }
 
     /**
      * <p>This is a recreate for KRACOEUS-1332. </p>
@@ -104,8 +104,8 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
      * @see org.kuali.kra.budget.bo.BudgetPerson
      * @see org.kuali.kra.budget.bo.BudgetLineItem;
      */
-//    @Test
-//    public void deleteWithPersonnelExpense() throws Exception {        
+    @Test
+    public void deleteWithPersonnelExpense() throws Exception {        
 //        assignBudgetPersonnel();
 //        assignPersonnelExpenses();
 //        navigateToBudgetPersonnel();
@@ -115,7 +115,7 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
 //        assertDoesNotContain(currentBudgetPage, ERRORS_FOUND_ON_PAGE);
 //        info(currentBudgetPage.asText());
 //        
-//    }
+    }
 
     /**
      * Uses the immutable {@link HtmlPage} instance <code>currentBudgetPage</code>, and adds 
