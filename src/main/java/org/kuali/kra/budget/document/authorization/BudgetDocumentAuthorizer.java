@@ -82,7 +82,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
             editModeMap.put("modifyBudgets", FALSE);
             editModeMap.put("addBudget", FALSE);
             entryEditModeReplacementMap.put(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET, KraAuthorizationConstants.BudgetEditMode.VIEW_BUDGET);
-            
+
             //Looks like addBudget is needed in EditModeMap at all times
             //entryEditModeReplacementMap.put("addBudget", "openBudgets");
         }
@@ -244,7 +244,7 @@ public class BudgetDocumentAuthorizer extends TransactionalDocumentAuthorizerBas
             Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
             if (StringUtils.equals(entry.getKey(), "addBudget")) {
                 entry.setValue(FALSE);
-            }           
+            }
         }
         return editModeMap;
     }

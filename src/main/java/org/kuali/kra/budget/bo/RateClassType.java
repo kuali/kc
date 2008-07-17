@@ -48,7 +48,7 @@ public class RateClassType extends KraPersistableBusinessObjectBase {
     public void setSortId(String sortId) {
         this.sortId = sortId;
     }
-
+    
     public final Boolean getPrefixActivityType() {
         return prefixActivityType;
     }
@@ -56,5 +56,5 @@ public class RateClassType extends KraPersistableBusinessObjectBase {
     public final void setPrefixActivityType(Boolean prefixActivityType) {
         this.prefixActivityType = prefixActivityType;
     }
-
+    
 }

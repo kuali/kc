@@ -40,6 +40,7 @@
 
         <summary>Activity Type Maintenance Document</summary>
         <description>Document used to create or update Activity Type Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="activityTypeMaintenanceHelp" />
 
         <lockingKeys>
             <field attributeName="activityTypeCode" />

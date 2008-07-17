@@ -1,5 +1,5 @@
 -
-- $Id: PERSON_DEGREE.sql,v 1.2 2008-05-02 16:34:39 dbarre Exp $
+- $Id: PERSON_DEGREE.sql,v 1.3 2008-07-17 01:36:18 gmcgrego Exp $
 -
 create table PERSON_DEGREE(
   PERSON_ID           VARCAR(12) CONSTRAINT PERSON_DEGREE_N1 NOT NULL,

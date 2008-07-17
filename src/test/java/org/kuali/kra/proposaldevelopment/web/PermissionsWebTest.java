@@ -175,7 +175,7 @@ public class PermissionsWebTest extends ProposalDevelopmentWebTestBase {
      * This will also test the help links on other panels on the page, but no big deal.
      * @throws Exception
      */
-    // @Test -- KRACOEUS-1419 - Add this test back when urls are added.
+    @Test
     public void testHelpLinks() throws Exception {
         HtmlPage permissionsPage = getPermissionsPage();
         this.checkHelpLinks(permissionsPage);

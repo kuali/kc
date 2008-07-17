@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,6 +38,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.RiceConstants;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.BusinessObjectService;
@@ -64,6 +66,7 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.event.CopyProposalEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
@@ -374,7 +377,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             copiedDocument.setS2sAppSubmission(new ArrayList<S2sAppSubmission>());            
             DocumentService docService = KraServiceLocator.getService(DocumentService.class);
             docService.saveDocument(copiedDocument);
-
+            
             nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
             
             proposalDevelopmentForm.setCopyCriteria(new ProposalCopyCriteria());
@@ -521,7 +524,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward((RiceConstants.MAPPING_BASIC));
          }
         
-    }
+}
     
     /**
      * Submit a proposal to a sponsor.  
@@ -755,6 +758,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private StrutsConfirmation buildSubmitToGrantsGovWithWarningsQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SUBMISSION_WITH_WARNINGS_KEY, KeyConstants.QUESTION_SUMBMIT_OPPORTUNITY_WITH_WARNINGS_CONFIRMATION);
     }
+
     
 
     @Override
@@ -796,34 +800,34 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         return actionForward;
     }
-    
 
     public void streamToResponse(List<SponsorFormTemplate> printFormTemplates, String proposalNumber, String contentType, String ReportName, HttpServletResponse response) throws Exception{
         
+        
+        byte[] sftByteStream = KraServiceLocator.getService(PrintService.class).printProposalSponsorForms(proposalNumber, printFormTemplates);
+        
+        if(sftByteStream == null) {
+            return;
+        }
+        ByteArrayOutputStream baos = null;
+        try{
+            baos = new ByteArrayOutputStream(sftByteStream.length);
+            baos.write(sftByteStream);
             
-            byte[] sftByteStream = KraServiceLocator.getService(PrintService.class).printProposalSponsorForms(proposalNumber, printFormTemplates);
+            WebUtils.saveMimeOutputStreamAsFile(response, contentType, baos, ReportName);
             
-            if(sftByteStream == null) {
-                return;
-            }
-            ByteArrayOutputStream baos = null;
+        }finally{
             try{
-                baos = new ByteArrayOutputStream(sftByteStream.length);
-                baos.write(sftByteStream);
-                
-                WebUtils.saveMimeOutputStreamAsFile(response, contentType, baos, ReportName);
-                
-            }finally{
-                try{
-                    if(baos!=null){
-                        baos.close();
-                        baos = null;
-                    }
-                }catch(IOException ioEx){
-                    LOG.warn(ioEx.getMessage(), ioEx);
+                if(baos!=null){
+                    baos.close();
+                    baos = null;
                 }
+            }catch(IOException ioEx){
+                LOG.warn(ioEx.getMessage(), ioEx);
             }
-    }
+        }
+}
+
     
     /**
      * 
@@ -887,6 +891,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return getService(KualiRuleService.class);
     }
     
+    
     /**
      * 
      * This method is for audit rule to forward to the page that the audit error fix is clicked.
@@ -903,6 +908,19 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetPersonnel.do?auditActivated=true&");
         
         return new ActionForward(forward, true);
+    }
+    
+    /**
+     * 
+     * This method gets called upon clicking of resubmit(replace sponsor) button on Proposal Actions page.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward resubmit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("resubmit");
     }
 
     /**
@@ -930,7 +948,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         return new ActionForward(forward, true);
     }
-
+    
     /**
      * 
      * This method is to forward to budget summary page for audit errors.
@@ -945,19 +963,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetSummary.do?auditActivated=true&");
         
         return new ActionForward(forward, true);
-    }
-    
-    /**
-     * 
-     * This method gets called upon clicking of resubmit(replace sponsor) button on Proposal Actions page.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
-    public ActionForward resubmit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("resubmit");
     }
     
     public ActionForward saveProposalActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

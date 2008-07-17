@@ -116,7 +116,7 @@
 			                </c:if>
 			            </td>
 			    	</tr>
-		        </table>
+		        </table>  
                 </td>
 	        </tr>
 	        <c:choose>

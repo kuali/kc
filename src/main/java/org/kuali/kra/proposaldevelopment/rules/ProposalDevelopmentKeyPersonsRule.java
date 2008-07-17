@@ -70,10 +70,10 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
- * @author $Author: jsalam $
- * @version $Revision: 1.43 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.44 $
  */
-public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule {
+public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
     private static final String PROPOSAL_PERSON_KEY = "document.proposalPerson[%d]";
     
@@ -508,9 +508,12 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
                         
                     }
                 }
-          
+                
+                
+                
             }
-          i++;
+            
+            i++;
         }
         return retval;
     }

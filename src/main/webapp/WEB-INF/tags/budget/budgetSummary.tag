@@ -15,7 +15,7 @@
 	</c:if>
 </c:forEach>
  
-<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetSummary*,document.*" >
+<kul:tabTop tabTitle="Budget Overview" defaultOpen="true" tabErrorKey="budgetSummary*,document.residualFunds,document.totalCostLimit"  >
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Budget Overview</h2></span>

@@ -134,6 +134,23 @@ values ('KRA-PD','D','proposalDevelopmentSpecialReviewHelpUrl','HELP','default.h
 insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind) 
 values ('KRA-PD','D','proposalDevelopmentCopyCriteriaHelpUrl','HELP','default.htm?turl=WordDocuments%2Fcopytonewdocumenttab.htm','Proposal Copy Criteria Help','A','Y');
 
+insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind) 
+values ('KRA-M','D','activityTypeMaintenanceHelp','HELP','default.htm?turl=WordDocuments%2Factivitytypemaintenancedocument.htm','Activity Type Maintenance Document Help','A','Y');
+
+insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind) 
+values ('KRA-M','D','budgetCategoryMaintenanceHelp','HELP','default.htm?turl=WordDocuments%2Fbudgetcategorymaintenancedocument.htm','Budget Category Maintenance Document Help','A','Y');
+
+insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind) 
+values ('KRA-M','D','budgetCategoryMappingMaintenanceHelp','HELP','default.htm?turl=WordDocuments%2Fbudgetcategorymappingmaintenancedocument.htm','Budget Category Mapping Maintenance Document Help','A','Y');
+
+insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind) 
+values ('KRA-M','D','budgetCategoryMapMaintenanceHelp','HELP','default.htm?turl=WordDocuments%2Fbudgetcategorymapsmaintenancedocument.htm','Budget Category Mapping Maintenance Document Help','A','Y');
+
+insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind) 
+values ('KRA-M','D','budgetCategoryTypeMaintenanceHelp','HELP','default.htm?turl=WordDocuments%2Fbudgetcategorytypemaintenancedocument.htm','Budget Category Type Maintenance Document Help','A','Y');
+
+
+
 
 insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind) 
 values ('KRA-B','D','consortiumFnaCostElements','CONFG','420630;420610','Cost elements considered to be consortium F and A','A','Y');

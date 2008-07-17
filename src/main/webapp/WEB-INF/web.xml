@@ -141,6 +141,7 @@
         <filter-name>PerformanceMeasurementFilter</filter-name>
         <filter-class>org.kuali.kra.web.filter.PerformanceMeasurementFilter</filter-class>
     </filter>
+     
     <filter-mapping>
         <filter-name>PerformanceMeasurementFilter</filter-name>
     	<url-pattern>*.do</url-pattern>
