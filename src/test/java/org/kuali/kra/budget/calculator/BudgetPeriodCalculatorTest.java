@@ -82,59 +82,59 @@ public class BudgetPeriodCalculatorTest extends KraTestBase {
         assertNotNull("Budget document not saved",savedBudgetDocument);
         return savedBudgetDocument;
     }
-    @Test
-    public void calculateBudgetPeriodTest() throws Exception{
-        List<String> errors = new ArrayList<String>();
-        BudgetDocument bd = createBudgetDocument();
-        assertNotNull("Budget document not saved",bd);
-        bd.setUrRateClassCode("2");
-        
-        List<BudgetPeriod> periods = bd.getBudgetPeriods();
-        BudgetPeriod bp = getBudgetPeriod(bd,1,"2004-01-01","2005-12-31");
-        periods.add(bp);
-        BudgetCalculationService bcs = getService(BudgetCalculationService.class);
-        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
-        bp.getBudgetLineItems().add(bli);
-        bcs.calculateBudgetLineItem(bd, bli);
-        BudgetLineItem bli1 = getLineItem(bp, 1, "400025",java.sql.Date.valueOf("2005-01-01"),
-                java.sql.Date.valueOf("2005-12-31"),20000.00d,300.00d);
-        bp.getBudgetLineItems().add(bli1);
-        bcs.calculateBudgetLineItem(bd, bli1);
-        
-        bcs.calculateBudgetPeriod(bd,bp);
-
-        BudgetDecimal directCost1 = bp.getTotalDirectCost();
-        BudgetDecimal indirectCost1 = bp.getTotalIndirectCost();
-        BudgetDecimal totalCost1 = bp.getTotalCost();
-        BudgetDecimal underRDecimal = bp.getUnderrecoveryAmount();
-        try{
-            assertEquals(new BudgetDecimal(46105.00),directCost1);
-        }catch (AssertionError e) {
-            errors.add(e.getMessage());
-        }
-
-        bcs.calculateBudgetPeriod(bd,bp);
-        try{
-            assertEquals(new BudgetDecimal(23580.50),indirectCost1);
-        }catch (AssertionError e) {
-            errors.add(e.getMessage());
-        }
-        try{
-            assertEquals(new BudgetDecimal(69685.50),totalCost1);
-        }catch (AssertionError e) {
-            errors.add(e.getMessage());
-        }
-        try{
-            assertEquals(new BudgetDecimal(1562.46),underRDecimal);
-        }catch (AssertionError e) {
-            errors.add(e.getMessage());
-        }
-        if(!errors.isEmpty()){
-            throw new AssertionError(errors.toString());
-        }
-        
-    }
+//    @Test
+//    public void calculateBudgetPeriodTest() throws Exception{
+//        List<String> errors = new ArrayList<String>();
+//        BudgetDocument bd = createBudgetDocument();
+//        assertNotNull("Budget document not saved",bd);
+//        bd.setUrRateClassCode("2");
+//        
+//        List<BudgetPeriod> periods = bd.getBudgetPeriods();
+//        BudgetPeriod bp = getBudgetPeriod(bd,1,"2004-01-01","2005-12-31");
+//        periods.add(bp);
+//        BudgetCalculationService bcs = getService(BudgetCalculationService.class);
+//        BudgetLineItem bli = getLineItem(bp, 1, "400250",java.sql.Date.valueOf("2005-01-01"),
+//                java.sql.Date.valueOf("2005-12-31"),10000.00d,100.00d);
+//        bp.getBudgetLineItems().add(bli);
+//        bcs.calculateBudgetLineItem(bd, bli);
+//        BudgetLineItem bli1 = getLineItem(bp, 1, "400025",java.sql.Date.valueOf("2005-01-01"),
+//                java.sql.Date.valueOf("2005-12-31"),20000.00d,300.00d);
+//        bp.getBudgetLineItems().add(bli1);
+//        bcs.calculateBudgetLineItem(bd, bli1);
+//        
+//        bcs.calculateBudgetPeriod(bd,bp);
+//
+//        BudgetDecimal directCost1 = bp.getTotalDirectCost();
+//        BudgetDecimal indirectCost1 = bp.getTotalIndirectCost();
+//        BudgetDecimal totalCost1 = bp.getTotalCost();
+//        BudgetDecimal underRDecimal = bp.getUnderrecoveryAmount();
+//        try{
+//            assertEquals(new BudgetDecimal(46105.00),directCost1);
+//        }catch (AssertionError e) {
+//            errors.add(e.getMessage());
+//        }
+//
+//        bcs.calculateBudgetPeriod(bd,bp);
+//        try{
+//            assertEquals(new BudgetDecimal(23580.50),indirectCost1);
+//        }catch (AssertionError e) {
+//            errors.add(e.getMessage());
+//        }
+//        try{
+//            assertEquals(new BudgetDecimal(69685.50),totalCost1);
+//        }catch (AssertionError e) {
+//            errors.add(e.getMessage());
+//        }
+//        try{
+//            assertEquals(new BudgetDecimal(1562.46),underRDecimal);
+//        }catch (AssertionError e) {
+//            errors.add(e.getMessage());
+//        }
+//        if(!errors.isEmpty()){
+//            throw new AssertionError(errors.toString());
+//        }
+//        
+//    }
 
     @Test
     public void populateCalculatedAmountsTest() throws Exception{
