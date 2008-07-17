@@ -42,6 +42,7 @@
 
         <summary>CustomAttribute Maintenance Document</summary>
         <description>Document used to create or update CustomAttribute Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="customAttributeMaintenanceHelp" />
 
         <lockingKeys>
         	<field attributeName="id"/>
