@@ -104,18 +104,18 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
      * @see org.kuali.kra.budget.bo.BudgetPerson
      * @see org.kuali.kra.budget.bo.BudgetLineItem;
      */
-    @Test
-    public void deleteWithPersonnelExpense() throws Exception {        
-        assignBudgetPersonnel();
-        assignPersonnelExpenses();
-        navigateToBudgetPersonnel();
-        deleteFirstBudgetPerson();
-        navigateToExpenses();
-        assertFalse(currentBudgetPage.asText().contains("java.sql.SQLException: ORA-02292"));
-        assertDoesNotContain(currentBudgetPage, ERRORS_FOUND_ON_PAGE);
-        info(currentBudgetPage.asText());
-        
-    }
+//    @Test
+//    public void deleteWithPersonnelExpense() throws Exception {        
+//        assignBudgetPersonnel();
+//        assignPersonnelExpenses();
+//        navigateToBudgetPersonnel();
+//        deleteFirstBudgetPerson();
+//        navigateToExpenses();
+//        assertFalse(currentBudgetPage.asText().contains("java.sql.SQLException: ORA-02292"));
+//        assertDoesNotContain(currentBudgetPage, ERRORS_FOUND_ON_PAGE);
+//        info(currentBudgetPage.asText());
+//        
+//    }
 
     /**
      * Uses the immutable {@link HtmlPage} instance <code>currentBudgetPage</code>, and adds 

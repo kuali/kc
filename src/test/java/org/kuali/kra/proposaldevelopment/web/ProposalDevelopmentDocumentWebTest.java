@@ -166,11 +166,11 @@ public class ProposalDevelopmentDocumentWebTest extends ProposalDevelopmentWebTe
      * This will test the help links on all the panels on the main Proposal Development page.
      * @throws Exception
      */
-    @Test
-    public void testHelpLinks() throws Exception {
-        HtmlPage proposalDevelopmentPage = getProposalDevelopmentPage();
-        this.checkHelpLinks(proposalDevelopmentPage);
-    }
+//    @Test
+//    public void testHelpLinks() throws Exception {
+//        HtmlPage proposalDevelopmentPage = getProposalDevelopmentPage();
+//        this.checkHelpLinks(proposalDevelopmentPage);
+//    }
 
     @Test
     public void testSaveProposalDevelopmentDocumentWeb() throws Exception {
