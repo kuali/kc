@@ -40,6 +40,7 @@
 
         <summary>Keyword Maintenance Document</summary>
         <description>Document used to create or update Science Keyword Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="scienceKeywordMaintenanceHelp" />
 
         <lockingKeys>
             <field attributeName="scienceKeywordCode" />

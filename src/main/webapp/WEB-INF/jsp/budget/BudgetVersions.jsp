@@ -23,6 +23,8 @@
   	headerTabActive="versions"
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	>
+  	
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Budget Versions" /></div>
 
 	<kra-b:budgetVersions 
 		budgetVersionOverviews="${KualiForm.document.proposal.budgetVersionOverviews}"

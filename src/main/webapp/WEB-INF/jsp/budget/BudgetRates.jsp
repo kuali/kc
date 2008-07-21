@@ -28,6 +28,8 @@
   	headerTabActive="rates"
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	showTabButtons="true">
+  	
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Rates" /></div>
 
 <kra-b:budgetRates /> 
 

@@ -41,6 +41,7 @@
 
         <summary>Rate Class Maintenance Document</summary>
         <description>Document used to create or update RateClass Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="rateClassMaintenanceHelp" />
 
         <lockingKeys>
         	<field attributeName="rateClassCode"/>

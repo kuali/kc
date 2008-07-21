@@ -40,6 +40,7 @@
 
         <summary>Narrative Type Maintenance Document</summary>
         <description>Document used to create or update Narrative Type Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="narrativeTypeMaintenanceHelp" />
 
         <lockingKeys>
             <field attributeName="narrativeTypeCode" />

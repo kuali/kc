@@ -40,6 +40,7 @@
 
         <summary>S2SRevisionType Maintenance Document</summary>
         <description>Document used to create or update S2sRevisionType Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="s2sRevisionTypeMaintenanceHelp" />
 
         <lockingKeys>
         	<field attributeName="s2sRevisionTypeCode"/>

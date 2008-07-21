@@ -243,6 +243,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>Doing it right</description>
+        <help parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetDocumentHelp" />
 
         <allowsCopy>true</allowsCopy>
 

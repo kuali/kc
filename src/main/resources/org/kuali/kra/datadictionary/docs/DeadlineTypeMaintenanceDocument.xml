@@ -40,6 +40,7 @@
 
         <summary>Deadline Type Maintenance Document</summary>
         <description>Document used to create or update Deadline Type Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="deadlineTypeMaintenanceHelp" />
 
         <lockingKeys>
             <field attributeName="deadlineTypeCode" />

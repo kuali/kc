@@ -30,7 +30,8 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="proposal">
-
+  	
+<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Proposal" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-pd:proposalDevelopmentRequiredFields />
 <kra-pd:proposalDevelopmentSponsorProgramInformation />

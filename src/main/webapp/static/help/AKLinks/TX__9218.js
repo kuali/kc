@@ -1,0 +1,1 @@
+d2hStoreMenuItems("TX__9218", [["WordDocuments/pagelayout.htm", "right", "Page Layout"],["WordDocuments/pagelayout1.htm", "right", "Page Layout"],["WordDocuments/pagelayout2.htm", "right", "Page Layout"]]);

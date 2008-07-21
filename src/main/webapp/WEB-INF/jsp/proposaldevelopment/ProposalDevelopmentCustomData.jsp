@@ -26,6 +26,8 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="customData">
+  	
+  	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Custom Data" /></div>
 
 	<kra-pd:proposalDevelopmentCustomData />
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />

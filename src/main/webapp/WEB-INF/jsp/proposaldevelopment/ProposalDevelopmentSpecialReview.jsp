@@ -26,6 +26,8 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="specialReview">
+  	
+  	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Special Review" /></div>
 
 <kra-pd:proposalDevelopmentSpecialReview /> 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />

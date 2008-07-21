@@ -28,6 +28,8 @@ showDocumentInfo="true"
 					auditCount="0"
 						headerDispatch="${KualiForm.headerDispatch}"
 							headerTabActive="actions">
+							
+<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Proposal Actions" /></div>
 
 <kra-pd:proposalDevelopmentDataValidation /> 
 <kra-pd:proposalDevelopmentHierarchy /> 

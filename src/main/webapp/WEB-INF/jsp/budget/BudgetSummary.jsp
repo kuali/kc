@@ -28,6 +28,8 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="summary"
   	extraTopButtons="${KualiForm.extraTopButtons}">
+  	
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Summary" /></div>
 
 <kra-b:budgetSummary /> 
 <kra-b:budgetPeriodAndTotals /> 

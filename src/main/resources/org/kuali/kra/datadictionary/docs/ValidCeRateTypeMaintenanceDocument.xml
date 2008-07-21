@@ -41,6 +41,7 @@
 
         <summary>ValidCeRateTypes Maintenance Document</summary>
         <description>Document used to create or update ValidCeRateTypes Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="validCeRateTypeMaintenanceHelp" />
 
         <lockingKeys>
         	<field attributeName="costElement"/>

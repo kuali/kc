@@ -24,6 +24,7 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="abstractsAttachments">
+<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Abstracts and Attachments" /></div>
 <kra-pd:proposalDevelopmentAttachments /> 
 <kra-pd:proposalDevelopmentPersonnelAttachments /> 
 <kra-pd:proposalDevelopmentInstitutionalAttachments /> 

@@ -22,6 +22,8 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="budgetVersions">
   	
+  	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Budget Versions" /></div>
+  	
   	<kra-b:budgetVersions 
   		budgetVersionOverviews="${KualiForm.document.budgetVersionOverviews}" 
   		pathToVersions="document"

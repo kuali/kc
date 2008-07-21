@@ -25,6 +25,8 @@
   	headerTabActive="distributionAndIncome"
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	showTabButtons="true">
+  	
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Distribution & Income" /></div>
 	
 	<div align="center">
 		<kra-b:budgetCostSharing />

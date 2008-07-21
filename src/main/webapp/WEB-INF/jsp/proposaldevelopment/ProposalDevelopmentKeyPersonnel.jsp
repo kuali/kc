@@ -31,6 +31,8 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="keyPersonnel">
+  	
+  	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Key Personnel" /></div>
 
 <c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" />
 <kra:section permission="modifyProposal">

@@ -40,6 +40,7 @@
 
         <summary>Investigator Credit Type Maintenance Document</summary>
         <description>Credit Type definitions for proposal investigators.</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="investigatorCreditTypeMaintenanceHelp" />
 
         <lockingKeys>
             <field attributeName="invCreditTypeCode" />
