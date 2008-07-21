@@ -22,6 +22,8 @@
   	headerDispatch="reload"
   	headerTabActive="totals"
   	extraTopButtons="${KualiForm.extraTopButtons}">
+  	
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Totals" /></div>
 
 <kra-b:budgetTotals /> 
 

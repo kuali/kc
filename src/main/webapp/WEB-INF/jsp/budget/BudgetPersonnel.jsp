@@ -30,6 +30,8 @@
   	headerTabActive="personnel"
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Project Personnel" /></div>
+  	
 	<kra:section permission="modifyBudgets">
 	  	<kul:uncollapsable tabTitle="Add Project Personnel">
 	  		<div align="center">

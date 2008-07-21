@@ -40,6 +40,7 @@
 
         <summary>Notice of Opportunity Maintenance Document</summary>
         <description>Document used to create or update Notice of Opportunity Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="noticeOfOpportunityMaintenanceHelp" />
 
         <lockingKeys>
             <field attributeName="noticeOfOpportunityCode" />

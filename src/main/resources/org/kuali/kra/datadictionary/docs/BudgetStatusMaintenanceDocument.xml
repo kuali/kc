@@ -40,6 +40,7 @@
 
         <summary>Budget Status Maintenance Document</summary>
         <description>Document used to create or update BudgetStatus Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="budgetStatusMaintenanceHelp" />
 
         <lockingKeys>
         	<field attributeName="budgetStatusCode"/>

@@ -40,6 +40,7 @@
 
         <summary>Sponsor Type Maintenance Document</summary>
         <description>Document used to create or update Sponsor Type Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="sponsorTypeMaintenanceHelp" />
 
         <lockingKeys>
             <field attributeName="sponsorTypeCode" />

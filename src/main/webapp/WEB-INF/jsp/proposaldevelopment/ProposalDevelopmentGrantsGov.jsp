@@ -27,6 +27,8 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="grantsGov">
+  	
+  	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Grants.gov" /></div>
 
 <kra-pd:proposalDevelopmentGrantsGovOpportunitySearch />
 

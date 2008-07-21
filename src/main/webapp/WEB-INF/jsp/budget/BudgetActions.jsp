@@ -24,6 +24,8 @@
   	headerTabActive="budgetActions"
   	extraTopButtons="${KualiForm.extraTopButtons}"
   	showTabButtons="true">
+  	
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Budget Actions" /></div>
 
 	<div align="center">
 	    <c:choose>

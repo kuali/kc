@@ -608,6 +608,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>Doing it right</description>
+        <help parameterNamespace="KRA-PD" parameterDetailType="D" parameterName="proposalDevelopmentDocumentHelp" />
 
         <allowsCopy>true</allowsCopy>
 

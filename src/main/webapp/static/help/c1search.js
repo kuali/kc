@@ -313,7 +313,7 @@ function sortByCounterNumber(x, y)
     if (delta < 0)
         return 1;
     return -1;
-}
+}
 function getQueryResult( arr)
 {
     var res = "";

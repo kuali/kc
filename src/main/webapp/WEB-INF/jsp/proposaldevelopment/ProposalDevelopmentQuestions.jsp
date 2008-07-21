@@ -26,6 +26,9 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="questions">
+  	
+  	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Questions" /></div>
+  	
 <kra-pd:proposalYnq /> 
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>

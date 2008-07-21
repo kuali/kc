@@ -22,6 +22,8 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="modularBudget"
   	extraTopButtons="${KualiForm.extraTopButtons}">
+  	
+  	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Modular Budget" /></div>
 	
 	<kul:uncollapsable tabTitle="Select Modular Budget Period">
   		<div align="center">

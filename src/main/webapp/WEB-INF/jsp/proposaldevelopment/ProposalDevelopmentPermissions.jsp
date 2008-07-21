@@ -24,6 +24,8 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="permissions">
+  	
+  	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Permissions" /></div>
 
 	<kra-pd:proposalDevelopmentAssignedRoles /> 
 	<kra-pd:proposalDevelopmentPermissionUsers />

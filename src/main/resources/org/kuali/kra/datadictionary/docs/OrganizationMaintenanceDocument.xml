@@ -46,6 +46,7 @@
 
         <summary>Organization Maintenance Document</summary>
         <description>Document used to create or update Organization Reference objects</description>
+        <help parameterNamespace="KRA-M" parameterDetailType="D" parameterName="organizationMaintenanceHelp" />
 
         <lockingKeys>
         	<field attributeName="organizationId"/>

@@ -134,6 +134,7 @@
 			
 		</attributes>
 
+		<objectHelp parameterNamespace="KRA-B" parameterDetailType="D" parameterName="budgetModularIdcHelpUrl"/>
     </businessObject>
 
 </dictionaryEntry>
