@@ -1,11 +1,11 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2006-2008 The Kuali Foundation
  * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,8 +36,8 @@ import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
  * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
- * @author $Author: jsalam $
- * @version $Revision: 1.4.6.7 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.4.6.8 $
  */
 public interface KeyPersonnelService {
     /**
