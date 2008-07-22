@@ -11,7 +11,7 @@ Make sure above oracle user has following privileges
 	* CREATE TYPE  
 	* CREATE VIEW 
 	* CREATE SEQUENCE
-	* UNLIMITED QUOTA TO USERS DEFAULT TABLESPACE
+	* QUOTA UNLIMITED ON USERS DEFAULT TABLESPACE
 
 Set path to oracle/bin
 	* Database structures and base bootstrap data are loaded using SQLPLUS 
