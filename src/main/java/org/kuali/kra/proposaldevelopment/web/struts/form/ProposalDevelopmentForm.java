@@ -53,7 +53,6 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.bo.Person;
 import org.kuali.kra.bo.PersonEditableField;
-import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
@@ -136,6 +135,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     private String optInUnitDetails;
     private String optInCertificationStatus;
     private ProposalChangedData newProposalChangedData;
+    private Long versionNumberForS2sOpportunity;    
 
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
 
@@ -170,6 +170,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         proposalDevelopmentParameters = new HashMap<String, Parameter>();
         newProposalPersonRoleRendered = false;
         setNewProposalChangedData(new ProposalChangedData());
+        versionNumberForS2sOpportunity = null;        
     }
 
     /**
@@ -1197,6 +1198,14 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         }
         return true;
     }
+
+    public Long getVersionNumberForS2sOpportunity() {
+        return versionNumberForS2sOpportunity;
+    }
+
+    public void setVersionNumberForS2sOpportunity(Long versionNumberForS2sOpportunity) {
+        this.versionNumberForS2sOpportunity = versionNumberForS2sOpportunity;
+    }    
     
     public final String getProposalFormTabTitle() {
         String totalForms = getSponsorFormTemplates().size() + "";
