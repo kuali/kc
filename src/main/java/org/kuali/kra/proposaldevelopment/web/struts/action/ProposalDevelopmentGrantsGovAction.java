@@ -103,6 +103,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
             }
             if(!mandatoryFormNotAvailable){
                 proposalDevelopmentDocument.getS2sOpportunity().setS2sOppForms(s2sOppForms);
+                proposalDevelopmentDocument.getS2sOpportunity().setVersionNumber(proposalDevelopmentForm.getVersionNumberForS2sOpportunity());
+                proposalDevelopmentForm.setVersionNumberForS2sOpportunity(null);                
             }else{
                 GlobalVariables.getErrorMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID,proposalDevelopmentDocument.getS2sOpportunity().getOpportunityId());
                 proposalDevelopmentDocument.setS2sOpportunity(new S2sOpportunity());
@@ -126,6 +128,8 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         if (CONFIRM_REMOVE_OPPRTUNITY_KEY.equals(question)) { 
             ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
             ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+            proposalDevelopmentForm.setVersionNumberForS2sOpportunity(proposalDevelopmentDocument.getS2sOpportunity().getVersionNumber());            
+            proposalDevelopmentDocument.getS2sOpportunity().setS2sOppForms(null);
             proposalDevelopmentDocument.setS2sOpportunity(null);
             proposalDevelopmentDocument.setProgramAnnouncementNumber(null);
             proposalDevelopmentDocument.setProgramAnnouncementTitle(null);
@@ -233,5 +237,14 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         }else{
             throw new RuntimeException("Refresh Failed");
         }
+    }
+    
+    public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        if(proposalDevelopmentDocument.getS2sOpportunity()!=null && proposalDevelopmentForm.getVersionNumberForS2sOpportunity()==null){
+            proposalDevelopmentForm.setVersionNumberForS2sOpportunity(proposalDevelopmentDocument.getS2sOpportunity().getVersionNumber());            
+        }
+        return super.performLookup(mapping, form, request, response);
     }
 }

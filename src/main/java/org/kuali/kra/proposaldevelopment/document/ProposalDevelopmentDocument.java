@@ -756,9 +756,14 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         S2sOpportunity opportunity = this.getS2sOpportunity();
         if (opportunity != null) {
             opportunities.add(opportunity);
+            s2sOppForms = opportunity.getS2sOppForms();
+        }        
+        if(s2sOppForms!=null && s2sOppForms.size()>0){
+            managedLists.add(s2sOppForms);
+        }else{
+            managedLists.add(new ArrayList<S2sOppForms>());
         }
         managedLists.add(opportunities);
-           
         return managedLists;
     }
 
