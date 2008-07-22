@@ -28,6 +28,4 @@ BEGINDATA
 '1067', 'NotificationSendersSearchableAttribute', 'Notification Senders', 'SearchableXmlAttribute', 'Those who this notification is being sent on behalf of.', 'edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute', '1'
 '1005', 'CustomDataAttribute', 'CustomDataAttribute', 'RuleXmlAttribute', 'CustomDataAttribute', 'edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute', '14'
 '1140', 'DepartmentalApprovalAttribute', 'DepartmentalApprovalAttribute', 'RuleXmlAttribute', 'DepartmentalApprovalAttribute', 'edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute', '9'
-'1180', 'DepartmentalBudgetApprovalAttribute', 'DepartmentalBudgetApprovalAttribute', 'RuleXmlAttribute', '
-				DepartmentalBudgetApprovalAttribute
-			', 'edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute', '2'
+'1180', 'DepartmentalBudgetApprovalAttribute', 'DepartmentalBudgetApprovalAttribute', 'RuleXmlAttribute', 'DepartmentalBudgetApprovalAttribute', 'edu.iu.uis.eden.routetemplate.xmlrouting.StandardGenericXMLRuleAttribute', '2'
