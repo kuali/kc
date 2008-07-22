@@ -350,10 +350,10 @@ set term off;
 @S2S/procfunpacks/UPD_S2S_SUB_ATTACHMENT.sql
 @S2S/procfunpacks/DW_GET_UNIT_DETAIL_NEW.sql
 @S2S/procfunpacks/GET_UNIT_HIERARCHY_NODE.sql
-@S2S/procfunpacks/GETNIHAWARD.sql
-@S2S/procfunpacks/GETNSFPREVAWARD.sql
-@S2S/procfunpacks/GETTOTALPROJENDDT.sql
-@S2S/procfunpacks/GETTOTALPROJSTARTDT.sql
+@S2S/procfunpacks/GetNIHAward.sql
+@S2S/procfunpacks/GetNSFPrevAward.sql
+@S2S/procfunpacks/getTotalProjEndDt.sql
+@S2S/procfunpacks/getTotalProjStartDt.sql
 
 
 exec recompile;
