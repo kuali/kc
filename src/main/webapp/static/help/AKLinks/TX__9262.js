@@ -1,0 +1,1 @@
+d2hStoreMenuItems("TX__9262", [["WordDocuments/example1.htm", "right", "Example"],["WordDocuments/example2.htm", "right", "Example"],["WordDocuments/example5.htm", "right", "Example"]]);

@@ -6,9 +6,6 @@
 			<span class="subhead-left">
 				<h2>Print Forms</h2>
 			</span>
-			<span class="subhead-right">
-				<kul:help businessObjectClassName="fillMeIn" altText="help" />
-			</span>
 		</div>
 		<table cellspacing="0" cellpadding="0" summary="">
 			<tbody>
