@@ -80,30 +80,30 @@ public class KraCustomAttributeRulesTest extends ProposalDevelopmentRuleTestBase
         assertTrue(rule.processCustomAttributeRules(saveCustomAttributeEvent));
     }
 
-//    @Test
-//    public void testUnspecifiedRequiredField() throws Exception {
-//
-//        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-//        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
-//
-//        //billing element is not set
-//        document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-//        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
-//        SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
-//        assertTrue(rule.processCustomAttributeRules(saveCustomAttributeEvent));
-//        
-//        UserSession currentSession = GlobalVariables.getUserSession();
-//        PessimisticLock lock = KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), "PROPOSAL-"+document.getDocumentNumber(), currentSession.getUniversalUser());
-//        document.addPessimisticLock(lock);
-//        
-//        try {
-//            KraServiceLocator.getService(DocumentService.class).routeDocument(document, "just testing", null);
-//        }
-//        catch (org.kuali.core.exceptions.ValidationException ex) {
-//            assertEquals(ex.getMessage(), "business rule evaluation failed");
-//        }
-//
-//    }
+    @Test
+    public void testUnspecifiedRequiredField() throws Exception {
+
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+
+        //billing element is not set
+        document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
+        assertTrue(rule.processCustomAttributeRules(saveCustomAttributeEvent));
+        
+        UserSession currentSession = GlobalVariables.getUserSession();
+        PessimisticLock lock = KNSServiceLocator.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), "PROPOSAL-"+document.getDocumentNumber(), currentSession.getUniversalUser());
+        document.addPessimisticLock(lock);
+        
+        try {
+            KraServiceLocator.getService(DocumentService.class).routeDocument(document, "just testing", null);
+        }
+        catch (org.kuali.core.exceptions.ValidationException ex) {
+            assertEquals(ex.getMessage(), "business rule evaluation failed");
+        }
+
+    }
 
     @Test
     public void testInvalidNumberFormat() throws Exception {
