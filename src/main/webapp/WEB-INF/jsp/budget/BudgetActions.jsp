@@ -21,8 +21,10 @@
 	htmlFormAction="budgetActions"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
+  	renderMultipart="true"
   	headerTabActive="budgetActions"
   	extraTopButtons="${KualiForm.extraTopButtons}"
+  	auditCount="0"
   	showTabButtons="true">
   	
   	<div align="right"><kul:help documentTypeName="BudgetDocument" pageName="Budget Actions" /></div>
@@ -37,7 +39,7 @@
 		       <kra-b:budgetJustification top="true" />
 		   </c:otherwise>
 	    </c:choose>
-		
+		<kra-b:budgetSubAwardsBudget />
 		<kul:panelFooter />
 	</div>
 

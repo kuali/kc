@@ -26,19 +26,31 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.transform.TransformerException;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForward;
+import org.apache.xpath.XPathAPI;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetSubAwardService;
+import org.kuali.kra.budget.web.struts.action.BudgetActionsAction;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.KNSServiceLocator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.lowagie.text.pdf.PRStream;
 import com.lowagie.text.pdf.PdfArray;
@@ -65,6 +77,7 @@ import gov.grants.apply.system.global_v1.HashValueType;
 public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     private static final String DUPLICATE_FILE_NAMES =  "Duplicate PDF Attachment File Names"; 
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
+    private static final Log LOG = LogFactory.getLog(BudgetSubAwardServiceImpl.class);
 
     /**
      * @see org.kuali.kra.budget.service.BudgetSubAwardService#populateBudgetSubAwardFiles(org.kuali.kra.budget.bo.BudgetSubAwards)
@@ -83,7 +96,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             Map fileMap = extractAttachments(reader);
             updateXML(xmlContents, fileMap, budgetSubAwardBean);
         }catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Not able to extract xml from pdf",e);
         }
         budgetSubAwardFiles.setSubAwardXfdFileData(budgetSubAwardBean.getSubAwardXFD());
         budgetSubAwardFiles.setSubAwardXmlFileData(new String(budgetSubAwardBean.getSubAwardXML()));
@@ -92,6 +105,10 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         budgetSubAwardFiles.setBudgetVersionNumber(budgetSubAwards.getBudgetVersionNumber());
         budgetSubAwardFiles.setSubAwardNumber(budgetSubAwards.getSubAwardNumber());
         budgetSubAwards.setSubAwardXfdFileName(budgetSubAwardBean.getXfdFileName());
+        budgetSubAwards.setXfdUpdateUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId());
+        budgetSubAwards.setXfdUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
+        budgetSubAwards.setXmlUpdateUser(GlobalVariables.getUserSession().getLoggedInUserNetworkId());
+        budgetSubAwards.setXmlUpdateTimestamp(KNSServiceLocator.getDateTimeService().getCurrentTimestamp());
         budgetSubAwards.setBudgetSubAwardAttachments(getSubAwardAttachments(budgetSubAwardBean));
     }
     
@@ -255,6 +272,28 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         org.w3c.dom.Document document = domParser.parse(byteArrayInputStream);
         byteArrayInputStream.close();
 
+        
+        String xpathEmptyNodes = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue']";// and not(FileLocation[@href])]";// and string-length(normalize-space(@*)) = 0 ]";
+        String xpathOtherPers = "//*[local-name(.)='ProjectRole' and local-name(../../.)='OtherPersonnel' and count(../NumberOfPersonnel)=0]";
+        removeAllEmptyNodes(document,xpathEmptyNodes,0);
+        //remove otherPersonnel nodes with only project role value
+        removeAllEmptyNodes(document,xpathOtherPers,1);
+        //check and remove all empty nodes after removing other nodes
+        removeAllEmptyNodes(document,xpathEmptyNodes,0);
+        
+        
+        NodeList budgetYearList =  XPathAPI.selectNodeList(document,"//*[local-name(.) = 'BudgetYear']");
+        for(int i=0;i<budgetYearList.getLength();i++){
+            Node bgtYearNode = budgetYearList.item(i);
+            String period = XPathAPI.selectSingleNode(bgtYearNode,"BudgetPeriod").getTextContent();
+            Element newBudgetYearElement = copyElementToName((Element)bgtYearNode,bgtYearNode.getNodeName()+period);
+            bgtYearNode.getParentNode().replaceChild(newBudgetYearElement,bgtYearNode);
+        }
+        
+        Node oldroot = document.removeChild(document.getDocumentElement());
+        Node newroot = document.appendChild(document.createElement("Forms"));
+        newroot.appendChild(oldroot);
+        
         //getElementsByTagName retreives elements in the order in which they are encountered.
 
         org.w3c.dom.NodeList lstFileName = document.getElementsByTagName(attFileName);
@@ -394,5 +433,33 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             }
         }        
     }   
+    private void removeAllEmptyNodes(Document document,String xpath,int parentLevel) throws TransformerException {
+        NodeList emptyElements =  XPathAPI.selectNodeList(document,xpath);
+        
+        for (int i = emptyElements.getLength()-1; i > -1; i--){
+              Node nodeToBeRemoved = emptyElements.item(i);
+              int hierLevel = parentLevel;
+              while(hierLevel-- > 0){
+                  nodeToBeRemoved = nodeToBeRemoved.getParentNode();
+              }
+              nodeToBeRemoved.getParentNode().removeChild(nodeToBeRemoved);
+        }
+        NodeList moreEmptyElements =  XPathAPI.selectNodeList(document,xpath);
+        if(moreEmptyElements.getLength()>0){
+            removeAllEmptyNodes(document,xpath,parentLevel);
+        }
+    }
 
+    private Element copyElementToName(Element element,String tagName) {
+        Element newElement = element.getOwnerDocument().createElement(tagName);
+        NamedNodeMap attrs = element.getAttributes();
+        for (int i = 0; i < attrs.getLength(); i++) {
+            Node attribute = attrs.item(i);
+            newElement.setAttribute(attribute.getNodeName(),attribute.getNodeValue());
+        }
+        for (int i = 0; i < element.getChildNodes().getLength(); i++) {
+            newElement.appendChild(element.getChildNodes().item(i).cloneNode(true));
+        }
+        return newElement;
+    }
 }

@@ -254,5 +254,10 @@ public interface Constants {
     public static final String PDF_REPORT_CONTENT_TYPE = "application/pdf";
     public static final String PDF_FILE_EXTENSION = ".pdf";
     public static final String GENERIC_SPONSOR_CODE = "GENERIC_SPONSOR_CODE";
+    public static final String CUSTOM_ERROR = "error.custom";
+    public static final String SUBAWARD_FILE_REQUIERED = "newSubAward.subAwardFile.required";
+    public static final String SUBAWARD_FILE = "newSubAward.subAwardFile";
+    public static final String SUBAWARD_ORG_NAME = "newSubAward.organizationName";
+    public static final String SUBAWARD_ORG_NAME_REQUIERED = "newSubAward.organizationName.required";
 
 }

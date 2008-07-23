@@ -2,7 +2,7 @@
 
 <c:set var="budgetSubAwardsAttributes" value="${DataDictionary.BudgetSubAwards.attributes}" />
 
-<kul:tab tabTitle="Sub Award Budget" defaultOpen="true" tabErrorKey="budgetJustificationWrapper.*">
+<kul:tab tabTitle="Sub Award Budget" defaultOpen="false" tabErrorKey="budgetSubAwards.*,newSubAward.*">
  <div class="tab-container" align="center">
      <div class="h2-container">
          <span class="subhead-left"><h2>Sub Award Budget</h2></span>
@@ -54,8 +54,9 @@
 					<td valign="middle" class="infoline">
 	                	<div align="center">
 	                	<kul:htmlControlAttribute property="document.budgetSubAwards[${status.index}].organizationName" attributeEntry="${budgetSubAwardsAttributes.organizationName}" readOnly="true"/>
-	                	<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:document.budgetSubAwards[${status.index}].organizationName" anchor="${tabKey}" lookupParameters="newSubAward.organizationName:organizationName"/>	                	                	
+	                	<%-- <kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationName:document.budgetSubAwards[${status.index}].organizationName" anchor="${tabKey}" lookupParameters="newSubAward.organizationName:organizationName"/>	                	                	
 	                	<kul:directInquiry boClassName="org.kuali.kra.bo.Organization" inquiryParameters="document.budgetSubAwards[${status.index}].organizationName:organizationName" anchor="${tabKey}"/>
+	                	--%>
 	                	</div>
 					</td>
 					<td valign="middle" class="infoline">

@@ -4,7 +4,7 @@
 <c:set var="budgetDocumentAttributes" value="${DataDictionary.BudgetDocument.attributes}" />
 
 <c:if test="${top == 'true'}">
-    <kul:tabTop tabTitle="Budget Justification" defaultOpen="true" tabErrorKey="budgetJustificationWrapper.*">
+    <kul:tabTop tabTitle="Budget Justification" defaultOpen="false" tabErrorKey="budgetJustificationWrapper.*">
 	<div class="tab-container" align="center">
 		<div class="h2-container">
 	    	<span class="subhead-left"><h2>Budget Justification</h2></span>
@@ -34,7 +34,7 @@
  </kul:tabTop>
 </c:if>
 <c:if test="${top == 'false'}">
-   <kul:tab tabTitle="Budget Justification" defaultOpen="true" tabErrorKey="budgetJustificationWrapper.*">
+   <kul:tab tabTitle="Budget Justification" defaultOpen="false" tabErrorKey="budgetJustificationWrapper.*">
     <div class="tab-container" align="center">
         <div class="h2-container">
             <span class="subhead-left"><h2>Budget Justification</h2></span>
