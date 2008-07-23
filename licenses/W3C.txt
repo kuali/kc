@@ -50,5 +50,5 @@ questions about this notice can be directed to site-policy@w3.org.
  
 Joseph Reagle <site-policy@w3.org> 
 
-Last revised $Id: W3C.txt,v 1.2 2008-07-17 01:36:16 gmcgrego Exp $
+Last revised $Id: W3C.txt,v 1.3 2008-07-23 19:16:54 gmcgrego Exp $
 

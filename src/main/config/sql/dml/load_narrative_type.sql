@@ -448,7 +448,7 @@ INSERT INTO Narrative_type (narrative_type_code,description,system_generated,all
 	user);
 INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
 	59,
-	'1st Institutional Attachment',
+	'Institutional Attachment 1',
 	'N',
 	'N',
 	'O',
@@ -456,7 +456,7 @@ INSERT INTO Narrative_type (narrative_type_code,description,system_generated,all
 	user);
 INSERT INTO Narrative_type (narrative_type_code,description,system_generated,allow_multiple,narrative_type_group,update_timestamp,update_user) VALUES (
 	60,
-	'2nd Institutional Attachment',
+	'Institutional Attachment 2',
 	'N',
 	'N',
 	'O',

@@ -1,11 +1,11 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2006-2008 The Kuali Foundation
  * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@ CREATE TABLE SH_ATT_T (
         NTE_ID                         NUMBER(14) CONSTRAINT SH_ATT_TN1 NOT NULL,
         OBJ_ID                         VARCHAR2(36) DEFAULT SYS_GUID() CONSTRAINT SH_ATT_TN2 NOT NULL,
         VER_NBR                        NUMBER(8) DEFAULT 1 CONSTRAINT SH_ATT_TN3 NOT NULL,
-        ATT_MIME_TYP_CD                VARCHAR2(250),
+        ATT_MIME_TYP_CD                VARCHAR2(40),
         ATT_FL_NM                      VARCHAR2(250),
         ATT_ID                         VARCHAR2(36),
         ATT_FL_SZ                      NUMBER(14),

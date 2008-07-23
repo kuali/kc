@@ -1,26 +1,5 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <terms relpath="../">
-    <term name="Advance Account" url="WordDocuments/gloss_advanceaccount.htm" window="d2hWnd_SecondaryPopup" id="5629"><![CDATA[Advance Account]]></term>
-    <term name="Co-PI" url="WordDocuments/gloss_copi.htm" window="d2hWnd_SecondaryPopup" id="5630"><![CDATA[Co-PI]]></term>
-    <term name="Cost Share" url="WordDocuments/gloss_costshare.htm" window="d2hWnd_SecondaryPopup" id="5631"><![CDATA[Cost Share]]></term>
-    <term name="Destination Account" url="WordDocuments/gloss_destinationaccount.htm" window="d2hWnd_SecondaryPopup" id="5632"><![CDATA[Destination Account]]></term>
-    <term name="e-doc" url="WordDocuments/gloss_edoc2.htm" window="d2hWnd_SecondaryPopup" id="5633"><![CDATA[e-doc]]></term>
-    <term name="Enhancement" url="WordDocuments/gloss_enhancement.htm" window="d2hWnd_SecondaryPopup" id="5634"><![CDATA[Enhancement]]></term>
-    <term name="F&amp;A" url="WordDocuments/gloss_fa.htm" window="d2hWnd_SecondaryPopup" id="5635"><![CDATA[F&A]]></term>
-    <term name="Foreign Travel" url="WordDocuments/gloss_foreigntravel.htm" window="d2hWnd_SecondaryPopup" id="5636"><![CDATA[Foreign Travel]]></term>
-    <term name="Frequency Base" url="WordDocuments/gloss_frequencybase.htm" window="d2hWnd_SecondaryPopup" id="5637"><![CDATA[Frequency Base]]></term>
-    <term name="IBC" url="WordDocuments/gloss_ibc.htm" window="d2hWnd_SecondaryPopup" id="5638"><![CDATA[IBC]]></term>
-    <term name="Intellectual Property Report" url="WordDocuments/gloss_intellectualpropertyreport.htm" window="d2hWnd_SecondaryPopup" id="5639"><![CDATA[Intellectual Property Report]]></term>
-    <term name="IRB" url="WordDocuments/gloss_irb.htm" window="d2hWnd_SecondaryPopup" id="5640"><![CDATA[IRB]]></term>
-    <term name="NIH" url="WordDocuments/gloss_nih.htm" window="d2hWnd_SecondaryPopup" id="5641"><![CDATA[NIH]]></term>
-    <term name="NSF" url="WordDocuments/gloss_nsf.htm" window="d2hWnd_SecondaryPopup" id="5642"><![CDATA[NSF]]></term>
-    <term name="OHRP" url="WordDocuments/gloss_ohrp.htm" window="d2hWnd_SecondaryPopup" id="5643"><![CDATA[OHRP]]></term>
-    <term name="PI" url="WordDocuments/gloss_pi.htm" window="d2hWnd_SecondaryPopup" id="5644"><![CDATA[PI]]></term>
-    <term name="Source Account" url="WordDocuments/gloss_sourceaccount.htm" window="d2hWnd_SecondaryPopup" id="5645"><![CDATA[Source Account]]></term>
-    <term name="Sponsor Hierarchy" url="WordDocuments/gloss_sponsorhierarchy.htm" window="d2hWnd_SecondaryPopup" id="5646"><![CDATA[Sponsor Hierarchy]]></term>
-    <term name="Sponsor Template" url="WordDocuments/gloss_sponsortemplate.htm" window="d2hWnd_SecondaryPopup" id="5647"><![CDATA[Sponsor Template]]></term>
-    <term name="Technical Report" url="WordDocuments/gloss_technicalreport.htm" window="d2hWnd_SecondaryPopup" id="5648"><![CDATA[Technical Report]]></term>
-    <term name="workflow / Workflow Services / Kuali Enterprise Workflow (KEW)" url="WordDocuments/gloss_workflowworkflowserviceskualienterpriseworkflowkew.htm" window="d2hWnd_SecondaryPopup" id="5649"><![CDATA[workflow / Workflow Services / Kuali Enterprise Workflow (KEW)]]></term>
     <term name="45 CFR 46" url="WordDocuments/gloss_45cfr46.htm" window="d2hWnd_SecondaryPopup" id="4835"><![CDATA[45 CFR 46]]></term>
     <term name="AAHRPP" url="WordDocuments/gloss_aahrpp.htm" window="d2hWnd_SecondaryPopup" id="4836"><![CDATA[AAHRPP]]></term>
     <term name="Account" url="WordDocuments/gloss_account.htm" window="d2hWnd_SecondaryPopup" id="4837"><![CDATA[Account]]></term>
@@ -179,4 +158,25 @@
     <term name="Vertebrate Animal" url="WordDocuments/gloss_vertebrateanimal.htm" window="d2hWnd_SecondaryPopup" id="5000"><![CDATA[Vertebrate Animal]]></term>
     <term name="Vulnerable Participants" url="WordDocuments/gloss_vulnerableparticipants.htm" window="d2hWnd_SecondaryPopup" id="5001"><![CDATA[Vulnerable Participants]]></term>
     <term name="Workgroup" url="WordDocuments/gloss_workgroup2.htm" window="d2hWnd_SecondaryPopup" id="5005"><![CDATA[Workgroup]]></term>
+    <term name="Advance Account" url="WordDocuments/gloss_advanceaccount.htm" window="d2hWnd_SecondaryPopup" id="5629"><![CDATA[Advance Account]]></term>
+    <term name="Co-PI" url="WordDocuments/gloss_copi.htm" window="d2hWnd_SecondaryPopup" id="5630"><![CDATA[Co-PI]]></term>
+    <term name="Cost Share" url="WordDocuments/gloss_costshare.htm" window="d2hWnd_SecondaryPopup" id="5631"><![CDATA[Cost Share]]></term>
+    <term name="Destination Account" url="WordDocuments/gloss_destinationaccount.htm" window="d2hWnd_SecondaryPopup" id="5632"><![CDATA[Destination Account]]></term>
+    <term name="e-doc" url="WordDocuments/gloss_edoc2.htm" window="d2hWnd_SecondaryPopup" id="5633"><![CDATA[e-doc]]></term>
+    <term name="Enhancement" url="WordDocuments/gloss_enhancement.htm" window="d2hWnd_SecondaryPopup" id="5634"><![CDATA[Enhancement]]></term>
+    <term name="F&amp;A" url="WordDocuments/gloss_fa.htm" window="d2hWnd_SecondaryPopup" id="5635"><![CDATA[F&A]]></term>
+    <term name="Foreign Travel" url="WordDocuments/gloss_foreigntravel.htm" window="d2hWnd_SecondaryPopup" id="5636"><![CDATA[Foreign Travel]]></term>
+    <term name="Frequency Base" url="WordDocuments/gloss_frequencybase.htm" window="d2hWnd_SecondaryPopup" id="5637"><![CDATA[Frequency Base]]></term>
+    <term name="IBC" url="WordDocuments/gloss_ibc.htm" window="d2hWnd_SecondaryPopup" id="5638"><![CDATA[IBC]]></term>
+    <term name="Intellectual Property Report" url="WordDocuments/gloss_intellectualpropertyreport.htm" window="d2hWnd_SecondaryPopup" id="5639"><![CDATA[Intellectual Property Report]]></term>
+    <term name="IRB" url="WordDocuments/gloss_irb.htm" window="d2hWnd_SecondaryPopup" id="5640"><![CDATA[IRB]]></term>
+    <term name="NIH" url="WordDocuments/gloss_nih.htm" window="d2hWnd_SecondaryPopup" id="5641"><![CDATA[NIH]]></term>
+    <term name="NSF" url="WordDocuments/gloss_nsf.htm" window="d2hWnd_SecondaryPopup" id="5642"><![CDATA[NSF]]></term>
+    <term name="OHRP" url="WordDocuments/gloss_ohrp.htm" window="d2hWnd_SecondaryPopup" id="5643"><![CDATA[OHRP]]></term>
+    <term name="PI" url="WordDocuments/gloss_pi.htm" window="d2hWnd_SecondaryPopup" id="5644"><![CDATA[PI]]></term>
+    <term name="Source Account" url="WordDocuments/gloss_sourceaccount.htm" window="d2hWnd_SecondaryPopup" id="5645"><![CDATA[Source Account]]></term>
+    <term name="Sponsor Hierarchy" url="WordDocuments/gloss_sponsorhierarchy.htm" window="d2hWnd_SecondaryPopup" id="5646"><![CDATA[Sponsor Hierarchy]]></term>
+    <term name="Sponsor Template" url="WordDocuments/gloss_sponsortemplate.htm" window="d2hWnd_SecondaryPopup" id="5647"><![CDATA[Sponsor Template]]></term>
+    <term name="Technical Report" url="WordDocuments/gloss_technicalreport.htm" window="d2hWnd_SecondaryPopup" id="5648"><![CDATA[Technical Report]]></term>
+    <term name="workflow / Workflow Services / Kuali Enterprise Workflow (KEW)" url="WordDocuments/gloss_workflowworkflowserviceskualienterpriseworkflowkew.htm" window="d2hWnd_SecondaryPopup" id="5649"><![CDATA[workflow / Workflow Services / Kuali Enterprise Workflow (KEW)]]></term>
 </terms>
