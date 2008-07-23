@@ -1,11 +1,11 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2006-2008 The Kuali Foundation
  * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
  * <code>{@link ProposalDevelopmentDocument}</code>
  *
  * @author $Author: gmcgrego $
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class KeyPersonEventBase extends KraDocumentEventBase implements KeyPersonEvent {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(KeyPersonEventBase.class);

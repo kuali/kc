@@ -702,7 +702,7 @@ COMMIT;
 
 /* Load data for degree_type Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.8 2008-07-17 01:36:18 gmcgrego Exp $
+# $Id: KRA_ALL_DML.sql,v 1.9 2008-07-23 19:16:53 gmcgrego Exp $
 #
 insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) values ('AS', 'Associate in Science', sysdate, 'kradev');
 insert into DEGREE_TYPE (DEGREE_CODE, DESCRIPTION, UPDATE_TIMESTAMP, UPDATE_USER) values ('BA', 'Bachelor of Arts', sysdate, 'kradev');
@@ -759,7 +759,7 @@ COMMIT;
 
 /* Load data for eps_prop_person_role Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.8 2008-07-17 01:36:18 gmcgrego Exp $
+# $Id: KRA_ALL_DML.sql,v 1.9 2008-07-23 19:16:53 gmcgrego Exp $
 #
 insert into EPS_PROP_PERSON_ROLE (PROP_PERSON_ROLE_ID, DESCRIPTION, CERTIFICATION_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('PI', 'Principal Investigator', 'Y', sysdate, 'kradev');
 insert into EPS_PROP_PERSON_ROLE (PROP_PERSON_ROLE_ID, DESCRIPTION, CERTIFICATION_REQUIRED, UPDATE_TIMESTAMP, UPDATE_USER) values ('COI', 'Co-Investigator', 'Y', sysdate, 'kradev');
@@ -847,7 +847,7 @@ COMMIT;
 
 /* Load data for inv_credit_type Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.8 2008-07-17 01:36:18 gmcgrego Exp $
+# $Id: KRA_ALL_DML.sql,v 1.9 2008-07-23 19:16:53 gmcgrego Exp $
 #
 insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('0', 'Recognition', 'Y', sysdate, 'kradev', 'Y');
 insert into INV_CREDIT_TYPE (INV_CREDIT_TYPE_CODE, DESCRIPTION, ADDS_TO_HUNDRED, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('1', 'Responsibility', 'Y', sysdate, 'kradev', 'Y');
@@ -1817,7 +1817,7 @@ COMMIT;
 
 /* Load data for person_editable_fields Table */ 
 #
-# $Id: KRA_ALL_DML.sql,v 1.8 2008-07-17 01:36:18 gmcgrego Exp $
+# $Id: KRA_ALL_DML.sql,v 1.9 2008-07-23 19:16:53 gmcgrego Exp $
 #
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('emailAddress', sysdate, 'kradev', 'Y');
 insert into PERSON_EDITABLE_FIELDS (FIELD_NAME, UPDATE_TIMESTAMP, UPDATE_USER, ACTIVE_FLAG) values ('primaryTitle', sysdate, 'kradev', 'Y');
