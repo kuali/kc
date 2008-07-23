@@ -1,11 +1,11 @@
 /*
- * Copyright 2008 The Kuali Foundation.
+ * Copyright 2006-2008 The Kuali Foundation
  * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.osedu.org/licenses/ECL-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,13 +23,12 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import static java.lang.Class.forName;
 import static org.apache.commons.beanutils.PropertyUtils.setProperty;
-import static org.kuali.kra.logging.FormattedLogger.*;
 
 /**
  * Full of static methods for JSTL function access.
  * 
- * @author $Author: lprzybyl $
- * @version $Revision: 1.6 $
+ * @author $Author: gmcgrego $
+ * @version $Revision: 1.7 $
  */
 public class JstlFunctions {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(JstlFunctions.class);
@@ -66,11 +65,9 @@ public class JstlFunctions {
      * @param params mapped parameters to make it simpler for <code>{@link PropertyUtils#setProperty(Object,String,Object)}</code>
      * @return List of <code>{@link KeyLabelPair}</code> instances
      */
-    // START SNIPPET: jstlFunctions#getOptionList
     public static List getOptionList(String valuesFinderClassName, Map params) {
         return setupValuesFinder(valuesFinderClassName, (Map<String, String>) params).getKeyValues();
     }
-    // END SNIPPET: jstlFunctions#getOptionList
     
     /**
      * Initiates the values finder by its <code>valuesFinderClassName</code>. First locates the class in the class path. Then, 
@@ -91,7 +88,6 @@ public class JstlFunctions {
      * @return KeyValuesFinder
      * @see PropertyUtils#setProperty(Object, String, Object)
      */
-    // START SNIPPET: jstlFunctions#setupValuesFinder
     private static KeyValuesFinder setupValuesFinder(String valuesFinderClassName, Map<String, String> params) {
         KeyValuesFinder retval = null;
         LOG.info("In setupValuesFinder");
@@ -99,16 +95,16 @@ public class JstlFunctions {
             retval = (KeyValuesFinder) forName(valuesFinderClassName).newInstance();                        
         }
         catch (ClassNotFoundException cnfe) {
-            warn("Could not find valuesFinder class %s in %s", valuesFinderClassName , buildTraceMessage(cnfe));
+            LOG.warn("Could not find valuesFinder class " +  valuesFinderClassName + " in " + buildTraceMessage(cnfe));
         }
         catch (InstantiationException e) {
-            warn("Could not instantiate valuesFinder class %s in %s", valuesFinderClassName , buildTraceMessage(e));
+            LOG.warn("Could not instantiate valuesFinder class " +  valuesFinderClassName + " in " + buildTraceMessage(e));
         }
         catch (IllegalAccessException e) {
-            warn("Could not instantiate valuesFinder class %s in %s", valuesFinderClassName , buildTraceMessage(e));
+            LOG.warn("Could not instantiate valuesFinder class " +  valuesFinderClassName + " in " + buildTraceMessage(e));
         }
         
-        info("Setting params %s", params);
+        LOG.info("Setting params " + params);
         
         if (retval != null && params != null) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -124,7 +120,6 @@ public class JstlFunctions {
 
         return retval;
     }
-    // END SNIPPET: jstlFunctions#setupValuesFinder
     
     private Object buildPropertyParameter(Object obj, String propertyName) throws Exception {
         return PropertyUtils.getPropertyDescriptor(obj, propertyName).getWriteMethod().getParameterTypes()[0];

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <root>
     <topics>
+        <topic url="WordDocuments/kualiresearchadministration10onlinehelp.htm" window="right" />
         <topic url="WordDocuments/preface.htm" window="right" />
         <topic url="WordDocuments/introduction.htm" window="right" />
         <topic url="WordDocuments/kualicommunitiesoverview.htm" window="right" />
@@ -54,6 +55,8 @@
         <topic url="WordDocuments/systemrolesworkflow.htm" window="right" />
         <topic url="WordDocuments/userinterfacerolesfunctionalmenus.htm" window="right" />
         <topic url="WordDocuments/documentrolespermissions.htm" window="right" />
+        <topic url="WordDocuments/roles1.htm" window="right" />
+        <topic url="WordDocuments/permissions.htm" window="right" />
         <topic url="WordDocuments/userrolesforproposaldocuments.htm" window="right" />
         <topic url="WordDocuments/proposaldocumentrightsbyuserrole.htm" window="right" />
         <topic url="WordDocuments/proposalrolesresearchproject.htm" window="right" />
@@ -81,7 +84,7 @@
         <topic url="WordDocuments/defaulttabbingsequence.htm" window="right" />
         <topic url="WordDocuments/enterkey.htm" window="right" />
         <topic url="WordDocuments/add.htm" window="right" />
-        <topic url="WordDocuments/lookuphelp.htm" window="right" />
+        <topic url="WordDocuments/lookup.htm" window="right" />
         <topic url="WordDocuments/routelogicon.htm" window="right" />
         <topic url="WordDocuments/expandtextarea.htm" window="right" />
         <topic url="WordDocuments/directinquiry.htm" window="right" />
@@ -121,6 +124,7 @@
         <topic url="WordDocuments/searchingforadocument.htm" window="right" />
         <topic url="WordDocuments/usingtheactionlist.htm" window="right" />
         <topic url="WordDocuments/commonlineitemoperations.htm" window="right" />
+        <topic url="WordDocuments/summary.htm" window="right" />
         <topic url="WordDocuments/commonmaintenancedocumentoperations.htm" window="right" />
         <topic url="WordDocuments/overview.htm" window="right" />
         <topic url="WordDocuments/maintenancedocumentaccess.htm" window="right" />
@@ -136,33 +140,29 @@
         <topic url="WordDocuments/maintenancedocumentrulesrouting.htm" window="right" />
         <topic url="WordDocuments/businessrules.htm" window="right" />
         <topic url="WordDocuments/workflowrouting.htm" window="right" />
-        <topic url="WordDocuments/summary.htm" window="right" />
+        <topic url="WordDocuments/summary1.htm" window="right" />
         <topic url="WordDocuments/researchermenu.htm" window="right" />
         <topic url="WordDocuments/proposalsmenugroup.htm" window="right" />
         <topic url="WordDocuments/quicklinksmenugroup.htm" window="right" />
         <topic url="WordDocuments/workflowmenugroup.htm" window="right" />
         <topic url="WordDocuments/unitmenu.htm" window="right" />
         <topic url="WordDocuments/preawardmenugroup.htm" window="right" />
-        <topic url="WordDocuments/proposaldevelopmentbutton.htm" window="right" />
+        <topic url="WordDocuments/proposaldevelopmentaddbutton.htm" window="right" />
         <topic url="WordDocuments/quicklinksmenugroup1.htm" window="right" />
         <topic url="WordDocuments/workflowmenugroup1.htm" window="right" />
         <topic url="WordDocuments/centraladminmenu.htm" window="right" />
-        <topic url="WordDocuments/preawardmenugroup1.htm" window="right" />
-        <topic url="WordDocuments/proposaldevelopmentbutton1.htm" window="right" />
-        <topic url="WordDocuments/quicklinksmenugroup2.htm" window="right" />
-        <topic url="WordDocuments/workflowmenugroup2.htm" window="right" />
         <topic url="WordDocuments/maintenancemenu.htm" window="right" />
         <topic url="WordDocuments/sharedmenugroup.htm" window="right" />
         <topic url="WordDocuments/miscellaneousmenugroup.htm" window="right" />
         <topic url="WordDocuments/proposalsmenugroup1.htm" window="right" />
         <topic url="WordDocuments/systemadminmenu.htm" window="right" />
         <topic url="WordDocuments/systemmenugroup.htm" window="right" />
-        <topic url="WordDocuments/workflowmenugroup3.htm" window="right" />
-        <topic url="WordDocuments/proposaldocument.htm" window="right" />
-        <topic url="WordDocuments/overview2.htm" window="right" />
-        <topic url="WordDocuments/access1.htm" window="right" />
+        <topic url="WordDocuments/workflowmenugroup2.htm" window="right" />
+        <topic url="WordDocuments/proposaldevelopmentdocument.htm" window="right" />
+        <topic url="WordDocuments/overview4.htm" window="right" />
+        <topic url="WordDocuments/access3.htm" window="right" />
         <topic url="WordDocuments/documentheaderproposal.htm" window="right" />
-        <topic url="WordDocuments/pagesoverview.htm" window="right" />
+        <topic url="WordDocuments/pagesoverview2.htm" window="right" />
         <topic url="WordDocuments/proposalpage.htm" window="right" />
         <topic url="WordDocuments/documentoverviewtab.htm" window="right" />
         <topic url="WordDocuments/requiredfieldsforsavingdocumenttab.htm" window="right" />
@@ -171,7 +171,7 @@
         <topic url="WordDocuments/deliveryinfotab.htm" window="right" />
         <topic url="WordDocuments/keywordstab.htm" window="right" />
         <topic url="WordDocuments/keywordstabprocess.htm" window="right" />
-        <topic url="WordDocuments/budgetversionspage.htm" window="right" />
+        <topic url="WordDocuments/budgetversionspage2.htm" window="right" />
         <topic url="WordDocuments/budgetversionstab.htm" window="right" />
         <topic url="WordDocuments/keypersonnelpage.htm" window="right" />
         <topic url="WordDocuments/addkeypersonnel.htm" window="right" />
@@ -211,15 +211,11 @@
         <topic url="WordDocuments/proposalactionspage.htm" window="right" />
         <topic url="WordDocuments/datavalidationtab.htm" window="right" />
         <topic url="WordDocuments/fixprocess.htm" window="right" />
-        <topic url="WordDocuments/hierarchytab.htm" window="right" />
         <topic url="WordDocuments/printformstab.htm" window="right" />
         <topic url="WordDocuments/copytonewdocumenttab.htm" window="right" />
         <topic url="WordDocuments/adhocrecipientstab.htm" window="right" />
         <topic url="WordDocuments/routelogtab1.htm" window="right" />
         <topic url="WordDocuments/proposalactionspageaction.htm" window="right" />
-        <topic url="WordDocuments/auditmodepage.htm" window="right" />
-        <topic url="WordDocuments/proposaldocumentprocessoverview.htm" window="right" />
-        <topic url="WordDocuments/proposaldocumentbusinessrules.htm" window="right" />
         <topic url="WordDocuments/proposaldocumentrouting.htm" window="right" />
         <topic url="WordDocuments/budgetdocument.htm" window="right" />
         <topic url="WordDocuments/overview3.htm" window="right" />
@@ -235,10 +231,12 @@
         <topic url="WordDocuments/rates.htm" window="right" />
         <topic url="WordDocuments/pagelayout.htm" window="right" />
         <topic url="WordDocuments/selectview.htm" window="right" />
-        <topic url="WordDocuments/publicservicefatab.htm" window="right" />
+        <topic url="WordDocuments/researchfatab.htm" window="right" />
         <topic url="WordDocuments/fringebenefitstab.htm" window="right" />
         <topic url="WordDocuments/inflationtab.htm" window="right" />
         <topic url="WordDocuments/vacationtab.htm" window="right" />
+        <topic url="WordDocuments/laballocationsalariestab.htm" window="right" />
+        <topic url="WordDocuments/laballocationother.htm" window="right" />
         <topic url="WordDocuments/othertab.htm" window="right" />
         <topic url="WordDocuments/uniquepageactions.htm" window="right" />
         <topic url="WordDocuments/projectpersonnel.htm" window="right" />
@@ -279,16 +277,12 @@
         <topic url="WordDocuments/printformstab1.htm" window="right" />
         <topic url="WordDocuments/budgetjustificationtab.htm" window="right" />
         <topic url="WordDocuments/budgetactionspageprocessoverview.htm" window="right" />
-        <topic url="WordDocuments/proposalhierarchy.htm" window="right" />
-        <topic url="WordDocuments/budgetdocumentprocessoverview.htm" window="right" />
-        <topic url="WordDocuments/budgetdocumentbusinessrules.htm" window="right" />
-        <topic url="WordDocuments/budgetdocumentrouting.htm" window="right" />
+        <topic url="WordDocuments/proposalbudgetcompletionprocess.htm" window="right" />
         <topic url="WordDocuments/maintenancedocuments.htm" window="right" />
         <topic url="WordDocuments/abstracttypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout.htm" window="right" />
         <topic url="WordDocuments/editabstracttypestab.htm" window="right" />
-        <topic url="WordDocuments/process.htm" window="right" />
-        <topic url="WordDocuments/example.htm" window="right" />
+        <topic url="WordDocuments/examples41.htm" window="right" />
         <topic url="WordDocuments/activitytypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout1.htm" window="right" />
         <topic url="WordDocuments/editactivitytypestab.htm" window="right" />
@@ -303,12 +297,12 @@
         <topic url="WordDocuments/documentlayout3.htm" window="right" />
         <topic url="WordDocuments/editbudgetcategorymappingtab.htm" window="right" />
         <topic url="WordDocuments/process3.htm" window="right" />
-        <topic url="WordDocuments/example3.htm" window="right" />
+        <topic url="WordDocuments/examples42.htm" window="right" />
         <topic url="WordDocuments/budgetcategorymapsmaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout4.htm" window="right" />
         <topic url="WordDocuments/editbudgetcategorymapstab.htm" window="right" />
         <topic url="WordDocuments/process4.htm" window="right" />
-        <topic url="WordDocuments/example4.htm" window="right" />
+        <topic url="WordDocuments/examples43.htm" window="right" />
         <topic url="WordDocuments/budgetcategorytypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout5.htm" window="right" />
         <topic url="WordDocuments/editbudgetcategorytypestab.htm" window="right" />
@@ -326,11 +320,7 @@
         <topic url="WordDocuments/examples2.htm" window="right" />
         <topic url="WordDocuments/countrymaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/examples3.htm" window="right" />
-        <topic url="WordDocuments/credittypemaintenancedocument.htm" window="right" />
-        <topic url="WordDocuments/documentlayout8.htm" window="right" />
-        <topic url="WordDocuments/specifythecredittypetab.htm" window="right" />
-        <topic url="WordDocuments/process8.htm" window="right" />
-        <topic url="WordDocuments/examples4.htm" window="right" />
+        <topic url="WordDocuments/currentlocks.htm" window="right" />
         <topic url="WordDocuments/customattributemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout9.htm" window="right" />
         <topic url="WordDocuments/editcustomattributetab.htm" window="right" />
@@ -351,7 +341,6 @@
         <topic url="WordDocuments/editdegreetypetab.htm" window="right" />
         <topic url="WordDocuments/process12.htm" window="right" />
         <topic url="WordDocuments/examples8.htm" window="right" />
-        <topic url="WordDocuments/currentlocks.htm" window="right" />
         <topic url="WordDocuments/exemptiontypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout13.htm" window="right" />
         <topic url="WordDocuments/editexemptiontypecodestab.htm" window="right" />
@@ -368,6 +357,7 @@
         <topic url="WordDocuments/investigatorcredittypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout16.htm" window="right" />
         <topic url="WordDocuments/specifythecredittypetab1.htm" window="right" />
+        <topic url="WordDocuments/process16.htm" window="right" />
         <topic url="WordDocuments/examples12.htm" window="right" />
         <topic url="WordDocuments/keywordmaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout17.htm" window="right" />
@@ -379,6 +369,7 @@
         <topic url="WordDocuments/examples14.htm" window="right" />
         <topic url="WordDocuments/mailtypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout19.htm" window="right" />
+        <topic url="WordDocuments/editmailtypestab.htm" window="right" />
         <topic url="WordDocuments/examples15.htm" window="right" />
         <topic url="WordDocuments/narrativestatusmaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout20.htm" window="right" />
@@ -396,6 +387,11 @@
         <topic url="WordDocuments/documentlayout23.htm" window="right" />
         <topic url="WordDocuments/editnsfcodestab.htm" window="right" />
         <topic url="WordDocuments/examples19.htm" window="right" />
+        <topic url="WordDocuments/objectcodemaintenancedocument.htm" window="right" />
+        <topic url="WordDocuments/documentlayout45.htm" window="right" />
+        <topic url="WordDocuments/editcostelementtab1.htm" window="right" />
+        <topic url="WordDocuments/process17.htm" window="right" />
+        <topic url="WordDocuments/examples44.htm" window="right" />
         <topic url="WordDocuments/organizationmaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout24.htm" window="right" />
         <topic url="WordDocuments/editorganizationtab.htm" window="right" />
@@ -403,7 +399,6 @@
         <topic url="WordDocuments/organizationaudittab.htm" window="right" />
         <topic url="WordDocuments/organizationindirectcosttab.htm" window="right" />
         <topic url="WordDocuments/organizationynqtab.htm" window="right" />
-        <topic url="WordDocuments/process23.htm" window="right" />
         <topic url="WordDocuments/example5.htm" window="right" />
         <topic url="WordDocuments/organizationtypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout25.htm" window="right" />
@@ -412,15 +407,20 @@
         <topic url="WordDocuments/persondegreemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout26.htm" window="right" />
         <topic url="WordDocuments/editpersondegreetab.htm" window="right" />
-        <topic url="WordDocuments/examples21.htm" window="right" />
         <topic url="WordDocuments/persondocumenttypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout27.htm" window="right" />
         <topic url="WordDocuments/editpersondocumenttypetab.htm" window="right" />
         <topic url="WordDocuments/examples22.htm" window="right" />
+        <topic url="WordDocuments/personrolemaintenancedocument.htm" window="right" />
+        <topic url="WordDocuments/editpersonroletab.htm" window="right" />
+        <topic url="WordDocuments/examples45.htm" window="right" />
         <topic url="WordDocuments/persontableeditablecolumnsmaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout28.htm" window="right" />
         <topic url="WordDocuments/specifythefieldnametab.htm" window="right" />
         <topic url="WordDocuments/examples23.htm" window="right" />
+        <topic url="WordDocuments/proposalcolumnstoaltermaintenancedocument.htm" window="right" />
+        <topic url="WordDocuments/editproposalcolumnstoaltertab.htm" window="right" />
+        <topic url="WordDocuments/examples46.htm" window="right" />
         <topic url="WordDocuments/proposaltypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout29.htm" window="right" />
         <topic url="WordDocuments/editproposaltypecodestab.htm" window="right" />
@@ -428,7 +428,6 @@
         <topic url="WordDocuments/questionsmaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout30.htm" window="right" />
         <topic url="WordDocuments/ynqexplanationtab.htm" window="right" />
-        <topic url="WordDocuments/process29.htm" window="right" />
         <topic url="WordDocuments/examples25.htm" window="right" />
         <topic url="WordDocuments/rateclassmaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout31.htm" window="right" />
@@ -442,7 +441,16 @@
         <topic url="WordDocuments/documentlayout33.htm" window="right" />
         <topic url="WordDocuments/editratetypetab.htm" window="right" />
         <topic url="WordDocuments/examples28.htm" window="right" />
+        <topic url="WordDocuments/rolemaintenancedocument.htm" window="right" />
+        <topic url="WordDocuments/edittabs.htm" window="right" />
+        <topic url="WordDocuments/process18.htm" window="right" />
+        <topic url="WordDocuments/examples47.htm" window="right" />
+        <topic url="WordDocuments/rolepermissionmaintenancedocument.htm" window="right" />
+        <topic url="WordDocuments/editrolepermissiontab.htm" window="right" />
+        <topic url="WordDocuments/process19.htm" window="right" />
+        <topic url="WordDocuments/examples48.htm" window="right" />
         <topic url="WordDocuments/rolodexmaintenancedocument.htm" window="right" />
+        <topic url="WordDocuments/documentlayout46.htm" window="right" />
         <topic url="WordDocuments/editrolodextab.htm" window="right" />
         <topic url="WordDocuments/s2srevisiontypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout34.htm" window="right" />
@@ -461,24 +469,38 @@
         <topic url="WordDocuments/examples32.htm" window="right" />
         <topic url="WordDocuments/specialreviewapprovaltypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout38.htm" window="right" />
-        <topic url="WordDocuments/editapprovaltypecodes.htm" window="right" />
+        <topic url="WordDocuments/editspecialreviewapprovaltypecodes.htm" window="right" />
         <topic url="WordDocuments/examples33.htm" window="right" />
         <topic url="WordDocuments/sponsormaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/editsponsortab.htm" window="right" />
-        <topic url="WordDocuments/example6.htm" window="right" />
+        <topic url="WordDocuments/process20.htm" window="right" />
+        <topic url="WordDocuments/examples49.htm" window="right" />
+        <topic url="WordDocuments/sponsorformsmaintenancedocument.htm" window="right" />
+        <topic url="WordDocuments/editsponsorformstab.htm" window="right" />
+        <topic url="WordDocuments/process21.htm" window="right" />
+        <topic url="WordDocuments/examples50.htm" window="right" />
+        <topic url="WordDocuments/sponsorformtemplatesmaintenancedocument.htm" window="right" />
+        <topic url="WordDocuments/editsponsorformtemplatestab.htm" window="right" />
+        <topic url="WordDocuments/process22.htm" window="right" />
+        <topic url="WordDocuments/examples51.htm" window="right" />
         <topic url="WordDocuments/sponsortypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout39.htm" window="right" />
         <topic url="WordDocuments/editsponsortypestab.htm" window="right" />
         <topic url="WordDocuments/statemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout40.htm" window="right" />
         <topic url="WordDocuments/editstatetab.htm" window="right" />
-        <topic url="WordDocuments/examples35.htm" window="right" />
+        <topic url="WordDocuments/examples34.htm" window="right" />
         <topic url="WordDocuments/tbnpersonmaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout41.htm" window="right" />
-        <topic url="WordDocuments/examples36.htm" window="right" />
+        <topic url="WordDocuments/examples35.htm" window="right" />
+        <topic url="WordDocuments/unitadministratormaintenancedocument.htm" window="right" />
+        <topic url="WordDocuments/editunitadministratortab.htm" window="right" />
+        <topic url="WordDocuments/process23.htm" window="right" />
+        <topic url="WordDocuments/examples52.htm" window="right" />
         <topic url="WordDocuments/unitmaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/editunittab.htm" window="right" />
-        <topic url="WordDocuments/examples41.htm" window="right" />
+        <topic url="WordDocuments/process24.htm" window="right" />
+        <topic url="WordDocuments/examples36.htm" window="right" />
         <topic url="WordDocuments/unithierarchy.htm" window="right" />
         <topic url="WordDocuments/validcalculationtypemaintenancedocument.htm" window="right" />
         <topic url="WordDocuments/documentlayout42.htm" window="right" />

@@ -1,5 +1,5 @@
 -
-- $Id: INV_CREDIT_TYPE.sql,v 1.5 2008-07-17 01:36:18 gmcgrego Exp $
+- $Id: INV_CREDIT_TYPE.sql,v 1.6 2008-07-23 19:16:50 gmcgrego Exp $
 -
  CREATE TABLE INV_CREDIT_TYPE (
     INV_CREDIT_TYPE_CODE         VARCHAR2(3)  constraint INV_CREDIT_TYPE_N1 not null,

@@ -1,5 +1,5 @@
 #
-# $Id: EPS_PROP_PERSON.sql,v 1.13 2008-07-17 01:36:18 gmcgrego Exp $
+# $Id: EPS_PROP_PERSON.sql,v 1.14 2008-07-23 19:16:49 gmcgrego Exp $
 #
  CREATE TABLE EPS_PROP_PERSON (
     PROPOSAL_NUMBER         number(12,0)   constraint EPS_PROP_PERSON_N1 not null,

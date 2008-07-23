@@ -1,5 +1,5 @@
 #
-# $Id: EPS_PROP_PERSON_YNQ.sql,v 1.3 2008-07-17 01:36:18 gmcgrego Exp $
+# $Id: EPS_PROP_PERSON_YNQ.sql,v 1.4 2008-07-23 19:16:50 gmcgrego Exp $
 #
  CREATE TABLE EPS_PROP_PERSON_YNQ (
     PROPOSAL_NUMBER         number(12,0)   constraint EPS_PROP_PERSON_YNQ_N1 not null,
