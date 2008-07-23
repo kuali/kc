@@ -5,7 +5,7 @@
 	<artifactId>kra_project</artifactId>
 	<packaging>war</packaging>
 	<name>KRA Project</name>
-	<version>SNAPSHOT-0.1</version>
+	<version>1.0</version>
 	<url>http://kuali.org</url>
 	<profiles>
 		<profile>
