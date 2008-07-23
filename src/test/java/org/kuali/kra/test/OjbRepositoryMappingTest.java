@@ -153,39 +153,39 @@ public class OjbRepositoryMappingTest {
         }
     }
 
-//    @Test
-//    public void verifyTables() throws Exception {
-//        final OracleDataSource ods = new OracleDataSource();
-//        ods.setURL(dsUrl);
-//        ods.setUser(dsUser);
-//        ods.setPassword(dsPass);
-//
-//        final Connection conn = ods.getConnection();
-//        final DefaultHandler handler = new TableValidationHandler(conn);
-//
-//        info("Starting XML validation");
-//        final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
-//        final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
-//
-//        info("Found dtd url %s", dtdUrl);
-//        info("Found repository url %s", repositoryUrl);
-//
-//        final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-//        saxParserFactory.setValidating(true);
-//        saxParserFactory.setNamespaceAware(false);
-//
-//        final SAXParser parser = saxParserFactory.newSAXParser();
-//        try {
-//            parser.parse(repositoryUrl.getFile(), handler);
-//        }
-//        finally {
-//            try {
-//                conn.close();
-//            }
-//            catch (Exception e) {
-//            }
-//        }
-//    }
+    @Test
+    public void verifyTables() throws Exception {
+        final OracleDataSource ods = new OracleDataSource();
+        ods.setURL(dsUrl);
+        ods.setUser(dsUser);
+        ods.setPassword(dsPass);
+
+        final Connection conn = ods.getConnection();
+        final DefaultHandler handler = new TableValidationHandler(conn);
+
+        info("Starting XML validation");
+        final URL dtdUrl = getClass().getClassLoader().getResource("repository.dtd");
+        final URL repositoryUrl = getClass().getClassLoader().getResource("repository.xml");
+
+        info("Found dtd url %s", dtdUrl);
+        info("Found repository url %s", repositoryUrl);
+
+        final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        saxParserFactory.setValidating(true);
+        saxParserFactory.setNamespaceAware(false);
+
+        final SAXParser parser = saxParserFactory.newSAXParser();
+        try {
+            parser.parse(repositoryUrl.getFile(), handler);
+        }
+        finally {
+            try {
+                conn.close();
+            }
+            catch (Exception e) {
+            }
+        }
+    }
 
     /**
      * Test for validating <code>&lt;class-descriptor ... /&gt;</code> definitions in the repository.xml
