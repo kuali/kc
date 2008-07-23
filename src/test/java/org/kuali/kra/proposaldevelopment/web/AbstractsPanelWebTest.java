@@ -86,11 +86,11 @@ public class AbstractsPanelWebTest extends ProposalDevelopmentWebTestBase {
      * This will also test the help links on other panels on the page, but no big deal.
      * @throws Exception
      */
-//    @Test
-//    public void testHelpLinks() throws Exception {
-//        HtmlPage abstractsAndAttachmentsPage = getAbstractsAndAttachmentsPage();
-//        this.checkHelpLinks(abstractsAndAttachmentsPage);
-//    }
+    // @Test -- KRACOEUS-1419 - Add this test back when urls are added.
+    public void testHelpLinks() throws Exception {
+        HtmlPage abstractsAndAttachmentsPage = getAbstractsAndAttachmentsPage();
+        this.checkHelpLinks(abstractsAndAttachmentsPage);
+    }
 
     /***********************************************************************
      * Unit Tests for Abstracts
