@@ -1,7 +1,7 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
  * 
- * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except inputStream compliance with the License.
  * You may obtain a copy of the License at
  * 
@@ -155,9 +155,18 @@ public class BudgetActionsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm)form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetSubAwards newBudgetSubAward = budgetForm.getNewSubAward();
+        if(newBudgetSubAward.getOrganizationName()==null || newBudgetSubAward.getOrganizationName().equals("")){
+            GlobalVariables.getErrorMap().putError(Constants.SUBAWARD_ORG_NAME, Constants.SUBAWARD_ORG_NAME_REQUIERED);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
         
         FormFile subAwardFile = budgetForm.getSubAwardFile();
+        String contentType = subAwardFile.getContentType();
         byte[] subAwardData = subAwardFile.getFileData();
+        if(subAwardData==null || subAwardData.length==0 || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
+            GlobalVariables.getErrorMap().putError(Constants.SUBAWARD_FILE, Constants.SUBAWARD_FILE_REQUIERED);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
         String subAwardFileName = subAwardFile.getFileName();
         
         newBudgetSubAward.setProposalNumber(budgetDocument.getProposalNumber());
