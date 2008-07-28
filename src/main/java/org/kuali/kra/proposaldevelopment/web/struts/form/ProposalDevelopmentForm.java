@@ -508,7 +508,7 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
     }
 
     public Map getCreditSplitTotals() {
-        Map test=getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());
+        //Map test=getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());
         return getKeyPersonnelService().calculateCreditSplitTotals(getProposalDevelopmentDocument());
         
     }
