@@ -76,4 +76,6 @@ public interface UnitService {
      * @return
      */
     public String getInitialUnitsForUnitHierarchy();
+    
+    public String getInitialUnitsForUnitHierarchy(int depth);
 }
