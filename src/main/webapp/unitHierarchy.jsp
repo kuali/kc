@@ -32,14 +32,14 @@ body {
 }
 </style>
 
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.1/build/fonts/fonts-min.css" />
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.1/build/treeview/assets/skins/sam/treeview.css" />
+<link rel="stylesheet" type="text/css" href="css/yui/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="css/yui/treeview.css" />
 <link href="kr/css/kuali.css" rel="stylesheet" type="text/css" />
 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.1/build/yahoo/yahoo-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.1/build/event/event-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.1/build/connection/connection-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.1/build/treeview/treeview-min.js"></script>
+<script type="text/javascript" src="scripts/yui/yahoo-min.js"></script>
+<script type="text/javascript" src="scripts/yui/event-min.js"></script>
+<script type="text/javascript" src="scripts/yui/connection-min.js"></script>
+<script type="text/javascript" src="scripts/yui/treeview-min.js"></script>
 <script language="JavaScript" type="text/javascript" src="dwr/engine.js"></script>
 <script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
 <script language="javascript" src="dwr/interface/UnitService.js" ></script>
@@ -52,9 +52,6 @@ body {
 </style>
 <!--end custom header content for this example-->
 
-<link rel="stylesheet" type="text/css" href="../treeview/assets/css/folders/tree.css"></link>
-
-<!--Additional custom style rules for this example:-->
 
 <!--custom icon for each unit-->
 <style type="text/css">
@@ -63,6 +60,11 @@ body {
     .icon-page { display:block; height: 24px; width: 18px; padding-left: 20px; background: transparent url(static/images/page.gif) 0 0px no-repeat; }
     .icon-page-org { display:block; height: 22px; padding-left: 20px; background: transparent url(static/images/page.gif) 0 0px no-repeat; }
     .htmlnodelabel { margin-left: 25px; }
+    tbody tr:hover {
+   background: #FFFF7A;
+   color:black;
+   cursor:pointer;
+	}
 </style>
 
 </head>
@@ -78,6 +80,7 @@ body {
 <!--  initial data here -->
 <input type="hidden" id = "units" name="units"   value="${UnitHierarchyForm.units}"/>
 <input type="hidden" id = "selectedUnitNumber" name="selectedUnitNumber"  />
+<input type="hidden" id = "depth" name = "depth" value="${UnitHierarchyForm.initialUnitDepth}">
 
 <!--BEGIN SOURCE CODE FOR Unit hierarchy =============================== -->
 
