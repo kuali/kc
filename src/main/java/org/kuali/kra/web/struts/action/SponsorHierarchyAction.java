@@ -1,0 +1,223 @@
+/*
+ * Copyright 2006-2008 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.osedu.org/licenses/ECL-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kra.web.struts.action;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.RiceConstants;
+import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.lookup.LookupResultsService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.bo.SponsorHierarchy;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.rules.SponsorHierarchyRule;
+import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
+
+public class SponsorHierarchyAction extends KualiAction {
+
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        // TODO Auto-generated method stub
+        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
+        ActionForward forward = super.execute(mapping, form, request, response);
+        if (StringUtils.isNotBlank(request.getParameter("mapKey"))) {
+            sponsorHierarchyForm.getNewSponsors().get(0).clear();
+        }
+        //TODO: refactor this.  2 things very similar, should not call twice
+        sponsorHierarchyForm.setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
+        sponsorHierarchyForm.setHierarchyNameList((KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchyList()));   
+        return forward;
+
+    }
+
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
+        sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getSelectedSponsorHierarchy());
+        return mapping.findForward("copy");
+    }
+    
+    public ActionForward deleteSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        KraServiceLocator.getService(SponsorService.class).deleteSponsorHierarchy((SponsorHierarchyForm)form);
+        //((SponsorHierarchyForm)form).setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
+        ((SponsorHierarchyForm)form).setHierarchyNameList((KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchyList()));   
+        ((SponsorHierarchyForm)form).setMessage("Sponsor Hierarchy was deleted successfully");
+        return mapping.findForward("basic");
+    }
+    
+    public ActionForward copySponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        boolean rulePassed = new SponsorHierarchyRule().newHierarchyNameRequired((SponsorHierarchyForm)form);
+        if (rulePassed) {
+            KraServiceLocator.getService(SponsorService.class).copySponsorHierarchy((SponsorHierarchyForm)form);
+            ((SponsorHierarchyForm)form).setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
+            ((SponsorHierarchyForm)form).setMessage("Sponsor Hierarchy was copied successfully");
+        }
+        return mapping.findForward("basic");            
+    }
+    
+    public ActionForward cancelSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ActionForward  forward = new ActionForward("/portal.do??methodToCall=refresh&selectedTab=portalMaintenanceBody");  
+        forward.setRedirect(true);
+        return forward;            
+    }
+    
+    public ActionForward cancelSponsorHierarchyMaint(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
+        sponsorHierarchyForm.setSponsorCodeList("");
+        sponsorHierarchyForm.setNewHierarchyName("");
+        sponsorHierarchyForm.setSelectedSponsorHierarchy("");
+        // temporarily put clean here
+        KraServiceLocator.getService(SponsorService.class).cleanSponsorHierarchyMt();   
+        return mapping.findForward("basic");            
+    }
+
+    public ActionForward saveSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        //boolean rulePassed = new SponsorHierarchyRule().newHierarchyNameRequired((SponsorHierarchyForm)form);
+        //if (rulePassed) {
+        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
+        KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), sponsorHierarchyForm.getTimestamp());
+        sponsorHierarchyForm.setActionSelected("maint");
+        return mapping.findForward("maint");            
+    }
+
+    public ActionForward newSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        boolean rulePassed = new SponsorHierarchyRule().newHierarchyNameRequired((SponsorHierarchyForm)form);
+        if (rulePassed) {
+            ((SponsorHierarchyForm)form).setNewSponsorHierarchy(new SponsorHierarchy());
+            SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
+            sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getNewHierarchyName());
+            sponsorHierarchyForm.setTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
+            sponsorHierarchyForm.setSponsorCodeList("");
+            ((SponsorHierarchyForm)form).setActionSelected("new");
+            return mapping.findForward("maint");            
+        } else {
+            return mapping.findForward("basic");
+        }
+    }
+
+    public ActionForward addSponsorHierarchyGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        boolean rulePassed = new SponsorHierarchyRule().newHierarchyNameRequired((SponsorHierarchyForm)form);
+        if (rulePassed) {
+            ((SponsorHierarchyForm)form).addSponsorHierarchyGroup();
+            
+            return mapping.findForward("new");            
+        } else {
+            return mapping.findForward("basic");
+        }
+    }
+    
+    public ActionForward maintSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ((SponsorHierarchyForm)form).setActionSelected("maint");
+        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
+        sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getSelectedSponsorHierarchy());
+        sponsorHierarchyForm.setTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
+        sponsorHierarchyForm.setSponsorCodeList(KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(sponsorHierarchyForm.getSelectedSponsorHierarchy(),sponsorHierarchyForm.getTimestamp()));
+        return mapping.findForward("maint");
+        
+    }
+
+    public ActionForward deleteSponsorHierarchyGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
+        sponsorHierarchyForm.getSponsorHierarchyList().remove(getLineToDelete(request));
+        sponsorHierarchyForm.getNewSponsors().remove(getLineToDelete(request));
+        return mapping.findForward("new");
+       
+    }
+    
+    public ActionForward deleteSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
+        String parameterName = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            String lineNumber = StringUtils.substringBetween(parameterName, ".line", ".");
+            //StringTokenizer token = new StringTokenizer(lineNumber, "-");
+            //int groupIdx = Integer.parseInt(token.nextToken());
+            int sponsorIdx = Integer.parseInt(lineNumber);
+            sponsorHierarchyForm.getNewSponsors().get(0).remove(sponsorIdx);
+        }
+        return mapping.findForward("lookup");
+       
+    }
+
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        super.refresh(mapping, form, request, response);
+        SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm) form;
+        String sponsors = Constants.EMPTY_STRING; // return to treeview - still a test
+        // Process return from person/rolodex multi-value lookup
+        if (sponsorHierarchyForm.getLookupResultsBOClassName() != null && sponsorHierarchyForm.getLookupResultsSequenceNumber() != null) {
+            String lookupResultsSequenceNumber = sponsorHierarchyForm.getLookupResultsSequenceNumber();
+            Class<?> lookupResultsBOClass = Class.forName(sponsorHierarchyForm.getLookupResultsBOClassName());
+            
+            Collection<PersistableBusinessObject> rawValues = KraServiceLocator.getService(LookupResultsService.class)
+                .retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass,
+                        GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            int idx = 0;
+            String idxString = StringUtils.substringBetween(sponsorHierarchyForm.getLookedUpCollectionName(),"[","]");
+            if (StringUtils.isNotBlank(idxString)) {
+                idx = Integer.parseInt(idxString);
+            }
+            List sponsorCodes = new ArrayList();
+            // rewrite this, should not use newSponsor array.  should use sure
+            
+            //if (StringUtils.isBlank(sponsorHierarchyForm.getSelectedSponsorHierarchy())) {
+                sponsorHierarchyForm.getNewSponsors().set(0, new ArrayList());
+            //}
+            //for (Object obj : sponsorHierarchyForm.getNewSponsors().get(idx)) {
+            //    sponsorCodes.add(((Sponsor)obj).getSponsorCode());
+            //}
+            sponsorHierarchyForm.setSelectedSponsors("");
+            for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
+                    Sponsor sponsor = (Sponsor) iter.next();
+                    if (!sponsorCodes.contains(sponsor.getSponsorCode())) {
+                        sponsorHierarchyForm.getNewSponsors().get(idx).add(sponsor);
+                        if (StringUtils.isBlank(sponsors)) {
+                            sponsors = sponsor.getSponsorCode()+":"+sponsor.getSponsorName();
+                        } else {
+                            sponsors = sponsors + ";1;"+sponsor.getSponsorCode()+":"+sponsor.getSponsorName();
+                            
+                        }
+                    }
+                }
+        }
+        
+        if (StringUtils.isNotBlank(sponsorHierarchyForm.getActionSelected()) && (sponsorHierarchyForm.getActionSelected().equals("maint") || sponsorHierarchyForm.getActionSelected().equals("new"))) {
+            sponsorHierarchyForm.setSelectedSponsors(sponsors);
+            return mapping.findForward("lookup");            
+        } else {
+            return mapping.findForward("new");
+        }
+    }
+
+    
+}
