@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.service;
 
+import java.util.Collection;
+
+import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
+
 public interface SponsorService {
     /**
      * This method returns the sponsor name for a given sponsor code.
@@ -22,5 +26,52 @@ public interface SponsorService {
      * @return The name of the sponsor identified by this code.
      */
     public String getSponsorName(String sponsorCode);
+    
+    /**
+     * 
+     * This method to get the list of unique sponsorhierarchy name.
+     * @return
+     */
+    public String getTopSponsorHierarchy();
+    
+    /**
+     * 
+     * This method is to retrieve next level nodes.  It is called by ajax.
+     * @param node
+     * @return
+     */
+    public String getSubSponsorHierarchiesForTreeView(String hierarchyName, String depth, String groups) ;
 
+    /**
+     * 
+     * This method save the new hierarchy that is coming from copy action
+     * @param sponsorHierarchyForm
+     */
+    public void copySponsorHierarchy(SponsorHierarchyForm sponsorHierarchyForm);
+    
+    /**
+     * 
+     * This method is to delete the selected hierarchy
+     * @param sponsorHierarchyForm
+     */
+    public void deleteSponsorHierarchy(SponsorHierarchyForm sponsorHierarchyForm);
+    
+    public Collection getTopSponsorHierarchyList();
+    public void changeGroupName(String hierarchyName, String depth, String oldGroupName, String groups);
+    public void changeSortId(String hierarchyName, String depth, String groups, boolean moveUp);
+    public void deleteSponsorHierarchyDwr(String hierarchyName, String depth, String nodeName, String groups, boolean isDeleteSponsor);
+    public void addSponsorHierarchyDwr(String hierarchyName, String sponsors, String ascendants);
+    public String loadToSponsorHierachyMt(String hierarchyName, String timestampKey);
+    public void saveSponsorHierachy(String hierarchyName, String timestampKey);
+    public Collection getOldSponsorHierarchyMt();
+    /**
+     * 
+     * This method to clean up the sponsorhierarchtmt table.
+     * Can be implemented by adding a link in maintenance tab.
+     * Or when user cancel.  Only delete more than one day old & same user.
+     * Or use batch.
+     */
+    public void cleanSponsorHierarchyMt();
+    
+    public String checkSubGroup(String hierarchyName, String depth, String groups);
 }

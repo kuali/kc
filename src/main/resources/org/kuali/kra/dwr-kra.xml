@@ -27,6 +27,12 @@
 		<create creator="spring" javascript="SponsorService">
 			<param name="beanName" value="sponsorService" />
 			<include method="getSponsorName" />
+			<include method="getSubSponsorHierarchiesForTreeView" />
+			<include method="changeGroupName" />
+			<include method="changeSortId" />
+			<include method="deleteSponsorHierarchyDwr" />
+			<include method="addSponsorHierarchyDwr" />
+			<include method="checkSubGroup" />
 		</create>
 		<create creator="spring" javascript="UnitService">
 			<param name="beanName" value="unitService" />

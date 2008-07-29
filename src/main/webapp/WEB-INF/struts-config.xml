@@ -12,6 +12,7 @@
 		<form-bean name="DocHandlerForm" type="edu.iu.uis.eden.routing.web.DocHandlerForm" />
 		<form-bean name="ChangePasswordForm" type="org.kuali.kra.web.struts.form.ChangePasswordForm" />
 		<form-bean name="UnitHierarchyForm" type="org.kuali.kra.web.struts.form.UnitHierarchyForm" />
+		<form-bean name="SponsorHierarchyForm" type="org.kuali.kra.web.struts.form.SponsorHierarchyForm" />
     </form-beans>
 
     <global-exceptions>
@@ -91,8 +92,20 @@
         </action>
 
  		<action path="/unitHierarchy" name="UnitHierarchyForm" type="org.kuali.kra.web.struts.action.UnitHierarchyAction">
-            <forward name="edit" path="/unitHierarchy.jsp" />
             <forward name="basic" path="/unitHierarchy.jsp" />
+        </action>
+        
+ 		<!-- action path="/sponsorHierarchy*" name="SponsorHierarchyForm" input="/SponsorHierarchy{1}.jsp" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction" scope="request" -->
+ 		<action path="/sponsorHierarchy*" name="SponsorHierarchyForm" input="/SponsorHierarchy{1}.jsp" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction">
+            <forward name="copy" path="/SponsorHierarchyCopy.jsp" />
+            <forward name="new" path="/SponsorHierarchyNew.jsp" />
+            <forward name="basic" path="/sponsorHierarchyInit.jsp" />
+            <forward name="maint" path="/sponsorHierarchyMaint.jsp" />
+            <forward name="lookup" path="/sponsorLookup.jsp" />
+        </action>
+        <action path="/sponsorLookup" name="SponsorHierarchyForm" type="org.kuali.kra.web.struts.action.SponsorHierarchyAction">
+            <forward name="basic" path="/sponsorLookup.jsp" />
+            <forward name="lookup" path="/sponsorLookup.jsp" />
         </action>
 
       <!--  Budget -->
