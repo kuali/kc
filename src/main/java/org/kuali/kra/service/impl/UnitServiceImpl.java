@@ -38,6 +38,7 @@ public class UnitServiceImpl implements UnitService {
     private static final String COLUMN = ":";
     private static final String SEPARATOR = ";1;";
     private static final String DASH = "-";
+    private int numberOfUnits;
 
     /**
      * @see org.kuali.kra.service.UnitService#getUnitName(java.lang.String)
@@ -144,7 +145,7 @@ public class UnitServiceImpl implements UnitService {
         Unit instituteUnit = getSubUnits("000000").get(0);
         int parentIdx = 0;
         String subUnits = instituteUnit.getUnitNumber() +RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
-        int numberOfUnits = 0;
+        numberOfUnits = 0;
         for (Unit unit : getSubUnits(instituteUnit.getUnitNumber())) {
             subUnits = subUnits + parentIdx + DASH + unit.getUnitNumber()+RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+unit.getUnitName()+SEPARATOR;
             // we can make it more flexible, to add a while loop and with a 'depth' argument.
@@ -158,5 +159,39 @@ public class UnitServiceImpl implements UnitService {
         return subUnits;
         
     }
+    
+    public String getInitialUnitsForUnitHierarchy(int depth) {
+        // 000000 is the default root unit
+        Unit instituteUnit = getSubUnits("000000").get(0);
+        int parentIdx = 0;
+        String subUnits = instituteUnit.getUnitNumber() +RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
+        numberOfUnits = 0;
+        for (Unit unit : getSubUnits(instituteUnit.getUnitNumber())) {
+            subUnits = subUnits + parentIdx + DASH + unit.getUnitNumber()+RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+unit.getUnitName()+SEPARATOR;
+            // we can make it more flexible, to add a while loop and with a 'depth' argument.
+            numberOfUnits++;
+            if (depth - 2 > 0) {
+                subUnits = subUnits +  getSubUnits(unit, depth - 2);
+            }
+        }
+        subUnits = subUnits.substring(0, subUnits.length() - 3);
 
+        return subUnits;
+        
+    }
+
+    private String getSubUnits (Unit unit, int level) {
+        String subUnits="";
+        int parentNum = numberOfUnits;
+        level--;
+        for (Unit unit1 : getSubUnits(unit.getUnitNumber())) {
+            subUnits = subUnits + parentNum + DASH + unit1.getUnitNumber()+RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+unit1.getUnitName()+SEPARATOR;
+            numberOfUnits++;
+            if (level > 0) {
+                subUnits = subUnits +  getSubUnits(unit1, level);
+            }
+        }
+        return subUnits;        
+    }
+    
 }

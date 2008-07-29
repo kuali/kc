@@ -12,6 +12,7 @@
   function unitHierarchy() {
 
 	var units = document.getElementById("units").value;
+	var depth = document.getElementById("depth").value;
 	var unit_0_array=units.split(";1;");
 	
 	// following is a temp solution to align the action buttons. The buttons is still not 100% align.  need a better solution
@@ -41,10 +42,10 @@
                 var nodeLabel=unit_0_array[i].substring(idx+1, unit_0_array[i].length);
 
 				var tempNode_1 = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(unit_0_array[parentIdx].depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(unit_0_array[parentIdx].depth+1)*widthGap)+"px\">" + nodeLabel + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(nodeLabel)+"</td></tr></table>", unit_0_array[parentIdx], true, true);
-				if (tempNode_1.depth == 2) {
+				if (tempNode_1.depth == depth - 1) {
 				    // currently initialized with 3 levels
 				    // the last level should not be expanded, and also allow dynamic load
-					tempNode_1.setDynamicLoad(loadUnitName);
+					tempNode_1.setDynamicLoad(loadUnitName,1);
 					tempNode_1.expanded=false;
 				}
            		tempNode_1.contentStyle="icon-page";
@@ -66,7 +67,7 @@
 							var unit_array=data.split(",");
 							while (unitNum < unit_array.length){
 								var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + unit_array[unitNum] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(unit_array[unitNum])+"</td></tr></table>", node, false, true);
-							   	tempNode.setDynamicLoad(loadUnitName);						
+							   	tempNode.setDynamicLoad(loadUnitName,1);						
            					   	tempNode.contentStyle="icon-page";
 				               	unitNum+=1;
 			 				}
