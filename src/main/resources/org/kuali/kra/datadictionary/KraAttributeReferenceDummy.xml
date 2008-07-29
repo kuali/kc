@@ -192,14 +192,14 @@
                 <label>Amount</label>
                 <shortLabel>Amt</shortLabel>
 
-                <maxLength>17</maxLength>
+                <maxLength>15</maxLength>
 
                 <validationPattern>
                     <fixedPoint allowNegative="true" precision="12" scale="2" />
                 </validationPattern>
 
                 <control>
-                    <currency size="16" formattedMaxLength="22" />
+                    <currency size="13" formattedMaxLength="15" />
                 </control>
 
                 <summary>
