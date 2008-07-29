@@ -31,7 +31,8 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kra.budget.bo.BudgetLineItemBase;
-import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
+import org.kuali.kra.budget.bo.BudgetModular;
+import org.kuali.kra.budget.bo.BudgetPeriod;
 import org.kuali.kra.budget.bo.BudgetPerson;
 import org.kuali.kra.budget.bo.BudgetProposalRate;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
@@ -121,7 +122,30 @@ public class BudgetServiceImpl implements BudgetService {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
+        
+        // jira 1365 re-open issue
+        //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
+        Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>(); 
+        for(BudgetPeriod budgetPeriod: budgetDocument.getBudgetPeriods()) {
+            BudgetModular tmpObject = null;
+            if(budgetPeriod.getBudgetModular() != null) {
+                tmpObject = (BudgetModular) ObjectUtils.deepCopy(budgetPeriod.getBudgetModular());
+            }
+            tmpBudgetModulars.put(budgetPeriod.getProposalNumber()+ (budgetPeriod.getVersionNumber()+1) + budgetPeriod.getBudgetPeriod(), tmpObject);
+            budgetPeriod.setBudgetModular(null);
+        }
+
+        
         budgetDocument.setVersionNumber(null);
+        
+        documentService.saveDocument(budgetDocument);
+        for(BudgetPeriod tmpBudgetPeriod: budgetDocument.getBudgetPeriods()) {
+            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(tmpBudgetPeriod.getProposalNumber()+ tmpBudgetPeriod.getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
+            if(tmpBudgetModular != null) {
+                tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
+                tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
+            }
+        }
         
         documentService.saveDocument(budgetDocument);
         documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
