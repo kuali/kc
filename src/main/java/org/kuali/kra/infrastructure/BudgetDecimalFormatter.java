@@ -79,6 +79,9 @@ public class BudgetDecimalFormatter extends BigDecimalFormatter {
             throw new FormatException("formatting", RiceKeyConstants.ERROR_BIG_DECIMAL, obj.toString(), e);
         }
 
+        if (obj.toString().length() > 15) {
+            return obj.toString();
+        }
         if (StringUtils.isNotBlank(string)) {
             if (string.indexOf(".") == string.length() - 1) {
                 string = string +"00";
