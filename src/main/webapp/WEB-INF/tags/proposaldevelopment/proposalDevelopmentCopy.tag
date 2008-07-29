@@ -59,10 +59,10 @@
                 	<kul:htmlControlAttribute property="copyCriteria.includeBudget" 
                 	                          attributeEntry="${proposalCopyCriteriaAttributes.includeBudget}"
                 	                          disabled="${KualiForm.isCopyBudgetDisabled}" />
-                	<!-- kul:htmlControlAttribute property="copyCriteria.budgetVersions" 
+                	<kul:htmlControlAttribute property="copyCriteria.budgetVersions" 
                 	                          attributeEntry="${proposalCopyCriteriaAttributes.budgetVersions}" 
-                	                          disabled="${KualiForm.isCopyBudgetDisabled}" / -->
-                	                          <html:hidden property="copyCriteria.budgetVersions" value="all versions" />
+                	                          disabled="${KualiForm.isCopyBudgetDisabled}" />
+                	                         
 				</td>
 			</tr>
 			
