@@ -307,7 +307,12 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-	</bean>
+      <property name="sponsorHierarchyDao">
+        <ref bean="sponsorHierarchyDao" />
+      </property>
+ 	</bean>
+    <bean id="sponsorHierarchyDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb">
+	</bean>	
 
 	<bean id="narrativeAuthZService" class="org.kuali.kra.proposaldevelopment.service.impl.NarrativeAuthZServiceImpl">
 		<property name="businessObjectService">
