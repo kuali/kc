@@ -157,7 +157,8 @@
 					</td>
              		<td width="10%" valign="middle">
 						<div align=center>
-                		<kul:htmlControlAttribute property="document.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].periodTypeCode" attributeEntry="${budgetPersonnelDetailsAttributes.periodTypeCode}"/>
+                		<kul:htmlControlAttribute property="document.budgetPeriod[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].budgetPersonnelDetailsList[${status.index}].periodTypeCode" attributeEntry="${budgetPersonnelDetailsAttributes.periodTypeCode}"
+                		readOnlyAlternateDisplay="${budgetPersonnelDetails.budgetPeriodType.description}"/>
 						</div>
 					</td>
              		<td width="10%" valign="middle">

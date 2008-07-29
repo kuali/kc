@@ -40,6 +40,8 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     private List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts;
     private List<BudgetPersonnelRateAndBase> budgetPersonnelRateAndBaseList;
     private String effdtAfterStartdtMsg;
+    private BudgetPeriodType budgetPeriodType;
+
     public BudgetPersonnelDetails(){
         budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
         budgetPersonnelRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
@@ -224,5 +226,11 @@ public class BudgetPersonnelDetails extends BudgetLineItemBase {
     }
     public void setEffdtAfterStartdtMsg(String effdtAfterStartdtMsg) {
         this.effdtAfterStartdtMsg = effdtAfterStartdtMsg;
+    }
+    public BudgetPeriodType getBudgetPeriodType() {
+        return budgetPeriodType;
+    }
+    public void setBudgetPeriodType(BudgetPeriodType budgetPeriodType) {
+        this.budgetPeriodType = budgetPeriodType;
     }
 }
