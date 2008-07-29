@@ -936,7 +936,11 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
     private void copyAndFinalizeBudgetVersion(String documentNumber, ProposalDevelopmentDocument dest, int budgetVersionNumber) throws Exception {
         BudgetDocument budget = (BudgetDocument) documentService.getByDocumentHeaderId(documentNumber);
         budget.getProposal().setBudgetVersionOverviews(new ArrayList<BudgetVersionOverview>());
+        Integer origBudgetVersionNumber = budget.getBudgetVersionNumber();
         budget.toCopy();
+        // budget.tocopy set the budgetversionnumber to the new one
+        // need to rest it so setobjectpropertydeep can work for 'budgetversionnuumber'
+        budget.setBudgetVersionNumber(origBudgetVersionNumber);
         ObjectUtils.setObjectPropertyDeep(budget, "proposalNumber", String.class, dest.getProposalNumber());
         ObjectUtils.setObjectPropertyDeep(budget, "budgetVersionNumber", Integer.class, budgetVersionNumber);
         
