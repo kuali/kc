@@ -73,7 +73,8 @@
                         <kra:section permission="printProposal">
                             <td align="center" valign="middle">
                                 <div align="center">
-                                    <html:checkbox property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" disabled="${!KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}"/>                        
+                                    <!--  <html:checkbox property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" disabled="${!KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}"/>-->
+                                    <kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />                                                            
                                 </div>
                             </td>
                         </kra:section>
