@@ -41,8 +41,8 @@
 			                	<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].formName" attributeEntry="${s2sFormAttributes.formName}" readOnly="true" />
 							</td>
 			                <td align="center" valign="middle">
-			                	<div align="center">
-			                	<html:checkbox property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" disabled="${!KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}"/>			                	
+			                	<div align="center">			                	
+			                	<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />			                	
 			                	</div>
 			                </td>			                
 			            </tr>    	
