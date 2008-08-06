@@ -69,14 +69,16 @@ public class YnqServiceImpl implements YnqService {
 
         Collection<Ynq> allTypes = getBusinessObjectService().findMatchingOrderBy(Ynq.class, questionTypeMap, "groupName", false);
         List<Ynq> ynqs = new ArrayList<Ynq>();
-        
+        ynqs.addAll(allTypes);
         /* also filter all questions based on effective date - current date >= effective date */
+        /* - Effective date filter currently not used
         Date currentDate = getDateTimeService().getCurrentSqlDateMidnight();
         for(Ynq type: allTypes) {
             if(type.getEffectiveDate().compareTo(currentDate) < 0   ) {
                 ynqs.add(type);
             }
         } 
+        */
         return ynqs;
     }
 
