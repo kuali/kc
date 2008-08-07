@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyBudgets']}" scope="request" />
 <c:set var="budgetSubAwardsAttributes" value="${DataDictionary.BudgetSubAwards.attributes}" />
 
 <kul:tab tabTitle="Sub Award Budget" defaultOpen="false" tabErrorKey="budgetSubAwards.*,newSubAward.*">
@@ -12,11 +12,12 @@
      	<table border="0" cellpadding=0 cellspacing=0 summary="">
           	<tr>
           		<th width="5%"><div align="center">&nbsp</div></th> 
-          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.organizationName}" noColon="true" /></div></th>
-          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.comments}" noColon="true" /></div></th>
-          		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" noColon="true" /></div></th>          		
+          		<th width="20%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.organizationName}" noColon="true" /></div></th>
+          		<th width="30%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.comments}" noColon="true" /></div></th>
+          		<th width="30%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.subAwardXfdFileName}" noColon="true" /></div></th>          		
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	</tr>
+			<c:if test="${!readOnly}" >
           	<tr>
 					<th class="infoline">
 						<c:out value="Add:" />
@@ -45,6 +46,7 @@
 						</div>
 	                </td>
             </tr>
+			</c:if>
 			
 			<c:forEach var="budgetSubAwards" items="${KualiForm.document.budgetSubAwards}" varStatus="status">
 		    	<tr>
