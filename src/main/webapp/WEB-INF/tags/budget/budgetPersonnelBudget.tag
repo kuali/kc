@@ -40,13 +40,13 @@
     	</tr>
     	<tr>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.startDate}" noColon="false" /></div></th>
-    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${selectedBudgetPeriod}].startDate" attributeEntry="${budgetLineItemAttributes.startDate}" datePicker="true" readOnly="true"/></div></td>
+    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].startDate" attributeEntry="${budgetLineItemAttributes.startDate}" datePicker="true" readOnly="true"/></div></td>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.underrecoveryAmount}" noColon="false" /></div></th>
     		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].underrecoveryAmount}"/></div></td>
     	</tr>
     	<tr>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.endDate}" noColon="false" /></div></th>
-    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${selectedBudgetPeriod}].endDate" attributeEntry="${budgetLineItemAttributes.endDate}" datePicker="true" readOnly="true"/></div></td>
+    		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budgetPeriods[${selectedBudgetPeriod}].budgetLineItems[${selectedBudgetLineItemIndex}].endDate" attributeEntry="${budgetLineItemAttributes.endDate}" datePicker="true" readOnly="true"/></div></td>
     		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetLineItemAttributes.costSharingAmount}" noColon="false" /></div></th>
     		<td width="25%"><div align="left"><c:out value="${KualiForm.document.budgetPeriods[selectedBudgetPeriod].budgetLineItems[selectedBudgetLineItemIndex].costSharingAmount}"/></div></td>
     	</tr>
