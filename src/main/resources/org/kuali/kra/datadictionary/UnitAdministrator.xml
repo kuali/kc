@@ -62,11 +62,13 @@
             </resultFields>
         </lookup>
 
-<!-- can only have 0/1 title attribute
-        <titleAttribute>personId</titleAttribute>
-		<titleAttribute>roleId</titleAttribute>
+		<!-- 
+		can only have 0/1 title attribute, 
+		removed titleAttribute per JIRA KRACOEUS-1747
+	        <titleAttribute>personId</titleAttribute>
+			<titleAttribute>roleId</titleAttribute>
+			<titleAttribute>unitNumber</titleAttribute>
 		-->
-		<titleAttribute>unitNumber</titleAttribute>
         <attributes>
 
 	        <attribute name="personId">
