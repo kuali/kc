@@ -1518,7 +1518,13 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         if (proposalStateTypeCode == null) {
             this.proposalState = null;
         } else {
-            refreshReferenceObject("proposalState");
+            try {
+                refreshReferenceObject("proposalState");
+            } catch (NullPointerException ex) {
+                // do nothing: this will happen when
+                // creating a proposal from a unit test
+                // without access to a database.
+            }
         }
     }
 
@@ -1531,7 +1537,7 @@ public class ProposalDevelopmentDocument extends ResearchDocumentBase implements
         super.handleRouteStatusChange();
         
         ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
-        setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(this));
+        setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(this, true));
     }
 
     public Integer getPostSubmissionStatusCode() {
