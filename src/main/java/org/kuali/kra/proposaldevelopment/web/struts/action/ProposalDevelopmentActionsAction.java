@@ -678,7 +678,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         proposalDevelopmentDocument.setSubmitFlag(true);
         
         ProposalStateService proposalStateService = KraServiceLocator.getService(ProposalStateService.class);
-        proposalDevelopmentDocument.setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument));
+        proposalDevelopmentDocument.setProposalStateTypeCode(proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false));
         
         DocumentService documentService = KNSServiceLocator.getDocumentService();
         documentService.saveDocument(proposalDevelopmentDocument);
