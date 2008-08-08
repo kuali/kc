@@ -1,8 +1,13 @@
+-- 
+-- SQL script to patch a release 1.0 DB to release 1.0.1 DB
+-- Created 6-AUG-2008 by Tyler Wilson
+--
+
 set feedback off;
 set term off;
 set heading off;
 
-spool install_kra_release-1_0_1-Patch.log;
+spool install_kcra_release-1_0_1-Patch.log;
 
 set term on;
 select '*************************** START INSTALLING KRA DATABASE OBJECTS *************************************************' from dual;
@@ -12,21 +17,22 @@ set term on;
 select '*************************** START CREATING KRA TABLES *************************************************' from dual;
 set term off;
 
-@DDL/KRA_ALL_TABLES
+@DDL/KCRA_TABLES-1_0_1-Patch
 
-@TYPES/KRA_ALL_TYPES
+@TYPES/KCRA_TYPES-1_0_1-Patch
 
 set term on;
 select '*************************** START CREATING SEQUENCES *************************************************' from dual;
 set term off;
 
-@SEQUENCES/KRA_ALL_SEQUENCES
+@SEQUENCES/KCRA_SEQUENCES-1_0_1-Patch
 
 set term on;
 select '*************************** START LOADING BOOTSTRAP DATA *************************************************' from dual;
 set term off;
 set define ~;
 
+@DML/KCRA_DML-1_0_1-Patch
 
 COMMIT;
 
@@ -34,14 +40,14 @@ set term on;
 select '*************************** START CREATING CONSTRAINTS *************************************************' from dual;
 set term off;
 
-@CONSTRAINTS/KRA_ALL_PRIMARY_KEYS
-@CONSTRAINTS/KRA_ALL_FOREIGN_KEYS
+@CONSTRAINTS/KCRA_PRIMARY_KEYS-1_0_1-Patch
+@CONSTRAINTS/KCRA_FOREIGN_KEYS-1_0_1-Patch
 
 set term on;
 select '*************************** START CREATING INDEXES *************************************************' from dual;
 set term off;
 
-REM @INDEXES/KRA_ALL_INDEXES
+REM @INDEXES/KCRA_INDEXES-1_0_1-Patch
 
 set term on;
 select '*************************** START LOADING S2S OBJECTS *************************************************' from dual;

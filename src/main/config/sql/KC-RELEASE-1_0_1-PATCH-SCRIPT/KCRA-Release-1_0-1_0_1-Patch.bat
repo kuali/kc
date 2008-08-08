@@ -8,6 +8,6 @@ REM # Use sqlldr to load LOB DML into tables
 REM #
 REM ##############
 
-sqlplus <username>/<password>@<service> @KRA-Release-1_0-1_0_1-Patch.sql
+sqlplus <username>/<password>@<service> @KCRA-Release-1_0-1_0_1-Patch.sql
 
 
