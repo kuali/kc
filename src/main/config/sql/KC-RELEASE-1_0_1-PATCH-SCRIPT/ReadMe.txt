@@ -1,10 +1,10 @@
-KRA Release Version 1.0.1 Patch
+KCRA Release Version 1.0.1 Patch
 ------------------------------------
 
-KRA database release bundle contains patched database objects (tables, constraints, bootstrap data)
+KCRA database release bundle contains patched database objects (tables, constraints, bootstrap data)
 required to launch/execute KRA application
 
-Edit KRA-Release-1_0-1_0_1-Patch.bat (or .sh) file. Set username/password and service name for oracle user.
+Edit KCRA-Release-1_0-1_0_1-Patch.bat (or .sh) file. Set username/password and service name for oracle user.
 Make sure above oracle user has following privileges
 	* CREATE PROCEDURE  
 	* CREATE TABLE  
@@ -18,10 +18,10 @@ Set path to oracle/bin
 	* Bootstrap data for large object columns are loaded using SQLLDR
 
 
-Execute KRA-Release-1_0-1_0_1-Patch.bat to load patched database objects
+Execute KCRA-Release-1_0-1_0_1-Patch.bat to load patched database objects
 
 Errors are listed in
-	* KRA base object errors are listed in install_kra_release-1_0_1-Patch.log
+	* KCRA base object errors are listed in install_kcra_release-1_0_1-Patch.log
 	* Log files below refer error loading bootstrap LOB data
 
 
