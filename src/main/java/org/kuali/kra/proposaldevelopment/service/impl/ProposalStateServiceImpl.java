@@ -26,9 +26,9 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 public class ProposalStateServiceImpl implements ProposalStateService {
     
     /**
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalStateService#getProposalStateTypeCode(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see org.kuali.kra.proposaldevelopment.service.ProposalStateService#getProposalStateTypeCode(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument, boolean)
      */
-    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
         String proposalStateTypeCode = null;
         KualiWorkflowDocument wd = proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument();
         if (wd.stateIsInitiated()) {
@@ -38,9 +38,9 @@ public class ProposalStateServiceImpl implements ProposalStateService {
         } else if (wd.stateIsEnroute()) {
             proposalStateTypeCode = computeProposalStateForEnRoute(proposalDevelopmentDocument);
         } else if (wd.stateIsApproved()) {
-            proposalStateTypeCode = computeProposalStateForApproved(proposalDevelopmentDocument);
+            proposalStateTypeCode = computeProposalStateForApproved(proposalDevelopmentDocument, isRouteStatusChanged);
         } else if (wd.stateIsDisapproved()) {
-            proposalStateTypeCode = computeProposalStateForDisapproved(proposalDevelopmentDocument);
+            proposalStateTypeCode = computeProposalStateForDisapproved(proposalDevelopmentDocument, isRouteStatusChanged);
         } else if (wd.stateIsCanceled()) {
             proposalStateTypeCode = computeProposalStateForCanceled(proposalDevelopmentDocument);
         } else {
@@ -87,11 +87,16 @@ public class ProposalStateServiceImpl implements ProposalStateService {
     /**
      * Compute the proposal state when the proposal is in the workflow APPROVED state.
      * @param proposalDevelopmentDocument the proposal development document
-     * @return APPROVED_AND_SUBMITTED or APPROVAL_GRANTED
+     * @param isRouteStatusChanged was the route status just changed (if false, the proposal was submitted to the sponsor)
+     * @return APPROVED_AND_SUBMITTED, APPROVED_POST_SUBMISSION, or APPROVAL_GRANTED
      */
-    private String computeProposalStateForApproved(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    private String computeProposalStateForApproved(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
         if (isSubmitted(proposalDevelopmentDocument)) {
-            return ProposalState.APPROVED_AND_SUBMITTED;
+            if (isRouteStatusChanged) {
+                return ProposalState.APPROVED_POST_SUBMISSION;
+            } else {
+                return ProposalState.APPROVED_AND_SUBMITTED;
+            }
         } else {
             return ProposalState.APPROVAL_GRANTED;
         }
@@ -100,10 +105,15 @@ public class ProposalStateServiceImpl implements ProposalStateService {
     /**
      * Compute the proposal state when the proposal is in the workflow DISAPPROVED state.
      * @param proposalDevelopmentDocument the proposal development document
-     * @return DISAPPROVED
+     * @param isRouteStatusChanged was the route status just changed (if false, the proposal was submitted to the sponsor)
+     * @return DISAPPROVED or DISAPPROVED_POST_SUBMISSION
      */
-    private String computeProposalStateForDisapproved(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        return ProposalState.DISAPPROVED;
+    private String computeProposalStateForDisapproved(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged) {
+        if (isSubmitted(proposalDevelopmentDocument) && isRouteStatusChanged) {
+            return ProposalState.DISAPPROVED_POST_SUBMISSION;
+        } else {
+            return ProposalState.DISAPPROVED;
+        }
     }
     
     /**

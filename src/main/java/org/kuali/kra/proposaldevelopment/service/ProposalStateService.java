@@ -38,9 +38,15 @@ public interface ProposalStateService {
 
     /**
      * Get the Proposal State type code based upon the current configuration of the
-     * given proposal.
+     * given proposal.  The Proposal State must be recomputed whenever the workflow
+     * route status changes or when the proposal is submitted to the sponsor.  The
+     * order matters.  For example, if the proposal is approved and then submitted,
+     * the state is "Approved and Submitted".  If the proposal is submitted first and
+     * then approved, the state is "Approved Post-Submission".
+     * 
      * @param proposalDevelopmentDocument the proposal development document
+     * @param isRouteStatusChanged was the route status just changed (if false, the proposal was submitted to the sponsor)
      * @return the proposal state type code
      */
-    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument);
+    public String getProposalStateTypeCode(ProposalDevelopmentDocument proposalDevelopmentDocument, boolean isRouteStatusChanged);
 }
