@@ -261,4 +261,9 @@ public interface Constants {
     public static final String SUBAWARD_ORG_NAME = "newSubAward.organizationName";
     public static final String SUBAWARD_ORG_NAME_REQUIERED = "newSubAward.organizationName.required";
 
+    // sponsor hierarchy
+    public static final String HIERARCHY_NAME = "hierarchyName";
+    public static final String SPONSOR_CODE = "sponsorCode";
+    public static final String SPONSOR_HIERARCHY_SEPARATOR_C1C = ";1;";
+
 }
