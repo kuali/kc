@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorHierarchy;
+import org.kuali.kra.infrastructure.Constants;
 
 public class SponsorHierarchyForm extends KualiForm {
 
@@ -45,8 +45,8 @@ public class SponsorHierarchyForm extends KualiForm {
     private String selectedSponsors;
     private String actionSelected;
     private String mapKey;
-    private String timestamp;
     private String message;
+    private String sqlScripts;
 
     /**
      * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
@@ -68,8 +68,8 @@ public class SponsorHierarchyForm extends KualiForm {
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         // FIXME : just a temporary soln.  it always get the methodtocall='refresh' after it started properly the first time.  
         // need to investigate this.
-        this.setMethodToCall("");
-        this.setMessage("");
+        this.setMethodToCall(Constants.EMPTY_STRING);
+        this.setMessage(Constants.EMPTY_STRING);
     }
 
     public String getTopSponsorHierarchies() {
@@ -242,16 +242,6 @@ public class SponsorHierarchyForm extends KualiForm {
     }
 
 
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-
     public String getMessage() {
         return message;
     }
@@ -259,6 +249,16 @@ public class SponsorHierarchyForm extends KualiForm {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+
+    public String getSqlScripts() {
+        return sqlScripts;
+    }
+
+
+    public void setSqlScripts(String sqlScripts) {
+        this.sqlScripts = sqlScripts;
     }
 
 
