@@ -34,9 +34,9 @@
     <li>School Code</li>
     <li><portal:portalLink displayTitle="true" title="Sponsor" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Sponsor&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Sponsor Contact Type</li>
-	<li><portal:portalLink displayTitle="true" title="Sponsor Forms" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.SponsorForms&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+ 	<li><portal:portalLink displayTitle="true" title="Sponsor Forms" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.SponsorForms&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	<li><portal:portalLink displayTitle="true" title="Sponsor Form Templates" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.SponsorFormTemplate&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-    <li>Sponsor Hierarchy</li>
+    <li><portal:portalLink displayTitle="true" title="Sponsor Hierarchy" url="sponsorHierarchy.do" /></li>
     <li><portal:portalLink displayTitle="true" title="Sponsor Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.SponsorType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="State" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.State&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li>Sub-Contract Status</li>

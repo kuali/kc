@@ -43,6 +43,10 @@ import org.kuali.kra.web.struts.form.SponsorHierarchyForm;
 
 public class SponsorHierarchyAction extends KualiAction {
 
+    private static final String MAINT = "maint";
+    private static final String NEW = "new";
+    private static final String LOOKUP = "lookup";
+    
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -70,7 +74,7 @@ public class SponsorHierarchyAction extends KualiAction {
         //((SponsorHierarchyForm)form).setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
         ((SponsorHierarchyForm)form).setHierarchyNameList((KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchyList()));   
         ((SponsorHierarchyForm)form).setMessage("Sponsor Hierarchy was deleted successfully");
-        return mapping.findForward("basic");
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     public ActionForward copySponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -80,7 +84,7 @@ public class SponsorHierarchyAction extends KualiAction {
             ((SponsorHierarchyForm)form).setTopSponsorHierarchies(KraServiceLocator.getService(SponsorService.class).getTopSponsorHierarchy());   
             ((SponsorHierarchyForm)form).setMessage("Sponsor Hierarchy was copied successfully");
         }
-        return mapping.findForward("basic");            
+        return mapping.findForward(Constants.MAPPING_BASIC);            
     }
     
     public ActionForward cancelSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -91,21 +95,19 @@ public class SponsorHierarchyAction extends KualiAction {
     
     public ActionForward cancelSponsorHierarchyMaint(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
-        sponsorHierarchyForm.setSponsorCodeList("");
-        sponsorHierarchyForm.setNewHierarchyName("");
-        sponsorHierarchyForm.setSelectedSponsorHierarchy("");
-        // temporarily put clean here
-        KraServiceLocator.getService(SponsorService.class).cleanSponsorHierarchyMt();   
-        return mapping.findForward("basic");            
+        sponsorHierarchyForm.setSponsorCodeList(Constants.EMPTY_STRING);
+        sponsorHierarchyForm.setNewHierarchyName(Constants.EMPTY_STRING);
+        sponsorHierarchyForm.setSelectedSponsorHierarchy(Constants.EMPTY_STRING);
+        return mapping.findForward(Constants.MAPPING_BASIC);            
     }
 
     public ActionForward saveSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         //boolean rulePassed = new SponsorHierarchyRule().newHierarchyNameRequired((SponsorHierarchyForm)form);
         //if (rulePassed) {
         SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
-        KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), sponsorHierarchyForm.getTimestamp());
-        sponsorHierarchyForm.setActionSelected("maint");
-        return mapping.findForward("maint");            
+        KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), sponsorHierarchyForm.getSqlScripts());
+        sponsorHierarchyForm.setActionSelected(MAINT);
+        return mapping.findForward(MAINT);            
     }
 
     public ActionForward newSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -114,33 +116,20 @@ public class SponsorHierarchyAction extends KualiAction {
             ((SponsorHierarchyForm)form).setNewSponsorHierarchy(new SponsorHierarchy());
             SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
             sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getNewHierarchyName());
-            sponsorHierarchyForm.setTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
-            sponsorHierarchyForm.setSponsorCodeList("");
-            ((SponsorHierarchyForm)form).setActionSelected("new");
-            return mapping.findForward("maint");            
+            sponsorHierarchyForm.setSponsorCodeList(Constants.EMPTY_STRING);
+            ((SponsorHierarchyForm)form).setActionSelected(NEW);
+            return mapping.findForward(MAINT);            
         } else {
-            return mapping.findForward("basic");
-        }
-    }
-
-    public ActionForward addSponsorHierarchyGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        boolean rulePassed = new SponsorHierarchyRule().newHierarchyNameRequired((SponsorHierarchyForm)form);
-        if (rulePassed) {
-            ((SponsorHierarchyForm)form).addSponsorHierarchyGroup();
-            
-            return mapping.findForward("new");            
-        } else {
-            return mapping.findForward("basic");
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
     }
     
     public ActionForward maintSponsorHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((SponsorHierarchyForm)form).setActionSelected("maint");
+        ((SponsorHierarchyForm)form).setActionSelected(MAINT);
         SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
         sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getSelectedSponsorHierarchy());
-        sponsorHierarchyForm.setTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp().toString());
-        sponsorHierarchyForm.setSponsorCodeList(KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(sponsorHierarchyForm.getSelectedSponsorHierarchy(),sponsorHierarchyForm.getTimestamp()));
-        return mapping.findForward("maint");
+        sponsorHierarchyForm.setSponsorCodeList(KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(sponsorHierarchyForm.getSelectedSponsorHierarchy()));
+        return mapping.findForward(MAINT);
         
     }
 
@@ -149,7 +138,7 @@ public class SponsorHierarchyAction extends KualiAction {
         SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
         sponsorHierarchyForm.getSponsorHierarchyList().remove(getLineToDelete(request));
         sponsorHierarchyForm.getNewSponsors().remove(getLineToDelete(request));
-        return mapping.findForward("new");
+        return mapping.findForward(NEW);
        
     }
     
@@ -164,7 +153,7 @@ public class SponsorHierarchyAction extends KualiAction {
             int sponsorIdx = Integer.parseInt(lineNumber);
             sponsorHierarchyForm.getNewSponsors().get(0).remove(sponsorIdx);
         }
-        return mapping.findForward("lookup");
+        return mapping.findForward(LOOKUP);
        
     }
 
@@ -196,7 +185,7 @@ public class SponsorHierarchyAction extends KualiAction {
             //for (Object obj : sponsorHierarchyForm.getNewSponsors().get(idx)) {
             //    sponsorCodes.add(((Sponsor)obj).getSponsorCode());
             //}
-            sponsorHierarchyForm.setSelectedSponsors("");
+            sponsorHierarchyForm.setSelectedSponsors(Constants.EMPTY_STRING);
             for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                     Sponsor sponsor = (Sponsor) iter.next();
                     if (!sponsorCodes.contains(sponsor.getSponsorCode())) {
@@ -204,7 +193,7 @@ public class SponsorHierarchyAction extends KualiAction {
                         if (StringUtils.isBlank(sponsors)) {
                             sponsors = sponsor.getSponsorCode()+":"+sponsor.getSponsorName();
                         } else {
-                            sponsors = sponsors + ";1;"+sponsor.getSponsorCode()+":"+sponsor.getSponsorName();
+                            sponsors = sponsors + Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C+sponsor.getSponsorCode()+":"+sponsor.getSponsorName();
                             
                         }
                     }
@@ -213,9 +202,9 @@ public class SponsorHierarchyAction extends KualiAction {
         
         if (StringUtils.isNotBlank(sponsorHierarchyForm.getActionSelected()) && (sponsorHierarchyForm.getActionSelected().equals("maint") || sponsorHierarchyForm.getActionSelected().equals("new"))) {
             sponsorHierarchyForm.setSelectedSponsors(sponsors);
-            return mapping.findForward("lookup");            
+            return mapping.findForward(LOOKUP);            
         } else {
-            return mapping.findForward("new");
+            return mapping.findForward(NEW);
         }
     }
 

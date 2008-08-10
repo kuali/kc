@@ -128,8 +128,8 @@ tbody tr:hover {
 		name="actionSelected" 
 		value="${SponsorHierarchyForm.actionSelected}" />
 	<input type="hidden" id="sponsorCode" name="sponsorCode" />
+	<input type="hidden" id="sqlScripts" name="sqlScripts" />
 	<input type="hidden" id="sponsorCodeList" name="sponsorCodeList" value="${SponsorHierarchyForm.sponsorCodeList}" />
-	<input type="hidden" id="timestamp" name="timestamp" value="${SponsorHierarchyForm.timestamp}" />
 
 <div id="wait" style="visibility: hidden; font-size: 14pt; color: red;">Please wait ... </div>
 
@@ -167,7 +167,11 @@ tbody tr:hover {
 		var emptyNodes="";
 		var retMsg;
         var sponsorCodeList = document.getElementById("sponsorCodeList").value
-        var timestampKey = document.getElementById("timestamp").value
+        var updatesql = "update sponsor_hierarchy set "; // use mt for testing now
+        var insertsql = "insert into sponsor_hierarchy  ";
+        var deletesql = "delete from sponsor_hierarchy  ";
+        var sqlScripts = "";
+   		var hierarchyName = document.getElementById("hierarchyName").value;
    	
    	var sponsorHierarchyReturn = sponsorHierarchy();
 

@@ -56,22 +56,22 @@ public interface SponsorService {
      */
     public void deleteSponsorHierarchy(SponsorHierarchyForm sponsorHierarchyForm);
     
-    public Collection getTopSponsorHierarchyList();
-    public void changeGroupName(String hierarchyName, String depth, String oldGroupName, String groups);
-    public void changeSortId(String hierarchyName, String depth, String groups, boolean moveUp);
-    public void deleteSponsorHierarchyDwr(String hierarchyName, String depth, String nodeName, String groups, boolean isDeleteSponsor);
-    public void addSponsorHierarchyDwr(String hierarchyName, String sponsors, String ascendants);
-    public String loadToSponsorHierachyMt(String hierarchyName, String timestampKey);
-    public void saveSponsorHierachy(String hierarchyName, String timestampKey);
-    public Collection getOldSponsorHierarchyMt();
     /**
      * 
-     * This method to clean up the sponsorhierarchtmt table.
-     * Can be implemented by adding a link in maintenance tab.
-     * Or when user cancel.  Only delete more than one day old & same user.
-     * Or use batch.
+     * This method the sponsor hierarchy name for drop downs
+     * @return
      */
-    public void cleanSponsorHierarchyMt();
+    public Collection getTopSponsorHierarchyList();
     
-    public String checkSubGroup(String hierarchyName, String depth, String groups);
-}
+    /**
+     * 
+     * This method to load data for sponsor hierarchy maint
+     * @param hierarchyName
+     * @return
+     */
+    public String loadToSponsorHierachyMt(String hierarchyName);
+    
+    
+    public void saveSponsorHierachy(String hierarchyName, String sqlScripts);
+    
+ }

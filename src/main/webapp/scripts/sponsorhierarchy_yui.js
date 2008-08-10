@@ -32,46 +32,6 @@
 	        }
 	
 	
-			function loadNextLevelSponsorHierarchy(node) {
-			   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
-				var dwrReply = {
-					callback:function(data) {
-						if ( data != null ) {
-							var sponsorHierarchy_array=data.split(";1;");
-							var startIdx = 0;
-							leafNode="false";
-							if (sponsorHierarchy_array[0] == "((leafNodes))") {
-								leafNode = "true";
-								startIdx=1;
-							}
-							var separator = ";"+(node.depth+2)+";";
-							if (data != "") {
-	           				for (var i=startIdx ; i < sponsorHierarchy_array.length;  i++) {
-								var tempNode = new YAHOO.widget.HTMLNode( "<table style=\"width:"+String(1080-(node.depth+1)*widthGap)+"px\"><tr><td style=\"width:"+String(760-(node.depth+1)*widthGap)+"px\">" + sponsorHierarchy_array[i] + "</td><td style=\"width:320px\">"+ setupMaintenanceButtons(sponsorHierarchy_array[i], node)+"</td></tr></table>", node, false, true);
-									// "1" will show leaf node without "+" icon
-	           					tempNode.contentStyle="icon-page";           						
-	               				if (leafNode == "false") {
-	           						tempNode.setDynamicLoad(loadNextLevelSponsorHierarchy, 1);
-	           					} else {
-	           						tempNode.isLeaf="true";
-	           					}
-	           					actionList[nodeKey] = ":existLabel:"+sponsorHierarchy_array[i];
-	           					oTextNodeMap[nodeKey++] = tempNode;           						
-							}
-							}
-								//leafNodeParent = "false";
-						} else {
-								//alert ("data is null");
-						}
-							 node.loadComplete();
-							
-					},
-						errorHandler:function( errorMessage ) {
-							window.status = errorMessage;
-					}
-				};
-				SponsorService.getSubSponsorHierarchiesForTreeView(timestampKey+"#"+getRootNode(node), node.depth, getAscendants(node,"false") ,dwrReply);
-			}
 	
 		    return {        
 		        init: function() {
@@ -85,7 +45,7 @@
 	
 	
 	
-	    function getRootNode (node) {
+	function getRootNode (node) {
        	var rootNode = node
         while (rootNode.depth > 0) {
             //alert(rootNode)
@@ -108,20 +68,18 @@
     }
     
           var newLabel;
-          function addNode(mapKey) {
+    function addNode(mapKey) {
 
-					oCurrentTextNode=oTextNodeMap[mapKey];
-					showWait();
-                    if (!oCurrentTextNode.dynamicLoadComplete) {
-                            //retMsg="";
-                            //checkSubGroup(oCurrentTextNode);
-                        	var temp = loadNextLevelSponsorHierarchy(oCurrentTextNode);
-					}
-                    setTimeout("checkToAdd("+mapKey+")", 1000);
+		oCurrentTextNode=oTextNodeMap[mapKey];
+		showWait();
+        if (!oCurrentTextNode.dynamicLoadComplete) {
+               var temp = loadNextLevelSponsorHierarchy(oCurrentTextNode);
+		}
+        setTimeout("checkToAdd("+mapKey+")", 200);
 
 
 
-          }
+     }
 
     function checkToAdd(mapKey) {
     
@@ -168,7 +126,7 @@
                     }
                     leafNode="false";
                } else {
-                    setTimeout("checkToAdd("+mapKey+")", 1000);
+                    setTimeout("checkToAdd("+mapKey+")", 200);
                }     
     }
 
@@ -227,12 +185,10 @@
           tempNode = node;
           while (tempNode.nextSibling != null) {
           	tempNode = tempNode.nextSibling;
-          	//alert(sLabel +" =? " +getNodeDescription(tempNode))
           	if (sLabel == getNodeDescription(tempNode)) {
           	    return "false";
           	}
           }
-          //alert
           return "true";
           
       
@@ -270,21 +226,20 @@
 
       // IE7 does not accept 'swapNode' name ??
        function moveUp(mapKey1) {
-                     var node1 = oTextNodeMap[mapKey1];
-                     if (node1.previousSibling != null) {   
-                        var node2 = node1.previousSibling;
-						changeSortId(mapKey1,"true");
-						setTimeout("changeSortId("+getNodeseq(node2)+",'false')", 1000)
-                        node1.insertBefore(node2);						
-                        tree.draw();
-                   	} else {
-                   		alert("This is the first in the group, and it can't be moved up");
-                   	}
+            var node1 = oTextNodeMap[mapKey1];
+            if (node1.previousSibling != null) {   
+                 var node2 = node1.previousSibling;
+				changeSortId(mapKey1,"true");
+				setTimeout("changeSortId("+getNodeseq(node2)+",'false')", 1000)
+                node1.insertBefore(node2);						
+                tree.draw();
+             } else {
+               		alert("This is the first in the group, and it can't be moved up");
+             }
 
-                }
+       }
 
-           function moveDown(mapKey1) {
-//alert(mapKey1)
+      function moveDown(mapKey1) {
             var mapKey2=3;
     
                         var node1 = oTextNodeMap[mapKey1];
@@ -306,7 +261,7 @@
                  	}
                    
 
-                }
+     }
 
 
    
@@ -354,6 +309,7 @@
      	   alert ("Can't save hierarchy with empty group");
      	   return "false";
      	} else {
+     		document.getElementById("sqlScripts").value=sqlScripts;
      	   return "true";
      	
      	}
@@ -361,7 +317,6 @@
    
    function removeFromSponsorList(node) {
       var nodeDesc = getNodeDescription(node);
-      //alert(nodeDesc+" "+sponsorCodeList+"-"+nodeDesc.substring(0,nodeDesc.indexOf(":"))+";")
       sponsorCodeList=sponsorCodeList.replace(nodeDesc.substring(0,nodeDesc.indexOf(":"))+";","");
    }
    
@@ -444,122 +399,70 @@
 						window.status = errorMessage;
 					}
 				};
-				SponsorService.getSubSponsorHierarchiesForTreeView(timestampKey+"#"+getRootNode(node), node.depth, getAscendants(node,"false") ,dwrReply);
+				SponsorService.getSubSponsorHierarchiesForTreeView(hierarchyName, node.depth, getAscendants(node,"false") ,dwrReply);
 	}
 
 
-    function checkSubGroup(node) {
-		   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
-				var dwrReply = {
-					callback:function(data) {
-						if ( data != null ) {
-						   retMsg=data;
-						alert(data)
-						} else {
-							//alert ("data is null");
-						}
-						 //node.loadComplete();
-						
-					},
-					errorHandler:function( errorMessage ) {
-						window.status = errorMessage;
-					}
-				};
-				SponsorService.checkSubGroup(timestampKey+"#"+getRootNode(node), node.depth, getAscendants(node, "false"),dwrReply);
+    	function changeGroupName(node, oldLabel) {
+    		var sql = updatesql + "level"+node.depth+"='"+getNodeDescription(node)+"' "+getWhereClause(node.parent);
+			sql = sql+" and level"+node.depth+"='"+oldLabel+"'";
+    		sqlScripts = sqlScripts+sql+";1;";
 		}
 
-
-    		function changeGroupName(node, oldLabel) {
-		   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
-				var dwrReply = {
-					callback:function(data) {
-						if ( data != null ) {
-						//alert(data)
-						} else {
-							//alert ("data is null");
-						}
-						 node.loadComplete();
-						
-					},
-					errorHandler:function( errorMessage ) {
-						window.status = errorMessage;
-					}
-				};
-				SponsorService.changeGroupName(timestampKey+"#"+getRootNode(node), node.depth, oldLabel, getAscendants(node, "false"),dwrReply);
+    	function changeSortId(nodeseq, moveFlag) {
+			var node=oTextNodeMap[nodeseq]
+		    var sortid ;
+		    if (moveFlag == "true") {
+		       sortid = "level"+node.depth+"_sortid - 1";
+		    } else {
+		       sortid = "level"+node.depth+"_sortid + 1";
+		    }
+    		var sql = updatesql + "level"+node.depth+"_sortid="+sortid+" "+getWhereClause(node);
+    		sqlScripts = sqlScripts+sql+";1;";
 		}
 
-    		//function changeSortId(node, moveFlag) {
-    		function changeSortId(nodeseq, moveFlag) {
-    		// change to nodeseq because timeout needs
-		   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
-				var dwrReply = {
-					callback:function(data) {
-						if ( data != null ) {
-						//alert(data)
-						} else {
-							//alert ("data is null");
-						}
-						// node.loadComplete();
-						
-					},
-					errorHandler:function( errorMessage ) {
-						window.status = errorMessage;
-					}
-				};
-				//alert(nodeseq)
-				var node=oTextNodeMap[nodeseq]
-				//alert(node+" "+moveFlag);
-				SponsorService.changeSortId(timestampKey+"#"+getRootNode(node), node.depth, getAscendants(node, "false"), moveFlag,dwrReply);
-		}
-
-    		function deleteSponsorHierarchy(node, deleteSponsorFlag) {
-		   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
-				//alert("deletesponsorhierarchy");
-				var dwrReply = {
-					callback:function(data) {
-						if ( data != null ) {
-						//alert(data)
-						} else {
-							//alert ("data is null");
-						}
-						 node.loadComplete();
-						
-					},
-					errorHandler:function( errorMessage ) {
-						window.status = errorMessage;
-					}
-				};
-				SponsorService.deleteSponsorHierarchyDwr(timestampKey+"#"+getRootNode(node), node.depth, getNodeDescription(node), getAscendants(node.parent, "false"), deleteSponsorFlag,dwrReply);
-		}
-
-    function addSponsorHierarchyDwr(sponsors, parentNode) {
-		   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
-				//alert("deletesponsorhierarchy");
-				var dwrReply = {
-					callback:function(data) {
-						if ( data != null ) {
-						//alert(data)
-						} else {
-							//alert ("data is null");
-						}
-						 node.loadComplete();
-						
-					},
-					errorHandler:function( errorMessage ) {
-						window.status = errorMessage;
-					}
-				};
+    	function deleteSponsorHierarchy(node, deleteSponsorFlag) {
+				var sql ;
+				if (deleteSponsorFlag == "true") {
+				   	sql = deletesql+getWhereClause(node.parent)+ " and sponsor_code = '" + getNodeDescription(node).substring(0,getNodeDescription(node).indexOf(":"))+"'";
+				} else {
+					sql = deletesql+getWhereClause(node);
+				}
+				sqlScripts = sqlScripts+sql+";1;";
 				
-				SponsorService.addSponsorHierarchyDwr(timestampKey+"#"+getRootNode(parentNode), sponsors, getAscendants(parentNode,"true"));
 		}
 
+    
+     function getWhereClause(node) {
+     
+        var whereClause=" where hierarchy_name = '"+hierarchyName+"'";
+        var tempNode = node;
+         while (tempNode.depth > 0) {
+           whereClause = whereClause +" and level"+tempNode.depth+"='"+getNodeDescription(tempNode)+"'";
+              tempNode=tempNode.parent;
+         }
+         return whereClause;
+     }
+     
+     function getInsertClause(node) {
+     
+        var columns="hierarchy_name, sponsor_code, update_timestamp, update_user";
+        // need to rework on real update_user
+        var values="'"+hierarchyName+"','((sponsorcodeholder))', sysdate, 'quickstart'"
+        var tempNode = node;
+         while (tempNode.depth > 0) {
+           columns = columns+",level"+tempNode.depth+",level"+tempNode.depth+"_sortid";
+           values = values + ",'"+getNodeDescription(tempNode)+"',"+getSortId(tempNode);
+           tempNode=tempNode.parent;
+         }
+         return "insert into sponsor_hierarchy ("+columns+") values("+values+")";
+     }
+     
      function getAscendants(node, includeSortid) {
             var ascendants ="";
             var tempNode = node;
             var sortid="";
-            //alert(tempNode+"-"+tempNode.depth)
             while (tempNode.depth > 0) {
-            //alert(tempNode+"-"+tempNode.depth)
                 if (includeSortid == "true") {
                 	sortid = "((#"+getSortId(tempNode)+"#))";
                 }
@@ -570,7 +473,6 @@
                 }
                 tempNode=tempNode.parent;
             }
-            //alert(ascendants)
             return ascendants;
          
        }
@@ -590,6 +492,7 @@
 			var sponsor_array=sponsors.split(";1;");
 			//alert("sponsors : "+sponsors + " mapkey= "+mapKey)
 			var oCurrentTextNode = oTextNodeMap[mapKey];
+			var sqltemplate = getInsertClause(oCurrentTextNode);
 			var newSponsors="";
 			var sponsorid;
 			var duplist="";
@@ -606,7 +509,8 @@
 				oChildNode.isLeaf="true";
 				//actionList[nodeKey] = ":newLabel:"+sponsor_array[i];           									
 	            oTextNodeMap[nodeKey++] = oChildNode;
-	            
+	            var sql = sqltemplate.replace("((sponsorcodeholder))",sponsorid);
+	            sqlScripts = sqlScripts+sql+";1;";
 	            if (j == -1) {
 	                newSponsors=sLabel;
 	            	updateEmptyNodes(oChildNode, "false");
@@ -623,10 +527,6 @@
 	               }
 	            }
 	         }
-	         if (newSponsors.length > 0) {
-	            //alert("add "+newSponsors);
-				addSponsorHierarchyDwr(newSponsors, oCurrentTextNode);
-			}
 	         
 	         if (duplist.length > 0) {
 	         	alert ("Duplicate sponsor(s) "+duplist+" are not added");
@@ -636,32 +536,9 @@
 	
 
 	function showWait() {
-	//alert("showwait")
-	document.getElementById("wait").style.visibility="visible";
-/*    if (document.all) {
-       alert("document.all")
-        document.all.wait.style.visibility="visible";
-    }
-    else {
-        if (document.layers) {
-            alert("document.layers")
-            document.layers["wait"].visibility="visible";
-        }
-    }
-    */
-}
+		document.getElementById("wait").style.visibility="visible";
+	}
 
-function hideWait() {
-    //alert("hidewait")
-	document.getElementById("wait").style.visibility="hidden";
-    /*
-    if (document.all) {
-        document.all.wait.style.visibility="hidden";
-    }
-    else {
-        if (document.layers) {
-            document.layers["wait"].visibility="hidden";
-        }
-    }
-    */
-}
+	function hideWait() {
+		document.getElementById("wait").style.visibility="hidden";
+	}
