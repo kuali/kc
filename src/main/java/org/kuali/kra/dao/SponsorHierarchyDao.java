@@ -18,8 +18,50 @@ package org.kuali.kra.dao;
 import java.util.Iterator;
 
 public interface SponsorHierarchyDao {
+    
+    /**
+     * 
+     * This method is to get the sposor hierarchy name for the drop down
+     * @return
+     */
+    
     public Iterator getTopSponsorHierarchy();
-    public Iterator getSponsorHierarchyMt();
-    public void changeSortId(final String hierarchyName, String depth, String groups, final int sortid);
+    
+    /**
+     * 
+     * This method execute all the scripts that was created in sponsor hierarchy maint
+     * @param sqls
+     */
+    public void runScripts(final String[] sqls);
+    
+    /**
+     * 
+     * This method is to load all sponsor codes for future duplicate code checking in sponsor hierarchy maint
+     * @param hierarchyName
+     * @return
+     */
+    public Iterator getAllSponsors(String hierarchyName);
+    
+    /**
+     * 
+     * This method is to retrieve sponsor codes for the group.  It's using PS because
+     * it's not working with reportquery and dwr/ajax.
+     * @param hierarchyName
+     * @param level
+     * @param levelName
+     * @return
+     */
+    public String getSponsorCodesForGroup(String hierarchyName, int level, String[] levelName);
+    
+    /**
+     * 
+     * This method is to retrieve subgroup names when dynamic loading sponsor hierarchy.
+     * @param hierarchyName
+     * @param level
+     * @param levelName
+     * @return
+     */
+    public String getsubGroups(String hierarchyName, int level, String[] levelName);
+
 
 }
