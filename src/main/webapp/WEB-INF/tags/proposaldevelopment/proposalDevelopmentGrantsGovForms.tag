@@ -74,7 +74,7 @@
                             <td align="center" valign="middle">
                                 <div align="center">
                                     <!--  <html:checkbox property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" disabled="${!KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}"/>-->
-                                    <kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />                                                            
+                                    <kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" disabled="${!KualiForm.document.s2sOpportunity.s2sOppForms[status.index].available}"/>                                                            
                                 </div>
                             </td>
                         </kra:section>
