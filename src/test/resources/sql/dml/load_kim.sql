@@ -60,6 +60,8 @@ insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(3,10);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(4,10);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(5,10);
 insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(8,12);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(7,5);
+insert into KIM_ROLES_PERMISSIONS_T (ROLE_ID,PERMISSION_ID) values(7,7);
 
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (1, 'quickstart', 'fK69ATFsAydwQuteang+xMva+Tc=');
 insert into KIM_PERSONS_T (ID, USERNAME, PASSWORD) values (2, 'ljoconno', 'fK69ATFsAydwQuteang+xMva+Tc=');
