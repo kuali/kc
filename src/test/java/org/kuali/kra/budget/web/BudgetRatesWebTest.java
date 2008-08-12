@@ -29,7 +29,7 @@ public class BudgetRatesWebTest extends ProposalDevelopmentWebTestBase{
     private static final String BDOC_BUDGET_RATES_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.rates.x";
     private static final String NEW_BUDGET_VERSION_NAME = "newBudgetVersionName";
     private static final String UPDATE_VIEW_BUTTON = "methodToCall.updateRatesView";
-    private static final String RESET_RATES_BUTTON_LINE2_ANCHOR3 = "methodToCall.resetRates.line2.anchor3";
+    private static final String RESET_RATES_BUTTON_LINE1_ANCHOR2 = "methodToCall.resetRates.line1.anchor2";
     private static final String RESET_RATES_BUTTON_LINE6_ANCHOR7 = "methodToCall.resetRates.line6.anchor7";
     private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
     private static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
@@ -37,6 +37,7 @@ public class BudgetRatesWebTest extends ProposalDevelopmentWebTestBase{
     private static final String ADD_NEW_BUDGET_START = "newBudgetPeriod.startDate";
     private static final String ADD_NEW_BUDGET_END = "newBudgetPeriod.endDate";
     private static final String SYNC_RATES_BUTTON_LINE2_ANCHOR3 = "methodToCall.syncRates.line2.anchor3";
+    private static final String SYNC_RATES_BUTTON_LINE0_ANCHOR1 = "methodToCall.syncRates.line0.anchor1";
     private static final String SYNC_RATES_BUTTON_LINE6_ANCHOR7 = "methodToCall.syncRates.line6.anchor7";
 
     private static final String DEFAULT_DOCUMENT_DESCRIPTION = "Proposal Development Web Test";
@@ -52,6 +53,7 @@ public class BudgetRatesWebTest extends ProposalDevelopmentWebTestBase{
     private static final String OFF_CAMPUS_TEXT = "No";
     private static final String VIEW_LOCATION = "viewLocation";
     private static final String APPLICABLE_RATE_FIELD_0 = "document.budgetProposalRates[0].exactApplicableRate";
+    private static final String APPLICABLE_RATE_FIELD_18 = "document.budgetProposalRates[18].exactApplicableRate";
     private static final String APPLICABLE_RATE_FIELD_23 = "document.budgetProposalRates[23].exactApplicableRate";
 
     @Test
@@ -164,7 +166,8 @@ public class BudgetRatesWebTest extends ProposalDevelopmentWebTestBase{
         
         assertEquals(newApplicableRate, getFieldValue(budgetRatesPage, APPLICABLE_RATE_FIELD_23));
         
-        HtmlElement addBtn = getElementByName(budgetRatesPage, RESET_RATES_BUTTON_LINE6_ANCHOR7, true);
+        //HtmlElement addBtn = getElementByName(budgetRatesPage, RESET_RATES_BUTTON_LINE6_ANCHOR7, true);
+        HtmlElement addBtn = getElementByName(budgetRatesPage, RESET_RATES_BUTTON_LINE1_ANCHOR2, true);
         final HtmlPage savedRatesPageAfterSync = clickOn(addBtn);
         
         final HtmlPage savedRatesPageAfterSyncSaved = clickOn(savedRatesPageAfterSync, "methodToCall.save");
