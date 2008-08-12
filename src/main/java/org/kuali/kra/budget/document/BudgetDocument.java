@@ -122,11 +122,7 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
     private String activityTypeCode="x";
     private boolean BudgetLineItemDeleted = false;
     private boolean rateClassTypesReloaded = false ;
-    /*
-     * This field will soon be removed as it duplicated the BudgetLineItems on BudgetPeriod 
-     */
-    @Deprecated
-    private List<BudgetLineItem> budgetLineItems;
+
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
     private List<BudgetPerson> budgetPersons;
     
@@ -155,7 +151,6 @@ public class BudgetDocument extends ResearchDocumentBase implements Copyable, Se
         budgetProposalRates = new ArrayList<BudgetProposalRate>();
         budgetProposalLaRates = new ArrayList<BudgetProposalLaRate>();
         budgetPeriods = new ArrayList<BudgetPeriod>();
-        budgetLineItems = new ArrayList<BudgetLineItem>();
         budgetPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
         budgetUnrecoveredFandAs = new ArrayList<BudgetUnrecoveredFandA>();
         instituteRates = new ArrayList<InstituteRate>();
@@ -639,22 +634,6 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
             getBudgetPeriods().add(new BudgetPeriod());
         }
         return (BudgetPeriod) getBudgetPeriods().get(index);
-    }
-
-    /*
-     * The budgetLineItems field will soon be removed as it duplicates the BudgetLineItems on BudgetPeriod
-     */
-    @Deprecated
-    public List<BudgetLineItem> getBudgetLineItems() {
-        return budgetLineItems;
-    }
-
-    /*
-     * The budgetLineItems field will soon be removed as it duplicates the BudgetLineItems on BudgetPeriod
-     */
-    @Deprecated
-    public void setBudgetLineItems(List<BudgetLineItem> budgetLineItems) {
-        this.budgetLineItems = budgetLineItems;
     }
 
     public Date getSummaryPeriodStartDate() {
