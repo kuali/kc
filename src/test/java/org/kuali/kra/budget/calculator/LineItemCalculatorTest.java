@@ -317,15 +317,15 @@ public class LineItemCalculatorTest extends KraTestBase {
         BudgetDocument bd = createBudgetDocument();
         assertNotNull("Budget document not saved",bd);
         
-//        List<BudgetPeriod> periods = bd.getBudgetPeriods();
         BudgetPeriod bp = getBudgetPeriod(bd,1,"2005-01-01","2005-12-31");
         bd.getBudgetPeriods().add(bp);
         BudgetLineItem bli = getLineItem(bp, 1, "400250",dateTimeService.convertToSqlDate("2005-01-01"),
                 dateTimeService.convertToSqlDate("2005-12-31"),10000.00d,100.00d);
-        bd.getBudgetLineItems().add(bli);
+        bp.getBudgetLineItems().add(bli);
         BudgetCalculationService bcs = getService(BudgetCalculationService.class);
         bcs.calculateBudget(bd);
         LOG.info(bd);
+//        fail("This test has no assertion, so would always pass");
     }
     private BudgetPerson getBudgetPerson(String personId, int personSequenceNumber, 
             int calcBase, String appointTypeCode, String jobCode, String effectiveDate) throws Exception{
