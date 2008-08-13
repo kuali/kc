@@ -16,11 +16,6 @@
 package org.kuali.kra.budget.web;
 
 import org.junit.Test;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.proposaldevelopment.web.ProposalDevelopmentWebTestBase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -32,12 +27,12 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
     private static final String PDDOC_BUDGET_VERSIONS_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.budgetVersions.x";
     private static final String BDOC_BUDGET_EXPENSE_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.expenses.x";
 
-    private static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
-    private static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
+    protected static final String ERRORS_FOUND_ON_PAGE = "error(s) found on page";
+    protected static final String SAVE_SUCCESS_MESSAGE = "Document was successfully saved";
     
     private static final String NEW_BUDGET_VERSION_NAME = "newBudgetVersionName";
     private static final String ADD_BUDGET_VERSION_BUTTON = "methodToCall.addBudgetVersion";
-    
+
     @Test
     public void testBudgetExpensePage() throws Exception {        
         HtmlPage pdBudgetVersionsPage = getBudgetVersionsPage();        
@@ -312,7 +307,7 @@ public class BudgetExpenseWebTest extends ProposalDevelopmentWebTestBase {
     }
     
 
-    private String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
+    protected String getImageTagName(HtmlPage page, String uniqueNamePrefix) {
         int idx1 = page.asXml().indexOf(uniqueNamePrefix);
         //int idx2 = page.asXml().indexOf(".((##)).((&lt;&gt;)).(([])).((**)).((^^)).((&amp;&amp;)).((//)).((~~)).anchor", idx1);
         int idx2 = page.asXml().indexOf("\"", idx1);
