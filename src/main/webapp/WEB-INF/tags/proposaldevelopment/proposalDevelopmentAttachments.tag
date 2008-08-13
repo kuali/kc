@@ -31,7 +31,7 @@
 <c:set var="narrativeAttachmentAttributes" value="${DataDictionary.NarrativeAttachment.attributes}" />
 
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
-<kul:tabTop tabTitle="Proposal Attachments (${fn:length(KualiForm.document.narratives)})" defaultOpen="true" tabErrorKey="newNarrative*,document.narrative*">
+<kul:tabTop tabTitle="Proposal Attachments (${fn:length(KualiForm.document.narratives)})" defaultOpen="false" tabErrorKey="newNarrative*,document.narrative*">
 	<div class="tab-container" align="center">
 	    <kra:section permission="addNarratives">
 	    	<div class="h2-container">
