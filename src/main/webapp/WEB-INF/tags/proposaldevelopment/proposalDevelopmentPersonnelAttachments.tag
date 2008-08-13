@@ -20,7 +20,7 @@
 <c:set var="propPerDocTypeAttributes" value="${DataDictionary.PropPerDocType.attributes}" />
 <c:set var="textAreaFieldName" value="newPropPersonBio.description" />
 <c:set var="action" value="proposalDevelopmentAbstractsAttachments" />
-<kul:tab tabTitle="Personnel Attachments (${fn:length(KualiForm.document.propPersonBios)})" defaultOpen="true" tabErrorKey="document.propPersonBio*,newPropPersonBio*">
+<kul:tab tabTitle="Personnel Attachments (${fn:length(KualiForm.document.propPersonBios)})" defaultOpen="false" tabErrorKey="document.propPersonBio*,newPropPersonBio*">
 	<div class="tab-container" align="center">
 	<c:set var="sectionLabel" value="Personnel Attachments" />
 	
