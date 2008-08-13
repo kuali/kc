@@ -95,8 +95,8 @@
 			</attribute>
 
 			<attribute name="answer">
-			<label>Answer </label>
-			<shortLabel>Answer </shortLabel>
+			<label>*Answer </label>
+			<shortLabel>*Answer </shortLabel>
 			<maxLength>1</maxLength>
             <validationPattern><anyCharacter exactLength="1" /></validationPattern>
 			<control>
