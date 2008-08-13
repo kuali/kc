@@ -82,6 +82,7 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
     protected static final String PERMISSIONS_LINK_NAME = "permissions.x";
     protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
     private static final String RADIO_FIELD_VALUE = "Y";
+    private static final String CREDIT_SPLIT_VALUE = "100.00";
     
     private Lifecycle customKEWLifecycle = null;
     private static final String CUSTOM_DATA_LINK_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.customData.x";
@@ -161,6 +162,14 @@ public class ProposalDevelopmentDocumentRoutingWebTest extends ProposalDevelopme
         setFieldValue(keyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
         setFieldValue(keyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
         setFieldValue(keyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
+        setFieldValue(keyPersonnelpage,"document.investigator[0].creditSplit[0].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(keyPersonnelpage,"document.investigator[0].creditSplit[1].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(keyPersonnelpage,"document.investigator[0].creditSplit[2].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(keyPersonnelpage,"document.investigator[0].creditSplit[3].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(keyPersonnelpage,"document.investigator[0].unit[0].creditSplit[0].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(keyPersonnelpage,"document.investigator[0].unit[0].creditSplit[1].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(keyPersonnelpage,"document.investigator[0].unit[0].creditSplit[2].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(keyPersonnelpage,"document.investigator[0].unit[0].creditSplit[3].credit",CREDIT_SPLIT_VALUE);
         
         //Setting up required Custom Data for PD Submission
         HtmlPage customDataPage = clickOn(keyPersonnelpage, CUSTOM_DATA_LINK_NAME);
