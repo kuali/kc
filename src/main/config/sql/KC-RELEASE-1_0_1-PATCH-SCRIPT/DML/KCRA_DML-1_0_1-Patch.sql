@@ -8,6 +8,8 @@
 --      - Changed sh_parm_txt from 1 to 7 (TEMPORARY EMPLOYEE to REGULAR EMPLOYEE)
 --   KRACOEUS-1753 11-AUG-2008 Tyler Wilson
 --      - Inserting roles permissions relationship into KIM
+--   KRACOEUS-1803 14-AUG-2008 Tyler Wilson
+--      - Removing Unit 000000 per KRACOEUS-827 change to Unit Hierarchy.
 --
 -- *****************
 
@@ -19,3 +21,7 @@ WHERE sh_parm_nm = 'budgetPersonDefaultAppointmentType';
 -- KRACOEUS-1753
 INSERT INTO KIM_ROLES_PERMISSIONS_T (ROLE_ID, PERMISSION_ID, ACTIVE_FLAG) VALUES (7, 5, 'Y');
 INSERT INTO KIM_ROLES_PERMISSIONS_T (ROLE_ID, PERMISSION_ID, ACTIVE_FLAG) VALUES (7, 7, 'Y');
+
+-- KRACOEUS-1803
+UPDATE unit SET parent_unit_number = null WHERE unit_number = '000001';
+DELETE FROM unit WHERE unit_number = '000000';
