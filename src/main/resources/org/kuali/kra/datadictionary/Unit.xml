@@ -82,7 +82,7 @@
 			<label>Parent Unit Number </label>
 			<shortLabel>Parent Unit Number </shortLabel>
 			<maxLength>8</maxLength>
-			<validationPattern><alphaNumeric /></validationPattern>
+			<validationPattern><anyCharacter /></validationPattern>
 			<control>
 				<text size="8" />
 			</control>
@@ -116,7 +116,7 @@
 			<label>Unit Name </label>
 			<shortLabel>Unit Name </shortLabel>
 			<maxLength>60</maxLength>
-			<validationPattern><anyCharacter /></validationPattern>
+			<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 			<control>
 				<text size="60" />
 			</control>
