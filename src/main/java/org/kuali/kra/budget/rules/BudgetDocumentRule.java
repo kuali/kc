@@ -141,8 +141,8 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase implements AddB
         for (BudgetCostShare budgetCostShare : budgetDocument.getBudgetCostShares()) {
             String errorPath = "budgetCostShare[" + i + "]";
             errorMap.addToErrorPath(errorPath);
-            if(budgetCostShare.getSharePercentage().isLessThan(new BudgetDecimal(0)) || 
-               budgetCostShare.getSharePercentage().isGreaterThan(new BudgetDecimal(100))) {
+            if(budgetCostShare.getSharePercentage()!=null && (budgetCostShare.getSharePercentage().isLessThan(new BudgetDecimal(0)) || 
+               budgetCostShare.getSharePercentage().isGreaterThan(new BudgetDecimal(100)))) {
                 errorMap.putError("sharePercentage", KeyConstants.ERROR_COST_SHARE_PERCENTAGE);
                 valid = false;
             }
