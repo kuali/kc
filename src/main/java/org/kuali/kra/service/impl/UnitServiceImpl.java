@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.RiceConstants;
 import org.kuali.core.service.BusinessObjectService;
@@ -134,15 +135,30 @@ public class UnitServiceImpl implements UnitService {
         
     }
     
+    public Unit getTopUnit() {
+        Unit topUnit = null;
+
+        List<Unit> allUnits = (List<Unit>) getUnits();
+        if (CollectionUtils.isNotEmpty(allUnits)) {
+            for(Unit unit: allUnits) {
+                if(StringUtils.isEmpty(unit.getParentUnitNumber())) {
+                    topUnit = unit;
+                    break;
+                }
+            }
+        }
+
+        return topUnit;
+    }
+    
     /**
      * TODO : still WIP.  cleanup b4 move to prod
      * @see org.kuali.kra.service.UnitService#getInitialUnitsForUnitHierarchy()
-     * Basic data structure : assume '000000' is the top node.  Get its chilkd node as the fist node to display.
+     * Basic data structure : Get the Top node to display.
      * The node data is like following : 'parentidx-unitNumber : unitName' and separated by ';1;'
      */
     public String getInitialUnitsForUnitHierarchy() {
-        // 000000 is the default root unit
-        Unit instituteUnit = getSubUnits("000000").get(0);
+        Unit instituteUnit = getTopUnit();
         int parentIdx = 0;
         String subUnits = instituteUnit.getUnitNumber() +RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
         numberOfUnits = 0;
@@ -161,8 +177,7 @@ public class UnitServiceImpl implements UnitService {
     }
     
     public String getInitialUnitsForUnitHierarchy(int depth) {
-        // 000000 is the default root unit
-        Unit instituteUnit = getSubUnits("000000").get(0);
+        Unit instituteUnit = getTopUnit();
         int parentIdx = 0;
         String subUnits = instituteUnit.getUnitNumber() +RiceConstants.BLANK_SPACE+COLUMN+RiceConstants.BLANK_SPACE+instituteUnit.getUnitName()+SEPARATOR;
         numberOfUnits = 0;
