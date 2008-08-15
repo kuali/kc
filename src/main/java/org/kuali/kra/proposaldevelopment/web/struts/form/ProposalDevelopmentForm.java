@@ -897,7 +897,17 @@ public class ProposalDevelopmentForm extends ProposalFormBase {
         
         return proposalUserRoles;
     }
+    
+    /**
+     * 
+     * Reset Document form data so that it is not added to copied document.
+     */
 
+    public void clearDocumentRelatedState(){
+        this.proposalUserRolesList = null;
+        this.setCopyCriteria(new ProposalCopyCriteria());
+    }
+    
     /**
      * Get the Edit Roles BO that is simply a form filled in by a
      * user via the Edit Roles web page.
