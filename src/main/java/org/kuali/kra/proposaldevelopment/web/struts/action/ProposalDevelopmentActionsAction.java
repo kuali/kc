@@ -380,7 +380,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             
             nextWebPage = mapping.findForward(MAPPING_PROPOSAL);
             
-            proposalDevelopmentForm.setCopyCriteria(new ProposalCopyCriteria());
+            // Helper method to clear document form data.
+            proposalDevelopmentForm.clearDocumentRelatedState();
+            
             }
         }
 
