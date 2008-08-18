@@ -451,6 +451,12 @@
 					<artifactId>iText</artifactId>
 					<version>2.1.2</version>
 				</dependency>
+				<dependency>
+  					<groupId>org.jmock</groupId>
+  					<artifactId>jmock-junit4</artifactId>
+  					<version>2.5.0</version>
+  					<scope>test</scope>
+				</dependency>
 			</dependencies>
 		</profile>
 	</profiles>
@@ -465,6 +471,11 @@
 			<name>Kuali Repository</name>
 			<url>https://test.kuali.org/maven</url>
 			<snapshots><enabled>true</enabled></snapshots>
+		</repository>
+		<repository>
+			<id>codehaus</id>
+			<name>Codehaus</name>
+			<url>http://dist.codehaus.org</url>
 		</repository>
 	</repositories>
 	<reporting>
