@@ -298,7 +298,8 @@
 			<validationPattern><alphaNumeric /></validationPattern>
 			<required>true</required>
 			<control>
-				<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetPeriodTypeValuesFinder" />
+				<!--<select valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetPeriodTypeValuesFinder" />  -->
+				<select valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder" businessObjectClass="org.kuali.kra.budget.bo.BudgetPeriodType" keyAttribute="budgetPeriodTypeCode" labelAttribute="description" includeKeyInLabel="false"/>
 			</control>
 			<summary>Period Type </summary>
 			<description>Period Type </description>
