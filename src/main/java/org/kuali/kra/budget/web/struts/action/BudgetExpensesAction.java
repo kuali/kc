@@ -221,6 +221,7 @@ public class BudgetExpensesAction extends BudgetAction {
      */
     public ActionForward personnelBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
+        setBudgetPersonDefaultPeriodTypeCode(budgetForm);
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         int selectedLineNumber = getSelectedLine(request);
 //          System.out.println(selectedLineNumber);
@@ -237,7 +238,7 @@ public class BudgetExpensesAction extends BudgetAction {
                 updatePersonnelBudgetRate(budgetLineItem);
             }
             BudgetLineItem selectedLineItem = budgetDocument.getBudgetPeriod(selectedPeriod-1).getBudgetLineItem(selectedLineNumber);
-            if(GlobalVariables.getErrorMap().getPropertiesWithErrors().size()>0){            
+            if(GlobalVariables.getErrorMap().getPropertiesWithErrors().size()>0){ 
                 return mapping.findForward(Constants.MAPPING_EXPENSES_BUDGET);           
             }
             budgetForm.setSelectedBudgetLineItem(selectedLineItem);

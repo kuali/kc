@@ -193,6 +193,8 @@ public class BudgetPerson extends KraPersistableBusinessObjectBase {
     public void setAppointmentTypeCode(String appointmentTypeCode) {
         this.appointmentTypeCode = appointmentTypeCode;
     }
+    
+    
 
     /**
      * Gets the rolodexId attribute. 
