@@ -8,7 +8,7 @@
 	<version>SNAPSHOT-0.1</version>
 	<url>http://kuali.org</url>
 	<build>
-		<testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
+		<testOutputDirectory>target/test-classes</testOutputDirectory>
 	</build>
 	<profiles>
 		<profile>
