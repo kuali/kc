@@ -270,6 +270,19 @@ public class BudgetAction extends ProposalActionBase {
             budgetDocument.setBudgetStatus(budgetStatusIncompleteCode);
         }
     }
+    
+    
+    /**
+     * 
+     * Sets periodTypeCode in BudgetPersonnelDetails to system variable BUDGET_PERSON_DEFAULT_PERIOD_TYPE
+     */
+    public void setBudgetPersonDefaultPeriodTypeCode(BudgetForm budgetForm){
+        KualiConfigurationService kualiConfigurationService = KraServiceLocator.getService(KualiConfigurationService.class);
+        budgetForm.setNewBudgetPersonnelDetails(new BudgetPersonnelDetails());
+        budgetForm.getNewBudgetPersonnelDetails().setPeriodTypeCode(kualiConfigurationService.getParameterValue(
+                Constants.PARAMETER_MODULE_BUDGET, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_PERIOD_TYPE));
+        
+    }
 
     /**
      * 
