@@ -47,12 +47,12 @@ import static org.kuali.kra.logging.BufferedLogger.*;
  *
  * @see org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument
  */
-@PerTestUnitTestData(
+/*@PerTestUnitTestData(
         @UnitTestData(
             sqlFiles = {
                 @UnitTestFile(filename = "classpath:sql/dml/load_BUDGET_PERIOD_TYPE.sql", delimiter = ";")
             })
-    )
+    )*/
 public class BudgetPersonnelWebTest extends BudgetWebTestBase {
     private static final String PERSONNEL_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.x";
     private static final String EXPENSES_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.expenses.x";
@@ -165,7 +165,7 @@ public class BudgetPersonnelWebTest extends BudgetWebTestBase {
         setFieldValue(currentBudgetPage, "newBudgetLineItems[0].lineItemCost", "100");
         currentBudgetPage = clickOn(currentBudgetPage, ADD_PERSONNEL_EXPENSE_IMAGE_NAME);
         currentBudgetPage = clickOn(currentBudgetPage, PERSONNEL_BUDGET_IMAGE_NAME);
-
+        assertContains(currentBudgetPage,"Personnel Budget");
         setFieldValue(currentBudgetPage, "newBudgetPersonnelDetails.personSequenceNumber", "1");
         setFieldValue(currentBudgetPage, "newBudgetPersonnelDetails.periodTypeCode", "2");
         currentBudgetPage = clickOn(currentBudgetPage, ADD_PERSONNEL_BUDGET_IMAGE_NAME);
