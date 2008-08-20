@@ -34,6 +34,7 @@ import org.kuali.kra.budget.service.BudgetCalculationService;
 import org.kuali.kra.budget.service.BudgetSummaryService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
 
 public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
@@ -642,4 +643,16 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         return false;
     }
     
+    /* get onoffcampus flag description */
+    public String getOnOffCampusFlagDescription(String onOffCampusFlag) {
+        String retValue = null;
+        for (OnOffCampusFlagConstants onOffCampusFlagConstants : OnOffCampusFlagConstants.values()) {
+            if(onOffCampusFlagConstants.code().equalsIgnoreCase(onOffCampusFlag)) {
+                retValue =  onOffCampusFlagConstants.description();
+                break;
+            }
+        }
+        return retValue;
+    }
+
 }

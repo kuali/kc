@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 
 public class BudgetOnOffCampusValuesFinder extends KeyValuesBase {
@@ -42,10 +42,16 @@ public class BudgetOnOffCampusValuesFinder extends KeyValuesBase {
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> keyLabelPairs = new ArrayList<KeyLabelPair>();
-        
+
+        for (OnOffCampusFlagConstants onOffCampusFlagConstants : OnOffCampusFlagConstants.values()) {
+            keyLabelPairs.add(new KeyLabelPair(onOffCampusFlagConstants.code(), onOffCampusFlagConstants.description()));
+        }
+
+        /*
         keyLabelPairs.add(new KeyLabelPair(Constants.DEFALUT_CAMUS_FLAG, "Default"));
         keyLabelPairs.add(new KeyLabelPair(Constants.ON_CAMUS_FLAG, "All On"));
         keyLabelPairs.add(new KeyLabelPair(Constants.OFF_CAMUS_FLAG, "All Off"));
+        */
         
         return keyLabelPairs; 
     }
