@@ -171,7 +171,7 @@
 			<label>Rate </label>
 			<shortLabel>Rate </shortLabel>
 			<maxLength>5</maxLength>
-			<validationPattern><numeric /></validationPattern>
+			<validationPattern><fixedPoint allowNegative="false" precision="5" scale="2"/></validationPattern>
 			<control>
 				<text size="5" />
 			</control>
