@@ -465,5 +465,6 @@ public class BudgetRatesServiceTest {
         public void setupOldStartEndDate(List <BudgetLineItem > budgetLineItems) { }        
         public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate, boolean leapDayInPeriod, boolean leapDayInGap) { return new ArrayList <Date>();}
         public boolean isLeapDaysInPeriod(Date sDate, Date eDate){ return false; }
+        public String getOnOffCampusFlagDescription(String onOffCampusFlag){ return ""; };
     }
 }
