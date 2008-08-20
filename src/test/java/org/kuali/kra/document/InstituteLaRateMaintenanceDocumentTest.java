@@ -75,8 +75,9 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         setFieldValue(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "document.newMaintainableObject.instituteRate", "9.9");
 
                 
-        HtmlPage routedPage = clickOn(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "methodToCall.route", "Kuali :: Institute La Rates Maintenance Document");
-        
+        HtmlPage routedPage = clickOn(instituteLaRateMaintenanceDocumentMaintenanceCopyPage, "methodToCall.route", "Kuali :: Institute La Rates Maintenance Document");        
+
+        assertDoesNotContain(routedPage,"error(s) found on page");
         assertContains(routedPage, "Document was successfully submitted.");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
@@ -114,6 +115,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
                 
         HtmlPage routedPage = clickOn(instituteLaRateMaintenanceDocumentMaintenanceEditPage, "methodToCall.route", "Kuali :: Institute La Rates Maintenance Document");
         
+        assertDoesNotContain(routedPage,"error(s) found on page");
         assertContains(routedPage, "Document was successfully submitted.");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         assertNotNull(document.getDocumentNumber());
@@ -146,6 +148,7 @@ public class InstituteLaRateMaintenanceDocumentTest extends MaintenanceDocumentT
         setFieldValue(instituteLaRateMaintenancePage, "document.newMaintainableObject.instituteRate", "9.9");
         HtmlPage routedInstituteLaRateMaintenanceDocumentPage = clickOn(instituteLaRateMaintenancePage, "methodToCall.route", "Kuali :: Institute La Rates Maintenance Document");
         
+        assertDoesNotContain(routedInstituteLaRateMaintenanceDocumentPage,"error(s) found on page");
         assertContains(routedInstituteLaRateMaintenanceDocumentPage, "Document was successfully submitted.");
         assertContains(routedInstituteLaRateMaintenanceDocumentPage,"New Fiscal Year: 2012 On/Off Campus Flag: Yes Rate Class Code: 12 Rate Type Code: 1 Start Date: 12/31/2011 Unit Number: 000001 Rate: 9.90 ");
         MaintenanceDocumentBase document = (MaintenanceDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
