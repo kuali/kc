@@ -210,9 +210,9 @@
             <attribute name="userName" >
                 <label>User Name</label>
                 <shortLabel>User Name</shortLabel>
-                <maxLength>60</maxLength>
+                <maxLength>10</maxLength>
                 <control>
-                    <text size="40" />
+                    <text size="10" />
                 </control>
                 <summary>User Name</summary>
             	<description>User Name</description>
