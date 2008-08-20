@@ -303,7 +303,11 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
      * */
     @SuppressWarnings("unchecked")
     private Collection<InstituteLaRate> getInstituteLaRates(BudgetDocument budgetDocument) {
-        return (Collection<InstituteLaRate>) getAbstractInstituteRates(budgetDocument, InstituteLaRate.class, getRateFilterMap(budgetDocument));
+        ProposalDevelopmentDocument proposal = budgetDocument.getProposal(); 
+        String unitNumber = proposal.getOwnedByUnitNumber();                               
+        Collection abstractInstituteRates = getFilteredInstituteLaRates(InstituteLaRate.class, unitNumber, proposal.getOwnedByUnit(), getRateFilterMap(budgetDocument));
+        abstractInstituteRates = abstractInstituteRates.size() > 0 ? abstractInstituteRates : new ArrayList();
+        return (Collection<InstituteLaRate>)abstractInstituteRates ;
     }
     
     @SuppressWarnings("unchecked")
@@ -325,6 +329,13 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
         Map<String, String> rateFilterMap = getRateFilterMap(budgetDocument);
         rateFilterMap.put(ACTIVITY_TYPE_CODE_KEY, budgetDocument.getProposal().getActivityTypeCode());
         return rateFilterMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Collection getFilteredInstituteLaRates(Class rateType, String unitNumber, Unit currentUnit, Map<String, String> rateFilterMap) {
+        Collection abstractInstituteRates;
+        abstractInstituteRates = filterForActiveRatesOnly(getBusinessObjectService().findMatching(rateType, rateFilterMap));
+        return abstractInstituteRates;
     }
 
     @SuppressWarnings("unchecked")

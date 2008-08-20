@@ -1407,6 +1407,10 @@ OUTER:  for(BudgetPeriod budgetPeriod: getBudgetPeriods()) {
         return onOffCampusFlag;
     }
 
+    public String getOnOffCampusFlagDescription() {
+        return getBudgetSummaryService().getOnOffCampusFlagDescription(getOnOffCampusFlag());
+    }
+
     public void setOnOffCampusFlag(String onOffCampusFlag) {
         this.onOffCampusFlag = onOffCampusFlag;
     }
