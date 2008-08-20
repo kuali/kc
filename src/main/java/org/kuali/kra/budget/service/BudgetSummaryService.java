@@ -41,6 +41,13 @@ public interface BudgetSummaryService {
     public Collection<BudgetLineItem> getBudgetLineItemForPeriod(BudgetDocument budgetDocument, int budgetPeriodNumber);
     public Collection<BudgetPersonnelDetails> getBudgetPersonnelDetailsForPeriod(BudgetDocument budgetDocument, int budgetPeriodNumber);
     public void calculateBudget(BudgetDocument budgetDocument);
+
+    /**
+     * 
+     * This method to get on/off campus flag description.
+     * @param onOffCampusFlag
+     */
+    public String getOnOffCampusFlagDescription(String onOffCampusFlag);
     
     /**
      * 

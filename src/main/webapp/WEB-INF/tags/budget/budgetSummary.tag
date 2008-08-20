@@ -79,7 +79,7 @@
 		        <input type="hidden" name="prevOnOffCampusFlag" value="${KualiForm.document.onOffCampusFlag}">
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.onOffCampusFlag}" /></div></th>
                 <td colspan="3">
-                	<kul:htmlControlAttribute property="document.onOffCampusFlag" attributeEntry="${budgetAttributes.onOffCampusFlag}"/>
+                	<kul:htmlControlAttribute property="document.onOffCampusFlag" attributeEntry="${budgetAttributes.onOffCampusFlag}" readOnlyAlternateDisplay="${KualiForm.document.onOffCampusFlagDescription}"/>
                 </td>           		
      		</tr>
 
