@@ -63,5 +63,7 @@ public interface SponsorHierarchyDao {
      */
     public String getsubGroups(String hierarchyName, int level, String[] levelName);
 
+    public String getSponsorCodesForDeletedGroup(String hierarchyName, int level, String[] levelName);
+
 
 }
