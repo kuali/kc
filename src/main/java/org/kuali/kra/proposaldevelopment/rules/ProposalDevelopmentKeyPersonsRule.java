@@ -70,8 +70,8 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * <code>{@link org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument}</code>.
  *
  * @see org.kuali.core.rules.BusinessRule
- * @author $Author: gmcgrego $
- * @version $Revision: 1.45 $
+ * @author $Author: cdenne $
+ * @version $Revision: 1.46 $
  */
 public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase implements AddKeyPersonRule, ChangeKeyPersonRule,CalculateCreditSplitRule  {
     private static final String PERSON_HAS_UNIT_MSG = "Person %s has unit %s";
@@ -129,13 +129,16 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         for (ProposalPerson person : document.getProposalPersons()) {
 
             if(isCoInvestigator(person) && (person.getUnits() != null) && (person.getUnits().size()==0)){
-                reportError("newProposalPerson*", ERROR_ONE_UNIT, person.getFullName());            
+                reportError("document.proposalPersons[" + personIndex + "].newProposalPersonUnit*",
+                            ERROR_ONE_UNIT, person.getFullName());            
             }
             if(isKeyPerson(person) && (person.getOptInUnitStatus().equals("Y")) && (person.getUnits()!= null) && (person.getUnits().size() ==0)){
-                reportError("newProposalPerson*", ERROR_ONE_UNIT, person.getFullName());  
+                reportError("document.proposalPersons[" + personIndex + "].newProposalPersonUnit*",
+                            ERROR_ONE_UNIT, person.getFullName());  
             }
             if(isKeyPerson(person) && StringUtils.isBlank(person.getProjectRole())){
-                reportError("document.proposalPersons[" + personIndex + "].projectRole",RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
+                reportError("document.proposalPersons[" + personIndex + "].projectRole",
+                            RiceKeyConstants.ERROR_REQUIRED,"Key Person Role");
             }
             if(person.getPercentageEffort()!= null){
                 String percentageeffort=String.valueOf(person.getPercentageEffort().intValue());
