@@ -19,7 +19,7 @@
 						</td>
 		                <td align="center" valign="middle">
 		                	<div align="center">
-		                	<html:radio property="selectedBudgetPrintFormId" value="${KualiForm.document.budgetPrintForms[status.index].budgetReportId}"/>			                	
+		                	<html:multibox property="selectedBudgetPrintFormId" value="${KualiForm.document.budgetPrintForms[status.index].budgetReportId}"/>			                	
 		                	</div>
 		                </td>			       
 		            </tr>    	
