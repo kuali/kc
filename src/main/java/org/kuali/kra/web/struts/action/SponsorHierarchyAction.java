@@ -46,6 +46,8 @@ public class SponsorHierarchyAction extends KualiAction {
     private static final String MAINT = "maint";
     private static final String NEW = "new";
     private static final String LOOKUP = "lookup";
+    private static final String HIERARCHY_NAME = "hierarchyName";
+    private static final String SELECTED_HIERARCHY_NAME = "selectedHierarchyName";
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -98,6 +100,8 @@ public class SponsorHierarchyAction extends KualiAction {
         sponsorHierarchyForm.setSponsorCodeList(Constants.EMPTY_STRING);
         sponsorHierarchyForm.setNewHierarchyName(Constants.EMPTY_STRING);
         sponsorHierarchyForm.setSelectedSponsorHierarchy(Constants.EMPTY_STRING);
+        GlobalVariables.getUserSession().removeObject(SELECTED_HIERARCHY_NAME);
+        GlobalVariables.getUserSession().removeObject(HIERARCHY_NAME);
         return mapping.findForward(Constants.MAPPING_BASIC);            
     }
 
@@ -107,6 +111,7 @@ public class SponsorHierarchyAction extends KualiAction {
         SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
         KraServiceLocator.getService(SponsorService.class).saveSponsorHierachy(sponsorHierarchyForm.getHierarchyName(), sponsorHierarchyForm.getSqlScripts());
         sponsorHierarchyForm.setActionSelected(MAINT);
+        GlobalVariables.getUserSession().removeObject(SELECTED_HIERARCHY_NAME);
         return mapping.findForward(MAINT);            
     }
 
@@ -118,6 +123,8 @@ public class SponsorHierarchyAction extends KualiAction {
             sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getNewHierarchyName());
             sponsorHierarchyForm.setSponsorCodeList(Constants.EMPTY_STRING);
             ((SponsorHierarchyForm)form).setActionSelected(NEW);
+            GlobalVariables.getUserSession().addObject(SELECTED_HIERARCHY_NAME, (Object)sponsorHierarchyForm.getSelectedSponsorHierarchy());
+            GlobalVariables.getUserSession().addObject(HIERARCHY_NAME, (Object)sponsorHierarchyForm.getHierarchyName());
             return mapping.findForward(MAINT);            
         } else {
             return mapping.findForward(Constants.MAPPING_BASIC);
@@ -129,6 +136,8 @@ public class SponsorHierarchyAction extends KualiAction {
         SponsorHierarchyForm sponsorHierarchyForm = (SponsorHierarchyForm)form;
         sponsorHierarchyForm.setHierarchyName(sponsorHierarchyForm.getSelectedSponsorHierarchy());
         sponsorHierarchyForm.setSponsorCodeList(KraServiceLocator.getService(SponsorService.class).loadToSponsorHierachyMt(sponsorHierarchyForm.getSelectedSponsorHierarchy()));
+        GlobalVariables.getUserSession().removeObject(SELECTED_HIERARCHY_NAME);
+        GlobalVariables.getUserSession().addObject(HIERARCHY_NAME, (Object)sponsorHierarchyForm.getHierarchyName());
         return mapping.findForward(MAINT);
         
     }
