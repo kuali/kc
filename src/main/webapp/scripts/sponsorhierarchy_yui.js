@@ -190,8 +190,7 @@
           	}
           }
           return "true";
-          
-      
+                
       }
 
       function deleteNode(mapKey) {
@@ -344,6 +343,7 @@
 
 		//alert (childrenNode[0].isLeaf+" ln "+leafNode);
 		if (childrenNode.length == 0 || childrenNode[0].isLeaf) {
+		    updateSponsorCodes();
 			  url=window.location.href
 			  pathname=window.location.pathname
 			  idx1=url.indexOf(pathname);
@@ -356,6 +356,27 @@
 
     }
 
+    function updateSponsorCodes() {
+    		
+			var dwrReply = {
+					callback:function(data) {
+						if ( data != null ) {
+						//alert(sponsorCodeList.length +"-"+data)
+						} else {
+							//alert ("data is null");
+						}
+						 node.loadComplete();
+						
+					},
+					errorHandler:function( errorMessage ) {
+						window.status = errorMessage;
+					}
+				};
+				SponsorService.updateSponsorCodes(sponsorCodeList,dwrReply);
+		
+		
+    
+    }
 
     function loadNextLevelSponsorHierarchy(node) {
 		   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
@@ -429,6 +450,31 @@
 					sql = deletesql+getWhereClause(node);
 				}
 				sqlScripts = sqlScripts+sql+";1;";
+				
+						   // The ajax code to load node dynamically.  so far it is working fine without the yui connection manager
+				//alert("deletesponsorhierarchy");
+				var dwrReply = {
+					callback:function(data) {
+						if ( data != null ) {
+						//alert(sponsorCodeList.length +"-"+data)
+							var sponsorCode_array=data.split(";");
+							for (var i=0 ; i < sponsorCode_array.length;  i++) {
+							      sponsorCodeList=sponsorCodeList.replace(sponsorCode_array[i]+";","");
+							}
+							//alert(sponsorCodeList.length)
+							
+						} else {
+							//alert ("data is null");
+						}
+						 node.loadComplete();
+						
+					},
+					errorHandler:function( errorMessage ) {
+						window.status = errorMessage;
+					}
+				};
+				SponsorService.getSponsorCodes(getRootNode(node), node.depth, getAscendants(node, "false"),dwrReply);
+				
 				
 		}
 

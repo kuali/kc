@@ -29,8 +29,8 @@
 			<include method="getSponsorName" />
 			<include method="getSubSponsorHierarchiesForTreeView" />
 			<include method="changeGroupName" />
-			<include method="changeSortId" />
-			<include method="deleteSponsorHierarchyDwr" />
+			<include method="updateSponsorCodes" />
+			<include method="getSponsorCodes" />
 			<include method="addSponsorHierarchyDwr" />
 			<include method="checkSubGroup" />
 		</create>
