@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.budget.service.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -25,10 +28,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.WebUtils;
 import org.kuali.kra.budget.bo.BudgetLineItem;
 import org.kuali.kra.budget.bo.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.bo.BudgetPeriod;
@@ -40,6 +46,14 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetPrintService;
 import org.kuali.kra.budget.service.CoeusBean2KraBoConverterService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfImportedPage;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfWriter;
 
 import edu.mit.coeus.bean.CoeusReportGroupBean;
 import edu.mit.coeus.bean.CoeusReportGroupBean.Report;
@@ -92,6 +106,16 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
     private static final Log LOG = LogFactory.getLog(BudgetPrintServiceImpl.class);
     private CoeusBean2KraBoConverterService coeusBean2KraBoConverterService;
     private static final String CONTENT_TYPE = "application/pdf";
+    private static final Map<String, String> REPT_PAGESIZE_MAP = new HashMap<String, String>();
+    static {
+        REPT_PAGESIZE_MAP.put("ProposalBudget/budgetsummary", "0");
+        REPT_PAGESIZE_MAP.put("ProposalBudget/costsharesummarybyperiod", "1");
+        REPT_PAGESIZE_MAP.put("ProposalBudget/cumulativebudget", "0");
+        REPT_PAGESIZE_MAP.put("ProposalBudget/budgettotalbyperiod", "1");
+        REPT_PAGESIZE_MAP.put("ProposalBudget/industrialbudget", "0");
+        REPT_PAGESIZE_MAP.put("ProposalBudget/indsrlcumbudget", "1");
+        REPT_PAGESIZE_MAP.put("ProposalBudget/Salaries", "1");       
+    }
 
     @SuppressWarnings("unchecked")
     private AttachmentDataSource readStream(String reportId,String reportName,Map params){
@@ -1219,7 +1243,162 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
     }
     
     
+    public void printBudgetForms(BudgetDocument budgetDocument, String[] selectedBudgetPrintFormId, HttpServletResponse response) {
+        List<InputStream> pdfs = new ArrayList<InputStream>();
+        String fileName = "merge";
+        String contentType = null;
+        List<String> pageSize = new ArrayList();
+        int k = 0;
+
+        try {
+            for (int i = 0; i < selectedBudgetPrintFormId.length; i++) {
+                AttachmentDataSource dataStream = readBudgetPrintStream(budgetDocument, selectedBudgetPrintFormId[i]);
+                pdfs.add(new ByteArrayInputStream(dataStream.getContent()));
+                //printPDF(dataStream.getContent(),PrintServiceLookup.lookupDefaultPrintService());
+                String reptFileName = dataStream.getFileName();
+                fileName = fileName + "_" + reptFileName.substring(0, reptFileName.indexOf(".pdf"));
+                contentType = dataStream.getContentType();
+                pageSize.add(k++, REPT_PAGESIZE_MAP.get(selectedBudgetPrintFormId[i]));
+            }
+
+            OutputStream output = new ByteArrayOutputStream();
+            concatPDFs(pdfs, output, pageSize, true);
+
+            try {
+                WebUtils.saveMimeOutputStreamAsFile(response, contentType, (ByteArrayOutputStream) output, fileName + ".pdf");
+
+            }
+            finally {
+                try {
+                    if (output != null) {
+                        output.close();
+                        output = null;
+                    }
+                }
+                catch (IOException ioEx) {
+                    LOG.warn(ioEx.getMessage(), ioEx);
+                }
+
+            }
+        }
+        catch (Exception ex) {
+            LOG.warn(ex);
+        }
+    }
     
+    private void concatPDFs(List<InputStream> streamOfPDFFiles, OutputStream outputStream, List <String> pageSize, boolean paginate) {
+
+        Document document = new Document();
+        document.setPageSize(PageSize.A4);
+        try {
+            List<InputStream> pdfs = streamOfPDFFiles;
+            List<PdfReader> readers = new ArrayList<PdfReader>();
+            int totalPages = 0;
+            Iterator<InputStream> iteratorPDFs = pdfs.iterator();
+
+            // Create Readers for the pdfs.
+            while (iteratorPDFs.hasNext()) {
+                InputStream pdf = iteratorPDFs.next();
+                PdfReader pdfReader = new PdfReader(pdf);
+                readers.add(pdfReader);
+                totalPages += pdfReader.getNumberOfPages();
+            }
+            // Create a writer for the outputstream
+            PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+
+            document.open();
+            BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            PdfContentByte cb = writer.getDirectContent(); // Holds the PDF
+            // data
+
+            PdfImportedPage page;
+            int currentPageNumber = 0;
+            int pageOfCurrentReaderPDF = 0;
+            Iterator<PdfReader> iteratorPDFReader = readers.iterator();
+
+            // Loop through the PDF files and add to the output.
+            int k = 0;
+            while (iteratorPDFReader.hasNext()) {
+                if (pageSize.get(k++).equals("0")) {
+                    document.setPageSize(PageSize.A4);                    
+                } else {
+                    document.setPageSize(PageSize.A4.rotate());
+                }
+                PdfReader pdfReader = iteratorPDFReader.next();
+
+                // Create a new page in the target for each source page.
+                while (pageOfCurrentReaderPDF < pdfReader.getNumberOfPages()) {
+                    document.newPage();
+                    pageOfCurrentReaderPDF++;
+                    currentPageNumber++;
+                    page = writer.getImportedPage(pdfReader, pageOfCurrentReaderPDF);
+                    cb.addTemplate(page, 0, 0);
+
+                    // Code for pagination.
+                    if (paginate) {
+                        cb.beginText();
+                        cb.setFontAndSize(bf, 9);
+                        //cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "" + currentPageNumber + " of " + totalPages, 520, 5, 0);
+                        cb.endText();
+                    }
+                }
+                pageOfCurrentReaderPDF = 0;
+            }
+            //outputStream.flush();
+            document.close();
+            //outputStream.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (document.isOpen())
+                document.close();
+            //try {
+            //    if (outputStream != null)
+            //        outputStream.close();
+            //}
+            //catch (IOException ioe) {
+            //    ioe.printStackTrace();
+            //}
+        }
+    }
+    
+//    private void printPDF(byte[] data, PrintService printService) throws PdfException, PrinterException {
+//        try {
+//            // Open & decode the pdf file
+//            PdfDecoder decode_pdf = new PdfDecoder(true);
+//            decode_pdf.openPdfArray(data); // can use openPdfArray(byte[] data)
+//
+//            // Get the total number of pages in the pdf file
+//            int pageCount = decode_pdf.getPageCount();
+//            // set to print all pages
+//            decode_pdf.setPagePrintRange(1, pageCount);
+//            // Auto-rotate and scale flag
+//            decode_pdf.setPrintAutoRotateAndCenter(false);
+//            // Are we printing the current area only
+//            decode_pdf.setPrintCurrentView(false);
+//            // set mode - see org.jpedal.objects.contstants.PrinterOptions for all values
+//            // the pdf file already is in the desired format. So turn off scaling
+//            decode_pdf.setPrintPageScalingMode(PrinterOptions.PAGE_SCALING_NONE);
+//            // by default scaling will center on page as well.
+//            decode_pdf.setCenterOnScaling(false);
+//            // flag if we use paper size or PDF size.
+//            // Use PDF size as it already has the desired paper size
+//            decode_pdf.setUsePDFPaperSize(true);
+//            // setup print job and objects
+//            PrinterJob printJob = PrinterJob.getPrinterJob();
+//            printJob.setPrintService(printService);
+//            // setup Java Print Service (JPS) to use JPedal
+//            printJob.setPageable(decode_pdf);
+//            // Print the file to the desired printer
+//            printJob.print();
+//        }
+//        catch (Exception e) {
+//        }
+//    }
+//
+
     
     
 }

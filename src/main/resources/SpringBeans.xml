@@ -80,6 +80,7 @@
 				<value>budgetExpenseLookupable</value>
 				<value>onOffCampusLookupable</value>
 				<value>copyPeriodsQuestion</value>
+				<value>sponsorLookupable</value>	
 			</set>
 		</property>
 	</bean>	
@@ -1026,6 +1027,16 @@
 	</bean>	
 
 	<bean id="budgetExpenseLookupableHelperService" class="org.kuali.kra.lookup.BudgetExpenseLookupableHelperServiceImpl" 
+ 		singleton="false" parent="lookupableHelperService">
+  	</bean>
+  	
+	<bean id="sponsorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+  		<property name="lookupableHelperService">
+    		<ref bean="sponsorLookupableHelperService" />
+  		</property>  		
+	</bean>	
+
+	<bean id="sponsorLookupableHelperService" class="org.kuali.kra.lookup.SponsorLookupableHelperServiceImpl" 
  		singleton="false" parent="lookupableHelperService">
   	</bean>
 	
