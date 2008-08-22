@@ -64,6 +64,7 @@ public class BudgetSummaryAction extends BudgetAction {
     private static final String DO_NOTHING = "doNothing";
     private static final String CONFIRM_SAVE_SUMMARY = "confirmSaveSummary";
     private static final String CONFIRM_DELETE_BUDGET_PERIOD = "confirmDeleteBudgetPeriod";
+    private static final String CONFIRM_DEFAULT_BUDGET_PERIODS = "confirmDefaultBudgetPeriods";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -572,4 +573,47 @@ public class BudgetSummaryAction extends BudgetAction {
         return true;
     }
 
+    /**
+     * 
+     * This method generate default budget periods (each one with 1 year span).
+     * This is generally needed when project period is adjusted.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward defaultPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        /* calculate all periods */
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        String warningMessage = budgetForm.getBudgetDocument().getBudgetSummaryService().defaultWarningMessage(budgetDocument);
+        
+        if (StringUtils.isNotBlank(warningMessage)) {
+            return confirm(buildDefaultBudgetPeriodsConfirmationQuestion(mapping, form, request, response,
+                    warningMessage), CONFIRM_DEFAULT_BUDGET_PERIODS, "");
+        } else {
+                budgetForm.getBudgetDocument().getBudgetSummaryService().defaultBudgetPeriods(budgetDocument);
+                return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+    }
+
+    private StrutsConfirmation buildDefaultBudgetPeriodsConfirmationQuestion(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
+        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_HEADER_TAB_KEY,
+                KeyConstants.QUESTION_DEFAULT_BUDGET_PERIODs, message);
+    }
+   
+    public ActionForward confirmDefaultBudgetPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        budgetForm.getBudgetDocument().getBudgetSummaryService().defaultBudgetPeriods(budgetDocument);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    
 }
