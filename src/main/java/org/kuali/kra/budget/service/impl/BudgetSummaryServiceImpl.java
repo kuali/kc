@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ObjectUtils;
@@ -40,7 +41,9 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
     private BusinessObjectService businessObjectService;
     private BudgetCalculationService budgetCalculationService;
-    
+    private static final String BUDGET_DATE_CHANGE_WARNING_MSG = "Changing the budget period dates will result in changes being made to line item Expenses & recalculation of the budget, Do you want to proceed? ";
+    private static final String BUDGET_DATE_CHANGE_AND_DELETE_WARNING_MSG = "Changing the budget period dates will result in changes being made to line item Expenses & recalculation of the budget, and one or more periods to be deleted have expense line items that will be deleted. Are you sure you want to proceed? ";
+    private static final String BUDGET_PERIOD_DELETE_WARNING_MSG = "One or more periods to be deleted have expense line items that will be deleted. Are you sure you want to proceed?";
     
     /**
      * @see org.kuali.kra.proposaldevelopment.service.BudgetSummaryService#getBudgetLineItemForPeriod()
@@ -193,6 +196,33 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
     }
     
+    
+    public void defaultBudgetPeriods(BudgetDocument budgetDocument) {
+        List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
+        List<BudgetPeriod> budgetPeriodsToDelete = new ArrayList<BudgetPeriod>();
+        
+        generateBudgetPeriods(budgetPeriods, budgetDocument.getStartDate(), budgetDocument.getEndDate());
+        
+        for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+            if (budgetPeriod.getBudgetPeriod() <= budgetPeriods.size()) {
+                budgetPeriod.setStartDate(budgetPeriods.get(budgetPeriod.getBudgetPeriod() - 1).getStartDate());
+                budgetPeriod.setEndDate(budgetPeriods.get(budgetPeriod.getBudgetPeriod() - 1).getEndDate());
+            } else {
+                budgetPeriodsToDelete.add(budgetPeriod);
+            }            
+        }
+        budgetDocument.getBudgetPeriods().removeAll(budgetPeriodsToDelete);
+        if (budgetPeriods.size() > budgetDocument.getBudgetPeriods().size()) {
+            int numOfPeriods = budgetDocument.getBudgetPeriods().size();
+            while (numOfPeriods < budgetPeriods.size()) {
+                budgetDocument.getBudgetPeriods().add(numOfPeriods, budgetPeriods.get(numOfPeriods));
+                numOfPeriods++;
+            }
+        }
+        
+        
+    }
+
     public boolean budgetLineItemExists(BudgetDocument budgetDocument, Integer budgetPeriod) {
         boolean lineItemExists = false;
         
@@ -653,6 +683,43 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             }
         }
         return retValue;
+    }
+ 
+    public String defaultWarningMessage(BudgetDocument budgetDocument) {
+        List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
+        boolean dateChanged = false;
+        boolean deletePeriodWithLineItem = false;
+        
+        generateBudgetPeriods(budgetPeriods, budgetDocument.getStartDate(), budgetDocument.getEndDate());
+        
+        for (BudgetPeriod budgetPeriod : budgetDocument.getBudgetPeriods()) {
+            if (budgetPeriod.getBudgetPeriod() <= budgetPeriods.size()) {
+                if (CollectionUtils.isNotEmpty(budgetPeriod.getBudgetLineItems()) && (budgetPeriod.getStartDate().compareTo(budgetPeriods.get(budgetPeriod.getBudgetPeriod() - 1).getStartDate()) != 0 ||
+                     budgetPeriod.getEndDate().compareTo(budgetPeriods.get(budgetPeriod.getBudgetPeriod() - 1).getEndDate()) != 0)) {
+                    dateChanged = true;
+                }
+            } else {
+                if (CollectionUtils.isNotEmpty(budgetPeriod.getBudgetLineItems())) {
+                    deletePeriodWithLineItem = true;
+                }
+            }            
+        }
+        
+        if (dateChanged) {
+            if (deletePeriodWithLineItem) {
+                return BUDGET_DATE_CHANGE_AND_DELETE_WARNING_MSG;
+            } else {
+                return BUDGET_DATE_CHANGE_WARNING_MSG;
+            }
+        } else {
+            if (deletePeriodWithLineItem) {
+                return BUDGET_PERIOD_DELETE_WARNING_MSG;
+            } else {
+                return Constants.EMPTY_STRING;
+            }
+            
+        }
+        
     }
 
 }

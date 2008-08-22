@@ -222,5 +222,6 @@ public class KeyConstants {
     public static final String ERROR_PERSONNEL_DETAIL_START_DATE = "error.personnel.detail.start.date";
     public static final String ERROR_LINE_ITEM_END_DATE = "error.line.item.end.date";
     public static final String ERROR_LINE_ITEM_START_DATE = "error.line.item.start.date";
+    public static final String QUESTION_DEFAULT_BUDGET_PERIODs = "document.question.defaultBudgetPeriods.text";
 
 }
