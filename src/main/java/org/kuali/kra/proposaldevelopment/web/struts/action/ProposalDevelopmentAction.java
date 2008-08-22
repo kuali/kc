@@ -68,6 +68,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.service.PrintService;
+import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.web.struts.action.ProposalActionBase;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -120,6 +121,10 @@ public class ProposalDevelopmentAction extends ProposalActionBase {
             // TODO: not sure it's should be here - for audit error display.
             if (proposalDevelopmentForm.isAuditActivated()) {
                 getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(proposalDevelopmentForm.getDocument()));
+                if (document != null && 
+                    document.getS2sOpportunity() != null ) {
+                    getService(S2SService.class).validateApplication(document.getS2sOpportunity().getProposalNumber());            
+                }
             }
 
             assignSponsor(proposalDevelopmentForm);
