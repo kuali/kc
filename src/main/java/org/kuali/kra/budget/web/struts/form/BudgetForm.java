@@ -97,7 +97,7 @@ public class BudgetForm extends ProposalFormBase {
     private String ohRateClassCodePrevValue;
     private String urRateClassCodePrevValue;
     
-    private String selectedBudgetPrintFormId;
+    private String[] selectedBudgetPrintFormId;
     private String syncBudgetRate;
     private BudgetSubAwards newSubAward;
     private Integer personnelDetailLine;
@@ -193,9 +193,11 @@ public class BudgetForm extends ProposalFormBase {
         String externalImageURL = KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String generatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_generatePeriods.gif"; 
         String calculatePeriodImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_calculatePeriods.gif"; 
+        String defaultImage = lookupKualiConfigurationService().getPropertyString(externalImageURL) + "buttonsmall_default.gif"; 
         String appExternalImageURL = "ConfigProperties.kra.externalizable.images.url"; 
         addExtraButton("methodToCall.generateAllPeriods", generatePeriodImage, "Generate All Periods");
         addExtraButton("methodToCall.questionCalculateAllPeriods",calculatePeriodImage, "Calculate All Periods");
+        addExtraButton("methodToCall.defaultPeriods",defaultImage, "Default Periods");
         
         return extraButtons;
     }
@@ -605,7 +607,7 @@ public class BudgetForm extends ProposalFormBase {
         this.urRateClassCodePrevValue = urRateClassCodePrevValue;
     }
 
-    public String getSelectedBudgetPrintFormId() {
+    public String[] getSelectedBudgetPrintFormId() {
         return selectedBudgetPrintFormId;
     }
 
@@ -613,7 +615,7 @@ public class BudgetForm extends ProposalFormBase {
      * Sets the selectedBudgetPrintFormId attribute value.
      * @param selectedBudgetPrintFormId The selectedBudgetPrintFormId to set.
      */
-    public void setSelectedBudgetPrintFormId(String selectedBudgetPrintFormId) {
+    public void setSelectedBudgetPrintFormId(String[] selectedBudgetPrintFormId) {
         this.selectedBudgetPrintFormId = selectedBudgetPrintFormId;
     }
 
