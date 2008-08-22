@@ -75,7 +75,7 @@ public interface BudgetSummaryService {
 
     /**
      * 
-     * This method is to seld old start/end date for line items, then they can be used for date adjustment.
+     * This method is to hold old start/end date for line items, then they can be used for date adjustment.
      * @param budgetLineItems
      */
     public void setupOldStartEndDate (List <BudgetLineItem > budgetLineItems);
@@ -83,4 +83,15 @@ public interface BudgetSummaryService {
     public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate, boolean leapDayInPeriod, boolean leapDayInGap);
 
     public boolean isLeapDaysInPeriod(Date sDate, Date eDate);
+    
+    /** 
+     * 
+     * This method is to generate default periods when default button is clicked.
+     * Generally does this when project period is adjusted
+     * @param budgetDocument
+     */
+    public void defaultBudgetPeriods(BudgetDocument budgetDocument);
+
+    public String defaultWarningMessage(BudgetDocument budgetDocument);
+
 }
