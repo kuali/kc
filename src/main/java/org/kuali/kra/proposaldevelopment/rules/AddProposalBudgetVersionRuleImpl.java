@@ -16,7 +16,6 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.rule.AddProposalBudgetVersionRule;
 import org.kuali.kra.proposaldevelopment.rule.event.AddProposalBudgetVersionEvent;
@@ -27,14 +26,14 @@ public class AddProposalBudgetVersionRuleImpl implements AddProposalBudgetVersio
 
     public boolean processAddProposalBudgetVersion(AddProposalBudgetVersionEvent addBudgetOverviewEvent) {
 
-        boolean ret;
-        if(!(ret = StringUtils.hasText(addBudgetOverviewEvent.getNewBudgetVersionName()))) {
+        boolean rulePassed = StringUtils.hasText(addBudgetOverviewEvent.getNewBudgetVersionName());
+        if(!rulePassed) {
             GlobalVariables.getErrorMap().putError("document.proposal.budgetVersionOverview.newBudgetVersionName", 
                     KeyConstants.ERROR_BUDGET_NAME_MISSING, "Name");
         }
 
         
-        return ret;
+        return rulePassed;
          
     }
 
