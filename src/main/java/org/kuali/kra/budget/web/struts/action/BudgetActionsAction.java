@@ -20,9 +20,7 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,11 +39,9 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.budget.bo.BudgetSubAwardFiles;
-import org.kuali.kra.budget.bo.BudgetSubAwardReader;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.service.BudgetJustificationService;
@@ -56,7 +52,6 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.budget.web.struts.form.BudgetJustificationWrapper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.KNSServiceLocator;
 
 public class BudgetActionsAction extends BudgetAction {
@@ -65,6 +60,7 @@ public class BudgetActionsAction extends BudgetAction {
     private static final String CONTENT_TYPE_PDF = "application/pdf";
     private BudgetJustificationService budgetJustificationService;
     private static final Log LOG = LogFactory.getLog(BudgetActionsAction.class);
+    
 
     /**
      * Constructs a BudgetActionsAction, injecting a BudgetJustificationService implementation
@@ -232,15 +228,15 @@ public class BudgetActionsAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm)form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
-        try{
-            AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budgetDocument, budgetForm.getSelectedBudgetPrintFormId());
-            streamToResponse(dataStream,response);
-        }catch(Exception ex){
-            LOG.warn(ex);
+        
+        if (budgetForm.getSelectedBudgetPrintFormId() != null) {
+            budgetPrintService.printBudgetForms(budgetDocument, budgetForm.getSelectedBudgetPrintFormId(), response);
         }
+        
         return budgetForm.getSelectedBudgetPrintFormId() == null ? mapping.findForward(MAPPING_BASIC) : null;
     }
-
+    
+    
     public void setBudgetJustificationService(BudgetJustificationService budgetJustificationService) {
         this.budgetJustificationService = budgetJustificationService;
     }

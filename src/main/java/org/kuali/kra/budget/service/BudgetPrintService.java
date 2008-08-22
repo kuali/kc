@@ -18,6 +18,8 @@ package org.kuali.kra.budget.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.kuali.kra.budget.bo.BudgetPrintForm;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -28,4 +30,7 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 public interface BudgetPrintService {
     public void populateBudgetPrintForms(BudgetDocument budgetDocument);
     public AttachmentDataSource readBudgetPrintStream(BudgetDocument budgetDocument, String selectedBudgetPrintFormId);
+    
+    public void printBudgetForms(BudgetDocument budgetDocument, String[] selectedBudgetPrintFormId, HttpServletResponse response);
+
 }
