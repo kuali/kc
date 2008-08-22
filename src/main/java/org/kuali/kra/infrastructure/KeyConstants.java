@@ -96,6 +96,7 @@ public class KeyConstants {
     public static final String ERROR_REQUIRED_ANSWER = "error.required.answer";
     
     // Budget Versions errors
+    public static final String ERROR_BUDGET_NAME_MISSING = "error.budgetVersion.documentDescription.required";
     public static final String ERROR_NO_FINAL_BUDGET = "error.final.budget.required";
     public static final String CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE = "clear.audit.error.before.change.status.to.complete";
     public static final String ERROR_MULTIPLE_FINAL_BUDGETS = "error.final.multiple";
