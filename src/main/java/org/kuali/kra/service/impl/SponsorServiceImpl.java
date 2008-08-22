@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.dao.SponsorHierarchyDao;
@@ -171,7 +172,7 @@ public class SponsorServiceImpl implements SponsorService {
         Iterator sponsorHierarchyList = sponsorHierarchyDao.getAllSponsors(hierarchyName);
         List sponsorHierarchies = new ArrayList();
         while (sponsorHierarchyList.hasNext()) {
-            sponsorCodes = sponsorCodes +";"+((Object[])sponsorHierarchyList.next())[0];
+            sponsorCodes = sponsorCodes +((Object[])sponsorHierarchyList.next())[0]+";";
         }
         return sponsorCodes;
     }
@@ -182,4 +183,17 @@ public class SponsorServiceImpl implements SponsorService {
         
     }
 
+    public String getSponsorCodes(String hierarchyName, String depth, String groups) {
+
+        String sponsorCodes=Constants.EMPTY_STRING;
+        String[] ascendantList = groups.split(Constants.SPONSOR_HIERARCHY_SEPARATOR_C1C);
+        
+        return sponsorHierarchyDao.getSponsorCodesForDeletedGroup(hierarchyName,Integer.parseInt(depth)+1, ascendantList);
+    }
+    
+    public void updateSponsorCodes(String sponsorCodes) {
+
+        GlobalVariables.getUserSession().addObject("sponsorCodes", (Object)sponsorCodes);
+    }
+   
 }

@@ -122,6 +122,58 @@ public class SponsorHierarchyDaoOjb extends PlatformAwareDaoBaseOjb implements O
     }
     
     
+    public String getSponsorCodesForDeletedGroup(String hierarchyName, int level, String[] levelName) {
+        
+
+        String whereSt = "where hierarchy_name = '"+hierarchyName+"'";
+        for (int i = 1; i< level; i++) {
+            whereSt = whereSt + " and level"+i+" = '" +levelName[i-1]+"'";
+        }
+
+        String sql =  "select sponsor_code from sponsor_hierarchy "+whereSt;
+        final String selectsql = sql;
+        return (String)getPersistenceBrokerTemplate().execute(new PersistenceBrokerCallback() {
+            public Object doInPersistenceBroker(PersistenceBroker broker) {
+                PreparedStatement statement = null;
+                ResultSet resultSet = null;
+                try {
+                    String retStr=Constants.EMPTY_STRING;
+                    Connection connection = broker.serviceConnectionManager().getConnection();
+                    statement = connection.prepareStatement(selectsql);
+                    resultSet = statement.executeQuery();
+                        while (resultSet.next()) {
+                            if (StringUtils.isBlank(retStr)) {
+                                retStr = resultSet.getString(1);
+                               
+                            } else {
+                                retStr = retStr+";"+resultSet.getString(1);
+                            }
+                        }
+                                           
+                    return retStr;
+                } catch (Exception e) {
+                    LOG.info(e.getStackTrace());
+                    throw new RiceRuntimeException(ERROR_MSG, e);
+                }  finally {
+                    if (statement != null) {
+                        try {
+                            statement.close();
+                        } catch (SQLException e) {}
+                    }
+                    if (resultSet != null) {
+                        try {
+                            resultSet.close();
+                        } catch (SQLException e) 
+                        {
+                            LOG.info(e.getStackTrace());                           
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    
     /**
      * This much faster then 'businessobjectservice.findmatching'
      * @see org.kuali.kra.dao.SponsorHierarchyDao#getsubGroups(java.lang.String, int, java.lang.String[])

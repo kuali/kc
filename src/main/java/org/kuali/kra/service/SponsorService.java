@@ -71,7 +71,31 @@ public interface SponsorService {
      */
     public String loadToSponsorHierachyMt(String hierarchyName);
     
-    
+    /**
+     * 
+     * This method is to run the sql scripts that are gathered during maintenance
+     * @param hierarchyName
+     * @param sqlScripts
+     */
     public void saveSponsorHierachy(String hierarchyName, String sqlScripts);
+    
+    
+    /**
+     * 
+     * This method get the sponsor codes for the groups that is selected for deletion.
+     * @param hierarchyName
+     * @param depth
+     * @param groups
+     * @return
+     */
+    public String getSponsorCodes(String hierarchyName, String depth, String groups);
+
+    /**
+     * 
+     * This method is to put the sponsorcodes for the hierarchy in session. so it can be checked to be excluded for search.
+     * @param sponsorCodes
+     */
+    public void updateSponsorCodes(String sponsorCodes);
+
     
  }
