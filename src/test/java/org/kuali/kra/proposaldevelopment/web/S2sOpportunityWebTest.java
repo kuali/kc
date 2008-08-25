@@ -37,8 +37,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 //        )
 //    )
 public class S2sOpportunityWebTest extends ProposalDevelopmentWebTestBase {
-    private static final String VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2 = "APP-S2S-TEST-SF424-V2";
-  //private static final String VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2 = "CWG-05";
+  // private static final String VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2 = "APP-S2S-TEST-SF424-V2";
+    private static final String VALID_OPPORTUNITY_ID_APP_S2_S_TEST_SF424_V2 = "CWG-05";
     private static final String VALID_CFDA_NUMBER_00_000 = "00.000";
     private static final String GRANTS_GOV_IMAGE_NAME = "methodToCall.headerTab.headerDispatch.save.navigateTo.grantsGov.x";
     
