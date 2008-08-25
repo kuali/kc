@@ -14,6 +14,8 @@
 --      - Add 'budgetPersonDefaultPeriodType' to the 'sh_parm_t' table.
 --   KRACOEUS-1817 25-AUG-2008 Tyler Wilson
 --      - Add 'POST SUBMISSION STATUS CODE' to fp_doc_type_t table.
+--   KRACOEUS-1748 25-AUG-2008 Tyler Wilson
+--      - Change Active_Ind from '1' to 'Y'
 --
 -- *****************
 
@@ -39,3 +41,7 @@ VALUES('KRA-B',    'D',    'budgetPersonDefaultPeriodType',    'CONFG',    '3', 
 INSERT
 INTO fp_doc_type_t(fdoc_typ_cd,    ver_nbr,    fdoc_grp_cd,    fdoc_nm,    fin_elim_elgbl_cd,    fdoc_typ_active_cd,    fdoc_rtng_rule_cd,    fdoc_autoaprv_days,    fdoc_balanced_cd,    trn_scrbbr_ofst_gen_ind)
 VALUES('POSS',    1,    'KR',    'POST SUBMISSION STATUS CODE',    'N',    'Y',    'N',    0,    'N',    'N');
+
+-- KRACOEUS-1748
+update SH_PARM_TYP_T set ACTIVE_IND = 'Y' where ACTIVE_IND = '1';
+
