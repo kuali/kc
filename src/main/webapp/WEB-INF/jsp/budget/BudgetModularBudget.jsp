@@ -20,6 +20,7 @@
 	htmlFormAction="budgetModularBudget"
 	documentTypeName="BudgetDocument"
   	headerDispatch="${KualiForm.headerDispatch}"
+  	showTabButtons="true"
   	headerTabActive="modularBudget"
   	extraTopButtons="${KualiForm.extraTopButtons}">
   	
