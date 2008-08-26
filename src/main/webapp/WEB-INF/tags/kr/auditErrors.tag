@@ -46,7 +46,11 @@
 							<tr>
 								<td>&nbsp;</td>
 								<td width="94%">${errorText}</td>
-								<td width="5%"><div align="center"><html:image src="${ConfigProperties.externalizable.images.url}tinybutton-fix.gif" property="methodToCall.${splitStr[0]}.anchor${splitStr[1]}.x"/></div></td>
+								<td width="5%"><div align="center">
+									<c:if test="${not empty splitStr[0]}" >
+										<html:image src="${ConfigProperties.externalizable.images.url}tinybutton-fix.gif" property="methodToCall.${splitStr[0]}.anchor${splitStr[1]}.x"/>
+									</c:if>
+								</div></td>
 							</tr>
 						</c:when>
 						<c:otherwise><li>${errorText}</li></c:otherwise>
