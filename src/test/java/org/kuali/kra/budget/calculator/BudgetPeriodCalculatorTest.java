@@ -109,24 +109,24 @@ public class BudgetPeriodCalculatorTest extends KraTestBase {
         BudgetDecimal totalCost1 = bp.getTotalCost();
         BudgetDecimal underRDecimal = bp.getUnderrecoveryAmount();
         try{
-            assertEquals(new BudgetDecimal(46105.00),directCost1);
+            assertEquals(new BudgetDecimal(46095.86),directCost1);
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
 
         bcs.calculateBudgetPeriod(bd,bp);
         try{
-            assertEquals(new BudgetDecimal(23580.50),indirectCost1);
+            assertEquals(new BudgetDecimal(23585.69),indirectCost1);
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
         try{
-            assertEquals(new BudgetDecimal(69685.50),totalCost1);
+            assertEquals(new BudgetDecimal(69681.55),totalCost1);
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
         try{
-            assertEquals(new BudgetDecimal(1562.46),underRDecimal);
+            assertEquals(new BudgetDecimal(1559.36),underRDecimal);
         }catch (AssertionError e) {
             errors.add(e.getMessage());
         }
