@@ -42,7 +42,7 @@
 					<td class="infoline">
 						<div align=center>
 							<html:image property="methodToCall.translateXFD.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}translate.gif' />
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-exportxml.gif' />
 						</div>
 	                </td>
             </tr>
