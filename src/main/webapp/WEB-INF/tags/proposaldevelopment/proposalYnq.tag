@@ -54,7 +54,7 @@
         <table id="${trunGroupName}" cellpadding=0 cellspacing="0"  class="result-table" summary="">
             <th width="10%">&nbsp;</th>
             <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.Ynq.attributes.description" />
-	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalYnq.attributes.answer" />
+	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalYnq.attributes.answer" forceRequired="true"/>
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalYnq.attributes.reviewDate" />
 	    	<kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalYnq.attributes.explanation" />
             <th width="10%" class="infoline">Actions</th>
