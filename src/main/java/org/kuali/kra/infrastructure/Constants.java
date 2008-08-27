@@ -215,9 +215,12 @@ public interface Constants {
     public static final String SPECIAL_REVIEW_PANEL_ANCHOR = "SpecialReview";
     public static final String SPECIAL_REVIEW_PANEL_NAME = "Special Review Information";
     public static final String BUDGET_PERIOD_PANEL_NAME = "Budget Period And Totals Information";
+    public static final String BUDGET_RATE_PANEL_NAME = "Budget Rate";
     public static final String BUDGET_PERIOD_PAGE = "summary";
+    public static final String BUDGET_RATE_PAGE = "budgetRate";
     public static final String BUDGET_VERSIONS_PAGE = "budgetVersions";
     public static final String BUDGET_PERIOD_PANEL_ANCHOR = "BudgetPeriodsAmpTotals";
+    public static final String BUDGET_RATE_PANEL_ANCHOR = "BudgetProposalRate";
     public static final String BUDGET_VERSIONS_PANEL_ANCHOR = "BudgetVersions";
     public static final String BUDGET_PERIOD_KEY = "document.budgetPeriod*";
     
