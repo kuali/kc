@@ -215,6 +215,9 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         if (budgetPeriods.size() > budgetDocument.getBudgetPeriods().size()) {
             int numOfPeriods = budgetDocument.getBudgetPeriods().size();
             while (numOfPeriods < budgetPeriods.size()) {
+                BudgetPeriod budgetPeriod = budgetPeriods.get(numOfPeriods);
+                budgetPeriod.setOldStartDate(budgetPeriod.getStartDate());
+                budgetPeriod.setOldEndDate(budgetPeriod.getEndDate());
                 budgetDocument.getBudgetPeriods().add(numOfPeriods, budgetPeriods.get(numOfPeriods));
                 numOfPeriods++;
             }
