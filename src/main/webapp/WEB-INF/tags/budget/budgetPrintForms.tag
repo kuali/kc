@@ -19,18 +19,25 @@
 						</td>
 		                <td align="center" valign="middle">
 		                	<div align="center">
-		                	<html:multibox property="selectedBudgetPrintFormId" value="${KualiForm.document.budgetPrintForms[status.index].budgetReportId}"/>			                	
+		                	<html:checkbox property="document.budgetPrintForms[${status.index}].selectToPrint"></html:checkbox>
+
 		                	</div>
 		                </td>			       
 		            </tr>    	
 		    	</c:forEach>		    	
 				<tr>
-					<td colspan="3" class="infoline">
+					<td colspan="2" class="infoline">
 						<div align="center">
 						<html:image property="methodToCall.printBudgetForm"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printsel.gif' />
 						</div>
 					</td>
+					<td>
+							<div align="center">
+							Select (<html:link href="#" onclick="javascript: selectAllBudgetForms(document);return false">all</html:link> | <html:link href="#" onclick="javascript: unselectAllBudgetForms(document);return false">none</html:link>)
+							</div>						
+					</td>
+					
 				</tr>			                         
 			</tbody>
 			<tbody id="G" style="display: none;" />

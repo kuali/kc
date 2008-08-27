@@ -31,6 +31,6 @@ public interface BudgetPrintService {
     public void populateBudgetPrintForms(BudgetDocument budgetDocument);
     public AttachmentDataSource readBudgetPrintStream(BudgetDocument budgetDocument, String selectedBudgetPrintFormId);
     
-    public void printBudgetForms(BudgetDocument budgetDocument, String[] selectedBudgetPrintFormId, HttpServletResponse response);
+    public void printBudgetForms(BudgetDocument budgetDocument, List<BudgetPrintForm> budgetPrintForms, HttpServletResponse response);
 
 }

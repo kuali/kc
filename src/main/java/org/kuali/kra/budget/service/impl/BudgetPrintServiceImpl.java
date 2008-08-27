@@ -1243,7 +1243,7 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
     }
     
     
-    public void printBudgetForms(BudgetDocument budgetDocument, String[] selectedBudgetPrintFormId, HttpServletResponse response) {
+    public void printBudgetForms(BudgetDocument budgetDocument, List<BudgetPrintForm> budgetPrintForms, HttpServletResponse response) {
         List<InputStream> pdfs = new ArrayList<InputStream>();
         String fileName = "merge";
         String contentType = null;
@@ -1251,14 +1251,16 @@ public class BudgetPrintServiceImpl implements BudgetPrintService {
         int k = 0;
 
         try {
-            for (int i = 0; i < selectedBudgetPrintFormId.length; i++) {
-                AttachmentDataSource dataStream = readBudgetPrintStream(budgetDocument, selectedBudgetPrintFormId[i]);
-                pdfs.add(new ByteArrayInputStream(dataStream.getContent()));
-                //printPDF(dataStream.getContent(),PrintServiceLookup.lookupDefaultPrintService());
-                String reptFileName = dataStream.getFileName();
-                fileName = fileName + "_" + reptFileName.substring(0, reptFileName.indexOf(".pdf"));
-                contentType = dataStream.getContentType();
-                pageSize.add(k++, REPT_PAGESIZE_MAP.get(selectedBudgetPrintFormId[i]));
+            for (BudgetPrintForm budgetPrintForm : budgetPrintForms) {
+                if (budgetPrintForm.getSelectToPrint()) {
+                    AttachmentDataSource dataStream = readBudgetPrintStream(budgetDocument, budgetPrintForm.getBudgetReportId());
+                    pdfs.add(new ByteArrayInputStream(dataStream.getContent()));
+                    //printPDF(dataStream.getContent(),PrintServiceLookup.lookupDefaultPrintService());
+                    String reptFileName = dataStream.getFileName();
+                    fileName = fileName + "_" + reptFileName.substring(0, reptFileName.indexOf(".pdf"));
+                    contentType = dataStream.getContentType();
+                    pageSize.add(k++, REPT_PAGESIZE_MAP.get(budgetPrintForm.getBudgetReportId()));
+                }
             }
 
             OutputStream output = new ByteArrayOutputStream();
