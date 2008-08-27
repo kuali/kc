@@ -934,6 +934,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return new ActionForward(forward, true);
     }
     
+    public ActionForward budgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        String forward = getForwardToBudgetUrl(form);
+        forward = StringUtils.replace(forward, "budgetSummary.do?", "budgetRates.do?auditActivated=true&anchor="+((KualiForm)form).getAnchor()+"&");
+        return new ActionForward(forward, true);
+    }
+
     public ActionForward saveProposalActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return save(mapping, form, request, response);
     }

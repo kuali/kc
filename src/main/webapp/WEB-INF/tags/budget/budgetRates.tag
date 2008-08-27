@@ -54,7 +54,7 @@
     <c:if test="${gps.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
-<kul:tab tabTitle="${rateClass}" defaultOpen="false" tabErrorKey="document.budgetProposalRate[${rateClass}]*" transparentBackground="${transparent}">
+<kul:tab tabTitle="${rateClass}" defaultOpen="false" auditCluster="budgetRateAuditWarnings"  tabAuditKey="document.budgetProposalRate[${rateClass}]*" tabErrorKey="document.budgetProposalRate[${rateClass}]*" transparentBackground="${transparent}"  useRiceAuditMode="true">
     <c:set var="transparent" value="false" />
 	<div class="tab-container" align="center">
     	<div class="h2-container">
