@@ -15,18 +15,44 @@
  */
 package org.kuali.kra.budget.service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.budget.bo.BudgetPeriod;
+import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.bo.RateClassType;
 import org.kuali.kra.budget.document.BudgetDocument;
 
 public interface BudgetRatesService {
     public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument budgetDocument);
+
+    /**
+     * Searches for persisted {@link RateClass} instances based on the given <code>rateClassType</code>
+     *
+     * @param rateClassType to use for retrieving {@link RateClass} instances
+     * @returns a List of {@link RateClass} instances
+     */
+    public Collection<RateClass> getBudgetRateClasses(String rateClassType);
+
+    /**
+     * Retrieves {@link RateClass} instances as a {@link Map} keyed from the <code>rateTypeCode</code>. This makes it easy for
+     * classes (particularly in the UI) to grab {@link RateClass} information via rateTypeCode
+     *
+     * @param rateClassType to use for {@link RateClass} instances to be retrieved
+     * @return a {@link Map} keyed on rateTypeCode containing {@link RateClass} instances
+     */
+    public Map<String, RateClass> getBudgetRateClassMap(String rateClassType);
+
     public void resetBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument);
     public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument budgetDocument);
     public void syncAllBudgetRates(BudgetDocument budgetDocument);
     public void resetAllBudgetRates(BudgetDocument budgetDocument);
     public void viewLocation(String viewLocation, Integer budgetPeriod, BudgetDocument budgetDocument);
     public List<BudgetPeriod> getBudgetPeriods();
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService);
+    
+    public BusinessObjectService getBusinessObjectService();
 }
