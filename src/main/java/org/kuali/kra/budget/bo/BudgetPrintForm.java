@@ -22,6 +22,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 public class BudgetPrintForm extends KraPersistableBusinessObjectBase {
 	private String budgetReportId;
 	private String budgetReportName;
+    private Boolean selectToPrint;
 
 
 	@Override 
@@ -66,6 +67,16 @@ public class BudgetPrintForm extends KraPersistableBusinessObjectBase {
      */
     public void setBudgetReportName(String budgetReportName) {
         this.budgetReportName = budgetReportName;
+    }
+
+
+    public Boolean getSelectToPrint() {
+        return selectToPrint;
+    }
+
+
+    public void setSelectToPrint(Boolean selectToPrint) {
+        this.selectToPrint = selectToPrint;
     }
 
 }
