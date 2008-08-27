@@ -40,6 +40,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kra.budget.BudgetException;
+import org.kuali.kra.budget.bo.BudgetPrintForm;
 import org.kuali.kra.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.budget.bo.BudgetSubAwards;
@@ -229,11 +230,23 @@ public class BudgetActionsAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetPrintService budgetPrintService = KraServiceLocator.getService(BudgetPrintService.class);
         
-        if (budgetForm.getSelectedBudgetPrintFormId() != null) {
-            budgetPrintService.printBudgetForms(budgetDocument, budgetForm.getSelectedBudgetPrintFormId(), response);
+        boolean formsSelected = false;
+        for (BudgetPrintForm budgetPrintForm : budgetDocument.getBudgetPrintForms()) {
+            if (budgetPrintForm.getSelectToPrint() != null && budgetPrintForm.getSelectToPrint()) {
+                formsSelected = true;
+                break;
+            }
         }
         
-        return budgetForm.getSelectedBudgetPrintFormId() == null ? mapping.findForward(MAPPING_BASIC) : null;
+        if (formsSelected) {
+            budgetPrintService.printBudgetForms(budgetDocument, budgetDocument.getBudgetPrintForms(), response);
+        }
+        
+        for (BudgetPrintForm budgetPrintForm : budgetDocument.getBudgetPrintForms()) {
+            budgetPrintForm.setSelectToPrint(false);
+        }
+
+        return !formsSelected ? mapping.findForward(MAPPING_BASIC) : null;
     }
     
     
