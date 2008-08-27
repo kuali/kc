@@ -70,6 +70,7 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
     protected static final String KEY_PERSONNEL_LINK_NAME = "keyPersonnel.x";
     protected static final String PROPOSAL_PAGE_LINK_NAME = "actions.x";
     private static final String RADIO_FIELD_VALUE = "Y";
+    private static final String CREDIT_SPLIT_VALUE = "100.00";
     private static final int IMAGE_INPUT = 4;
     private static final int SUBMIT_INPUT_BY_NAME = 5;
     private static final int SUBMIT_INPUT_BY_VALUE = 6;
@@ -128,8 +129,8 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[0].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[0].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
-        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.Person", "personId", "000000005");
-        assertEquals("Bryan Hutchinson", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
+        KeyPersonnelpage=lookup(KeyPersonnelpage, "org.kuali.kra.bo.Person", "personId", "000000006");
+        assertEquals("Andrew Slusar", getFieldValue(KeyPersonnelpage, "newProposalPerson.fullName"));
         setFieldValue(KeyPersonnelpage,"newProposalPerson.proposalPersonRoleId", "KP");
         KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.insertProposalPerson");
         KeyPersonnelpage = clickOn(KeyPersonnelpage, "methodToCall.addCertificationQuestion.document.proposalPersons[1].line");
@@ -137,6 +138,14 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].proposalPersonYnq[1].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].proposalPersonYnq[2].answer",RADIO_FIELD_VALUE);
         setFieldValue(KeyPersonnelpage,"document.proposalPersons[1].projectRole","test");
+        setFieldValue(KeyPersonnelpage,"document.investigator[0].creditSplit[0].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.investigator[0].creditSplit[1].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.investigator[0].creditSplit[2].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.investigator[0].creditSplit[3].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.investigator[0].unit[0].creditSplit[0].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.investigator[0].unit[0].creditSplit[1].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.investigator[0].unit[0].creditSplit[2].credit",CREDIT_SPLIT_VALUE);
+        setFieldValue(KeyPersonnelpage,"document.investigator[0].unit[0].creditSplit[3].credit",CREDIT_SPLIT_VALUE);
               
         // set up required custom attributes
         HtmlPage customDataPage = clickOn(KeyPersonnelpage, CUSTOM_DATA_LINK_NAME);
@@ -183,10 +192,10 @@ public class ProposalWorkflowRoutingWebTest extends ProposalDevelopmentWebTestBa
         final HtmlPage approvalConfirmationPage = clickButton(approvePage, form2, "methodToCall.approve", IMAGE_INPUT);
         assertNotNull(approvalConfirmationPage);
 
-        GlobalVariables.setUserSession(new UserSession("bhutchinson"));
+        GlobalVariables.setUserSession(new UserSession("tdurkin"));
         final WebClient newWebClient1 = new WebClient(BrowserVersion.INTERNET_EXPLORER_7_0);
         final URL url1 = new URL("http://localhost:" + getPort() + "/kra-dev/");
-        final HtmlPage pageAfterLogin1 = login(newWebClient1, url1, "en/ActionList.do", "bhutchinson");
+        final HtmlPage pageAfterLogin1 = login(newWebClient1, url1, "en/ActionList.do", "tdurkin");
         assertNotNull(pageAfterLogin1);
             
         
