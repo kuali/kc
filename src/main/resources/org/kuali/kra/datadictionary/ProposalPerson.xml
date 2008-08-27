@@ -180,7 +180,19 @@
 
             <attributeReference name="postalCode" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="postalCode" />
 
-            <attributeReference name="countryCode" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="countryCode" />
+                 
+            <attribute name="countryCode">
+                <label>Country Code </label>
+                <shortLabel>Country Code </shortLabel>
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+                <control>                    
+                    <select valuesFinderClass="org.kuali.kra.lookup.keyvalue.CountryCodeValuesFinder" businessObjectClass="org.kuali.kra.bo.Country" keyAttribute="countryCode" labelAttribute="countryName" includeKeyInLabel="false"/>                    
+                </control>
+                <summary>Country Code </summary>
+                <description>Country Code </description>
+            </attribute>
+            
 
             <attributeReference name="faxNumber" sourceClassName="org.kuali.kra.bo.Person" sourceAttributeName="faxNumber" />
 
