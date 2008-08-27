@@ -19,14 +19,19 @@
 
 <table cellpadding=0 cellspacing=0 summary="">
 <tr><td>
-	<c:choose>
-		<c:when test="${empty fn:length(KualiForm.document.s2sOpportunity.s2sOppForms) || fn:length(KualiForm.document.s2sOpportunity.s2sOppForms)==0}" >
-			<c:set var="noOfForms" value="" />
-		</c:when>
-		<c:otherwise>
-			<c:set var="noOfForms" value="(${fn:length(KualiForm.document.s2sOpportunity.s2sOppForms)})" />
-		</c:otherwise>	
-	</c:choose>
+
+	<c:set var="noOfForms" value="" />
+	<c:set var="availForms" value="" />
+	<c:if test="${!empty KualiForm.document.s2sOpportunity.s2sOppForms && fn:length(KualiForm.document.s2sOpportunity.s2sOppForms)>0}" >
+		<c:forEach var="form" items="${KualiForm.document.s2sOpportunity.s2sOppForms}" varStatus="status">
+		     <c:if test="${form.available == 'true'}">
+		   		<c:set var="availForms" value="${availForms + 1}"/>
+		   	</c:if>
+		</c:forEach>
+		<c:if test="${availForms > 0}">
+			<c:set var="noOfForms" value=" (${availForms})" />
+		</c:if>
+    </c:if>
 	<c:choose>				
 	<c:when test="${not empty noOfForms}" >	
 	<kul:innerTab parentTab="Print Forms" defaultOpen="false" tabTitle="Print Grants.gov Forms${noOfForms}">
@@ -34,6 +39,7 @@
 		 <table class=tab cellpadding=0 cellspacing="0" summary=""> 
 		 <tbody id="G1">
 		    	<c:forEach var="form" items="${KualiForm.document.s2sOpportunity.s2sOppForms}" varStatus="status">
+		    		<c:if test="${form.available == 'true'}">
 			            <tr>	                
 			                <td width="50">
 			                </td>
@@ -45,7 +51,8 @@
 			                	<kul:htmlControlAttribute property="document.s2sOpportunity.s2sOppForms[${status.index}].selectToPrint" attributeEntry="${s2sFormAttributes.selectToPrint}" />			                	
 			                	</div>
 			                </td>			                
-			            </tr>    	
+			            </tr>    
+			         </c:if>   	
 		    	</c:forEach>		    	
 			    	<tr>
 			    		<td>	
