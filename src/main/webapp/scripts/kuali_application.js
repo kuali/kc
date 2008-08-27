@@ -977,6 +977,37 @@ function confirmFinalizeVersion(document, numVersions) {
 	
 }
 
+
+function selectAllBudgetForms(document) {
+    var j = 0;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'checkbox') {
+	    //alert(e.name)
+	  	if (e.name == 'document.budgetPrintForms[' + j + '].selectToPrint') {
+ 		    if(e.disabled == false){
+ 		    	e.checked = true;
+ 		    }
+	  		j++; 
+	  	}
+	  }
+	}
+}
+
+function unselectAllBudgetForms(document) {
+    var j = 0;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'checkbox') {
+	  	if (e.name == 'document.budgetPrintForms[' + j + '].selectToPrint') {
+ 		    if(e.disabled == false){
+ 		    	e.checked = false;
+ 		    }
+	  		j++; 
+	  	}
+	  }
+	}
+}
 //CustomAttributeService.js - put it in kra-config.xml
 //function CustomAttributeService() { }
 // CustomAttributeService._path = '../dwr'; 
