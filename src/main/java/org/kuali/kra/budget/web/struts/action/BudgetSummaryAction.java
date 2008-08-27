@@ -612,6 +612,7 @@ public class BudgetSummaryAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         budgetForm.getBudgetDocument().getBudgetSummaryService().defaultBudgetPeriods(budgetDocument);
+        budgetForm.getBudgetDocument().getBudgetSummaryService().adjustStartEndDatesForLineItems(budgetForm.getBudgetDocument());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
