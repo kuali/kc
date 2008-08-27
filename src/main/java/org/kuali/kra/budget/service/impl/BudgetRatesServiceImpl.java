@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.budget.service.impl;
 
+import static org.kuali.core.util.GlobalVariables.getAuditErrorMap;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +31,10 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.AuditCluster;
+import org.kuali.core.util.AuditError;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kra.bo.AbstractInstituteRate;
 import org.kuali.kra.bo.InstituteLaRate;
@@ -46,6 +51,7 @@ import org.kuali.kra.budget.service.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -59,7 +65,8 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
     private static final String PERIOD_SEARCH_SEPARATOR = "|";
     private static final String PERIOD_DISPLAY_SEPARATOR = ",";
     private static final Log LOG = LogFactory.getLog(BudgetRatesServiceImpl.class);
-    
+    private static final String BUDGET_RATE_AUDIT_WARNING_KEY = "budgetRateAuditWarnings";
+
     /**
      * @see org.kuali.kra.budget.service.BudgetRatesService#resetAllBudgetRates(org.kuali.kra.budget.document.BudgetDocument)
      */
@@ -803,4 +810,108 @@ public class BudgetRatesServiceImpl implements BudgetRatesService {
 
         return retval;
     }
+    
+    public boolean isOutOfSyncForRateAudit(BudgetDocument budgetDocument) {
+        return isOutOfSyncForRateAudit(budgetDocument.getInstituteRates(), budgetDocument.getBudgetProposalRates()) || 
+                isOutOfSyncForRateAudit(budgetDocument.getInstituteLaRates(), budgetDocument.getBudgetProposalLaRates());
+    }
+    
+    /**
+     * 
+     * This method is to check to the class type level
+     * @param instituteRates
+     * @param budgetRates
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private boolean isOutOfSyncForRateAudit(List instituteRates, List budgetRates) {
+        boolean outOfSync = false;
+        outOfSync = !isRatesMatched(instituteRates,budgetRates) || outOfSync;
+        outOfSync = !isRatesMatched(budgetRates, instituteRates) || outOfSync;
+        
+        return outOfSync;
+    }
+    
+    private boolean isRatesMatched(List<AbstractInstituteRate> fromRates, List<AbstractInstituteRate> toRates) {
+        boolean matched = true;
+        for (Object rate : fromRates) {
+            AbstractInstituteRate budgetRate = (AbstractInstituteRate)rate;
+            boolean isRateMatched = false;
+            for (Object rate1 : toRates) {
+                AbstractInstituteRate instituteRate = (AbstractInstituteRate)rate1;
+                if ((instituteRate.getRateKeyAsString()+instituteRate.getInstituteRate()).equals(budgetRate.getRateKeyAsString()+budgetRate.getInstituteRate())) {
+                    if (instituteRate instanceof InstituteRate) {
+                        if (((InstituteRate)instituteRate).getActivityTypeCode().equals(((BudgetProposalRate)budgetRate).getActivityTypeCode())) {
+                            isRateMatched = true;
+                            break;                            
+                        }
+                    } else {
+                        isRateMatched = true;
+                        break;
+                    }
+                }
+            }
+        
+            if (!isRateMatched) {
+                matched = false;
+                String rateClassType = budgetRate.getRateClass().getRateClassTypeT().getDescription();
+                String errorPath = "document.budgetProposalRate[" + rateClassType + "]";
+                boolean isNewError = true;
+                for (AuditError auditError : getAuditErrors()) {
+                    if (auditError.getErrorKey().equals(errorPath) && auditError.getMessageKey().equals(KeyConstants.AUDIT_WARNING_RATE_OUT_OF_SYNC) && auditError.getLink().equals(Constants.BUDGET_RATE_PAGE + "." + rateClassType)) {
+                        isNewError = false;
+                        break;
+                    }
+                }
+                if (isNewError) {
+                    getAuditErrors().add(new AuditError(errorPath, KeyConstants.AUDIT_WARNING_RATE_OUT_OF_SYNC, Constants.BUDGET_RATE_PAGE + "." + rateClassType));
+                }
+
+            }
+            
+        }
+        return matched;
+
+    }
+    
+    private List<AuditError> getAuditErrors() {
+        List<AuditError> auditErrors = auditErrors = new ArrayList<AuditError>();
+        
+        if (!getAuditErrorMap().containsKey(BUDGET_RATE_AUDIT_WARNING_KEY)) {
+            getAuditErrorMap().put(BUDGET_RATE_AUDIT_WARNING_KEY, new AuditCluster(Constants.BUDGET_RATE_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
+        }
+        else {
+            auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_RATE_AUDIT_WARNING_KEY)).getAuditErrorList();
+        }
+        
+        return auditErrors;
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean isOutOfSyncForRateAudit_org(List instituteRates, List budgetRates) {
+        boolean outOfSync = areNumbersOfBudgetRatesOutOfSyncWithInstituteRates(instituteRates, budgetRates);
+        if(!outOfSync) {
+            outOfSync = areBudgetRatesOutOfSyncWithInsttituteRatesForRateAudit(instituteRates, budgetRates);
+        }
+        
+        return outOfSync;
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean areBudgetRatesOutOfSyncWithInsttituteRatesForRateAudit(List instituteRates, List budgetRates) {        
+        Set<String> instituteRateKeys = storeAllKeysWithRate((List<AbstractInstituteRate>) instituteRates);
+        Set<String> budgetRateKeys = storeAllKeysWithRate((List<AbstractInstituteRate>) budgetRates);
+        
+        return !instituteRateKeys.containsAll(budgetRateKeys);
+    }
+    
+    private Set<String> storeAllKeysWithRate(List<AbstractInstituteRate> rates) {
+        Set<String> keys = new HashSet<String>(rates.size(), 1.0f);
+        for(AbstractInstituteRate rate: rates) {
+            keys.add(rate.getRateKeyAsString()+rate.getInstituteRate());
+        }
+        return keys;
+    }
+
+
 }
