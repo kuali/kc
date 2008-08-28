@@ -126,6 +126,10 @@ public class KeyConstants {
     // Authorization
     public static final String AUTHORIZATION_VIOLATION = "error.authorization.violation";
     
+    // Pessimistic Locking Cron Job
+    public static final String PESSIMISTIC_LOCKING_CRON_EXPRESSION = "pessimisticLocking.cronExpression";
+    public static final String PESSIMISTIC_LOCKING_TIMEOUT = "pessimisticLocking.timeout";
+    
     // Grants.gov
     public static final String ERROR_IF_PROPOSALTYPE_IS_REVISION = "error.s2sopportunity.revisiontype";
     public static final String ERROR_IF_CFDANUMBER_AND_OPPORTUNITY_ID_IS_NULL = "error.s2sopportunity.cfdaNumber_opportunityId_null"; 
