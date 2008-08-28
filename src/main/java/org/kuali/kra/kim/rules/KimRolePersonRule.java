@@ -18,6 +18,7 @@ package org.kuali.kra.kim.rules;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kra.bo.Person;
@@ -39,22 +40,24 @@ public class KimRolePersonRule extends KraMaintenanceDocumentRuleBase {
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) { 
-        boolean success = false;
-        UnitAclEntry entry = (UnitAclEntry) document.getDocumentBusinessObject();
+    protected boolean isDocumentValidForSave(MaintenanceDocument maintenanceDocument) {
+       
+        boolean success = super.isDocumentValidForSave(maintenanceDocument);
+        success &= processGlobalSaveDocumentBusinessRules(maintenanceDocument);
+        
+        UnitAclEntry entry = (UnitAclEntry) maintenanceDocument.getDocumentBusinessObject();
         
         if (entry.getVersionNumber() == null) {
-            success = processCreation(entry);
+            success &= processCreation(entry);
         } else {
-            success = processUpdate(entry);
+            success &= processUpdate(entry);
         }
-        
+       
         return success;
     }
     
     private boolean processUpdate(UnitAclEntry aclEntry) {
-        //KimRole origRole = getRole(role.getId());
-        return true;
+        return processCreation(aclEntry);
     }
 
     private boolean processCreation(UnitAclEntry aclEntry) {
@@ -64,7 +67,7 @@ public class KimRolePersonRule extends KraMaintenanceDocumentRuleBase {
             this.putFieldError("", DUPLICATE_ACL_ENTRY);
         }
         
-        if (aclEntry.getPersonId() != null && aclEntry.getPersonId().length() > 0) {
+        if (!StringUtils.isBlank(aclEntry.getPersonId())) {
             Person person = getPerson(aclEntry.getPersonId());
             if (person == null) {
                 success = false;
@@ -72,7 +75,7 @@ public class KimRolePersonRule extends KraMaintenanceDocumentRuleBase {
             }
         }
         
-        if (aclEntry.getUnitNumber() != null && aclEntry.getUnitNumber().length() > 0) {
+        if (!StringUtils.isBlank(aclEntry.getUnitNumber())) {
             Unit unit = getUnit(aclEntry.getUnitNumber());
             if (unit == null) {
                 success = false;
