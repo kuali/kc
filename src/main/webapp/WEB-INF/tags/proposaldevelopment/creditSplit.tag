@@ -20,7 +20,7 @@
 <c:set var="personCreditSplitAttributes" value="${DataDictionary.ProposalPersonCreditSplit.attributes}" />
 <c:set var="columnWidth" value="${100/(fn:length(KualiForm.document.investigatorCreditTypes) + 1)}%" />
 
-<kul:tab tabTitle="Combined Credit Split" defaultOpen="true" tabErrorKey="document.creditSplit" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.creditSplit" useRiceAuditMode="true">
+<kul:tab tabTitle="Combined Credit Split" defaultOpen="true" tabDescription=" " tabErrorKey="document.creditSplit" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.creditSplit" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<div class="h2-container">
     		<span class="subhead-left"><h2>Combined Credit Split</h2></span>
