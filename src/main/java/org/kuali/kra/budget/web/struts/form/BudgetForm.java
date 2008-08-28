@@ -97,6 +97,7 @@ public class BudgetForm extends ProposalFormBase {
     private String ohRateClassCodePrevValue;
     private String urRateClassCodePrevValue;
     
+    private String[] selectedBudgetPrintFormId;
     private String syncBudgetRate;
     private BudgetSubAwards newSubAward;
     private Integer personnelDetailLine;
@@ -605,6 +606,19 @@ public class BudgetForm extends ProposalFormBase {
     public void setUrRateClassCodePrevValue(String urRateClassCodePrevValue) {
         this.urRateClassCodePrevValue = urRateClassCodePrevValue;
     }
+
+    public String[] getSelectedBudgetPrintFormId() {
+        return selectedBudgetPrintFormId;
+    }
+
+    /**
+     * Sets the selectedBudgetPrintFormId attribute value.
+     * @param selectedBudgetPrintFormId The selectedBudgetPrintFormId to set.
+     */
+    public void setSelectedBudgetPrintFormId(String[] selectedBudgetPrintFormId) {
+        this.selectedBudgetPrintFormId = selectedBudgetPrintFormId;
+    }
+
 
     public String getSyncBudgetRate() {
         return syncBudgetRate;
