@@ -40,7 +40,7 @@
           <div align="center">
             <table  cellpadding="0" cellspacing="0" class="grid" summary="">
               <tr>
-                <th class="grid"><div align="right">Person:</div></th>
+                <th class="grid"><div align="right">*Person:</div></th>
                 <td nowrap class="grid">
 <c:choose>                  
   <c:when test="${empty KualiForm.newPersonId && empty KualiForm.newRolodexId}">
@@ -56,7 +56,7 @@
   </c:otherwise>
 </c:choose>
                 </td>
-                <th class="grid"><div align="right">Proposal Role:</div></th>
+                <th class="grid"><div align="right">*Proposal Role:</div></th>
                 <td class="grid" >
 <c:set var="roleIdAttribute" value="${proposalPersonAttributes.proposalPersonRoleId}" />
 <c:if test="${KualiForm.document.sponsor.acronym == 'NIH'}">
