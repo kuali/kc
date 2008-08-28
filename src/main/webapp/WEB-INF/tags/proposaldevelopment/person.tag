@@ -147,6 +147,7 @@
                                                                readOnly="${!personEditableFields['secondaryOfficeLocation'] }" />
                     </td>
                   </tr>
+                  
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.addressLine1}"  /></div></th>
 
@@ -154,11 +155,26 @@
                                             attributeEntry="${proposalPersonAttributes.addressLine1}" 
                                                   readOnly="${!personEditableFields['addressLine1'] }" />
                     </td>
-                    <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.addressLine2}"  /></div></th>
-                    <td><kul:htmlControlAttribute property="${proposalPerson}.addressLine2" 
+                    <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.city}"  /></div></th>
+                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.city" 
+                                                                     attributeEntry="${proposalPersonAttributes.city}" 
+                                                                           readOnly="${!personEditableFields['city'] }" />
+                    </td>
+                   </tr>
+                  
+                  
+                  <tr>
+                  	<th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.addressLine2}"  /></div></th>
+                     	<td><kul:htmlControlAttribute property="${proposalPerson}.addressLine2" 
                                             attributeEntry="${proposalPersonAttributes.addressLine2}" 
                                                   readOnly="${!personEditableFields['addressLine2'] }" />
-                    </td>
+                      	</td>
+                    
+                    <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.county}"  /></div></th>
+                     	<td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.county" 
+                                                                     attributeEntry="${proposalPersonAttributes.county}" 
+                                                                           readOnly="${!personEditableFields['county'] }" />
+                          </td>
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.addressLine3}"  /></div></th>
@@ -167,25 +183,13 @@
                                             attributeEntry="${proposalPersonAttributes.addressLine3}" 
                                                   readOnly="${!personEditableFields['addressLine3'] || addressLine3}" />
                     </td>
-                    <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.city}"  /></div></th>
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.city" 
-                                                                     attributeEntry="${proposalPersonAttributes.city}" 
-                                                                           readOnly="${!personEditableFields['city'] }" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.county}"  /></div></th>
-
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.county" 
-                                                                     attributeEntry="${proposalPersonAttributes.county}" 
-                                                                           readOnly="${!personEditableFields['county'] }" />
-                    </td>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.state}"  /></div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.state" 
                                                                      attributeEntry="${proposalPersonAttributes.state}" 
                                                                            readOnly="${!personEditableFields['state'] }" />
                     </td>
                   </tr>
+                  
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.postalCode}"  /></div></th>
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.postalCode" 
@@ -247,7 +251,7 @@
 
 <tr>
 <td colspan=4>
-<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonDegree*">
+<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonDegree*,document.proposalPersons[${personIndex}].degree*,document.proposalPersons[${personIndex}].graduationYear*">
  <table class=tab cellpadding=0 cellspacing="0" summary="" >
      <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
