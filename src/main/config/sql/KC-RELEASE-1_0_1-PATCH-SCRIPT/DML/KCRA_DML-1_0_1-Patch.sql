@@ -16,6 +16,8 @@
 --      - Add 'POST SUBMISSION STATUS CODE' to fp_doc_type_t table.
 --   KRACOEUS-1748 25-AUG-2008 Tyler Wilson
 --      - Change Active_Ind from '1' to 'Y'
+--   KRACOEUS-1832 28-AUG-2008 Tyler Wilson
+--      - Add cron job parameters
 --
 -- *****************
 
@@ -45,3 +47,11 @@ VALUES('POSS',    1,    'KR',    'POST SUBMISSION STATUS CODE',    'N',    'Y', 
 -- KRACOEUS-1748
 update SH_PARM_TYP_T set ACTIVE_IND = 'Y' where ACTIVE_IND = '1';
 
+-- KRACOEUS-1832
+ -- System parameters for controlling the deletion of pessimistic locks.
+ -- The CRON expression controls when the Quartz timer will trigger.
+ -- The expiration timeout (in minutes) determines which locks will be deleted.
+ -- Locks that are older than the expiration timeout value will be deleted.
+ 
+insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind) values ('KRA-PD','D','pessimisticLocking.cronExpression','CONFG','0 0 1 * * ?','The Cron Expression for Quartz to activate a clearing of old locks','A','Y');
+insert into sh_parm_t (sh_parm_nmspc_cd,sh_parm_dtl_typ_cd,sh_parm_nm,sh_parm_typ_cd,sh_parm_txt,sh_parm_desc,sh_parm_cons_cd,active_ind) values ('KRA-PD','D','pessimisticLocking.timeout','CONFG','1440','The expiration timeout in minutes; expired locks are deleted','A','Y');
