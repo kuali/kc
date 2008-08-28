@@ -295,7 +295,7 @@
 						<version>2.3.1</version>
 						<configuration>
 							<useFile>false</useFile>
-							<testFailureIgnore>true</testFailureIgnore>
+							<testFailureIgnore>false</testFailureIgnore>
 							<includes>
 								<include>**/*Test.java</include>
 							</includes>
