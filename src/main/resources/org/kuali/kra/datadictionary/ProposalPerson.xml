@@ -182,8 +182,8 @@
 
                  
             <attribute name="countryCode">
-                <label>Country Code </label>
-                <shortLabel>Country Code </shortLabel>
+                <label>Country </label>
+                <shortLabel>Country </shortLabel>
                 <maxLength>3</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
                 <control>                    
