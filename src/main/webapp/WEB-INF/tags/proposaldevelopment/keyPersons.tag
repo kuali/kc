@@ -52,25 +52,25 @@
 		<c:when test="${KualiForm.document.nih}">
 			<c:set var="nihdescription" value="${KualiForm.document.nihDescription}" />
 			<c:set var="desc" value="${nihdescription[person.role.proposalPersonRoleId]}" />
+			
 			<kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
-		         tabDescription="${desc}"
+		         tabDescription="${desc}${extraButtonSource}"
 		         leftSideHtmlProperty="${proposalPersonProperty}.delete" 
 		         leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
 		     	 leftSideHtmlDisabled="false"
-		     	 extraButtonSource="${extraButtonSource}" 
 		         defaultOpen="${hasErrors}" 
 		         transparentBackground="${transparent}"> 
 		         <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
 		     </kul:tab>
 	     </c:when>
      	<c:otherwise>
+     	<c:set var="descri" value="${person.role.description}" />
 			<kul:tab tabTitle="${fn:substring(person.fullName, 0, 22)}"
-			         tabDescription="${person.role.description}"
+			         tabDescription="${descri}${extraButtonSource}"
 			         leftSideHtmlProperty="${proposalPersonProperty}.delete" 
 			         leftSideHtmlAttribute="${proposalPersonAttributes.delete}" 
 			     	 leftSideHtmlDisabled="false" 
-			         extraButtonSource="${extraButtonSource}"
-			         defaultOpen="${hasErrors}" 
+			          defaultOpen="${hasErrors}" 
 			         transparentBackground="${transparent}"> 
 			   
 			    <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
