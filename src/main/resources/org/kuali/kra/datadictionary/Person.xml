@@ -642,7 +642,7 @@
             </attribute>
 
             <attribute name="faxNumber" >
-                <label>Fax Number</label>
+                <label>Fax</label>
                 <shortLabel>Fax Nbr</shortLabel>
                 <maxLength>20</maxLength>
                 <control>
@@ -653,7 +653,7 @@
             </attribute>
 
             <attribute name="pagerNumber" >
-                <label>Page Number</label>
+                <label>Pager</label>
                 <shortLabel>Pg Nbr</shortLabel>
                 <maxLength>20</maxLength>
                 <control>
@@ -664,7 +664,7 @@
             </attribute>
 
             <attribute name="mobilePhoneNumber" >
-                <label>Mobile Phone Number</label>
+                <label>Mobile</label>
                 <shortLabel>Mobile Ph Nbr</shortLabel>
                 <maxLength>20</maxLength>
                 <control>
@@ -675,7 +675,7 @@
             </attribute>
 
             <attribute name="eraCommonsUserName" >
-                <label>Era Commons User Name</label>
+                <label>eRA Commons User Name</label>
                 <shortLabel>Era Commons Usr Nm</shortLabel>
                 <maxLength>20</maxLength>
                 <control>
