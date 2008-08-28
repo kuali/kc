@@ -139,6 +139,37 @@
 				</xmlSearchContent>
 			</searchingConfig>
 		</ruleAttribute>
+		
+		<ruleAttribute>
+			<name>ProposalNumberAttribute</name>
+			<className>
+				edu.iu.uis.eden.docsearch.xml.StandardGenericXMLSearchableAttribute
+			</className>
+			<label>ProposalNumberSearchAttribute</label>
+			<description>ProposalNumberSearchAttribute</description>
+			<type>SearchableXmlAttribute</type>
+			<searchingConfig>
+				<fieldDef name="proposalNumber" title="Proposal ID">
+					<display>
+						<type>text</type>
+					</display>
+					<fieldEvaluation>
+						<xpathexpression>
+							//document/proposalNumber
+						</xpathexpression>
+					</fieldEvaluation>
+				</fieldDef>
+				<xmlSearchContent>
+					<users>
+						<viewer>
+							<value>%proposalNumber%</value>
+						</viewer>
+					</users>
+				</xmlSearchContent>
+			</searchingConfig>
+		</ruleAttribute>
+		
+		
 		<ruleAttribute>
 			<name>DepartmentalApprovalAttribute</name>
 			<className>
@@ -162,7 +193,7 @@
 				</fieldDef>
 			</routingConfig>
 		</ruleAttribute>
-
+		
 		<ruleAttribute>
 			<name>DepartmentalBudgetApprovalAttribute</name>
 			<className>
