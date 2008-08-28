@@ -19,8 +19,7 @@
 						</td>
 		                <td align="center" valign="middle">
 		                	<div align="center">
-		                	<html:checkbox property="document.budgetPrintForms[${status.index}].selectToPrint"></html:checkbox>
-
+		                	<html:multibox property="selectedBudgetPrintFormId" value="${KualiForm.document.budgetPrintForms[status.index].budgetReportId}"/>			                	
 		                	</div>
 		                </td>			       
 		            </tr>    	
@@ -37,7 +36,6 @@
 							Select (<html:link href="#" onclick="javascript: selectAllBudgetForms(document);return false">all</html:link> | <html:link href="#" onclick="javascript: unselectAllBudgetForms(document);return false">none</html:link>)
 							</div>						
 					</td>
-					
 				</tr>			                         
 			</tbody>
 			<tbody id="G" style="display: none;" />
