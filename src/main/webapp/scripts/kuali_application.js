@@ -984,7 +984,7 @@ function selectAllBudgetForms(document) {
 	  var e = document.KualiForm.elements[i];
 	  if(e.type == 'checkbox') {
 	    //alert(e.name)
-	  	if (e.name == 'document.budgetPrintForms[' + j + '].selectToPrint') {
+	  	if (e.name == 'selectedBudgetPrintFormId') {
  		    if(e.disabled == false){
  		    	e.checked = true;
  		    }
@@ -999,7 +999,7 @@ function unselectAllBudgetForms(document) {
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
 	  var e = document.KualiForm.elements[i];
 	  if(e.type == 'checkbox') {
-	  	if (e.name == 'document.budgetPrintForms[' + j + '].selectToPrint') {
+	  	if (e.name == 'selectedBudgetPrintFormId') {
  		    if(e.disabled == false){
  		    	e.checked = false;
  		    }
