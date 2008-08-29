@@ -172,6 +172,9 @@ tbody tr:hover {
         var deletesql = "delete from sponsor_hierarchy  ";
         var sqlScripts = "";
    		var hierarchyName = document.getElementById("hierarchyName").value;
+   		var subgroup = {};
+   		var subgroupNodes = ";";
+   		
    	
    	var sponsorHierarchyReturn = sponsorHierarchy();
 
