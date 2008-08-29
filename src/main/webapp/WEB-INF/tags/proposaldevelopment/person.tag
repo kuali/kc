@@ -251,7 +251,7 @@
 
 <tr>
 <td colspan=4>
-<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="document.proposalPersons[${personIndex}].newProposalPersonDegree*,document.proposalPersons[${personIndex}].degree*,document.proposalPersons[${personIndex}].graduationYear*">
+<kul:innerTab tabTitle="Degrees" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="newProposalPersonDegree.*,newProposalPersonDegree[${personIndex}].graduationYear*,newProposalPersonDegree[${personIndex}].degree*,newProposalPersonDegree[${personIndex}].degreeCode*">
  <table class=tab cellpadding=0 cellspacing="0" summary="" >
      <kra-pd:personDegreeSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
