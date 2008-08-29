@@ -31,9 +31,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.authorization.PessimisticLock;
-import org.kuali.core.rule.event.DocumentAuditEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiRuleService;
@@ -41,9 +41,10 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.bo.BudgetVersionOverview;
+import org.kuali.kra.budget.bo.RateClass;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.budget.service.BudgetRatesService;
+import org.kuali.kra.budget.service.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -125,8 +126,10 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
      * @throws Exception
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        save(mapping, form, request, response);
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        if (!"TRUE".equals(pdForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+            save(mapping, form, request, response);
+        }
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetVersionOverview budgetToOpen = pdDoc.getBudgetVersionOverview(getSelectedLine(request));
         if (KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetToOpen.getBudgetVersionNumber().toString())) {
