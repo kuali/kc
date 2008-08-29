@@ -217,6 +217,18 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             }
         }
 
+        if (!valid) {
+            // audit warnings are OK.  only audit errors prevent to change to complete status.
+            valid = true;
+            for (Object key : GlobalVariables.getAuditErrorMap().keySet()) {
+                AuditCluster auditCluster = (AuditCluster)GlobalVariables.getAuditErrorMap().get(key);
+                if (auditCluster.getCategory().equals(Constants.AUDIT_ERRORS)) {
+                    valid = false;
+                    break;
+                }
+            }
+        }
+
         return valid;
     }
 
