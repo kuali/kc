@@ -911,6 +911,44 @@ function toggleFinalCheckboxes(document) {
 	
 }
 
+function toggleFinalCheckboxesAndDisable(document) {
+	var completed = false;
+	var toggledElement;
+	for (var i = 0; i < document.KualiForm.elements.length; i++) {
+	  var e = document.KualiForm.elements[i];
+	  if(e.type == 'select-one' && e.value == '1') {
+	  	completed = true;
+	  	toggledElement = e;
+	  }
+	}
+	if (completed) {
+		for (var i = 0; i < document.KualiForm.elements.length; i++) {
+			var el = document.KualiForm.elements[i];
+			if (el.type == 'checkbox') {
+				var elStatus = document.KualiForm.elements[i - 1];
+				if (elStatus != toggledElement) {
+					el.disabled = true;
+				} else {
+					var elHidden = document.KualiForm.elements[i + 2];
+					elHidden.value = true;
+					elHidden.disabled = true;
+					el.disabled = true;
+				}
+			}
+		}
+	} else {
+		for (var i = 0; i < document.KualiForm.elements.length; i++) {
+			var el = document.KualiForm.elements[i];
+			var elHidden = document.KualiForm.elements[i + 2];
+			if (el.type == 'checkbox') {
+				elHidden.disabled = true;
+				el.disabled = true;
+			}
+		}
+	}
+	
+}
+
 function setupVersionsPage(document) {
 	var completed = false;
 	var toggledElement;
