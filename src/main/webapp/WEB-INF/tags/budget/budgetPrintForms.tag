@@ -1,6 +1,12 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <kul:tabTop tabTitle="Print Forms" defaultOpen="false" tabErrorKey="">
+    <c:set var="disableBox" value = "true" />
+	<c:forEach var="budgetPeriod" items="${KualiForm.document.budgetPeriods}" varStatus="idx">
+	    <c:if test="${fn:length(budgetPeriod.budgetLineItems) > 0}" >
+    		<c:set var="disableBox" value = "false" />
+	    </c:if>
+	</c:forEach>
 	<div class="tab-container" align="center">
 		<div class="h2-container">
 			<span class="subhead-left">
@@ -19,7 +25,14 @@
 						</td>
 		                <td align="center" valign="middle">
 		                	<div align="center">
-		                	<html:multibox property="selectedBudgetPrintFormId" value="${KualiForm.document.budgetPrintForms[status.index].budgetReportId}"/>			                	
+		                	<c:choose>
+		                		<c:when test="${status.index < 6}">
+		                			<html:multibox property="selectedBudgetPrintFormId" value="${KualiForm.document.budgetPrintForms[status.index].budgetReportId}"/>	
+		                		</c:when>
+		                		<c:otherwise>
+		                			<html:multibox property="selectedBudgetPrintFormId" value="${KualiForm.document.budgetPrintForms[status.index].budgetReportId}" disabled="${disableBox}"/>	
+		                		</c:otherwise>
+		                	</c:choose>			                	
 		                	</div>
 		                </td>			       
 		            </tr>    	
