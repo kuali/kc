@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.document.authorization.PessimisticLock;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
@@ -109,8 +110,10 @@ public class BudgetVersionsAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward openBudgetVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        save(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
+        if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+            save(mapping, form, request, response);
+        }
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
         ProposalDevelopmentDocument pdDoc = budgetDoc.getProposal();
         if (KraServiceLocator.getService(BudgetService.class).checkActivityTypeChange(pdDoc,budgetDoc.getBudgetVersionNumber().toString())) {
